@@ -1,0 +1,9 @@
+common/temp
+node_modules
+dist
+
+.idea/*
+!.idea/*.iml
+!.idea/vcs.xml
+!.idea/modules.xml
+!.idea/codeStyles/

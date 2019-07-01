@@ -1,0 +1,8 @@
+*.log
+lib
+node_modules
+dist
+
+### @gongt/export-all-in-one
+.export-all-in-one
+

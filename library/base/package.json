@@ -1,0 +1,17 @@
+{
+	"name": "@idlebox/base",
+	"scripts": {
+		"build": "tsc -p . && export-all-in-one",
+		"watch": "tsc -w -p .",
+		"upgrade": "ncu --newest --upgrade",
+		"build:exports": "export-all-in-one \"tsconfig.json\" && export-all-in-one -c \".export-all-in-one/tsconfig.json\""
+	},
+	"devDependencies": {
+		"@gongt/export-all-in-one": "^2.0.1",
+		"@microsoft/api-extractor": "^7.2.2",
+		"@types/node": "^12.0.10",
+		"npm-check-updates": "^3.1.12",
+		"typescript": "^3.5.2"
+	},
+	"typings": "lib/_export_all_in_once_index.d.ts"
+}

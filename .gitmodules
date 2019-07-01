@@ -1,0 +1,3 @@
+[submodule "tools/export-all-in-one"]
+	path = tools/export-all-in-one
+	url = https://github.com/GongT/export-all-in-one

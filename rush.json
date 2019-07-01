@@ -1,0 +1,52 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+	"rushVersion": "5.10.0",
+	"pnpmVersion": "3.5.3",
+	// "npmVersion": "4.5.0",
+	// "yarnVersion": "1.16.0",
+	"pnpmOptions": {
+		"strictPeerDependencies": true,
+		"resolutionStrategy": "fast"
+	},
+	"nodeSupportedVersionRange": ">=10.13.0",
+	"ensureConsistentVersions": true,
+	"projectFolderMinDepth": 1,
+	"projectFolderMaxDepth": 2,
+	"gitPolicy": {
+		// "allowedEmailRegExps": [
+		//   "[^@]+@users\\.noreply\\.github\\.com",
+		//   "travis@example\\.org"
+		// ],
+		// "sampleEmail": "mrexample@users.noreply.github.com",
+		// "versionBumpCommitMessage": "Applying package updates. [skip-ci]"
+	},
+	"repository": {
+		"url": "https://github.com/GongT/idlebox"
+	},
+	"eventHooks": {
+		"preRushInstall": [
+			// "common/scripts/pre-rush-install.js"
+		],
+		"postRushInstall": [
+			"common/scripts/post-install.js"
+		],
+		"preRushBuild": [ ],
+		"postRushBuild": [ ]
+	},
+	/**
+	 * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
+	 */
+	"variants": [ ],
+	// "telemetryEnabled": false,
+	// "hotfixChangeEnabled": false,
+	"projects": [
+		{
+			"packageName": "@idlebox/base",
+			"projectFolder": "library/base"
+		},
+		{
+			"packageName": "@gongt/export-all-in-one",
+			"projectFolder": "tools/export-all-in-one"
+		}
+	]
+}

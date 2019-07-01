@@ -1,0 +1,28 @@
+{
+	/* Doc: https://rushjs.io/pages/configs/command_line_json/ */
+	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
+	"commands": [
+		{
+			"commandKind": "bulk",
+			"name": "clean",
+			"summary": "Clean each project.",
+			"safeForSimultaneousRushProcesses": false,
+			"enableParallelism": true,
+			"ignoreDependencyOrder": true,
+			"ignoreMissingScript": true,
+			"allowWarningsInSuccessfulBuild": false
+		},
+		{
+			"commandKind": "bulk",
+			"name": "upgrade",
+			"summary": "Upgrade all dependencies to their latest version in every sub project.",
+			"safeForSimultaneousRushProcesses": false,
+			"enableParallelism": true,
+			"ignoreDependencyOrder": true,
+			"ignoreMissingScript": false,
+			"allowWarningsInSuccessfulBuild": true
+		}
+	],
+	"parameters": [
+	]
+}
