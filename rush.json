@@ -1,12 +1,12 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
 	"rushVersion": "5.10.0",
-	// "pnpmVersion": "3.5.3",
+	"pnpmVersion": "3.5.3",
 	// "npmVersion": "4.5.0",
-	"yarnVersion": "1.16.0",
+	// "yarnVersion": "1.16.0",
 	"pnpmOptions": {
-		"strictPeerDependencies": true,
-		"resolutionStrategy": "fast"
+		"strictPeerDependencies": false,
+		"resolutionStrategy": "fewer-dependencies"
 	},
 	"nodeSupportedVersionRange": ">=10.13.0",
 	"ensureConsistentVersions": true,
@@ -47,6 +47,10 @@
 		{
 			"packageName": "@gongt/export-all-in-one",
 			"projectFolder": "tools/export-all-in-one"
+		},
+		{
+			"packageName": "@gongt/single-dog",
+			"projectFolder": "tools/single-dog"
 		}
 	]
 }

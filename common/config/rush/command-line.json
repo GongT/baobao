@@ -21,6 +21,16 @@
 			"ignoreDependencyOrder": true,
 			"ignoreMissingScript": false,
 			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
+			"name": "watch",
+			"summary": "Run watch in every sub project.",
+			"safeForSimultaneousRushProcesses": false,
+			"enableParallelism": true,
+			"ignoreDependencyOrder": true,
+			"ignoreMissingScript": false,
+			"allowWarningsInSuccessfulBuild": true
 		}
 	],
 	"parameters": [

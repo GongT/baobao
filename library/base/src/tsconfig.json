@@ -1,0 +1,18 @@
+{
+	"extends": "../node_modules/@gongt/single-dog/package/tsconfig.json",
+	"compilerOptions": {
+		"lib": [
+			"esnext",
+			"dom"
+		],
+		"rootDir": ".",
+		"outDir": "../lib",
+		"baseUrl": "."
+	},
+	"include": [
+		"**/*.ts"
+	],
+	"exclude": [
+		"_export_all_in_once_index.ts"
+	]
+}

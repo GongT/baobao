@@ -7,6 +7,10 @@ export interface IProgressHolder<T, PT> {
 	progress(fn: ProgressCallback<PT>): Promise<T> & IProgressHolder<T, PT>;
 }
 
+/**
+ * a promise can resolve or reject later
+ * @public
+ */
 export class DeferredPromise<T, PT = any> {
 	public readonly p: Promise<T> & IProgressHolder<T, PT>;
 	// @ts-ignore

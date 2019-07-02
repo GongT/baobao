@@ -1,5 +1,5 @@
 import { DisposedError } from '../error/disposed';
-import { Emitter } from './event';
+import { Emitter, EventRegister } from './event';
 
 export interface IDisposable {
 	dispose(): void;
@@ -11,10 +11,10 @@ export interface IAsyncDisposable {
 
 abstract class DisposableBase {
 	protected readonly _onDisposeError = new Emitter<Error>();
-	public readonly onDisposeError = this._onDisposeError.register;
+	public readonly onDisposeError: EventRegister<Error> = this._onDisposeError.register;
 
 	protected readonly _onBeforeDispose = new Emitter<void>();
-	public readonly onBeforeDispose = this._onBeforeDispose.register;
+	public readonly onBeforeDispose: EventRegister<void> = this._onBeforeDispose.register;
 
 	private _disposed?: Error;
 

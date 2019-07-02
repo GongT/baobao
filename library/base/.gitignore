@@ -1,8 +1,13 @@
+.rpt2_cache/
+node_modules/
+jspm_packages/
 *.log
-lib
-node_modules
-dist
+dist/
+*.tgz
 
-### @gongt/export-all-in-one
-.export-all-in-one
+.idea/*
+!.idea/*.iml
+!.idea/vcs.xml
+!.idea/modules.xml
+!.idea/codeStyles/
 

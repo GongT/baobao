@@ -1,17 +1,21 @@
 {
 	"name": "@idlebox/base",
 	"scripts": {
-		"build": "tsc -p . && export-all-in-one",
-		"watch": "tsc -w -p .",
-		"upgrade": "ncu --newest --upgrade --packageFile ./package.json",
-		"build:exports": "export-all-in-one \"tsconfig.json\" && export-all-in-one -c \".export-all-in-one/tsconfig.json\""
+		"watch": "tsc -w -p src",
+		"build": "tsc -p src && export-all-in-one src",
+		"upgrade": "ncu --upgrade --packageFile ./package.json"
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.module.js",
+	"dependencies": {
+		"source-map-support": "^0.5.12"
 	},
 	"devDependencies": {
-		"@gongt/export-all-in-one": "^2.0.1",
-		"@microsoft/api-extractor": "^7.2.2",
 		"@types/node": "^12.0.10",
+		"@gongt/single-dog": "^1.1.11111111",
 		"npm-check-updates": "^3.1.13",
-		"typescript": "^3.6.0-dev.20190701"
-	},
-	"typings": "lib/_export_all_in_once_index.d.ts"
+		"typescript": "^3.5.2",
+		"@gongt/export-all-in-one": "^2.0.1",
+		"@microsoft/api-extractor": "^7.2.2"
+	}
 }
