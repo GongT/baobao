@@ -1,4 +1,4 @@
-import { timeStringTiny } from '../process/strings/timeString';
+import { timeStringTiny } from '../process/string/timeString';
 
 export class TimeoutError extends Error {
 	constructor(time: number, what: string = 'no response') {

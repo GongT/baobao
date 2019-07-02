@@ -21,6 +21,16 @@ export class Emitter<T> implements IDisposable {
 		}
 	}
 
+	public fireNoError(data: T) {
+		for (const callback of this._callbacks) {
+			try {
+				callback(data);
+			} catch (e) {
+				console.error('Error ignored: ', e);
+			}
+		}
+	}
+
 	get register(): EventRegister<T> {
 		return this.handle;
 	}

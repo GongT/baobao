@@ -1,11 +1,16 @@
 const canceledName = 'Canceled';
 
-export function isCanceledError(error: any): boolean {
-	return error instanceof Error && error.name === canceledName && error.message === canceledName;
+export class CanceledError extends Error {
+	constructor() {
+		super(canceledName);
+	}
 }
 
+export function isCanceledError(error: any): boolean {
+	return error instanceof CanceledError;
+}
+
+/** @deprecated */
 export function canceled(): Error {
-	const error = new Error(canceledName);
-	error.name = error.message;
-	return error;
+	return new CanceledError();
 }

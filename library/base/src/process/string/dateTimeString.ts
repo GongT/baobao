@@ -1,13 +1,7 @@
+import { pad2 } from './pad2';
+
 export interface DateFunction {
 	(date: Date): string;
-}
-
-function pad2(s: number) {
-	if (s < 10) {
-		return '0' + s;
-	} else {
-		return '' + s;
-	}
 }
 
 let _dateFn: DateFunction = function defaultDateFunction(date: Date) {

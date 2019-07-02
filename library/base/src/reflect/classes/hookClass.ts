@@ -1,4 +1,4 @@
-const isAlreadyProxy = Symbol('@gongt/smartClass');
+export const hookClassSymbol = Symbol('@gongt/hookClass');
 
 interface IConstructorOf<T> extends Object {
 	new(...args: any[]): T;
@@ -10,8 +10,8 @@ interface IHooks<T, TC> {
 }
 
 export function hookClass<TC extends IConstructorOf<T>, T>(target: TC): IHooks<T, TC> {
-	if ((target as any)[isAlreadyProxy]) {
-		return (target as any)[isAlreadyProxy];
+	if ((target as any)[hookClassSymbol]) {
+		return (target as any)[hookClassSymbol];
 	}
 
 	const hooks = {} as IHooks<T, TC>;
@@ -36,7 +36,7 @@ export function hookClass<TC extends IConstructorOf<T>, T>(target: TC): IHooks<T
 		},
 	});
 
-	Object.defineProperty(proxyTarget, isAlreadyProxy, { value: hooks, enumerable: false, configurable: false, writable: false });
+	Object.defineProperty(proxyTarget, hookClassSymbol, { value: hooks, enumerable: false, configurable: false, writable: false });
 
 	return hooks;
 }
