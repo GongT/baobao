@@ -45,7 +45,15 @@
 			"projectFolder": "library/base"
 		},
 		{
-			"packageName": "@gongt/export-all-in-one",
+			"packageName": "@idlebox/node-json-edit",
+			"projectFolder": "library/node-json-edit"
+		},
+		{
+			"packageName": "@idlebox/ensure-symlink",
+			"projectFolder": "library/ensure-symlink"
+		},
+		{
+			"packageName": "@idlebox/export-all-in-one",
 			"projectFolder": "tools/export-all-in-one"
 		},
 		{
