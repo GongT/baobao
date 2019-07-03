@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/export-all-in-one",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/export-all-in-one",
 	"keywords": [
