@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node-json-edit",
 	"description": "Edit json file and preserve it's indent and line feed and final new line.",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"scripts": {
 		"build": "tsc -p src",
 		"prepare": "im-single-dog",
@@ -27,5 +27,6 @@
 	},
 	"dependencies": {
 		"source-map-support": "^0.5.12"
-	}
+	},
+	"monorepo": true
 }

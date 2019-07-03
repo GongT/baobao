@@ -1,7 +1,6 @@
-import { existsSync, mkdirSync } from 'fs';
-import { unlink } from 'fs-extra';
-import { dirname } from 'path';
 import 'source-map-support';
+import { existsSync, mkdirSync, unlink } from 'fs';
+import { dirname } from 'path';
 import { insertKeyAlphabet, LineFeed, loadJsonFile, parseJsonText, reformatJson, writeJsonFile, writeJsonFileBack } from './index';
 
 process.chdir(dirname(__dirname));
@@ -31,7 +30,10 @@ process.chdir('test');
 
 	const data5 = parseJsonText('{"i":1}');
 	await writeJsonFile('./test-changed.json', data5);
-	await unlink('./test-changed.json');
+	await new Promise((resolve, reject) => {
+		const wrappedCallback = (err: Error | null) => err ? reject(err) : resolve();
+		unlink('./test-changed.json', wrappedCallback);
+	});
 	await writeJsonFileBack(data5);
 
 })().catch((e) => {

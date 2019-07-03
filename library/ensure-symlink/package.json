@@ -4,5 +4,9 @@
 	"version": "1.0.1",
 	"main": "index.js",
 	"typings": "index.d.ts",
-	"license": "MIT"
+	"license": "MIT",
+	"scripts": {
+		"build": "echo no need to build"
+	},
+	"monorepo": true
 }

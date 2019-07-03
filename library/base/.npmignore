@@ -3,3 +3,5 @@ yarn.lock
 .*
 node_modules
 jspm_modules
+package-deps.json
+

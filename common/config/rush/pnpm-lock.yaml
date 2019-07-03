@@ -1,6 +1,6 @@
 dependencies:
-  '@idlebox/ensure-symlink': 1.0.0
   '@rush-temp/base': 'file:projects/base.tgz'
+  '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz'
   '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
   '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
@@ -16,10 +16,6 @@ dependencies:
   tsconfig-paths: 3.8.0
 lockfileVersion: 5.1
 packages:
-  /@idlebox/ensure-symlink/1.0.0:
-    dev: false
-    resolution:
-      integrity: sha512-dJWG+of2Bp8uz1j74iWwYg1leZm2DZ3bFG83oV3VqJimUu1FUHicFsCddvtAdJ96gLrDa9rEkyUYqppvpiJSEQ==
   /@microsoft/api-extractor-model/7.2.0:
     dependencies:
       '@microsoft/node-core-library': 3.13.0
@@ -2040,13 +2036,21 @@ packages:
       '@microsoft/api-extractor': 7.2.2
       '@types/node': 12.0.10
       npm-check-updates: 3.1.13
+      rimraf: 2.6.3
       source-map-support: 0.5.12
       typescript: 3.5.2
     dev: false
     name: '@rush-temp/base'
     resolution:
-      integrity: sha512-Gdt3CLDJL1TlnXmVQ2ZtKWxFOYctiJ7/nTiDJDjPUCs8a6pNHL+rbSJLD5c8LO4vm4SFnTX0TLuNrzvJ8XdqCA==
+      integrity: sha512-Myz4OWQhfsTMtDRIggJZcKxvMMPdBLa25/QUBro0Xb3Md1iWw3ZbE3a0ejfSmHENDksRBNX78QhXcvC+esD9sg==
       tarball: 'file:projects/base.tgz'
+    version: 0.0.0
+  'file:projects/ensure-symlink.tgz':
+    dev: false
+    name: '@rush-temp/ensure-symlink'
+    resolution:
+      integrity: sha512-QLRjP6a/5FWx/3s3MNzhnPRV/KA/fUwzAAcoUiC3zS1ulQOwT5V6ERiYYvg0cM0+ldk+2+WgW/OdI3DOK83kDQ==
+      tarball: 'file:projects/ensure-symlink.tgz'
     version: 0.0.0
   'file:projects/export-all-in-one.tgz':
     dependencies:
@@ -2083,18 +2087,18 @@ packages:
     version: 0.0.0
   'file:projects/single-dog.tgz':
     dependencies:
-      '@idlebox/ensure-symlink': 1.0.0
       '@types/fs-extra': 8.0.0
       '@types/node': 12.0.10
       fs-extra: 8.1.0
       npm-check-updates: 3.1.13
       pacote: 9.5.1
+      rimraf: 2.6.3
       source-map-support: 0.5.12
       typescript: 3.5.2
     dev: false
     name: '@rush-temp/single-dog'
     resolution:
-      integrity: sha512-bgBvOr05LRbCwj07nrAoGyvm66ZZm78VZt4dcWLeXVHzBtbIm9QjGph6d3jhCSAGzeyVUM90s192CSuW1w8QOw==
+      integrity: sha512-svQaTTGamGuYKxosCPoPY7L2Ko40qvCeCc6k9PowOQNjXn4cIC4RCrgR5B54lk1bs1UnPHMLGMCA/iK0CFJLcg==
       tarball: 'file:projects/single-dog.tgz'
     version: 0.0.0
   registry.npmjs.org/fs.realpath/1.0.0:
@@ -2121,10 +2125,9 @@ packages:
       registry: 'https://mirror.service.gongt.me:59443/npm/'
       tarball: 'https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz'
     version: 4.5.0
-registry: ''
 specifiers:
-  '@idlebox/ensure-symlink': ~1.0.0
   '@rush-temp/base': 'file:./projects/base.tgz'
+  '@rush-temp/ensure-symlink': 'file:./projects/ensure-symlink.tgz'
   '@rush-temp/export-all-in-one': 'file:./projects/export-all-in-one.tgz'
   '@rush-temp/node-json-edit': 'file:./projects/node-json-edit.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
