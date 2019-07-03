@@ -1,0 +1,8 @@
+{
+	"extends": "../node_modules/@gongt/single-dog/package/tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"outDir": "../dist",
+		"typeRoots": [ "../node_modules/@types" ]
+	}
+}

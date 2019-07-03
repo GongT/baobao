@@ -1,0 +1,14 @@
+*.tgz
+*.log
+
+.git
+.idea
+.rpt2_cache
+build
+node_modules
+src
+typings
+.editorconfig
+.gitattributes
+.gitignore
+.npmignore
