@@ -2,22 +2,27 @@ import { dirname, resolve } from 'path';
 import { CompilerOptions } from 'typescript';
 import { CONFIG_FILE, DTS_CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT } from './argParse';
 import { relativePosix } from './paths';
-import { readJsonSync, writeJsonSyncIfChange } from './writeFile';
+import { loadJsonFile, writeJsonFileBack, writeJsonFileIfChanged } from '@idlebox/node-json-edit';
+import { ensureDir } from 'fs-extra';
 
-export function writeDtsJson() {
-	const parentConfigFile = readJsonSync<any>(CONFIG_FILE);
-	const { ___tabs, ___lastNewLine } = parentConfigFile;
-
-	if (!parentConfigFile.exclude || !parentConfigFile.exclude.includes('_export_all_in_once_index.ts')) {
-		console.error(`\x1B[38;5;9mtsconfig.json do not exclude '_export_all_in_once_index.ts' file, this may not work.\x1B[0m`);
+export async function rewriteProjectDtsJson() {
+	const json = await loadJsonFile(CONFIG_FILE);
+	if (!json.compilerOptions) {
+		json.compilerOptions = {};
 	}
+	json.compilerOptions.declaration = false;
+	json.compilerOptions.declarationMap = false;
+	await writeJsonFileBack(json);
+}
 
-	writeJsonSyncIfChange(DTS_CONFIG_FILE, {
-		___tabs, ___lastNewLine,
+export async function writeDtsJson() {
+	await ensureDir(dirname(DTS_CONFIG_FILE));
+	await writeJsonFileIfChanged(DTS_CONFIG_FILE, {
 		extends: relativePosix(EXPORT_TEMP_PATH, CONFIG_FILE),
 		compilerOptions: {
 			removeComments: false,
 			declaration: true,
+			declarationMap: true,
 			module: 'amd',
 			noEmit: false,
 			emitDeclarationOnly: true,
@@ -30,7 +35,7 @@ export function writeDtsJson() {
 			alwaysStrict: false,
 			stripInternal: true,
 		},
-		exclude: [],
+		exclude: ['_export_all_in_once_index.ts'],
 		include: ['extracted-source/**/*.ts', 'extracted-source/**/*.json'],
 		files: [],
 	});
@@ -42,6 +47,9 @@ export function getOutputFilePath(relativeTo: string, options: CompilerOptions) 
 	const { outDir, outFile, baseUrl } = options;
 
 	const targetDir = outDir || dirname(outFile + '') || baseUrl;
+	if (!targetDir) {
+		throw new Error('Please compile to other directory, do not compile in place.');
+	}
 	console.log(relativeTo, resolve(targetDir, '_export_all_in_once_index'));
 	return relativePosix(relativeTo, resolve(targetDir, '_export_all_in_once_index'));
 }

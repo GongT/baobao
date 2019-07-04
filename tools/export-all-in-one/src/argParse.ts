@@ -49,7 +49,7 @@ function getTemp() {
 	}
 }
 
-export const EXPORT_TEMP_PATH = resolve(getTemp(), '.export-all-in-one');
+export const EXPORT_TEMP_PATH = resolve(getTemp(), 'export-all-in-one-working');
 export const DTS_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
 export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 

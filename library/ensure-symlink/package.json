@@ -1,12 +1,15 @@
 {
 	"name": "@idlebox/ensure-symlink",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"main": "index.js",
 	"typings": "index.d.ts",
 	"license": "MIT",
 	"scripts": {
 		"build": "echo no need to build"
 	},
-	"monorepo": true
+	"monorepo": true,
+	"dependencies": {
+		"fs-extra": "^8.1.0"
+	}
 }

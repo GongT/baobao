@@ -5,14 +5,14 @@ import { rewriteApiExtractorConfig } from './apiExtractor';
 import { CONFIG_FILE, EXPORT_TEMP_PATH, targetIndexFile } from './argParse';
 import { getOptions } from './configFile';
 import { copyFilteredSourceCodeFile } from './copySourceCodeFiles';
-import { writeDtsJson } from './dts';
+import { rewriteProjectDtsJson, writeDtsJson } from './dts';
 import { filterIgnoreFiles, isFileIgnored } from './filterIgnoreFiles';
 import { projectPackagePath } from './package';
 import { relativeToRoot, tokenWalk } from './tokenWalk';
 
 export async function doGenerate() {
 	const command = getOptions();
-	console.log('\x1B[38;5;10mcreating typescript program...\x1B[0m');
+	console.log('\x1B[38;5;10mcreating typescript program from %s...\x1B[0m', CONFIG_FILE);
 	emptyDirSync(EXPORT_TEMP_PATH);
 	const host = createCompilerHost(command.options, true);
 
@@ -31,14 +31,14 @@ export async function doGenerate() {
 
 		const fileSources = [`//// - ${relativeToRoot(file.fileName)}`];
 
-		copyFilteredSourceCodeFile(file, checker);
+		await copyFilteredSourceCodeFile(file, checker);
 
 		if (isFileIgnored(file.fileName)) {
 			fileSources.push(`// ignore by default`);
 			fileSources.push(``);
 		} else {
-			// const fnDebug = file.fileName.slice(0, process.stdout.columns - 8 || Infinity);
-			// process.stdout.write(`\x1B[K\x1B[2m - ${fnDebug}...\x1B[0m\x1B[K\r`);
+			const fnDebug = file.fileName.slice(0, process.stdout.columns! - 8 || Infinity);
+			process.stdout.write(`\x1B[K\x1B[2m - ${fnDebug}...\x1B[0m\x1B[K\r`);
 			forEachChild(file, (node: Node) => {
 				tokenWalk(fileSources, node, checker);
 			});
@@ -53,11 +53,11 @@ export async function doGenerate() {
 	console.log('\x1B[K\x1B[38;5;10mtypescript program created!\x1B[0m');
 
 	console.log('\x1B[38;5;10mwrite tsconfig.json...\x1B[0m');
-	/*const dtsConfigOptionsFile = */
-	writeDtsJson();
+	await rewriteProjectDtsJson();
+	await writeDtsJson();
 
 	console.log('\x1B[38;5;10mwrite api-extractor.json...\x1B[0m');
-	rewriteApiExtractorConfig();
+	await rewriteApiExtractorConfig();
 
 	console.log('\x1B[38;5;10mcopy package.json...\x1B[0m');
 	await copyFile(projectPackagePath(), resolve(EXPORT_TEMP_PATH, 'package.json'));

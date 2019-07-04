@@ -1,5 +1,5 @@
-import { getErrorFrame } from '../process/error/getFrame';
-import { tryInspect } from '../process/object/tryInspect';
+import { getErrorFrame } from '../../../basic-helpers/src/error/getFrame';
+import { tryInspect } from '../../../basic-helpers/src/object/tryInspect';
 
 export class DisposedError extends Error {
 	constructor(object: any, previous: Error) {

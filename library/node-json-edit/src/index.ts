@@ -1,5 +1,10 @@
-import { readFile, writeFile } from 'fs';
+import { access as accessAsync, readFile as readFileAsync, writeFile as writeFileAsync } from 'fs';
 import { resolve } from 'path';
+import { promisify } from 'util';
+
+const access = promisify(accessAsync);
+const readFile = promisify(readFileAsync);
+const writeFile = promisify(writeFileAsync);
 
 const configSymbol = Symbol('@gongt/node-json-edit');
 
@@ -42,6 +47,14 @@ export function writeJsonFile(file: string, data: any): Promise<void> {
 	return _realWriteJsonFile(file, data, true);
 }
 
+export async function writeJsonFileIfChanged(file: string, data: any, charset: string = realDefault.encoding): Promise<void> {
+	if (!_getFormatInfo(data) && await access(file).catch(() => false)) {
+		const config = _getFormatInfo(await loadJsonFile(file, charset))!;
+		attachFormatConfig(data, config);
+	}
+	return _realWriteJsonFile(file, data, false);
+}
+
 /** @internal */
 export async function _realWriteJsonFile(_file: string | undefined, data: any, force: boolean): Promise<void> {
 	const text = stringifyJsonText(data);
@@ -60,19 +73,13 @@ export async function _realWriteJsonFile(_file: string | undefined, data: any, f
 		throw new Error('This object is not load from file system.');
 	}
 
-	await new Promise((resolve, reject) => {
-		const wrappedCallback = (err: Error | null) => err ? reject(err) : resolve();
-		writeFile(file, text, { encoding: config.encoding }, wrappedCallback);
-	});
+	await writeFile(file, text, { encoding: config.encoding });
 	config.originalContent = text;
 	config.originalPath = resolve(process.cwd(), file);
 }
 
 export async function loadJsonFile(file: string, charset: string = realDefault.encoding!): Promise<any> {
-	const text = await new Promise<string>((resolve, reject) => {
-		const wrappedCallback = (err: Error | null, data: string) => err ? reject(err) : resolve(data);
-		readFile(file, { encoding: charset }, wrappedCallback);
-	});
+	const text = await readFile(file, { encoding: charset });
 	const data = parseJsonText(text);
 	const config = _getFormatInfo(data)!;
 	config.encoding = charset;

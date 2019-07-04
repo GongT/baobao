@@ -1,7 +1,6 @@
 import { existsSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { CONFIG_FILE } from './argParse';
-import { readJsonSync } from './writeFile';
 
 export interface IMyPackageJson {
 	[key: string]: any;
@@ -25,8 +24,4 @@ export function projectPackagePath() {
 		}
 	}
 	throw new Error('Cannot find a package.json at any level up from tsconfig.json.');
-}
-
-export function projectPackage(): IMyPackageJson {
-	return readJsonSync(projectPackagePath());
 }

@@ -2,7 +2,7 @@
 	"extends": "../../single-dog/package/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"outDir": "../dist",
+		"outDir": "../lib",
 		"typeRoots": [
 			"../node_modules/@types"
 		],

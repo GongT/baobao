@@ -2,6 +2,7 @@ import { pathExists } from 'fs-extra';
 import { basename, resolve } from 'path';
 import { IGitInfo } from '../inc/gitName';
 import { defaultJsonFormatConfig, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile } from './node-json-edit';
+import { findUpUntil } from '../inc/findUpUntil';
 
 const { manifest } = require('pacote');
 
@@ -53,7 +54,15 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 	addIfNot(packageJson.scripts, 'prepublish', 'rimraf lib dist && npm run build');
 	addIfNot(packageJson.scripts, 'upgrade', 'ncu --upgrade --packageFile ./package.json');
 	addIfNot(packageJson.scripts, 'prepare', 'im-single-dog');
-	addIfNot(packageJson, 'main', './lib/index.js');
+
+	if (packageJson.bin) {
+		addIfNot(packageJson, 'main', './lib/index.js');
+	}
+
+	if (await findUpUntil(PACKAGE_JSON_PATH, 'rush.json')) {
+		addIfNot(packageJson, 'monorepo', true);
+		console.log('This should be a monorepo, because "rush.json" found in upper folder.');
+	}
 
 	// package deps
 	if (!packageJson.dependencies) {
@@ -79,7 +88,7 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 }
 
 function addIfNot(data: any, key: string, val: any) {
-	if (data[key]) {
+	if (key in data) {
 		return;
 	}
 	insertKeyAlphabet(data, key, val);

@@ -1,13 +1,18 @@
-import { pathExists } from 'fs-extra';
-import { resolve } from 'path';
+import { ensureDir, pathExists } from 'fs-extra';
+import { dirname, resolve } from 'path';
 import { locateRootRelativeToProject } from '../inc/template';
 import { loadJsonFile, writeJsonFile } from './node-json-edit';
 
 export async function updateTsconfigJson() {
 	const tsconfigPath = resolve(CONTENT_ROOT, 'src/tsconfig.json');
-	const tsconfig = await pathExists(tsconfigPath)
-		? await loadJsonFile(tsconfigPath)
-		: {} as any;
+	let tsconfig: any;
+
+	if (await pathExists(tsconfigPath)) {
+		tsconfig = await loadJsonFile(tsconfigPath);
+	} else {
+		tsconfig = {};
+		await ensureDir(dirname(tsconfigPath));
+	}
 	tsconfig.extends = locateRootRelativeToProject('src/tsconfig.json', 'package/tsconfig.json');
 	if (!tsconfig.compilerOptions) {
 		tsconfig.compilerOptions = {};

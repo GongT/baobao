@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs-extra';
-import { posix, resolve } from 'path';
+import { dirname, posix, resolve } from 'path';
 
 export function readTemplate(what: string) {
 	return readFileSync(resolve(TEMPLATE_ROOT, what), 'utf8');
@@ -10,7 +10,17 @@ export function locateTemplate(file: string) {
 }
 
 export function locateRoot(file: string) {
-	return resolve(require.resolve('@gongt/single-dog/package.json'), '..', file).replace(/\\/g, '/');
+	let root = '';
+	try {
+		root = dirname(require.resolve('@gongt/single-dog/package.json'));
+	} catch (e) {
+		if (/Cannot find module/.test(e.message)) {
+			root = dirname(dirname(__dirname));
+		} else {
+			throw e;
+		}
+	}
+	return resolve(root, file).replace(/\\/g, '/');
 }
 
 export function locateRootRelativeToProject(projectFile: string, singleDogFile: string) {

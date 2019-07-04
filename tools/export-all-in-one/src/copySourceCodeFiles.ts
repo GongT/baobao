@@ -29,19 +29,23 @@ const internalHint = '\n * @internal\n';
 
 function createCommentByComment(node: JSDoc) {
 	const lines: string[] = [];
-	lines.push(node.comment);
-	for (const item of node.tags) {
-		let line = '';
-		// if (item.atToken) {
-		// 	line += '@';
-		// }
-		if (item.tagName) {
-			line += idToString(item.tagName);
+	if (node.comment) {
+		lines.push(node.comment);
+	}
+	if (node.tags) {
+		for (const item of node.tags) {
+			let line = '';
+			// if (item.atToken) {
+			// 	line += '@';
+			// }
+			if (item.tagName) {
+				line += idToString(item.tagName);
+			}
+			if (item.comment) {
+				line += ' ' + item.comment;
+			}
+			lines.push(line);
 		}
-		if (item.comment) {
-			line += ' ' + item.comment;
-		}
-		lines.push(line);
 	}
 	return lines.join('\n * ') + internalHint;
 }

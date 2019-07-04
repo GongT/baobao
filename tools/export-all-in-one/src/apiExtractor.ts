@@ -1,5 +1,7 @@
 import { API_CONFIG_FILE, PROJECT_ROOT } from './argParse';
-import { writeJsonSyncIfChange } from './writeFile';
+import { writeJsonFileIfChanged } from '@idlebox/node-json-edit';
+import { ensureDir } from 'fs-extra';
+import { dirname } from 'path';
 
 const apiExtractorJson = {
 	$schema: 'https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json',
@@ -53,10 +55,7 @@ const apiExtractorJson = {
 	},
 };
 
-export function rewriteApiExtractorConfig() {
-	writeJsonSyncIfChange(API_CONFIG_FILE, {
-		...apiExtractorJson,
-		___tabs: '\t',
-		___lastNewLine: '\n',
-	});
+export async function rewriteApiExtractorConfig() {
+	await ensureDir(dirname(API_CONFIG_FILE));
+	await writeJsonFileIfChanged(API_CONFIG_FILE, apiExtractorJson);
 }

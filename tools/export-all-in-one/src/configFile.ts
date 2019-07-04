@@ -34,5 +34,9 @@ function parse(file: string) {
 		getCurrentDirectory: sys.getCurrentDirectory,
 	};
 
-	return getParsedCommandLineOfConfigFile(file, {}, myParseConfigFileHost);
+	const ret = getParsedCommandLineOfConfigFile(file, {}, myParseConfigFileHost);
+	if (!ret) {
+		throw new Error('Cannot parse content of file "' + file + '"');
+	}
+	return ret;
 }

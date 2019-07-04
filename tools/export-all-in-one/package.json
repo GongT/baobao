@@ -12,15 +12,14 @@
 	],
 	"scripts": {
 		"prepare": "im-single-dog",
-		"watch": "tsc -w -p .",
-		"build": "tsc -p . && chmod a+x lib/index.js",
-		"prepublish": "rimraf lib && tsc -p . && chmod a+x lib/index.js",
+		"watch": "tsc -w -p src",
+		"build": "tsc -p src && chmod a+x index.js",
+		"prepublish": "rimraf lib && tsc -p src && chmod a+x index.js",
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"bin": {
-		"export-all-in-one": "./lib/index.js"
+		"export-all-in-one": "./index.js"
 	},
-	"main": "./lib/index.js",
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"license": "MIT",
 	"dependencies": {

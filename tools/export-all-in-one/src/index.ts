@@ -1,7 +1,5 @@
-#!/usr/bin/env node
-
 import * as execa from 'execa';
-import { mkdirpSync } from 'fs-extra';
+import { emptyDir, mkdirpSync } from 'fs-extra';
 import { resolve } from 'path';
 import { API_CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT } from './argParse';
 import { compileIndex } from './compileIndex';
@@ -18,14 +16,18 @@ if (process.argv.includes('-v')) {
 function run(command: string, args: string[]) {
 	console.log('Running %s %s', command, args.join(' '));
 	const p = execa(command, args, { cwd: EXPORT_TEMP_PATH });
-	p.stdout.pipe(process.stdout);
-	p.stderr.pipe(process.stderr);
+	p.stdout!.pipe(process.stdout);
+	p.stderr!.pipe(process.stderr);
 	return p;
 }
 
 pushApiExtractorPath();
 
-doGenerate().then(() => {
+Promise.resolve().then(() => {
+	return emptyDir(EXPORT_TEMP_PATH);
+}).then(() => {
+	return doGenerate();
+}).then(() => {
 	return run('tsc', ['-p', EXPORT_TEMP_PATH]);
 }).then(async () => {
 	await mkdirpSync(resolve(PROJECT_ROOT, 'docs'));
@@ -38,9 +40,11 @@ doGenerate().then(() => {
 	console.log('\x1B[K\x1B[38;5;10mOK\x1B[0m');
 	const resultRel = './docs/package-public.d.ts';
 	console.log(`You can add \x1B[38;5;14m"typings": "${resultRel}"\x1B[0m to your package.json`);
+	return emptyDir(EXPORT_TEMP_PATH);
+}).then(() => {
 	process.exit(0);
 }, (err) => {
-	console.error('\x1B[K');
-	console.error(err.stack);
+	console.error('\x1B[K!');
+	console.error(err);
 	process.exit(1);
 });

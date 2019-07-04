@@ -2046,10 +2046,12 @@ packages:
       tarball: 'file:projects/base.tgz'
     version: 0.0.0
   'file:projects/ensure-symlink.tgz':
+    dependencies:
+      fs-extra: 8.1.0
     dev: false
     name: '@rush-temp/ensure-symlink'
     resolution:
-      integrity: sha512-QLRjP6a/5FWx/3s3MNzhnPRV/KA/fUwzAAcoUiC3zS1ulQOwT5V6ERiYYvg0cM0+ldk+2+WgW/OdI3DOK83kDQ==
+      integrity: sha512-cCMWeJEzPyt1NNLcoisW+3KxbnmFNYoK9wUIjJaovv+FhwTq9pumS1+HYcSIojN1O2Ig4GmLCDmyKqAxp/7Rvw==
       tarball: 'file:projects/ensure-symlink.tgz'
     version: 0.0.0
   'file:projects/export-all-in-one.tgz':
@@ -2125,6 +2127,7 @@ packages:
       registry: 'https://mirror.service.gongt.me:59443/npm/'
       tarball: 'https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz'
     version: 4.5.0
+registry: ''
 specifiers:
   '@rush-temp/base': 'file:./projects/base.tgz'
   '@rush-temp/ensure-symlink': 'file:./projects/ensure-symlink.tgz'
