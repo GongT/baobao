@@ -1,6 +1,6 @@
 {
 	"name": "@gongt/single-dog",
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"bin": {
 		"im-single-dog": "./index.js"
 	},
@@ -11,14 +11,14 @@
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
-		"@idlebox/ensure-symlink": "^1.0.1",
+		"@idlebox/ensure-symlink": "^1.0.3",
 		"fs-extra": "^8.1.0",
 		"pacote": "^9.5.1",
 		"source-map-support": "^0.5.12"
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.0.10",
+		"@types/node": "^12.0.12",
 		"npm-check-updates": "^3.1.13",
 		"rimraf": "^2.6.3",
 		"typescript": "^3.5.2"

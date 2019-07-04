@@ -7,7 +7,6 @@ import { findUpUntil } from '../inc/findUpUntil';
 const { manifest } = require('pacote');
 
 export const prodPackages: string[] = [
-	'source-map-support',
 ];
 export const devPackages = [
 	'@types/node',
@@ -59,7 +58,10 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 		addIfNot(packageJson, 'main', './lib/index.js');
 	}
 
-	if (await findUpUntil(PACKAGE_JSON_PATH, 'rush.json')) {
+	if (await findUpUntil(PACKAGE_JSON_PATH, '.git')) {
+		addIfNot(packageJson, 'monorepo', true);
+		console.log('This should be a monorepo, because ".git" found in upper folder.');
+	} else if (await findUpUntil(PACKAGE_JSON_PATH, 'rush.json')) {
 		addIfNot(packageJson, 'monorepo', true);
 		console.log('This should be a monorepo, because "rush.json" found in upper folder.');
 	}

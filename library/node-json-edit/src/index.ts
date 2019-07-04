@@ -79,13 +79,18 @@ export async function _realWriteJsonFile(_file: string | undefined, data: any, f
 }
 
 export async function loadJsonFile(file: string, charset: string = realDefault.encoding!): Promise<any> {
-	const text = await readFile(file, { encoding: charset });
-	const data = parseJsonText(text);
-	const config = _getFormatInfo(data)!;
-	config.encoding = charset;
-	config.originalContent = text;
-	config.originalPath = resolve(process.cwd(), file);
-	return data;
+	try {
+		const text = await readFile(file, { encoding: charset });
+		const data = parseJsonText(text);
+		const config = _getFormatInfo(data)!;
+		config.encoding = charset;
+		config.originalContent = text;
+		config.originalPath = resolve(process.cwd(), file);
+		return data;
+	} catch (e) {
+		e.message += ` (while loading json file "${file}")`;
+		throw e;
+	}
 }
 
 export function parseJsonText(text: string): any {

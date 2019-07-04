@@ -1,6 +1,7 @@
 {
 	"extends": "../../single-dog/package/tsconfig.json",
 	"compilerOptions": {
+		"pretty": true,
 		"baseUrl": ".",
 		"outDir": "../lib",
 		"typeRoots": [

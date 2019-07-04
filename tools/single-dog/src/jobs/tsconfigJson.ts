@@ -1,7 +1,15 @@
-import { ensureDir, pathExists } from 'fs-extra';
+import { ensureDir, pathExists, readdir, writeFile } from 'fs-extra';
 import { dirname, resolve } from 'path';
 import { locateRootRelativeToProject } from '../inc/template';
 import { loadJsonFile, writeJsonFile } from './node-json-edit';
+
+async function writeTestIndex() {
+	await writeFile(resolve(CONTENT_ROOT, 'src/index.ts'), `
+export function test(): string {
+	return "hello world";
+}
+`);
+}
 
 export async function updateTsconfigJson() {
 	const tsconfigPath = resolve(CONTENT_ROOT, 'src/tsconfig.json');
@@ -28,4 +36,8 @@ export async function updateTsconfigJson() {
 	}
 
 	await writeJsonFile(tsconfigPath, tsconfig);
+
+	if ((await readdir(resolve(CONTENT_ROOT, 'src'))).length === 1) {
+		await writeTestIndex();
+	}
 }

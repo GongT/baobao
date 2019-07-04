@@ -30,19 +30,39 @@
 		"postRushInstall": [
 			"node common/scripts/post-install.js"
 		],
-		"preRushBuild": [ ],
-		"postRushBuild": [ ]
+		"preRushBuild": [],
+		"postRushBuild": []
 	},
 	/**
 	 * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
 	 */
-	"variants": [ ],
+	"variants": [],
 	// "telemetryEnabled": false,
 	// "hotfixChangeEnabled": false,
 	"projects": [
 		{
-			"packageName": "@idlebox/base",
-			"projectFolder": "library/base"
+			"packageName": "@idlebox/errors",
+			"projectFolder": "library/errors"
+		},
+		{
+			"packageName": "@idlebox/async",
+			"projectFolder": "library/async"
+		},
+		{
+			"packageName": "@idlebox/events",
+			"projectFolder": "library/events"
+		},
+		{
+			"packageName": "@idlebox/lifecycle",
+			"projectFolder": "library/lifecycle"
+		},
+		{
+			"packageName": "@idlebox/reflect",
+			"projectFolder": "library/reflect"
+		},
+		{
+			"packageName": "@idlebox/basic-helpers",
+			"projectFolder": "library/basic-helpers"
 		},
 		{
 			"packageName": "@idlebox/node-json-edit",

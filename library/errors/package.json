@@ -1,0 +1,24 @@
+{
+  "main": "lib/_export_all_in_once_index.js",
+  "monorepo": true,
+  "name": "@idlebox/errors",
+  "scripts": {
+    "build": "tsc -p src",
+    "prepare": "im-single-dog",
+    "prepublish": "rimraf lib dist && npm run build",
+    "upgrade": "ncu --upgrade --packageFile ./package.json",
+    "watch": "tsc -w -p src"
+  },
+  "dependencies": {
+    "@idlebox/basic-helpers": "^1.0.0",
+    "@microsoft/api-extractor": "^7.2.2"
+  },
+  "devDependencies": {
+    "@gongt/single-dog": "^2.0.2",
+    "@types/node": "^12.0.12",
+    "npm-check-updates": "^3.1.13",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.5.2"
+  },
+  "typings": "docs/package-public.d.ts"
+}

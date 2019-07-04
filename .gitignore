@@ -1,6 +1,7 @@
 common/temp
 node_modules
 dist
+*.log
 
 .idea/*
 !.idea/*.iml

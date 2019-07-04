@@ -6,7 +6,8 @@
 	"typings": "index.d.ts",
 	"license": "MIT",
 	"scripts": {
-		"build": "echo no need to build"
+		"build": "echo no need to build",
+		"upgrade": "echo no need to upgrade"
 	},
 	"monorepo": true,
 	"dependencies": {

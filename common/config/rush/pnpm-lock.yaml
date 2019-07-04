@@ -1,12 +1,17 @@
 dependencies:
-  '@rush-temp/base': 'file:projects/base.tgz'
+  '@rush-temp/async': 'file:projects/async.tgz'
+  '@rush-temp/basic-helpers': 'file:projects/basic-helpers.tgz'
   '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz'
+  '@rush-temp/errors': 'file:projects/errors.tgz'
+  '@rush-temp/events': 'file:projects/events.tgz'
   '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
+  '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz'
   '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz'
+  '@rush-temp/reflect': 'file:projects/reflect.tgz'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
   '@types/fs-extra': 8.0.0
   '@types/klaw': 3.0.0
-  '@types/node': 12.0.10
+  '@types/node': 12.0.12
   execa: 2.0.2
   fs-extra: 8.1.0
   npm-check-updates: 3.1.13
@@ -85,13 +90,13 @@ packages:
       integrity: sha512-VQgHxyPMTj3hIlq9SY1mctqx+Jj8kpQfoLvDlVSDNOyuYs8JYfkuY3OW/4+dO657yPmNhHpePRx0/Tje5ImNVQ==
   /@types/fs-extra/5.0.4:
     dependencies:
-      '@types/node': 12.0.10
+      '@types/node': 12.0.12
     dev: false
     resolution:
       integrity: sha512-DsknoBvD8s+RFfSGjmERJ7ZOP1HI0UZRA3FSI+Zakhrc/Gy26YQsLI+m5V5DHxroHRJqCDLKJp7Hixn8zyaF7g==
   /@types/fs-extra/8.0.0:
     dependencies:
-      '@types/node': 12.0.10
+      '@types/node': 12.0.12
     dev: false
     resolution:
       integrity: sha512-bCtL5v9zdbQW86yexOlXWTEGvLNqWxMFyi7gQA7Gcthbezr2cPSOb8SkESVKA937QD5cIwOFLDFt0MQoXOEr9Q==
@@ -105,14 +110,14 @@ packages:
       integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
   /@types/klaw/3.0.0:
     dependencies:
-      '@types/node': 12.0.10
+      '@types/node': 12.0.12
     dev: false
     resolution:
       integrity: sha512-vbHQ88nyYtf+lUQEXh/4nH/qXcXU5twAdJyYHKX/uiSivu8XqR8rgWYHY07hQ1iaPdx8+sz3vDL70ZQw7gepIg==
-  /@types/node/12.0.10:
+  /@types/node/12.0.12:
     dev: false
     resolution:
-      integrity: sha512-LcsGbPomWsad6wmMNv7nBLw7YYYyfdYcz6xryKYQhx89c3XXan+8Q6AJ43G5XDIaklaVkK3mE4fCb0SBvMiPSQ==
+      integrity: sha512-Uy0PN4R5vgBUXFoJrKryf5aTk3kJ8Rv3PdlHjl6UaX+Cqp1QE0yPQ68MPXGrZOfG7gZVNDIJZYyot0B9ubXUrQ==
   /@types/node/8.5.8:
     dev: false
     resolution:
@@ -242,7 +247,7 @@ packages:
   /cacache/11.3.3:
     dependencies:
       bluebird: 3.5.5
-      chownr: 1.1.1
+      chownr: 1.1.2
       figgy-pudding: 3.5.1
       glob: 7.1.4
       graceful-fs: 4.2.0
@@ -300,10 +305,10 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
-  /chownr/1.1.1:
+  /chownr/1.1.2:
     dev: false
     resolution:
-      integrity: sha512-j38EvO5+LHX84jlo6h4UzmOwi0UgW61WRyPtJz4qaadK5eY3BTS5TY/S1Stc3Uk2lIM6TPevAlULiEJwie860g==
+      integrity: sha512-GkfeAQh+QNy3wquu9oIZr6SS5x7wGdSgNQvD10X3r+AZr1Oys22HW8kAmDMvNg2+Dm0TeGaEuO8gFwdBXxwO8A==
   /ci-info/2.0.0:
     dev: false
     resolution:
@@ -1822,7 +1827,7 @@ packages:
       integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
   /tar/4.4.10:
     dependencies:
-      chownr: 1.1.1
+      chownr: 1.1.2
       fs-minipass: 1.2.6
       minipass: 2.3.5
       minizlib: 1.2.1
@@ -2031,19 +2036,31 @@ packages:
       commander: 2.20.0
     resolution:
       integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==
-  'file:projects/base.tgz':
+  'file:projects/async.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.2.2
-      '@types/node': 12.0.10
+      '@types/node': 12.0.12
+      npm-check-updates: 3.1.13
+      rimraf: 2.6.3
+      typescript: 3.5.2
+    dev: false
+    name: '@rush-temp/async'
+    resolution:
+      integrity: sha512-eRPZ0J/e4+n5LaqlBth6/01EPdTMg83k0J4Xpp9xWPsG2/LtXXotOKOqR7ojXPWJlI+jhj5Mijd1ufqI2H4ZTQ==
+      tarball: 'file:projects/async.tgz'
+    version: 0.0.0
+  'file:projects/basic-helpers.tgz':
+    dependencies:
+      '@types/node': 12.0.12
       npm-check-updates: 3.1.13
       rimraf: 2.6.3
       source-map-support: 0.5.12
       typescript: 3.5.2
     dev: false
-    name: '@rush-temp/base'
+    name: '@rush-temp/basic-helpers'
     resolution:
-      integrity: sha512-Myz4OWQhfsTMtDRIggJZcKxvMMPdBLa25/QUBro0Xb3Md1iWw3ZbE3a0ejfSmHENDksRBNX78QhXcvC+esD9sg==
-      tarball: 'file:projects/base.tgz'
+      integrity: sha512-WKqEugbyzRmfv/mhvxw24H+MMjd+SE2QOy20FeD8R15osGJ8Goq85iUHpycf5wt7q5xtfGWLcqNdO7UfGcXavA==
+      tarball: 'file:projects/basic-helpers.tgz'
     version: 0.0.0
   'file:projects/ensure-symlink.tgz':
     dependencies:
@@ -2054,12 +2071,38 @@ packages:
       integrity: sha512-cCMWeJEzPyt1NNLcoisW+3KxbnmFNYoK9wUIjJaovv+FhwTq9pumS1+HYcSIojN1O2Ig4GmLCDmyKqAxp/7Rvw==
       tarball: 'file:projects/ensure-symlink.tgz'
     version: 0.0.0
+  'file:projects/errors.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.2.2
+      '@types/node': 12.0.12
+      npm-check-updates: 3.1.13
+      rimraf: 2.6.3
+      typescript: 3.5.2
+    dev: false
+    name: '@rush-temp/errors'
+    resolution:
+      integrity: sha512-UNx0XsRuCPqvP1MlgL4sYWTACDc8q0ReI1cCIjzILi0PYby6S62qkXymiXpYCJuhtYWfsSp7a1mDUGmSqmHxTg==
+      tarball: 'file:projects/errors.tgz'
+    version: 0.0.0
+  'file:projects/events.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.2.2
+      '@types/node': 12.0.12
+      npm-check-updates: 3.1.13
+      rimraf: 2.6.3
+      typescript: 3.5.2
+    dev: false
+    name: '@rush-temp/events'
+    resolution:
+      integrity: sha512-ZY+jE7SpqtfiR2HB+s4bPrKWHQ3jgtKe34Nw1EQEOMEugiVgWghW0Wy1UA8YHKMoWe+70bxjH2XQuhhWzAi95Q==
+      tarball: 'file:projects/events.tgz'
+    version: 0.0.0
   'file:projects/export-all-in-one.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.2.2
       '@types/fs-extra': 8.0.0
       '@types/klaw': 3.0.0
-      '@types/node': 12.0.10
+      '@types/node': 12.0.12
       execa: 2.0.2
       fs-extra: 8.1.0
       npm-check-updates: 3.1.13
@@ -2070,13 +2113,26 @@ packages:
     dev: false
     name: '@rush-temp/export-all-in-one'
     resolution:
-      integrity: sha512-rxkKMo3dq1f8D0aZ9QNC8a15izLMJ0j8NbVg6x+CJLVoNaAkb/KmZRJsJ8/T6jjNVaqwCVOeBONsgq5AO+uggw==
+      integrity: sha512-EFr9/vaIjejCZn/WBdX6W8Arq9VW/ThnOPYAXQ7OGcYzywH6p2XjLcd6RC5VCk/6mqBfRoWFah31KGfahART4Q==
       tarball: 'file:projects/export-all-in-one.tgz'
+    version: 0.0.0
+  'file:projects/lifecycle.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.2.2
+      '@types/node': 12.0.12
+      npm-check-updates: 3.1.13
+      rimraf: 2.6.3
+      typescript: 3.5.2
+    dev: false
+    name: '@rush-temp/lifecycle'
+    resolution:
+      integrity: sha512-HI8tVwq2OZx2UTKDGbBu3Doo0hVQlboO4wwiouumnhGibsipiTA55n/B4B6gDNnYTvbaiOZtoZYMuO7qKUMQ2g==
+      tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
   'file:projects/node-json-edit.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.2.2
-      '@types/node': 12.0.10
+      '@types/node': 12.0.12
       npm-check-updates: 3.1.13
       rimraf: 2.6.3
       source-map-support: 0.5.12
@@ -2084,13 +2140,26 @@ packages:
     dev: false
     name: '@rush-temp/node-json-edit'
     resolution:
-      integrity: sha512-fd/c8vUTWpmwepMcgEPhAEI3tfU7xsH3NsqgEyiTo7cxUlg9vkeJ+Q+plZ+C7qTIagAoEdLwdlyflK2mvKL16g==
+      integrity: sha512-2YU5SZ7Pqk8WRzsx8V2ON7KmbzNvjKXwVXNa0IBQtZU1UCbH+08hD8tEPluO5elgBXtBG6WjrHoyf0pVW7JO5Q==
       tarball: 'file:projects/node-json-edit.tgz'
+    version: 0.0.0
+  'file:projects/reflect.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.2.2
+      '@types/node': 12.0.12
+      npm-check-updates: 3.1.13
+      rimraf: 2.6.3
+      typescript: 3.5.2
+    dev: false
+    name: '@rush-temp/reflect'
+    resolution:
+      integrity: sha512-sFLE6uXgByNAHz05mTIyT0YJUzEgAA2wC7DYFr6yKtP9Smtdbot4WFaPNbRsEmPu10RqZVtf52rH8i2CDNnzaw==
+      tarball: 'file:projects/reflect.tgz'
     version: 0.0.0
   'file:projects/single-dog.tgz':
     dependencies:
       '@types/fs-extra': 8.0.0
-      '@types/node': 12.0.10
+      '@types/node': 12.0.12
       fs-extra: 8.1.0
       npm-check-updates: 3.1.13
       pacote: 9.5.1
@@ -2100,7 +2169,7 @@ packages:
     dev: false
     name: '@rush-temp/single-dog'
     resolution:
-      integrity: sha512-svQaTTGamGuYKxosCPoPY7L2Ko40qvCeCc6k9PowOQNjXn4cIC4RCrgR5B54lk1bs1UnPHMLGMCA/iK0CFJLcg==
+      integrity: sha512-8xUdKxAuobSqJREm96BjexZYYqTy+K5EAiRALfCrb76eH2Ins16CDuSAckLVF0+gw+x5TedvO6Og+Rl/QZ/f5Q==
       tarball: 'file:projects/single-dog.tgz'
     version: 0.0.0
   registry.npmjs.org/fs.realpath/1.0.0:
@@ -2127,16 +2196,20 @@ packages:
       registry: 'https://mirror.service.gongt.me:59443/npm/'
       tarball: 'https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz'
     version: 4.5.0
-registry: ''
 specifiers:
-  '@rush-temp/base': 'file:./projects/base.tgz'
+  '@rush-temp/async': 'file:./projects/async.tgz'
+  '@rush-temp/basic-helpers': 'file:./projects/basic-helpers.tgz'
   '@rush-temp/ensure-symlink': 'file:./projects/ensure-symlink.tgz'
+  '@rush-temp/errors': 'file:./projects/errors.tgz'
+  '@rush-temp/events': 'file:./projects/events.tgz'
   '@rush-temp/export-all-in-one': 'file:./projects/export-all-in-one.tgz'
+  '@rush-temp/lifecycle': 'file:./projects/lifecycle.tgz'
   '@rush-temp/node-json-edit': 'file:./projects/node-json-edit.tgz'
+  '@rush-temp/reflect': 'file:./projects/reflect.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
   '@types/fs-extra': ^8.0.0
   '@types/klaw': ^3.0.0
-  '@types/node': ^12.0.10
+  '@types/node': ^12.0.12
   execa: ^2.0.2
   fs-extra: ^8.1.0
   npm-check-updates: ^3.1.13

@@ -1,0 +1,15 @@
+{
+	"extends": "../../../tools/single-dog/package/tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../lib",
+		"rootDir": ".",
+		"typeRoots": [
+			"../node_modules/@types"
+		],
+		"declaration": false,
+		"declarationMap": false
+	},
+	"include": [
+		"**/*.ts"
+	]
+}
