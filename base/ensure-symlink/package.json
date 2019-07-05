@@ -1,16 +1,19 @@
 {
 	"name": "@idlebox/ensure-symlink",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
-	"version": "1.0.3",
+	"version": "1.0.5",
 	"main": "index.js",
 	"typings": "index.d.ts",
 	"license": "MIT",
 	"scripts": {
 		"build": "echo no need to build",
-		"upgrade": "echo no need to upgrade"
+		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"monorepo": true,
 	"dependencies": {
 		"fs-extra": "^8.1.0"
+	},
+	"devDependencies": {
+		"npm-check-updates": "^3.1.13"
 	}
 }
