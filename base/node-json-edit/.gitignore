@@ -6,6 +6,7 @@ dist/
 *.tgz
 lib
 package-deps.json
+test
 
 .idea/*
 !.idea/*.iml
