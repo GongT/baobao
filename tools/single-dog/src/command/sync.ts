@@ -1,13 +1,13 @@
 ///<reference types="node"/>
 import { basename, resolve } from 'path';
-import { Filesystem } from './inc/filesystem';
-import { getGitName } from './inc/gitName';
-import { linkWithLog } from './inc/linkLog';
-import { locateRootRelativeToProject, readTemplate } from './inc/template';
-import { updatePackageJson } from './jobs/packageJson';
-import { updateTsconfigJson } from './jobs/tsconfigJson';
+import { Filesystem } from '../inc/filesystem';
+import { getGitName } from '../inc/gitName';
+import { linkWithLog } from '../inc/linkLog';
+import { locateRootRelativeToProject, readTemplate } from '../inc/template';
+import { updatePackageJson } from '../jobs/packageJson';
+import { updateTsconfigJson } from '../jobs/tsconfigJson';
 
-(async () => {
+export default async () => {
 	const gitInfo = await getGitName();
 
 	const packageJson = await updatePackageJson(gitInfo);
@@ -43,11 +43,7 @@ import { updateTsconfigJson } from './jobs/tsconfigJson';
 	}
 
 	console.log('Yes.');
-})().catch((e) => {
-	setImmediate(() => {
-		throw e;
-	});
-});
+};
 
 function license(name: string) {
 	const content = readTemplate('LICENSE');

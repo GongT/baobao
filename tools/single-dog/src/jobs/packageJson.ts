@@ -10,9 +10,8 @@ export const prodPackages: string[] = [];
 export const devPackages = [
 	'@types/node',
 	'@gongt/single-dog',
-	'npm-check-updates',
+	'@idlebox/build-script',
 	'typescript',
-	'rimraf',
 ];
 
 interface MapLike {
@@ -47,23 +46,30 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 	if (!packageJson.scripts) {
 		packageJson.scripts = {};
 	}
-	addIfNot(packageJson.scripts, 'watch', 'tsc -w -p src');
-	addIfNot(packageJson.scripts, 'build', 'tsc -p src');
-	insertKeyAlphabet(packageJson.scripts, 'prepublish', 'im-single-dog && rimraf lib dist && npm run build');
-	addIfNot(packageJson.scripts, 'upgrade', 'ncu --upgrade --packageFile ./package.json');
-	addIfNot(packageJson.scripts, 'prepare', 'im-single-dog');
-	addIfNot(packageJson.scripts, 'yarn-publish', 'im-single-dog && yarn publish --registry https://registry.npmjs.org --access=public');
 
-	if (packageJson.bin) {
+	packageJson.scripts['watch'] = 'call-build-script watch';
+	packageJson.scripts['build'] = 'call-build-script build';
+	packageJson.scripts['prepack'] = 'call-build-script prepack';
+	packageJson.scripts['prepare'] = 'call-build-script prepare';
+	packageJson.scripts['publish-package'] = 'call-build-script publish';
+	packageJson.scripts['upgrade'] = 'ncu --upgrade --packageFile ./package.json';
+
+	if (!packageJson.bin) {
 		addIfNot(packageJson, 'main', './lib/index.js');
 	}
 
-	if (await findUpUntil(PACKAGE_JSON_PATH, '.git')) {
-		addIfNot(packageJson, 'monorepo', true);
-		console.log('This should be a monorepo, because ".git" found in upper folder.');
-	} else if (await findUpUntil(PACKAGE_JSON_PATH, 'rush.json')) {
-		addIfNot(packageJson, 'monorepo', true);
-		console.log('This should be a monorepo, because "rush.json" found in upper folder.');
+	const foundPackageJson = await findUpUntil(PACKAGE_JSON_PATH, 'package.json');
+	const foundRush = await findUpUntil(PACKAGE_JSON_PATH, 'rush.json');
+	if (foundPackageJson || foundRush) {
+		if (foundRush) {
+			console.log('This should be a monorepo, because "rush.json" found in upper folder.');
+			insertKeyAlphabet(packageJson, 'monorepo', 'rush');
+		} else if (foundPackageJson && await pathExists(resolve(foundPackageJson, '../yarn.lock'))) {
+			insertKeyAlphabet(packageJson, 'monorepo', 'yarn');
+			console.log('This should be a monorepo, because ".git" found in upper folder.');
+		} else {
+			insertKeyAlphabet(packageJson, 'monorepo', 'simple');
+		}
 	}
 
 	// package deps

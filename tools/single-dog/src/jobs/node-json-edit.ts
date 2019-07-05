@@ -75,6 +75,8 @@ export function stringifyJsonText(data: any): string {
 }
 
 export function insertKeyAlphabet<T = any>(obj: T, key: any, value: any): T {
+	delete (obj as any)[key];
+
 	const keys = Object.keys(obj);
 	const saveObj = {} as any;
 

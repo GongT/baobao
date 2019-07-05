@@ -1,17 +1,22 @@
 {
+	"main": "./lib/index.js",
 	"name": "@gongt/single-dog",
 	"version": "2.0.3",
+	"license": "MIT",
 	"bin": {
-		"im-single-dog": "./index.js"
+		"single-dog": "./bin.js"
 	},
 	"scripts": {
-		"watch": "tsc -w -p src",
-		"build": "tsc -p src",
-		"prepublish": "rimraf lib && tsc -p src",
-		"upgrade": "ncu --upgrade --packageFile ./package.json"
+		"test": "call-build-script test",
+		"build": "call-build-script build",
+		"watch": "call-build-script watch",
+		"prepublish": "call-build-script prepublish",
+		"publishPackage": "call-build-script publishPackage"
 	},
+	"monorepo": true,
 	"dependencies": {
-		"@idlebox/ensure-symlink": "^1.0.3",
+		"@idlebox/ensure-symlink": "^1.0.4",
+		"@idlebox/node-json-edit": "^1.0.7",
 		"fs-extra": "^8.1.0",
 		"pacote": "^9.5.1",
 		"source-map-support": "^0.5.12"
@@ -19,9 +24,7 @@
 	"devDependencies": {
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.0.12",
-		"npm-check-updates": "^3.1.13",
-		"rimraf": "^2.6.3",
-		"typescript": "^3.5.2"
-	},
-	"monorepo": true
+		"typescript": "^3.5.2",
+		"@idlebox/build-script": ">=0.0.1"
+	}
 }

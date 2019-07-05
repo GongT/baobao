@@ -1,4 +1,5 @@
-import { insertKeyAlphabet, loadJsonFile, writeJsonFile } from '../../../../library/node-json-edit/lib';
+import { pathExists } from 'fs-extra';
+import { insertKeyAlphabet, loadJsonFile, writeJsonFile } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
 import { ModuleKind } from 'typescript';
 import { CONFIG_FILE_REL, PROJECT_ROOT } from '../inc/argParse';
@@ -33,15 +34,8 @@ export async function updatePackageJson() {
 	if (!packageJson.scripts) {
 		insertKeyAlphabet(packageJson, 'scripts', {});
 	}
-	if (packageJson.scripts.build) {
-		if (packageJson.scripts.build.indexOf('export-all-in-one') === -1) {
-			packageJson.scripts.build += ' && export-all-in-one ' + CONFIG_FILE_REL;
-			console.log('Edit build script include export-all-in-one');
-		} else {
-			console.log('Build script already include export-all-in-one');
-		}
-	} else {
-		insertKeyAlphabet(packageJson.scripts, 'build', 'export-all-in-one ' + CONFIG_FILE_REL);
+	if (!packageJson.scripts['build:export-all-in-one']) {
+		insertKeyAlphabet(packageJson.scripts, 'postbuild:export-all-in-one', 'export-all-in-one ' + CONFIG_FILE_REL);
 	}
 
 	await writeJsonFile(resolve(PROJECT_ROOT, 'package.json'), packageJson);

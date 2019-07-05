@@ -1,0 +1,33 @@
+{
+	"monorepo": "rush",
+	"name": "@idlebox/build-script",
+	"version": "0.0.1",
+	"bin": {
+		"build-script-call": "bin/call.js",
+		"build-script-init": "bin/init.js",
+		"rimraf": "bin/rimraf.js"
+	},
+	"license": "MIT",
+	"scripts": {
+		"clean": "rimraf lib",
+		"watch": "tsc -p src -w",
+		"build": "tsc -p src",
+		"prepublish": "run-s -l clean build",
+		"upgrade": "ncu --upgrade --packageFile ./package.json"
+	},
+	"dependencies": {
+		"@idlebox/node-json-edit": "^1.0.7",
+		"execa": "^2.0.2",
+		"fs-extra": "^8.1.0",
+		"source-map-support": "^0.5.12"
+	},
+	"devDependencies": {
+		"@gongt/single-dog": "^2.0.2",
+		"@types/fs-extra": "^8.0.0",
+		"@types/node": "^12.0.12",
+		"npm-check-updates": "^3.1.13",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^2.6.3",
+		"typescript": "^3.5.2"
+	}
+}

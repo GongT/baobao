@@ -25,11 +25,12 @@
 	},
 	"eventHooks": {
 		"preRushInstall": [
-			"git clean -d -x -f -e common -e .idea",
-			"rm -rf common/temp/projects"
+			// "git add .",
+			// "git clean -d -x -f -e common -e .idea -- .",
+			// "rm -rf common/temp/projects"
 		],
 		"postRushInstall": [
-			"node common/scripts/post-install.js"
+			// "node common/scripts/post-install.js"
 		],
 		"preRushBuild": [
 			// "rush update"
@@ -43,6 +44,14 @@
 	// "telemetryEnabled": false,
 	// "hotfixChangeEnabled": false,
 	"projects": [
+		{
+			"packageName": "@idlebox/ensure-symlink",
+			"projectFolder": "base/ensure-symlink"
+		},
+		{
+			"packageName": "@idlebox/build-script",
+			"projectFolder": "tools/build-script"
+		},
 		{
 			"packageName": "@idlebox/errors",
 			"projectFolder": "library/errors"
@@ -65,15 +74,15 @@
 		},
 		{
 			"packageName": "@idlebox/node-json-edit",
-			"projectFolder": "library/node-json-edit"
-		},
-		{
-			"packageName": "@idlebox/ensure-symlink",
-			"projectFolder": "library/ensure-symlink"
+			"projectFolder": "base/node-json-edit"
 		},
 		{
 			"packageName": "@idlebox/export-all-in-one",
 			"projectFolder": "tools/export-all-in-one"
+		},
+		{
+			"packageName": "@idlebox/rush-tools",
+			"projectFolder": "tools/rush-tools"
 		},
 		{
 			"packageName": "@gongt/single-dog",

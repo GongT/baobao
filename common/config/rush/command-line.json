@@ -6,7 +6,6 @@
 			"commandKind": "bulk",
 			"name": "clean",
 			"summary": "Clean each project.",
-			"safeForSimultaneousRushProcesses": false,
 			"enableParallelism": true,
 			"ignoreDependencyOrder": true,
 			"ignoreMissingScript": true,
@@ -16,31 +15,44 @@
 			"commandKind": "bulk",
 			"name": "upgrade",
 			"summary": "Upgrade all dependencies to their latest version in every sub project.",
-			"safeForSimultaneousRushProcesses": false,
 			"enableParallelism": true,
 			"ignoreDependencyOrder": true,
-			"ignoreMissingScript": false,
 			"allowWarningsInSuccessfulBuild": true
 		},
 		{
 			"commandKind": "bulk",
 			"name": "watch",
 			"summary": "Run watch in every sub project.",
-			"safeForSimultaneousRushProcesses": true,
 			"enableParallelism": true,
+			"safeForSimultaneousRushProcesses": true,
 			"ignoreDependencyOrder": true,
-			"ignoreMissingScript": false,
 			"allowWarningsInSuccessfulBuild": true
 		},
 		{
 			"commandKind": "bulk",
 			"name": "prepare",
 			"summary": "Run prepare in every sub project.",
-			"safeForSimultaneousRushProcesses": true,
 			"enableParallelism": true,
+			"safeForSimultaneousRushProcesses": true,
 			"ignoreDependencyOrder": true,
 			"ignoreMissingScript": true,
 			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
+			"name": "yarn-publish",
+			"summary": "Run yarn publish in every sub project.",
+			"enableParallelism": true,
+			"safeForSimultaneousRushProcesses": true,
+			"ignoreDependencyOrder": true,
+			"ignoreMissingScript": true,
+			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "global",
+			"name": "ls",
+			"summary": "list projects",
+			"shellCommand": "node common/scripts/my-global-command.js"
 		}
 	],
 	"parameters": [
