@@ -1,12 +1,13 @@
 {
 	"name": "@idlebox/node-json-edit",
 	"description": "Edit json file and preserve it's indent and line feed and final new line.",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"monorepo": true,
 	"main": "./lib/index.js",
 	"typings": "./lib/index.d.ts",
 	"scripts": {
 		"clean": "rimraf lib",
+		"watch": "tsc -p src -w",
 		"build": "tsc -p src",
 		"prepublish": "run-s -l clean build",
 		"upgrade": "ncu --upgrade --packageFile ./package.json"

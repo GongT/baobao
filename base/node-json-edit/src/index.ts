@@ -78,6 +78,16 @@ export async function _realWriteJsonFile(_file: string | undefined, data: any, f
 	config.originalPath = resolve(process.cwd(), file);
 }
 
+export async function loadJsonFileIfExists(file: string, defaultValue: any = {}, charset: string = realDefault.encoding!): Promise<any> {
+	if (await access(file).catch(() => false)) {
+		return loadJsonFile(file, charset);
+	} else {
+		const ret: any = JSON.parse(JSON.stringify(defaultValue));
+		attachFormatConfig(ret, { ...realDefault, encoding: charset, originalContent: '', originalPath: file });
+		return file;
+	}
+}
+
 export async function loadJsonFile(file: string, charset: string = realDefault.encoding!): Promise<any> {
 	try {
 		const text = await readFile(file, { encoding: charset });
