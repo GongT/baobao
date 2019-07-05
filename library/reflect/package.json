@@ -5,11 +5,16 @@
   "typings": "docs/package-public.d.ts",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc -p src && export-all-in-one src/tsconfig.json",
+    "build": "rimraf lib dist && im-single-dog && tsc -p src && export-all-in-one src/tsconfig.json",
     "prepare": "im-single-dog",
-    "prepublish": "rimraf lib dist && npm run build",
+    "prepublish": "npm run build",
     "upgrade": "ncu --upgrade --packageFile ./package.json",
-    "watch": "tsc -w -p src"
+    "watch": "tsc -w -p src",
+    "yarn-publish": "im-single-dog && yarn publish --registry https://registry.npmjs.org --access=public"
+  },
+  "dependencies": {
+    "@idlebox/basic-helpers": "~1.0.0",
+    "@idlebox/lifecycle": "~1.0.0"
   },
   "devDependencies": {
     "@gongt/single-dog": "^2.0.2",

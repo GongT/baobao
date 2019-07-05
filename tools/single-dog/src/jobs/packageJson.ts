@@ -6,8 +6,7 @@ import { findUpUntil } from '../inc/findUpUntil';
 
 const { manifest } = require('pacote');
 
-export const prodPackages: string[] = [
-];
+export const prodPackages: string[] = [];
 export const devPackages = [
 	'@types/node',
 	'@gongt/single-dog',
@@ -50,9 +49,10 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 	}
 	addIfNot(packageJson.scripts, 'watch', 'tsc -w -p src');
 	addIfNot(packageJson.scripts, 'build', 'tsc -p src');
-	addIfNot(packageJson.scripts, 'prepublish', 'rimraf lib dist && npm run build');
+	insertKeyAlphabet(packageJson.scripts, 'prepublish', 'im-single-dog && rimraf lib dist && npm run build');
 	addIfNot(packageJson.scripts, 'upgrade', 'ncu --upgrade --packageFile ./package.json');
 	addIfNot(packageJson.scripts, 'prepare', 'im-single-dog');
+	addIfNot(packageJson.scripts, 'yarn-publish', 'im-single-dog && yarn publish --registry https://registry.npmjs.org --access=public');
 
 	if (packageJson.bin) {
 		addIfNot(packageJson, 'main', './lib/index.js');

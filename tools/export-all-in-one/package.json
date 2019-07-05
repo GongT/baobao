@@ -1,4 +1,5 @@
 {
+	"main": "./lib/index.js",
 	"name": "@idlebox/export-all-in-one",
 	"version": "3.0.2",
 	"description": "write your library with typescript. make all exports available from single entry.",
@@ -12,10 +13,11 @@
 	],
 	"scripts": {
 		"prepare": "im-single-dog",
+		"prepublish": "rimraf lib && tsc -p src && chmod a+x index.js",
 		"watch": "tsc -w -p src",
 		"build": "tsc -p src && chmod a+x index.js",
-		"prepublish": "rimraf lib && tsc -p src && chmod a+x index.js",
-		"upgrade": "ncu --upgrade --packageFile ./package.json"
+		"upgrade": "ncu --upgrade --packageFile ./package.json",
+		"yarn-publish": "im-single-dog && yarn publish --registry https://registry.npmjs.org --access=public"
 	},
 	"bin": {
 		"export-all-in-one": "./index.js"

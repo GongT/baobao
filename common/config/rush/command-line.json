@@ -26,10 +26,20 @@
 			"commandKind": "bulk",
 			"name": "watch",
 			"summary": "Run watch in every sub project.",
-			"safeForSimultaneousRushProcesses": false,
+			"safeForSimultaneousRushProcesses": true,
 			"enableParallelism": true,
 			"ignoreDependencyOrder": true,
 			"ignoreMissingScript": false,
+			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
+			"name": "prepare",
+			"summary": "Run prepare in every sub project.",
+			"safeForSimultaneousRushProcesses": true,
+			"enableParallelism": true,
+			"ignoreDependencyOrder": true,
+			"ignoreMissingScript": true,
 			"allowWarningsInSuccessfulBuild": true
 		}
 	],

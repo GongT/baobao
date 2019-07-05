@@ -1,5 +1,5 @@
-import { DisposedError } from '../../errors/src/disposed';
-import { Emitter, EventRegister } from '../../events/src/event';
+import { DisposedError } from '@idlebox/errors';
+import { Emitter, EventRegister } from './event';
 
 export interface IDisposable {
 	dispose(): void;

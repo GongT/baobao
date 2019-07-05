@@ -1,4 +1,4 @@
-import { IDisposable } from '../../lifecycle/src/lifecycle';
+import { IDisposable } from './lifecycle';
 
 export interface EventHandler<T> {
 	(data: T): void;

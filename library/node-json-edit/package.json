@@ -7,7 +7,8 @@
 		"prepare": "im-single-dog",
 		"prepublish": "rimraf lib dist && npm run build",
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "tsc -w -p src"
+		"watch": "tsc -w -p src",
+		"yarn-publish": "im-single-dog && yarn publish --registry https://registry.npmjs.org --access=public"
 	},
 	"main": "index.js",
 	"typings": "./lib/index.d.ts",

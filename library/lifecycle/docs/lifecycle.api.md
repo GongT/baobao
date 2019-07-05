@@ -4,10 +4,89 @@
 
 ```ts
 
-// Warning: (ae-missing-release-tag) "test" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-forgotten-export) The symbol "DisposableBase" needs to be exported by the entry point _export_all_in_once_index.d.ts
+// Warning: (ae-missing-release-tag) "AsyncDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export function test(): string;
+export class AsyncDisposable extends DisposableBase implements IAsyncDisposable {
+    // (undocumented)
+    dispose(): Promise<void>;
+    // (undocumented)
+    _register<T extends IAsyncDisposable>(d: T): T;
+}
+
+// Warning: (ae-missing-release-tag) "Disposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export class Disposable extends DisposableBase implements IDisposable {
+    // (undocumented)
+    dispose(): void;
+    // (undocumented)
+    _register<T extends IDisposable>(d: T): T;
+}
+
+// Warning: (ae-missing-release-tag) "Emitter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export class Emitter<T> implements IDisposable {
+    constructor();
+    // (undocumented)
+    dispose(): void;
+    // (undocumented)
+    fire(data: T): void;
+    // (undocumented)
+    fireNoError(data: T): void;
+    // (undocumented)
+    handle(callback: EventHandler<T>): IDisposable;
+    // (undocumented)
+    readonly register: EventRegister<T>;
+}
+
+// Warning: (ae-missing-release-tag) "EventHandler" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface EventHandler<T> {
+    // (undocumented)
+    (data: T): void;
+}
+
+// Warning: (ae-missing-release-tag) "EventRegister" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface EventRegister<T> {
+    // (undocumented)
+    (callback: EventHandler<T>): IDisposable;
+}
+
+// Warning: (ae-missing-release-tag) "IAsyncDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface IAsyncDisposable {
+    // (undocumented)
+    dispose(): void | Promise<void>;
+}
+
+// Warning: (ae-missing-release-tag) "IDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface IDisposable {
+    // (undocumented)
+    dispose(): void;
+}
+
+// Warning: (ae-missing-release-tag) "LifecycleObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export abstract class LifecycleObject extends AsyncDisposable {
+    // (undocumented)
+    dispose(): Promise<void>;
+    protected abstract done(): void;
+}
+
+// Warning: (ae-missing-release-tag) "toDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function toDisposable(fn: () => void): IDisposable;
 
 
 // (No @packageDocumentation comment for this package)

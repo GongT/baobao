@@ -3,7 +3,6 @@ dependencies:
   '@rush-temp/basic-helpers': 'file:projects/basic-helpers.tgz'
   '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz'
   '@rush-temp/errors': 'file:projects/errors.tgz'
-  '@rush-temp/events': 'file:projects/events.tgz'
   '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
   '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz'
   '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz'
@@ -2046,7 +2045,7 @@ packages:
     dev: false
     name: '@rush-temp/async'
     resolution:
-      integrity: sha512-eRPZ0J/e4+n5LaqlBth6/01EPdTMg83k0J4Xpp9xWPsG2/LtXXotOKOqR7ojXPWJlI+jhj5Mijd1ufqI2H4ZTQ==
+      integrity: sha512-ssoXbn3k2NN9kdIZ7tPyF3UzTgJ+kEnGgm7tEFdQITgkI1tj5O9WLM/I3LjSiGNTXX4yUbSFtYx62MMw1PCfYg==
       tarball: 'file:projects/async.tgz'
     version: 0.0.0
   'file:projects/basic-helpers.tgz':
@@ -2081,21 +2080,8 @@ packages:
     dev: false
     name: '@rush-temp/errors'
     resolution:
-      integrity: sha512-UNx0XsRuCPqvP1MlgL4sYWTACDc8q0ReI1cCIjzILi0PYby6S62qkXymiXpYCJuhtYWfsSp7a1mDUGmSqmHxTg==
+      integrity: sha512-uMCpwcwP/J/uj6tz7t72qgp9LKqW9tcZ1G0lHYl2srHrlO697JaVV8587xE7eDAM4gYCao4vI2fDBSOQf+U3ZA==
       tarball: 'file:projects/errors.tgz'
-    version: 0.0.0
-  'file:projects/events.tgz':
-    dependencies:
-      '@microsoft/api-extractor': 7.2.2
-      '@types/node': 12.0.12
-      npm-check-updates: 3.1.13
-      rimraf: 2.6.3
-      typescript: 3.5.2
-    dev: false
-    name: '@rush-temp/events'
-    resolution:
-      integrity: sha512-ZY+jE7SpqtfiR2HB+s4bPrKWHQ3jgtKe34Nw1EQEOMEugiVgWghW0Wy1UA8YHKMoWe+70bxjH2XQuhhWzAi95Q==
-      tarball: 'file:projects/events.tgz'
     version: 0.0.0
   'file:projects/export-all-in-one.tgz':
     dependencies:
@@ -2126,7 +2112,7 @@ packages:
     dev: false
     name: '@rush-temp/lifecycle'
     resolution:
-      integrity: sha512-HI8tVwq2OZx2UTKDGbBu3Doo0hVQlboO4wwiouumnhGibsipiTA55n/B4B6gDNnYTvbaiOZtoZYMuO7qKUMQ2g==
+      integrity: sha512-uIlp5ZaP5nJ1aJ6dx2tQ9uYjdP7pin4wuliajFDXi9QOc6W8xSG4TBwl94DyVVH+GQLUGhWl93lmfbsvt1SDLw==
       tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
   'file:projects/node-json-edit.tgz':
@@ -2196,12 +2182,12 @@ packages:
       registry: 'https://mirror.service.gongt.me:59443/npm/'
       tarball: 'https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz'
     version: 4.5.0
+registry: ''
 specifiers:
   '@rush-temp/async': 'file:./projects/async.tgz'
   '@rush-temp/basic-helpers': 'file:./projects/basic-helpers.tgz'
   '@rush-temp/ensure-symlink': 'file:./projects/ensure-symlink.tgz'
   '@rush-temp/errors': 'file:./projects/errors.tgz'
-  '@rush-temp/events': 'file:./projects/events.tgz'
   '@rush-temp/export-all-in-one': 'file:./projects/export-all-in-one.tgz'
   '@rush-temp/lifecycle': 'file:./projects/lifecycle.tgz'
   '@rush-temp/node-json-edit': 'file:./projects/node-json-edit.tgz'

@@ -9,7 +9,11 @@
     "prepare": "im-single-dog",
     "prepublish": "rimraf lib dist && npm run build",
     "upgrade": "ncu --upgrade --packageFile ./package.json",
-    "watch": "tsc -w -p src"
+    "watch": "tsc -w -p src",
+    "yarn-publish": "im-single-dog && yarn publish --registry https://registry.npmjs.org --access=public"
+  },
+  "dependencies": {
+    "@idlebox/errors": "~1.0.2"
   },
   "devDependencies": {
     "@gongt/single-dog": "^2.0.2",

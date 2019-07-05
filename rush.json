@@ -25,12 +25,15 @@
 	},
 	"eventHooks": {
 		"preRushInstall": [
-			// "common/scripts/pre-rush-install.js"
+			"git clean -d -x -f -e common -e .idea",
+			"rm -rf common/temp/projects"
 		],
 		"postRushInstall": [
 			"node common/scripts/post-install.js"
 		],
-		"preRushBuild": [],
+		"preRushBuild": [
+			// "rush update"
+		],
 		"postRushBuild": []
 	},
 	/**
@@ -47,10 +50,6 @@
 		{
 			"packageName": "@idlebox/async",
 			"projectFolder": "library/async"
-		},
-		{
-			"packageName": "@idlebox/events",
-			"projectFolder": "library/events"
 		},
 		{
 			"packageName": "@idlebox/lifecycle",

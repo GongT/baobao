@@ -29,7 +29,7 @@ import { updateTsconfigJson } from './jobs/tsconfigJson';
 	if (!monorepoMode) {
 		// idea
 		fs.placeFile(`.idea/${basename(CONTENT_ROOT)}.iml`, readTemplate('idea/idea.iml'));
-		await linkWithLog(locateRootRelativeToProject('.idea/codeStyles', '.idea/codeStyles'), resolve(CONTENT_ROOT, '.idea/codeStyles'));
+		await linkWithLog(locateRootRelativeToProject('.idea/codeStyles', 'package/idea/codeStyles'), resolve(CONTENT_ROOT, '.idea/codeStyles'));
 		fs.placeFile('.idea/misc.xml', readTemplate('idea/misc.xml'));
 		fs.placeFile('.idea/vcs.xml', readTemplate('idea/vcs.xml'));
 		fs.placeFile('.idea/modules.xml', readTemplate('idea/modules.xml').replace(/{NAME}/g, basename(CONTENT_ROOT)));
