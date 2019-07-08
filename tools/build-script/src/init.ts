@@ -21,7 +21,7 @@ export default async function init() {
 	if (!process.argv.includes('-f')) {
 		const mustSetActions = ['test', 'build', 'watch', 'prepublish', 'publishPackage'];
 		for (const item of mustSetActions) {
-			if (scriptList[item] && !('' + scriptList[item]).startsWith('call-build-script ')) {
+			if (scriptList[item] && !('' + scriptList[item]).startsWith('build-script-call ')) {
 				throw new Error(`Field "scripts.${item}" is exists, refuse to continue (set -f to override).`);
 			}
 		}
@@ -29,7 +29,7 @@ export default async function init() {
 
 	const registerWithlog = function (field: string, value: any) {
 		console.log(' - register script: %s', field);
-		insertKeyAlphabet(scriptList, field, 'call-build-script ' + value);
+		insertKeyAlphabet(scriptList, field, 'build-script-call ' + value);
 	};
 	registerWithlog('test', 'test');
 	registerWithlog('build', 'build');
@@ -51,7 +51,8 @@ export default async function init() {
 
 	const hooksFile = resolve(PROJECT_ROOT, 'build-script.json');
 	const schemaPath = resolve(SELF_ROOT, 'schema.json');
-	const hookContent: any = loadJsonFileIfExists(hooksFile, { $schema: schemaPath });
+	const isExists = await pathExists(hooksFile);
+	const hookContent: any = await loadJsonFileIfExists(hooksFile, { $schema: schemaPath });
 	insertKeyAlphabet(hookContent, '$schema', schemaPath);
 
 	const addIfNot = function (data: any, field: string, value: any) {
@@ -62,25 +63,28 @@ export default async function init() {
 
 	addIfNot(hookContent, 'plugins', []);
 	addIfNot(hookContent, 'actions', {});
-	addIfNot(hookContent.actions, 'prebuild', { type: 'parallel', exported: false, sequence: ['cleanOutput'] });
-	addIfNot(hookContent.actions, 'compile', { type: 'parallel', exported: false, sequence: ['tsc'] });
-	addIfNot(hookContent.actions, 'compile-watch', { type: 'parallel', exported: false, sequence: ['tscWatch'] });
-	addIfNot(hookContent.actions, 'postbuild', { type: 'parallel', exported: false, sequence: [] });
+	addIfNot(hookContent, 'jobs', {});
+
+	if (!isExists) {
+		addIfNot(hookContent.actions, 'prebuild', { type: 'parallel', exported: false, sequence: ['cleanOutput'] });
+		addIfNot(hookContent.actions, 'compile', { type: 'parallel', exported: false, sequence: ['tsc'] });
+		addIfNot(hookContent.actions, 'compile-watch', { type: 'parallel', exported: false, sequence: ['tscWatch'] });
+		addIfNot(hookContent.actions, 'postbuild', { type: 'parallel', exported: false, sequence: [] });
+	}
 
 	addIfNot(hookContent.actions, 'test', { type: 'serial', exported: true, sequence: ['runTest'] });
 	addIfNot(hookContent.actions, 'build', { type: 'serial', exported: true, sequence: ['@prebuild', '@compile', '@postbuild'] });
 	addIfNot(hookContent.actions, 'watch', { type: 'serial', exported: true, sequence: ['@prebuild', '@compile-watch'] });
 	addIfNot(hookContent.actions, 'prepublish', { type: 'serial', exported: true, sequence: ['@build'] });
-
 	addIfNot(hookContent.actions, 'publishPackage', { type: 'serial', exported: true, sequence: ['@prepublish', 'publish'] });
 
-	addIfNot(hookContent, 'jobs', {
-		publish: ['yarn', 'publish', '--registry', 'https://registry.npmjs.org --access=public'],
-		tsc: ['tsc', '-p', 'src'],
-		tscWatch: ['tsc', '-p', 'src', '-w'],
-		cleanOutput: ['rimraf', 'lib', 'dist', 'out'],
-		runTest: ['echo', 'No test case set.'],
-	});
+	if (!isExists) {
+		addIfNot(hookContent.jobs, 'publish', ['yarn', 'publish', '--registry', 'https://registry.npmjs.org --access=public']);
+		addIfNot(hookContent.jobs, 'tsc', ['tsc', '-p', 'src']);
+		addIfNot(hookContent.jobs, 'tscWatch', ['tsc', '-p', 'src', '-w']);
+		addIfNot(hookContent.jobs, 'cleanOutput', ['rimraf', 'lib', 'dist', 'out']);
+		addIfNot(hookContent.jobs, 'runTest', ['echo', 'No test case set.']);
+	}
 
 	console.log('write file %s', hooksFile);
 	await writeJsonFileBack(hookContent);

@@ -17,7 +17,7 @@ exports.load = function load(file) {
 		return require(file).default();
 	}).catch((e) => {
 		const stack = e.stack.split(/\n/);
-		if (stack.length > 2) {
+		if (stack.length > 3) {
 			stack.pop(); // root file
 			stack.pop(); // function main()
 		}

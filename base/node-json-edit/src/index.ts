@@ -84,7 +84,7 @@ export async function loadJsonFileIfExists(file: string, defaultValue: any = {},
 	} else {
 		const ret: any = JSON.parse(JSON.stringify(defaultValue));
 		attachFormatConfig(ret, { ...realDefault, encoding: charset, originalContent: '', originalPath: file });
-		return file;
+		return ret;
 	}
 }
 
@@ -139,6 +139,10 @@ export function stringifyJsonText(data: any): string {
 }
 
 export function insertKeyAlphabet<T = any>(obj: T, key: any, value: any): T {
+	if (key in obj) {
+		(obj as any)[key] = value;
+	}
+
 	const keys = Object.keys(obj);
 	const saveObj = {} as any;
 

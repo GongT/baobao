@@ -7,11 +7,11 @@
 		"single-dog": "./bin.js"
 	},
 	"scripts": {
-		"test": "call-build-script test",
-		"build": "call-build-script build",
-		"watch": "call-build-script watch",
-		"prepublish": "call-build-script prepublish",
-		"publishPackage": "call-build-script publishPackage"
+		"build": "build-script-call build",
+		"prepublish": "build-script-call prepublish",
+		"publishPackage": "build-script-call publishPackage",
+		"test": "build-script-call test",
+		"watch": "build-script-call watch"
 	},
 	"monorepo": true,
 	"dependencies": {
