@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@gongt/single-dog": "^2.0.5",
-    "@idlebox/export-all-in-one": "^3.0.3",
+    "@idlebox/export-all-in-one": "^3.0.4",
     "@microsoft/api-extractor": "^7.2.3",
     "@types/node": "^12.6.1",
     "npm-check-updates": "^3.1.13",

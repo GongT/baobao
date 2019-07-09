@@ -15,14 +15,14 @@
 		"watch": "build-script-call watch"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^1.0.11",
+		"@idlebox/node-json-edit": "^1.0.12",
 		"fs-extra": "^8.1.0",
 		"jsonc": "^2.0.0",
 		"pacote": "^9.5.1"
 	},
 	"devDependencies": {
 		"@gongt/single-dog": "^2.0.5",
-		"@idlebox/build-script": "^1.0.1",
+		"@idlebox/build-script": "^1.0.2",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.6.1",
 		"source-map-support": "^0.5.12",

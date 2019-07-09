@@ -1,0 +1,8 @@
+{
+  "name": "@idlebox/platform",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^12.6.1"
+  }
+}
