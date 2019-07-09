@@ -1,3 +1,4 @@
+import { parse, stringify } from 'comment-json';
 import { access as accessAsync, readFile as readFileAsync, writeFile as writeFileAsync } from 'fs';
 import { resolve } from 'path';
 import { promisify } from 'util';
@@ -105,7 +106,7 @@ export async function loadJsonFile(file: string, charset: string = realDefault.e
 
 export function parseJsonText(text: string): any {
 	const config = parseTextFormat(text);
-	const data = JSON.parse(text);
+	const data = parse(text);
 	if (typeof data !== 'object') {
 		throw new Error('Scalar root object is not supported.');
 	}
@@ -116,12 +117,12 @@ export function parseJsonText(text: string): any {
 export function stringifyJsonText(data: any): string {
 	const config = _getFormatInfo(data) || realDefault;
 	if (config.lineFeed === LineFeed.NONE) {
-		return JSON.stringify(data) + (config.lastNewLine ? '\n' : '');
+		return stringify(data) + (config.lastNewLine ? '\n' : '');
 	}
 
-	let text = JSON.stringify(data, null, 1);
-	text = text.replace(/^\s+/mg, (m0: string) => {
-		return config.tabs.repeat(m0.length);
+	let text = stringify(data, null, 8);
+	text = text.replace(/^( {8})+/mg, (m0: string) => {
+		return config.tabs.repeat(m0.length / 8);
 	});
 
 	if (config.lineFeed === LineFeed.CRLF) {
@@ -187,7 +188,7 @@ function attachFormatConfig(data: any, config: IFileInternalConfig) {
 	delete data[configSymbol];
 	Object.defineProperty(data, configSymbol, {
 		value: config,
-		enumerable: false,
+		enumerable: true,
 		configurable: true,
 		writable: false,
 	});
@@ -196,15 +197,25 @@ function attachFormatConfig(data: any, config: IFileInternalConfig) {
 function parseTextFormat(text: string): IFileInternalConfig {
 	const lastClose = text.lastIndexOf('}');
 	const findNewline = /\n/.test(text.slice(0, lastClose));
-	const findSpace = /^\s+/m.exec(text);
+	const spaceCounting: { [space: string]: number } = {};
+	text.split(/\n|\r/g).forEach((s) => {
+		const fc = s[0];
+		if (/^\s$/.test(fc)) {
+			spaceCounting[fc] = spaceCounting[fc] ? 1 : spaceCounting[fc] + 1;
+		}
+	});
+	let maxVal: number = 0;
+	let findSpace = realDefault.tabs;
+	Object.entries(spaceCounting).forEach(([space, count]) => {
+		if (count > maxVal) {
+			findSpace = space;
+			maxVal = count;
+		}
+	});
 
 	const config: IFileInternalConfig = {} as any;
 
-	if (findSpace) {
-		config.tabs = findSpace[0];
-	} else {
-		config.tabs = '';
-	}
+	config.tabs = findSpace;
 	if (findNewline) {
 		config.lineFeed = /\r\n/.test(text) ? LineFeed.CRLF : LineFeed.LF;
 	} else {

@@ -6,8 +6,10 @@
       <excludeFolder url="file://$MODULE_DIR$/library/base/.export-all-in-one" />
       <excludeFolder url="file://$MODULE_DIR$/library/base/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/basic-helpers/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/tools/build-script/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/.rpt2_cache" />
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/tools/rush-tools/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/single-dog/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/tools/single-dog/dist" />
       <excludeFolder url="file://$MODULE_DIR$/tools/single-dog/lib" />
