@@ -45,7 +45,7 @@ export default async function (path: string) {
 		packageData.devDependencies = {};
 	}
 	console.log(' - add devDependencies: %s', mySelfPackage.name);
-	packageData.devDependencies[mySelfPackage.name] = '>=' + mySelfPackage.version;
+	packageData.devDependencies[mySelfPackage.name] = '^' + mySelfPackage.version;
 
 	console.log('write file %s', packageJsonFile);
 	await writeJsonFileBack(packageData);
