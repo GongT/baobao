@@ -1,6 +1,6 @@
 import { insertKeyAlphabet, loadJsonFile, loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
-import { pathExists } from 'fs-extra';
+import { pathExists, writeFile } from 'fs-extra';
 
 const mySelfPackage = require(resolve(__dirname, '../package.json'));
 
@@ -35,7 +35,7 @@ export default async function init() {
 	registerWithlog('build', 'build');
 	registerWithlog('watch', 'watch');
 	registerWithlog('prepublish', 'prepublish');
-	registerWithlog('publishPackage', 'publishPackage');
+	registerWithlog('publishPackage', 'publish');
 
 	if (!packageData.dependencies) {
 		packageData.dependencies = {};
@@ -76,7 +76,7 @@ export default async function init() {
 	addIfNot(hookContent.actions, 'build', { type: 'serial', exported: true, sequence: ['@prebuild', '@compile', '@postbuild'] });
 	addIfNot(hookContent.actions, 'watch', { type: 'serial', exported: true, sequence: ['@prebuild', '@compile-watch'] });
 	addIfNot(hookContent.actions, 'prepublish', { type: 'serial', exported: true, sequence: ['@build'] });
-	addIfNot(hookContent.actions, 'publishPackage', { type: 'serial', exported: true, sequence: ['@prepublish', 'publish'] });
+	addIfNot(hookContent.actions, 'publish', { type: 'serial', exported: true, sequence: ['publish'] });
 
 	if (!isExists) {
 		addIfNot(hookContent.jobs, 'publish', ['yarn', 'publish', '--registry', 'https://registry.npmjs.org --access=public']);
@@ -88,5 +88,15 @@ export default async function init() {
 
 	console.log('write file %s', hooksFile);
 	await writeJsonFileBack(hookContent);
+
+	const gulpFile = resolve(PROJECT_ROOT, 'Gulpfile.js');
+	if (!await pathExists(gulpFile)) {
+		const gulpContent = `const gulp = require('gulp');
+const init = require('@idlebox/build-script');
+init(gulp);
+
+`;
+		await writeFile(gulpFile, gulpContent, { encoding: 'utf-8' });
+	}
 }
 

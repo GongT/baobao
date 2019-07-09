@@ -1,4 +1,4 @@
-exports.load = function load(file) {
+exports.init = function init_env() {
 	Object.defineProperty(global, 'PROJECT_ROOT', {
 		value: process.cwd(),
 		writable: false,
@@ -12,6 +12,10 @@ exports.load = function load(file) {
 		configurable: false,
 		enumerable: true,
 	});
+};
+
+exports.load = function load(file) {
+	exports.init();
 	
 	Promise.resolve().then(() => {
 		return require(file).default();

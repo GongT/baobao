@@ -2,4 +2,4 @@
 
 require('source-map-support/register');
 
-require('./_loader').load(__dirname + '/../lib/call.js');
+require('../_loader').load(__dirname + '/../lib/call.js');
