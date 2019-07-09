@@ -21,7 +21,7 @@
     "@idlebox/basic-helpers": "^1.0.0"
   },
   "devDependencies": {
-    "@gongt/single-dog": "^2.0.5",
+    "@gongt/single-dog": "^2.0.7",
     "@idlebox/export-all-in-one": "^3.0.4",
     "@microsoft/api-extractor": "^7.2.3",
     "@types/node": "^12.6.1",

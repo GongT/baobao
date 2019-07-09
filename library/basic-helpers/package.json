@@ -17,7 +17,7 @@
     "source-map-support": "^0.5.12"
   },
   "devDependencies": {
-    "@gongt/single-dog": "^2.0.5",
+    "@gongt/single-dog": "^2.0.7",
     "@idlebox/build-script": "^1.0.2",
     "@idlebox/export-all-in-one": "^3.0.4",
     "@types/node": "^12.6.1",

@@ -18,9 +18,9 @@ export default async () => {
 
 	const fs = new Filesystem(CONTENT_ROOT);
 	// base config
-	fs.mergeIgnore('.gitignore', readTemplate('.gitignore'));
-	fs.mergeIgnore('.npmignore', readTemplate('.npmignore'));
-	fs.overwrite('.editorconfig', readTemplate('.editorconfig'));
+	fs.mergeIgnore('.gitignore', readTemplate('gitignore'));
+	fs.mergeIgnore('.npmignore', readTemplate('npmignore'));
+	fs.overwrite('.editorconfig', readTemplate('editorconfig'));
 	fs.placeFile('LICENSE', license(gitInfo.full));
 	fs.placeFile('README.md', `# ${projectBase}`);
 

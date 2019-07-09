@@ -1,4 +1,4 @@
-import { ensureLinkTarget } from '../../../../base/ensure-symlink';
+import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 
 export async function linkWithLog(from: string, symlink: string) {
 	const updated = await ensureLinkTarget(from, symlink);

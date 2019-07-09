@@ -6,7 +6,7 @@ import { relativePosix } from '../inc/paths';
 import { loadJsonFile, writeJsonFileBack, writeJsonFileIfChanged } from '@idlebox/node-json-edit';
 import { ensureDir } from 'fs-extra';
 import { getOptions } from '../inc/configFile';
-import { ensureLinkTarget } from '../../../../base/ensure-symlink';
+import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 
 async function rewriteProjectDtsJson() {
 	const json = await loadJsonFile(CONFIG_FILE);

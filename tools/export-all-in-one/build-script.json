@@ -1,5 +1,5 @@
 {
-	"$schema": "/data/DevelopmentRoot/github.com/gongt/idlebox/tools/build-script/schema.json",
+	"$schema": "/data/DevelopmentRoot/github.com/gongt/idlebox/tools/export-all-in-one/node_modules/@idlebox/build-script/schema.json",
 	"actions": {
 		"build": {
 			"type": "serial",
