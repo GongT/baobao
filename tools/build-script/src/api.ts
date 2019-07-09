@@ -1,6 +1,16 @@
 import { resolve } from 'path';
 import * as execa from 'execa';
 import { Gulp } from 'gulp';
+import * as log from 'fancy-log';
+
+let green: string = '';
+let red: string = '';
+let reset: string = '';
+if (process.stdout.isTTY) {
+	green = '\x1B[38;5;2m';
+	red = '\x1B[38;5;1m';
+	reset = '\x1B[0m';
+}
 
 function createJobFunc(jobName: string, command: string, args: string[]): ExecFunc {
 	if (!command) {
@@ -15,16 +25,21 @@ function createJobFunc(jobName: string, command: string, args: string[]): ExecFu
 		command = 'ts-node';
 	}
 	return Object.assign(async () => {
+		log('%s%s%s: %s %s.', green, jobName, reset, command, args.join(' '));
 		await execa(command, args, {
 			cwd: PROJECT_ROOT,
 			// env.path
 			stdio: 'inherit',
+		}).then(() => {
+			log('%s%s%s: success.', green, jobName, reset);
+		}, (e) => {
+			log('%s%s%s: failed: %s.', red, jobName, reset, e.message);
+			throw e;
 		});
 	}, {
 		displayName: `${jobName}Job`,
 		description: `${command} ${args.join(' ')}`,
 	});
-
 }
 
 export function loadToGulp(gulp: Gulp) {

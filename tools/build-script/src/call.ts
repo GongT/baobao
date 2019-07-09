@@ -22,16 +22,20 @@ export default async function callScript() {
 	}
 
 	return new Promise((resolve, reject) => {
-		const p = tasks[command]((e) => {
-			if (e) {
-				reject(e);
-			} else {
-				resolve();
-			}
-		});
+		try {
+			const p = Promise.resolve(tasks[command]((e) => {
+				if (e) {
+					reject(e);
+				} else {
+					resolve();
+				}
+			}));
 
-		if (p && p.then) {
-			p.then(resolve, reject);
+			if (p && p.then) {
+				p.then(resolve, reject);
+			}
+		} catch (e) {
+			reject(e);
 		}
 	});
 }
