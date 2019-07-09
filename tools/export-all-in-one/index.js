@@ -8,7 +8,7 @@ if (process.argv.includes('--inject')) {
 	p = require('./lib/mainBuild').default();
 }
 
-Promise.resolve().then(() => {
+Promise.resolve(p).then(() => {
 	process.exit(0);
 }, (err) => {
 	console.error('\x1B[K!');

@@ -1,16 +1,11 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/export-all-in-one",
-	"version": "3.0.3",
+	"version": "3.0.4",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/export-all-in-one",
 	"keywords": [
-		"typescript",
-		"library",
-		"ts",
-		"cli",
-		"concat",
-		"gulp-core-build"
+		"typescript", "library", "ts", "cli", "concat", "gulp-core-build"
 	],
 	"bin": {
 		"export-all-in-one": "./index.js"
@@ -30,8 +25,9 @@
 		"**/@types/node": "^12.0.10"
 	},
 	"dependencies": {
-		"@idlebox/ensure-symlink": "^1.0.4",
-		"@idlebox/node-json-edit": "^1.0.10",
+		"@idlebox/ensure-symlink": "^1.0.5",
+		"@idlebox/node-json-edit": "^1.0.11",
+		"@microsoft/api-extractor": "^7.2.3",
 		"@types/klaw": "^3.0.0",
 		"execa": "^2.0.2",
 		"fs-extra": "^8.1.0",
@@ -39,18 +35,16 @@
 		"tsconfig-paths": "^3.8.0"
 	},
 	"peerDependencies": {
-		"@microsoft/api-extractor": "*",
 		"typescript": ">=3"
 	},
 	"devDependencies": {
-		"@gongt/single-dog": "^2.0.2",
-		"@idlebox/build-script": ">=1.0.0",
-		"@microsoft/api-extractor": "^7.2.3",
+		"@gongt/single-dog": "^2.0.5",
+		"@idlebox/build-script": "^1.0.1",
 		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.0.12",
+		"@types/node": "^12.6.1",
 		"npm-check-updates": "^3.1.13",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^2.6.3",
-		"typescript": "^3.5.2"
+		"typescript": "^3.5.3"
 	}
 }

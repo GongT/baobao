@@ -2,7 +2,8 @@
 
 import { existsSync, lstatSync } from 'fs';
 import { platform, tmpdir } from 'os';
-import { dirname, resolve } from 'path';
+import { resolve } from 'path';
+import { findUp } from './findUp';
 
 const item = process.argv[process.argv.length - 1] || '.';
 const project = resolve(process.cwd(), item);
@@ -24,20 +25,11 @@ if (!configFilePath) {
 export const SOURCE_ROOT = resolve(configFilePath, '..');
 export const CONFIG_FILE = configFilePath;
 
-let itr = configFilePath;
-while (itr !== '/') {
-	itr = dirname(itr);
-	if (itr === '/' || /^[a-zA-Z]:\/?$/.test(itr)) {
-		throw new Error('Cannot find any package.json from tsconfig directory to root');
-	}
-
-	const pkgFile = resolve(itr, 'package.json');
-	if (existsSync(pkgFile)) {
-		break;
-	}
+const packageJsonFile = findUp(configFilePath, 'package.json');
+if (!packageJsonFile) {
+	throw new Error('Cannot find any package.json from tsconfig to root');
 }
-
-export const PROJECT_ROOT = resolve(itr);
+export const PROJECT_ROOT = resolve(packageJsonFile, '..');
 
 function getTemp() {
 	if (process.env.RUSH_TEMP_FOLDER) {

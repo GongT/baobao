@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { ModuleKind } from 'typescript';
 import { CONFIG_FILE, PROJECT_ROOT } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
-import { relativePosix } from 'inc/paths';
+import { relativePosix } from '../inc/paths';
 import { registerPlugin } from '@idlebox/build-script';
 
 export async function updatePackageJson(hookMode: boolean) {

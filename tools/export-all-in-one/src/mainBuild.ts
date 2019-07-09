@@ -1,11 +1,11 @@
-import { getOptions } from 'inc/configFile';
-import { pushApiExtractorPath } from 'actions/pushApiExtractorPath';
+import { getOptions } from './inc/configFile';
+import { pushApiExtractorPath } from './actions/pushApiExtractorPath';
 import { emptyDir } from 'fs-extra';
-import { EXPORT_TEMP_PATH } from 'inc/argParse';
-import { doGenerate } from 'actions/doGenerate';
-import { compileSource } from 'actions/compileSource';
-import { runApiExtractor } from 'actions/apiExtractor';
-import { compileIndex } from 'actions/compileIndex';
+import { EXPORT_TEMP_PATH } from './inc/argParse';
+import { doGenerate } from './actions/doGenerate';
+import { compileSource } from './actions/compileSource';
+import { runApiExtractor } from './actions/apiExtractor';
+import { compileIndex } from './actions/compileIndex';
 
 if (process.argv.includes('-v')) {
 	const configParseResult = getOptions();
