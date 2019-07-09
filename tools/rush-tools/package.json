@@ -1,6 +1,31 @@
 {
-  "name": "@idlebox/rush-tools",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+	"monorepo": "rush",
+	"name": "@idlebox/rush-tools",
+	"version": "1.0.0",
+	"bin": {
+		"rush-tools": "./bin.js"
+	},
+	"license": "MIT",
+	"scripts": {
+		"build": "build-script-call build",
+		"prepublish": "build-script-call prepublish",
+		"publishPackage": "build-script-call publish",
+		"test": "build-script-call test",
+		"upgrade": "ncu --upgrade --packageFile ./package.json",
+		"watch": "build-script-call watch"
+	},
+	"dependencies": {
+		"@idlebox/node-json-edit": "^1.0.11",
+		"fs-extra": "^8.1.0",
+		"jsonc": "^2.0.0",
+		"pacote": "^9.5.1"
+	},
+	"devDependencies": {
+		"@gongt/single-dog": "^2.0.5",
+		"@idlebox/build-script": "^1.0.1",
+		"@types/fs-extra": "^8.0.0",
+		"@types/node": "^12.6.1",
+		"source-map-support": "^0.5.12",
+		"typescript": "^3.5.3"
+	}
 }
