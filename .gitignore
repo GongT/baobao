@@ -2,6 +2,7 @@ common/temp
 node_modules
 dist
 *.log
+yarn.lock
 
 .idea/*
 !.idea/*.iml
