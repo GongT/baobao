@@ -1,8 +1,9 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/build-script",
-	"version": "0.0.1",
+	"version": "1.0.1",
 	"main": "./main.js",
+	"typings": "./lib/api.d.ts",
 	"bin": {
 		"build-script-call": "bin/call.js",
 		"build-script-init": "bin/init.js",
@@ -12,8 +13,10 @@
 	"scripts": {
 		"clean": "rimraf lib",
 		"watch": "tsc -p src -w",
-		"build": "tsc -p src",
-		"prepublish": "run-s -l clean build",
+		"build:define": "api-extractor --local --verbose",
+		"build:tsc": "tsc -p src",
+		"build": "run-s -l build:*",
+		"prepublish": "run-s -l clean build:*",
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
@@ -29,6 +32,7 @@
 	},
 	"devDependencies": {
 		"@gongt/single-dog": "^2.0.2",
+		"@microsoft/api-extractor": "^7.2.3",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.0.12",
 		"npm-check-updates": "^3.1.13",

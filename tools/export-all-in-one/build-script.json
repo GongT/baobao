@@ -1,5 +1,5 @@
 {
-	"$schema": "/data/DevelopmentRoot/github.com/gongt/idlebox/tools/schema.json",
+	"$schema": "/data/DevelopmentRoot/github.com/gongt/idlebox/tools/build-script/schema.json",
 	"actions": {
 		"build": {
 			"type": "serial",
@@ -95,5 +95,7 @@
 			"-w"
 		]
 	},
-	"plugins": []
+	"plugins": [
+		"@gongt/single-dog/register"
+	]
 }

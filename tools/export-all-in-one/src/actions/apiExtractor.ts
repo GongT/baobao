@@ -1,9 +1,9 @@
 import { API_CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT } from '../inc/argParse';
-import { writeJsonFileIfChanged } from '../../../../library/node-json-edit/lib';
 import { copyFile, ensureDir, mkdirpSync } from 'fs-extra';
 import { dirname, resolve } from 'path';
 import { run } from '../inc/run';
 import { projectPackagePath } from '../inc/package';
+import { writeJsonFileIfChanged } from '@idlebox/node-json-edit';
 
 const apiExtractorJson = {
 	$schema: 'https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json',

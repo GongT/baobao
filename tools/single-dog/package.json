@@ -1,7 +1,7 @@
 {
 	"main": "./lib/index.js",
 	"name": "@gongt/single-dog",
-	"version": "2.0.3",
+	"version": "2.0.5",
 	"license": "MIT",
 	"bin": {
 		"single-dog": "./bin.js"
@@ -9,22 +9,22 @@
 	"scripts": {
 		"build": "build-script-call build",
 		"prepublish": "build-script-call prepublish",
-		"publishPackage": "build-script-call publishPackage",
+		"publishPackage": "build-script-call publish",
 		"test": "build-script-call test",
 		"watch": "build-script-call watch"
 	},
 	"monorepo": true,
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.4",
-		"@idlebox/node-json-edit": "^1.0.7",
+		"@idlebox/node-json-edit": "^1.0.10",
 		"fs-extra": "^8.1.0",
 		"pacote": "^9.5.1",
 		"source-map-support": "^0.5.12"
 	},
 	"devDependencies": {
+		"@idlebox/build-script": "^1.0.0",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.0.12",
-		"typescript": "^3.5.2",
-		"@idlebox/build-script": ">=0.0.1"
+		"typescript": "^3.5.2"
 	}
 }

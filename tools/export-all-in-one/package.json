@@ -1,60 +1,56 @@
 {
-  "name": "@idlebox/export-all-in-one",
-  "version": "3.0.2",
-  "description": "write your library with typescript. make all exports available from single entry.",
-  "repository": "https://github.com/GongT/export-all-in-one",
-  "keywords": [
-    "typescript",
-    "library",
-    "ts",
-    "cli",
-    "concat",
-    "gulp-core-build"
-  ],
-  "bin": {
-    "export-all-in-one": "./index.js"
-  },
-  "main": "./lib/main.js",
-  "author": "GongT <gongteng524702837@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "build": "run-p prebuild:* build:* postbuild:*",
-    "build:tsc": "tsc -p src",
-    "prebuild:clean": "rimraf lib dist",
-    "prepack": "run-p prepare prepack:* build",
-    "prepare": "run-p prepare:*",
-    "prepare:single-dog": "single-dog",
-    "publish-package": "run-p build publish-package:yarn",
-    "publish-package:yarn": "yarn publish --registry https://registry.npmjs.org --access=public",
-    "upgrade": "ncu --upgrade --packageFile ./package.json",
-    "watch": "run-s prebuild:* watch:*",
-    "watch:tsc": "tsc -w -p src"
-  },
-  "resolutions": {
-    "**/@types/node": "^12.0.10"
-  },
-  "monorepo": true,
-  "dependencies": {
-    "@idlebox/ensure-symlink": "^1.0.4",
-    "@idlebox/node-json-edit": "^1.0.7",
-    "@types/klaw": "^3.0.0",
-    "execa": "^2.0.2",
-    "fs-extra": "^8.1.0",
-    "source-map-support": "^0.5.12",
-    "tsconfig-paths": "^3.8.0"
-  },
-  "peerDependencies": {
-    "@microsoft/api-extractor": "*",
-    "typescript": ">=3"
-  },
-  "devDependencies": {
-    "@gongt/single-dog": "^2.0.2",
-    "@microsoft/api-extractor": "^7.2.2",
-    "@types/fs-extra": "^8.0.0",
-    "@types/node": "^12.0.12",
-    "npm-check-updates": "^3.1.13",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^2.6.3",
-    "typescript": "^3.5.2"
-  }
+	"monorepo": "rush",
+	"name": "@idlebox/export-all-in-one",
+	"version": "3.0.3",
+	"description": "write your library with typescript. make all exports available from single entry.",
+	"repository": "https://github.com/GongT/export-all-in-one",
+	"keywords": [
+		"typescript",
+		"library",
+		"ts",
+		"cli",
+		"concat",
+		"gulp-core-build"
+	],
+	"bin": {
+		"export-all-in-one": "./index.js"
+	},
+	"main": "./lib/main.js",
+	"author": "GongT <gongteng524702837@gmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"build": "build-script-call build",
+		"prepublish": "build-script-call prepublish",
+		"publishPackage": "build-script-call publish",
+		"test": "build-script-call test",
+		"upgrade": "ncu --upgrade --packageFile ./package.json",
+		"watch": "build-script-call watch"
+	},
+	"resolutions": {
+		"**/@types/node": "^12.0.10"
+	},
+	"dependencies": {
+		"@idlebox/ensure-symlink": "^1.0.4",
+		"@idlebox/node-json-edit": "^1.0.10",
+		"@types/klaw": "^3.0.0",
+		"execa": "^2.0.2",
+		"fs-extra": "^8.1.0",
+		"source-map-support": "^0.5.12",
+		"tsconfig-paths": "^3.8.0"
+	},
+	"peerDependencies": {
+		"@microsoft/api-extractor": "*",
+		"typescript": ">=3"
+	},
+	"devDependencies": {
+		"@gongt/single-dog": "^2.0.2",
+		"@idlebox/build-script": ">=1.0.0",
+		"@microsoft/api-extractor": "^7.2.3",
+		"@types/fs-extra": "^8.0.0",
+		"@types/node": "^12.0.12",
+		"npm-check-updates": "^3.1.13",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^2.6.3",
+		"typescript": "^3.5.2"
+	}
 }

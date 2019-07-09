@@ -1,7 +1,7 @@
 import { pathExists } from 'fs-extra';
 import { basename, resolve } from 'path';
 import { IGitInfo } from '../inc/gitName';
-import { defaultJsonFormatConfig, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile } from './node-json-edit';
+import { defaultJsonFormatConfig, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
 import { findUpUntil } from '../inc/findUpUntil';
 
 const { manifest } = require('pacote');
@@ -47,11 +47,6 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 		packageJson.scripts = {};
 	}
 
-	packageJson.scripts['watch'] = 'call-build-script watch';
-	packageJson.scripts['build'] = 'call-build-script build';
-	packageJson.scripts['prepack'] = 'call-build-script prepack';
-	packageJson.scripts['prepare'] = 'call-build-script prepare';
-	packageJson.scripts['publish-package'] = 'call-build-script publish';
 	packageJson.scripts['upgrade'] = 'ncu --upgrade --packageFile ./package.json';
 
 	if (!packageJson.bin) {

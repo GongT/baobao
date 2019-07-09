@@ -3,7 +3,6 @@
 import { existsSync, lstatSync } from 'fs';
 import { platform, tmpdir } from 'os';
 import { dirname, resolve } from 'path';
-import { relativePosix } from './paths';
 
 const item = process.argv[process.argv.length - 1] || '.';
 const project = resolve(process.cwd(), item);
@@ -39,7 +38,6 @@ while (itr !== '/') {
 }
 
 export const PROJECT_ROOT = resolve(itr);
-export const CONFIG_FILE_REL = relativePosix(itr, CONFIG_FILE);
 
 function getTemp() {
 	if (process.env.RUSH_TEMP_FOLDER) {

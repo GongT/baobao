@@ -2,6 +2,7 @@
 	"extends": "../../single-dog/package/tsconfig.json",
 	"compilerOptions": {
 		"outDir": "../lib",
+		"stripInternal": true,
 		"rootDir": ".",
 		"typeRoots": [
 			"../node_modules/@types"

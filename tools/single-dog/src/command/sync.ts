@@ -6,6 +6,7 @@ import { linkWithLog } from '../inc/linkLog';
 import { locateRootRelativeToProject, readTemplate } from '../inc/template';
 import { updatePackageJson } from '../jobs/packageJson';
 import { updateTsconfigJson } from '../jobs/tsconfigJson';
+import { runBuildScriptInit } from '../jobs/buildScript';
 
 export default async () => {
 	const gitInfo = await getGitName();
@@ -41,6 +42,8 @@ export default async () => {
 			fs.exec('git add .');
 		}
 	}
+
+	await runBuildScriptInit();
 
 	console.log('Yes.');
 };
