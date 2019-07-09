@@ -1,7 +1,7 @@
-import { readdir, writeFile } from 'fs-extra';
+import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { ensureDir, readdir, writeFile } from 'fs-extra';
 import { resolve } from 'path';
 import { locateRootRelativeToProject } from '../inc/template';
-import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 
 async function writeTestIndex() {
 	console.log('create hello world index.ts.');
@@ -13,6 +13,8 @@ export function test(): string {
 }
 
 export async function updateTsconfigJson() {
+	await ensureDir(resolve(CONTENT_ROOT, 'src'));
+
 	const tsconfigPath = resolve(CONTENT_ROOT, 'src/tsconfig.json');
 	const tsconfig: any = await loadJsonFileIfExists(tsconfigPath);
 	tsconfig.extends = locateRootRelativeToProject('src/tsconfig.json', 'package/tsconfig.json');

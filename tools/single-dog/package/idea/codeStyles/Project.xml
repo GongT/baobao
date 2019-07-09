@@ -30,7 +30,7 @@
     <JSON>
       <option name="ARRAY_WRAPPING" value="5" />
     </JSON>
-    <TypeScriptCodeStyleSettings version="0">
+    <TypeScriptCodeStyleSettings version="1">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="USE_PUBLIC_MODIFIER" value="true" />
       <option name="USE_DOUBLE_QUOTES" value="false" />
@@ -39,7 +39,7 @@
       <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
       <option name="USE_CHAINED_CALLS_GROUP_INDENTS" value="true" />
-      <option name="IMPORT_PREFER_ABSOLUTE_PATH" value="TRUE" />
+      <option name="IMPORT_SORT_MODULE_NAME" value="true" />
     </TypeScriptCodeStyleSettings>
     <XML>
       <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />

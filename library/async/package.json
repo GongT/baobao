@@ -1,33 +1,33 @@
 {
-	"main": "lib/_export_all_in_once_index.js",
-	"monorepo": true,
-	"name": "@idlebox/async",
-	"typings": "docs/package-public.d.ts",
-	"version": "1.0.0",
-	"dependencies": {
-		"@idlebox/errors": "~1.0.2"
-	},
-	"devDependencies": {
-		"@gongt/single-dog": "^2.0.2",
-		"@idlebox/export-all-in-one": "^3.0.2",
-		"@microsoft/api-extractor": "^7.2.2",
-		"@types/node": "^12.0.12",
-		"npm-check-updates": "^3.1.13",
-		"rimraf": "^2.6.3",
-		"typescript": "^3.5.2",
-		"npm-run-all": "^4.1.5"
-	},
-	"scripts": {
-		"build": "run-p prebuild:* build:* postbuild:*",
-		"build:tsc": "tsc -p src",
-		"prebuild:clean": "rimraf lib dist",
-		"prepack": "run-p prepare prepack:* build",
-		"prepare": "run-p prepare:*",
-		"prepare:single-dog": "single-dog",
-		"publish-package": "run-p build publish-package:yarn",
-		"publish-package:yarn": "yarn publish --registry https://registry.npmjs.org --access=public",
-		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "run-s watch:*",
-		"watch:tsc": "tsc -w -p src"
-	}
+  "main": "lib/_export_all_in_once_index.js",
+  "monorepo": true,
+  "name": "@idlebox/async",
+  "typings": "docs/package-public.d.ts",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "run-p prebuild:* build:* postbuild:*",
+    "build:tsc": "tsc -p src",
+    "prebuild:clean": "rimraf lib dist",
+    "prepack": "run-p prepare prepack:* build",
+    "prepare": "run-p prepare:*",
+    "prepare:single-dog": "single-dog",
+    "publish-package": "run-p build publish-package:yarn",
+    "publish-package:yarn": "yarn publish --registry https://registry.npmjs.org --access=public",
+    "upgrade": "ncu --upgrade --packageFile ./package.json",
+    "watch": "run-s watch:*",
+    "watch:tsc": "tsc -w -p src"
+  },
+  "dependencies": {
+    "@idlebox/errors": "^1.0.2"
+  },
+  "devDependencies": {
+    "@gongt/single-dog": "^2.0.5",
+    "@idlebox/export-all-in-one": "^3.0.3",
+    "@microsoft/api-extractor": "^7.2.3",
+    "@types/node": "^12.6.1",
+    "npm-check-updates": "^3.1.13",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.5.3"
+  }
 }
