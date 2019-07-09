@@ -48,7 +48,7 @@ export function writeJsonFile(file: string, data: any): Promise<void> {
 }
 
 export async function writeJsonFileIfChanged(file: string, data: any, charset: string = realDefault.encoding): Promise<void> {
-	if (!_getFormatInfo(data) && await access(file).catch(() => false)) {
+	if (!_getFormatInfo(data) && await access(file).then(() => true, () => false)) {
 		const config = _getFormatInfo(await loadJsonFile(file, charset))!;
 		attachFormatConfig(data, config);
 	}
@@ -79,7 +79,7 @@ export async function _realWriteJsonFile(_file: string | undefined, data: any, f
 }
 
 export async function loadJsonFileIfExists(file: string, defaultValue: any = {}, charset: string = realDefault.encoding!): Promise<any> {
-	if (await access(file).catch(() => false)) {
+	if (await access(file).then(() => true, () => false)) {
 		return loadJsonFile(file, charset);
 	} else {
 		const ret: any = JSON.parse(JSON.stringify(defaultValue));
