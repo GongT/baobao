@@ -1,7 +1,7 @@
 import 'source-map-support';
 import { existsSync, mkdirSync, unlink } from 'fs';
 import { dirname } from 'path';
-import { insertKeyAlphabet, LineFeed, loadJsonFile, parseJsonText, reformatJson, writeJsonFile, writeJsonFileBack } from './index';
+import { insertKeyAlphabet, LineFeed, loadJsonFile, parseJsonText, reformatJson, writeJsonFile, writeJsonFileBack } from './node-json-edit';
 
 process.chdir(dirname(__dirname));
 if (!existsSync('test')) {

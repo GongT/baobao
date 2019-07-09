@@ -184,6 +184,7 @@ export function getFormatInfo(data: any): IFileFormatConfig | undefined {
 }
 
 function attachFormatConfig(data: any, config: IFileInternalConfig) {
+	delete data[configSymbol];
 	Object.defineProperty(data, configSymbol, {
 		value: config,
 		enumerable: false,
@@ -210,7 +211,7 @@ function parseTextFormat(text: string): IFileInternalConfig {
 		config.lineFeed = LineFeed.NONE;
 		config.tabs = realDefault.tabs;
 	}
-	config.lastNewLine = lastClose === (text.length - 1);
+	config.lastNewLine = lastClose !== (text.length - 1);
 
 	return config;
 }
