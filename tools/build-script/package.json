@@ -13,10 +13,8 @@
 	"scripts": {
 		"clean": "rimraf lib",
 		"watch": "tsc -p src -w",
-		"build:define": "api-extractor --local --verbose",
-		"build:tsc": "tsc -p src",
-		"build": "run-s -l build:*",
-		"prepublish": "run-s -l clean build:*",
+		"build": "tsc -p src",
+		"prepublish": "run-s -l clean build",
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
