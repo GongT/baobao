@@ -46,47 +46,53 @@
 	"projects": [
 		{
 			"packageName": "@idlebox/ensure-symlink",
-			"projectFolder": "base/ensure-symlink"
-		},
-		{
+			"projectFolder": "base/ensure-symlink",
+			"shouldPublish": true
+		}, {
+			"packageName": "@idlebox/platform",
+			"projectFolder": "library/platform",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/build-script",
-			"projectFolder": "tools/build-script"
-		},
-		{
+			"projectFolder": "tools/build-script",
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@gongt/single-dog"]
+		}, {
 			"packageName": "@idlebox/errors",
-			"projectFolder": "library/errors"
-		},
-		{
+			"projectFolder": "library/errors",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/async",
-			"projectFolder": "library/async"
-		},
-		{
+			"projectFolder": "library/async",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/lifecycle",
-			"projectFolder": "library/lifecycle"
-		},
-		{
+			"projectFolder": "library/lifecycle",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/reflect",
-			"projectFolder": "library/reflect"
-		},
-		{
+			"projectFolder": "library/reflect",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/basic-helpers",
-			"projectFolder": "library/basic-helpers"
-		},
-		{
+			"projectFolder": "library/basic-helpers",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/node-json-edit",
-			"projectFolder": "base/node-json-edit"
-		},
-		{
+			"projectFolder": "base/node-json-edit",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/export-all-in-one",
-			"projectFolder": "tools/export-all-in-one"
-		},
-		{
+			"projectFolder": "tools/export-all-in-one",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/rush-tools",
-			"projectFolder": "tools/rush-tools"
-		},
-		{
+			"projectFolder": "tools/rush-tools",
+			"shouldPublish": true
+		}, {
 			"packageName": "@gongt/single-dog",
-			"projectFolder": "tools/single-dog"
+			"projectFolder": "tools/single-dog",
+			"shouldPublish": true
 		}
 	]
 }
