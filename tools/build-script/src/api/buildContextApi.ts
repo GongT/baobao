@@ -25,10 +25,16 @@ export default {
 		config.jobs[name] = [command, ...args];
 	},
 	prependActionStep(action: string, job: string) {
-		getOrCreateAction(action).sequence.unshift(job);
+		const seq = getOrCreateAction(action).sequence;
+		if (!seq.includes(job)) {
+			seq.unshift(job);
+		}
 	},
 	appendActionStep(action: string, job: string) {
-		getOrCreateAction(action).sequence.push(job);
+		const seq = getOrCreateAction(action).sequence;
+		if (!seq.includes(job)) {
+			seq.push(job);
+		}
 	},
 	prefixAction(action: string, job: string) {
 		this.prependActionStep(action, '@pre' + action);

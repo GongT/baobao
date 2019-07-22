@@ -82,6 +82,10 @@ export declare interface ITimeFormatter {
     (s: number): string;
 }
 
+export declare interface IUniqueIdFactory<T> {
+    (item: T): string;
+}
+
 export declare function lcfirst(str: string): string;
 
 export declare function linux_case(str: string): string;
@@ -129,5 +133,7 @@ export declare function timeStringTiny(ms: number): string;
 export declare function tryInspect(object: any): any;
 
 export declare function ucfirst(str: string): string;
+
+export declare function uniqueFilter<T>(idFactory?: IUniqueIdFactory<T>): (item: T) => boolean;
 
 export { }

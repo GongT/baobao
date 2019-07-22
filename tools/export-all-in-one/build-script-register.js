@@ -1,1 +1,1 @@
-throw new Error('aaa');
+require('./lib/hookedBuild');

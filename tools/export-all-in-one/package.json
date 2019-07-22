@@ -32,9 +32,9 @@
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.12",
-		"@microsoft/api-extractor": "^7.2.3",
+		"@microsoft/api-extractor": "^7.3.2",
 		"@types/klaw": "^3.0.0",
-		"execa": "^2.0.2",
+		"execa": "^2.0.3",
 		"fs-extra": "^8.1.0",
 		"source-map-support": "^0.5.12",
 		"tsconfig-paths": "^3.8.0"
@@ -46,8 +46,8 @@
 		"@gongt/single-dog": "^2.0.7",
 		"@idlebox/build-script": "^1.0.2",
 		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.6.1",
-		"npm-check-updates": "^3.1.13",
+		"@types/node": "^12.6.8",
+		"npm-check-updates": "^3.1.20",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^2.6.3",
 		"typescript": "^3.5.3"

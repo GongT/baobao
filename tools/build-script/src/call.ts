@@ -1,7 +1,14 @@
 import callGulpScript from './api/callGulpScript';
 import { PROJECT_ROOT } from './global';
 
-export default function () {
+export default async function () {
+	require('source-map-support/register');
+
+	try {
+		require('gulp');
+	} catch {
+		throw new Error('No gulp installed');
+	}
 	const gulp = require('gulp');
 
 	const argv = process.argv.slice(2);
@@ -10,6 +17,7 @@ export default function () {
 	if (!command) {
 		throw new Error('Must set an action to run');
 	}
+	console.log('running command `%s` in "%s"', command, PROJECT_ROOT);
 
-	return callGulpScript(gulp, PROJECT_ROOT, command);
+	await callGulpScript(gulp, PROJECT_ROOT, command);
 }

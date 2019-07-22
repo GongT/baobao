@@ -1,10 +1,10 @@
+import { registerPlugin } from '@idlebox/build-script';
 import { insertKeyAlphabet, loadJsonFile, writeJsonFile } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
 import { ModuleKind } from 'typescript';
 import { CONFIG_FILE, PROJECT_ROOT } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
 import { relativePosix } from '../inc/paths';
-import { registerPlugin } from '@idlebox/build-script';
 
 export async function updatePackageJson(hookMode: boolean) {
 	const configRel = relativePosix(PROJECT_ROOT, CONFIG_FILE);
@@ -35,7 +35,7 @@ export async function updatePackageJson(hookMode: boolean) {
 	}
 
 	if (hookMode) {
-		registerPlugin(PROJECT_ROOT, '@idlebox/export-all-in-one/build-script-register');
+		await registerPlugin(PROJECT_ROOT, '@idlebox/export-all-in-one/build-script-register', [configRel]);
 	} else {
 		if (!packageJson.scripts) {
 			insertKeyAlphabet(packageJson, 'scripts', {});

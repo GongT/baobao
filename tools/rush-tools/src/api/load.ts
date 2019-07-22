@@ -27,9 +27,17 @@ export function getCurrentRushConfigPath() {
 	return configPath;
 }
 
+export function getCurrentRushRootPath() {
+	return resolve(configPath, '..');
+}
+
 export function getCurrentRushConfig() {
 	if (!config) {
 		loadRushJson();
 	}
 	return config;
+}
+
+export function toAbsoluteProjectPath(projectFolder: string) {
+	return resolve(getCurrentRushRootPath(), projectFolder);
 }

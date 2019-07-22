@@ -19,10 +19,10 @@
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "^1.0.12",
-		"@types/execa": "^0.9.0",
+		"@idlebox/platform": "^1.0.0",
 		"@types/fancy-log": "^1.3.1",
 		"@types/gulp": "^4.0.6",
-		"execa": "^2.0.2",
+		"execa": "^2.0.3",
 		"fancy-log": "^1.3.3",
 		"fs-extra": "^8.1.0",
 		"gulp": "^4.0.2",
@@ -30,10 +30,10 @@
 	},
 	"devDependencies": {
 		"@gongt/single-dog": "^2.0.7",
-		"@microsoft/api-extractor": "^7.2.3",
+		"@microsoft/api-extractor": "^7.3.2",
 		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.6.1",
-		"npm-check-updates": "^3.1.13",
+		"@types/node": "^12.6.8",
+		"npm-check-updates": "^3.1.20",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^2.6.3",
 		"typescript": "^3.5.3"

@@ -1,8 +1,9 @@
 import * as execa from 'execa';
-import { Gulp } from 'gulp';
 import * as log from 'fancy-log';
-import { ExecFunc } from './types';
+import { Gulp } from 'gulp';
+import { fancyLog } from '../inc/fancyLog';
 import load from './load';
+import { ExecFunc } from './types';
 
 let green: string = '';
 let red: string = '';
@@ -43,12 +44,13 @@ function createJobFunc(jobName: string, path: string, command: string, args: str
 	});
 }
 
-export default function (path: string, gulp: Gulp) {
+export default function (gulp: Gulp, path: string = process.cwd()): { [id: string]: ExecFunc } {
 	const buildConfig = load(path);
+	// fancyLog.debug(buildConfig);
 
 	const jobTasks: { [id: string]: ExecFunc } = {};
 	for (const [name, job] of Object.entries(buildConfig.jobs)) {
-		// console.log('[build-script] load job: %s', name);
+		fancyLog.debug('[build-script] load job: %s = %s', name, job[0]);
 		jobTasks[name] = createJobFunc(name, path, job[0], job.slice(1));
 	}
 
@@ -60,6 +62,7 @@ export default function (path: string, gulp: Gulp) {
 		const before = Object.keys(actionsRef).length;
 
 		ACTION_LOOP: for (const [actionName, { type, exported, sequence }] of Object.entries(actionsRef)) {
+			fancyLog.debug('walk: %s = %s', actionName, sequence.join(', '));
 			const resolved: ExecFunc[] = [];
 			for (const jobName of sequence) {
 				if (jobName.startsWith('@')) {
@@ -69,7 +72,7 @@ export default function (path: string, gulp: Gulp) {
 					} else if (actionTasks[wantAction]) {
 						resolved.push(actionTasks[wantAction]);
 					} else if (actionsRef[wantAction]) {
-						// console.log('[build-script] wait other action "%s" when loading action: %s', jobName, actionName);
+						fancyLog.debug('wait other action "%s" when loading action: %s', jobName, actionName);
 						continue ACTION_LOOP;
 					} else {
 						throw new Error(`Unknown action "${jobName}" in action "${actionName}"`);
@@ -86,7 +89,7 @@ export default function (path: string, gulp: Gulp) {
 
 			delete actionsRef[actionName];
 			if (resolved.length === 0) {
-				// console.log('[build-script] load empty action: %s', actionName);
+				fancyLog.debug('load empty action: %s', actionName);
 				emptyTasks[actionName] = true;
 				continue;
 			}
@@ -95,23 +98,23 @@ export default function (path: string, gulp: Gulp) {
 				actionTasks[actionName] = resolved[0];
 			} else {
 				if (type === 'serial') {
-					// console.log('[build-script] load serial action: %s', actionName);
+					fancyLog.debug('load serial action: %s = %s', actionName, resolved.map(func => func.displayName).join(', '));
 					actionTasks[actionName] = gulp.series(...resolved);
 				} else {
-					// console.log('[build-script] load parallel action: %s', actionName);
+					fancyLog.debug('load parallel action: %s = %s', actionName, resolved.map(func => func.displayName).join(', '));
 					actionTasks[actionName] = gulp.parallel(...resolved);
 				}
 				Object.assign(actionTasks[actionName], { displayName: actionName + 'Action' });
 			}
 			if (exported) {
-				// console.log('[build-script] export action: %s', actionName);
+				fancyLog.debug('export action: %s = %s', actionName, resolved.map(func => func.displayName).join(', '));
 				exportedActionTasks[actionName] = actionTasks[actionName];
 				gulp.task(actionName, actionTasks[actionName]);
 			}
 		}
 
 		const after = Object.keys(actionsRef).length;
-		// console.log('[build-script] before=%s, after=%s', before, after);
+		fancyLog.debug('before=%s, after=%s', before, after);
 		if (after === 0) {
 			break;
 		}

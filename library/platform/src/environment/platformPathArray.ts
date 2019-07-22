@@ -1,5 +1,31 @@
-export interface EnvMap {
-	[id: string]: string;
+import { uniqueFilter } from '@idlebox/basic-helpers';
+import { normalize, sep as PathListSep } from 'path';
+
+export interface ProcessEnv {
+	[key: string]: string | undefined;
+}
+
+export function findEnvironment(name: string, object: ProcessEnv = process.env) {
+	const lname = name.toLowerCase();
+	for (const key of Object.keys(object)) {
+		if (key.toLowerCase() === lname) {
+			return {
+				key: key,
+				value: object[key],
+			};
+		}
+	}
+	return undefined;
+}
+
+export function removeEnvironment(name: string, object: NodeJS.ProcessEnv = process.env) {
+	const lname = name.toLowerCase();
+	for (const key of Object.keys(object)) {
+		if (key.toLowerCase() === lname) {
+			delete object[key];
+		}
+	}
+	return undefined;
 }
 
 export class PlatformPathArray {
@@ -7,13 +33,14 @@ export class PlatformPathArray {
 
 	constructor(
 		private readonly envName: string,
-		private readonly env: EnvMap = {},
+		private readonly env: ProcessEnv = {},
 	) {
 		const original = findEnvironment(envName, env);
 		if (original) {
 			removeEnvironment(original.key, env);
 			env[envName] = original.value;
 		}
+		this.current = [];
 		this.reload();
 	}
 
@@ -33,7 +60,7 @@ export class PlatformPathArray {
 		this.current = this.current
 			.map((item) => item.replace(/[\\\/]+$/, ''))
 			.map(path => normalize(path))
-			.filter(uniqueFilter(i => i));
+			.filter(uniqueFilter());
 		this.env[this.envName] = this.current.join(PathListSep);
 	}
 

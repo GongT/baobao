@@ -1,29 +1,28 @@
 {
-  "main": "./lib/index.js",
-  "monorepo": "rush",
-  "name": "@idlebox/basic-helpers",
-  "typings": "docs/package-public.d.ts",
-  "version": "1.0.0",
-  "license": "MIT",
-  "scripts": {
-    "build": "build-script-call build",
-    "prepublish": "build-script-call prepublish",
-    "publishPackage": "build-script-call publish",
-    "test": "build-script-call test",
-    "upgrade": "ncu --upgrade --packageFile ./package.json",
-    "watch": "build-script-call watch"
-  },
-  "dependencies": {
-    "source-map-support": "^0.5.12"
-  },
-  "devDependencies": {
-    "@gongt/single-dog": "^2.0.7",
-    "@idlebox/build-script": "^1.0.2",
-    "@idlebox/export-all-in-one": "^3.0.4",
-    "@types/node": "^12.6.1",
-    "npm-check-updates": "^3.1.13",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^2.6.3",
-    "typescript": "^3.5.3"
-  }
+	"monorepo": "rush",
+	"name": "@idlebox/basic-helpers",
+	"typings": "docs/package-public.d.ts",
+	"version": "1.0.0",
+	"license": "MIT",
+	"main": "./lib/_export_all_in_once_index.js",
+	"scripts": {
+		"build": "build-script-call build",
+		"prepublish": "build-script-call prepublish",
+		"publishPackage": "build-script-call publish",
+		"test": "build-script-call test",
+		"upgrade": "ncu --upgrade --packageFile ./package.json",
+		"watch": "build-script-call watch"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@gongt/single-dog": "^2.0.7",
+		"@idlebox/build-script": "^1.0.2",
+		"@idlebox/export-all-in-one": "^3.0.4",
+		"@types/node": "^12.6.8",
+		"gulp": "^4.0.2",
+		"npm-check-updates": "^3.1.20",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^2.6.3",
+		"typescript": "^3.5.3"
+	}
 }

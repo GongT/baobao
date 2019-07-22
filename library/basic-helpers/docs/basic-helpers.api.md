@@ -167,6 +167,14 @@ export interface ITimeFormatter {
     (s: number): string;
 }
 
+// Warning: (ae-missing-release-tag) "IUniqueIdFactory" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface IUniqueIdFactory<T> {
+    // (undocumented)
+    (item: T): string;
+}
+
 // Warning: (ae-missing-release-tag) "lcfirst" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -277,6 +285,11 @@ export function tryInspect(object: any): any;
 // 
 // @public (undocumented)
 export function ucfirst(str: string): string;
+
+// Warning: (ae-missing-release-tag) "uniqueFilter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function uniqueFilter<T>(idFactory?: IUniqueIdFactory<T>): (item: T) => boolean;
 
 
 // (No @packageDocumentation comment for this package)

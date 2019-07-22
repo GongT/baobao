@@ -1,7 +1,9 @@
 import { runAutoFix } from './commands/autofix';
+import { runForEach } from './commands/foreach';
 
 const commandRegistry: { [id: string]: () => Promise<void> } = {
 	autofix: runAutoFix,
+	each: runForEach,
 };
 
 export default function main() {

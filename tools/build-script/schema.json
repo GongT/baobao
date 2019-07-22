@@ -9,7 +9,20 @@
 		"plugins": {
 			"type": "array",
 			"items": {
-				"type": "string"
+				"type": "object",
+				"additionalProperties": false,
+				"required": ["name"],
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"args": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
 			}
 		},
 		"jobs": {

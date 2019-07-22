@@ -16,15 +16,16 @@
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "^1.0.12",
+		"execa": "^2.0.3",
 		"fs-extra": "^8.1.0",
 		"jsonc": "^2.0.0",
-		"pacote": "^9.5.1"
+		"pacote": "^9.5.4"
 	},
 	"devDependencies": {
 		"@gongt/single-dog": "^2.0.7",
 		"@idlebox/build-script": "^1.0.2",
 		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.6.1",
+		"@types/node": "^12.6.8",
 		"source-map-support": "^0.5.12",
 		"typescript": "^3.5.3"
 	}

@@ -1,26 +1,24 @@
-import loadToGulp from './loadToGulp';
 import { Gulp } from 'gulp';
+import { fancyLog } from '../inc/fancyLog';
+import loadToGulp from './loadToGulp';
 
 export default async function (gulp: Gulp, path: string, command: string) {
-	const tasks = await loadToGulp(path, gulp);
+	const tasks = loadToGulp(gulp, path);
 
 	if (!tasks[command]) {
 		throw new Error('No such action: ' + command);
 	}
 
-	return new Promise((resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		try {
-			const p = Promise.resolve(tasks[command]((e) => {
+			fancyLog.debug('executing gulp task: %s', command, tasks[command]);
+			tasks[command]((e) => {
 				if (e) {
 					reject(e);
 				} else {
 					resolve();
 				}
-			}));
-
-			if (p && p.then) {
-				p.then(resolve, reject);
-			}
+			});
 		} catch (e) {
 			reject(e);
 		}

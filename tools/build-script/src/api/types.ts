@@ -19,9 +19,13 @@ export  type IJobDefine = string[];
 export interface IBuildScriptJson {
 	actions: IActionMap;
 	jobs: IJobMap;
-	plugins: string[];
+	plugins: {
+		name: string;
+		args?: string[];
+	}[];
 }
 
 export interface ExecFunc {
 	(done: (error?: any) => void): Promise<void>;
+	displayName?: string;
 }
