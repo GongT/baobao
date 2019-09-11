@@ -32,6 +32,11 @@ export function findUpUntil(from: string, file: string): Promise<string | null>;
 // @public (undocumented)
 export function findUpUntilSync(from: string, file: string): string | null;
 
+// Warning: (ae-missing-release-tag) "getAllPathUpToRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function getAllPathUpToRoot(from: string, append?: string): string[];
+
 // Warning: (ae-missing-release-tag) "nodeProcessEnv" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)

@@ -42,7 +42,7 @@ async function writeDtsJson() {
 			stripInternal: true,
 			typeRoots: command.options.typeRoots,
 		},
-		exclude: ['_export_all_in_once_index.ts'],
+		exclude: ['_export_all_in_one_index.ts'],
 		include: ['extracted-source/**/*.ts', 'extracted-source/**/*.json'],
 		files: [],
 	});
@@ -57,8 +57,8 @@ export function getOutputFilePath(relativeTo: string, options: CompilerOptions) 
 	if (!targetDir) {
 		throw new Error('Please compile to other directory, do not compile in place.');
 	}
-	console.log(relativeTo, resolve(targetDir, '_export_all_in_once_index'));
-	return relativePosix(relativeTo, resolve(targetDir, '_export_all_in_once_index'));
+	console.log(relativeTo, resolve(targetDir, '_export_all_in_one_index'));
+	return relativePosix(relativeTo, resolve(targetDir, '_export_all_in_one_index'));
 }
 
 export async function compileSource() {

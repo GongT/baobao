@@ -1,8 +1,13 @@
+import { getAllPathUpToRoot, PlatformPathArray } from '@idlebox/platform';
+import { dirname } from 'path';
 import callGulpScript from './api/callGulpScript';
 import { PROJECT_ROOT } from './global';
 
 export default async function () {
 	require('source-map-support/register');
+
+	const path = new PlatformPathArray('path');
+	path.append(...getAllPathUpToRoot(dirname(__dirname), 'node_modules/.bin'));
 
 	try {
 		require('gulp');

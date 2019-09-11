@@ -1,5 +1,5 @@
 import { AsyncDisposable, Disposable, IDisposable } from '@idlebox/lifecycle';
-import { hookClass } from './hookClass';
+import { hookClass } from '@idlebox/reflect';
 
 export function globalDispose(relatedWith: Disposable | AsyncDisposable): ClassDecorator {
 	return (target: any): any => {

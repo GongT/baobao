@@ -15,7 +15,7 @@
 			"commandKind": "bulk",
 			"name": "upgrade",
 			"summary": "Upgrade all dependencies to their latest version in every sub project.",
-			"enableParallelism": true,
+			"enableParallelism": false,
 			"ignoreDependencyOrder": true,
 			"allowWarningsInSuccessfulBuild": true
 		},
@@ -52,7 +52,7 @@
 			"commandKind": "global",
 			"name": "ls",
 			"summary": "list projects",
-			"shellCommand": "node common/scripts/my-global-command.js"
+			"shellCommand": ""
 		}
 	],
 	"parameters": [

@@ -45,5 +45,5 @@ export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 
 export const IS_WINDOWS = platform() === 'win32';
 
-export const targetIndexFile = resolve(EXPORT_TEMP_PATH, 'extracted-source/_export_all_in_once_index.ts');
+export const targetIndexFile = resolve(EXPORT_TEMP_PATH, 'extracted-source/_export_all_in_one_index.ts');
 

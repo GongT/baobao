@@ -3,9 +3,12 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/common/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/library/async/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/base/.export-all-in-one" />
       <excludeFolder url="file://$MODULE_DIR$/library/base/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/basic-helpers/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/library/errors/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/library/platform/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/build-script/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/.rpt2_cache" />
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/lib" />

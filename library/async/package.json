@@ -1,6 +1,6 @@
 {
 	"main": "lib/_export_all_in_once_index.js",
-	"monorepo": true,
+	"monorepo": "rush",
 	"name": "@idlebox/async",
 	"typings": "docs/package-public.d.ts",
 	"version": "1.0.0",
@@ -23,11 +23,11 @@
 	"devDependencies": {
 		"@gongt/single-dog": "^2.0.7",
 		"@idlebox/export-all-in-one": "^3.0.4",
-		"@microsoft/api-extractor": "^7.3.2",
-		"@types/node": "^12.6.8",
-		"npm-check-updates": "^3.1.20",
-		"npm-run-all": "^4.1.5",
-		"rimraf": "^2.6.3",
-		"typescript": "^3.5.3"
+		"@microsoft/api-extractor": "^7.4.1",
+		"@types/node": "^12.7.5",
+		"npm-check-updates": "^3.1.22",
+		"rimraf": "^3.0.0",
+		"typescript": "^3.6.3",
+		"@idlebox/build-script": "^1.0.2"
 	}
 }

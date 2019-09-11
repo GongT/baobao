@@ -13,6 +13,8 @@ export declare function findUpUntil(from: string, file: string): Promise<string 
 
 export declare function findUpUntilSync(from: string, file: string): string | null;
 
+export declare function getAllPathUpToRoot(from: string, append?: string): string[];
+
 export declare const nodeProcessEnv: PlatformPathArray;
 
 export declare function nodeResolvePathArray(from: string, file?: string): string[];

@@ -36,6 +36,14 @@
 				"cleanOutput"
 			]
 		},
+		"prepare": {
+			"type": "serial",
+			"exported": true,
+			"sequence": [
+				"@prebuild",
+				"forceTsc"
+			]
+		},
 		"prepublish": {
 			"type": "serial",
 			"exported": true,
@@ -57,6 +65,13 @@
 				"runTest"
 			]
 		},
+		"upgrade": {
+			"type": "serial",
+			"exported": true,
+			"sequence": [
+				"npm-check-updates"
+			]
+		},
 		"watch": {
 			"type": "serial",
 			"exported": true,
@@ -72,6 +87,19 @@
 			"lib",
 			"dist",
 			"out"
+		],
+		"forceTsc": [
+			"tsc",
+			"-p",
+			"src",
+			"--noEmitOnError",
+			"false"
+		],
+		"npm-check-updates": [
+			"npm-check-updates",
+			"--update",
+			"--packageFile",
+			"./package.json"
 		],
 		"publish": [
 			"yarn",
@@ -95,7 +123,5 @@
 			"-w"
 		]
 	},
-	"plugins": [
-		"@idlebox/export-all-in-one/build-script-register"
-	]
+	"plugins": []
 }

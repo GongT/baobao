@@ -12,8 +12,8 @@ export-all-in-one ./path/to/tsconfig.json
 
 1. Resolve ALL files from given tsconfig.json
 1. Collect ALL exported thing from these files
-1. Join ALL of them into a single _export_all_in_once_index.ts (place next to tsconfig.json)
-1. (You can) Setup `rollup` _export_all_in_once_index.ts as entry
+1. Join ALL of them into a single _export_all_in_one_index.ts (place next to tsconfig.json)
+1. (You can) Setup `rollup` _export_all_in_one_index.ts as entry
 
 1. **BOOM**, everything exported. everyone can `import {anything, they, want} from '@your/package'`.
 

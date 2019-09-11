@@ -2,25 +2,28 @@
 	"monorepo": "rush",
 	"name": "@idlebox/platform",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
-	"main": "./lib/_export_all_in_once_index.js",
+	"main": "./lib/_export_all_in_one_index.js",
 	"scripts": {
-		"build": "build-script-call build",
-		"prepublish": "build-script-call prepublish",
-		"publishPackage": "build-script-call publish",
-		"test": "build-script-call test",
+		"build": "tsc -p src && export-all-in-one src",
+		"prepare": "tsc -p src",
+		"prepublish": "rimraf lib && tsc -p src && export-all-in-one src",
+		"publishPackage": "yarn publish --registry https://registry.npmjs.org --access=public",
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "build-script-call watch"
+		"watch": "export-all-in-one src && tsc -p src -w",
+		"clean": "rimraf lib"
 	},
 	"dependencies": {
-		"@idlebox/basic-helpers": "^1.0.0"
+		"@idlebox/basic-helpers": "^1.0.2"
 	},
 	"devDependencies": {
 		"@idlebox/export-all-in-one": "^3.0.4",
-		"@types/node": "^12.6.8",
+		"@types/node": "^12.7.5",
 		"@gongt/single-dog": "^2.0.7",
 		"@idlebox/build-script": "^1.0.2",
-		"typescript": "^3.5.3"
+		"npm-check-updates": "^3.1.22",
+		"typescript": "^3.6.3",
+		"rimraf": "^3.0.0"
 	}
 }

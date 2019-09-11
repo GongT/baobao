@@ -1,7 +1,7 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.10.0",
-	"pnpmVersion": "3.5.3",
+	"rushVersion": "5.12.1",
+	"pnpmVersion": "3.8.1",
 	// "npmVersion": "4.5.0",
 	// "yarnVersion": "1.16.0",
 	"pnpmOptions": {
@@ -30,7 +30,7 @@
 			// "rm -rf common/temp/projects"
 		],
 		"postRushInstall": [
-			// "node common/scripts/post-install.js"
+			"node common/scripts/post-install.js"
 		],
 		"preRushBuild": [
 			// "rush update"
@@ -46,17 +46,20 @@
 	"projects": [
 		{
 			"packageName": "@idlebox/ensure-symlink",
-			"projectFolder": "base/ensure-symlink",
+			"projectFolder": "library/ensure-symlink",
 			"shouldPublish": true
 		}, {
 			"packageName": "@idlebox/platform",
 			"projectFolder": "library/platform",
 			"shouldPublish": true
 		}, {
+			"packageName": "@gongt/single-dog",
+			"projectFolder": "tools/single-dog",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/build-script",
 			"projectFolder": "tools/build-script",
-			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@gongt/single-dog"]
+			"shouldPublish": true
 		}, {
 			"packageName": "@idlebox/errors",
 			"projectFolder": "library/errors",
@@ -79,7 +82,7 @@
 			"shouldPublish": true
 		}, {
 			"packageName": "@idlebox/node-json-edit",
-			"projectFolder": "base/node-json-edit",
+			"projectFolder": "library/node-json-edit",
 			"shouldPublish": true
 		}, {
 			"packageName": "@idlebox/export-all-in-one",
@@ -88,10 +91,6 @@
 		}, {
 			"packageName": "@idlebox/rush-tools",
 			"projectFolder": "tools/rush-tools",
-			"shouldPublish": true
-		}, {
-			"packageName": "@gongt/single-dog",
-			"projectFolder": "tools/single-dog",
 			"shouldPublish": true
 		}
 	]

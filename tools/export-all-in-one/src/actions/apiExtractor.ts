@@ -11,7 +11,7 @@ import { relativePosix } from '../inc/paths';
 const apiExtractorJson: IConfigFile = {
 	// $schema: 'https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json',
 	projectFolder: EXPORT_TEMP_PATH,
-	mainEntryPointFilePath: '<projectFolder>/declare-output/_export_all_in_once_index.d.ts',
+	mainEntryPointFilePath: '<projectFolder>/declare-output/_export_all_in_one_index.d.ts',
 	compiler: {
 		tsconfigFilePath: '<projectFolder>/tsconfig.json',
 		// "overrideTsconfig": {}

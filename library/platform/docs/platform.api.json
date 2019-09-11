@@ -1,44 +1,28 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.3.2",
-    "schemaVersion": 1001,
+    "toolVersion": "7.4.1",
+    "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
   "kind": "Package",
-  "canonicalReference": "@idlebox/platform",
+  "canonicalReference": "@idlebox/platform!",
   "docComment": "",
   "name": "@idlebox/platform",
   "members": [
     {
       "kind": "EntryPoint",
-      "canonicalReference": "",
+      "canonicalReference": "@idlebox/platform!",
       "name": "",
       "members": [
         {
           "kind": "Function",
-          "canonicalReference": "(exists:0)",
+          "canonicalReference": "@idlebox/platform!exists:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "exists"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "path"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function exists(path: "
             },
             {
               "kind": "Content",
@@ -50,7 +34,8 @@
             },
             {
               "kind": "Reference",
-              "text": "Promise"
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
             },
             {
               "kind": "Content",
@@ -62,17 +47,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 9
+            "startIndex": 3,
+            "endIndex": 5
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "path",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -80,28 +65,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(existsSync:0)",
+          "canonicalReference": "@idlebox/platform!existsSync:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "existsSync"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "path"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function existsSync(path: "
             },
             {
               "kind": "Content",
@@ -121,17 +90,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "path",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -139,28 +108,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(findEnvironment:0)",
+          "canonicalReference": "@idlebox/platform!findEnvironment:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "findEnvironment"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "name"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function findEnvironment(name: "
             },
             {
               "kind": "Content",
@@ -168,19 +121,12 @@
             },
             {
               "kind": "Content",
-              "text": ", "
+              "text": ", object?: "
             },
             {
               "kind": "Reference",
-              "text": "object"
-            },
-            {
-              "kind": "Content",
-              "text": "?: "
-            },
-            {
-              "kind": "Reference",
-              "text": "ProcessEnv"
+              "text": "ProcessEnv",
+              "canonicalReference": "@idlebox/platform!ProcessEnv:interface"
             },
             {
               "kind": "Content",
@@ -188,23 +134,7 @@
             },
             {
               "kind": "Content",
-              "text": "{\n    "
-            },
-            {
-              "kind": "Reference",
-              "text": "key"
-            },
-            {
-              "kind": "Content",
-              "text": ": string;\n    "
-            },
-            {
-              "kind": "Reference",
-              "text": "value"
-            },
-            {
-              "kind": "Content",
-              "text": ": string | undefined;\n} | undefined"
+              "text": "{\n    key: string;\n    value: string | undefined;\n} | undefined"
             },
             {
               "kind": "Content",
@@ -212,24 +142,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 11,
-            "endIndex": 16
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "name",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "object",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -237,28 +167,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(findUpUntil:0)",
+          "canonicalReference": "@idlebox/platform!findUpUntil:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "findUpUntil"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "from"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function findUpUntil(from: "
             },
             {
               "kind": "Content",
@@ -266,15 +180,7 @@
             },
             {
               "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "file"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": ", file: "
             },
             {
               "kind": "Content",
@@ -286,7 +192,8 @@
             },
             {
               "kind": "Reference",
-              "text": "Promise"
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
             },
             {
               "kind": "Content",
@@ -298,24 +205,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 11,
-            "endIndex": 13
+            "startIndex": 5,
+            "endIndex": 7
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "from",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "file",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -323,28 +230,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(findUpUntilSync:0)",
+          "canonicalReference": "@idlebox/platform!findUpUntilSync:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "findUpUntilSync"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "from"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function findUpUntilSync(from: "
             },
             {
               "kind": "Content",
@@ -352,15 +243,7 @@
             },
             {
               "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "file"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": ", file: "
             },
             {
               "kind": "Content",
@@ -380,24 +263,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 11,
-            "endIndex": 12
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "from",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "file",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -405,28 +288,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(nodeResolvePathArray:0)",
+          "canonicalReference": "@idlebox/platform!getAllPathUpToRoot:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "nodeResolvePathArray"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "from"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function getAllPathUpToRoot(from: "
             },
             {
               "kind": "Content",
@@ -434,15 +301,7 @@
             },
             {
               "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "file"
-            },
-            {
-              "kind": "Content",
-              "text": "?: "
+              "text": ", append?: "
             },
             {
               "kind": "Content",
@@ -462,24 +321,104 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 11,
-            "endIndex": 12
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "from",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "append",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "getAllPathUpToRoot"
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@idlebox/platform!nodeProcessEnv:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "nodeProcessEnv: "
+            },
+            {
+              "kind": "Reference",
+              "text": "PlatformPathArray",
+              "canonicalReference": "@idlebox/platform!PlatformPathArray:class"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "nodeProcessEnv",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/platform!nodeResolvePathArray:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function nodeResolvePathArray(from: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", file?: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string[]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "from",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "file",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -487,89 +426,20 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "(PlatformPathArray:class)",
+          "canonicalReference": "@idlebox/platform!PlatformPathArray:class",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare class "
-            },
-            {
-              "kind": "Reference",
-              "text": "PlatformPathArray"
-            },
-            {
-              "kind": "Content",
-              "text": " "
+              "text": "export declare class PlatformPathArray "
             }
           ],
           "releaseTag": "Public",
           "name": "PlatformPathArray",
           "members": [
             {
-              "kind": "Constructor",
-              "canonicalReference": "(:constructor,0)",
-              "docComment": "/**\n * Constructs a new instance of the `PlatformPathArray` class\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "constructor("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "envName"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "env"
-                },
-                {
-                  "kind": "Content",
-                  "text": "?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "ProcessEnv"
-                },
-                {
-                  "kind": "Content",
-                  "text": ");"
-                }
-              ],
-              "releaseTag": "Public",
-              "overloadIndex": 0,
-              "parameters": [
-                {
-                  "parameterName": "envName",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  }
-                },
-                {
-                  "parameterName": "env",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 7,
-                    "endIndex": 8
-                  }
-                }
-              ]
-            },
-            {
               "kind": "Method",
-              "canonicalReference": "([Symbol.iterator]:instance,0)",
+              "canonicalReference": "@idlebox/platform!PlatformPathArray#[Symbol.iterator]:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -578,15 +448,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "Symbol"
-                },
-                {
-                  "kind": "Content",
-                  "text": "."
-                },
-                {
-                  "kind": "Reference",
-                  "text": "iterator"
+                  "text": "Symbol.iterator",
+                  "canonicalReference": "!SymbolConstructor#iterator"
                 },
                 {
                   "kind": "Content",
@@ -594,7 +457,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "IterableIterator"
+                  "text": "IterableIterator",
+                  "canonicalReference": "!IterableIterator:interface"
                 },
                 {
                   "kind": "Content",
@@ -607,34 +471,68 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 5
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [],
               "name": "[Symbol.iterator]"
             },
             {
+              "kind": "Constructor",
+              "canonicalReference": "@idlebox/platform!PlatformPathArray:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `PlatformPathArray` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(envName: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", env?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ProcessEnv",
+                  "canonicalReference": "@idlebox/platform!ProcessEnv:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "envName",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "env",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ]
+            },
+            {
               "kind": "Method",
-              "canonicalReference": "(append:instance,0)",
+              "canonicalReference": "@idlebox/platform!PlatformPathArray#append:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "append"
-                },
-                {
                   "kind": "Content",
-                  "text": "(..."
-                },
-                {
-                  "kind": "Reference",
-                  "text": "paths"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
+                  "text": "append(...paths: "
                 },
                 {
                   "kind": "Content",
@@ -655,17 +553,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 6,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "paths",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 5
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -673,24 +571,12 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(prepend:instance,0)",
+              "canonicalReference": "@idlebox/platform!PlatformPathArray#prepend:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "prepend"
-                },
-                {
                   "kind": "Content",
-                  "text": "(..."
-                },
-                {
-                  "kind": "Reference",
-                  "text": "paths"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
+                  "text": "prepend(...paths: "
                 },
                 {
                   "kind": "Content",
@@ -711,17 +597,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 6,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "paths",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 5
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -729,16 +615,12 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(save:instance,0)",
+              "canonicalReference": "@idlebox/platform!PlatformPathArray#save:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "save"
-                },
-                {
                   "kind": "Content",
-                  "text": "(): "
+                  "text": "save(): "
                 },
                 {
                   "kind": "Content",
@@ -751,26 +633,22 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [],
               "name": "save"
             },
             {
               "kind": "Method",
-              "canonicalReference": "(toString:instance,0)",
+              "canonicalReference": "@idlebox/platform!PlatformPathArray#toString:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "toString"
-                },
-                {
                   "kind": "Content",
-                  "text": "(): "
+                  "text": "toString(): "
                 },
                 {
                   "kind": "Content",
@@ -783,11 +661,11 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [],
               "name": "toString"
             }
@@ -796,20 +674,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(ProcessEnv:interface)",
+          "canonicalReference": "@idlebox/platform!ProcessEnv:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "ProcessEnv"
-            },
-            {
-              "kind": "Content",
-              "text": " "
+              "text": "export interface ProcessEnv "
             }
           ],
           "releaseTag": "Public",
@@ -817,20 +687,12 @@
           "members": [
             {
               "kind": "IndexSignature",
-              "canonicalReference": "(:index,0)",
+              "canonicalReference": "@idlebox/platform!ProcessEnv:index(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "["
-                },
-                {
-                  "kind": "Reference",
-                  "text": "key"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
+                  "text": "[key: "
                 },
                 {
                   "kind": "Content",
@@ -850,17 +712,17 @@
                 }
               ],
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "key",
                   "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ]
@@ -870,28 +732,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(removeEnvironment:0)",
+          "canonicalReference": "@idlebox/platform!removeEnvironment:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "removeEnvironment"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "name"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function removeEnvironment(name: "
             },
             {
               "kind": "Content",
@@ -899,27 +745,12 @@
             },
             {
               "kind": "Content",
-              "text": ", "
+              "text": ", object?: "
             },
             {
               "kind": "Reference",
-              "text": "object"
-            },
-            {
-              "kind": "Content",
-              "text": "?: "
-            },
-            {
-              "kind": "Reference",
-              "text": "NodeJS"
-            },
-            {
-              "kind": "Content",
-              "text": "."
-            },
-            {
-              "kind": "Reference",
-              "text": "ProcessEnv"
+              "text": "NodeJS.ProcessEnv",
+              "canonicalReference": "!NodeJS.ProcessEnv:interface"
             },
             {
               "kind": "Content",
@@ -935,53 +766,28 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 13,
-            "endIndex": 14
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "name",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "object",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 12
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
           "name": "removeEnvironment"
-        },
-        {
-          "kind": "Variable",
-          "canonicalReference": "nodeProcessEnv",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Reference",
-              "text": "nodeProcessEnv"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "PlatformPathArray"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "nodeProcessEnv",
-          "variableTypeTokenRange": {
-            "startIndex": 2,
-            "endIndex": 3
-          }
         }
       ]
     }

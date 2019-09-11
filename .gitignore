@@ -9,3 +9,6 @@ yarn.lock
 !.idea/vcs.xml
 !.idea/modules.xml
 !.idea/codeStyles/
+
+/projects
+/projects/*

@@ -13,7 +13,7 @@ export async function updatePackageJson(hookMode: boolean) {
 	const packageJson = await loadJsonFile(resolve(PROJECT_ROOT, 'package.json'));
 
 	if (!packageJson.main) {
-		insertKeyAlphabet(packageJson, 'main', 'lib/_export_all_in_once_index.js');
+		insertKeyAlphabet(packageJson, 'main', 'lib/_export_all_in_one_index.js');
 	}
 
 	if (!packageJson.typings) {
@@ -30,7 +30,7 @@ export async function updatePackageJson(hookMode: boolean) {
 
 	if (command.options.module === ModuleKind.ESNext) {
 		if (!packageJson.module) {
-			insertKeyAlphabet(packageJson, 'module', 'lib/_export_all_in_once_index.js');
+			insertKeyAlphabet(packageJson, 'module', 'lib/_export_all_in_one_index.js');
 		}
 	}
 

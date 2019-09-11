@@ -1,5 +1,5 @@
-import { pathExists, writeFile } from 'fs-extra';
 import { insertKeyAlphabet, loadJsonFile, loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { pathExists, writeFile } from 'fs-extra';
 import { resolve } from 'path';
 import { SELF_ROOT } from '../global';
 
@@ -37,6 +37,8 @@ export default async function (path: string) {
 	registerWithlog('watch', 'watch');
 	registerWithlog('prepublish', 'prepublish');
 	registerWithlog('publishPackage', 'publish');
+	registerWithlog('prepare', 'prepare');
+	registerWithlog('upgrade', 'upgrade');
 
 	if (!packageData.dependencies) {
 		packageData.dependencies = {};
@@ -78,13 +80,17 @@ export default async function (path: string) {
 	addIfNot(hookContent.actions, 'watch', { type: 'serial', exported: true, sequence: ['@prebuild', '@compile-watch'] });
 	addIfNot(hookContent.actions, 'prepublish', { type: 'serial', exported: true, sequence: ['@build'] });
 	addIfNot(hookContent.actions, 'publish', { type: 'serial', exported: true, sequence: ['publish'] });
+	addIfNot(hookContent.actions, 'prepare', { type: 'serial', exported: true, sequence: ['@prebuild', 'forceTsc'] });
+	addIfNot(hookContent.actions, 'upgrade', { type: 'serial', exported: true, sequence: ['npm-check-updates'] });
 
 	if (!isExists) {
-		addIfNot(hookContent.jobs, 'publish', ['yarn', 'publish', '--registry', 'https://registry.npmjs.org --access=public']);
+		addIfNot(hookContent.jobs, 'publish', ['yarn', 'publish', '--registry', 'https://registry.npmjs.org', '--access=public']);
 		addIfNot(hookContent.jobs, 'tsc', ['tsc', '-p', 'src']);
 		addIfNot(hookContent.jobs, 'tscWatch', ['tsc', '-p', 'src', '-w']);
 		addIfNot(hookContent.jobs, 'cleanOutput', ['rimraf', 'lib', 'dist', 'out']);
 		addIfNot(hookContent.jobs, 'runTest', ['echo', 'No test case set.']);
+		addIfNot(hookContent.jobs, 'npm-check-updates', ['npm-check-updates', '--update', '--packageFile', './package.json']);
+		addIfNot(hookContent.jobs, 'forceTsc', ['tsc', '-p', 'src', '--noEmitOnError', 'false']);
 	}
 
 	console.log('write file %s', hooksFile);

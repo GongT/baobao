@@ -6,11 +6,13 @@
 	"main": "./lib/node-json-edit.js",
 	"typings": "./lib/node-json-edit.d.ts",
 	"scripts": {
-		"clean": "rimraf lib",
-		"watch": "tsc -p src -w",
 		"build": "tsc -p src",
-		"prepublish": "run-s -l clean build",
-		"upgrade": "ncu --upgrade --packageFile ./package.json"
+		"prepare": "tsc -p src",
+		"prepublish": "rimraf lib && tsc -p src",
+		"publishPackage": "yarn publish --registry https://registry.npmjs.org --access=public",
+		"upgrade": "ncu --upgrade --packageFile ./package.json",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib"
 	},
 	"repository": {
 		"type": "github",
@@ -22,10 +24,9 @@
 		"comment-json": "^2.1.0"
 	},
 	"devDependencies": {
-		"@types/node": "^12.6.8",
-		"npm-check-updates": "^3.1.20",
-		"npm-run-all": "^4.1.5",
-		"rimraf": "^2.6.3",
-		"typescript": "^3.5.3"
+		"@types/node": "^12.7.5",
+		"npm-check-updates": "^3.1.22",
+		"rimraf": "^3.0.0",
+		"typescript": "^3.6.3"
 	}
 }

@@ -12,20 +12,22 @@
 		"publishPackage": "build-script-call publish",
 		"test": "build-script-call test",
 		"watch": "build-script-call watch",
-		"upgrade": "ncu --upgrade --packageFile ./package.json"
+		"upgrade": "ncu --upgrade --packageFile ./package.json",
+		"clean": "rimraf lib"
 	},
 	"monorepo": true,
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.12",
 		"fs-extra": "^8.1.0",
-		"pacote": "^9.5.4",
-		"source-map-support": "^0.5.12"
+		"pacote": "^9.5.8",
+		"source-map-support": "^0.5.13"
 	},
 	"devDependencies": {
 		"@idlebox/build-script": "^1.0.2",
 		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.6.8",
-		"typescript": "^3.5.3"
+		"@types/node": "^12.7.5",
+		"typescript": "^3.6.3",
+		"rimraf": "^3.0.0"
 	}
 }
