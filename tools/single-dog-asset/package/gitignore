@@ -1,0 +1,14 @@
+.rpt2_cache/
+node_modules/
+jspm_packages/
+*.log
+dist/
+*.tgz
+lib
+
+.idea/*
+!.idea/*.iml
+!.idea/vcs.xml
+!.idea/modules.xml
+!.idea/codeStyles/
+

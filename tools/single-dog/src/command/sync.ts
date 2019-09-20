@@ -4,9 +4,9 @@ import { Filesystem } from '../inc/filesystem';
 import { getGitName } from '../inc/gitName';
 import { linkWithLog } from '../inc/linkLog';
 import { locateRootRelativeToProject, readTemplate } from '../inc/template';
+import { runBuildScriptInit } from '../jobs/buildScript';
 import { updatePackageJson } from '../jobs/packageJson';
 import { updateTsconfigJson } from '../jobs/tsconfigJson';
-import { runBuildScriptInit } from '../jobs/buildScript';
 
 export default async () => {
 	const gitInfo = await getGitName();
@@ -30,7 +30,10 @@ export default async () => {
 	if (!monorepoMode) {
 		// idea
 		fs.placeFile(`.idea/${basename(CONTENT_ROOT)}.iml`, readTemplate('idea/idea.iml'));
-		await linkWithLog(locateRootRelativeToProject('.idea/codeStyles', 'package/idea/codeStyles'), resolve(CONTENT_ROOT, '.idea/codeStyles'));
+		await linkWithLog(
+			await locateRootRelativeToProject('.idea/codeStyles', 'package/idea/codeStyles'),
+			resolve(CONTENT_ROOT, '.idea/codeStyles'),
+		);
 		fs.placeFile('.idea/misc.xml', readTemplate('idea/misc.xml'));
 		fs.placeFile('.idea/vcs.xml', readTemplate('idea/vcs.xml'));
 		fs.placeFile('.idea/modules.xml', readTemplate('idea/modules.xml').replace(/{NAME}/g, basename(CONTENT_ROOT)));
@@ -43,7 +46,9 @@ export default async () => {
 		}
 	}
 
-	await runBuildScriptInit();
+	if (packageJson.name !== '@idlebox/build-script') {
+		await runBuildScriptInit();
+	}
 
 	console.log('Yes.');
 };

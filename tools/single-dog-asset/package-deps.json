@@ -1,0 +1,21 @@
+{
+  "files": {
+    "tools/single-dog-asset/index.js": "e90be13aab30ba62e330bf25ae1c6c9b1700924a",
+    "tools/single-dog-asset/package.json": "dcf3a775248f742a302c22e23451c36f245d39c0",
+    "tools/single-dog-asset/package/LICENSE": "c51ba9a5c53d4fdb6b578b1401ecdf1fde2ec10b",
+    "tools/single-dog-asset/package/api-extractor.json": "3d1d20b2e76e86deb5afa0d7958a9e0505dd1e2c",
+    "tools/single-dog-asset/package/editorconfig": "a8a0bb0479ca64d2111705843d1cb332fba3000b",
+    "tools/single-dog-asset/package/gitignore": "2f8c620e6ddd69c035d74761417366a9ba40d637",
+    "tools/single-dog-asset/package/idea/codeStyles/Project.xml": "09b95125ed1a5b9c2db411750d2958994f2edbaf",
+    "tools/single-dog-asset/package/idea/codeStyles/codeStyleConfig.xml": "79ee123c2b23e069e35ed634d687e17f731cc702",
+    "tools/single-dog-asset/package/idea/idea.iml": "b992e8659631c1ef32bcf499a056742f3016446f",
+    "tools/single-dog-asset/package/idea/misc.xml": "28a804d8932aba40f168fd757a74cb718a955a1a",
+    "tools/single-dog-asset/package/idea/modules.xml": "7c920b860b12bc9a52bc9ef5835fedce1b19927d",
+    "tools/single-dog-asset/package/idea/vcs.xml": "94a25f7f4cb416c083d265558da75d457237d671",
+    "tools/single-dog-asset/package/npmignore": "4cd9e53ceb1c4228512e09d5cef5e4ac49da7c50",
+    "tools/single-dog-asset/package/tsconfig.json": "7caf4185a9c23a0d5844aaea26afe6f320ef879c",
+    "tools/single-dog-asset/package-deps.json": "e9abc68367876f4981fb013d6354f6bb8877c741",
+    "common/config/rush/pnpm-lock.yaml": "55d6c3b780c79e8278d1883f99f737d5b07767f3"
+  },
+  "arguments": ""
+}

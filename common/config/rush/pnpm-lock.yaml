@@ -1,6 +1,5 @@
 dependencies:
-  '@idlebox/ensure-symlink': 1.0.5
-  '@idlebox/node-json-edit': 1.0.12
+  '@idlebox/platform': 1.0.3
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': 7.4.1
   '@rush-temp/async': 'file:projects/async.tgz'
@@ -10,17 +9,21 @@ dependencies:
   '@rush-temp/errors': 'file:projects/errors.tgz'
   '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
   '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz'
+  '@rush-temp/node-helpers': 'file:projects/node-helpers.tgz'
   '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz'
   '@rush-temp/platform': 'file:projects/platform.tgz'
   '@rush-temp/reflect': 'file:projects/reflect.tgz'
   '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
+  '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
   '@types/comment-json': 1.1.1
   '@types/fancy-log': 1.3.1
   '@types/fs-extra': 8.0.0
   '@types/gulp': 4.0.6
   '@types/klaw': 3.0.0
   '@types/node': 12.7.5
+  '@types/split2': 2.1.6
+  command-exists: 1.2.8
   comment-json: 2.1.0
   execa: 2.0.4
   fancy-log: 1.3.3
@@ -32,6 +35,7 @@ dependencies:
   pacote: 9.5.8
   rimraf: 3.0.0
   source-map-support: 0.5.13
+  split2: 3.1.1
   tsconfig-paths: 3.8.0
   typescript: 3.6.3
 lockfileVersion: 5.1
@@ -47,6 +51,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-Xc+Z4h98XQrj7HgdBfckX79KRq7SqprHJettsrFLSBHKKK3JzcCtMYs4vOK53nCu6/QdOMAzP2vBw7vdCPvbPQ==
+  /@idlebox/basic-helpers/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha512-o/anYXUiOB7InjuDQYcaX4me6OD+z/1s6YY4TswY0YZ5JzDC5O0scDbPZxMqR8x8tMNhz2sgWdfV73/8YIGHAA==
   /@idlebox/build-script/1.0.2:
     dependencies:
       '@idlebox/node-json-edit': 1.0.12
@@ -92,6 +100,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Fv6UTjVvpTpgmZe4JIGa3gtyufua7+rxNl2f5FO+WD1meT9VKazHDwyRCVlKV93W17xnalONPAoGqvZuVKb1Hg==
+  /@idlebox/platform/1.0.3:
+    dependencies:
+      '@idlebox/basic-helpers': 1.0.2
+      gulp: 4.0.2
+    dev: false
+    resolution:
+      integrity: sha512-Uo+Bwp1IGvx6CfYMyoGwoX8AXkHl3i2ot6DmcJj0tSLUi3v6LflFMDPNDNIoL66ZJPKzhwbqsOxzGHwpvlBLVQ==
   /@idlebox/rush-tools/1.0.0:
     dependencies:
       '@idlebox/node-json-edit': 1.0.12
@@ -301,6 +316,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-8KmlRxwbKZfjUHFIt3q8TF5S2B+/E5BaAoo/3mgc5h6FJzqxXkCK/VMetO+IRDtwtU6HUvovHMBn+XRj7SV9Qg==
+  /@types/split2/2.1.6:
+    dependencies:
+      '@types/node': 12.7.5
+    dev: false
+    resolution:
+      integrity: sha512-ddaFSOMuy2Rp97l6q/LEteQygvTQJuEZ+SRhxFKR0uXGsdbFDqX/QF2xoGcOqLQ8XV91v01SnAv2vpgihNgW/Q==
   /@types/undertaker-registry/1.0.1:
     dev: false
     resolution:
@@ -923,6 +944,10 @@ packages:
       node: '>=0.1.90'
     resolution:
       integrity: sha512-erNRLao/Y3Fv54qUa0LBB+//Uf3YwMUmdJinN20yMXm9zdKKqH9wt7R9IIVZ+K7ShzfpLV/Zg8+VyrBJYB4lpg==
+  /command-exists/1.2.8:
+    dev: false
+    resolution:
+      integrity: sha512-PM54PkseWbiiD/mMsbvW351/u+dafwTJ0ye2qB60G1aGQP9j3xK2gmMDc+R34L3nDtx4qMCitXT75mkbkGJDLw==
   /commander/2.20.0:
     dev: false
     optional: true
@@ -3444,6 +3469,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-tQtKA9WIAhBF3+VLAseyMqZeBjW0AHJoxOtYqSUZNJxauErmLbVm2FW1y+J/YA9dUrAC39ITejlZWhVIwawkKw==
+  /readable-stream/3.4.0:
+    dependencies:
+      inherits: 2.0.4
+      string_decoder: 1.3.0
+      util-deprecate: 1.0.2
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-jItXPLmrSR8jmTRmRWJXCnGJsfy85mB3Wd/uINMXA65yrnFo0cPClFIUWzo2najVNSl+mx7/4W8ttlLWJe99pQ==
   /readdirp/2.2.1:
     dependencies:
       graceful-fs: 4.2.0
@@ -3887,6 +3922,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==
+  /split2/3.1.1:
+    dependencies:
+      readable-stream: 3.4.0
+    dev: false
+    resolution:
+      integrity: sha512-emNzr1s7ruq4N+1993yht631/JH+jaj0NYBosuKmLcq+JkGQ9MmTw1RB1fGaTCzUuseRIClrlSLHRNYGwWQ58Q==
   /sprintf-js/1.0.3:
     dev: false
     resolution:
@@ -3960,6 +4001,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==
+  /string_decoder/1.3.0:
+    dependencies:
+      safe-buffer: 5.2.0
+    dev: false
+    resolution:
+      integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==
   /strip-ansi/3.0.1:
     dependencies:
       ansi-regex: 2.1.1
@@ -4510,7 +4557,7 @@ packages:
     dev: false
     name: '@rush-temp/async'
     resolution:
-      integrity: sha512-r3+qE4uKzsxXNNNWcSMCDNbUB53Glw37PRScne3h3v/+vTbmTEogKSgTzckI68JvXaBnfplNgsrkbzFVjIeDVQ==
+      integrity: sha512-YSFXh3w3Xim0WwHunlaKv87/fleFPy36ZMX3j7aucIsZAMCv2U5Dd+uZaE/DUTqls/LWY9kCarehwcAVW+0vyQ==
       tarball: 'file:projects/async.tgz'
     version: 0.0.0
   'file:projects/basic-helpers.tgz':
@@ -4533,11 +4580,13 @@ packages:
   'file:projects/build-script.tgz':
     dependencies:
       '@gongt/single-dog': 2.0.7
+      '@idlebox/platform': 1.0.3
       '@microsoft/api-extractor': 7.4.1
       '@types/fancy-log': 1.3.1
       '@types/fs-extra': 8.0.0
       '@types/gulp': 4.0.6
       '@types/node': 12.7.5
+      '@types/split2': 2.1.6
       execa: 2.0.4
       fancy-log: 1.3.3
       fs-extra: 8.1.0
@@ -4546,11 +4595,12 @@ packages:
       npm-run-all: 4.1.5
       rimraf: 3.0.0
       source-map-support: 0.5.13
+      split2: 3.1.1
       typescript: 3.6.3
     dev: false
     name: '@rush-temp/build-script'
     resolution:
-      integrity: sha512-+iZ7KmLJ/s5lpLe4xjaBUWj7gyWCpTrZ5tuSaqywmMoMQbvcgxZrmp5NUFhAR/4gjfLH14OSLaQxhCYAlXKaxg==
+      integrity: sha512-uOvrhU4+ywK40kzBoQ3JMLzqYgav0ZozPovguHgbFn1HJ4umn5L3aCUZ/tx5VhCodW0yatd9QZLg5eZ3GLsTCA==
       tarball: 'file:projects/build-script.tgz'
     version: 0.0.0
   'file:projects/ensure-symlink.tgz':
@@ -4598,7 +4648,7 @@ packages:
     dev: false
     name: '@rush-temp/export-all-in-one'
     resolution:
-      integrity: sha512-e1zq+neQAOfXjuEMksCRgU1h+tcLmD3XsT5Non7ueV0nZMWrA5XseJHNRIrS8whFYLXtKT2T5dDjWQMOtulpUQ==
+      integrity: sha512-at0QOf+0MP6g+oxMRdWBRo2WunXdiZUkyMxNszTtkEeOFiNIDZgs+bW9KYLMfXzUYXASRvtnkiugLBPZcBl7kA==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
   'file:projects/lifecycle.tgz':
@@ -4615,6 +4665,13 @@ packages:
       integrity: sha512-HrV+zb/OGBfj0/GB8CBxEozIPoJqIwz6qor37A6Ztq4jyT9U8ClU6JoB5qSkkkqSVJxnpyEe61GCMPEUt08yXA==
       tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
+  'file:projects/node-helpers.tgz':
+    dev: false
+    name: '@rush-temp/node-helpers'
+    resolution:
+      integrity: sha512-3B5pbt8PpVvlulITs/xSypMXqJ3TsLtP731/SUJU1AS1jp3eHD21755ndqPgZ0Vx/4eNN6BAXBip0oKKkzjXiQ==
+      tarball: 'file:projects/node-helpers.tgz'
+    version: 0.0.0
   'file:projects/node-json-edit.tgz':
     dependencies:
       '@types/comment-json': 1.1.1
@@ -4627,19 +4684,20 @@ packages:
     dev: false
     name: '@rush-temp/node-json-edit'
     resolution:
-      integrity: sha512-JC7KtYA846HrrzUfj810IMuv4IQMIa/HL1La0jUQIEs+E+4Umox6N/2puCuJ3zO9oCWkT7z5P0rSxU077lTEcQ==
+      integrity: sha512-v+PSVqHh5RBlOwOdNAjAxYazTT5zDedhycehnLB02EI/O7W23hbzMf3Ionvc0A9DAplGEGPWvje6lbLASD9Gig==
       tarball: 'file:projects/node-json-edit.tgz'
     version: 0.0.0
   'file:projects/platform.tgz':
     dependencies:
       '@types/node': 12.7.5
+      gulp: 4.0.2
       npm-check-updates: 3.1.22
       rimraf: 3.0.0
       typescript: 3.6.3
     dev: false
     name: '@rush-temp/platform'
     resolution:
-      integrity: sha512-oacgYoRC+xnTuB7qOaYKMzrefty19FssmNGpHVqak59419Hvpp/uRsDs+dQo3jY3ohQ4oHEewJ6z78snzuO+MA==
+      integrity: sha512-AWTmWkiT79Y/V3h9XnM1JS/D48+zpMJu1UKqQ/NyoBqRWCeV2JIUqVSMW/AXSUrRfCZ7mXSqAYBPEfms5W/Fdg==
       tarball: 'file:projects/platform.tgz'
     version: 0.0.0
   'file:projects/reflect.tgz':
@@ -4673,6 +4731,15 @@ packages:
       integrity: sha512-hHW3JX8B0JpQak8hEAY23iDHuExQYr9yZQFiYxZdEho61KfKKogcs4RhTyJzYKeJM866yFtVi6yI1xvm8hzQgg==
       tarball: 'file:projects/rush-tools.tgz'
     version: 0.0.0
+  'file:projects/single-dog-asset.tgz':
+    dependencies:
+      command-exists: 1.2.8
+    dev: false
+    name: '@rush-temp/single-dog-asset'
+    resolution:
+      integrity: sha512-eLb9svled+nDrR2iXKMRjx7BTr/a6jYdOyzHHuvKO65NOUBxv2Br5jFa7ndB9VRLD0C/Rlz3I198/LcQ5K/00w==
+      tarball: 'file:projects/single-dog-asset.tgz'
+    version: 0.0.0
   'file:projects/single-dog.tgz':
     dependencies:
       '@idlebox/build-script': 1.0.2
@@ -4686,7 +4753,7 @@ packages:
     dev: false
     name: '@rush-temp/single-dog'
     resolution:
-      integrity: sha512-+pnQYQqay5czxEgJ2PeqflwlfE2JBFKJ3o65FyF582pns01JE2484pHuJE7BretW3QvxaU7vjgOKeWuZVM0JNw==
+      integrity: sha512-dg5KuQwrKaxSGaiyAgjgMLH9KdrCWluBG/y0otBWHrDr9JuG8pE3D5pt90ymC2IZReInmOYp6GRzPPfI7uu0Lw==
       tarball: 'file:projects/single-dog.tgz'
     version: 0.0.0
   registry.npmjs.org/fs.realpath/1.0.0:
@@ -4797,8 +4864,7 @@ packages:
     version: 3.0.0
 registry: ''
 specifiers:
-  '@idlebox/ensure-symlink': ^1.0.5
-  '@idlebox/node-json-edit': ^1.0.12
+  '@idlebox/platform': ^1.0.1
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': ^7.4.1
   '@rush-temp/async': 'file:./projects/async.tgz'
@@ -4808,17 +4874,21 @@ specifiers:
   '@rush-temp/errors': 'file:./projects/errors.tgz'
   '@rush-temp/export-all-in-one': 'file:./projects/export-all-in-one.tgz'
   '@rush-temp/lifecycle': 'file:./projects/lifecycle.tgz'
+  '@rush-temp/node-helpers': 'file:./projects/node-helpers.tgz'
   '@rush-temp/node-json-edit': 'file:./projects/node-json-edit.tgz'
   '@rush-temp/platform': 'file:./projects/platform.tgz'
   '@rush-temp/reflect': 'file:./projects/reflect.tgz'
   '@rush-temp/rush-tools': 'file:./projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
+  '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
   '@types/comment-json': ^1.1.1
   '@types/fancy-log': ^1.3.1
   '@types/fs-extra': ^8.0.0
   '@types/gulp': ^4.0.6
   '@types/klaw': ^3.0.0
   '@types/node': ^12.7.5
+  '@types/split2': ^2.1.6
+  command-exists: ^1.2.8
   comment-json: ^2.1.0
   execa: ^2.0.4
   fancy-log: ^1.3.3
@@ -4830,5 +4900,6 @@ specifiers:
   pacote: ^9.5.8
   rimraf: ^3.0.0
   source-map-support: ^0.5.13
+  split2: ^3.1.1
   tsconfig-paths: ^3.8.0
   typescript: latest

@@ -17,7 +17,7 @@ export async function updateTsconfigJson() {
 
 	const tsconfigPath = resolve(CONTENT_ROOT, 'src/tsconfig.json');
 	const tsconfig: any = await loadJsonFileIfExists(tsconfigPath);
-	tsconfig.extends = locateRootRelativeToProject('src/tsconfig.json', 'package/tsconfig.json');
+	tsconfig.extends = await locateRootRelativeToProject('src/tsconfig.json', 'package/tsconfig.json');
 	if (!tsconfig.compilerOptions) {
 		tsconfig.compilerOptions = {};
 	}

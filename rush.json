@@ -57,9 +57,16 @@
 			"projectFolder": "tools/single-dog",
 			"shouldPublish": true
 		}, {
+			"packageName": "@idlebox/single-dog-asset",
+			"projectFolder": "tools/single-dog-asset",
+			"shouldPublish": true
+		}, {
 			"packageName": "@idlebox/build-script",
 			"projectFolder": "tools/build-script",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"cyclicDependencyProjects": [
+				"@idlebox/platform"
+			]
 		}, {
 			"packageName": "@idlebox/errors",
 			"projectFolder": "library/errors",
@@ -79,6 +86,10 @@
 		}, {
 			"packageName": "@idlebox/basic-helpers",
 			"projectFolder": "library/basic-helpers",
+			"shouldPublish": true
+		}, {
+			"packageName": "@idlebox/node-helpers",
+			"projectFolder": "library/node-helpers",
 			"shouldPublish": true
 		}, {
 			"packageName": "@idlebox/node-json-edit",

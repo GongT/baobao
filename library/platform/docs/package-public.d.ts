@@ -15,6 +15,8 @@ export declare function findUpUntilSync(from: string, file: string): string | nu
 
 export declare function getAllPathUpToRoot(from: string, append?: string): string[];
 
+export declare function lrelative(from: string, to: string): string;
+
 export declare const nodeProcessEnv: PlatformPathArray;
 
 export declare function nodeResolvePathArray(from: string, file?: string): string[];

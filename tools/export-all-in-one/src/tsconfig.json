@@ -1,5 +1,5 @@
 {
-	"extends": "../../../common/temp/node_modules/.mirror.service.gongt.me+59443/@gongt/single-dog/2.0.7/node_modules/@gongt/single-dog/package/tsconfig.json",
+	"extends": "../../single-dog/package/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
 		"outDir": "../lib",

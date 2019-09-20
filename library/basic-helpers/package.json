@@ -4,18 +4,12 @@
 	"typings": "docs/package-public.d.ts",
 	"version": "1.0.2",
 	"license": "MIT",
-	"main": "./lib/_export_all_in_once_index.js",
+	"main": "./lib/_export_all_in_one_index.js",
 	"scripts": {
-		"build": "build-script-call build",
-		"prepublish": "build-script-call prepublish",
-		"publishPackage": "build-script-call publish",
-		"test": "build-script-call test",
-		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "build-script-call watch"
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"@gongt/single-dog": "^2.0.7",
+		"@idlebox/single-dog-asset": "^1.0.0",
 		"@idlebox/build-script": "^1.0.2",
 		"@idlebox/export-all-in-one": "^3.0.4",
 		"@types/node": "^12.7.5",

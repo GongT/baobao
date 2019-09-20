@@ -36,6 +36,14 @@
 				"cleanOutput"
 			]
 		},
+		"prepare": {
+			"type": "serial",
+			"exported": true,
+			"sequence": [
+				"@prebuild",
+				"forceTsc"
+			]
+		},
 		"prepublish": {
 			"type": "serial",
 			"exported": true,
@@ -57,6 +65,13 @@
 				"runTest"
 			]
 		},
+		"upgrade": {
+			"type": "serial",
+			"exported": true,
+			"sequence": [
+				"npm-check-updates"
+			]
+		},
 		"watch": {
 			"type": "serial",
 			"exported": true,
@@ -73,11 +88,25 @@
 			"dist",
 			"out"
 		],
+		"forceTsc": [
+			"tsc",
+			"-p",
+			"src",
+			"--noEmitOnError",
+			"false"
+		],
+		"npm-check-updates": [
+			"npm-check-updates",
+			"--update",
+			"--packageFile",
+			"./package.json"
+		],
 		"publish": [
 			"yarn",
 			"publish",
 			"--registry",
-			"https://registry.npmjs.org --access=public"
+			"https://registry.npmjs.org",
+			"--access=public"
 		],
 		"runTest": [
 			"echo",
@@ -96,9 +125,6 @@
 		]
 	},
 	"plugins": [
-		{
-			"name": "@gongt/single-dog/register"
-		},
 		{
 			"name": "@idlebox/export-all-in-one/build-script-register",
 			"args": [

@@ -1,7 +1,16 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/export-all-in-one",
-	"version": "3.0.4",
+	"scripts": {
+		"build": "build-script build",
+		"cleanup": "build-script cleanup",
+		"prepublish": "build-script prepublish",
+		"publish": "build-script publish",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
+	},
+	"version": "3.0.5",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/export-all-in-one",
 	"keywords": [
@@ -18,15 +27,6 @@
 	"main": "./lib/main.js",
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"license": "MIT",
-	"scripts": {
-		"build": "build-script-call build",
-		"prepublish": "build-script-call prepublish",
-		"publishPackage": "build-script-call publish",
-		"test": "build-script-call test",
-		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "build-script-call watch",
-		"clean": "rimraf lib"
-	},
 	"resolutions": {
 		"**/@types/node": "^12.0.10"
 	},
@@ -37,7 +37,7 @@
 		"@types/klaw": "^3.0.0",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
-		"source-map-support": "^0.5.13",
+		"source-map-support": "*",
 		"tsconfig-paths": "^3.8.0"
 	},
 	"peerDependencies": {},
@@ -49,6 +49,7 @@
 		"npm-check-updates": "^3.1.22",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^3.0.0",
-		"typescript": "^3.6.3"
+		"typescript": "^3.6.3",
+		"gulp": "^4.0.2"
 	}
 }

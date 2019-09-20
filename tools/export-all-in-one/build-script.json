@@ -1,101 +1,92 @@
 {
-	"$schema": "/data/DevelopmentRoot/github.com/gongt/idlebox/common/temp/node_modules/.mirror.service.gongt.me+59443/@idlebox/build-script/1.0.2/node_modules/@idlebox/build-script/schema.json",
-	"actions": {
-		"build": {
-			"type": "serial",
-			"exported": true,
-			"sequence": [
-				"@prebuild",
-				"@compile",
-				"@postbuild"
-			]
-		},
-		"compile": {
-			"type": "parallel",
-			"exported": false,
-			"sequence": [
-				"tsc"
-			]
-		},
-		"compile-watch": {
-			"type": "parallel",
-			"exported": false,
-			"sequence": [
-				"tscWatch"
-			]
-		},
-		"postbuild": {
-			"type": "parallel",
-			"exported": false,
-			"sequence": []
-		},
-		"prebuild": {
-			"type": "parallel",
-			"exported": false,
-			"sequence": [
-				"cleanOutput"
-			]
-		},
-		"prepublish": {
-			"type": "serial",
-			"exported": true,
-			"sequence": [
-				"@build"
-			]
-		},
-		"publish": {
-			"type": "serial",
-			"exported": true,
-			"sequence": [
-				"publish"
-			]
-		},
-		"test": {
-			"type": "serial",
-			"exported": true,
-			"sequence": [
-				"runTest"
-			]
-		},
-		"watch": {
-			"type": "serial",
-			"exported": true,
-			"sequence": [
-				"@prebuild",
-				"@compile-watch"
-			]
-		}
-	},
-	"jobs": {
-		"cleanOutput": [
-			"rimraf",
-			"lib",
-			"dist",
-			"out"
-		],
-		"publish": [
-			"yarn",
-			"publish",
-			"--registry",
-			"https://registry.npmjs.org --access=public"
-		],
-		"runTest": [
-			"echo",
-			"No test case set."
-		],
-		"tsc": [
+	"alias": {
+		"build-ts": [
 			"tsc",
 			"-p",
 			"src"
 		],
-		"tscWatch": [
+		"watch-ts": [
 			"tsc",
+			"-w",
 			"-p",
-			"src",
-			"-w"
+			"src"
+		],
+		"cleanup-lib": [
+			"rimraf",
+			"lib"
+		],
+		"yarn-publish": [
+			"yarn",
+			"publish",
+			"--registry",
+			"https://registry.npmjs.org",
+			"--access=public"
+		],
+		"upgrade-node-modules": [
+			"npm-check-updates",
+			"--update",
+			"--packageFile",
+			"./package.json"
+		],
+		"run-test": [
+			"echo",
+			"No",
+			"test",
+			"command",
+			"set."
 		]
 	},
-	"plugins": [
-		"@gongt/single-dog/register"
-	]
+	"command": {
+		"build": {
+			"title": "Build project",
+			"run": [
+				"build-ts"
+			]
+		},
+		"cleanup": {
+			"title": "Cleanup build result",
+			"run": [
+				"cleanup-lib"
+			]
+		},
+		"prepublish": {
+			"title": "Prepare for publish package",
+			"run": [
+				"@build"
+			],
+			"after": [
+				"cleanup"
+			]
+		},
+		"publish": {
+			"title": "Publish package",
+			"run": [
+				"yarn-publish"
+			],
+			"after": [
+				"prepublish"
+			]
+		},
+		"test": {
+			"title": "Run test",
+			"run": [
+				"run-test"
+			],
+			"after": [
+				"build"
+			]
+		},
+		"upgrade": {
+			"title": "Do project dependency upgrade",
+			"run": [
+				"upgrade-node-modules"
+			]
+		},
+		"watch": {
+			"title": "Watch mode build project",
+			"run": [
+				"watch-ts"
+			]
+		}
+	}
 }

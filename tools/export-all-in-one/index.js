@@ -5,7 +5,7 @@ if (process.argv.length === 2) { // node export-all-in-one --inject src
 	console.error(`Usage:
 	export-all-in-one <--inject> /path/to[/tsconfig.json]
 `);
-	process.exit(1);
+	process.exit(22);
 }
 
 let p;

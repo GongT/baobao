@@ -37,6 +37,11 @@ export function findUpUntilSync(from: string, file: string): string | null;
 // @public (undocumented)
 export function getAllPathUpToRoot(from: string, append?: string): string[];
 
+// Warning: (ae-missing-release-tag) "lrelative" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function lrelative(from: string, to: string): string;
+
 // Warning: (ae-missing-release-tag) "nodeProcessEnv" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)

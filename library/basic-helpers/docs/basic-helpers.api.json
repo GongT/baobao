@@ -1,80 +1,40 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.3.2",
-    "schemaVersion": 1001,
+    "toolVersion": "7.4.1",
+    "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
   "kind": "Package",
-  "canonicalReference": "@idlebox/basic-helpers",
+  "canonicalReference": "@idlebox/basic-helpers!",
   "docComment": "",
   "name": "@idlebox/basic-helpers",
   "members": [
     {
       "kind": "EntryPoint",
-      "canonicalReference": "",
+      "canonicalReference": "@idlebox/basic-helpers!",
       "name": "",
       "members": [
         {
           "kind": "Function",
-          "canonicalReference": "(arrayUpdate:0)",
+          "canonicalReference": "@idlebox/basic-helpers!arrayUpdate:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "arrayUpdate"
+              "text": "export declare function arrayUpdate<T>(before: "
             },
             {
               "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
+              "text": "T[]"
             },
             {
               "kind": "Content",
-              "text": ">("
-            },
-            {
-              "kind": "Reference",
-              "text": "before"
+              "text": ", after: "
             },
             {
               "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "[]"
-            },
-            {
-              "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "after"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "[]"
+              "text": "T[]"
             },
             {
               "kind": "Content",
@@ -82,55 +42,7 @@
             },
             {
               "kind": "Content",
-              "text": "{\n    "
-            },
-            {
-              "kind": "Reference",
-              "text": "add"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "[];\n    "
-            },
-            {
-              "kind": "Reference",
-              "text": "del"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "[];\n    "
-            },
-            {
-              "kind": "Reference",
-              "text": "same"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "[];\n}"
+              "text": "{\n    add: T[];\n    del: T[];\n    same: T[];\n}"
             },
             {
               "kind": "Content",
@@ -138,24 +50,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 15,
-            "endIndex": 28
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "before",
               "parameterTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 9
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "after",
               "parameterTypeTokenRange": {
-                "startIndex": 12,
-                "endIndex": 14
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -176,32 +88,17 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(assertFunctionHasName:0)",
+          "canonicalReference": "@idlebox/basic-helpers!assertFunctionHasName:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function assertFunctionHasName(func: "
             },
             {
               "kind": "Reference",
-              "text": "assertFunctionHasName"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "func"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "MaybeNamedFunction"
+              "text": "MaybeNamedFunction",
+              "canonicalReference": "@idlebox/basic-helpers!MaybeNamedFunction:interface"
             },
             {
               "kind": "Content",
@@ -217,17 +114,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "func",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -235,52 +132,21 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(awaitIterator:0)",
+          "canonicalReference": "@idlebox/basic-helpers!awaitIterator:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function awaitIterator<T>(generator: "
             },
             {
               "kind": "Reference",
-              "text": "awaitIterator"
+              "text": "Iterator",
+              "canonicalReference": "!Iterator:interface"
             },
             {
               "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": ">("
-            },
-            {
-              "kind": "Reference",
-              "text": "generator"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "Iterator"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": ">"
+              "text": "<T>"
             },
             {
               "kind": "Content",
@@ -288,19 +154,12 @@
             },
             {
               "kind": "Reference",
-              "text": "Promise"
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
             },
             {
               "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": ">"
+              "text": "<T>"
             },
             {
               "kind": "Content",
@@ -308,17 +167,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 12,
-            "endIndex": 16
+            "startIndex": 4,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "generator",
               "parameterTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 11
+                "startIndex": 1,
+                "endIndex": 3
               }
             }
           ],
@@ -339,28 +198,12 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "(CallbackList:class)",
+          "canonicalReference": "@idlebox/basic-helpers!CallbackList:class",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare class "
-            },
-            {
-              "kind": "Reference",
-              "text": "CallbackList"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "Argument"
-            },
-            {
-              "kind": "Content",
-              "text": "> "
+              "text": "export declare class CallbackList<Argument> "
             }
           ],
           "releaseTag": "Public",
@@ -381,52 +224,25 @@
           "members": [
             {
               "kind": "Method",
-              "canonicalReference": "(add:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CallbackList#add:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "add"
-                },
-                {
                   "kind": "Content",
-                  "text": "("
+                  "text": "add(item: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "item"
+                  "text": "MyCallback",
+                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "MyCallback"
+                  "text": "<Argument>"
                 },
                 {
                   "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "name"
-                },
-                {
-                  "kind": "Content",
-                  "text": "?: "
+                  "text": ", name?: "
                 },
                 {
                   "kind": "Content",
@@ -447,24 +263,24 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 13,
-                "endIndex": 14
+                "startIndex": 6,
+                "endIndex": 7
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 8
+                    "startIndex": 1,
+                    "endIndex": 3
                   }
                 },
                 {
                   "parameterName": "name",
                   "parameterTypeTokenRange": {
-                    "startIndex": 11,
-                    "endIndex": 12
+                    "startIndex": 4,
+                    "endIndex": 5
                   }
                 }
               ],
@@ -472,36 +288,21 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "(list:instance)",
+              "canonicalReference": "@idlebox/basic-helpers!CallbackList#list:member",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected "
+                  "text": "protected list: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "list"
+                  "text": "MyCallback",
+                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "MyCallback"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">[]"
+                  "text": "<Argument>[]"
                 },
                 {
                   "kind": "Content",
@@ -511,47 +312,28 @@
               "releaseTag": "Public",
               "name": "list",
               "propertyTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 7
+                "startIndex": 1,
+                "endIndex": 3
               },
               "isStatic": false
             },
             {
               "kind": "Method",
-              "canonicalReference": "(remove:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CallbackList#remove:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "remove"
-                },
-                {
                   "kind": "Content",
-                  "text": "("
+                  "text": "remove(item: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "item"
+                  "text": "MyCallback",
+                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "MyCallback"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">"
+                  "text": "<Argument>"
                 },
                 {
                   "kind": "Content",
@@ -559,19 +341,12 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "MyCallback"
+                  "text": "MyCallback",
+                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">[] | undefined"
+                  "text": "<Argument>[] | undefined"
                 },
                 {
                   "kind": "Content",
@@ -580,17 +355,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 13
+                "startIndex": 4,
+                "endIndex": 6
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 8
+                    "startIndex": 1,
+                    "endIndex": 3
                   }
                 }
               ],
@@ -598,27 +373,15 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(run:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CallbackList#run:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "run"
+                  "kind": "Content",
+                  "text": "run(argument: "
                 },
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "Argument"
                 },
                 {
@@ -636,17 +399,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 6,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "argument",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 5
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -657,28 +420,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(camelCase:0)",
+          "canonicalReference": "@idlebox/basic-helpers!camelCase:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "camelCase"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "str"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function camelCase(str: "
             },
             {
               "kind": "Content",
@@ -698,17 +445,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "str",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -716,28 +463,12 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "(CustomSet:class)",
+          "canonicalReference": "@idlebox/basic-helpers!CustomSet:class",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare class "
-            },
-            {
-              "kind": "Reference",
-              "text": "CustomSet"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "Type"
-            },
-            {
-              "kind": "Content",
-              "text": " = "
+              "text": "export declare class CustomSet<Type = "
             },
             {
               "kind": "Content",
@@ -757,66 +488,16 @@
                 "endIndex": 0
               },
               "defaultTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
           "name": "CustomSet",
           "members": [
             {
-              "kind": "Constructor",
-              "canonicalReference": "(:constructor,0)",
-              "docComment": "/**\n * Constructs a new instance of the `CustomSet` class\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "constructor("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "finder"
-                },
-                {
-                  "kind": "Content",
-                  "text": "?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Finder"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">"
-                },
-                {
-                  "kind": "Content",
-                  "text": ");"
-                }
-              ],
-              "releaseTag": "Public",
-              "overloadIndex": 0,
-              "parameters": [
-                {
-                  "parameterName": "finder",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 7
-                  }
-                }
-              ]
-            },
-            {
               "kind": "Method",
-              "canonicalReference": "([Symbol.iterator]:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#[Symbol.iterator]:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -825,15 +506,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "Symbol"
-                },
-                {
-                  "kind": "Content",
-                  "text": "."
-                },
-                {
-                  "kind": "Reference",
-                  "text": "iterator"
+                  "text": "Symbol.iterator",
+                  "canonicalReference": "!SymbolConstructor#iterator"
                 },
                 {
                   "kind": "Content",
@@ -841,19 +515,12 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "Iterator"
+                  "text": "Iterator",
+                  "canonicalReference": "!Iterator:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">"
+                  "text": "<Type>"
                 },
                 {
                   "kind": "Content",
@@ -862,37 +529,60 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 9
+                "startIndex": 3,
+                "endIndex": 5
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [],
               "name": "[Symbol.iterator]"
             },
             {
+              "kind": "Constructor",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `CustomSet` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(finder?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Finder",
+                  "canonicalReference": "@idlebox/basic-helpers!Finder:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Type>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "finder",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  }
+                }
+              ]
+            },
+            {
               "kind": "Method",
-              "canonicalReference": "(add:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#add:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "add"
+                  "kind": "Content",
+                  "text": "add(item: "
                 },
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "item"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "Type"
                 },
                 {
@@ -910,17 +600,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 6,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 5
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -928,44 +618,24 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(addAll:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#addAll:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "addAll"
+                  "kind": "Content",
+                  "text": "addAll(items: "
                 },
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "items"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "[]"
+                  "text": "Type[]"
                 },
                 {
                   "kind": "Content",
                   "text": "): "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
                   "kind": "Content",
-                  "text": "[]"
+                  "text": "Type[]"
                 },
                 {
                   "kind": "Content",
@@ -974,17 +644,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 9
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "items",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 6
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -992,27 +662,15 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(has:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#has:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "has"
+                  "kind": "Content",
+                  "text": "has(item: "
                 },
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "item"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "Type"
                 },
                 {
@@ -1030,17 +688,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 6,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 5
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -1048,20 +706,12 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "(length:instance)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#length:member",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "readonly "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "length"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
+                  "text": "readonly length: "
                 },
                 {
                   "kind": "Content",
@@ -1075,35 +725,23 @@
               "releaseTag": "Public",
               "name": "length",
               "propertyTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
+                "startIndex": 1,
+                "endIndex": 2
               },
               "isStatic": false
             },
             {
               "kind": "Property",
-              "canonicalReference": "(registry:instance)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#registry:member",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "registry"
+                  "text": "protected registry: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "[]"
+                  "text": "Type[]"
                 },
                 {
                   "kind": "Content",
@@ -1113,34 +751,22 @@
               "releaseTag": "Public",
               "name": "registry",
               "propertyTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
+                "startIndex": 1,
+                "endIndex": 2
               },
               "isStatic": false
             },
             {
               "kind": "Method",
-              "canonicalReference": "(remove:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#remove:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "remove"
+                  "kind": "Content",
+                  "text": "remove(item: "
                 },
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "item"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "Type"
                 },
                 {
@@ -1158,17 +784,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 6,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 5
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -1176,44 +802,24 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(removeAll:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#removeAll:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "removeAll"
+                  "kind": "Content",
+                  "text": "removeAll(items: "
                 },
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "items"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "[]"
+                  "text": "Type[]"
                 },
                 {
                   "kind": "Content",
                   "text": "): "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
                   "kind": "Content",
-                  "text": "[]"
+                  "text": "Type[]"
                 },
                 {
                   "kind": "Content",
@@ -1222,17 +828,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 9
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "items",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 6
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -1240,40 +846,21 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(setFinder:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#setFinder:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "setFinder"
-                },
-                {
                   "kind": "Content",
-                  "text": "("
+                  "text": "setFinder(finder: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "finder"
+                  "text": "Finder",
+                  "canonicalReference": "@idlebox/basic-helpers!Finder:type"
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Finder"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">"
+                  "text": "<Type>"
                 },
                 {
                   "kind": "Content",
@@ -1290,17 +877,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 4,
+                "endIndex": 5
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "finder",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 8
+                    "startIndex": 1,
+                    "endIndex": 3
                   }
                 }
               ],
@@ -1308,24 +895,16 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(toArray:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!CustomSet#toArray:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "toArray"
+                  "kind": "Content",
+                  "text": "toArray(): "
                 },
                 {
                   "kind": "Content",
-                  "text": "(): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "[]"
+                  "text": "Type[]"
                 },
                 {
                   "kind": "Content",
@@ -1334,11 +913,11 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 4
+                "startIndex": 1,
+                "endIndex": 2
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [],
               "name": "toArray"
             }
@@ -1347,20 +926,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(DateFunction:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!DateFunction:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "DateFunction"
-            },
-            {
-              "kind": "Content",
-              "text": " "
+              "text": "export interface DateFunction "
             }
           ],
           "releaseTag": "Public",
@@ -1368,24 +939,17 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "(:call,0)",
+              "canonicalReference": "@idlebox/basic-helpers!DateFunction:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "("
+                  "text": "(date: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "date"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Date"
+                  "text": "Date",
+                  "canonicalReference": "!Date:interface"
                 },
                 {
                   "kind": "Content",
@@ -1401,17 +965,17 @@
                 }
               ],
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "date",
                   "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ]
@@ -1421,32 +985,17 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(dateHuman:0)",
+          "canonicalReference": "@idlebox/basic-helpers!dateHuman:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function dateHuman(d: "
             },
             {
               "kind": "Reference",
-              "text": "dateHuman"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "d"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "Date"
+              "text": "Date",
+              "canonicalReference": "!Date:interface"
             },
             {
               "kind": "Content",
@@ -1462,17 +1011,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "d",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -1480,32 +1029,17 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(datetimeHuman:0)",
+          "canonicalReference": "@idlebox/basic-helpers!datetimeHuman:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function datetimeHuman(d: "
             },
             {
               "kind": "Reference",
-              "text": "datetimeHuman"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "d"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "Date"
+              "text": "Date",
+              "canonicalReference": "!Date:interface"
             },
             {
               "kind": "Content",
@@ -1521,17 +1055,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "d",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -1539,28 +1073,12 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "(DelayCallbackList:class)",
+          "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList:class",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare class "
-            },
-            {
-              "kind": "Reference",
-              "text": "DelayCallbackList"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "Argument"
-            },
-            {
-              "kind": "Content",
-              "text": "> "
+              "text": "export declare class DelayCallbackList<Argument> "
             }
           ],
           "releaseTag": "Public",
@@ -1581,52 +1099,25 @@
           "members": [
             {
               "kind": "Method",
-              "canonicalReference": "(add:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList#add:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "add"
-                },
-                {
                   "kind": "Content",
-                  "text": "("
+                  "text": "add(item: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "item"
+                  "text": "MyDelayCallback",
+                  "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "MyDelayCallback"
+                  "text": "<Argument>"
                 },
                 {
                   "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "name"
-                },
-                {
-                  "kind": "Content",
-                  "text": "?: "
+                  "text": ", name?: "
                 },
                 {
                   "kind": "Content",
@@ -1647,24 +1138,24 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 13,
-                "endIndex": 14
+                "startIndex": 6,
+                "endIndex": 7
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 8
+                    "startIndex": 1,
+                    "endIndex": 3
                   }
                 },
                 {
                   "parameterName": "name",
                   "parameterTypeTokenRange": {
-                    "startIndex": 11,
-                    "endIndex": 12
+                    "startIndex": 4,
+                    "endIndex": 5
                   }
                 }
               ],
@@ -1672,36 +1163,21 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "(list:instance)",
+              "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList#list:member",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected "
+                  "text": "protected list: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "list"
+                  "text": "MyDelayCallback",
+                  "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:interface"
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "MyDelayCallback"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ">[]"
+                  "text": "<Argument>[]"
                 },
                 {
                   "kind": "Content",
@@ -1711,34 +1187,22 @@
               "releaseTag": "Public",
               "name": "list",
               "propertyTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 7
+                "startIndex": 1,
+                "endIndex": 3
               },
               "isStatic": false
             },
             {
               "kind": "Method",
-              "canonicalReference": "(run:instance,0)",
+              "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList#run:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "run"
+                  "kind": "Content",
+                  "text": "run(argument: "
                 },
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "argument"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "Argument"
                 },
                 {
@@ -1756,17 +1220,17 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 6,
-                "endIndex": 7
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "argument",
                   "parameterTypeTokenRange": {
-                    "startIndex": 4,
-                    "endIndex": 5
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ],
@@ -1777,28 +1241,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(escapeRegExp:0)",
+          "canonicalReference": "@idlebox/basic-helpers!escapeRegExp:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "escapeRegExp"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "str"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function escapeRegExp(str: "
             },
             {
               "kind": "Content",
@@ -1818,17 +1266,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "str",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -1836,32 +1284,17 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(functionName:0)",
+          "canonicalReference": "@idlebox/basic-helpers!functionName:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function functionName(func: "
             },
             {
               "kind": "Reference",
-              "text": "functionName"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "func"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "Function"
+              "text": "Function",
+              "canonicalReference": "!Function:interface"
             },
             {
               "kind": "Content",
@@ -1877,17 +1310,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "func",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -1895,44 +1328,21 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(getErrorFrame:0)",
+          "canonicalReference": "@idlebox/basic-helpers!getErrorFrame:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function getErrorFrame(e: "
             },
             {
               "kind": "Reference",
-              "text": "getErrorFrame"
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
             },
             {
               "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "e"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "Error"
-            },
-            {
-              "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "frame"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": ", frame: "
             },
             {
               "kind": "Content",
@@ -1952,24 +1362,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 11,
-            "endIndex": 12
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "e",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "frame",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -1977,28 +1387,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(IArrayUpdate:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "IArrayUpdate"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "> "
+              "text": "export interface IArrayUpdate<T> "
             }
           ],
           "releaseTag": "Public",
@@ -2019,24 +1413,16 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "add",
+              "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate#add:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "add"
+                  "kind": "Content",
+                  "text": "add: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "T"
-                },
-                {
-                  "kind": "Content",
-                  "text": "[]"
+                  "text": "T[]"
                 },
                 {
                   "kind": "Content",
@@ -2046,30 +1432,22 @@
               "releaseTag": "Public",
               "name": "add",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 4
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "del",
+              "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate#del:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "del"
+                  "kind": "Content",
+                  "text": "del: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "T"
-                },
-                {
-                  "kind": "Content",
-                  "text": "[]"
+                  "text": "T[]"
                 },
                 {
                   "kind": "Content",
@@ -2079,30 +1457,22 @@
               "releaseTag": "Public",
               "name": "del",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 4
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "same",
+              "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate#same:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "same"
+                  "kind": "Content",
+                  "text": "same: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "T"
-                },
-                {
-                  "kind": "Content",
-                  "text": "[]"
+                  "text": "T[]"
                 },
                 {
                   "kind": "Content",
@@ -2112,8 +1482,8 @@
               "releaseTag": "Public",
               "name": "same",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 4
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -2121,20 +1491,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(IFormatters:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!IFormatters:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "IFormatters"
-            },
-            {
-              "kind": "Content",
-              "text": " "
+              "text": "export interface IFormatters "
             }
           ],
           "releaseTag": "Public",
@@ -2142,20 +1504,17 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "d",
+              "canonicalReference": "@idlebox/basic-helpers!IFormatters#d:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "d"
-                },
-                {
                   "kind": "Content",
-                  "text": ": "
+                  "text": "d: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "ITimeFormatter"
+                  "text": "ITimeFormatter",
+                  "canonicalReference": "@idlebox/basic-helpers!ITimeFormatter:interface"
                 },
                 {
                   "kind": "Content",
@@ -2165,26 +1524,23 @@
               "releaseTag": "Public",
               "name": "d",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "h",
+              "canonicalReference": "@idlebox/basic-helpers!IFormatters#h:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "h"
-                },
-                {
                   "kind": "Content",
-                  "text": ": "
+                  "text": "h: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "ITimeFormatter"
+                  "text": "ITimeFormatter",
+                  "canonicalReference": "@idlebox/basic-helpers!ITimeFormatter:interface"
                 },
                 {
                   "kind": "Content",
@@ -2194,26 +1550,23 @@
               "releaseTag": "Public",
               "name": "h",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "m",
+              "canonicalReference": "@idlebox/basic-helpers!IFormatters#m:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "m"
-                },
-                {
                   "kind": "Content",
-                  "text": ": "
+                  "text": "m: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "ITimeFormatter"
+                  "text": "ITimeFormatter",
+                  "canonicalReference": "@idlebox/basic-helpers!ITimeFormatter:interface"
                 },
                 {
                   "kind": "Content",
@@ -2223,26 +1576,23 @@
               "releaseTag": "Public",
               "name": "m",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "s",
+              "canonicalReference": "@idlebox/basic-helpers!IFormatters#s:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "s"
-                },
-                {
                   "kind": "Content",
-                  "text": ": "
+                  "text": "s: "
                 },
                 {
                   "kind": "Reference",
-                  "text": "ITimeFormatter"
+                  "text": "ITimeFormatter",
+                  "canonicalReference": "@idlebox/basic-helpers!ITimeFormatter:interface"
                 },
                 {
                   "kind": "Content",
@@ -2252,8 +1602,8 @@
               "releaseTag": "Public",
               "name": "s",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -2261,36 +1611,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(InitFunc:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!InitFunc:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "InitFunc"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "O"
-            },
-            {
-              "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "> "
+              "text": "export interface InitFunc<O, T> "
             }
           ],
           "releaseTag": "Public",
@@ -2322,23 +1648,15 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "(:call,0)",
+              "canonicalReference": "@idlebox/basic-helpers!InitFunc:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "this"
+                  "text": "(this: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "O"
                 },
                 {
@@ -2346,7 +1664,7 @@
                   "text": "): "
                 },
                 {
-                  "kind": "Reference",
+                  "kind": "Content",
                   "text": "T"
                 },
                 {
@@ -2355,17 +1673,17 @@
                 }
               ],
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "this",
                   "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ]
@@ -2375,56 +1693,20 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(initOnRead:0)",
+          "canonicalReference": "@idlebox/basic-helpers!initOnRead:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "initOnRead"
+              "text": "export declare function initOnRead<O, T extends "
             },
             {
               "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "O"
+              "text": "keyof O"
             },
             {
               "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": " extends "
-            },
-            {
-              "kind": "Content",
-              "text": "keyof "
-            },
-            {
-              "kind": "Reference",
-              "text": "O"
-            },
-            {
-              "kind": "Content",
-              "text": ">("
-            },
-            {
-              "kind": "Reference",
-              "text": "target"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": ">(target: "
             },
             {
               "kind": "Content",
@@ -2432,63 +1714,24 @@
             },
             {
               "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "propertyKey"
+              "text": ", propertyKey: "
             },
             {
               "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
               "text": "T"
             },
             {
               "kind": "Content",
-              "text": ", "
+              "text": ", init: "
             },
             {
               "kind": "Reference",
-              "text": "init"
+              "text": "InitFunc",
+              "canonicalReference": "@idlebox/basic-helpers!InitFunc:interface"
             },
             {
               "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "InitFunc"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "O"
-            },
-            {
-              "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "O"
-            },
-            {
-              "kind": "Content",
-              "text": "["
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "]>"
+              "text": "<O, O[T]>"
             },
             {
               "kind": "Content",
@@ -2504,31 +1747,31 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 29,
-            "endIndex": 30
+            "startIndex": 10,
+            "endIndex": 11
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "target",
               "parameterTypeTokenRange": {
-                "startIndex": 12,
-                "endIndex": 13
+                "startIndex": 3,
+                "endIndex": 4
               }
             },
             {
               "parameterName": "propertyKey",
               "parameterTypeTokenRange": {
-                "startIndex": 16,
-                "endIndex": 17
+                "startIndex": 5,
+                "endIndex": 6
               }
             },
             {
               "parameterName": "init",
               "parameterTypeTokenRange": {
-                "startIndex": 20,
-                "endIndex": 28
+                "startIndex": 7,
+                "endIndex": 9
               }
             }
           ],
@@ -2547,8 +1790,8 @@
             {
               "typeParameterName": "T",
               "constraintTokenRange": {
-                "startIndex": 7,
-                "endIndex": 9
+                "startIndex": 1,
+                "endIndex": 2
               },
               "defaultTypeTokenRange": {
                 "startIndex": 0,
@@ -2560,64 +1803,24 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(isArraySame:0)",
+          "canonicalReference": "@idlebox/basic-helpers!isArraySame:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "isArraySame"
+              "text": "export declare function isArraySame<T>(a1: "
             },
             {
               "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
+              "text": "T[]"
             },
             {
               "kind": "Content",
-              "text": ">("
-            },
-            {
-              "kind": "Reference",
-              "text": "a1"
+              "text": ", a2: "
             },
             {
               "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "[]"
-            },
-            {
-              "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "a2"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "[]"
+              "text": "T[]"
             },
             {
               "kind": "Content",
@@ -2633,24 +1836,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 15,
-            "endIndex": 16
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "a1",
               "parameterTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 9
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "a2",
               "parameterTypeTokenRange": {
-                "startIndex": 12,
-                "endIndex": 14
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -2671,20 +1874,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(ITimeFormatter:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!ITimeFormatter:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "ITimeFormatter"
-            },
-            {
-              "kind": "Content",
-              "text": " "
+              "text": "export interface ITimeFormatter "
             }
           ],
           "releaseTag": "Public",
@@ -2692,20 +1887,12 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "(:call,0)",
+              "canonicalReference": "@idlebox/basic-helpers!ITimeFormatter:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "s"
-                },
-                {
-                  "kind": "Content",
-                  "text": ": "
+                  "text": "(s: "
                 },
                 {
                   "kind": "Content",
@@ -2725,17 +1912,17 @@
                 }
               ],
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "s",
                   "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ]
@@ -2745,28 +1932,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(IUniqueIdFactory:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!IUniqueIdFactory:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "IUniqueIdFactory"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": "> "
+              "text": "export interface IUniqueIdFactory<T> "
             }
           ],
           "releaseTag": "Public",
@@ -2787,23 +1958,15 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "(:call,0)",
+              "canonicalReference": "@idlebox/basic-helpers!IUniqueIdFactory:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "item"
+                  "text": "(item: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "T"
                 },
                 {
@@ -2820,17 +1983,17 @@
                 }
               ],
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ]
@@ -2840,28 +2003,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(lcfirst:0)",
+          "canonicalReference": "@idlebox/basic-helpers!lcfirst:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "lcfirst"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "str"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function lcfirst(str: "
             },
             {
               "kind": "Content",
@@ -2881,17 +2028,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "str",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -2899,28 +2046,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(linux_case_hyphen:0)",
+          "canonicalReference": "@idlebox/basic-helpers!linux_case_hyphen:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "linux_case_hyphen"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "str"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function linux_case_hyphen(str: "
             },
             {
               "kind": "Content",
@@ -2940,17 +2071,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "str",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -2958,28 +2089,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(linux_case:0)",
+          "canonicalReference": "@idlebox/basic-helpers!linux_case:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "linux_case"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "str"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function linux_case(str: "
             },
             {
               "kind": "Content",
@@ -2999,17 +2114,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "str",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -3017,24 +2132,17 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(MaybeNamedFunction:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!MaybeNamedFunction:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
+              "text": "export interface MaybeNamedFunction extends "
             },
             {
               "kind": "Reference",
-              "text": "MaybeNamedFunction"
-            },
-            {
-              "kind": "Content",
-              "text": " extends "
-            },
-            {
-              "kind": "Reference",
-              "text": "Function"
+              "text": "Function",
+              "canonicalReference": "!Function:interface"
             },
             {
               "kind": "Content",
@@ -3046,16 +2154,12 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "displayName",
+              "canonicalReference": "@idlebox/basic-helpers!MaybeNamedFunction#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "displayName"
-                },
-                {
                   "kind": "Content",
-                  "text": "?: "
+                  "text": "displayName?: "
                 },
                 {
                   "kind": "Content",
@@ -3069,42 +2173,26 @@
               "releaseTag": "Public",
               "name": "displayName",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
           "extendsTokenRanges": [
             {
-              "startIndex": 3,
-              "endIndex": 5
+              "startIndex": 1,
+              "endIndex": 3
             }
           ]
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(MyCallback:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "MyCallback"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "Argument"
-            },
-            {
-              "kind": "Content",
-              "text": "> "
+              "text": "export interface MyCallback<Argument> "
             }
           ],
           "releaseTag": "Public",
@@ -3125,23 +2213,15 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "(:call,0)",
+              "canonicalReference": "@idlebox/basic-helpers!MyCallback:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "param"
+                  "text": "(param: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "Argument"
                 },
                 {
@@ -3158,33 +2238,29 @@
                 }
               ],
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "param",
                   "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ]
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "displayName",
+              "canonicalReference": "@idlebox/basic-helpers!MyCallback#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "displayName"
-                },
-                {
                   "kind": "Content",
-                  "text": "?: "
+                  "text": "displayName?: "
                 },
                 {
                   "kind": "Content",
@@ -3198,8 +2274,8 @@
               "releaseTag": "Public",
               "name": "displayName",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -3207,28 +2283,12 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(MyDelayCallback:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
-            },
-            {
-              "kind": "Reference",
-              "text": "MyDelayCallback"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "Argument"
-            },
-            {
-              "kind": "Content",
-              "text": "> "
+              "text": "export interface MyDelayCallback<Argument> "
             }
           ],
           "releaseTag": "Public",
@@ -3249,23 +2309,15 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "(:call,0)",
+              "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "("
-                },
-                {
-                  "kind": "Reference",
-                  "text": "param"
+                  "text": "(param: "
                 },
                 {
                   "kind": "Content",
-                  "text": ": "
-                },
-                {
-                  "kind": "Reference",
                   "text": "Argument"
                 },
                 {
@@ -3282,33 +2334,29 @@
                 }
               ],
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 3,
+                "endIndex": 4
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "param",
                   "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
+                    "startIndex": 1,
+                    "endIndex": 2
                   }
                 }
               ]
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "displayName",
+              "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "displayName"
-                },
-                {
                   "kind": "Content",
-                  "text": "?: "
+                  "text": "displayName?: "
                 },
                 {
                   "kind": "Content",
@@ -3322,8 +2370,8 @@
               "releaseTag": "Public",
               "name": "displayName",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -3331,24 +2379,17 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "(NamedFunction:interface)",
+          "canonicalReference": "@idlebox/basic-helpers!NamedFunction:interface",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface "
+              "text": "export interface NamedFunction extends "
             },
             {
               "kind": "Reference",
-              "text": "NamedFunction"
-            },
-            {
-              "kind": "Content",
-              "text": " extends "
-            },
-            {
-              "kind": "Reference",
-              "text": "Function"
+              "text": "Function",
+              "canonicalReference": "!Function:interface"
             },
             {
               "kind": "Content",
@@ -3360,16 +2401,12 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "displayName",
+              "canonicalReference": "@idlebox/basic-helpers!NamedFunction#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
-                  "kind": "Reference",
-                  "text": "displayName"
-                },
-                {
                   "kind": "Content",
-                  "text": ": "
+                  "text": "displayName: "
                 },
                 {
                   "kind": "Content",
@@ -3383,58 +2420,35 @@
               "releaseTag": "Public",
               "name": "displayName",
               "propertyTypeTokenRange": {
-                "startIndex": 2,
-                "endIndex": 3
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
           "extendsTokenRanges": [
             {
-              "startIndex": 3,
-              "endIndex": 5
+              "startIndex": 1,
+              "endIndex": 3
             }
           ]
         },
         {
           "kind": "Function",
-          "canonicalReference": "(nameFunction:0)",
+          "canonicalReference": "@idlebox/basic-helpers!nameFunction:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function nameFunction<T extends "
             },
             {
               "kind": "Reference",
-              "text": "nameFunction"
+              "text": "Function",
+              "canonicalReference": "!Function:interface"
             },
             {
               "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": " extends "
-            },
-            {
-              "kind": "Reference",
-              "text": "Function"
-            },
-            {
-              "kind": "Content",
-              "text": ">("
-            },
-            {
-              "kind": "Reference",
-              "text": "name"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": ">(name: "
             },
             {
               "kind": "Content",
@@ -3442,18 +2456,10 @@
             },
             {
               "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "func"
+              "text": ", func: "
             },
             {
               "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
               "text": "T"
             },
             {
@@ -3461,16 +2467,13 @@
               "text": "): "
             },
             {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
               "kind": "Content",
-              "text": " & "
+              "text": "T & "
             },
             {
               "kind": "Reference",
-              "text": "NamedFunction"
+              "text": "NamedFunction",
+              "canonicalReference": "@idlebox/basic-helpers!NamedFunction:interface"
             },
             {
               "kind": "Content",
@@ -3478,24 +2481,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 15,
-            "endIndex": 18
+            "startIndex": 7,
+            "endIndex": 9
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "name",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             },
             {
               "parameterName": "func",
               "parameterTypeTokenRange": {
-                "startIndex": 13,
-                "endIndex": 14
+                "startIndex": 5,
+                "endIndex": 6
               }
             }
           ],
@@ -3503,8 +2506,8 @@
             {
               "typeParameterName": "T",
               "constraintTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               },
               "defaultTypeTokenRange": {
                 "startIndex": 0,
@@ -3516,28 +2519,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(objectPath:0)",
+          "canonicalReference": "@idlebox/basic-helpers!objectPath:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "objectPath"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "obj"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function objectPath(obj: "
             },
             {
               "kind": "Content",
@@ -3545,15 +2532,7 @@
             },
             {
               "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "path"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": ", path: "
             },
             {
               "kind": "Content",
@@ -3573,24 +2552,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 11,
-            "endIndex": 12
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "obj",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "path",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -3598,28 +2577,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(pad2:0)",
+          "canonicalReference": "@idlebox/basic-helpers!pad2:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "pad2"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "s"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function pad2(s: "
             },
             {
               "kind": "Content",
@@ -3639,17 +2602,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "s",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -3657,32 +2620,17 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(RegexpFinder:0)",
+          "canonicalReference": "@idlebox/basic-helpers!RegexpFinder:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function RegexpFinder(this: "
             },
             {
               "kind": "Reference",
-              "text": "RegexpFinder"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "this"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "RegExp"
+              "text": "RegExp",
+              "canonicalReference": "!RegExp:interface"
             },
             {
               "kind": "Content",
@@ -3690,19 +2638,12 @@
             },
             {
               "kind": "Content",
-              "text": ", "
+              "text": ", item: "
             },
             {
               "kind": "Reference",
-              "text": "item"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "RegExp"
+              "text": "RegExp",
+              "canonicalReference": "!RegExp:interface"
             },
             {
               "kind": "Content",
@@ -3718,24 +2659,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 12,
-            "endIndex": 13
+            "startIndex": 6,
+            "endIndex": 7
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "this",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 7
+                "startIndex": 1,
+                "endIndex": 3
               }
             },
             {
               "parameterName": "item",
               "parameterTypeTokenRange": {
-                "startIndex": 10,
-                "endIndex": 11
+                "startIndex": 4,
+                "endIndex": 5
               }
             }
           ],
@@ -3743,48 +2684,26 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(registerLocaleDateString:0)",
+          "canonicalReference": "@idlebox/basic-helpers!registerLocaleDateString:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function registerLocaleDateString(timeFn: "
             },
             {
               "kind": "Reference",
-              "text": "registerLocaleDateString"
+              "text": "DateFunction",
+              "canonicalReference": "@idlebox/basic-helpers!DateFunction:interface"
             },
             {
               "kind": "Content",
-              "text": "("
+              "text": ", dateFn: "
             },
             {
               "kind": "Reference",
-              "text": "timeFn"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "DateFunction"
-            },
-            {
-              "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "dateFn"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "DateFunction"
+              "text": "DateFunction",
+              "canonicalReference": "@idlebox/basic-helpers!DateFunction:interface"
             },
             {
               "kind": "Content",
@@ -3800,24 +2719,24 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 11,
-            "endIndex": 12
+            "startIndex": 5,
+            "endIndex": 6
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "timeFn",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             },
             {
               "parameterName": "dateFn",
               "parameterTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
@@ -3825,32 +2744,17 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(registerLocaleTimeString:0)",
+          "canonicalReference": "@idlebox/basic-helpers!registerLocaleTimeString:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function registerLocaleTimeString(formatter: "
             },
             {
               "kind": "Reference",
-              "text": "registerLocaleTimeString"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "formatter"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "Partial"
+              "text": "Partial",
+              "canonicalReference": "!Partial:type"
             },
             {
               "kind": "Content",
@@ -3858,7 +2762,8 @@
             },
             {
               "kind": "Reference",
-              "text": "IFormatters"
+              "text": "IFormatters",
+              "canonicalReference": "@idlebox/basic-helpers!IFormatters:interface"
             },
             {
               "kind": "Content",
@@ -3878,17 +2783,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 10,
-            "endIndex": 11
+            "startIndex": 6,
+            "endIndex": 7
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "formatter",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 9
+                "startIndex": 1,
+                "endIndex": 5
               }
             }
           ],
@@ -3896,28 +2801,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(sizeHuman:0)",
+          "canonicalReference": "@idlebox/basic-helpers!sizeHuman:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "sizeHuman"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "size"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function sizeHuman(size: "
             },
             {
               "kind": "Content",
@@ -3937,17 +2826,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "size",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -3955,32 +2844,17 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(timeHuman:0)",
+          "canonicalReference": "@idlebox/basic-helpers!timeHuman:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function timeHuman(d: "
             },
             {
               "kind": "Reference",
-              "text": "timeHuman"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "d"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "Date"
+              "text": "Date",
+              "canonicalReference": "!Date:interface"
             },
             {
               "kind": "Content",
@@ -3996,17 +2870,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "d",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -4014,28 +2888,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(timeString:0)",
+          "canonicalReference": "@idlebox/basic-helpers!timeString:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "timeString"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "ms"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function timeString(ms: "
             },
             {
               "kind": "Content",
@@ -4055,17 +2913,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "ms",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -4073,28 +2931,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(timeStringTiny:0)",
+          "canonicalReference": "@idlebox/basic-helpers!timeStringTiny:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "timeStringTiny"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "ms"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function timeStringTiny(ms: "
             },
             {
               "kind": "Content",
@@ -4114,17 +2956,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "ms",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -4132,28 +2974,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(tryInspect:0)",
+          "canonicalReference": "@idlebox/basic-helpers!tryInspect:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "tryInspect"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "object"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function tryInspect(object: "
             },
             {
               "kind": "Content",
@@ -4173,17 +2999,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "object",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -4191,28 +3017,12 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(ucfirst:0)",
+          "canonicalReference": "@idlebox/basic-helpers!ucfirst:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
-            },
-            {
-              "kind": "Reference",
-              "text": "ucfirst"
-            },
-            {
-              "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "str"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
+              "text": "export declare function ucfirst(str: "
             },
             {
               "kind": "Content",
@@ -4232,17 +3042,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 7,
-            "endIndex": 8
+            "startIndex": 3,
+            "endIndex": 4
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "str",
               "parameterTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 1,
+                "endIndex": 2
               }
             }
           ],
@@ -4250,52 +3060,21 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(uniqueFilter:0)",
+          "canonicalReference": "@idlebox/basic-helpers!uniqueFilter:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare function "
+              "text": "export declare function uniqueFilter<T>(idFactory?: "
             },
             {
               "kind": "Reference",
-              "text": "uniqueFilter"
+              "text": "IUniqueIdFactory",
+              "canonicalReference": "@idlebox/basic-helpers!IUniqueIdFactory:interface"
             },
             {
               "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": ">("
-            },
-            {
-              "kind": "Reference",
-              "text": "idFactory"
-            },
-            {
-              "kind": "Content",
-              "text": "?: "
-            },
-            {
-              "kind": "Reference",
-              "text": "IUniqueIdFactory"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": ">"
+              "text": "<T>"
             },
             {
               "kind": "Content",
@@ -4303,23 +3082,7 @@
             },
             {
               "kind": "Content",
-              "text": "("
-            },
-            {
-              "kind": "Reference",
-              "text": "item"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Reference",
-              "text": "T"
-            },
-            {
-              "kind": "Content",
-              "text": ") => boolean"
+              "text": "(item: T) => boolean"
             },
             {
               "kind": "Content",
@@ -4327,17 +3090,17 @@
             }
           ],
           "returnTypeTokenRange": {
-            "startIndex": 12,
-            "endIndex": 17
+            "startIndex": 4,
+            "endIndex": 5
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "idFactory",
               "parameterTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 11
+                "startIndex": 1,
+                "endIndex": 3
               }
             }
           ],

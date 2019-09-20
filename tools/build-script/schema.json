@@ -38,6 +38,12 @@
 				"pattern": "^[a-zA-Z0-9_-]+$"
 			}
 		},
+		"alias": {
+			"type": "object",
+			"additionalProperties": {
+				"type": "string"
+			}
+		},
 		"actions": {
 			"type": "object",
 			"additionalProperties": {

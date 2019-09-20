@@ -1,0 +1,12 @@
+{
+	"name": "@idlebox/single-dog-asset",
+	"version": "1.0.0",
+	"license": "MIT",
+	"monorepo": true,
+	"bin": {
+		"single-dog": "index.js"
+	},
+	"dependencies": {
+		"command-exists": "^1.2.8"
+	}
+}

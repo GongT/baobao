@@ -48,7 +48,7 @@ export function camelCase(str: string): string;
 export class CustomSet<Type = string> {
     // (undocumented)
     [Symbol.iterator](): Iterator<Type>;
-    // Warning: (ae-forgotten-export) The symbol "Finder" needs to be exported by the entry point _export_all_in_once_index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Finder" needs to be exported by the entry point _export_all_in_one_index.d.ts
     constructor(finder?: Finder<Type>);
     // (undocumented)
     add(item: Type): boolean;

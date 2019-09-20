@@ -1,6 +1,12 @@
 import { DisposedError } from '@idlebox/errors';
 import { Emitter, EventRegister } from './event';
 
+export interface IDisposableBase {
+	onDisposeError: EventRegister<Error>;
+	onBeforeDispose: EventRegister<void>;
+	readonly hasDisposed: boolean;
+}
+
 export interface IDisposable {
 	dispose(): void;
 }
@@ -9,7 +15,8 @@ export interface IAsyncDisposable {
 	dispose(): void | Promise<void>;
 }
 
-abstract class DisposableBase {
+/** @internal */
+export abstract class DisposableBase implements IDisposableBase {
 	protected readonly _onDisposeError = new Emitter<Error>();
 	public readonly onDisposeError: EventRegister<Error> = this._onDisposeError.register;
 

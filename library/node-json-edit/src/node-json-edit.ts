@@ -1,5 +1,5 @@
 import { parse, stringify } from 'comment-json';
-import { access as accessAsync, readFile as readFileAsync, writeFile as writeFileAsync } from 'fs';
+import { access as accessAsync, accessSync, readFile as readFileAsync, readFileSync, writeFile as writeFileAsync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { promisify } from 'util';
 
@@ -36,16 +36,44 @@ const realDefault: IFileInternalConfig = {
 };
 export const defaultJsonFormatConfig: IFileFormatConfig = realDefault;
 
+export function writeJsonFileBackForceSync(data: any): void {
+	return _realWriteJsonFileSync(undefined, data, true);
+}
+
 export async function writeJsonFileBackForce(data: any): Promise<void> {
 	return _realWriteJsonFile(undefined, data, true);
+}
+
+export function writeJsonFileBackSync(data: any): void {
+	return _realWriteJsonFileSync(undefined, data, false);
 }
 
 export async function writeJsonFileBack(data: any): Promise<void> {
 	return _realWriteJsonFile(undefined, data, false);
 }
 
+export function writeJsonFileSync(file: string, data: any): void {
+	return _realWriteJsonFileSync(file, data, true);
+}
+
 export function writeJsonFile(file: string, data: any): Promise<void> {
 	return _realWriteJsonFile(file, data, true);
+}
+
+export function writeJsonFileIfChangedSync(file: string, data: any, charset: string = realDefault.encoding): Promise<void> {
+	if (!_getFormatInfo(data)) {
+		let willLoad = true;
+		try {
+			accessSync(file);
+		} catch (e) {
+			willLoad = false;
+		}
+		if (willLoad) {
+			const config = _getFormatInfo(loadJsonFileSync(file, charset))!;
+			attachFormatConfig(data, config);
+		}
+	}
+	return _realWriteJsonFile(file, data, false);
 }
 
 export async function writeJsonFileIfChanged(file: string, data: any, charset: string = realDefault.encoding): Promise<void> {
@@ -56,13 +84,14 @@ export async function writeJsonFileIfChanged(file: string, data: any, charset: s
 	return _realWriteJsonFile(file, data, false);
 }
 
-/** @internal */
-export async function _realWriteJsonFile(_file: string | undefined, data: any, force: boolean): Promise<void> {
+function _realWriteJsonFileP(_file: string | undefined, data: any, force: boolean): [true, { config: IFileInternalConfig; file: string; text: string; }]
+function _realWriteJsonFileP(_file: string | undefined, data: any, force: boolean): [false, {}]
+function _realWriteJsonFileP(_file: string | undefined, data: any, force: boolean): [boolean, { config?: IFileInternalConfig; file?: string; text?: string; }] {
 	const text = stringifyJsonText(data);
 	const config = _getFormatInfo(data) || realDefault;
 
 	if (!force && config.originalContent === text) {
-		return;
+		return [false, {}];
 	}
 
 	let file = '';
@@ -73,10 +102,30 @@ export async function _realWriteJsonFile(_file: string | undefined, data: any, f
 	} else {
 		throw new Error('This object is not load from file system.');
 	}
+	return [true, { config, file, text }];
+}
 
-	await writeFile(file, text, { encoding: config.encoding });
+function _realWriteJsonFileE(config: IFileInternalConfig, text: string, file: string) {
 	config.originalContent = text;
 	config.originalPath = resolve(process.cwd(), file);
+}
+
+function _realWriteJsonFileSync(_file: string | undefined, data: any, force: boolean): void {
+	const [change, { config, file, text }] = _realWriteJsonFileP(_file, data, force);
+	if (!change) {
+		return;
+	}
+	writeFileSync(file, text, { encoding: config.encoding });
+	_realWriteJsonFileE(config, text, file);
+}
+
+async function _realWriteJsonFile(_file: string | undefined, data: any, force: boolean): Promise<void> {
+	const [change, { config, file, text }] = _realWriteJsonFileP(_file, data, force);
+	if (!change) {
+		return;
+	}
+	await writeFile(file, text, { encoding: config.encoding });
+	_realWriteJsonFileE(config, text, file);
 }
 
 export async function loadJsonFileIfExists(file: string, defaultValue: any = {}, charset: string = realDefault.encoding!): Promise<any> {
@@ -89,19 +138,36 @@ export async function loadJsonFileIfExists(file: string, defaultValue: any = {},
 	}
 }
 
-export async function loadJsonFile(file: string, charset: string = realDefault.encoding!): Promise<any> {
-	try {
-		const text = await readFile(file, { encoding: charset });
-		const data = parseJsonText(text);
-		const config = _getFormatInfo(data)!;
-		config.encoding = charset;
-		config.originalContent = text;
-		config.originalPath = resolve(process.cwd(), file);
-		return data;
-	} catch (e) {
+function _loadJsonFile(e: null, text: string, charset: string, file: string): void;
+function _loadJsonFile(e: Error): void;
+function _loadJsonFile(e: Error | null, text?: string, charset?: string, file?: string) {
+	if (e) {
 		e.message += ` (while loading json file "${file}")`;
 		throw e;
 	}
+	const data = parseJsonText(text!);
+	const config = _getFormatInfo(data)!;
+	config.encoding = charset!;
+	config.originalContent = text!;
+	config.originalPath = resolve(process.cwd(), file!);
+	return data;
+}
+
+export function loadJsonFileSync(file: string, charset: string = realDefault.encoding!): any {
+	try {
+		const text = readFileSync(file, { encoding: charset });
+		return _loadJsonFile(null, text, charset, file);
+	} catch (e) {
+		_loadJsonFile(e);
+	}
+}
+
+export async function loadJsonFile(file: string, charset: string = realDefault.encoding!): Promise<any> {
+	return readFile(file, { encoding: charset }).then((data) => {
+		_loadJsonFile(null, data, charset, file);
+	}, (e) => {
+		_loadJsonFile(e);
+	});
 }
 
 export function parseJsonText(text: string): any {

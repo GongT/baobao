@@ -1,8 +1,8 @@
+import { findUpUntil } from '@idlebox/platform';
 import { pathExists } from 'fs-extra';
 import { basename, resolve } from 'path';
 import { IGitInfo } from '../inc/gitName';
 import { defaultJsonFormatConfig, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
-import { findUpUntil } from '../inc/findUpUntil';
 
 const { manifest } = require('pacote');
 
@@ -10,7 +10,6 @@ export const prodPackages: string[] = [];
 export const devPackages = [
 	'@types/node',
 	'@gongt/single-dog',
-	'@idlebox/build-script',
 	'typescript',
 ];
 
@@ -57,11 +56,11 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 	const foundRush = await findUpUntil(PACKAGE_JSON_PATH, 'rush.json');
 	if (foundPackageJson || foundRush) {
 		if (foundRush) {
-			console.log('This should be a monorepo, because "rush.json" found in upper folder.');
+			console.debug('This should be a monorepo, because "rush.json" found in upper folder.');
 			insertKeyAlphabet(packageJson, 'monorepo', 'rush');
 		} else if (foundPackageJson && await pathExists(resolve(foundPackageJson, '../yarn.lock'))) {
-			insertKeyAlphabet(packageJson, 'monorepo', 'yarn');
 			console.log('This should be a monorepo, because ".git" found in upper folder.');
+			insertKeyAlphabet(packageJson, 'monorepo', 'yarn');
 		} else {
 			insertKeyAlphabet(packageJson, 'monorepo', 'simple');
 		}

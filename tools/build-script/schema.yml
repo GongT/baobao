@@ -1,0 +1,22 @@
+load:
+    - @idlebox/build-script/tool/typescript
+    -
+    - @idlebox/build-script/tool/prepare
+    - @idlebox/build-script/tool/build
+    - @idlebox/build-script/tool/publish
+    - @gongt/single-dog
+
+build:
+    sequence:
+        - cleanup
+        - typescript
+
+test:
+    use: @idlebox/build-script/tool/test
+
+prepare:
+    use: @idlebox/build-script/tool/prepare
+    command:
+        - tsc -p src/core --noEmitOnError false
+        - tsc -p src/tools --noEmitOnError false
+

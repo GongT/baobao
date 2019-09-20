@@ -10,16 +10,14 @@
 			"ignoreDependencyOrder": true,
 			"ignoreMissingScript": true,
 			"allowWarningsInSuccessfulBuild": false
-		},
-		{
+		}, {
 			"commandKind": "bulk",
 			"name": "upgrade",
 			"summary": "Upgrade all dependencies to their latest version in every sub project.",
 			"enableParallelism": false,
 			"ignoreDependencyOrder": true,
 			"allowWarningsInSuccessfulBuild": true
-		},
-		{
+		}, {
 			"commandKind": "bulk",
 			"name": "watch",
 			"summary": "Run watch in every sub project.",
@@ -27,8 +25,7 @@
 			"safeForSimultaneousRushProcesses": true,
 			"ignoreDependencyOrder": true,
 			"allowWarningsInSuccessfulBuild": true
-		},
-		{
+		}, {
 			"commandKind": "bulk",
 			"name": "prepare",
 			"summary": "Run prepare in every sub project.",
@@ -37,8 +34,7 @@
 			"ignoreDependencyOrder": true,
 			"ignoreMissingScript": true,
 			"allowWarningsInSuccessfulBuild": true
-		},
-		{
+		}, {
 			"commandKind": "bulk",
 			"name": "yarn-publish",
 			"summary": "Run yarn publish in every sub project.",
@@ -47,12 +43,15 @@
 			"ignoreDependencyOrder": true,
 			"ignoreMissingScript": true,
 			"allowWarningsInSuccessfulBuild": true
-		},
-		{
-			"commandKind": "global",
-			"name": "ls",
-			"summary": "list projects",
-			"shellCommand": ""
+		}, {
+			"commandKind": "bulk",
+			"name": "ttt",
+			"summary": "test.",
+			"enableParallelism": false,
+			"safeForSimultaneousRushProcesses": false,
+			"ignoreDependencyOrder": false,
+			"ignoreMissingScript": true,
+			"allowWarningsInSuccessfulBuild": true
 		}
 	],
 	"parameters": [
