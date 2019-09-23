@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 try {
 	require.resolve('@idlebox/single-dog');
 } catch (e) {
@@ -7,5 +9,5 @@ try {
 var commandExists = require('command-exists');
 
 // invoked without a callback, it returns a promise
-commandExists('ls')
+commandExists('ls');
 

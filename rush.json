@@ -53,7 +53,7 @@
 			"projectFolder": "library/platform",
 			"shouldPublish": true
 		}, {
-			"packageName": "@gongt/single-dog",
+			"packageName": "@idlebox/single-dog",
 			"projectFolder": "tools/single-dog",
 			"shouldPublish": true
 		}, {
@@ -67,6 +67,10 @@
 			"cyclicDependencyProjects": [
 				"@idlebox/platform"
 			]
+		}, {
+			"packageName": "@idlebox/package-manager",
+			"projectFolder": "tools/package-manager",
+			"shouldPublish": true
 		}, {
 			"packageName": "@idlebox/errors",
 			"projectFolder": "library/errors",

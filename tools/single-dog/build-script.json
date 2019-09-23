@@ -1,39 +1,28 @@
 {
 	"alias": {
 		"build-ts": [
-			"tsc",
-			"-p",
-			"src"
+			"tsc", "-p", "src"
 		],
 		"watch-ts": [
-			"tsc",
-			"-w",
-			"-p",
-			"src"
+			"tsc", "--pretty", "-w", "-p", "src"
 		],
 		"cleanup-lib": [
-			"rimraf",
-			"lib"
+			"rimraf", "lib"
 		],
 		"yarn-publish": [
-			"yarn",
-			"publish",
-			"--registry",
-			"https://registry.npmjs.org",
-			"--access=public"
+			"yarn", "publish", "--registry", "https://registry.npmjs.org", "--access=public"
 		],
 		"upgrade-node-modules": [
-			"npm-check-updates",
-			"--update",
-			"--packageFile",
-			"./package.json"
+			"npm-check-updates", "--update", "--packageFile", "./package.json"
 		],
 		"run-test": [
-			"echo",
-			"No",
-			"test",
-			"command",
-			"set."
+			"echo", "No", "test", "command", "set."
+		],
+		"git-clean-all": [
+			"git", "clean", "-f", "-d", "-X", "-e", "node_modules"
+		],
+		"git-clean": [
+			"git", "clean", "-f", "-d", "-X", "-e", "node_modules"
 		]
 	},
 	"command": {
@@ -43,19 +32,22 @@
 				"build-ts"
 			]
 		},
-		"cleanup": {
-			"title": "Cleanup build result",
+		"distclean": {
+			"title": "Delete git ignore files",
 			"run": [
-				"cleanup-lib"
+				"git-clean-all"
 			]
 		},
-		"prepublish": {
+		"clean": {
+			"title": "Delete git ignore files (without node_modules)",
+			"run": [
+				"git-clean"
+			]
+		},
+		"rebuild": {
 			"title": "Prepare for publish package",
 			"run": [
-				"@build"
-			],
-			"after": [
-				"cleanup"
+				"cleanup-lib", "@build"
 			]
 		},
 		"publish": {
@@ -64,7 +56,7 @@
 				"yarn-publish"
 			],
 			"after": [
-				"prepublish"
+				"rebuild"
 			]
 		},
 		"test": {

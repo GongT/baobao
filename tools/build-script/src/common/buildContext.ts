@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import { loadPlugin, resetLoader } from '../api/loader';
 import { IMyProjectJson, rectLoadDefine } from '../global';
 import { BuildContextBase } from './buildContextBase';
+import { fancyLog } from './fancyLog';
 import { isArrayOfString } from './func';
 
 export class BuildContext extends BuildContextBase {
@@ -27,6 +28,7 @@ export class BuildContext extends BuildContextBase {
 				process.exit(1);
 			}
 
+			fancyLog.info('Using package: %s', this.packageJsonPath);
 			this.ppj = loadJsonFile(this.packageJsonPath);
 		}
 		return this.ppj;

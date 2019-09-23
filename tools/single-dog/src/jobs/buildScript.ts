@@ -1,6 +1,7 @@
-import { installBuildScript, registerPlugin } from '@idlebox/build-script';
+import { registerPlugin, setProjectDir } from '@idlebox/build-script';
 
 export async function runBuildScriptInit() {
-	await installBuildScript(CONTENT_ROOT);
-	await registerPlugin(CONTENT_ROOT, '@gongt/single-dog/register');
+
+	setProjectDir(process.cwd());
+	await registerPlugin('@idlebox/single-dog-asset/register', []);
 }

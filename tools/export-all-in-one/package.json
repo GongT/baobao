@@ -7,19 +7,14 @@
 		"prepublish": "build-script prepublish",
 		"publish": "build-script publish",
 		"test": "build-script test",
-		"upgrade": "build-script upgrade",
+		"upgrade": "ncu --upgrade --packageFile ./package.json",
 		"watch": "build-script watch"
 	},
 	"version": "3.0.5",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/export-all-in-one",
 	"keywords": [
-		"typescript",
-		"library",
-		"ts",
-		"cli",
-		"concat",
-		"gulp-core-build"
+		"typescript", "library", "ts", "cli", "concat", "gulp-core-build"
 	],
 	"bin": {
 		"export-all-in-one": "./index.js"
@@ -34,7 +29,6 @@
 		"@idlebox/ensure-symlink": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.12",
 		"@microsoft/api-extractor": "^7.4.1",
-		"@types/klaw": "^3.0.0",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
 		"source-map-support": "*",
@@ -42,13 +36,11 @@
 	},
 	"peerDependencies": {},
 	"devDependencies": {
-		"@gongt/single-dog": "^2.0.7",
-		"@idlebox/build-script": "^1.0.2",
+		"@idlebox/build-script": "^1.0.3",
+		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.5",
-		"npm-check-updates": "^3.1.22",
-		"npm-run-all": "^4.1.5",
-		"rimraf": "^3.0.0",
+		"@types/klaw": "^3.0.0",
 		"typescript": "^3.6.3",
 		"gulp": "^4.0.2"
 	}

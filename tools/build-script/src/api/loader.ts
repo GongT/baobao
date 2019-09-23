@@ -1,5 +1,5 @@
 import { nodeResolvePathArray } from '@idlebox/platform';
-import { fancyLog } from '../../src.bak/inc/fancyLog';
+import { fancyLog } from '../common/fancyLog';
 import { fatalError } from '../cmd-loader';
 import { getCurrentDir } from '../common/buildContextInstance';
 import { setCtxDisable, setCtxEnable } from './ctsStore';

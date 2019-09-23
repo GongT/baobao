@@ -47,6 +47,7 @@ export default async () => {
 	}
 
 	if (packageJson.name !== '@idlebox/build-script') {
+		fs.exec('git init');
 		await runBuildScriptInit();
 	}
 

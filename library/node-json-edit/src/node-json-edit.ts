@@ -164,7 +164,7 @@ export function loadJsonFileSync(file: string, charset: string = realDefault.enc
 
 export async function loadJsonFile(file: string, charset: string = realDefault.encoding!): Promise<any> {
 	return readFile(file, { encoding: charset }).then((data) => {
-		_loadJsonFile(null, data, charset, file);
+		return _loadJsonFile(null, data, charset, file);
 	}, (e) => {
 		_loadJsonFile(e);
 	});

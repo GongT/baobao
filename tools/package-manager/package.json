@@ -1,7 +1,10 @@
 {
 	"monorepo": true,
-	"name": "@idlebox/what-pm",
+	"name": "@idlebox/package-manager",
 	"version": "1.0.0",
+	"bin": {
+		"unpm": "./bin.js"
+	},
 	"scripts": {
 		"build": "tsc -p src",
 		"prepare": "im-single-dog",
@@ -9,12 +12,23 @@
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
 		"watch": "tsc -w -p src"
 	},
-	"dependencies": {},
+	"preferGlobal": true,
+	"dependencies": {
+		"@idlebox/platform": "^1.0.3",
+		"@idlebox/errors": "^1.0.2",
+		"command-exists": "^1.2.8",
+		"execa": "^2.0.4",
+		"json5": "^2.1.0",
+		"source-map-support": "*"
+	},
 	"devDependencies": {
-		"@types/node": "^12.0.12",
-		"@gongt/single-dog": "^2.0.2",
-		"npm-check-updates": "^3.1.13",
-		"typescript": "^3.5.2",
-		"rimraf": "^2.6.3"
+		"@idlebox/node-json-edit": "^1.0.12",
+		"@idlebox/single-dog-asset": "^1.0.1",
+		"@types/command-exists": "^1.2.0",
+		"@types/json5": "^0.0.30",
+		"@types/node": "^12.7.5",
+		"npm-check-updates": "^3.1.23",
+		"rimraf": "^3.0.0",
+		"typescript": "^3.6.3"
 	}
 }

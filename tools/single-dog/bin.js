@@ -15,7 +15,7 @@ if (process.argv.includes('-w')) {
 } else {
 	global.CONTENT_ROOT = process.cwd();
 }
-global.TEMPLATE_ROOT = __dirname + '/package';
+global.TEMPLATE_ROOT = require.resolve('@idlebox/single-dog-asset/package.json').replace(/\.json$/, '');
 
 let fn;
 switch (verb) {

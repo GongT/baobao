@@ -21,13 +21,13 @@
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "^1.0.12",
-		"@idlebox/platform": "^1.0.1",
+		"@idlebox/platform": "^1.0.3",
 		"@types/fancy-log": "^1.3.1",
 		"@types/gulp": "^4.0.6",
 		"execa": "^2.0.4",
 		"fancy-log": "^1.3.3",
 		"fs-extra": "^8.1.0",
-		"npm-check-updates": "^3.1.22",
+		"npm-check-updates": "^3.1.23",
 		"pacote": "^9.5.8",
 		"source-map-support": "*",
 		"split2": "^3.1.1"
@@ -36,7 +36,7 @@
 		"gulp": "^4.0.2"
 	},
 	"devDependencies": {
-		"@idlebox/single-dog-asset": "^1.0.0",
+		"@idlebox/single-dog-asset": "^1.0.1",
 		"@microsoft/api-extractor": "^7.4.1",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.5",

@@ -31,6 +31,9 @@ export function getBuildContext(): BuildContext {
 	if (global[bcs]) {
 		return global[bcs];
 	}
+	if (!getCurrentDir()) {
+		throw new Error('Must call "setProjectDir()" before others');
+	}
 	const bc = new BuildContext(getCurrentDir());
 	Object.defineProperty(global, bcs, {
 		enumerable: false,

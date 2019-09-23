@@ -39,6 +39,21 @@ export function isDisposedError(error: any): boolean;
 // @public (undocumented)
 export function isTimeoutError(error: Error): error is TimeoutError;
 
+// Warning: (ae-missing-release-tag) "prettyFormatError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function prettyFormatError(e: Error): string;
+
+// Warning: (ae-missing-release-tag) "prettyPrintError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function prettyPrintError(type: string, e: Error): void;
+
+// Warning: (ae-missing-release-tag) "setErrorLogRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function setErrorLogRoot(_root: string): void;
+
 // Warning: (ae-missing-release-tag) "TimeoutError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
