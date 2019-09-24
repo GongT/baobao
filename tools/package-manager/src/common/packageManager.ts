@@ -35,8 +35,14 @@ export abstract class PackageManager {
 		});
 	}
 
-	public async invokeCli(cmd: string, ...args: string[]): Promise<void> {
-		await execa(this.cliName, [cmd, ...args], {
+	public invokeCli(cmd: string, ...args: string[]): Promise<void> {
+		const aa = [cmd, ...args].filter(v => !!v);
+		return this._invoke(this.cliName, aa);
+	}
+
+	protected async _invoke(cmd: string, args: string[]): Promise<void> {
+		process.stderr.isTTY && console.error('\x1B[38;5;14m%s %s\x1B[0m', cmd, args.join(' '));
+		await execa(cmd, args, {
 			stdio: 'inherit',
 			cwd: this.cwd,
 		});
@@ -47,11 +53,15 @@ export abstract class PackageManager {
 	}
 
 	public install(...packages: string[]) {
+		const i1 = packages.indexOf('-d');
+		if (i1 !== -1) {
+			packages.splice(i1, 1, this.installDevFlag);
+		}
+		const i2 = packages.indexOf('-dev');
+		if (i2 !== -1) {
+			packages.splice(i2, 1, this.installDevFlag);
+		}
 		return this.invokeCli(this.installCommand, ...packages);
-	}
-
-	public installDev(...packages: string[]) {
-		return this.install(this.installCommand, this.installDevFlag, ...packages);
 	}
 
 	public uninstall(...packages: string[]) {

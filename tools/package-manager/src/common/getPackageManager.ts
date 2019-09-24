@@ -15,16 +15,14 @@ export async function getPackageManager(_options?: Partial<IOptions>): Promise<P
 
 	const detected = await new Promise<PackageManager | undefined>((resolve) => {
 		let ps = all.map(pm => {
-			pm.detect().then((found) => {
+			return pm.detect().then((found) => {
 				if (found) {
-					console.log('find %s result = %s', pm.friendlyName, found);
 					resolve(pm);
 				}
 			});
 		});
 		Promise.all(ps).finally(() => resolve());
 	});
-	console.log('find result = %s', detected);
 
 	await Promise.all(all.map((pm) => {
 		return pm.detect().then((found) => {
@@ -73,6 +71,8 @@ async function askUserSelect(installed: PackageManager[]): Promise<PackageManage
 	for (const [index, item] of installed.entries()) {
 		console.error('  \x1B[38;5;14m[%s]\x1B[0m: %s', index, item.friendlyName);
 	}
+	console.error('> ');
+
 	const rl = createInterface({
 		input: process.stdin,
 		output: process.stdout,

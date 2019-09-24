@@ -1,11 +1,10 @@
-import { Cnpm } from '../package-managers/cnpm';
 import { Npm } from '../package-managers/npm';
 import { Pnpm } from '../package-managers/pnpm';
 import { Rush } from '../package-managers/rush';
 import { Yarn } from '../package-managers/yarn';
 import { PackageManagerConstructor } from './packageManager';
 
-export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[] = [Npm, Cnpm, Yarn, Pnpm, Rush];
+export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[] = [Npm, Yarn, Pnpm, Rush];
 
 export interface IOptions {
 	cwd: string;

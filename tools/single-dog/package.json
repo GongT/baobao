@@ -20,6 +20,7 @@
 		"@idlebox/ensure-symlink": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.12",
 		"@idlebox/platform": "^1.0.3",
+		"@idlebox/package-manager": "^1.0.0",
 		"fs-extra": "^8.1.0",
 		"pacote": "^9.5.8",
 		"source-map-support": "*"
@@ -27,7 +28,6 @@
 	"devDependencies": {
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@idlebox/build-script": "^1.0.3",
-		"@idlebox/package-manager": "^1.0.0",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.5",
 		"typescript": "^3.6.3",

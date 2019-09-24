@@ -1,6 +1,5 @@
 import { loadJsonFile } from '@idlebox/node-json-edit';
 import { findUpUntil } from '@idlebox/platform';
-import * as execa from 'execa';
 import { readFile as readFileAsync } from 'fs';
 import { parse } from 'json5';
 import { basename, relative, resolve } from 'path';
@@ -19,7 +18,7 @@ export class Rush extends PackageManager {
 	readonly installDevFlag: string = '--dev';
 
 	private rushRoot?: string;
-	private subPakcageManager?: string;
+	private subPackageManager?: string;
 
 	async _detect(): Promise<boolean> {
 		const found = await findUpUntil(this.cwd, 'rush.json');
@@ -30,7 +29,7 @@ export class Rush extends PackageManager {
 		const data = parse(await readFile(found, 'utf-8'));
 		for (const key of ['pnpm', 'npm', 'yarn']) {
 			if (data[key]) {
-				this.subPakcageManager = key;
+				this.subPackageManager = key;
 				break;
 			}
 		}
@@ -40,9 +39,12 @@ export class Rush extends PackageManager {
 	install(..._packages: string[]) {
 		const packages: string[] = ['--caret'];
 		for (const item of _packages) {
-			packages.push('-p', item);
+			if (!item.startsWith('-')) {
+				packages.push('-p');
+			}
+			packages.push(item);
 		}
-		return this.invokeCli(this.installCommand, ...packages);
+		return super.install(...packages);
 	}
 
 	async init() {
@@ -67,13 +69,12 @@ export class Rush extends PackageManager {
 
 	public async invokeCli(cmd: string, ...args: string[]): Promise<void> {
 		if (subCommands.includes(cmd)) {
-			if (!this.subPakcageManager) {
+			if (!this.subPackageManager) {
 				await this.detect();
 			}
-			await execa(this.subPakcageManager!, [cmd, ...args], {
-				stdio: 'inherit',
-				cwd: this.cwd,
-			});
+
+			const aa = [cmd, ...args].filter(v => !!v);
+			return this._invoke(this.subPackageManager!, aa);
 		} else {
 			return super.invokeCli(cmd, ...args);
 		}
