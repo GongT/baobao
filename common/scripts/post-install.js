@@ -3,6 +3,8 @@ const {spawn} = require('child_process');
 const {resolve, basename} = require('path');
 const {existsSync, createWriteStream} = require('fs');
 
+process.exit(0);
+
 pushGlobalNodeModules(module);
 const tsc = require.resolve('typescript/lib/tsc.js');
 const eao = resolve(rushRootPath, 'tools/export-all-in-one/index.js');

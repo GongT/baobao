@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const cmd = process.argv[2];
+Error.stackTraceLimit = Infinity;
 
 global.PROJECT_PATH = process.cwd();
 

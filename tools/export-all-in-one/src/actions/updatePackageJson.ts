@@ -1,5 +1,6 @@
 import { registerPlugin } from '@idlebox/build-script';
 import { insertKeyAlphabet, loadJsonFile, writeJsonFile } from '@idlebox/node-json-edit';
+import { getPackageManager } from '@idlebox/package-manager';
 import { resolve } from 'path';
 import { ModuleKind } from 'typescript';
 import { CONFIG_FILE, PROJECT_ROOT } from '../inc/argParse';
@@ -26,12 +27,9 @@ export async function updatePackageJson(hookMode: boolean) {
 		insertKeyAlphabet(packageJson, 'typings', 'docs/package-public.d.ts');
 	}
 
-	if (!packageJson.devDependencies) {
-		insertKeyAlphabet(packageJson, 'devDependencies', {});
-	}
-	if (!packageJson.devDependencies['@idlebox/export-all-in-one']) {
-		const v = require(resolve(__dirname, '../../package.json')).version;
-		insertKeyAlphabet(packageJson.devDependencies, '@idlebox/export-all-in-one', '^' + v);
+	if (!packageJson.devDependencies || !packageJson.devDependencies['@idlebox/export-all-in-one']) {
+		const pm = await getPackageManager({ cwd: PROJECT_ROOT });
+		await pm.install('--dev', '@idlebox/export-all-in-one');
 	}
 
 	if (command.options.module === ModuleKind.ESNext) {

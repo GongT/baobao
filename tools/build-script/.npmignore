@@ -8,3 +8,4 @@ package-deps.json
 build-script.json
 src
 tmp
+lib/*.d.ts

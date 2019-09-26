@@ -5,9 +5,9 @@ node_modules
 jspm_modules
 package-deps.json
 *.log
-build-script.json
 src
+### build-script ###
+build-script.json
 Gulpfile.js
-docs/platform.api.md
-docs/tsdoc-metadata.json
-*.d.ts
+### export-all-in-one ###
+lib/*.d.ts

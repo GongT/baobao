@@ -12,22 +12,21 @@
 	"typings": "./lib/common/getPackageManager.d.ts",
 	"scripts": {
 		"build": "tsc -p src",
-		"prepare": "im-single-dog",
-		"prepublish": "rimraf lib dist && npm run build",
+		"prepack": "rimraf lib dist && npm run build",
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
 		"watch": "tsc -w -p src"
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"@idlebox/platform": "^1.0.3",
-		"@idlebox/errors": "^1.0.2",
+		"@idlebox/platform": "^1.0.8",
+		"@idlebox/errors": "^1.0.3",
 		"command-exists": "^1.2.8",
 		"execa": "^2.0.4",
 		"json5": "^2.1.0",
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@idlebox/node-json-edit": "^1.0.12",
+		"@idlebox/node-json-edit": "^1.0.15",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/command-exists": "^1.2.0",
 		"@types/json5": "^0.0.30",

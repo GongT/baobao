@@ -1,8 +1,7 @@
 import { nodeResolvePathArray } from '@idlebox/platform';
-import { fancyLog } from '../common/fancyLog';
-import { fatalError } from '../cmd-loader';
-import { getCurrentDir } from '../common/buildContextInstance';
-import { setCtxDisable, setCtxEnable } from './ctsStore';
+import { setCtxDisable, setCtxEnable } from '../api/ctsStore';
+import { getCurrentDir } from './buildContextInstance';
+import { fancyLog } from './fancyLog';
 
 export let currentPaths: string[];
 
@@ -28,14 +27,14 @@ export function loadPlugin(file: string, args: string[]) {
 		for (const path of currentPaths) {
 			fancyLog.error('  - %s', path);
 		}
-		fatalError(`Can't load plugin module ${file}.`);
+		throw new Error(`Can't load plugin module ${file}.`);
 	}
 
 	setCtxEnable(file, args);
 	try {
 		require(file);
 	} catch (e) {
-		fatalError(`Can't run plugin ${file}: ${e.message}`);
+		throw new Error(`Can't run plugin ${file}: ${e.message}`);
 	}
 	setCtxDisable();
 }

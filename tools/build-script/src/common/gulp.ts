@@ -1,5 +1,4 @@
 import * as Gulp from 'gulp';
-import { fatalError } from '../cmd-loader';
 import { ExecFunc } from '../global';
 import { BuildContext } from './buildContext';
 import { getBuildContext, setCurrentDir } from './buildContextInstance';
@@ -73,7 +72,7 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 				needCheckDep.push(name);
 				loopDetect++;
 				if (loopDetect == needCheckDep.length) {
-					fatalError('found loop dependency: ' + needCheckDep.join(', '));
+					throw new Error('found loop dependency: ' + needCheckDep.join(', '));
 				}
 				continue OUTER;
 			}

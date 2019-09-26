@@ -1,5 +1,4 @@
-import { IBuildContext } from '../api/context';
-import { IMyProjectJson, IMyProjectJsonParsed, IPluginDefine } from '../global';
+import { IBuildContext, IMyProjectJson, IMyProjectJsonParsed, IPluginDefine } from '../global';
 
 export abstract class BuildContextBase implements IBuildContext {
 	public projectJson: IMyProjectJsonParsed;

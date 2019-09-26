@@ -1,12 +1,12 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/build-script",
-	"version": "1.0.3",
-	"main": "./lib/api/context.js",
+	"version": "2.0.6",
+	"main": "./api.js",
 	"exports": {
 		"./": "./invalid"
 	},
-	"typings": "./lib/api/context.d.ts",
+	"typings": "./api.d.ts",
 	"bin": {
 		"build-script": "bin/multi-call.js",
 		"rimraf": "bin/rimraf.js"
@@ -20,11 +20,11 @@
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^1.0.12",
-		"@idlebox/platform": "^1.0.3",
-		"@idlebox/package-manager": "^1.0.0",
+		"@idlebox/errors": "^1.0.3",
+		"@idlebox/node-json-edit": "^1.0.15",
+		"@idlebox/platform": "^1.0.8",
 		"execa": "^2.0.4",
-		"fancy-log": "^1.3.3",
+		"fancy-log": "*",
 		"fs-extra": "^8.1.0",
 		"npm-check-updates": "^3.1.23",
 		"pacote": "^9.5.8",
@@ -35,13 +35,14 @@
 		"gulp": "*"
 	},
 	"devDependencies": {
-		"@types/fancy-log": "^1.3.1",
-		"@types/gulp": "^4.0.6",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@microsoft/api-extractor": "^7.4.1",
+		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^8.0.0",
+		"@types/gulp": "^4.0.6",
 		"@types/node": "^12.7.5",
 		"@types/split2": "^2.1.6",
+		"npm-check-updates": "^3.1.23",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^3.0.0",
 		"typescript": "^3.6.3"

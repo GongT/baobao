@@ -1,37 +1,20 @@
 import { getFormatInfo, loadJsonFile, loadJsonFileSync, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
-import { existsSync } from 'fs-extra';
+import { existsSync } from '@idlebox/platform';
 import { resolve } from 'path';
-import { loadPlugin, resetLoader } from '../api/loader';
 import { IMyProjectJson, rectLoadDefine } from '../global';
 import { BuildContextBase } from './buildContextBase';
-import { fancyLog } from './fancyLog';
 import { isArrayOfString } from './func';
+import { loadPlugin, resetLoader } from './pluginLoader';
 
 export class BuildContext extends BuildContextBase {
 	public readonly configFilePath: string;
-	public readonly packageJsonPath: string;
 
 	private rawProjectJson?: IMyProjectJson;
-	private ppj?: Promise<any>;
 
 	public constructor(public readonly projectRoot: string) {
 		super(projectRoot);
 
 		this.configFilePath = resolve(projectRoot, 'build-script.json');
-		this.packageJsonPath = resolve(projectRoot, 'package.json');
-	}
-
-	readPackageJson() {
-		if (!this.ppj) {
-			if (!existsSync(this.packageJsonPath)) {
-				console.error('Error: missing package.json.');
-				process.exit(1);
-			}
-
-			fancyLog.info('Using package: %s', this.packageJsonPath);
-			this.ppj = loadJsonFile(this.packageJsonPath);
-		}
-		return this.ppj;
 	}
 
 	readProjectJson() {
@@ -51,7 +34,7 @@ export class BuildContext extends BuildContextBase {
 		return existsSync(this.configFilePath);
 	}
 
-	init() {
+	private _init() {
 		const projectJson = this.readProjectJson();
 
 		for (const [name, cmd] of Object.entries(projectJson.alias || {})) {
@@ -84,19 +67,34 @@ export class BuildContext extends BuildContextBase {
 		}
 
 		this.plugins = rectLoadDefine(projectJson.load || []);
+	}
+
+	init() {
+		this._init();
+
 		resetLoader();
-		for (const { file, args } of this.plugins) {
+		for (const { file, args } of this.plugins!) {
 			loadPlugin(file, args);
 		}
 	}
 
 	public async writeBack() {
-		const packageJson = await this.readPackageJson();
+		const packageJson = await loadJsonFile(resolve(this.projectRoot, 'package.json'));
 		const data = reformatJson(this.toObject(), getFormatInfo(packageJson) || {});
 		await writeJsonFile(this.configFilePath, data);
 	}
 
 	pushPlugin(file: string, args: string[]) {
-		this.plugins!.push({ file, args });
+		if (!this.plugins) {
+			this._init();
+		}
+		const alreadyExists = this.plugins!.find((item) => {
+			return item.file === file;
+		});
+		if (alreadyExists) {
+			alreadyExists.args = args;
+		} else {
+			this.plugins!.push({ file, args });
+		}
 	}
 }

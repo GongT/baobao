@@ -1,5 +1,4 @@
 import { currentPlugin } from '../api/ctsStore';
-import { fatalError } from '../cmd-loader';
 import { BuildContext } from './buildContext';
 
 const bcs = Symbol.for('@idlebox/build-script');
@@ -9,7 +8,7 @@ export const loaderProjectPath: string = global.PROJECT_PATH || process.cwd();
 
 let currentPath: string;
 
-export function forceGetContext(): BuildContext {
+export function forceGetContext(): any {
 	return global[bcs];
 }
 
@@ -48,7 +47,7 @@ let setBy = '@idlebox/micro-build';
 
 export function setCurrentDir(v: string) {
 	if (currentPath && currentPath !== v) {
-		fatalError(`currentDir is set by ${setBy}, can't set again by ${currentPlugin}. old value=${currentPath}, new value=${v}`);
+		throw new Error(`currentDir is set by ${setBy}, can't set again by ${currentPlugin}. old value=${currentPath}, new value=${v}`);
 	}
 	currentPath = v;
 	setBy = currentPlugin;

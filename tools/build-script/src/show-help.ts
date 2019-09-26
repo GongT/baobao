@@ -1,7 +1,7 @@
 import { readdir } from 'fs-extra';
 import { resolve } from 'path';
-import { setProjectDir } from './api/context';
-import { getBuildContext } from './common/buildContextInstance';
+import { setProjectDir } from '../../build-script/src/api/context';
+import { getBuildContext } from '../../build-script/src/common/buildContextInstance';
 
 export default async function () {
 	setProjectDir(process.cwd());

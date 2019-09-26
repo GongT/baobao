@@ -51,7 +51,10 @@
 		}, {
 			"packageName": "@idlebox/platform",
 			"projectFolder": "library/platform",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"cyclicDependencyProjects": [
+				"@idlebox/build-script"
+			]
 		}, {
 			"packageName": "@idlebox/single-dog",
 			"projectFolder": "tools/single-dog",
@@ -65,12 +68,15 @@
 			"projectFolder": "tools/build-script",
 			"shouldPublish": true,
 			"cyclicDependencyProjects": [
-				"@idlebox/platform"
+				"@idlebox/platform", "@idlebox/node-json-edit", "@idlebox/errors"
 			]
 		}, {
 			"packageName": "@idlebox/package-manager",
 			"projectFolder": "tools/package-manager",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"cyclicDependencyProjects": [
+				"@idlebox/platform", "@idlebox/errors"
+			]
 		}, {
 			"packageName": "@idlebox/errors",
 			"projectFolder": "library/errors",
@@ -90,7 +96,9 @@
 		}, {
 			"packageName": "@idlebox/basic-helpers",
 			"projectFolder": "library/basic-helpers",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"cyclicDependencyProjects": [
+			]
 		}, {
 			"packageName": "@idlebox/node-helpers",
 			"projectFolder": "library/node-helpers",

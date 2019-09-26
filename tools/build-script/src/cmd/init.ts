@@ -1,22 +1,21 @@
-import { insertKeyAlphabet, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { insertKeyAlphabet, loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { exists } from '@idlebox/platform';
-import { writeFile } from 'fs-extra';
+import { createFile, readFile, writeFile } from 'fs-extra';
 import { resolve } from 'path';
 import { fatalError } from '../cmd-loader';
 import { BuildContext } from '../common/buildContext';
 import { createBuildContext, loaderProjectPath } from '../common/buildContextInstance';
-import { fancyLog } from '../common/fancyLog';
 
 const { manifest } = require('pacote');
 
 async function resolveNpmVersion(packageName: string) {
-	fancyLog.debug('Resolving package: %s', packageName);
+	console.debug('Resolving package: %s', packageName);
 	return '^' + (await manifest(packageName + '@latest')).version;
 }
 
 async function addOrIgnore(packageDependency: any, packageName: string) {
 	if (packageDependency[packageName]) {
-		fancyLog(`package.json dependency "${packageName}" already set, ignore it, you may check it's update.`);
+		console.log(`package.json dependency "${packageName}" already set, ignore it, you may check it's update.`);
 	}
 	packageDependency[packageName] = await resolveNpmVersion(packageName);
 }
@@ -33,17 +32,35 @@ export default async function init() {
 	if (ctx.isProjectJsonExists()) {
 		fatalError('project already init with build-script.');
 	}
-	fancyLog('initializing...');
+	console.log('initializing...');
 
 	await modifyPackageJson(ctx);
+	await addIgnoreFile(ctx);
 	await createBuildJson(ctx);
 	await createGulpFile(ctx);
 
-	fancyLog('You may need to update packages with package manager.');
+	console.log('You may need to update packages with package manager.');
+}
+
+async function addIgnoreFile(ctx: BuildContext) {
+	const ignoreFile = resolve(ctx.projectRoot, '.npmignore');
+	if (!await exists(ignoreFile)) {
+		await createFile(ignoreFile);
+	}
+	const data = await readFile(ignoreFile, 'utf-8');
+	const lines = data.split(/\n/g);
+	if (lines.includes('build-script.json')) {
+		return;
+	}
+	if (!lines[lines.length - 1]) {
+		lines.pop();
+	}
+	lines.push('### build-script ###', 'build-script.json', 'Gulpfile.js', '');
+	await writeFile(ignoreFile, lines.join('\n'));
 }
 
 async function modifyPackageJson(ctx: BuildContext) {
-	const packageJson = await ctx.readPackageJson();
+	const packageJson = await loadJsonFile(resolve(ctx.projectRoot, 'package.json'));
 
 	if (!packageJson.scripts) {
 		packageJson.scripts = {};
@@ -100,7 +117,7 @@ const { loadToGulp } = require('@idlebox/build-script');
 loadToGulp(gulp, __dirname);
 `);
 
-	fancyLog('Done.');
+	console.log('Done.');
 }
 
 export const usage = 'Init build-script related files in current directory';
