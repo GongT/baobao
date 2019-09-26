@@ -2,6 +2,7 @@ import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
 import { lstatSync, readlinkSync, symlinkSync } from 'fs';
 import { ensureDirSync, existsSync, readFileSync, removeSync, writeFileSync } from 'fs-extra';
 import { resolve } from 'path';
+import { debug } from './debug';
 
 export function uniqueArray(target: any[], source: any[]) {
 	return target.concat(source).filter((value, index, self) => {
@@ -18,7 +19,7 @@ export class Filesystem {
 		if (existsSync(abs) && readFileSync(abs, 'utf8') === content) {
 			return;
 		}
-		console.log('writeFile(%s, FileContent<%s>)', abs, content.length);
+		debug('writeFile(%s, FileContent<%s>)', abs, content.length);
 		writeFileSync(abs, content, 'utf8');
 	}
 
@@ -54,7 +55,7 @@ export class Filesystem {
 		const upFolders = partsFile.length - 1;
 		partsTarget.unshift(...new Array(upFolders).fill('..'));
 
-		console.log('linkFile(%s, %s)', abs, partsTarget.join('/'));
+		debug('linkFile(%s, %s)', abs, partsTarget.join('/'));
 		const t = partsTarget.join('/');
 		if (existsSync(abs)) {
 			if (lstatSync(abs).isSymbolicLink() && readlinkSync(abs) === t) {
@@ -90,7 +91,7 @@ export class Filesystem {
 	}
 
 	exec(command: string) {
-		console.error(command);
+		debug(command);
 		const opt: ExecSyncOptionsWithStringEncoding = {
 			encoding: 'utf8',
 			cwd: CONTENT_ROOT,

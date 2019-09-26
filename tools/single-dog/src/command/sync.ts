@@ -27,6 +27,10 @@ export default async () => {
 	// typescript
 	await updateTsconfigJson();
 
+	if (packageJson.name !== '@idlebox/build-script') {
+		await runBuildScriptInit(fs);
+	}
+
 	if (!monorepoMode) {
 		// idea
 		fs.placeFile(`.idea/${basename(CONTENT_ROOT)}.iml`, readTemplate('idea/idea.iml'));
@@ -44,11 +48,6 @@ export default async () => {
 			fs.exec(`git remote add origin git@github.com:${gitInfo.user}/${projectBase}.git`);
 			fs.exec('git add .');
 		}
-	}
-
-	if (packageJson.name !== '@idlebox/build-script') {
-		fs.exec('git init');
-		await runBuildScriptInit();
 	}
 
 	console.log('Yes.');

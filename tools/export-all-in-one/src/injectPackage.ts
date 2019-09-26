@@ -1,9 +1,10 @@
-import { isBuildConfigFileExists } from '@idlebox/build-script';
+import { isBuildConfigFileExists, setProjectDir } from '@idlebox/build-script';
 import { updatePackageJson } from './actions/updatePackageJson';
 import { PROJECT_ROOT } from './inc/argParse';
 
 export default async function () {
-	const hookMode = await isBuildConfigFileExists(PROJECT_ROOT);
+	setProjectDir(PROJECT_ROOT);
+	const hookMode = await isBuildConfigFileExists();
 	await updatePackageJson(hookMode);
 	console.log('Done.');
 }

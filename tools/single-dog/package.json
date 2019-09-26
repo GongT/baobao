@@ -22,7 +22,6 @@
 		"@idlebox/platform": "^1.0.3",
 		"@idlebox/package-manager": "^1.0.0",
 		"fs-extra": "^8.1.0",
-		"pacote": "^9.5.8",
 		"source-map-support": "*"
 	},
 	"devDependencies": {

@@ -27,24 +27,31 @@ export class Rush extends PackageManager {
 		}
 		this.rushRoot = basename(found);
 		const data = parse(await readFile(found, 'utf-8'));
+		this.subPackageManager = '';
 		for (const key of ['pnpm', 'npm', 'yarn']) {
-			if (data[key]) {
+			if (data[key + 'Version']) {
 				this.subPackageManager = key;
 				break;
 			}
 		}
+		if (!this.subPackageManager) {
+			console.warn('Warn: can not determine sub package manager of rush.');
+		}
+
 		return true;
 	}
 
-	install(..._packages: string[]) {
-		const packages: string[] = ['--caret'];
-		for (const item of _packages) {
-			if (!item.startsWith('-')) {
-				packages.push('-p');
-			}
-			packages.push(item);
+	async install(..._packages: string[]) {
+		const packages = _packages.filter(item => !item.startsWith('-'));
+		const flags = ['--caret', '--skip-update', '--make-consistent'];
+		if (_packages.includes('-d') || _packages.includes('--dev')) {
+			flags.push('--dev');
 		}
-		return super.install(...packages);
+
+		for (const pkg of packages) {
+			await super.install(...flags, '-p', pkg);
+		}
+		await super._invoke(this.cliName, ['update']);
 	}
 
 	async init() {

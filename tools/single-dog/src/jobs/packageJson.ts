@@ -1,17 +1,20 @@
 import { defaultJsonFormatConfig, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
+import { getPackageManager } from '@idlebox/package-manager';
 import { findUpUntil } from '@idlebox/platform';
 import { pathExists } from 'fs-extra';
 import { basename, resolve } from 'path';
+import { debug } from '../inc/debug';
 import { IGitInfo } from '../inc/gitName';
 
-const { manifest } = require('pacote');
-
-export const prodPackages: string[] = [];
+export const prodPackages: string[] = [
+	'source-map-support',
+];
 export const devPackages = [
 	'@types/node',
 	'@idlebox/build-script',
 	'@idlebox/single-dog-asset',
 	'typescript',
+	'gulp',
 ];
 
 interface MapLike {
@@ -55,10 +58,10 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 	const foundRush = await findUpUntil(PACKAGE_JSON_PATH, 'rush.json');
 	if (foundPackageJson || foundRush) {
 		if (foundRush) {
-			console.debug('This should be a monorepo, because "rush.json" found in upper folder.');
+			debug('This should be a monorepo, because "rush.json" found in upper folder.');
 			insertKeyAlphabet(packageJson, 'monorepo', 'rush');
 		} else if (foundPackageJson && await pathExists(resolve(foundPackageJson, '../yarn.lock'))) {
-			console.log('This should be a monorepo, because "package.json" and "yarn.lock" found in same upper folder.');
+			debug('This should be a monorepo, because "package.json" and "yarn.lock" found in same upper folder.');
 			insertKeyAlphabet(packageJson, 'monorepo', 'yarn');
 		} else {
 			delete packageJson['monorepo'];
@@ -66,24 +69,30 @@ export async function updatePackageJson(gitInfo: IGitInfo) {
 	}
 
 	// package deps
+	const prodNeedInstall: string[] = [];
 	if (!packageJson.dependencies) {
 		packageJson.dependencies = {};
 	}
 	for (const item of prodPackages) {
 		if (!packageJson.dependencies[item]) {
-			packageJson.dependencies[item] = await resolveNpmVersion(item);
+			prodNeedInstall.push(item);
 		}
 	}
+
+	const devNeedInstall: string[] = [];
 	if (!packageJson.devDependencies) {
 		packageJson.devDependencies = {};
 	}
 	for (const item of devPackages) {
 		if (!packageJson.devDependencies[item]) {
-			packageJson.devDependencies[item] = await resolveNpmVersion(item);
+			devNeedInstall.push(item);
 		}
 	}
 
+	debug('write package.json file');
 	await writeJsonFile(PACKAGE_JSON_PATH, packageJson);
+
+	await installPackages(prodNeedInstall, devNeedInstall);
 
 	return packageJson;
 }
@@ -95,7 +104,17 @@ function addIfNot(data: any, key: string, val: any) {
 	insertKeyAlphabet(data, key, val);
 }
 
-async function resolveNpmVersion(packageName: string) {
-	console.log('Resolving package: %s', packageName);
-	return '^' + (await manifest(packageName + '@latest')).version;
+async function installPackages(prod: string[], dev: string[]) {
+	if (prod.length === 0 && dev.length === 0) {
+		return;
+	}
+	debug('Installing packages: %s', prod.join(' '));
+	const pm = await getPackageManager({ cwd: CONTENT_ROOT, ask: true });
+
+	if (prod.length) {
+		await pm.install(...prod);
+	}
+	if (dev.length) {
+		await pm.install('--dev', ...dev);
+	}
 }

@@ -9,8 +9,13 @@ const cmd = process.argv[2];
 
 global.PROJECT_PATH = process.cwd();
 
-if (cmd) {
-	require('../lib/cmd-loader').load(path.resolve(__dirname, '../lib/cmd', cmd));
+if (cmd === 'init') {
+	require('../lib/cmd-loader').load(path.resolve(__dirname, '../lib/cmd/init'));
+} else if (cmd === 'tool') {
+	const tool = process.argv[3];
+	require('../lib/cmd-loader').load(path.resolve(__dirname, '../lib/tool', tool));
+} else if (cmd) {
+	require('../lib/cmd-loader').load(path.resolve(__dirname, '../lib/cmd/run'));
 } else {
 	require('../lib/cmd-loader').load(path.resolve(__dirname, '../lib/show-help'));
 }

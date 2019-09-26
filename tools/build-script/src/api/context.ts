@@ -46,3 +46,8 @@ export function loadToGulp(gulp: typeof Gulp, __dirname: string) {
 	require('source-map-support/register');
 	return load(gulp, __dirname);
 }
+
+export function isBuildConfigFileExists() {
+	const v = getBuildContext();
+	return v.isProjectJsonExists();
+}

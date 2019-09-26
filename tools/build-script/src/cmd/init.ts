@@ -51,7 +51,7 @@ async function modifyPackageJson(ctx: BuildContext) {
 	addOrFail(packageJson.scripts, 'build', 'build-script build');
 	addOrFail(packageJson.scripts, 'clean', 'build-script clean');
 	addOrFail(packageJson.scripts, 'distclean', 'build-script distclean');
-	addOrFail(packageJson.scripts, 'prepublish', 'build-script rebuild');
+	addOrFail(packageJson.scripts, 'prepack', 'build-script rebuild');
 	addOrFail(packageJson.scripts, 'publish', 'build-script publish');
 	addOrFail(packageJson.scripts, 'test', 'build-script test');
 	addOrFail(packageJson.scripts, 'upgrade', 'build-script upgrade');
@@ -99,4 +99,8 @@ async function createGulpFile(_: BuildContext) {
 const { loadToGulp } = require('@idlebox/build-script');
 loadToGulp(gulp, __dirname);
 `);
+
+	fancyLog('Done.');
 }
+
+export const usage = 'Init build-script related files in current directory';

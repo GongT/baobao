@@ -23,7 +23,6 @@ export function load(file: string) {
 	Promise.resolve().then(() => {
 		return require(file).default();
 	}).then(() => {
-		fancyLog('Done.');
 	}, (e) => {
 		if (e instanceof ExitError) {
 			fancyLog.error(e.message);

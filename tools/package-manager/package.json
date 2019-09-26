@@ -5,6 +5,11 @@
 	"bin": {
 		"unpm": "./bin.js"
 	},
+	"exports": {
+		"./": "./ne"
+	},
+	"main": "./lib/common/getPackageManager.js",
+	"typings": "./lib/common/getPackageManager.d.ts",
 	"scripts": {
 		"build": "tsc -p src",
 		"prepare": "im-single-dog",

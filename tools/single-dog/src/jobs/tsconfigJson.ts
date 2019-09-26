@@ -1,10 +1,11 @@
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { ensureDir, readdir, writeFile } from 'fs-extra';
 import { resolve } from 'path';
+import { debug } from '../inc/debug';
 import { locateRootRelativeToProject } from '../inc/template';
 
 async function writeTestIndex() {
-	console.log('create hello world index.ts.');
+	debug('create hello world index.ts.');
 	await writeFile(resolve(CONTENT_ROOT, 'src/index.ts'), `
 export function test(): string {
 	return "hello world";
@@ -31,9 +32,11 @@ export async function updateTsconfigJson() {
 		tsconfig.compilerOptions.typeRoots = ['../node_modules/@types'];
 	}
 
+	debug('write tsconfig file');
 	await writeJsonFileBack(tsconfig);
 
 	if ((await readdir(resolve(CONTENT_ROOT, 'src'))).length === 1) {
+		debug('write hello index.ts file');
 		await writeTestIndex();
 	}
 }

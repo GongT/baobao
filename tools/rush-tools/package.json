@@ -7,13 +7,14 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"build": "build-script-call build",
-		"prepublish": "build-script-call prepublish",
-		"publishPackage": "build-script-call publish",
-		"test": "build-script-call test",
-		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "build-script-call watch",
-		"clean": "rimraf lib"
+		"build": "build-script build",
+		"clean": "build-script clean",
+		"distclean": "build-script distclean",
+		"prepack": "build-script rebuild",
+		"publish": "build-script publish",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "^1.0.12",
@@ -23,12 +24,14 @@
 		"pacote": "^9.5.8"
 	},
 	"devDependencies": {
-		"@idlebox/single-dog": "^2.0.8",
 		"@idlebox/build-script": "^1.0.3",
+		"@idlebox/single-dog": "^2.0.8",
+		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.5",
+		"gulp": "^4.0.2",
+		"rimraf": "^3.0.0",
 		"source-map-support": "*",
-		"typescript": "^3.6.3",
-		"rimraf": "^3.0.0"
+		"typescript": "^3.6.3"
 	}
 }
