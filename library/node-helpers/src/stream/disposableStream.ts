@@ -1,5 +1,5 @@
 import { Readable, Writable } from 'stream';
-import { IDisposable } from 'vs/base/common/lifecycle';
+import { IDisposable } from '@idlebox/lifecycle';
 
 export function disposableStream<T extends Writable | Readable>(stream: T): T & IDisposable {
 	if ((stream as any).dispose) {

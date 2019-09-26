@@ -1,10 +1,6 @@
-import { AsyncDisposable } from '@idlebox/lifecycle';
-import { Disposable } from '@idlebox/lifecycle';
 import { InitFunc } from '@idlebox/basic-helpers';
 
 export declare const bindThis: MethodDecorator;
-
-export declare function globalDispose(relatedWith: Disposable | AsyncDisposable): ClassDecorator;
 
 export declare function hookClass<TC extends IConstructorOf<T>, T>(target: TC): IHooks<T, TC>;
 

@@ -1,4 +1,5 @@
-import { AsyncDisposable, IDisposable } from './lifecycle';
+import { IDisposable } from './lifecycle';
+import { AsyncDisposable } from './lifecycle.async';
 
 declare const global: any;
 declare const window: any;
@@ -18,4 +19,16 @@ export function disposeGlobal() {
 		throw new Error('global already disposed.');
 	}
 	return (g[symbol] as AsyncDisposable).dispose();
+}
+
+// Note: sub-class should singleton
+export abstract class LifecycleObject extends AsyncDisposable {
+	/** sub-class should shutdown program */
+	protected abstract done(): void;
+
+	public async dispose(): Promise<void> {
+		return super.dispose().finally(() => {
+			this.done();
+		});
+	}
 }

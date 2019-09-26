@@ -4,48 +4,10 @@
 
 ```ts
 
-// @public
-export class DeferredPromise<T, PT = any> {
-    constructor();
-    // (undocumented)
-    cancel(): void;
-    // (undocumented)
-    complete(value: T): void;
-    // (undocumented)
-    readonly completed: boolean;
-    // (undocumented)
-    error(err: any): void;
-    // (undocumented)
-    notify(progress: PT): this;
-    // (undocumented)
-    readonly p: Promise<T> & IProgressHolder<T, PT>;
-    // Warning: (ae-forgotten-export) The symbol "ProgressCallback" needs to be exported by the entry point _export_all_in_once_index.d.ts
-    // 
-    // (undocumented)
-    progress(fn: ProgressCallback<PT>): void;
-    // (undocumented)
-    readonly rejected: boolean;
-    // (undocumented)
-    readonly resolved: boolean;
-    }
-
-// Warning: (ae-missing-release-tag) "IProgressHolder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "test" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export interface IProgressHolder<T, PT> {
-    // (undocumented)
-    progress(fn: ProgressCallback<PT>): Promise<T> & IProgressHolder<T, PT>;
-}
-
-// Warning: (ae-missing-release-tag) "sleep" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
-// @public (undocumented)
-export function sleep(ms: number): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "timeout" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
-// @public (undocumented)
-export function timeout(ms: number, error?: string): Promise<never>;
+export function test(): string;
 
 
 // (No @packageDocumentation comment for this package)

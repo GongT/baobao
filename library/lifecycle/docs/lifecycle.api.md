@@ -4,26 +4,83 @@
 
 ```ts
 
-// Warning: (ae-forgotten-export) The symbol "DisposableBase" needs to be exported by the entry point _export_all_in_once_index.d.ts
 // Warning: (ae-missing-release-tag) "AsyncDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export class AsyncDisposable extends DisposableBase implements IAsyncDisposable {
+export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInternal {
+    // (undocumented)
+    protected assertNotDisposed(): void;
     // (undocumented)
     dispose(): Promise<void>;
+    // (undocumented)
+    readonly hasDisposed: boolean;
+    // (undocumented)
+    readonly onBeforeDispose: EventRegister<void>;
+    // (undocumented)
+    protected readonly _onBeforeDispose: Emitter<void>;
+    // (undocumented)
+    readonly onDisposeError: EventRegister<Error>;
+    // (undocumented)
+    protected readonly _onDisposeError: Emitter<Error>;
+    // (undocumented)
+    protected _publicDispose(): boolean;
     // (undocumented)
     _register<T extends IAsyncDisposable>(d: T): T;
 }
 
+// @public
+export class DeferredPromise<T, PT = any> {
+    constructor();
+    // (undocumented)
+    cancel(): void;
+    // (undocumented)
+    complete(value: T): void;
+    // (undocumented)
+    readonly completed: boolean;
+    // (undocumented)
+    error(err: any): void;
+    // (undocumented)
+    notify(progress: PT): this;
+    // (undocumented)
+    readonly p: Promise<T> & IProgressHolder<T, PT>;
+    // Warning: (ae-forgotten-export) The symbol "ProgressCallback" needs to be exported by the entry point _export_all_in_one_index.d.ts
+    // 
+    // (undocumented)
+    progress(fn: ProgressCallback<PT>): void;
+    // (undocumented)
+    readonly rejected: boolean;
+    // (undocumented)
+    readonly resolved: boolean;
+    }
+
 // Warning: (ae-missing-release-tag) "Disposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export class Disposable extends DisposableBase implements IDisposable {
+export class Disposable implements IDisposable, IDisposableBaseInternal {
+    // (undocumented)
+    protected assertNotDisposed(): void;
     // (undocumented)
     dispose(): void;
     // (undocumented)
+    readonly hasDisposed: boolean;
+    // (undocumented)
+    readonly onBeforeDispose: EventRegister<void>;
+    // (undocumented)
+    protected readonly _onBeforeDispose: Emitter<void>;
+    // (undocumented)
+    readonly onDisposeError: EventRegister<Error>;
+    // (undocumented)
+    protected readonly _onDisposeError: Emitter<Error>;
+    // (undocumented)
+    protected _publicDispose(): boolean;
+    // (undocumented)
     _register<T extends IDisposable>(d: T): T;
 }
+
+// Warning: (ae-missing-release-tag) "disposeGlobal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function disposeGlobal(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "Emitter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -74,6 +131,26 @@ export interface IDisposable {
     dispose(): void;
 }
 
+// Warning: (ae-missing-release-tag) "IDisposableBaseInternal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface IDisposableBaseInternal {
+    // (undocumented)
+    readonly hasDisposed: boolean;
+    // (undocumented)
+    onBeforeDispose: EventRegister<void>;
+    // (undocumented)
+    onDisposeError: EventRegister<Error>;
+}
+
+// Warning: (ae-missing-release-tag) "IProgressHolder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface IProgressHolder<T, PT> {
+    // (undocumented)
+    progress(fn: ProgressCallback<PT>): Promise<T> & IProgressHolder<T, PT>;
+}
+
 // Warning: (ae-missing-release-tag) "LifecycleObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -82,6 +159,21 @@ export abstract class LifecycleObject extends AsyncDisposable {
     dispose(): Promise<void>;
     protected abstract done(): void;
 }
+
+// Warning: (ae-missing-release-tag) "registerGlobalLifecycle" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function registerGlobalLifecycle(object: IDisposable): void;
+
+// Warning: (ae-missing-release-tag) "sleep" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function sleep(ms: number): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "timeout" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function timeout(ms: number, error?: string): Promise<never>;
 
 // Warning: (ae-missing-release-tag) "toDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 

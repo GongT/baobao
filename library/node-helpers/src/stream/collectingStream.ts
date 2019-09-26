@@ -1,5 +1,5 @@
 import { Writable } from 'stream';
-import { streamPromise } from 'vs/kendryte/vs/base/node/streamPromise';
+import { streamPromise } from './streamPromise';
 
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promise<string>;
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
@@ -13,7 +13,7 @@ export function streamToBuffer(stream: NodeJS.ReadableStream, raw: boolean): Pro
 
 export class RawCollectingStream extends Writable {
 	private buffer: Buffer = Buffer.allocUnsafe(0);
-	private _promise: Promise<Buffer>;
+	private _promise?: Promise<Buffer>;
 
 	constructor(sourceStream?: NodeJS.ReadableStream) {
 		super();
@@ -25,7 +25,7 @@ export class RawCollectingStream extends Writable {
 		}
 	}
 
-	_write(chunk: Buffer, encoding: string, callback: (error?: Error | null) => void): void {
+	_write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void {
 		this.buffer = Buffer.concat([this.buffer, chunk]);
 		callback();
 	}
@@ -45,7 +45,7 @@ export class RawCollectingStream extends Writable {
 
 export class CollectingStream extends Writable {
 	private buffer = '';
-	private _promise: Promise<string>;
+	private _promise?: Promise<string>;
 
 	constructor(sourceStream?: NodeJS.ReadableStream) {
 		super();

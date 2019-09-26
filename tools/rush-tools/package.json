@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/rush-tools",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"bin": {
 		"rush-tools": "./bin.js"
 	},
@@ -17,15 +17,15 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^1.0.12",
+		"@idlebox/node-json-edit": "^1.0.15",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
 		"jsonc": "^2.0.0",
 		"pacote": "^9.5.8"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^1.0.3",
-		"@idlebox/single-dog": "^2.0.8",
+		"@idlebox/build-script": "^2.0.6",
+		"@idlebox/single-dog": "^2.1.0",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.5",

@@ -5,29 +5,27 @@
 	"typings": "docs/package-public.d.ts",
 	"version": "1.0.0",
 	"scripts": {
-		"build": "run-p prebuild:* build:* postbuild:*",
-		"build:tsc": "tsc -p src",
-		"prebuild:clean": "rimraf lib dist",
-		"prepack": "run-p prepare prepack:* build",
-		"prepare": "run-p prepare:*",
-		"prepare:single-dog": "single-dog",
-		"publish-package": "run-p build publish-package:yarn",
-		"publish-package:yarn": "yarn publish --registry https://registry.npmjs.org --access=public",
-		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "run-s watch:*",
-		"watch:tsc": "tsc -w -p src"
+		"build": "build-script build",
+		"clean": "build-script clean",
+		"distclean": "build-script distclean",
+		"prepack": "build-script rebuild",
+		"publish": "build-script publish",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
+	},
+	"exports": {
+		"./": "./private-path-not-exists"
 	},
 	"dependencies": {
-		"@idlebox/errors": "^1.0.2"
+		"@idlebox/errors": "^1.0.3"
 	},
 	"devDependencies": {
-		"@idlebox/single-dog": "^2.0.8",
-		"@idlebox/export-all-in-one": "^3.0.5",
-		"@microsoft/api-extractor": "^7.4.1",
+		"@idlebox/build-script": "^2.0.6",
+		"@idlebox/export-all-in-one": "^3.0.4",
+		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/node": "^12.7.5",
-		"npm-check-updates": "^3.1.23",
-		"rimraf": "^3.0.0",
-		"typescript": "^3.6.3",
-		"@idlebox/build-script": "^1.0.3"
+		"gulp": "^4.0.2",
+		"typescript": "^3.6.3"
 	}
 }

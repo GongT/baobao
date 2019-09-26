@@ -4,8 +4,6 @@
 
 ```ts
 
-import { AsyncDisposable } from '@idlebox/lifecycle';
-import { Disposable } from '@idlebox/lifecycle';
 import { InitFunc } from '@idlebox/basic-helpers';
 
 // Warning: (ae-missing-release-tag) "bindThis" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -13,13 +11,8 @@ import { InitFunc } from '@idlebox/basic-helpers';
 // @public (undocumented)
 export const bindThis: MethodDecorator;
 
-// Warning: (ae-missing-release-tag) "globalDispose" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
-// @public (undocumented)
-export function globalDispose(relatedWith: Disposable | AsyncDisposable): ClassDecorator;
-
-// Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point _export_all_in_once_index.d.ts
-// Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point _export_all_in_once_index.d.ts
+// Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-missing-release-tag) "hookClass" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -45,7 +38,7 @@ export const memo: MethodDecorator;
 // @public (undocumented)
 export const memorizeValueSymbol: unique symbol;
 
-// Warning: (ae-forgotten-export) The symbol "SingletonType" needs to be exported by the entry point _export_all_in_once_index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SingletonType" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-missing-release-tag) "singleton" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)

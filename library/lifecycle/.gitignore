@@ -5,7 +5,6 @@ jspm_packages/
 dist/
 *.tgz
 lib
-package-deps.json
 
 .idea/*
 !.idea/*.iml

@@ -1,28 +1,58 @@
 {
 	"alias": {
 		"build-ts": [
-			"tsc", "-p", "src"
+			"tsc",
+			"-p",
+			"src"
 		],
 		"watch-ts": [
-			"tsc", "--pretty", "-w", "-p", "src"
+			"tsc",
+			"--pretty",
+			"-w",
+			"-p",
+			"src"
 		],
 		"cleanup-lib": [
-			"rimraf", "lib"
+			"rimraf",
+			"lib"
 		],
 		"yarn-publish": [
-			"yarn", "publish", "--registry", "https://registry.npmjs.org", "--access=public"
+			"yarn",
+			"publish",
+			"--registry",
+			"https://registry.npmjs.org",
+			"--access=public"
 		],
 		"upgrade-node-modules": [
-			"npm-check-updates", "--update", "--packageFile", "./package.json"
+			"npm-check-updates",
+			"--update",
+			"--packageFile",
+			"./package.json"
 		],
 		"run-test": [
-			"echo", "No", "test", "command", "set."
+			"echo",
+			"No",
+			"test",
+			"command",
+			"set."
 		],
 		"git-clean-all": [
-			"git", "clean", "-f", "-d", "-X", "-e", "node_modules"
+			"git",
+			"clean",
+			"-f",
+			"-d",
+			"-X",
+			"-e",
+			"node_modules"
 		],
 		"git-clean": [
-			"git", "clean", "-f", "-d", "-X", "-e", "node_modules"
+			"git",
+			"clean",
+			"-f",
+			"-d",
+			"-X",
+			"-e",
+			"node_modules"
 		]
 	},
 	"command": {
@@ -47,7 +77,8 @@
 		"rebuild": {
 			"title": "Prepare for publish package",
 			"run": [
-				"cleanup-lib", "@build"
+				"cleanup-lib",
+				"@build"
 			]
 		},
 		"publish": {

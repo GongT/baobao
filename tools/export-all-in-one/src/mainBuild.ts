@@ -1,11 +1,11 @@
-import { getOptions } from './inc/configFile';
-import { pushApiExtractorPath } from './actions/pushApiExtractorPath';
 import { emptyDir } from 'fs-extra';
-import { EXPORT_TEMP_PATH } from './inc/argParse';
-import { doGenerate } from './actions/doGenerate';
-import { compileSource } from './actions/compileSource';
 import { runApiExtractor } from './actions/apiExtractor';
 import { compileIndex } from './actions/compileIndex';
+import { compileSource } from './actions/compileSource';
+import { doGenerate } from './actions/doGenerate';
+import { pushApiExtractorPath } from './actions/pushApiExtractorPath';
+import { EXPORT_TEMP_PATH } from './inc/argParse';
+import { getOptions } from './inc/configFile';
 
 if (process.argv.includes('-v')) {
 	const configParseResult = getOptions();
@@ -23,5 +23,6 @@ export default async function () {
 	console.log('\x1B[K\x1B[38;5;10mOK\x1B[0m');
 	// const resultRel = './docs/package-public.d.ts';
 	// console.log(`You can add \x1B[38;5;14m"typings": "${resultRel}"\x1B[0m to your package.json`);
+	console.log('removing temp dir: %s', EXPORT_TEMP_PATH);
 	await emptyDir(EXPORT_TEMP_PATH);
 }

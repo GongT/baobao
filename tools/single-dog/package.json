@@ -1,7 +1,7 @@
 {
 	"main": "./lib/index.js",
 	"name": "@idlebox/single-dog",
-	"version": "2.0.8",
+	"version": "2.1.0",
 	"license": "MIT",
 	"bin": {
 		"single-dog": "./bin.js"
@@ -10,7 +10,7 @@
 		"build": "build-script build",
 		"clean": "build-script clean",
 		"distclean": "build-script distclean",
-		"prepublish": "build-script rebuild",
+		"prepack": "build-script rebuild",
 		"publish": "build-script publish",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
@@ -18,18 +18,18 @@
 	},
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.5",
-		"@idlebox/node-json-edit": "^1.0.12",
-		"@idlebox/platform": "^1.0.3",
+		"@idlebox/node-json-edit": "^1.0.15",
 		"@idlebox/package-manager": "^1.0.0",
+		"@idlebox/platform": "^1.0.8",
 		"fs-extra": "^8.1.0",
 		"source-map-support": "*"
 	},
 	"devDependencies": {
+		"@idlebox/build-script": "^2.0.6",
 		"@idlebox/single-dog-asset": "^1.0.1",
-		"@idlebox/build-script": "^1.0.3",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.5",
-		"typescript": "^3.6.3",
-		"gulp": "^4.0.2"
+		"gulp": "^4.0.2",
+		"typescript": "^3.6.3"
 	}
 }

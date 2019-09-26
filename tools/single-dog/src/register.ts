@@ -1,5 +1,5 @@
 import { buildContext } from '@idlebox/build-script';
 import { resolve } from 'path';
 
-buildContext.appendActionStep('build', 'im-single-dog');
-buildContext.registerJob('im-single-dog', resolve(__dirname, '../bin.js'));
+buildContext.addAction('build', ['single-dog']);
+buildContext.registerAlias('single-dog', resolve(__dirname, '../bin.js'));

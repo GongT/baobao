@@ -32,6 +32,7 @@ export function setErrorLogRoot(_root: string) {
 }
 
 interface IInternalData {
+	raw?: string;
 	fn?: string;
 	as?: string;
 	file?: string;
@@ -90,12 +91,14 @@ export function prettyFormatError(e: Error) {
 				abs: isAbsolute(m[regFileOnlyMatch.file]),
 			};
 		} else {
-			console.error('cannot parse error stack trace line:\n\t"%s"', line);
-			return { fn: line };
+			return { raw: line };
 		}
 	});
-	const stackOutput = stack.filter(ignoreSomeFiles).map(translateFunction).map(({ fn, file, as, abs, line, col }) => {
+	const stackOutput = stack.filter(ignoreSomeFiles).map(translateFunction).map(({ raw, fn, file, as, abs, line, col }) => {
 		let ret;
+		if (raw) {
+			return raw;
+		}
 
 		if (abs) {
 			ret = '  at \x1b[38;5;6m';

@@ -27,11 +27,6 @@ export async function updatePackageJson(hookMode: boolean) {
 		insertKeyAlphabet(packageJson, 'typings', 'docs/package-public.d.ts');
 	}
 
-	if (!packageJson.devDependencies || !packageJson.devDependencies['@idlebox/export-all-in-one']) {
-		const pm = await getPackageManager({ cwd: PROJECT_ROOT });
-		await pm.install('--dev', '@idlebox/export-all-in-one');
-	}
-
 	if (command.options.module === ModuleKind.ESNext) {
 		if (!packageJson.module) {
 			insertKeyAlphabet(packageJson, 'module', 'lib/_export_all_in_one_index.js');
@@ -50,4 +45,12 @@ export async function updatePackageJson(hookMode: boolean) {
 	}
 
 	await writeJsonFile(resolve(PROJECT_ROOT, 'package.json'), packageJson);
+
+	if (!packageJson.devDependencies || !packageJson.devDependencies['@idlebox/export-all-in-one']) {
+		const pm = await getPackageManager({ cwd: PROJECT_ROOT });
+		await pm.install('--dev', '@idlebox/export-all-in-one');
+
+		const packageJson = await loadJsonFile(resolve(PROJECT_ROOT, 'package.json'));
+		await writeJsonFile(resolve(PROJECT_ROOT, 'package.json'), packageJson);
+	}
 }

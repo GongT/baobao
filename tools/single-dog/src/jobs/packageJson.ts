@@ -7,7 +7,7 @@ import { debug } from '../inc/debug';
 import { IGitInfo } from '../inc/gitName';
 
 export const prodPackages: string[] = [
-	'source-map-support',
+	// 'source-map-support',
 ];
 export const devPackages = [
 	'@types/node',
