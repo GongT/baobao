@@ -1,14 +1,13 @@
 {
 	"name": "@idlebox/node-json-edit",
 	"description": "Edit json file and preserve it's indent and line feed and final new line.",
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"monorepo": true,
 	"main": "./lib/node-json-edit.js",
 	"typings": "./lib/node-json-edit.d.ts",
 	"scripts": {
 		"build": "tsc -p src",
-		"prepare": "tsc -p src",
-		"prepublish": "rimraf lib && tsc -p src",
+		"prepack": "rimraf lib && tsc -p src",
 		"publishPackage": "yarn publish --registry https://registry.npmjs.org --access=public",
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
 		"watch": "tsc -p src -w",
@@ -20,10 +19,10 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@types/comment-json": "^1.1.1",
 		"comment-json": "^2.1.0"
 	},
 	"devDependencies": {
+		"@types/comment-json": "^1.1.1",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/node": "^12.7.5",
 		"npm-check-updates": "^3.1.23",
