@@ -1,5 +1,5 @@
-import { uniqueFilter } from '@idlebox/basic-helpers';
 import { normalize, sep as PathListSep } from 'path';
+import { uniqueFilter } from './basic-helper';
 
 export interface ProcessEnv {
 	[key: string]: string | undefined;

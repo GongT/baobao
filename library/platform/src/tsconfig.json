@@ -6,8 +6,6 @@
 		"typeRoots": [
 			"../node_modules/@types"
 		],
-		"rootDir": ".",
-		"declaration": false,
-		"declarationMap": false
+		"rootDir": "."
 	}
 }

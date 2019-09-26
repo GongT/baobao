@@ -7,3 +7,7 @@ package-deps.json
 *.log
 build-script.json
 src
+Gulpfile.js
+docs/platform.api.md
+docs/tsdoc-metadata.json
+*.d.ts
