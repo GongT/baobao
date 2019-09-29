@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/build-script",
-	"version": "2.0.6",
+	"version": "2.0.8",
 	"main": "./api.js",
 	"exports": {
 		"./": "./invalid"

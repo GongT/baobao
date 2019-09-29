@@ -9,7 +9,12 @@ export default async function runBuildScript() {
 	require(resolve(__dirname, '../../api.js')); // init singleton
 
 	loadToGulp(gulp, process.cwd());
-	await gulp.task(command)(() => {
-		fancyLog('Gulp Done.');
-	});
+	try {
+		await gulp.task(command)(() => {
+			fancyLog('Gulp Done.');
+		});
+	} catch (e) {
+		fancyLog.error('Failed to run command %s', command);
+		throw e;
+	}
 }

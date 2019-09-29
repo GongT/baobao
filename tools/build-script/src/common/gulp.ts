@@ -1,14 +1,110 @@
 import * as Gulp from 'gulp';
-import { ExecFunc } from '../global';
+import { ExecFunc, MapLike } from '../global';
 import { BuildContext } from './buildContext';
 import { getBuildContext, setCurrentDir } from './buildContextInstance';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
-import { createJobFunc, createOtherJobFunc } from './jobs';
+import { createJobFunc } from './jobs';
+import { nameFunction } from '../../../../library/basic-helpers';
 
 function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
 	fancyLog.debug(`defining new task: ${taskName}`);
 	gulp.task(taskName, fn);
+}
+
+function createAliasRegistry(ctx: BuildContext) {
+	const aliasRegistry: MapLike<ExecFunc> = {};
+	for (const [name, cmd] of ctx.projectJson.alias.entries()) {
+		aliasRegistry[name] = createJobFunc(aliasName(name), ctx.projectRoot, cmd);
+	}
+
+	return function pickAlias(name: string) {
+		if (aliasRegistry[name]) {
+			return aliasRegistry[name];
+		}
+		throw new Error(`Action alias not found: ${name}`);
+	};
+}
+
+function dependencyResolve(ctx: BuildContext) {
+	const waitResolve: MapLike<string[]> = {};
+	const orderDepend: string[] = [];
+
+	function isFullFill(deps: string[]) {
+		if (deps.length === 0) {
+			return true;
+		} else if (deps.every((item) => orderDepend.includes(item))) {
+			return true;
+		}
+		return false;
+	}
+
+	for (const [name, data] of ctx.projectJson.job.entries()) {
+		if (data.run.size) {
+			const deps: string[] = [...data.preRun, ...data.run, ...data.postRun].filter((item) => {
+				return item.startsWith('@');
+			}).map((item) => {
+				return item.slice(1);
+			});
+
+			if (isFullFill(deps)) {
+				orderDepend.push(name);
+			} else {
+				waitResolve[name] = deps;
+			}
+		}
+	}
+
+	while (true) {
+		const toResolve = Object.entries(waitResolve);
+		const preventLoop = toResolve.length;
+		if (preventLoop === 0) {
+			break;
+		}
+		for (const [name, deps] of toResolve) {
+			if (isFullFill(deps)) {
+				orderDepend.push(name);
+				delete waitResolve[name];
+			}
+		}
+		const result = Object.keys(waitResolve).length;
+		if (result === 0) {
+			break;
+		}
+		if (result === preventLoop) {
+			throw new Error(`Dependency loop found: ${Object.keys(waitResolve).join(', ')}`);
+		}
+	}
+
+	return orderDepend;
+}
+
+function createPickPreviousJob(pickAlias: (name: string) => ExecFunc) {
+	const jobRegistry: MapLike<Gulp.TaskFunction> = {};
+
+	function pickJob(n: string) {
+		if (jobRegistry[n]) {
+			return jobRegistry[n];
+		} else {
+			throw new Error(`Job name not found: ${n}`);
+		}
+	}
+
+	return {
+		registerJob(name: string, fn: Gulp.TaskFunction) {
+			jobRegistry[name] = fn;
+		},
+		pickJob,
+		pickAction(name: string) {
+			if (name.startsWith('@')) {
+				return pickJob(name.slice(1));
+
+			} else {
+				return pickAlias(name);
+			}
+		},
+	};
+
 }
 
 export function load(gulp: typeof Gulp, _dirname: string) {
@@ -16,26 +112,32 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 	const ctx: BuildContext = getBuildContext();
 	ctx.init();
 
-	for (const [name, cmd] of ctx.projectJson.alias.entries()) {
-		task(
-			gulp,
-			aliasName(name),
-			createJobFunc(aliasName(name), ctx.projectRoot, cmd),
-		);
-	}
+	const pickAlias = createAliasRegistry(ctx);
+	const resolvedDependOrder = dependencyResolve(ctx);
 
-	const needCheckDep: string[] = [];
-	for (const [name, data] of ctx.projectJson.job.entries()) {
+	const { pickJob, pickAction, registerJob } = createPickPreviousJob(pickAlias);
+
+	for (const name of resolvedDependOrder) {
+		const data = ctx.projectJson.job.get(name)!;
 		const list: Gulp.TaskFunction[] = [];
 
-		if (data.preRun.size) {
-			list.push(gulpParallel(gulp, map(data.preRun, aliasName)));
+		if (data.preRun.size || data.after.size) {
+			list.unshift(nameFunction(
+				`${name}:pre`,
+				gulpParallel(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]),
+			));
 		}
 		if (data.run.size) {
-			list.push(gulpParallel(gulp, map(data.run, aliasNameOrRunner.bind(ctx))));
+			list.push(nameFunction(
+				`${name}:run`,
+				gulpParallel(gulp, map(data.run, pickAction)),
+			));
 		}
 		if (data.postRun.size) {
-			list.push(gulpParallel(gulp, map(data.preRun, aliasName)));
+			list.push(nameFunction(
+				`${name}:post`,
+				gulpParallel(gulp, map(data.preRun, pickJob)),
+			));
 		}
 
 		const fn = list.length === 0
@@ -45,51 +147,13 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 					: gulp.series(...list)
 			);
 
-		if (data.after.size) {
-			needCheckDep.push(name);
-			task(
-				gulp,
-				jobName(name),
-				functionWithName(fn, jobName(name), data.title),
-			);
-		} else {
-			task(
-				gulp,
-				name,
-				functionWithName(fn, name, data.title),
-			);
-		}
-	}
-
-	let loopDetect = 0;
-	OUTER: while (needCheckDep.length > 0) {
-		const name = needCheckDep.shift()!;
-		const data = ctx.projectJson.job.get(name)!;
-
-		let deps: string[] = [];
-		for (const item of data.after) {
-			if (needCheckDep.includes(item)) {
-				needCheckDep.push(name);
-				loopDetect++;
-				if (loopDetect == needCheckDep.length) {
-					throw new Error('found loop dependency: ' + needCheckDep.join(', '));
-				}
-				continue OUTER;
-			}
-			deps.push(item);
-		}
-
-		loopDetect = 0;
+		registerJob(name, fn);
 		task(
 			gulp,
 			name,
-			functionWithName(gulp.series(
-				deps.length === 1 ? deps[0] : gulp.parallel(deps),
-				jobName(name),
-			), name, data.title),
+			functionWithName(fn, name, data.title),
 		);
 	}
-	// TODO: resolve tree dependency
 }
 
 function gulpParallel(gulp: typeof Gulp, fns: (string | ExecFunc)[]): Gulp.TaskFunction {
@@ -105,20 +169,8 @@ function gulpParallel(gulp: typeof Gulp, fns: (string | ExecFunc)[]): Gulp.TaskF
 	}
 }
 
-function aliasNameOrRunner(this: BuildContext, name: string) {
-	if (name.startsWith('@')) {
-		return createOtherJobFunc(name, this.projectRoot);
-	} else {
-		return aliasName(name);
-	}
-}
-
 function aliasName(name: string) {
 	return 'run:' + name;
-}
-
-function jobName(name: string) {
-	return 'job:' + name;
 }
 
 function map<T, V>(arr: Set<T>, mapper: (v: T) => V): V[] {

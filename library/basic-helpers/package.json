@@ -2,7 +2,7 @@
 	"monorepo": "rush",
 	"name": "@idlebox/basic-helpers",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.0.3",
+	"version": "1.0.5",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.js",
 	"scripts": {
@@ -19,8 +19,8 @@
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.6",
-		"@idlebox/export-all-in-one": "^3.0.4",
+		"@idlebox/build-script": "^2.0.8",
+		"@idlebox/export-all-in-one": "^3.0.5",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"

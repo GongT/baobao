@@ -38,6 +38,16 @@ export function assertNotNull<T>(val: T): NonNullable<T>;
 // @public (undocumented)
 export function awaitIterator<T>(generator: Iterator<T>): Promise<T>;
 
+// Warning: (ae-missing-release-tag) "Callable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface Callable {
+    // (undocumented)
+    (...args: any[]): any;
+    // (undocumented)
+    readonly name?: string;
+}
+
 // Warning: (ae-missing-release-tag) "CallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -122,7 +132,7 @@ export function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseResultArra
 // Warning: (ae-missing-release-tag) "functionName" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export function functionName(func: Function): any;
+export function functionName(func: Callable): string | undefined;
 
 // Warning: (ae-missing-release-tag) "getErrorFrame" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -242,7 +252,7 @@ export interface MapLike<V> {
 // Warning: (ae-missing-release-tag) "MaybeNamedFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export interface MaybeNamedFunction extends Function {
+export interface MaybeNamedFunction extends Callable {
     // (undocumented)
     displayName?: string;
 }
@@ -270,7 +280,7 @@ export interface MyDelayCallback<Argument> {
 // Warning: (ae-missing-release-tag) "NamedFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export interface NamedFunction extends Function {
+export interface NamedFunction extends Callable {
     // (undocumented)
     displayName: string;
 }
@@ -278,7 +288,7 @@ export interface NamedFunction extends Function {
 // Warning: (ae-missing-release-tag) "nameFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export function nameFunction<T extends Function>(name: string, func: T): T & NamedFunction;
+export function nameFunction<T extends Callable>(name: string, func: T): T & NamedFunction;
 
 // Warning: (ae-missing-release-tag) "normalizeArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 

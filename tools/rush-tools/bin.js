@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 require('source-map-support/register');
-require('./lib/index').default().then(() => {
+
+const {prettyPrintError} = require('@idlebox/node-helpers');
+Promise.resolve().then(() => {
+	return require('./lib/index').default();
+}).then(() => {
 }, (e) => {
-	setImmediate(() => {
-		throw e;
-	});
+	prettyPrintError('rush-tools', e);
+	process.exit(1);
 });

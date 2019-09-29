@@ -1,12 +1,17 @@
-export interface NamedFunction extends Function {
+export interface Callable {
+	(...args: any[]): any;
+	readonly name?: string;
+}
+
+export interface NamedFunction extends Callable {
 	displayName: string;
 }
 
-export function functionName(func: Function) {
-	return (func as any).displayName || func.name;
+export function functionName(func: Callable) {
+	return (func as NamedFunction).displayName || func.name;
 }
 
-export function nameFunction<T extends Function>(name: string, func: T): T & NamedFunction {
+export function nameFunction<T extends Callable>(name: string, func: T): T & NamedFunction {
 	return Object.assign(func, {
 		displayName: name,
 		inspect() {
@@ -15,7 +20,7 @@ export function nameFunction<T extends Function>(name: string, func: T): T & Nam
 	});
 }
 
-export interface MaybeNamedFunction extends Function {
+export interface MaybeNamedFunction extends Callable {
 	displayName?: string;
 }
 

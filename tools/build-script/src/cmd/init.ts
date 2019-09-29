@@ -88,16 +88,15 @@ async function createBuildJson(ctx: BuildContext) {
 	ctx.registerAlias('build-ts', 'tsc -p src');
 	ctx.registerAlias('watch-ts', 'tsc --pretty -w -p src');
 	ctx.registerAlias('cleanup-lib', 'rimraf lib');
-	ctx.registerAlias('yarn-publish', 'yarn publish --registry https://registry.npmjs.org --access=public');
+	ctx.registerAlias('yarn-publish', 'yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public');
 	ctx.registerAlias('upgrade-node-modules', 'npm-check-updates --update --packageFile ./package.json');
 	ctx.registerAlias('run-test', 'echo No test command set.');
-	ctx.registerAlias('git-clean-all', 'git clean -f -d -X -e node_modules');
-	ctx.registerAlias('git-clean', 'git clean -f -d -X -e node_modules');
+	ctx.registerAlias('git-clean', 'git clean -f -d -X -e !node_modules');
 
 	ctx.addAction('build', ['build-ts']).title = 'Build project';
-	ctx.addAction('distclean', ['git-clean-all']).title = 'Delete git ignore files';
-	ctx.addAction('clean', ['git-clean']).title = 'Delete git ignore files (without node_modules)';
-	ctx.addAction('rebuild', ['cleanup-lib', '@build']).title = 'Prepare for publish package';
+	ctx.addAction('distclean', ['git-clean']).title = 'Delete git ignore files (without node_modules)';
+	ctx.addAction('clean', ['cleanup-lib']).title = 'Delete lib folder';
+	ctx.addAction('rebuild', ['@build'], ['distclean']).title = 'Prepare for publish package';
 	ctx.addAction('publish', ['yarn-publish'], ['rebuild']).title = 'Publish package';
 	ctx.addAction('test', ['run-test'], ['build']).title = 'Run test';
 	ctx.addAction('upgrade', ['upgrade-node-modules']).title = 'Do project dependency upgrade';

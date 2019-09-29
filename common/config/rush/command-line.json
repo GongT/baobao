@@ -2,57 +2,6 @@
 	/* Doc: https://rushjs.io/pages/configs/command_line_json/ */
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
 	"commands": [
-		{
-			"commandKind": "bulk",
-			"name": "clean",
-			"summary": "Clean each project.",
-			"enableParallelism": true,
-			"ignoreDependencyOrder": true,
-			"ignoreMissingScript": true,
-			"allowWarningsInSuccessfulBuild": false
-		}, {
-			"commandKind": "bulk",
-			"name": "upgrade",
-			"summary": "Upgrade all dependencies to their latest version in every sub project.",
-			"enableParallelism": false,
-			"ignoreDependencyOrder": true,
-			"allowWarningsInSuccessfulBuild": true
-		}, {
-			"commandKind": "bulk",
-			"name": "watch",
-			"summary": "Run watch in every sub project.",
-			"enableParallelism": true,
-			"safeForSimultaneousRushProcesses": true,
-			"ignoreDependencyOrder": true,
-			"allowWarningsInSuccessfulBuild": true
-		}, {
-			"commandKind": "bulk",
-			"name": "prepare",
-			"summary": "Run prepare in every sub project.",
-			"enableParallelism": true,
-			"safeForSimultaneousRushProcesses": true,
-			"ignoreDependencyOrder": true,
-			"ignoreMissingScript": true,
-			"allowWarningsInSuccessfulBuild": true
-		}, {
-			"commandKind": "bulk",
-			"name": "yarn-publish",
-			"summary": "Run yarn publish in every sub project.",
-			"enableParallelism": true,
-			"safeForSimultaneousRushProcesses": true,
-			"ignoreDependencyOrder": true,
-			"ignoreMissingScript": true,
-			"allowWarningsInSuccessfulBuild": true
-		}, {
-			"commandKind": "bulk",
-			"name": "ttt",
-			"summary": "test.",
-			"enableParallelism": false,
-			"safeForSimultaneousRushProcesses": false,
-			"ignoreDependencyOrder": false,
-			"ignoreMissingScript": true,
-			"allowWarningsInSuccessfulBuild": true
-		}
 	],
 	"parameters": [
 	]

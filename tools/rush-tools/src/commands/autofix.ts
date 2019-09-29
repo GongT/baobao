@@ -2,10 +2,11 @@ import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
 import { eachProject } from '../api/each';
 import { toProjectPathAbsolute } from '../api/load';
+import { description } from '../common/description';
 
 const { manifest } = require('pacote');
 
-export async function runAutoFix() {
+export default async function runAutoFix() {
 	const knownVersions: { [id: string]: string } = {};
 	const localVersions: { [id: string]: string } = {};
 	const willResolveDeps: string[] = [];
@@ -78,3 +79,5 @@ export async function runAutoFix() {
 async function resolveNpmVersion(packageName: string) {
 	return '^' + (await manifest(packageName + '@latest')).version;
 }
+
+description(runAutoFix, 'Auto fix any mismatch dependency versions, use newest one inside workspace.');

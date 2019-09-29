@@ -15,6 +15,11 @@ export declare function assertNotNull<T>(val: T): NonNullable<T>;
 
 export declare function awaitIterator<T>(generator: Iterator<T>): Promise<T>;
 
+export declare interface Callable {
+    (...args: any[]): any;
+    readonly name?: string;
+}
+
 export declare class CallbackList<Argument> {
     protected list: MyCallback<Argument>[];
     add(item: MyCallback<Argument>, name?: string): number;
@@ -59,7 +64,7 @@ declare type Finder<Type> = (this: Type[], item: Type) => number;
 
 export declare function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseResultArray<T>>;
 
-export declare function functionName(func: Function): any;
+export declare function functionName(func: Callable): string | undefined;
 
 export declare function getErrorFrame(e: Error, frame: number): string;
 
@@ -115,7 +120,7 @@ export declare interface MapLike<V> {
     [id: string]: V;
 }
 
-export declare interface MaybeNamedFunction extends Function {
+export declare interface MaybeNamedFunction extends Callable {
     displayName?: string;
 }
 
@@ -129,11 +134,11 @@ export declare interface MyDelayCallback<Argument> {
     (param: Argument): void;
 }
 
-export declare interface NamedFunction extends Function {
+export declare interface NamedFunction extends Callable {
     displayName: string;
 }
 
-export declare function nameFunction<T extends Function>(name: string, func: T): T & NamedFunction;
+export declare function nameFunction<T extends Callable>(name: string, func: T): T & NamedFunction;
 
 export declare function normalizeArray<T>(input: any): T[];
 

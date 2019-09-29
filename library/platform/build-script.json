@@ -27,6 +27,7 @@
 		"yarn-publish": [
 			"yarn",
 			"publish",
+			"--ignore-scripts",
 			"--registry",
 			"https://registry.npmjs.org",
 			"--access=public"
@@ -44,15 +45,6 @@
 			"command",
 			"set."
 		],
-		"git-clean-all": [
-			"git",
-			"clean",
-			"-f",
-			"-d",
-			"-X",
-			"-e",
-			"node_modules"
-		],
 		"git-clean": [
 			"git",
 			"clean",
@@ -60,7 +52,7 @@
 			"-d",
 			"-X",
 			"-e",
-			"node_modules"
+			"!node_modules"
 		]
 	},
 	"command": {
@@ -71,22 +63,24 @@
 			]
 		},
 		"distclean": {
-			"title": "Delete git ignore files",
-			"run": [
-				"git-clean-all"
-			]
-		},
-		"clean": {
 			"title": "Delete git ignore files (without node_modules)",
 			"run": [
 				"git-clean"
 			]
 		},
+		"clean": {
+			"title": "Delete lib folder",
+			"run": [
+				"cleanup-lib"
+			]
+		},
 		"rebuild": {
 			"title": "Prepare for publish package",
 			"run": [
-				"cleanup-lib",
 				"@build"
+			],
+			"after": [
+				"distclean"
 			]
 		},
 		"publish": {

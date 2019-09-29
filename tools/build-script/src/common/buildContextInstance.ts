@@ -43,7 +43,7 @@ export function getBuildContext(): BuildContext {
 	return bc;
 }
 
-let setBy = '@idlebox/micro-build';
+let setBy = '@idlebox/build-script';
 
 export function setCurrentDir(v: string) {
 	if (currentPath && currentPath !== v) {

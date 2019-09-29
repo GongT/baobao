@@ -2,8 +2,9 @@ import { writeJsonFileBack } from '@idlebox/node-json-edit';
 import { access } from 'fs-extra';
 import { resolve } from 'path';
 import { getCurrentRushConfig, toProjectPathRelative } from '../api/load';
+import { description } from '../common/description';
 
-export async function runRegisterProject() {
+export default async function runRegisterProject() {
 	const _projectPath = process.argv[3];
 	if (!_projectPath) {
 		throw new Error('Require project argument.');
@@ -45,3 +46,5 @@ export async function runRegisterProject() {
 function normalize(s: string) {
 	return s.replace(/^\.+[\/\\]+/g, '').replace(/\\/g, '/');
 }
+
+description(runRegisterProject, 'Register a newly created package.json into rush.json');

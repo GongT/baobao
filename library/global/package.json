@@ -16,7 +16,7 @@
 		"watch": "build-script watch"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.6",
+		"@idlebox/build-script": "^2.0.8",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"

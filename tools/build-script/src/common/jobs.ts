@@ -23,7 +23,7 @@ if (colorEnabled) {
 
 export function createOtherJobFunc(jobName: string, path: string): ExecFunc {
 	return createJobFunc(
-		'micro-build:' + jobName, path,
+		jobName, path,
 		[process.argv[0], process.argv[1], jobName],
 	);
 }
@@ -38,15 +38,6 @@ function colorIfNot(stdout: boolean, color: string, l: string) {
 	}
 }
 
-/*
-export
-function createNpmJobFunc(jobName: string, path: string): ExecFunc {
-	return createJobFunc(
-		'npm:' + jobName, path,
-		['npm', 'run', '--scripts-prepend-node-path=true', jobName],
-	);
-}
-*/
 export function createJobFunc(jobName: string, path: string, cmds: string[]): ExecFunc {
 	let [command, ...args] = cmds;
 	if (!command) {
@@ -90,5 +81,5 @@ export function createJobFunc(jobName: string, path: string, cmds: string[]): Ex
 		});
 	};
 
-	return functionWithName(callback, `${jobName}Job`, `${command} ${args.join(' ')}`);
+	return functionWithName(callback, jobName, `${command} ${args.join(' ')}`);
 }
