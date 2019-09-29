@@ -24,7 +24,7 @@
 	"devDependencies": {
 		"@types/comment-json": "^1.1.1",
 		"@idlebox/single-dog-asset": "^1.0.1",
-		"@types/node": "^12.7.5",
+		"@types/node": "^12.7.8",
 		"npm-check-updates": "^3.1.23",
 		"rimraf": "^3.0.0",
 		"typescript": "^3.6.3"

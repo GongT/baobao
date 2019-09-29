@@ -1,7 +1,7 @@
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
 import { eachProject } from '../api/each';
-import { toProjectPath } from '../api/load';
+import { toProjectPathAbsolute } from '../api/load';
 
 const { manifest } = require('pacote');
 
@@ -14,7 +14,7 @@ export async function runAutoFix() {
 	console.log('Finding local project versions:');
 	for (const { projectFolder, packageName } of eachProject()) {
 		let version: string;
-		const pkgFile = resolve(toProjectPath(projectFolder), 'package.json');
+		const pkgFile = resolve(toProjectPathAbsolute(projectFolder), 'package.json');
 		try {
 			const data = await loadJsonFile(pkgFile);
 			packageJsons.push(data);

@@ -1,17 +1,19 @@
 import { PlatformPathArray } from '@idlebox/platform';
-import * as execa from 'execa';
 import { resolve } from 'path';
 import { ExecFunc } from '../global';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
 import split2 = require('split2');
 
+const execa = require('execa');
+
 let ignore: string = '';
 let weakRed: string = '';
 let green: string = '';
 let red: string = '';
 let reset: string = '';
-if (process.stdout.isTTY) {
+const colorEnabled = !!process.stdout.isTTY;
+if (colorEnabled) {
 	ignore = '\x1B[2m';
 	weakRed = '\x1B[38;5;1;2m';
 	green = '\x1B[38;5;2m';
@@ -26,11 +28,13 @@ export function createOtherJobFunc(jobName: string, path: string): ExecFunc {
 	);
 }
 
-function colorIfNot(color: string, l: string) {
-	if (l.includes('\x1B')) {
-		console.error(l.trim());
+function colorIfNot(stdout: boolean, color: string, l: string) {
+	if (!colorEnabled) {
+		(stdout ? console.log : console.error)(l.trim());
+	} else if (l.includes('\x1B')) {
+		(stdout ? console.log : console.error)(l.trim());
 	} else {
-		console.error('%s%s%s', color, l.trim(), reset);
+		(stdout ? console.log : console.error)('%s%s%s', color, l.trim(), reset);
 	}
 }
 
@@ -71,16 +75,16 @@ export function createJobFunc(jobName: string, path: string, cmds: string[]): Ex
 			stdio: ['ignore', 'pipe', 'pipe'],
 		});
 
-		ps.stdout!.pipe(split2()).on('data', (l) => {
-			colorIfNot(ignore, l);
+		ps.stdout!.pipe(split2()).on('data', (l: string) => {
+			colorIfNot(true, ignore, l);
 		}).resume();
-		ps.stderr!.pipe(split2()).on('data', (l) => {
-			colorIfNot(weakRed, l);
+		ps.stderr!.pipe(split2()).on('data', (l: string) => {
+			colorIfNot(false, weakRed, l);
 		}).resume();
 
 		await ps.then(() => {
 			fancyLog.info('%s%s%s: success.', green, jobName, reset);
-		}, (e) => {
+		}, (e: Error) => {
 			fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
 			throw e;
 		});

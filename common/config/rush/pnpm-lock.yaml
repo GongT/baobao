@@ -1,14 +1,11 @@
 dependencies:
-  '@idlebox/build-script': 2.0.6
-  '@idlebox/errors': 1.0.3
-  '@idlebox/node-json-edit': 1.0.15
+  '@idlebox/node-helpers': 1.0.3
   '@idlebox/platform': 1.0.8
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': 7.4.1
   '@rush-temp/basic-helpers': 'file:projects/basic-helpers.tgz'
   '@rush-temp/build-script': 'file:projects/build-script.tgz'
   '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz'
-  '@rush-temp/errors': 'file:projects/errors.tgz'
   '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
   '@rush-temp/global': 'file:projects/global.tgz'
   '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz'
@@ -29,8 +26,7 @@ dependencies:
   '@types/fs-extra': 8.0.0
   '@types/gulp': 4.0.6
   '@types/json5': 0.0.30
-  '@types/klaw': 3.0.0
-  '@types/node': 12.7.5
+  '@types/node': 12.7.8
   '@types/split2': 2.1.6
   command-exists: 1.2.8
   comment-json: 2.1.0
@@ -63,6 +59,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-o/anYXUiOB7InjuDQYcaX4me6OD+z/1s6YY4TswY0YZ5JzDC5O0scDbPZxMqR8x8tMNhz2sgWdfV73/8YIGHAA==
+  /@idlebox/basic-helpers/1.0.3:
+    dependencies:
+      source-map-support: 0.5.13
+    dev: false
+    resolution:
+      integrity: sha512-qeiNDjwZR/UNsaWTu04wbH3vpD2KUx/Nz06jwiWICeLlucZa1LQ0uf8jw3uK77iV/PiD0HdrIcoxsgOsM12niw==
   /@idlebox/build-script/1.0.2:
     dependencies:
       '@idlebox/node-json-edit': 1.0.12
@@ -78,24 +80,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-InvuqEaf1Uwg4CZfo4iSiT8CzAFJ7df0sOkpTXvSBCBpGRLGdmrL+7KovV+fcDUheIvkZL/rZ35EIRI744AJ2A==
-  /@idlebox/build-script/2.0.6:
-    dependencies:
-      '@idlebox/errors': 1.0.3
-      '@idlebox/node-json-edit': 1.0.15
-      '@idlebox/platform': 1.0.8
-      execa: 2.0.4
-      fancy-log: 1.3.3
-      fs-extra: 8.1.0
-      npm-check-updates: 3.1.23
-      pacote: 9.5.8
-      source-map-support: 0.5.13
-      split2: 3.1.1
-    dev: false
-    hasBin: true
-    peerDependencies:
-      gulp: '*'
-    resolution:
-      integrity: sha512-optYGN0Lr31FXYe14udWPC7Dd+d10sHY7dh1/1YCQJzoFdWTMqzemtUaC01tijCHtum1FDbIJS3L/cIIacqEJw==
   /@idlebox/build-script/2.0.6_gulp@4.0.2:
     dependencies:
       '@idlebox/errors': 1.0.3
@@ -129,7 +113,7 @@ packages:
       integrity: sha512-/adTDAySKinFDPYyk9ZyIc5Soa+c1lAsDCTW79cZ4del/I+wejIBAYR54az5/V/zT3mjAP3IpAUM6/3RelZCHw==
   /@idlebox/errors/1.0.3:
     dependencies:
-      '@idlebox/basic-helpers': 1.0.2
+      '@idlebox/basic-helpers': 1.0.3
     dev: false
     resolution:
       integrity: sha512-3xUCONEDE9ICrSlCV6SVf+bGYc4biPbPwVLWecpz+xExiGOWJNhEl3RRl845FNI6zg8aGtdB4I7hG+V8gS3rEA==
@@ -150,6 +134,20 @@ packages:
       typescript: '>=3'
     resolution:
       integrity: sha512-zA/4AjODvwauvXWySqsav+eYMQ6LCL7zQklNped71LUdJ6gNs64Gpu4kga+uI4KVyEqLxYmP4G2h2fKUg1Kchg==
+  /@idlebox/lifecycle/1.0.0:
+    dependencies:
+      '@idlebox/errors': 1.0.3
+    dev: false
+    resolution:
+      integrity: sha512-Hxla9ZkcI9azvWdwc04Ht32nO7ChuzoqRPaS100vK2TDCAgloDDh3SptH7nQsIgpZmAqp3ZQdrIbDSExHWt1+g==
+  /@idlebox/node-helpers/1.0.3:
+    dependencies:
+      '@idlebox/basic-helpers': 1.0.3
+      '@idlebox/lifecycle': 1.0.0
+      source-map-support: 0.5.13
+    dev: false
+    resolution:
+      integrity: sha512-ny/6YNVPsvjK2Uyjm70x3DHYtRwUzTlfB/zP74IOVcDd7Pgv3iHCSzd+44lQhVivD1tSszKOKo9vL7HQziKOCg==
   /@idlebox/node-json-edit/1.0.12:
     dependencies:
       '@types/comment-json': 1.1.1
@@ -6017,7 +6015,7 @@ packages:
       '@gongt/single-dog': 2.0.7
       '@idlebox/build-script': 1.0.2
       '@idlebox/export-all-in-one': 3.0.4_typescript@3.6.3
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       gulp: 4.0.2
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
@@ -6034,6 +6032,7 @@ packages:
     dependencies:
       '@gongt/single-dog': 2.0.7
       '@idlebox/errors': 1.0.3
+      '@idlebox/node-helpers': 1.0.3
       '@idlebox/node-json-edit': 1.0.15
       '@idlebox/package-manager': 1.0.0
       '@idlebox/platform': 1.0.8
@@ -6041,7 +6040,7 @@ packages:
       '@types/fancy-log': 1.3.1
       '@types/fs-extra': 8.0.0
       '@types/gulp': 4.0.6
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       '@types/split2': 2.1.6
       execa: 2.0.4
       fancy-log: 1.3.3
@@ -6057,7 +6056,7 @@ packages:
     dev: false
     name: '@rush-temp/build-script'
     resolution:
-      integrity: sha512-6uZALfGQbjJHA0Nm5xfHsRYdEiphHdgCOZ2s82jNNOsRWjp66Dd4o0z1kT07o525oB0m/iJILCIHfaGOw+fj9w==
+      integrity: sha512-AEN37qPgM81D5sdGwgCGMjcwZTu7dLvksz89MZVrjq8TFsDaXxP4f3baMP3BDOf220dzwK4ovoe4YZp9O5TRtg==
       tarball: 'file:projects/build-script.tgz'
     version: 0.0.0
   'file:projects/ensure-symlink.tgz':
@@ -6070,21 +6069,6 @@ packages:
       integrity: sha512-BHAu3tVIsGEu0YUrVQozNBml/5GfIT/0is08MdNTAjHyScBBtA4BbjEv8KDbpGcm9mRDvFeqXOrrTyXmElCMaA==
       tarball: 'file:projects/ensure-symlink.tgz'
     version: 0.0.0
-  'file:projects/errors.tgz':
-    dependencies:
-      '@microsoft/api-extractor': 7.4.1
-      '@types/node': 12.7.5
-      gulp: 4.0.2
-      npm-check-updates: 3.1.23
-      npm-run-all: 4.1.5
-      rimraf: 3.0.0
-      typescript: 3.6.3
-    dev: false
-    name: '@rush-temp/errors'
-    resolution:
-      integrity: sha512-LSMxMlrs0uFVjz38ebpcH5RcdA6G4FsW2smBYg1Oyu7p7cxklQ+49/oELofKU0XqLONYsdBOf/YCT/X48jsG0w==
-      tarball: 'file:projects/errors.tgz'
-    version: 0.0.0
   'file:projects/export-all-in-one.tgz':
     dependencies:
       '@gongt/single-dog': 2.0.7
@@ -6094,7 +6078,7 @@ packages:
       '@microsoft/api-extractor': 7.4.1
       '@types/fs-extra': 8.0.0
       '@types/klaw': 3.0.0
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       execa: 2.0.4
       fs-extra: 8.1.0
       gulp: 4.0.2
@@ -6107,7 +6091,7 @@ packages:
     dev: false
     name: '@rush-temp/export-all-in-one'
     resolution:
-      integrity: sha512-FUtsKtxR/nwHSHuYLGkYfyYix0HToG5GPRzkYNX+j66fNWWYSkJfNUm9CXrjYppkT6i8HBkyFshe15JBA6BQ9g==
+      integrity: sha512-MPWH1ZsGsV9qP8imoUo3uRuP/dRs8I2kg0olapyn2TGMlYlXZvgTuLAHdkV8Z8UN2tS7iNxNVydvM39t4NeIfw==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
   'file:projects/global.tgz':
@@ -6133,25 +6117,25 @@ packages:
     dev: false
     name: '@rush-temp/lifecycle'
     resolution:
-      integrity: sha512-lNxLacT8oFEoCJNRGPei+ORTwSR8LnB5gRxaEZRKApI1IoSoLf6qJBLD/wzyWgpSycyYFKQ2dRYkLXI8CtdoRA==
+      integrity: sha512-TNfIvEFwc7YdR3z6UOGG0av80ALiEb0u38Y7REhoMugNUCEwOsLJugq7P1NWBfm5UT7x9x7d/RYCby8r7d6xqg==
       tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
   'file:projects/node-helpers.tgz':
     dependencies:
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       gulp: 4.0.2
       source-map-support: 0.5.13
       typescript: 3.6.3
     dev: false
     name: '@rush-temp/node-helpers'
     resolution:
-      integrity: sha512-YbWPfKaT3uSXS+WhoNINOhYSg31RxvEjKBoEmNCIduan/fvnFs2E4sCg7azYeJYQdk5rPqaoC+4KLoGxsbMRHQ==
+      integrity: sha512-5AFDQcro8guNSTWiaAnN8QpUW2+KjxICbUB9omTTPJRUvFVRvPtVsqVNi++i/gW7dX0GttJ875cw4Ejl+DMCPg==
       tarball: 'file:projects/node-helpers.tgz'
     version: 0.0.0
   'file:projects/node-json-edit.tgz':
     dependencies:
       '@types/comment-json': 1.1.1
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       comment-json: 2.1.0
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
@@ -6160,7 +6144,7 @@ packages:
     dev: false
     name: '@rush-temp/node-json-edit'
     resolution:
-      integrity: sha512-mZv8oeccdw19ZIsoxP/6RzXujBLANDn1fzGexxYyLKEC67HS+k/pzokr6DWjBlGIVcXCoDjK7lGM5V3Vk9tmhw==
+      integrity: sha512-js6iFdyvB7cHt2bo3XT1bEVwxdaKcABcekVlaUUelQNWPEpIyGESBsluysK2V/7hP0m9l8NRNrCWDDrhqOUAPw==
       tarball: 'file:projects/node-json-edit.tgz'
     version: 0.0.0
   'file:projects/package-manager.tgz':
@@ -6172,7 +6156,7 @@ packages:
       '@oclif/plugin-help': 2.2.1
       '@types/command-exists': 1.2.0
       '@types/json5': 0.0.30
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       command-exists: 1.2.8
       execa: 2.0.4
       json5: 2.1.0
@@ -6184,13 +6168,13 @@ packages:
     dev: false
     name: '@rush-temp/package-manager'
     resolution:
-      integrity: sha512-fxtIfyzDPX4kcFUirQAtXmYK878dS8a2YXTU86yb5nVhegcX6HqnsYTZSuk79MXR3dOMGxNgyutOmGc6OQG4MQ==
+      integrity: sha512-pMnDShnud8afd1FQuVwp8U/PL7lLIOXDMHUfmnoAfVFISIaziclbLXYo6PurudWAG0tF9fp16O0HTnXswOIEvg==
       tarball: 'file:projects/package-manager.tgz'
     version: 0.0.0
   'file:projects/platform.tgz':
     dependencies:
       '@idlebox/build-script': 2.0.6_gulp@4.0.2
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       gulp: 4.0.2
       npm-check-updates: 3.1.23
       rimraf: 3.0.0
@@ -6199,7 +6183,7 @@ packages:
     dev: false
     name: '@rush-temp/platform'
     resolution:
-      integrity: sha512-WPxQ8HXWIEtF0ZQf2gSdkeC3DXaU6jl5ZUgyvPF6rN9fqFe/3ZP8+qgi14Z57CZcUnvRkDQt///ytwDGltWucw==
+      integrity: sha512-uWoh8OlVTutt3KndeNS7dFCg+EmdX01dkV9vKELs+7we8NlsmYVWx5oXYMotTY+/1+mWQiKk0fiDZ2In0o73hA==
       tarball: 'file:projects/platform.tgz'
     version: 0.0.0
   'file:projects/reflect.tgz':
@@ -6214,13 +6198,13 @@ packages:
     dev: false
     name: '@rush-temp/reflect'
     resolution:
-      integrity: sha512-jB1SpS1x7mp1ygJolEoMtTbLWLIjvQUrG5MSSFG8bGLpvMbDALms3Bk36OxeBMmCqRwXNFDEBpB44aoFf8C7Iw==
+      integrity: sha512-Jiz/gNwx9nolk+Ib49/bvS8VuteEgaexHpsJwXRA+VDpmn2nvHP1pwYo+XdOB+h9asj7i2t+1A8/Ej9yg5AWTw==
       tarball: 'file:projects/reflect.tgz'
     version: 0.0.0
   'file:projects/rush-tools.tgz':
     dependencies:
       '@types/fs-extra': 8.0.0
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       execa: 2.0.4
       fs-extra: 8.1.0
       gulp: 4.0.2
@@ -6232,7 +6216,7 @@ packages:
     dev: false
     name: '@rush-temp/rush-tools'
     resolution:
-      integrity: sha512-ZaSSPos83nujrhfa8UTET6OFRS6XghBBYquNAiseLNRLLzQzy4EhjTm/JkuqwGs2nB9FmvLh9+11ZOttzX6zXg==
+      integrity: sha512-EwI3nlKeZSmYzpmT7ohulFv6JGiTBHumMtDs9Nn7P8Qqk7p9kcso/seDGGvqbSKFguU9OzoW6+dxbRhXIDOx2w==
       tarball: 'file:projects/rush-tools.tgz'
     version: 0.0.0
   'file:projects/single-dog-asset.tgz':
@@ -6248,7 +6232,7 @@ packages:
     dependencies:
       '@idlebox/build-script': 1.0.2
       '@types/fs-extra': 8.0.0
-      '@types/node': 12.7.5
+      '@types/node': 12.7.8
       fs-extra: 8.1.0
       gulp: 4.0.2
       pacote: 9.5.8
@@ -6258,7 +6242,7 @@ packages:
     dev: false
     name: '@rush-temp/single-dog'
     resolution:
-      integrity: sha512-KWGLBrA25p5vJUvVqiyXRGVFRohPTiMH7YSFn2v+d7uq5Thh08nlld5W4I0wS91mDvh31aYno5Nl8UDXA0I1/Q==
+      integrity: sha512-FrE+6ZBoyx7rMuzTOPShVLPHtj99sSlqkhge6hcSxDseVXUOaQ2Wi68PZ1yLmpeDKTXtRk48yAB7TbU8mI2yAg==
       tarball: 'file:projects/single-dog.tgz'
     version: 0.0.0
   'file:projects/text-progress-bar.tgz':
@@ -6269,7 +6253,7 @@ packages:
     dev: false
     name: '@rush-temp/text-progress-bar'
     resolution:
-      integrity: sha512-D1+z+XhxYmon+vWAj8y9qnSecCAPkDafbCE62VeaiI/kV+s11b+Aobu120TFSnxqaHEXWzoiuSkCfjPOUWPAzQ==
+      integrity: sha512-noS54UQaJ6CR80pryubgnjdincyadoGpQp7XiM1wtvZ1aH3QncWOqopwZXjjO5STp/w4XyOW24bUPnPPQHQP8A==
       tarball: 'file:projects/text-progress-bar.tgz'
     version: 0.0.0
   'file:projects/web-helper-angular.tgz':
@@ -6280,7 +6264,7 @@ packages:
     dev: false
     name: '@rush-temp/web-helper-angular'
     resolution:
-      integrity: sha512-/0vTpM30XTTK/IGXZF98xqhcx7/ng73K2+TnHMSh+C8M2K+FQevBHWD4beVQi7cMCqZciMLd9eXSZ4BRbpiMVw==
+      integrity: sha512-vMUALMDLrLrSCrQ5lsipceeyhURYZPBSCqvhzOWpgrIPm7clXH+i9WF39h8nOci7DcVafmzwfel8kxRizDdlWA==
       tarball: 'file:projects/web-helper-angular.tgz'
     version: 0.0.0
   'file:projects/web-helper-express.tgz':
@@ -6291,7 +6275,7 @@ packages:
     dev: false
     name: '@rush-temp/web-helper-express'
     resolution:
-      integrity: sha512-dhJt2dqtrb3dkbYLpMT4TxrgqZJP81eIoO3qgDfz2X7ynfwIPDXi3Bcpdk/D1Zj2C7mtya8yFJlBj3Cqx+fSDA==
+      integrity: sha512-8D/1gBgKICI68C3Oc5GpRpb8UYtZ4b4tlTaigGlpvhz6EzqG+wpeiUurDT8/4Ib7pXJrxQpvOZQpoXUvMSYZqg==
       tarball: 'file:projects/web-helper-express.tgz'
     version: 0.0.0
   registry.npmjs.org/@nodelib/fs.stat/1.1.3:
@@ -6441,16 +6425,13 @@ packages:
     version: 3.0.0
 registry: ''
 specifiers:
-  '@idlebox/build-script': ^2.0.6
-  '@idlebox/errors': ^1.0.3
-  '@idlebox/node-json-edit': ^1.0.15
+  '@idlebox/node-helpers': ^1.0.3
   '@idlebox/platform': ^1.0.8
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': ^7.4.1
   '@rush-temp/basic-helpers': 'file:./projects/basic-helpers.tgz'
   '@rush-temp/build-script': 'file:./projects/build-script.tgz'
   '@rush-temp/ensure-symlink': 'file:./projects/ensure-symlink.tgz'
-  '@rush-temp/errors': 'file:./projects/errors.tgz'
   '@rush-temp/export-all-in-one': 'file:./projects/export-all-in-one.tgz'
   '@rush-temp/global': 'file:./projects/global.tgz'
   '@rush-temp/lifecycle': 'file:./projects/lifecycle.tgz'
@@ -6471,8 +6452,7 @@ specifiers:
   '@types/fs-extra': ^8.0.0
   '@types/gulp': ^4.0.6
   '@types/json5': ^0.0.30
-  '@types/klaw': ^3.0.0
-  '@types/node': ^12.7.5
+  '@types/node': ^12.7.8
   '@types/split2': ^2.1.6
   command-exists: ^1.2.8
   comment-json: ^2.1.0

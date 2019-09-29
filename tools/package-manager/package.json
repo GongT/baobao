@@ -19,7 +19,6 @@
 	"preferGlobal": true,
 	"dependencies": {
 		"@idlebox/platform": "^1.0.8",
-		"@idlebox/errors": "^1.0.3",
 		"command-exists": "^1.2.8",
 		"execa": "^2.0.4",
 		"json5": "^2.1.0",
@@ -30,7 +29,7 @@
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/command-exists": "^1.2.0",
 		"@types/json5": "^0.0.30",
-		"@types/node": "^12.7.5",
+		"@types/node": "^12.7.8",
 		"npm-check-updates": "^3.1.23",
 		"rimraf": "^3.0.0",
 		"typescript": "^3.6.3"

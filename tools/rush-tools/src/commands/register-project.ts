@@ -1,7 +1,7 @@
 import { writeJsonFileBack } from '@idlebox/node-json-edit';
 import { access } from 'fs-extra';
 import { resolve } from 'path';
-import { getCurrentRushConfig, toProjectPath } from '../api/load';
+import { getCurrentRushConfig, toProjectPathRelative } from '../api/load';
 
 export async function runRegisterProject() {
 	const _projectPath = process.argv[3];
@@ -21,7 +21,7 @@ export async function runRegisterProject() {
 	}
 
 	const config = getCurrentRushConfig();
-	const relPath = normalize(toProjectPath(projectPath));
+	const relPath = normalize(toProjectPathRelative(projectPath));
 
 	console.log('register project %s at %s', name, relPath);
 

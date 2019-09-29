@@ -1,6 +1,6 @@
 import * as execa from 'execa';
 import { eachProject } from '../api/each';
-import { getCurrentRushRootPath, toProjectPath } from '../api/load';
+import { getCurrentRushRootPath, toProjectPathAbsolute } from '../api/load';
 
 export async function runForEach() {
 	const args = process.argv.slice(2);
@@ -15,7 +15,7 @@ export async function runForEach() {
 	}
 
 	for (const { projectFolder, packageName } of eachProject()) {
-		const absPath = toProjectPath(projectFolder);
+		const absPath = toProjectPathAbsolute(projectFolder);
 		process.env.PROJECT_PATH = absPath;
 		process.env.PROJECT_NAME = packageName;
 		process.env.RUSH_ROOT = getCurrentRushRootPath();

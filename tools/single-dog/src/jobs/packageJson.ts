@@ -10,7 +10,6 @@ export const prodPackages: string[] = [
 	// 'source-map-support',
 ];
 export const devPackages = [
-	'@types/node',
 	'@idlebox/build-script',
 	'@idlebox/single-dog-asset',
 	'typescript',

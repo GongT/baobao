@@ -4,6 +4,7 @@
 
 ```ts
 
+import { EventEmitter } from 'events';
 import { IDisposable } from '@idlebox/lifecycle';
 import { Readable } from 'stream';
 import { Transform } from 'stream';
@@ -35,6 +36,26 @@ export class CollectingStream extends Writable {
 // @public (undocumented)
 export function disposableStream<T extends Writable | Readable>(stream: T): T & IDisposable;
 
+// Warning: (ae-missing-release-tag) "drainStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function drainStream(stream: NodeJS.ReadableStream, size: number, start?: number, extra?: number): Promise<Buffer>;
+
+// Warning: (ae-missing-release-tag) "dumpEventEmitterEmit" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function dumpEventEmitterEmit(ev: EventEmitter): void;
+
+// Warning: (ae-missing-release-tag) "exists" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function exists(path: string): Promise<boolean>;
+
+// Warning: (ae-missing-release-tag) "existsSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function existsSync(path: string): boolean;
+
 // Warning: (ae-missing-release-tag) "HexDumpLoggerStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -59,6 +80,16 @@ export class LoggerStream extends Transform {
 // @public (undocumented)
 export function nd5(data: Buffer): string;
 
+// Warning: (ae-missing-release-tag) "prettyFormatError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function prettyFormatError(e: Error): string;
+
+// Warning: (ae-missing-release-tag) "prettyPrintError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function prettyPrintError(type: string, e: Error): void;
+
 // Warning: (ae-missing-release-tag) "RawCollectingStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -71,6 +102,11 @@ export class RawCollectingStream extends Writable {
     // (undocumented)
     _write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
+
+// Warning: (ae-missing-release-tag) "setErrorLogRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function setErrorLogRoot(_root: string): void;
 
 // Warning: (ae-missing-release-tag) "sha256" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 

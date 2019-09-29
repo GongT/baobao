@@ -1,4 +1,4 @@
-import { prettyPrintError } from '@idlebox/errors';
+import { prettyPrintError } from '@idlebox/node-helpers';
 
 class ExitError extends Error {
 	constructor(message: string, public readonly code: number = 1) {

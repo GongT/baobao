@@ -18,7 +18,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/basic-helpers": "^1.0.2",
+		"@idlebox/basic-helpers": "^1.0.3",
 		"@idlebox/global": "^1.0.0"
 	},
 	"devDependencies": {

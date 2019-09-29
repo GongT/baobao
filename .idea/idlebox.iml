@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/common/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/fan/text-progress-bar/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/async/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/base/.export-all-in-one" />
       <excludeFolder url="file://$MODULE_DIR$/library/base/lib" />

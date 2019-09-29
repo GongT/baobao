@@ -13,6 +13,10 @@ export declare class AsyncDisposable implements IAsyncDisposable, IDisposableBas
     dispose(): Promise<void>;
 }
 
+export declare class CanceledError extends Error {
+    constructor();
+}
+
 /**
  * a promise can resolve or reject later
  * @public
@@ -46,6 +50,10 @@ export declare class Disposable implements IDisposable, IDisposableBaseInternal 
     protected _publicDispose(): boolean;
     _register<T extends IDisposable>(d: T): T;
     dispose(): void;
+}
+
+export declare class DisposedError extends Error {
+    constructor(object: any, previous: Error);
 }
 
 export declare function disposeGlobal(): Promise<void>;
@@ -86,6 +94,12 @@ export declare interface IProgressHolder<T, PT> {
     progress(fn: ProgressCallback<PT>): Promise<T> & IProgressHolder<T, PT>;
 }
 
+export declare function isCanceledError(error: any): boolean;
+
+export declare function isDisposedError(error: any): boolean;
+
+export declare function isTimeoutError(error: Error): error is TimeoutError;
+
 export declare abstract class LifecycleObject extends AsyncDisposable {
     /** sub-class should shutdown program */
     protected abstract done(): void;
@@ -99,6 +113,10 @@ export declare function registerGlobalLifecycle(object: IDisposable): void;
 export declare function sleep(ms: number): Promise<void>;
 
 export declare function timeout(ms: number, error?: string): Promise<never>;
+
+export declare class TimeoutError extends Error {
+    constructor(time: number, what?: string);
+}
 
 export declare function toDisposable(fn: () => void): IDisposable;
 

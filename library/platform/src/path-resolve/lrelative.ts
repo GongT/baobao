@@ -2,10 +2,10 @@ import { isAbsolute } from 'path';
 
 export function lrelative(from: string, to: string) {
 	if (!isAbsolute(from)) {
-		throw new Error('lrelative: from is not absolute');
+		throw new Error('lrelative: from is not absolute: ' + from);
 	}
 	if (!isAbsolute(to)) {
-		throw new Error('lrelative: to is not absolute');
+		throw new Error('lrelative: to is not absolute: ' + to);
 	}
 	const fa = from.split(/[\/\\]/g).filter(e => e);
 	const ta = to.split(/[\/\\]/g).filter(e => e);

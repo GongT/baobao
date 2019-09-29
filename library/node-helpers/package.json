@@ -1,9 +1,9 @@
 {
-	"main": "./lib/index.js",
 	"monorepo": "rush",
 	"name": "@idlebox/node-helpers",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.0.2",
+	"main": "./lib/_export_all_in_one_index.js",
+	"version": "1.0.3",
 	"license": "MIT",
 	"scripts": {
 		"build": "build-script build",
@@ -20,13 +20,14 @@
 	},
 	"dependencies": {
 		"@idlebox/lifecycle": "^1.0.0",
+		"@idlebox/basic-helpers": "^1.0.3",
 		"source-map-support": "*"
 	},
 	"devDependencies": {
 		"@idlebox/build-script": "^2.0.6",
 		"@idlebox/export-all-in-one": "^3.0.4",
 		"@idlebox/single-dog-asset": "^1.0.1",
-		"@types/node": "^12.7.5",
+		"@types/node": "^12.7.8",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"
 	}

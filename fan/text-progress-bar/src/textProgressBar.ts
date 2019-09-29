@@ -1,4 +1,4 @@
-import { IDisposable } from 'vs/base/common/lifecycle';
+import { IDisposable } from '@idlebox/lifecycle';
 
 export class TextProgressBar implements IDisposable {
 	protected readonly bar: string[];

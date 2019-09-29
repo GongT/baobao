@@ -1,5 +1,6 @@
-import * as execa from 'execa';
 import { EXPORT_TEMP_PATH } from '../inc/argParse';
+
+const execa = require('execa');
 
 export function run(command: string, args: string[]) {
 	console.log('Running %s %s', command, args.join(' '));

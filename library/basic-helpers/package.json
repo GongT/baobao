@@ -2,7 +2,7 @@
 	"monorepo": "rush",
 	"name": "@idlebox/basic-helpers",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.js",
 	"scripts": {
@@ -24,5 +24,8 @@
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"
+	},
+	"exports": {
+		"./": "./private-path-not-exists"
 	}
 }

@@ -24,15 +24,6 @@ export declare class CallbackList<Argument> {
 
 export declare function camelCase(str: string): string;
 
-/** @deprecated */
-export declare function canceled(): Error;
-
-export declare class CanceledError extends Error {
-    constructor();
-}
-
-export declare function createSymbol(category: string, name: string): symbol;
-
 export declare class CustomSet<Type = string> {
     protected registry: Type[];
     private finder;
@@ -48,24 +39,12 @@ export declare class CustomSet<Type = string> {
     toArray(): Type[];
 }
 
-export declare interface DateFunction {
-    (date: Date): string;
-}
-
-export declare function dateHuman(d: Date): string;
-
-export declare function datetimeHuman(d: Date): string;
-
 export declare class DelayCallbackList<Argument> {
     private delayArgument?;
     private delayComplete;
     protected list: MyDelayCallback<Argument>[];
     add(item: MyDelayCallback<Argument>, name?: string): void;
     run(argument: Argument): void;
-}
-
-export declare class DisposedError extends Error {
-    constructor(object: any, previous: Error);
 }
 
 export declare function escapeRegExp(str: string): string;
@@ -83,14 +62,6 @@ export declare function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseRe
 export declare function functionName(func: Function): any;
 
 export declare function getErrorFrame(e: Error, frame: number): string;
-
-export declare const globalObject: any;
-
-export declare function globalSingleton<T>(symbol: symbol | string, constructor: () => T): T;
-
-export declare function globalSingletonDelete(symbol: symbol | string): void;
-
-export declare function globalSingletonStrong<T>(symbol: symbol, constructor: () => T): T;
 
 export declare namespace humanDate {
     export function time(date: Date | string | number): string;
@@ -126,13 +97,9 @@ export declare interface InitFunc<O, T> {
 
 export declare function initOnRead<O, T extends keyof O>(target: any, propertyKey: T, init: InitFunc<O, O[T]>): void;
 
+export declare function isAbsolute(path: string): boolean;
+
 export declare function isArraySame<T>(a1: T[], a2: T[]): boolean;
-
-export declare function isCanceledError(error: any): boolean;
-
-export declare function isDisposedError(error: any): boolean;
-
-export declare function isTimeoutError(error: Error): error is TimeoutError;
 
 export declare interface IUniqueIdFactory<T> {
     (item: T): string;
@@ -184,15 +151,7 @@ export declare interface PromiseResultArray<T> {
 
 export declare function RegexpFinder(this: RegExp[], item: RegExp): number;
 
-export declare function registerLocaleDateString(timeFn: DateFunction, dateFn: DateFunction): void;
-
 export declare function throwNull<T>(val: T): NonNullable<T>;
-
-export declare function timeHuman(d: Date): string;
-
-export declare class TimeoutError extends Error {
-    constructor(time: number, what?: string);
-}
 
 export declare function tryInspect(object: any): any;
 

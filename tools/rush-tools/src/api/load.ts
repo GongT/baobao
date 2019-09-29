@@ -39,6 +39,10 @@ export function getCurrentRushConfig() {
 	return config;
 }
 
-export function toProjectPath(projectFolder: string) {
+export function toProjectPathAbsolute(projectFolder: string) {
+	return resolve(getCurrentRushRootPath(), projectFolder);
+}
+
+export function toProjectPathRelative(projectFolder: string) {
 	return lrelative(getCurrentRushRootPath(), projectFolder);
 }

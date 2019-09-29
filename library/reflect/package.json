@@ -18,7 +18,7 @@
 		"./": "./private-path-not-exists"
 	},
 	"dependencies": {
-		"@idlebox/basic-helpers": "^1.0.2",
+		"@idlebox/basic-helpers": "^1.0.3",
 		"@idlebox/lifecycle": "^1.0.0"
 	},
 	"devDependencies": {
