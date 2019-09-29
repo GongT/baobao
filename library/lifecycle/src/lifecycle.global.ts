@@ -1,24 +1,26 @@
+import { createSymbol, globalSingletonStrong } from '@idlebox/global';
 import { IDisposable } from './lifecycle';
 import { AsyncDisposable } from './lifecycle.async';
 
-declare const global: any;
-declare const window: any;
+const symbol = createSymbol('lifecycle', 'application');
 
-const symbol = Symbol.for('@idlebox/lifecycle/global');
-const g = typeof window === 'undefined' ? global : window;
+function create() {
+	return new AsyncDisposable();
+}
 
 export function registerGlobalLifecycle(object: IDisposable) {
-	if (!g[symbol]) {
-		g[symbol] = new AsyncDisposable();
-	}
-	(g[symbol] as AsyncDisposable)._register(object);
+	globalSingletonStrong(symbol, create)._register(object);
 }
 
 export function disposeGlobal() {
-	if (!g[symbol] || (g[symbol] as AsyncDisposable).hasDisposed) {
+	const obj = globalSingletonStrong<AsyncDisposable>(symbol);
+	if (obj && obj.hasDisposed) {
 		throw new Error('global already disposed.');
+	} else if (obj) {
+		return obj.dispose();
+	} else {
+		return Promise.resolve();
 	}
-	return (g[symbol] as AsyncDisposable).dispose();
 }
 
 // Note: sub-class should singleton

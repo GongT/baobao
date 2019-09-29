@@ -18,13 +18,13 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/errors": "^1.0.3"
+		"@idlebox/basic-helpers": "^1.0.2",
+		"@idlebox/global": "^1.0.0"
 	},
 	"devDependencies": {
 		"@idlebox/build-script": "^2.0.6",
 		"@idlebox/export-all-in-one": "^3.0.4",
 		"@idlebox/single-dog-asset": "^1.0.1",
-		"@types/node": "^12.7.5",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"
 	}

@@ -5,12 +5,12 @@ dependencies:
   '@idlebox/platform': 1.0.8
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': 7.4.1
-  '@rush-temp/async': 'file:projects/async.tgz'
   '@rush-temp/basic-helpers': 'file:projects/basic-helpers.tgz'
   '@rush-temp/build-script': 'file:projects/build-script.tgz'
   '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz'
   '@rush-temp/errors': 'file:projects/errors.tgz'
   '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
+  '@rush-temp/global': 'file:projects/global.tgz'
   '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz'
   '@rush-temp/node-helpers': 'file:projects/node-helpers.tgz'
   '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz'
@@ -20,6 +20,9 @@ dependencies:
   '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
+  '@rush-temp/text-progress-bar': 'file:projects/text-progress-bar.tgz'
+  '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz'
+  '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz'
   '@types/command-exists': 1.2.0
   '@types/comment-json': 1.1.1
   '@types/fancy-log': 1.3.1
@@ -35,7 +38,6 @@ dependencies:
   fancy-log: 1.3.3
   fs-extra: 8.1.0
   json5: 2.1.0
-  jsonc: 2.0.0
   npm-check-updates: 3.1.23
   npm-run-all: 4.1.5
   pacote: 9.5.8
@@ -525,6 +527,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
+  /@types/node/12.7.8:
+    dev: false
+    resolution:
+      integrity: sha512-FMdVn84tJJdV+xe+53sYiZS4R5yn1mAIxfj+DVoNiQjTYz1+OYmjwEZr1ev9nU0axXwda0QDbYl06QHanRVH3A==
   /@types/node/8.5.8:
     dev: false
     resolution:
@@ -6006,20 +6012,6 @@ packages:
       commander: 2.20.0
     resolution:
       integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==
-  'file:projects/async.tgz':
-    dependencies:
-      '@microsoft/api-extractor': 7.4.1
-      '@types/node': 12.7.5
-      npm-check-updates: 3.1.23
-      npm-run-all: 4.1.5
-      rimraf: 3.0.0
-      typescript: 3.6.3
-    dev: false
-    name: '@rush-temp/async'
-    resolution:
-      integrity: sha512-hQDel0jNbDZWJf91mC09g+Dy8gXL3d5uJA8U9HF03Tzu6loediwwIjYSJ2CVYfSHUzDx947KTZ4/M+LV7dhRDA==
-      tarball: 'file:projects/async.tgz'
-    version: 0.0.0
   'file:projects/basic-helpers.tgz':
     dependencies:
       '@gongt/single-dog': 2.0.7
@@ -6035,7 +6027,7 @@ packages:
     dev: false
     name: '@rush-temp/basic-helpers'
     resolution:
-      integrity: sha512-ILY1NqXtUVkYHiAnqGF9Wk6xd36PCw0Lc+R0741fIP8cD4Ydjzti0kxmJ0BGxmeRhNK5ASxqsqLFPYiL3YjzdQ==
+      integrity: sha512-qzPNc7Cvnj8nK1deY3sFbIkxK2kxtqYlAtdMwKVDdpaZiG4ZGfOXS0onFL5gWe+HbA1D2oYQXeYg0RrcuS3l9w==
       tarball: 'file:projects/basic-helpers.tgz'
     version: 0.0.0
   'file:projects/build-script.tgz':
@@ -6082,6 +6074,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.4.1
       '@types/node': 12.7.5
+      gulp: 4.0.2
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
       rimraf: 3.0.0
@@ -6089,7 +6082,7 @@ packages:
     dev: false
     name: '@rush-temp/errors'
     resolution:
-      integrity: sha512-GquCLDuww5Ilrcm5fmVUMgmX8i+Upt7+Jrj8kMKYW1/ZkHcR0L33APt4UgdkDlW6sTtYXJhvVkWH5VEUR31ggA==
+      integrity: sha512-LSMxMlrs0uFVjz38ebpcH5RcdA6G4FsW2smBYg1Oyu7p7cxklQ+49/oELofKU0XqLONYsdBOf/YCT/X48jsG0w==
       tarball: 'file:projects/errors.tgz'
     version: 0.0.0
   'file:projects/export-all-in-one.tgz':
@@ -6117,10 +6110,22 @@ packages:
       integrity: sha512-FUtsKtxR/nwHSHuYLGkYfyYix0HToG5GPRzkYNX+j66fNWWYSkJfNUm9CXrjYppkT6i8HBkyFshe15JBA6BQ9g==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
+  'file:projects/global.tgz':
+    dependencies:
+      '@types/node': 12.7.8
+      gulp: 4.0.2
+      typescript: 3.6.3
+    dev: false
+    name: '@rush-temp/global'
+    resolution:
+      integrity: sha512-yY9xdccc/ioHxYn3CGg4Unhe3GXlOi9aHD+Ov7M5HK5R4AE9dt7jIb3oB91Mzi3nhUcYvIgQLFib9Z53pNEtSw==
+      tarball: 'file:projects/global.tgz'
+    version: 0.0.0
   'file:projects/lifecycle.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.4.1
       '@types/node': 12.7.5
+      gulp: 4.0.2
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
       rimraf: 3.0.0
@@ -6128,7 +6133,7 @@ packages:
     dev: false
     name: '@rush-temp/lifecycle'
     resolution:
-      integrity: sha512-zqzrZczPGl+50Dyyhh8HIQbkNWMMWow9IztHGeX3PWhoy0HlJ94JFM9bEv/MrWz9uocp+2+AHlB+tGVeDAavmQ==
+      integrity: sha512-lNxLacT8oFEoCJNRGPei+ORTwSR8LnB5gRxaEZRKApI1IoSoLf6qJBLD/wzyWgpSycyYFKQ2dRYkLXI8CtdoRA==
       tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
   'file:projects/node-helpers.tgz':
@@ -6140,7 +6145,7 @@ packages:
     dev: false
     name: '@rush-temp/node-helpers'
     resolution:
-      integrity: sha512-uGfh81wiaUXvnsg6by8j0DCK7ApkI5Njyn7wsrfrThWNli9y420srLNokUIhi5EYJczTQN1waLc1aL3JJMgsYQ==
+      integrity: sha512-YbWPfKaT3uSXS+WhoNINOhYSg31RxvEjKBoEmNCIduan/fvnFs2E4sCg7azYeJYQdk5rPqaoC+4KLoGxsbMRHQ==
       tarball: 'file:projects/node-helpers.tgz'
     version: 0.0.0
   'file:projects/node-json-edit.tgz':
@@ -6194,13 +6199,14 @@ packages:
     dev: false
     name: '@rush-temp/platform'
     resolution:
-      integrity: sha512-tZphbKVzpYglDvzPlzbq1jcMkipI26z2jrB4MbL16TvRMszRcLjdH9iRfYyG9OsE8F6WJSzjMWUtyTyd44+2uA==
+      integrity: sha512-WPxQ8HXWIEtF0ZQf2gSdkeC3DXaU6jl5ZUgyvPF6rN9fqFe/3ZP8+qgi14Z57CZcUnvRkDQt///ytwDGltWucw==
       tarball: 'file:projects/platform.tgz'
     version: 0.0.0
   'file:projects/reflect.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.4.1
       '@types/node': 12.7.5
+      gulp: 4.0.2
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
       rimraf: 3.0.0
@@ -6208,7 +6214,7 @@ packages:
     dev: false
     name: '@rush-temp/reflect'
     resolution:
-      integrity: sha512-nVL7EH/fglLbNuaE9JYuRm8dp5tJX5Nu1fXXnw0F/9IiHhFKHFF2h3eGwkFCVmMpsLerheF9GztgEtOAIcYdzQ==
+      integrity: sha512-jB1SpS1x7mp1ygJolEoMtTbLWLIjvQUrG5MSSFG8bGLpvMbDALms3Bk36OxeBMmCqRwXNFDEBpB44aoFf8C7Iw==
       tarball: 'file:projects/reflect.tgz'
     version: 0.0.0
   'file:projects/rush-tools.tgz':
@@ -6226,7 +6232,7 @@ packages:
     dev: false
     name: '@rush-temp/rush-tools'
     resolution:
-      integrity: sha512-208A9MCBORh/dJwh2RJVLRI1y8AhBSyCcKzVqrKHrMYIYIPGViIxWcObSiW7V9jKFRwN5SnixPu5dV9Yr9ZtxQ==
+      integrity: sha512-ZaSSPos83nujrhfa8UTET6OFRS6XghBBYquNAiseLNRLLzQzy4EhjTm/JkuqwGs2nB9FmvLh9+11ZOttzX6zXg==
       tarball: 'file:projects/rush-tools.tgz'
     version: 0.0.0
   'file:projects/single-dog-asset.tgz':
@@ -6254,6 +6260,39 @@ packages:
     resolution:
       integrity: sha512-KWGLBrA25p5vJUvVqiyXRGVFRohPTiMH7YSFn2v+d7uq5Thh08nlld5W4I0wS91mDvh31aYno5Nl8UDXA0I1/Q==
       tarball: 'file:projects/single-dog.tgz'
+    version: 0.0.0
+  'file:projects/text-progress-bar.tgz':
+    dependencies:
+      '@types/node': 12.7.8
+      gulp: 4.0.2
+      typescript: 3.6.3
+    dev: false
+    name: '@rush-temp/text-progress-bar'
+    resolution:
+      integrity: sha512-D1+z+XhxYmon+vWAj8y9qnSecCAPkDafbCE62VeaiI/kV+s11b+Aobu120TFSnxqaHEXWzoiuSkCfjPOUWPAzQ==
+      tarball: 'file:projects/text-progress-bar.tgz'
+    version: 0.0.0
+  'file:projects/web-helper-angular.tgz':
+    dependencies:
+      '@types/node': 12.7.8
+      gulp: 4.0.2
+      typescript: 3.6.3
+    dev: false
+    name: '@rush-temp/web-helper-angular'
+    resolution:
+      integrity: sha512-/0vTpM30XTTK/IGXZF98xqhcx7/ng73K2+TnHMSh+C8M2K+FQevBHWD4beVQi7cMCqZciMLd9eXSZ4BRbpiMVw==
+      tarball: 'file:projects/web-helper-angular.tgz'
+    version: 0.0.0
+  'file:projects/web-helper-express.tgz':
+    dependencies:
+      '@types/node': 12.7.8
+      gulp: 4.0.2
+      typescript: 3.6.3
+    dev: false
+    name: '@rush-temp/web-helper-express'
+    resolution:
+      integrity: sha512-dhJt2dqtrb3dkbYLpMT4TxrgqZJP81eIoO3qgDfz2X7ynfwIPDXi3Bcpdk/D1Zj2C7mtya8yFJlBj3Cqx+fSDA==
+      tarball: 'file:projects/web-helper-express.tgz'
     version: 0.0.0
   registry.npmjs.org/@nodelib/fs.stat/1.1.3:
     dev: false
@@ -6408,12 +6447,12 @@ specifiers:
   '@idlebox/platform': ^1.0.8
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': ^7.4.1
-  '@rush-temp/async': 'file:./projects/async.tgz'
   '@rush-temp/basic-helpers': 'file:./projects/basic-helpers.tgz'
   '@rush-temp/build-script': 'file:./projects/build-script.tgz'
   '@rush-temp/ensure-symlink': 'file:./projects/ensure-symlink.tgz'
   '@rush-temp/errors': 'file:./projects/errors.tgz'
   '@rush-temp/export-all-in-one': 'file:./projects/export-all-in-one.tgz'
+  '@rush-temp/global': 'file:./projects/global.tgz'
   '@rush-temp/lifecycle': 'file:./projects/lifecycle.tgz'
   '@rush-temp/node-helpers': 'file:./projects/node-helpers.tgz'
   '@rush-temp/node-json-edit': 'file:./projects/node-json-edit.tgz'
@@ -6423,6 +6462,9 @@ specifiers:
   '@rush-temp/rush-tools': 'file:./projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
+  '@rush-temp/text-progress-bar': 'file:./projects/text-progress-bar.tgz'
+  '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
+  '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
   '@types/command-exists': ^1.2.0
   '@types/comment-json': ^1.1.1
   '@types/fancy-log': ^1.3.1
@@ -6438,7 +6480,6 @@ specifiers:
   fancy-log: '*'
   fs-extra: ^8.1.0
   json5: ^2.1.0
-  jsonc: ^2.0.0
   npm-check-updates: ^3.1.23
   npm-run-all: ^4.1.5
   pacote: ^9.5.8

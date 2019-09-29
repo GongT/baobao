@@ -6,12 +6,12 @@
 
 // Warning: (ae-missing-release-tag) "exists" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function exists(path: string): Promise<boolean>;
 
 // Warning: (ae-missing-release-tag) "existsSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function existsSync(path: string): boolean;
 
 // Warning: (ae-missing-release-tag) "findEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -37,6 +37,39 @@ export function findUpUntilSync(from: string, file: string): string | null;
 // @public (undocumented)
 export function getAllPathUpToRoot(from: string, append?: string): string[];
 
+// Warning: (ae-missing-release-tag) "isLinux" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const isLinux: boolean;
+
+// Warning: (ae-missing-release-tag) "isMacintosh" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const isMacintosh: boolean;
+
+// Warning: (ae-missing-release-tag) "isNative" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const isNative: boolean;
+
+// Warning: (ae-missing-release-tag) "isWeb" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const isWeb: boolean;
+
+// Warning: (ae-missing-release-tag) "isWindows" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const isWindows: boolean;
+
+// Warning: (ae-missing-release-tag) "JoinPathFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface JoinPathFunction {
+    // (undocumented)
+    (from: string, to: string): string;
+}
+
 // Warning: (ae-missing-release-tag) "lrelative" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -51,6 +84,24 @@ export const nodeProcessEnv: PlatformPathArray;
 // 
 // @public (undocumented)
 export function nodeResolvePathArray(from: string, file?: string): string[];
+
+// Warning: (ae-missing-release-tag) "NormalizePathFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface NormalizePathFunction {
+    // (undocumented)
+    (path: string): string;
+}
+
+// Warning: (ae-missing-release-tag) "normalizePosixPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const normalizePosixPath: NormalizePathFunction;
+
+// Warning: (ae-missing-release-tag) "osTempDir" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function osTempDir(name?: string): string;
 
 // Warning: (ae-missing-release-tag) "PlatformPathArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -77,10 +128,33 @@ export interface ProcessEnv {
     [key: string]: string | undefined;
 }
 
+// Warning: (ae-missing-release-tag) "relativePath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const relativePath: JoinPathFunction;
+
 // Warning: (ae-missing-release-tag) "removeEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
 export function removeEnvironment(name: string, object?: NodeJS.ProcessEnv): undefined;
+
+// Warning: (ae-missing-release-tag) "resolvePath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const resolvePath: ResolvePathFunction;
+
+// Warning: (ae-missing-release-tag) "ResolvePathFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface ResolvePathFunction {
+    // (undocumented)
+    (...pathSegments: string[]): string;
+}
+
+// Warning: (ae-missing-release-tag) "userAgent" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const userAgent: string;
 
 
 // (No @packageDocumentation comment for this package)

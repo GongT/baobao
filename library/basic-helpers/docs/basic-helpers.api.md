@@ -4,19 +4,34 @@
 
 ```ts
 
-// Warning: (ae-missing-release-tag) "arrayUpdate" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "arrayDiff" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export function arrayUpdate<T>(before: T[], after: T[]): {
+export function arrayDiff<T>(before: T[], after: T[]): {
     add: T[];
     del: T[];
     same: T[];
 };
 
+// Warning: (ae-missing-release-tag) "arrayUnique" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function arrayUnique<T>(arr: T[]): T[];
+
+// Warning: (ae-missing-release-tag) "arrayUniqueReference" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function arrayUniqueReference(arr: any[]): void;
+
 // Warning: (ae-missing-release-tag) "assertFunctionHasName" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
 export function assertFunctionHasName(func: MaybeNamedFunction): void;
+
+// Warning: (ae-missing-release-tag) "assertNotNull" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function assertNotNull<T>(val: T): NonNullable<T>;
 
 // Warning: (ae-missing-release-tag) "awaitIterator" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -41,6 +56,24 @@ export class CallbackList<Argument> {
 // 
 // @public (undocumented)
 export function camelCase(str: string): string;
+
+// Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
+// Warning: (ae-missing-release-tag) "canceled" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public @deprecated (undocumented)
+export function canceled(): Error;
+
+// Warning: (ae-missing-release-tag) "CanceledError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export class CanceledError extends Error {
+    constructor();
+}
+
+// Warning: (ae-missing-release-tag) "createSymbol" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function createSymbol(category: string, name: string): symbol;
 
 // Warning: (ae-missing-release-tag) "CustomSet" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -100,10 +133,34 @@ export class DelayCallbackList<Argument> {
     run(argument: Argument): void;
 }
 
+// Warning: (ae-missing-release-tag) "DisposedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export class DisposedError extends Error {
+    constructor(object: any, previous: Error);
+}
+
 // Warning: (ae-missing-release-tag) "escapeRegExp" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
 export function escapeRegExp(str: string): string;
+
+// Warning: (ae-missing-release-tag) "ExtendMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export class ExtendMap<K, V> extends Map<K, V> {
+    // (undocumented)
+    entry(id: K, init: (id: K) => V): V;
+    // (undocumented)
+    getDef(id: K, def: V): V;
+    // (undocumented)
+    getReq(id: K): V;
+}
+
+// Warning: (ae-missing-release-tag) "finishAllPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseResultArray<T>>;
 
 // Warning: (ae-missing-release-tag) "functionName" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -115,6 +172,70 @@ export function functionName(func: Function): any;
 // @public (undocumented)
 export function getErrorFrame(e: Error, frame: number): string;
 
+// Warning: (ae-missing-release-tag) "globalObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export const globalObject: any;
+
+// Warning: (ae-missing-release-tag) "globalSingleton" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function globalSingleton<T>(symbol: symbol | string, constructor: () => T): T;
+
+// Warning: (ae-missing-release-tag) "globalSingletonDelete" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function globalSingletonDelete(symbol: symbol | string): void;
+
+// Warning: (ae-missing-release-tag) "globalSingletonStrong" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function globalSingletonStrong<T>(symbol: symbol, constructor: () => T): T;
+
+// Warning: (ae-missing-release-tag) "humanDate" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export namespace humanDate {
+    // (undocumented)
+    export function date(date: Date | string | number, sp?: string): string;
+    // (undocumented)
+    export function datetime(date: Date | string | number): string;
+    // (undocumented)
+    export function delta(ms: number): string;
+    // (undocumented)
+    export function deltaTiny(ms: number): string;
+    // (undocumented)
+    export interface IFormatters {
+        // (undocumented)
+        d: ITimeFormatter;
+        // (undocumented)
+        h: ITimeFormatter;
+        // (undocumented)
+        m: ITimeFormatter;
+        // (undocumented)
+        s: ITimeFormatter;
+    }
+    // (undocumented)
+    export interface ITimeFormatter {
+        // (undocumented)
+        (s: number): string;
+    }
+    // (undocumented)
+    export function setLocaleFormatter(formatter: Partial<IFormatters>): void;
+    // (undocumented)
+    export function time(date: Date | string | number): string;
+}
+
+// Warning: (ae-missing-release-tag) "humanSize" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function humanSize(bytes: number, fixed?: number): string;
+
+// Warning: (ae-missing-release-tag) "humanSpeed" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function humanSpeed(bps: number): string;
+
 // Warning: (ae-missing-release-tag) "IArrayUpdate" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -125,20 +246,6 @@ export interface IArrayUpdate<T> {
     del: T[];
     // (undocumented)
     same: T[];
-}
-
-// Warning: (ae-missing-release-tag) "IFormatters" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
-// @public (undocumented)
-export interface IFormatters {
-    // (undocumented)
-    d: ITimeFormatter;
-    // (undocumented)
-    h: ITimeFormatter;
-    // (undocumented)
-    m: ITimeFormatter;
-    // (undocumented)
-    s: ITimeFormatter;
 }
 
 // Warning: (ae-missing-release-tag) "InitFunc" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -159,13 +266,20 @@ export function initOnRead<O, T extends keyof O>(target: any, propertyKey: T, in
 // @public (undocumented)
 export function isArraySame<T>(a1: T[], a2: T[]): boolean;
 
-// Warning: (ae-missing-release-tag) "ITimeFormatter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "isCanceledError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export interface ITimeFormatter {
-    // (undocumented)
-    (s: number): string;
-}
+export function isCanceledError(error: any): boolean;
+
+// Warning: (ae-missing-release-tag) "isDisposedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function isDisposedError(error: any): boolean;
+
+// Warning: (ae-missing-release-tag) "isTimeoutError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function isTimeoutError(error: Error): error is TimeoutError;
 
 // Warning: (ae-missing-release-tag) "IUniqueIdFactory" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -189,6 +303,14 @@ export function linux_case(str: string): string;
 // 
 // @public (undocumented)
 export function linux_case_hyphen(str: string): string;
+
+// Warning: (ae-missing-release-tag) "MapLike" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface MapLike<V> {
+    // (undocumented)
+    [id: string]: V;
+}
 
 // Warning: (ae-missing-release-tag) "MaybeNamedFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -231,6 +353,11 @@ export interface NamedFunction extends Function {
 // @public (undocumented)
 export function nameFunction<T extends Function>(name: string, func: T): T & NamedFunction;
 
+// Warning: (ae-missing-release-tag) "normalizeArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function normalizeArray<T>(input: any): T[];
+
 // Warning: (ae-missing-release-tag) "objectPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
@@ -240,6 +367,22 @@ export function objectPath(obj: object, path: string): any;
 // 
 // @public (undocumented)
 export function pad2(s: number): string;
+
+// Warning: (ae-missing-release-tag) "PromiseResultArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export interface PromiseResultArray<T> {
+    // (undocumented)
+    count: number;
+    // (undocumented)
+    fulfilled: number[];
+    // (undocumented)
+    fulfilledResult: T[];
+    // (undocumented)
+    rejected: number[];
+    // (undocumented)
+    rejectedResult: Error[];
+}
 
 // Warning: (ae-missing-release-tag) "RegexpFinder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
@@ -251,30 +394,22 @@ export function RegexpFinder(this: RegExp[], item: RegExp): number;
 // @public (undocumented)
 export function registerLocaleDateString(timeFn: DateFunction, dateFn: DateFunction): void;
 
-// Warning: (ae-missing-release-tag) "registerLocaleTimeString" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "throwNull" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export function registerLocaleTimeString(formatter: Partial<IFormatters>): void;
-
-// Warning: (ae-missing-release-tag) "sizeHuman" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
-// @public (undocumented)
-export function sizeHuman(size: number): string;
+export function throwNull<T>(val: T): NonNullable<T>;
 
 // Warning: (ae-missing-release-tag) "timeHuman" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
 export function timeHuman(d: Date): string;
 
-// Warning: (ae-missing-release-tag) "timeString" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "TimeoutError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)
-export function timeString(ms: number): string;
-
-// Warning: (ae-missing-release-tag) "timeStringTiny" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
-// @public (undocumented)
-export function timeStringTiny(ms: number): string;
+export class TimeoutError extends Error {
+    constructor(time: number, what?: string);
+}
 
 // Warning: (ae-missing-release-tag) "tryInspect" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 

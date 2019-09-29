@@ -1,0 +1,86 @@
+{
+	"load": [
+	],
+	"alias": {
+		"build-ts": [
+			"tsc", "-p", "src"
+		],
+		"watch-ts": [
+			"tsc", "--pretty", "-w", "-p", "src"
+		],
+		"cleanup-lib": [
+			"rimraf", "lib"
+		],
+		"yarn-publish": [
+			"yarn", "publish", "--registry", "https://registry.npmjs.org", "--access=public"
+		],
+		"upgrade-node-modules": [
+			"npm-check-updates", "--update", "--packageFile", "./package.json"
+		],
+		"run-test": [
+			"echo", "No", "test", "command", "set."
+		],
+		"git-clean-all": [
+			"git", "clean", "-f", "-d", "-X", "-e", "node_modules"
+		],
+		"git-clean": [
+			"git", "clean", "-f", "-d", "-X", "-e", "node_modules"
+		]
+	},
+	"command": {
+		"build": {
+			"title": "Build project",
+			"run": [
+				"build-ts"
+			]
+		},
+		"distclean": {
+			"title": "Delete git ignore files",
+			"run": [
+				"git-clean-all"
+			]
+		},
+		"clean": {
+			"title": "Delete git ignore files (without node_modules)",
+			"run": [
+				"git-clean"
+			]
+		},
+		"rebuild": {
+			"title": "Prepare for publish package",
+			"run": [
+				"cleanup-lib", "@build"
+			]
+		},
+		"publish": {
+			"title": "Publish package",
+			"run": [
+				"yarn-publish"
+			],
+			"after": [
+				"rebuild"
+			]
+		},
+		"test": {
+			"title": "Run test",
+			"run": [
+				"run-test"
+			],
+			"after": [
+				"build"
+			]
+		},
+		"upgrade": {
+			"title": "Do project dependency upgrade",
+			"run": [
+				"upgrade-node-modules"
+			]
+		},
+		"watch": {
+			"title": "Watch mode build project",
+			"run": [
+				"watch-ts"
+			]
+		}
+	}
+}

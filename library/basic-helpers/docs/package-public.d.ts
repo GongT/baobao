@@ -1,11 +1,17 @@
 
-export declare function arrayUpdate<T>(before: T[], after: T[]): {
+export declare function arrayDiff<T>(before: T[], after: T[]): {
     add: T[];
     del: T[];
     same: T[];
 };
 
+export declare function arrayUnique<T>(arr: T[]): T[];
+
+export declare function arrayUniqueReference(arr: any[]): void;
+
 export declare function assertFunctionHasName(func: MaybeNamedFunction): void;
+
+export declare function assertNotNull<T>(val: T): NonNullable<T>;
 
 export declare function awaitIterator<T>(generator: Iterator<T>): Promise<T>;
 
@@ -17,6 +23,15 @@ export declare class CallbackList<Argument> {
 }
 
 export declare function camelCase(str: string): string;
+
+/** @deprecated */
+export declare function canceled(): Error;
+
+export declare class CanceledError extends Error {
+    constructor();
+}
+
+export declare function createSymbol(category: string, name: string): symbol;
 
 export declare class CustomSet<Type = string> {
     protected registry: Type[];
@@ -49,25 +64,60 @@ export declare class DelayCallbackList<Argument> {
     run(argument: Argument): void;
 }
 
+export declare class DisposedError extends Error {
+    constructor(object: any, previous: Error);
+}
+
 export declare function escapeRegExp(str: string): string;
 
+export declare class ExtendMap<K, V> extends Map<K, V> {
+    getReq(id: K): V;
+    getDef(id: K, def: V): V;
+    entry(id: K, init: (id: K) => V): V;
+}
+
 declare type Finder<Type> = (this: Type[], item: Type) => number;
+
+export declare function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseResultArray<T>>;
 
 export declare function functionName(func: Function): any;
 
 export declare function getErrorFrame(e: Error, frame: number): string;
 
+export declare const globalObject: any;
+
+export declare function globalSingleton<T>(symbol: symbol | string, constructor: () => T): T;
+
+export declare function globalSingletonDelete(symbol: symbol | string): void;
+
+export declare function globalSingletonStrong<T>(symbol: symbol, constructor: () => T): T;
+
+export declare namespace humanDate {
+    export function time(date: Date | string | number): string;
+    export function date(date: Date | string | number, sp?: string): string;
+    export function datetime(date: Date | string | number): string;
+    export interface ITimeFormatter {
+        (s: number): string;
+    }
+    export interface IFormatters {
+        s: ITimeFormatter;
+        m: ITimeFormatter;
+        h: ITimeFormatter;
+        d: ITimeFormatter;
+    }
+    export function setLocaleFormatter(formatter: Partial<IFormatters>): void;
+    export function deltaTiny(ms: number): string;
+    export function delta(ms: number): string;
+}
+
+export declare function humanSize(bytes: number, fixed?: number): string;
+
+export declare function humanSpeed(bps: number): string;
+
 export declare interface IArrayUpdate<T> {
     add: T[];
     del: T[];
     same: T[];
-}
-
-export declare interface IFormatters {
-    s: ITimeFormatter;
-    m: ITimeFormatter;
-    h: ITimeFormatter;
-    d: ITimeFormatter;
 }
 
 export declare interface InitFunc<O, T> {
@@ -78,9 +128,11 @@ export declare function initOnRead<O, T extends keyof O>(target: any, propertyKe
 
 export declare function isArraySame<T>(a1: T[], a2: T[]): boolean;
 
-export declare interface ITimeFormatter {
-    (s: number): string;
-}
+export declare function isCanceledError(error: any): boolean;
+
+export declare function isDisposedError(error: any): boolean;
+
+export declare function isTimeoutError(error: Error): error is TimeoutError;
 
 export declare interface IUniqueIdFactory<T> {
     (item: T): string;
@@ -91,6 +143,10 @@ export declare function lcfirst(str: string): string;
 export declare function linux_case(str: string): string;
 
 export declare function linux_case_hyphen(str: string): string;
+
+export declare interface MapLike<V> {
+    [id: string]: V;
+}
 
 export declare interface MaybeNamedFunction extends Function {
     displayName?: string;
@@ -112,23 +168,31 @@ export declare interface NamedFunction extends Function {
 
 export declare function nameFunction<T extends Function>(name: string, func: T): T & NamedFunction;
 
+export declare function normalizeArray<T>(input: any): T[];
+
 export declare function objectPath(obj: object, path: string): any;
 
 export declare function pad2(s: number): string;
+
+export declare interface PromiseResultArray<T> {
+    count: number;
+    fulfilledResult: T[];
+    fulfilled: number[];
+    rejectedResult: Error[];
+    rejected: number[];
+}
 
 export declare function RegexpFinder(this: RegExp[], item: RegExp): number;
 
 export declare function registerLocaleDateString(timeFn: DateFunction, dateFn: DateFunction): void;
 
-export declare function registerLocaleTimeString(formatter: Partial<IFormatters>): void;
-
-export declare function sizeHuman(size: number): string;
+export declare function throwNull<T>(val: T): NonNullable<T>;
 
 export declare function timeHuman(d: Date): string;
 
-export declare function timeString(ms: number): string;
-
-export declare function timeStringTiny(ms: number): string;
+export declare class TimeoutError extends Error {
+    constructor(time: number, what?: string);
+}
 
 export declare function tryInspect(object: any): any;
 

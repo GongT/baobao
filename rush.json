@@ -48,72 +48,103 @@
 			"packageName": "@idlebox/ensure-symlink",
 			"projectFolder": "library/ensure-symlink",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/platform",
 			"projectFolder": "library/platform",
 			"shouldPublish": true,
 			"cyclicDependencyProjects": [
 				"@idlebox/build-script"
 			]
-		}, {
+		},
+		{
 			"packageName": "@idlebox/single-dog",
 			"projectFolder": "tools/single-dog",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/single-dog-asset",
 			"projectFolder": "tools/single-dog-asset",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/build-script",
 			"projectFolder": "tools/build-script",
 			"shouldPublish": true,
 			"cyclicDependencyProjects": [
-				"@idlebox/platform", "@idlebox/node-json-edit", "@idlebox/errors"
+				"@idlebox/platform",
+				"@idlebox/node-json-edit",
+				"@idlebox/errors"
 			]
-		}, {
+		},
+		{
 			"packageName": "@idlebox/package-manager",
 			"projectFolder": "tools/package-manager",
 			"shouldPublish": true,
 			"cyclicDependencyProjects": [
-				"@idlebox/platform", "@idlebox/errors"
+				"@idlebox/platform",
+				"@idlebox/errors"
 			]
-		}, {
+		},
+		{
 			"packageName": "@idlebox/errors",
 			"projectFolder": "library/errors",
 			"shouldPublish": true
-		}, {
-			"packageName": "@idlebox/async",
-			"projectFolder": "library/async",
-			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/lifecycle",
 			"projectFolder": "library/lifecycle",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/reflect",
 			"projectFolder": "library/reflect",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/basic-helpers",
 			"projectFolder": "library/basic-helpers",
 			"shouldPublish": true,
-			"cyclicDependencyProjects": [
-			]
-		}, {
+			"cyclicDependencyProjects": []
+		},
+		{
 			"packageName": "@idlebox/node-helpers",
 			"projectFolder": "library/node-helpers",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/node-json-edit",
 			"projectFolder": "library/node-json-edit",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/export-all-in-one",
 			"projectFolder": "tools/export-all-in-one",
 			"shouldPublish": true
-		}, {
+		},
+		{
 			"packageName": "@idlebox/rush-tools",
 			"projectFolder": "tools/rush-tools",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/web-helper-angular",
+			"projectFolder": "web/web-helper-angular",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/web-helper-express",
+			"projectFolder": "web/web-helper-express",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/global",
+			"projectFolder": "library/global",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/text-progress-bar",
+			"projectFolder": "fan/text-progress-bar",
 			"shouldPublish": true
 		}
 	]

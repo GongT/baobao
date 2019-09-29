@@ -1,33 +1,34 @@
-import { readFileSync } from 'fs';
-import { pathExistsSync } from 'fs-extra';
-import { jsonc } from 'jsonc';
+import { loadJsonFileSync } from '@idlebox/node-json-edit';
+import { findUpUntilSync, lrelative } from '@idlebox/platform';
 import { resolve } from 'path';
 
 let config: any;
 let configPath: string;
 
-export function loadRushJson(path?: string) {
+function loadRushJson(path?: string) {
 	if (!path) {
-		path = resolve(process.cwd(), 'rush.json');
+		const foundPath = findUpUntilSync(process.cwd(), 'rush.json');
+		if (!foundPath) {
+			throw new Error(`Cannot found rush.json`);
+		}
+		path = foundPath;
 	}
-	if (!pathExistsSync(path)) {
-		throw new Error(`Cannot found rush.json at "${path}"`);
-	}
-	const text = readFileSync(path, 'utf-8');
-	try {
-		config = jsonc.parse(text);
-	} catch (e) {
-		throw new Error(`Cannot parse "${path}": ${e.message}`);
-	}
-	configPath = path;
+	configPath = path!;
+	config = loadJsonFileSync(configPath);
 	return config;
 }
 
 export function getCurrentRushConfigPath() {
+	if (!config) {
+		loadRushJson();
+	}
 	return configPath;
 }
 
 export function getCurrentRushRootPath() {
+	if (!config) {
+		loadRushJson();
+	}
 	return resolve(configPath, '..');
 }
 
@@ -38,6 +39,6 @@ export function getCurrentRushConfig() {
 	return config;
 }
 
-export function toAbsoluteProjectPath(projectFolder: string) {
-	return resolve(getCurrentRushRootPath(), projectFolder);
+export function toProjectPath(projectFolder: string) {
+	return lrelative(getCurrentRushRootPath(), projectFolder);
 }

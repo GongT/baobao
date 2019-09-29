@@ -1,29 +1,28 @@
 {
-  "monorepo": "rush",
-  "name": "@idlebox/basic-helpers",
-  "typings": "docs/package-public.d.ts",
-  "version": "1.0.2",
-  "license": "MIT",
-  "main": "./lib/_export_all_in_one_index.js",
-  "scripts": {
-    "build": "build-script build",
-    "clean": "build-script clean",
-    "distclean": "build-script distclean",
-    "prepack": "build-script rebuild",
-    "publish": "build-script publish",
-    "test": "build-script test",
-    "upgrade": "build-script upgrade",
-    "watch": "build-script watch"
-  },
-  "dependencies": {
-    "source-map-support": "*"
-  },
-  "devDependencies": {
-    "@idlebox/build-script": "^2.0.6",
-    "@idlebox/export-all-in-one": "^3.0.4",
-    "@idlebox/single-dog-asset": "^1.0.1",
-    "@types/node": "^12.7.5",
-    "gulp": "^4.0.2",
-    "typescript": "^3.6.3"
-  }
+	"monorepo": "rush",
+	"name": "@idlebox/basic-helpers",
+	"typings": "docs/package-public.d.ts",
+	"version": "1.0.2",
+	"license": "MIT",
+	"main": "./lib/_export_all_in_one_index.js",
+	"scripts": {
+		"build": "build-script build",
+		"clean": "build-script clean",
+		"distclean": "build-script distclean",
+		"prepack": "build-script rebuild",
+		"publish": "build-script publish",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
+	},
+	"dependencies": {
+		"source-map-support": "*"
+	},
+	"devDependencies": {
+		"@idlebox/build-script": "^2.0.6",
+		"@idlebox/export-all-in-one": "^3.0.4",
+		"@idlebox/single-dog-asset": "^1.0.1",
+		"gulp": "^4.0.2",
+		"typescript": "^3.6.3"
+	}
 }

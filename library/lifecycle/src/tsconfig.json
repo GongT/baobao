@@ -3,10 +3,12 @@
 	"compilerOptions": {
 		"outDir": "../lib",
 		"rootDir": ".",
-		"typeRoots": [
-			"../node_modules/@types"
-		],
+		"typeRoots": [],
+		"types": [],
 		"declaration": false,
 		"declarationMap": false
-	}
+	},
+	"include": [
+		"**/*.ts"
+	]
 }

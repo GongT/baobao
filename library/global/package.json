@@ -1,0 +1,24 @@
+{
+	"monorepo": "rush",
+	"name": "@idlebox/global",
+	"version": "1.0.0",
+	"main": "lib/globalObject.js",
+	"typings": "lib/globalObject.d.ts",
+	"license": "MIT",
+	"scripts": {
+		"build": "build-script build",
+		"clean": "build-script clean",
+		"distclean": "build-script distclean",
+		"prepack": "build-script rebuild",
+		"publish": "build-script publish",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
+	},
+	"devDependencies": {
+		"@idlebox/build-script": "^2.0.6",
+		"@idlebox/single-dog-asset": "^1.0.1",
+		"gulp": "^4.0.2",
+		"typescript": "^3.6.3"
+	}
+}

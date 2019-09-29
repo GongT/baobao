@@ -18,9 +18,9 @@
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "^1.0.15",
+		"@idlebox/platform": "^1.0.8",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
-		"jsonc": "^2.0.0",
 		"pacote": "^9.5.8"
 	},
 	"devDependencies": {
