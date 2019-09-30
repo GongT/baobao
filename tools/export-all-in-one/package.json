@@ -5,11 +5,7 @@
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/idlebox",
 	"keywords": [
-		"typescript",
-		"library",
-		"ts",
-		"cli",
-		"concat"
+		"typescript", "library", "ts", "cli", "concat"
 	],
 	"bin": {
 		"export-all-in-one": "./index.js"
@@ -22,7 +18,6 @@
 		"clean": "build-script clean",
 		"distclean": "build-script distclean",
 		"prepack": "build-script rebuild",
-		"publish": "build-script publish",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"

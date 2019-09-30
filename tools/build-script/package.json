@@ -20,6 +20,7 @@
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
+		"@idlebox/basic-helpers": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.15",
 		"@idlebox/platform": "^1.0.8",
 		"@idlebox/node-helpers": "^1.0.3",

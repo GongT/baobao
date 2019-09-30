@@ -16,6 +16,6 @@ echo "Log file at: $(basename "$P").init.log"
 	../../tools/rush-tools/bin.js register-project .
 	../../tools/build-script/bin/multi-call.js init
 	../../tools/single-dog/bin.js
-	../../tools/export-all-in-one/index.js --inject src
+	../../tools/export-all-in-one-inject/bin.js src
 ) &> "$(basename "$P").init.log"
 echo "Return code: $?"

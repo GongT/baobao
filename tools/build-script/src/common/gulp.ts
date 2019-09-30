@@ -1,3 +1,4 @@
+import { nameFunction } from '@idlebox/basic-helpers';
 import * as Gulp from 'gulp';
 import { ExecFunc, MapLike } from '../global';
 import { BuildContext } from './buildContext';
@@ -5,7 +6,6 @@ import { getBuildContext, setCurrentDir } from './buildContextInstance';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
 import { createJobFunc } from './jobs';
-import { nameFunction } from '../../../../library/basic-helpers';
 
 function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
 	fancyLog.debug(`defining new task: ${taskName}`);

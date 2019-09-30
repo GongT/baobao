@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/lifecycle",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"typings": "docs/package-public.d.ts",
 	"main": "lib/_export_all_in_once_index.js",
 	"exports": {
@@ -12,7 +12,6 @@
 		"clean": "build-script clean",
 		"distclean": "build-script distclean",
 		"prepack": "build-script rebuild",
-		"publish": "build-script publish",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
@@ -23,7 +22,7 @@
 	},
 	"devDependencies": {
 		"@idlebox/build-script": "^2.0.8",
-		"@idlebox/export-all-in-one": "^3.0.5",
+		"@idlebox/export-all-in-one": "^3.0.4",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"

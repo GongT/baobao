@@ -5,4 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 Error.stackTraceLimit = Infinity;
-require(`./lib/index.js`).default().catch(require('@idlebox/errors').prettyPrintError.bind(undefined, 'unpm'));
+require(`./lib/index.js`).default().catch((e) => {
+	console.error(e);
+	process.exit(1);
+});

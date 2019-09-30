@@ -10,7 +10,6 @@
 		"clean": "build-script clean",
 		"distclean": "build-script distclean",
 		"prepack": "build-script rebuild",
-		"publish": "build-script publish",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"

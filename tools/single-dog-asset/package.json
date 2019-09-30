@@ -1,9 +1,11 @@
 {
 	"name": "@idlebox/single-dog-asset",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"license": "MIT",
 	"scripts": {
-		"build": "echo this package did not need build"
+		"build": "echo this package did not need build",
+		"clean": "echo this package did not need clean",
+		"prepack": "echo this package did not need prepack"
 	},
 	"dependencies": {}
 }

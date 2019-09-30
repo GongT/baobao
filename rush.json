@@ -35,12 +35,12 @@
 		"preRushBuild": [
 			// "rush update"
 		],
-		"postRushBuild": [ ]
+		"postRushBuild": []
 	},
 	/**
 	 * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
 	 */
-	"variants": [ ],
+	"variants": [],
 	// "telemetryEnabled": false,
 	// "hotfixChangeEnabled": false,
 	"projects": [
@@ -70,7 +70,8 @@
 			"shouldPublish": true,
 			"cyclicDependencyProjects": [
 				"@idlebox/platform",
-				"@idlebox/node-helpers"
+				"@idlebox/node-helpers",
+				"@idlebox/basic-helpers"
 			]
 		},
 		{
@@ -131,6 +132,16 @@
 		{
 			"packageName": "@idlebox/text-progress-bar",
 			"projectFolder": "fan/text-progress-bar",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/poormans-package-change",
+			"projectFolder": "tools/poormans-package-change",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/export-all-in-one-inject",
+			"projectFolder": "tools/export-all-in-one-inject",
 			"shouldPublish": true
 		}
 	]

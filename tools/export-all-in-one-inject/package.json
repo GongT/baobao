@@ -21,7 +21,6 @@
 		"clean": "build-script clean",
 		"distclean": "build-script distclean",
 		"prepack": "build-script rebuild",
-		"publish": "build-script publish",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
@@ -34,7 +33,7 @@
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.6",
+		"@idlebox/build-script": "^2.0.8",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.8",

@@ -1,7 +1,7 @@
 {
 	"monorepo": true,
 	"name": "@idlebox/package-manager",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"bin": {
 		"unpm": "./bin.js"
 	},
@@ -12,7 +12,8 @@
 	"typings": "./lib/common/getPackageManager.d.ts",
 	"scripts": {
 		"build": "tsc -p src",
-		"prepack": "rimraf lib dist && npm run build",
+		"clean": "git clean -f -d -X -e !node_modules -e !.idea -e !.vscode",
+		"prepack": "rimraf lib && npm run build",
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
 		"watch": "tsc -w -p src"
 	},

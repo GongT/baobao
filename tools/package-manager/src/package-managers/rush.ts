@@ -20,21 +20,27 @@ export class Rush extends PackageManager {
 	private rushRoot?: string;
 	private subPackageManager?: string;
 
-	async _detect(): Promise<boolean> {
+	async _detect(sub = false): Promise<boolean> {
 		const found = await findUpUntil(this.cwd, 'rush.json');
 		if (!found) {
 			return false;
 		}
 		this.rushRoot = basename(found);
 		const data = parse(await readFile(found, 'utf-8'));
-		this.subPackageManager = '';
+		let pm = '';
 		for (const key of ['pnpm', 'npm', 'yarn']) {
 			if (data[key + 'Version']) {
-				this.subPackageManager = key;
+				pm = key;
 				break;
 			}
 		}
-		if (!this.subPackageManager) {
+		if (pm) {
+			this.subPackageManager = resolve(this.rushRoot, 'common/temp', `${pm}-local`, 'node_modules/.bin', pm);
+		} else {
+			if (sub) {
+				throw new Error('can not determine sub package manager of rush');
+			}
+			this.subPackageManager = '';
 			console.warn('Warn: can not determine sub package manager of rush.');
 		}
 
@@ -77,7 +83,7 @@ export class Rush extends PackageManager {
 	public async invokeCli(cmd: string, ...args: string[]): Promise<void> {
 		if (subCommands.includes(cmd)) {
 			if (!this.subPackageManager) {
-				await this.detect();
+				await this._detect(true);
 			}
 
 			const aa = [cmd, ...args].filter(v => !!v);

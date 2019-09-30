@@ -10,6 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/library/basic-helpers/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/errors/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/global/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/library/lifecycle/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/node-helpers/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/node-json-edit/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/platform/lib" />
@@ -17,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/.rpt2_cache" />
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/package-manager/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/tools/poormans-package-change/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/rush-tools/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/single-dog/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/tools/single-dog/dist" />

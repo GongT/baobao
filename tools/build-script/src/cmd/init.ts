@@ -69,7 +69,6 @@ async function modifyPackageJson(ctx: BuildContext) {
 	addOrFail(packageJson.scripts, 'clean', 'build-script clean');
 	addOrFail(packageJson.scripts, 'distclean', 'build-script distclean');
 	addOrFail(packageJson.scripts, 'prepack', 'build-script rebuild');
-	addOrFail(packageJson.scripts, 'publish', 'build-script publish');
 	addOrFail(packageJson.scripts, 'test', 'build-script test');
 	addOrFail(packageJson.scripts, 'upgrade', 'build-script upgrade');
 	addOrFail(packageJson.scripts, 'watch', 'build-script watch');
@@ -91,13 +90,13 @@ async function createBuildJson(ctx: BuildContext) {
 	ctx.registerAlias('yarn-publish', 'yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public');
 	ctx.registerAlias('upgrade-node-modules', 'npm-check-updates --update --packageFile ./package.json');
 	ctx.registerAlias('run-test', 'echo No test command set.');
-	ctx.registerAlias('git-clean', 'git clean -f -d -X -e !node_modules');
+	ctx.registerAlias('git-clean', 'git clean -f -d -X -e !node_modules -e !.idea -e !.vscode');
 
 	ctx.addAction('build', ['build-ts']).title = 'Build project';
 	ctx.addAction('distclean', ['git-clean']).title = 'Delete git ignore files (without node_modules)';
 	ctx.addAction('clean', ['cleanup-lib']).title = 'Delete lib folder';
 	ctx.addAction('rebuild', ['@build'], ['distclean']).title = 'Prepare for publish package';
-	ctx.addAction('publish', ['yarn-publish'], ['rebuild']).title = 'Publish package';
+	ctx.addAction('publish', ['yarn-publish'], ['rebuild']).title = 'Publish package (do same thing with npm publish)';
 	ctx.addAction('test', ['run-test'], ['build']).title = 'Run test';
 	ctx.addAction('upgrade', ['upgrade-node-modules']).title = 'Do project dependency upgrade';
 	ctx.addAction('watch', ['watch-ts']).title = 'Watch mode build project';

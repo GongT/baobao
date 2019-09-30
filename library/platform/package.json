@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/platform",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.js",
 	"typings": "./docs/package-public.d.ts",
@@ -13,14 +13,13 @@
 		"clean": "build-script clean",
 		"distclean": "build-script distclean",
 		"prepack": "build-script rebuild",
-		"publish": "build-script publish",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
 	},
 	"devDependencies": {
 		"@idlebox/build-script": "^2.0.8",
-		"@idlebox/export-all-in-one": "^3.0.5",
+		"@idlebox/export-all-in-one": "^3.0.4",
 		"@idlebox/single-dog-asset": "^1.0.1",
 		"@types/node": "^12.7.8",
 		"gulp": "^4.0.2",
