@@ -55,18 +55,18 @@
       <option name="ENFORCE_TRAILING_COMMA" value="WhenMultiline" />
       <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
-      <option name="INDENT_CHAINED_CALLS" value="false" />
       <option name="USE_CHAINED_CALLS_GROUP_INDENTS" value="true" />
       <option name="IMPORT_SORT_MODULE_NAME" value="true" />
     </TypeScriptCodeStyleSettings>
     <XML>
+      <option name="XML_KEEP_BLANK_LINES" value="0" />
       <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
     </XML>
     <codeStyleSettings language="Blade">
       <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="CSS">
@@ -75,7 +75,6 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="CoffeeScript">
@@ -85,7 +84,6 @@
         <option name="TAB_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="Gherkin">
@@ -103,7 +101,6 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="Haml">
@@ -111,7 +108,6 @@
         <option name="INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="JSON">
@@ -123,7 +119,6 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="JavaScript">
@@ -162,7 +157,6 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="PHP">
@@ -201,7 +195,6 @@
       <indentOptions>
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="PowerShell">
@@ -225,7 +218,6 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="SCSS">
@@ -235,7 +227,6 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
       <arrangement>
         <rules>
@@ -250,11 +241,19 @@
         </rules>
       </arrangement>
     </codeStyleSettings>
-    <codeStyleSettings language="Twig">
+    <codeStyleSettings language="SQL">
       <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
         <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Twig">
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="TypeScript">
@@ -285,7 +284,6 @@
       <indentOptions>
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
       <arrangement>
         <groups>
@@ -397,9 +395,9 @@
     </codeStyleSettings>
     <codeStyleSettings language="XML">
       <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />
-        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
   </code_scheme>

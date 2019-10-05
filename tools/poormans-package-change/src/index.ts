@@ -4,32 +4,21 @@ import { basename, resolve } from 'path';
 import { decompressTargz } from './decompress';
 import { detectRegistry } from './detectRegistry';
 import { downloadIfNot } from './downloadIfNot';
+import { getArg } from './getArg';
 import { getVersionCached } from './getVersionCached';
 import { gitChange, gitInit } from './git';
 import { increaseVersion } from './increaseVersion';
-import { log } from './log';
+import { errorLog, log } from './log';
 import { packCurrentVersion } from './package';
 import { prepareWorkingFolder } from './prepareWorkingFolder';
 
-function getArg(name: string, def: string) {
-	const found = process.argv.indexOf(name);
-	if (found === -1) {
-		return def;
-	}
-
-	const ret = process.argv[found + 1];
-	if (ret === undefined || ret.startsWith('-')) {
-		throw new Error(`Argument ${name} should have value.`);
-	}
-	return ret;
-}
-
 function help() {
-	console.error(`Usage: detect-package-change --registry ??? --dist-tag ??? --package ??? --bump
+	console.error(`Usage: detect-package-change --registry ??? --dist-tag ??? --package ??? --bump --quiet
 	registry: default to use system .npmrc
 	dist-tag: default to "latest"
 	package: default to ./ (this folder contains package.json)
 	bump: increase patch version in package.json if change detected
+	quiet: don't print verbose message
 `);
 }
 
@@ -60,7 +49,7 @@ function help() {
 	log('version = %s', result.version);
 
 	if (!result.version || packageJson.version !== result.version) {
-		log('local (%s) already !== remote (%s), no more change needed.', packageJson.version, result.version);
+		errorLog('local (%s) already !== remote (%s), no more change needed.', packageJson.version, result.version);
 		process.exit(0);
 		return;
 	}
@@ -80,8 +69,12 @@ function help() {
 	const changedFiles = await gitChange(tempFolder);
 
 	if (autoInc) {
-		log('auto version increment...');
-		await increaseVersion(packageFile);
+		if (changedFiles.length) {
+			log('auto version increment...');
+			await increaseVersion(packageFile);
+		} else {
+			log('nothing changed');
+		}
 	} else {
 		printResult(changedFiles);
 	}
@@ -93,13 +86,13 @@ function help() {
 function printResult(changedFiles: string[]) {
 	if (process.stdout.isTTY) {
 		if (changedFiles.length === 0) {
-			console.log('changed: yes.');
+			console.log('changed: no.');
 		} else {
 			log('%s files has change:', changedFiles.length);
 			for (const f of changedFiles) {
 				log('  %s', f);
 			}
-			console.log('changed no.');
+			console.log('changed: yes.');
 		}
 	} else {
 		console.log(JSON.stringify({ changedFiles, changed: changedFiles.length > 0 }));

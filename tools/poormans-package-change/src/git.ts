@@ -16,11 +16,19 @@ export async function gitInit(cwd: string) {
 }
 
 export async function gitChange(cwd: string) {
+	log('+ git status');
+	const { stdout: testOut } = await command('git status', { cwd, stdout: 'pipe', stderr: 'inherit' });
+	log(testOut.toString());
+
 	log('+ git clean -n -d');
 	const { stdout } = await command('git clean -n -d', { cwd, stdout: 'pipe', stderr: 'inherit' });
-	const lines = stdout.toString().split(/\n/g);
+	const lines = stdout.toString().trim().split(/\n/g).filter(i => i.trim());
+	log('-----------');
+	log(lines.join('\n'));
+	log('-----------');
+	log('%s lines of change', lines.length);
 
-	return lines.filter(i => i).map((item) => {
+	return lines.map((item) => {
 		return item.replace('Would remove ', '');
 	});
 }

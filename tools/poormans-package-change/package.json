@@ -1,11 +1,12 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/poormans-package-change",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"main": "index.js",
 	"license": "MIT",
 	"bin": {
-		"detect-package-change": "./bin.js"
+		"detect-package-change": "./bin.js",
+		"run-if-version-mismatch": "./run-if-version-mismatch.js"
 	},
 	"scripts": {
 		"build": "build-script build",

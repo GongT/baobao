@@ -1,10 +1,17 @@
 import * as execa from 'execa';
+import { createWriteStream } from 'fs-extra';
 import { resolve } from 'path';
+import { PassThrough } from 'stream';
 import { eachProject } from '../api/each';
 import { getCurrentRushRootPath, toProjectPathAbsolute } from '../api/load';
 import { description } from '../common/description';
 
 export default async function runForEach(argv: string[]) {
+	let quiet = false;
+	if (argv[0] === '--quiet') {
+		quiet = true;
+		argv.shift();
+	}
 	if (argv.length === 0) {
 		throw new Error('Must specific some command or js file to run');
 	}
@@ -19,16 +26,34 @@ export default async function runForEach(argv: string[]) {
 		argv.unshift('ts-node');
 	}
 
+	console.error(process.env.PATH);
 	process.env.RUSH_ROOT = getCurrentRushRootPath();
 	for (const { projectFolder, packageName } of eachProject()) {
 		const absPath = toProjectPathAbsolute(projectFolder);
 		process.env.PROJECT_PATH = absPath;
 		process.env.PROJECT_NAME = packageName;
-		await execa(argv[0], argv.slice(1), {
+		console.error('[rush-tool] +++ %s', argv.join(' '));
+		console.error('[rush-tool] > %s', absPath);
+		const p = execa(argv[0], argv.slice(1), {
 			cwd: absPath,
 			// env.path
-			stdio: 'inherit',
+			stdio: ['inherit', 'pipe', 'pipe'],
 		});
+
+		const stdout = p.stdout!.pipe(new PassThrough());
+		const stderr = p.stderr!.pipe(new PassThrough());
+		if (!quiet) {
+			stdout.pipe(process.stdout);
+			stderr.pipe(process.stderr);
+		}
+
+		const logger = createWriteStream(resolve(absPath, 'run.rush-tool.log'));
+		stdout.pipe(logger, { end: false });
+		stderr.pipe(logger, { end: false });
+
+		await p;
+
+		logger.close();
 	}
 }
 

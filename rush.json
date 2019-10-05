@@ -131,7 +131,7 @@
 		},
 		{
 			"packageName": "@idlebox/text-progress-bar",
-			"projectFolder": "fan/text-progress-bar",
+			"projectFolder": "fun/text-progress-bar",
 			"shouldPublish": true
 		},
 		{

@@ -3,7 +3,7 @@ import { command } from 'execa';
 import { resolve } from 'path';
 import { PassThrough } from 'stream';
 import { getPackageManager } from './detectRegistry';
-import { log } from './log';
+import { log, logEnable } from './log';
 
 export async function packCurrentVersion(cwd: string) {
 	const pm = await getPackageManager();
@@ -25,7 +25,7 @@ export async function packCurrentVersion(cwd: string) {
 	} else {
 		cmd = pm + ' run prepack';
 		log('+ ' + cmd);
-		await command(cmd, { cwd, stdout: process.stderr, stderr: 'inherit' });
+		await command(cmd, { cwd, stdout: logEnable ? process.stderr : 'ignore', stderr: 'inherit' });
 
 		cmd = pm + ' pack';
 		log('+ ' + cmd);
