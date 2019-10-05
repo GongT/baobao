@@ -10,6 +10,7 @@ package-deps.json
 !.idea/vcs.xml
 !.idea/modules.xml
 !.idea/codeStyles/
+!.idea/compiler.xml
 
 /projects
 /projects/*
