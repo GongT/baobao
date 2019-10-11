@@ -12,7 +12,7 @@
 	"typings": "./lib/common/getPackageManager.d.ts",
 	"scripts": {
 		"build": "tsc -p src",
-		"clean": "git clean -f -d -X -e !node_modules -e !.idea -e !.vscode",
+		"clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**",
 		"prepack": "rimraf lib && npm run build",
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
 		"watch": "tsc -w -p src"

@@ -46,13 +46,10 @@
 			"set."
 		],
 		"git-clean": [
-			"git",
-			"clean",
-			"-f",
-			"-d",
-			"-X",
-			"-e",
-			"!node_modules"
+			"git", "clean", "-f", "-d", "-X",
+			"-e", "!node_modules", "-e", "!node_modules/**",
+			"-e", "!.idea", "-e", "!.idea/**",
+			"-e", "!.vscode", "-e", "!.vscode/**"
 		]
 	},
 	"command": {
