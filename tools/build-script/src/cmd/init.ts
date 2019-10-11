@@ -90,7 +90,7 @@ async function createBuildJson(ctx: BuildContext) {
 	ctx.registerAlias('yarn-publish', 'yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public');
 	ctx.registerAlias('upgrade-node-modules', 'npm-check-updates --update --packageFile ./package.json');
 	ctx.registerAlias('run-test', 'echo No test command set.');
-	ctx.registerAlias('git-clean', 'git clean -f -d -X -e !node_modules -e !.idea -e !.vscode');
+	ctx.registerAlias('git-clean', 'git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**');
 
 	ctx.addAction('build', ['build-ts']).title = 'Build project';
 	ctx.addAction('distclean', ['git-clean']).title = 'Delete git ignore files (without node_modules)';
