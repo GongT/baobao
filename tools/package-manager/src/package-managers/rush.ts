@@ -16,6 +16,7 @@ export class Rush extends PackageManager {
 	readonly packageName: string = '@microsoft/rush';
 	readonly uninstallCommand: string = 'remove';
 	readonly installDevFlag: string = '--dev';
+	readonly syncCommand: string = 'update';
 
 	private rushRoot?: string;
 	private subPackageManager?: string;

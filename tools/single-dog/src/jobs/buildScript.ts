@@ -1,10 +1,19 @@
-import { setProjectDir } from '@idlebox/build-script';
+import { addBuildStep, setProjectDir } from '@idlebox/build-script';
 import { Filesystem } from '../inc/filesystem';
+import { spawnSyncLog } from '../inc/spawn';
+import { IRunMode } from './packageJson';
 
-export async function runBuildScriptInit(fs: Filesystem) {
+export async function runBuildScriptInit(fs: Filesystem, { libMode }: IRunMode) {
 	if (!fs.exists('build-script.json')) {
-		fs.exec('build-script init');
+		spawnSyncLog('build-script', ['init'], {
+			stdio: 'inherit',
+			cwd: CONTENT_ROOT,
+		});
 	}
-	setProjectDir(process.cwd());
 
+	if (libMode) {
+		console.log('add ts-esm to build-script');
+		setProjectDir(CONTENT_ROOT);
+		await addBuildStep('ts-esm', ['tsc', '-p', 'src/'], ['tsc', '-w', '-p', 'src/']);
+	}
 }

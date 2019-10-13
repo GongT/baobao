@@ -1,15 +1,15 @@
 {
 	"monorepo": true,
 	"name": "@idlebox/package-manager",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"bin": {
 		"unpm": "./bin.js"
 	},
 	"exports": {
 		"./": "./ne"
 	},
-	"main": "./lib/common/getPackageManager.js",
-	"typings": "./lib/common/getPackageManager.d.ts",
+	"main": "./lib/api.js",
+	"typings": "./lib/api.d.ts",
 	"scripts": {
 		"build": "tsc -p src",
 		"clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**",
@@ -23,6 +23,7 @@
 		"command-exists": "^1.2.8",
 		"execa": "^2.0.4",
 		"json5": "^2.1.0",
+		"pacote": "^9.5.8",
 		"source-map-support": "*"
 	},
 	"devDependencies": {

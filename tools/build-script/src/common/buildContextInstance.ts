@@ -1,4 +1,5 @@
 import { currentPlugin } from '../api/ctsStore';
+import { fatalError } from '../cmd-loader';
 import { BuildContext } from './buildContext';
 
 const bcs = Symbol.for('@idlebox/build-script');
@@ -16,7 +17,10 @@ export function createBuildContext(): BuildContext {
 	if (global[bcs]) {
 		return global[bcs];
 	}
-	const bc = new BuildContext(loaderProjectPath);
+	const bc = new BuildContext(loaderProjectPath, true);
+	if (bc.isProjectJsonExists()) {
+		fatalError('project already init with build-script.');
+	}
 	Object.defineProperty(global, bcs, {
 		enumerable: false,
 		writable: false,

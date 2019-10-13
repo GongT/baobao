@@ -6,13 +6,18 @@ export interface IGitInfo {
 	email: string;
 }
 
+let memo: IGitInfo;
+
 export async function getGitName(): Promise<IGitInfo> {
+	if (memo) {
+		return memo;
+	}
 	const user = await execm('git config user.name');
 	const email = await execm('git config user.email');
 
-	return {
+	return memo = {
 		full: `${user}<${email}>`,
-		user,
+		user: user.toLowerCase(),
 		email,
 	};
 }

@@ -11,10 +11,13 @@ export class BuildContext extends BuildContextBase {
 
 	private rawProjectJson?: IMyProjectJson;
 
-	public constructor(public readonly projectRoot: string) {
+	public constructor(public readonly projectRoot: string, creating: boolean = false) {
 		super(projectRoot);
 
 		this.configFilePath = resolve(projectRoot, 'build-script.json');
+		if (!creating) {
+			this._init();
+		}
 	}
 
 	readProjectJson() {
@@ -34,6 +37,7 @@ export class BuildContext extends BuildContextBase {
 		return existsSync(this.configFilePath);
 	}
 
+	/** @internal */
 	private _init() {
 		const projectJson = this.readProjectJson();
 
@@ -69,9 +73,7 @@ export class BuildContext extends BuildContextBase {
 		this.plugins = rectLoadDefine(projectJson.load || []);
 	}
 
-	init() {
-		this._init();
-
+	loadPlugins() {
 		resetLoader();
 		for (const { file, args } of this.plugins!) {
 			loadPlugin(file, args);
@@ -85,9 +87,6 @@ export class BuildContext extends BuildContextBase {
 	}
 
 	pushPlugin(file: string, args: string[]) {
-		if (!this.plugins) {
-			this._init();
-		}
 		const alreadyExists = this.plugins!.find((item) => {
 			return item.file === file;
 		});
@@ -95,6 +94,15 @@ export class BuildContext extends BuildContextBase {
 			alreadyExists.args = args;
 		} else {
 			this.plugins!.push({ file, args });
+		}
+	}
+
+	public getPlugin(file: string): string[] | void {
+		const alreadyExists = this.plugins!.find((item) => {
+			return item.file === file;
+		});
+		if (alreadyExists) {
+			return alreadyExists.args;
 		}
 	}
 }

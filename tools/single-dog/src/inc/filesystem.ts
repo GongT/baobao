@@ -1,6 +1,4 @@
-import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
-import { lstatSync, readlinkSync, symlinkSync } from 'fs';
-import { ensureDirSync, existsSync, readFileSync, removeSync, writeFileSync } from 'fs-extra';
+import { chmodSync, ensureDirSync, existsSync, lstatSync, readFileSync, readlinkSync, removeSync, symlinkSync, writeFileSync } from 'fs-extra';
 import { resolve } from 'path';
 import { debug } from './debug';
 
@@ -13,7 +11,7 @@ export function uniqueArray(target: any[], source: any[]) {
 export class Filesystem {
 	constructor(private readonly targetBase: string) {}
 
-	overwrite(file: string, content: string) {
+	overwrite(file: string, content: string, mode: string = '0644') {
 		const abs = resolve(this.targetBase, file);
 		ensureDirSync(resolve(abs, '..'));
 		if (existsSync(abs) && readFileSync(abs, 'utf8') === content) {
@@ -21,6 +19,7 @@ export class Filesystem {
 		}
 		debug('writeFile(%s, FileContent<%s>)', abs, content.length);
 		writeFileSync(abs, content, 'utf8');
+		chmodSync(file, mode);
 	}
 
 	mergeIgnore(file: string, content: string) {
@@ -66,10 +65,11 @@ export class Filesystem {
 		symlinkSync(t, abs);
 	}
 
-	placeFile(file: string, content: string) {
+	placeFile(file: string, content: string, mode: string = '0644') {
 		if (!this.exists(file)) {
 			this.overwrite(file, content);
 		}
+		chmodSync(file, mode);
 	}
 
 	readExists(file: string): string {
@@ -88,15 +88,5 @@ export class Filesystem {
 	exists(file: string) {
 		const abs = resolve(this.targetBase, file);
 		return existsSync(abs);
-	}
-
-	exec(command: string) {
-		debug(command);
-		const opt: ExecSyncOptionsWithStringEncoding = {
-			encoding: 'utf8',
-			cwd: CONTENT_ROOT,
-			windowsHide: true,
-		};
-		return execSync(command, opt).trim();
 	}
 }

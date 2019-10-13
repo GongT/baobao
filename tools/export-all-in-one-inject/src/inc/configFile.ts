@@ -6,9 +6,11 @@ let options: ParsedCommandLine;
 
 export function getOptions(file?: string): ParsedCommandLine {
 	if (file) {
+		console.log('using file: %s', file);
 		return parse(file);
 	}
 	if (!options) {
+		console.log('using file: %s', CONFIG_FILE);
 		options = parse(CONFIG_FILE);
 	}
 	return options;
@@ -27,7 +29,7 @@ function parse(file: string) {
 		onUnRecoverableConfigFileDiagnostic(diagnostic: Diagnostic) {
 			console.error(formatDiagnostic(diagnostic, myFormatDiagnosticsHost));
 		},
-		useCaseSensitiveFileNames: false,
+		useCaseSensitiveFileNames: true,
 		readDirectory: sys.readDirectory,
 		fileExists: sys.fileExists,
 		readFile: sys.readFile,

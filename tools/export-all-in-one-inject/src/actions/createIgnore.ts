@@ -9,12 +9,12 @@ export async function createIgnore() {
 	}
 	const data = await readFile(ignoreFile, 'utf-8');
 	const lines = data.split(/\n/g);
-	if (lines.includes('lib/*.d.ts')) {
+	if (lines.includes('lib/*.d.ts') && lines.includes('lib/**/*.d.ts')) {
 		return;
 	}
-	if (!lines[lines.length - 1]) {
+	if (!lines[lines.length - 1] && !lines[lines.length - 2]) {
 		lines.pop();
 	}
-	lines.push('### export-all-in-one ###', 'lib/*.d.ts', 'docs/tsdoc-metadata.json', '');
+	lines.push('### export-all-in-one ###', 'lib/*.d.ts', 'lib/**/*.d.ts', '');
 	await writeFile(ignoreFile, lines.join('\n'));
 }

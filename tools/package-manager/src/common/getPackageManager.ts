@@ -3,11 +3,11 @@ import { IOptions, KNOWN_PACKAGE_MANAGERS } from './getPackageManagerByName';
 import { PackageManager } from './packageManager';
 
 export async function getPackageManager(_options?: Partial<IOptions>): Promise<PackageManager> {
-	const options: IOptions = Object.assign({}, _options || {}, {
+	const options: IOptions = Object.assign({}, {
 		cwd: process.cwd(),
 		default: 'auto',
 		ask: true,
-	});
+	}, _options || {});
 
 	const all: PackageManager[] = KNOWN_PACKAGE_MANAGERS.map((Manager) => {
 		return new Manager(options.cwd);
@@ -38,6 +38,14 @@ export async function getPackageManager(_options?: Partial<IOptions>): Promise<P
 			return found ? pm : undefined;
 		});
 	}))).filter(e => !!e) as PackageManager[];
+
+	if (process.env.PREFER_NODE_PM) {
+		const pmi = installed.findIndex(item => item.friendlyName === process.env.PREFER_NODE_PM);
+		if (pmi !== 0) {
+			const [pm] = installed.splice(pmi, 1);
+			installed.unshift(pm);
+		}
+	}
 
 	if (options.ask && process.stdin.isTTY) {
 		const selection = await askUserSelect(installed);

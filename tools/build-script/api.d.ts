@@ -17,6 +17,10 @@ declare module '@idlebox/build-script' {
 
 	export function registerPlugin(name: string, args: string[]): Promise<void>;
 
+	export function getPlugin(name: string): Promise<string[] | void>;
+
+	export function addBuildStep(name: string, build: string[], watch: string[]): Promise<void>;
+
 	export function loadToGulp(gulp: typeof Gulp, __dirname: string): void;
 
 	export function isBuildConfigFileExists(): boolean;

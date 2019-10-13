@@ -2,7 +2,6 @@ import { insertKeyAlphabet, loadJsonFile, writeJsonFileBack } from '@idlebox/nod
 import { exists } from '@idlebox/platform';
 import { createFile, readFile, writeFile } from 'fs-extra';
 import { resolve } from 'path';
-import { fatalError } from '../cmd-loader';
 import { BuildContext } from '../common/buildContext';
 import { createBuildContext, loaderProjectPath } from '../common/buildContextInstance';
 
@@ -29,9 +28,6 @@ function addOrFail(packageScripts: any, field: string, value: any) {
 
 export default async function init() {
 	const ctx = createBuildContext();
-	if (ctx.isProjectJsonExists()) {
-		fatalError('project already init with build-script.');
-	}
 	console.log('initializing...');
 
 	await modifyPackageJson(ctx);

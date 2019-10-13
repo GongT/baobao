@@ -34,6 +34,30 @@ export async function registerPlugin(name: string, args: string[]): Promise<void
 	await v.writeBack();
 }
 
+export async function addBuildStep(name: string, build: string[], watch: string[]) {
+	const v = getBuildContext();
+	if (!v.isProjectJsonExists()) {
+		throw new Error('build-script not init in current project');
+	}
+	if (!v.projectJson.alias.has(`watch-${name}`)) {
+		v.registerAlias(`watch-${name}`, watch[0], watch.slice(1));
+	}
+	v.addAction('watch', [`watch-${name}`]);
+	if (!v.projectJson.alias.has(`build-${name}`)) {
+		v.registerAlias(`build-${name}`, build[0], build.slice(1));
+	}
+	v.addAction('build', [`build-${name}`]);
+	await v.writeBack();
+}
+
+export async function getPlugin(name: string) {
+	const v = getBuildContext();
+	if (!v.isProjectJsonExists()) {
+		throw new Error('build-script not init in current project');
+	}
+	return v.getPlugin(name);
+}
+
 export function loadToGulp(gulp: typeof Gulp, __dirname: string) {
 	require('source-map-support/register');
 	return load(gulp, __dirname);

@@ -15,6 +15,7 @@
       <excludeFolder url="file://$MODULE_DIR$/library/node-json-edit/lib" />
       <excludeFolder url="file://$MODULE_DIR$/library/platform/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/build-script/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one-inject/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/.rpt2_cache" />
       <excludeFolder url="file://$MODULE_DIR$/tools/export-all-in-one/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tools/package-manager/lib" />

@@ -15,6 +15,7 @@ export abstract class PackageManager {
 	protected abstract readonly uninstallCommand: string;
 	protected readonly runCommand: string = 'run';
 	protected readonly initCommand: string = 'run';
+	protected abstract readonly syncCommand: string;
 
 	public detect(): Promise<boolean> {
 		return this._detect().catch((e) => {
@@ -57,7 +58,7 @@ export abstract class PackageManager {
 		if (i1 !== -1) {
 			packages.splice(i1, 1, this.installDevFlag);
 		}
-		const i2 = packages.indexOf('-dev');
+		const i2 = packages.indexOf('--dev');
 		if (i2 !== -1) {
 			packages.splice(i2, 1, this.installDevFlag);
 		}
@@ -76,5 +77,9 @@ export abstract class PackageManager {
 		return command(this.cliName).catch(() => {
 			return false;
 		});
+	}
+
+	public sync(...args: string[]) {
+		return this.invokeCli(this.syncCommand, ...args);
 	}
 }

@@ -12,10 +12,15 @@ function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
 	gulp.task(taskName, fn);
 }
 
+const isPrintingTasks = process.argv.includes('--tasks');
+
 function createAliasRegistry(ctx: BuildContext) {
 	const aliasRegistry: MapLike<ExecFunc> = {};
 	for (const [name, cmd] of ctx.projectJson.alias.entries()) {
 		aliasRegistry[name] = createJobFunc(aliasName(name), ctx.projectRoot, cmd);
+		if (isPrintingTasks) {
+			console.error('[\x1B[38;5;10m%s\x1B[0m] %s', name, cmd.join(' '));
+		}
 	}
 
 	return function pickAlias(name: string) {
@@ -110,7 +115,7 @@ function createPickPreviousJob(pickAlias: (name: string) => ExecFunc) {
 export function load(gulp: typeof Gulp, _dirname: string) {
 	setCurrentDir(_dirname);
 	const ctx: BuildContext = getBuildContext();
-	ctx.init();
+	ctx.loadPlugins();
 
 	const pickAlias = createAliasRegistry(ctx);
 	const resolvedDependOrder = dependencyResolve(ctx);

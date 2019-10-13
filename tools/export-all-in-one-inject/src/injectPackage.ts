@@ -5,6 +5,7 @@ import { PROJECT_ROOT } from './inc/argParse';
 
 export default async function () {
 	setProjectDir(PROJECT_ROOT);
+	console.log('current directory:', PROJECT_ROOT);
 	const hookMode = await isBuildConfigFileExists();
 	await updatePackageJson(hookMode);
 	await createIgnore();

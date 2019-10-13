@@ -21,8 +21,8 @@ export async function doGenerate() {
 	let file: SourceFile;
 
 	for (file of program.getSourceFiles()) {
-		if (/*file.isDeclarationFile || */program.isSourceFileFromExternalLibrary(file)) {
-			// console.log(file.fileName, file.isDeclarationFile, program.isSourceFileFromExternalLibrary(file));
+		// console.log('%s -> declare:%s, stdlib:%s, external:%s', file.fileName, file.isDeclarationFile, program.isSourceFileDefaultLibrary(file), program.isSourceFileFromExternalLibrary(file));
+		if (/*file.isDeclarationFile || */ program.isSourceFileDefaultLibrary(file) || program.isSourceFileFromExternalLibrary(file)) {
 			continue;
 		}
 
