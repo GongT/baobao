@@ -58,7 +58,9 @@ export class DeferredPromise<T, PT = any> {
     readonly rejected: boolean;
     // (undocumented)
     readonly resolved: boolean;
-    }
+    // (undocumented)
+    static wrap(prev: Promise<any>): DeferredPromise<unknown, any>;
+}
 
 // Warning: (ae-missing-release-tag) "Disposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 

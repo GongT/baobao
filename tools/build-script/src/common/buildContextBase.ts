@@ -33,6 +33,7 @@ export abstract class BuildContextBase implements IBuildContext {
 			this.projectJson.job.set(cmd, {
 				set title(v: string) {_title = v;},
 				get title() {return _title || 'run: ' + Array.from(run).join(' ');},
+				serial: false,
 				after: new Set<string>(),
 				preRun: new Set<string>(),
 				postRun: new Set<string>(),
@@ -40,6 +41,11 @@ export abstract class BuildContextBase implements IBuildContext {
 			});
 		}
 		return this.projectJson.job.get(cmd)!;
+	}
+
+	setRunMode(command: string, mod: 'serial' | 'parallel') {
+		const cmd = this.getOrCreateCommand(command);
+		cmd.serial = mod === 'serial';
 	}
 
 	prefixAction(command: string, jobs: string) {

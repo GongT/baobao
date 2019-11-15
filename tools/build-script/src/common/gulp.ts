@@ -129,19 +129,19 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 		if (data.preRun.size || data.after.size) {
 			list.unshift(nameFunction(
 				`${name}:pre`,
-				gulpParallel(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]),
+				gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]),
 			));
 		}
 		if (data.run.size) {
 			list.push(nameFunction(
 				`${name}:run`,
-				gulpParallel(gulp, map(data.run, pickAction)),
+				gulpConcatAction(gulp, map(data.run, pickAction), data.serial),
 			));
 		}
 		if (data.postRun.size) {
 			list.push(nameFunction(
 				`${name}:post`,
-				gulpParallel(gulp, map(data.preRun, pickJob)),
+				gulpConcatAction(gulp, map(data.preRun, pickJob)),
 			));
 		}
 
@@ -161,7 +161,7 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 	}
 }
 
-function gulpParallel(gulp: typeof Gulp, fns: (string | ExecFunc)[]): Gulp.TaskFunction {
+function gulpConcatAction(gulp: typeof Gulp, fns: (string | ExecFunc)[], toSerial = false): Gulp.TaskFunction {
 	if (fns.length === 1) {
 		const o = fns.pop();
 		if (typeof o === 'string') {
@@ -169,6 +169,8 @@ function gulpParallel(gulp: typeof Gulp, fns: (string | ExecFunc)[]): Gulp.TaskF
 		} else {
 			return o as ExecFunc;
 		}
+	} else if (toSerial) {
+		return gulp.series(...fns);
 	} else {
 		return gulp.parallel(...fns);
 	}

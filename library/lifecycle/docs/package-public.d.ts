@@ -36,6 +36,7 @@ export declare class DeferredPromise<T, PT = any> {
     complete(value: T): void;
     error(err: any): void;
     cancel(): void;
+    static wrap(prev: Promise<any>): DeferredPromise<unknown, any>;
 }
 
 export declare class Disposable implements IDisposable, IDisposableBaseInternal {

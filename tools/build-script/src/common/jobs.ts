@@ -46,10 +46,17 @@ export function createJobFunc(jobName: string, path: string, cmds: string[]): Ex
 
 	if (command.endsWith('.js')) {
 		args.unshift(command);
-		command = 'node';
+		command = process.argv0;
 	} else if (command.endsWith('.ts')) {
+		args.unshift('--transpile-only');
 		args.unshift(command);
 		command = 'ts-node';
+	} else if (command.endsWith('.mjs')) {
+		args.unshift('--experimental-modules');
+		args.unshift(command);
+		command = process.argv0;
+	} else if (command === 'node') {
+		command = process.argv0;
 	}
 	fancyLog.debug('define: %s%s%s: %s %s', green, jobName, reset, command, args.join(' '));
 	const callback = async () => {

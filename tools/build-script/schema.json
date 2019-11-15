@@ -11,7 +11,7 @@
 			"items": {
 				"type": "object",
 				"additionalProperties": false,
-				"required": ["name"],
+				"required": [ "name" ],
 				"properties": {
 					"name": {
 						"type": "string"
@@ -25,13 +25,17 @@
 				}
 			}
 		},
-		"jobs": {
+		"command": {
 			"type": "object",
 			"additionalProperties": {
-				"type": "array",
-				"items": {
-					"type": "string",
-					"pattern": "^[a-zA-Z0-9_-]+$"
+				"type": "object",
+				"additionalProperties": false,
+				"required": [ "run" ],
+				"properties": {
+					"title": { "type": "string" },
+					"serial": { "type": "boolean", "default": false },
+					"run": { "type": "array", "items": { "type": "string" } },
+					"after": { "type": "array", "items": { "type": "string" } }
 				}
 			},
 			"propertyNames": {
@@ -41,37 +45,10 @@
 		"alias": {
 			"type": "object",
 			"additionalProperties": {
-				"type": "string"
-			}
-		},
-		"actions": {
-			"type": "object",
-			"additionalProperties": {
-				"type": "object",
-				"required": [
-					"type"
-				],
-				"properties": {
-					"type": {
-						"type": "string",
-						"enum": [
-							"parallel", "serial"
-						]
-					},
-					"exported": {
-						"type": "boolean"
-					},
-					"sequence": {
-						"type": "array",
-						"items": {
-							"type": "string",
-							"pattern": "^@?[a-zA-Z0-9_-]+$"
-						}
-					}
+				"type": [ "string", "array" ],
+				"items": {
+					"type": "string"
 				}
-			},
-			"propertyNames": {
-				"pattern": "^[a-zA-Z0-9_-]+$"
 			}
 		}
 	}

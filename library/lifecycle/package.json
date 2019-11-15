@@ -1,9 +1,9 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/lifecycle",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"typings": "docs/package-public.d.ts",
-	"main": "lib/_export_all_in_once_index.js",
+	"main": "lib/_export_all_in_one_index.js",
 	"exports": {
 		"./": "./private-path-not-exists"
 	},

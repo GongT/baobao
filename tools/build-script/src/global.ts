@@ -28,6 +28,7 @@ export interface IMyProjectJson {
 	load: (string | IPluginDefine)[];
 	alias: MapLike<string | string[]>;
 	command: MapLike<{
+		serial?: boolean;
 		title?: string;
 		after?: string[];
 		run: string[];
@@ -37,6 +38,7 @@ export interface IMyProjectJson {
 export interface IMyProjectJsonParsed {
 	alias: Map<string, string[]>;
 	job: Map<string, {
+		serial: boolean;
 		title: string;
 		after: Set<string>;
 		preRun: Set<string>;

@@ -72,4 +72,14 @@ export class DeferredPromise<T, PT = any> {
 		this._state = false;
 		this._errorCallback(new CanceledError());
 	}
+
+	static wrap(prev: Promise<any>) {
+		const p = new DeferredPromise();
+		prev.then((d) => {
+			p.complete(d);
+		}, (e) => {
+			p.error(e);
+		});
+		return p;
+	}
 }

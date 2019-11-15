@@ -809,6 +809,60 @@
                 "endIndex": 2
               },
               "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/lifecycle!DeferredPromise.wrap:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static wrap(prev: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DeferredPromise",
+                  "canonicalReference": "@idlebox/lifecycle!DeferredPromise:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<unknown, any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 4,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "prev",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  }
+                }
+              ],
+              "name": "wrap"
             }
           ],
           "implementsTokenRanges": []

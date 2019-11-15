@@ -56,7 +56,7 @@ export class BuildContext extends BuildContextBase {
 			if (!def || typeof def !== 'object') {
 				throw new Error(`command DEFINE not valid, key is: ${name}`);
 			}
-			let { title, after, run } = def;
+			let { title, after, run, serial } = def;
 			if (!isArrayOfString(run)) {
 				throw new Error(`command RUN must string[], key is: ${name}`);
 			}
@@ -67,6 +67,10 @@ export class BuildContext extends BuildContextBase {
 			const work = this.addAction(name, run, after);
 			if (title) {
 				work.title = title;
+			}
+
+			if (serial) {
+				work.serial = true;
 			}
 		}
 
