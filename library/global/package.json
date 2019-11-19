@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/global",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "lib/globalObject.js",
 	"typings": "lib/globalObject.d.ts",
 	"license": "MIT",

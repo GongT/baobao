@@ -9,7 +9,7 @@ export function createSymbol(category: string, name: string): symbol {
 		globalObject[globalRegistrySymbol] = {};
 	}
 	const symbolRegistry = globalObject[globalRegistrySymbol];
-	if (symbolRegistry[category][name]) {
+	if (symbolRegistry[category] && symbolRegistry[category][name]) {
 		return symbolRegistry[category][name];
 	} else {
 		if (!symbolRegistry[category]) {

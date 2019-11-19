@@ -12,12 +12,21 @@ export function registerGlobalLifecycle(object: IDisposable) {
 	globalSingletonStrong(symbol, create)._register(object);
 }
 
+export function ensureDisposeGlobal() {
+	const obj = globalSingletonStrong<AsyncDisposable>(symbol);
+	if (obj && !obj.hasDisposed) {
+		return Promise.resolve(obj.dispose());
+	} else {
+		return Promise.resolve();
+	}
+}
+
 export function disposeGlobal() {
 	const obj = globalSingletonStrong<AsyncDisposable>(symbol);
 	if (obj && obj.hasDisposed) {
 		throw new Error('global already disposed.');
 	} else if (obj) {
-		return obj.dispose();
+		return Promise.resolve(obj.dispose());
 	} else {
 		return Promise.resolve();
 	}
