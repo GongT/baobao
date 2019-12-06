@@ -18,17 +18,30 @@ export async function gitInit(cwd: string) {
 export async function gitChange(cwd: string) {
 	log('+ git status');
 	const { stdout: testOut } = await command('git status', { cwd, stdout: 'pipe', stderr: 'inherit' });
-	log(testOut.toString());
+	const statusOut = testOut.toString().trim();
+	log('-----\n%s\n-----', statusOut);
+	if (statusOut.includes('nothing to commit, working tree clean')) {
+		log('git say: not change.');
+		return [];
+	}
 
-	log('+ git clean -n -d');
-	const { stdout } = await command('git clean -n -d', { cwd, stdout: 'pipe', stderr: 'inherit' });
-	const lines = stdout.toString().trim().split(/\n/g).filter(i => i.trim());
-	log('-----------');
-	log(lines.join('\n'));
-	log('-----------');
-	log('%s lines of change', lines.length);
+	log('+ git add .');
+	await command('git add .', { cwd, stdout: 'ignore', stderr: 'inherit' });
+	log('+ git commit -m DetectChangedFiles');
+	await command('git commit -m DetectChangedFiles', { cwd, stdout: 'ignore', stderr: 'inherit' });
 
-	return lines.map((item) => {
+	log('+ git log --name-only -1');
+	const { stdout } = await command('git log --name-only -1', { cwd, stdout: 'pipe', stderr: 'inherit' });
+	const lines = stdout.toString().trim().split(/\n/g).map(i => i.trim()).filter(i => i.length > 0);
+	const titleLine = lines.indexOf('DetectChangedFiles');
+	if (titleLine === -1) {
+		throw new Error('Failed to run git add or commit.');
+	}
+	const files = lines.slice(titleLine + 1);
+	log('-----------\n%s\n-----------', files.join('\n'));
+	log('%s lines of change', files.length);
+
+	return files.map((item) => {
 		return item.replace('Would remove ', '');
 	});
 }

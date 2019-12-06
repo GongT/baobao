@@ -20,6 +20,7 @@
 	"dependencies": {
 		"@idlebox/node-helpers": "^1.0.4",
 		"@idlebox/node-json-edit": "^1.0.18",
+		"@idlebox/platform": "^1.0.9",
 		"command-exists": "^1.2.8",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",

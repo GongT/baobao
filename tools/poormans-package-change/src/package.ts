@@ -3,7 +3,7 @@ import { command } from 'execa';
 import { resolve } from 'path';
 import { PassThrough } from 'stream';
 import { getPackageManager } from './detectRegistry';
-import { log, logEnable } from './log';
+import { log, logEnable, logStream } from './log';
 
 export async function packCurrentVersion(cwd: string) {
 	const pm = await getPackageManager();
@@ -11,10 +11,11 @@ export async function packCurrentVersion(cwd: string) {
 	if (pm === 'yarn') {
 		cmd = pm + ' pack --json';
 		log('+ ' + cmd);
-		const r = command(cmd, { cwd, stdout: 'pipe', stderr: 'inherit' });
-		const p = (r.stdout as NodeJS.ReadableStream).pipe(new PassThrough());
+		const r = command(cmd, { cwd, stdout: 'pipe', stderr: 'pipe' });
+		const p = r.stdout!.pipe(new PassThrough());
 		const coll = new CollectingStream(p);
-		p.pipe(process.stderr);
+		logStream(p);
+		logStream(r.stderr!);
 		const output = await coll.promise();
 		const resultLine = /^{.*"type":"success".*}$/m.exec(output);
 		if (!resultLine) {
@@ -29,8 +30,11 @@ export async function packCurrentVersion(cwd: string) {
 
 		cmd = pm + ' pack';
 		log('+ ' + cmd);
-		const r = command(cmd, { cwd, stdout: 'pipe', stderr: 'inherit' });
-		const coll = new CollectingStream(r.stdout as NodeJS.ReadableStream);
+		const r = command(cmd, { cwd, stdout: 'pipe', stderr: 'pipe' });
+		const p = r.stdout!.pipe(new PassThrough());
+		const coll = new CollectingStream(p);
+		logStream(p);
+		logStream(r.stderr!);
 		const fname = await coll.promise();
 		return resolve(cwd, fname.trim());
 	}

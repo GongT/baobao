@@ -1,4 +1,5 @@
 import { exists, prettyPrintError } from '@idlebox/node-helpers';
+import { PlatformPathArray } from '@idlebox/platform';
 import { tmpdir } from 'os';
 import { basename, resolve } from 'path';
 import { decompressTargz } from './decompress';
@@ -34,6 +35,16 @@ function help() {
 	const packagePath = resolve(process.cwd(), getArg('--package', './'));
 	log('working at %s', packagePath);
 
+	const p = new PlatformPathArray('path');
+	p.append(resolve(packagePath, 'node_modules/.bin'));
+	process.env.LANG = 'C.UTF-8';
+	process.env.LANGUAGE = 'C.UTF-8';
+	for (const l in process.env) {
+		if (l.startsWith('LC_')) {
+			delete process.env[l];
+		}
+	}
+
 	const packageFile = resolve(packagePath, 'package.json');
 
 	if (!await exists(packageFile)) {
@@ -46,7 +57,8 @@ function help() {
 	const registry = await detectRegistry(getArg('--registry', 'detect'));
 
 	const result = await getVersionCached(packageJson.name, distTag, registry);
-	log('version = %s', result.version);
+	log('npm remote version = %s', result.version);
+	log('package.json local version = %s', packageJson.version);
 
 	if (!result.version || packageJson.version !== result.version) {
 		errorLog('local (%s) already !== remote (%s), no more change needed.', packageJson.version, result.version);
