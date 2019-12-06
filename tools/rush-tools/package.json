@@ -1,9 +1,14 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/rush-tools",
-	"version": "1.0.3",
+	"typings": "docs/package-public.d.ts",
+	"main": "lib/_export_all_in_one_index.js",
+	"version": "1.0.5",
 	"bin": {
 		"rush-tools": "./bin.js"
+	},
+	"exports": {
+		"./": "./private-path-not-exists"
 	},
 	"license": "MIT",
 	"scripts": {
@@ -16,18 +21,19 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/basic-helpers": "^1.0.5",
-		"@idlebox/node-helpers": "^1.0.3",
-		"@idlebox/node-json-edit": "^1.0.15",
-		"@idlebox/platform": "^1.0.8",
+		"@idlebox/basic-helpers": "^1.0.6",
+		"@idlebox/node-helpers": "^1.0.4",
+		"@idlebox/node-json-edit": "^1.0.18",
+		"@idlebox/platform": "^1.0.9",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
 		"pacote": "^9.5.8"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.8",
-		"@idlebox/single-dog": "^2.1.1",
-		"@idlebox/single-dog-asset": "^1.0.1",
+		"@idlebox/build-script": "^2.0.10",
+		"@idlebox/export-all-in-one": "^3.0.5",
+		"@idlebox/single-dog": "^2.1.2",
+		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.8",
 		"gulp": "^4.0.2",

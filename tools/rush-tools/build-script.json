@@ -1,4 +1,12 @@
 {
+	"load": [
+		{
+			"file": "@idlebox/export-all-in-one/build-script-register",
+			"args": [
+				"src/tsconfig.api.json"
+			]
+		}
+	],
 	"alias": {
 		"build-ts": [
 			"tsc",
@@ -38,10 +46,23 @@
 			"set."
 		],
 		"git-clean": [
-			"git", "clean", "-f", "-d", "-X",
-			"-e", "!node_modules", "-e", "!node_modules/**",
-			"-e", "!.idea", "-e", "!.idea/**",
-			"-e", "!.vscode", "-e", "!.vscode/**"
+			"git",
+			"clean",
+			"-f",
+			"-d",
+			"-X",
+			"-e",
+			"!node_modules",
+			"-e",
+			"!node_modules/**",
+			"-e",
+			"!.idea",
+			"-e",
+			"!.idea/**",
+			"-e",
+			"!.vscode",
+			"-e",
+			"!.vscode/**"
 		]
 	},
 	"command": {

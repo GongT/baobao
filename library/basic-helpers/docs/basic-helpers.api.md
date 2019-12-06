@@ -82,13 +82,12 @@ export class CustomSet<Type = string> {
     // (undocumented)
     has(item: Type): boolean;
     // (undocumented)
-    readonly length: number;
-    // (undocumented)
     protected registry: Type[];
     // (undocumented)
     remove(item: Type): boolean;
     // (undocumented)
     removeAll(items: Type[]): Type[];
+    get length(): number;
     // (undocumented)
     setFinder(finder: Finder<Type>): void;
     // (undocumented)

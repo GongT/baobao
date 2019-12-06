@@ -20,10 +20,10 @@
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
-		"@idlebox/basic-helpers": "^1.0.5",
-		"@idlebox/node-json-edit": "^1.0.15",
-		"@idlebox/platform": "^1.0.8",
-		"@idlebox/node-helpers": "^1.0.3",
+		"@idlebox/basic-helpers": "^1.0.6",
+		"@idlebox/node-json-edit": "^1.0.18",
+		"@idlebox/platform": "^1.0.9",
+		"@idlebox/node-helpers": "^1.0.4",
 		"execa": "^2.0.4",
 		"fancy-log": "*",
 		"fs-extra": "^8.1.0",
@@ -36,7 +36,7 @@
 		"gulp": "*"
 	},
 	"devDependencies": {
-		"@idlebox/single-dog-asset": "^1.0.1",
+		"@idlebox/single-dog-asset": "^1.0.2",
 		"@microsoft/api-extractor": "^7.4.1",
 		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^8.0.0",

@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/global",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"main": "lib/globalObject.js",
 	"typings": "lib/globalObject.d.ts",
 	"license": "MIT",
@@ -15,8 +15,8 @@
 		"watch": "build-script watch"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.8",
-		"@idlebox/single-dog-asset": "^1.0.1",
+		"@idlebox/build-script": "^2.0.10",
+		"@idlebox/single-dog-asset": "^1.0.2",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"
 	}

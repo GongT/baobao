@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node-json-edit",
 	"description": "Edit json file and preserve it's indent and line feed and final new line.",
-	"version": "1.0.16",
+	"version": "1.0.18",
 	"monorepo": true,
 	"main": "./lib/node-json-edit.js",
 	"typings": "./lib/node-json-edit.d.ts",
@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@types/comment-json": "^1.1.1",
-		"@idlebox/single-dog-asset": "^1.0.1",
+		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
 		"npm-check-updates": "^3.1.23",
 		"rimraf": "^3.0.0",

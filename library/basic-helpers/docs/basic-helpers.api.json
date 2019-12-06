@@ -949,32 +949,6 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#length:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly length: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "number"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "length",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
-            },
-            {
-              "kind": "Property",
               "canonicalReference": "@idlebox/basic-helpers!CustomSet#registry:member",
               "docComment": "",
               "excerptTokens": [

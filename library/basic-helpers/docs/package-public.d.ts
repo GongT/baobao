@@ -39,7 +39,7 @@ export declare class CustomSet<Type = string> {
     addAll(items: Type[]): Type[];
     remove(item: Type): boolean;
     removeAll(items: Type[]): Type[];
-    readonly length: number;
+    get length(): number;
     [Symbol.iterator](): Iterator<Type>;
     toArray(): Type[];
 }

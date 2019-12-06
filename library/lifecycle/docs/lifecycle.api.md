@@ -13,11 +13,10 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInterna
     // (undocumented)
     dispose(): Promise<void>;
     // (undocumented)
-    readonly hasDisposed: boolean;
-    // (undocumented)
     readonly onBeforeDispose: EventRegister<void>;
     // (undocumented)
     protected readonly _onBeforeDispose: Emitter<void>;
+    get hasDisposed(): boolean;
     // (undocumented)
     readonly onDisposeError: EventRegister<Error>;
     // (undocumented)
@@ -43,21 +42,18 @@ export class DeferredPromise<T, PT = any> {
     // (undocumented)
     complete(value: T): void;
     // (undocumented)
-    readonly completed: boolean;
-    // (undocumented)
     error(err: any): void;
     // (undocumented)
     notify(progress: PT): this;
     // (undocumented)
     readonly p: Promise<T> & IProgressHolder<T, PT>;
+    get completed(): boolean;
+    get resolved(): boolean;
+    get rejected(): boolean;
     // Warning: (ae-forgotten-export) The symbol "ProgressCallback" needs to be exported by the entry point _export_all_in_one_index.d.ts
     // 
     // (undocumented)
     progress(fn: ProgressCallback<PT>): void;
-    // (undocumented)
-    readonly rejected: boolean;
-    // (undocumented)
-    readonly resolved: boolean;
     // (undocumented)
     static wrap(prev: Promise<any>): DeferredPromise<unknown, any>;
 }
@@ -71,11 +67,10 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
     // (undocumented)
     dispose(): void;
     // (undocumented)
-    readonly hasDisposed: boolean;
-    // (undocumented)
     readonly onBeforeDispose: EventRegister<void>;
     // (undocumented)
     protected readonly _onBeforeDispose: Emitter<void>;
+    get hasDisposed(): boolean;
     // (undocumented)
     readonly onDisposeError: EventRegister<Error>;
     // (undocumented)
@@ -107,13 +102,17 @@ export class Emitter<T> implements IDisposable {
     dispose(): void;
     // (undocumented)
     fire(data: T): void;
+    get register(): EventRegister<T>;
     // (undocumented)
     fireNoError(data: T): void;
     // (undocumented)
     handle(callback: EventHandler<T>): IDisposable;
-    // (undocumented)
-    readonly register: EventRegister<T>;
 }
+
+// Warning: (ae-missing-release-tag) "ensureDisposeGlobal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function ensureDisposeGlobal(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "EventHandler" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 

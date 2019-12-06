@@ -1,11 +1,18 @@
 {
-	"extends": "../../single-dog/package/tsconfig.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"outDir": "../lib/api",
-		"rootDir": "./api",
+		"outDir": "../lib",
+		"rootDir": ".",
 		"typeRoots": [
 			"../node_modules/@types"
-		]
+		],
+		"declaration": false,
+		"declarationMap": false
 	},
-	"include": ["./api/**/*.ts"]
+	"include": [
+		"api/**/*.ts"
+	],
+	"exclude": [
+		"index.ts"
+	]
 }

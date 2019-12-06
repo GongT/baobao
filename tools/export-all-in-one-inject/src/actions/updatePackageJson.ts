@@ -1,6 +1,6 @@
 import { getPlugin, registerPlugin } from '@idlebox/build-script';
 import { getFormatInfo, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { getPackageManager } from '@idlebox/package-manager';
+import { getPackageManager } from '@idlebox/package-manager/lib/common/getPackageManager';
 import { lrelative } from '@idlebox/platform';
 import { dirname, resolve } from 'path';
 import { ModuleKind } from 'typescript';

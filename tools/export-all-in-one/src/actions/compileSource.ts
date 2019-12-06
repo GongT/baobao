@@ -42,7 +42,7 @@ async function writeDtsJson() {
 			stripInternal: true,
 			typeRoots: command.options.typeRoots,
 		},
-		exclude: ['_export_all_in_one_index.ts'],
+		exclude: [],
 		include: ['extracted-source/**/*.ts', 'extracted-source/**/*.json'],
 		files: [],
 	});

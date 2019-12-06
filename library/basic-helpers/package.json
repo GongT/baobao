@@ -21,9 +21,9 @@
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.8",
-		"@idlebox/export-all-in-one": "^3.0.4",
-		"@idlebox/single-dog-asset": "^1.0.1",
+		"@idlebox/build-script": "^2.0.10",
+		"@idlebox/export-all-in-one": "^3.0.5",
+		"@idlebox/single-dog-asset": "^1.0.2",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"
 	}

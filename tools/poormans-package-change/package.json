@@ -18,8 +18,8 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/node-helpers": "^1.0.3",
-		"@idlebox/node-json-edit": "^1.0.15",
+		"@idlebox/node-helpers": "^1.0.4",
+		"@idlebox/node-json-edit": "^1.0.18",
 		"command-exists": "^1.2.8",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
@@ -29,8 +29,8 @@
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.8",
-		"@idlebox/single-dog-asset": "^1.0.1",
+		"@idlebox/build-script": "^2.0.10",
+		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/command-exists": "^1.2.0",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.8",

@@ -1,7 +1,7 @@
 dependencies:
-  '@idlebox/basic-helpers': 1.0.5
-  '@idlebox/node-helpers': 1.0.3
-  '@idlebox/platform': 1.0.8
+  '@idlebox/basic-helpers': 1.0.6
+  '@idlebox/node-helpers': 1.0.4
+  '@idlebox/platform': 1.0.9
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': 7.4.1
   '@rush-temp/basic-helpers': 'file:projects/basic-helpers.tgz'
@@ -20,7 +20,6 @@ dependencies:
   '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
-  '@rush-temp/text-progress-bar': 'file:projects/text-progress-bar.tgz'
   '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz'
   '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz'
   '@types/command-exists': 1.2.0
@@ -74,12 +73,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qeiNDjwZR/UNsaWTu04wbH3vpD2KUx/Nz06jwiWICeLlucZa1LQ0uf8jw3uK77iV/PiD0HdrIcoxsgOsM12niw==
-  /@idlebox/basic-helpers/1.0.5:
+  /@idlebox/basic-helpers/1.0.6:
     dependencies:
-      source-map-support: 0.5.13
+      source-map-support: 0.5.16
     dev: false
     resolution:
-      integrity: sha512-OSYmj3Yzd+zmVdOJYwbAIZgxbIh4z9KfRCrxb0RYOoui9sKkcBqzREDfvB+/gvmjvT7qozLc+dIHBQDEi8TymA==
+      integrity: sha512-6rOgJCStJSDPSa+l++UC6MGkZU7lA8h0qbgH9GdjgXvw9Oc8WBCaRfbXXAHjyN4x/0OxzIRU7lgVTPlxfVxJeg==
   /@idlebox/build-script/1.0.2:
     dependencies:
       '@idlebox/node-json-edit': 1.0.12
@@ -149,20 +148,25 @@ packages:
       typescript: '>=3'
     resolution:
       integrity: sha512-zA/4AjODvwauvXWySqsav+eYMQ6LCL7zQklNped71LUdJ6gNs64Gpu4kga+uI4KVyEqLxYmP4G2h2fKUg1Kchg==
-  /@idlebox/lifecycle/1.0.0:
-    dependencies:
-      '@idlebox/errors': 1.0.3
+  /@idlebox/global/1.0.2:
     dev: false
     resolution:
-      integrity: sha512-Hxla9ZkcI9azvWdwc04Ht32nO7ChuzoqRPaS100vK2TDCAgloDDh3SptH7nQsIgpZmAqp3ZQdrIbDSExHWt1+g==
-  /@idlebox/node-helpers/1.0.3:
+      integrity: sha512-xxYZZF8wHiWnlJUzbwNwp1drsBSg23L2K4r8aCc/PlRZTGhcXEFbtKDOYSi+suzsmDxovQhOY1XhlgS61WROaQ==
+  /@idlebox/lifecycle/1.0.4:
     dependencies:
-      '@idlebox/basic-helpers': 1.0.3
-      '@idlebox/lifecycle': 1.0.0
-      source-map-support: 0.5.13
+      '@idlebox/basic-helpers': 1.0.6
+      '@idlebox/global': 1.0.2
     dev: false
     resolution:
-      integrity: sha512-ny/6YNVPsvjK2Uyjm70x3DHYtRwUzTlfB/zP74IOVcDd7Pgv3iHCSzd+44lQhVivD1tSszKOKo9vL7HQziKOCg==
+      integrity: sha512-76sotf/H//F050GqAj9fZSaoHFsXxBzvRhXbYXYRQacPMV6nNYOxSujoZw4+LctHjsp8fFBDnOBswHVAVvwGLg==
+  /@idlebox/node-helpers/1.0.4:
+    dependencies:
+      '@idlebox/basic-helpers': 1.0.6
+      '@idlebox/lifecycle': 1.0.4
+      source-map-support: 0.5.16
+    dev: false
+    resolution:
+      integrity: sha512-vbz00j8C6DOqZF7dx+xrhXz4RtTjR2jGmy0vgsaXAj/vQRl4H2svH5uoMiQRNf6peJhSo5DR0y+T3KJVPEtRMQ==
   /@idlebox/node-json-edit/1.0.12:
     dependencies:
       '@types/comment-json': 1.1.1
@@ -200,6 +204,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-XzFXYsXtNBTpWHTKFr2ZF43Dfy4LN/29DEcwhUs+z9Os6hVh2nLk6KgiQfQyyLV3XrFAtC4H3f2LzN1KfBt5UQ==
+  /@idlebox/platform/1.0.9:
+    dev: false
+    resolution:
+      integrity: sha512-dMfmq5KfZ9dq697qq/nyKBup9bFwjemhiWAIZF0GrajA6u1YFepVZxZP4ZFQtd+stJ5Zn55OfSkgHRMa8BDpSA==
   /@idlebox/rush-tools/1.0.0:
     dependencies:
       '@idlebox/node-json-edit': 1.0.12
@@ -1918,7 +1926,7 @@ packages:
   /each-props/1.3.2:
     dependencies:
       is-plain-object: 2.0.4
-      object.defaults: registry.npmjs.org/object.defaults/1.1.0
+      object.defaults: 1.1.0
     dev: false
     resolution:
       integrity: sha512-vV0Hem3zAGkJAyU7JSjixeU66rwdynTAa1vofCrSA5fEln+m67Az9CcnkVD776/fsN/UjIWmBDoNRS6t6G9RfA==
@@ -2336,8 +2344,8 @@ packages:
     dependencies:
       expand-tilde: 2.0.2
       is-plain-object: 2.0.4
-      object.defaults: registry.npmjs.org/object.defaults/1.1.0
-      object.pick: registry.npmjs.org/object.pick/1.3.0
+      object.defaults: 1.1.0
+      object.pick: 1.3.0
       parse-filepath: 1.0.2
     dev: false
     engines:
@@ -2466,6 +2474,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tH31NJPvkR33VzHnCp3tAYnbQMk=
+  /fs.realpath/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
   /fsevents/1.2.9:
     bundledDependencies:
       - node-pre-gyp
@@ -2596,7 +2608,7 @@ packages:
       chokidar: 2.1.6
       is-negated-glob: 1.0.0
       just-debounce: 1.0.0
-      object.defaults: registry.npmjs.org/object.defaults/1.1.0
+      object.defaults: 1.1.0
     dev: false
     engines:
       node: '>= 0.10'
@@ -2614,7 +2626,7 @@ packages:
       integrity: sha1-DwiGD2oVUSey+t1PnOJLGqtuTSI=
   /glob/7.1.4:
     dependencies:
-      fs.realpath: registry.npmjs.org/fs.realpath/1.0.0
+      fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
       minimatch: 3.0.4
@@ -3648,7 +3660,7 @@ packages:
       fined: 1.2.0
       flagged-respawn: 1.0.1
       is-plain-object: 2.0.4
-      object.map: registry.npmjs.org/object.map/1.0.1
+      object.map: 1.0.1
       rechoir: 0.6.2
       resolve: 1.11.1
     dev: false
@@ -3696,6 +3708,14 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==
+  /lodash.get/4.4.2:
+    dev: false
+    resolution:
+      integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
+  /lodash.isequal/4.5.0:
+    dev: false
+    resolution:
+      integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=
   /lodash/4.17.15:
     dev: false
     resolution:
@@ -3873,7 +3893,7 @@ packages:
       fragment-cache: 0.2.1
       kind-of: 6.0.2
       nanomatch: 1.2.13
-      object.pick: registry.npmjs.org/object.pick/1.3.0
+      object.pick: 1.3.0
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
@@ -4035,7 +4055,7 @@ packages:
       fragment-cache: 0.2.1
       is-windows: 1.0.2
       kind-of: 6.0.2
-      object.pick: registry.npmjs.org/object.pick/1.3.0
+      object.pick: 1.3.0
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
@@ -4219,7 +4239,7 @@ packages:
       pidtree: 0.3.0
       read-pkg: 3.0.0
       shell-quote: 1.6.1
-      string.prototype.padend: registry.npmjs.org/string.prototype.padend/3.0.0
+      string.prototype.padend: 3.0.0
     dev: false
     engines:
       node: '>= 4'
@@ -4297,6 +4317,54 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-95xEk68MU3e1n+OdOV5BBC3QRbs=
+  /object.assign/4.1.0:
+    dependencies:
+      define-properties: 1.1.3
+      function-bind: 1.1.1
+      has-symbols: 1.0.0
+      object-keys: 1.1.1
+    dev: false
+    engines:
+      node: '>= 0.4'
+    resolution:
+      integrity: sha512-exHJeq6kBKj58mqGyTQ9DFvrZC/eR6OwxzoM9YRoGBqrXYonaFyGiFMuc9VZrXf7DarreEwMpurG3dd+CNyW5w==
+  /object.defaults/1.1.0:
+    dependencies:
+      array-each: 1.0.1
+      array-slice: 1.1.0
+      for-own: 1.0.0
+      isobject: 3.0.1
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-On+GgzS0B96gbaFtiNXNKeQ1/s8=
+  /object.map/1.0.1:
+    dependencies:
+      for-own: 1.0.0
+      make-iterator: 1.0.1
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-z4Plncj8wK1fQlDh94s7gb2AHTc=
+  /object.pick/1.3.0:
+    dependencies:
+      isobject: 3.0.1
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-h6EKxMFpS9Lhy/U1kaZhQftd10c=
+  /object.reduce/1.0.1:
+    dependencies:
+      for-own: 1.0.0
+      make-iterator: 1.0.1
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-b+NI8qx/oPlcpiEiZZkJaCW7A60=
   /oclif/1.13.6:
     dependencies:
       '@oclif/command': 1.5.19
@@ -5438,6 +5506,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==
+  /source-map-support/0.5.16:
+    dependencies:
+      buffer-from: 1.1.1
+      source-map: 0.6.1
+    dev: false
+    resolution:
+      integrity: sha512-efyLRJDr68D9hBBNIPWFjhpFzURh+KJykQwvMyW5UiZzYwoF6l4YMMDIJJEyFWxWCqfyxLzz6tSfUFR+kXXsVQ==
   /source-map-url/0.4.0:
     dev: false
     resolution:
@@ -5594,6 +5669,16 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-vafcv6KjVZKSgz06oM/H6GDBrAtz8vdhQakGjFIvNrHA6y3HCF1CInLy+QLq8dTJPQ1b+KDUqDFctkdRW44e1w==
+  /string.prototype.padend/3.0.0:
+    dependencies:
+      define-properties: 1.1.3
+      es-abstract: 1.13.0
+      function-bind: 1.1.1
+    dev: false
+    engines:
+      node: '>= 0.4'
+    resolution:
+      integrity: sha1-86rvfBcZ8XDF6rHDK/eA2W4h8vA=
   /string_decoder/1.1.1:
     dependencies:
       safe-buffer: 5.1.2
@@ -5988,6 +6073,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
+  /typescript/3.7.2:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
   /unc-path-regex/0.1.2:
     dev: false
     engines:
@@ -6008,8 +6100,8 @@ packages:
       collection-map: 1.0.0
       es6-weak-map: 2.0.3
       last-run: 1.1.1
-      object.defaults: registry.npmjs.org/object.defaults/1.1.0
-      object.reduce: registry.npmjs.org/object.reduce/1.0.1
+      object.defaults: 1.1.0
+      object.reduce: 1.0.1
       undertaker-registry: 1.0.1
     dev: false
     engines:
@@ -6215,7 +6307,7 @@ packages:
       is-valid-glob: 1.0.0
       lazystream: 1.0.0
       lead: 1.0.0
-      object.assign: registry.npmjs.org/object.assign/4.1.0
+      object.assign: 4.1.0
       pumpify: 1.5.1
       readable-stream: 2.3.6
       remove-bom-buffer: 3.0.0
@@ -6451,8 +6543,8 @@ packages:
       integrity: sha512-avX6nz2esp7IMXGag4gu6OyQBsMh/SEn+ZybGu3yKPlOTE6z9qJrzG/0X5vCq/e0rPFy0CUYCze0G5hL310ibA==
   /z-schema/3.18.4:
     dependencies:
-      lodash.get: registry.npmjs.org/lodash.get/4.4.2
-      lodash.isequal: registry.npmjs.org/lodash.isequal/4.5.0
+      lodash.get: 4.4.2
+      lodash.isequal: 4.5.0
       validator: 8.2.0
     dev: false
     hasBin: true
@@ -6471,22 +6563,22 @@ packages:
       npm-run-all: 4.1.5
       rimraf: 3.0.0
       source-map-support: 0.5.13
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/basic-helpers'
     resolution:
-      integrity: sha512-zGm1TQimC1GbHXPKqnw2crWnAv62FDberjTISJ7r241n70+/0EWb/lBz9M+hf9FL6Rj5OSdNXc+xBxW25WE0oQ==
+      integrity: sha512-hQJ5GUTLTtv2Y1323oU0ed7TQow8ytr9/HRFh4OFPPauVCtcjsBeF5GnpQ3OPXTSfVrOIm/31Zna7mmkGLnoxQ==
       tarball: 'file:projects/basic-helpers.tgz'
     version: 0.0.0
   'file:projects/build-script.tgz':
     dependencies:
       '@gongt/single-dog': 2.0.7
-      '@idlebox/basic-helpers': 1.0.5
+      '@idlebox/basic-helpers': 1.0.6
       '@idlebox/errors': 1.0.3
-      '@idlebox/node-helpers': 1.0.3
+      '@idlebox/node-helpers': 1.0.4
       '@idlebox/node-json-edit': 1.0.15
       '@idlebox/package-manager': 1.0.0
-      '@idlebox/platform': 1.0.8
+      '@idlebox/platform': 1.0.9
       '@microsoft/api-extractor': 7.4.1
       '@types/fancy-log': 1.3.1
       '@types/fs-extra': 8.0.0
@@ -6503,11 +6595,11 @@ packages:
       rimraf: 3.0.0
       source-map-support: 0.5.13
       split2: 3.1.1
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/build-script'
     resolution:
-      integrity: sha512-Ykc7Aez5FUeptChiT3H1rmgyN+/Cm9kIXnxO6zBzBETR0nD7BjuOmrznGntL502NZEZiheNClp2QQuzfQaDsDw==
+      integrity: sha512-X1hyZLKM6AYD2IC9rAWp8DC1PJ87cIHVcI9gUEFa/NQvW0jwGbsJ9bZZvpz/Bi8fS/935YzBK62Z9Pr4ZyVikg==
       tarball: 'file:projects/build-script.tgz'
     version: 0.0.0
   'file:projects/ensure-symlink.tgz':
@@ -6528,11 +6620,11 @@ packages:
       fs-extra: 8.1.0
       gulp: 4.0.2
       source-map-support: 0.5.13
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/export-all-in-one-inject'
     resolution:
-      integrity: sha512-QaqwQ7bRVJZdSguWZcUHJvpoUp50RKML4onHLQL8qO4vfBVmvhopGr/3luFVa/SR4ynHTWpRKc0RdxAe7yLxtQ==
+      integrity: sha512-rqUFvYbIsPd/a04SuafjeYAmUIqNYlEDTDdCjoWuH3kp+bBml2XqZLnfU3hn3i5VF8w5ZWOOmV2+GPHJvGfBaQ==
       tarball: 'file:projects/export-all-in-one-inject.tgz'
     version: 0.0.0
   'file:projects/export-all-in-one.tgz':
@@ -6553,22 +6645,22 @@ packages:
       rimraf: 3.0.0
       source-map-support: 0.5.13
       tsconfig-paths: 3.8.0
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/export-all-in-one'
     resolution:
-      integrity: sha512-HUolyGWEVC/O//1G/mNlqf1IJG1YE5ttKXvlTX9aC3jETvA+CXOAhWOnNDmCTxTd1bIO1xlka0W7GroTlbehNw==
+      integrity: sha512-YB/7qwM0VUphS+RE/R40TfgFlKKnVDzaXs6AIG4pl2TeDp7K0r4oczN3EpUrXD7amNF7upFPtCv1deEzSDxeZQ==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
   'file:projects/global.tgz':
     dependencies:
       '@types/node': 12.7.8
       gulp: 4.0.2
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/global'
     resolution:
-      integrity: sha512-AfD2bgUPZKKuyy3bhMmd5IX9MVyOxn4QRFy2e9J6VX5sge7m9f0l0Pr5Kgg6U5PiNzsUQAeMSwgzpg0AJzoPag==
+      integrity: sha512-CpxX5bXYBj2HIkPmpoTOORi5o7HFG++a7ZNs6FJvEBfkVp3EvRq6hHEiC9fUYBpRykBijzPi/Q6fi3cEevOJgg==
       tarball: 'file:projects/global.tgz'
     version: 0.0.0
   'file:projects/lifecycle.tgz':
@@ -6579,11 +6671,11 @@ packages:
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
       rimraf: 3.0.0
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/lifecycle'
     resolution:
-      integrity: sha512-Z2/L0CT0tR7TRXERCFRTI/Fs4bukQzfiPO8uY9M5Ll/bn0hWv9E2K5fKv6n+IVfKTcjHR+UY3f/HS8oU+V/cXA==
+      integrity: sha512-yyvczklFauIPJUTm0rbKvnOsCZUv/n/s1W8irwA3MyIy2O3TwhPz0Gw7uALDEgQieaq7tKZA+8iw2fAO9VLOHA==
       tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
   'file:projects/node-helpers.tgz':
@@ -6591,11 +6683,11 @@ packages:
       '@types/node': 12.7.8
       gulp: 4.0.2
       source-map-support: 0.5.13
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/node-helpers'
     resolution:
-      integrity: sha512-2VwB/K78WDyIkA1rY8S5g01u2dap6XERyCXqrzBU0jMSR6Wqo8fTKLeWFprcgeKOw3gAZOIk1ExZgg9ztrPEgA==
+      integrity: sha512-7Ki/2cQZJFgKc+WQC1IecA+sA9gedlxqMQ4HvEuGkpNxbshxhaUivEYubYsmFBkYxr9uJPbgE9ETzxPW8YvEtg==
       tarball: 'file:projects/node-helpers.tgz'
     version: 0.0.0
   'file:projects/node-json-edit.tgz':
@@ -6606,11 +6698,11 @@ packages:
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
       rimraf: 3.0.0
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/node-json-edit'
     resolution:
-      integrity: sha512-js6iFdyvB7cHt2bo3XT1bEVwxdaKcABcekVlaUUelQNWPEpIyGESBsluysK2V/7hP0m9l8NRNrCWDDrhqOUAPw==
+      integrity: sha512-XnoPGn5HyTJWPjQT27XTz3VKkrzGllytrQTL8VhKZ8h6l5FK2aHwKVgSI39gtknk0/dUKLiF3mIAYz7PeY32/A==
       tarball: 'file:projects/node-json-edit.tgz'
     version: 0.0.0
   'file:projects/package-manager.tgz':
@@ -6628,13 +6720,14 @@ packages:
       json5: 2.1.0
       npm-check-updates: 3.1.23
       oclif: 1.13.6
+      pacote: 9.5.8
       rimraf: 3.0.0
       source-map-support: 0.5.13
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/package-manager'
     resolution:
-      integrity: sha512-pMnDShnud8afd1FQuVwp8U/PL7lLIOXDMHUfmnoAfVFISIaziclbLXYo6PurudWAG0tF9fp16O0HTnXswOIEvg==
+      integrity: sha512-WVNoYbNl1cDjuYrhpP8/E39VzWPEC12vGm45AwJo1d9bzubI3D51ptEN2wEFrAb9IwbVayVGymGvh5hwy7icRQ==
       tarball: 'file:projects/package-manager.tgz'
     version: 0.0.0
   'file:projects/platform.tgz':
@@ -6645,11 +6738,11 @@ packages:
       npm-check-updates: 3.1.23
       rimraf: 3.0.0
       source-map-support: 0.5.13
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/platform'
     resolution:
-      integrity: sha512-mIXlQ+VExErNFcqZ4adsqcrI5uteZwYrjPRFI2or2kuMTWDndnx0jo9DwP3d/GxEIqhVXbh9TKvmlDs2jCuq+Q==
+      integrity: sha512-EonsVQPbvjgYIjksprhhzYQiXKqCfupVHAFV7Ld2w8HQRYpzPpytEOirYgQ0K5Oq8+C1QCmCPyUIPR6E/mU5aA==
       tarball: 'file:projects/platform.tgz'
     version: 0.0.0
   'file:projects/poormans-package-change.tgz':
@@ -6666,12 +6759,13 @@ packages:
       gulp: 4.0.2
       request: 2.88.0
       semver: 6.3.0
+      source-map-support: 0.5.13
       targz: 1.0.1
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/poormans-package-change'
     resolution:
-      integrity: sha512-A+fW1YRK6b//fo+sfwlLX5AvBWXAm+okhe/JlhVZ13vo/O0djEJV8MkwGRJ8aFeq8cOdCOg03drZrN/Mwmctfg==
+      integrity: sha512-lsPcdnt12PQbdy9jbgbWkEN7+Cae7pD8moROYcn711F1CVL7zP5mfzQ056i+82/pElITVzupSkS4pEUO/MJtaA==
       tarball: 'file:projects/poormans-package-change.tgz'
     version: 0.0.0
   'file:projects/reflect.tgz':
@@ -6682,11 +6776,11 @@ packages:
       npm-check-updates: 3.1.23
       npm-run-all: 4.1.5
       rimraf: 3.0.0
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/reflect'
     resolution:
-      integrity: sha512-K9F9tNflOKeoSWXB/YjwT0EG4Erl+xySv5K0lH/QfReRxAhcLtJVeH3bY2AGZzSN373XAnlLwb0dwmSbQC7tmw==
+      integrity: sha512-v6VjA1h6SWHq5HymGqZaypTt1QSw2fMCYJD6VT/TJp7hnuJfTIhBHe333vQn04hrKNlOrvcZLKOa+IO7mMHyqQ==
       tarball: 'file:projects/reflect.tgz'
     version: 0.0.0
   'file:projects/rush-tools.tgz':
@@ -6700,11 +6794,11 @@ packages:
       pacote: 9.5.8
       rimraf: 3.0.0
       source-map-support: 0.5.13
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/rush-tools'
     resolution:
-      integrity: sha512-QiB1QtFb5B6bHYaJC3tdJ3j8ZVqePqrv4k0RLpx71v8FvGnhSSYm2VnSXxNFIZqZQRURz6Vtms/sHiRjVrS7AQ==
+      integrity: sha512-8r2eTWux+hj4DXh3yhPkEq2IoIyPSnq2HMF+vfARgmnEQz8usXm9ht8VzoxkmIfEBkHDcwIBbpxC6H1JKh9i4g==
       tarball: 'file:projects/rush-tools.tgz'
     version: 0.0.0
   'file:projects/single-dog-asset.tgz':
@@ -6726,44 +6820,33 @@ packages:
       pacote: 9.5.8
       rimraf: 3.0.0
       source-map-support: 0.5.13
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/single-dog'
     resolution:
-      integrity: sha512-V5yAfp/AGgKnFu4GFc7Up6si0zYv2mEPWCtGv0fG4FNap1eE1spInrhSR4qyPIxifsuYYJ/E4AHi1GD8cwG5kw==
+      integrity: sha512-2TmDcBXIpxAOXQvcctnNSegdK8q7mwZ8YRVy3gLF8e+D17lQTCFczyfG9XQ2ukha/dM7vdn9S/wKqru5vVAaUA==
       tarball: 'file:projects/single-dog.tgz'
-    version: 0.0.0
-  'file:projects/text-progress-bar.tgz':
-    dependencies:
-      '@types/node': 12.7.8
-      gulp: 4.0.2
-      typescript: 3.6.3
-    dev: false
-    name: '@rush-temp/text-progress-bar'
-    resolution:
-      integrity: sha512-IJbefSjqiMPxgkXN19LQhse2Jh4+1K6WBFqSz9acvTNNnhQowJjA+oV3RnwpbjSymjZ3Lye7Z8qzl+Zicr5V0Q==
-      tarball: 'file:projects/text-progress-bar.tgz'
     version: 0.0.0
   'file:projects/web-helper-angular.tgz':
     dependencies:
       '@types/node': 12.7.8
       gulp: 4.0.2
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/web-helper-angular'
     resolution:
-      integrity: sha512-aT5XVE1cQ+MAKwclCRd1dcsteZ7M0WOrsXBA85PCD5hdxZvlYzgrUTQV+4ts9zwkoZg1ng4J2VkEapZUaCgiEQ==
+      integrity: sha512-PoultbF42s125MhZfMX9bsZB121JLDeyboRhgEUCEA33n9eFNm1tMNATYYbt5llSDsHVZ9Wu3RNcTAYZGk7ymw==
       tarball: 'file:projects/web-helper-angular.tgz'
     version: 0.0.0
   'file:projects/web-helper-express.tgz':
     dependencies:
       '@types/node': 12.7.8
       gulp: 4.0.2
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     name: '@rush-temp/web-helper-express'
     resolution:
-      integrity: sha512-vU9apR/TP1fKiPrSveCd/G2FqEGRIaAOsYp6ZlKWRWer7psgxZxN4v27EzEQ94hZlKecEgBjTSMQfaUEbGezUw==
+      integrity: sha512-upIJiiA0+6oHwAzZnHQZzJPIdKdW7/ob+rtgHy+w/ENfphA4bHanw7H5+WhkMlamW4+KTU8n5HLjkQJgv2i9Ew==
       tarball: 'file:projects/web-helper-express.tgz'
     version: 0.0.0
   registry.npmjs.org/@nodelib/fs.stat/1.1.3:
@@ -6776,14 +6859,6 @@ packages:
       registry: 'https://mirror.service.gongt.me:59443/npm/'
       tarball: 'https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz'
     version: 1.1.3
-  registry.npmjs.org/fs.realpath/1.0.0:
-    dev: false
-    name: fs.realpath
-    resolution:
-      integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz'
-    version: 1.0.0
   registry.npmjs.org/lodash._reinterpolate/3.0.0:
     dev: false
     name: lodash._reinterpolate
@@ -6792,22 +6867,6 @@ packages:
       registry: 'https://mirror.service.gongt.me:59443/npm/'
       tarball: 'https://registry.npmjs.org/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz'
     version: 3.0.0
-  registry.npmjs.org/lodash.get/4.4.2:
-    dev: false
-    name: lodash.get
-    resolution:
-      integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz'
-    version: 4.4.2
-  registry.npmjs.org/lodash.isequal/4.5.0:
-    dev: false
-    name: lodash.isequal
-    resolution:
-      integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz'
-    version: 4.5.0
   registry.npmjs.org/lodash.template/4.5.0:
     dependencies:
       lodash._reinterpolate: registry.npmjs.org/lodash._reinterpolate/3.0.0
@@ -6829,93 +6888,11 @@ packages:
       registry: 'https://mirror.service.gongt.me:59443/npm/'
       tarball: 'https://registry.npmjs.org/lodash.templatesettings/-/lodash.templatesettings-4.2.0.tgz'
     version: 4.2.0
-  registry.npmjs.org/object.assign/4.1.0:
-    dependencies:
-      define-properties: 1.1.3
-      function-bind: 1.1.1
-      has-symbols: 1.0.0
-      object-keys: 1.1.1
-    dev: false
-    engines:
-      node: '>= 0.4'
-    name: object.assign
-    resolution:
-      integrity: sha512-exHJeq6kBKj58mqGyTQ9DFvrZC/eR6OwxzoM9YRoGBqrXYonaFyGiFMuc9VZrXf7DarreEwMpurG3dd+CNyW5w==
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/object.assign/-/object.assign-4.1.0.tgz'
-    version: 4.1.0
-  registry.npmjs.org/object.defaults/1.1.0:
-    dependencies:
-      array-each: 1.0.1
-      array-slice: 1.1.0
-      for-own: 1.0.0
-      isobject: 3.0.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    name: object.defaults
-    resolution:
-      integrity: sha1-On+GgzS0B96gbaFtiNXNKeQ1/s8=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/object.defaults/-/object.defaults-1.1.0.tgz'
-    version: 1.1.0
-  registry.npmjs.org/object.map/1.0.1:
-    dependencies:
-      for-own: 1.0.0
-      make-iterator: 1.0.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    name: object.map
-    resolution:
-      integrity: sha1-z4Plncj8wK1fQlDh94s7gb2AHTc=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/object.map/-/object.map-1.0.1.tgz'
-    version: 1.0.1
-  registry.npmjs.org/object.pick/1.3.0:
-    dependencies:
-      isobject: 3.0.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    name: object.pick
-    resolution:
-      integrity: sha1-h6EKxMFpS9Lhy/U1kaZhQftd10c=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/object.pick/-/object.pick-1.3.0.tgz'
-    version: 1.3.0
-  registry.npmjs.org/object.reduce/1.0.1:
-    dependencies:
-      for-own: 1.0.0
-      make-iterator: 1.0.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    name: object.reduce
-    resolution:
-      integrity: sha1-b+NI8qx/oPlcpiEiZZkJaCW7A60=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/object.reduce/-/object.reduce-1.0.1.tgz'
-    version: 1.0.1
-  registry.npmjs.org/string.prototype.padend/3.0.0:
-    dependencies:
-      define-properties: 1.1.3
-      es-abstract: 1.13.0
-      function-bind: 1.1.1
-    dev: false
-    engines:
-      node: '>= 0.4'
-    name: string.prototype.padend
-    resolution:
-      integrity: sha1-86rvfBcZ8XDF6rHDK/eA2W4h8vA=
-      registry: 'https://mirror.service.gongt.me:59443/npm/'
-      tarball: 'https://registry.npmjs.org/string.prototype.padend/-/string.prototype.padend-3.0.0.tgz'
-    version: 3.0.0
 registry: ''
 specifiers:
-  '@idlebox/basic-helpers': ^1.0.5
-  '@idlebox/node-helpers': ^1.0.3
-  '@idlebox/platform': ^1.0.8
+  '@idlebox/basic-helpers': ^1.0.6
+  '@idlebox/node-helpers': ^1.0.4
+  '@idlebox/platform': ^1.0.9
   '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': ^7.4.1
   '@rush-temp/basic-helpers': 'file:./projects/basic-helpers.tgz'
@@ -6934,7 +6911,6 @@ specifiers:
   '@rush-temp/rush-tools': 'file:./projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
-  '@rush-temp/text-progress-bar': 'file:./projects/text-progress-bar.tgz'
   '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
   '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
   '@types/command-exists': ^1.2.0

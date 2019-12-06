@@ -274,32 +274,6 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@idlebox/lifecycle!AsyncDisposable#hasDisposed:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly hasDisposed: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "hasDisposed",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
-            },
-            {
-              "kind": "Property",
               "canonicalReference": "@idlebox/lifecycle!AsyncDisposable#onBeforeDispose:member",
               "docComment": "",
               "excerptTokens": [
@@ -556,32 +530,6 @@
               "name": "complete"
             },
             {
-              "kind": "Property",
-              "canonicalReference": "@idlebox/lifecycle!DeferredPromise#completed:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly completed: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "completed",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
-            },
-            {
               "kind": "Method",
               "canonicalReference": "@idlebox/lifecycle!DeferredPromise#error:member(1)",
               "docComment": "",
@@ -757,58 +705,6 @@
                 }
               ],
               "name": "progress"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "@idlebox/lifecycle!DeferredPromise#rejected:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly rejected: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "rejected",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "@idlebox/lifecycle!DeferredPromise#resolved:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly resolved: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "resolved",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
             },
             {
               "kind": "Method",
@@ -1118,32 +1014,6 @@
               "overloadIndex": 1,
               "parameters": [],
               "name": "dispose"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "@idlebox/lifecycle!Disposable#hasDisposed:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly hasDisposed: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "hasDisposed",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
             },
             {
               "kind": "Property",
@@ -1549,37 +1419,6 @@
                 }
               ],
               "name": "handle"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "@idlebox/lifecycle!Emitter#register:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly register: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "EventRegister",
-                  "canonicalReference": "@idlebox/lifecycle!EventRegister:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<T>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "register",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 3
-              },
-              "isStatic": false
             }
           ],
           "implementsTokenRanges": [
@@ -1588,6 +1427,38 @@
               "endIndex": 3
             }
           ]
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/lifecycle!ensureDisposeGlobal:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function ensureDisposeGlobal(): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [],
+          "name": "ensureDisposeGlobal"
         },
         {
           "kind": "Interface",

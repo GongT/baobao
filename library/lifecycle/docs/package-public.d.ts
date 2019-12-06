@@ -6,7 +6,7 @@ export declare class AsyncDisposable implements IAsyncDisposable, IDisposableBas
     protected readonly _onBeforeDispose: Emitter<void>;
     readonly onBeforeDispose: EventRegister<void>;
     private _disposed?;
-    readonly hasDisposed: boolean;
+    get hasDisposed(): boolean;
     protected assertNotDisposed(): void;
     protected _publicDispose(): boolean;
     _register<T extends IAsyncDisposable>(d: T): T;
@@ -30,9 +30,9 @@ export declare class DeferredPromise<T, PT = any> {
     constructor();
     notify(progress: PT): this;
     progress(fn: ProgressCallback<PT>): void;
-    readonly completed: boolean;
-    readonly resolved: boolean;
-    readonly rejected: boolean;
+    get completed(): boolean;
+    get resolved(): boolean;
+    get rejected(): boolean;
     complete(value: T): void;
     error(err: any): void;
     cancel(): void;
@@ -46,7 +46,7 @@ export declare class Disposable implements IDisposable, IDisposableBaseInternal 
     protected readonly _onBeforeDispose: Emitter<void>;
     readonly onBeforeDispose: EventRegister<void>;
     private _disposed?;
-    readonly hasDisposed: boolean;
+    get hasDisposed(): boolean;
     protected assertNotDisposed(): void;
     protected _publicDispose(): boolean;
     _register<T extends IDisposable>(d: T): T;
@@ -64,10 +64,12 @@ export declare class Emitter<T> implements IDisposable {
     constructor();
     fire(data: T): void;
     fireNoError(data: T): void;
-    readonly register: EventRegister<T>;
+    get register(): EventRegister<T>;
     handle(callback: EventHandler<T>): IDisposable;
     dispose(): void;
 }
+
+export declare function ensureDisposeGlobal(): Promise<void>;
 
 export declare interface EventHandler<T> {
     (data: T): void;

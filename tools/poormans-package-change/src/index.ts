@@ -50,8 +50,7 @@ function help() {
 
 	if (!result.version || packageJson.version !== result.version) {
 		errorLog('local (%s) already !== remote (%s), no more change needed.', packageJson.version, result.version);
-		process.exit(0);
-		return;
+		return process.exit(0);
 	}
 
 	const workingRoot = resolve(tmpdir(), 'poor-man-s-package-change/working');

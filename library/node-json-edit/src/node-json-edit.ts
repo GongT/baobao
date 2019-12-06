@@ -36,47 +36,51 @@ const realDefault: IFileInternalConfig = {
 };
 export const defaultJsonFormatConfig: IFileFormatConfig = realDefault;
 
-export function writeJsonFileBackForceSync(data: any): void {
+export function writeJsonFileBackForceSync(data: any) {
 	return _realWriteJsonFileSync(undefined, data, true);
 }
 
-export async function writeJsonFileBackForce(data: any): Promise<void> {
+export function writeJsonFileBackForce(data: any) {
 	return _realWriteJsonFile(undefined, data, true);
 }
 
-export function writeJsonFileBackSync(data: any): void {
+export function writeJsonFileBackSync(data: any) {
 	return _realWriteJsonFileSync(undefined, data, false);
 }
 
-export async function writeJsonFileBack(data: any): Promise<void> {
+export function writeJsonFileBack(data: any) {
 	return _realWriteJsonFile(undefined, data, false);
 }
 
-export function writeJsonFileSync(file: string, data: any): void {
+export function writeJsonFileSync(file: string, data: any) {
 	return _realWriteJsonFileSync(file, data, true);
 }
 
-export function writeJsonFile(file: string, data: any): Promise<void> {
+export function writeJsonFile(file: string, data: any) {
 	return _realWriteJsonFile(file, data, true);
 }
 
-export function writeJsonFileIfChangedSync(file: string, data: any, charset: string = realDefault.encoding): Promise<void> {
+function pathExistsSync(file: string) {
+	try {
+		accessSync(file);
+		return true;
+	} catch (e) {
+		return false;
+	}
+}
+
+export function writeJsonFileIfChangedSync(file: string, data: any, charset: string = realDefault.encoding) {
 	if (!_getFormatInfo(data)) {
-		let willLoad = true;
-		try {
-			accessSync(file);
-		} catch (e) {
-			willLoad = false;
-		}
+		const willLoad = pathExistsSync(file);
 		if (willLoad) {
 			const config = _getFormatInfo(loadJsonFileSync(file, charset))!;
 			attachFormatConfig(data, config);
 		}
 	}
-	return _realWriteJsonFile(file, data, false);
+	return _realWriteJsonFileSync(file, data, false);
 }
 
-export async function writeJsonFileIfChanged(file: string, data: any, charset: string = realDefault.encoding): Promise<void> {
+export async function writeJsonFileIfChanged(file: string, data: any, charset: string = realDefault.encoding) {
 	if (!_getFormatInfo(data) && await access(file).then(() => true, () => false)) {
 		const config = _getFormatInfo(await loadJsonFile(file, charset))!;
 		attachFormatConfig(data, config);
@@ -110,22 +114,24 @@ function _realWriteJsonFileE(config: IFileInternalConfig, text: string, file: st
 	config.originalPath = resolve(process.cwd(), file);
 }
 
-function _realWriteJsonFileSync(_file: string | undefined, data: any, force: boolean): void {
+function _realWriteJsonFileSync(_file: string | undefined, data: any, force: boolean) {
 	const [change, { config, file, text }] = _realWriteJsonFileP(_file, data, force);
 	if (!change) {
-		return;
+		return false;
 	}
 	writeFileSync(file, text, { encoding: config.encoding });
 	_realWriteJsonFileE(config, text, file);
+	return true;
 }
 
-async function _realWriteJsonFile(_file: string | undefined, data: any, force: boolean): Promise<void> {
+async function _realWriteJsonFile(_file: string | undefined, data: any, force: boolean): Promise<boolean> {
 	const [change, { config, file, text }] = _realWriteJsonFileP(_file, data, force);
 	if (!change) {
-		return;
+		return false;
 	}
 	await writeFile(file, text, { encoding: config.encoding });
 	_realWriteJsonFileE(config, text, file);
+	return true;
 }
 
 export async function loadJsonFileIfExists(file: string, defaultValue: any = {}, charset: string = realDefault.encoding!): Promise<any> {

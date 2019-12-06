@@ -46,3 +46,8 @@ export function toProjectPathAbsolute(projectFolder: string) {
 export function toProjectPathRelative(projectFolder: string) {
 	return lrelative(getCurrentRushRootPath(), projectFolder);
 }
+
+export function clearCache() {
+	config = null;
+	configPath = '';
+}

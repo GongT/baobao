@@ -7,3 +7,7 @@ package-deps.json
 *.log
 build-script.json
 src
+
+### export-all-in-one ###
+lib/*.d.ts
+lib/**/*.d.ts

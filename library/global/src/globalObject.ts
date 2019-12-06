@@ -26,7 +26,7 @@ function dontCreate(): any {
 export function globalSingletonStrong<T>(symbol: symbol, constructor: () => T): T;
 export function globalSingletonStrong<T>(symbol: symbol): T | undefined;
 export function globalSingletonStrong<T>(symbol: symbol, constructor: () => T = dontCreate): T {
-	if (globalObject[symbol]) {
+	if (!globalObject[symbol]) {
 		globalObject[symbol] = constructor();
 	}
 	return globalObject[symbol];

@@ -35,12 +35,12 @@
 		"preRushBuild": [
 			// "rush update"
 		],
-		"postRushBuild": []
+		"postRushBuild": [ ]
 	},
 	/**
 	 * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
 	 */
-	"variants": [],
+	"variants": [ ],
 	// "telemetryEnabled": false,
 	// "hotfixChangeEnabled": false,
 	"projects": [
@@ -127,11 +127,6 @@
 		{
 			"packageName": "@idlebox/global",
 			"projectFolder": "library/global",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/text-progress-bar",
-			"projectFolder": "fun/text-progress-bar",
 			"shouldPublish": true
 		},
 		{
