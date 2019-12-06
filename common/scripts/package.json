@@ -1,0 +1,13 @@
+{
+	"name": "meta-scripts",
+	"private": true,
+	"dependencies": {
+		"jsonc": "^2.0.0"
+	},
+	"scripts": {
+		"build": "echo no need to build",
+		"clean": "echo no need to clean",
+		"prepack": "echo no need to prepack",
+		"upgrade": "ncu --upgrade --packageFile ./package.json"
+	}
+}

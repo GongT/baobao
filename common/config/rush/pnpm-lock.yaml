@@ -11,6 +11,7 @@ dependencies:
   '@rush-temp/export-all-in-one-inject': 'file:projects/export-all-in-one-inject.tgz'
   '@rush-temp/global': 'file:projects/global.tgz'
   '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz'
+  '@rush-temp/meta-scripts': 'file:projects/meta-scripts.tgz'
   '@rush-temp/node-helpers': 'file:projects/node-helpers.tgz'
   '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz'
   '@rush-temp/package-manager': 'file:projects/package-manager.tgz'
@@ -39,6 +40,7 @@ dependencies:
   fancy-log: 1.3.3
   fs-extra: 8.1.0
   json5: 2.1.0
+  jsonc: 2.0.0
   npm-check-updates: 3.1.23
   npm-run-all: 4.1.5
   pacote: 9.5.8
@@ -131,7 +133,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-3xUCONEDE9ICrSlCV6SVf+bGYc4biPbPwVLWecpz+xExiGOWJNhEl3RRl845FNI6zg8aGtdB4I7hG+V8gS3rEA==
-  /@idlebox/export-all-in-one/3.0.4_typescript@3.6.3:
+  /@idlebox/export-all-in-one/3.0.4_typescript@3.7.2:
     dependencies:
       '@idlebox/ensure-symlink': 1.0.5
       '@idlebox/node-json-edit': 1.0.12
@@ -141,7 +143,7 @@ packages:
       fs-extra: 8.1.0
       source-map-support: 0.5.12
       tsconfig-paths: 3.8.0
-      typescript: 3.6.3
+      typescript: 3.7.2
     dev: false
     hasBin: true
     peerDependencies:
@@ -6556,7 +6558,7 @@ packages:
     dependencies:
       '@gongt/single-dog': 2.0.7
       '@idlebox/build-script': 1.0.2
-      '@idlebox/export-all-in-one': 3.0.4_typescript@3.6.3
+      '@idlebox/export-all-in-one': 3.0.4_typescript@3.7.2
       '@types/node': 12.7.8
       gulp: 4.0.2
       npm-check-updates: 3.1.23
@@ -6599,7 +6601,7 @@ packages:
     dev: false
     name: '@rush-temp/build-script'
     resolution:
-      integrity: sha512-X1hyZLKM6AYD2IC9rAWp8DC1PJ87cIHVcI9gUEFa/NQvW0jwGbsJ9bZZvpz/Bi8fS/935YzBK62Z9Pr4ZyVikg==
+      integrity: sha512-wW1aR2mkSuFym0U+3q0tuBfAgb8ol6t+xB2rGqIuEFfQz41MwJ65c8jhg0XXTuGfZYxz+IZHnKpJP9Aleel8eA==
       tarball: 'file:projects/build-script.tgz'
     version: 0.0.0
   'file:projects/ensure-symlink.tgz':
@@ -6624,7 +6626,7 @@ packages:
     dev: false
     name: '@rush-temp/export-all-in-one-inject'
     resolution:
-      integrity: sha512-rqUFvYbIsPd/a04SuafjeYAmUIqNYlEDTDdCjoWuH3kp+bBml2XqZLnfU3hn3i5VF8w5ZWOOmV2+GPHJvGfBaQ==
+      integrity: sha512-paCk+4JkQPp0dSZDcBZARG2/ktRjbRwKfvxf29yYcNvd4ty/CyU8aZInFPCtVN2Reyrar5+zpgfEpm6NeBZOsg==
       tarball: 'file:projects/export-all-in-one-inject.tgz'
     version: 0.0.0
   'file:projects/export-all-in-one.tgz':
@@ -6649,7 +6651,7 @@ packages:
     dev: false
     name: '@rush-temp/export-all-in-one'
     resolution:
-      integrity: sha512-YB/7qwM0VUphS+RE/R40TfgFlKKnVDzaXs6AIG4pl2TeDp7K0r4oczN3EpUrXD7amNF7upFPtCv1deEzSDxeZQ==
+      integrity: sha512-Mv5YxLi8olBEQpCn+k/yIJivLdLV8/nwgTm8N1f3Azlsm9PI1KQdK7iHEMB/E8KAt4myyeiVDxqwghJxkm3jQw==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
   'file:projects/global.tgz':
@@ -6675,8 +6677,17 @@ packages:
     dev: false
     name: '@rush-temp/lifecycle'
     resolution:
-      integrity: sha512-yyvczklFauIPJUTm0rbKvnOsCZUv/n/s1W8irwA3MyIy2O3TwhPz0Gw7uALDEgQieaq7tKZA+8iw2fAO9VLOHA==
+      integrity: sha512-9FOg20jaD1CGYXyzk150Dxp/03b5CwQ82MLGhaeCMcL2yRn3X1C6RsQP1FOgEyyI/+170wdQluY895v0+G4HKw==
       tarball: 'file:projects/lifecycle.tgz'
+    version: 0.0.0
+  'file:projects/meta-scripts.tgz':
+    dependencies:
+      jsonc: 2.0.0
+    dev: false
+    name: '@rush-temp/meta-scripts'
+    resolution:
+      integrity: sha512-pPtRigVqbDrg1F/Cai4a51Aluo25iAmR7v0Qxvc/n8EjsQdKU2cdDXBJPMF8R8bL9OxZ+qTBLMHCTPcYelndKg==
+      tarball: 'file:projects/meta-scripts.tgz'
     version: 0.0.0
   'file:projects/node-helpers.tgz':
     dependencies:
@@ -6727,7 +6738,7 @@ packages:
     dev: false
     name: '@rush-temp/package-manager'
     resolution:
-      integrity: sha512-WVNoYbNl1cDjuYrhpP8/E39VzWPEC12vGm45AwJo1d9bzubI3D51ptEN2wEFrAb9IwbVayVGymGvh5hwy7icRQ==
+      integrity: sha512-Lz7OoMYBvdS/QwF0U6RXjfEWWndb2KL4PaBagGnIBOYN1X8nnXhdcZ66Sbi+2KTOOj0wBZN64DvvjB4QMiZeHQ==
       tarball: 'file:projects/package-manager.tgz'
     version: 0.0.0
   'file:projects/platform.tgz':
@@ -6765,7 +6776,7 @@ packages:
     dev: false
     name: '@rush-temp/poormans-package-change'
     resolution:
-      integrity: sha512-lsPcdnt12PQbdy9jbgbWkEN7+Cae7pD8moROYcn711F1CVL7zP5mfzQ056i+82/pElITVzupSkS4pEUO/MJtaA==
+      integrity: sha512-89+mUPNIww+ZgI4kwwe3zwTFQl3UxXBtuInX1n1EQDH823AW6Mt4G6l6jjinzidhU+Fs+ZMlQeWHn01vSTJjBQ==
       tarball: 'file:projects/poormans-package-change.tgz'
     version: 0.0.0
   'file:projects/reflect.tgz':
@@ -6798,7 +6809,7 @@ packages:
     dev: false
     name: '@rush-temp/rush-tools'
     resolution:
-      integrity: sha512-8r2eTWux+hj4DXh3yhPkEq2IoIyPSnq2HMF+vfARgmnEQz8usXm9ht8VzoxkmIfEBkHDcwIBbpxC6H1JKh9i4g==
+      integrity: sha512-6B1xiCuchtJa7nVlbvjxJ3SVxU8pyy55+AG1TuB2tSCNl3UTRS2mDab50p6H+n7hRg5JWUao7JauyMOBK+sbMQ==
       tarball: 'file:projects/rush-tools.tgz'
     version: 0.0.0
   'file:projects/single-dog-asset.tgz':
@@ -6824,7 +6835,7 @@ packages:
     dev: false
     name: '@rush-temp/single-dog'
     resolution:
-      integrity: sha512-2TmDcBXIpxAOXQvcctnNSegdK8q7mwZ8YRVy3gLF8e+D17lQTCFczyfG9XQ2ukha/dM7vdn9S/wKqru5vVAaUA==
+      integrity: sha512-nm5V1rBrQwGjYOvlhWl80QqCZPgThv+UQF+Xnv9eV4qyc0qeyVovQFK5oB697oYLZU2RybpJwFu47HHt1+if3A==
       tarball: 'file:projects/single-dog.tgz'
     version: 0.0.0
   'file:projects/web-helper-angular.tgz':
@@ -6902,6 +6913,7 @@ specifiers:
   '@rush-temp/export-all-in-one-inject': 'file:./projects/export-all-in-one-inject.tgz'
   '@rush-temp/global': 'file:./projects/global.tgz'
   '@rush-temp/lifecycle': 'file:./projects/lifecycle.tgz'
+  '@rush-temp/meta-scripts': 'file:./projects/meta-scripts.tgz'
   '@rush-temp/node-helpers': 'file:./projects/node-helpers.tgz'
   '@rush-temp/node-json-edit': 'file:./projects/node-json-edit.tgz'
   '@rush-temp/package-manager': 'file:./projects/package-manager.tgz'
@@ -6930,6 +6942,7 @@ specifiers:
   fancy-log: '*'
   fs-extra: ^8.1.0
   json5: ^2.1.0
+  jsonc: ^2.0.0
   npm-check-updates: ^3.1.23
   npm-run-all: ^4.1.5
   pacote: ^9.5.8

@@ -35,12 +35,12 @@
 		"preRushBuild": [
 			// "rush update"
 		],
-		"postRushBuild": [ ]
+		"postRushBuild": []
 	},
 	/**
 	 * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
 	 */
-	"variants": [ ],
+	"variants": [],
 	// "telemetryEnabled": false,
 	// "hotfixChangeEnabled": false,
 	"projects": [
@@ -137,6 +137,11 @@
 		{
 			"packageName": "@idlebox/export-all-in-one-inject",
 			"projectFolder": "tools/export-all-in-one-inject",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "meta-scripts",
+			"projectFolder": "common/scripts",
 			"shouldPublish": true
 		}
 	]
