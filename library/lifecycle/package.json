@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/lifecycle",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"typings": "docs/package-public.d.ts",
 	"main": "lib/_export_all_in_one_index.js",
 	"exports": {

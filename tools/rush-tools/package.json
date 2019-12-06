@@ -3,7 +3,7 @@
 	"name": "@idlebox/rush-tools",
 	"typings": "docs/package-public.d.ts",
 	"main": "lib/_export_all_in_one_index.js",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"bin": {
 		"rush-tools": "./bin.js"
 	},

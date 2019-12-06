@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/platform",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.js",
 	"typings": "./docs/package-public.d.ts",

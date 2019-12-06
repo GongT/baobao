@@ -3,7 +3,7 @@
 	"name": "@idlebox/node-helpers",
 	"typings": "docs/package-public.d.ts",
 	"main": "./lib/_export_all_in_one_index.js",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"license": "MIT",
 	"scripts": {
 		"build": "build-script build",

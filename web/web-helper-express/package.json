@@ -2,7 +2,7 @@
 	"monorepo": "rush",
 	"name": "@idlebox/web-helper-express",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
