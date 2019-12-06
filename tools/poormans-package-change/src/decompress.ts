@@ -1,5 +1,6 @@
 import { decompress } from 'targz';
 import { log } from './log';
+import { unlinkSync } from 'fs-extra';
 
 export async function decompressTargz(src: string, dest: string) {
 	log('decompressing files:');
@@ -16,7 +17,12 @@ export async function decompressTargz(src: string, dest: string) {
 				},
 			},
 		}, (e) => {
-			e ? reject(e) : resolve();
+			if (e) {
+				unlinkSync(src)
+				reject(e);
+			} else {
+				resolve();
+			}
 		});
 	});
 	log('ok.');
