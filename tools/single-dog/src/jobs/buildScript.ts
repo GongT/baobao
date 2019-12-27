@@ -14,6 +14,6 @@ export async function runBuildScriptInit(fs: Filesystem, { libMode }: IRunMode) 
 	if (libMode) {
 		console.log('add ts-esm to build-script');
 		setProjectDir(CONTENT_ROOT);
-		await addBuildStep('ts-esm', ['tsc', '-p', 'src/'], ['tsc', '-w', '-p', 'src/']);
+		await addBuildStep('ts-esm', ['tsc', '-p', 'src/tsconfig.esm.json'], ['tsc', '-w', '-p', 'src/tsconfig.esm.json']);
 	}
 }

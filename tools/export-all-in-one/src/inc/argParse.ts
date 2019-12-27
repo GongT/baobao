@@ -31,6 +31,13 @@ if (!packageJsonFile) {
 }
 export const PROJECT_ROOT = resolve(packageJsonFile, '..');
 
+interface IExtraPackageJsonConfig {
+	exportEverything: boolean;
+}
+export const exportConfig: IExtraPackageJsonConfig = require(packageJsonFile).apiExportOne || {
+	exportEverything: true,
+};
+
 function getTemp() {
 	if (process.env.RUSH_TEMP_FOLDER) {
 		return process.env.RUSH_TEMP_FOLDER;
@@ -39,11 +46,13 @@ function getTemp() {
 	}
 }
 
-export const EXPORT_TEMP_PATH = resolve(getTemp(), 'export-all-in-one-working.' + (Math.random() * 1000000).toFixed(0) + '.tmp');
+export const EXPORT_TEMP_PATH = resolve(
+	getTemp(),
+	'export-all-in-one-working.' + (Math.random() * 1000000).toFixed(0) + '.tmp'
+);
 export const DTS_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
 export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 
 export const IS_WINDOWS = platform() === 'win32';
 
 export const targetIndexFile = resolve(EXPORT_TEMP_PATH, 'extracted-source/_export_all_in_one_index.ts');
-

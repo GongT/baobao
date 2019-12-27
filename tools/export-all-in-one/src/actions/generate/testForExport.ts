@@ -1,5 +1,6 @@
 import { displayPartsToString, getJSDocTags, Node, TypeChecker } from 'typescript';
 import { idToString } from '../../inc/util';
+import { exportConfig } from '../../inc/argParse';
 
 export enum ExportType {
 	EXCLUDE_INTERNAL,
@@ -9,14 +10,14 @@ export enum ExportType {
 	INCLUDE_IMPLICIT,
 }
 
+const DefaultVisible = exportConfig.exportEverything ? ExportType.INCLUDE_IMPLICIT : ExportType.EXCLUDE_IMPLICIT;
+
 export function shouldIncludeNode(node: Node) {
 	const type = checkCommentType(node);
 	return type === ExportType.INCLUDE_EXTERNAL || type === ExportType.INCLUDE_IMPLICIT;
 }
 
-export function findMarkerComment() {
-
-}
+export function findMarkerComment() {}
 
 export function checkCommentType(node: Node): ExportType {
 	for (const item of getJSDocTags(node)) {
@@ -30,7 +31,7 @@ export function checkCommentType(node: Node): ExportType {
 			}
 		}
 	}
-	return ExportType.INCLUDE_IMPLICIT;
+	return DefaultVisible;
 }
 
 export function nodeComment(ret: string[], node: Node, checker: TypeChecker) {

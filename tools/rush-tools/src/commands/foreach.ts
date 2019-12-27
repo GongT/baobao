@@ -26,14 +26,16 @@ export default async function runForEach(argv: string[]) {
 		argv.unshift('ts-node');
 	}
 
-	console.error(process.env.PATH);
 	process.env.RUSH_ROOT = getCurrentRushRootPath();
 	for (const { projectFolder, packageName } of eachProject()) {
 		const absPath = toProjectPathAbsolute(projectFolder);
 		process.env.PROJECT_PATH = absPath;
 		process.env.PROJECT_NAME = packageName;
-		console.error('[rush-tool] +++ %s', argv.join(' '));
-		console.error('[rush-tool] > %s', absPath);
+
+		if (!quiet) {
+			console.error('[rush-tool] +++ %s', argv.join(' '));
+			console.error('[rush-tool] > %s', absPath);
+		}
 		const p = execa(argv[0], argv.slice(1), {
 			cwd: absPath,
 			// env.path
@@ -42,10 +44,8 @@ export default async function runForEach(argv: string[]) {
 
 		const stdout = p.stdout!.pipe(new PassThrough());
 		const stderr = p.stderr!.pipe(new PassThrough());
-		if (!quiet) {
-			stdout.pipe(process.stdout);
-			stderr.pipe(process.stderr);
-		}
+		stdout.pipe(process.stdout);
+		stderr.pipe(process.stderr);
 
 		const logger = createWriteStream(resolve(absPath, 'run.rush-tool.log'));
 		stdout.pipe(logger, { end: false });
