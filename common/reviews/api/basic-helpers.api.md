@@ -1,1 +1,1 @@
-../../../library/basic-helpers/docs/basic-helpers.api.md
+../../../@idlebox/basic-helpers/docs/basic-helpers.api.md

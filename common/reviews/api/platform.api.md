@@ -1,1 +1,1 @@
-../../../library/platform/docs/platform.api.md
+../../../@idlebox/platform/docs/platform.api.md

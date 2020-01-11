@@ -2,15 +2,4 @@ common/temp
 node_modules
 dist
 *.log
-yarn.lock
 package-deps.json
-
-.idea/*
-!.idea/*.iml
-!.idea/vcs.xml
-!.idea/modules.xml
-!.idea/codeStyles/
-!.idea/compiler.xml
-
-/projects
-/projects/*

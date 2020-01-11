@@ -21,8 +21,6 @@ dependencies:
   '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
-  '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz'
-  '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz'
   '@types/command-exists': 1.2.0
   '@types/comment-json': 1.1.1
   '@types/fancy-log': 1.3.1
@@ -6838,28 +6836,6 @@ packages:
       integrity: sha512-nm5V1rBrQwGjYOvlhWl80QqCZPgThv+UQF+Xnv9eV4qyc0qeyVovQFK5oB697oYLZU2RybpJwFu47HHt1+if3A==
       tarball: 'file:projects/single-dog.tgz'
     version: 0.0.0
-  'file:projects/web-helper-angular.tgz':
-    dependencies:
-      '@types/node': 12.7.8
-      gulp: 4.0.2
-      typescript: 3.7.2
-    dev: false
-    name: '@rush-temp/web-helper-angular'
-    resolution:
-      integrity: sha512-PoultbF42s125MhZfMX9bsZB121JLDeyboRhgEUCEA33n9eFNm1tMNATYYbt5llSDsHVZ9Wu3RNcTAYZGk7ymw==
-      tarball: 'file:projects/web-helper-angular.tgz'
-    version: 0.0.0
-  'file:projects/web-helper-express.tgz':
-    dependencies:
-      '@types/node': 12.7.8
-      gulp: 4.0.2
-      typescript: 3.7.2
-    dev: false
-    name: '@rush-temp/web-helper-express'
-    resolution:
-      integrity: sha512-upIJiiA0+6oHwAzZnHQZzJPIdKdW7/ob+rtgHy+w/ENfphA4bHanw7H5+WhkMlamW4+KTU8n5HLjkQJgv2i9Ew==
-      tarball: 'file:projects/web-helper-express.tgz'
-    version: 0.0.0
   registry.npmjs.org/@nodelib/fs.stat/1.1.3:
     dev: false
     engines:
@@ -6923,8 +6899,6 @@ specifiers:
   '@rush-temp/rush-tools': 'file:./projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
-  '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
-  '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
   '@types/command-exists': ^1.2.0
   '@types/comment-json': ^1.1.1
   '@types/fancy-log': ^1.3.1

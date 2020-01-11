@@ -1,1 +1,1 @@
-../../../tools/rush-tools/docs/rush-tools.api.md
+../../../@idlebox/rush-tools/docs/rush-tools.api.md

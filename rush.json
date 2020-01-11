@@ -10,7 +10,7 @@
 	},
 	"nodeSupportedVersionRange": ">=10.13.0",
 	"ensureConsistentVersions": true,
-	"projectFolderMinDepth": 1,
+	"projectFolderMinDepth": 2,
 	"projectFolderMaxDepth": 2,
 	"gitPolicy": {
 		// "allowedEmailRegExps": [
@@ -30,7 +30,6 @@
 			// "rm -rf common/temp/projects"
 		],
 		"postRushInstall": [
-			"node common/scripts/post-install.js"
 		],
 		"preRushBuild": [
 			// "rush update"
@@ -46,27 +45,27 @@
 	"projects": [
 		{
 			"packageName": "@idlebox/ensure-symlink",
-			"projectFolder": "library/ensure-symlink",
+			"projectFolder": "@idlebox/ensure-symlink",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/platform",
-			"projectFolder": "library/platform",
+			"projectFolder": "@idlebox/platform",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/single-dog",
-			"projectFolder": "tools/single-dog",
+			"projectFolder": "@idlebox/single-dog",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/single-dog-asset",
-			"projectFolder": "tools/single-dog-asset",
+			"projectFolder": "@idlebox/single-dog-asset",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/build-script",
-			"projectFolder": "tools/build-script",
+			"projectFolder": "@idlebox/build-script",
 			"shouldPublish": true,
 			"cyclicDependencyProjects": [
 				"@idlebox/platform",
@@ -76,67 +75,57 @@
 		},
 		{
 			"packageName": "@idlebox/package-manager",
-			"projectFolder": "tools/package-manager",
+			"projectFolder": "@idlebox/package-manager",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/lifecycle",
-			"projectFolder": "library/lifecycle",
+			"projectFolder": "@idlebox/lifecycle",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/reflect",
-			"projectFolder": "library/reflect",
+			"projectFolder": "@idlebox/reflect",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/basic-helpers",
-			"projectFolder": "library/basic-helpers",
+			"projectFolder": "@idlebox/basic-helpers",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/node-helpers",
-			"projectFolder": "library/node-helpers",
+			"projectFolder": "@idlebox/node-helpers",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/node-json-edit",
-			"projectFolder": "library/node-json-edit",
+			"projectFolder": "@idlebox/node-json-edit",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/export-all-in-one",
-			"projectFolder": "tools/export-all-in-one",
+			"projectFolder": "@idlebox/export-all-in-one",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/rush-tools",
-			"projectFolder": "tools/rush-tools",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/web-helper-angular",
-			"projectFolder": "web/web-helper-angular",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/web-helper-express",
-			"projectFolder": "web/web-helper-express",
+			"projectFolder": "@idlebox/rush-tools",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/global",
-			"projectFolder": "library/global",
+			"projectFolder": "@idlebox/global",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/poormans-package-change",
-			"projectFolder": "tools/poormans-package-change",
+			"projectFolder": "@idlebox/poormans-package-change",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/export-all-in-one-inject",
-			"projectFolder": "tools/export-all-in-one-inject",
+			"projectFolder": "@idlebox/export-all-in-one-inject",
 			"shouldPublish": true
 		},
 		{

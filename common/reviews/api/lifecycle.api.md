@@ -1,1 +1,1 @@
-../../../library/lifecycle/docs/lifecycle.api.md
+../../../@idlebox/lifecycle/docs/lifecycle.api.md
