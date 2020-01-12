@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 set -e
-[[ -e tools/rush-tools/lib ]] || {
-	echo "Not build, can not foreach"
+[[ -e @idlebox/rush-tools/lib ]] || {
+	echo "the '@idlebox/rush-tools' package not built, can not use foreach."
 	exit 1
 }
-./tools/rush-tools/bin.js foreach "$@"
+
+./@idlebox/rush-tools/bin.js foreach "$@"

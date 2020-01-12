@@ -3,12 +3,13 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "echo no need to build",
-		"clean": "echo no need to clean",
-		"prepack": "echo no need to prepack",
+		"build": "",
+		"clean": "",
+		"prepack": "",
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
+		"command-exists": "^1.2.8",
 		"fs-extra": "^8.1.0",
 		"jsonc": "^2.0.0"
 	},

@@ -23,7 +23,7 @@ export async function locateRootRelativeToProject(projectFile: string, singleDog
 		console.error('------------------');
 		console.error(`Can't resolve node path for file ${singleDogFile}.\n    From ${resolveFrom}.`);
 		console.error('------------------');
-		console.error(require.paths);
+		console.error((require as any).paths);
 		process.exit(1);
 	}
 	const resolveTo = require.resolve('@idlebox/single-dog-asset/package.json').replace(/package\.json$/, '') + singleDogFile;

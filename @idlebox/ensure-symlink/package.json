@@ -6,9 +6,9 @@
 	"typings": "index.d.ts",
 	"license": "MIT",
 	"scripts": {
-		"build": "echo no need to build",
-		"clean": "echo no need to clean",
-		"prepack": "echo no need to prepack",
+		"build": "",
+		"clean": "",
+		"prepack": "",
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"monorepo": true,

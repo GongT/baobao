@@ -5,8 +5,7 @@
 	"main": "index.js",
 	"license": "MIT",
 	"bin": {
-		"detect-package-change": "./bin/detect-package-change.js",
-		"run-if-version-mismatch": "./bin/run-if-version-mismatch.js"
+		"poormans-package-change": "./bin/load.js"
 	},
 	"scripts": {
 		"build": "build-script build",

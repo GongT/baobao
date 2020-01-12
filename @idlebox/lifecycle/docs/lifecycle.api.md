@@ -5,7 +5,7 @@
 ```ts
 
 // Warning: (ae-missing-release-tag) "AsyncDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInternal {
     // (undocumented)
@@ -13,10 +13,11 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInterna
     // (undocumented)
     dispose(): Promise<void>;
     // (undocumented)
+    get hasDisposed(): boolean;
+    // (undocumented)
     readonly onBeforeDispose: EventRegister<void>;
     // (undocumented)
     protected readonly _onBeforeDispose: Emitter<void>;
-    get hasDisposed(): boolean;
     // (undocumented)
     readonly onDisposeError: EventRegister<Error>;
     // (undocumented)
@@ -28,7 +29,7 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInterna
 }
 
 // Warning: (ae-missing-release-tag) "CanceledError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class CanceledError extends Error {
     constructor();
@@ -42,24 +43,27 @@ export class DeferredPromise<T, PT = any> {
     // (undocumented)
     complete(value: T): void;
     // (undocumented)
+    get completed(): boolean;
+    // (undocumented)
     error(err: any): void;
     // (undocumented)
     notify(progress: PT): this;
     // (undocumented)
     readonly p: Promise<T> & IProgressHolder<T, PT>;
-    get completed(): boolean;
-    get resolved(): boolean;
-    get rejected(): boolean;
     // Warning: (ae-forgotten-export) The symbol "ProgressCallback" needs to be exported by the entry point _export_all_in_one_index.d.ts
-    // 
+    //
     // (undocumented)
     progress(fn: ProgressCallback<PT>): void;
+    // (undocumented)
+    get rejected(): boolean;
+    // (undocumented)
+    get resolved(): boolean;
     // (undocumented)
     static wrap(prev: Promise<any>): DeferredPromise<unknown, any>;
 }
 
 // Warning: (ae-missing-release-tag) "Disposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class Disposable implements IDisposable, IDisposableBaseInternal {
     // (undocumented)
@@ -67,10 +71,11 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
     // (undocumented)
     dispose(): void;
     // (undocumented)
+    get hasDisposed(): boolean;
+    // (undocumented)
     readonly onBeforeDispose: EventRegister<void>;
     // (undocumented)
     protected readonly _onBeforeDispose: Emitter<void>;
-    get hasDisposed(): boolean;
     // (undocumented)
     readonly onDisposeError: EventRegister<Error>;
     // (undocumented)
@@ -82,19 +87,19 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
 }
 
 // Warning: (ae-missing-release-tag) "DisposedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class DisposedError extends Error {
     constructor(object: any, previous: Error);
 }
 
 // Warning: (ae-missing-release-tag) "disposeGlobal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function disposeGlobal(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "Emitter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class Emitter<T> implements IDisposable {
     constructor();
@@ -102,20 +107,21 @@ export class Emitter<T> implements IDisposable {
     dispose(): void;
     // (undocumented)
     fire(data: T): void;
-    get register(): EventRegister<T>;
     // (undocumented)
     fireNoError(data: T): void;
     // (undocumented)
     handle(callback: EventHandler<T>): IDisposable;
+    // (undocumented)
+    get register(): EventRegister<T>;
 }
 
 // Warning: (ae-missing-release-tag) "ensureDisposeGlobal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function ensureDisposeGlobal(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "EventHandler" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export interface EventHandler<T> {
     // (undocumented)
@@ -123,7 +129,7 @@ export interface EventHandler<T> {
 }
 
 // Warning: (ae-missing-release-tag) "EventRegister" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export interface EventRegister<T> {
     // (undocumented)
@@ -131,7 +137,7 @@ export interface EventRegister<T> {
 }
 
 // Warning: (ae-missing-release-tag) "IAsyncDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export interface IAsyncDisposable {
     // (undocumented)
@@ -139,7 +145,7 @@ export interface IAsyncDisposable {
 }
 
 // Warning: (ae-missing-release-tag) "IDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export interface IDisposable {
     // (undocumented)
@@ -147,7 +153,7 @@ export interface IDisposable {
 }
 
 // Warning: (ae-missing-release-tag) "IDisposableBaseInternal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export interface IDisposableBaseInternal {
     // (undocumented)
@@ -159,7 +165,7 @@ export interface IDisposableBaseInternal {
 }
 
 // Warning: (ae-missing-release-tag) "IProgressHolder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export interface IProgressHolder<T, PT> {
     // (undocumented)
@@ -167,22 +173,22 @@ export interface IProgressHolder<T, PT> {
 }
 
 // Warning: (ae-missing-release-tag) "isCanceledError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function isCanceledError(error: any): boolean;
 
 // Warning: (ae-missing-release-tag) "isDisposedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function isDisposedError(error: any): boolean;
 
 // Warning: (ae-missing-release-tag) "isTimeoutError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function isTimeoutError(error: Error): error is TimeoutError;
 
 // Warning: (ae-missing-release-tag) "LifecycleObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export abstract class LifecycleObject extends AsyncDisposable {
     // (undocumented)
@@ -191,29 +197,29 @@ export abstract class LifecycleObject extends AsyncDisposable {
 }
 
 // Warning: (ae-missing-release-tag) "registerGlobalLifecycle" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function registerGlobalLifecycle(object: IDisposable): void;
 
 // Warning: (ae-missing-release-tag) "sleep" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function sleep(ms: number): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "timeout" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function timeout(ms: number, error?: string): Promise<never>;
 
 // Warning: (ae-missing-release-tag) "TimeoutError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class TimeoutError extends Error {
     constructor(time: number, what?: string);
 }
 
 // Warning: (ae-missing-release-tag) "toDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function toDisposable(fn: () => void): IDisposable;
 

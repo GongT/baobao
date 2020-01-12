@@ -2,7 +2,29 @@
 	/* Doc: https://rushjs.io/pages/configs/command_line_json/ */
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
 	"commands": [
+		{
+			"commandKind": "global",
+			"name": "check-version",
+			"summary": "Check and update every project's dependency versions",
+			"safeForSimultaneousRushProcesses": true,
+			"shellCommand": "node @idlebox/rush-tools/bin.js autofix"
+		},
+		{
+			"commandKind": "global",
+			"name": "watch",
+			"summary": "Run watch in every project",
+			"safeForSimultaneousRushProcesses": true,
+			"shellCommand": "node --experimental-modules common/scripts/watch-all.js"
+		}
 	],
 	"parameters": [
+		{
+			"parameterKind": "flag",
+			"longName": "--no-systemd",
+			"description": "Do not using systemd-run to create standalone run environment",
+			"associatedCommands": [
+				"watch"
+			]
+		}
 	]
 }

@@ -1,13 +1,12 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.12.1",
-	"pnpmVersion": "3.8.1",
+	"rushVersion": "5.18.0",
+	"pnpmVersion": "4.7.1",
 	// "npmVersion": "4.5.0",
 	// "yarnVersion": "1.16.0",
 	"pnpmOptions": {
 		"strictPeerDependencies": false,
-		"resolutionStrategy": "fewer-dependencies",
-		"pnpmStore": "global"
+		"resolutionStrategy": "fewer-dependencies"
 	},
 	"nodeSupportedVersionRange": ">=10.13.0",
 	"ensureConsistentVersions": true,

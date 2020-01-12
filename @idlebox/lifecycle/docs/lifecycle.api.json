@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.4.1",
+    "toolVersion": "7.7.2",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -274,6 +274,32 @@
             },
             {
               "kind": "Property",
+              "canonicalReference": "@idlebox/lifecycle!AsyncDisposable#hasDisposed:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get hasDisposed(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "hasDisposed",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "@idlebox/lifecycle!AsyncDisposable#onBeforeDispose:member",
               "docComment": "",
               "excerptTokens": [
@@ -530,6 +556,32 @@
               "name": "complete"
             },
             {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/lifecycle!DeferredPromise#completed:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get completed(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "completed",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
               "kind": "Method",
               "canonicalReference": "@idlebox/lifecycle!DeferredPromise#error:member(1)",
               "docComment": "",
@@ -705,6 +757,58 @@
                 }
               ],
               "name": "progress"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/lifecycle!DeferredPromise#rejected:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get rejected(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "rejected",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/lifecycle!DeferredPromise#resolved:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get resolved(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "resolved",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
             },
             {
               "kind": "Method",
@@ -1014,6 +1118,32 @@
               "overloadIndex": 1,
               "parameters": [],
               "name": "dispose"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/lifecycle!Disposable#hasDisposed:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get hasDisposed(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "hasDisposed",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
             },
             {
               "kind": "Property",
@@ -1419,6 +1549,37 @@
                 }
               ],
               "name": "handle"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/lifecycle!Emitter#register:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get register(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EventRegister",
+                  "canonicalReference": "@idlebox/lifecycle!EventRegister:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<T>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "register",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isStatic": false
             }
           ],
           "implementsTokenRanges": [

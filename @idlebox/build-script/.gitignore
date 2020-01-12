@@ -13,3 +13,5 @@ package-deps.json
 !.idea/modules.xml
 !.idea/codeStyles/
 tmp
+
+.rush

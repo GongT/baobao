@@ -1,4 +1,4 @@
-import { exists, prettyPrintError } from '@idlebox/node-helpers';
+import { exists } from '@idlebox/node-helpers';
 import { PlatformPathArray } from '@idlebox/platform';
 import { tmpdir } from 'os';
 import { basename, resolve } from 'path';
@@ -23,15 +23,15 @@ function help() {
 `);
 }
 
-(async () => {
-	if (process.argv.includes('-h') || process.argv.includes('--help')) {
+export async function main(argv: string[]) {
+	if (argv.includes('-h') || argv.includes('--help')) {
 		help();
-		process.exit(22);
+		return 22;
 	}
 
 	process.env.LANG = 'C.utf8';
 
-	const autoInc = process.argv.includes('--bump');
+	const autoInc = argv.includes('--bump');
 	const packagePath = resolve(process.cwd(), getArg('--package', './'));
 	log('working at %s', packagePath);
 
@@ -47,7 +47,7 @@ function help() {
 
 	const packageFile = resolve(packagePath, 'package.json');
 
-	if (!await exists(packageFile)) {
+	if (!(await exists(packageFile))) {
 		throw new Error('No package.json found');
 	}
 	const packageJson = require(packageFile);
@@ -87,15 +87,12 @@ function help() {
 			log('nothing changed');
 		}
 	} else {
-		printResult(changedFiles);
+		printResult(argv.includes('--json'), changedFiles);
 	}
-})().catch((e) => {
-	prettyPrintError('detect-package-change', e);
-	process.exit(131);
-});
+}
 
-function printResult(changedFiles: string[]) {
-	if (process.stdout.isTTY) {
+function printResult(forceJson: boolean, changedFiles: string[]) {
+	if (process.stdout.isTTY && !forceJson) {
 		if (changedFiles.length === 0) {
 			console.log('changed: no.');
 		} else {

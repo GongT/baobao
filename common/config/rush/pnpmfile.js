@@ -24,14 +24,14 @@ function forceResolveSameVersion(packageJson) {
 	forceVersion(packageJson, 'typescript', '3.7.4');
 }
 
-function forceVersion(parent, package, version) {
+function forceVersion(parent, packageName, version) {
 	if (parent.dependencies && parent.dependencies['typescript']) {
-		// console.warn('lock deps [%s] from [%s] version to [%s].', package, parent.name, version);
-		parent.dependencies[package] = 'latest';
+		// console.warn('lock deps [%s] from [%s] version to [%s].', packageName, parent.name, version);
+		parent.dependencies[packageName] = version;
 	}
 	if (parent.devDependencies && parent.devDependencies['typescript']) {
-		// console.warn('lock devDeps [%s] from [%s] version to [%s].', package, parent.name, version);
-		parent.devDependencies[package] = 'latest';
+		// console.warn('lock devDeps [%s] from [%s] version to [%s].', packageName, parent.name, version);
+		parent.devDependencies[packageName] = version;
 	}
 }
 

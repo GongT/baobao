@@ -38,7 +38,13 @@ function colorIfNot(stdout: boolean, color: string, l: string) {
 export function createJobFunc(jobName: string, path: string, cmds: string | string[]): ExecFunc {
 	let [command, ...args] = Array.isArray(cmds) ? cmds : cmds.split(/\s+/);
 	if (!command) {
-		throw new Error(`job ${jobName} has no command line`);
+		return functionWithName(
+			async () => {
+				console.log('no script for %s, skip it.', jobName);
+			},
+			jobName,
+			`${command} ${args.join(' ')}`
+		);
 	}
 
 	if (command.endsWith('.js')) {

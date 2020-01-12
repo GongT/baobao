@@ -5,32 +5,32 @@
 ```ts
 
 // Warning: (ae-missing-release-tag) "clearCache" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function clearCache(): void;
 
 // Warning: (ae-missing-release-tag) "eachProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function eachProject(): IProjectConfig[];
 
 // Warning: (ae-missing-release-tag) "getCurrentRushConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function getCurrentRushConfig(): any;
 
 // Warning: (ae-missing-release-tag) "getCurrentRushConfigPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function getCurrentRushConfigPath(): string;
 
 // Warning: (ae-missing-release-tag) "getCurrentRushRootPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function getCurrentRushRootPath(): string;
 
 // Warning: (ae-missing-release-tag) "IProjectConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export interface IProjectConfig {
     // (undocumented)
@@ -50,43 +50,48 @@ export interface IProjectConfig {
 }
 
 // Warning: (ae-missing-release-tag) "main" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function main(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "NormalError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class NormalError extends Error {
 }
 
+// Warning: (ae-missing-release-tag) "resolveRushProjectBuildOrder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function resolveRushProjectBuildOrder(path?: string): void;
+
 // Warning: (ae-missing-release-tag) "runAutoFix" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function runAutoFix(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "runForEach" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function runForEach(argv: string[]): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "runList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function runList(argv: string[]): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "runRegisterProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function runRegisterProject(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "toProjectPathAbsolute" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function toProjectPathAbsolute(projectFolder: string): string;
 
 // Warning: (ae-missing-release-tag) "toProjectPathRelative" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function toProjectPathRelative(projectFolder: string): string;
 
