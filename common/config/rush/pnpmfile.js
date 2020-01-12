@@ -5,42 +5,45 @@ module.exports = {
 };
 
 function readPackage(packageJson, context) {
-	
 	// // The karma types have a missing dependency on typings from the log4js package.
 	// if (packageJson.name === '@types/karma') {
 	//  context.log('Fixed up dependencies for @types/karma');
 	//  packageJson.dependencies['log4js'] = '0.6.38';
 	// }
-	
+
 	if (fixDependencyIssue(packageJson)) {
 		return packageJson;
 	}
-	
-	if (forceResolveSameVersion(packageJson)) {
-		return packageJson;
-	}
-	
+
+	forceResolveSameVersion(packageJson);
+
 	return packageJson;
 }
 
 function forceResolveSameVersion(packageJson) {
-	if (packageJson.dependencies && packageJson.dependencies['typescript']) {
-		packageJson.dependencies['typescript'] = 'latest';
+	forceVersion(packageJson, 'typescript', '3.7.4');
+}
+
+function forceVersion(parent, package, version) {
+	if (parent.dependencies && parent.dependencies['typescript']) {
+		// console.warn('lock deps [%s] from [%s] version to [%s].', package, parent.name, version);
+		parent.dependencies[package] = 'latest';
 	}
-	if (packageJson.devDependencies && packageJson.devDependencies['typescript']) {
-		packageJson.devDependencies['typescript'] = 'latest';
+	if (parent.devDependencies && parent.devDependencies['typescript']) {
+		// console.warn('lock devDeps [%s] from [%s] version to [%s].', package, parent.name, version);
+		parent.devDependencies[package] = 'latest';
 	}
 }
 
 function fixDependencyIssue(packageJson) {
 	switch (packageJson.name) {
-	case 'npm-registry-fetch':
-		packageJson.dependencies['safe-buffer'] = '^5.1.2';
-		return;
-	case 'npm-check-updates':
-		packageJson.dependencies['package-json'] = '^6.4.0';
-		return true;
-	default:
-		return false;
+		case 'npm-registry-fetch':
+			packageJson.dependencies['safe-buffer'] = '^5.1.2';
+			return;
+		case 'npm-check-updates':
+			packageJson.dependencies['package-json'] = '^6.4.0';
+			return true;
+		default:
+			return false;
 	}
 }

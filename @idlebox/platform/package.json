@@ -18,8 +18,8 @@
 		"watch": "build-script watch"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.10",
-		"@idlebox/export-all-in-one": "^3.0.5",
+		"@idlebox/build-script": "^2.0.11",
+		"@idlebox/export-all-in-one": "^3.0.7",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
 		"gulp": "^4.0.2",

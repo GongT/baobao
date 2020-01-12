@@ -1,11 +1,8 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"outDir": "../lib",
-		"rootDir": ".",
-		"typeRoots": [
-			"../node_modules/@types"
-		],
+		"module": "esnext",
+		"outDir": "../lib/esm",
 		"declaration": false,
 		"declarationMap": false
 	},
@@ -13,6 +10,7 @@
 		"api/**/*.ts"
 	],
 	"exclude": [
-		"index.ts"
+		"index.ts",
+		"commands/**/*.ts"
 	]
 }

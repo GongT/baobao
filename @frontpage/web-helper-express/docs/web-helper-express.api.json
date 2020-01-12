@@ -6,18 +6,18 @@
     "oldestForwardsCompatibleVersion": 1001
   },
   "kind": "Package",
-  "canonicalReference": "@idlebox/web-helper-express!",
+  "canonicalReference": "@frontpage/web-helper-express!",
   "docComment": "",
-  "name": "@idlebox/web-helper-express",
+  "name": "@frontpage/web-helper-express",
   "members": [
     {
       "kind": "EntryPoint",
-      "canonicalReference": "@idlebox/web-helper-express!",
+      "canonicalReference": "@frontpage/web-helper-express!",
       "name": "",
       "members": [
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/web-helper-express!test:function(1)",
+          "canonicalReference": "@frontpage/web-helper-express!test:function(1)",
           "docComment": "",
           "excerptTokens": [
             {

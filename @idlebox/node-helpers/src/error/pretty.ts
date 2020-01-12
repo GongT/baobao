@@ -1,4 +1,4 @@
-import { isAbsolute } from '@idlebox/basic-helpers';
+import { isAbsolute } from '@idlebox/helpers';
 
 const regNormal = /^\s+at ([^\/\s]+)(?: \[as ([^\]]+)])? \(([^:]+)(:\d+)?(:\d+)\)$/;
 

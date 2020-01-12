@@ -163,7 +163,7 @@
             {
               "kind": "Reference",
               "text": "InitFunc",
-              "canonicalReference": "@idlebox/basic-helpers!InitFunc:interface"
+              "canonicalReference": "@idlebox/helpers!InitFunc:interface"
             },
             {
               "kind": "Content",

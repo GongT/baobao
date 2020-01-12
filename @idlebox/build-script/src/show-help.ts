@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { setProjectDir } from './api/context';
 import { getBuildContext } from './common/buildContextInstance';
 
-export default async function () {
+export default async function() {
 	setProjectDir(process.cwd());
 	const cmds = new Map();
 	let size = 0;
@@ -25,9 +25,10 @@ export default async function () {
 		cmds.set(key, title || '???');
 	}
 
+	size = Math.max(size, ...[...cmds.keys()].map((v) => v.length));
 	console.error('Usage: build-script [command to run].');
-	for (const [k, v] of cmds) {
-		const pk = k + Buffer.alloc(size - k.length, ' ').toString();
+	for (const [k, v] of cmds.entries()) {
+		const pk = k + ' '.repeat(size - k.length);
 		console.error('  %s  %s', pk, v);
 	}
 

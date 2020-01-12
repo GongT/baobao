@@ -1,5 +1,15 @@
 {
 	"files.associations": {
 		"rush.json": "jsonc"
-	}
+	},
+	"task.autoDetect": "off",
+	"quicktask.enableBatchFile": false,
+	"quicktask.enableGulp": false,
+	"quicktask.enableNpm": false,
+	"quicktask.enablePerl": false,
+	"quicktask.enablePowershell": false,
+	"quicktask.enablePython": false,
+	"quicktask.enableRuby": false,
+	"quicktask.enableShell": false,
+	"quicktask.enableVsTasks": false
 }

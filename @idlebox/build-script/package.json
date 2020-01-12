@@ -20,10 +20,10 @@
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
-		"@idlebox/basic-helpers": "^1.0.6",
-		"@idlebox/node-json-edit": "^1.0.18",
-		"@idlebox/platform": "^1.0.9",
-		"@idlebox/node-helpers": "^1.0.4",
+		"@idlebox/helpers": "^1.0.8",
+		"@idlebox/node-json-edit": "^1.0.19",
+		"@idlebox/platform": "^1.0.10",
+		"@idlebox/node-helpers": "^1.0.5",
 		"execa": "^2.0.4",
 		"fancy-log": "*",
 		"fs-extra": "^8.1.0",

@@ -2,7 +2,31 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			
+			"label": "Rush Update / 更新依赖",
+			"type": "shell",
+			"command": "rush update"
+		},
+		{
+			"label": "Typescript Watch All / 启动监视每个项目",
+			"type": "shell",
+			"command": "node --experimental-modules common/scripts/watch-all.js",
+			"problemMatcher": "$tsc-watch"
+		},
+		{
+			"label": "Typescript Watch All / 运行rush构建",
+			"type": "shell",
+			"command": "rush build",
+			"problemMatcher": "$tsc"
+		},
+		{
+			"label": "Publish All / 全部包发布",
+			"type": "shell",
+			"command": "rush build"
+		},
+		{
+			"label": "Publish All / 全部发布",
+			"type": "shell",
+			"command": "rush build"
 		}
 	]
 }

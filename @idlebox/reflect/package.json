@@ -17,12 +17,12 @@
 		"./": "./private-path-not-exists"
 	},
 	"dependencies": {
-		"@idlebox/basic-helpers": "^1.0.6",
-		"@idlebox/lifecycle": "^1.0.4"
+		"@idlebox/helpers": "^1.0.8",
+		"@idlebox/lifecycle": "^1.0.5"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.10",
-		"@idlebox/export-all-in-one": "^3.0.5",
+		"@idlebox/build-script": "^2.0.11",
+		"@idlebox/export-all-in-one": "^3.0.7",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"gulp": "^4.0.2",
 		"typescript": "^3.6.3"

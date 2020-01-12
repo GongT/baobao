@@ -1,75 +1,31 @@
 {
+	"$schema": "https://schemas.service.gongt.me:59443/build-script/schema.json",
 	"load": [
 		{
 			"file": "@idlebox/export-all-in-one/build-script-register",
 			"args": [
-				"src/tsconfig.api.json"
+				"src/tsconfig.apiesm.json",
+				"src/tsconfig.json"
 			]
 		}
 	],
 	"alias": {
-		"build-ts": [
-			"tsc",
-			"-p",
-			"src"
-		],
-		"watch-ts": [
-			"tsc",
-			"--pretty",
-			"-w",
-			"-p",
-			"src"
-		],
-		"cleanup-lib": [
-			"rimraf",
-			"lib"
-		],
-		"yarn-publish": [
-			"yarn",
-			"publish",
-			"--ignore-scripts",
-			"--registry",
-			"https://registry.npmjs.org",
-			"--access=public"
-		],
-		"upgrade-node-modules": [
-			"npm-check-updates",
-			"--update",
-			"--packageFile",
-			"./package.json"
-		],
-		"run-test": [
-			"echo",
-			"No",
-			"test",
-			"command",
-			"set."
-		],
-		"git-clean": [
-			"git",
-			"clean",
-			"-f",
-			"-d",
-			"-X",
-			"-e",
-			"!node_modules",
-			"-e",
-			"!node_modules/**",
-			"-e",
-			"!.idea",
-			"-e",
-			"!.idea/**",
-			"-e",
-			"!.vscode",
-			"-e",
-			"!.vscode/**"
-		]
+		"build-esm": "tsc -p src",
+		"watch-esm": "tsc --pretty -w -p src",
+		"build-cjs": "tsc -p src/tsconfig.apiesm.json",
+		"watch-cjs": "tsc --pretty -w -p src/tsconfig.apiesm.json",
+		"cleanup-lib": "rimraf lib",
+		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
+		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
+		"run-test": "echo No test command set.",
+		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**"
 	},
 	"command": {
 		"build": {
 			"title": "Build project",
 			"run": [
-				"build-ts"
+				"build-esm",
+				"build-cjs"
 			]
 		},
 		"distclean": {
@@ -120,7 +76,8 @@
 		"watch": {
 			"title": "Watch mode build project",
 			"run": [
-				"watch-ts"
+				"watch-esm",
+				"watch-cjs"
 			]
 		}
 	}

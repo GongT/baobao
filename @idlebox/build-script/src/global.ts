@@ -36,7 +36,7 @@ export interface IMyProjectJson {
 }
 
 export interface IMyProjectJsonParsed {
-	alias: Map<string, string[]>;
+	alias: Map<string, string|string[]>;
 	job: Map<string, {
 		serial: boolean;
 		title: string;

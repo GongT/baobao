@@ -1,4 +1,4 @@
-import { humanDate } from '@idlebox/basic-helpers';
+import { humanDate } from '@idlebox/helpers';
 
 export class TimeoutError extends Error {
 	constructor(time: number, what: string = 'no response') {

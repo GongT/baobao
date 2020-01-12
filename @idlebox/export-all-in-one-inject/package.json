@@ -26,10 +26,10 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/build-script": "^2.0.10",
-		"@idlebox/node-json-edit": "^1.0.18",
-		"@idlebox/package-manager": "^1.0.2",
-		"@idlebox/platform": "^1.0.9",
+		"@idlebox/build-script": "^2.0.11",
+		"@idlebox/node-json-edit": "^1.0.19",
+		"@idlebox/package-manager": "^1.0.3",
+		"@idlebox/platform": "^1.0.10",
 		"@microsoft/api-extractor": "^7.4.1",
 		"fs-extra": "^8.1.0",
 		"source-map-support": "*"

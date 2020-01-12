@@ -6,7 +6,8 @@
 	// "yarnVersion": "1.16.0",
 	"pnpmOptions": {
 		"strictPeerDependencies": false,
-		"resolutionStrategy": "fewer-dependencies"
+		"resolutionStrategy": "fewer-dependencies",
+		"pnpmStore": "global"
 	},
 	"nodeSupportedVersionRange": ">=10.13.0",
 	"ensureConsistentVersions": true,
@@ -29,8 +30,7 @@
 			// "git clean -d -x -f -e common -e .idea -- .",
 			// "rm -rf common/temp/projects"
 		],
-		"postRushInstall": [
-		],
+		"postRushInstall": [],
 		"preRushBuild": [
 			// "rush update"
 		],
@@ -70,7 +70,7 @@
 			"cyclicDependencyProjects": [
 				"@idlebox/platform",
 				"@idlebox/node-helpers",
-				"@idlebox/basic-helpers"
+				"@idlebox/helpers"
 			]
 		},
 		{
@@ -89,8 +89,8 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/basic-helpers",
-			"projectFolder": "@idlebox/basic-helpers",
+			"packageName": "@idlebox/helpers",
+			"projectFolder": "@idlebox/helpers",
 			"shouldPublish": true
 		},
 		{
@@ -129,9 +129,19 @@
 			"shouldPublish": true
 		},
 		{
+			"packageName": "@frontpage/web-helper-angular",
+			"projectFolder": "@frontpage/web-helper-angular",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@frontpage/web-helper-express",
+			"projectFolder": "@frontpage/web-helper-express",
+			"shouldPublish": true
+		},
+		{
 			"packageName": "meta-scripts",
 			"projectFolder": "common/scripts",
-			"shouldPublish": true
+			"shouldPublish": false
 		}
 	]
 }

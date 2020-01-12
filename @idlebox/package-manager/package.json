@@ -19,7 +19,7 @@
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"@idlebox/platform": "^1.0.9",
+		"@idlebox/platform": "^1.0.10",
 		"command-exists": "^1.2.8",
 		"execa": "^2.0.4",
 		"json5": "^2.1.0",
@@ -27,7 +27,7 @@
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@idlebox/node-json-edit": "^1.0.18",
+		"@idlebox/node-json-edit": "^1.0.19",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/command-exists": "^1.2.0",
 		"@types/json5": "^0.0.30",

@@ -6,18 +6,18 @@
     "oldestForwardsCompatibleVersion": 1001
   },
   "kind": "Package",
-  "canonicalReference": "@idlebox/basic-helpers!",
+  "canonicalReference": "@idlebox/helpers!",
   "docComment": "",
-  "name": "@idlebox/basic-helpers",
+  "name": "@idlebox/helpers",
   "members": [
     {
       "kind": "EntryPoint",
-      "canonicalReference": "@idlebox/basic-helpers!",
+      "canonicalReference": "@idlebox/helpers!",
       "name": "",
       "members": [
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!arrayDiff:function(1)",
+          "canonicalReference": "@idlebox/helpers!arrayDiff:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -88,7 +88,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!arrayUnique:function(1)",
+          "canonicalReference": "@idlebox/helpers!arrayUnique:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -144,7 +144,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!arrayUniqueReference:function(1)",
+          "canonicalReference": "@idlebox/helpers!arrayUniqueReference:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -187,7 +187,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!assertFunctionHasName:function(1)",
+          "canonicalReference": "@idlebox/helpers!assertFunctionHasName:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -197,7 +197,7 @@
             {
               "kind": "Reference",
               "text": "MaybeNamedFunction",
-              "canonicalReference": "@idlebox/basic-helpers!MaybeNamedFunction:interface"
+              "canonicalReference": "@idlebox/helpers!MaybeNamedFunction:interface"
             },
             {
               "kind": "Content",
@@ -231,7 +231,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!assertNotNull:function(1)",
+          "canonicalReference": "@idlebox/helpers!assertNotNull:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -292,7 +292,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!awaitIterator:function(1)",
+          "canonicalReference": "@idlebox/helpers!awaitIterator:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -358,7 +358,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!Callable:interface",
+          "canonicalReference": "@idlebox/helpers!Callable:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -371,7 +371,7 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "@idlebox/basic-helpers!Callable:call(1)",
+              "canonicalReference": "@idlebox/helpers!Callable:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -413,7 +413,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!Callable#name:member",
+              "canonicalReference": "@idlebox/helpers!Callable#name:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -441,7 +441,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "@idlebox/basic-helpers!CallbackList:class",
+          "canonicalReference": "@idlebox/helpers!CallbackList:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -467,7 +467,7 @@
           "members": [
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CallbackList#add:member(1)",
+              "canonicalReference": "@idlebox/helpers!CallbackList#add:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -477,7 +477,7 @@
                 {
                   "kind": "Reference",
                   "text": "MyCallback",
-                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
+                  "canonicalReference": "@idlebox/helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
@@ -531,7 +531,7 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@idlebox/basic-helpers!CallbackList#list:member",
+              "canonicalReference": "@idlebox/helpers!CallbackList#list:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -541,7 +541,7 @@
                 {
                   "kind": "Reference",
                   "text": "MyCallback",
-                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
+                  "canonicalReference": "@idlebox/helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
@@ -562,7 +562,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CallbackList#remove:member(1)",
+              "canonicalReference": "@idlebox/helpers!CallbackList#remove:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -572,7 +572,7 @@
                 {
                   "kind": "Reference",
                   "text": "MyCallback",
-                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
+                  "canonicalReference": "@idlebox/helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
@@ -585,7 +585,7 @@
                 {
                   "kind": "Reference",
                   "text": "MyCallback",
-                  "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface"
+                  "canonicalReference": "@idlebox/helpers!MyCallback:interface"
                 },
                 {
                   "kind": "Content",
@@ -616,7 +616,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CallbackList#run:member(1)",
+              "canonicalReference": "@idlebox/helpers!CallbackList#run:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -663,7 +663,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!camelCase:function(1)",
+          "canonicalReference": "@idlebox/helpers!camelCase:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -706,7 +706,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "@idlebox/basic-helpers!CustomSet:class",
+          "canonicalReference": "@idlebox/helpers!CustomSet:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -740,7 +740,7 @@
           "members": [
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#[Symbol.iterator]:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#[Symbol.iterator]:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -782,7 +782,7 @@
             },
             {
               "kind": "Constructor",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet:constructor(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet:constructor(1)",
               "docComment": "/**\n * Constructs a new instance of the `CustomSet` class\n */\n",
               "excerptTokens": [
                 {
@@ -792,7 +792,7 @@
                 {
                   "kind": "Reference",
                   "text": "Finder",
-                  "canonicalReference": "@idlebox/basic-helpers!Finder:type"
+                  "canonicalReference": "@idlebox/helpers!Finder:type"
                 },
                 {
                   "kind": "Content",
@@ -817,7 +817,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#add:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#add:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -861,7 +861,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#addAll:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#addAll:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -905,7 +905,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#has:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#has:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -949,7 +949,7 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#registry:member",
+              "canonicalReference": "@idlebox/helpers!CustomSet#registry:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -975,7 +975,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#remove:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#remove:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1019,7 +1019,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#removeAll:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#removeAll:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1063,7 +1063,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#setFinder:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#setFinder:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1073,7 +1073,7 @@
                 {
                   "kind": "Reference",
                   "text": "Finder",
-                  "canonicalReference": "@idlebox/basic-helpers!Finder:type"
+                  "canonicalReference": "@idlebox/helpers!Finder:type"
                 },
                 {
                   "kind": "Content",
@@ -1112,7 +1112,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!CustomSet#toArray:member(1)",
+              "canonicalReference": "@idlebox/helpers!CustomSet#toArray:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1143,7 +1143,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList:class",
+          "canonicalReference": "@idlebox/helpers!DelayCallbackList:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -1169,7 +1169,7 @@
           "members": [
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList#add:member(1)",
+              "canonicalReference": "@idlebox/helpers!DelayCallbackList#add:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1179,7 +1179,7 @@
                 {
                   "kind": "Reference",
                   "text": "MyDelayCallback",
-                  "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:interface"
+                  "canonicalReference": "@idlebox/helpers!MyDelayCallback:interface"
                 },
                 {
                   "kind": "Content",
@@ -1233,7 +1233,7 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList#list:member",
+              "canonicalReference": "@idlebox/helpers!DelayCallbackList#list:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1243,7 +1243,7 @@
                 {
                   "kind": "Reference",
                   "text": "MyDelayCallback",
-                  "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:interface"
+                  "canonicalReference": "@idlebox/helpers!MyDelayCallback:interface"
                 },
                 {
                   "kind": "Content",
@@ -1264,7 +1264,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!DelayCallbackList#run:member(1)",
+              "canonicalReference": "@idlebox/helpers!DelayCallbackList#run:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1311,7 +1311,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!escapeRegExp:function(1)",
+          "canonicalReference": "@idlebox/helpers!escapeRegExp:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -1354,7 +1354,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "@idlebox/basic-helpers!ExtendMap:class",
+          "canonicalReference": "@idlebox/helpers!ExtendMap:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -1400,7 +1400,7 @@
           "members": [
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!ExtendMap#entry:member(1)",
+              "canonicalReference": "@idlebox/helpers!ExtendMap#entry:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1459,7 +1459,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!ExtendMap#getDef:member(1)",
+              "canonicalReference": "@idlebox/helpers!ExtendMap#getDef:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1518,7 +1518,7 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/basic-helpers!ExtendMap#getReq:member(1)",
+              "canonicalReference": "@idlebox/helpers!ExtendMap#getReq:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1569,7 +1569,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!finishAllPromise:function(1)",
+          "canonicalReference": "@idlebox/helpers!finishAllPromise:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -1601,7 +1601,7 @@
             {
               "kind": "Reference",
               "text": "PromiseResultArray",
-              "canonicalReference": "@idlebox/basic-helpers!PromiseResultArray:interface"
+              "canonicalReference": "@idlebox/helpers!PromiseResultArray:interface"
             },
             {
               "kind": "Content",
@@ -1644,7 +1644,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!functionName:function(1)",
+          "canonicalReference": "@idlebox/helpers!functionName:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -1654,7 +1654,7 @@
             {
               "kind": "Reference",
               "text": "Callable",
-              "canonicalReference": "@idlebox/basic-helpers!Callable:interface"
+              "canonicalReference": "@idlebox/helpers!Callable:interface"
             },
             {
               "kind": "Content",
@@ -1688,7 +1688,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!getErrorFrame:function(1)",
+          "canonicalReference": "@idlebox/helpers!getErrorFrame:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -1747,7 +1747,7 @@
         },
         {
           "kind": "Namespace",
-          "canonicalReference": "@idlebox/basic-helpers!humanDate:namespace",
+          "canonicalReference": "@idlebox/helpers!humanDate:namespace",
           "docComment": "",
           "excerptTokens": [
             {
@@ -1760,7 +1760,7 @@
           "members": [
             {
               "kind": "Function",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.date:function(1)",
+              "canonicalReference": "@idlebox/helpers!humanDate.date:function(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1823,7 +1823,7 @@
             },
             {
               "kind": "Function",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.datetime:function(1)",
+              "canonicalReference": "@idlebox/helpers!humanDate.datetime:function(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1871,7 +1871,7 @@
             },
             {
               "kind": "Function",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.delta:function(1)",
+              "canonicalReference": "@idlebox/helpers!humanDate.delta:function(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1914,7 +1914,7 @@
             },
             {
               "kind": "Function",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.deltaTiny:function(1)",
+              "canonicalReference": "@idlebox/helpers!humanDate.deltaTiny:function(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1957,7 +1957,7 @@
             },
             {
               "kind": "Interface",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.IFormatters:interface",
+              "canonicalReference": "@idlebox/helpers!humanDate.IFormatters:interface",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -1970,7 +1970,7 @@
               "members": [
                 {
                   "kind": "PropertySignature",
-                  "canonicalReference": "@idlebox/basic-helpers!humanDate.IFormatters#d:member",
+                  "canonicalReference": "@idlebox/helpers!humanDate.IFormatters#d:member",
                   "docComment": "",
                   "excerptTokens": [
                     {
@@ -1980,7 +1980,7 @@
                     {
                       "kind": "Reference",
                       "text": "ITimeFormatter",
-                      "canonicalReference": "@idlebox/basic-helpers!humanDate.ITimeFormatter:interface"
+                      "canonicalReference": "@idlebox/helpers!humanDate.ITimeFormatter:interface"
                     },
                     {
                       "kind": "Content",
@@ -1996,7 +1996,7 @@
                 },
                 {
                   "kind": "PropertySignature",
-                  "canonicalReference": "@idlebox/basic-helpers!humanDate.IFormatters#h:member",
+                  "canonicalReference": "@idlebox/helpers!humanDate.IFormatters#h:member",
                   "docComment": "",
                   "excerptTokens": [
                     {
@@ -2006,7 +2006,7 @@
                     {
                       "kind": "Reference",
                       "text": "ITimeFormatter",
-                      "canonicalReference": "@idlebox/basic-helpers!humanDate.ITimeFormatter:interface"
+                      "canonicalReference": "@idlebox/helpers!humanDate.ITimeFormatter:interface"
                     },
                     {
                       "kind": "Content",
@@ -2022,7 +2022,7 @@
                 },
                 {
                   "kind": "PropertySignature",
-                  "canonicalReference": "@idlebox/basic-helpers!humanDate.IFormatters#m:member",
+                  "canonicalReference": "@idlebox/helpers!humanDate.IFormatters#m:member",
                   "docComment": "",
                   "excerptTokens": [
                     {
@@ -2032,7 +2032,7 @@
                     {
                       "kind": "Reference",
                       "text": "ITimeFormatter",
-                      "canonicalReference": "@idlebox/basic-helpers!humanDate.ITimeFormatter:interface"
+                      "canonicalReference": "@idlebox/helpers!humanDate.ITimeFormatter:interface"
                     },
                     {
                       "kind": "Content",
@@ -2048,7 +2048,7 @@
                 },
                 {
                   "kind": "PropertySignature",
-                  "canonicalReference": "@idlebox/basic-helpers!humanDate.IFormatters#s:member",
+                  "canonicalReference": "@idlebox/helpers!humanDate.IFormatters#s:member",
                   "docComment": "",
                   "excerptTokens": [
                     {
@@ -2058,7 +2058,7 @@
                     {
                       "kind": "Reference",
                       "text": "ITimeFormatter",
-                      "canonicalReference": "@idlebox/basic-helpers!humanDate.ITimeFormatter:interface"
+                      "canonicalReference": "@idlebox/helpers!humanDate.ITimeFormatter:interface"
                     },
                     {
                       "kind": "Content",
@@ -2077,7 +2077,7 @@
             },
             {
               "kind": "Interface",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.ITimeFormatter:interface",
+              "canonicalReference": "@idlebox/helpers!humanDate.ITimeFormatter:interface",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2090,7 +2090,7 @@
               "members": [
                 {
                   "kind": "CallSignature",
-                  "canonicalReference": "@idlebox/basic-helpers!humanDate.ITimeFormatter:call(1)",
+                  "canonicalReference": "@idlebox/helpers!humanDate.ITimeFormatter:call(1)",
                   "docComment": "",
                   "excerptTokens": [
                     {
@@ -2135,7 +2135,7 @@
             },
             {
               "kind": "Function",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.setLocaleFormatter:function(1)",
+              "canonicalReference": "@idlebox/helpers!humanDate.setLocaleFormatter:function(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2154,7 +2154,7 @@
                 {
                   "kind": "Reference",
                   "text": "IFormatters",
-                  "canonicalReference": "@idlebox/basic-helpers!humanDate.IFormatters:interface"
+                  "canonicalReference": "@idlebox/helpers!humanDate.IFormatters:interface"
                 },
                 {
                   "kind": "Content",
@@ -2192,7 +2192,7 @@
             },
             {
               "kind": "Function",
-              "canonicalReference": "@idlebox/basic-helpers!humanDate.time:function(1)",
+              "canonicalReference": "@idlebox/helpers!humanDate.time:function(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2242,7 +2242,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!humanSize:function(1)",
+          "canonicalReference": "@idlebox/helpers!humanSize:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2300,7 +2300,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!humanSpeed:function(1)",
+          "canonicalReference": "@idlebox/helpers!humanSpeed:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2343,7 +2343,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate:interface",
+          "canonicalReference": "@idlebox/helpers!IArrayUpdate:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2369,7 +2369,7 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate#add:member",
+              "canonicalReference": "@idlebox/helpers!IArrayUpdate#add:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2394,7 +2394,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate#del:member",
+              "canonicalReference": "@idlebox/helpers!IArrayUpdate#del:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2419,7 +2419,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!IArrayUpdate#same:member",
+              "canonicalReference": "@idlebox/helpers!IArrayUpdate#same:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2447,7 +2447,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!InitFunc:interface",
+          "canonicalReference": "@idlebox/helpers!InitFunc:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2484,7 +2484,7 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "@idlebox/basic-helpers!InitFunc:call(1)",
+              "canonicalReference": "@idlebox/helpers!InitFunc:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2529,7 +2529,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!initOnRead:function(1)",
+          "canonicalReference": "@idlebox/helpers!initOnRead:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2563,7 +2563,7 @@
             {
               "kind": "Reference",
               "text": "InitFunc",
-              "canonicalReference": "@idlebox/basic-helpers!InitFunc:interface"
+              "canonicalReference": "@idlebox/helpers!InitFunc:interface"
             },
             {
               "kind": "Content",
@@ -2639,7 +2639,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!isAbsolute:function(1)",
+          "canonicalReference": "@idlebox/helpers!isAbsolute:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2682,7 +2682,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!isArraySame:function(1)",
+          "canonicalReference": "@idlebox/helpers!isArraySame:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2753,7 +2753,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!IUniqueIdFactory:interface",
+          "canonicalReference": "@idlebox/helpers!IUniqueIdFactory:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2779,7 +2779,7 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "@idlebox/basic-helpers!IUniqueIdFactory:call(1)",
+              "canonicalReference": "@idlebox/helpers!IUniqueIdFactory:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -2824,7 +2824,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!lcfirst:function(1)",
+          "canonicalReference": "@idlebox/helpers!lcfirst:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2867,7 +2867,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!linux_case_hyphen:function(1)",
+          "canonicalReference": "@idlebox/helpers!linux_case_hyphen:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2910,7 +2910,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!linux_case:function(1)",
+          "canonicalReference": "@idlebox/helpers!linux_case:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2953,7 +2953,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!MapLike:interface",
+          "canonicalReference": "@idlebox/helpers!MapLike:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -2979,7 +2979,7 @@
           "members": [
             {
               "kind": "IndexSignature",
-              "canonicalReference": "@idlebox/basic-helpers!MapLike:index(1)",
+              "canonicalReference": "@idlebox/helpers!MapLike:index(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3024,7 +3024,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!MaybeNamedFunction:interface",
+          "canonicalReference": "@idlebox/helpers!MaybeNamedFunction:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3034,7 +3034,7 @@
             {
               "kind": "Reference",
               "text": "Callable",
-              "canonicalReference": "@idlebox/basic-helpers!Callable:interface"
+              "canonicalReference": "@idlebox/helpers!Callable:interface"
             },
             {
               "kind": "Content",
@@ -3046,7 +3046,7 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!MaybeNamedFunction#displayName:member",
+              "canonicalReference": "@idlebox/helpers!MaybeNamedFunction#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3079,7 +3079,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!MyCallback:interface",
+          "canonicalReference": "@idlebox/helpers!MyCallback:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3105,7 +3105,7 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "@idlebox/basic-helpers!MyCallback:call(1)",
+              "canonicalReference": "@idlebox/helpers!MyCallback:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3147,7 +3147,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!MyCallback#displayName:member",
+              "canonicalReference": "@idlebox/helpers!MyCallback#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3175,7 +3175,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:interface",
+          "canonicalReference": "@idlebox/helpers!MyDelayCallback:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3201,7 +3201,7 @@
           "members": [
             {
               "kind": "CallSignature",
-              "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback:call(1)",
+              "canonicalReference": "@idlebox/helpers!MyDelayCallback:call(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3243,7 +3243,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!MyDelayCallback#displayName:member",
+              "canonicalReference": "@idlebox/helpers!MyDelayCallback#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3271,7 +3271,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!NamedFunction:interface",
+          "canonicalReference": "@idlebox/helpers!NamedFunction:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3281,7 +3281,7 @@
             {
               "kind": "Reference",
               "text": "Callable",
-              "canonicalReference": "@idlebox/basic-helpers!Callable:interface"
+              "canonicalReference": "@idlebox/helpers!Callable:interface"
             },
             {
               "kind": "Content",
@@ -3293,7 +3293,7 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!NamedFunction#displayName:member",
+              "canonicalReference": "@idlebox/helpers!NamedFunction#displayName:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3326,7 +3326,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!nameFunction:function(1)",
+          "canonicalReference": "@idlebox/helpers!nameFunction:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3336,7 +3336,7 @@
             {
               "kind": "Reference",
               "text": "Callable",
-              "canonicalReference": "@idlebox/basic-helpers!Callable:interface"
+              "canonicalReference": "@idlebox/helpers!Callable:interface"
             },
             {
               "kind": "Content",
@@ -3365,7 +3365,7 @@
             {
               "kind": "Reference",
               "text": "NamedFunction",
-              "canonicalReference": "@idlebox/basic-helpers!NamedFunction:interface"
+              "canonicalReference": "@idlebox/helpers!NamedFunction:interface"
             },
             {
               "kind": "Content",
@@ -3411,7 +3411,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!normalizeArray:function(1)",
+          "canonicalReference": "@idlebox/helpers!normalizeArray:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3467,7 +3467,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!objectPath:function(1)",
+          "canonicalReference": "@idlebox/helpers!objectPath:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3525,7 +3525,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!pad2:function(1)",
+          "canonicalReference": "@idlebox/helpers!pad2:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3568,7 +3568,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "@idlebox/basic-helpers!PromiseResultArray:interface",
+          "canonicalReference": "@idlebox/helpers!PromiseResultArray:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3594,7 +3594,7 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!PromiseResultArray#count:member",
+              "canonicalReference": "@idlebox/helpers!PromiseResultArray#count:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3619,7 +3619,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!PromiseResultArray#fulfilled:member",
+              "canonicalReference": "@idlebox/helpers!PromiseResultArray#fulfilled:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3644,7 +3644,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!PromiseResultArray#fulfilledResult:member",
+              "canonicalReference": "@idlebox/helpers!PromiseResultArray#fulfilledResult:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3669,7 +3669,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!PromiseResultArray#rejected:member",
+              "canonicalReference": "@idlebox/helpers!PromiseResultArray#rejected:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3694,7 +3694,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@idlebox/basic-helpers!PromiseResultArray#rejectedResult:member",
+              "canonicalReference": "@idlebox/helpers!PromiseResultArray#rejectedResult:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -3727,7 +3727,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!RegexpFinder:function(1)",
+          "canonicalReference": "@idlebox/helpers!RegexpFinder:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3791,7 +3791,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!throwNull:function(1)",
+          "canonicalReference": "@idlebox/helpers!throwNull:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3852,7 +3852,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!tryInspect:function(1)",
+          "canonicalReference": "@idlebox/helpers!tryInspect:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3895,7 +3895,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!ucfirst:function(1)",
+          "canonicalReference": "@idlebox/helpers!ucfirst:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3938,7 +3938,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/basic-helpers!uniqueFilter:function(1)",
+          "canonicalReference": "@idlebox/helpers!uniqueFilter:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
@@ -3948,7 +3948,7 @@
             {
               "kind": "Reference",
               "text": "IUniqueIdFactory",
-              "canonicalReference": "@idlebox/basic-helpers!IUniqueIdFactory:interface"
+              "canonicalReference": "@idlebox/helpers!IUniqueIdFactory:interface"
             },
             {
               "kind": "Content",

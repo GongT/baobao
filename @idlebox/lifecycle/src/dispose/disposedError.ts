@@ -1,4 +1,4 @@
-import { getErrorFrame, tryInspect } from '@idlebox/basic-helpers';
+import { getErrorFrame, tryInspect } from '@idlebox/helpers';
 
 export class DisposedError extends Error {
 	constructor(object: any, previous: Error) {

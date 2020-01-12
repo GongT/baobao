@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.service.gongt.me:59443/build-script/schema.json",
 	"load": [
 		{
 			"file": "@idlebox/export-all-in-one/build-script-register",
@@ -8,72 +9,19 @@
 		}
 	],
 	"alias": {
-		"build-ts": [
-			"tsc",
-			"-p",
-			"src"
-		],
-		"watch-ts": [
-			"tsc",
-			"--pretty",
-			"-w",
-			"-p",
-			"src"
-		],
-		"cleanup-lib": [
-			"rimraf",
-			"lib"
-		],
-		"yarn-publish": [
-			"yarn",
-			"publish",
-			"--registry",
-			"https://registry.npmjs.org",
-			"--access=public"
-		],
-		"upgrade-node-modules": [
-			"npm-check-updates",
-			"--update",
-			"--packageFile",
-			"./package.json"
-		],
-		"run-test": [
-			"echo",
-			"No",
-			"test",
-			"command",
-			"set."
-		],
-		"git-clean-all": [
-			"git",
-			"clean",
-			"-f",
-			"-d",
-			"-X",
-			"-e",
-			"node_modules"
-		],
-		"git-clean": [
-			"git",
-			"clean",
-			"-f",
-			"-d",
-			"-X",
-			"-e",
-			"node_modules"
-		]
+		"build-ts": "tsc -p src",
+		"watch-ts": "tsc --pretty -w -p src",
+		"cleanup-lib": "rimraf lib",
+		"yarn-publish": "yarn publish --registry https://registry.npmjs.org --access=public",
+		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
+		"run-test": "echo No test command set.",
+		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**"
 	},
 	"command": {
 		"build": {
 			"title": "Build project",
 			"run": [
 				"build-ts"
-			]
-		},
-		"distclean": {
-			"title": "Delete git ignore files",
-			"run": [
-				"git-clean-all"
 			]
 		},
 		"clean": {

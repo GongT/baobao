@@ -49,6 +49,37 @@ export interface IProjectConfig {
     versionPolicyName?: string;
 }
 
+// Warning: (ae-missing-release-tag) "main" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function main(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "NormalError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export class NormalError extends Error {
+}
+
+// Warning: (ae-missing-release-tag) "runAutoFix" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function runAutoFix(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "runForEach" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function runForEach(argv: string[]): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "runList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function runList(argv: string[]): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "runRegisterProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// 
+// @public (undocumented)
+export function runRegisterProject(): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "toProjectPathAbsolute" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 
 // @public (undocumented)

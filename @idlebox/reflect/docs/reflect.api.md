@@ -4,7 +4,7 @@
 
 ```ts
 
-import { InitFunc } from '@idlebox/basic-helpers';
+import { InitFunc } from '@idlebox/helpers';
 
 // Warning: (ae-missing-release-tag) "bindThis" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // 

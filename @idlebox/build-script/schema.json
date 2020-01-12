@@ -1,17 +1,44 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "https://schemas.service.gongt.me:59443/build-script/schema.json",
 	"type": "object",
 	"additionalProperties": false,
 	"properties": {
 		"$schema": {
-			"type": "string"
+			"type": "string",
+			"const": {
+				"$ref": "#/$id"
+			}
+		},
+		"load": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"file": {
+						"type": "string"
+					},
+					"args": {
+						"type": [
+							"string",
+							"array"
+						],
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			}
 		},
 		"plugins": {
 			"type": "array",
 			"items": {
 				"type": "object",
 				"additionalProperties": false,
-				"required": [ "name" ],
+				"required": [
+					"name"
+				],
 				"properties": {
 					"name": {
 						"type": "string"
@@ -30,12 +57,29 @@
 			"additionalProperties": {
 				"type": "object",
 				"additionalProperties": false,
-				"required": [ "run" ],
+				"required": [
+					"run"
+				],
 				"properties": {
-					"title": { "type": "string" },
-					"serial": { "type": "boolean", "default": false },
-					"run": { "type": "array", "items": { "type": "string" } },
-					"after": { "type": "array", "items": { "type": "string" } }
+					"title": {
+						"type": "string"
+					},
+					"serial": {
+						"type": "boolean",
+						"default": false
+					},
+					"run": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"after": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
 				}
 			},
 			"propertyNames": {
@@ -45,7 +89,10 @@
 		"alias": {
 			"type": "object",
 			"additionalProperties": {
-				"type": [ "string", "array" ],
+				"type": [
+					"string",
+					"array"
+				],
 				"items": {
 					"type": "string"
 				}

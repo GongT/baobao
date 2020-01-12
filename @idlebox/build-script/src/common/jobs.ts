@@ -22,10 +22,7 @@ if (colorEnabled) {
 }
 
 export function createOtherJobFunc(jobName: string, path: string): ExecFunc {
-	return createJobFunc(
-		jobName, path,
-		[process.argv[0], process.argv[1], jobName],
-	);
+	return createJobFunc(jobName, path, [process.argv[0], process.argv[1], jobName]);
 }
 
 function colorIfNot(stdout: boolean, color: string, l: string) {
@@ -38,8 +35,8 @@ function colorIfNot(stdout: boolean, color: string, l: string) {
 	}
 }
 
-export function createJobFunc(jobName: string, path: string, cmds: string[]): ExecFunc {
-	let [command, ...args] = cmds;
+export function createJobFunc(jobName: string, path: string, cmds: string | string[]): ExecFunc {
+	let [command, ...args] = Array.isArray(cmds) ? cmds : cmds.split(/\s+/);
 	if (!command) {
 		throw new Error(`job ${jobName} has no command line`);
 	}
@@ -73,19 +70,28 @@ export function createJobFunc(jobName: string, path: string, cmds: string[]): Ex
 			stdio: ['ignore', 'pipe', 'pipe'],
 		});
 
-		ps.stdout!.pipe(split2()).on('data', (l: string) => {
-			colorIfNot(true, ignore, l);
-		}).resume();
-		ps.stderr!.pipe(split2()).on('data', (l: string) => {
-			colorIfNot(false, weakRed, l);
-		}).resume();
+		ps
+			.stdout!.pipe(split2())
+			.on('data', (l: string) => {
+				colorIfNot(true, ignore, l);
+			})
+			.resume();
+		ps
+			.stderr!.pipe(split2())
+			.on('data', (l: string) => {
+				colorIfNot(false, weakRed, l);
+			})
+			.resume();
 
-		await ps.then(() => {
-			fancyLog.info('%s%s%s: success.', green, jobName, reset);
-		}, (e: Error) => {
-			fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
-			throw e;
-		});
+		await ps.then(
+			() => {
+				fancyLog.info('%s%s%s: success.', green, jobName, reset);
+			},
+			(e: Error) => {
+				fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
+				throw e;
+			}
+		);
 	};
 
 	return functionWithName(callback, jobName, `${command} ${args.join(' ')}`);

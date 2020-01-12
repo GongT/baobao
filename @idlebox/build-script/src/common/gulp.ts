@@ -1,4 +1,4 @@
-import { nameFunction } from '@idlebox/basic-helpers';
+import { nameFunction } from '@idlebox/helpers';
 import * as Gulp from 'gulp';
 import { ExecFunc, MapLike } from '../global';
 import { BuildContext } from './buildContext';
@@ -19,7 +19,7 @@ function createAliasRegistry(ctx: BuildContext) {
 	for (const [name, cmd] of ctx.projectJson.alias.entries()) {
 		aliasRegistry[name] = createJobFunc(aliasName(name), ctx.projectRoot, cmd);
 		if (isPrintingTasks) {
-			console.error('[\x1B[38;5;10m%s\x1B[0m] %s', name, cmd.join(' '));
+			console.error('[\x1B[38;5;10m%s\x1B[0m] %s', name, Array.isArray(cmd) ? cmd.join(' ') : cmd);
 		}
 	}
 
@@ -46,11 +46,13 @@ function dependencyResolve(ctx: BuildContext) {
 
 	for (const [name, data] of ctx.projectJson.job.entries()) {
 		if (data.run.size) {
-			const deps: string[] = [...data.preRun, ...data.run, ...data.postRun].filter((item) => {
-				return item.startsWith('@');
-			}).map((item) => {
-				return item.slice(1);
-			});
+			const deps: string[] = [...data.preRun, ...data.run, ...data.postRun]
+				.filter((item) => {
+					return item.startsWith('@');
+				})
+				.map((item) => {
+					return item.slice(1);
+				});
 
 			if (isFullFill(deps)) {
 				orderDepend.push(name);
@@ -103,13 +105,11 @@ function createPickPreviousJob(pickAlias: (name: string) => ExecFunc) {
 		pickAction(name: string) {
 			if (name.startsWith('@')) {
 				return pickJob(name.slice(1));
-
 			} else {
 				return pickAlias(name);
 			}
 		},
 	};
-
 }
 
 export function load(gulp: typeof Gulp, _dirname: string) {
@@ -127,37 +127,21 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 		const list: Gulp.TaskFunction[] = [];
 
 		if (data.preRun.size || data.after.size) {
-			list.unshift(nameFunction(
-				`${name}:pre`,
-				gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]),
-			));
+			list.unshift(
+				nameFunction(`${name}:pre`, gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]))
+			);
 		}
 		if (data.run.size) {
-			list.push(nameFunction(
-				`${name}:run`,
-				gulpConcatAction(gulp, map(data.run, pickAction), data.serial),
-			));
+			list.push(nameFunction(`${name}:run`, gulpConcatAction(gulp, map(data.run, pickAction), data.serial)));
 		}
 		if (data.postRun.size) {
-			list.push(nameFunction(
-				`${name}:post`,
-				gulpConcatAction(gulp, map(data.preRun, pickJob)),
-			));
+			list.push(nameFunction(`${name}:post`, gulpConcatAction(gulp, map(data.preRun, pickJob))));
 		}
 
-		const fn = list.length === 0
-			? function emptyJob() {}
-			: (list.length === 1
-					? list[0]
-					: gulp.series(...list)
-			);
+		const fn = list.length === 0 ? function emptyJob() {} : list.length === 1 ? list[0] : gulp.series(...list);
 
 		registerJob(name, fn);
-		task(
-			gulp,
-			name,
-			functionWithName(fn, name, data.title),
-		);
+		task(gulp, name, functionWithName(fn, name, data.title));
 	}
 }
 

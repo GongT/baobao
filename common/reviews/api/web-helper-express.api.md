@@ -1,1 +1,1 @@
-../../../web/web-helper-express/docs/web-helper-express.api.md
+../../../@frontpage/web-helper-express/docs/web-helper-express.api.md

@@ -6,18 +6,18 @@
     "oldestForwardsCompatibleVersion": 1001
   },
   "kind": "Package",
-  "canonicalReference": "@idlebox/web-helper-angular!",
+  "canonicalReference": "@frontpage/web-helper-angular!",
   "docComment": "",
-  "name": "@idlebox/web-helper-angular",
+  "name": "@frontpage/web-helper-angular",
   "members": [
     {
       "kind": "EntryPoint",
-      "canonicalReference": "@idlebox/web-helper-angular!",
+      "canonicalReference": "@frontpage/web-helper-angular!",
       "name": "",
       "members": [
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/web-helper-angular!test:function(1)",
+          "canonicalReference": "@frontpage/web-helper-angular!test:function(1)",
           "docComment": "",
           "excerptTokens": [
             {

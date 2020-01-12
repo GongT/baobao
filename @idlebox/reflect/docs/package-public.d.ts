@@ -1,4 +1,4 @@
-import { InitFunc } from '@idlebox/basic-helpers';
+import { InitFunc } from '@idlebox/helpers';
 
 export declare const bindThis: MethodDecorator;
 

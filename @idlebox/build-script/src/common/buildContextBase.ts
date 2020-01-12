@@ -22,7 +22,7 @@ export abstract class BuildContextBase implements IBuildContext {
 		if (args) {
 			this.projectJson.alias.set(name, [command, ...args]);
 		} else {
-			this.projectJson.alias.set(name, command.trim().split(' ').filter(e => e));
+			this.projectJson.alias.set(name, command.trim());
 		}
 	}
 
