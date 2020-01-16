@@ -4,17 +4,17 @@
 	"commands": [
 		{
 			"commandKind": "global",
-			"name": "check-version",
+			"name": "fix",
 			"summary": "Check and update every project's dependency versions",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node @idlebox/rush-tools/bin.js autofix"
+			"shellCommand": "node --experimental-conditional-exports @idlebox/rush-tools/bin.js autofix"
 		},
 		{
 			"commandKind": "global",
 			"name": "watch",
 			"summary": "Run watch in every project",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node --experimental-modules common/scripts/watch-all.js"
+			"shellCommand": "node --experimental-conditional-exports common/scripts/watch-all.js"
 		}
 	],
 	"parameters": [

@@ -34,6 +34,6 @@
 		"@types/node": "^12.7.8",
 		"npm-check-updates": "^3.1.23",
 		"rimraf": "^3.0.0",
-		"typescript": "^3.6.3"
+		"typescript": "next"
 	}
 }

@@ -1,0 +1,22 @@
+{
+	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"declaration": true,
+		"declarationMap": true,
+		"outDir": "../lib",
+		"rootDir": ".",
+		"typeRoots": [
+			"../node_modules/@types"
+		],
+		"plugins": [
+			{
+				"transform": "./register.ts",
+			}
+		],
+		"incremental": false
+	},
+	"include": [
+		"**/*.ts"
+	]
+}

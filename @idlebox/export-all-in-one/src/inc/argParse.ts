@@ -48,7 +48,7 @@ function getTemp() {
 
 export const EXPORT_TEMP_PATH = resolve(
 	getTemp(),
-	'export-all-in-one-working.' + (Math.random() * 1000000).toFixed(0) + '.tmp'
+	'export-all-in-one-working.' // + (Math.random()*10000).toFixed()
 );
 export const DTS_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
 export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');

@@ -5,17 +5,18 @@ import { description } from './common/description';
 import { NormalError } from './common/error';
 
 export default async function main() {
-	const command: undefined | string = process.argv.slice(2).find(item => !item.startsWith('-'));
+	const command: undefined | string = process.argv.slice(2).find((item) => !item.startsWith('-'));
 	if (!command) {
 		await showHelp();
 		return;
 	}
 
-	const fpath = resolve(__dirname, 'commands', command + '.js');
+	const fpath = resolve(__dirname, 'commands', command + '.cjs');
 	if (await exists(fpath)) {
-		const argv = process.argv.slice(2).filter(item => item !== command);
+		const argv = process.argv.slice(2).filter((item) => item !== command);
 		try {
-			await require(fpath).default(argv);
+			const { default: fn } = await import(fpath);
+			fn(argv);
 		} catch (e) {
 			if (e instanceof NormalError) {
 				console.error(e.message);
@@ -35,7 +36,7 @@ async function showHelp() {
 	for (const fname of await readdir(fdir)) {
 		if (fname.endsWith('.js')) {
 			const command = fname.replace(/\.js$/, '');
-			const fn = require(resolve(fdir, fname)).default;
+			const { default: fn } = await import(resolve(fdir, command));
 			const desc = description(fn);
 
 			list.push([command, desc]);

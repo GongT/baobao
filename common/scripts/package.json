@@ -2,6 +2,7 @@
 	"name": "meta-scripts",
 	"private": true,
 	"type": "module",
+	"version": "0.0.0",
 	"scripts": {
 		"build": "",
 		"clean": "",
@@ -14,6 +15,7 @@
 		"jsonc": "^2.0.0"
 	},
 	"devDependencies": {
+		"@idlebox/rush-tools": "^1.0.6",
 		"@types/fs-extra": "^8.0.0"
 	}
 }

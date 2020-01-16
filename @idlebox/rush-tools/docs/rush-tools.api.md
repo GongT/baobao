@@ -63,7 +63,7 @@ export class NormalError extends Error {
 // Warning: (ae-missing-release-tag) "resolveRushProjectBuildOrder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function resolveRushProjectBuildOrder(path?: string): void;
+export function resolveRushProjectBuildOrder(path?: string): IProjectConfig[][];
 
 // Warning: (ae-missing-release-tag) "runAutoFix" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

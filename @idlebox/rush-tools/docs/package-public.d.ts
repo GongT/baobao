@@ -24,7 +24,7 @@ export declare function main(): Promise<void>;
 export declare class NormalError extends Error {
 }
 
-export declare function resolveRushProjectBuildOrder(path?: string): void;
+export declare function resolveRushProjectBuildOrder(path?: string): IProjectConfig[][];
 
 export declare function runAutoFix(): Promise<void>;
 

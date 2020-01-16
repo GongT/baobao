@@ -1,8 +1,8 @@
 dependencies:
+  '@gongt/dual-package-runtime': 1.0.0
   '@idlebox/helpers': 1.0.8
   '@idlebox/node-helpers': 1.0.5
   '@idlebox/platform': 1.0.10
-  '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': 7.7.2
   '@microsoft/rush-lib': 5.18.0
   '@rush-temp/build-script': 'file:projects/build-script.tgz'
@@ -19,9 +19,10 @@ dependencies:
   '@rush-temp/platform': 'file:projects/platform.tgz'
   '@rush-temp/poormans-package-change': 'file:projects/poormans-package-change.tgz'
   '@rush-temp/reflect': 'file:projects/reflect.tgz'
-  '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz'
+  '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz_ts-node@8.6.2'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
+  '@rush-temp/typescript-transformer-dual-package': 'file:projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz'
   '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz'
   '@types/command-exists': 1.2.0
@@ -51,10 +52,16 @@ dependencies:
   source-map-support: 0.5.16
   split2: 3.1.1
   targz: 1.0.1
+  ts-node: 8.6.2
   tsconfig-paths: 3.9.0
-  typescript: 3.7.4
+  tslib: 1.10.0
 lockfileVersion: 5.1
 packages:
+  /@gongt/dual-package-runtime/1.0.0:
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-PN30aJpsb5rOsIJiCg7Cxv5ZI4aCKLKJni1rYyS2Oz0M+zIwc/m1Cn8kBEaIf1ADkfTXcvpyWI7AOEjR4m8ssw==
   /@idlebox/basic-helpers/1.0.7:
     dependencies:
       source-map-support: 0.5.16
@@ -87,26 +94,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Hou4CdXlFFtDppOYW91NQPa4iClu2T7yco+Zuj96BQ1eD33kv3jDaxdDCBoOXk7SBmAI7L6iNMRsCM5FXUlOzg==
-  /@idlebox/node-json-edit/1.0.19:
-    dependencies:
-      comment-json: 2.4.1
-    dev: false
-    resolution:
-      integrity: sha512-jGooxdnfyhN/o/5BrUwgHdrgBYYTYD7MwXVRYAUi7mzwQetxqhROehue8qqW1/1i6vuyUIszOPUZQKxC3bw03g==
   /@idlebox/platform/1.0.10:
     dev: false
     resolution:
       integrity: sha512-zE4pNLt51k//c195gib3/0ZjWtFbQQWWnB/5/wvKa+cJ3C0pot6ZCw6nxQUupA9oOdbcKD7rtPES30GWEkBy6Q==
-  /@idlebox/rush-tools/1.0.0:
-    dependencies:
-      '@idlebox/node-json-edit': 1.0.19
-      fs-extra: 8.1.0
-      jsonc: 2.0.0
-      pacote: 9.5.12
-    dev: false
-    hasBin: true
-    resolution:
-      integrity: sha512-oB/TkO4SI+/iGxfIElKKCRM+f8cvcP7Ay/vjC0JkKybqFuF2GMegjKcZuUpFLb1LZVnB79U7SwD/rWzZnNbbOQ==
   /@microsoft/api-extractor-model/7.7.2:
     dependencies:
       '@microsoft/node-core-library': 3.18.2
@@ -568,6 +559,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-+cjBN1fMHde8N5rHeyxipcKGjEA=
+  /arg/4.1.2:
+    dev: false
+    resolution:
+      integrity: sha512-+ytCkGcBtHZ3V2r2Z06AncYO8jz46UEamcspGoU8lHcEbpn6J77QK0vdWvChsclg/tM5XIJC5tnjmPp7Eq6Obg==
   /argparse/1.0.10:
     dependencies:
       sprintf-js: 1.0.3
@@ -1382,6 +1377,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-f3Qt4Gb8dIvI24IFad3c5Jvw1FY=
+  /diff/4.0.2:
+    dev: false
+    engines:
+      node: '>=0.3.1'
+    resolution:
+      integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
   /dot-prop/4.2.0:
     dependencies:
       is-obj: 1.0.1
@@ -2931,6 +2932,10 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-2w31R7SJtieJJnQtGc7RVL2StM2vGYVfqUOvUDxH6bC6aJTxPxTF0GnIgCyu7tjockiUWAYQRbxa7vKn34s5sQ==
+  /make-error/1.3.5:
+    dev: false
+    resolution:
+      integrity: sha512-c3sIjNUow0+8swNwVpqoH4YCShKNFkMaw6oH1mNS2haDZQqkeZFlHS3dhoeEbKKmJB4vXpJucU6oH75aDYeE9g==
   /make-fetch-happen/5.0.2:
     dependencies:
       agentkeepalive: 3.5.2
@@ -4819,6 +4824,37 @@ packages:
     dev: false
     resolution:
       integrity: sha512-0z3j8R7MCjy10kc/g+qg7Ln3alJTodw9aDuVWZa3uiWqfuBMKeAeP2ocWcxoyM3D73yz3Jt/Pu4qPr4wHSdB/Q==
+  /ts-node/8.6.2:
+    dependencies:
+      arg: 4.1.2
+      diff: 4.0.2
+      make-error: 1.3.5
+      source-map-support: 0.5.16
+      yn: 3.1.1
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    hasBin: true
+    peerDependencies:
+      typescript: '>=2.7'
+    resolution:
+      integrity: sha512-4mZEbofxGqLL2RImpe3zMJukvEvcO1XP8bj8ozBPySdCUXEcU5cIRwR0aM3R+VoZq7iXc8N86NC0FspGRqP4gg==
+  /ts-node/8.6.2_typescript@3.7.4:
+    dependencies:
+      arg: 4.1.2
+      diff: 4.0.2
+      make-error: 1.3.5
+      source-map-support: 0.5.16
+      typescript: 3.7.4
+      yn: 3.1.1
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    hasBin: true
+    peerDependencies:
+      typescript: '>=2.7'
+    resolution:
+      integrity: sha512-4mZEbofxGqLL2RImpe3zMJukvEvcO1XP8bj8ozBPySdCUXEcU5cIRwR0aM3R+VoZq7iXc8N86NC0FspGRqP4gg==
   /tsconfig-paths/3.9.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -4832,6 +4868,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+  /ttypescript/1.5.10_ts-node@8.6.2+typescript@3.7.4:
+    dependencies:
+      resolve: 1.14.2
+      ts-node: 8.6.2
+      typescript: 3.7.4
+    dev: false
+    hasBin: true
+    peerDependencies:
+      ts-node: ^8.0.2
+      typescript: ^3.2.2
+    resolution:
+      integrity: sha512-Hk7TRej1hM+p+Fo+Pyb/XK9pe9CAt3Sh5n5YRutxFS8hUgkh2u1Vd2K40kMcNP3WYhiVFBMqXwM/2E8O95Ep6g==
   /tunnel-agent/0.6.0:
     dependencies:
       safe-buffer: 5.2.0
@@ -5205,6 +5253,16 @@ packages:
     dev: false
     resolution:
       integrity: sha1-a6MY6xaWFyf10oT46gA+jWFU0Mg=
+  /yesno/0.3.1:
+    dev: false
+    resolution:
+      integrity: sha512-7RbCXegyu6DykWPWU0YEtW8gFJH8KBL2d5l2fqB0XpkH0Y9rk59YSSWpzEv7yNJBGAouPc67h3kkq0CZkpBdFw==
+  /yn/3.1.1:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
   /z-schema/3.18.4:
     dependencies:
       lodash.get: registry.npmjs.org/lodash.get/4.4.2
@@ -5241,7 +5299,7 @@ packages:
     dev: false
     name: '@rush-temp/build-script'
     resolution:
-      integrity: sha512-cQ/yhkbSBrscLpaTsdeaV86aaxsH0uQzmCphC18RtQrIVsNrg0qncxw1r1tCFqnCSMajh/z6mfY+mnyVA8qKHA==
+      integrity: sha512-PBexG6tspXmx68nW5C0uXDMp0dj5CJPWpnwegMIXKVklS1suro0LEvCxTRpsAM+wdUAHr0gWkPB2n4e980mWHQ==
       tarball: 'file:projects/build-script.tgz'
     version: 0.0.0
   'file:projects/ensure-symlink.tgz':
@@ -5262,11 +5320,13 @@ packages:
       fs-extra: 8.1.0
       gulp: 4.0.2
       source-map-support: 0.5.16
+      tslib: 1.10.0
       typescript: 3.7.4
+      yesno: 0.3.1
     dev: false
     name: '@rush-temp/export-all-in-one-inject'
     resolution:
-      integrity: sha512-89iVRr5pfDAwSk4NYHCicYXJt1q6A6vmmfMT9YHhirhJIwOQ+Z5DPcpUUdbpEyponYiimbv748ci3kltxjx1eQ==
+      integrity: sha512-Qxn87LcJksRdFMLB7gG7U6gkuj+IsSs8yKvdJjyFVRpGqQ2n4UhEDhHJlNpb2+ohah7MPWqeN1aevUYKxs3MZA==
       tarball: 'file:projects/export-all-in-one-inject.tgz'
     version: 0.0.0
   'file:projects/export-all-in-one.tgz':
@@ -5283,7 +5343,7 @@ packages:
     dev: false
     name: '@rush-temp/export-all-in-one'
     resolution:
-      integrity: sha512-Z6MukP34GGb89VKCQFbO73Rs1rQbr8UmJT9dZqH3cpkKkV1cFSGN8yA/9EvW/MnozKG/PMp7JDaqudrATcDRhQ==
+      integrity: sha512-Vw8Ue4kKQg3u3EZdQtda8T8mKzVZZoML/wUw/Z7K0LcbM3XkpxDqDTpQ3o+Zbm8hkCusYhSlzeiiaDAMuf0heQ==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
   'file:projects/global.tgz':
@@ -5293,7 +5353,7 @@ packages:
     dev: false
     name: '@rush-temp/global'
     resolution:
-      integrity: sha512-d6mnUu6RoFN6YX4LMMQQrhpzc5CMFHGrldw55VL61vzlssj4dijp8oNV606AkdziljUHW5/H2ugBgCOAF7rD0A==
+      integrity: sha512-6LXekrEppMYAFMVYQANwe3b7obW86+OoxqZ4xE6yMh59v8fELYqGzw5H/ZacPUku1AXKrbJf0awBe07d9+wZAg==
       tarball: 'file:projects/global.tgz'
     version: 0.0.0
   'file:projects/helpers.tgz':
@@ -5304,7 +5364,7 @@ packages:
     dev: false
     name: '@rush-temp/helpers'
     resolution:
-      integrity: sha512-HNxg/d0iMvN6A/MuUVcoRIxN4yNLviIryWyh1FWynIfkbbQVLd7kF9zB4O27WBxXG2fcGImtA9QH6Q0c8o/ivg==
+      integrity: sha512-FlFbmzfzp9KT1DJqpnMxMCvxhmoqQqGYE7rgGx0mnRVDrDHhEUZ/wE6Vvepcl+qfoWbTupVmY9ANYZ9TybBx2w==
       tarball: 'file:projects/helpers.tgz'
     version: 0.0.0
   'file:projects/lifecycle.tgz':
@@ -5314,7 +5374,7 @@ packages:
     dev: false
     name: '@rush-temp/lifecycle'
     resolution:
-      integrity: sha512-0rCq5ChBZ5ynhVFBuFXyXVgYrn9m5N12IhLBKxVCue42WQumA+zNqH4jXh2dQHVAaIiStLS/v/0G35ktvaHX9w==
+      integrity: sha512-1yYsyk1wwclidMBC8w5FBf84NLUIUcmNyloltOewmq3xrDaBrULN68cpyu/F71ydhHhcgp/O1k9XgUeAoaU69g==
       tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
   'file:projects/meta-scripts.tgz':
@@ -5326,7 +5386,7 @@ packages:
     dev: false
     name: '@rush-temp/meta-scripts'
     resolution:
-      integrity: sha512-NfWEG9FNBZypXT3ASD+l13gYTLiptII+vvDYKLrEQV7DsUZfo2POLdz9nC8ERjfdFARt6bmbCFyj99JnSayAJQ==
+      integrity: sha512-JFZQmZa+xKnFvE0wFqi7a7CXN8mkGYo5Qel/hHrt+hjkHbPb8QEpKzzrN2VkQ4BTf4GMT9ZOETW21bG2Ss+ZOA==
       tarball: 'file:projects/meta-scripts.tgz'
     version: 0.0.0
   'file:projects/node-helpers.tgz':
@@ -5338,7 +5398,7 @@ packages:
     dev: false
     name: '@rush-temp/node-helpers'
     resolution:
-      integrity: sha512-0y02R6IkY9UOLi4ZTf/Jr1a2G+itd8XCwqbWiK9lI0rEgseZpobtGHwvezFC17td83oz8fx/Z6vNgowbED8Lyg==
+      integrity: sha512-hEdrglmQJW7b6Kez2mzjomDHxL3eZo0CJ88KwQLGu0BF+bVn4RJT3LOl5hyxZpjI5aZKtBIzJUPLv4UuujVJ5g==
       tarball: 'file:projects/node-helpers.tgz'
     version: 0.0.0
   'file:projects/node-json-edit.tgz':
@@ -5352,7 +5412,7 @@ packages:
     dev: false
     name: '@rush-temp/node-json-edit'
     resolution:
-      integrity: sha512-XnoPGn5HyTJWPjQT27XTz3VKkrzGllytrQTL8VhKZ8h6l5FK2aHwKVgSI39gtknk0/dUKLiF3mIAYz7PeY32/A==
+      integrity: sha512-ZWvtXTFDTJmCE05dMorpQwIl0U0menap4gg4RYY+/wB9SeZv8voke7hEQbEpIdbV32kV6CrhdVQsBRzni68yhw==
       tarball: 'file:projects/node-json-edit.tgz'
     version: 0.0.0
   'file:projects/package-manager.tgz':
@@ -5371,7 +5431,7 @@ packages:
     dev: false
     name: '@rush-temp/package-manager'
     resolution:
-      integrity: sha512-/kq/Scd72Vq/5zrj3BgmZRTXT79X5geg9B6MWsxpOoBvnT6IIFZZIN3zO0zgQPn4FqPwzYgz62DaZDeY4ienuw==
+      integrity: sha512-yRhxB5DJDbWqiybL637IMmYXCdgYkD9a3+vz9+Aq2WS1h5Go9/BKF6mioAqF6bFSiWyhRdWwPGMgWqOWe/SIcw==
       tarball: 'file:projects/package-manager.tgz'
     version: 0.0.0
   'file:projects/platform.tgz':
@@ -5383,7 +5443,7 @@ packages:
     dev: false
     name: '@rush-temp/platform'
     resolution:
-      integrity: sha512-pZ28VjsiwqWclkOI9PjKuweDqNnO0YGmeOX8CAWjy/cZjgskv0HeVEYw7iG8vV09Q5WC8Z+8jLNTckkdQvWwng==
+      integrity: sha512-sVj4reiRPylEVciP9jPfwu84etF6YHs80JJbNVmvKWkXa6orYrW7q8ZmMIFm2n0WlvJN5NwM7WrBhNMGPg68BQ==
       tarball: 'file:projects/platform.tgz'
     version: 0.0.0
   'file:projects/poormans-package-change.tgz':
@@ -5406,7 +5466,7 @@ packages:
     dev: false
     name: '@rush-temp/poormans-package-change'
     resolution:
-      integrity: sha512-o2pVVY4mU8p5yHm1Ixd5phRWREm4utJgi+cGdspUxFb7RDoE7QHr1PShtc1gOZZ0z2qYuMo77AV/HVwe+8P+ow==
+      integrity: sha512-4so4ytcIOYVeTWXHvaE3wPgiRdck7y7yeWFlnlgOapLFriDtrkYlTuTjfcAWo+lPdnUr5Kjn+O+X7f6DrUDLyw==
       tarball: 'file:projects/poormans-package-change.tgz'
     version: 0.0.0
   'file:projects/reflect.tgz':
@@ -5416,11 +5476,12 @@ packages:
     dev: false
     name: '@rush-temp/reflect'
     resolution:
-      integrity: sha512-+sFvIyssffO2C0/iOfv6UDIE7wm5KWZTxteRPb6/bmQHoYDuio5wUUgB/oFvRnFqa+YolOUrvSd9d5TB6K/dLg==
+      integrity: sha512-qEDCNvpOqhH8RoxoPt6mokMo6+jyESagOclC2x9XPuhZ15efb3rIDEfnmIOSc/xKdGLTbCKRilo91P+9Nep2cA==
       tarball: 'file:projects/reflect.tgz'
     version: 0.0.0
-  'file:projects/rush-tools.tgz':
+  'file:projects/rush-tools.tgz_ts-node@8.6.2':
     dependencies:
+      '@gongt/dual-package-runtime': 1.0.0
       '@microsoft/rush-lib': 5.18.0
       '@types/fs-extra': 8.0.1
       '@types/node': 12.12.24
@@ -5430,11 +5491,16 @@ packages:
       pacote: 9.5.12
       rimraf: 3.0.0
       source-map-support: 0.5.16
+      tslib: 1.10.0
+      ttypescript: 1.5.10_ts-node@8.6.2+typescript@3.7.4
       typescript: 3.7.4
     dev: false
+    id: 'file:projects/rush-tools.tgz'
     name: '@rush-temp/rush-tools'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-25DsyJyD8Ggtzt/htAfwiKcWSAAFZVRpj3Xv6CxWsougx9hkG1hg/A+nt3dDcwpdrRToJRMlJyvAiPc3Trv+Qw==
+      integrity: sha512-MBzSWarLCCKF+kcdgf/rzzwJWnqffIvvILfJw7KLjFHnUbzXIXoytvD676woxENPQhU/v50VnWijOSXipUEh5w==
       tarball: 'file:projects/rush-tools.tgz'
     version: 0.0.0
   'file:projects/single-dog-asset.tgz':
@@ -5455,8 +5521,21 @@ packages:
     dev: false
     name: '@rush-temp/single-dog'
     resolution:
-      integrity: sha512-0fetmznbmqLTd38JCmIkZ/rz9xzIIegOdbeGjkyJJUZhq7okGdDchOxIAwbW5VLn/urDX3dpkdmGto5V9py/Sw==
+      integrity: sha512-CDi551/ZlN2DrmPTUw9k945DKaeNhyxE9tAHeb2Z5UxXoxdeczVL+il8Z7iaGckLKOHhC5fP2wmGoVFjxBPKBQ==
       tarball: 'file:projects/single-dog.tgz'
+    version: 0.0.0
+  'file:projects/typescript-transformer-dual-package.tgz':
+    dependencies:
+      '@types/node': 12.12.24
+      rimraf: 3.0.0
+      ts-node: 8.6.2_typescript@3.7.4
+      ttypescript: 1.5.10_ts-node@8.6.2+typescript@3.7.4
+      typescript: 3.7.4
+    dev: false
+    name: '@rush-temp/typescript-transformer-dual-package'
+    resolution:
+      integrity: sha512-wvz4rGiuRuK+JpjS6OTrTx7Ve5AQ54ikLFHz1qK44T2l/3PmTmKnsEDW81HDz9edAb30eFyneBaRkd0p8ztlvQ==
+      tarball: 'file:projects/typescript-transformer-dual-package.tgz'
     version: 0.0.0
   'file:projects/web-helper-angular.tgz':
     dependencies:
@@ -5466,7 +5545,7 @@ packages:
     dev: false
     name: '@rush-temp/web-helper-angular'
     resolution:
-      integrity: sha512-Zk0bAyHfJ90768vQR4Vl9WmUeZU3ICmaoCcZqrQkUGzmO7MPX3AH9ihOH4r9+zxWYLJOD3kA7JX480oxtpoO/A==
+      integrity: sha512-sBRiRKlrlNOSwe9VESxRw/TMlcCYRkgw0z9VWOk33Q0jOM5p58pEwU4nNG+lrIED1iHDJ9pC8ecm6Yk2Q9Z70A==
       tarball: 'file:projects/web-helper-angular.tgz'
     version: 0.0.0
   'file:projects/web-helper-express.tgz':
@@ -5477,7 +5556,7 @@ packages:
     dev: false
     name: '@rush-temp/web-helper-express'
     resolution:
-      integrity: sha512-+4eXb4cA0UiABKq6XJiK76inSvCeLj/LX4K87B6uXG4tNXQWkQk7jmxflUyVSsb1KFxYXy0/+InZwU2M1EcKnQ==
+      integrity: sha512-7+G5fAqslzK10PbK5kt1kqkWrkozJ8wOgv1G7kmOseSdvs344X7LHaFbKu1vbjDMr2Yw82aQsgTCbMh8t7VviA==
       tarball: 'file:projects/web-helper-express.tgz'
     version: 0.0.0
   registry.npmjs.org/fs.realpath/1.0.0:
@@ -5614,10 +5693,10 @@ packages:
     version: 2.1.1
 registry: ''
 specifiers:
+  '@gongt/dual-package-runtime': ^1.0.0
   '@idlebox/helpers': ^1.0.8
   '@idlebox/node-helpers': ^1.0.5
   '@idlebox/platform': ^1.0.10
-  '@idlebox/rush-tools': 1.0.0
   '@microsoft/api-extractor': ^7.4.1
   '@microsoft/rush-lib': ^5.18.0
   '@rush-temp/build-script': 'file:./projects/build-script.tgz'
@@ -5637,6 +5716,7 @@ specifiers:
   '@rush-temp/rush-tools': 'file:./projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
+  '@rush-temp/typescript-transformer-dual-package': 'file:./projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
   '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
   '@types/command-exists': ^1.2.0
@@ -5666,5 +5746,6 @@ specifiers:
   source-map-support: '*'
   split2: ^3.1.1
   targz: ^1.0.1
+  ts-node: ^8.6.2
   tsconfig-paths: ^3.8.0
-  typescript: 3.7.4
+  tslib: ^1.10.0

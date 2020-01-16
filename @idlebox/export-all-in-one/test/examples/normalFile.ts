@@ -1,0 +1,1 @@
+export function FunctionFromNormal(): void {}

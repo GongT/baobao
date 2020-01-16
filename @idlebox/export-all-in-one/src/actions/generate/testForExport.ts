@@ -1,6 +1,6 @@
-import { displayPartsToString, getJSDocTags, Node, TypeChecker } from 'typescript';
-import { idToString } from '../../inc/util';
+import { getJSDocTags, Node } from 'typescript';
 import { exportConfig } from '../../inc/argParse';
+import { idToString } from '../../inc/util';
 
 export enum ExportType {
 	EXCLUDE_INTERNAL,
@@ -32,17 +32,4 @@ export function checkCommentType(node: Node): ExportType {
 		}
 	}
 	return DefaultVisible;
-}
-
-export function nodeComment(ret: string[], node: Node, checker: TypeChecker) {
-	const tags = getJSDocTags(node);
-	if (tags.length) {
-		ret.unshift(tags[0].parent.getFullText());
-		return;
-	}
-	const symb = checker.getSymbolAtLocation((node as any).name);
-	if (symb) {
-		const jsdocs = symb.getDocumentationComment(checker);
-		ret.unshift('/**' + displayPartsToString(jsdocs) + '*/');
-	}
 }

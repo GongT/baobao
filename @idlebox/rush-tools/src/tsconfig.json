@@ -1,13 +1,20 @@
 {
 	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
-		"declaration": false,
-		"declarationMap": false,
+		"module": "ESNext",
+		"declaration": true,
+		"declarationMap": true,
 		"outDir": "../lib",
 		"rootDir": ".",
 		"typeRoots": [
 			"../node_modules/@types"
-		]
+		],
+		"plugins": [
+			{
+				"transform": "@gongt/typescript-transformer-dual-package"
+			}
+		],
+		"incremental": false
 	},
 	"include": [
 		"**/*.ts"

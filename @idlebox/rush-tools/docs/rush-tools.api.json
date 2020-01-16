@@ -424,8 +424,13 @@
               "text": "): "
             },
             {
+              "kind": "Reference",
+              "text": "IProjectConfig",
+              "canonicalReference": "@idlebox/rush-tools!IProjectConfig:interface"
+            },
+            {
               "kind": "Content",
-              "text": "void"
+              "text": "[][]"
             },
             {
               "kind": "Content",
@@ -434,7 +439,7 @@
           ],
           "returnTypeTokenRange": {
             "startIndex": 3,
-            "endIndex": 4
+            "endIndex": 5
           },
           "releaseTag": "Public",
           "overloadIndex": 1,

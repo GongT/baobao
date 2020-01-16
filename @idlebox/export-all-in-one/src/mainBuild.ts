@@ -1,4 +1,4 @@
-import { emptyDir } from 'fs-extra';
+import { emptyDir, rmdir } from 'fs-extra';
 import { runApiExtractor } from './actions/apiExtractor';
 import { compileIndex } from './actions/compileIndex';
 import { compileSource } from './actions/compileSource';
@@ -12,11 +12,12 @@ if (process.argv.includes('-v')) {
 	console.error(configParseResult.options);
 }
 
-export default async function () {
+export default async function() {
 	pushApiExtractorPath();
 
 	await emptyDir(EXPORT_TEMP_PATH);
 	await doGenerate();
+	process.exit(1) || true;
 	await compileSource();
 	await runApiExtractor();
 	await compileIndex();
@@ -24,5 +25,5 @@ export default async function () {
 	// const resultRel = './docs/package-public.d.ts';
 	// console.log(`You can add \x1B[38;5;14m"typings": "${resultRel}"\x1B[0m to your package.json`);
 	console.log('removing temp dir: %s', EXPORT_TEMP_PATH);
-	await emptyDir(EXPORT_TEMP_PATH);
+	await rmdir(EXPORT_TEMP_PATH);
 }

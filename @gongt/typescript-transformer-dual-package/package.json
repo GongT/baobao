@@ -1,0 +1,33 @@
+{
+	"name": "@gongt/typescript-transformer-dual-package",
+	"description": "A TypeScript transformer for use with ttypescript that will (semi-)auto create dual package hazard.",
+	"version": "1.0.2",
+	"license": "WTFPL",
+	"type": "module",
+	"main": "./lib/register.cjs",
+	"module": "./lib/register.js",
+	"exports": {
+		".": {
+			"require": "./lib/register.cjs",
+			"import": "./lib/register.js"
+		}
+	},
+	"scripts": {
+		"prepack": "rimraf output && ttsc -p src",
+		"build": "ttsc -p src",
+		"watch": "tsc -p src -w",
+		"test": ""
+	},
+	"peerDependencies": {
+		"ttypescript": "*",
+		"typescript": ">=3.8.0-dev.20200115"
+	},
+	"devDependencies": {
+		"@idlebox/single-dog-asset": "^1.0.2",
+		"@types/node": "^12.7.8",
+		"rimraf": "^3.0.0",
+		"ts-node": "^8.6.2",
+		"ttypescript": "^1.5.10",
+		"typescript": "next"
+	}
+}

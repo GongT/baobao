@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
-		"target": "esnext",
-		"module": "commonjs",
-		"moduleResolution": "node",
+		"target": "es2020",
+		"module": "CommonJS",
+		"moduleResolution": "Node",
 		"allowJs": false,
 		"allowSyntheticDefaultImports": false,
 		"allowUnreachableCode": false,
@@ -22,7 +22,12 @@
 		"inlineSourceMap": false,
 		"inlineSources": false,
 		"keyofStringsOnly": false,
-		"lib": [ "esnext" ],
+		"lib": [
+			"ESNext",
+			"ESNext.Array",
+			"ESNext.AsyncIterable",
+			"ESNext.Symbol"
+		],
 		"noEmitOnError": true,
 		"noImplicitThis": true,
 		"noImplicitAny": true,
@@ -30,7 +35,9 @@
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
 		"pretty": false,
-		"typeRoots": [ "../node_modules/@types" ],
+		"typeRoots": [
+			"../node_modules/@types"
+		],
 		"removeComments": false,
 		"resolveJsonModule": true,
 		"sourceMap": true,
@@ -39,7 +46,12 @@
 		"strict": true,
 		"strictFunctionTypes": true,
 		"strictNullChecks": true,
-		"strictPropertyInitialization": true
-	},
-	"exclude": [ "_export_all_in_once_index.d.ts", "_export_all_in_once_index.ts" ]
+		"strictPropertyInitialization": true,
+		"useDefineForClassFields": true,
+		"newLine": "lf",
+		"importHelpers": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"incremental": true
+	}
 }

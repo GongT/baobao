@@ -214,6 +214,7 @@ export function stringifyJsonText(data: any): string {
 export function insertKeyAlphabet<T = any>(obj: T, key: any, value: any): T {
 	if (key in obj) {
 		(obj as any)[key] = value;
+		return obj;
 	}
 
 	const keys = Object.keys(obj);

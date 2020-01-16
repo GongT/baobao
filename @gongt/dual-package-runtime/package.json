@@ -1,0 +1,17 @@
+{
+	"name": "@gongt/dual-package-runtime",
+	"description": "when require() without extension, try .cjs first, and then .js.",
+	"version": "1.0.1",
+	"license": "WTFPL",
+	"type": "module",
+	"main": "hook-extension.cjs",
+	"exports": {
+		".": {
+			"import": "./ignore.mjs",
+			"require": "./hook-extension.cjs"
+		}
+	},
+	"scripts": {
+		"postinstall": "echo "
+	}
+}

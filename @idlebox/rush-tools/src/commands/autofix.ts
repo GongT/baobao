@@ -52,6 +52,7 @@ export default async function runAutoFix() {
 		console.log(knownVersions[packName]);
 	}
 
+	let fixed = 0;
 	const fix = (packName: string, deps: { [id: string]: string }) => {
 		if (!deps) {
 			return;
@@ -62,6 +63,7 @@ export default async function runAutoFix() {
 			}
 			if (deps[name] !== knownVersions[name]) {
 				deps[name] = knownVersions[name];
+				fixed++;
 				console.log(' - update dep [%s] of "%s" to version "%s"', name, packName, knownVersions[name]);
 			}
 		}
@@ -74,6 +76,8 @@ export default async function runAutoFix() {
 
 		await writeJsonFileBack(item);
 	}
+
+	console.log('Done. %s package%s fixed', fixed, fixed > 1 ? 's' : '');
 }
 
 async function resolveNpmVersion(packageName: string) {

@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const require = createRequire(__filename);
 const { pathExistsSync } = require('fs-extra');
 
-const { eachProject, getCurrentRushRootPath } = require('../../@idlebox/rush-tools');
+import { eachProject, getCurrentRushRootPath } from '../../@idlebox/rush-tools';
 const { loadJsonFileSync, writeJsonFileBackSync } = require('../../@idlebox/node-json-edit');
 
 const action = createAction();

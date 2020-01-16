@@ -9,7 +9,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const require = createRequire(__filename);
 
-const { resolveRushProjectBuildOrder, eachProject, getCurrentRushRootPath } = require('../../@idlebox/rush-tools');
+import * as test from '@idlebox/rush-tools';
+//{ resolveRushProjectBuildOrder, eachProject, getCurrentRushRootPath }
+console.log(test)
 const commandExists = require('command-exists').sync;
 const { mkdirpSync } = require('fs-extra');
 

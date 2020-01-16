@@ -1,8 +1,9 @@
-module.exports = {
-	hooks: {
-		readPackage,
-	},
-};
+const { resolve } = require('path');
+
+// this file will copy to common/temp before run
+const template = resolve(__dirname, '../../@gongt/typescript-transformer-dual-package/package.json');
+console.warn('copy tsc version from %s', template);
+const someTypescriptVersion = require(template).devDependencies.typescript;
 
 function readPackage(packageJson, context) {
 	// // The karma types have a missing dependency on typings from the log4js package.
@@ -15,21 +16,27 @@ function readPackage(packageJson, context) {
 		return packageJson;
 	}
 
+	if (!packageJson.devDependencies) {
+		packageJson.devDependencies = {};
+	}
+
 	forceResolveSameVersion(packageJson);
 
 	return packageJson;
 }
 
 function forceResolveSameVersion(packageJson) {
-	forceVersion(packageJson, 'typescript', '3.7.4');
+	if (!packageJson.name.startsWith('@rush-temp/')) {
+		forceVersion(packageJson, 'typescript', someTypescriptVersion);
+	}
 }
 
 function forceVersion(parent, packageName, version) {
-	if (parent.dependencies && parent.dependencies['typescript']) {
+	if (parent.dependencies && parent.dependencies[packageName]) {
 		// console.warn('lock deps [%s] from [%s] version to [%s].', packageName, parent.name, version);
 		parent.dependencies[packageName] = version;
 	}
-	if (parent.devDependencies && parent.devDependencies['typescript']) {
+	if (parent.devDependencies && parent.devDependencies[packageName]) {
 		// console.warn('lock devDeps [%s] from [%s] version to [%s].', packageName, parent.name, version);
 		parent.devDependencies[packageName] = version;
 	}
@@ -47,3 +54,9 @@ function fixDependencyIssue(packageJson) {
 			return false;
 	}
 }
+
+module.exports = {
+	hooks: {
+		readPackage,
+	},
+};

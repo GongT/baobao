@@ -1,19 +1,15 @@
 {
-	"$schema": "https://schemas.service.gongt.me:59443/build-script/schema.json",
 	"load": [
 		{
 			"file": "@idlebox/export-all-in-one/build-script-register",
 			"args": [
-				"src/tsconfig.apiesm.json",
 				"src/tsconfig.json"
 			]
 		}
 	],
 	"alias": {
-		"build-esm": "tsc -p src",
-		"watch-esm": "tsc --pretty -w -p src",
-		"build-cjs": "tsc -p src/tsconfig.apiesm.json",
-		"watch-cjs": "tsc --pretty -w -p src/tsconfig.apiesm.json",
+		"build-ts": "ttsc -p src",
+		"watch-ts": "ttsc --pretty -w -p src",
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
@@ -24,8 +20,7 @@
 		"build": {
 			"title": "Build project",
 			"run": [
-				"build-esm",
-				"build-cjs"
+				"build-ts"
 			]
 		},
 		"distclean": {
@@ -76,8 +71,7 @@
 		"watch": {
 			"title": "Watch mode build project",
 			"run": [
-				"watch-esm",
-				"watch-cjs"
+				"watch-ts"
 			]
 		}
 	}

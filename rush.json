@@ -138,6 +138,16 @@
 			"shouldPublish": true
 		},
 		{
+			"packageName": "@gongt/typescript-transformer-dual-package",
+			"projectFolder": "@gongt/typescript-transformer-dual-package",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@gongt/dual-package-runtime",
+			"projectFolder": "@gongt/dual-package-runtime",
+			"shouldPublish": true
+		},
+		{
 			"packageName": "meta-scripts",
 			"projectFolder": "common/scripts",
 			"shouldPublish": false
