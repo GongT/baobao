@@ -3,7 +3,7 @@
 		{
 			"file": "@idlebox/export-all-in-one/build-script-register",
 			"args": [
-				"src/tsconfig.json"
+				"src/tsconfig.export.json"
 			]
 		}
 	],

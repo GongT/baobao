@@ -19,20 +19,7 @@ export declare interface IProjectConfig {
     versionPolicyName?: string;
 }
 
-export declare function main(): Promise<void>;
-
-export declare class NormalError extends Error {
-}
-
 export declare function resolveRushProjectBuildOrder(path?: string): IProjectConfig[][];
-
-export declare function runAutoFix(): Promise<void>;
-
-export declare function runForEach(argv: string[]): Promise<void>;
-
-export declare function runList(argv: string[]): Promise<void>;
-
-export declare function runRegisterProject(): Promise<void>;
 
 export declare function toProjectPathAbsolute(projectFolder: string): string;
 
