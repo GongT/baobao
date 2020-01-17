@@ -5,22 +5,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "node",
+			"type": "extensionHost",
 			"request": "launch",
-			"name": "启动程序",
-			"skipFiles": [
-				"<node_internals>/**"
-			],
+			"name": "启动扩展",
+			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--inspect",
-				"${workspaceFolder}/@idlebox/build-script/bin/multi-call.js",
-				"build"
+				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-remote-thief"
 			],
-			"cwd": "${workspaceFolder}/@idlebox/lifecycle",
-			"port": 9229,
 			"outFiles": [
-				"${workspaceFolder}/**/*.js"
+				"${workspaceFolder}//@gongt/vscode-remote-thief/lib/**/*.js"
 			]
 		}
+	
 	]
 }

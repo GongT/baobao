@@ -1,24 +1,19 @@
-import { resolve, basename, dirname } from 'path';
-import { createRequire } from 'module';
+import * as test from '@idlebox/rush-tools';
 import { spawn, spawnSync } from 'child_process';
 import { writeFileSync } from 'fs';
 import { userInfo } from 'os';
-import { fileURLToPath } from 'url';
+import { basename, dirname, resolve } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const require = createRequire(__filename);
-
-import * as test from '@idlebox/rush-tools';
 //{ resolveRushProjectBuildOrder, eachProject, getCurrentRushRootPath }
-console.log(test)
+
+console.log(test);
 const commandExists = require('command-exists').sync;
 const { mkdirpSync } = require('fs-extra');
 
 const needToWatch = [];
 
 console.log(resolveRushProjectBuildOrder());
-process.exit(0)
+process.exit(0);
 
 const root = getCurrentRushRootPath();
 for (const { projectFolder } of eachProject()) {

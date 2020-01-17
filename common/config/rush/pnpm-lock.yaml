@@ -26,6 +26,7 @@ dependencies:
   '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
   '@rush-temp/typescript-transformer-dual-package': 'file:projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/typescript-transformer-import-commonjs': 'file:projects/typescript-transformer-import-commonjs.tgz'
+  '@rush-temp/vscode-remote-thief': 'file:projects/vscode-remote-thief.tgz'
   '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz_ts-node@8.6.2'
   '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz_ts-node@8.6.2'
   '@types/command-exists': 1.2.0
@@ -40,6 +41,7 @@ dependencies:
   '@types/semver': 6.2.0
   '@types/split2': 2.1.6
   '@types/targz': 1.0.0
+  '@types/vscode': 1.41.0
   command-exists: 1.2.8
   comment-json: 2.4.1
   execa: 2.1.0
@@ -470,6 +472,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-2o6a2ixaVI2EbwBPg1QYLGQoHK56p/8X/sGfKbFC8N6sY9lfjsMf/GprtkQkSya0D4uRiutRZ2BWj7k3JvLsAQ==
+  /@types/vscode/1.41.0:
+    dev: false
+    resolution:
+      integrity: sha512-7SfeY5u9jgiELwxyLB3z7l6l/GbN9CqpCQGkcRlB7tKRFBxzbz2PoBfGrLxI1vRfUCIq5+hg5vtDHExwq5j3+A==
   /@yarnpkg/lockfile/1.0.2:
     dev: false
     resolution:
@@ -4999,6 +5005,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-N9FmOHSbBJQzhVjKFbBGAvnZ5xvH3Ti4vHfNYD2KuhKDjdB7O6qPmFLwoU/C4Cx0a8XiNipsL2K5sYklmSCVcg==
+  /typescript/3.8.0-dev.20200117:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-80flPGfPkB9agERB/XHIt1C9F27EYBt3alVUS8VVjblPvigLjQbva/tkAhGacsbrRYzL8qWIEwRVTOrtiT2CaQ==
   /unc-path-regex/0.1.2:
     dev: false
     engines:
@@ -5502,15 +5515,16 @@ packages:
       '@idlebox/node-json-edit': 1.0.19
       '@idlebox/rush-tools': 1.0.6
       '@types/fs-extra': 8.0.1
+      '@types/node': 12.12.24
       command-exists: 1.2.8
       fs-extra: 8.1.0
       jsonc: 2.0.0
       prettier: 1.19.1
-      typescript: 3.8.0-dev.20200115
+      typescript: 3.8.0-dev.20200117
     dev: false
     name: '@rush-temp/meta-scripts'
     resolution:
-      integrity: sha512-H1nvastpNIib6xxomjM+o3uYB1ZWbXMR4WEcazkwC7u63My87lAmzT7DJIHjOFB+eTc7lt48XcydUf2t+W85sw==
+      integrity: sha512-V0LgNeDcwoC6Taa1DshsJDjpyg/rRg8EjaS3OU0LzBxUQXsgYIIpHuKL0pjYSAtHtyDIfDc5mIO2cjEJ+1ojvQ==
       tarball: 'file:projects/meta-scripts.tgz'
     version: 0.0.0
   'file:projects/node-helpers.tgz_ts-node@8.6.2':
@@ -5712,6 +5726,19 @@ packages:
       integrity: sha512-bj3QvriwtP6BxfHQUM2eRqg7O0IjV97BGhfF1yDrBNvlsZrqxgYk9LX+ErqDx0HV5D6lizkoCAhbKFOY13Sz5A==
       tarball: 'file:projects/typescript-transformer-import-commonjs.tgz'
     version: 0.0.0
+  'file:projects/vscode-remote-thief.tgz':
+    dependencies:
+      '@types/node': 12.12.24
+      '@types/vscode': 1.41.0
+      source-map-support: 0.5.16
+      tslib: 1.10.0
+      typescript: 3.8.0-dev.20200117
+    dev: false
+    name: '@rush-temp/vscode-remote-thief'
+    resolution:
+      integrity: sha512-d+qSnm3nYKq8v6abf4MJIVIHxV0QLNu4IkeOycIMpDkzxpDltaz+Y0iEQGQYHccfTnTDkDrqf7jFeW5U/5GFIw==
+      tarball: 'file:projects/vscode-remote-thief.tgz'
+    version: 0.0.0
   'file:projects/web-helper-angular.tgz_ts-node@8.6.2':
     dependencies:
       '@types/node': 12.12.24
@@ -5905,6 +5932,7 @@ specifiers:
   '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
   '@rush-temp/typescript-transformer-dual-package': 'file:./projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/typescript-transformer-import-commonjs': 'file:./projects/typescript-transformer-import-commonjs.tgz'
+  '@rush-temp/vscode-remote-thief': 'file:./projects/vscode-remote-thief.tgz'
   '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
   '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
   '@types/command-exists': ^1.2.0
@@ -5919,6 +5947,7 @@ specifiers:
   '@types/semver': ^6.0.2
   '@types/split2': ^2.1.6
   '@types/targz': ^1.0.0
+  '@types/vscode': latest
   command-exists: ^1.2.8
   comment-json: ^2.1.0
   execa: ^2.0.4

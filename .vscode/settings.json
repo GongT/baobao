@@ -11,7 +11,7 @@
 	"quicktask.enablePython": false,
 	"quicktask.enableRuby": false,
 	"quicktask.enableShell": false,
-	"quicktask.enableVsTasks": false,
+	"quicktask.enableVsTasks": true,
 	"search.exclude": {
 		"common/temp": true,
 		"**/node_modules/**/*": true,

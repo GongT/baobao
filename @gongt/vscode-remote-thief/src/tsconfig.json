@@ -1,0 +1,12 @@
+{
+	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.no-lib.json",
+	"compilerOptions": {
+		"outDir": "../lib",
+		"rootDir": ".",
+		"typeRoots": [
+			"../node_modules/@types"
+		],
+		"declaration": false,
+		"declarationMap": false
+	}
+}
