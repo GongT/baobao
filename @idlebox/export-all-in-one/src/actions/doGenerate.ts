@@ -1,17 +1,25 @@
 import { emptyDirSync, ensureDir, writeFileSync } from 'fs-extra';
 import { dirname } from 'path';
-import { createCompilerHost, createProgram, forEachChild, Node, Program, SourceFile } from 'typescript';
+import {
+	createCompilerHost,
+	createProgram,
+	forEachChild,
+	Node,
+	Program,
+	SourceFile,
+} from 'typescript';
 import { copyFilteredSourceCodeFile } from './generate/copySourceCodeFiles';
 import { filterIgnoreFiles, isFileIgnored } from './generate/filterIgnoreFiles';
 import { tokenWalk } from './generate/tokenWalk';
 import { CONFIG_FILE, EXPORT_TEMP_PATH, targetIndexFile } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
-import { ExportCollector } from '../inc/exportCollector';
 import { debug } from '../inc/debug';
+import { ExportCollector } from '../inc/exportCollector';
 
 export async function doGenerate() {
 	const command = getOptions();
-	console.log('\x1B[38;5;10mcreating typescript program from %s...\x1B[0m', CONFIG_FILE);
+	console.log('\x1B[38;5;10mcreate typescript program.\x1B[0m');
+	debug('  from file %s.', CONFIG_FILE);
 	emptyDirSync(EXPORT_TEMP_PATH);
 	const host = createCompilerHost(command.options, true);
 
@@ -44,12 +52,13 @@ export async function doGenerate() {
 		}
 	}
 	sources.normalize();
-	console.log('\x1B[K\x1B[38;5;10mtypescript program created!\x1B[0m');
-
-	const newFileData = sources.createESM({});
 
 	ensureDir(dirname(targetIndexFile));
-	writeFileSync(targetIndexFile, newFileData, 'utf8');
+	writeFileSync(targetIndexFile, sources.createTypeScript({ extension: false }), 'utf8');
+
+	if (!command.options.outDir) {
+		throw new Error('Invalid project: no outDir in tsconfig.json.');
+	}
 
 	return sources;
 }

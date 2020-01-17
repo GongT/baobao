@@ -11,6 +11,7 @@ import {
 	isIdentifier,
 	isInterfaceDeclaration,
 	isModuleDeclaration,
+	isNamespaceExport,
 	isObjectBindingPattern,
 	isOmittedExpression,
 	isStringLiteral,
@@ -21,6 +22,7 @@ import {
 	TypeChecker,
 	VariableDeclaration,
 	VariableStatement,
+	isTypeAliasDeclaration,
 } from 'typescript';
 import { shouldIncludeNode } from './testForExport';
 import { SOURCE_ROOT } from '../../inc/argParse';
@@ -39,7 +41,17 @@ function warn(node: Node, s: string, e?: Error) {
 			s += '(no stack trace)';
 		}
 	}
-	console.error('%s - %s\n\t\x1B[38;5;9m%s\x1B[0m', node.getSourceFile().fileName, node.getText(), s);
+	let lineno: string = '';
+	try {
+		lineno =
+			':' +
+			node
+				.getSourceFile()
+				.getText()
+				.slice(0, node.getStart())
+				.split('\n').length;
+	} catch (e) {}
+	console.error('\x1B[38;5;9m%s: %s%s\x1B[0m\n\t%s', s, node.getSourceFile().fileName, lineno, node.getText());
 }
 export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeChecker) {
 	const relative = relativeToRoot(node.getSourceFile().fileName);
@@ -49,8 +61,12 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 		debug(' * found ExportDeclaration');
 		if (node.exportClause) {
 			const replaced: string[] = [];
-			for (const item of node.exportClause.elements) {
-				replaced.push(idToString(item.name));
+			if (isNamespaceExport(node.exportClause)) {
+				replaced.push(idToString(node.exportClause.name));
+			} else {
+				for (const item of node.exportClause.elements) {
+					replaced.push(idToString(item.name));
+				}
 			}
 			collect.addExport(relative, replaced);
 		} else {
@@ -65,7 +81,7 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 
 			collect.addExport(relativeToRoot(path), ['*']);
 		}
-		
+
 		return;
 	}
 
@@ -84,7 +100,7 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 
 		// nodeComment(ret, node, checker);
 		collect.addTransform(relative, name);
-		
+
 		return;
 	}
 
@@ -102,7 +118,7 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 		} else {
 			collect.addExport(relative, [idToString(md.name)]);
 		}
-		
+
 		return;
 	}
 	if (isClassDeclaration(node)) {
@@ -110,7 +126,7 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 		debug(' * found ClassDeclaration');
 		const name = getName(node.name, relative, true);
 		doExport(collect, node, name, relative);
-		
+
 		return;
 	}
 	if (isInterfaceDeclaration(node)) {
@@ -118,7 +134,7 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 		debug(' * found InterfaceDeclaration');
 		const name = getName(node.name, relative, 'I');
 		doExport(collect, node, name, relative);
-		
+
 		return;
 	}
 	if (isFunctionDeclaration(node)) {
@@ -126,7 +142,7 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 		debug(' * found FunctionDeclaration');
 		const name = getName(node.name, relative, false);
 		doExport(collect, node, name, relative);
-		
+
 		return;
 	}
 	if (isVariableStatement(node)) {
@@ -142,7 +158,14 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 		});
 
 		collect.addExport(relative, names);
-		
+
+		return;
+	}
+
+	if (isTypeAliasDeclaration(node)) {
+		// export type x = ...
+		debug(' * found TypeAliasDeclaration');
+		collect.addExport(relative, [idToString(node.name)]);
 		return;
 	}
 

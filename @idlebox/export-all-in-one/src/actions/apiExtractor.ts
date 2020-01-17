@@ -7,6 +7,7 @@ import { API_CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT } from '../inc/argParse
 import { findUp } from '../inc/findUp';
 import { projectPackagePath } from '../inc/package';
 import { relativePosix } from '../inc/paths';
+import { debug } from '../inc/debug';
 
 const apiExtractorJson: IConfigFile = {
 	// $schema: 'https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json',
@@ -88,18 +89,20 @@ export async function runApiExtractor() {
 	if (extractorResult.succeeded) {
 		console.log(`API Extractor completed successfully`);
 	} else {
-		throw new Error(`API Extractor completed with ${extractorResult.errorCount} errors and ${extractorResult.warningCount} warnings`);
+		throw new Error(
+			`API Extractor completed with ${extractorResult.errorCount} errors and ${extractorResult.warningCount} warnings`
+		);
 	}
 
 	const foundRush = findUp(PROJECT_ROOT, 'rush.json');
 	if (foundRush) {
-		console.log('Found rush repo, creating link...');
+		console.log('\x1B[38;5;10mcreate rush document link.\x1B[0m');
 		const reviewPath = resolve(foundRush, '../common/reviews/api');
 		await ensureDir(reviewPath);
 		const reviewFile = resolve(reviewPath, basename(config.reportFilePath));
 
 		const target = relativePosix(reviewPath, config.reportFilePath);
-		console.log('  * %s -> %s', reviewFile, target);
+		debug('  * %s -> %s', reviewFile, target);
 		await ensureLinkTarget(target, reviewFile);
 	}
 }

@@ -3,8 +3,7 @@ import { resolve } from 'path';
 import { eachProject } from '../api/each';
 import { toProjectPathAbsolute } from '../api/load';
 import { description } from '../common/description';
-
-const { manifest } = require('pacote');
+import { manifest } from 'pacote';
 
 export default async function runAutoFix() {
 	const knownVersions: { [id: string]: string } = {};

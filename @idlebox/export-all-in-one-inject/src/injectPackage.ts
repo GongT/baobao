@@ -1,7 +1,7 @@
 import { isBuildConfigFileExists, setProjectDir } from '@idlebox/build-script';
 import { createIgnore } from './actions/createIgnore';
-import { updatePackageJson, NO_DUAL_FLAG } from './actions/updatePackageJson';
-import { PROJECT_ROOT, CONFIG_FILE } from './inc/argParse';
+import { updatePackageJson } from './actions/updatePackageJson';
+import { PROJECT_ROOT, CONFIG_FILE, NO_DUAL_FLAG } from './inc/argParse';
 import { getOptions } from './inc/configFile';
 import { ModuleKind } from 'typescript';
 

@@ -15,6 +15,14 @@
 			"summary": "Run watch in every project",
 			"safeForSimultaneousRushProcesses": true,
 			"shellCommand": "node --experimental-conditional-exports common/scripts/watch-all.js"
+		},
+		{
+			"commandKind": "bulk",
+			"name": "clean",
+			"summary": "Run clean in every project",
+			"enableParallelism": true,
+			"ignoreDependencyOrder": true,
+			"allowWarningsInSuccessfulBuild": true
 		}
 	],
 	"parameters": [

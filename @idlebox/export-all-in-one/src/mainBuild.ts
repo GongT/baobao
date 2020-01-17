@@ -1,11 +1,12 @@
-import { emptyDir, rmdir } from 'fs-extra';
+import { emptyDir, remove } from 'fs-extra';
 import { runApiExtractor } from './actions/apiExtractor';
-import { compileIndex } from './actions/compileIndex';
 import { compileSource } from './actions/compileSource';
 import { doGenerate } from './actions/doGenerate';
 import { pushApiExtractorPath } from './actions/pushApiExtractorPath';
+import { transpileIndexFile } from './actions/transpileIndexFile';
 import { EXPORT_TEMP_PATH } from './inc/argParse';
 import { getOptions } from './inc/configFile';
+import { debug } from './inc/debug';
 
 if (process.argv.includes('-v')) {
 	const configParseResult = getOptions();
@@ -17,13 +18,12 @@ export default async function() {
 
 	await emptyDir(EXPORT_TEMP_PATH);
 	await doGenerate();
-	process.exit(1) || true;
 	await compileSource();
 	await runApiExtractor();
-	await compileIndex();
+	await transpileIndexFile();
 	console.log('\x1B[K\x1B[38;5;10mOK\x1B[0m');
 	// const resultRel = './docs/package-public.d.ts';
 	// console.log(`You can add \x1B[38;5;14m"typings": "${resultRel}"\x1B[0m to your package.json`);
-	console.log('removing temp dir: %s', EXPORT_TEMP_PATH);
-	await rmdir(EXPORT_TEMP_PATH);
+	debug('removing temp dir: %s', EXPORT_TEMP_PATH);
+	await remove(EXPORT_TEMP_PATH);
 }

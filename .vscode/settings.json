@@ -11,5 +11,12 @@
 	"quicktask.enablePython": false,
 	"quicktask.enableRuby": false,
 	"quicktask.enableShell": false,
-	"quicktask.enableVsTasks": false
+	"quicktask.enableVsTasks": false,
+	"search.exclude": {
+		"common/temp": true,
+		"**/node_modules/**/*": true,
+		"*/*/lib":true,
+		"*/*/.rush":true
+	},
+	"prettier.prettierPath": "common/temp/node_modules/prettier"
 }

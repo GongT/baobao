@@ -1,7 +1,7 @@
 {
 	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "esnext",
 		"outDir": "../lib",
 		"rootDir": ".",
 		"lib": [
@@ -10,6 +10,11 @@
 		],
 		"typeRoots": [
 			"../node_modules/@types"
+		],
+		"plugins": [
+			{
+				"transform": "@idlebox/typescript-transformer-dual-package"
+			}
 		],
 		"declaration": false,
 		"declarationMap": false

@@ -5,6 +5,8 @@ import { platform, tmpdir } from 'os';
 import { resolve } from 'path';
 import { findUp } from './findUp';
 
+export const NO_DUAL_FLAG = '--no-dual-package';
+
 const item = process.argv[process.argv.length - 1] || '.';
 const project = resolve(process.cwd(), item);
 let configFilePath = '';
@@ -39,11 +41,13 @@ function getTemp() {
 	}
 }
 
-export const EXPORT_TEMP_PATH = resolve(getTemp(), 'export-all-in-one-working.' + (Math.random() * 1000000).toFixed(0) + '.tmp');
+export const EXPORT_TEMP_PATH = resolve(
+	getTemp(),
+	'export-all-in-one-working.' + (Math.random() * 1000000).toFixed(0) + '.tmp'
+);
 export const DTS_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
 export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 
 export const IS_WINDOWS = platform() === 'win32';
 
 export const targetIndexFile = resolve(EXPORT_TEMP_PATH, 'extracted-source/_export_all_in_one_index.ts');
-

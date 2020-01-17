@@ -1,3 +1,5 @@
+import { dirname } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 import { writeFileSync } from 'fs';
 import {
 	CompilerOptions,
@@ -57,10 +59,22 @@ export class CjsCompiler {
 			throw new Error('No output for file: ' + sourceFile.fileName);
 		}
 		const f = output[0].replace(/\.js$/, '');
+		const d = dirname(f);
 
+		if (!existsSync(d)) {
+			mkdirpSync(d);
+		}
 		writeFileSync(f + '.cjs', cjsResult.outputText);
 		if (cjsResult.sourceMapText) {
 			writeFileSync(f + '.cjs.map', cjsResult.sourceMapText);
 		}
 	}
+}
+
+function mkdirpSync(d: string) {
+	const p = dirname(d);
+	if (!existsSync(p)) {
+		mkdirpSync(p);
+	}
+	mkdirSync(d);
 }

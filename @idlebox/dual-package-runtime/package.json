@@ -1,10 +1,10 @@
 {
-	"name": "@gongt/dual-package-runtime",
+	"name": "@idlebox/dual-package-runtime",
 	"description": "when require() without extension, try .cjs first, and then .js.",
 	"version": "1.0.1",
 	"license": "WTFPL",
 	"type": "module",
-	"main": "hook-extension.cjs",
+	"main": "./hook-extension.cjs",
 	"exports": {
 		".": {
 			"import": "./ignore.mjs",
@@ -12,6 +12,11 @@
 		}
 	},
 	"scripts": {
-		"postinstall": "echo "
-	}
+		"build": "",
+		"watch": "",
+		"clean": "",
+		"postinstall": ""
+	},
+	"tslib": "^1.10.0",
+	"ttypescript": "^1.5.10"
 }

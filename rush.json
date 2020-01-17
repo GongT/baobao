@@ -138,19 +138,28 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@gongt/typescript-transformer-dual-package",
-			"projectFolder": "@gongt/typescript-transformer-dual-package",
+			"packageName": "@idlebox/typescript-transformer-dual-package",
+			"projectFolder": "@idlebox/typescript-transformer-dual-package",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@gongt/dual-package-runtime",
-			"projectFolder": "@gongt/dual-package-runtime",
+			"packageName": "@idlebox/dual-package-runtime",
+			"projectFolder": "@idlebox/dual-package-runtime",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/typescript-transformer-import-commonjs",
+			"projectFolder": "@idlebox/typescript-transformer-import-commonjs",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "meta-scripts",
-			"projectFolder": "common/scripts",
-			"shouldPublish": false
+			"projectFolder": "common/project-scripts",
+			"shouldPublish": false,
+			"cyclicDependencyProjects": [
+				"@idlebox/rush-tools",
+				"@idlebox/node-json-edit"
+			]
 		}
 	]
 }

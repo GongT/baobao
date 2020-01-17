@@ -2,10 +2,8 @@ import { getPlugin, registerPlugin } from '@idlebox/build-script';
 import { getFormatInfo, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
 import { resolve, posix } from 'path';
 import { getPackageManager } from '@idlebox/package-manager';
-import { CONFIG_FILE, PROJECT_ROOT } from '../inc/argParse';
+import { CONFIG_FILE, PROJECT_ROOT, NO_DUAL_FLAG } from '../inc/argParse';
 import { relativePosix } from '../inc/paths';
-
-export const NO_DUAL_FLAG = '--no-dual-package';
 
 interface IOptions {
 	hookMode: boolean;
@@ -22,6 +20,7 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 	if (isESNext) {
 		insertKeyAlphabet(packageJson, 'type', 'module');
 		if (dualPackage) {
+			console.log('inserting dual package.');
 			insertKeyAlphabet(packageJson, 'main', relOut + '.cjs');
 			if (!packageJson.exports) {
 				insertKeyAlphabet(packageJson, 'exports', {});

@@ -57,7 +57,7 @@ export class CallbackList<Argument> {
     // (undocumented)
     protected list: MyCallback<Argument>[];
     // (undocumented)
-    remove(item: MyCallback<Argument>): MyCallback<Argument>[] | undefined;
+    remove(item: MyCallback<Argument>): MyCallback<Argument>[];
     // (undocumented)
     run(argument: Argument): boolean;
 }
@@ -73,7 +73,6 @@ export function camelCase(str: string): string;
 export class CustomSet<Type = string> {
     // (undocumented)
     [Symbol.iterator](): Iterator<Type>;
-    // Warning: (ae-forgotten-export) The symbol "Finder" needs to be exported by the entry point _export_all_in_one_index.d.ts
     constructor(finder?: Finder<Type>);
     // (undocumented)
     add(item: Type): boolean;
@@ -123,6 +122,11 @@ export class ExtendMap<K, V> extends Map<K, V> {
     // (undocumented)
     getReq(id: K): V;
 }
+
+// Warning: (ae-missing-release-tag) "Finder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type Finder<Type> = (this: Type[], item: Type) => number;
 
 // Warning: (ae-missing-release-tag) "finishAllPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -276,6 +280,11 @@ export interface MyDelayCallback<Argument> {
     // (undocumented)
     displayName?: string;
 }
+
+// Warning: (ae-missing-release-tag) "MyFinder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type MyFinder<Type> = (item: Type) => number;
 
 // Warning: (ae-missing-release-tag) "NamedFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

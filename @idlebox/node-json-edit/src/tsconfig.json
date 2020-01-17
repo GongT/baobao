@@ -6,6 +6,11 @@
 		"typeRoots": [
 			"../node_modules/@types"
 		],
-		"rootDir": "."
+		"rootDir": ".",
+		"plugins": [
+			{
+				"transform": "@idlebox/typescript-transformer-dual-package"
+			}
+		]
 	}
 }

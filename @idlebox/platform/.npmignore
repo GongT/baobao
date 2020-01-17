@@ -11,3 +11,7 @@ build-script.json
 Gulpfile.js
 ### export-all-in-one ###
 lib/*.d.ts
+
+### export-all-in-one ###
+lib/*.d.ts
+lib/**/*.d.ts

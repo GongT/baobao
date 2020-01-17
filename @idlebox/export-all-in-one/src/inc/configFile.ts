@@ -1,17 +1,29 @@
 import { normalize } from 'path';
-import { Diagnostic, formatDiagnostic, FormatDiagnosticsHost, getParsedCommandLineOfConfigFile, ParseConfigFileHost, ParsedCommandLine, sys } from 'typescript';
+import {
+	Diagnostic,
+	formatDiagnostic,
+	FormatDiagnosticsHost,
+	getParsedCommandLineOfConfigFile,
+	ParseConfigFileHost,
+	ParsedCommandLine,
+	sys,
+} from 'typescript';
 import { CONFIG_FILE } from './argParse';
 
-let options: ParsedCommandLine;
+let command: ParsedCommandLine;
 
 export function getOptions(file?: string): ParsedCommandLine {
 	if (file) {
 		return parse(file);
 	}
-	if (!options) {
-		options = parse(CONFIG_FILE);
+	if (!command) {
+		command = parse(CONFIG_FILE);
+
+		if (!command.options.outDir) {
+			throw new Error('Invalid project: no outDir in tsconfig.json.');
+		}
 	}
-	return options;
+	return command;
 }
 
 function parse(file: string) {

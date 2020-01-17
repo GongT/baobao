@@ -1,7 +1,7 @@
 {
-	"name": "@gongt/typescript-transformer-dual-package",
-	"description": "A TypeScript transformer for use with ttypescript that will (semi-)auto create dual package hazard.",
-	"version": "1.0.2",
+	"name": "@idlebox/typescript-transformer-import-commonjs",
+	"description": "A TypeScript transformer for use with ttypescript that will change import statement of commonjs packages.",
+	"version": "1.0.3",
 	"license": "WTFPL",
 	"type": "module",
 	"main": "./lib/register.cjs",
@@ -16,6 +16,7 @@
 		"prepack": "rimraf output && ttsc -p src",
 		"build": "ttsc -p src",
 		"watch": "tsc -p src -w",
+		"clean": "rimraf lib",
 		"test": ""
 	},
 	"peerDependencies": {
@@ -28,6 +29,7 @@
 		"rimraf": "^3.0.0",
 		"ts-node": "^8.6.2",
 		"ttypescript": "^1.5.10",
-		"typescript": "next"
+		"typescript": "next",
+		"tslib": "^1.10.0"
 	}
 }

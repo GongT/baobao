@@ -1,30 +1,33 @@
 dependencies:
-  '@gongt/dual-package-runtime': 1.0.0
   '@idlebox/helpers': 1.0.8
   '@idlebox/node-helpers': 1.0.5
+  '@idlebox/node-json-edit': 1.0.19
   '@idlebox/platform': 1.0.10
+  '@idlebox/rush-tools': 1.0.6
   '@microsoft/api-extractor': 7.7.2
   '@microsoft/rush-lib': 5.18.0
-  '@rush-temp/build-script': 'file:projects/build-script.tgz'
-  '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz'
-  '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
-  '@rush-temp/export-all-in-one-inject': 'file:projects/export-all-in-one-inject.tgz'
-  '@rush-temp/global': 'file:projects/global.tgz'
-  '@rush-temp/helpers': 'file:projects/helpers.tgz'
-  '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz'
+  '@rush-temp/build-script': 'file:projects/build-script.tgz_ts-node@8.6.2'
+  '@rush-temp/dual-package-runtime': 'file:projects/dual-package-runtime.tgz'
+  '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz_ts-node@8.6.2'
+  '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz_ts-node@8.6.2'
+  '@rush-temp/export-all-in-one-inject': 'file:projects/export-all-in-one-inject.tgz_ts-node@8.6.2'
+  '@rush-temp/global': 'file:projects/global.tgz_ts-node@8.6.2'
+  '@rush-temp/helpers': 'file:projects/helpers.tgz_ts-node@8.6.2'
+  '@rush-temp/lifecycle': 'file:projects/lifecycle.tgz_ts-node@8.6.2'
   '@rush-temp/meta-scripts': 'file:projects/meta-scripts.tgz'
-  '@rush-temp/node-helpers': 'file:projects/node-helpers.tgz'
-  '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz'
-  '@rush-temp/package-manager': 'file:projects/package-manager.tgz'
-  '@rush-temp/platform': 'file:projects/platform.tgz'
-  '@rush-temp/poormans-package-change': 'file:projects/poormans-package-change.tgz'
-  '@rush-temp/reflect': 'file:projects/reflect.tgz'
+  '@rush-temp/node-helpers': 'file:projects/node-helpers.tgz_ts-node@8.6.2'
+  '@rush-temp/node-json-edit': 'file:projects/node-json-edit.tgz_ts-node@8.6.2'
+  '@rush-temp/package-manager': 'file:projects/package-manager.tgz_ts-node@8.6.2'
+  '@rush-temp/platform': 'file:projects/platform.tgz_ts-node@8.6.2'
+  '@rush-temp/poormans-package-change': 'file:projects/poormans-package-change.tgz_ts-node@8.6.2'
+  '@rush-temp/reflect': 'file:projects/reflect.tgz_ts-node@8.6.2'
   '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz_ts-node@8.6.2'
-  '@rush-temp/single-dog': 'file:projects/single-dog.tgz'
+  '@rush-temp/single-dog': 'file:projects/single-dog.tgz_ts-node@8.6.2'
   '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
   '@rush-temp/typescript-transformer-dual-package': 'file:projects/typescript-transformer-dual-package.tgz'
-  '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz'
-  '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz'
+  '@rush-temp/typescript-transformer-import-commonjs': 'file:projects/typescript-transformer-import-commonjs.tgz'
+  '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz_ts-node@8.6.2'
+  '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz_ts-node@8.6.2'
   '@types/command-exists': 1.2.0
   '@types/comment-json': 1.1.1
   '@types/fancy-log': 1.3.1
@@ -32,6 +35,7 @@ dependencies:
   '@types/gulp': 4.0.6
   '@types/json5': 0.0.30
   '@types/node': 12.12.24
+  '@types/pacote': 9.5.0
   '@types/request': 2.48.4
   '@types/semver': 6.2.0
   '@types/split2': 2.1.6
@@ -46,6 +50,7 @@ dependencies:
   npm-check-updates: 3.2.2
   npm-run-all: 4.1.5
   pacote: 9.5.12
+  prettier: 1.19.1
   request: 2.88.0
   rimraf: 3.0.0
   semver: 6.3.0
@@ -57,11 +62,6 @@ dependencies:
   tslib: 1.10.0
 lockfileVersion: 5.1
 packages:
-  /@gongt/dual-package-runtime/1.0.0:
-    dev: false
-    requiresBuild: true
-    resolution:
-      integrity: sha512-PN30aJpsb5rOsIJiCg7Cxv5ZI4aCKLKJni1rYyS2Oz0M+zIwc/m1Cn8kBEaIf1ADkfTXcvpyWI7AOEjR4m8ssw==
   /@idlebox/basic-helpers/1.0.7:
     dependencies:
       source-map-support: 0.5.16
@@ -69,6 +69,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-TZhB546tUO/HkNkR8c1md42KW1kvlsS3aDouTzcxYxJQsCH7vUVVi0EJ+XFOB8yQ7XJIXQQ+TPzAsLaBurj95A==
+  /@idlebox/dual-package-runtime/1.0.0:
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-PN30aJpsb5rOsIJiCg7Cxv5ZI4aCKLKJni1rYyS2Oz0M+zIwc/m1Cn8kBEaIf1ADkfTXcvpyWI7AOEjR4m8ssw==
   /@idlebox/global/1.0.3:
     dev: false
     resolution:
@@ -94,10 +99,29 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Hou4CdXlFFtDppOYW91NQPa4iClu2T7yco+Zuj96BQ1eD33kv3jDaxdDCBoOXk7SBmAI7L6iNMRsCM5FXUlOzg==
+  /@idlebox/node-json-edit/1.0.19:
+    dependencies:
+      comment-json: 2.4.1
+    dev: false
+    resolution:
+      integrity: sha512-jGooxdnfyhN/o/5BrUwgHdrgBYYTYD7MwXVRYAUi7mzwQetxqhROehue8qqW1/1i6vuyUIszOPUZQKxC3bw03g==
   /@idlebox/platform/1.0.10:
     dev: false
     resolution:
       integrity: sha512-zE4pNLt51k//c195gib3/0ZjWtFbQQWWnB/5/wvKa+cJ3C0pot6ZCw6nxQUupA9oOdbcKD7rtPES30GWEkBy6Q==
+  /@idlebox/rush-tools/1.0.6:
+    dependencies:
+      '@idlebox/basic-helpers': 1.0.7
+      '@idlebox/node-helpers': 1.0.5
+      '@idlebox/node-json-edit': 1.0.19
+      '@idlebox/platform': 1.0.10
+      execa: 2.1.0
+      fs-extra: 8.1.0
+      pacote: 9.5.12
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-oOJceYvA6N0XHk8qDawuYiJVvMw4OP8qMTonV6IAV392c4v7829t1dq2ryFuQfCDkt7tQia7l9IvbGNBakAgPg==
   /@microsoft/api-extractor-model/7.7.2:
     dependencies:
       '@microsoft/node-core-library': 3.18.2
@@ -328,6 +352,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-cy3yebKhrHuOcrJGkfwNHhpTXQLgmXSv1BX+4p32j+VUQ6aP2eJ5cL7OvGcAQx75fCTFaAIIAKewvqL+iwSd4g==
+  /@types/node-fetch/2.5.4:
+    dependencies:
+      '@types/node': 12.12.24
+    dev: false
+    resolution:
+      integrity: sha512-Oz6id++2qAOFuOlE1j0ouk1dzl3mmI1+qINPNBhi9nt/gVOz0G+13Ao6qjhdF0Ys+eOkhu6JnFmt38bR3H0POQ==
   /@types/node/10.17.13:
     dev: false
     resolution:
@@ -340,6 +370,31 @@ packages:
     dev: false
     resolution:
       integrity: sha512-kaYyLYf6ICn6/isAyD4K1MyWWd5Q3JgH6bnMN089LUx88+s4W8GvK9Q6JMBVu5vsFFp7pMdSxdKmlBXwH/VFRg==
+  /@types/npm-package-arg/6.1.0:
+    dev: false
+    resolution:
+      integrity: sha512-vbt5fb0y1svMhu++1lwtKmZL76d0uPChFlw7kEzyUmTwfmpHRcFb8i0R8ElT69q/L+QLgK2hgECivIAvaEDwag==
+  /@types/npm-registry-fetch/4.0.1:
+    dependencies:
+      '@types/node': 12.12.24
+      '@types/node-fetch': 2.5.4
+      '@types/npm-package-arg': 6.1.0
+      '@types/npmlog': 4.1.2
+      '@types/ssri': 6.0.1
+    dev: false
+    resolution:
+      integrity: sha512-u0hPLfpkLXnTxyCDCaCQR7FGG2/wBEtFcrtConmgKtyvNrRR8qdxnOVdiEmhvhQcpV4UCOXsO1Z82A++Up4RQA==
+  /@types/npmlog/4.1.2:
+    dev: false
+    resolution:
+      integrity: sha512-4QQmOF5KlwfxJ5IGXFIudkeLCdMABz03RcUXu+LCb24zmln8QW6aDjuGl4d4XPVLf2j+FnjelHTP7dvceAFbhA==
+  /@types/pacote/9.5.0:
+    dependencies:
+      '@types/node': 12.12.24
+      '@types/npm-registry-fetch': 4.0.1
+    dev: false
+    resolution:
+      integrity: sha512-5Kt6JiV1OoFWdlGX0jN9houjt8dqTXccs3V+UBKwsd15gsnvlhsaPuRZeqtvR9AR/YM7ayrFT5mFkh7n+DG+PA==
   /@types/ramda/0.25.51:
     dev: false
     resolution:
@@ -363,6 +418,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ddaFSOMuy2Rp97l6q/LEteQygvTQJuEZ+SRhxFKR0uXGsdbFDqX/QF2xoGcOqLQ8XV91v01SnAv2vpgihNgW/Q==
+  /@types/ssri/6.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-Sf5NnDETSFGTHXIfG4zTTczRFhGEjSCfwfvHZ5oFmyX0fUA5BJKV/hdQ2zDnfcC6WXvE78ZTh+/18VzMyMM1QQ==
   /@types/tar-fs/1.16.2:
     dependencies:
       '@types/node': 12.12.24
@@ -3758,6 +3817,13 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
+  /prettier/1.19.1:
+    dev: false
+    engines:
+      node: '>=4'
+    hasBin: true
+    resolution:
+      integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
   /pretty-hrtime/1.0.3:
     dev: false
     engines:
@@ -4839,13 +4905,13 @@ packages:
       typescript: '>=2.7'
     resolution:
       integrity: sha512-4mZEbofxGqLL2RImpe3zMJukvEvcO1XP8bj8ozBPySdCUXEcU5cIRwR0aM3R+VoZq7iXc8N86NC0FspGRqP4gg==
-  /ts-node/8.6.2_typescript@3.7.4:
+  /ts-node/8.6.2_typescript@3.8.0-dev.20200115:
     dependencies:
       arg: 4.1.2
       diff: 4.0.2
       make-error: 1.3.5
       source-map-support: 0.5.16
-      typescript: 3.7.4
+      typescript: 3.8.0-dev.20200115
       yn: 3.1.1
     dev: false
     engines:
@@ -4868,11 +4934,22 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
-  /ttypescript/1.5.10_ts-node@8.6.2+typescript@3.7.4:
+  /ttypescript/1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99:
     dependencies:
       resolve: 1.14.2
       ts-node: 8.6.2
-      typescript: 3.7.4
+      typescript: 3.8.0-dev.20200115
+    dev: false
+    hasBin: true
+    peerDependencies:
+      ts-node: ^8.0.2
+      typescript: ^3.2.2
+    resolution:
+      integrity: sha512-Hk7TRej1hM+p+Fo+Pyb/XK9pe9CAt3Sh5n5YRutxFS8hUgkh2u1Vd2K40kMcNP3WYhiVFBMqXwM/2E8O95Ep6g==
+  /ttypescript/1.5.10_ts-node@8.6.2:
+    dependencies:
+      resolve: 1.14.2
+      ts-node: 8.6.2
     dev: false
     hasBin: true
     peerDependencies:
@@ -4915,6 +4992,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
+  /typescript/3.8.0-dev.20200115:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-N9FmOHSbBJQzhVjKFbBGAvnZ5xvH3Ti4vHfNYD2KuhKDjdB7O6qPmFLwoU/C4Cx0a8XiNipsL2K5sYklmSCVcg==
   /unc-path-regex/0.1.2:
     dev: false
     engines:
@@ -5253,10 +5337,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-a6MY6xaWFyf10oT46gA+jWFU0Mg=
-  /yesno/0.3.1:
-    dev: false
-    resolution:
-      integrity: sha512-7RbCXegyu6DykWPWU0YEtW8gFJH8KBL2d5l2fqB0XpkH0Y9rk59YSSWpzEv7yNJBGAouPc67h3kkq0CZkpBdFw==
   /yn/3.1.1:
     dev: false
     engines:
@@ -5274,7 +5354,7 @@ packages:
       commander: 2.20.3
     resolution:
       integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==
-  'file:projects/build-script.tgz':
+  'file:projects/build-script.tgz_ts-node@8.6.2':
     dependencies:
       '@idlebox/helpers': 1.0.8
       '@idlebox/node-helpers': 1.0.5
@@ -5295,24 +5375,41 @@ packages:
       rimraf: 3.0.0
       source-map-support: 0.5.16
       split2: 3.1.1
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/build-script.tgz'
     name: '@rush-temp/build-script'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-PBexG6tspXmx68nW5C0uXDMp0dj5CJPWpnwegMIXKVklS1suro0LEvCxTRpsAM+wdUAHr0gWkPB2n4e980mWHQ==
+      integrity: sha512-xYieJu/OkN2Rb0qFB/5ZY9Q9IE/1UQI4yRh7UyYAQtMe84i/QtXwWDpi9Jc2FDzzWwwonrZVMgQjjCnfI8fwqw==
       tarball: 'file:projects/build-script.tgz'
     version: 0.0.0
-  'file:projects/ensure-symlink.tgz':
+  'file:projects/dual-package-runtime.tgz':
+    dev: false
+    name: '@rush-temp/dual-package-runtime'
+    resolution:
+      integrity: sha512-5fMcar0KZQdbNfB9warrcEN3Qmwgr1kA2cstdBGCDjju3B0FUCDzVGPYVsGzKvZP6QT9F8XBGtWmO3BtzTSGLQ==
+      tarball: 'file:projects/dual-package-runtime.tgz'
+    version: 0.0.0
+  'file:projects/ensure-symlink.tgz_ts-node@8.6.2':
     dependencies:
       fs-extra: 8.1.0
       npm-check-updates: 3.2.2
+      tslib: 1.10.0
+      ttypescript: 1.5.10_ts-node@8.6.2
     dev: false
+    id: 'file:projects/ensure-symlink.tgz'
     name: '@rush-temp/ensure-symlink'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-BHAu3tVIsGEu0YUrVQozNBml/5GfIT/0is08MdNTAjHyScBBtA4BbjEv8KDbpGcm9mRDvFeqXOrrTyXmElCMaA==
+      integrity: sha512-ujpeLW/9B871GlWrb1prsI7wYp7q/U8X1V1U9Oi5kk/zct8NModAivhmUNf0N9SB3Q4PANgNa39knlWRZX6jEw==
       tarball: 'file:projects/ensure-symlink.tgz'
     version: 0.0.0
-  'file:projects/export-all-in-one-inject.tgz':
+  'file:projects/export-all-in-one-inject.tgz_ts-node@8.6.2':
     dependencies:
       '@microsoft/api-extractor': 7.7.2
       '@types/fs-extra': 8.0.1
@@ -5321,15 +5418,18 @@ packages:
       gulp: 4.0.2
       source-map-support: 0.5.16
       tslib: 1.10.0
-      typescript: 3.7.4
-      yesno: 0.3.1
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/export-all-in-one-inject.tgz'
     name: '@rush-temp/export-all-in-one-inject'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-Qxn87LcJksRdFMLB7gG7U6gkuj+IsSs8yKvdJjyFVRpGqQ2n4UhEDhHJlNpb2+ohah7MPWqeN1aevUYKxs3MZA==
+      integrity: sha512-5VO7poXedbPjS4oEVRabd47CRnFWSbpOZIJzOL8RXUW9jM9ZI70s4PQHecFjKG+LekHT3SADctgewn6OKy4Gjw==
       tarball: 'file:projects/export-all-in-one-inject.tgz'
     version: 0.0.0
-  'file:projects/export-all-in-one.tgz':
+  'file:projects/export-all-in-one.tgz_ts-node@8.6.2':
     dependencies:
       '@microsoft/api-extractor': 7.7.2
       '@types/fs-extra': 8.0.1
@@ -5339,83 +5439,117 @@ packages:
       gulp: 4.0.2
       source-map-support: 0.5.16
       tsconfig-paths: 3.9.0
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/export-all-in-one.tgz'
     name: '@rush-temp/export-all-in-one'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-Vw8Ue4kKQg3u3EZdQtda8T8mKzVZZoML/wUw/Z7K0LcbM3XkpxDqDTpQ3o+Zbm8hkCusYhSlzeiiaDAMuf0heQ==
+      integrity: sha512-8HEbXf4gZSFhw+DbNU3E7IN3Oo+ZbAaAQyYJYh0JhcLunDXXKBgmEUTa89rxo+FsC+C5n/LxuUkpzgrv5o+dbw==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
-  'file:projects/global.tgz':
+  'file:projects/global.tgz_ts-node@8.6.2':
     dependencies:
       gulp: 4.0.2
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/global.tgz'
     name: '@rush-temp/global'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-6LXekrEppMYAFMVYQANwe3b7obW86+OoxqZ4xE6yMh59v8fELYqGzw5H/ZacPUku1AXKrbJf0awBe07d9+wZAg==
+      integrity: sha512-lx0lhjltAXIWgSIFbBYCBiDzURWkAP3hOIo+A/SqC7wxgEZ5GzKslUYw6bAK6Xi+1j8MKgp0t752lvdKqdic2g==
       tarball: 'file:projects/global.tgz'
     version: 0.0.0
-  'file:projects/helpers.tgz':
+  'file:projects/helpers.tgz_ts-node@8.6.2':
     dependencies:
       gulp: 4.0.2
       source-map-support: 0.5.16
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/helpers.tgz'
     name: '@rush-temp/helpers'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-FlFbmzfzp9KT1DJqpnMxMCvxhmoqQqGYE7rgGx0mnRVDrDHhEUZ/wE6Vvepcl+qfoWbTupVmY9ANYZ9TybBx2w==
+      integrity: sha512-jVjgVZJpgXb/8wbm8FVUjdMhc22n14B5YoOmLhogR0uVI2VPDk1GaPjTXoGp8ZRRyadhTf+Vq/ORcoFvUTwv5w==
       tarball: 'file:projects/helpers.tgz'
     version: 0.0.0
-  'file:projects/lifecycle.tgz':
+  'file:projects/lifecycle.tgz_ts-node@8.6.2':
     dependencies:
       gulp: 4.0.2
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/lifecycle.tgz'
     name: '@rush-temp/lifecycle'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-1yYsyk1wwclidMBC8w5FBf84NLUIUcmNyloltOewmq3xrDaBrULN68cpyu/F71ydhHhcgp/O1k9XgUeAoaU69g==
+      integrity: sha512-hIQroTNCC6vck31x1c5pscr/0dy1ACAMRbPeHAXtuNq9cvEvC7Q6j8b+b0K4ByAul+0kOpLp0SGCKWTyOZc0mA==
       tarball: 'file:projects/lifecycle.tgz'
     version: 0.0.0
   'file:projects/meta-scripts.tgz':
     dependencies:
+      '@idlebox/node-json-edit': 1.0.19
+      '@idlebox/rush-tools': 1.0.6
       '@types/fs-extra': 8.0.1
       command-exists: 1.2.8
       fs-extra: 8.1.0
       jsonc: 2.0.0
+      prettier: 1.19.1
+      typescript: 3.8.0-dev.20200115
     dev: false
     name: '@rush-temp/meta-scripts'
     resolution:
-      integrity: sha512-JFZQmZa+xKnFvE0wFqi7a7CXN8mkGYo5Qel/hHrt+hjkHbPb8QEpKzzrN2VkQ4BTf4GMT9ZOETW21bG2Ss+ZOA==
+      integrity: sha512-H1nvastpNIib6xxomjM+o3uYB1ZWbXMR4WEcazkwC7u63My87lAmzT7DJIHjOFB+eTc7lt48XcydUf2t+W85sw==
       tarball: 'file:projects/meta-scripts.tgz'
     version: 0.0.0
-  'file:projects/node-helpers.tgz':
+  'file:projects/node-helpers.tgz_ts-node@8.6.2':
     dependencies:
       '@types/node': 12.12.24
       gulp: 4.0.2
       source-map-support: 0.5.16
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/node-helpers.tgz'
     name: '@rush-temp/node-helpers'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-hEdrglmQJW7b6Kez2mzjomDHxL3eZo0CJ88KwQLGu0BF+bVn4RJT3LOl5hyxZpjI5aZKtBIzJUPLv4UuujVJ5g==
+      integrity: sha512-dmVc2wbKPN6jjEPTyB7yCkCSarlqDmf4fQ3AnVWEhlXNGNQgazF/Qd6CNboe2ETQVEJ0lviYLe3x1BrtLMvfHg==
       tarball: 'file:projects/node-helpers.tgz'
     version: 0.0.0
-  'file:projects/node-json-edit.tgz':
+  'file:projects/node-json-edit.tgz_ts-node@8.6.2':
     dependencies:
       '@types/comment-json': 1.1.1
       '@types/node': 12.12.24
       comment-json: 2.4.1
       npm-check-updates: 3.2.2
       rimraf: 3.0.0
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/node-json-edit.tgz'
     name: '@rush-temp/node-json-edit'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-ZWvtXTFDTJmCE05dMorpQwIl0U0menap4gg4RYY+/wB9SeZv8voke7hEQbEpIdbV32kV6CrhdVQsBRzni68yhw==
+      integrity: sha512-0RFd4egpq6DNhEoPHMFX7lkTQu0lib1wTCdLu4/v6YJbmx91HrE1Gpuo7xFzfTITLyru1Q1TMlD60UYFtS8sLQ==
       tarball: 'file:projects/node-json-edit.tgz'
     version: 0.0.0
-  'file:projects/package-manager.tgz':
+  'file:projects/package-manager.tgz_ts-node@8.6.2':
     dependencies:
       '@types/command-exists': 1.2.0
       '@types/json5': 0.0.30
@@ -5427,26 +5561,36 @@ packages:
       pacote: 9.5.12
       rimraf: 3.0.0
       source-map-support: 0.5.16
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/package-manager.tgz'
     name: '@rush-temp/package-manager'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-yRhxB5DJDbWqiybL637IMmYXCdgYkD9a3+vz9+Aq2WS1h5Go9/BKF6mioAqF6bFSiWyhRdWwPGMgWqOWe/SIcw==
+      integrity: sha512-MnQAxrpTrvEXeH6EyU0TX+AUTZAEG+ay3ymXtAewi/kTxBxWdDp00ooz7DmXKtvaG6hJC792KyXtqS3aRqZWBQ==
       tarball: 'file:projects/package-manager.tgz'
     version: 0.0.0
-  'file:projects/platform.tgz':
+  'file:projects/platform.tgz_ts-node@8.6.2':
     dependencies:
       '@types/node': 12.12.24
       gulp: 4.0.2
       source-map-support: 0.5.16
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/platform.tgz'
     name: '@rush-temp/platform'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-sVj4reiRPylEVciP9jPfwu84etF6YHs80JJbNVmvKWkXa6orYrW7q8ZmMIFm2n0WlvJN5NwM7WrBhNMGPg68BQ==
+      integrity: sha512-s0FTaaQg+QA2mnnNhOpx59jmq0SsNXBoFMQuasaolwV85N1/NCiVLqoGpYc1CRk67g4UvnevcTjUXV1xhC84Zg==
       tarball: 'file:projects/platform.tgz'
     version: 0.0.0
-  'file:projects/poormans-package-change.tgz':
+  'file:projects/poormans-package-change.tgz_ts-node@8.6.2':
     dependencies:
       '@types/command-exists': 1.2.0
       '@types/fs-extra': 8.0.1
@@ -5462,29 +5606,40 @@ packages:
       semver: 6.3.0
       source-map-support: 0.5.16
       targz: 1.0.1
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/poormans-package-change.tgz'
     name: '@rush-temp/poormans-package-change'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-4so4ytcIOYVeTWXHvaE3wPgiRdck7y7yeWFlnlgOapLFriDtrkYlTuTjfcAWo+lPdnUr5Kjn+O+X7f6DrUDLyw==
+      integrity: sha512-pMUdGSFwtOvsc3fP88As/Q75NHGTagQwrXt+fGBXvgiKiXNvQ2blMhvQZtUB6ukOJCe8WmOgfLQ8sf/Ufd1Ubg==
       tarball: 'file:projects/poormans-package-change.tgz'
     version: 0.0.0
-  'file:projects/reflect.tgz':
+  'file:projects/reflect.tgz_ts-node@8.6.2':
     dependencies:
       gulp: 4.0.2
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/reflect.tgz'
     name: '@rush-temp/reflect'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-qEDCNvpOqhH8RoxoPt6mokMo6+jyESagOclC2x9XPuhZ15efb3rIDEfnmIOSc/xKdGLTbCKRilo91P+9Nep2cA==
+      integrity: sha512-aWXISPB8yRVX0tI/kluANvcx1vaSrvJNRoR5InG9SowZoV1YAbiF3yUScx78BwV7rUUBpsHDPqQc+xerOaK+cQ==
       tarball: 'file:projects/reflect.tgz'
     version: 0.0.0
   'file:projects/rush-tools.tgz_ts-node@8.6.2':
     dependencies:
-      '@gongt/dual-package-runtime': 1.0.0
+      '@idlebox/dual-package-runtime': 1.0.0
       '@microsoft/rush-lib': 5.18.0
       '@types/fs-extra': 8.0.1
       '@types/node': 12.12.24
+      '@types/pacote': 9.5.0
       execa: 2.1.0
       fs-extra: 8.1.0
       gulp: 4.0.2
@@ -5492,15 +5647,15 @@ packages:
       rimraf: 3.0.0
       source-map-support: 0.5.16
       tslib: 1.10.0
-      ttypescript: 1.5.10_ts-node@8.6.2+typescript@3.7.4
-      typescript: 3.7.4
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
     id: 'file:projects/rush-tools.tgz'
     name: '@rush-temp/rush-tools'
     peerDependencies:
       ts-node: '*'
     resolution:
-      integrity: sha512-MBzSWarLCCKF+kcdgf/rzzwJWnqffIvvILfJw7KLjFHnUbzXIXoytvD676woxENPQhU/v50VnWijOSXipUEh5w==
+      integrity: sha512-mKvbyohh9/sseUBmVDyPO0OlPidMxojUz9c04bytLovY9TENXF7zJ00itVqeBeT3ZY7raL9/gLxSI9c1H1zRzQ==
       tarball: 'file:projects/rush-tools.tgz'
     version: 0.0.0
   'file:projects/single-dog-asset.tgz':
@@ -5510,53 +5665,83 @@ packages:
       integrity: sha512-hNcmk+SdsLp5cBzMFDaHE3So1UvrRfixySAZzR4uNXi/YUJwuyotuZwhfdTUpXy6A+nKJYcOqY553b0T/P9Byw==
       tarball: 'file:projects/single-dog-asset.tgz'
     version: 0.0.0
-  'file:projects/single-dog.tgz':
+  'file:projects/single-dog.tgz_ts-node@8.6.2':
     dependencies:
       '@types/fs-extra': 8.0.1
       '@types/node': 12.12.24
       fs-extra: 8.1.0
       gulp: 4.0.2
       source-map-support: 0.5.16
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/single-dog.tgz'
     name: '@rush-temp/single-dog'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-CDi551/ZlN2DrmPTUw9k945DKaeNhyxE9tAHeb2Z5UxXoxdeczVL+il8Z7iaGckLKOHhC5fP2wmGoVFjxBPKBQ==
+      integrity: sha512-ApqLWagOwdoHarns9qifHhiKyAntf4Uv9IWuOOI1AIeMKhwuxQwX0Tvrv4ZtYgVH30zx9zADW6VO3cUlJiK5Wg==
       tarball: 'file:projects/single-dog.tgz'
     version: 0.0.0
   'file:projects/typescript-transformer-dual-package.tgz':
     dependencies:
       '@types/node': 12.12.24
       rimraf: 3.0.0
-      ts-node: 8.6.2_typescript@3.7.4
-      ttypescript: 1.5.10_ts-node@8.6.2+typescript@3.7.4
-      typescript: 3.7.4
+      ts-node: 8.6.2_typescript@3.8.0-dev.20200115
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
     name: '@rush-temp/typescript-transformer-dual-package'
     resolution:
-      integrity: sha512-wvz4rGiuRuK+JpjS6OTrTx7Ve5AQ54ikLFHz1qK44T2l/3PmTmKnsEDW81HDz9edAb30eFyneBaRkd0p8ztlvQ==
+      integrity: sha512-SgbICLwW/zMin1fYPh8+as3JWGdCnqgfGgvoHee7cJ3293D7JuOGqMi7XxsMmTvQGhmoumFM6QnjFLRDoMNskg==
       tarball: 'file:projects/typescript-transformer-dual-package.tgz'
     version: 0.0.0
-  'file:projects/web-helper-angular.tgz':
+  'file:projects/typescript-transformer-import-commonjs.tgz':
+    dependencies:
+      '@types/node': 12.12.24
+      rimraf: 3.0.0
+      ts-node: 8.6.2_typescript@3.8.0-dev.20200115
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
+    dev: false
+    name: '@rush-temp/typescript-transformer-import-commonjs'
+    resolution:
+      integrity: sha512-bj3QvriwtP6BxfHQUM2eRqg7O0IjV97BGhfF1yDrBNvlsZrqxgYk9LX+ErqDx0HV5D6lizkoCAhbKFOY13Sz5A==
+      tarball: 'file:projects/typescript-transformer-import-commonjs.tgz'
+    version: 0.0.0
+  'file:projects/web-helper-angular.tgz_ts-node@8.6.2':
     dependencies:
       '@types/node': 12.12.24
       gulp: 4.0.2
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/web-helper-angular.tgz'
     name: '@rush-temp/web-helper-angular'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-sBRiRKlrlNOSwe9VESxRw/TMlcCYRkgw0z9VWOk33Q0jOM5p58pEwU4nNG+lrIED1iHDJ9pC8ecm6Yk2Q9Z70A==
+      integrity: sha512-PCz4xN40ZRJVDW7RlItdXqpLJvQtKy0ajOIV61Y1Yv52G7kf2FM9wgxZCDaCBM4aZabHR5f/0FXqs5Yr0rONxg==
       tarball: 'file:projects/web-helper-angular.tgz'
     version: 0.0.0
-  'file:projects/web-helper-express.tgz':
+  'file:projects/web-helper-express.tgz_ts-node@8.6.2':
     dependencies:
       '@types/node': 12.12.24
       gulp: 4.0.2
-      typescript: 3.7.4
+      tslib: 1.10.0
+      ttypescript: 1.5.10_e1da02a5eacc24bd09ebab9f6fe06f99
+      typescript: 3.8.0-dev.20200115
     dev: false
+    id: 'file:projects/web-helper-express.tgz'
     name: '@rush-temp/web-helper-express'
+    peerDependencies:
+      ts-node: '*'
     resolution:
-      integrity: sha512-7+G5fAqslzK10PbK5kt1kqkWrkozJ8wOgv1G7kmOseSdvs344X7LHaFbKu1vbjDMr2Yw82aQsgTCbMh8t7VviA==
+      integrity: sha512-xqJirs0Qy3ufqiCTYjBitZxdh2g0SL7p6TqElDwDvEcC6BiSvang/bXWu9z+v1RlMKZmMC6ECWvDNqXZ3x33jA==
       tarball: 'file:projects/web-helper-express.tgz'
     version: 0.0.0
   registry.npmjs.org/fs.realpath/1.0.0:
@@ -5693,13 +5878,15 @@ packages:
     version: 2.1.1
 registry: ''
 specifiers:
-  '@gongt/dual-package-runtime': ^1.0.0
   '@idlebox/helpers': ^1.0.8
   '@idlebox/node-helpers': ^1.0.5
+  '@idlebox/node-json-edit': ^1.0.19
   '@idlebox/platform': ^1.0.10
+  '@idlebox/rush-tools': ^1.0.6
   '@microsoft/api-extractor': ^7.4.1
   '@microsoft/rush-lib': ^5.18.0
   '@rush-temp/build-script': 'file:./projects/build-script.tgz'
+  '@rush-temp/dual-package-runtime': 'file:./projects/dual-package-runtime.tgz'
   '@rush-temp/ensure-symlink': 'file:./projects/ensure-symlink.tgz'
   '@rush-temp/export-all-in-one': 'file:./projects/export-all-in-one.tgz'
   '@rush-temp/export-all-in-one-inject': 'file:./projects/export-all-in-one-inject.tgz'
@@ -5717,6 +5904,7 @@ specifiers:
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
   '@rush-temp/typescript-transformer-dual-package': 'file:./projects/typescript-transformer-dual-package.tgz'
+  '@rush-temp/typescript-transformer-import-commonjs': 'file:./projects/typescript-transformer-import-commonjs.tgz'
   '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
   '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
   '@types/command-exists': ^1.2.0
@@ -5726,6 +5914,7 @@ specifiers:
   '@types/gulp': ^4.0.6
   '@types/json5': ^0.0.30
   '@types/node': ^12.7.8
+  '@types/pacote': ^9.5.0
   '@types/request': ^2.48.3
   '@types/semver': ^6.0.2
   '@types/split2': ^2.1.6
@@ -5740,6 +5929,7 @@ specifiers:
   npm-check-updates: ^3.1.23
   npm-run-all: ^4.1.5
   pacote: ^9.5.8
+  prettier: ^1.19.1
   request: ^2.88.0
   rimraf: ^3.0.0
   semver: ^6.3.0

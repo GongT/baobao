@@ -1,7 +1,9 @@
+import { EventEmitter } from 'events';
 import * as Gulp from 'gulp';
 import { forceGetContext, getBuildContext, getCurrentDir, setCurrentDir } from '../common/buildContextInstance';
 import { load } from '../common/gulp';
 import { currentArgs, currentPlugin } from './ctsStore';
+import { fancyLog } from '../common/fancyLog';
 
 export const buildContext: any = new Proxy({} as any, {
 	get(_: any, p: string | number | symbol): any {
@@ -60,6 +62,11 @@ export async function getPlugin(name: string) {
 
 export function loadToGulp(gulp: typeof Gulp, __dirname: string) {
 	require('source-map-support/register');
+	if ((gulp as EventEmitter).listenerCount('error') === 0) {
+		gulp.on('error', () => {
+			fancyLog.error('[BuildScript] Build failed...');
+		});
+	}
 	return load(gulp, __dirname);
 }
 

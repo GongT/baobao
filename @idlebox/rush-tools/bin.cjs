@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('@gongt/dual-package-runtime');
+require('@idlebox/dual-package-runtime');
 require('source-map-support/register');
 
 const { prettyPrintError } = require('@idlebox/node-helpers');

@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"rootDir": ".",
+		"noEmitOnError": false,
+		"declaration": false,
+		"declarationMap": false,
+		"sourceMap": false,
+		"isolatedModules": true,
+		"incremental": false
+	},
+	"files": [
+		"batch-modify-json.ts"
+	],
+	"exclude": [
+		"*/"
+	]
+}

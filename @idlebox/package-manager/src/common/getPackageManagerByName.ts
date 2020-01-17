@@ -18,4 +18,5 @@ export function getPackageManagerByName(name: string): PackageManagerConstructor
 			return ctr;
 		}
 	}
+	return undefined;
 }

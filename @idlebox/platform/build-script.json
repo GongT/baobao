@@ -8,8 +8,8 @@
 		}
 	],
 	"alias": {
-		"build-ts": "tsc -p src",
-		"watch-ts": "tsc --pretty -w -p src",
+		"build-ts": "ttsc -p src",
+		"watch-ts": "ttsc --pretty -w -p src",
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",

@@ -27,11 +27,11 @@ export function createOtherJobFunc(jobName: string, path: string): ExecFunc {
 
 function colorIfNot(stdout: boolean, color: string, l: string) {
 	if (!colorEnabled) {
-		(stdout ? console.log : console.error)(l.trim());
+		(stdout ? console.log : console.error)(l);
 	} else if (l.includes('\x1B')) {
-		(stdout ? console.log : console.error)(l.trim());
+		(stdout ? console.log : console.error)(l);
 	} else {
-		(stdout ? console.log : console.error)('%s%s%s', color, l.trim(), reset);
+		(stdout ? console.log : console.error)('%s%s%s', color, l, reset);
 	}
 }
 
@@ -62,40 +62,40 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 		command = process.argv0;
 	}
 	fancyLog.debug('define: %s%s%s: %s %s', green, jobName, reset, command, args.join(' '));
-	const callback = async () => {
+	const callback = (cb: (error?: any) => void) => {
 		const childEnv = { ...process.env };
 		const pathHandler = new PlatformPathArray('path', childEnv);
 		pathHandler.prepend(resolve(path, 'node_modules/.bin'));
 		pathHandler.prepend(resolve(__dirname, '../../node_modules/.bin'));
 		pathHandler.save();
 
-		fancyLog.info('%s%s%s: %s %s', green, jobName, reset, command, args.join(' '));
+		fancyLog.info('%s%s%s:', green, jobName, reset);
+		fancyLog.info(' + %s %s', command, args.join(' '));
 		const ps = execa(command, args, {
 			cwd: path,
 			env: childEnv,
 			stdio: ['ignore', 'pipe', 'pipe'],
 		});
 
-		ps
-			.stdout!.pipe(split2())
+		ps.stdout!.pipe(split2())
 			.on('data', (l: string) => {
 				colorIfNot(true, ignore, l);
 			})
 			.resume();
-		ps
-			.stderr!.pipe(split2())
+		ps.stderr!.pipe(split2())
 			.on('data', (l: string) => {
 				colorIfNot(false, weakRed, l);
 			})
 			.resume();
 
-		await ps.then(
+		ps.then(
 			() => {
 				fancyLog.info('%s%s%s: success.', green, jobName, reset);
+				cb();
 			},
 			(e: Error) => {
 				fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
-				throw e;
+				cb(e);
 			}
 		);
 	};

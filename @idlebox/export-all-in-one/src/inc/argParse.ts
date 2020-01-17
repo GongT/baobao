@@ -5,6 +5,13 @@ import { platform, tmpdir } from 'os';
 import { resolve } from 'path';
 import { findUp } from './findUp';
 
+export const NO_DUAL_FLAG = '--no-dual-package';
+const flagIndex = process.argv.findIndex((e) => e == NO_DUAL_FLAG);
+export const dualMode = flagIndex === -1;
+if (!dualMode) {
+	process.argv.splice(flagIndex, 1);
+}
+
 const item = process.argv[process.argv.length - 1] || '.';
 const project = resolve(process.cwd(), item);
 let configFilePath = '';
@@ -46,10 +53,7 @@ function getTemp() {
 	}
 }
 
-export const EXPORT_TEMP_PATH = resolve(
-	getTemp(),
-	'export-all-in-one-working.' // + (Math.random()*10000).toFixed()
-);
+export const EXPORT_TEMP_PATH = resolve(getTemp(), 'export-all-in-one-working.' + (Math.random() * 10000).toFixed());
 export const DTS_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
 export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 

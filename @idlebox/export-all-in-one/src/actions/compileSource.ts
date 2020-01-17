@@ -62,7 +62,7 @@ export function getOutputFilePath(relativeTo: string, options: CompilerOptions) 
 }
 
 export async function compileSource() {
-	console.log('\x1B[38;5;10mwrite tsconfig.json...\x1B[0m');
+	console.log('\x1B[38;5;10mwrite tsconfig.json.\x1B[0m');
 	await rewriteProjectDtsJson();
 	await writeDtsJson();
 	await ensureLinkTarget(resolve(PROJECT_ROOT, 'node_modules'), resolve(EXPORT_TEMP_PATH, 'node_modules'));

@@ -11,7 +11,7 @@ export interface IBuildContext {
 }
 
 export interface ExecFunc {
-	(done: (error?: any) => void): Promise<void>;
+	(done: (error?: any) => void): void;
 	displayName?: string;
 }
 

@@ -15,7 +15,6 @@
 	"bin": {
 		"export-all-in-one": "./index.js"
 	},
-	"main": "./lib/main.js",
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"license": "MIT",
 	"scripts": {
@@ -29,6 +28,7 @@
 	},
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.8",
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3",
 		"@idlebox/node-json-edit": "^1.0.19",
 		"@microsoft/api-extractor": "^7.4.1",
 		"execa": "^2.0.4",
@@ -43,6 +43,7 @@
 		"@types/node": "^12.7.8",
 		"gulp": "^4.0.2",
 		"typescript": "next",
-		"tslib": "^1.10.0"
+		"tslib": "^1.10.0",
+		"ttypescript": "^1.5.10"
 	}
 }

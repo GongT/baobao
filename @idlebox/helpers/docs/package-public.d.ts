@@ -23,7 +23,7 @@ export declare interface Callable {
 export declare class CallbackList<Argument> {
     protected list: MyCallback<Argument>[];
     add(item: MyCallback<Argument>, name?: string): number;
-    remove(item: MyCallback<Argument>): MyCallback<Argument>[] | undefined;
+    remove(item: MyCallback<Argument>): MyCallback<Argument>[];
     run(argument: Argument): boolean;
 }
 
@@ -60,7 +60,7 @@ export declare class ExtendMap<K, V> extends Map<K, V> {
     entry(id: K, init: (id: K) => V): V;
 }
 
-declare type Finder<Type> = (this: Type[], item: Type) => number;
+export declare type Finder<Type> = (this: Type[], item: Type) => number;
 
 export declare function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseResultArray<T>>;
 
@@ -133,6 +133,8 @@ export declare interface MyDelayCallback<Argument> {
     displayName?: string;
     (param: Argument): void;
 }
+
+export declare type MyFinder<Type> = (item: Type) => number;
 
 export declare interface NamedFunction extends Callable {
     displayName: string;

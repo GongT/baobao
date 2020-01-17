@@ -1,57 +1,11 @@
 {
+	"extends": "./tsconfig.no-lib.json",
 	"compilerOptions": {
-		"target": "es2020",
-		"module": "CommonJS",
-		"moduleResolution": "Node",
-		"allowJs": false,
-		"allowSyntheticDefaultImports": false,
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
-		"alwaysStrict": true,
-		"charset": "utf8",
-		"checkJs": false,
-		"composite": false,
-		"declaration": true,
-		"declarationMap": true,
-		"emitBOM": false,
-		"emitDeclarationOnly": false,
-		"emitDecoratorMetadata": true,
-		"esModuleInterop": false,
-		"experimentalDecorators": true,
-		"forceConsistentCasingInFileNames": true,
-		"inlineSourceMap": false,
-		"inlineSources": false,
-		"keyofStringsOnly": false,
-		"lib": [
-			"ESNext",
-			"ESNext.Array",
-			"ESNext.AsyncIterable",
-			"ESNext.Symbol"
-		],
-		"noEmitOnError": true,
-		"noImplicitThis": true,
-		"noImplicitAny": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"preserveConstEnums": true,
-		"pretty": false,
-		"typeRoots": [
-			"../node_modules/@types"
-		],
-		"removeComments": false,
-		"resolveJsonModule": true,
-		"sourceMap": true,
-		"stripInternal": true,
-		"strictBindCallApply": true,
-		"strict": true,
-		"strictFunctionTypes": true,
-		"strictNullChecks": true,
-		"strictPropertyInitialization": true,
-		"useDefineForClassFields": true,
-		"newLine": "lf",
-		"importHelpers": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"incremental": true
+		"module": "ESNext",
+		"plugins": [
+			{
+				"transform": "@idlebox/typescript-transformer-dual-package"
+			}
+		]
 	}
 }

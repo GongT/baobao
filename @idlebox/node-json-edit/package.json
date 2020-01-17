@@ -3,30 +3,36 @@
 	"description": "Edit json file and preserve it's indent and line feed and final new line.",
 	"version": "1.0.19",
 	"monorepo": true,
-	"main": "./lib/node-json-edit.js",
+	"type": "module",
+	"main": "./lib/node-json-edit.cjs",
 	"typings": "./lib/node-json-edit.d.ts",
 	"scripts": {
-		"build": "tsc -p src",
-		"prepack": "rimraf lib && tsc -p src",
+		"build": "ttsc -p src",
+		"prepack": "rimraf lib && ttsc -p src",
 		"publishPackage": "yarn publish --registry https://registry.npmjs.org --access=public",
 		"upgrade": "ncu --upgrade --packageFile ./package.json",
-		"watch": "tsc -p src -w",
+		"watch": "ttsc -p src -w",
 		"clean": "rimraf lib"
 	},
-	"repository": {
-		"type": "github",
-		"url": "gongt/node-json-edit"
+	"exports": {
+		".": {
+			"require": "./lib/node-json-edit.cjs",
+			"import": "./lib/node-json-edit.js"
+		}
 	},
 	"license": "MIT",
 	"dependencies": {
 		"comment-json": "^2.1.0"
 	},
 	"devDependencies": {
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3",
 		"@types/comment-json": "^1.1.1",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
 		"npm-check-updates": "^3.1.23",
 		"rimraf": "^3.0.0",
+		"tslib": "^1.10.0",
+		"ttypescript": "^1.5.10",
 		"typescript": "next"
 	}
 }

@@ -1,13 +1,7 @@
-import { resolve, dirname } from 'path';
-import { createRequire } from 'module';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const require = createRequire(__filename);
-const { pathExistsSync } = require('fs-extra');
-
-import { eachProject, getCurrentRushRootPath } from '../../@idlebox/rush-tools';
-const { loadJsonFileSync, writeJsonFileBackSync } = require('../../@idlebox/node-json-edit');
+import { resolve } from 'path';
+import { eachProject, getCurrentRushRootPath } from '@idlebox/rush-tools/docs/package-public';
+import { pathExistsSync } from 'fs-extra';
+import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit/lib/node-json-edit';
 
 const action = createAction();
 function createAction() {

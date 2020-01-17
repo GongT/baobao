@@ -5,14 +5,17 @@
 	"version": "1.0.6",
 	"license": "MIT",
 	"typings": "docs/package-public.d.ts",
-	"main": "lib/_export_all_in_one_index.cjs",
+	"main": "./lib/_export_all_in_one_index.cjs",
 	"bin": {
 		"rush-tools": "./bin.cjs"
 	},
+	"engines": {
+		"node": "<=12 || >=14"
+	},
 	"exports": {
 		".": {
-			"require": "lib/_export_all_in_one_index.cjs",
-			"import": "lib/_export_all_in_one_index.js"
+			"require": "./lib/_export_all_in_one_index.cjs",
+			"import": "./lib/_export_all_in_one_index.js"
 		}
 	},
 	"scripts": {
@@ -25,7 +28,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@gongt/dual-package-runtime": "^1.0.1",
+		"@idlebox/dual-package-runtime": "^1.0.1",
 		"@idlebox/helpers": "^1.0.8",
 		"@idlebox/node-helpers": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.19",
@@ -36,13 +39,14 @@
 		"pacote": "^9.5.8"
 	},
 	"devDependencies": {
-		"@gongt/typescript-transformer-dual-package": "^1.0.2",
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3",
 		"@idlebox/build-script": "^2.0.11",
 		"@idlebox/export-all-in-one": "^3.0.7",
 		"@idlebox/single-dog": "^2.1.3",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.8",
+		"@types/pacote": "^9.5.0",
 		"gulp": "^4.0.2",
 		"rimraf": "^3.0.0",
 		"source-map-support": "*",

@@ -7,7 +7,7 @@ Copied one file from [Zoltu/typescript-transformer-append-js-extension](Zoltu/ty
 # Usage
 1. Install `typescript`, `ttypescript`, and this transformer into your project if you don't already have them.
 	```bash
-	npm install --save-dev typescript ttypescript @gongt/typescript-transformer-dual-package
+	npm install --save-dev typescript ttypescript @idlebox/typescript-transformer-dual-package
 	```
 1. Add the transformer to your es2015 module `tsconfig.json`:
 	```jsonc
@@ -18,7 +18,7 @@ Copied one file from [Zoltu/typescript-transformer-append-js-extension](Zoltu/ty
 			// ... other options
 			"plugins": [
 				{
-					"transform": "@gongt/typescript-transformer-append-cjs-extension",
+					"transform": "@idlebox/typescript-transformer-append-cjs-extension",
 					"compilerOptions": {
 						// [optional] normally you do not need to set this.
 						//... override parent compilerOptions when compile commonjs, below is the default:
@@ -61,9 +61,9 @@ Copied one file from [Zoltu/typescript-transformer-append-js-extension](Zoltu/ty
 		// ...
 	}
 	```
-1. install package `@gongt/dual-package-runtime` and add one line before your bin file(s).
+1. install package `@idlebox/dual-package-runtime` and add one line before your bin file(s).
 	```js
-	import '@gongt/dual-package-runtime'
+	import '@idlebox/dual-package-runtime'
 	```
 
 # Related pages:

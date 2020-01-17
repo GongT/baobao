@@ -11,17 +11,21 @@ export function fatalError(msg: string): never {
 }
 
 export function load(file: string) {
-	Promise.resolve().then(() => {
-		return require(file).default();
-	}).then(() => {
-	}, (e) => {
-		if (e instanceof ExitError) {
-			console.error(e.message);
-			process.exit(1);
-		}
+	Promise.resolve()
+		.then(() => {
+			return require(file).default;
+		})
+		.then((fn) => {
+			return fn();
+		})
+		.catch((e) => {
+			if (e instanceof ExitError) {
+				console.error(e.message);
+				process.exit(1);
+			}
 
-		// setErrorLogRoot(require('path').dirname(__dirname));
-		prettyPrintError('build-script', e);
-		process.exit(1);
-	});
+			// setErrorLogRoot(require('path').dirname(__dirname));
+			prettyPrintError('build-script', e);
+			process.exit(1);
+		});
 }

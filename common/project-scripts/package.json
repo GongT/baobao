@@ -1,0 +1,25 @@
+{
+	"name": "meta-scripts",
+	"private": true,
+	"type": "commonjs",
+	"version": "0.0.0",
+	"scripts": {
+		"build": "tsc -p .",
+		"watch": "tsc -w -p .",
+		"clean": "",
+		"prepack": "exit 1",
+		"upgrade": "ncu --upgrade --packageFile ./package.json"
+	},
+	"dependencies": {
+		"@idlebox/node-json-edit": "^1.0.19",
+		"@idlebox/rush-tools": "^1.0.6",
+		"command-exists": "^1.2.8",
+		"fs-extra": "^8.1.0",
+		"jsonc": "^2.0.0",
+		"prettier": "^1.19.1"
+	},
+	"devDependencies": {
+		"@types/fs-extra": "^8.0.0",
+		"typescript": "next"
+	}
+}

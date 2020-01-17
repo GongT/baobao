@@ -38,6 +38,8 @@
 		"@types/semver": "^6.0.2",
 		"@types/targz": "^1.0.0",
 		"gulp": "^4.0.2",
-		"typescript": "next"
+		"typescript": "next",
+		"tslib": "^1.10.0",
+		"ttypescript": "^1.5.10"
 	}
 }
