@@ -1,4 +1,4 @@
-import commandExists = require('command-exists');
+import * as commandExists from 'command-exists';
 import { command } from 'execa';
 import { log } from './log';
 
@@ -10,7 +10,7 @@ export async function getPackageManager() {
 	}
 	for (const name of ['npm', 'yarn', 'pnpm']) {
 		if (await commandExists(name)) {
-			return foundPm = name;
+			return (foundPm = name);
 		}
 	}
 	throw new Error('Failed to detect any package manager, please install npm/yarn/pnpm in PATH');

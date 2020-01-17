@@ -1,5 +1,5 @@
 {
-	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.library.json",
+	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
 		"module": "ESNext",
 		"outDir": "../lib",

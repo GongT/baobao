@@ -23,7 +23,7 @@ export default async function runBuildScript() {
 		});
 		await Promise.all([p1, p2!]);
 	} catch (e) {
-		fancyLog.error('Failed to run command %s', command);
+		// fancyLog.error('Failed to run command %s', command);
 		throw e;
 	}
 }

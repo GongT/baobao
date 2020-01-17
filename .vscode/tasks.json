@@ -4,7 +4,8 @@
 		{
 			"label": "Rush Update / 更新依赖",
 			"type": "shell",
-			"command": "rush update"
+			"command": "rush update",
+			"problemMatcher": []
 		},
 		{
 			"label": "Typescript Watch All / 启动监视每个项目",
@@ -13,10 +14,14 @@
 			"problemMatcher": "$tsc-watch"
 		},
 		{
-			"label": "Typescript Watch All / 运行rush构建",
+			"label": "Rush Build / 运行rush构建",
 			"type": "shell",
 			"command": "rush build",
-			"problemMatcher": "$tsc"
+			"problemMatcher": "$tsc",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		},
 		{
 			"label": "Publish All / 全部包发布",

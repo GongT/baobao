@@ -89,6 +89,7 @@ export async function main(argv: string[]) {
 	} else {
 		printResult(argv.includes('--json'), changedFiles);
 	}
+	return 0;
 }
 
 function printResult(forceJson: boolean, changedFiles: string[]) {

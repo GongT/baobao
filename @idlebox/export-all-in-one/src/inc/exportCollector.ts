@@ -101,6 +101,9 @@ export class ExportCollector {
 		if (!map.has(source)) {
 			map.set(source, []);
 		}
-		map.get(source)!.push(identifier);
+		const arr = map.get(source)!;
+		if (!arr.includes(identifier)) {
+			arr.push(identifier);
+		}
 	}
 }

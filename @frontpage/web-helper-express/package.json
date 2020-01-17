@@ -26,5 +26,6 @@
 		"typescript": "next",
 		"tslib": "^1.10.0",
 		"ttypescript": "^1.5.10"
-	}
+	},
+	"repository": "https://github.com/GongT/baobao"
 }

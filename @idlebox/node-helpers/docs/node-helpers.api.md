@@ -11,7 +11,7 @@ import { Transform } from 'stream';
 import { Writable } from 'stream';
 
 // Warning: (ae-missing-release-tag) "BlackHoleStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class BlackHoleStream extends Writable {
     // (undocumented)
@@ -19,7 +19,7 @@ export class BlackHoleStream extends Writable {
 }
 
 // Warning: (ae-missing-release-tag) "CollectingStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class CollectingStream extends Writable {
     constructor(sourceStream?: NodeJS.ReadableStream);
@@ -32,42 +32,296 @@ export class CollectingStream extends Writable {
 }
 
 // Warning: (ae-missing-release-tag) "disposableStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function disposableStream<T extends Writable | Readable>(stream: T): T & IDisposable;
 
 // Warning: (ae-missing-release-tag) "drainStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function drainStream(stream: NodeJS.ReadableStream, size: number, start?: number, extra?: number): Promise<Buffer>;
 
 // Warning: (ae-missing-release-tag) "dumpEventEmitterEmit" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function dumpEventEmitterEmit(ev: EventEmitter): void;
 
+// Warning: (ae-missing-release-tag) "ERRNO_LINUX" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export enum ERRNO_LINUX {
+    // (undocumented)
+    E2BIG = 7,
+    // (undocumented)
+    EACCES = 13,
+    // (undocumented)
+    EADDRINUSE = 112,
+    // (undocumented)
+    EADDRNOTAVAIL = 125,
+    // (undocumented)
+    EADV = 68,
+    // (undocumented)
+    EAFNOSUPPORT = 106,
+    // (undocumented)
+    EAGAIN = 11,
+    // (undocumented)
+    EALREADY = 120,
+    // (undocumented)
+    EBADE = 50,
+    // (undocumented)
+    EBADF = 9,
+    // (undocumented)
+    EBADFD = 81,
+    // (undocumented)
+    EBADMSG = 77,
+    // (undocumented)
+    EBADR = 51,
+    // (undocumented)
+    EBADRQC = 54,
+    // (undocumented)
+    EBADSLT = 55,
+    // (undocumented)
+    EBFONT = 57,
+    // (undocumented)
+    EBUSY = 16,
+    // (undocumented)
+    ECASECLASH = 137,
+    // (undocumented)
+    ECHILD = 10,
+    // (undocumented)
+    ECHRNG = 37,
+    // (undocumented)
+    ECOMM = 70,
+    // (undocumented)
+    ECONNABORTED = 113,
+    // (undocumented)
+    ECONNREFUSED = 111,
+    // (undocumented)
+    ECONNRESET = 104,
+    // (undocumented)
+    EDEADLK = 45,
+    // (undocumented)
+    EDEADLOCK = 56,
+    // (undocumented)
+    EDESTADDRREQ = 121,
+    // (undocumented)
+    EDOM = 33,
+    // (undocumented)
+    EDOTDOT = 76,
+    // (undocumented)
+    EDQUOT = 132,
+    // (undocumented)
+    EEXIST = 17,
+    // (undocumented)
+    EFAULT = 14,
+    // (undocumented)
+    EFBIG = 27,
+    // (undocumented)
+    EFTYPE = 79,
+    // (undocumented)
+    EHOSTDOWN = 117,
+    // (undocumented)
+    EHOSTUNREACH = 118,
+    // (undocumented)
+    EIDRM = 36,
+    // (undocumented)
+    EILSEQ = 138,
+    // (undocumented)
+    EINPROGRESS = 119,
+    // (undocumented)
+    EINTR = 4,
+    // (undocumented)
+    EINVAL = 22,
+    // (undocumented)
+    EIO = 5,
+    // (undocumented)
+    EISCONN = 127,
+    // (undocumented)
+    EISDIR = 21,
+    // (undocumented)
+    EL2HLT = 44,
+    // (undocumented)
+    EL2NSYNC = 38,
+    // (undocumented)
+    EL3HLT = 39,
+    // (undocumented)
+    EL3RST = 40,
+    // (undocumented)
+    ELBIN = 75,
+    // (undocumented)
+    ELIBACC = 83,
+    // (undocumented)
+    ELIBBAD = 84,
+    // (undocumented)
+    ELIBEXEC = 87,
+    // (undocumented)
+    ELIBMAX = 86,
+    // (undocumented)
+    ELIBSCN = 85,
+    // (undocumented)
+    ELNRNG = 41,
+    // (undocumented)
+    ELOOP = 92,
+    // (undocumented)
+    EMFILE = 24,
+    // (undocumented)
+    EMLINK = 31,
+    // (undocumented)
+    EMSGSIZE = 122,
+    // (undocumented)
+    EMULTIHOP = 74,
+    // (undocumented)
+    ENAMETOOLONG = 91,
+    // (undocumented)
+    ENETDOWN = 115,
+    // (undocumented)
+    ENETRESET = 126,
+    // (undocumented)
+    ENETUNREACH = 114,
+    // (undocumented)
+    ENFILE = 23,
+    // (undocumented)
+    ENMFILE = 89,
+    // (undocumented)
+    ENOANO = 53,
+    // (undocumented)
+    ENOBUFS = 105,
+    // (undocumented)
+    ENOCSI = 43,
+    // (undocumented)
+    ENODATA = 61,
+    // (undocumented)
+    ENODEV = 19,
+    // (undocumented)
+    ENOENT = 2,
+    // (undocumented)
+    ENOEXEC = 8,
+    // (undocumented)
+    ENOLCK = 46,
+    // (undocumented)
+    ENOLINK = 67,
+    // (undocumented)
+    ENOMEDIUM = 135,
+    // (undocumented)
+    ENOMEM = 12,
+    // (undocumented)
+    ENOMSG = 35,
+    // (undocumented)
+    ENONET = 64,
+    // (undocumented)
+    ENOPKG = 65,
+    // (undocumented)
+    ENOPROTOOPT = 109,
+    // (undocumented)
+    ENOSHARE = 136,
+    // (undocumented)
+    ENOSPC = 28,
+    // (undocumented)
+    ENOSR = 63,
+    // (undocumented)
+    ENOSTR = 60,
+    // (undocumented)
+    ENOSYS = 88,
+    // (undocumented)
+    ENOTBLK = 15,
+    // (undocumented)
+    ENOTCONN = 128,
+    // (undocumented)
+    ENOTDIR = 20,
+    // (undocumented)
+    ENOTEMPTY = 90,
+    // (undocumented)
+    ENOTSOCK = 108,
+    // (undocumented)
+    ENOTSUP = 134,
+    // (undocumented)
+    ENOTTY = 25,
+    // (undocumented)
+    ENOTUNIQ = 80,
+    // (undocumented)
+    ENXIO = 6,
+    // (undocumented)
+    EOPNOTSUPP = 95,
+    // (undocumented)
+    EOVERFLOW = 139,
+    // (undocumented)
+    EPERM = 1,
+    // (undocumented)
+    EPFNOSUPPORT = 96,
+    // (undocumented)
+    EPIPE = 32,
+    // (undocumented)
+    EPROCLIM = 130,
+    // (undocumented)
+    EPROTO = 71,
+    // (undocumented)
+    EPROTONOSUPPORT = 123,
+    // (undocumented)
+    EPROTOTYPE = 107,
+    // (undocumented)
+    ERANGE = 34,
+    // (undocumented)
+    EREMCHG = 82,
+    // (undocumented)
+    EREMOTE = 66,
+    // (undocumented)
+    EROFS = 30,
+    // (undocumented)
+    ESHUTDOWN = 110,
+    // (undocumented)
+    ESOCKTNOSUPPORT = 124,
+    // (undocumented)
+    ESPIPE = 29,
+    // (undocumented)
+    ESRCH = 3,
+    // (undocumented)
+    ESRMNT = 69,
+    // (undocumented)
+    ESTALE = 133,
+    // (undocumented)
+    ETIME = 62,
+    // (undocumented)
+    ETIMEDOUT = 116,
+    // (undocumented)
+    ETOOMANYREFS = 129,
+    // (undocumented)
+    ETXTBSY = 26,
+    // (undocumented)
+    EUNATCH = 42,
+    // (undocumented)
+    EUSERS = 131,
+    // (undocumented)
+    EXDEV = 18,
+    // (undocumented)
+    EXFULL = 52
+}
+
 // Warning: (ae-missing-release-tag) "exists" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function exists(path: string): Promise<boolean>;
 
 // Warning: (ae-missing-release-tag) "existsSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function existsSync(path: string): boolean;
 
 // Warning: (ae-missing-release-tag) "HexDumpLoggerStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class HexDumpLoggerStream extends Transform {
-    // Warning: (ae-forgotten-export) The symbol "LogFunction" needs to be exported by the entry point _export_all_in_one_index.d.ts
     constructor(logFn: LogFunction, prefix?: string);
     // (undocumented)
     _transform(chunk: Buffer, encoding: string, callback: Function): void;
 }
 
+// Warning: (ae-missing-release-tag) "LogFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type LogFunction = (message: string, ...args: any[]) => void;
+
 // Warning: (ae-missing-release-tag) "LoggerStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class LoggerStream extends Transform {
     constructor(logFn: LogFunction, prefix?: string);
@@ -76,22 +330,22 @@ export class LoggerStream extends Transform {
 }
 
 // Warning: (ae-missing-release-tag) "nd5" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function nd5(data: Buffer): string;
 
 // Warning: (ae-missing-release-tag) "prettyFormatError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function prettyFormatError(e: Error): string;
 
 // Warning: (ae-missing-release-tag) "prettyPrintError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function prettyPrintError(type: string, e: Error): void;
 
 // Warning: (ae-missing-release-tag) "RawCollectingStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export class RawCollectingStream extends Writable {
     constructor(sourceStream?: NodeJS.ReadableStream);
@@ -104,24 +358,33 @@ export class RawCollectingStream extends Writable {
 }
 
 // Warning: (ae-missing-release-tag) "setErrorLogRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function setErrorLogRoot(_root: string): void;
 
 // Warning: (ae-missing-release-tag) "sha256" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function sha256(data: Buffer): string;
 
 // Warning: (ae-missing-release-tag) "streamHasEnd" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function streamHasEnd(S: NodeJS.ReadableStream | NodeJS.WritableStream): any;
 
 // Warning: (ae-missing-release-tag) "streamPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function streamPromise(stream: NodeJS.ReadableStream | NodeJS.WritableStream): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "streamToBuffer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "streamToBuffer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promise<string>;
+
+// @public (undocumented)
+export function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
 
 
 // (No @packageDocumentation comment for this package)

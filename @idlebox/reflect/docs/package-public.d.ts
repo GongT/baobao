@@ -25,7 +25,7 @@ export declare function singleton(type?: SingletonType): ClassDecorator;
 
 export declare const singletonSymbol: unique symbol;
 
-declare enum SingletonType {
+export declare enum SingletonType {
     Throw = 0,
     Return = 1
 }

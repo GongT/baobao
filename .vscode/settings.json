@@ -2,7 +2,7 @@
 	"files.associations": {
 		"rush.json": "jsonc"
 	},
-	"task.autoDetect": "off",
+	"task.autoDetect": "on",
 	"quicktask.enableBatchFile": false,
 	"quicktask.enableGulp": false,
 	"quicktask.enableNpm": false,

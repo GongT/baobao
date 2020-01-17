@@ -5,7 +5,7 @@
 ```ts
 
 // Warning: (ae-missing-release-tag) "test" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function test(): string;
 

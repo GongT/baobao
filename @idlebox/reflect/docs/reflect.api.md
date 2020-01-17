@@ -7,47 +7,56 @@
 import { InitFunc } from '@idlebox/helpers';
 
 // Warning: (ae-missing-release-tag) "bindThis" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export const bindThis: MethodDecorator;
 
 // Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-missing-release-tag) "hookClass" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function hookClass<TC extends IConstructorOf<T>, T>(target: TC): IHooks<T, TC>;
 
 // Warning: (ae-missing-release-tag) "hookClassSymbol" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export const hookClassSymbol: unique symbol;
 
 // Warning: (ae-missing-release-tag) "init" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function init<O, T extends keyof O>(init: InitFunc<O, O[T]>): PropertyDecorator;
 
 // Warning: (ae-missing-release-tag) "memo" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export const memo: MethodDecorator;
 
 // Warning: (ae-missing-release-tag) "memorizeValueSymbol" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export const memorizeValueSymbol: unique symbol;
 
-// Warning: (ae-forgotten-export) The symbol "SingletonType" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-missing-release-tag) "singleton" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export function singleton(type?: SingletonType): ClassDecorator;
 
 // Warning: (ae-missing-release-tag) "singletonSymbol" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// 
+//
 // @public (undocumented)
 export const singletonSymbol: unique symbol;
+
+// Warning: (ae-missing-release-tag) "SingletonType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export enum SingletonType {
+    // (undocumented)
+    Return = 1,
+    // (undocumented)
+    Throw = 0
+}
 
 
 // (No @packageDocumentation comment for this package)

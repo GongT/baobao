@@ -28,6 +28,7 @@
 		"typescript": "next",
 		"tslib": "^1.10.0",
 		"ttypescript": "^1.5.10",
-		"@idlebox/typescript-transformer-dual-package":"^1.0.3"
-	}
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3"
+	},
+	"repository": "https://github.com/GongT/baobao"
 }

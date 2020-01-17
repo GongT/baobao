@@ -1,10 +1,10 @@
 import { exists } from '@idlebox/node-helpers';
+import * as execa from 'execa';
 import { resolve } from 'path';
 import { detectRegistry } from './detectRegistry';
 import { getArg } from './getArg';
 import { getVersionCached } from './getVersionCached';
 import { errorLog, log } from './log';
-import execa = require('execa');
 
 export async function main(argv: string[]) {
 	const startExtraArgs = argv.indexOf('--');
@@ -40,6 +40,6 @@ export async function main(argv: string[]) {
 		await execa(cmd[0], cmd.slice(1), { cwd: packagePath, stdout: 'inherit', stderr: 'inherit' });
 	} else {
 		log('local (%s) === remote (%s), do nothing and exit.', packageJson.version, result.version);
-		return 0;
 	}
+	return 0;
 }

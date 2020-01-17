@@ -1,9 +1,9 @@
+import * as commandExists from 'command-exists';
 import { command } from 'execa';
 import { log } from './log';
-import commandExists = require('command-exists');
 
 export async function gitInit(cwd: string) {
-	if (!await commandExists('git')) {
+	if (!(await commandExists('git'))) {
 		throw new Error('Please install git in PATH');
 	}
 
@@ -32,7 +32,12 @@ export async function gitChange(cwd: string) {
 
 	log('+ git log --name-only -1');
 	const { stdout } = await command('git log --name-only -1', { cwd, stdout: 'pipe', stderr: 'inherit' });
-	const lines = stdout.toString().trim().split(/\n/g).map(i => i.trim()).filter(i => i.length > 0);
+	const lines = stdout
+		.toString()
+		.trim()
+		.split(/\n/g)
+		.map((i) => i.trim())
+		.filter((i) => i.length > 0);
 	const titleLine = lines.indexOf('DetectChangedFiles');
 	if (titleLine === -1) {
 		throw new Error('Failed to run git add or commit.');

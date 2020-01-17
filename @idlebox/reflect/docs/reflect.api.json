@@ -332,6 +332,63 @@
             "startIndex": 1,
             "endIndex": 2
           }
+        },
+        {
+          "kind": "Enum",
+          "canonicalReference": "@idlebox/reflect!SingletonType:enum",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare enum SingletonType "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "SingletonType",
+          "members": [
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@idlebox/reflect!SingletonType.Return:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "Return = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "1"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "Return",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@idlebox/reflect!SingletonType.Throw:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "Throw = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "0"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "Throw",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ]
         }
       ]
     }

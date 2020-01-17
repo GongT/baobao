@@ -5,6 +5,7 @@ import {
 	Identifier,
 	isArrayBindingPattern,
 	isClassDeclaration,
+	isEnumDeclaration,
 	isExportAssignment,
 	isExportDeclaration,
 	isFunctionDeclaration,
@@ -15,6 +16,7 @@ import {
 	isObjectBindingPattern,
 	isOmittedExpression,
 	isStringLiteral,
+	isTypeAliasDeclaration,
 	isVariableStatement,
 	ModuleDeclaration,
 	Node,
@@ -22,7 +24,6 @@ import {
 	TypeChecker,
 	VariableDeclaration,
 	VariableStatement,
-	isTypeAliasDeclaration,
 } from 'typescript';
 import { shouldIncludeNode } from './testForExport';
 import { SOURCE_ROOT } from '../../inc/argParse';
@@ -140,6 +141,14 @@ export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeCh
 	if (isFunctionDeclaration(node)) {
 		// export function XXX {} FunctionDeclaration
 		debug(' * found FunctionDeclaration');
+		const name = getName(node.name, relative, false);
+		doExport(collect, node, name, relative);
+
+		return;
+	}
+	if (isEnumDeclaration(node)) {
+		// export enum XXX { ... }
+		debug(' * found EnumDeclaration');
 		const name = getName(node.name, relative, false);
 		doExport(collect, node, name, relative);
 
