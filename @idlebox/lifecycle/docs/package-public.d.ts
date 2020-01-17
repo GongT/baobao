@@ -109,7 +109,7 @@ export declare abstract class LifecycleObject extends AsyncDisposable {
     dispose(): Promise<void>;
 }
 
-declare type ProgressCallback<T = any> = (value: T) => void;
+export declare type ProgressCallback<T = any> = (value: T) => void;
 
 export declare function registerGlobalLifecycle(object: IDisposable): void;
 
@@ -121,6 +121,16 @@ export declare class TimeoutError extends Error {
     constructor(time: number, what?: string);
 }
 
+export declare function timeoutPromise<T>(ms: number, p: Promise<T>): Promise<T>;
+
+export declare function timeoutPromise<T>(ms: number, message: string, p: Promise<T>): Promise<T>;
+
+export declare function timeoutPromise<T, PT = any>(ms: number, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
+
+export declare function timeoutPromise<T, PT = any>(ms: number, message: string, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
+
 export declare function toDisposable(fn: () => void): IDisposable;
+
+export declare type ValueCallback<T = any> = (value: T | Promise<T>) => void;
 
 export { }

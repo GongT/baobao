@@ -50,8 +50,6 @@ export class DeferredPromise<T, PT = any> {
     notify(progress: PT): this;
     // (undocumented)
     readonly p: Promise<T> & IProgressHolder<T, PT>;
-    // Warning: (ae-forgotten-export) The symbol "ProgressCallback" needs to be exported by the entry point _export_all_in_one_index.d.ts
-    //
     // (undocumented)
     progress(fn: ProgressCallback<PT>): void;
     // (undocumented)
@@ -196,6 +194,11 @@ export abstract class LifecycleObject extends AsyncDisposable {
     protected abstract done(): void;
 }
 
+// Warning: (ae-missing-release-tag) "ProgressCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type ProgressCallback<T = any> = (value: T) => void;
+
 // Warning: (ae-missing-release-tag) "registerGlobalLifecycle" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -218,10 +221,32 @@ export class TimeoutError extends Error {
     constructor(time: number, what?: string);
 }
 
+// Warning: (ae-missing-release-tag) "timeoutPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "timeoutPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "timeoutPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "timeoutPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function timeoutPromise<T>(ms: number, p: Promise<T>): Promise<T>;
+
+// @public (undocumented)
+export function timeoutPromise<T>(ms: number, message: string, p: Promise<T>): Promise<T>;
+
+// @public (undocumented)
+export function timeoutPromise<T, PT = any>(ms: number, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
+
+// @public (undocumented)
+export function timeoutPromise<T, PT = any>(ms: number, message: string, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
+
 // Warning: (ae-missing-release-tag) "toDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function toDisposable(fn: () => void): IDisposable;
+
+// Warning: (ae-missing-release-tag) "ValueCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type ValueCallback<T = any> = (value: T | Promise<T>) => void;
 
 
 // (No @packageDocumentation comment for this package)
