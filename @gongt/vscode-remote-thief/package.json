@@ -23,6 +23,21 @@
 	],
 	"main": "./lib/extension.js",
 	"contributes": {
+		"configuration": {
+			"title": "Remote Thief",
+			"properties": {
+				"remote.thief.binaryPath": {
+					"type": "string",
+					"default": "",
+					"description": "Path to place vscode executable wrapper"
+				},
+				"remote.thief.binaryName": {
+					"type": "string",
+					"default": "code",
+					"description": "callable name of vscode"
+				}
+			}
+		},
 		"commands": [
 			{
 				"command": "extension.steal",
@@ -30,7 +45,10 @@
 			}
 		]
 	},
-	"scripts": {},
+	"scripts": {
+		"watch": "tsc -w -p src",
+		"build": "tsc -p src"
+	},
 	"dependencies": {
 		"source-map-support": "*",
 		"tslib": "^1.10.0"

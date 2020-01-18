@@ -1,25 +1,61 @@
 import * as vscode from 'vscode';
+import { inspect } from 'util';
+import { platform, userInfo } from 'os';
+import { resolve } from 'path';
 
-function activate(context:vscode.ExtensionContext) {
-	console.log('Congratulations, your extension is now active!');
+interface IMyConfig {
+	binaryPath: string;
+	binaryName: string;
+}
+const defaultConfig: IMyConfig = {
+	binaryName: 'code',
+	binaryPath: detectPath(),
+};
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+let logger: vscode.OutputChannel;
+let myFolders: string[] = [];
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
-
-	context.subscriptions.push(disposable);
+function updateMyFolders() {
+	logger.appendLine('Update My Folders');
+	myFolders = vscode.workspace.workspaceFolders?.map((f) => f.uri.toString()) || [];
+	myFolders.forEach((i) => logger.appendLine('*  ' + i));
 }
 
-// this method is called when your extension is deactivated
-function deactivate() {}
+function activate(context: vscode.ExtensionContext) {
+	logger = vscode.window.createOutputChannel('Remote Thief');
+	logger.show(false);
+
+	updateMyFolders();
+	context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders(updateMyFolders));
+}
+
+function deactivate() {
+	logger.appendLine('deactivate');
+}
 
 module.exports = {
 	activate,
 	deactivate,
 };
+
+function getBinaryPath() {
+	let ext = '';
+	if (platform() === 'win32') {
+		ext = '.bat';
+	}
+	return resolve(getConfig('binaryPath'), getConfig('binaryName') + ext);
+}
+function getConfig<T extends keyof IMyConfig>(key: T): IMyConfig[T] {
+	return vscode.workspace.getConfiguration('remote.thief').get(key) || defaultConfig[key];
+}
+function detectPath() {
+	if (platform() === 'win32') {
+		throw new Error('sorry, windows is not supported currentlly.');
+	}
+	const { uid, homedir } = userInfo();
+	if (uid === 0) {
+		return '/usr/local/bin';
+	} else {
+		return resolve(homedir, '.bin');
+	}
+}
