@@ -11,7 +11,7 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"clean": "sleep 2 && rimraf lib",
+		"clean": "rimraf lib",
 		"watch": "tsc -p src -w",
 		"build": "tsc -p src",
 		"prepack": "run-s -l clean build",

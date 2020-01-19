@@ -22,7 +22,8 @@
 			"summary": "Run clean in every project",
 			"enableParallelism": true,
 			"ignoreDependencyOrder": true,
-			"allowWarningsInSuccessfulBuild": true
+			"allowWarningsInSuccessfulBuild": true,
+			"ignoreMissingScript": false
 		}
 	],
 	"parameters": [

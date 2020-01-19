@@ -12,6 +12,7 @@ export abstract class BuildContextBase implements IBuildContext {
 		this.projectJson = {
 			alias: new Map(),
 			job: new Map(),
+			scriptsJob: new Map(),
 		};
 	}
 

@@ -11,11 +11,9 @@
 	"alias": {
 		"build-ts": "ttsc -p src",
 		"watch-ts": "ttsc --pretty -w -p src",
-		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
-		"run-test": "",
-		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**"
+		"run-test": ""
 	},
 	"command": {
 		"build": {
@@ -24,17 +22,13 @@
 				"build-ts"
 			]
 		},
-		"clean": {
-			"title": "Delete git ignore files (without node_modules)",
-			"run": [
-				"git-clean"
-			]
-		},
 		"rebuild": {
 			"title": "Prepare for publish package",
 			"run": [
-				"cleanup-lib",
 				"@build"
+			],
+			"after": [
+				"clean"
 			]
 		},
 		"publish": {

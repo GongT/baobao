@@ -2,21 +2,12 @@
 	"files.associations": {
 		"rush.json": "jsonc"
 	},
-	"task.autoDetect": "on",
-	"quicktask.enableBatchFile": false,
-	"quicktask.enableGulp": false,
-	"quicktask.enableNpm": false,
-	"quicktask.enablePerl": false,
-	"quicktask.enablePowershell": false,
-	"quicktask.enablePython": false,
-	"quicktask.enableRuby": false,
-	"quicktask.enableShell": false,
-	"quicktask.enableVsTasks": true,
 	"search.exclude": {
 		"common/temp": true,
 		"**/node_modules/**/*": true,
 		"*/*/lib":true,
 		"*/*/.rush":true
 	},
-	"prettier.prettierPath": "common/temp/node_modules/prettier"
+	"prettier.prettierPath": "common/temp/node_modules/prettier",
+	"typescript.tsdk": "./common/temp/node_modules/.pnpm/node_modules/typescript/lib"
 }

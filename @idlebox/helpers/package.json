@@ -7,8 +7,7 @@
 	"main": "./lib/_export_all_in_one_index.js",
 	"scripts": {
 		"build": "build-script build",
-		"clean": "build-script clean",
-		"distclean": "build-script distclean",
+		"clean": "rimraf lib",
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",

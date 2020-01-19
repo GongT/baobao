@@ -6,8 +6,7 @@
 	"version": "1.0.1",
 	"scripts": {
 		"build": "build-script build",
-		"clean": "build-script clean",
-		"distclean": "build-script distclean",
+		"clean": "rimraf lib",
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",

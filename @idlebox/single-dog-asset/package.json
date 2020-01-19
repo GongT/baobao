@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "echo this package did not need build",
-		"clean": "echo this package did not need clean",
+		"clean": "rimraf lib",
 		"prepack": "echo this package did not need prepack"
 	},
 	"dependencies": {},

@@ -47,7 +47,8 @@
 	},
 	"scripts": {
 		"watch": "tsc -w -p src",
-		"build": "tsc -p src"
+		"build": "tsc -p src",
+		"clean": "rimraf lib"
 	},
 	"dependencies": {
 		"source-map-support": "*",

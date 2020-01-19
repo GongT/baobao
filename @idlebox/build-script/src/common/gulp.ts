@@ -1,11 +1,11 @@
 import { nameFunction } from '@idlebox/helpers';
 import * as Gulp from 'gulp';
-import { ExecFunc, MapLike } from '../global';
 import { BuildContext } from './buildContext';
 import { getBuildContext, setCurrentDir } from './buildContextInstance';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
 import { createJobFunc } from './jobs';
+import { ExecFunc, MapLike } from '../global';
 
 function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
 	fancyLog.debug(`defining new task: ${taskName}`);
@@ -122,13 +122,22 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 
 	const { pickJob, pickAction, registerJob } = createPickPreviousJob(pickAlias);
 
+	for (const [name, command] of ctx.projectJson.scriptsJob.entries()) {
+		const fn = createJobFunc(name, ctx.projectRoot, command);
+		registerJob(name, fn);
+		task(gulp, name, functionWithName(fn, name, 'Npm command: ' + name));
+	}
+
 	for (const name of resolvedDependOrder) {
 		const data = ctx.projectJson.job.get(name)!;
 		const list: Gulp.TaskFunction[] = [];
 
 		if (data.preRun.size || data.after.size) {
 			list.unshift(
-				nameFunction(`${name}:pre`, gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]))
+				nameFunction(
+					`${name}:pre`,
+					gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)])
+				)
 			);
 		}
 		if (data.run.size) {

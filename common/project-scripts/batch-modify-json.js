@@ -56,8 +56,10 @@ for (var _i = 0, _a = rush_tools_1.eachProject(); _i < _a.length; _i++) {
     try {
         console.error('modify: %s', packageName, key, value);
         var json = node_json_edit_1.loadJsonFileSync(path);
-        action(json, key, value);
-        node_json_edit_1.writeJsonFileBackSync(json);
+        var changed = action(json, key, value);
+        if (changed) {
+            node_json_edit_1.writeJsonFileBackSync(json);
+        }
         console.error('\x1B[A\x1B[K\x1B[38;5;10m✔\x1B[0m - %s', packageName);
         success++;
     }
@@ -77,12 +79,11 @@ function pathInfo(obj, path) {
     for (var _i = 0, ps_1 = ps; _i < ps_1.length; _i++) {
         var part = ps_1[_i];
         debug += '.' + part;
-        if (obj.hasOwnProperty(part)) {
-            obj = obj[part];
+        if (!obj.hasOwnProperty(part)) {
+            // console.log('%s: object path not exists', debug);
+            obj[part] = {};
         }
-        else {
-            console.log('%s: object path not exists', debug);
-        }
+        obj = obj[part];
     }
     return { obj: obj, last: last };
 }
@@ -94,24 +95,34 @@ function mustSame(a, b) {
 function push(json, path, value) {
     var _a = pathInfo(json, path), obj = _a.obj, last = _a.last;
     var arr = obj[last];
-    if (!Array.isArray(arr)) {
+    if (arr === undefined) {
+        obj[last] = [value];
+        return true;
+    }
+    else if (!Array.isArray(arr)) {
         throw new Error(path + ': array required.');
     }
     if (arr.length) {
         mustSame(arr[0], value);
     }
     obj[last].push(value);
+    return true;
 }
 function unshift(json, path, value) {
     var _a = pathInfo(json, path), obj = _a.obj, last = _a.last;
     var arr = obj[last];
-    if (!Array.isArray(arr)) {
+    if (arr === undefined) {
+        obj[last] = [value];
+        return true;
+    }
+    else if (!Array.isArray(arr)) {
         throw new Error(path + ': array required.');
     }
     if (arr.length) {
         mustSame(arr[0], value);
     }
     obj[last].unshift(value);
+    return true;
 }
 function set(json, path, value) {
     var _a = pathInfo(json, path), obj = _a.obj, last = _a.last;
@@ -119,13 +130,20 @@ function set(json, path, value) {
         mustSame(obj[last], value);
     }
     obj[last] = value;
+    return true;
 }
 function del(json, path) {
     var _a = pathInfo(json, path), obj = _a.obj, last = _a.last;
     if (last in obj) {
-        delete obj[last];
+        if (Array.isArray(obj)) {
+            obj.splice(last, 1);
+        }
+        else {
+            delete obj[last];
+        }
+        return true;
     }
     else {
-        throw new Error(path + ': not exists.');
+        return false;
     }
 }

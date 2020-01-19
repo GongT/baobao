@@ -45,6 +45,7 @@ export interface IMyProjectJsonParsed {
 		postRun: Set<string>;
 		run: Set<string>;
 	}>;
+	scriptsJob: Map<string, string>;
 }
 
 export function rectLoadDefine(arr: (IPluginDefine | string)[]): IPluginDefine[] {

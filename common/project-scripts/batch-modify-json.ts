@@ -63,8 +63,10 @@ for (const { projectFolder, packageName } of eachProject()) {
 		console.error('modify: %s', packageName, key, value);
 
 		const json = loadJsonFileSync(path);
-		action(json, key, value);
-		writeJsonFileBackSync(json);
+		const changed = action(json, key, value);
+		if (changed) {
+			writeJsonFileBackSync(json);
+		}
 
 		console.error('\x1B[A\x1B[K\x1B[38;5;10m✔\x1B[0m - %s', packageName);
 		success++;
@@ -85,11 +87,11 @@ function pathInfo(obj, path) {
 	let debug = '';
 	for (const part of ps) {
 		debug += '.' + part;
-		if (obj.hasOwnProperty(part)) {
-			obj = obj[part];
-		} else {
-			console.log('%s: object path not exists', debug);
+		if (!obj.hasOwnProperty(part)) {
+			// console.log('%s: object path not exists', debug);
+			obj[part] = {};
 		}
+		obj = obj[part];
 	}
 	return { obj, last };
 }
@@ -102,7 +104,10 @@ function mustSame(a, b) {
 function push(json, path, value) {
 	const { obj, last } = pathInfo(json, path);
 	const arr = obj[last];
-	if (!Array.isArray(arr)) {
+	if (arr === undefined) {
+		obj[last] = [value];
+		return true;
+	} else if (!Array.isArray(arr)) {
 		throw new Error(path + ': array required.');
 	}
 
@@ -111,12 +116,16 @@ function push(json, path, value) {
 	}
 
 	obj[last].push(value);
+	return true;
 }
 
 function unshift(json, path, value) {
 	const { obj, last } = pathInfo(json, path);
 	const arr = obj[last];
-	if (!Array.isArray(arr)) {
+	if (arr === undefined) {
+		obj[last] = [value];
+		return true;
+	} else if (!Array.isArray(arr)) {
 		throw new Error(path + ': array required.');
 	}
 
@@ -125,6 +134,7 @@ function unshift(json, path, value) {
 	}
 
 	obj[last].unshift(value);
+	return true;
 }
 
 function set(json, path, value) {
@@ -133,13 +143,19 @@ function set(json, path, value) {
 		mustSame(obj[last], value);
 	}
 	obj[last] = value;
+	return true;
 }
 
 function del(json, path) {
 	const { obj, last } = pathInfo(json, path);
 	if (last in obj) {
-		delete obj[last];
+		if (Array.isArray(obj)) {
+			obj.splice(last, 1);
+		} else {
+			delete obj[last];
+		}
+		return true;
 	} else {
-		throw new Error(path + ': not exists.');
+		return false;
 	}
 }

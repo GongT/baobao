@@ -6,6 +6,9 @@ import { BuildContextBase } from './buildContextBase';
 import { isArrayOfString } from './func';
 import { loadPlugin, resetLoader } from './pluginLoader';
 
+export interface MapLike<T> {
+	[key: string]: T;
+}
 export class BuildContext extends BuildContextBase {
 	public readonly configFilePath: string;
 
@@ -24,7 +27,9 @@ export class BuildContext extends BuildContextBase {
 		if (!this.rawProjectJson) {
 			if (!this.isProjectJsonExists()) {
 				console.error('Usage: build-script [command to run].');
-				console.error('  Error: this command must run inside a project folder (contains a "build-script.json" file).');
+				console.error(
+					'  Error: this command must run inside a project folder (contains a "build-script.json" file).'
+				);
 				console.error('  or use \x1B[38;5;14mbuild-script init\x1B[0m to create this file in current folder.');
 				process.exit(1);
 			}
@@ -40,6 +45,13 @@ export class BuildContext extends BuildContextBase {
 	/** @internal */
 	private _init() {
 		const projectJson = this.readProjectJson();
+
+		const packageJson = require(resolve(this.projectRoot, 'package.json'));
+		for (const [name, script] of Object.entries(packageJson.scripts as MapLike<string>)) {
+			if (!script.startsWith('build-script')) {
+				this.projectJson.scriptsJob.set(name, script);
+			}
+		}
 
 		for (const [name, cmd] of Object.entries(projectJson.alias || {})) {
 			if (typeof cmd !== 'string' && !isArrayOfString(cmd)) {
