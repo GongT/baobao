@@ -2,14 +2,18 @@
 	"monorepo": true,
 	"name": "@idlebox/package-manager",
 	"version": "1.0.3",
+	"type": "module",
+	"main": "./lib/api.cjs",
+	"typings": "./lib/api.d.ts",
 	"bin": {
-		"unpm": "./bin.js"
+		"unpm": "./bin.cjs"
 	},
 	"exports": {
-		"./": "./ne"
+		".": {
+			"import": "./lib/api.js",
+			"require": "./lib/api.cjs"
+		}
 	},
-	"main": "./lib/api.js",
-	"typings": "./lib/api.d.ts",
 	"scripts": {
 		"build": "tsc -p src",
 		"clean": "rimraf lib",
@@ -28,6 +32,7 @@
 	},
 	"devDependencies": {
 		"@idlebox/node-json-edit": "^1.0.19",
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/command-exists": "^1.2.0",
 		"@types/json5": "^0.0.30",

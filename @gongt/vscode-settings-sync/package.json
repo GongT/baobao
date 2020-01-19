@@ -1,0 +1,65 @@
+{
+	"name": "@gongt/vscode-settings-sync",
+	"description": "settings sync with git.",
+	"version": "0.0.1",
+	"license": "MIT",
+	"displayName": "Settings Sync",
+	"publisher": "GongT",
+	"repository": "https://github.com/GongT/baobao.git",
+	"engines": {
+		"vscode": "^1.32.0"
+	},
+	"keywords": [
+		"sync",
+		"settings",
+		"git"
+	],
+	"categories": [
+		"Other"
+	],
+	"extensionKind": [
+		"workspace"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./lib/extension.js",
+	"contributes": {
+		"configuration": {
+			"title": "Remote Thief",
+			"properties": {
+				"remote.thief.binaryPath": {
+					"type": "string",
+					"default": "",
+					"description": "Path to place vscode executable wrapper"
+				},
+				"remote.thief.binaryName": {
+					"type": "string",
+					"default": "code",
+					"description": "callable name of vscode"
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "extension.steal",
+				"title": "Steal code binary"
+			}
+		]
+	},
+	"scripts": {
+		"watch": "tsc -w -p src",
+		"build": "tsc -p src",
+		"clean": "rimraf lib"
+	},
+	"dependencies": {
+		"source-map-support": "*",
+		"tslib": "^1.10.0"
+	},
+	"devDependencies": {
+		"@types/vscode": "latest",
+		"@idlebox/single-dog-asset": "^1.0.2",
+		"@types/node": "^12.7.8",
+		"typescript": "next"
+	}
+}

@@ -1,10 +1,17 @@
 {
 	"monorepo": "rush",
-	"name": "@idlebox/node-helpers",
-	"typings": "docs/package-public.d.ts",
-	"main": "./lib/_export_all_in_one_index.js",
 	"version": "1.0.5",
 	"license": "MIT",
+	"name": "@idlebox/node-helpers",
+	"type": "module",
+	"typings": "docs/package-public.d.ts",
+	"main": "./lib/_export_all_in_one_index.cjs",
+	"exports": {
+		".": {
+			"require": "./lib/_export_all_in_one_index.cjs",
+			"import": "./lib/_export_all_in_one_index.js"
+		}
+	},
 	"scripts": {
 		"build": "build-script build",
 		"clean": "rimraf lib",
@@ -13,9 +20,6 @@
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
 	},
-	"exports": {
-		"./": "./private-path-not-exists"
-	},
 	"dependencies": {
 		"@idlebox/helpers": "^1.0.8",
 		"@idlebox/lifecycle": "^1.0.5",
@@ -23,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@idlebox/build-script": "^2.0.11",
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3",
 		"@idlebox/export-all-in-one": "^3.0.7",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",

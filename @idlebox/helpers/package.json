@@ -1,10 +1,17 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/helpers",
+	"type": "module",
 	"typings": "docs/package-public.d.ts",
 	"version": "1.0.8",
 	"license": "MIT",
-	"main": "./lib/_export_all_in_one_index.js",
+	"main": "./lib/_export_all_in_one_index.cjs",
+	"exports": {
+		".": {
+			"require": "./lib/_export_all_in_one_index.cjs",
+			"import": "./lib/_export_all_in_one_index.js"
+		}
+	},
 	"scripts": {
 		"build": "build-script build",
 		"clean": "rimraf lib",
@@ -12,9 +19,6 @@
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
-	},
-	"exports": {
-		"./": "./private-path-not-exists"
 	},
 	"dependencies": {
 		"source-map-support": "*"

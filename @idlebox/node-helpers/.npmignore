@@ -10,3 +10,7 @@ src
 ### export-all-in-one ###
 lib/*.d.ts
 docs/tsdoc-metadata.json
+
+### export-all-in-one ###
+lib/*.d.ts
+lib/**/*.d.ts

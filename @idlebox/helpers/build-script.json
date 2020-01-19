@@ -1,5 +1,4 @@
 {
-	"$schema": "https://schemas.service.gongt.me:59443/build-script/schema.json",
 	"load": [
 		{
 			"file": "@idlebox/export-all-in-one/build-script-register",

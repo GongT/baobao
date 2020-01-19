@@ -27,6 +27,7 @@ dependencies:
   '@rush-temp/typescript-transformer-dual-package': 'file:projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/typescript-transformer-import-commonjs': 'file:projects/typescript-transformer-import-commonjs.tgz'
   '@rush-temp/vscode-remote-thief': 'file:projects/vscode-remote-thief.tgz'
+  '@rush-temp/vscode-settings-sync': 'file:projects/vscode-settings-sync.tgz'
   '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz_ts-node@8.6.2'
   '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz_ts-node@8.6.2'
   '@types/command-exists': 1.2.0
@@ -4459,6 +4460,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==
+  /source-map-support/0.5.13:
+    dependencies:
+      buffer-from: 1.1.1
+      source-map: 0.6.1
+    dev: false
+    resolution:
+      integrity: sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==
   /source-map-support/0.5.16:
     dependencies:
       buffer-from: 1.1.1
@@ -5739,6 +5747,19 @@ packages:
       integrity: sha512-d+qSnm3nYKq8v6abf4MJIVIHxV0QLNu4IkeOycIMpDkzxpDltaz+Y0iEQGQYHccfTnTDkDrqf7jFeW5U/5GFIw==
       tarball: 'file:projects/vscode-remote-thief.tgz'
     version: 0.0.0
+  'file:projects/vscode-settings-sync.tgz':
+    dependencies:
+      '@types/node': 12.12.24
+      '@types/vscode': 1.41.0
+      source-map-support: 0.5.13
+      tslib: 1.10.0
+      typescript: 3.8.0-dev.20200115
+    dev: false
+    name: '@rush-temp/vscode-settings-sync'
+    resolution:
+      integrity: sha512-xKMIpHtaI3A8rUjitz+5fDbF749OlPRlMWjZcFGJqcq90IGn+2ggYm3nXhzg0+dFlZD0qP2NTam7I2THt5hWhQ==
+      tarball: 'file:projects/vscode-settings-sync.tgz'
+    version: 0.0.0
   'file:projects/web-helper-angular.tgz_ts-node@8.6.2':
     dependencies:
       '@types/node': 12.12.24
@@ -5933,6 +5954,7 @@ specifiers:
   '@rush-temp/typescript-transformer-dual-package': 'file:./projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/typescript-transformer-import-commonjs': 'file:./projects/typescript-transformer-import-commonjs.tgz'
   '@rush-temp/vscode-remote-thief': 'file:./projects/vscode-remote-thief.tgz'
+  '@rush-temp/vscode-settings-sync': 'file:./projects/vscode-settings-sync.tgz'
   '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
   '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
   '@types/command-exists': ^1.2.0

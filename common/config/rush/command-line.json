@@ -7,14 +7,14 @@
 			"name": "fix",
 			"summary": "Check and update every project's dependency versions",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node --experimental-conditional-exports @idlebox/rush-tools/bin.js autofix"
+			"shellCommand": "node @idlebox/rush-tools/bin.cjs autofix"
 		},
 		{
 			"commandKind": "global",
 			"name": "watch",
 			"summary": "Run watch in every project",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node --experimental-conditional-exports common/scripts/watch-all.js"
+			"shellCommand": "node common/scripts/watch-all.js"
 		},
 		{
 			"commandKind": "bulk",

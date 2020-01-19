@@ -157,7 +157,11 @@
 			"projectFolder": "@gongt/vscode-remote-thief",
 			"shouldPublish": true
 		},
-	
+		{
+			"packageName": "@gongt/vscode-settings-sync",
+			"projectFolder": "@gongt/vscode-settings-sync",
+			"shouldPublish": true
+		},
 		{
 			"packageName": "meta-scripts",
 			"projectFolder": "common/project-scripts",
