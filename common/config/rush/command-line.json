@@ -14,7 +14,7 @@
 			"name": "watch",
 			"summary": "Run watch in every project",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node common/scripts/watch-all.js"
+			"shellCommand": "node common/project-scripts/watch-all.js"
 		},
 		{
 			"commandKind": "bulk",

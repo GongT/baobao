@@ -7,12 +7,13 @@
 		"declarationMap": false,
 		"sourceMap": false,
 		"isolatedModules": true,
-		"incremental": false
+		"incremental": true
 	},
-	"files": [
-		"batch-modify-json.ts"
+	"include": [
+		"*.ts"
 	],
 	"exclude": [
-		"*/"
+		"node_modules",
+		".rush"
 	]
 }

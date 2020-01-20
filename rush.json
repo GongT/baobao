@@ -155,21 +155,17 @@
 		{
 			"packageName": "@gongt/vscode-remote-thief",
 			"projectFolder": "@gongt/vscode-remote-thief",
-			"shouldPublish": true
+			"shouldPublish": false
 		},
 		{
 			"packageName": "@gongt/vscode-settings-sync",
 			"projectFolder": "@gongt/vscode-settings-sync",
-			"shouldPublish": true
+			"shouldPublish": false
 		},
 		{
 			"packageName": "meta-scripts",
 			"projectFolder": "common/project-scripts",
-			"shouldPublish": false,
-			"cyclicDependencyProjects": [
-				"@idlebox/rush-tools",
-				"@idlebox/node-json-edit"
-			]
+			"shouldPublish": false
 		}
 	]
 }

@@ -10,10 +10,10 @@
 			"name": "启动扩展",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-remote-thief"
+				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-settings-sync"
 			],
 			"outFiles": [
-				"${workspaceFolder}//@gongt/vscode-remote-thief/lib/**/*.js"
+				"${workspaceFolder}//@gongt/vscode-settings-sync/lib/**/*.js"
 			]
 		}
 	
