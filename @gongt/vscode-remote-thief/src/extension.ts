@@ -53,9 +53,13 @@ function detectPath() {
 		throw new Error('sorry, windows is not supported currentlly.');
 	}
 	const { uid, homedir } = userInfo();
-	if (uid === 0) {
-		return '/usr/local/bin';
-	} else {
-		return resolve(homedir, '.bin');
+	let p: string = resolve(homedir, '.bin');
+	if ((process.env.PATH || process.env.Path || '').includes(p)) {
+		return p;
 	}
+	p = uid === 0 ? '/usr/local/bin' : resolve(homedir, '/.bin');
+	if ((process.env.PATH || process.env.Path || '').includes(p)) {
+		return p;
+	}
+	throw new Error('Cannot find where to store binary file.');
 }

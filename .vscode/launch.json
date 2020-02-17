@@ -13,7 +13,7 @@
 				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-settings-sync"
 			],
 			"outFiles": [
-				"${workspaceFolder}//@gongt/vscode-settings-sync/lib/**/*.js"
+				"${workspaceFolder}/@gongt/vscode-settings-sync/lib/**/*.js"
 			]
 		}
 	

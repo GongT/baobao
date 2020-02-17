@@ -1,21 +1,34 @@
-import * as vscode from 'vscode';
-import { inspect } from 'util';
-import { platform, userInfo } from 'os';
-import { resolve } from 'path';
-
+import { ExtensionContext, extensions, workspace, ConfigurationChangeEvent } from 'vscode';
+import { logger } from './logger';
+import { SETTING_ID_REMOTE_GIT_URL } from './constants';
+import { createSettingSnapshot } from './settings/settingsSync';
+/*
 interface IMyConfig {
-	binaryPath: string;
-	binaryName: string;
+	repo: string;
+}
+*/
+export function activate(context: ExtensionContext) {
+	logger.log('activate');
+
+	global.vscode = require('vscode');
+
+	context.subscriptions.push(extensions.onDidChange(onDidExtensionChange));
+	onDidExtensionChange();
+
+	context.subscriptions.push(workspace.onDidChangeConfiguration(onDidChangeConfig));
+	createSettingSnapshot();
+}
+export function deactivate() {
+	logger.log('deactivate');
 }
 
-export 
-function activate(context: vscode.ExtensionContext) {
-	logger.show(false);
-
-	updateMyFolders();
-	context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders(updateMyFolders));
+function onDidExtensionChange() {
+	logger.log(
+		'onDidExtensionChange',
+		extensions.all.map((e) => e.id)
+	);
 }
-export 
-function deactivate() {
-	logger.appendLine('deactivate');
+function onDidChangeConfig(event: ConfigurationChangeEvent) {
+	logger.log('settings changing', event.affectsConfiguration(SETTING_ID_REMOTE_GIT_URL));
+	createSettingSnapshot();
 }

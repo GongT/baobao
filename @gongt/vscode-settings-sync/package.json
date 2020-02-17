@@ -26,24 +26,23 @@
 	"main": "./lib/extension.js",
 	"contributes": {
 		"configuration": {
-			"title": "Remote Thief",
+			"title": "Settings Repo",
 			"properties": {
-				"remote.thief.binaryPath": {
+				"extension.sync.git.repo": {
 					"type": "string",
+					"title": "Remote Git Repo Url",
 					"default": "",
-					"description": "Path to place vscode executable wrapper"
-				},
-				"remote.thief.binaryName": {
-					"type": "string",
-					"default": "code",
-					"description": "callable name of vscode"
+					"description": "Url to settings repo",
+					"examples": [
+						"git@github.com:your/settings.git"
+					]
 				}
 			}
 		},
 		"commands": [
 			{
-				"command": "extension.steal",
-				"title": "Steal code binary"
+				"command": "extension.sync.run",
+				"title": "run sync now"
 			}
 		]
 	},
