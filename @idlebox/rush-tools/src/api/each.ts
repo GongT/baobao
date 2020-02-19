@@ -1,15 +1,8 @@
-import { getCurrentRushConfig } from './load';
+import { loadConfigSync } from './load';
+import { IProjectConfig } from './limitedJson';
 
-export interface IProjectConfig {
-	packageName: string;
-	projectFolder: string;
-	reviewCategory?: string;
-	cyclicDependencyProjects?: string[];
-	shouldPublish?: boolean;
-	skipRushCheck?: boolean;
-	versionPolicyName?: string;
-}
-
-export function eachProject(): IProjectConfig[] {
-	return getCurrentRushConfig().projects;
+export function eachProject(fromPath = process.cwd()): IProjectConfig[] {
+	const cfg = loadConfigSync(fromPath);
+	if (!cfg) throw new Error('Can not find config rush.json.');
+	return cfg.projects;
 }

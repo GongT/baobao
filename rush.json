@@ -156,7 +156,7 @@
 			"packageName": "@pmcache/server",
 			"projectFolder": "@pmcache/server",
 			"shouldPublish": true
-		},*//*  */
+		},*/ /*  */
 		{
 			"packageName": "@gongt/vscode-remote-thief",
 			"projectFolder": "@gongt/vscode-remote-thief",
@@ -171,6 +171,11 @@
 			"packageName": "meta-scripts",
 			"projectFolder": "common/project-scripts",
 			"shouldPublish": false
+		},
+		{
+			"packageName": "@gongt/vscode-helpers",
+			"projectFolder": "@gongt/vscode-helpers",
+			"shouldPublish": true
 		}
 	]
 }

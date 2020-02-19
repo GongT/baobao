@@ -1,5 +1,5 @@
 export function camelCase(str: string) {
-	return str.replace(/[\-.\/][a-z]/g, (s) => {
+	return str.replace(/[-.\/_][a-z]/g, (s) => {
 		return s[1].toUpperCase();
 	});
 }

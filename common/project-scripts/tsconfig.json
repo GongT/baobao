@@ -1,19 +1,14 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"rootDir": ".",
+		"rootDir": "./src",
+		"outDir": "./output",
 		"noEmitOnError": false,
 		"declaration": false,
 		"declarationMap": false,
 		"sourceMap": false,
 		"isolatedModules": true,
-		"incremental": true
-	},
-	"include": [
-		"*.ts"
-	],
-	"exclude": [
-		"node_modules",
-		".rush"
-	]
+		"incremental": true,
+		"tsBuildInfoFile": "./output/tsbuildinfo.json"
+	}
 }

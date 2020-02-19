@@ -1,9 +1,8 @@
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
-import { eachProject } from '../api/each';
-import { toProjectPathAbsolute } from '../api/load';
 import { description } from '../common/description';
 import { manifest } from 'pacote';
+import { RushProject } from '../api/rushProject';
 
 export default async function runAutoFix() {
 	const knownVersions: { [id: string]: string } = {};
@@ -12,9 +11,10 @@ export default async function runAutoFix() {
 	const packageJsons: any[] = [];
 
 	console.log('Finding local project versions:');
-	for (const { projectFolder, packageName } of eachProject()) {
+	const rush = new RushProject();
+	for (const { projectFolder, packageName } of rush.projects) {
 		let version: string;
-		const pkgFile = resolve(toProjectPathAbsolute(projectFolder), 'package.json');
+		const pkgFile = resolve(rush.absolute(projectFolder), 'package.json');
 		try {
 			const data = await loadJsonFile(pkgFile);
 			packageJsons.push(data);

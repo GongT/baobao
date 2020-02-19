@@ -1,0 +1,7 @@
+### build-script ###
+build-script.json
+Gulpfile.js
+
+### export-all-in-one ###
+lib/*.d.ts
+lib/**/*.d.ts

@@ -1,7 +1,6 @@
-import { resolve } from 'path';
-import { eachProject, getCurrentRushRootPath } from '@idlebox/rush-tools';
-import { pathExistsSync } from 'fs-extra';
 import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
+import { RushProject } from '@idlebox/rush-tools';
+import { pathExistsSync } from 'fs-extra';
 
 const action = createAction();
 function createAction() {
@@ -51,9 +50,9 @@ value = parseValue(value);
 let success = 0,
 	fail = 0;
 
-const root = getCurrentRushRootPath();
-for (const { projectFolder, packageName } of eachProject()) {
-	const path = resolve(root, projectFolder, file);
+const rush = new RushProject();
+for (const { projectFolder, packageName } of rush.projects) {
+	const path = rush.absolute(projectFolder, file);
 
 	if (!pathExistsSync(path)) {
 		continue;

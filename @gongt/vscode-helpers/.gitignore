@@ -2,8 +2,9 @@
 node_modules/
 jspm_packages/
 *.log
+dist/
 *.tgz
-output/tsbuildinfo.json
+lib
 
 .idea/*
 !.idea/*.iml
@@ -13,4 +14,3 @@ output/tsbuildinfo.json
 
 
 .rush
-*.tsbuildinfo

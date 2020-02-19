@@ -1,6 +1,7 @@
 {
 	"name": "@gongt/vscode-settings-sync",
 	"description": "settings sync with git.",
+	"private": true,
 	"version": "0.0.1",
 	"license": "MIT",
 	"displayName": "Settings Sync",
@@ -52,8 +53,8 @@
 		"clean": "rimraf lib"
 	},
 	"dependencies": {
-		"source-map-support": "*",
-		"tslib": "^1.10.0"
+		"tslib": "^1.10.0",
+		"@gongt/vscode-helpers": "^0.0.1"
 	},
 	"devDependencies": {
 		"@types/vscode": "latest",

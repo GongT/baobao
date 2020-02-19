@@ -9,10 +9,10 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Typescript Watch All",
+			"label": "Rush Watch All",
 			"detail": "启动监视每个项目",
 			"type": "shell",
-			"command": "node watch",
+			"command": "rush watch",
 			"problemMatcher": "$tsc-watch"
 		},
 		{

@@ -1,53 +1,39 @@
-import { loadJsonFileSync } from '@idlebox/node-json-edit';
-import { findUpUntilSync, lrelative } from '@idlebox/platform';
-import { resolve } from 'path';
+import { loadJsonFile, loadJsonFileSync } from '@idlebox/node-json-edit';
+import { findUpUntil, findUpUntilSync } from '@idlebox/platform';
+import { dirname } from 'path';
+import { IRushConfig } from './limitedJson';
 
-let config: any;
-let configPath: string;
-
-function loadRushJson(path?: string) {
-	if (!path) {
-		const foundPath = findUpUntilSync(process.cwd(), 'rush.json');
-		if (!foundPath) {
-			throw new Error(`Cannot found rush.json`);
-		}
-		path = foundPath;
+export function findRushJson(fromPath = process.cwd()): Promise<string | null> {
+	return findUpUntil(fromPath, 'rush.json');
+}
+export function findRushJsonSync(fromPath = process.cwd()): string | null {
+	return findUpUntilSync(fromPath, 'rush.json');
+}
+export async function loadConfig(fromPath = process.cwd()): Promise<IRushConfig | null> {
+	const p = await findRushJson(fromPath);
+	if (p) {
+		return loadJsonFile(p);
+	} else {
+		return null;
 	}
-	configPath = path!;
-	config = loadJsonFileSync(configPath);
-	return config;
 }
-
-export function getCurrentRushConfigPath() {
-	if (!config) {
-		loadRushJson();
+export function loadConfigSync(fromPath = process.cwd()): IRushConfig | null {
+	const p = findRushJsonSync(fromPath);
+	if (p) {
+		return loadJsonFileSync(p);
+	} else {
+		return null;
 	}
-	return configPath;
 }
 
-export function getCurrentRushRootPath() {
-	if (!config) {
-		loadRushJson();
-	}
-	return resolve(configPath, '..');
+export async function findRushRootPath(fromPath = process.cwd()): Promise<string | null> {
+	const p = await findRushJson(fromPath);
+	if (p) return dirname(p);
+	return null;
 }
 
-export function getCurrentRushConfig() {
-	if (!config) {
-		loadRushJson();
-	}
-	return config;
-}
-
-export function toProjectPathAbsolute(projectFolder: string) {
-	return resolve(getCurrentRushRootPath(), projectFolder);
-}
-
-export function toProjectPathRelative(projectFolder: string) {
-	return lrelative(getCurrentRushRootPath(), projectFolder);
-}
-
-export function clearCache() {
-	config = null;
-	configPath = '';
+export function findRushRootPathSync(fromPath = process.cwd()): string | null {
+	const p = findRushJsonSync(fromPath);
+	if (p) return dirname(p);
+	return null;
 }

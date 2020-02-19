@@ -1,13 +1,36 @@
 import { OutputChannel, window } from 'vscode';
 import { format } from 'util';
 
-class Logger {
+/** @internal */
+export const ignoreSymbol = Symbol('ignore');
+
+export class VSCodeChannelLogger {
 	private declare output: OutputChannel;
 
-	constructor() {
-		this.output = window.createOutputChannel('SettingsSync');
+	constructor(title: string);
+	/** @internal */
+	constructor(title: symbol);
+
+	constructor(title: symbol | string) {
+		if (title !== ignoreSymbol) {
+			this.setTitle(title as string);
+		}
+	}
+
+	/** @internal */
+	setTitle(title: string) {
+		if (this.output) {
+			throw new Error('call logger::setTitle multiple times');
+		}
+		this.output = window.createOutputChannel(title);
 		this.output.show(false);
 	}
+
+	/** @internal */
+	destroy() {
+		this.output.dispose();
+	}
+
 	private format(tag: string, args: any[]) {
 		tag = `[${tag}] `;
 		if (!args.length) {
@@ -34,5 +57,3 @@ class Logger {
 		this.format('DEBUG', args);
 	}
 }
-
-export const logger = new Logger();

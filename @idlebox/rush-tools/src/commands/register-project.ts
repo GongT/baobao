@@ -1,7 +1,7 @@
-import { writeJsonFileBack } from '@idlebox/node-json-edit';
+import { writeJsonFileBack, loadJsonFileSync } from '@idlebox/node-json-edit';
 import { access } from 'fs-extra';
 import { resolve } from 'path';
-import { getCurrentRushConfig, toProjectPathRelative } from '../api/load';
+import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 
 export default async function runRegisterProject() {
@@ -12,7 +12,12 @@ export default async function runRegisterProject() {
 
 	const projectPath = resolve(process.cwd(), _projectPath);
 
-	if (!await access(projectPath + '/package.json').then(() => true, () => false)) {
+	if (
+		!(await access(projectPath + '/package.json').then(
+			() => true,
+			() => false
+		))
+	) {
 		throw new Error('Can not find package.json at ' + projectPath + '.');
 	}
 
@@ -21,11 +26,13 @@ export default async function runRegisterProject() {
 		throw new Error('No "name" in package.json.');
 	}
 
-	const config = getCurrentRushConfig();
-	const relPath = normalize(toProjectPathRelative(projectPath));
+	const rush = new RushProject();
+
+	const relPath = normalize(rush.absolute(projectPath));
 
 	console.log('register project %s at %s', name, relPath);
 
+	const config = loadJsonFileSync(rush.configFile);
 	const exists = config.projects.find(({ packageName, projectFolder }: any) => {
 		return packageName === name || normalize(projectFolder) === relPath;
 	});

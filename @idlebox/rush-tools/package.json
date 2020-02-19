@@ -32,10 +32,11 @@
 		"@idlebox/node-helpers": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.19",
 		"@idlebox/platform": "^1.0.10",
-		"@microsoft/rush-lib": "^5.18.0",
+		"@microsoft/rush-lib": "^5.20.0",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
-		"pacote": "^9.5.8"
+		"pacote": "^9.5.8",
+		"dependency-graph": "^0.9.0"
 	},
 	"devDependencies": {
 		"@idlebox/typescript-transformer-dual-package": "^1.0.3",

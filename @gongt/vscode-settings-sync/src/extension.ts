@@ -1,26 +1,21 @@
 import { ExtensionContext, extensions, workspace, ConfigurationChangeEvent } from 'vscode';
-import { logger } from './logger';
 import { SETTING_ID_REMOTE_GIT_URL } from './constants';
 import { createSettingSnapshot } from './settings/settingsSync';
-/*
-interface IMyConfig {
-	repo: string;
-}
-*/
-export function activate(context: ExtensionContext) {
-	logger.log('activate');
+import { logger, vscodeExtensionActivate, vscodeExtensionDeactivate } from '@gongt/vscode-helpers';
 
-	global.vscode = require('vscode');
+export const activate = vscodeExtensionActivate(function activate(context: ExtensionContext) {
+	logger.log('activate');
 
 	context.subscriptions.push(extensions.onDidChange(onDidExtensionChange));
 	onDidExtensionChange();
 
 	context.subscriptions.push(workspace.onDidChangeConfiguration(onDidChangeConfig));
 	createSettingSnapshot();
-}
-export function deactivate() {
+});
+
+export const deactivate = vscodeExtensionDeactivate(function deactivate() {
 	logger.log('deactivate');
-}
+});
 
 function onDidExtensionChange() {
 	logger.log(

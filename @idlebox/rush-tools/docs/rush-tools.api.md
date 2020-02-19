@@ -4,30 +4,58 @@
 
 ```ts
 
-// Warning: (ae-missing-release-tag) "clearCache" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function clearCache(): void;
-
 // Warning: (ae-missing-release-tag) "eachProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function eachProject(): IProjectConfig[];
+export function eachProject(fromPath?: string): IProjectConfig[];
 
-// Warning: (ae-missing-release-tag) "getCurrentRushConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "findRushJson" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getCurrentRushConfig(): any;
+export function findRushJson(fromPath?: string): Promise<string | null>;
 
-// Warning: (ae-missing-release-tag) "getCurrentRushConfigPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "findRushJsonSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getCurrentRushConfigPath(): string;
+export function findRushJsonSync(fromPath?: string): string | null;
 
-// Warning: (ae-missing-release-tag) "getCurrentRushRootPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "findRushRootPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getCurrentRushRootPath(): string;
+export function findRushRootPath(fromPath?: string): Promise<string | null>;
+
+// Warning: (ae-missing-release-tag) "findRushRootPathSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function findRushRootPathSync(fromPath?: string): string | null;
+
+// Warning: (ae-forgotten-export) The symbol "ImmutablePrimitive" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "Immutable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type Immutable<T> = T extends ImmutablePrimitive ? T : T extends Array<infer U> ? ImmutableArray<U> : T extends Map<infer K, infer V> ? ImmutableMap<K, V> : T extends Set<infer M> ? ImmutableSet<M> : ImmutableObject<T>;
+
+// Warning: (ae-missing-release-tag) "ImmutableArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type ImmutableArray<T> = ReadonlyArray<Immutable<T>>;
+
+// Warning: (ae-missing-release-tag) "ImmutableMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type ImmutableMap<K, V> = ReadonlyMap<Immutable<K>, Immutable<V>>;
+
+// Warning: (ae-missing-release-tag) "ImmutableObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type ImmutableObject<T> = {
+    readonly [K in keyof T]: Immutable<T[K]>;
+};
+
+// Warning: (ae-missing-release-tag) "ImmutableSet" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
 
 // Warning: (ae-missing-release-tag) "IProjectConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -49,20 +77,61 @@ export interface IProjectConfig {
     versionPolicyName?: string;
 }
 
+// Warning: (ae-missing-release-tag) "IRushConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IRushConfig {
+    // (undocumented)
+    npmVersion?: string;
+    // (undocumented)
+    pnpmVersion?: string;
+    // (undocumented)
+    projects: IProjectConfig[];
+    // (undocumented)
+    rushVersion: string;
+    // (undocumented)
+    yarnVersion?: string;
+}
+
+// Warning: (ae-missing-release-tag) "loadConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function loadConfig(fromPath?: string): Promise<IRushConfig | null>;
+
+// Warning: (ae-missing-release-tag) "loadConfigSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function loadConfigSync(fromPath?: string): IRushConfig | null;
+
 // Warning: (ae-missing-release-tag) "resolveRushProjectBuildOrder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function resolveRushProjectBuildOrder(path?: string): IProjectConfig[][];
+export function resolveRushProjectBuildOrder(path?: string): Immutable<IProjectConfig[]>;
 
-// Warning: (ae-missing-release-tag) "toProjectPathAbsolute" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "RushProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function toProjectPathAbsolute(projectFolder: string): string;
-
-// Warning: (ae-missing-release-tag) "toProjectPathRelative" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function toProjectPathRelative(projectFolder: string): string;
+export class RushProject {
+    constructor(path?: string);
+    // (undocumented)
+    absolute(project: Immutable<IProjectConfig> | string, ...segments: string[]): string;
+    // (undocumented)
+    readonly config: Immutable<IRushConfig>;
+    // (undocumented)
+    readonly configFile: string;
+    // (undocumented)
+    getPackageByName(name: string): Immutable<IProjectConfig> | null;
+    // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point _export_all_in_one_index.d.ts
+    //
+    // (undocumented)
+    packageDependency(project: Immutable<IProjectConfig> | string, { cyclic, development }?: IProjectDependencyOptions): string[];
+    // (undocumented)
+    packageJsonPath(project: Immutable<IProjectConfig> | string): string | null;
+    // (undocumented)
+    readonly projectRoot: string;
+    // (undocumented)
+    get projects(): Immutable<IProjectConfig[]>;
+}
 
 
 // (No @packageDocumentation comment for this package)

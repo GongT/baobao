@@ -1,9 +1,8 @@
 "use strict";
 exports.__esModule = true;
-var path_1 = require("path");
+var node_json_edit_1 = require("@idlebox/node-json-edit");
 var rush_tools_1 = require("@idlebox/rush-tools");
 var fs_extra_1 = require("fs-extra");
-var node_json_edit_1 = require("@idlebox/node-json-edit");
 var action = createAction();
 function createAction() {
     switch (process.argv[3]) {
@@ -46,10 +45,10 @@ function parseValue(value) {
 }
 value = parseValue(value);
 var success = 0, fail = 0;
-var root = rush_tools_1.getCurrentRushRootPath();
-for (var _i = 0, _a = rush_tools_1.eachProject(); _i < _a.length; _i++) {
+var rush = new rush_tools_1.RushProject();
+for (var _i = 0, _a = rush.projects; _i < _a.length; _i++) {
     var _b = _a[_i], projectFolder = _b.projectFolder, packageName = _b.packageName;
-    var path = path_1.resolve(root, projectFolder, file);
+    var path = rush.absolute(projectFolder, file);
     if (!fs_extra_1.pathExistsSync(path)) {
         continue;
     }

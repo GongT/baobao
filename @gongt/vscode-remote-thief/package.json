@@ -1,6 +1,7 @@
 {
 	"name": "@gongt/vscode-remote-thief",
 	"description": "Run code from remote machine, like from integrated terminal.",
+	"private": true,
 	"version": "0.0.1",
 	"license": "MIT",
 	"displayName": "Remote Thief",
@@ -51,8 +52,8 @@
 		"clean": "rimraf lib"
 	},
 	"dependencies": {
-		"source-map-support": "*",
-		"tslib": "^1.10.0"
+		"tslib": "^1.10.0",
+		"@gongt/vscode-helpers": "^0.0.1"
 	},
 	"devDependencies": {
 		"@types/vscode": "latest",
