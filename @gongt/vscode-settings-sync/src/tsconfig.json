@@ -7,7 +7,12 @@
 		],
 		"rootDir": ".",
 		"typeRoots": [
-			"../node_modules/@types"
+			"../node_modules/@types",
+			"../node_modules"
+		],
+		"types": [
+			"node",
+			"vscode"
 		],
 		"declaration": false,
 		"declarationMap": false,

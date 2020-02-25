@@ -1,40 +1,32 @@
-import { OutputChannel, window } from 'vscode';
 import { format } from 'util';
+import { context } from './context';
 
-/** @internal */
-export const ignoreSymbol = Symbol('ignore');
-
-export class VSCodeChannelLogger {
-	private declare output: OutputChannel;
-
-	constructor(title: string);
-	/** @internal */
-	constructor(title: symbol);
-
-	constructor(title: symbol | string) {
-		if (title !== ignoreSymbol) {
-			this.setTitle(title as string);
+export interface ILogger {
+	log(msg: any, ...args: any[]): void;
+	info(msg: any, ...args: any[]): void;
+	warn(msg: any, ...args: any[]): void;
+	error(msg: any, ...args: any[]): void;
+	debug(msg: any, ...args: any[]): void;
+	emptyline(): void;
+}
+export abstract class BaseLogger implements ILogger {
+	protected constructor(register: boolean = true) {
+		if (register) {
+			try {
+				context.subscriptions.push(this);
+			} catch (e) {
+				console.error('can not append dispose queue. (%s)', this.constructor.name);
+			}
 		}
 	}
 
-	/** @internal */
-	setTitle(title: string) {
-		if (this.output) {
-			throw new Error('call logger::setTitle multiple times');
-		}
-		this.output = window.createOutputChannel(title);
-		this.output.show(false);
-	}
+	protected abstract appendLine(line: string): void;
+	abstract dispose(): void | Promise<void>;
 
-	/** @internal */
-	destroy() {
-		this.output.dispose();
-	}
-
-	private format(tag: string, args: any[]) {
+	protected format(tag: string, args: any[]) {
 		tag = `[${tag}] `;
 		if (!args.length) {
-			return this.output.appendLine(tag);
+			return tag;
 		}
 		let msg: string;
 		if (typeof args[0] === 'string') {
@@ -42,18 +34,26 @@ export class VSCodeChannelLogger {
 		} else {
 			msg = tag;
 		}
-		this.output.appendLine(format(msg, ...args));
+		return format(msg, ...args);
 	}
+
 	public log(...args: any[]) {
-		this.format('INFO ', args);
+		this.appendLine(this.format('INFO ', args));
+	}
+	public info(...args: any[]) {
+		this.appendLine(this.format('INFO ', args));
 	}
 	public warn(...args: any[]) {
-		this.format('WARN ', args);
+		this.appendLine(this.format('WARN ', args));
 	}
 	public error(...args: any[]) {
-		this.format('ERROR', args);
+		this.appendLine(this.format('ERROR', args));
 	}
 	public debug(...args: any[]) {
-		this.format('DEBUG', args);
+		this.appendLine(this.format('DEBUG', args));
+	}
+
+	public emptyline() {
+		this.appendLine('');
 	}
 }

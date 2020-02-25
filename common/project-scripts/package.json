@@ -5,6 +5,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"build": "rimraf output ; tsc -p .",
+		"clean": "",
 		"watch": "tsc -w -p .",
 		"prepack": "exit 1",
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
@@ -23,7 +24,7 @@
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.8",
 		"rimraf": "^3.0.0",
-		"typescript": "next",
+		"typescript": "3.8.2",
 		"@types/command-exists": "^1.2.0",
 		"@types/split2": "^2.1.6"
 	},

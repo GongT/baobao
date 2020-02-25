@@ -1,15 +1,15 @@
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
-import { existsSync, mkdirSync } from 'fs';
-import { writeFileSync } from 'fs';
 import {
 	CompilerOptions,
 	getOutputFileNames,
 	ModuleKind,
+	Program,
 	ScriptTarget,
 	SourceFile,
+	TransformationContext,
 	TransformerFactory,
 	transpileModule,
-	TransformationContext,
 } from 'typescript';
 import { createExtensionTransformer } from './lib';
 
@@ -17,22 +17,22 @@ export class CjsCompiler {
 	private readonly compilerOptions: CompilerOptions;
 	private readonly transformer: TransformerFactory<SourceFile>;
 
-	constructor(compilerOptions: CompilerOptions, overrideOptions: CompilerOptions) {
-		this.transformer = createExtensionTransformer('.cjs');
+	constructor(program: Program, overrideOptions: CompilerOptions) {
+		this.transformer = createExtensionTransformer('.cjs', program);
 		this.compilerOptions = {
-			...compilerOptions,
+			...program.getCompilerOptions(),
 		};
 		delete this.compilerOptions.project;
 		delete this.compilerOptions.tsBuildInfoFile;
 		this.compilerOptions = {
 			...this.compilerOptions,
 			target: ScriptTarget.ES2018,
-			module: ModuleKind.CommonJS,
 			declaration: false,
 			isolatedModules: true,
 			composite: false,
 			incremental: false,
 			...overrideOptions,
+			module: ModuleKind.CommonJS,
 		};
 	}
 

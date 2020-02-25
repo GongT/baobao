@@ -3,9 +3,12 @@
 	"name": "@idlebox/lifecycle",
 	"version": "1.0.5",
 	"typings": "docs/package-public.d.ts",
-	"main": "lib/_export_all_in_one_index.js",
+	"main": "./lib/_export_all_in_one_index.cjs",
 	"exports": {
-		"./": "./private-path-not-exists"
+		".": {
+			"require": "./lib/_export_all_in_one_index.cjs",
+			"import": "./lib/_export_all_in_one_index.js"
+		}
 	},
 	"scripts": {
 		"build": "build-script build",
@@ -24,9 +27,10 @@
 		"@idlebox/export-all-in-one": "^3.0.7",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"gulp": "^4.0.2",
-		"typescript": "next",
+		"typescript": "3.8.2",
 		"tslib": "^1.10.0",
-		"ttypescript": "^1.5.10"
+		"ttypescript": "^1.5.10",
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

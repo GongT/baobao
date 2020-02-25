@@ -25,7 +25,7 @@ interface IOptions {
 type IDeps = { [name: string]: string | undefined };
 
 export default function plugin(program: Program, pluginOptions: IOptions = {}) {
-	const specialExtensions = pluginOptions.specialExtensions || ['cjs', 'mjs', ''];
+	const specialExtensions = pluginOptions.specialExtensions || ['cjs', 'mjs', 'js', ''];
 	let dependencies: IDeps | null;
 	let packageFound = false;
 

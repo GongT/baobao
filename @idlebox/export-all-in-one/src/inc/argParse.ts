@@ -1,9 +1,10 @@
 ///<reference types="node"/>
 
-import { existsSync, lstatSync } from 'fs';
+import { existsSync, lstatSync } from 'fs-extra';
 import { platform, tmpdir } from 'os';
 import { resolve } from 'path';
 import { findUp } from './findUp';
+import { isDebug } from './debug';
 
 export const NO_DUAL_FLAG = '--no-dual-package';
 const flagIndex = process.argv.findIndex((e) => e == NO_DUAL_FLAG);
@@ -53,7 +54,12 @@ function getTemp() {
 	}
 }
 
-export const EXPORT_TEMP_PATH = resolve(getTemp(), 'export-all-in-one-working.' + (Math.random() * 10000).toFixed());
+let tempNam = 'export-all-in-one-working';
+if (!isDebug) {
+	tempNam += '.' + (Math.random() * 10000).toFixed();
+}
+
+export const EXPORT_TEMP_PATH = resolve(getTemp(), tempNam);
 export const DTS_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
 export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 

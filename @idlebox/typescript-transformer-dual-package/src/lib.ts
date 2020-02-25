@@ -1,69 +1,114 @@
-import * as typescript from 'typescript';
-import * as path from 'path';
+import { existsSync } from 'fs';
+import { dirname, resolve } from 'path';
+import {
+	createLiteral,
+	EmitHint,
+	ExportDeclaration,
+	ImportDeclaration,
+	isExportDeclaration,
+	isImportDeclaration,
+	isStringLiteral,
+	Node,
+	Program,
+	SourceFile,
+	StringLiteral,
+	TransformationContext,
+	TransformerFactory,
+	visitEachChild,
+	VisitResult,
+} from 'typescript';
+import * as ts from 'typescript';
 
-interface InsertEmitHandler {
-	(transformationContext: typescript.TransformationContext, sourceFile: typescript.SourceFile): void;
+const updateNode = (ts as any).updateNode;
+
+if (!updateNode) {
+	console.error('FatalError! TypeScript internal api has changed.');
+	process.exit(1);
 }
 
-export function createExtensionTransformer(extension: string): typescript.TransformerFactory<typescript.SourceFile> {
-	return _createExtensionTransformer(extension, null);
+interface InsertEmitHandler {
+	(transformationContext: TransformationContext, sourceFile: SourceFile): void;
+}
+
+export function createExtensionTransformer(extension: string, program?: Program): TransformerFactory<SourceFile> {
+	return _createExtensionTransformer(extension, program);
 }
 
 /** @internal */
 export function _createExtensionTransformerInternal(
 	extension: string,
+	program: Program,
 	insertEmit: InsertEmitHandler
-): typescript.TransformerFactory<typescript.SourceFile> {
-	return _createExtensionTransformer(extension, insertEmit);
+): TransformerFactory<SourceFile> {
+	return _createExtensionTransformer(extension, program, insertEmit);
+}
+
+function createVisitor(extension: string, program?: Program) {
+	return (node: Node): VisitResult<Node> => {
+		if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, program)) {
+			const newModuleSpecifier = createLiteral(`${node.moduleSpecifier.text}${extension}`);
+			node.moduleSpecifier = updateNode(newModuleSpecifier, node.moduleSpecifier);
+		}
+		return node;
+	};
 }
 
 function _createExtensionTransformer(
 	extension: string,
-	insertEmit: InsertEmitHandler | null
-): typescript.TransformerFactory<typescript.SourceFile> {
+	program?: Program,
+	insertEmit?: InsertEmitHandler
+): TransformerFactory<SourceFile> {
 	if (!extension.startsWith('.')) extension = '.' + extension;
 
-	return function transformer(transformationContext: typescript.TransformationContext) {
-		return (sourceFile: typescript.SourceFile) => {
-			function visitNode(node: typescript.Node): typescript.VisitResult<typescript.Node> {
-				if (shouldMutateModuleSpecifier(node)) {
-					if (typescript.isImportDeclaration(node)) {
-						const newModuleSpecifier = typescript.createLiteral(`${node.moduleSpecifier.text}${extension}`);
-						// console.log('   %s', newModuleSpecifier.text);
-						return typescript.updateImportDeclaration(node, node.decorators, node.modifiers, node.importClause, newModuleSpecifier);
-					} else if (typescript.isExportDeclaration(node)) {
-						const newModuleSpecifier = typescript.createLiteral(`${node.moduleSpecifier.text}${extension}`);
-						// console.log('   %s', newModuleSpecifier.text);
-						return typescript.updateExportDeclaration(node, node.decorators, node.modifiers, node.exportClause, newModuleSpecifier, false);
-					}
-				}
-				return typescript.visitEachChild(node, visitNode, transformationContext);
-			}
+	const visitNode = createVisitor(extension, program);
 
+	return function transformer(transformationContext: TransformationContext) {
+		return (sourceFile: SourceFile) => {
 			if (insertEmit) {
-				transformationContext.onEmitNode(typescript.EmitHint.SourceFile, sourceFile, () => {
+				transformationContext.onEmitNode(EmitHint.SourceFile, sourceFile, () => {
 					insertEmit(transformationContext, sourceFile);
 				});
 			}
 
 			// console.log(' %s +++ %s', sourceFile.fileName, extension);
-			return typescript.visitNode(sourceFile, visitNode);
+			return visitEachChild(sourceFile, visitNode, transformationContext);
 		};
 	};
 }
 
 function shouldMutateModuleSpecifier(
-	node: typescript.Node
-): node is (typescript.ImportDeclaration | typescript.ExportDeclaration) & {
-	moduleSpecifier: typescript.StringLiteral;
+	source: string,
+	node: Node,
+	program?: Program
+): node is (ImportDeclaration | ExportDeclaration) & {
+	moduleSpecifier: StringLiteral;
 } {
-	if (!typescript.isImportDeclaration(node) && !typescript.isExportDeclaration(node)) return false;
-	if (node.moduleSpecifier === undefined) return false;
-	// only when module specifier is valid
-	if (!typescript.isStringLiteral(node.moduleSpecifier)) return false;
-	// only when path is relative
-	if (!node.moduleSpecifier.text.startsWith('./') && !node.moduleSpecifier.text.startsWith('../')) return false;
-	// only when module specifier has no extension
-	if (path.extname(node.moduleSpecifier.text) !== '') return false;
-	return true;
+	if (!isImportDeclaration(node) && !isExportDeclaration(node)) {
+		// not "import .. from" or "export .. from"
+		return false;
+	}
+	if (!node.moduleSpecifier || !isStringLiteral(node.moduleSpecifier)) {
+		// syntax error
+		return false;
+	}
+	if (node.moduleSpecifier.text.startsWith('./') && !node.moduleSpecifier.text.startsWith('../')) {
+		const dir = dirname(source);
+		for (const ext of ['.ts', '.tsx', '.json']) {
+			const fp = resolve(dir, node.moduleSpecifier.text + ext);
+			if (program) {
+				if (program.getSourceFile(fp)) {
+					return true;
+				}
+			} else {
+				if (existsSync(fp)) {
+					return true;
+				}
+			}
+		}
+	} else {
+		// TODO: handle paths mapping (absolute to tsconfig.json)
+		return false;
+	}
+
+	return false;
 }

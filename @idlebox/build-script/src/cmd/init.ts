@@ -62,7 +62,7 @@ async function modifyPackageJson(ctx: BuildContext) {
 		packageJson.scripts = {};
 	}
 	addOrFail(packageJson.scripts, 'build', 'build-script build');
-	addOrFail(packageJson.scripts, 'clean', 'build-script clean');
+	addOrFail(packageJson.scripts, 'clean', 'rimraf lib');
 	addOrFail(packageJson.scripts, 'distclean', 'build-script distclean');
 	addOrFail(packageJson.scripts, 'prepack', 'build-script rebuild');
 	addOrFail(packageJson.scripts, 'test', 'build-script test');

@@ -1,6 +1,3 @@
-# Abstract
-Copied one file from [Zoltu/typescript-transformer-append-js-extension](Zoltu/typescript-transformer-append-js-extension), Thanks👍.
-
 # What is this
 > this package is a **t**typescript transformer, it compile all source files **again** after normal compile, to generate `.cjs` files.
 
@@ -37,7 +34,8 @@ Copied one file from [Zoltu/typescript-transformer-append-js-extension](Zoltu/ty
 	}
 	```
 1. Write some typescript with normal imports
-   * **Do not use any `require` in your code!**, `await import()` instead, don't add `.(c|m)?js` at end of imported file.
+   * **Do not use any `require` in your code!**, `await import()` instead
+   * Do not add `\.(c|m)?js` at end of `import` statement. (bad: `import "some-file.js"`)
 2. Compile using `ttsc`
 	```bash
 	ttsc -p path/to/tsconfig.json
@@ -61,7 +59,7 @@ Copied one file from [Zoltu/typescript-transformer-append-js-extension](Zoltu/ty
 		// ...
 	}
 	```
-1. install package `@idlebox/dual-package-runtime` and add one line before your bin file(s).
+1. install package `@idlebox/dual-package-runtime` and add one line before your bin file(s). (skip if no cli)
 	```js
 	import '@idlebox/dual-package-runtime'
 	```

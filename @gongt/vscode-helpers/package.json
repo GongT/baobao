@@ -7,12 +7,12 @@
 	"typings": "docs/package-public.d.ts",
 	"main": "./lib/_export_all_in_one_index.js",
 	"repository": "https://github.com/GongT/baobao.git",
-		"engines": {
+	"engines": {
 		"vscode": "^1.32.0"
 	},
 	"scripts": {
 		"build": "build-script build",
-		"clean": "build-script clean",
+		"clean": "rimraf lib",
 		"distclean": "build-script distclean",
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
@@ -20,16 +20,21 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
+		"tslib": "^1.10.0",
+		"fs-extra": "^8.1.0",
 		"source-map-support": "*"
 	},
 	"devDependencies": {
+		"@idlebox/node-json-edit": "^1.0.19",
+		"@idlebox/lifecycle": "^1.0.5",
 		"@idlebox/helpers": "^1.0.8",
 		"@types/vscode": "latest",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
-		"typescript": "next",
+		"typescript": "3.8.2",
 		"gulp": "^4.0.2",
 		"@idlebox/build-script": "^2.0.11",
-		"@idlebox/export-all-in-one": "^3.0.7"
+		"@idlebox/export-all-in-one": "^3.0.7",
+		"@types/fs-extra": "^8.0.0"
 	}
 }

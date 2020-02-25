@@ -222,6 +222,16 @@ export function isAbsolute(path: string): boolean;
 // @public (undocumented)
 export function isArraySame<T>(a1: T[], a2: T[]): boolean;
 
+// Warning: (ae-missing-release-tag) "isObjectSame" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function isObjectSame(a: any, b: any): boolean;
+
+// Warning: (ae-missing-release-tag) "isObjectSameRecursive" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function isObjectSameRecursive(a: any, b: any): boolean;
+
 // Warning: (ae-missing-release-tag) "IUniqueIdFactory" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -313,6 +323,11 @@ export function objectPath(obj: object, path: string): any;
 //
 // @public (undocumented)
 export function pad2(s: number): string;
+
+// Warning: (ae-missing-release-tag) "promiseBool" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function promiseBool(p: Promise<any>): Promise<boolean>;
 
 // Warning: (ae-missing-release-tag) "PromiseResultArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

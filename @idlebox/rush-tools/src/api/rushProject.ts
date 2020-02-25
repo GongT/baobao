@@ -62,8 +62,8 @@ export class RushProject {
 		}
 		const pkg = loadJsonFileSync(pkgFile);
 		const deps: { [id: string]: any } = {};
-		if (pkg.dependencies) Object.assign(deps, pkg.dependencies);
-		if (development === true && pkg.devDependencies) Object.assign(deps, pkg.devDependencies);
+		if (development !== true && pkg.dependencies) Object.assign(deps, pkg.dependencies);
+		if (development !== false && pkg.devDependencies) Object.assign(deps, pkg.devDependencies);
 
 		let cyclicCheck: Immutable<string[]> | undefined;
 		if (cyclic) {

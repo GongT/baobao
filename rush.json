@@ -156,14 +156,19 @@
 			"packageName": "@pmcache/server",
 			"projectFolder": "@pmcache/server",
 			"shouldPublish": true
-		},*/ /*  */
+		},*/
 		{
-			"packageName": "@gongt/vscode-remote-thief",
+			"packageName": "@gongt/vscode-helpers",
+			"projectFolder": "@gongt/vscode-helpers",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "vscode-remote-thief",
 			"projectFolder": "@gongt/vscode-remote-thief",
 			"shouldPublish": false
 		},
 		{
-			"packageName": "@gongt/vscode-settings-sync",
+			"packageName": "vscode-settings-sync",
 			"projectFolder": "@gongt/vscode-settings-sync",
 			"shouldPublish": false
 		},
@@ -171,11 +176,6 @@
 			"packageName": "meta-scripts",
 			"projectFolder": "common/project-scripts",
 			"shouldPublish": false
-		},
-		{
-			"packageName": "@gongt/vscode-helpers",
-			"projectFolder": "@gongt/vscode-helpers",
-			"shouldPublish": true
 		}
 	]
 }

@@ -106,6 +106,10 @@ export declare function isAbsolute(path: string): boolean;
 
 export declare function isArraySame<T>(a1: T[], a2: T[]): boolean;
 
+export declare function isObjectSame(a: any, b: any): boolean;
+
+export declare function isObjectSameRecursive(a: any, b: any): boolean;
+
 export declare interface IUniqueIdFactory<T> {
     (item: T): string;
 }
@@ -147,6 +151,8 @@ export declare function normalizeArray<T>(input: any): T[];
 export declare function objectPath(obj: object, path: string): any;
 
 export declare function pad2(s: number): string;
+
+export declare function promiseBool(p: Promise<any>): Promise<boolean>;
 
 export declare interface PromiseResultArray<T> {
     count: number;

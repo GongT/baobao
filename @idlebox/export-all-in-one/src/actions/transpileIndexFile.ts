@@ -1,9 +1,8 @@
-// @ts-ignore
 import { default as plugin } from '@idlebox/typescript-transformer-dual-package';
 import { dirname } from 'path';
 import {
-	CompilerOptions,
 	CompilerHost,
+	CompilerOptions,
 	createCompilerHost,
 	createProgram,
 	formatDiagnostics,
@@ -14,15 +13,18 @@ import { targetIndexFile } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
 import { debug } from '../inc/debug';
 
-export function transpileIndexFile() {
+export async function transpileIndexFile() {
 	console.log('\x1B[38;5;10mcreate index file(s).\x1B[0m');
+	debug('targetIndexFile=%s', targetIndexFile);
+
 	const originalOptions = getOptions().options;
 	const options: CompilerOptions = {
-		...originalOptions,
 		rootDir: dirname(targetIndexFile),
 		sourceMap: false,
-		inlineSourceMap: originalOptions.sourceMap,
-		inlineSources: originalOptions.sourceMap,
+		inlineSourceMap: originalOptions.sourceMap || originalOptions.inlineSourceMap,
+		inlineSources: originalOptions.sourceMap || originalOptions.inlineSourceMap,
+		target: originalOptions.target,
+		outDir: originalOptions.outDir,
 	};
 	const host = createCompilerHost(options, true);
 	const program: Program = createProgram([targetIndexFile], options, host);
@@ -37,6 +39,7 @@ export function transpileIndexFile() {
 		formatDiagnostics(ret.diagnostics, host);
 	}
 }
+
 function createWriteFile(host: CompilerHost) {
 	return function writeFile(
 		fileName: string,
@@ -46,6 +49,6 @@ function createWriteFile(host: CompilerHost) {
 		sourceFiles?: readonly SourceFile[]
 	) {
 		debug('  write: %s', fileName);
-		return host.writeFile(fileName, data, writeByteOrderMark, onError, sourceFiles);
+		return host.writeFile(fileName, data + '\n', writeByteOrderMark, onError, sourceFiles);
 	};
 }

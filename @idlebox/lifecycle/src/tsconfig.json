@@ -6,7 +6,12 @@
 		"typeRoots": [],
 		"types": [],
 		"declaration": false,
-		"declarationMap": false
+		"declarationMap": false,
+		"plugins": [
+			{
+				"transform": "@idlebox/typescript-transformer-dual-package"
+			}
+		]
 	},
 	"include": [
 		"**/*.ts"

@@ -15,6 +15,18 @@
 			"outFiles": [
 				"${workspaceFolder}/@gongt/vscode-settings-sync/lib/**/*.js"
 			]
+		},
+		{
+			"type": "extensionHost",
+			"request": "launch",
+			"name": "启动扩展2",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-settings-sync"
+			],
+			"outFiles": [
+				"${workspaceFolder}/@gongt/vscode-settings-sync/lib/**/*.js"
+			]
 		}
 	
 	]

@@ -1,5 +1,5 @@
 {
-	"name": "@gongt/vscode-settings-sync",
+	"name": "vscode-settings-sync",
 	"description": "settings sync with git.",
 	"private": true,
 	"version": "0.0.1",
@@ -19,7 +19,8 @@
 		"Other"
 	],
 	"extensionKind": [
-		"workspace"
+		"workspace",
+		"ui"
 	],
 	"activationEvents": [
 		"*"
@@ -27,7 +28,7 @@
 	"main": "./lib/extension.js",
 	"contributes": {
 		"configuration": {
-			"title": "Settings Repo",
+			"title": "Settings Sync",
 			"properties": {
 				"extension.sync.git.repo": {
 					"type": "string",
@@ -36,14 +37,59 @@
 					"description": "Url to settings repo",
 					"examples": [
 						"git@github.com:your/settings.git"
-					]
+					],
+					"scope": "application"
+				},
+				"extension.sync.git.ignore": {
+					"type": "array",
+					"title": "Ignore setting/extension by it's id",
+					"items": {
+						"type": "string"
+					},
+					"default": []
 				}
 			}
 		},
 		"commands": [
 			{
-				"command": "extension.sync.run",
-				"title": "run sync now"
+				"command": "gongt-vscode-settings-sync.action.open.directory.code",
+				"title": "Open settings repo in VSCode (new window)",
+				"category": "Settings Sync"
+			},
+			{
+				"command": "gongt-vscode-settings-sync.action.open.directory.explorer",
+				"title": "Open settings repo in Explorer",
+				"category": "Settings Sync"
+			},
+			{
+				"command": "gongt-vscode-settings-sync.action.open.directory.terminal",
+				"title": "Open settings repo in Terminal",
+				"category": "Settings Sync"
+			},
+			{
+				"command": "gongt-vscode-settings-sync.action.sync.local.first",
+				"title": "Sync settings (local first)",
+				"category": "Settings Sync"
+			},
+			{
+				"command": "gongt-vscode-settings-sync.action.sync.local.force",
+				"title": "Sync settings (use local, drop remote)",
+				"category": "Settings Sync"
+			},
+			{
+				"command": "gongt-vscode-settings-sync.action.sync.remote.first",
+				"title": "Sync settings (remote first)",
+				"category": "Settings Sync"
+			},
+			{
+				"command": "gongt-vscode-settings-sync.action.sync.remote.force",
+				"title": "Sync settings (drop local, use remote)",
+				"category": "Settings Sync"
+			},
+			{
+				"command": "gongt-vscode-settings-sync.action.sync.auto",
+				"title": "Sync settings",
+				"category": "Settings Sync"
 			}
 		]
 	},
@@ -54,12 +100,21 @@
 	},
 	"dependencies": {
 		"tslib": "^1.10.0",
-		"@gongt/vscode-helpers": "^0.0.1"
+		"@idlebox/lifecycle": "^1.0.5",
+		"@gongt/vscode-helpers": "^0.0.1",
+		"@idlebox/helpers": "^1.0.8",
+		"@idlebox/node-helpers": "^1.0.5",
+		"fs-extra": "^8.1.0",
+		"split2": "^3.1.1",
+		"debounce": "^1.2.0"
 	},
 	"devDependencies": {
 		"@types/vscode": "latest",
 		"@idlebox/single-dog-asset": "^1.0.2",
+		"@types/split2": "^2.1.6",
 		"@types/node": "^12.7.8",
-		"typescript": "next"
+		"typescript": "3.8.2",
+		"@types/fs-extra": "^8.0.0",
+		"@types/debounce": "^1.2.0"
 	}
 }
