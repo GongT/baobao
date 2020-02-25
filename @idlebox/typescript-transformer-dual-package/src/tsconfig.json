@@ -5,13 +5,17 @@
 		"declaration": true,
 		"declarationMap": true,
 		"outDir": "../lib",
-		"rootDir": ".",
+		"rootDir": "./",
 		"typeRoots": [
 			"../node_modules/@types"
 		],
+		"types": [
+			"node",
+			"node"
+		],
 		"plugins": [
 			{
-				"transform": "./register.ts",
+				"transform": "./register.ts"
 			}
 		],
 		"incremental": false

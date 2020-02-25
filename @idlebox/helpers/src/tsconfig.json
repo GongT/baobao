@@ -13,7 +13,8 @@
 		],
 		"plugins": [
 			{
-				"transform": "@idlebox/typescript-transformer-dual-package"
+				"transform": "@idlebox/typescript-transformer-dual-package",
+				"verbose": true
 			}
 		],
 		"declaration": false,

@@ -17,50 +17,39 @@ import {
 	visitEachChild,
 	VisitResult,
 } from 'typescript';
-import * as ts from 'typescript';
-
-const updateNode = (ts as any).updateNode;
-
-if (!updateNode) {
-	console.error('FatalError! TypeScript internal api has changed.');
-	process.exit(1);
-}
 
 interface InsertEmitHandler {
 	(transformationContext: TransformationContext, sourceFile: SourceFile): void;
 }
 
-export function createExtensionTransformer(extension: string, program?: Program): TransformerFactory<SourceFile> {
-	return _createExtensionTransformer(extension, program);
+interface IDebug {
+	(message?: any, ...optionalParams: any[]): void;
 }
 
-/** @internal */
-export function _createExtensionTransformerInternal(
-	extension: string,
-	program: Program,
-	insertEmit: InsertEmitHandler
-): TransformerFactory<SourceFile> {
-	return _createExtensionTransformer(extension, program, insertEmit);
-}
-
-function createVisitor(extension: string, program?: Program) {
+function createVisitor(extension: string, debug: IDebug, program?: Program) {
 	return (node: Node): VisitResult<Node> => {
-		if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, program)) {
-			const newModuleSpecifier = createLiteral(`${node.moduleSpecifier.text}${extension}`);
-			node.moduleSpecifier = updateNode(newModuleSpecifier, node.moduleSpecifier);
+		if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, debug, program)) {
+			debug(' % %s', node.getText(node.getSourceFile()).split('\n')[0]);
+			const modified: ValidImportOrExportDeclaration = { ...node };
+			modified.moduleSpecifier = createLiteral(`${node.moduleSpecifier.text}${extension}`);
+			return modified;
+		} else if (node.getText(node.getSourceFile()).startsWith('import ')) {
+			debug(' ? %s', node.getText(node.getSourceFile()).split('\n')[0]);
 		}
 		return node;
 	};
 }
 
-function _createExtensionTransformer(
+export function createExtensionTransformer(
 	extension: string,
 	program?: Program,
-	insertEmit?: InsertEmitHandler
+	insertEmit?: InsertEmitHandler,
+	verbose: boolean = false
 ): TransformerFactory<SourceFile> {
 	if (!extension.startsWith('.')) extension = '.' + extension;
+	const debug: IDebug = verbose ? console.error.bind(console) : () => {};
 
-	const visitNode = createVisitor(extension, program);
+	const visitNode = createVisitor(extension, debug, program);
 
 	return function transformer(transformationContext: TransformationContext) {
 		return (sourceFile: SourceFile) => {
@@ -70,19 +59,22 @@ function _createExtensionTransformer(
 				});
 			}
 
-			// console.log(' %s +++ %s', sourceFile.fileName, extension);
+			debug(' %s +++ %s', sourceFile.fileName, extension);
 			return visitEachChild(sourceFile, visitNode, transformationContext);
 		};
 	};
 }
 
+type ValidImportOrExportDeclaration = (ImportDeclaration | ExportDeclaration) & {
+	moduleSpecifier: StringLiteral;
+};
+
 function shouldMutateModuleSpecifier(
 	source: string,
 	node: Node,
+	debug: IDebug,
 	program?: Program
-): node is (ImportDeclaration | ExportDeclaration) & {
-	moduleSpecifier: StringLiteral;
-} {
+): node is ValidImportOrExportDeclaration {
 	if (!isImportDeclaration(node) && !isExportDeclaration(node)) {
 		// not "import .. from" or "export .. from"
 		return false;
@@ -105,6 +97,7 @@ function shouldMutateModuleSpecifier(
 				}
 			}
 		}
+		debug('LOL123', dir, node.moduleSpecifier.text);
 	} else {
 		// TODO: handle paths mapping (absolute to tsconfig.json)
 		return false;

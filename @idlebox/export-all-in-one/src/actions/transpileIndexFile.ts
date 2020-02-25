@@ -1,6 +1,7 @@
 import { default as plugin } from '@idlebox/typescript-transformer-dual-package';
 import { dirname } from 'path';
 import {
+	ScriptTarget,
 	CompilerHost,
 	CompilerOptions,
 	createCompilerHost,
@@ -8,6 +9,8 @@ import {
 	formatDiagnostics,
 	Program,
 	SourceFile,
+	ModuleKind,
+	CustomTransformers,
 } from 'typescript';
 import { targetIndexFile } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
@@ -24,6 +27,7 @@ export async function transpileIndexFile() {
 		inlineSourceMap: originalOptions.sourceMap || originalOptions.inlineSourceMap,
 		inlineSources: originalOptions.sourceMap || originalOptions.inlineSourceMap,
 		target: originalOptions.target,
+		module: originalOptions.module,
 		outDir: originalOptions.outDir,
 	};
 	const host = createCompilerHost(options, true);
@@ -32,14 +36,30 @@ export async function transpileIndexFile() {
 	const source = program.getSourceFile(targetIndexFile);
 
 	Error.stackTraceLimit = Infinity;
-	const ret = program.emit(source, createWriteFile(host), undefined, false, {
-		before: [plugin(program, {})],
-	});
+
+	const trans = createTransform(program, options);
+
+	const ret = program.emit(source, createWriteFile(host), undefined, false, trans);
 	if (ret.diagnostics.length) {
-		formatDiagnostics(ret.diagnostics, host);
+		console.error(formatDiagnostics(ret.diagnostics, host));
 	}
 }
-
+function createTransform(program: Program, options: CompilerOptions): CustomTransformers | undefined {
+	if (options.module) {
+		if (options.module > ModuleKind.System) {
+			return {
+				before: [plugin(program, {})],
+			};
+		}
+	} else if (options.target) {
+		if (options.target > ScriptTarget.ES5) {
+			return {
+				before: [plugin(program, {})],
+			};
+		}
+	}
+	return undefined;
+}
 function createWriteFile(host: CompilerHost) {
 	return function writeFile(
 		fileName: string,
