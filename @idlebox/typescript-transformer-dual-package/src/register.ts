@@ -1,29 +1,56 @@
-import { CompilerOptions, Program } from 'typescript';
-import { CjsCompiler } from './cjs.compiler';
-import { createExtensionTransformer } from './lib';
-import { createExtensionWithCache } from './transformerCache';
+import {
+	CompilerOptions,
+	Program,
+	SourceFile,
+	TransformationContext,
+	Transformer,
+	TransformerFactory,
+} from 'typescript';
+import { getDebug, IDebug } from './debug';
+import { appendDotJs } from './append.js';
+import { appendDotCjs, cloneProgram } from './append.cjs';
+import { selfCreatedProgram } from './preventLoop';
 
-import { setFlagsFromString } from 'v8';
-setFlagsFromString('--stack-size=2048');
+export { ISelfTest } from './self.test';
 
 interface IOptions {
 	compilerOptions?: CompilerOptions;
 	verbose?: boolean;
 }
 
-export { ITestInterface } from './cjs.compiler';
+console.error('\x1Bc');
 
-const cache = createExtensionWithCache(function typescriptTransformerDualPackageReal(
-	program: Program,
-	pluginOptions: IOptions
-) {
-	const trans: CjsCompiler = new CjsCompiler(!!pluginOptions.verbose);
-	trans.updateConfig(program, pluginOptions.compilerOptions || {});
-	return createExtensionTransformer('.js', program, (_transformationContext, sourceFile) => {
-		trans.walkSourceFile(sourceFile.fileName);
-	});
-});
+export interface ITransformerSlice {
+	(program: Program, transformationContext: TransformationContext, debug: IDebug): Transformer<SourceFile>;
+}
+
+let lastProgram: Program;
+let cachedTransformer: TransformerFactory<SourceFile>;
 
 export default function typescriptTransformerDualPackage(program: Program, pluginOptions: IOptions) {
-	return cache(program, pluginOptions);
+	const debug = getDebug(!!pluginOptions.verbose);
+
+	if (selfCreatedProgram in program) {
+		return () => {
+			(node: SourceFile) => node;
+		};
+	}
+	if (program === lastProgram) {
+		return cachedTransformer;
+	}
+	lastProgram = program;
+
+	const shadowProgram = cloneProgram(program, pluginOptions.compilerOptions || {}, debug);
+	const appendDotCjsCall = appendDotCjs(shadowProgram, debug);
+
+	return (cachedTransformer = function transformer(transformationContext: TransformationContext) {
+		debug('[trans] NewContext');
+
+		const appendDotJsCall = appendDotJs(program, transformationContext, debug);
+
+		return (sourceFile: SourceFile) => {
+			appendDotCjsCall(sourceFile);
+			return appendDotJsCall(sourceFile);
+		};
+	});
 }

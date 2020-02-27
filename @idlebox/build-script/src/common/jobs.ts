@@ -95,6 +95,7 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 			},
 			(e: Error) => {
 				fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
+				fancyLog.error('  > cwd: %s', path);
 				cb(new Error(e?.message?.replace?.(/:/g, ':\n  ')));
 			}
 		);

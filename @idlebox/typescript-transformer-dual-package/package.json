@@ -11,10 +11,6 @@
 		".": {
 			"require": "./lib/register.cjs",
 			"import": "./lib/register.js"
-		},
-		"./lib": {
-			"require": "./lib/lib.cjs",
-			"import": "./lib/lib.js"
 		}
 	},
 	"scripts": {

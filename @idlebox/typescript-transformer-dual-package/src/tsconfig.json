@@ -15,7 +15,8 @@
 		],
 		"plugins": [
 			{
-				"transform": "./register.ts"
+				"transform": "./register.ts",
+				"verbose": true
 			}
 		],
 		"incremental": false
