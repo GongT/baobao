@@ -18,8 +18,6 @@ interface IOptions {
 	verbose?: boolean;
 }
 
-console.error('\x1Bc');
-
 export interface ITransformerSlice {
 	(program: Program, transformationContext: TransformationContext, debug: IDebug): Transformer<SourceFile>;
 }
@@ -28,7 +26,7 @@ let lastProgram: Program;
 let cachedTransformer: TransformerFactory<SourceFile>;
 
 export default function typescriptTransformerDualPackage(program: Program, pluginOptions: IOptions) {
-	const debug = getDebug(!!pluginOptions.verbose);
+	const debug = getDebug(pluginOptions.verbose || false);
 
 	if (selfCreatedProgram in program) {
 		return () => {

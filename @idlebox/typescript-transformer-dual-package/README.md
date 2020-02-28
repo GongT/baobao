@@ -6,37 +6,30 @@
 	```bash
 	npm install --save-dev typescript ttypescript @idlebox/typescript-transformer-dual-package
 	```
-1. Add the transformer to your es2015 module `tsconfig.json`:
+1. Add the transformer to your `tsconfig.json`:
 	```jsonc
-	// tsconfig-es.json
 	{
 		"compilerOptions": {
-			"module": "esnext",
+			"module": "esnext", // this is required
 			// ... other options
 			"plugins": [
 				{
 					"transform": "@idlebox/typescript-transformer-append-cjs-extension",
 					"compilerOptions": {
 						// [optional] normally you do not need to set this.
-						//... override parent compilerOptions when compile commonjs, below is the default:
-						"target": "es2018",
-						"module": "CommonJS", // never set this !!!
-						"declaration": false,
-						"project": null,
-						"isolatedModules": true,
-						"composite": false,
-						"incremental": false,
-						"tsBuildInfoFile": null,
-					}
+						//... override parent compilerOptions when compile commonjs
+						// some options can not override
+					},
+					"verbose": false // optional, can be number "1", to send verbose output to stdout (instead of stderr)
 				}
 			]
 		},
 	}
 	```
-1. Write some typescript with normal imports
+1. Write typescript as you want. But:
    * **Do not use any `require` in your code!**, `await import()` instead
-   * Do not add `\.(c|m)?js` at end of `import` statement. (bad: `import "some-file.js"`)
-2. Compile using `ttsc`
+   * Do not add `\.(c|m)?js` at end of `import` statement. (bad: `import "./some-file.js"`)
+1. Compile using `ttsc`
 	```bash
 	ttsc -p path/to/tsconfig.json
 	```
@@ -59,20 +52,32 @@
 		// ...
 	}
 	```
-1. install package `@idlebox/dual-package-runtime` and add one line before your bin file(s). (skip if no cli)
+1. (If your package has binary) 
+	1. install package `@idlebox/dual-package-runtime`
+	1. add this line at first of your bin file(s).
 	```js
 	import '@idlebox/dual-package-runtime'
 	```
 
 # Related pages:
 * TypeScript Transform:
-  * If someday typescript directlly support transformer from commandline or tsconfig, `ttypescript` can be removed.
-  * [Api Document](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API)
-  * [ttypescript](https://github.com/cevek/ttypescript)
+	* If someday typescript directlly support transformer from commandline or tsconfig, `ttypescript` can be removed.
+	* [Api Document](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API)
+	* [ttypescript](https://github.com/cevek/ttypescript)
 * Add custom extension:
-  * Typescript will support custom extension very soon, after that, this package can be removed. (use two pass compile instead)
-  * [TypeScript#27957](microsoft/TypeScript#27957) [TypeScript#18442](microsoft/TypeScript#18442)
-  * [Zoltu/typescript-transformer-append-js-extension](Zoltu/typescript-transformer-append-js-extension)
+	* Typescript will support custom extension very soon, after that, this package can be removed. (use two pass compile instead): 
+		* [TypeScript#27957](microsoft/TypeScript#27957)
+		* [TypeScript#18442](microsoft/TypeScript#18442)
+	* Initial idea comes from: [Zoltu/typescript-transformer-append-js-extension](Zoltu/typescript-transformer-append-js-extension) 
 * Node.JS:
-  * [Conditional Exports](https://nodejs.org/api/esm.html#esm_conditional_exports)
+	* [Conditional Exports](https://nodejs.org/api/esm.html#esm_conditional_exports)
 
+# How
+1. `tsc`/`ttsc` run
+	1. Load my package
+		1. Create a transformer factory
+	1. Create `Program`, setup transformers, including mine
+1. When `Program` `emit`, my transformer run:
+	1. Modify all `ImportDeclaration` and `ExportDeclaration`, add `.js` to them
+		* Because tsc itself know what is `import {} from "./x.js"`, everything works as expect
+	1. I create another `Program`, load a "internal" extension

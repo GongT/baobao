@@ -2,7 +2,7 @@ import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { dirname, resolve } from 'path';
 import { CompilerOptions } from 'typescript';
-import { CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT } from '../inc/argParse';
+import { CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT, INDEX_FILE_NAME } from '../inc/argParse';
 import { relativePosix } from '../inc/paths';
 import { run } from '../inc/run';
 import { createTempTSConfig } from '../inc/createTempTsconfig';
@@ -24,14 +24,14 @@ export function getOutputFilePath(relativeTo: string, options: CompilerOptions) 
 	if (!targetDir) {
 		throw new Error('Please compile to other directory, do not compile in place.');
 	}
-	console.log(relativeTo, resolve(targetDir, '_export_all_in_one_index'));
-	return relativePosix(relativeTo, resolve(targetDir, '_export_all_in_one_index'));
+	console.log(relativeTo, resolve(targetDir, INDEX_FILE_NAME));
+	return relativePosix(relativeTo, resolve(targetDir, INDEX_FILE_NAME));
 }
 
-export async function compileDeclareFiles() {
+export async function compileProject() {
 	console.log('\x1B[38;5;10mwrite tsconfig.json.\x1B[0m');
 	await rewriteProjectTSConfigJson();
-	const file = await createTempTSConfig({ type: 'declare', want: 'declaration' });
+	await createTempTSConfig();
 	await ensureLinkTarget(resolve(PROJECT_ROOT, 'node_modules'), resolve(EXPORT_TEMP_PATH, 'node_modules'));
-	await run('tsc', ['-p', file]);
+	await run('tsc', ['-p', '.']);
 }

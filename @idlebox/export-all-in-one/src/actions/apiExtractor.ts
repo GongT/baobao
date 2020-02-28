@@ -3,7 +3,7 @@ import { writeJsonFileIfChanged } from '@idlebox/node-json-edit';
 import { Extractor, ExtractorConfig, ExtractorLogLevel, IConfigFile } from '@microsoft/api-extractor';
 import { copyFile, ensureDir, mkdirpSync } from 'fs-extra';
 import { basename, dirname, resolve } from 'path';
-import { API_CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT } from '../inc/argParse';
+import { API_CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT, INDEX_FILE_NAME, TEMP_DIST_DIR_NAME } from '../inc/argParse';
 import { findUp } from '../inc/findUp';
 import { projectPackagePath } from '../inc/package';
 import { relativePosix } from '../inc/paths';
@@ -12,9 +12,9 @@ import { debug } from '../inc/debug';
 const apiExtractorJson: IConfigFile = {
 	// $schema: 'https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json',
 	projectFolder: EXPORT_TEMP_PATH,
-	mainEntryPointFilePath: '<projectFolder>/declaration-output/_export_all_in_one_index.d.ts',
+	mainEntryPointFilePath: `<projectFolder>/${TEMP_DIST_DIR_NAME}/${INDEX_FILE_NAME}.d.ts`,
 	compiler: {
-		tsconfigFilePath: '<projectFolder>/tsconfig.declare.json',
+		tsconfigFilePath: '<projectFolder>/tsconfig.json',
 		// "overrideTsconfig": {}
 		// "skipLibCheck": true,
 	},

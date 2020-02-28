@@ -1,7 +1,7 @@
 {
 	"alias": {
-		"build-ts": "ttsc -p src",
-		"watch-ts": "ttsc -w -p src",
+		"build-ts": "tsc -p src",
+		"watch-ts": "tsc -w -p src",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
 		"run-test": ""

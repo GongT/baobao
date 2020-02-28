@@ -3,14 +3,10 @@
 	"compilerOptions": {
 		"outDir": "../lib",
 		"rootDir": ".",
-		"typeRoots": [],
-		"types": [],
 		"declaration": false,
 		"declarationMap": false,
-		"plugins": [
-			{
-				"transform": "@idlebox/typescript-transformer-dual-package"
-			}
+		"types": [
+			"@idlebox/types"
 		]
 	},
 	"include": [

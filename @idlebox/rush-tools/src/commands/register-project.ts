@@ -1,6 +1,6 @@
 import { writeJsonFileBack, loadJsonFileSync } from '@idlebox/node-json-edit';
 import { access } from 'fs-extra';
-import { resolve } from 'path';
+import { resolve, relative, dirname } from 'path';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 
@@ -28,9 +28,14 @@ export default async function runRegisterProject() {
 
 	const rush = new RushProject();
 
-	const relPath = normalize(rush.absolute(projectPath));
-
+	const absPath = normalize(rush.absolute(projectPath));
+	let relPath = normalize(relative(dirname(rush.configFile), absPath));
 	console.log('register project %s at %s', name, relPath);
+
+	if (relPath.startsWith('..')) {
+		throw new Error('project is out of root.');
+	}
+	relPath = relPath.replace(/^\.\//, '');
 
 	const config = loadJsonFileSync(rush.configFile);
 	const exists = config.projects.find(({ packageName, projectFolder }: any) => {

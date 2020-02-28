@@ -3,10 +3,10 @@
 	"compilerOptions": {
 		"outDir": "../lib",
 		"rootDir": ".",
-		"typeRoots": [
-			"../node_modules/@types"
-		],
 		"declaration": false,
-		"declarationMap": false
+		"declarationMap": false,
+		"types": [
+			"node"
+		]
 	}
 }

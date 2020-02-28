@@ -1,31 +1,31 @@
 import { writeJsonFile } from '@idlebox/node-json-edit';
-import { ensureDir } from 'fs-extra';
-import { dirname, resolve } from 'path';
-import { CONFIG_FILE, EXPORT_TEMP_PATH } from '../inc/argParse';
+import { resolve } from 'path';
+import {
+	CONFIG_FILE,
+	EXPORT_TEMP_PATH,
+	TEMP_DIST_DIR_NAME,
+	TEMP_SOURCE_DIR_NAME,
+	INDEX_FILE_NAME,
+} from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
 
-interface IOpt {
-	want: 'source' | 'declaration';
-	type: string;
-}
-export async function createTempTSConfig({ want, type }: IOpt) {
+export async function createTempTSConfig() {
 	const { options } = getOptions(CONFIG_FILE);
-	const configFile = resolve(EXPORT_TEMP_PATH, `tsconfig.${type}.json`);
+	const configFile = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
 
-	await ensureDir(dirname(configFile));
 	await writeJsonFile(configFile, {
 		extends: CONFIG_FILE,
 		compilerOptions: {
 			removeComments: false,
-			declaration: want === 'declaration',
-			declarationMap: want === 'declaration',
-			sourceMap: want === 'source',
+			declaration: true,
+			declarationMap: true,
+			sourceMap: true,
 			module: 'esnext',
 			noEmit: false,
-			emitDeclarationOnly: want === 'declaration',
+			emitDeclarationOnly: false,
 			noEmitOnError: false,
-			outDir: `${want}-output`,
-			rootDir: 'extracted-source',
+			outDir: TEMP_DIST_DIR_NAME,
+			rootDir: TEMP_SOURCE_DIR_NAME,
 			noUnusedLocals: false,
 			strict: false,
 			alwaysStrict: false,
@@ -33,9 +33,7 @@ export async function createTempTSConfig({ want, type }: IOpt) {
 			typeRoots: options.typeRoots,
 		},
 		exclude: [],
-		include: ['extracted-source/**/*.ts', 'extracted-source/**/*.json'],
-		files: [],
+		include: [],
+		files: [TEMP_SOURCE_DIR_NAME + '/' + INDEX_FILE_NAME + '.ts'],
 	});
-
-	return configFile;
 }

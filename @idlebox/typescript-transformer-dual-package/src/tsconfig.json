@@ -16,7 +16,7 @@
 		"plugins": [
 			{
 				"transform": "./register.ts",
-				"verbose": true
+				"verbose": 1
 			}
 		],
 		"incremental": false

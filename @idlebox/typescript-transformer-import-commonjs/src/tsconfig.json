@@ -6,8 +6,8 @@
 		"declarationMap": true,
 		"outDir": "../lib",
 		"rootDir": ".",
-		"typeRoots": [
-			"../node_modules/@types"
+		"types": [
+			"node"
 		],
 		"plugins": [
 			{

@@ -4,6 +4,7 @@ import { existsSync, lstatSync } from 'fs';
 import { platform, tmpdir } from 'os';
 import { resolve } from 'path';
 import { findUp } from './findUp';
+import { INDEX_FILE_NAME } from './paths';
 
 export const NO_DUAL_FLAG = '--no-dual-package';
 
@@ -50,4 +51,4 @@ export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 
 export const IS_WINDOWS = platform() === 'win32';
 
-export const targetIndexFile = resolve(EXPORT_TEMP_PATH, 'extracted-source/_export_all_in_one_index.ts');
+export const targetIndexFile = resolve(EXPORT_TEMP_PATH, 'extracted-source', `${INDEX_FILE_NAME}.ts`);

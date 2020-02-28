@@ -7,7 +7,7 @@ dependencies:
   '@rush-temp/build-script': 'file:projects/build-script.tgz_ts-node@8.6.2'
   '@rush-temp/dual-package-runtime': 'file:projects/dual-package-runtime.tgz'
   '@rush-temp/ensure-symlink': 'file:projects/ensure-symlink.tgz_ts-node@8.6.2'
-  '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz_ts-node@8.6.2'
+  '@rush-temp/export-all-in-one': 'file:projects/export-all-in-one.tgz'
   '@rush-temp/export-all-in-one-inject': 'file:projects/export-all-in-one-inject.tgz_ts-node@8.6.2'
   '@rush-temp/global': 'file:projects/global.tgz_ts-node@8.6.2'
   '@rush-temp/helpers': 'file:projects/helpers.tgz_ts-node@8.6.2'
@@ -22,6 +22,7 @@ dependencies:
   '@rush-temp/rush-tools': 'file:projects/rush-tools.tgz_ts-node@8.6.2'
   '@rush-temp/single-dog': 'file:projects/single-dog.tgz_ts-node@8.6.2'
   '@rush-temp/single-dog-asset': 'file:projects/single-dog-asset.tgz'
+  '@rush-temp/types': 'file:projects/types.tgz'
   '@rush-temp/typescript-transformer-dual-package': 'file:projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/typescript-transformer-import-commonjs': 'file:projects/typescript-transformer-import-commonjs.tgz'
   '@rush-temp/vscode-helpers': 'file:projects/vscode-helpers.tgz'
@@ -5753,7 +5754,7 @@ packages:
       integrity: sha512-/Rb+sKHsjqylCR4Pq9SvA0g66x658na4B1HZ8fFFR4nLh4IZW3GozC37OexD2yuqi6KUea4QQf/lUPynjuhYYg==
       tarball: 'file:projects/export-all-in-one-inject.tgz'
     version: 0.0.0
-  'file:projects/export-all-in-one.tgz_ts-node@8.6.2':
+  'file:projects/export-all-in-one.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.2
       '@types/fs-extra': 8.0.1
@@ -5764,15 +5765,11 @@ packages:
       source-map-support: 0.5.16
       tsconfig-paths: 3.9.0
       tslib: 1.10.0
-      ttypescript: 1.5.10_ts-node@8.6.2+typescript@3.8.2
       typescript: 3.8.2
     dev: false
-    id: 'file:projects/export-all-in-one.tgz'
     name: '@rush-temp/export-all-in-one'
-    peerDependencies:
-      ts-node: '*'
     resolution:
-      integrity: sha512-BjUppBqNV+XY63zGkH9X92bZaKcVr1+b6n+sEmacIow10wKlDPKGBRvxijDvYvw/oY0B0rcFRlncD740wTaCUA==
+      integrity: sha512-/r/9rc5u3WpogugdIiSwJ10QBD5wPcpT+ekLIowlpPDMPs1M1xD39R+P2P9NfqD+K+mAAWYlbLtPZPC6sFohjw==
       tarball: 'file:projects/export-all-in-one.tgz'
     version: 0.0.0
   'file:projects/global.tgz_ts-node@8.6.2':
@@ -5993,7 +5990,7 @@ packages:
     dev: false
     name: '@rush-temp/single-dog-asset'
     resolution:
-      integrity: sha512-hNcmk+SdsLp5cBzMFDaHE3So1UvrRfixySAZzR4uNXi/YUJwuyotuZwhfdTUpXy6A+nKJYcOqY553b0T/P9Byw==
+      integrity: sha512-6JaHYFA200k6CpkN+OC4VbRnsbxtWwfFi9Mn8EyYq3f49Auw2eB96ShGm86XmUThxFTGjPDrJSsLwfW+RfDQ+g==
       tarball: 'file:projects/single-dog-asset.tgz'
     version: 0.0.0
   'file:projects/single-dog.tgz_ts-node@8.6.2':
@@ -6014,6 +6011,13 @@ packages:
     resolution:
       integrity: sha512-qd0+DYr6dLe9VoTC4ctnDBfVnJpvT549w2rcteoloziZCVYtDrdZcqzWPnGSWhdjwEyOPy9u5q172wtHaDT9cA==
       tarball: 'file:projects/single-dog.tgz'
+    version: 0.0.0
+  'file:projects/types.tgz':
+    dev: false
+    name: '@rush-temp/types'
+    resolution:
+      integrity: sha512-DnqacNx0gYwEBFgD7pU/pC1pf/17jYjZ1ttku/fHNhEz4Sqg1VnFbXzDTdyBSlZUEPTtJS93BqNE2+V1j24N7w==
+      tarball: 'file:projects/types.tgz'
     version: 0.0.0
   'file:projects/typescript-transformer-dual-package.tgz':
     dependencies:
@@ -6151,6 +6155,7 @@ specifiers:
   '@rush-temp/rush-tools': 'file:./projects/rush-tools.tgz'
   '@rush-temp/single-dog': 'file:./projects/single-dog.tgz'
   '@rush-temp/single-dog-asset': 'file:./projects/single-dog-asset.tgz'
+  '@rush-temp/types': 'file:./projects/types.tgz'
   '@rush-temp/typescript-transformer-dual-package': 'file:./projects/typescript-transformer-dual-package.tgz'
   '@rush-temp/typescript-transformer-import-commonjs': 'file:./projects/typescript-transformer-import-commonjs.tgz'
   '@rush-temp/vscode-helpers': 'file:./projects/vscode-helpers.tgz'

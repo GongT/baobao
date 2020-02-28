@@ -4,8 +4,8 @@
 		"module": "esnext",
 		"baseUrl": ".",
 		"outDir": "../lib",
-		"typeRoots": [
-			"../node_modules/@types"
+		"types": [
+			"node"
 		],
 		"rootDir": ".",
 		"declaration": false,

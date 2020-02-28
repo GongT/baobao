@@ -1,74 +1,50 @@
-import { default as plugin } from '@idlebox/typescript-transformer-dual-package';
-import { dirname } from 'path';
-import {
-	ScriptTarget,
-	CompilerHost,
-	CompilerOptions,
-	createCompilerHost,
-	createProgram,
-	formatDiagnostics,
-	Program,
-	SourceFile,
-	ModuleKind,
-	CustomTransformers,
-} from 'typescript';
-import { targetIndexFile } from '../inc/argParse';
+import { copyFile, pathExists, readFile, writeFile } from 'fs-extra';
+import { resolve } from 'path';
+import { formatDiagnostics, ModuleKind, transpileModule } from 'typescript';
+import { EXPORT_TEMP_PATH, INDEX_FILE_NAME, SOURCE_ROOT, TEMP_DIST_DIR_NAME } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
-import { debug } from '../inc/debug';
 
 export async function transpileIndexFile() {
 	console.log('\x1B[38;5;10mcreate index file(s).\x1B[0m');
-	debug('targetIndexFile=%s', targetIndexFile);
-
 	const originalOptions = getOptions().options;
-	const options: CompilerOptions = {
-		rootDir: dirname(targetIndexFile),
-		sourceMap: false,
-		inlineSourceMap: originalOptions.sourceMap || originalOptions.inlineSourceMap,
-		inlineSources: originalOptions.sourceMap || originalOptions.inlineSourceMap,
-		target: originalOptions.target,
-		module: originalOptions.module,
-		outDir: originalOptions.outDir,
-	};
-	const host = createCompilerHost(options, true);
-	const program: Program = createProgram([targetIndexFile], options, host);
 
-	const source = program.getSourceFile(targetIndexFile);
+	const source = resolve(EXPORT_TEMP_PATH, TEMP_DIST_DIR_NAME, INDEX_FILE_NAME + '.js');
+	const copyTarget = resolve(originalOptions.outDir || SOURCE_ROOT, INDEX_FILE_NAME + '.js');
+	const transpileTarget = resolve(originalOptions.outDir || SOURCE_ROOT, INDEX_FILE_NAME + '.cjs');
 
-	Error.stackTraceLimit = Infinity;
-
-	const trans = createTransform(program, options);
-
-	const ret = program.emit(source, createWriteFile(host), undefined, false, trans);
-	if (ret.diagnostics.length) {
-		console.error(formatDiagnostics(ret.diagnostics, host));
+	const sourceMap = source + '.map';
+	if (pathExists(sourceMap)) {
+		await copyFile(sourceMap, copyTarget + '.map');
 	}
-}
-function createTransform(program: Program, options: CompilerOptions): CustomTransformers | undefined {
-	if (options.module) {
-		if (options.module > ModuleKind.System) {
-			return {
-				before: [plugin(program, {})],
-			};
-		}
-	} else if (options.target) {
-		if (options.target > ScriptTarget.ES5) {
-			return {
-				before: [plugin(program, {})],
-			};
-		}
+
+	const code = await readFile(source, 'utf-8');
+	await writeFile(copyTarget, code);
+	const ret = transpileModule(code, {
+		compilerOptions: {
+			declaration: false,
+			inlineSourceMap: originalOptions.sourceMap || originalOptions.inlineSourceMap,
+			inlineSources: originalOptions.sourceMap || originalOptions.inlineSourceMap,
+			target: originalOptions.target,
+			module: ModuleKind.CommonJS,
+		},
+		fileName: source,
+		reportDiagnostics: true,
+	});
+	if (ret.diagnostics?.length) {
+		console.error(
+			formatDiagnostics(ret.diagnostics, {
+				getCurrentDirectory(): string {
+					return EXPORT_TEMP_PATH;
+				},
+				getCanonicalFileName(fileName: string): string {
+					return fileName;
+				},
+				getNewLine(): string {
+					return '\n';
+				},
+			})
+		);
 	}
-	return undefined;
-}
-function createWriteFile(host: CompilerHost) {
-	return function writeFile(
-		fileName: string,
-		data: string,
-		writeByteOrderMark: boolean,
-		onError?: (message: string) => void,
-		sourceFiles?: readonly SourceFile[]
-	) {
-		debug('  write: %s', fileName);
-		return host.writeFile(fileName, data + '\n', writeByteOrderMark, onError, sourceFiles);
-	};
+
+	await writeFile(transpileTarget, ret.outputText);
 }

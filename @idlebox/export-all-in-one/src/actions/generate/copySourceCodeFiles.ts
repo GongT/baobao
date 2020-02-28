@@ -1,3 +1,4 @@
+import { TEMP_SOURCE_DIR_NAME } from './../../inc/argParse';
 import { ensureDirSync } from 'fs-extra';
 import { dirname, relative, resolve } from 'path';
 import {
@@ -77,18 +78,29 @@ function prependJSDocComment(node: Node, checker: TypeChecker) {
 	return node;
 }
 
-function visitSourceFile(sourceFile: SourceFile, context: TransformationContext, checker: TypeChecker, visitNode: (node: Node, checker: TypeChecker) => Node) {
-	return visitEachChild(sourceFile, (node: Node) => {
-		return visitNode(node, checker);
-	}, context);
+function visitSourceFile(
+	sourceFile: SourceFile,
+	context: TransformationContext,
+	checker: TypeChecker,
+	visitNode: (node: Node, checker: TypeChecker) => Node
+) {
+	return visitEachChild(
+		sourceFile,
+		(node: Node) => {
+			return visitNode(node, checker);
+		},
+		context
+	);
 }
 
 export function copyFilteredSourceCodeFile(file: SourceFile, checker: TypeChecker) {
-	const target = resolve(EXPORT_TEMP_PATH, 'extracted-source', relative(SOURCE_ROOT, file.fileName));
+	const target = resolve(EXPORT_TEMP_PATH, TEMP_SOURCE_DIR_NAME, relative(SOURCE_ROOT, file.fileName));
 
 	const printer: Printer = createPrinter();
 	const result: TransformationResult<SourceFile> = transform<SourceFile>(
-		file, [context => sourceFile => visitSourceFile(sourceFile, context, checker, prependJSDocComment)], getOptions().options,
+		file,
+		[(context) => (sourceFile) => visitSourceFile(sourceFile, context, checker, prependJSDocComment)],
+		getOptions().options
 	);
 	const transformedSourceFile: SourceFile = result.transformed[0];
 	const newContent = printer.printFile(transformedSourceFile);

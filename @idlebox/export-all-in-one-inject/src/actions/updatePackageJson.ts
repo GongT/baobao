@@ -3,7 +3,7 @@ import { getFormatInfo, insertKeyAlphabet, loadJsonFile, reformatJson, writeJson
 import { resolve, posix } from 'path';
 import { getPackageManager } from '@idlebox/package-manager';
 import { CONFIG_FILE, PROJECT_ROOT, NO_DUAL_FLAG } from '../inc/argParse';
-import { relativePosix } from '../inc/paths';
+import { relativePosix, INDEX_FILE_NAME } from '../inc/paths';
 
 interface IOptions {
 	hookMode: boolean;
@@ -15,7 +15,7 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 	const configRel = relativePosix(PROJECT_ROOT, CONFIG_FILE);
 
 	const packageJson = await loadJsonFile(resolve(PROJECT_ROOT, 'package.json'));
-	const relOut = './' + posix.relative(PROJECT_ROOT, outDir + '/_export_all_in_one_index');
+	const relOut = './' + posix.relative(PROJECT_ROOT, outDir + '/' + INDEX_FILE_NAME);
 
 	if (isESNext) {
 		insertKeyAlphabet(packageJson, 'type', 'module');

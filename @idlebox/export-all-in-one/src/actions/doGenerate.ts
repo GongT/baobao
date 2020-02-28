@@ -1,17 +1,10 @@
 import { emptyDirSync, ensureDir, writeFileSync } from 'fs-extra';
-import { dirname } from 'path';
-import {
-	createCompilerHost,
-	createProgram,
-	forEachChild,
-	Node,
-	Program,
-	SourceFile,
-} from 'typescript';
+import { dirname, resolve } from 'path';
+import { createCompilerHost, createProgram, forEachChild, Node, Program, SourceFile } from 'typescript';
 import { copyFilteredSourceCodeFile } from './generate/copySourceCodeFiles';
 import { filterIgnoreFiles, isFileIgnored } from './generate/filterIgnoreFiles';
 import { tokenWalk } from './generate/tokenWalk';
-import { CONFIG_FILE, EXPORT_TEMP_PATH, targetIndexFile } from '../inc/argParse';
+import { CONFIG_FILE, EXPORT_TEMP_PATH, INDEX_FILE_NAME, TEMP_SOURCE_DIR_NAME } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
 import { debug } from '../inc/debug';
 import { ExportCollector } from '../inc/exportCollector';
@@ -53,6 +46,7 @@ export async function doGenerate() {
 	}
 	sources.normalize();
 
+	const targetIndexFile = resolve(EXPORT_TEMP_PATH, TEMP_SOURCE_DIR_NAME, INDEX_FILE_NAME + '.ts');
 	ensureDir(dirname(targetIndexFile));
 	writeFileSync(targetIndexFile, sources.createTypeScript({ extension: false }), 'utf8');
 

@@ -3,14 +3,9 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"outDir": "../lib",
-		"typeRoots": [
-			"../node_modules/@types"
-		],
 		"rootDir": ".",
-		"plugins": [
-			{
-				"transform": "@idlebox/typescript-transformer-dual-package"
-			}
+		"types": [
+			"node"
 		]
 	}
 }

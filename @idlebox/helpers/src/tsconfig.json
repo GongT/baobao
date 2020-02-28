@@ -4,17 +4,12 @@
 		"module": "esnext",
 		"outDir": "../lib",
 		"rootDir": ".",
-		"lib": [
-			"esnext",
-			"dom"
-		],
-		"typeRoots": [
-			"../node_modules/@types"
+		"types": [
+			"@idlebox/types"
 		],
 		"plugins": [
 			{
-				"transform": "@idlebox/typescript-transformer-dual-package",
-				"verbose": true
+				"transform": "@idlebox/typescript-transformer-dual-package"
 			}
 		],
 		"declaration": false,
