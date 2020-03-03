@@ -1,0 +1,22 @@
+{
+	"name": "@gongt/esm-dew",
+	"keywords": [],
+	"description": "Convert (TypeScript compiled) module's import statements, to work with jspm dew file.",
+	"version": "1.0.2",
+	"main": "dist/api.js",
+	"types": "dist/api.d.ts",
+	"license": "WTFPL",
+	"scripts": {
+		"prepack": "rm -rf dist && tsc -p src",
+		"watch": "tsc -p src -w",
+		"build": "tsc -p src"
+	},
+	"dependencies": {
+		"@jspm/resolve": "^1.0.0",
+		"source-map": "^0.7.3"
+	},
+	"devDependencies": {
+		"@types/node": "^12.7.8",
+		"typescript": "3.8.2"
+	}
+}

@@ -181,6 +181,11 @@
 			"packageName": "@idlebox/types",
 			"projectFolder": "@idlebox/types",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@gongt/esm-dew",
+			"projectFolder": "@gongt/rollup-plugin-module-import-dew",
+			"shouldPublish": true
 		}
 	]
 }
