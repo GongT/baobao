@@ -3,7 +3,7 @@
 	"name": "@idlebox/common",
 	"type": "module",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.cjs",
 	"exports": {
@@ -24,10 +24,10 @@
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.11",
-		"@build-script/export-all-in-one": "^3.0.7",
+		"@build-script/builder": "^2.0.12",
+		"@build-script/export-all-in-one": "^3.0.8",
 		"@build-script/single-dog-asset": "^1.0.2",
-		"@idlebox/itypes": "0.0.1",
+		"@idlebox/itypes": "^0.0.1",
 		"gulp": "^4.0.2",
 		"typescript": "^3.8.2",
 		"tslib": "^1.10.0",

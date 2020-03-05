@@ -1,7 +1,22 @@
-### build-script ###
+### PackageManager
+*.tgz
+yarn.lock
+node_modules
+jspm_modules
+
+### hidden files
+.*
+
+### temp files
+package-deps.json
+*.log
+
+### build source
+src
 build-script.json
 Gulpfile.js
+*.tsbuildinfo
 
-### export-all-in-one ###
-lib/*.d.ts
-lib/**/*.d.ts
+### docs
+docs/*
+!docs/*.d.ts

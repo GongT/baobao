@@ -34,8 +34,12 @@ export async function main(argv: string[]) {
 	const packagePath = resolve(process.cwd(), getArg('--package', './'));
 	log('working at %s', packagePath);
 
+	console.error('before', process.env.PATH);
 	const p = new PathEnvironment();
+	console.error('after 1', process.env.PATH);
 	p.add(resolve(packagePath, 'node_modules/.bin'));
+	p.add(resolve(process.argv0, '..'));
+	console.error('after 2', process.env.PATH);
 	process.env.LANG = 'C.UTF-8';
 	process.env.LANGUAGE = 'C.UTF-8';
 	for (const l in process.env) {

@@ -11,10 +11,10 @@
 		"upgrade": "ncu --upgrade --packageFile ./package.json"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^1.0.19",
-		"@build-script/rush-tools": "^1.0.6",
-		"@idlebox/node": "^1.0.5",
-		"@idlebox/common": "^1.0.8",
+		"@idlebox/node-json-edit": "^1.0.20",
+		"@build-script/rush-tools": "^1.1.0",
+		"@idlebox/node": "^1.0.6",
+		"@idlebox/common": "^1.0.9",
 		"fs-extra": "^8.1.0",
 		"jsonc": "^2.0.0",
 		"split2": "^3.1.1",

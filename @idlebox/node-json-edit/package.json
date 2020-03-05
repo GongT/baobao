@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node-json-edit",
 	"description": "Edit json file and preserve it's indent and line feed and final new line.",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"monorepo": true,
 	"type": "module",
 	"main": "./lib/node-json-edit.cjs",

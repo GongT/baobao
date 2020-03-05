@@ -15,11 +15,11 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@build-script/builder": "^2.0.11",
-		"@idlebox/ensure-symlink": "^1.0.8",
-		"@idlebox/node": "^1.0.5",
+		"@build-script/builder": "^2.0.12",
+		"@idlebox/ensure-symlink": "^1.0.9",
+		"@idlebox/node": "^1.0.6",
 		"@build-script/export-all-in-one-inject": "^1.0.1",
-		"@idlebox/node-json-edit": "^1.0.19",
+		"@idlebox/node-json-edit": "^1.0.20",
 		"unipm": "^1.0.3",
 		"fs-extra": "^8.1.0",
 		"source-map-support": "*"

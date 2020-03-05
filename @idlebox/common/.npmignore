@@ -20,7 +20,3 @@ Gulpfile.js
 ### docs
 docs/*
 !docs/*.d.ts
-
-### export-all-in-one ###
-lib/*.d.ts
-lib/**/*.d.ts

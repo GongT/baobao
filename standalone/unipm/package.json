@@ -23,15 +23,15 @@
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"@idlebox/common": "^1.0.8",
-		"@idlebox/node": "^1.0.5",
+		"@idlebox/common": "^1.0.9",
+		"@idlebox/node": "^1.0.6",
 		"execa": "^2.0.4",
 		"json5": "^2.1.0",
 		"pacote": "^9.5.8",
 		"source-map-support": "*"
 	},
 	"devDependencies": {
-		"@idlebox/node-json-edit": "^1.0.19",
+		"@idlebox/node-json-edit": "^1.0.20",
 		"@build-script/typescript-transformer-dual-package": "^1.0.3",
 		"@build-script/single-dog-asset": "^1.0.2",
 		"@types/json5": "^0.0.30",

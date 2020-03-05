@@ -1,3 +1,4 @@
+import { writeFile } from 'fs-extra';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
@@ -11,7 +12,7 @@ async function main() {
 
 	for (const item of projects) {
 		console.log('check package: %s', item.packageName);
-		const { out, err } = await execPromise(process.argv0, [
+		const { full, result } = await execPromise(process.argv0, [
 			'-r',
 			'source-map-support/register',
 			checkBin,
@@ -24,14 +25,16 @@ async function main() {
 		]);
 		let changed: boolean;
 		try {
-			changed = JSON.parse(out).changed;
+			changed = JSON.parse(result).changed;
 			if (typeof changed !== 'boolean') throw new Error('boolean value expected.');
 		} catch (e) {
-			console.error(err);
+			console.error(full);
 			console.error('===============================');
 			console.error(e.message);
 			process.exit(1);
 		}
+		const logFile = rushProject.absolute(item.projectFolder, 'update-version.log');
+		await writeFile(logFile, full);
 
 		console.log('    changed: %s', changed);
 		if (changed) {

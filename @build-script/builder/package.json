@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@build-script/builder",
-	"version": "2.0.11",
+	"version": "2.0.12",
 	"type": "commonjs",
 	"main": "./api.js",
 	"typings": "./api.d.ts",
@@ -18,9 +18,9 @@
 		"prepack": "run-s -l clean build"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.0.8",
-		"@idlebox/node-json-edit": "^1.0.19",
-		"@idlebox/node": "^1.0.5",
+		"@idlebox/common": "^1.0.9",
+		"@idlebox/node-json-edit": "^1.0.20",
+		"@idlebox/node": "^1.0.6",
 		"execa": "^2.0.4",
 		"fancy-log": "*",
 		"fs-extra": "^8.1.0",
