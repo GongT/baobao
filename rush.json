@@ -43,58 +43,13 @@
 	// "hotfixChangeEnabled": false,
 	"projects": [
 		{
+			"packageName": "meta-scripts",
+			"projectFolder": "common/project-scripts",
+			"shouldPublish": false
+		},
+		{
 			"packageName": "@idlebox/ensure-symlink",
 			"projectFolder": "@idlebox/ensure-symlink",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/platform",
-			"projectFolder": "@idlebox/platform",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/single-dog",
-			"projectFolder": "@idlebox/single-dog",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/single-dog-asset",
-			"projectFolder": "@idlebox/single-dog-asset",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/build-script",
-			"projectFolder": "@idlebox/build-script",
-			"shouldPublish": true,
-			"cyclicDependencyProjects": [
-				"@idlebox/platform",
-				"@idlebox/node-helpers",
-				"@idlebox/helpers"
-			]
-		},
-		{
-			"packageName": "@idlebox/package-manager",
-			"projectFolder": "@idlebox/package-manager",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/lifecycle",
-			"projectFolder": "@idlebox/lifecycle",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/reflect",
-			"projectFolder": "@idlebox/reflect",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/helpers",
-			"projectFolder": "@idlebox/helpers",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/node-helpers",
-			"projectFolder": "@idlebox/node-helpers",
 			"shouldPublish": true
 		},
 		{
@@ -103,28 +58,80 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/export-all-in-one",
-			"projectFolder": "@idlebox/export-all-in-one",
+			"packageName": "@idlebox/itypes",
+			"projectFolder": "@idlebox/itypes",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/rush-tools",
-			"projectFolder": "@idlebox/rush-tools",
+			"packageName": "@idlebox/common",
+			"projectFolder": "@idlebox/common",
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@build-script/builder", "@build-script/export-all-in-one"]
+		},
+		{
+			"packageName": "@idlebox/node",
+			"projectFolder": "@idlebox/node",
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@build-script/builder", "@build-script/export-all-in-one"]
+		},
+		{
+			"packageName": "@build-script/export-all-in-one",
+			"projectFolder": "@build-script/export-all-in-one",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/global",
-			"projectFolder": "@idlebox/global",
+			"packageName": "@build-script/rush-tools",
+			"projectFolder": "@build-script/rush-tools",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/poormans-package-change",
-			"projectFolder": "@idlebox/poormans-package-change",
+			"packageName": "@build-script/poormans-package-change",
+			"projectFolder": "@build-script/poormans-package-change",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/export-all-in-one-inject",
-			"projectFolder": "@idlebox/export-all-in-one-inject",
+			"packageName": "@build-script/export-all-in-one-inject",
+			"projectFolder": "@build-script/export-all-in-one-inject",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/single-dog",
+			"projectFolder": "@build-script/single-dog",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/single-dog-asset",
+			"projectFolder": "@build-script/single-dog-asset",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/rollup-plugin-module-import-dew",
+			"projectFolder": "@build-script/rollup-plugin-module-import-dew",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/typescript-transformer-dual-package",
+			"projectFolder": "@build-script/typescript-transformer-dual-package",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/dual-package-runtime",
+			"projectFolder": "@build-script/dual-package-runtime",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/typescript-transformer-import-commonjs",
+			"projectFolder": "@build-script/typescript-transformer-import-commonjs",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/builder",
+			"projectFolder": "@build-script/builder",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "unipm",
+			"projectFolder": "standalone/unipm",
 			"shouldPublish": true
 		},
 		{
@@ -137,26 +144,6 @@
 			"projectFolder": "@frontpage/web-helper-express",
 			"shouldPublish": true
 		},
-		{
-			"packageName": "@idlebox/typescript-transformer-dual-package",
-			"projectFolder": "@idlebox/typescript-transformer-dual-package",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/dual-package-runtime",
-			"projectFolder": "@idlebox/dual-package-runtime",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/typescript-transformer-import-commonjs",
-			"projectFolder": "@idlebox/typescript-transformer-import-commonjs",
-			"shouldPublish": true
-		},
-		/*{
-			"packageName": "@pmcache/server",
-			"projectFolder": "@pmcache/server",
-			"shouldPublish": true
-		},*/
 		{
 			"packageName": "@gongt/vscode-helpers",
 			"projectFolder": "@gongt/vscode-helpers",
@@ -171,21 +158,6 @@
 			"packageName": "vscode-settings-sync",
 			"projectFolder": "@gongt/vscode-settings-sync",
 			"shouldPublish": false
-		},
-		{
-			"packageName": "meta-scripts",
-			"projectFolder": "common/project-scripts",
-			"shouldPublish": false
-		},
-		{
-			"packageName": "@idlebox/types",
-			"projectFolder": "@idlebox/types",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@gongt/esm-dew",
-			"projectFolder": "@gongt/rollup-plugin-module-import-dew",
-			"shouldPublish": true
 		}
 	]
 }

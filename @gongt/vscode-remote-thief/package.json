@@ -57,7 +57,7 @@
 	},
 	"devDependencies": {
 		"@types/vscode": "latest",
-		"@idlebox/single-dog-asset": "^1.0.2",
+		"@build-script/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
 		"typescript": "^3.8.2"
 	}

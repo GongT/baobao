@@ -12,6 +12,7 @@
 	"preferredVersions": {
 		"prettier": "^1.19.1",
 		"typescript": "^3.8.2",
+		"json5": "^2.1.0",
 		"pretty-quick": "^2.0.1"
 	},
 	/**

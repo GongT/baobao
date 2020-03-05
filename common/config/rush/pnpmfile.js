@@ -1,7 +1,7 @@
 const { resolve } = require('path');
 
 // this file will copy to common/temp before run
-const template = resolve(__dirname, '../../@idlebox/typescript-transformer-dual-package/package.json');
+const template = resolve(__dirname, '../../@build-script/typescript-transformer-dual-package/package.json');
 console.warn('copy tsc version from %s', template);
 const someTypescriptVersion = require(template).devDependencies.typescript;
 

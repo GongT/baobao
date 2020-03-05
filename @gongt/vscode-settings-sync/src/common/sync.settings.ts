@@ -1,5 +1,5 @@
 import { logger } from '@gongt/vscode-helpers';
-import { isArraySame, isObjectSameRecursive } from '@idlebox/helpers';
+import { isArraySame, isObjectSameRecursive } from '@idlebox/common';
 import { workspace } from 'vscode';
 import { MyState } from './state';
 

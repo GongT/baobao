@@ -1,4 +1,4 @@
-import { CanceledError } from '@idlebox/lifecycle';
+import { CanceledError } from '@idlebox/common';
 import { CancellationTokenSource, commands } from 'vscode';
 import { context, IdCategory, wrapId } from './context';
 import { upgradePackageContributeAction } from './development';

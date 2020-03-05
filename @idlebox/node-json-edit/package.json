@@ -25,9 +25,9 @@
 		"comment-json": "^2.1.0"
 	},
 	"devDependencies": {
-		"@idlebox/typescript-transformer-dual-package": "^1.0.3",
+		"@build-script/typescript-transformer-dual-package": "^1.0.3",
 		"@types/comment-json": "^1.1.1",
-		"@idlebox/single-dog-asset": "^1.0.2",
+		"@build-script/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
 		"npm-check-updates": "^3.1.23",
 		"rimraf": "^3.0.0",

@@ -1,4 +1,4 @@
-import { findRushRootPathSync } from '@idlebox/rush-tools';
+import { findRushRootPathSync } from '@build-script/rush-tools';
 import { resolve } from 'path';
 
 export const REPO_ROOT = findRushRootPathSync(__dirname)!;

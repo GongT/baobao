@@ -2,13 +2,13 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"rootDir": "./src",
-		"outDir": "./output",
+		"outDir": "./lib",
 		"noEmitOnError": false,
 		"declaration": false,
 		"declarationMap": false,
 		"sourceMap": false,
 		"isolatedModules": true,
 		"incremental": true,
-		"tsBuildInfoFile": "./output/tsbuildinfo.json"
+		"tsBuildInfoFile": "./lib/tsbuildinfo.json"
 	}
 }

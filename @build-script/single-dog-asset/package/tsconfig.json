@@ -1,0 +1,11 @@
+{
+	"extends": "./tsconfig.no-lib.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"plugins": [
+			{
+				"transform": "@build-script/typescript-transformer-dual-package"
+			}
+		]
+	}
+}

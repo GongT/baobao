@@ -1,5 +1,5 @@
 import { Action, extStor, logger } from '@gongt/vscode-helpers';
-import { CanceledError, isCanceledError } from '@idlebox/lifecycle';
+import { CanceledError, isCanceledError } from '@idlebox/common';
 import { window } from 'vscode';
 
 import { applyCurrentConfig } from '../common/applyCurrentConfig';

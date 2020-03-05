@@ -3,7 +3,7 @@ node_modules/
 jspm_packages/
 *.log
 *.tgz
-output/tsbuildinfo.json
+lib
 
 .idea/*
 !.idea/*.iml

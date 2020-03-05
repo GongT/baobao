@@ -1,4 +1,4 @@
-import { camelCase, ucfirst } from '@idlebox/helpers';
+import { camelCase, ucfirst } from '@idlebox/common';
 import { ExtensionContext, extensions } from 'vscode';
 import { IPackageJson } from './packagejson';
 

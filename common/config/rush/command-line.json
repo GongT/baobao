@@ -7,28 +7,35 @@
 			"name": "fix",
 			"summary": "Check and update every project's dependency versions",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node @idlebox/rush-tools/bin.cjs autofix"
+			"shellCommand": "node @build-script/rush-tools/bin.cjs autofix"
+		},
+		{
+			"commandKind": "global",
+			"name": "pretty",
+			"summary": "Run pretty-quick",
+			"safeForSimultaneousRushProcesses": true,
+			"shellCommand": "./common/temp/node_modules/.bin/pretty-quick"
 		},
 		{
 			"commandKind": "global",
 			"name": "watch",
 			"summary": "Run watch in every project",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node common/project-scripts/output/watch-all.js"
+			"shellCommand": "node common/project-scripts/lib/watch-all.js"
 		},
 		{
 			"commandKind": "global",
 			"name": "batch-modify-json",
 			"summary": "batch modify json of each project",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node common/project-scripts/output/batch-modify-json.js"
+			"shellCommand": "node common/project-scripts/lib/batch-modify-json.js"
 		},
 		{
 			"commandKind": "global",
 			"name": "update-version",
 			"summary": "Check local change and modify package.json if needed",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node common/project-scripts/output/poor-change.js"
+			"shellCommand": "node common/project-scripts/lib/poor-change.js"
 		},
 		{
 			"commandKind": "bulk",

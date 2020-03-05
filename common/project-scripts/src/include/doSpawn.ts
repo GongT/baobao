@@ -1,5 +1,5 @@
 import { spawn } from 'child_process';
-import { sync as commandExists } from 'command-exists';
+import { commandInPath } from '@idlebox/node';
 import { existsSync } from 'fs-extra';
 import { platform, userInfo } from 'os';
 import { resolve, basename } from 'path';
@@ -7,7 +7,7 @@ import { writeEnv } from './envPass';
 import { TEMP_DIR } from './paths';
 
 export const doSpawn: (file: string, args?: string[]) => void =
-	platform() == 'linux' && commandExists('systemd-run') ? spawnSystemd : spawnNormal;
+	platform() == 'linux' && commandInPath('systemd-run') ? spawnSystemd : spawnNormal;
 
 function getFile(file: string) {
 	file = resolve(__dirname, '../actions/', file);

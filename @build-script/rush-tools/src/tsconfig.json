@@ -1,0 +1,12 @@
+{
+	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"outDir": "../lib",
+		"rootDir": ".",
+		"typeRoots": ["../node_modules/@types"],
+		"declaration": false,
+		"declarationMap": false
+	},
+	"include": ["api/**/*.ts", "commands/**/*.ts", "index.ts"]
+}

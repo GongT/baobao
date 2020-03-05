@@ -1,0 +1,8 @@
+{
+	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": "../lib",
+		"typeRoots": ["../node_modules/@types"]
+	}
+}

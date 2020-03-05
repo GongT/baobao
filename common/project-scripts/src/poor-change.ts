@@ -1,2 +1,4 @@
 import 'source-map-support/register';
-export {};
+
+import { doSpawn } from './include/doSpawn';
+doSpawn('poor-change-script.js');

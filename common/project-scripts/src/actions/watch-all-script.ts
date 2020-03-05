@@ -1,4 +1,4 @@
-import { buildProjects } from '@idlebox/rush-tools';
+import { buildProjects } from '@build-script/rush-tools';
 import { spawn, ChildProcess } from 'child_process';
 import { resolve, relative } from 'path';
 import { REPO_ROOT, NPM_BIN } from '../include/paths';

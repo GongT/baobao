@@ -21,15 +21,15 @@
 		"watch": "build-script watch"
 	},
 	"devDependencies": {
-		"@idlebox/build-script": "^2.0.11",
-		"@idlebox/export-all-in-one": "^3.0.7",
-		"@idlebox/single-dog-asset": "^1.0.2",
+		"@build-script/builder": "^2.0.11",
+		"@build-script/export-all-in-one": "^3.0.7",
+		"@build-script/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
 		"gulp": "^4.0.2",
 		"typescript": "^3.8.2",
 		"tslib": "^1.10.0",
 		"ttypescript": "^1.5.10",
-		"@idlebox/typescript-transformer-dual-package": "^1.0.3"
+		"@build-script/typescript-transformer-dual-package": "^1.0.3"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

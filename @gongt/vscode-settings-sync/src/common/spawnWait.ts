@@ -1,5 +1,5 @@
 import { logger } from '@gongt/vscode-helpers';
-import { CollectingStream } from '@idlebox/node-helpers';
+import { CollectingStream } from '@idlebox/node';
 import { spawn } from 'child_process';
 import * as split2 from 'split2';
 import { PassThrough, Readable } from 'stream';

@@ -100,17 +100,16 @@
 	},
 	"dependencies": {
 		"tslib": "^1.10.0",
-		"@idlebox/lifecycle": "^1.0.5",
 		"@gongt/vscode-helpers": "^0.0.1",
-		"@idlebox/helpers": "^1.0.8",
-		"@idlebox/node-helpers": "^1.0.5",
+		"@idlebox/common": "^1.0.8",
+		"@idlebox/node": "^1.0.5",
 		"fs-extra": "^8.1.0",
 		"split2": "^3.1.1",
 		"debounce": "^1.2.0"
 	},
 	"devDependencies": {
 		"@types/vscode": "latest",
-		"@idlebox/single-dog-asset": "^1.0.2",
+		"@build-script/single-dog-asset": "^1.0.2",
 		"@types/split2": "^2.1.6",
 		"@types/node": "^12.7.8",
 		"typescript": "^3.8.2",

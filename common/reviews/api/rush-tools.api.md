@@ -1,1 +1,1 @@
-../../../@idlebox/rush-tools/docs/rush-tools.api.md
+../../../@build-script/rush-tools/docs/rush-tools.api.md
