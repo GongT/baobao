@@ -1,11 +1,10 @@
 {
-	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.json",
+	"extends": "../node_modules/@idlebox/single-dog-asset/package/tsconfig.no-lib.json",
 	"compilerOptions": {
+		"module": "ESNext",
 		"outDir": "../lib",
 		"rootDir": ".",
-		"typeRoots": [
-			"../node_modules/@types"
-		],
+		"typeRoots": ["../node_modules/@types"],
 		"declaration": false,
 		"declarationMap": false
 	}

@@ -32,7 +32,8 @@
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
 		"source-map-support": "*",
-		"tsconfig-paths": "^3.8.0"
+		"tsconfig-paths": "^3.8.0",
+		"ttypescript": "^1.5.10"
 	},
 	"devDependencies": {
 		"@idlebox/build-script": "^2.0.11",
@@ -40,7 +41,7 @@
 		"@types/fs-extra": "^8.0.0",
 		"@types/node": "^12.7.8",
 		"gulp": "^4.0.2",
-		"typescript": "3.8.2",
+		"typescript": "^3.8.2",
 		"tslib": "^1.10.0"
 	},
 	"peerDependencies": {

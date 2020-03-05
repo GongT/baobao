@@ -1,8 +1,15 @@
 {
-	"main": "lib/_export_all_in_once_index.js",
-	"monorepo": "rush",
 	"name": "@idlebox/reflect",
+	"type": "module",
+	"main": "lib/_export_all_in_once_index.cjs",
+	"module": "lib/_export_all_in_once_index.js",
 	"typings": "docs/package-public.d.ts",
+	"exports": {
+		".": {
+			"require": "./lib/_export_all_in_one_index.cjs",
+			"import": "./lib/_export_all_in_one_index.js"
+		}
+	},
 	"version": "1.0.1",
 	"scripts": {
 		"build": "build-script build",
@@ -11,9 +18,6 @@
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
-	},
-	"exports": {
-		"./": "./private-path-not-exists"
 	},
 	"dependencies": {
 		"@idlebox/helpers": "^1.0.8",
@@ -24,9 +28,10 @@
 		"@idlebox/export-all-in-one": "^3.0.7",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"gulp": "^4.0.2",
-		"typescript": "3.8.2",
+		"typescript": "^3.8.2",
 		"tslib": "^1.10.0",
-		"ttypescript": "^1.5.10"
+		"ttypescript": "^1.5.10",
+		"@idlebox/typescript-transformer-dual-package": "^1.0.3"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

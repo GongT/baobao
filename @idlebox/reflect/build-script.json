@@ -2,14 +2,12 @@
 	"load": [
 		{
 			"file": "@idlebox/export-all-in-one/build-script-register",
-			"args": [
-				"src/tsconfig.json"
-			]
+			"args": ["src/tsconfig.json"]
 		}
 	],
 	"alias": {
-		"build-ts": "tsc -p src",
-		"watch-ts": "tsc --pretty -w -p src",
+		"build-ts": "ttsc -p src",
+		"watch-ts": "ttsc --pretty -w -p src",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
 		"run-test": ""
@@ -17,48 +15,30 @@
 	"command": {
 		"build": {
 			"title": "Build project",
-			"run": [
-				"build-ts"
-			]
+			"run": ["build-ts"]
 		},
 		"rebuild": {
 			"title": "Prepare for publish package",
-			"run": [
-				"@build"
-			],
-			"after": [
-				"clean"
-			]
+			"run": ["@build"],
+			"after": ["clean"]
 		},
 		"publish": {
 			"title": "Publish package",
-			"run": [
-				"yarn-publish"
-			],
-			"after": [
-				"rebuild"
-			]
+			"run": ["yarn-publish"],
+			"after": ["rebuild"]
 		},
 		"test": {
 			"title": "Run test",
-			"run": [
-				"run-test"
-			],
-			"after": [
-				"build"
-			]
+			"run": ["run-test"],
+			"after": ["build"]
 		},
 		"upgrade": {
 			"title": "Do project dependency upgrade",
-			"run": [
-				"upgrade-node-modules"
-			]
+			"run": ["upgrade-node-modules"]
 		},
 		"watch": {
 			"title": "Watch mode build project",
-			"run": [
-				"watch-ts"
-			]
+			"run": ["watch-ts"]
 		}
 	}
 }

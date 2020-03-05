@@ -4,6 +4,20 @@
 
 ```ts
 
+// Warning: (ae-missing-release-tag) "buildProjects" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function buildProjects(builder: IProjectCallback, path?: string): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function description(func: any): string;
+
+// @public (undocumented)
+export function description(func: any, desc: string): void;
+
 // Warning: (ae-missing-release-tag) "eachProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -28,6 +42,14 @@ export function findRushRootPath(fromPath?: string): Promise<string | null>;
 //
 // @public (undocumented)
 export function findRushRootPathSync(fromPath?: string): string | null;
+
+// Warning: (ae-missing-release-tag) "IJob" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IJob<T> {
+    // (undocumented)
+    (arg: T): Promise<void>;
+}
 
 // Warning: (ae-forgotten-export) The symbol "ImmutablePrimitive" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-missing-release-tag) "Immutable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -56,6 +78,14 @@ export type ImmutableObject<T> = {
 //
 // @public (undocumented)
 export type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
+
+// Warning: (ae-missing-release-tag) "IProjectCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IProjectCallback {
+    // (undocumented)
+    (project: Immutable<IProjectConfig>): Promise<void>;
+}
 
 // Warning: (ae-missing-release-tag) "IProjectConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -103,10 +133,47 @@ export function loadConfig(fromPath?: string): Promise<IRushConfig | null>;
 // @public (undocumented)
 export function loadConfigSync(fromPath?: string): IRushConfig | null;
 
-// Warning: (ae-missing-release-tag) "resolveRushProjectBuildOrder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "main" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function resolveRushProjectBuildOrder(path?: string): Immutable<IProjectConfig[]>;
+export function main(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "NormalError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class NormalError extends Error {
+}
+
+// Warning: (ae-missing-release-tag) "runAutoFix" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function runAutoFix(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "runForEach" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function runForEach(argv: string[]): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "runList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function runList(argv: string[]): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "RunQueue" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class RunQueue<T> {
+    constructor(job: IJob<T>, concurrent?: number);
+    // (undocumented)
+    register(id: string, arg: T, deps: ReadonlyArray<string>): void;
+    // (undocumented)
+    run(): Promise<void>;
+}
+
+// Warning: (ae-missing-release-tag) "runRegisterProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function runRegisterProject(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "RushProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -124,9 +191,13 @@ export class RushProject {
     // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point _export_all_in_one_index.d.ts
     //
     // (undocumented)
-    packageDependency(project: Immutable<IProjectConfig> | string, { cyclic, development }?: IProjectDependencyOptions): string[];
+    packageDependency(project: Immutable<IProjectConfig> | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
     // (undocumented)
     packageJsonPath(project: Immutable<IProjectConfig> | string): string | null;
+    // (undocumented)
+    get preferredVersions(): {
+        [id: string]: string;
+    };
     // (undocumented)
     readonly projectRoot: string;
     // (undocumented)

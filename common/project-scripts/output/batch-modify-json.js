@@ -1,11 +1,14 @@
 "use strict";
 exports.__esModule = true;
+require("source-map-support/register");
 var node_json_edit_1 = require("@idlebox/node-json-edit");
 var rush_tools_1 = require("@idlebox/rush-tools");
 var fs_extra_1 = require("fs-extra");
-var action = createAction();
+var rushArguments_1 = require("./include/rushArguments");
+var _a = rushArguments_1.getopts(), file = _a.file, action = _a.action, key = _a.key, value = _a.value;
+var actionCallback = createAction();
 function createAction() {
-    switch (process.argv[3]) {
+    switch (action) {
         case 'push':
             return push;
         case 'unshift':
@@ -16,15 +19,12 @@ function createAction() {
             return del;
     }
 }
-var file = process.argv[2];
-var key = process.argv[4];
-var value = process.argv[5];
-if (undefined === key || undefined === action) {
-    console.error('$0 <file-name.json> <push|unshift|set|unset> <.path.to.prop> [value]');
+if (!key || !actionCallback) {
+    console.error('$0 -f <file-name.json> -a <push|unshift|set|unset> -k <.path.to.prop> [-v value]');
     process.exit(1);
 }
-if (action !== del && value === undefined) {
-    console.error('$0 <file-name.json> <push|unshift|set|unset> <.path.to.prop> [value]');
+if (actionCallback !== del && !value) {
+    console.error('$0 -f <file-name.json> -a <push|unshift|set|unset> -k <.path.to.prop> [-v value]');
     process.exit(1);
 }
 if (!key.startsWith('.')) {
@@ -43,19 +43,19 @@ function parseValue(value) {
     }
     return value;
 }
-value = parseValue(value);
+var parsedValue = parseValue(value);
 var success = 0, fail = 0;
 var rush = new rush_tools_1.RushProject();
-for (var _i = 0, _a = rush.projects; _i < _a.length; _i++) {
-    var _b = _a[_i], projectFolder = _b.projectFolder, packageName = _b.packageName;
+for (var _i = 0, _b = rush.projects; _i < _b.length; _i++) {
+    var _c = _b[_i], projectFolder = _c.projectFolder, packageName = _c.packageName;
     var path = rush.absolute(projectFolder, file);
     if (!fs_extra_1.pathExistsSync(path)) {
         continue;
     }
     try {
-        console.error('modify: %s', packageName, key, value);
+        console.error('modify: %s', packageName, key, parsedValue);
         var json = node_json_edit_1.loadJsonFileSync(path);
-        var changed = action(json, key, value);
+        var changed = actionCallback(json, key, parsedValue);
         if (changed) {
             node_json_edit_1.writeJsonFileBackSync(json);
         }

@@ -1,10 +1,21 @@
+import 'source-map-support/register';
 import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
 import { RushProject } from '@idlebox/rush-tools';
 import { pathExistsSync } from 'fs-extra';
+import { getopts } from './include/rushArguments';
 
-const action = createAction();
+interface IOptions {
+	file: string;
+	action: string;
+	key: string;
+	value: string;
+}
+
+const { file, action, key, value } = getopts<IOptions>();
+
+const actionCallback = createAction();
 function createAction() {
-	switch (process.argv[3]) {
+	switch (action) {
 		case 'push':
 			return push;
 		case 'unshift':
@@ -16,16 +27,12 @@ function createAction() {
 	}
 }
 
-const file = process.argv[2];
-const key = process.argv[4];
-let value = process.argv[5];
-
-if (undefined === key || undefined === action) {
-	console.error('$0 <file-name.json> <push|unshift|set|unset> <.path.to.prop> [value]');
+if (!key || !actionCallback) {
+	console.error('$0 -f <file-name.json> -a <push|unshift|set|unset> -k <.path.to.prop> [-v value]');
 	process.exit(1);
 }
-if (action !== del && value === undefined) {
-	console.error('$0 <file-name.json> <push|unshift|set|unset> <.path.to.prop> [value]');
+if (actionCallback !== del && !value) {
+	console.error('$0 -f <file-name.json> -a <push|unshift|set|unset> -k <.path.to.prop> [-v value]');
 	process.exit(1);
 }
 if (!key.startsWith('.')) {
@@ -45,7 +52,7 @@ function parseValue(value) {
 	}
 	return value;
 }
-value = parseValue(value);
+const parsedValue = parseValue(value);
 
 let success = 0,
 	fail = 0;
@@ -59,10 +66,10 @@ for (const { projectFolder, packageName } of rush.projects) {
 	}
 
 	try {
-		console.error('modify: %s', packageName, key, value);
+		console.error('modify: %s', packageName, key, parsedValue);
 
 		const json = loadJsonFileSync(path);
-		const changed = action(json, key, value);
+		const changed = actionCallback(json, key, parsedValue);
 		if (changed) {
 			writeJsonFileBackSync(json);
 		}

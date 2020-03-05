@@ -1,0 +1,20 @@
+#!/bin/bash
+
+COMMAND=(common/temp/node_modules/.bin/pretty-quick --bail --check)
+
+echo --------------------------------------------
+echo Starting Git hook: pre-commit
+
+if [ -f $COMMAND ]; then
+  echo "Invoking ${COMMAND[*]}"
+  "${COMMAND[@]}"
+  RET=$?
+else
+  echo Command not installed: $COMMAND >&2
+  RET=1
+fi
+
+echo "Finished Git hook: pre-commit ($RET)"
+echo --------------------------------------------
+
+exit $RET

@@ -27,8 +27,9 @@
 		"@idlebox/build-script": "^2.0.11",
 		"@idlebox/export-all-in-one": "^3.0.7",
 		"@idlebox/single-dog-asset": "^1.0.2",
+		"@idlebox/types": "0.0.1",
 		"gulp": "^4.0.2",
-		"typescript": "3.8.2",
+		"typescript": "^3.8.2",
 		"tslib": "^1.10.0",
 		"ttypescript": "^1.5.10",
 		"@idlebox/typescript-transformer-dual-package": "^1.0.3"

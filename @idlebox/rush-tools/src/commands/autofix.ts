@@ -26,6 +26,13 @@ export default async function runAutoFix() {
 		knownVersions[packageName] = '^' + version;
 	}
 
+	console.log('Load preferred versions:');
+	for (const [id, version] of Object.entries(rush.preferredVersions)) {
+		if (knownVersions[id]) console.warn('[Warn] preferredVersions includes local project: %s', id);
+		knownVersions[id] = version;
+		console.log(' - %s: %s', id, version);
+	}
+
 	console.log('Finding conflict remote project versions:');
 	for (const item of packageJsons) {
 		const deps = Object.assign({}, item.dependencies, item.devDependencies);

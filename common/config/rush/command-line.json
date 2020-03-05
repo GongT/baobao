@@ -17,6 +17,20 @@
 			"shellCommand": "node common/project-scripts/output/watch-all.js"
 		},
 		{
+			"commandKind": "global",
+			"name": "batch-modify-json",
+			"summary": "batch modify json of each project",
+			"safeForSimultaneousRushProcesses": true,
+			"shellCommand": "node common/project-scripts/output/batch-modify-json.js"
+		},
+		{
+			"commandKind": "global",
+			"name": "update-version",
+			"summary": "Check local change and modify package.json if needed",
+			"safeForSimultaneousRushProcesses": true,
+			"shellCommand": "node common/project-scripts/output/poor-change.js"
+		},
+		{
 			"commandKind": "bulk",
 			"name": "clean",
 			"summary": "Run clean in every project",
@@ -31,9 +45,56 @@
 			"parameterKind": "flag",
 			"longName": "--no-systemd",
 			"description": "Do not using systemd-run to create standalone run environment",
-			"associatedCommands": [
-				"watch"
+			"associatedCommands": ["watch"]
+		},
+		{
+			"argumentName": "FILE",
+			"parameterKind": "string",
+			"longName": "--file",
+			"shortName": "-f",
+			"description": "file path (relative to package.json) to modify",
+			"associatedCommands": ["batch-modify-json"]
+		},
+		{
+			"parameterKind": "choice",
+			"longName": "--action",
+			"shortName": "-a",
+			"description": "action to do (push|unshift|set|unset)",
+			"associatedCommands": ["batch-modify-json"],
+			"alternatives": [
+				{
+					"name": "set",
+					"description": "Set some value"
+				},
+				{
+					"name": "unset",
+					"description": "Unset some value"
+				},
+				{
+					"name": "push",
+					"description": "Push some array"
+				},
+				{
+					"name": "unshift",
+					"description": "Unshift some array"
+				}
 			]
+		},
+		{
+			"argumentName": "KEY",
+			"parameterKind": "string",
+			"longName": "--key",
+			"shortName": "-k",
+			"description": "key to modify",
+			"associatedCommands": ["batch-modify-json"]
+		},
+		{
+			"argumentName": "VALUE",
+			"parameterKind": "string",
+			"longName": "--value",
+			"shortName": "-v",
+			"description": "property value",
+			"associatedCommands": ["batch-modify-json"]
 		}
 	]
 }

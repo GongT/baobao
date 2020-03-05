@@ -6,7 +6,7 @@ import { IProjectConfig, IRushConfig } from './limitedJson';
 import { findRushJsonSync } from './load';
 
 interface IProjectDependencyOptions {
-	cyclic?: boolean;
+	removeCyclic?: boolean;
 	development?: boolean;
 }
 
@@ -14,6 +14,7 @@ export class RushProject {
 	public readonly configFile: string;
 	public readonly projectRoot: string;
 	public readonly config: Immutable<IRushConfig>;
+	private declare _preferredVersions: { [id: string]: string };
 
 	constructor(path: string = process.cwd()) {
 		const configFile = findRushJsonSync(path);
@@ -24,6 +25,15 @@ export class RushProject {
 		this.projectRoot = dirname(configFile);
 
 		this.config = loadJsonFileSync(configFile);
+	}
+
+	public get preferredVersions() {
+		if (!this._preferredVersions) {
+			this._preferredVersions =
+				loadJsonFileSync(resolve(this.projectRoot, 'common/config/rush/common-versions.json'))
+					.preferredVersions || {};
+		}
+		return this._preferredVersions;
 	}
 
 	public get projects(): Immutable<IProjectConfig[]> {
@@ -54,7 +64,7 @@ export class RushProject {
 
 	public packageDependency(
 		project: Immutable<IProjectConfig> | string,
-		{ cyclic, development }: IProjectDependencyOptions = {}
+		{ removeCyclic, development }: IProjectDependencyOptions = {}
 	): string[] {
 		const pkgFile = this.packageJsonPath(project);
 		if (!pkgFile) {
@@ -66,7 +76,7 @@ export class RushProject {
 		if (development !== false && pkg.devDependencies) Object.assign(deps, pkg.devDependencies);
 
 		let cyclicCheck: Immutable<string[]> | undefined;
-		if (cyclic) {
+		if (removeCyclic) {
 			if (typeof project === 'string') {
 				const p = this.getPackageByName(project);
 				if (!p) {

@@ -50,57 +50,55 @@ var compileError = /Found [0-9]+ errors?\. Watching for file changes\./;
 var timePart = /^[\x1B\[;m0-9]*\d+:\d+:\d+[\x1B\[\];m0-9]*\s/;
 var filePath = /^.+\.ts\(\d+/;
 var compileStatus = [];
-var needToWatch = rush_tools_1.resolveRushProjectBuildOrder()
-    .map(function (_a) {
-    var packageName = _a.packageName, projectFolder = _a.projectFolder;
-    var path = path_1.resolve(paths_1.REPO_ROOT, projectFolder);
-    var pkg = require(path_1.resolve(path, 'package.json'));
-    var watchScript = pkg.scripts && pkg.scripts.watch;
-    return { packageName: packageName, path: path, watchScript: watchScript };
-})
-    .filter(function (obj) { return obj.watchScript; });
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, needToWatch_1, _a, packageName, path, watchScript, p, status_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _i = 0, needToWatch_1 = needToWatch;
-                    _b.label = 1;
-                case 1:
-                    if (!(_i < needToWatch_1.length)) return [3 /*break*/, 4];
-                    _a = needToWatch_1[_i], packageName = _a.packageName, path = _a.path, watchScript = _a.watchScript;
-                    p = child_process_1.spawn(watchScript, {
-                        cwd: path,
-                        shell: true,
-                        stdio: ['inherit', 'pipe', 'inherit'],
-                        env: process.env
+        var _this = this;
+        return __generator(this, function (_a) {
+            return [2 /*return*/, rush_tools_1.buildProjects(function (_a) {
+                    var packageName = _a.packageName, projectFolder = _a.projectFolder;
+                    return __awaiter(_this, void 0, void 0, function () {
+                        var path, pkg, watchScript, p, status;
+                        return __generator(this, function (_b) {
+                            switch (_b.label) {
+                                case 0:
+                                    path = path_1.resolve(paths_1.REPO_ROOT, projectFolder);
+                                    pkg = require(path_1.resolve(path, 'package.json'));
+                                    watchScript = pkg.scripts && pkg.scripts.watch;
+                                    if (!watchScript) {
+                                        console.error("\u001B[38;5;14m" + packageName + "\u001B[38;5;10m skip - no watch script\u001B[0m");
+                                        return [2 /*return*/];
+                                    }
+                                    console.error("\u001B[38;5;14m" + packageName + "\u001B[38;5;10m run watch script\u001B[0m");
+                                    p = child_process_1.spawn(watchScript, {
+                                        cwd: path,
+                                        shell: true,
+                                        stdio: ['inherit', 'pipe', 'inherit'],
+                                        env: process.env
+                                    });
+                                    waitHandle(packageName, p);
+                                    status = {
+                                        title: packageName,
+                                        success: false,
+                                        absolute: path,
+                                        relative: path_1.relative(paths_1.REPO_ROOT, path)
+                                    };
+                                    compileStatus.push(status);
+                                    return [4 /*yield*/, stdoutHandle(status, p.stdout)];
+                                case 1:
+                                    _b.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
                     });
-                    waitHandle(p);
-                    status_1 = {
-                        title: packageName,
-                        success: false,
-                        absolute: path,
-                        relative: path_1.relative(paths_1.REPO_ROOT, path)
-                    };
-                    compileStatus.push(status_1);
-                    return [4 /*yield*/, stdoutHandle(status_1, p.stdout)];
-                case 2:
-                    _b.sent();
-                    _b.label = 3;
-                case 3:
-                    _i++;
-                    return [3 /*break*/, 1];
-                case 4: return [2 /*return*/];
-            }
+                })];
         });
     });
 }
 var ps = [];
-function waitHandle(p) {
+function waitHandle(title, p) {
     ps.push(p);
     p.on('exit', function (code, signal) {
-        console.error('watch [%s] exit with %s', signal ? 'signal ' + signal : code);
+        console.error("\u001B[38;5;14m" + title + "\u001B[38;5;9m watch exit with %s", signal ? 'signal ' + signal : code);
         ps.forEach(function (p) {
             p.kill('SIGINT');
         });

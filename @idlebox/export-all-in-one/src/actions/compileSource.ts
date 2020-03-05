@@ -33,5 +33,5 @@ export async function compileProject() {
 	await rewriteProjectTSConfigJson();
 	await createTempTSConfig();
 	await ensureLinkTarget(resolve(PROJECT_ROOT, 'node_modules'), resolve(EXPORT_TEMP_PATH, 'node_modules'));
-	await run('tsc', ['-p', '.']);
+	await run(process.argv0, [require.resolve('ttypescript/lib/tsc.js'), '-p', '.']);
 }

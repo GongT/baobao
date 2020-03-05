@@ -31,7 +31,7 @@
 		"@types/vscode": "latest",
 		"@idlebox/single-dog-asset": "^1.0.2",
 		"@types/node": "^12.7.8",
-		"typescript": "3.8.2",
+		"typescript": "^3.8.2",
 		"gulp": "^4.0.2",
 		"@idlebox/build-script": "^2.0.11",
 		"@idlebox/export-all-in-one": "^3.0.7",

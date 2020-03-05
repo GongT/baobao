@@ -29,6 +29,7 @@
 	"dependencies": {
 		"@idlebox/dual-package-runtime": "^1.0.1",
 		"@idlebox/helpers": "^1.0.8",
+		"@idlebox/lifecycle": "^1.0.5",
 		"@idlebox/node-helpers": "^1.0.5",
 		"@idlebox/node-json-edit": "^1.0.19",
 		"@idlebox/platform": "^1.0.10",
@@ -52,7 +53,7 @@
 		"source-map-support": "*",
 		"tslib": "^1.10.0",
 		"ttypescript": "^1.5.10",
-		"typescript": "3.8.2"
+		"typescript": "^3.8.2"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

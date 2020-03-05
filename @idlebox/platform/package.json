@@ -1,11 +1,11 @@
 {
-	"monorepo": "rush",
-	"type": "module",
 	"name": "@idlebox/platform",
 	"version": "1.0.10",
+	"type": "module",
 	"license": "MIT",
 	"typings": "docs/package-public.d.ts",
 	"main": "./lib/_export_all_in_one_index.cjs",
+	"module": "./lib/_export_all_in_one_index.js",
 	"exports": {
 		".": {
 			"require": "./lib/_export_all_in_one_index.cjs",
@@ -30,7 +30,7 @@
 		"source-map-support": "*",
 		"tslib": "^1.10.0",
 		"ttypescript": "^1.5.10",
-		"typescript": "3.8.2"
+		"typescript": "^3.8.2"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

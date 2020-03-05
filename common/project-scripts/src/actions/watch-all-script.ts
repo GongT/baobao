@@ -1,4 +1,4 @@
-import { resolveRushProjectBuildOrder } from '@idlebox/rush-tools';
+import { buildProjects } from '@idlebox/rush-tools';
 import { spawn, ChildProcess } from 'child_process';
 import { resolve, relative } from 'path';
 import { REPO_ROOT, NPM_BIN } from '../include/paths';
@@ -23,25 +23,25 @@ const timePart = /^[\x1B\[;m0-9]*\d+:\d+:\d+[\x1B\[\];m0-9]*\s/;
 const filePath = /^.+\.ts\(\d+/;
 const compileStatus: CompileStatus[] = [];
 
-const needToWatch = resolveRushProjectBuildOrder()
-	.map(({ packageName, projectFolder }) => {
+async function main() {
+	return buildProjects(async ({ packageName, projectFolder }) => {
 		const path = resolve(REPO_ROOT, projectFolder);
 		const pkg = require(resolve(path, 'package.json'));
 		const watchScript: string = pkg.scripts && pkg.scripts.watch;
-		return { packageName, path, watchScript };
-	})
-	.filter((obj) => obj.watchScript);
 
-async function main() {
-	for (const { packageName, path, watchScript } of needToWatch) {
-		// console.error(' + run watch: %s (in) %s', watchScript, path);
+		if (!watchScript) {
+			console.error(`\x1B[38;5;14m${packageName}\x1B[38;5;10m skip - no watch script\x1B[0m`);
+			return;
+		}
+		console.error(`\x1B[38;5;14m${packageName}\x1B[38;5;10m run watch script\x1B[0m`);
+
 		const p = spawn(watchScript, {
 			cwd: path,
 			shell: true,
 			stdio: ['inherit', 'pipe', 'inherit'],
 			env: process.env,
 		});
-		waitHandle(p);
+		waitHandle(packageName, p);
 
 		const status: CompileStatus = {
 			title: packageName,
@@ -52,14 +52,14 @@ async function main() {
 		compileStatus.push(status);
 
 		await stdoutHandle(status, p.stdout);
-	}
+	});
 }
 
 const ps = [];
-function waitHandle(p: ChildProcess) {
+function waitHandle(title: string, p: ChildProcess) {
 	ps.push(p);
 	p.on('exit', (code, signal) => {
-		console.error('watch [%s] exit with %s', signal ? 'signal ' + signal : code);
+		console.error(`\x1B[38;5;14m${title}\x1B[38;5;9m watch exit with %s`, signal ? 'signal ' + signal : code);
 		ps.forEach((p) => {
 			p.kill('SIGINT');
 		});

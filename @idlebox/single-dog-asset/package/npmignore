@@ -15,6 +15,7 @@ package-deps.json
 src
 build-script.json
 Gulpfile.js
+*.tsbuildinfo
 
 ### docs
 docs/*
