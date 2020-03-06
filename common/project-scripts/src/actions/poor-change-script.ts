@@ -12,17 +12,21 @@ async function main() {
 
 	for (const item of projects) {
 		console.log('check package: %s', item.packageName);
-		const { full, result } = await execPromise(process.argv0, [
-			'-r',
-			'source-map-support/register',
-			checkBin,
-			'detect-package-change',
-			'--registry',
-			'https://registry.npmjs.org/',
-			'--package',
-			rushProject.absolute(item.projectFolder),
-			'--json',
-		]);
+		const logFile = rushProject.absolute(item.projectFolder, 'update-version.log');
+		const { full, result } = await execPromise({
+			argv: [
+				'-r',
+				'source-map-support/register',
+				checkBin,
+				'detect-package-change',
+				'--registry',
+				'https://registry.npmjs.org/',
+				'--package',
+				rushProject.absolute(item.projectFolder),
+				'--json',
+			],
+			logFile,
+		});
 		let changed: boolean;
 		try {
 			changed = JSON.parse(result).changed;
@@ -33,14 +37,16 @@ async function main() {
 			console.error(e.message);
 			process.exit(1);
 		}
-		const logFile = rushProject.absolute(item.projectFolder, 'update-version.log');
-		await writeFile(logFile, full);
 
 		console.log('    changed: %s', changed);
 		if (changed) {
 			increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));
 			console.log('    ! autofix');
-			await execPromise(process.argv0, ['-r', 'source-map-support/register', syncBin, 'autofix']);
+			const logFile = rushProject.absolute('common/temp/autofix.log');
+			await execPromise({
+				argv: ['-r', 'source-map-support/register', syncBin, 'autofix'],
+				logFile,
+			});
 		}
 	}
 }

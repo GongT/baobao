@@ -1,15 +1,26 @@
-import { spawn } from 'child_process';
+import { spawn, SpawnOptions } from 'child_process';
 import { TEMP_DIR } from './paths';
-import { CollectingStream } from '@idlebox/node';
+import { CollectingStream, streamPromise } from '@idlebox/node';
 import * as split2 from 'split2';
+import { mkdirpSync, createWriteStream } from 'fs-extra';
+import { dirname } from 'path';
 
-export function execPromise(
-	cmd: string,
-	argv: string[],
-	cwd: string = TEMP_DIR
-): Promise<{ result: string; full: string }> {
+export interface IOptions extends SpawnOptions {
+	cmd?: string;
+	argv: string[];
+	logFile?: string;
+}
+
+export function execPromise({
+	cmd = process.argv0,
+	argv,
+	logFile,
+	cwd = TEMP_DIR,
+	...opts
+}: IOptions): Promise<{ result: string; full: string }> {
 	console.error('\x1B[2m + %s %s\x1B[0m', cmd, argv.join(' '));
 	const r = spawn(cmd, argv, {
+		...opts,
 		stdio: ['ignore', 'pipe', 'pipe'],
 		shell: false,
 		cwd: cwd,
@@ -17,12 +28,21 @@ export function execPromise(
 
 	const output = new CollectingStream();
 	const full = new CollectingStream();
+	mkdirpSync(dirname(logFile));
+	const logger = logFile ? createWriteStream(logFile) : null;
 	r.stdout.pipe(split2()).on('data', (l) => {
 		output.write(l + '\n');
 		full.write(l + '\n');
+		if (logger) logger.write(l + '\n');
 	});
 	r.stderr.pipe(split2()).on('data', (l) => {
 		full.write(l + '\n');
+		if (logger) logger.write(l + '\n');
+	});
+	Promise.all([streamPromise(r.stdout), streamPromise(r.stderr)]).finally(() => {
+		output.end();
+		full.end();
+		if (logger) logger.end();
 	});
 
 	return new Promise((resolve, reject) => {
@@ -38,10 +58,12 @@ export function execPromise(
 				console.error('\x1B[2m%s\x1B[0m', full.getOutput());
 				reject(new Error('child process exit with code ' + code));
 			} else {
-				resolve({
-					result: output.getOutput().trim(),
-					full: full.getOutput(),
-				});
+				Promise.all([output.promise(), full.promise()]).then(() => {
+					resolve({
+						result: output.getOutput().trim(),
+						full: full.getOutput(),
+					});
+				}, reject);
 			}
 		});
 	});
