@@ -1,5 +1,7 @@
 
-export declare function buildProjects(builder: IProjectCallback, rushProject?: RushProject): Promise<void>;
+export declare function buildProjects(builder: IProjectCallback): Promise<void>;
+
+export declare function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 
 export declare function description(func: any): string;
 
@@ -14,6 +16,11 @@ export declare function findRushJsonSync(fromPath?: string): string | null;
 export declare function findRushRootPath(fromPath?: string): Promise<string | null>;
 
 export declare function findRushRootPathSync(fromPath?: string): string | null;
+
+export declare interface IBuildProjectOptions {
+    rushProject?: RushProject;
+    concurrent?: number;
+}
 
 export declare interface IJob<T> {
     (arg: T): Promise<void>;

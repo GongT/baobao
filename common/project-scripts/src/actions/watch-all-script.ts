@@ -126,8 +126,7 @@ main().then(
 		console.log(`\x1B[38;5;10mAll projects compiled at least one time.\x1B[0m `);
 	},
 	(e) => {
-		setImmediate(() => {
-			throw e;
-		});
+		console.error(e.stack);
+		process.exit(1);
 	}
 );

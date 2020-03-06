@@ -38,6 +38,13 @@
 			"shellCommand": "node common/project-scripts/lib/poor-change.js"
 		},
 		{
+			"commandKind": "global",
+			"name": "yarn-publish",
+			"summary": "publish all packages if needed",
+			"safeForSimultaneousRushProcesses": false,
+			"shellCommand": "node common/project-scripts/lib/poor-publish.js"
+		},
+		{
 			"commandKind": "bulk",
 			"name": "clean",
 			"summary": "Run clean in every project",
@@ -52,7 +59,7 @@
 			"parameterKind": "flag",
 			"longName": "--no-systemd",
 			"description": "Do not using systemd-run to create standalone run environment",
-			"associatedCommands": ["watch"]
+			"associatedCommands": ["watch", "update-version", "yarn-publish"]
 		},
 		{
 			"argumentName": "FILE",

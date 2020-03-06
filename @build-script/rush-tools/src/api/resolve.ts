@@ -38,11 +38,30 @@ export function overallOrder(rushProject = new RushProject()): Immutable<IProjec
 	return dep.overallOrder().map((name) => rushProject.getPackageByName(name)!);
 }
 
-export async function buildProjects(builder: IProjectCallback, rushProject = new RushProject()): Promise<void> {
+export interface IBuildProjectOptions {
+	rushProject?: RushProject;
+	concurrent?: number;
+}
+export async function buildProjects(builder: IProjectCallback): Promise<void>;
+export async function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
+export async function buildProjects(
+	opts_: IBuildProjectOptions | IProjectCallback,
+	builder_?: IProjectCallback
+): Promise<void> {
+	const { opts, builder } = ((): { opts: IBuildProjectOptions; builder: IProjectCallback } => {
+		if (builder_) {
+			return { opts: opts_ as IBuildProjectOptions, builder: builder_ };
+		} else {
+			return { opts: {}, builder: opts_ as IProjectCallback };
+		}
+	})();
+
+	const { rushProject = new RushProject(), concurrent = 4 } = opts;
+
 	const dep = createDeps(rushProject);
 	const overall = dep.overallOrder().map((name) => rushProject.getPackageByName(name)!);
 
-	const q = new RunQueue(builder);
+	const q = new RunQueue(builder, concurrent);
 	for (const proj of overall) {
 		q.register(proj.packageName, proj, dep.dependenciesOf(proj.packageName));
 	}

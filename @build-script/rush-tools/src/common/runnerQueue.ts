@@ -6,6 +6,12 @@ interface IJob0 {
 	(): Promise<void>;
 }
 
+const debug = /\brush[-_]?tools\b/i.test(process.env.NODE_DEBUG || '')
+	? (...args: any[]) => {
+			console.error(...args);
+	  }
+	: (..._args: any[]) => {};
+
 export class RunQueue<T> {
 	private readonly items = new Map<string, QueueItem>();
 
@@ -21,9 +27,9 @@ export class RunQueue<T> {
 		const doneOf = (id: string) => {
 			return () => {
 				running--;
-				console.error('[!!!] -- end (%s) %s', running, id);
+				debug(' end (%s) %s', running, id);
 				if (dfd) {
-					console.error('[!!!] -- concurrent release...');
+					debug(' concurrent release...');
 					dfd.complete();
 					dfd = null;
 				}
@@ -33,31 +39,31 @@ export class RunQueue<T> {
 			};
 		};
 
-		console.error('[!!!] -- Jobs:');
+		debug(' Jobs:');
 		for (const id of this.items.keys()) {
-			console.error('[!!!]   %s', id);
+			debug('  %s', id);
 		}
 
 		while (this.items.size > 0) {
 			for (const [id, job] of this.items.entries()) {
 				if (running >= this.concurrent) {
-					console.error('[!!!] -- concurrent max');
+					debug(' concurrent max');
 					break;
 				}
 				if (job.isDepsClear()) {
 					running++;
-					console.error('[!!!] -- run job (%s) %s', running, id);
+					debug(' run job (%s) %s', running, id);
 					this.items.delete(id);
 					job.run(doneOf(id));
 				} else {
-					console.error('[!!!] -- schedule job %s', id);
+					debug(' schedule job %s', id);
 				}
 			}
 
 			if (running > 0) {
 				dfd = new DeferredPromise();
 				await dfd.p;
-				console.error('[!!!] -- continue...');
+				debug(' continue...');
 			}
 		}
 	}

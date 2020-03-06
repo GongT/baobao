@@ -1,4 +1,3 @@
-import { writeFile } from 'fs-extra';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
@@ -56,8 +55,7 @@ main().then(
 		console.log(`\x1B[38;5;10mComplete.\x1B[0m `);
 	},
 	(e) => {
-		setImmediate(() => {
-			throw e;
-		});
+		console.error(e.stack);
+		process.exit(1);
 	}
 );

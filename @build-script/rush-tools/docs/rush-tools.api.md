@@ -5,9 +5,13 @@
 ```ts
 
 // Warning: (ae-missing-release-tag) "buildProjects" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "buildProjects" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function buildProjects(builder: IProjectCallback, rushProject?: RushProject): Promise<void>;
+export function buildProjects(builder: IProjectCallback): Promise<void>;
+
+// @public (undocumented)
+export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -42,6 +46,16 @@ export function findRushRootPath(fromPath?: string): Promise<string | null>;
 //
 // @public (undocumented)
 export function findRushRootPathSync(fromPath?: string): string | null;
+
+// Warning: (ae-missing-release-tag) "IBuildProjectOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IBuildProjectOptions {
+    // (undocumented)
+    concurrent?: number;
+    // (undocumented)
+    rushProject?: RushProject;
+}
 
 // Warning: (ae-missing-release-tag) "IJob" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
