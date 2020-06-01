@@ -1,10 +1,12 @@
+import { pad2 } from '../string/pad2';
+
 export namespace humanDate {
 	export function time(date: Date | string | number) {
 		if (typeof date === 'string') {
 			date = parseInt(date);
 		}
 		date = new Date(date as number);
-		return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+		return `${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
 	}
 
 	export function date(date: Date | string | number, sp = '-') {
@@ -12,7 +14,7 @@ export namespace humanDate {
 			date = parseInt(date);
 		}
 		date = new Date(date as number);
-		return `${date.getFullYear()}${sp}${date.getMonth() + 1}${sp}${date.getDate()}`;
+		return `${date.getFullYear()}${sp}${pad2(date.getMonth() + 1)}${sp}${pad2(date.getDate())}`;
 	}
 
 	export function datetime(date: Date | string | number) {
@@ -20,8 +22,11 @@ export namespace humanDate {
 			date = parseInt(date);
 		}
 		date = new Date(date as number);
-		return `${date.getFullYear()}-${date.getMonth() +
-			1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+		return (
+			`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` +
+			' ' +
+			`${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`
+		);
 	}
 
 	export interface ITimeFormatter {
@@ -56,15 +61,15 @@ export namespace humanDate {
 
 	export function deltaTiny(ms: number) {
 		if (ms > 86400000) {
-			return formatters.d(ms / 86400000);
+			return formatters.d(Math.floor(ms / 86400000));
 		}
 		if (ms > 3600000) {
-			return formatters.h(ms / 3600000);
+			return formatters.h(Math.floor(ms / 3600000));
 		}
 		if (ms > 60000) {
-			return formatters.m(ms / 60000);
+			return formatters.m(Math.floor(ms / 60000));
 		}
-		return formatters.s(Math.ceil(ms / 1000));
+		return formatters.s(Math.floor(ms / 1000));
 	}
 
 	export function delta(ms: number) {

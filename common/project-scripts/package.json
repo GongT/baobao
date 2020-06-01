@@ -13,8 +13,8 @@
 	"dependencies": {
 		"@idlebox/node-json-edit": "^1.0.20",
 		"@build-script/rush-tools": "^1.1.0",
-		"@idlebox/node": "^1.0.6",
-		"@idlebox/common": "^1.0.9",
+		"@idlebox/node": "^1.0.7",
+		"@idlebox/common": "^1.0.16",
 		"fs-extra": "^8.1.0",
 		"jsonc": "^2.0.0",
 		"split2": "^3.1.1",

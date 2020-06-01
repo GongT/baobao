@@ -1,10 +1,11 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.20.0",
+	"rushVersion": "5.23.1",
 	"pnpmVersion": "4.9.3",
 	// "npmVersion": "4.5.0",
 	// "yarnVersion": "1.16.0",
 	"pnpmOptions": {
+		"pnpmStore": "global",
 		"strictPeerDependencies": false,
 		"resolutionStrategy": "fewer-dependencies"
 	},
@@ -67,6 +68,11 @@
 			"projectFolder": "@idlebox/common",
 			"shouldPublish": true,
 			"cyclicDependencyProjects": ["@build-script/builder", "@build-script/export-all-in-one"]
+		},
+		{
+			"packageName": "@idlebox/browser",
+			"projectFolder": "@idlebox/browser",
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/node",

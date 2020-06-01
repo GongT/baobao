@@ -393,10 +393,10 @@ export class LoggerStream extends Transform {
 // @public (undocumented)
 export function lrelative(from: string, to: string): string;
 
-// Warning: (ae-missing-release-tag) "nd5" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "md5" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function nd5(data: Buffer): string;
+export function md5(data: Buffer): string;
 
 // Warning: (ae-missing-release-tag) "nodeResolvePathArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -510,6 +510,16 @@ export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promi
 
 // @public (undocumented)
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
+
+// Warning: (ae-missing-release-tag) "writeFileIfChange" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function writeFileIfChange(file: string, data: string | Buffer): Promise<boolean>;
+
+// Warning: (ae-missing-release-tag) "writeFileIfChangeSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function writeFileIfChangeSync(file: string, data: string | Buffer): boolean;
 
 
 // (No @packageDocumentation comment for this package)

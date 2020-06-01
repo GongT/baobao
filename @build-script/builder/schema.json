@@ -1,14 +1,12 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "https://schemas.service.gongt.me:59443/build-script/schema.json",
+	"$id": "https://schemas.gongt.net/build-script/schema.json",
 	"type": "object",
 	"additionalProperties": false,
 	"properties": {
 		"$schema": {
 			"type": "string",
-			"const": {
-				"$ref": "#/$id"
-			}
+			"const": "https://schemas.gongt.net/build-script/schema.json"
 		},
 		"load": {
 			"type": "array",

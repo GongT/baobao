@@ -1,43 +1,39 @@
 {
 	"monorepo": "rush",
-	"name": "@idlebox/common",
+	"version": "0.0.1",
+	"license": "MIT",
+	"name": "@idlebox/browser",
+	"repository": "https://github.com/GongT/baobao",
 	"type": "module",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.0.16",
-	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.cjs",
-	"module": "./lib/_export_all_in_one_index.js",
 	"exports": {
 		".": {
 			"require": "./lib/_export_all_in_one_index.cjs",
 			"import": "./lib/_export_all_in_one_index.js"
 		}
 	},
-	"jspm": {
-		"main": "./lib/_export_all_in_one_index.js",
-		"format": "es6"
-	},
 	"scripts": {
 		"build": "build-script build",
 		"clean": "rimraf lib",
+		"distclean": "build-script distclean",
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
 	},
 	"dependencies": {
+		"@idlebox/common": "^1.0.16",
 		"source-map-support": "*"
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.0.12",
+		"@build-script/typescript-transformer-dual-package": "^1.0.3",
 		"@build-script/export-all-in-one": "^3.0.8",
 		"@build-script/single-dog-asset": "^1.0.2",
-		"@idlebox/itypes": "^0.0.1",
 		"gulp": "^4.0.2",
 		"typescript": "^3.8.2",
 		"tslib": "^1.10.0",
-		"ttypescript": "^1.5.10",
-		"@build-script/typescript-transformer-dual-package": "^1.0.3"
-	},
-	"repository": "https://github.com/GongT/baobao"
+		"ttypescript": "^1.5.10"
+	}
 }

@@ -17,7 +17,7 @@
 	"dependencies": {
 		"@build-script/builder": "^2.0.12",
 		"@idlebox/ensure-symlink": "^1.0.9",
-		"@idlebox/node": "^1.0.6",
+		"@idlebox/node": "^1.0.7",
 		"@build-script/export-all-in-one-inject": "^1.0.1",
 		"@idlebox/node-json-edit": "^1.0.20",
 		"unipm": "^1.0.3",

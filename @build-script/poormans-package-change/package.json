@@ -17,9 +17,9 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/node": "^1.0.6",
+		"@idlebox/node": "^1.0.7",
 		"@idlebox/node-json-edit": "^1.0.20",
-		"@idlebox/common": "^1.0.9",
+		"@idlebox/common": "^1.0.16",
 		"execa": "^2.0.4",
 		"fs-extra": "^8.1.0",
 		"request": "^2.88.0",

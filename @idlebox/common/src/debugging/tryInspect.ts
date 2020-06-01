@@ -1,11 +1,12 @@
 const inspect = Symbol.for('nodejs.util.inspect.custom'); // high version node
 const inspectOld = tryGetSymbol();
 
-declare const require: any;
+declare const global: any;
 
 function tryGetSymbol() {
 	try {
-		return require('util').inspect.custom;
+		const r = global.require;
+		return r('util').inspect.custom;
 	} catch {
 		return undefined;
 	}

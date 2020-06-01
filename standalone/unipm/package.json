@@ -23,8 +23,8 @@
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"@idlebox/common": "^1.0.9",
-		"@idlebox/node": "^1.0.6",
+		"@idlebox/common": "^1.0.16",
+		"@idlebox/node": "^1.0.7",
 		"execa": "^2.0.4",
 		"json5": "^2.1.0",
 		"pacote": "^9.5.8",

@@ -7,11 +7,6 @@
 		"outDir": "../lib",
 		"rootDir": ".",
 		"types": ["node"],
-		"plugins": [
-			{
-				"transform": "./register.ts"
-			}
-		],
 		"incremental": false
 	},
 	"include": ["**/*.ts"]

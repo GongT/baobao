@@ -1,3 +1,4 @@
 docs/
-common/project-scripts/output/
+/common/scripts/
+/common/project-scripts/output/
 jspm_packages

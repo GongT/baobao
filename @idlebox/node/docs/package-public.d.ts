@@ -197,7 +197,7 @@ export declare class LoggerStream extends Transform {
 
 export declare function lrelative(from: string, to: string): string;
 
-export declare function nd5(data: Buffer): string;
+export declare function md5(data: Buffer): string;
 
 export declare function nodeResolvePathArray(from: string, file?: string): string[];
 
@@ -253,5 +253,9 @@ export declare function streamPromise(stream: NodeJS.ReadableStream | NodeJS.Wri
 export declare function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promise<string>;
 
 export declare function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
+
+export declare function writeFileIfChange(file: string, data: string | Buffer): Promise<boolean>;
+
+export declare function writeFileIfChangeSync(file: string, data: string | Buffer): boolean;
 
 export { }

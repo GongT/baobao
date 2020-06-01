@@ -21,7 +21,7 @@ interface IResult {
 
 interface IOptions {
 	filename: string;
-	external: string[];
+	external: (string | RegExp)[];
 }
 
 const def: IOptions = {
@@ -29,10 +29,23 @@ const def: IOptions = {
 	external: [],
 };
 
-function startsWith(str: string) {
-	return (test: string) => {
-		return test.startsWith(str);
-	};
+function isIdIgnore(id: string, external: (string | RegExp)[]) {
+	if (!external || external.length === 0) return false;
+
+	for (const ignore of external) {
+		if (typeof ignore === 'string') {
+			if (id === ignore) {
+				return true;
+			}
+			if (id.startsWith(ignore)) {
+				return true;
+			}
+		} else {
+			if (ignore.test(id)) {
+				return true;
+			}
+		}
+	}
 }
 
 export async function transformModule(originalCode: string, options?: Partial<IOptions>): Promise<IResult> {
@@ -50,7 +63,7 @@ export async function transformModule(originalCode: string, options?: Partial<IO
 			const groups: any = args.pop();
 			const { def, fro: fromRaw, nam, ns } = groups;
 			// console.log('\t%j', { def, nam, ns, fromRaw });
-			if (external.length && external.some(startsWith(fromRaw))) {
+			if (isIdIgnore(fromRaw, external)) {
 				// console.log('this is external.');
 				return _m0;
 			}
