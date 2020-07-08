@@ -5,56 +5,56 @@
 		{
 			"commandKind": "global",
 			"name": "fix",
-			"summary": "Check and update every project's dependency versions",
+			"summary": "同步各个项目的版本号",
 			"safeForSimultaneousRushProcesses": true,
 			"shellCommand": "node @build-script/rush-tools/bin.cjs autofix"
 		},
 		{
 			"commandKind": "global",
 			"name": "pretty",
-			"summary": "Run pretty-quick",
+			"summary": "运行“pretty-quick”命令，格式化所有文件",
 			"safeForSimultaneousRushProcesses": true,
 			"shellCommand": "./common/temp/node_modules/.bin/pretty-quick"
 		},
 		{
 			"commandKind": "global",
 			"name": "watch",
-			"summary": "Run watch in every project",
+			"summary": "在每个项目中运行“watch”命令",
 			"safeForSimultaneousRushProcesses": true,
 			"shellCommand": "node common/project-scripts/lib/watch-all.js"
 		},
 		{
 			"commandKind": "global",
 			"name": "batch-modify-json",
-			"summary": "batch modify json of each project",
+			"summary": "修改每个项目中的指定json文件 // BUG: value不能带空格",
 			"safeForSimultaneousRushProcesses": true,
 			"shellCommand": "node common/project-scripts/lib/batch-modify-json.js"
 		},
 		{
 			"commandKind": "global",
 			"name": "update-version",
-			"summary": "Check local change and modify package.json if needed",
+			"summary": "检查本地有没有修改，如果有，version自增0.0.1",
 			"safeForSimultaneousRushProcesses": true,
 			"shellCommand": "node common/project-scripts/lib/poor-change.js"
 		},
 		{
 			"commandKind": "global",
-			"name": "yarn-publish",
-			"summary": "publish all packages if needed",
+			"name": "ypublish",
+			"summary": "把所有项目更新到npm（需要先运行update-version）",
 			"safeForSimultaneousRushProcesses": false,
 			"shellCommand": "node common/project-scripts/lib/poor-publish.js"
 		},
 		{
 			"commandKind": "global",
 			"name": "upgrade",
-			"summary": "Upgrade every project's dependency",
+			"summary": "更新所有项目的依赖版本到最新，注意：运行后需要删除 common/config/rush/pnpm-lock.yaml",
 			"allowWarningsInSuccessfulBuild": true,
 			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update"
 		},
 		{
 			"commandKind": "bulk",
 			"name": "clean",
-			"summary": "Run clean in every project",
+			"summary": "在每个项目中运行“clean”命令",
 			"enableParallelism": true,
 			"ignoreDependencyOrder": true,
 			"allowWarningsInSuccessfulBuild": true
@@ -64,39 +64,39 @@
 		{
 			"parameterKind": "flag",
 			"longName": "--no-systemd",
-			"description": "Do not using systemd-run to create standalone run environment",
-			"associatedCommands": ["watch", "update-version", "yarn-publish"]
+			"description": "不使用“systemd-run”隔离环境",
+			"associatedCommands": ["watch", "update-version", "ypublish"]
 		},
 		{
 			"argumentName": "FILE",
 			"parameterKind": "string",
 			"longName": "--file",
 			"shortName": "-f",
-			"description": "file path (relative to package.json) to modify",
+			"description": "要修改的json文件（相对于项目本身的package.json）",
 			"associatedCommands": ["batch-modify-json"]
 		},
 		{
 			"parameterKind": "choice",
 			"longName": "--action",
 			"shortName": "-a",
-			"description": "action to do (push|unshift|set|unset)",
+			"description": "选择功能(push|unshift|set|unset)",
 			"associatedCommands": ["batch-modify-json"],
 			"alternatives": [
 				{
 					"name": "set",
-					"description": "Set some value"
+					"description": "替换值"
 				},
 				{
 					"name": "unset",
-					"description": "Unset some value"
+					"description": "删除键"
 				},
 				{
 					"name": "push",
-					"description": "Push some array"
+					"description": "添加到数组后方"
 				},
 				{
 					"name": "unshift",
-					"description": "Unshift some array"
+					"description": "添加到数组前面"
 				}
 			]
 		},
@@ -105,7 +105,7 @@
 			"parameterKind": "string",
 			"longName": "--key",
 			"shortName": "-k",
-			"description": "key to modify",
+			"description": "要修改的键（以点开头）",
 			"associatedCommands": ["batch-modify-json"]
 		},
 		{
@@ -113,7 +113,7 @@
 			"parameterKind": "string",
 			"longName": "--value",
 			"shortName": "-v",
-			"description": "property value",
+			"description": "要增加、设置的内容 // BUG: 不能有空格",
 			"associatedCommands": ["batch-modify-json"]
 		}
 	]

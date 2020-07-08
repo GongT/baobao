@@ -42,7 +42,7 @@ export default async function runAutoFix() {
 	console.log('Resolving cyclic dependencies from NPM:');
 	await resolveNpm(cyclicVersions);
 
-	console.log('Load preferred versions:');
+	console.log('Load preferred versions: (common/config/rush/common-versions.json)');
 	for (const [id, version] of Object.entries(rush.preferredVersions)) {
 		if (localHardVersions.has(id)) warn('[Warn] preferredVersions includes local project: %s', id);
 		localHardVersions.set(id, version);
@@ -115,7 +115,7 @@ export default async function runAutoFix() {
 		}
 	}
 
-	console.log('Done. %s package%s fixed', fixed, fixed > 1 ? 's' : '');
+	console.log('Done. Updated %s package%s.', fixed, fixed > 1 ? 's' : '');
 }
 
 function warn(msg: string, ...args: any[]) {
