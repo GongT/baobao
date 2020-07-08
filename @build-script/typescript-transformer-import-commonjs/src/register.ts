@@ -26,7 +26,7 @@ type IDeps = { [name: string]: string | undefined };
 
 export default function plugin(program: Program, pluginOptions: IOptions = {}) {
 	const specialExtensions = pluginOptions.specialExtensions || ['cjs', 'mjs', 'js', ''];
-	let dependencies: IDeps | null;
+	let dependencies: IDeps;
 	let packageFound = false;
 
 	if (pluginOptions['package.json']) {
@@ -35,7 +35,7 @@ export default function plugin(program: Program, pluginOptions: IOptions = {}) {
 			throw new Error('package.json does not exists at ' + path);
 		}
 		packageFound = true;
-		dependencies = createDeps(path);
+		dependencies = createDeps(path) || {};
 	}
 
 	return (transformationContext: TransformationContext) => (node: SourceFile): SourceFile => {
@@ -43,15 +43,11 @@ export default function plugin(program: Program, pluginOptions: IOptions = {}) {
 			packageFound = true;
 			const path = findUp(dirname(node.fileName), 'package.json');
 			if (path) {
-				dependencies = createDeps(path);
+				dependencies = createDeps(path) || {};
 			}
 		}
 		if (!dependencies) {
-			return node;
-		}
-
-		if (!isModuleNeedWrap(node, specialExtensions, dependencies)) {
-			return node;
+			dependencies = {};
 		}
 
 		console.log('need wrap!!!', node.fileName);
@@ -59,8 +55,11 @@ export default function plugin(program: Program, pluginOptions: IOptions = {}) {
 		return visitEachChild(node, tokenWalk, transformationContext);
 
 		function tokenWalk(node: Node): VisitResult<Node> {
+			if (!isModuleNeedWrap(node, specialExtensions, dependencies)) {
+				return node;
+			}
 			console.log(node.kind);
-			return;
+			return node;
 		}
 	};
 }

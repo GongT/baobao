@@ -84,6 +84,8 @@ export async function runApiExtractor() {
 		localBuild: true,
 		// Equivalent to the "--verbose" command-line parameter
 		showVerboseMessages: true,
+		// Setting `showDiagnostics=true` forces `showVerboseMessages=true`.
+		showDiagnostics: false,
 	});
 
 	if (extractorResult.succeeded) {

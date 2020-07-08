@@ -136,15 +136,25 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 			list.unshift(
 				nameFunction(
 					`${name}:pre`,
-					gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)])
-				)
+					gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]) as Function
+				) as Gulp.TaskFunction
 			);
 		}
 		if (data.run.size) {
-			list.push(nameFunction(`${name}:run`, gulpConcatAction(gulp, map(data.run, pickAction), data.serial)));
+			list.push(
+				nameFunction(
+					`${name}:run`,
+					gulpConcatAction(gulp, map(data.run, pickAction), data.serial) as Function
+				) as Gulp.TaskFunction
+			);
 		}
 		if (data.postRun.size) {
-			list.push(nameFunction(`${name}:post`, gulpConcatAction(gulp, map(data.preRun, pickJob))));
+			list.push(
+				nameFunction(
+					`${name}:post`,
+					gulpConcatAction(gulp, map(data.preRun, pickJob)) as Function
+				) as Gulp.TaskFunction
+			);
 		}
 
 		const fn = list.length === 0 ? function emptyJob() {} : list.length === 1 ? list[0] : gulp.series(...list);

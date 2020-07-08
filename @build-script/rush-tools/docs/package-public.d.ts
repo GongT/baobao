@@ -40,6 +40,8 @@ declare type ImmutablePrimitive = undefined | null | boolean | string | number |
 
 export declare type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
 
+export declare function info(txt: string, ...args: any[]): void;
+
 export declare interface IProjectCallback {
     (project: Immutable<IProjectConfig>): Promise<void>;
 }
@@ -78,6 +80,12 @@ export declare class NormalError extends Error {
 
 export declare function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
 
+export declare function requireRushPath(path?: string): Promise<string>;
+
+export declare function requireRushPathSync(path?: string): string;
+
+export declare function resolveNpm(versions: Map<string, string>): Promise<Map<string, string>>;
+
 export declare function runAutoFix(): Promise<void>;
 
 export declare function runCheckUpdate(): Promise<void>;
@@ -103,6 +111,8 @@ export declare class RushProject {
     readonly config: Immutable<IRushConfig>;
     private _preferredVersions;
     constructor(path?: string);
+    get tempRoot(): string;
+    tempFile(name?: string): string;
     get preferredVersions(): {
         [id: string]: string;
     };

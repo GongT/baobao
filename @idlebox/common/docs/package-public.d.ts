@@ -31,11 +31,6 @@ export declare function awaitIterator<T>(generator: Iterator<T>): Promise<T>;
 
 export declare const bindThis: MethodDecorator;
 
-export declare interface Callable {
-    (...args: any[]): any;
-    readonly name?: string;
-}
-
 export declare class CallbackList<Argument> {
     protected list: MyCallback<Argument>[];
     add(item: MyCallback<Argument>, name?: string): number;
@@ -148,9 +143,13 @@ export declare type Finder<Type> = (this: Type[], item: Type) => number;
 
 export declare function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseResultArray<T>>;
 
-export declare function functionName(func: Callable): string | undefined;
+export declare function fromTimeStamp(timestamp: number): Date;
+
+export declare function functionName(func: Function): string;
 
 export declare function getErrorFrame(e: Error, frame: number): string;
+
+export declare function getTimeStamp(date: Date): number;
 
 export declare const globalObject: any;
 
@@ -237,6 +236,8 @@ export declare function isArraySame<T>(a1: T[], a2: T[]): boolean;
 
 export declare function isCanceledError(error: any): boolean;
 
+export declare function isDateInvalid(date: Date): boolean;
+
 export declare function isDisposedError(error: any): boolean;
 
 export declare const isElectron: boolean;
@@ -281,7 +282,7 @@ export declare interface MapLike<V> {
     [id: string]: V;
 }
 
-export declare interface MaybeNamedFunction extends Callable {
+export declare interface MaybeNamedFunction extends Function {
     displayName?: string;
 }
 
@@ -301,17 +302,41 @@ export declare interface MyDelayCallback<Argument> {
 
 export declare type MyFinder<Type> = (item: Type) => number;
 
-export declare interface NamedFunction extends Callable {
+export declare interface NamedFunction extends Function {
     displayName: string;
 }
 
-export declare function nameFunction<T extends Callable>(name: string, func: T): T & NamedFunction;
+export declare function nameFunction<T extends Function>(name: string, func: T): T & NamedFunction;
+
+export declare function nextDay(d: Date, n?: number): Date;
+
+export declare function nextHour(d: Date, n?: number): Date;
+
+export declare function nextMinute(d: Date, n?: number): Date;
+
+export declare function nextMonth(d: Date, n?: number): Date;
+
+export declare function nextSecond(d: Date, n?: number): Date;
+
+export declare function nextWeek(d: Date, n?: number): Date;
+
+export declare function nextYear(d: Date, n?: number): Date;
 
 export declare function normalizeArray<T>(input: any): T[];
 
 export declare function normalizePath(p: string): string;
 
 export declare function objectPath(obj: object, path: string): any;
+
+export declare const oneDay = 86400000;
+
+export declare const oneHour = 1440000;
+
+export declare const oneMinute = 60000;
+
+export declare const oneSecond = 1000;
+
+export declare const oneWeek = 604800000;
 
 export declare function pad2(s: number): string;
 

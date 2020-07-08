@@ -1,0 +1,32 @@
+{
+	"load": [
+		{
+			"file": "@build-script/export-all-in-one/build-script-register",
+			"args": ["src/tsconfig.json"]
+		}
+	],
+	"alias": {
+		"build-ts": ["ttsc", "-p", "src"],
+		"watch-ts": ["ttsc", "-w", "-p", "src"],
+		"cleanup-lib": ["rimraf", "lib"]
+	},
+	"command": {
+		"build": {
+			"title": "Build project",
+			"run": ["build-ts"]
+		},
+		"clean": {
+			"title": "Delete lib folder",
+			"run": ["cleanup-lib"]
+		},
+		"rebuild": {
+			"title": "Prepare for publish package",
+			"run": ["@build"],
+			"after": ["clean"]
+		},
+		"watch": {
+			"title": "Watch mode build project",
+			"run": ["watch-ts"]
+		}
+	}
+}

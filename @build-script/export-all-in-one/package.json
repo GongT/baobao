@@ -22,27 +22,26 @@
 		"clean": "rimraf lib",
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
-		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
 	},
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.9",
 		"@idlebox/node-json-edit": "^1.0.20",
-		"@microsoft/api-extractor": "^7.4.1",
-		"execa": "^2.0.4",
-		"fs-extra": "^8.1.0",
-		"source-map-support": "*",
-		"tsconfig-paths": "^3.8.0",
+		"@microsoft/api-extractor": "^7.9.1",
+		"execa": "^4.0.3",
+		"fs-extra": "^9.0.1",
+		"source-map-support": "^0.5.19",
+		"tsconfig-paths": "^3.9.0",
 		"ttypescript": "^1.5.10"
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.0.12",
 		"@build-script/single-dog-asset": "^1.0.2",
-		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.7.8",
+		"@types/fs-extra": "^9.0.1",
+		"@types/node": "^14.0.19",
 		"gulp": "^4.0.2",
-		"typescript": "^3.8.2",
-		"tslib": "^1.10.0"
+		"typescript": "^3.9.6",
+		"tslib": "^2.0.0"
 	},
 	"peerDependencies": {
 		"typescript": "*"

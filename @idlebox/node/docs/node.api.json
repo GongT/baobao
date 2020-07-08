@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.7.8",
+    "toolVersion": "7.9.1",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -49,7 +49,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!Buffer:class"
+                  "canonicalReference": "!__global.Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -148,7 +148,7 @@
             {
               "kind": "Reference",
               "text": "NodeJS.ProcessEnv",
-              "canonicalReference": "!NodeJS.ProcessEnv:interface"
+              "canonicalReference": "!__global.NodeJS.ProcessEnv:interface"
             },
             {
               "kind": "Content",
@@ -221,15 +221,16 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!Buffer:class"
+                  "canonicalReference": "!__global.Buffer:class"
                 },
                 {
                   "kind": "Content",
                   "text": ", encoding: "
                 },
                 {
-                  "kind": "Content",
-                  "text": "string"
+                  "kind": "Reference",
+                  "text": "BufferEncoding",
+                  "canonicalReference": "!__global.BufferEncoding:type"
                 },
                 {
                   "kind": "Content",
@@ -533,7 +534,7 @@
             {
               "kind": "Reference",
               "text": "NodeJS.ProcessEnv",
-              "canonicalReference": "!NodeJS.ProcessEnv:interface"
+              "canonicalReference": "!__global.NodeJS.ProcessEnv:interface"
             },
             {
               "kind": "Content",
@@ -705,7 +706,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!Buffer:class"
+              "canonicalReference": "!__global.Buffer:class"
             },
             {
               "kind": "Content",
@@ -766,7 +767,7 @@
             {
               "kind": "Reference",
               "text": "EventEmitter",
-              "canonicalReference": "!internal.EventEmitter:class"
+              "canonicalReference": "!EventEmitter.EventEmitter:class"
             },
             {
               "kind": "Content",
@@ -3665,7 +3666,7 @@
             {
               "kind": "Reference",
               "text": "NodeJS.ProcessEnv",
-              "canonicalReference": "!NodeJS.ProcessEnv:interface"
+              "canonicalReference": "!__global.NodeJS.ProcessEnv:interface"
             },
             {
               "kind": "Content",
@@ -3739,15 +3740,16 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!Buffer:class"
+                  "canonicalReference": "!__global.Buffer:class"
                 },
                 {
                   "kind": "Content",
                   "text": ", encoding: "
                 },
                 {
-                  "kind": "Content",
-                  "text": "string"
+                  "kind": "Reference",
+                  "text": "BufferEncoding",
+                  "canonicalReference": "!__global.BufferEncoding:type"
                 },
                 {
                   "kind": "Content",
@@ -4054,15 +4056,16 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!Buffer:class"
+                  "canonicalReference": "!__global.Buffer:class"
                 },
                 {
                   "kind": "Content",
                   "text": ", encoding: "
                 },
                 {
-                  "kind": "Content",
-                  "text": "string"
+                  "kind": "Reference",
+                  "text": "BufferEncoding",
+                  "canonicalReference": "!__global.BufferEncoding:type"
                 },
                 {
                   "kind": "Content",
@@ -4241,7 +4244,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!Buffer:class"
+              "canonicalReference": "!__global.Buffer:class"
             },
             {
               "kind": "Content",
@@ -4517,7 +4520,7 @@
                 {
                   "kind": "Reference",
                   "text": "NodeJS.ProcessEnv",
-                  "canonicalReference": "!NodeJS.ProcessEnv:interface"
+                  "canonicalReference": "!__global.NodeJS.ProcessEnv:interface"
                 },
                 {
                   "kind": "Content",
@@ -4831,7 +4834,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!Buffer:class"
+                  "canonicalReference": "!__global.Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -4946,7 +4949,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!Buffer:class"
+                  "canonicalReference": "!__global.Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -4984,7 +4987,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!Buffer:class"
+                  "canonicalReference": "!__global.Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -5169,7 +5172,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!Buffer:class"
+              "canonicalReference": "!__global.Buffer:class"
             },
             {
               "kind": "Content",
@@ -5414,7 +5417,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!Buffer:class"
+              "canonicalReference": "!__global.Buffer:class"
             },
             {
               "kind": "Content",
@@ -5473,7 +5476,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!Buffer:class"
+              "canonicalReference": "!__global.Buffer:class"
             },
             {
               "kind": "Content",
@@ -5541,7 +5544,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!Buffer:class"
+              "canonicalReference": "!__global.Buffer:class"
             },
             {
               "kind": "Content",

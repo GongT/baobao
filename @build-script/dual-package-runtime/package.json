@@ -2,7 +2,7 @@
 	"name": "@build-script/dual-package-runtime",
 	"description": "when require() without extension, try .cjs first, and then .js.",
 	"version": "1.0.1",
-	"license": "WTFPL",
+	"license": "MIT",
 	"type": "module",
 	"main": "./hook-extension.cjs",
 	"exports": {

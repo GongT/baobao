@@ -16,7 +16,7 @@ export default async function main() {
 		const argv = process.argv.slice(2).filter((item) => item !== command);
 		try {
 			const { default: fn } = await import(fpath);
-			fn(argv);
+			await fn(argv);
 		} catch (e) {
 			if (e instanceof NormalError) {
 				console.error(e.message);

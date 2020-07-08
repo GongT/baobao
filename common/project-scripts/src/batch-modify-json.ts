@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
 import { RushProject } from '@build-script/rush-tools';
 import { pathExistsSync } from 'fs-extra';
-import { getopts } from './include/rushArguments';
+import { getopts, handleShort } from './include/rushArguments';
 
 interface IOptions {
 	file: string;
@@ -11,7 +11,8 @@ interface IOptions {
 	value: string;
 }
 
-const { file, action, key, value } = getopts<IOptions>();
+const { file, action, key, value } = handleShort(getopts<IOptions>(), ['file', 'action', 'key', 'value']);
+console.log({ file, action, key, value });
 
 const actionCallback = createAction();
 function createAction() {
@@ -24,19 +25,24 @@ function createAction() {
 			return set;
 		case 'unset':
 			return del;
+		default:
+			printUsage('Action is required');
 	}
 }
 
 if (!key || !actionCallback) {
-	console.error('$0 -f <file-name.json> -a <push|unshift|set|unset> -k <.path.to.prop> [-v value]');
-	process.exit(1);
+	printUsage('Key is required');
 }
 if (actionCallback !== del && !value) {
-	console.error('$0 -f <file-name.json> -a <push|unshift|set|unset> -k <.path.to.prop> [-v value]');
-	process.exit(1);
+	printUsage('Value is required (except delete)');
 }
 if (!key.startsWith('.')) {
-	console.error('Error: key must starts with "."');
+	printUsage('Error: key must starts with "."');
+}
+
+function printUsage(err: string): never {
+	console.error(err);
+	console.error('$0 -f <file-name.json> -a <push|unshift|set|unset> -k <.path.to.prop> [-v value]');
 	process.exit(1);
 }
 

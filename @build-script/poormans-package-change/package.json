@@ -13,31 +13,30 @@
 		"clean": "rimraf lib",
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
-		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
 	},
 	"dependencies": {
 		"@idlebox/node": "^1.0.7",
 		"@idlebox/node-json-edit": "^1.0.20",
 		"@idlebox/common": "^1.0.16",
-		"execa": "^2.0.4",
-		"fs-extra": "^8.1.0",
-		"request": "^2.88.0",
-		"semver": "^6.3.0",
+		"execa": "^4.0.3",
+		"fs-extra": "^9.0.1",
+		"request": "^2.88.2",
+		"semver": "^7.3.2",
 		"targz": "^1.0.1",
-		"source-map-support": "*"
+		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.0.12",
 		"@build-script/single-dog-asset": "^1.0.2",
-		"@types/fs-extra": "^8.0.0",
-		"@types/node": "^12.7.8",
-		"@types/request": "^2.48.3",
-		"@types/semver": "^6.0.2",
+		"@types/fs-extra": "^9.0.1",
+		"@types/node": "^14.0.19",
+		"@types/request": "^2.48.5",
+		"@types/semver": "^7.3.1",
 		"@types/targz": "^1.0.0",
 		"gulp": "^4.0.2",
-		"typescript": "^3.8.2",
-		"tslib": "^1.10.0",
+		"typescript": "^3.9.6",
+		"tslib": "^2.0.0",
 		"ttypescript": "^1.5.10"
 	},
 	"repository": "https://github.com/GongT/baobao"

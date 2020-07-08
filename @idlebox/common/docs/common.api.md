@@ -67,16 +67,6 @@ export function awaitIterator<T>(generator: Iterator<T>): Promise<T>;
 // @public (undocumented)
 export const bindThis: MethodDecorator;
 
-// Warning: (ae-missing-release-tag) "Callable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface Callable {
-    // (undocumented)
-    (...args: any[]): any;
-    // (undocumented)
-    readonly name?: string;
-}
-
 // Warning: (ae-missing-release-tag) "CallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -273,15 +263,25 @@ export type Finder<Type> = (this: Type[], item: Type) => number;
 // @public (undocumented)
 export function finishAllPromise<T>(ps: Promise<T>[]): Promise<PromiseResultArray<T>>;
 
+// Warning: (ae-missing-release-tag) "fromTimeStamp" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function fromTimeStamp(timestamp: number): Date;
+
 // Warning: (ae-missing-release-tag) "functionName" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function functionName(func: Callable): string | undefined;
+export function functionName(func: Function): string;
 
 // Warning: (ae-missing-release-tag) "getErrorFrame" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function getErrorFrame(e: Error, frame: number): string;
+
+// Warning: (ae-missing-release-tag) "getTimeStamp" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function getTimeStamp(date: Date): number;
 
 // Warning: (ae-missing-release-tag) "globalObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -448,6 +448,11 @@ export function isArraySame<T>(a1: T[], a2: T[]): boolean;
 // @public (undocumented)
 export function isCanceledError(error: any): boolean;
 
+// Warning: (ae-missing-release-tag) "isDateInvalid" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function isDateInvalid(date: Date): boolean;
+
 // Warning: (ae-missing-release-tag) "isDisposedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -551,7 +556,7 @@ export interface MapLike<V> {
 // Warning: (ae-missing-release-tag) "MaybeNamedFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface MaybeNamedFunction extends Callable {
+export interface MaybeNamedFunction extends Function {
     // (undocumented)
     displayName?: string;
 }
@@ -594,7 +599,7 @@ export type MyFinder<Type> = (item: Type) => number;
 // Warning: (ae-missing-release-tag) "NamedFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface NamedFunction extends Callable {
+export interface NamedFunction extends Function {
     // (undocumented)
     displayName: string;
 }
@@ -602,7 +607,42 @@ export interface NamedFunction extends Callable {
 // Warning: (ae-missing-release-tag) "nameFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function nameFunction<T extends Callable>(name: string, func: T): T & NamedFunction;
+export function nameFunction<T extends Function>(name: string, func: T): T & NamedFunction;
+
+// Warning: (ae-missing-release-tag) "nextDay" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function nextDay(d: Date, n?: number): Date;
+
+// Warning: (ae-missing-release-tag) "nextHour" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function nextHour(d: Date, n?: number): Date;
+
+// Warning: (ae-missing-release-tag) "nextMinute" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function nextMinute(d: Date, n?: number): Date;
+
+// Warning: (ae-missing-release-tag) "nextMonth" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function nextMonth(d: Date, n?: number): Date;
+
+// Warning: (ae-missing-release-tag) "nextSecond" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function nextSecond(d: Date, n?: number): Date;
+
+// Warning: (ae-missing-release-tag) "nextWeek" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function nextWeek(d: Date, n?: number): Date;
+
+// Warning: (ae-missing-release-tag) "nextYear" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function nextYear(d: Date, n?: number): Date;
 
 // Warning: (ae-missing-release-tag) "normalizeArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -618,6 +658,31 @@ export function normalizePath(p: string): string;
 //
 // @public (undocumented)
 export function objectPath(obj: object, path: string): any;
+
+// Warning: (ae-missing-release-tag) "oneDay" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const oneDay = 86400000;
+
+// Warning: (ae-missing-release-tag) "oneHour" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const oneHour = 1440000;
+
+// Warning: (ae-missing-release-tag) "oneMinute" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const oneMinute = 60000;
+
+// Warning: (ae-missing-release-tag) "oneSecond" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const oneSecond = 1000;
+
+// Warning: (ae-missing-release-tag) "oneWeek" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const oneWeek = 604800000;
 
 // Warning: (ae-missing-release-tag) "pad2" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

@@ -6,7 +6,7 @@
 	"version": "1.0.3",
 	"main": "dist/api.js",
 	"types": "dist/api.d.ts",
-	"license": "WTFPL",
+	"license": "MIT",
 	"scripts": {
 		"prepack": "rm -rf dist && tsc -p src",
 		"watch": "tsc -p src -w",
@@ -18,7 +18,8 @@
 		"source-map": "^0.7.3"
 	},
 	"devDependencies": {
-		"@types/node": "^12.7.8",
-		"typescript": "^3.8.2"
-	}
+		"@types/node": "^14.0.19",
+		"typescript": "^3.9.6"
+	},
+	"repository": "https://github.com/GongT/baobao"
 }

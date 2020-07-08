@@ -1,9 +1,9 @@
+import { dirname, resolve } from 'path';
 import { loadJsonFileSync } from '@idlebox/node-json-edit';
 import { pathExistsSync } from 'fs-extra';
-import { dirname, resolve } from 'path';
+import { requireRushPathSync } from '../common/loadRushJson';
 import { Immutable } from './deepReadonly';
 import { IProjectConfig, IRushConfig } from './limitedJson';
-import { findRushJsonSync } from './load';
 
 interface IProjectDependencyOptions {
 	removeCyclic?: boolean;
@@ -17,14 +17,18 @@ export class RushProject {
 	private declare _preferredVersions: { [id: string]: string };
 
 	constructor(path: string = process.cwd()) {
-		const configFile = findRushJsonSync(path);
-		if (!configFile) {
-			throw new Error('Can not find a "rush.json" from "' + path + '"');
-		}
+		const configFile = requireRushPathSync(path);
 		this.configFile = configFile;
 		this.projectRoot = dirname(configFile);
 
 		this.config = loadJsonFileSync(configFile);
+	}
+
+	public get tempRoot() {
+		return resolve(this.projectRoot, 'common/temp');
+	}
+	public tempFile(name: string = randomHash()) {
+		return resolve(this.projectRoot, 'common/temp/.random/', name);
 	}
 
 	public get preferredVersions() {
@@ -98,4 +102,11 @@ export class RushProject {
 		}
 		return depNames;
 	}
+}
+
+import { createHash } from 'crypto';
+function randomHash() {
+	return createHash('md4')
+		.update(Date.now().toFixed(0) + Math.random().toString())
+		.digest('hex');
 }

@@ -10,7 +10,6 @@
 		"build": "ttsc -p src",
 		"prepack": "rimraf lib && ttsc -p src",
 		"publishPackage": "yarn publish --registry https://registry.npmjs.org --access=public",
-		"upgrade": "ncu --upgrade --packageFile ./package.json",
 		"watch": "ttsc -p src -w",
 		"clean": "rimraf lib"
 	},
@@ -22,18 +21,18 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"comment-json": "^2.1.0"
+		"comment-json": "^3.0.2"
 	},
 	"devDependencies": {
 		"@build-script/typescript-transformer-dual-package": "^1.0.3",
 		"@types/comment-json": "^1.1.1",
 		"@build-script/single-dog-asset": "^1.0.2",
-		"@types/node": "^12.7.8",
-		"npm-check-updates": "^3.1.23",
-		"rimraf": "^3.0.0",
-		"tslib": "^1.10.0",
+		"@types/node": "^14.0.19",
+		"npm-check-updates": "^7.0.1",
+		"rimraf": "^3.0.2",
+		"tslib": "^2.0.0",
 		"ttypescript": "^1.5.10",
-		"typescript": "^3.8.2"
+		"typescript": "^3.9.6"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

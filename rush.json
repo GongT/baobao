@@ -1,18 +1,18 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.23.1",
-	"pnpmVersion": "4.9.3",
-	// "npmVersion": "4.5.0",
-	// "yarnVersion": "1.16.0",
+	"rushVersion": "5.28.0",
+	"pnpmVersion": "4.14.4",
 	"pnpmOptions": {
 		"pnpmStore": "global",
 		"strictPeerDependencies": false,
 		"resolutionStrategy": "fewer-dependencies"
 	},
 	"nodeSupportedVersionRange": ">=10.13.0",
-	"ensureConsistentVersions": true,
+	"suppressNodeLtsWarning": true,
+	"ensureConsistentVersions": false,
 	"projectFolderMinDepth": 2,
 	"projectFolderMaxDepth": 2,
+	"allowMostlyStandardPackageNames": false,
 	"gitPolicy": {
 		// "allowedEmailRegExps": [
 		//   "[^@]+@users\\.noreply\\.github\\.com",
@@ -22,7 +22,7 @@
 		// "versionBumpCommitMessage": "Applying package updates. [skip-ci]"
 	},
 	"repository": {
-		"url": "https://github.com/GongT/baobao"
+		"url": "git@github.com:GongT/baobao.git"
 	},
 	"eventHooks": {
 		"preRushInstall": [
@@ -128,7 +128,7 @@
 		{
 			"packageName": "@build-script/typescript-transformer-import-commonjs",
 			"projectFolder": "@build-script/typescript-transformer-import-commonjs",
-			"shouldPublish": true
+			"shouldPublish": false
 		},
 		{
 			"packageName": "@build-script/builder",
@@ -164,6 +164,11 @@
 			"packageName": "vscode-settings-sync",
 			"projectFolder": "@gongt/vscode-settings-sync",
 			"shouldPublish": false
+		},
+		{
+			"packageName": "@gongt/mysql-docgen",
+			"projectFolder": "@gongt/mysql-docgen",
+			"shouldPublish": true
 		}
 	]
 }

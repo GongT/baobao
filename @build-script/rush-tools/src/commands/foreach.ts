@@ -1,17 +1,11 @@
-import { RushProject } from './../api/rushProject';
 import * as execa from 'execa';
-import { createWriteStream } from 'fs-extra';
 import { resolve } from 'path';
 import { PassThrough } from 'stream';
-import { findRushJsonSync } from '../api/load';
+import { createWriteStream } from 'fs-extra';
+import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 
 export default async function runForEach(argv: string[]) {
-	const rushJson = findRushJsonSync();
-	if (!rushJson) {
-		throw new Error('Must run inside rush project.');
-	}
-
 	let quiet = false;
 	if (argv[0] === '--quiet') {
 		quiet = true;
@@ -31,8 +25,7 @@ export default async function runForEach(argv: string[]) {
 		argv.unshift('ts-node');
 	}
 
-	process.env.RUSH_ROOT = rushJson;
-	const rush = new RushProject(rushJson);
+	const rush = new RushProject();
 	for (const { projectFolder, packageName } of rush.projects) {
 		const absPath = rush.absolute(projectFolder);
 		process.env.PROJECT_PATH = absPath;

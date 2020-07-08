@@ -4,6 +4,7 @@
 
 ```ts
 
+import { CancellationToken } from 'vscode';
 import { CancellationTokenSource } from 'vscode';
 import { ExtensionContext } from 'vscode';
 import { Memento } from 'vscode';
@@ -14,7 +15,7 @@ import { Memento } from 'vscode';
 export abstract class Action<T> implements IAction<T> {
     constructor();
     // (undocumented)
-    protected readonly cancel: import("vscode").CancellationToken;
+    protected readonly cancel: CancellationToken;
     // (undocumented)
     protected readonly cancelSource: CancellationTokenSource;
     // (undocumented)

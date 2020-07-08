@@ -45,13 +45,19 @@
 			"shellCommand": "node common/project-scripts/lib/poor-publish.js"
 		},
 		{
+			"commandKind": "global",
+			"name": "upgrade",
+			"summary": "Upgrade every project's dependency",
+			"allowWarningsInSuccessfulBuild": true,
+			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update"
+		},
+		{
 			"commandKind": "bulk",
 			"name": "clean",
 			"summary": "Run clean in every project",
 			"enableParallelism": true,
 			"ignoreDependencyOrder": true,
-			"allowWarningsInSuccessfulBuild": true,
-			"ignoreMissingScript": false
+			"allowWarningsInSuccessfulBuild": true
 		}
 	],
 	"parameters": [

@@ -93,6 +93,11 @@ export type ImmutableObject<T> = {
 // @public (undocumented)
 export type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
 
+// Warning: (ae-missing-release-tag) "info" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function info(txt: string, ...args: any[]): void;
+
 // Warning: (ae-missing-release-tag) "IProjectCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -163,6 +168,21 @@ export class NormalError extends Error {
 // @public (undocumented)
 export function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
 
+// Warning: (ae-missing-release-tag) "requireRushPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function requireRushPath(path?: string): Promise<string>;
+
+// Warning: (ae-missing-release-tag) "requireRushPathSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function requireRushPathSync(path?: string): string;
+
+// Warning: (ae-missing-release-tag) "resolveNpm" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function resolveNpm(versions: Map<string, string>): Promise<Map<string, string>>;
+
 // Warning: (ae-missing-release-tag) "runAutoFix" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -226,6 +246,10 @@ export class RushProject {
     readonly projectRoot: string;
     // (undocumented)
     get projects(): Immutable<IProjectConfig[]>;
+    // (undocumented)
+    tempFile(name?: string): string;
+    // (undocumented)
+    get tempRoot(): string;
 }
 
 

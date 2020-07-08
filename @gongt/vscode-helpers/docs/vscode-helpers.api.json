@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.7.8",
+    "toolVersion": "7.9.1",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -74,10 +74,6 @@
                   "text": "protected readonly cancel: "
                 },
                 {
-                  "kind": "Content",
-                  "text": "import(\"vscode\")."
-                },
-                {
                   "kind": "Reference",
                   "text": "CancellationToken",
                   "canonicalReference": "!\"\\\"vscode\\\"\".CancellationToken:interface"
@@ -91,7 +87,7 @@
               "name": "cancel",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false
             },

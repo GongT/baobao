@@ -1,5 +1,5 @@
 import { CanceledError } from '@idlebox/common';
-import { CancellationTokenSource, commands } from 'vscode';
+import { CancellationToken, CancellationTokenSource, commands } from 'vscode';
 import { context, IdCategory, wrapId } from './context';
 import { upgradePackageContributeAction } from './development';
 import { logger } from './main';
@@ -50,7 +50,7 @@ async function runExtensionAction(this: IActionConstructor, ...args: any[]) {
 
 export abstract class Action<T> implements IAction<T> {
 	protected readonly cancelSource = new CancellationTokenSource();
-	protected readonly cancel = this.cancelSource.token;
+	protected readonly cancel: CancellationToken = this.cancelSource.token;
 
 	constructor() {}
 

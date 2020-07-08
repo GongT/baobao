@@ -1,7 +1,7 @@
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
 import { description } from '../common/description';
-import { manifest } from 'pacote';
+import { resolveNpm } from '../common/npm';
 import { RushProject } from '../api/rushProject';
 
 export default async function runAutoFix() {
@@ -116,18 +116,6 @@ export default async function runAutoFix() {
 	}
 
 	console.log('Done. %s package%s fixed', fixed, fixed > 1 ? 's' : '');
-}
-
-async function resolveNpmVersion(packageName: string) {
-	return '^' + (await manifest(packageName + '@latest')).version;
-}
-async function resolveNpm(versions: Map<string, string>) {
-	for (const packName of versions.keys()) {
-		process.stdout.write(' - ' + packName + ': ');
-		const ver = await resolveNpmVersion(packName);
-		console.log(ver);
-		versions.set(packName, ver);
-	}
 }
 
 function warn(msg: string, ...args: any[]) {

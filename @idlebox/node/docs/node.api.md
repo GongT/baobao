@@ -34,7 +34,7 @@ export class CollectingStream extends Writable {
     // (undocumented)
     promise(): Promise<string>;
     // (undocumented)
-    _write(chunk: Buffer, encoding: string, callback: (error?: Error | null) => void): void;
+    _write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void;
 }
 
 // Warning: (ae-missing-release-tag) "commandInPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -353,7 +353,7 @@ export function getEnvironment(name: string, env?: NodeJS.ProcessEnv): IEnvironm
 export class HexDumpLoggerStream extends Transform {
     constructor(logFn: LogFunction, prefix?: string);
     // (undocumented)
-    _transform(chunk: Buffer, encoding: string, callback: Function): void;
+    _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
 }
 
 // Warning: (ae-missing-release-tag) "IEnvironmentResult" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -385,7 +385,7 @@ export type LogFunction = (message: string, ...args: any[]) => void;
 export class LoggerStream extends Transform {
     constructor(logFn: LogFunction, prefix?: string);
     // (undocumented)
-    _transform(chunk: Buffer, encoding: string, callback: Function): void;
+    _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
 }
 
 // Warning: (ae-missing-release-tag) "lrelative" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)

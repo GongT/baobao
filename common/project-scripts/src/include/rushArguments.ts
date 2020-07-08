@@ -1,3 +1,15 @@
+export function handleShort<T>(input: T, names: (keyof T)[]): T {
+	for (const i of names as string[]) {
+		const f = i.slice(0, 1);
+		if (input.hasOwnProperty(f)) {
+			if (input[i]) {
+				throw new Error(`duplicate argument: ${f} and ${i}`);
+			}
+			input[i] = input[f];
+		}
+	}
+	return input;
+}
 export function getopts<T>(argv = process.argv.slice(2)): T {
 	let opts: any = {};
 	for (let index = 0; index < argv.length; index++) {

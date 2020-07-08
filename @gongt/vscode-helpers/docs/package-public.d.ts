@@ -1,10 +1,11 @@
+import { CancellationToken } from 'vscode';
 import { CancellationTokenSource } from 'vscode';
 import { ExtensionContext } from 'vscode';
 import { Memento } from 'vscode';
 
 export declare abstract class Action<T> implements IAction<T> {
     protected readonly cancelSource: CancellationTokenSource;
-    protected readonly cancel: import("vscode").CancellationToken;
+    protected readonly cancel: CancellationToken;
     constructor();
     protected selfCancel(): void;
     dispose(): void;

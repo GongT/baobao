@@ -16,7 +16,7 @@ export declare class CollectingStream extends Writable {
     private buffer;
     private _promise?;
     constructor(sourceStream?: NodeJS.ReadableStream);
-    _write(chunk: Buffer, encoding: string, callback: (error?: Error | null) => void): void;
+    _write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void;
     getOutput(): string;
     promise(): Promise<string>;
 }
@@ -174,7 +174,7 @@ export declare class HexDumpLoggerStream extends Transform {
     private readonly logFn;
     private readonly prefix;
     constructor(logFn: LogFunction, prefix?: string);
-    _transform(chunk: Buffer, encoding: string, callback: Function): void;
+    _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
 }
 
 export declare interface IEnvironmentResult {
@@ -192,7 +192,7 @@ export declare class LoggerStream extends Transform {
     private readonly logFn;
     private readonly prefix;
     constructor(logFn: LogFunction, prefix?: string);
-    _transform(chunk: Buffer, encoding: string, callback: Function): void;
+    _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
 }
 
 export declare function lrelative(from: string, to: string): string;

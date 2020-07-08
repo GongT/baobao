@@ -59,10 +59,10 @@ export class CollectingStream extends Writable {
 		}
 	}
 
-	_write(chunk: Buffer, encoding: string, callback: (error?: Error | null) => void): void {
+	_write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
 		if (!encoding) {
 			encoding = 'utf8';
-		} else if (encoding === 'buffer') {
+		} else if ((encoding as any) === 'buffer' || encoding === 'binary') {
 			encoding = 'utf8';
 		}
 		this.buffer += chunk.toString(encoding);

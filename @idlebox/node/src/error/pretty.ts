@@ -25,6 +25,12 @@ const enum regFileOnlyMatch {
 	column,
 }
 
+const regSimpleFrame = /^\s+at ([^(]+) \(<anonymous>\)$/;
+
+const enum regSimpleFrameMatch {
+	fn = 1,
+}
+
 let root = __dirname;
 
 export function setErrorLogRoot(_root: string) {
@@ -52,14 +58,7 @@ function red(s: string) {
 
 export function prettyFormatError(e: Error) {
 	if (!e || !e.message) {
-		return (
-			red('Unknown Error') +
-			'\n' +
-			new Error().stack
-				?.split('\n')
-				.slice(3)
-				.join('\n')
-		);
+		return red('Unknown Error') + '\n' + new Error().stack?.split('\n').slice(3).join('\n');
 	}
 	if (!e.stack) {
 		return red(e.message + '\nNo stack trace');
@@ -97,8 +96,18 @@ export function prettyFormatError(e: Error) {
 				col: parseInt(m[regFileOnlyMatch.column].slice(1)),
 				abs: isAbsolute(m[regFileOnlyMatch.file]),
 			};
+		} else if (regSimpleFrame.test(line)) {
+			const m = regSimpleFrame.exec(line)!;
+			return {
+				fn: m[regSimpleFrameMatch.fn],
+				as: undefined,
+				file: '<anonymous>',
+				line: undefined,
+				col: undefined,
+				abs: false,
+			};
 		} else {
-			return { raw: line };
+			return { raw: line.replace(/^  /, '') };
 		}
 	});
 	const stackOutput = stack
@@ -111,7 +120,9 @@ export function prettyFormatError(e: Error) {
 			}
 
 			if (abs) {
-				ret = '  at \x1b[38;5;6m';
+				const isNodeModule = file?.includes('/node_modules/');
+				const color = fn ? (isNodeModule ? '4' : '14') : '8';
+				ret = `  at \x1b[38;5;${color}m`;
 				if (as && fn && fn.startsWith('Object.')) {
 					ret += as + ' [export]';
 				} else {
@@ -119,7 +130,12 @@ export function prettyFormatError(e: Error) {
 				}
 				ret += '\x1b[0m';
 				if (file) {
-					ret += ' (' + formatFileLine(file.replace(root, '.'), line, col) + ')\x1B[0m';
+					ret += ' (';
+					if (!isNodeModule) {
+						ret += '\x1b[38;5;2m';
+					}
+					ret += formatFileLine(file.replace(root, '.'), line, col);
+					ret += '\x1B[0m)';
 				}
 			} else {
 				ret = '\x1B[2m  at ';
@@ -161,7 +177,7 @@ function formatFunctionName(fn?: string, as?: string) {
 			return fn;
 		}
 	} else {
-		return '*unknown function*';
+		return '[anonymous]';
 	}
 }
 
@@ -180,14 +196,19 @@ function translateFunction(data: IInternalData): IInternalData {
 }
 
 function ignoreSomeFiles({ file }: IInternalData): boolean {
+	if (!file) {
+		return true;
+	}
 	if (file === 'internal/timers.js') {
 		return false;
 	}
 	if (file === 'internal/modules/cjs/loader.js') {
 		return false;
 	}
-	if (!file) {
-		return true;
+	if (!file.includes('/')) {
+		if (file.startsWith('_stream_')) {
+			return false;
+		}
 	}
 	return true;
 }

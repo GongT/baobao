@@ -1,0 +1,26 @@
+### PackageManager
+*.tgz
+yarn.lock
+node_modules
+jspm_modules
+pnpm-lock.yaml
+
+### hidden files
+.*
+
+### temp files
+package-deps.json
+*.log
+
+### build source
+src
+build-script.json
+Gulpfile.js
+
+### docs
+docs/*
+!docs/*.d.ts
+
+### export-all-in-one ###
+lib/*.d.ts
+lib/**/*.d.ts
