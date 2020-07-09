@@ -186,7 +186,7 @@ export function resolveNpm(versions: Map<string, string>): Promise<Map<string, s
 // Warning: (ae-missing-release-tag) "runAutoFix" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function runAutoFix(): Promise<void>;
+export function runAutoFix(argv: string[]): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "runCheckUpdate" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

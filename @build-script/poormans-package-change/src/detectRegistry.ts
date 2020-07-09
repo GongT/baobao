@@ -8,7 +8,7 @@ export async function getPackageManager() {
 	if (foundPm) {
 		return foundPm;
 	}
-	for (const name of ['npm', 'yarn', 'pnpm']) {
+	for (const name of ['yarn', 'npm']) {
 		if (await commandInPath(name).catch(() => false)) {
 			return (foundPm = name);
 		}
@@ -18,7 +18,7 @@ export async function getPackageManager() {
 
 export async function detectRegistry(url: string): Promise<string> {
 	if (url !== 'detect') {
-		log('using registry url from commandline');
+		log('using registry url from commandline (%s)', url);
 		return url;
 	}
 

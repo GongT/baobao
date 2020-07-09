@@ -86,7 +86,7 @@ export declare function requireRushPathSync(path?: string): string;
 
 export declare function resolveNpm(versions: Map<string, string>): Promise<Map<string, string>>;
 
-export declare function runAutoFix(): Promise<void>;
+export declare function runAutoFix(argv: string[]): Promise<void>;
 
 export declare function runCheckUpdate(): Promise<void>;
 

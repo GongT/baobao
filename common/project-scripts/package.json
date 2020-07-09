@@ -7,20 +7,22 @@
 		"build": "rimraf output ; tsc -p .",
 		"clean": "",
 		"watch": "tsc -w -p .",
-		"prepack": "exit 1"
+		"prepack": ""
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^1.0.20",
-		"@build-script/rush-tools": "^1.1.0",
-		"@idlebox/node": "^1.0.7",
-		"@idlebox/common": "^1.0.16",
+		"@idlebox/node-json-edit": "^1.0.21",
+		"@build-script/rush-tools": "^1.1.1",
+		"@idlebox/node": "^1.0.8",
+		"@idlebox/common": "^1.0.19",
 		"fs-extra": "^9.0.1",
 		"jsonc": "^2.0.0",
 		"split2": "^3.1.1",
 		"source-map-support": "^0.5.19",
 		"semver": "^7.3.2",
 		"rimraf": "^3.0.2",
-		"typescript": "^3.9.6"
+		"typescript": "^3.9.6",
+		"prettier": "^2.0.5",
+		"pretty-quick": "^2.0.1"
 	},
 	"devDependencies": {
 		"@types/semver": "^7.3.1",

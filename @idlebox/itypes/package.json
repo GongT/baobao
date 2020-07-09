@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/itypes",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "some global variables copied from @types/node or dom",
 	"keywords": [
 		"Typescript",

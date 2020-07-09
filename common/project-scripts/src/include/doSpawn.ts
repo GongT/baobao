@@ -1,13 +1,15 @@
 import { spawn } from 'child_process';
 import { commandInPath } from '@idlebox/node';
-import { existsSync } from 'fs-extra';
+import { existsSync, lstatSync, readlinkSync } from 'fs-extra';
 import { platform, userInfo } from 'os';
 import { resolve, basename } from 'path';
 import { writeEnv } from './envPass';
 import { TEMP_DIR } from './paths';
 
 export const doSpawn: (file: string, args?: string[]) => void =
-	platform() == 'linux' && commandInPath('systemd-run') ? spawnSystemd : spawnNormal;
+	platform() == 'linux' && commandInPath('systemd-run') && process.env.INIT_PROCESS === 'systemd'
+		? spawnSystemd
+		: spawnNormal;
 
 function getFile(file: string) {
 	file = resolve(__dirname, '../actions/', file);
@@ -27,6 +29,10 @@ function spawnNormal(file: string, args: string[] = []) {
 }
 
 function spawnSystemd(file: string, args: string[] = []) {
+	if (!lstatSync('/proc/1/exe').isSymbolicLink() || !readlinkSync('/proc/1/exe').endsWith('/systemd')) {
+		return spawnNormal(file, args);
+	}
+
 	let isAlreadyQuit = false;
 	file = getFile(file);
 

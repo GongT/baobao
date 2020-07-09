@@ -1,9 +1,15 @@
 import { createInterface } from 'readline';
-import { IOptions, KNOWN_PACKAGE_MANAGERS } from './getPackageManagerByName';
+import { KNOWN_PACKAGE_MANAGERS } from './getPackageManagerByName';
 import { PackageManager } from './packageManager';
 
-export async function getPackageManager(_options?: Partial<IOptions>): Promise<PackageManager> {
-	const options: IOptions = Object.assign(
+export interface IGetPackageManagerOptions {
+	cwd: string;
+	default: 'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto';
+	ask: boolean;
+}
+
+export async function getPackageManager(_options?: Partial<IGetPackageManagerOptions>): Promise<PackageManager> {
+	const options: IGetPackageManagerOptions = Object.assign(
 		{},
 		{
 			cwd: process.cwd(),

@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@build-script/export-all-in-one",
-	"version": "3.0.8",
+	"version": "3.0.9",
 	"type": "commonjs",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/baobao",
@@ -25,8 +25,8 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/ensure-symlink": "^1.0.9",
-		"@idlebox/node-json-edit": "^1.0.20",
+		"@idlebox/ensure-symlink": "^1.0.10",
+		"@idlebox/node-json-edit": "^1.0.21",
 		"@microsoft/api-extractor": "^7.9.1",
 		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
@@ -35,7 +35,7 @@
 		"ttypescript": "^1.5.10"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.12",
+		"@build-script/builder": "^2.0.13",
 		"@build-script/single-dog-asset": "^1.0.2",
 		"@types/fs-extra": "^9.0.1",
 		"@types/node": "^14.0.19",

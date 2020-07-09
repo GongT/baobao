@@ -1,5 +1,6 @@
 import { PackageManager } from '../common/packageManager';
 
+/** @internal */
 export class Yarn extends PackageManager {
 	readonly friendlyName: string = 'yarn';
 	readonly cliName: string = 'yarn';
@@ -8,6 +9,7 @@ export class Yarn extends PackageManager {
 	readonly uninstallCommand: string = 'remove';
 	readonly installDevFlag: string = '--dev';
 	readonly syncCommand: string = 'install';
+	readonly showCommand: string = 'view';
 
 	_detect(): Promise<boolean> {
 		return this._detectFile('yarn.lock');

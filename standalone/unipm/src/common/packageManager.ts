@@ -15,6 +15,7 @@ export abstract class PackageManager {
 	protected abstract readonly uninstallCommand: string;
 	protected readonly runCommand: string = 'run';
 	protected readonly initCommand: string = 'run';
+	protected readonly showCommand: string = 'show';
 	protected abstract readonly syncCommand: string;
 
 	public detect(): Promise<boolean> {
@@ -68,8 +69,8 @@ export abstract class PackageManager {
 		return this.invokeCli(this.uninstallCommand, ...packages);
 	}
 
-	public init() {
-		return this.invokeCli(this.initCommand);
+	public init(...args: string[]) {
+		return this.invokeCli(this.initCommand, ...args);
 	}
 
 	public exists() {
@@ -78,5 +79,9 @@ export abstract class PackageManager {
 
 	public sync(...args: string[]) {
 		return this.invokeCli(this.syncCommand, ...args);
+	}
+
+	public show(...args: string[]) {
+		return this.invokeCli(this.showCommand, ...args);
 	}
 }

@@ -13,24 +13,25 @@ async function main() {
 	if (!yarnBin) {
 		throw new Error(`Failed to find yarn in PATH.`);
 	}
+	const count = rushProject.projects.length;
+	let current = 0;
 	buildProjects({ rushProject, concurrent: 1 }, async (item) => {
-		console.error('Publish package: %s', item.packageName);
+		current++;
+		console.error('📦 \x1B[38;5;14mPublishing package (%s of %s):\x1B[0m %s ...', current, count, item.packageName);
 
 		try {
 			if (require(rushProject.absolute(item, 'package.json')).private) {
-				console.error('    * private package, skip!');
+				console.error('    🛑 private package, skip!');
 				return;
 			}
 		} catch (e) {
 			throw new Error('package.json is invalid');
 		}
 
-		const logFile = rushProject.absolute(item, 'update-version.log');
+		const logFile = rushProject.absolute(item, 'yarn-publish.log');
 		await execPromise({
 			cwd: rushProject.absolute(item),
 			argv: [
-				'-r',
-				require.resolve('source-map-support/register'),
 				checkBin,
 				'run-if-version-mismatch',
 				'--',

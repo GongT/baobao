@@ -1,5 +1,6 @@
 import { PackageManager } from '../common/packageManager';
 
+/** @internal */
 export class Npm extends PackageManager {
 	readonly friendlyName: string = 'npm';
 	readonly cliName: string = 'npm';

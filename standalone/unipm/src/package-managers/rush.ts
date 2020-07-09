@@ -1,14 +1,15 @@
-import { loadJsonFile } from '@idlebox/node-json-edit';
-import { findUpUntil } from '@idlebox/node';
 import { readFile as readFileAsync } from 'fs';
-import { parse } from 'json5';
-import { basename, relative, resolve } from 'path';
+import { dirname, relative, resolve } from 'path';
 import { promisify } from 'util';
+import { findUpUntil } from '@idlebox/node';
+import { loadJsonFile } from '@idlebox/node-json-edit';
+import { parse } from 'json5';
 import { PackageManager } from '../common/packageManager';
 
 const readFile = promisify(readFileAsync);
-const subCommands = ['run', 'init'];
+const subCommands = ['run', 'init', 'show', 'view'];
 
+/** @internal */
 export class Rush extends PackageManager {
 	readonly friendlyName: string = 'rush';
 	readonly cliName: string = 'rush';
@@ -17,6 +18,7 @@ export class Rush extends PackageManager {
 	readonly uninstallCommand: string = 'remove';
 	readonly installDevFlag: string = '--dev';
 	readonly syncCommand: string = 'update';
+	showCommand = '';
 
 	private rushRoot?: string;
 	private subPackageManager?: string;
@@ -26,7 +28,7 @@ export class Rush extends PackageManager {
 		if (!found) {
 			return false;
 		}
-		this.rushRoot = basename(found);
+		this.rushRoot = dirname(found);
 		const data = parse(await readFile(found, 'utf-8'));
 		let pm = '';
 		for (const key of ['pnpm', 'npm', 'yarn']) {
@@ -36,6 +38,10 @@ export class Rush extends PackageManager {
 			}
 		}
 		if (pm) {
+			if (pm === 'pnpm') {
+				this.showCommand = 'view';
+			}
+
 			this.subPackageManager = resolve(this.rushRoot, 'common/temp', `${pm}-local`, 'node_modules/.bin', pm);
 		} else {
 			if (sub) {

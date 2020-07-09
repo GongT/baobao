@@ -4,7 +4,7 @@ import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
 import { RushProject } from '../api/rushProject';
 
-export default async function runAutoFix() {
+export default async function runAutoFix(argv: string[]) {
 	const localHardVersions = new Map<string, string>(); // 本地硬性依赖，不允许指定其他值
 	const cyclicVersions = new Map<string, string>(); // 循环依赖 - 必须去npm请求才能确定
 	const conflictingVersions = new Map<string, string>(); // 有冲突，需要处理的依赖
@@ -39,8 +39,16 @@ export default async function runAutoFix() {
 		}
 	}
 
-	console.log('Resolving cyclic dependencies from NPM:');
-	await resolveNpm(cyclicVersions);
+	if (cyclicVersions.size > 0) {
+		console.log('Resolving cyclic dependencies from NPM:');
+		if (argv.includes('--skip-cyclic')) {
+			console.log('  * Skip by --skip-cyclic. (%s)', [...cyclicVersions.keys()].join(', '));
+		} else {
+			await resolveNpm(cyclicVersions);
+		}
+	} else {
+		console.log('Project do not have cyclic dependencies.');
+	}
 
 	console.log('Load preferred versions: (common/config/rush/common-versions.json)');
 	for (const [id, version] of Object.entries(rush.preferredVersions)) {

@@ -161,11 +161,6 @@
 			"shouldPublish": false
 		},
 		{
-			"packageName": "vscode-settings-sync",
-			"projectFolder": "@gongt/vscode-settings-sync",
-			"shouldPublish": false
-		},
-		{
 			"packageName": "@gongt/mysql-docgen",
 			"projectFolder": "@gongt/mysql-docgen",
 			"shouldPublish": true

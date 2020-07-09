@@ -10,12 +10,10 @@ async function main() {
 	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.cjs');
 
 	for (const item of projects) {
-		console.log('check package: %s', item.packageName);
+		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s', item.packageName);
 		const logFile = rushProject.absolute(item.projectFolder, 'update-version.log');
 		const { full, result } = await execPromise({
 			argv: [
-				'-r',
-				'source-map-support/register',
 				checkBin,
 				'detect-package-change',
 				'--registry',
@@ -31,22 +29,27 @@ async function main() {
 			changed = JSON.parse(result).changed;
 			if (typeof changed !== 'boolean') throw new Error('boolean value expected.');
 		} catch (e) {
-			console.error(full);
-			console.error('===============================');
+			console.error('=============================================');
+			console.error('\x1B[38;5;9m[     detect-package-change has failed.     ]\x1B[0m');
+			console.error('\x1B[2m%s\x1B[0m', full);
+			console.error('=============================================');
 			console.error(e.message);
 			process.exit(1);
 		}
 
-		console.log('    changed: %s', changed);
 		if (changed) {
-			increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));
-			console.log('    ! autofix');
+			console.log('✨ \x1B[38;5;10m    Change detected, updating version...\x1B[0m');
+			await increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));
+			console.log('⏳     Autofix...');
 			const logFile = rushProject.absolute('common/temp/autofix.log');
 			await execPromise({
-				argv: ['-r', 'source-map-support/register', syncBin, 'autofix'],
+				argv: [syncBin, 'autofix', '--skip-cyclic'],
 				logFile,
 			});
+		} else {
+			console.log('✨ \x1B[38;5;10m    No change detected\x1B[0m');
 		}
+		console.log('');
 	}
 }
 

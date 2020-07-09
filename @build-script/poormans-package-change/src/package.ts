@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import { PassThrough } from 'stream';
 import { getPackageManager } from './detectRegistry';
 import { log, logEnable, logStream } from './log';
+import { readJson } from 'fs-extra';
 
 export async function packCurrentVersion(cwd: string) {
 	log('create package...');
@@ -26,9 +27,12 @@ export async function packCurrentVersion(cwd: string) {
 		const ret = JSON.parse(resultLine[0]);
 		return ret.data.replace(/^Wrote tarball to "/, '').replace(/"\.$/, '');
 	} else {
-		cmd = pm + ' run prepack';
-		log('+ ' + cmd);
-		await command(cmd, { cwd, stdout: logEnable ? process.stderr : 'ignore', stderr: 'inherit' });
+		const prepackExists = !!(await readJson(resolve(cwd, 'package.json'))).scripts?.prepack;
+		if (prepackExists) {
+			cmd = pm + ' run prepack';
+			log('+ ' + cmd);
+			await command(cmd, { cwd, stdout: logEnable ? process.stderr : 'ignore', stderr: 'inherit' });
+		}
 
 		cmd = pm + ' pack';
 		log('+ ' + cmd);

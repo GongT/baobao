@@ -1,13 +1,13 @@
+import { basename, dirname, resolve } from 'path';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { writeJsonFileIfChanged } from '@idlebox/node-json-edit';
 import { Extractor, ExtractorConfig, ExtractorLogLevel, IConfigFile } from '@microsoft/api-extractor';
 import { copyFile, ensureDir, mkdirpSync } from 'fs-extra';
-import { basename, dirname, resolve } from 'path';
-import { API_CONFIG_FILE, EXPORT_TEMP_PATH, PROJECT_ROOT, INDEX_FILE_NAME, TEMP_DIST_DIR_NAME } from '../inc/argParse';
+import { API_CONFIG_FILE, EXPORT_TEMP_PATH, INDEX_FILE_NAME, PROJECT_ROOT, TEMP_DIST_DIR_NAME } from '../inc/argParse';
+import { debug } from '../inc/debug';
 import { findUp } from '../inc/findUp';
 import { projectPackagePath } from '../inc/package';
 import { relativePosix } from '../inc/paths';
-import { debug } from '../inc/debug';
 
 const apiExtractorJson: IConfigFile = {
 	// $schema: 'https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json',
@@ -56,6 +56,9 @@ const apiExtractorJson: IConfigFile = {
 			default: {
 				logLevel: ExtractorLogLevel.Warning,
 				addToApiReportFile: true,
+			},
+			'tsdoc-undefined-tag': {
+				logLevel: ExtractorLogLevel.None,
 			},
 		},
 	},

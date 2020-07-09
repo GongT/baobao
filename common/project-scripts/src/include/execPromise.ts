@@ -11,6 +11,8 @@ export interface IOptions extends SpawnOptions {
 	logFile?: string;
 }
 
+const verbose = process.argv.includes('--verbose');
+
 export function execPromise({
 	cmd = process.argv0,
 	argv,
@@ -18,7 +20,8 @@ export function execPromise({
 	cwd = TEMP_DIR,
 	...opts
 }: IOptions): Promise<{ result: string; full: string }> {
-	console.error('\x1B[2m + %s %s\x1B[0m', cmd, argv.join(' '));
+	const debugExec = ` + ${cmd} ${argv.join(' ')}`;
+	if (verbose) console.error('\x1B[2m%s\x1B[0m', debugExec);
 	const r = spawn(cmd, argv, {
 		...opts,
 		stdio: ['ignore', 'pipe', 'pipe'],
@@ -28,7 +31,12 @@ export function execPromise({
 
 	const output = new CollectingStream();
 	const full = new CollectingStream();
-	mkdirpSync(dirname(logFile));
+
+	full.write(debugExec + '\n\n');
+
+	if (logFile) {
+		mkdirpSync(dirname(logFile));
+	}
 	const logger = logFile ? createWriteStream(logFile) : null;
 	r.stdout.pipe(split2()).on('data', (l) => {
 		output.write(l + '\n');
@@ -50,7 +58,7 @@ export function execPromise({
 			reject(error);
 		});
 		r.on('exit', (code, signal) => {
-			console.error('\x1B[2m - %s finished with code %s, signal %s\x1B[0m', cmd, code, signal);
+			if (verbose) console.error('\x1B[2m - %s finished with code %s, signal %s\x1B[0m', cmd, code, signal);
 			if (signal) {
 				console.error('\x1B[2m%s\x1B[0m', full.getOutput());
 				reject(new Error('child process exit with signal ' + signal));
@@ -58,10 +66,10 @@ export function execPromise({
 				console.error('\x1B[2m%s\x1B[0m', full.getOutput());
 				reject(new Error('child process exit with code ' + code));
 			} else {
-				Promise.all([output.promise(), full.promise()]).then(() => {
+				Promise.all([output.promise(), full.promise()]).then(([output, full]) => {
 					resolve({
-						result: output.getOutput().trim(),
-						full: full.getOutput(),
+						result: output.trim(),
+						full: full,
 					});
 				}, reject);
 			}

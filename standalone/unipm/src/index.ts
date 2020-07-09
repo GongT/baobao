@@ -1,6 +1,7 @@
 import { getPackageManager } from './common/getPackageManager';
 
-export default async function() {
+/** @internal */
+export default async function () {
 	const cmd = (process.argv[2] || '').toLowerCase();
 	const args = process.argv.slice(3);
 	// console.error('finding package manager');
@@ -12,6 +13,7 @@ export default async function() {
 		console.error('  * uninstall, un, remove, rm, erase     - remove package');
 		console.error('  * run                                  - run npm script');
 		console.error('  * init                                 - run init script');
+		console.error('  * show, view                           - get and show package info from registry');
 		console.error('other command: direct pass to package manager.');
 		process.exit(1);
 	}
@@ -22,7 +24,9 @@ export default async function() {
 	} else if (cmd === 'run' || cmd === 'r') {
 		await pm.run(args[0], ...args.slice(1));
 	} else if (cmd === 'init') {
-		await pm.init();
+		await pm.init(...args);
+	} else if (cmd === 'show' || cmd === 'view') {
+		await pm.show(...args);
 	} else {
 		await pm.invokeCli(cmd, ...args);
 	}
