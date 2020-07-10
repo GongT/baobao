@@ -3,6 +3,7 @@
 	"name": "@build-script/single-dog",
 	"version": "2.1.4",
 	"license": "MIT",
+	"type": "commonjs",
 	"bin": {
 		"single-dog": "./bin.js"
 	},
@@ -19,7 +20,7 @@
 		"@idlebox/node": "^1.0.8",
 		"@build-script/export-all-in-one-inject": "^1.0.2",
 		"@idlebox/node-json-edit": "^1.0.21",
-		"unipm": "^1.0.5",
+		"unipm": "^1.0.6",
 		"fs-extra": "^9.0.1",
 		"source-map-support": "^0.5.19"
 	},

@@ -7,7 +7,7 @@ import { spawnSyncLog } from '../inc/spawn';
 import { locateRootRelativeToProject, readTemplate } from '../inc/template';
 import { runBuildScriptInit } from '../jobs/buildScript';
 import { runExportAllInOne } from '../jobs/exportAll';
-import { initArgs, updatePackageJson } from '../jobs/packageJson';
+import { initArgs, updatePackageJson, reloadPackageJson } from '../jobs/packageJson';
 import { updateTsconfigJson } from '../jobs/tsconfigJson';
 
 export default async () => {
@@ -15,7 +15,9 @@ export default async () => {
 
 	const gitInfo = await getGitName();
 
-	const packageJson = await updatePackageJson(mode);
+	await updatePackageJson(mode);
+
+	let packageJson = await reloadPackageJson();
 	const monorepoMode = !!packageJson.monorepo;
 
 	const projectBase = basename(packageJson.name);
@@ -30,21 +32,27 @@ export default async () => {
 	}
 	fs.placeFile('LICENSE', license(gitInfo.full));
 	fs.placeFile('README.md', `# ${projectBase}`);
+	fs.placeFile('.gitattributes', readTemplate('gitattributes'));
+	await linkWithLog(
+		await locateRootRelativeToProject('.prettierrc.js', 'package/prettierrc.js'),
+		resolve(CONTENT_ROOT, '.prettierrc.js')
+	);
+	fs.mergeIgnore('.prettierignore', readTemplate('prettierignore'));
 
 	// typescript
 	await updateTsconfigJson(mode);
 
 	if (packageJson.name !== '@build-script/builder') {
 		await runBuildScriptInit(fs, mode);
+		packageJson = await reloadPackageJson();
 	}
 
 	if (mode.libMode) {
-		await runExportAllInOne('src/tsconfig.json');
-		await runExportAllInOne('src/tsconfig.esm.json');
+		runExportAllInOne('src/tsconfig.json');
+		packageJson = await reloadPackageJson();
 	}
 
 	if (!monorepoMode) {
-		// idea
 		fs.placeFile(`.idea/${basename(CONTENT_ROOT)}.iml`, readTemplate('idea/idea.iml'));
 		await linkWithLog(
 			await locateRootRelativeToProject('.idea/codeStyles', 'package/idea/codeStyles'),
@@ -57,7 +65,6 @@ export default async () => {
 		// create git repo
 		if (!fs.exists('.git')) {
 			spawnSyncLog('git', ['init']);
-			spawnSyncLog('git', ['remote', 'add', 'origin', `git@github.com:${gitInfo.user}/${projectBase}.git`]);
 			spawnSyncLog('git', ['add', '.']);
 		}
 	}

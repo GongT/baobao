@@ -1,20 +1,26 @@
+import { basename, resolve } from 'path';
+import { findUpUntil } from '@idlebox/node';
 import {
 	defaultJsonFormatConfig,
-	getFormatInfo,
 	insertKeyAlphabet,
 	loadJsonFile,
 	reformatJson,
 	writeJsonFile,
+	writeJsonFileBack,
 } from '@idlebox/node-json-edit';
-import { getPackageManager, resolveLatestVersionOnNpm } from 'unipm';
-import { findUpUntil } from '@idlebox/node';
 import { pathExists } from 'fs-extra';
-import { basename, resolve } from 'path';
+import { getPackageManager, resolveLatestVersionOnNpm } from 'unipm';
 import { debug } from '../inc/debug';
 import { getGitName } from '../inc/gitName';
 
 export const prodPackages: string[] = [];
-export const devPackages = ['@build-script/builder', '@build-script/single-dog-asset', 'typescript', 'gulp'];
+export const devPackages = [
+	'@build-script/builder',
+	'@build-script/single-dog-asset',
+	'typescript',
+	'ttypescript',
+	'gulp',
+];
 
 interface MapLike {
 	[id: string]: any;
@@ -26,7 +32,7 @@ export interface IPackageJson extends MapLike {
 
 const PACKAGE_JSON_PATH = resolve(CONTENT_ROOT, 'package.json');
 
-async function load(): Promise<IPackageJson> {
+export async function reloadPackageJson(): Promise<IPackageJson> {
 	let packageJson: any;
 	if (await pathExists(PACKAGE_JSON_PATH)) {
 		packageJson = await loadJsonFile(PACKAGE_JSON_PATH);
@@ -53,7 +59,7 @@ async function load(): Promise<IPackageJson> {
 export type IRunMode = { appMode: boolean; libMode: boolean };
 
 export async function initArgs(): Promise<IRunMode> {
-	const packageJson = await load();
+	const packageJson = await reloadPackageJson();
 	const appMode = 'bin' in packageJson || process.argv.includes('--bin');
 	const libMode = 'main' in packageJson || 'module' in packageJson || process.argv.includes('--lib');
 	if (!appMode && !libMode) {
@@ -65,7 +71,7 @@ export async function initArgs(): Promise<IRunMode> {
 }
 
 export async function updatePackageJson(mode: IRunMode) {
-	const packageJson = await load();
+	const packageJson = await reloadPackageJson();
 	// package
 	if (!packageJson.scripts) {
 		packageJson.scripts = {};
@@ -75,9 +81,6 @@ export async function updatePackageJson(mode: IRunMode) {
 		insertKeyAlphabet(packageJson, 'bin', {
 			[basename(packageJson.name)]: './bin.js',
 		});
-	}
-	if (mode.libMode && !packageJson.main) {
-		insertKeyAlphabet(packageJson, 'main', './lib/index.js');
 	}
 
 	const parentDir = resolve(PACKAGE_JSON_PATH, '../..');
@@ -101,17 +104,15 @@ export async function updatePackageJson(mode: IRunMode) {
 		prodPackagesCopy.push('source-map-support');
 	}
 	if (mode.libMode) {
-		devPackagesCopy.push('@build-script/export-all-in-one');
+		devPackagesCopy.push('@build-script/typescript-transformer-dual-package');
 	}
 
-	let anyChange = false;
 	// package deps
 	if (!packageJson.dependencies) {
 		packageJson.dependencies = {};
 	}
 	for (const item of prodPackagesCopy) {
 		if (!packageJson.dependencies[item]) {
-			anyChange = true;
 			packageJson.dependencies[item] = await resolveLatestVersionOnNpm(item);
 		}
 	}
@@ -121,26 +122,14 @@ export async function updatePackageJson(mode: IRunMode) {
 	}
 	for (const item of devPackagesCopy) {
 		if (!packageJson.devDependencies[item]) {
-			anyChange = true;
 			packageJson.devDependencies[item] = await resolveLatestVersionOnNpm(item);
 		}
 	}
 
 	debug('write package.json file');
-	await writeJsonFile(PACKAGE_JSON_PATH, packageJson);
+	await writeJsonFileBack(packageJson);
 
-	if (anyChange) {
-		const oldFormat = getFormatInfo(packageJson)!;
-		debug('Installing packages:');
-		const pm = await getPackageManager({ cwd: CONTENT_ROOT, ask: false });
-		await pm.sync();
-		const newPackage = await loadJsonFile(PACKAGE_JSON_PATH);
-		reformatJson(newPackage, oldFormat);
-		return newPackage;
-	} else {
-		debug('Installing packages:');
-		const pm = await getPackageManager({ cwd: CONTENT_ROOT, ask: false });
-		await pm.sync();
-		return packageJson;
-	}
+	debug('Installing packages:');
+	const pm = await getPackageManager({ cwd: CONTENT_ROOT, ask: false });
+	await pm.sync();
 }
