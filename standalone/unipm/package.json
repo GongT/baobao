@@ -1,17 +1,17 @@
 {
 	"monorepo": true,
 	"name": "unipm",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"type": "module",
-	"main": "./lib/api.cjs",
+	"main": "./lib/_export_all_in_one_index.cjs",
 	"typings": "./docs/package-public.d.ts",
 	"bin": {
 		"unipm": "./bin.cjs"
 	},
 	"exports": {
 		".": {
-			"import": "./lib/api.js",
-			"require": "./lib/api.cjs"
+			"import": "./lib/_export_all_in_one_index.js",
+			"require": "./lib/_export_all_in_one_index.cjs"
 		}
 	},
 	"scripts": {
