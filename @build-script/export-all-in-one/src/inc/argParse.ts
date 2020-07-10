@@ -42,7 +42,7 @@ export const PROJECT_ROOT = resolve(packageJsonFile, '..');
 interface IExtraPackageJsonConfig {
 	exportEverything: boolean;
 }
-export const exportConfig: IExtraPackageJsonConfig = require(packageJsonFile).apiExportOne || {
+export const exportConfig: IExtraPackageJsonConfig = require(packageJsonFile).exportAllInOne || {
 	exportEverything: true,
 };
 

@@ -58,7 +58,7 @@
 		"ttypescript": "^1.5.10",
 		"typescript": "^3.9.6"
 	},
-	"apiExportOne": {
+	"exportAllInOne": {
 		"exportEverything": false
 	}
 }
