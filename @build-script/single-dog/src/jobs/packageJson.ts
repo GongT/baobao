@@ -1,13 +1,6 @@
 import { basename, resolve } from 'path';
 import { findUpUntil } from '@idlebox/node';
-import {
-	defaultJsonFormatConfig,
-	insertKeyAlphabet,
-	loadJsonFile,
-	reformatJson,
-	writeJsonFile,
-	writeJsonFileBack,
-} from '@idlebox/node-json-edit';
+import { insertKeyAlphabet, loadJsonFile, writeJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { pathExists } from 'fs-extra';
 import { getPackageManager, resolveLatestVersionOnNpm } from 'unipm';
 import { debug } from '../inc/debug';
@@ -42,7 +35,6 @@ export async function reloadPackageJson(): Promise<IPackageJson> {
 		}
 	} else {
 		packageJson = {};
-		reformatJson(packageJson, defaultJsonFormatConfig);
 		const gitInfo = await getGitName();
 		if (!gitInfo.user) {
 			console.error('please configure your git username and email');

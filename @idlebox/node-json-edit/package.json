@@ -5,7 +5,7 @@
 	"monorepo": true,
 	"type": "module",
 	"main": "./lib/index.cjs",
-	"typings": "./lib/index.d.ts",
+	"typings": "./docs/package-public.d.ts",
 	"scripts": {
 		"build": "scripts/build.sh",
 		"prepack": "scripts/pack.sh",
@@ -25,9 +25,9 @@
 		"prettier": "^2.0.5"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "^1.0.4",
+		"@build-script/typescript-transformer-dual-package": "^1.0.5",
 		"@types/comment-json": "^1.1.1",
-		"@build-script/single-dog-asset": "^1.0.2",
+		"@build-script/single-dog-asset": "^1.0.3",
 		"@types/node": "^14.0.19",
 		"npm-check-updates": "^7.0.1",
 		"source-map-support": "^0.5.19",

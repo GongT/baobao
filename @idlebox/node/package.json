@@ -25,9 +25,9 @@
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.0.13",
-		"@build-script/typescript-transformer-dual-package": "^1.0.4",
-		"@build-script/export-all-in-one": "^3.0.9",
-		"@build-script/single-dog-asset": "^1.0.2",
+		"@build-script/typescript-transformer-dual-package": "^1.0.5",
+		"@build-script/export-all-in-one": "^3.0.10",
+		"@build-script/single-dog-asset": "^1.0.3",
 		"@types/node": "^14.0.19",
 		"gulp": "^4.0.2",
 		"typescript": "^3.9.6",

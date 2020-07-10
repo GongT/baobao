@@ -10,7 +10,7 @@
 		"prepack": ""
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^1.0.21",
+		"@idlebox/node-json-edit": "^2.0.0",
 		"@build-script/rush-tools": "^1.1.1",
 		"@idlebox/node": "^1.0.8",
 		"@idlebox/common": "^1.0.19",

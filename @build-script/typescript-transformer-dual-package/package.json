@@ -34,7 +34,7 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "^1.0.2",
+		"@build-script/single-dog-asset": "^1.0.3",
 		"@types/node": "^14.0.19",
 		"rimraf": "^3.0.2",
 		"ts-node": "^8.10.2",

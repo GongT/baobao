@@ -1,6 +1,6 @@
 import { basename, dirname, resolve } from 'path';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { writeJsonFileIfChanged } from '@idlebox/node-json-edit';
+import { writeJsonFile } from '@idlebox/node-json-edit';
 import { Extractor, ExtractorConfig, ExtractorLogLevel, IConfigFile } from '@microsoft/api-extractor';
 import { copyFile, ensureDir, mkdirpSync } from 'fs-extra';
 import { API_CONFIG_FILE, EXPORT_TEMP_PATH, INDEX_FILE_NAME, PROJECT_ROOT, TEMP_DIST_DIR_NAME } from '../inc/argParse';
@@ -66,7 +66,7 @@ const apiExtractorJson: IConfigFile = {
 
 async function rewriteApiExtractorConfig() {
 	await ensureDir(dirname(API_CONFIG_FILE));
-	await writeJsonFileIfChanged(API_CONFIG_FILE, apiExtractorJson);
+	await writeJsonFile(API_CONFIG_FILE, apiExtractorJson);
 }
 
 export async function runApiExtractor() {

@@ -7,7 +7,8 @@ export declare function reformatJson<T = any>(data: T, format: Partial<IFileForm
 export declare function stringifyJsonText(data: any): string;
 export declare function getFormatInfo(data: any): IFileFormatConfig;
 export {};
-//# sourceMappingURL=format.d.ts.map/**
+//# sourceMappingURL=format.d.ts.map
+/**
  * When writeXxx() functions return a bool, it means:
  *   * true: data has change, file content altered
  *   * false: data did not change, no write happen
@@ -45,7 +46,8 @@ export declare function loadJsonFileIfExists(file: string, defaultValue?: any, c
 export declare function loadJsonFileSync(file: string, charset?: BufferEncoding): any;
 export declare function loadJsonFile(file: string, charset?: BufferEncoding): Promise<any>;
 export declare function parseJsonText(text: string): any;
-//# sourceMappingURL=readwrite.d.ts.mapexport declare enum UnorderdFieldsPlacement {
+//# sourceMappingURL=readwrite.d.ts.map
+export declare enum UnorderdFieldsPlacement {
     PREPEND = 0,
     APPENND = 1
 }

@@ -26,7 +26,7 @@
 	},
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.10",
-		"@idlebox/node-json-edit": "^1.0.21",
+		"@idlebox/node-json-edit": "^2.0.0",
 		"@microsoft/api-extractor": "^7.9.1",
 		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
@@ -36,7 +36,7 @@
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.0.13",
-		"@build-script/single-dog-asset": "^1.0.2",
+		"@build-script/single-dog-asset": "^1.0.3",
 		"@types/fs-extra": "^9.0.1",
 		"@types/node": "^14.0.19",
 		"gulp": "^4.0.2",

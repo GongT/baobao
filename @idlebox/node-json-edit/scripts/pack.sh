@@ -3,6 +3,9 @@
 set -Eeuo pipefail
 cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/.."
 
-rm -rf lib
 rm -f *.tgz
-bash scripts/build.sh
+rm -rf lib
+
+bash -x scripts/build.sh
+
+find lib -name '*.d.ts*' | xargs rm
