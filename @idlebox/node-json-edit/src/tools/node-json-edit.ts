@@ -9,82 +9,17 @@ import {
 } from 'fs';
 import { resolve } from 'path';
 import { promisify } from 'util';
+import { resolveConfig, format } from 'prettier';
 
 const access = promisify(accessAsync);
 const readFile = promisify(readFileAsync);
 const writeFile = promisify(writeFileAsync);
-
-const configSymbol = Symbol('@gongt/node-json-edit');
-
-export enum LineFeed {
-	NONE,
-	CRLF,
-	LF,
-}
 
 /** @internal */
 interface IFileInternalConfig extends IFileFormatConfig {
 	originalContent?: string;
 	originalPath?: string;
 	encoding: BufferEncoding;
-}
-
-export interface IFileFormatConfig {
-	tabs: string;
-	lineFeed: LineFeed;
-	lastNewLine: boolean;
-}
-
-const realDefault: IFileInternalConfig = {
-	tabs: '\t',
-	lineFeed: LineFeed.LF,
-	lastNewLine: true,
-	encoding: 'utf8',
-};
-export const defaultJsonFormatConfig: IFileFormatConfig = realDefault;
-
-export function writeJsonFileBackForceSync(data: any) {
-	return _realWriteJsonFileSync(undefined, data, true);
-}
-
-export function writeJsonFileBackForce(data: any) {
-	return _realWriteJsonFile(undefined, data, true);
-}
-
-export function writeJsonFileBackSync(data: any) {
-	return _realWriteJsonFileSync(undefined, data, false);
-}
-
-export function writeJsonFileBack(data: any) {
-	return _realWriteJsonFile(undefined, data, false);
-}
-
-export function writeJsonFileSync(file: string, data: any) {
-	return _realWriteJsonFileSync(file, data, true);
-}
-
-export function writeJsonFile(file: string, data: any) {
-	return _realWriteJsonFile(file, data, true);
-}
-
-function pathExistsSync(file: string) {
-	try {
-		accessSync(file);
-		return true;
-	} catch (e) {
-		return false;
-	}
-}
-
-export function writeJsonFileIfChangedSync(file: string, data: any, charset: BufferEncoding = realDefault.encoding) {
-	if (!_getFormatInfo(data)) {
-		const willLoad = pathExistsSync(file);
-		if (willLoad) {
-			const config = _getFormatInfo(loadJsonFileSync(file, charset))!;
-			attachFormatConfig(data, config);
-		}
-	}
-	return _realWriteJsonFileSync(file, data, false);
 }
 
 export async function writeJsonFileIfChanged(file: string, data: any, charset: BufferEncoding = realDefault.encoding) {
@@ -219,75 +154,8 @@ export function parseJsonText(text: string): any {
 	return data;
 }
 
-export function stringifyJsonText(data: any): string {
-	const config = _getFormatInfo(data) || realDefault;
-	if (config.lineFeed === LineFeed.NONE) {
-		return stringify(data) + (config.lastNewLine ? '\n' : '');
-	}
-
-	let text = stringify(data, null, 8);
-	text = text.replace(/^( {8})+/gm, (m0: string) => {
-		return config.tabs.repeat(m0.length / 8);
-	});
-
-	if (config.lineFeed === LineFeed.CRLF) {
-		text = text.replace(/\n/g, '\r\n');
-		if (config.lastNewLine) {
-			text += '\r\n';
-		}
-	} else {
-		if (config.lastNewLine) {
-			text += '\n';
-		}
-	}
-
-	return text;
-}
-
-export function insertKeyAlphabet<T = any>(obj: T, key: any, value: any): T {
-	if (key in obj) {
-		(obj as any)[key] = value;
-		return obj;
-	}
-
-	const keys = Object.keys(obj);
-	const saveObj = {} as any;
-
-	const lkey = key.toLowerCase();
-	let i;
-	for (i = 0; i < keys.length; i++) {
-		if (keys[i].toLowerCase().localeCompare(lkey) >= 0) {
-			break;
-		}
-	}
-	for (let j = i; j < keys.length; j++) {
-		saveObj[keys[j]] = (obj as any)[keys[j]];
-		delete (obj as any)[keys[j]];
-	}
-	(obj as any)[key] = value;
-	for (let j = i; j < keys.length; j++) {
-		(obj as any)[keys[j]] = saveObj[keys[j]];
-	}
-
-	return obj;
-}
-
-export function reformatJson<T = any>(data: T, format: Partial<IFileFormatConfig>): T {
-	const config = _getFormatInfo(data);
-	if (config) {
-		Object.assign(config, format);
-	} else {
-		attachFormatConfig(data, { ...realDefault, ...format });
-	}
-	return data;
-}
-
-function _getFormatInfo(data: any): IFileInternalConfig | undefined {
-	return data[configSymbol];
-}
-
 export function getFormatInfo(data: any): IFileFormatConfig | undefined {
-	return data[configSymbol];
+	return _getFormatInfo(data);
 }
 
 function attachFormatConfig(data: any, config: IFileInternalConfig) {
@@ -300,35 +168,4 @@ function attachFormatConfig(data: any, config: IFileInternalConfig) {
 	});
 }
 
-function parseTextFormat(text: string): IFileInternalConfig {
-	const lastClose = text.lastIndexOf('}');
-	const findNewline = /\n/.test(text.slice(0, lastClose));
-	const spaceCounting: { [space: string]: number } = {};
-	text.split(/\n|\r/g).forEach((s) => {
-		const fc = s[0];
-		if (/^\s$/.test(fc)) {
-			spaceCounting[fc] = spaceCounting[fc] ? 1 : spaceCounting[fc] + 1;
-		}
-	});
-	let maxVal: number = 0;
-	let findSpace = realDefault.tabs;
-	Object.entries(spaceCounting).forEach(([space, count]) => {
-		if (count > maxVal) {
-			findSpace = space;
-			maxVal = count;
-		}
-	});
-
-	const config: IFileInternalConfig = {} as any;
-
-	config.tabs = findSpace;
-	if (findNewline) {
-		config.lineFeed = /\r\n/.test(text) ? LineFeed.CRLF : LineFeed.LF;
-	} else {
-		config.lineFeed = LineFeed.NONE;
-		config.tabs = realDefault.tabs;
-	}
-	config.lastNewLine = lastClose !== text.length - 1;
-
-	return config;
-}
+function parseTextFormat(text: string): IFileInternalConfig {}

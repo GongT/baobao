@@ -4,6 +4,11 @@ yarn.lock
 node_modules
 jspm_modules
 
+### tests
+test
+tests
+lib/testing
+
 ### hidden files
 .*
 
@@ -16,6 +21,7 @@ src
 build-script.json
 Gulpfile.js
 *.tsbuildinfo
+scripts
 
 ### docs
 docs/*

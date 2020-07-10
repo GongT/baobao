@@ -1,27 +1,28 @@
 {
 	"name": "@idlebox/node-json-edit",
-	"description": "Edit json file and preserve it's indent and line feed and final new line.",
-	"version": "1.0.21",
+	"description": "Edit json file with comments, preserve it's format.",
+	"version": "2.0.0",
 	"monorepo": true,
 	"type": "module",
-	"main": "./lib/node-json-edit.cjs",
-	"typings": "./lib/node-json-edit.d.ts",
+	"main": "./lib/index.cjs",
+	"typings": "./lib/index.d.ts",
 	"scripts": {
-		"build": "ttsc -p src",
-		"prepack": "rimraf lib && ttsc -p src",
-		"publishPackage": "yarn publish --registry https://registry.npmjs.org --access=public",
+		"build": "scripts/build.sh",
+		"prepack": "scripts/pack.sh",
+		"postpack": "scripts/postpack.sh",
 		"watch": "ttsc -p src -w",
-		"clean": "rimraf lib"
+		"test": "scripts/test.sh"
 	},
 	"exports": {
 		".": {
-			"require": "./lib/node-json-edit.cjs",
-			"import": "./lib/node-json-edit.js"
+			"require": "./lib/index.cjs",
+			"import": "./lib/index.js"
 		}
 	},
 	"license": "MIT",
 	"dependencies": {
-		"comment-json": "^3.0.2"
+		"comment-json": "^3.0.2",
+		"prettier": "^2.0.5"
 	},
 	"devDependencies": {
 		"@build-script/typescript-transformer-dual-package": "^1.0.4",
@@ -29,10 +30,11 @@
 		"@build-script/single-dog-asset": "^1.0.2",
 		"@types/node": "^14.0.19",
 		"npm-check-updates": "^7.0.1",
-		"rimraf": "^3.0.2",
+		"source-map-support": "^0.5.19",
 		"tslib": "^2.0.0",
 		"ttypescript": "^1.5.10",
-		"typescript": "^3.9.6"
+		"typescript": "^3.9.6",
+		"@types/prettier": "^2.0.2"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }
