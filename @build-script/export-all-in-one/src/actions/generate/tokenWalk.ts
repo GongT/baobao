@@ -44,13 +44,7 @@ function warn(node: Node, s: string, e?: Error) {
 	}
 	let lineno: string = '';
 	try {
-		lineno =
-			':' +
-			node
-				.getSourceFile()
-				.getText()
-				.slice(0, node.getStart())
-				.split('\n').length;
+		lineno = ':' + node.getSourceFile().getText().slice(0, node.getStart()).split('\n').length;
 	} catch (e) {}
 	console.error('\x1B[38;5;9m%s: %s%s\x1B[0m\n\t%s', s, node.getSourceFile().fileName, lineno, node.getText());
 }
@@ -211,7 +205,7 @@ export function relativeToRoot(abs: string) {
 	return normalize(abs)
 		.replace(SOURCE_ROOT, '')
 		.replace(/^[\/\\]/g, '')
-		.replace(/\.ts$/, '');
+		.replace(/\.tsx?$/, '');
 }
 
 function getName(name: Identifier | undefined, file: string, big: boolean | string) {

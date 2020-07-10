@@ -1,9 +1,15 @@
+import { posix, resolve } from 'path';
 import { getPlugin, registerPlugin } from '@build-script/builder';
-import { getFormatInfo, insertKeyAlphabet, loadJsonFile, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
-import { resolve, posix } from 'path';
+import {
+	getFormatInfo,
+	insertKeyAlphabet,
+	loadJsonFile,
+	reformatJson,
+	writeJsonFileBack,
+} from '@idlebox/node-json-edit';
 import { getPackageManager } from 'unipm';
-import { CONFIG_FILE, PROJECT_ROOT, NO_DUAL_FLAG } from '../inc/argParse';
-import { relativePosix, INDEX_FILE_NAME } from '../inc/paths';
+import { CONFIG_FILE, NO_DUAL_FLAG, PROJECT_ROOT } from '../inc/argParse';
+import { INDEX_FILE_NAME, relativePosix } from '../inc/paths';
 
 interface IOptions {
 	hookMode: boolean;
@@ -22,6 +28,7 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 		if (dualPackage) {
 			console.log('inserting dual package.');
 			insertKeyAlphabet(packageJson, 'main', relOut + '.cjs');
+			insertKeyAlphabet(packageJson, 'module', relOut + '.js');
 			if (!packageJson.exports) {
 				insertKeyAlphabet(packageJson, 'exports', {});
 			}
@@ -57,8 +64,6 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 		}
 	}
 
-	await writeJsonFile(resolve(PROJECT_ROOT, 'package.json'), packageJson);
-
 	if (!packageJson.devDependencies || !packageJson.devDependencies['@build-script/export-all-in-one']) {
 		const oldFormat = getFormatInfo(await loadJsonFile(resolve(PROJECT_ROOT, 'package.json')))!;
 
@@ -67,8 +72,9 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 
 		const packageJson = require(resolve(PROJECT_ROOT, 'package.json'));
 		reformatJson(packageJson, oldFormat);
-		await writeJsonFile(resolve(PROJECT_ROOT, 'package.json'), packageJson);
 	}
+
+	await writeJsonFileBack(packageJson);
 }
 
 function uniqNotEmpty(item: string, index: number, self: string[]) {

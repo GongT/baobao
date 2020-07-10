@@ -13,11 +13,12 @@ if (process.argv.includes('-v')) {
 	console.error(configParseResult.options);
 }
 
-export default async function() {
+export default async function () {
 	debug('\x1Bc');
 	pushApiExtractorPath();
 
 	await emptyDir(EXPORT_TEMP_PATH);
+	debug('temp dir: %s', EXPORT_TEMP_PATH);
 	await doGenerate();
 	debug('\x1B[38;5;14mComplete generate\x1B[0m');
 
