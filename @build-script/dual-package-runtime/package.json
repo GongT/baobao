@@ -1,16 +1,10 @@
 {
 	"name": "@build-script/dual-package-runtime",
-	"description": "when require() without extension, try .cjs first, and then .js.",
-	"version": "1.0.2",
+	"description": "when require() without extension, try .cjs first, and then .js. see @build-script/typescript-transformer-dual-package.",
+	"version": "1.0.4",
 	"license": "MIT",
-	"type": "module",
-	"main": "./hook-extension.cjs",
-	"exports": {
-		".": {
-			"import": "./ignore.mjs",
-			"require": "./hook-extension.cjs"
-		}
-	},
+	"type": "commonjs",
+	"main": "./hook-extension.js",
 	"scripts": {
 		"build": "",
 		"watch": "",
@@ -18,7 +12,5 @@
 		"clean": "rimraf lib",
 		"postinstall": ""
 	},
-	"tslib": "^1.10.0",
-	"ttypescript": "^1.5.10",
 	"repository": "https://github.com/GongT/baobao"
 }
