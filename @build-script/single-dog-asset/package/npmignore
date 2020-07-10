@@ -4,6 +4,10 @@ yarn.lock
 node_modules
 jspm_modules
 
+### tests
+test
+tests
+
 ### hidden files
 .*
 

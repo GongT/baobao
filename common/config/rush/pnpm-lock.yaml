@@ -26,8 +26,6 @@ dependencies:
     '@rush-temp/unipm': 'file:projects/unipm.tgz'
     '@rush-temp/vscode-helpers': 'file:projects/vscode-helpers.tgz'
     '@rush-temp/vscode-remote-thief': 'file:projects/vscode-remote-thief.tgz'
-    '@rush-temp/web-helper-angular': 'file:projects/web-helper-angular.tgz'
-    '@rush-temp/web-helper-express': 'file:projects/web-helper-express.tgz'
     '@types/comment-json': 1.1.1
     '@types/fancy-log': 1.3.1
     '@types/fs-extra': 9.0.1
@@ -36,6 +34,7 @@ dependencies:
     '@types/mysql': 2.15.14
     '@types/node': 14.0.19
     '@types/pacote': 11.1.0
+    '@types/prettier': 2.0.2
     '@types/pretty': 2.0.0
     '@types/react': 16.9.41
     '@types/react-dom': 16.9.8
@@ -513,6 +512,10 @@ packages:
         dev: false
         resolution:
             integrity: sha512-ULeeKzbZ3e5GRlqbVDUDgi0L0RYg4OJXLSrtOoyTmGJTAN7JdR0IyZ0kXCCjGzkZwh4ABM7TKISwyDkJqnbAgw==
+    /@types/prettier/2.0.2:
+        dev: false
+        resolution:
+            integrity: sha512-IkVfat549ggtkZUthUzEX49562eGikhSYeVGX97SkMFn+sTZrgRewXjQ4tPKFPCykZHkX1Zfd9OoELGqKU2jJA==
     /@types/pretty/2.0.0:
         dev: false
         resolution:
@@ -6112,7 +6115,7 @@ packages:
         dev: false
         name: '@rush-temp/export-all-in-one-inject'
         resolution:
-            integrity: sha512-HqnQKe8DkBl9Riopz7/s5ojIUGYR5YGdT06Scl+f/6N+FYuo668p6bgaJpW8F7LZMYhEmjSi9/2KXWFYn/iw1w==
+            integrity: sha512-98QFgeVBp7lwqDBwWvNMbf0Y/g/v90XuVGbvvImjZtwl30ny8P3Ia4aKJXipp/vhIPB4KDPUNulPBd6ho5YvtQ==
             tarball: 'file:projects/export-all-in-one-inject.tgz'
         version: 0.0.0
     'file:projects/export-all-in-one.tgz':
@@ -6194,8 +6197,11 @@ packages:
         dependencies:
             '@types/comment-json': 1.1.1
             '@types/node': 14.0.19
+            '@types/prettier': 2.0.2
             comment-json: 3.0.2
             npm-check-updates: 7.0.1
+            prettier: 2.0.5
+            pretty: 2.0.0
             rimraf: 3.0.2
             tslib: 2.0.0
             ttypescript: 1.5.10
@@ -6203,7 +6209,7 @@ packages:
         dev: false
         name: '@rush-temp/node-json-edit'
         resolution:
-            integrity: sha512-yktY+3D2uiI51RtjxNYVoCNFe5wa9ajSLURLmMEreAV9TEbDPYUgPh66yhnxbpH2Y3fLo4WheNtV191fsB/Xcg==
+            integrity: sha512-r64MaqyBMSdv6mZIzf/MV3l4+uwsFHKBB+UF2JCUaB1EjpQCMRWCvXNAs92vqUxeZrxJJr80+MK09YIJWvk4wQ==
             tarball: 'file:projects/node-json-edit.tgz'
         version: 0.0.0
     'file:projects/node.tgz':
@@ -6299,7 +6305,7 @@ packages:
         dev: false
         name: '@rush-temp/single-dog'
         resolution:
-            integrity: sha512-QKtj4sWadF6LAxkvX3Nxwax4KYbtqj6pqtMlZF4AJiguX4c6VQP5/Ti4i98EO4892RmNxlzOxfl89NvTObPBag==
+            integrity: sha512-7ucXf0yT0QffGF1N0CKTmfPL0r9Nvd+e6OZdoWKaKY/vf/q52FJ2HyLbxfJE7BkpsI/Qmal0b5imjJ1XDmaBIQ==
             tarball: 'file:projects/single-dog.tgz'
         version: 0.0.0
     'file:projects/typescript-transformer-dual-package.tgz':
@@ -6378,31 +6384,6 @@ packages:
             integrity: sha512-qc/kb1xai35g6KH3qFQdV4pJ6J+ZEpdeH8ujo+wEAZy3UJzVjAZLp55dmL+qwFPWQqDZkIyDGBsawljw2Az0xg==
             tarball: 'file:projects/vscode-remote-thief.tgz'
         version: 0.0.0
-    'file:projects/web-helper-angular.tgz':
-        dependencies:
-            '@types/node': 14.0.19
-            gulp: 4.0.2
-            tslib: 2.0.0
-            typescript: 3.9.6
-        dev: false
-        name: '@rush-temp/web-helper-angular'
-        resolution:
-            integrity: sha512-slAwcMmhJpuOyhOnA7F4mgMUS/MBpSztQfAqkOznSNfbHhSulRZD26vu1PZjsFbdBhU3utqT1FT1mcffh5/ZyQ==
-            tarball: 'file:projects/web-helper-angular.tgz'
-        version: 0.0.0
-    'file:projects/web-helper-express.tgz':
-        dependencies:
-            '@types/node': 14.0.19
-            gulp: 4.0.2
-            tslib: 2.0.0
-            ttypescript: 1.5.10
-            typescript: 3.9.6
-        dev: false
-        name: '@rush-temp/web-helper-express'
-        resolution:
-            integrity: sha512-1ElBjLBgU7zwtK65VzNQtyej//IVpOMBxTvKjMaWFJTFUKaITZNrM5A/E03ipKeJDP50YIJQPX3W3Hj+GFtgZA==
-            tarball: 'file:projects/web-helper-express.tgz'
-        version: 0.0.0
 registry: ''
 specifiers:
     '@build-script/builder': ^2.0.13
@@ -6432,8 +6413,6 @@ specifiers:
     '@rush-temp/unipm': 'file:./projects/unipm.tgz'
     '@rush-temp/vscode-helpers': 'file:./projects/vscode-helpers.tgz'
     '@rush-temp/vscode-remote-thief': 'file:./projects/vscode-remote-thief.tgz'
-    '@rush-temp/web-helper-angular': 'file:./projects/web-helper-angular.tgz'
-    '@rush-temp/web-helper-express': 'file:./projects/web-helper-express.tgz'
     '@types/comment-json': ^1.1.1
     '@types/fancy-log': ^1.3.1
     '@types/fs-extra': ^9.0.1
@@ -6442,6 +6421,7 @@ specifiers:
     '@types/mysql': ^2.15.14
     '@types/node': ^14.0.19
     '@types/pacote': ^11.1.0
+    '@types/prettier': ^2.0.2
     '@types/pretty': ^2.0.0
     '@types/react': ^16.9.41
     '@types/react-dom': ^16.9.8

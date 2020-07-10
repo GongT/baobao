@@ -6,6 +6,7 @@
 	"main": "./lib/_export_all_in_one_index.cjs",
 	"typings": "./docs/package-public.d.ts",
 	"bin": {
+		"unpm": "./bin.cjs",
 		"unipm": "./bin.cjs"
 	},
 	"exports": {
