@@ -141,16 +141,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@frontpage/web-helper-angular",
-			"projectFolder": "@frontpage/web-helper-angular",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@frontpage/web-helper-express",
-			"projectFolder": "@frontpage/web-helper-express",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@gongt/vscode-helpers",
 			"projectFolder": "@gongt/vscode-helpers",
 			"shouldPublish": true
