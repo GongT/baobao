@@ -80,6 +80,8 @@ export declare class NormalError extends Error {
 
 export declare function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
 
+export declare function registerProjectToRush(projectPath: string): Promise<boolean>;
+
 export declare function requireRushPath(path?: string): Promise<string>;
 
 export declare function requireRushPathSync(path?: string): string;

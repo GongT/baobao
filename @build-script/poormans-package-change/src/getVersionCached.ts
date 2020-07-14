@@ -72,7 +72,7 @@ type IResult =
 	  };
 
 function resultOf(json: any, tag: string): IResult {
-	const version = json['dist-tags'][tag];
+	const version = json['dist-tags']?.[tag];
 	if (!version) {
 		return { version: null };
 	}

@@ -6,7 +6,7 @@ export async function requireRushPath(path: string = process.cwd()): Promise<str
 		throw new Error('Can not find a "rush.json" from "' + path + '"');
 	}
 
-	process.env.RUSH_ROOT = rushFile;
+	process.env._RUSH_ROOT = rushFile;
 
 	return rushFile;
 }
@@ -17,7 +17,7 @@ export function requireRushPathSync(path: string = process.cwd()): string {
 		throw new Error('Can not find a "rush.json" from "' + path + '"');
 	}
 
-	process.env.RUSH_ROOT = rushFile;
+	process.env._RUSH_ROOT = rushFile;
 
 	return rushFile;
 }

@@ -44,13 +44,12 @@ export default async () => {
 
 	if (packageJson.name !== '@build-script/builder') {
 		await runBuildScriptInit(fs, mode);
-		packageJson = await reloadPackageJson();
 	}
-
 	if (mode.libMode) {
 		runExportAllInOne('src/tsconfig.json');
-		packageJson = await reloadPackageJson();
 	}
+
+	packageJson = await reloadPackageJson();
 
 	if (!monorepoMode) {
 		fs.placeFile(`.idea/${basename(CONTENT_ROOT)}.iml`, readTemplate('idea/idea.iml'));

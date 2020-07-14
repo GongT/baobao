@@ -4,6 +4,8 @@
 
 ```ts
 
+import * as execa from 'execa';
+
 // Warning: (ae-missing-release-tag) "getPackageManager" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -40,44 +42,39 @@ export abstract class PackageManager {
     protected abstract readonly cliName: string;
     // (undocumented)
     protected readonly cwd: string;
-    // (undocumented)
     detect(): Promise<boolean>;
     // (undocumented)
     protected abstract _detect(): Promise<boolean>;
     // (undocumented)
     protected _detectFile(file: string): Promise<boolean>;
-    // (undocumented)
+    displayBeforeCommandRun: boolean;
     exists(): Promise<string | undefined>;
     // (undocumented)
     abstract readonly friendlyName: string;
-    // (undocumented)
     init(...args: string[]): Promise<void>;
     // (undocumented)
     protected readonly initCommand: string;
-    // (undocumented)
     install(...packages: string[]): Promise<void>;
     // (undocumented)
     protected abstract readonly installCommand: string;
     // (undocumented)
     protected abstract readonly installDevFlag: string;
     // (undocumented)
-    protected _invoke(cmd: string, args: string[]): Promise<void>;
-    // (undocumented)
+    protected _invoke(cmd: string, args: string[], spawnOptions?: execa.Options): Promise<void>;
     invokeCli(cmd: string, ...args: string[]): Promise<void>;
     // (undocumented)
     protected abstract readonly packageName: string;
-    // (undocumented)
     run(script: string, ...args: string[]): Promise<void>;
     // (undocumented)
     protected readonly runCommand: string;
-    // (undocumented)
     show(...args: string[]): Promise<void>;
     // (undocumented)
     protected readonly showCommand: string;
-    // (undocumented)
     sync(...args: string[]): Promise<void>;
     // (undocumented)
     protected abstract readonly syncCommand: string;
+    // (undocumented)
+    abstract readonly type: PackageManagerType;
     // (undocumented)
     uninstall(...packages: string[]): Promise<void>;
     // (undocumented)
@@ -90,6 +87,20 @@ export abstract class PackageManager {
 export interface PackageManagerConstructor {
     // (undocumented)
     new (cwd: string): PackageManager;
+}
+
+// Warning: (ae-missing-release-tag) "PackageManagerType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export enum PackageManagerType {
+    // (undocumented)
+    NPM = 0,
+    // (undocumented)
+    PNPM = 1,
+    // (undocumented)
+    RUSH = 2,
+    // (undocumented)
+    YARN = 3
 }
 
 // Warning: (ae-missing-release-tag) "resolveLatestVersionOnNpm" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)

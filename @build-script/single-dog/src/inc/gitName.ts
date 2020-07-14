@@ -16,7 +16,7 @@ export async function getGitName(): Promise<IGitInfo> {
 	const email = await execm('git config user.email');
 
 	return (memo = {
-		full: `${user}<${email}>`,
+		full: `${user} <${email}>`,
 		user: user.toLowerCase(),
 		email,
 	});

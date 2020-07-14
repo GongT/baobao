@@ -168,6 +168,11 @@ export class NormalError extends Error {
 // @public (undocumented)
 export function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
 
+// Warning: (ae-missing-release-tag) "registerProjectToRush" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function registerProjectToRush(projectPath: string): Promise<boolean>;
+
 // Warning: (ae-missing-release-tag) "requireRushPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

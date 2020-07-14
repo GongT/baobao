@@ -4,13 +4,14 @@ import { promisify } from 'util';
 import { findUpUntil } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
 import { parse } from 'json5';
-import { PackageManager } from '../common/packageManager';
+import { PackageManager, PackageManagerType } from '../common/packageManager';
 
 const readFile = promisify(readFileAsync);
 const subCommands = ['run', 'init', 'show', 'view'];
 
 /** @internal */
 export class Rush extends PackageManager {
+	readonly type = PackageManagerType.RUSH;
 	readonly friendlyName: string = 'rush';
 	readonly cliName: string = 'rush';
 	readonly installCommand: string = 'add';

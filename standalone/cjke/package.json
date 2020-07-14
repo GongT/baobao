@@ -1,0 +1,66 @@
+{
+	"name": "cjke-strings",
+	"type": "module",
+	"version": "1.0.6",
+	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
+	"keywords": [
+		"string",
+		"unicode",
+		"emoji",
+		"CJK",
+		"display width",
+		"string width",
+		"chinese"
+	],
+	"license": "MIT",
+	"repository": "https://github.com/GongT/cjke.git",
+	"bin": {
+		"cjke-strings": "./bin.js"
+	},
+	"main": "./lib/_export_all_in_one_index.cjs",
+	"jsnext:main": "dist/esnext.js",
+	"module": "./lib/_export_all_in_one_index.js",
+	"typings": "docs/package-public.d.ts",
+	"exports": {
+		".": {
+			"require": "./lib/_export_all_in_one_index.cjs",
+			"import": "./lib/_export_all_in_one_index.js"
+		}
+	},
+	"scripts": {
+		"build": "build-script build",
+		"clean": "rimraf lib",
+		"distclean": "build-script distclean",
+		"prepack": "build-script rebuild",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
+	},
+	"dependencies": {
+		"ansi-regex": "^5.0.0",
+		"emoji-regex": "^9.0.0",
+		"is-fullwidth-code-point": "^3.0.0",
+		"source-map-support": "^0.5.19"
+	},
+	"devDependencies": {
+		"@build-script/builder": "^2.0.15",
+		"@build-script/single-dog-asset": "^1.0.3",
+		"@build-script/typescript-transformer-dual-package": "^1.0.8",
+		"@rollup/plugin-commonjs": "^14.0.0",
+		"@rollup/plugin-node-resolve": "^8.4.0",
+		"@types/chai": "^4.2.11",
+		"@types/emoji-regex": "^8.0.0",
+		"@types/mocha": "^8.0.0",
+		"chai": "^4.2.0",
+		"chokidar": "^3.4.0",
+		"gulp": "^4.0.2",
+		"mocha": "^8.0.1",
+		"rollup": "^2.21.0",
+		"rollup-plugin-typescript2": "^0.27.1",
+		"source-map-support": "^0.5.19",
+		"ttypescript": "^1.5.10",
+		"typescript": "^3.9.6",
+		"@build-script/export-all-in-one": "^3.0.12"
+	},
+	"monorepo": "rush"
+}

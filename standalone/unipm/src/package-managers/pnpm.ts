@@ -1,7 +1,8 @@
-import { PackageManager } from '../common/packageManager';
+import { PackageManager, PackageManagerType } from '../common/packageManager';
 
 /** @internal */
 export class Pnpm extends PackageManager {
+	readonly type = PackageManagerType.PNPM;
 	readonly friendlyName: string = 'pnpm';
 	readonly cliName: string = 'pnpm';
 	readonly installCommand: string = 'add';

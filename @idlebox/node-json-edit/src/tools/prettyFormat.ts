@@ -1,6 +1,6 @@
 import { readFileSync, readFile as readFileAsync } from 'fs';
 import { format, Options as PrettierOptions, resolveConfig } from 'prettier';
-import { IFileFormatConfig } from '../';
+import { IFileFormatConfig } from '..';
 import { pathExistsSync, pathExistsAsync } from './filesystem';
 import { promisify } from 'util';
 
@@ -16,7 +16,7 @@ type PassedFormats = 'trailingComma' | 'parser' | 'filepath' | 'quoteProps';
 export interface IInternalFormat extends IFileFormatConfig, Pick<PrettierOptions, PassedFormats> {}
 
 const defaultFormat: IInternalFormat = {
-	parser: 'json5',
+	parser: 'json',
 	printWidth: 120,
 	useTabs: true,
 	tabWidth: 4,
@@ -37,7 +37,7 @@ export class PrettyFormat {
 	format(text: string) {
 		const result = format(text, {
 			...this.current,
-			parser: 'json5',
+			parser: 'json',
 			singleQuote: false,
 			trailingComma: 'none',
 			quoteProps: 'preserve',

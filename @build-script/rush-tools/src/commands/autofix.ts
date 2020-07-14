@@ -103,13 +103,7 @@ export default async function runAutoFix(argv: string[]) {
 
 			if (fix && fix !== deps[depName]) {
 				fixed++;
-				console.log(
-					'   - update dep [%s] of "%s" to version "%s" (from "%s")',
-					depName,
-					packName,
-					fix,
-					deps[depName]
-				);
+				console.log('   - update [%s] %s -> %s', depName, deps[depName], fix);
 				deps[depName] = fix;
 			}
 		}
@@ -123,7 +117,7 @@ export default async function runAutoFix(argv: string[]) {
 		}
 	}
 
-	console.log('Done. Updated %s package%s.', fixed, fixed > 1 ? 's' : '');
+	console.log('Done. Change %s version%s.', fixed, fixed > 1 ? 's' : '');
 }
 
 function warn(msg: string, ...args: any[]) {

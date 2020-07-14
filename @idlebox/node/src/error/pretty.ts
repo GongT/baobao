@@ -64,6 +64,7 @@ export function prettyFormatError(e: Error) {
 		return red(e.message + '\nNo stack trace');
 	}
 	const stackStr = e.stack.split(/\n/g);
+	debugger;
 	let first = stackStr.shift()!;
 	const stack: IInternalData[] = stackStr.map((line) => {
 		if (regNormal.test(line)) {

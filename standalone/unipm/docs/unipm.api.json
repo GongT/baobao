@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.9.1",
+    "toolVersion": "7.9.2",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -369,6 +369,15 @@
                 },
                 {
                   "kind": "Content",
+                  "text": ", spawnOptions?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "execa.Options",
+                  "canonicalReference": "execa!~execa.Options:interface"
+                },
+                {
+                  "kind": "Content",
                   "text": "): "
                 },
                 {
@@ -387,8 +396,8 @@
               ],
               "isStatic": false,
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 7
+                "startIndex": 7,
+                "endIndex": 9
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -405,6 +414,13 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "spawnOptions",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
                   }
                 }
               ],
@@ -495,7 +511,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#detect:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * detect if this package manager is used by current project\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -526,9 +542,35 @@
               "name": "detect"
             },
             {
+              "kind": "Property",
+              "canonicalReference": "unipm!PackageManager#displayBeforeCommandRun:member",
+              "docComment": "/**\n * if set to true, debug info will print to stderr, default is process.stderr.isTTY\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "displayBeforeCommandRun: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "displayBeforeCommandRun",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#exists:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * detect this package manager callable (installed and in PATH)\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -587,7 +629,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#init:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * run package init command, normally this will create a new package.json, and maybe ask some questions\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -662,7 +704,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#install:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * install packages * add packages into package.json * if \"-d\" or \"--dev\" in `packages`, add them to devDependencies\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -763,7 +805,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#invokeCli:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * spawn package manager binary, with inherit stdio\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -853,7 +895,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#run:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * run scripts in package.json, by package manager\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -943,7 +985,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#show:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * show package info from NPM registry\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1018,7 +1060,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#sync:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * sync package.json to node_modules, eg: npm i\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1084,6 +1126,33 @@
               ],
               "releaseTag": "Public",
               "name": "syncCommand",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "unipm!PackageManager#type:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "abstract readonly type: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PackageManagerType",
+                  "canonicalReference": "unipm!PackageManagerType:enum"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "type",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -1226,6 +1295,105 @@
             }
           ],
           "extendsTokenRanges": []
+        },
+        {
+          "kind": "Enum",
+          "canonicalReference": "unipm!PackageManagerType:enum",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare enum PackageManagerType "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "PackageManagerType",
+          "members": [
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "unipm!PackageManagerType.NPM:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "NPM = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "0"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "NPM",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "unipm!PackageManagerType.PNPM:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "PNPM = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "1"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "PNPM",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "unipm!PackageManagerType.RUSH:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "RUSH = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "2"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "RUSH",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "unipm!PackageManagerType.YARN:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "YARN = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "3"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "YARN",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ]
         },
         {
           "kind": "Function",

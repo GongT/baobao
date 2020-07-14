@@ -10,7 +10,7 @@
 		"es modules",
 		"commonjs"
 	],
-	"version": "1.0.5",
+	"version": "1.0.8",
 	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",
@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "^1.0.3",
-		"@types/node": "^14.0.19",
+		"@types/node": "^14.0.23",
 		"rimraf": "^3.0.2",
 		"ts-node": "^8.10.2",
 		"ttypescript": "^1.5.10",

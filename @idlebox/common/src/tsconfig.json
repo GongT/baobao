@@ -5,11 +5,6 @@
 		"outDir": "../lib",
 		"rootDir": ".",
 		"types": ["@idlebox/itypes"],
-		"plugins": [
-			{
-				"transform": "@build-script/typescript-transformer-dual-package"
-			}
-		],
 		"declaration": false,
 		"declarationMap": false
 	},

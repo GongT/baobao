@@ -53,12 +53,12 @@
 	},
 	"dependencies": {
 		"tslib": "^2.0.0",
-		"@gongt/vscode-helpers": "^0.0.2"
+		"@gongt/vscode-helpers": "^0.0.3"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.46.0",
+		"@types/vscode": "^1.47.0",
 		"@build-script/single-dog-asset": "^1.0.3",
-		"@types/node": "^14.0.19",
+		"@types/node": "^14.0.23",
 		"typescript": "^3.9.6"
 	}
 }

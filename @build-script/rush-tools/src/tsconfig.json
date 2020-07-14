@@ -8,5 +8,5 @@
 		"declaration": false,
 		"declarationMap": false
 	},
-	"include": ["api/**/*.ts", "commands/**/*.ts", "index.ts"]
+	"include": ["api/**/*.ts", "commands/**/*.ts", "index.ts", "../.rush/build.ts"]
 }

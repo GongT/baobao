@@ -1,8 +1,10 @@
 import { basename, resolve } from 'path';
+import { createInterface } from 'readline';
+import { registerProjectToRush } from '@build-script/rush-tools';
 import { findUpUntil } from '@idlebox/node';
 import { insertKeyAlphabet, loadJsonFile, writeJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { pathExists } from 'fs-extra';
-import { getPackageManager, resolveLatestVersionOnNpm } from 'unipm';
+import { getPackageManager, PackageManagerType, resolveLatestVersionOnNpm } from 'unipm';
 import { debug } from '../inc/debug';
 import { getGitName } from '../inc/gitName';
 
@@ -40,12 +42,25 @@ export async function reloadPackageJson(): Promise<IPackageJson> {
 			console.error('please configure your git username and email');
 			process.exit(1);
 		}
-		packageJson.name = `@${gitInfo.user}/${basename(CONTENT_ROOT)}`;
+		packageJson.name = await ask(`@${gitInfo.user}/${basename(CONTENT_ROOT)}`.toLowerCase());
 		packageJson.version = '0.0.0';
 		packageJson.license = 'MIT';
+		packageJson.author = `${gitInfo.full} https://github.com/${gitInfo.user}/`;
 		await writeJsonFile(PACKAGE_JSON_PATH, packageJson);
 	}
 	return packageJson;
+}
+
+async function ask(defaultVal: string) {
+	if (process.stdin.isTTY) {
+		const rl = createInterface(process.stdin, process.stdout);
+		return new Promise((resolve) => {
+			rl.question('Package name> ', resolve);
+			rl.write(defaultVal);
+		});
+	} else {
+		return defaultVal;
+	}
 }
 
 export type IRunMode = { appMode: boolean; libMode: boolean };
@@ -123,5 +138,12 @@ export async function updatePackageJson(mode: IRunMode) {
 
 	debug('Installing packages:');
 	const pm = await getPackageManager({ cwd: CONTENT_ROOT, ask: false });
+	debug('    using package manager: %s', pm.friendlyName);
+	if (pm.type === PackageManagerType.RUSH) {
+		const r = registerProjectToRush(CONTENT_ROOT);
+		if (r) {
+			debug('    added current package to rush.json');
+		}
+	}
 	await pm.sync();
 }

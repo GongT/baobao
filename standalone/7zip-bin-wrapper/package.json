@@ -1,0 +1,50 @@
+{
+	"name": "7zip-bin-wrapper",
+	"type": "module",
+	"version": "1.0.11",
+	"author": "GongT <gongteng524702837@gmail.com>",
+	"license": "MIT",
+	"bin": {
+		"7za": "./7za.js",
+		"7z": "./7za.js"
+	},
+	"main": "./dist/_export_all_in_one_index.cjs",
+	"module": "./dist/_export_all_in_one_index.js",
+	"typings": "docs/package-public.d.ts",
+	"exports": {
+		".": {
+			"require": "./dist/_export_all_in_one_index.cjs",
+			"import": "./dist/_export_all_in_one_index.js"
+		}
+	},
+	"scripts": {
+		"build": "build-script build",
+		"clean": "rimraf lib",
+		"distclean": "build-script distclean",
+		"prepack": "build-script rebuild",
+		"test": "build-script test",
+		"upgrade": "build-script upgrade",
+		"watch": "build-script watch"
+	},
+	"dependencies": {
+		"iconv-lite": "^0.6.2",
+		"source-map-support": "^0.5.19",
+		"split2": "^3.1.1"
+	},
+	"devDependencies": {
+		"7zip-bin": "^5.0.3",
+		"@build-script/builder": "^2.0.15",
+		"@build-script/single-dog-asset": "^1.0.3",
+		"@build-script/typescript-transformer-dual-package": "^1.0.8",
+		"@types/node": "^14.0.23",
+		"@types/split2": "^2.1.6",
+		"gulp": "^4.0.2",
+		"ttypescript": "^1.5.10",
+		"typescript": "^3.9.6",
+		"@build-script/export-all-in-one": "^3.0.12"
+	},
+	"peerDependencies": {
+		"7zip-bin": "latest"
+	},
+	"monorepo": "rush"
+}

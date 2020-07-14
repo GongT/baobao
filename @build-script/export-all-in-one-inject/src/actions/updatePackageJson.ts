@@ -2,14 +2,81 @@ import { posix, resolve } from 'path';
 import { getPlugin, registerPlugin } from '@build-script/builder';
 import {
 	getFormatInfo,
-	insertKeyAlphabet,
 	loadJsonFile,
 	reformatJson,
 	writeJsonFileBack,
+	sortObjectWithTargetOrder,
 } from '@idlebox/node-json-edit';
 import { getPackageManager } from 'unipm';
 import { CONFIG_FILE, NO_DUAL_FLAG, PROJECT_ROOT } from '../inc/argParse';
 import { INDEX_FILE_NAME, relativePosix } from '../inc/paths';
+
+const dependenciesFields = [
+	'dependencies',
+	'devDependencies',
+	'optionalDependencies',
+	'peerDependencies',
+	'bundledDependencies',
+];
+
+const packageJsonSort = [
+	'workspaces',
+
+	'name',
+	'type',
+	'version',
+	'private',
+
+	'description',
+	'keywords',
+	'author',
+	'homepage',
+	'bugs',
+	'license',
+	'contributors',
+	'repository',
+
+	'engines',
+	'os',
+	'cpu',
+
+	'bin',
+	'main',
+	'flow:main',
+	'jsnext:main',
+	'module',
+	'esnext',
+	'es2015',
+	'esm',
+	'unpkg',
+	'browser',
+	'module-browser',
+	'browserslist',
+	'react-native',
+	'typings',
+	'types',
+	'man',
+	'sideEffects',
+	'source',
+	'umd:main',
+
+	'exports',
+
+	'scripts',
+	'config',
+
+	...dependenciesFields,
+
+	'files',
+	'publishConfig',
+	'monorepo',
+
+	'flat',
+	'resolutions',
+
+	'bolt',
+	'jspm',
+];
 
 interface IOptions {
 	hookMode: boolean;
@@ -24,13 +91,13 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 	const relOut = './' + posix.relative(PROJECT_ROOT, outDir + '/' + INDEX_FILE_NAME);
 
 	if (isESNext) {
-		insertKeyAlphabet(packageJson, 'type', 'module');
+		packageJson.type = 'module';
 		if (dualPackage) {
 			console.log('inserting dual package.');
-			insertKeyAlphabet(packageJson, 'main', relOut + '.cjs');
-			insertKeyAlphabet(packageJson, 'module', relOut + '.js');
+			packageJson.main = relOut + '.cjs';
+			packageJson.module = relOut + '.js';
 			if (!packageJson.exports) {
-				insertKeyAlphabet(packageJson, 'exports', {});
+				packageJson.exports = {};
 			}
 			if (!packageJson.exports['.']) {
 				packageJson.exports['.'] = {};
@@ -38,14 +105,14 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 			packageJson.exports['.']['require'] = relOut + '.cjs';
 			packageJson.exports['.']['import'] = relOut + '.js';
 		} else {
-			insertKeyAlphabet(packageJson, 'main', relOut + '.js');
+			packageJson.main = relOut + '.js';
 		}
 	} else {
-		insertKeyAlphabet(packageJson, 'type', 'commonjs');
-		insertKeyAlphabet(packageJson, 'main', relOut + '.js');
+		packageJson.type = 'commonjs';
+		packageJson.main = relOut + '.js';
 	}
 
-	insertKeyAlphabet(packageJson, 'typings', 'docs/package-public.d.ts');
+	packageJson.typings = 'docs/package-public.d.ts';
 
 	if (hookMode) {
 		const myFile = '@build-script/export-all-in-one/build-script-register';
@@ -53,14 +120,11 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 		await registerPlugin(myFile, [dualPackage ? '' : NO_DUAL_FLAG, ...previous, configRel].filter(uniqNotEmpty));
 	} else {
 		if (!packageJson.scripts) {
-			insertKeyAlphabet(packageJson, 'scripts', {});
+			packageJson.scripts = {};
 		}
 		if (!packageJson.scripts['build:export-all-in-one']) {
-			insertKeyAlphabet(
-				packageJson.scripts,
-				'export-all-in-one',
-				'export-all-in-one ' + (dualPackage ? NO_DUAL_FLAG + ' ' : '') + configRel
-			);
+			packageJson.scripts['export-all-in-one'] =
+				'export-all-in-one ' + (dualPackage ? NO_DUAL_FLAG + ' ' : '') + configRel;
 		}
 	}
 
@@ -74,9 +138,33 @@ export async function updatePackageJson({ isESNext, hookMode, dualPackage, outDi
 		reformatJson(packageJson, oldFormat);
 	}
 
+	for (const item of dependenciesFields) {
+		sortAlphabet(packageJson, item);
+	}
+
+	sortObjectWithTargetOrder(packageJson, packageJsonSort);
 	await writeJsonFileBack(packageJson);
 }
 
 function uniqNotEmpty(item: string, index: number, self: string[]) {
 	return item && index === self.lastIndexOf(item);
+}
+
+function sortAlphabet(packageJson: any, key: string) {
+	if (!packageJson[key]) return;
+
+	const keys = Object.keys(packageJson[key]).sort(strOrder);
+
+	const ret: any = {};
+	for (const item of keys) {
+		ret[item] = packageJson[key][item];
+	}
+
+	packageJson[key] = ret;
+}
+
+function strOrder(a: string, b: string) {
+	if (a > b) return 1;
+	if (a < b) return -1;
+	return 0;
 }

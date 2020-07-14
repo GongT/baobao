@@ -4,7 +4,7 @@ import { increaseVersion } from '../include/increaseVersion';
 
 async function main() {
 	const rushProject = new RushProject();
-	const projects = overallOrder(rushProject).reverse();
+	const projects = overallOrder(rushProject); //.reverse();
 
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
 	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.cjs');
@@ -38,7 +38,7 @@ async function main() {
 		}
 
 		if (changed) {
-			console.log('✨ \x1B[38;5;10m    Change detected, updating version...\x1B[0m');
+			console.log('⏳     Change detected, updating version...');
 			await increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));
 			console.log('⏳     Autofix...');
 			const logFile = rushProject.absolute('common/temp/autofix.log');
@@ -46,8 +46,9 @@ async function main() {
 				argv: [syncBin, 'autofix', '--skip-cyclic'],
 				logFile,
 			});
+			console.log('✨ \x1B[38;5;10m  Updated\x1B[0m');
 		} else {
-			console.log('✨ \x1B[38;5;10m    No change detected\x1B[0m');
+			console.log('✨ \x1B[38;5;10m  No change detected\x1B[0m');
 		}
 		console.log('');
 	}
@@ -56,6 +57,7 @@ async function main() {
 main().then(
 	() => {
 		console.log(`\x1B[38;5;10mComplete.\x1B[0m `);
+		console.log(`You may need to run "rush update" or "rush ypublish" now`);
 	},
 	(e) => {
 		console.error(e.stack);

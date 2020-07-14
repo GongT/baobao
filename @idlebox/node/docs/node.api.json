@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.9.1",
+    "toolVersion": "7.9.2",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -49,7 +49,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!__global.Buffer:class"
+                  "canonicalReference": "!Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -221,7 +221,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!__global.Buffer:class"
+                  "canonicalReference": "!Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -230,7 +230,7 @@
                 {
                   "kind": "Reference",
                   "text": "BufferEncoding",
-                  "canonicalReference": "!__global.BufferEncoding:type"
+                  "canonicalReference": "!BufferEncoding:type"
                 },
                 {
                   "kind": "Content",
@@ -706,7 +706,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!__global.Buffer:class"
+              "canonicalReference": "!Buffer:class"
             },
             {
               "kind": "Content",
@@ -3740,7 +3740,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!__global.Buffer:class"
+                  "canonicalReference": "!Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -3749,7 +3749,7 @@
                 {
                   "kind": "Reference",
                   "text": "BufferEncoding",
-                  "canonicalReference": "!__global.BufferEncoding:type"
+                  "canonicalReference": "!BufferEncoding:type"
                 },
                 {
                   "kind": "Content",
@@ -4056,7 +4056,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!__global.Buffer:class"
+                  "canonicalReference": "!Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -4065,7 +4065,7 @@
                 {
                   "kind": "Reference",
                   "text": "BufferEncoding",
-                  "canonicalReference": "!__global.BufferEncoding:type"
+                  "canonicalReference": "!BufferEncoding:type"
                 },
                 {
                   "kind": "Content",
@@ -4244,7 +4244,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!__global.Buffer:class"
+              "canonicalReference": "!Buffer:class"
             },
             {
               "kind": "Content",
@@ -4834,7 +4834,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!__global.Buffer:class"
+                  "canonicalReference": "!Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -4949,7 +4949,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!__global.Buffer:class"
+                  "canonicalReference": "!Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -4987,7 +4987,7 @@
                 {
                   "kind": "Reference",
                   "text": "Buffer",
-                  "canonicalReference": "!__global.Buffer:class"
+                  "canonicalReference": "!Buffer:class"
                 },
                 {
                   "kind": "Content",
@@ -5172,7 +5172,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!__global.Buffer:class"
+              "canonicalReference": "!Buffer:class"
             },
             {
               "kind": "Content",
@@ -5417,7 +5417,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!__global.Buffer:class"
+              "canonicalReference": "!Buffer:class"
             },
             {
               "kind": "Content",
@@ -5476,7 +5476,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!__global.Buffer:class"
+              "canonicalReference": "!Buffer:class"
             },
             {
               "kind": "Content",
@@ -5544,7 +5544,7 @@
             {
               "kind": "Reference",
               "text": "Buffer",
-              "canonicalReference": "!__global.Buffer:class"
+              "canonicalReference": "!Buffer:class"
             },
             {
               "kind": "Content",

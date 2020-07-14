@@ -1,6 +1,6 @@
 {
 	"monorepo": "rush",
-	"version": "1.0.8",
+	"version": "1.0.10",
 	"license": "MIT",
 	"name": "@idlebox/node",
 	"type": "module",
@@ -20,15 +20,15 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.0.19",
+		"@idlebox/common": "^1.0.22",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.0.13",
-		"@build-script/typescript-transformer-dual-package": "^1.0.5",
+		"@build-script/typescript-transformer-dual-package": "^1.0.8",
 		"@build-script/export-all-in-one": "^3.0.10",
 		"@build-script/single-dog-asset": "^1.0.3",
-		"@types/node": "^14.0.19",
+		"@types/node": "^14.0.23",
 		"gulp": "^4.0.2",
 		"typescript": "^3.9.6",
 		"tslib": "^2.0.0",

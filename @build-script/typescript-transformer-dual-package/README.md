@@ -1,6 +1,6 @@
 # What is this
 
-> this package is a (**t**)typescript transformer, it compile all source files **again** after normal compile, to generate `.cjs` files, besides esmodule files.
+> this package is a (**t**)typescript transformer, it compile all source files **again** after normal compile, to generate `.cjs` files, next to each esm files.
 
 # Usage
 
@@ -12,13 +12,14 @@
     ```jsonc
     {
     	"compilerOptions": {
-    		"module": "esnext", // this is required
+    		"module": "esnext", // this is required (maybe lower version, but commonjs/system etc is not valid)
     		// ... other options
     		"plugins": [
     			{
     				"transform": " @build-script/typescript-transformer-dual-package",
     				"compilerOptions": {
-    					// [optional] normally you do not need to set this.
+    					// [optional]
+    					// normally you do not need to set this.
     					//... override parent compilerOptions when compile commonjs
     					// some options can not override
     				},
@@ -31,8 +32,9 @@
 1. Write typescript as you want. But:
     - **Do not use any `require` in your code!**, `await import()` instead
     - Do not add `\.(c|m)?js` at end of `import` statement. (bad: `import "./some-file.js"`)
-1. Compile with `ttsc`
+1. Compile with `ttsc`, instead of `tsc`
     ```bash
+    npm install ttypescript
     ttsc -p path/to/tsconfig.json
     ```
 1. Update your `package.json` like that:
@@ -40,8 +42,7 @@
     {
     	"type": "module",
     	"main": "lib/api.cjs",
-    	"module": "lib/api.js",
-    	// maybe "esnext", "browser" etc
+    	// maybe "module", "esnext", "browser" etc, value should be "lib/api.js"
     	"bin": {
     		"some-cli-command": "lib/bin.cjs"
     	},
@@ -55,7 +56,7 @@
     ```
 1. If your package has binary, and it's not a compiled result, but a "loader file":
     1. install package `@build-script/dual-package-runtime`
-    1. prepend to your entry file(s).
+    1. prepend to your loader file(s).
     ```js
     #!/usr/bin/env node
     require('@build-script/dual-package-runtime'); // <<< add this

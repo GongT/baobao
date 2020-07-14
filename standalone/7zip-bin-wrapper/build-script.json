@@ -1,0 +1,54 @@
+{
+	"load": [
+		{
+			"file": "@build-script/export-all-in-one/build-script-register",
+			"args": ["src/tsconfig.json"]
+		}
+	],
+	"alias": {
+		"build-ts": "ttsc -p src",
+		"watch-ts": "ttsc -w -p src",
+		"cleanup-lib": "rimraf lib",
+		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
+		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
+		"run-test": "",
+		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**"
+	},
+	"command": {
+		"build": {
+			"title": "Build project",
+			"run": ["build-ts"]
+		},
+		"distclean": {
+			"title": "Delete git ignore files (without node_modules)",
+			"run": ["git-clean"]
+		},
+		"clean": {
+			"title": "Delete lib folder",
+			"run": ["cleanup-lib"]
+		},
+		"rebuild": {
+			"title": "Prepare for publish package",
+			"run": ["@build"],
+			"after": ["distclean"]
+		},
+		"publish": {
+			"title": "Publish package (do same thing with npm publish)",
+			"run": ["yarn-publish"],
+			"after": ["rebuild"]
+		},
+		"test": {
+			"title": "Run test",
+			"run": ["run-test"],
+			"after": ["build"]
+		},
+		"upgrade": {
+			"title": "Do project dependency upgrade",
+			"run": ["upgrade-node-modules"]
+		},
+		"watch": {
+			"title": "Watch mode build project",
+			"run": ["watch-ts"]
+		}
+	}
+}

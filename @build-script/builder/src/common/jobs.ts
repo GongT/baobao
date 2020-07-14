@@ -1,8 +1,8 @@
-import { PathEnvironment } from '@idlebox/node';
 import { resolve } from 'path';
+import { PathEnvironment, streamPromise } from '@idlebox/node';
+import { ExecFunc } from '../global';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
-import { ExecFunc } from '../global';
 
 import split2 = require('split2');
 
@@ -72,24 +72,24 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 
 		fancyLog.info('%s%s%s:', green, jobName, reset);
 		fancyLog.info(' + %s %s', command, args.join(' '));
+		debugger;
 		const ps = execa(command, args, {
 			cwd: path,
 			env: childEnv,
 			stdio: ['ignore', 'pipe', 'pipe'],
 		});
 
-		ps.stdout!.pipe(split2())
-			.on('data', (l: string) => {
-				colorIfNot(true, ignore, l);
-			})
-			.resume();
-		ps.stderr!.pipe(split2())
-			.on('data', (l: string) => {
-				colorIfNot(false, weakRed, l);
-			})
-			.resume();
+		const s1 = ps.stdout!.pipe(split2()).on('data', (l: string) => {
+			colorIfNot(true, ignore, l);
+		});
+		const s2 = ps.stderr!.pipe(split2()).on('data', (l: string) => {
+			colorIfNot(false, weakRed, l);
+		});
 
-		ps.then(
+		delete ps.stdout;
+		delete ps.stderr;
+
+		Promise.all([ps, streamPromise(s1), streamPromise(s2)]).then(
 			() => {
 				fancyLog.info('%s%s%s: success.', green, jobName, reset);
 				cb();
@@ -97,6 +97,7 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 			(e: Error) => {
 				fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
 				fancyLog.error('  > cwd: %s', path);
+				debugger;
 				cb(new Error(e?.message?.replace?.(/:/g, ':\n  ')));
 			}
 		);

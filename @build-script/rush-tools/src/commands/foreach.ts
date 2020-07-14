@@ -17,7 +17,7 @@ export default async function runForEach(argv: string[]) {
 
 	if (argv[0] === '-c') {
 		argv.unshift('bash');
-	} else if (argv[0].endsWith('.js') || argv[0].endsWith('.mjs')) {
+	} else if (argv[0].endsWith('.js') || argv[0].endsWith('.cjs') || argv[0].endsWith('.mjs')) {
 		argv[0] = resolve(process.cwd(), argv[0]);
 		argv.unshift('node');
 	} else if (argv[0].endsWith('.ts')) {

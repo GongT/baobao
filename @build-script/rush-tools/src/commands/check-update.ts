@@ -1,4 +1,6 @@
+import { resolve } from 'path';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { pathExists, unlink } from 'fs-extra';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
@@ -40,6 +42,15 @@ export default async function runCheckUpdate() {
 			console.log('  * %s', packageJson.name);
 		}
 	}
+
+	info('Delete temp file(s):');
+	const tempfiles = [resolve(rush.projectRoot, 'common/config/rush/pnpm-lock.yaml')];
+	for (const f of tempfiles) {
+		if (await pathExists(f)) {
+			console.log('  * delete %s', f);
+			await unlink(f);
+		}
+	}
 }
 
 function update(target: Record<string, string>, map: Map<string, string>) {
@@ -54,7 +65,7 @@ function update(target: Record<string, string>, map: Map<string, string>) {
 			continue;
 		}
 
-		console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
+		// console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
 		target[item] = nver;
 	}
 }

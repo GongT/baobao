@@ -154,6 +154,16 @@
 			"packageName": "@gongt/mysql-docgen",
 			"projectFolder": "@gongt/mysql-docgen",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "7zip-bin-wrapper",
+			"projectFolder": "standalone/7zip-bin-wrapper",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "cjke-strings",
+			"projectFolder": "standalone/cjke",
+			"shouldPublish": true
 		}
 	]
 }

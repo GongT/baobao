@@ -1,7 +1,8 @@
-import { PackageManager } from '../common/packageManager';
+import { PackageManager, PackageManagerType } from '../common/packageManager';
 
 /** @internal */
 export class Yarn extends PackageManager {
+	readonly type = PackageManagerType.YARN;
 	readonly friendlyName: string = 'yarn';
 	readonly cliName: string = 'yarn';
 	readonly installCommand: string = 'add';
