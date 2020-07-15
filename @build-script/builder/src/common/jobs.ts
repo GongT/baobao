@@ -72,7 +72,7 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 
 		fancyLog.info('%s%s%s:', green, jobName, reset);
 		fancyLog.info(' + %s %s', command, args.join(' '));
-		debugger;
+
 		const ps = execa(command, args, {
 			cwd: path,
 			env: childEnv,
@@ -97,7 +97,6 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 			(e: Error) => {
 				fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
 				fancyLog.error('  > cwd: %s', path);
-				debugger;
 				cb(new Error(e?.message?.replace?.(/:/g, ':\n  ')));
 			}
 		);

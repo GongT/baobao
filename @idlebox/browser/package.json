@@ -1,6 +1,6 @@
 {
 	"monorepo": "rush",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"license": "MIT",
 	"name": "@idlebox/browser",
 	"repository": "https://github.com/GongT/baobao",
@@ -22,13 +22,13 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.0.22",
+		"@idlebox/common": "^1.0.23",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.15",
-		"@build-script/typescript-transformer-dual-package": "^1.0.8",
-		"@build-script/export-all-in-one": "^3.0.12",
+		"@build-script/builder": "^2.0.16",
+		"@build-script/typescript-transformer-dual-package": "^1.0.9",
+		"@build-script/export-all-in-one": "^3.0.13",
 		"@build-script/single-dog-asset": "^1.0.3",
 		"gulp": "^4.0.2",
 		"typescript": "^3.9.6",

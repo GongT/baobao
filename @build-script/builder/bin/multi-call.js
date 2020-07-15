@@ -2,6 +2,15 @@
 
 require('source-map-support/register');
 
+const { emitWarning } = process;
+process.emitWarning = (warning, type, code, ...extraArgs) => {
+	if (code === 'DEP0097') {
+		// https://github.com/gulpjs/gulp/issues/2460
+		return;
+	}
+	emitWarning(warning, type, code, ...extraArgs);
+};
+
 const fs = require('fs');
 const path = require('path');
 
