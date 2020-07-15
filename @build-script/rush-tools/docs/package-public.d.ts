@@ -1,4 +1,6 @@
 
+export declare function buildAction(action: string, argv: string[]): Promise<void>;
+
 export declare function buildProjects(builder: IProjectCallback): Promise<void>;
 
 export declare function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
@@ -88,14 +90,6 @@ export declare function requireRushPathSync(path?: string): string;
 
 export declare function resolveNpm(versions: Map<string, string>): Promise<Map<string, string>>;
 
-export declare function runAutoFix(argv: string[]): Promise<void>;
-
-export declare function runCheckUpdate(): Promise<void>;
-
-export declare function runForEach(argv: string[]): Promise<void>;
-
-export declare function runList(argv: string[]): Promise<void>;
-
 export declare class RunQueue<T> {
     private readonly job;
     private readonly concurrent;
@@ -104,8 +98,6 @@ export declare class RunQueue<T> {
     register(id: string, arg: T, deps: ReadonlyArray<string>): void;
     run(): Promise<void>;
 }
-
-export declare function runRegisterProject(): Promise<void>;
 
 export declare class RushProject {
     readonly configFile: string;
@@ -124,5 +116,10 @@ export declare class RushProject {
     packageJsonPath(project: Immutable<IProjectConfig> | string): string | null;
     packageDependency(project: Immutable<IProjectConfig> | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
 }
+
+export declare const spinner: {
+    interval: number;
+    frames: string[];
+};
 
 export { }

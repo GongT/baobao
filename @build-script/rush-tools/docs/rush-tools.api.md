@@ -4,6 +4,11 @@
 
 ```ts
 
+// Warning: (ae-missing-release-tag) "buildAction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function buildAction(action: string, argv: string[]): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "buildProjects" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "buildProjects" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -188,26 +193,6 @@ export function requireRushPathSync(path?: string): string;
 // @public (undocumented)
 export function resolveNpm(versions: Map<string, string>): Promise<Map<string, string>>;
 
-// Warning: (ae-missing-release-tag) "runAutoFix" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function runAutoFix(argv: string[]): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "runCheckUpdate" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function runCheckUpdate(): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "runForEach" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function runForEach(argv: string[]): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "runList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function runList(argv: string[]): Promise<void>;
-
 // Warning: (ae-missing-release-tag) "RunQueue" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -218,11 +203,6 @@ export class RunQueue<T> {
     // (undocumented)
     run(): Promise<void>;
 }
-
-// Warning: (ae-missing-release-tag) "runRegisterProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function runRegisterProject(): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "RushProject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -256,6 +236,14 @@ export class RushProject {
     // (undocumented)
     get tempRoot(): string;
 }
+
+// Warning: (ae-missing-release-tag) "spinner" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const spinner: {
+    interval: number;
+    frames: string[];
+};
 
 
 // (No @packageDocumentation comment for this package)

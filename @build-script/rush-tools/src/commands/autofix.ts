@@ -4,6 +4,7 @@ import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
 import { RushProject } from '../api/rushProject';
 
+/** @internal */
 export default async function runAutoFix(argv: string[]) {
 	const localHardVersions = new Map<string, string>(); // 本地硬性依赖，不允许指定其他值
 	const cyclicVersions = new Map<string, string>(); // 循环依赖 - 必须去npm请求才能确定

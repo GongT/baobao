@@ -7,6 +7,5 @@
 		"typeRoots": ["../node_modules/@types"],
 		"declaration": false,
 		"declarationMap": false
-	},
-	"include": ["api/**/*.ts", "commands/**/*.ts", "index.ts", "../.rush/build.ts"]
+	}
 }

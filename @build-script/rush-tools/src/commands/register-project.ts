@@ -1,6 +1,7 @@
 import { registerProjectToRush } from '../api/register';
 import { description } from '../common/description';
 
+/** @internal */
 export default async function runRegisterProject() {
 	const _projectPath = process.argv[3];
 	if (!_projectPath) {

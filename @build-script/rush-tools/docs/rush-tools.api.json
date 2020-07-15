@@ -17,6 +17,69 @@
       "members": [
         {
           "kind": "Function",
+          "canonicalReference": "@build-script/rush-tools!buildAction:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function buildAction(action: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", argv: "
+            },
+            {
+              "kind": "Content",
+              "text": "string[]"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 7
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "action",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "argv",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "buildAction"
+        },
+        {
+          "kind": "Function",
           "canonicalReference": "@build-script/rush-tools!buildProjects:function(1)",
           "docComment": "",
           "excerptTokens": [
@@ -1833,182 +1896,6 @@
           "name": "resolveNpm"
         },
         {
-          "kind": "Function",
-          "canonicalReference": "@build-script/rush-tools!runAutoFix:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export default function runAutoFix(argv: "
-            },
-            {
-              "kind": "Content",
-              "text": "string[]"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "argv",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            }
-          ],
-          "name": "runAutoFix"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "@build-script/rush-tools!runCheckUpdate:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export default function runCheckUpdate(): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 3
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [],
-          "name": "runCheckUpdate"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "@build-script/rush-tools!runForEach:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export default function runForEach(argv: "
-            },
-            {
-              "kind": "Content",
-              "text": "string[]"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "argv",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            }
-          ],
-          "name": "runForEach"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "@build-script/rush-tools!runList:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export default function runList(argv: "
-            },
-            {
-              "kind": "Content",
-              "text": "string[]"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "argv",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            }
-          ],
-          "name": "runList"
-        },
-        {
           "kind": "Class",
           "canonicalReference": "@build-script/rush-tools!RunQueue:class",
           "docComment": "",
@@ -2198,38 +2085,6 @@
             }
           ],
           "implementsTokenRanges": []
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "@build-script/rush-tools!runRegisterProject:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export default function runRegisterProject(): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 3
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [],
-          "name": "runRegisterProject"
         },
         {
           "kind": "Class",
@@ -2767,6 +2622,27 @@
             }
           ],
           "implementsTokenRanges": []
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@build-script/rush-tools!spinner:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "spinner: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    interval: number;\n    frames: string[];\n}"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "spinner",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
         }
       ]
     }

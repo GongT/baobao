@@ -5,6 +5,7 @@ import { createWriteStream } from 'fs-extra';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 
+/** @internal */
 export default async function runForEach(argv: string[]) {
 	let quiet = false;
 	if (argv[0] === '--quiet') {

@@ -6,6 +6,7 @@ import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
 import { info } from '../common/output';
 
+/** @internal */
 export default async function runCheckUpdate() {
 	const rush = new RushProject();
 
