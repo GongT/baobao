@@ -117,6 +117,7 @@ export declare class RushProject {
     packageDependency(project: Immutable<IProjectConfig> | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
 }
 
+/** @innternal */
 export declare const spinner: {
     interval: number;
     frames: string[];

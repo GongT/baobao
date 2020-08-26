@@ -70,7 +70,7 @@ export declare class DeferredPromise<T, PT = any> {
     private _completeCallback;
     private _errorCallback;
     private _state;
-    private _progressList;
+    private _progressList?;
     constructor();
     notify(progress: PT): this;
     progress(fn: ProgressCallback<PT>): void;
@@ -86,7 +86,7 @@ export declare class DeferredPromise<T, PT = any> {
 export declare class DelayCallbackList<Argument> {
     private delayArgument?;
     private delayComplete;
-    protected list: MyDelayCallback<Argument>[];
+    protected list?: MyDelayCallback<Argument>[];
     add(item: MyDelayCallback<Argument>, name?: string): void;
     run(argument: Argument): void;
 }

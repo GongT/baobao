@@ -29,7 +29,7 @@ export declare function handleProgress(stream: NodeJS.ReadableStream, message: b
 export declare class I7zHandler extends EventEmitter {
     private readonly toRun;
     private _promise?;
-    private _timer;
+    private _timer?;
     private cp?;
     private _start;
     on(event: 'progress', cb: (progress: IStatusReport) => void): this;

@@ -1,0 +1,22 @@
+name: Build with rush
+on:
+  push:
+    branches:
+      - master
+env:
+  NODE_ENV: production
+  http_proxy: http://proxy-server.:3271
+  DISABLE_SYSTEMD: yes
+jobs:
+  build:
+    runs-on: [self-hosted, linux]
+    name: 'Run build with rush'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: 'Install'
+        run: node common/scripts/install-run-rush.js install
+      - name: 'Build'
+        run: node common/scripts/install-run-rush.js build --verbose

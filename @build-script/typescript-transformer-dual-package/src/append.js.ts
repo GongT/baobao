@@ -20,8 +20,9 @@ export function appendDotJs(
 		if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, debug, program)) {
 			debug(' * %s', node.getText(node.getSourceFile()).split('\n')[0]);
 			const modified: ValidImportOrExportDeclaration = { ...node };
-			modified.moduleSpecifier = createLiteral(`${node.moduleSpecifier.text}.js`);
-			modified.moduleSpecifier.parent = node;
+			const moduleSpecifier = createLiteral(`${node.moduleSpecifier.text}.cjs`);
+			Object.assign(moduleSpecifier, { parent: node });
+			Object.assign(modified, { moduleSpecifier });
 			return modified;
 		} else if (node.getText(node.getSourceFile()).startsWith('import ')) {
 			debug(' ? %s', node.getText(node.getSourceFile()).split('\n')[0]);

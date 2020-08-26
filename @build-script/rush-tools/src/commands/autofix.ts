@@ -89,7 +89,6 @@ export default async function runAutoFix(argv: string[]) {
 		}
 		for (const depName of Object.keys(deps)) {
 			let fix: string | undefined;
-			if (blacklist.has(depName)) warn('package "%s" is depend on private package "%s"', packName, depName);
 
 			if (cyclicPackages.get(packName)?.includes(depName)) {
 				// this package have cyclic depend, and this dep is cyclic
@@ -108,6 +107,17 @@ export default async function runAutoFix(argv: string[]) {
 				deps[depName] = fix;
 			}
 		}
+
+		let flShow = false;
+		for (const depName of Object.keys(deps)) {
+			if (!flShow) {
+				flShow = true;
+				warn('Warning:');
+			}
+			if (blacklist.has(depName)) {
+				warn('    package "%s" depend private "%s"', packName, depName);
+			}
+		}
 	};
 	for (const item of packageJsons) {
 		fix(item.name, item.dependencies);
@@ -122,7 +132,7 @@ export default async function runAutoFix(argv: string[]) {
 }
 
 function warn(msg: string, ...args: any[]) {
-	console.log(`\x1B[38;5;9m${msg}\x1B[0m`, ...args);
+	console.log(`\x1B[38;5;3m${msg}\x1B[0m`, ...args);
 }
 
 description(runAutoFix, 'Auto fix any mismatch dependency versions, use newest one inside workspace.');

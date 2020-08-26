@@ -157,7 +157,7 @@ export class DelayCallbackList<Argument> {
     // (undocumented)
     add(item: MyDelayCallback<Argument>, name?: string): void;
     // (undocumented)
-    protected list: MyDelayCallback<Argument>[];
+    protected list?: MyDelayCallback<Argument>[];
     // (undocumented)
     run(argument: Argument): void;
 }

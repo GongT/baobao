@@ -1,13 +1,3 @@
-import { doc, Options as PrettierOptions } from 'prettier';
-declare type PassedEditableFormats = 'bracketSpacing' | 'endOfLine';
-export interface IFileFormatConfig extends doc.printer.Options, Pick<PrettierOptions, PassedEditableFormats> {
-    lastNewLine: boolean;
-}
-export declare function reformatJson<T = any>(data: T, format: Partial<IFileFormatConfig>): T;
-export declare function stringifyJsonText(data: any): string;
-export declare function getFormatInfo(data: any): IFileFormatConfig;
-export {};
-//# sourceMappingURL=format.d.ts.map
 /**
  * When writeXxx() functions return a bool, it means:
  *   * true: data has change, file content altered
@@ -55,3 +45,13 @@ export declare function manipulateJsonResult(data: any, oType?: UnorderdFieldsPl
 export declare function insertKeyAlphabet(data: any, key: any, value: any): typeof data;
 export declare function sortObjectWithTargetOrder(data: any, targetOrder: string[]): typeof data;
 //# sourceMappingURL=manipulate.d.ts.map
+import { doc, Options as PrettierOptions } from 'prettier';
+declare type PassedEditableFormats = 'bracketSpacing' | 'endOfLine';
+export interface IFileFormatConfig extends doc.printer.Options, Pick<PrettierOptions, PassedEditableFormats> {
+    lastNewLine: boolean;
+}
+export declare function reformatJson<T = any>(data: T, format: Partial<IFileFormatConfig>): T;
+export declare function stringifyJsonText(data: any): string;
+export declare function getFormatInfo(data: any): IFileFormatConfig;
+export {};
+//# sourceMappingURL=format.d.ts.map

@@ -73,8 +73,9 @@ export function appendDotCjs(program: Program, debug: IDebug) {
 	function addCjsExtension(transformationContext: TransformationContext) {
 		function visitNode(node: Node): VisitResult<Node> {
 			if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, debug, program)) {
-				node.moduleSpecifier = createLiteral(`${node.moduleSpecifier.text}.cjs`);
-				node.moduleSpecifier.parent = node;
+				const moduleSpecifier = createLiteral(`${node.moduleSpecifier.text}.cjs`);
+				Object.assign(moduleSpecifier, { parent: node });
+				Object.assign(node, { moduleSpecifier });
 			}
 			return node;
 		}

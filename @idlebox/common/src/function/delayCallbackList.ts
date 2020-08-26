@@ -10,7 +10,7 @@ export class DelayCallbackList<Argument> {
 	private delayArgument?: Argument;
 	private delayComplete: boolean = false;
 
-	protected list: MyDelayCallback<Argument>[] = [];
+	protected list?: MyDelayCallback<Argument>[] = [];
 
 	add(item: MyDelayCallback<Argument>, name?: string) {
 		if (name) {
@@ -19,7 +19,7 @@ export class DelayCallbackList<Argument> {
 		if (this.delayComplete) {
 			item(this.delayArgument!);
 		} else {
-			this.list.push(item);
+			this.list!.push(item);
 		}
 	}
 
@@ -29,7 +29,7 @@ export class DelayCallbackList<Argument> {
 		}
 		this.delayComplete = true;
 		this.delayArgument = argument;
-		this.list.forEach((cb) => {
+		this.list!.forEach((cb) => {
 			cb(argument);
 		});
 		delete this.list;

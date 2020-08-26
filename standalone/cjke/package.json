@@ -1,7 +1,7 @@
 {
 	"name": "cjke-strings",
 	"type": "module",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
 	"keywords": [
 		"string",
@@ -43,24 +43,24 @@
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.16",
+		"@build-script/builder": "^2.0.17",
 		"@build-script/single-dog-asset": "^1.0.3",
-		"@build-script/typescript-transformer-dual-package": "^1.0.9",
-		"@rollup/plugin-commonjs": "^14.0.0",
-		"@rollup/plugin-node-resolve": "^8.4.0",
-		"@types/chai": "^4.2.11",
+		"@build-script/typescript-transformer-dual-package": "^1.0.10",
+		"@rollup/plugin-commonjs": "^15.0.0",
+		"@rollup/plugin-node-resolve": "^9.0.0",
+		"@types/chai": "^4.2.12",
 		"@types/emoji-regex": "^8.0.0",
-		"@types/mocha": "^8.0.0",
+		"@types/mocha": "^8.0.3",
 		"chai": "^4.2.0",
-		"chokidar": "^3.4.0",
+		"chokidar": "^3.4.2",
 		"gulp": "^4.0.2",
-		"mocha": "^8.0.1",
-		"rollup": "^2.21.0",
-		"rollup-plugin-typescript2": "^0.27.1",
+		"mocha": "^8.1.2",
+		"rollup": "^2.26.5",
+		"rollup-plugin-typescript2": "^0.27.2",
 		"source-map-support": "^0.5.19",
-		"ttypescript": "^1.5.10",
-		"typescript": "^3.9.6",
-		"@build-script/export-all-in-one": "^3.0.13"
+		"ttypescript": "^1.5.11",
+		"typescript": "^4.0.2",
+		"@build-script/export-all-in-one": "^3.0.14"
 	},
 	"monorepo": "rush"
 }

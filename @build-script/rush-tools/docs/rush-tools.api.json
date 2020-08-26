@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.9.2",
+    "toolVersion": "7.9.10",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -2626,7 +2626,7 @@
         {
           "kind": "Variable",
           "canonicalReference": "@build-script/rush-tools!spinner:var",
-          "docComment": "",
+          "docComment": "/**\n * @innternal\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",

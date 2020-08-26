@@ -18,7 +18,7 @@ export class DeferredPromise<T, PT = any> {
 	// @ts-ignore
 	private _errorCallback: (err: any) => void;
 	private _state: boolean | null = null;
-	private _progressList: ProgressCallback<PT>[] = [];
+	private _progressList?: ProgressCallback<PT>[] = [];
 
 	constructor() {
 		this.p = Object.assign(
@@ -39,14 +39,14 @@ export class DeferredPromise<T, PT = any> {
 	}
 
 	notify(progress: PT): this {
-		for (const cb of this._progressList) {
+		for (const cb of this._progressList!) {
 			cb(progress);
 		}
 		return this;
 	}
 
 	progress(fn: ProgressCallback<PT>): void {
-		this._progressList.push(fn);
+		this._progressList!.push(fn);
 	}
 
 	get completed(): boolean {

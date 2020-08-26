@@ -14,7 +14,6 @@ export default async function runCheckUpdate() {
 	const alldeps: any = {};
 	const jsonList: any[] = [];
 	for (const project of rush.projects) {
-		console.log('  * %s', project.packageName);
 		const pkgJson = rush.packageJsonPath(project);
 		if (!pkgJson) {
 			console.error('Error: package.json not found in: %s', project.projectFolder);
@@ -22,7 +21,11 @@ export default async function runCheckUpdate() {
 		}
 
 		const packageJson = await loadJsonFile(pkgJson);
-		Object.assign(alldeps, packageJson.dependencies, packageJson.devDependencies);
+		const myDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
+		Object.assign(alldeps, myDeps);
+
+		const size = Object.keys(myDeps).length;
+		console.log('  * %s - %s dep%s', project.packageName, size, size > 1 ? 's' : '');
 
 		jsonList.push(packageJson);
 	}
@@ -35,13 +38,20 @@ export default async function runCheckUpdate() {
 	const map = await resolveNpm(new Map(Object.entries(alldeps)));
 
 	info('Write changed files:');
+	let totalChange = 0;
 	for (const packageJson of jsonList) {
-		update(packageJson.dependencies, map);
-		update(packageJson.devDependencies, map);
+		let numChange = update(packageJson.dependencies, map);
+		numChange += update(packageJson.devDependencies, map);
 		const changed = await writeJsonFileBack(packageJson);
 		if (changed) {
-			console.log('  * %s', packageJson.name);
+			console.log('  * %s - %s change%s', packageJson.name, numChange, numChange > 1 ? 's' : '');
 		}
+		totalChange += numChange;
+	}
+
+	if (totalChange == 0) {
+		info('OHHHH! No update!');
+		return;
 	}
 
 	info('Delete temp file(s):');
@@ -55,7 +65,8 @@ export default async function runCheckUpdate() {
 }
 
 function update(target: Record<string, string>, map: Map<string, string>) {
-	if (!target) return;
+	let changed = 0;
+	if (!target) return changed;
 	for (const item of Object.keys(target)) {
 		const nver = map.get(item)!;
 		if (!nver) {
@@ -68,7 +79,9 @@ function update(target: Record<string, string>, map: Map<string, string>) {
 
 		// console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
 		target[item] = nver;
+		changed++;
 	}
+	return changed;
 }
 
 description(runCheckUpdate, 'Upgrade all dependencies of every project.');

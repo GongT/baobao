@@ -7,7 +7,10 @@ import { writeEnv } from './envPass';
 import { TEMP_DIR } from './paths';
 
 export const doSpawn: (file: string, args?: string[]) => void =
-	platform() == 'linux' && commandInPath('systemd-run') && process.env.INIT_PROCESS === 'systemd'
+	platform() == 'linux' &&
+	commandInPath('systemd-run') &&
+	process.env.INIT_PROCESS === 'systemd' &&
+	!process.env.DISABLE_SYSTEMD
 		? spawnSystemd
 		: spawnNormal;
 
@@ -40,7 +43,7 @@ function spawnSystemd(file: string, args: string[] = []) {
 	const { uid } = userInfo();
 	const unitName = `${basename(file, '.js')}.service`;
 
-	const cmds = ['--quiet', '--wait', '--collect', '--pty', '--same-dir', `--unit=${unitName}`];
+	const cmds = ['--quiet', '--wait', '--collect', '--pipe', '--pty', '--same-dir', `--unit=${unitName}`];
 	if (uid > 0) {
 		cmds.push('--user');
 	}

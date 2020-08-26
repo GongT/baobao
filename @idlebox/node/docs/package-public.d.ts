@@ -13,7 +13,7 @@ export declare class BlackHoleStream extends Writable {
 export declare function cleanupEnvironment(name: string, env?: NodeJS.ProcessEnv): void;
 
 export declare class CollectingStream extends Writable {
-    private buffer;
+    private buffer?;
     private _promise?;
     constructor(sourceStream?: NodeJS.ReadableStream);
     _write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void;
@@ -226,7 +226,7 @@ export declare function prettyFormatError(e: Error): string;
 export declare function prettyPrintError(type: string, e: Error): void;
 
 export declare class RawCollectingStream extends Writable {
-    private buffer;
+    private buffer?;
     private _promise?;
     constructor(sourceStream?: NodeJS.ReadableStream);
     _write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
