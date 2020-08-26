@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'recursive'
+          clean: false
+          fetch-depth: 0
       - name: 'Install'
         run: node common/scripts/install-run-rush.js install
       - name: 'Build'
