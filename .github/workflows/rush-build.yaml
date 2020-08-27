@@ -1,4 +1,4 @@
-name: Build with rush
+name: Test Build
 on:
   push:
     branches:
