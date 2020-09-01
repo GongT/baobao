@@ -1,5 +1,11 @@
 name: Test Build
 on:
+  workflow_dispatch:
+    inputs:
+      rebuild:
+        description: 'Rebuild without cache'
+        required: false
+        default: false
   push:
     branches:
       - master
@@ -21,4 +27,8 @@ jobs:
       - name: 'Install'
         run: node common/scripts/install-run-rush.js install
       - name: 'Build'
+        if: '!${{ github.event.inputs.rebuild }}'
+        run: node common/scripts/install-run-rush.js build --verbose
+      - name: 'Rebuild'
+        if: '${{ github.event.inputs.rebuild }}'
         run: node common/scripts/install-run-rush.js build --verbose
