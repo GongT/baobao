@@ -11,9 +11,9 @@ export default async function runRegisterProject() {
 	const added = registerProjectToRush(_projectPath);
 
 	if (added) {
-		console.log('register success. (already exists)');
-	} else {
 		console.log('register success. you should run \x1B[38;5;10mrush update\x1B[0m now.');
+	} else {
+		console.log('register success. (already exists)');
 	}
 }
 

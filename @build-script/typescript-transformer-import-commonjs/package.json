@@ -2,7 +2,7 @@
 	"name": "@build-script/typescript-transformer-import-commonjs",
 	"description": "A TypeScript transformer for use with ttypescript that will change import statement of commonjs packages.",
 	"version": "1.0.9",
-	"license": "MIT",
+	"license": "WTFPL",
 	"type": "module",
 	"main": "./lib/register.cjs",
 	"module": "./lib/register.js",

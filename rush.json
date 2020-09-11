@@ -126,6 +126,21 @@
 			"shouldPublish": true
 		},
 		{
+			"packageName": "@build-script/typescript-transformer-common",
+			"projectFolder": "@build-script/typescript-transformer-common",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/typescript-transformer-resolve-info",
+			"projectFolder": "@build-script/typescript-transformer-resolve-info",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/typescript-transformer-static-resolve",
+			"projectFolder": "@build-script/typescript-transformer-static-resolve",
+			"shouldPublish": true
+		},
+		{
 			"packageName": "@build-script/typescript-transformer-import-commonjs",
 			"projectFolder": "@build-script/typescript-transformer-import-commonjs",
 			"shouldPublish": false
