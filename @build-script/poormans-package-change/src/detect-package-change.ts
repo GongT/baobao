@@ -102,7 +102,7 @@ export async function main(argv: string[]) {
 	return 0;
 }
 
-function printResult(forceJson: boolean, changedFiles: string[], changed: boolean = changedFiles.length > 0) {
+function printResult(forceJson: boolean, changedFiles: string[], changed?: boolean) {
 	if (process.stdout.isTTY && !forceJson) {
 		if (changedFiles.length === 0) {
 			console.log('changed: no.');
@@ -114,6 +114,9 @@ function printResult(forceJson: boolean, changedFiles: string[], changed: boolea
 			console.log('changed: yes.');
 		}
 	} else {
+		if (changed === undefined) {
+			changed = changedFiles.length > 0;
+		}
 		console.log(JSON.stringify({ changedFiles, changed }));
 	}
 }

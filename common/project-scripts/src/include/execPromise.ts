@@ -60,10 +60,12 @@ export function execPromise({
 		r.on('exit', (code, signal) => {
 			if (verbose) console.error('\x1B[2m - %s finished with code %s, signal %s\x1B[0m', cmd, code, signal);
 			if (signal) {
-				console.error('\x1B[2m%s\x1B[0m', full.getOutput());
+				const l = '==========================================';
+				console.error(`${l}\n\x1B[0m%s\n${l}`, full.getOutput());
 				reject(new Error('child process exit with signal ' + signal));
 			} else if (code !== 0) {
-				console.error('\x1B[2m%s\x1B[0m', full.getOutput());
+				const l = '==========================================';
+				console.error(`${l}\n\x1B[0m%s\n${l}`, full.getOutput());
 				reject(new Error('child process exit with code ' + code));
 			} else {
 				Promise.all([output.promise(), full.promise()]).then(([output, full]) => {

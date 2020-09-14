@@ -1,22 +1,10 @@
-#!/bin/bash
-
-COMMAND=(common/temp/node_modules/.bin/pretty-quick --bail --check)
+#!/usr/bin/env bash
 
 echo --------------------------------------------
-echo Starting Git hook: pre-commit
+echo "Starting Git hook: pre-commit"
 
-if [ -f $COMMAND ]; then
-	echo "Invoking ${COMMAND[*]}"
-	"${COMMAND[@]}"
-	RET=$?
-else
-	echo Command not installed: $COMMAND >&2
-	RET=1
-fi
-
-if [[ "$RET" -ne 0 ]]; then
-	echo -e "Run \e[38;5;14mrush pretty\e[0m to fix this"
-fi
+node common/scripts/install-run-rush.js pretty
+RET=$?
 
 echo "Finished Git hook: pre-commit ($RET)"
 echo --------------------------------------------

@@ -7,7 +7,7 @@ import { spawnSyncLog } from '../inc/spawn';
 import { locateRootRelativeToProject, readTemplate } from '../inc/template';
 import { runBuildScriptInit } from '../jobs/buildScript';
 import { runExportAllInOne } from '../jobs/exportAll';
-import { initArgs, updatePackageJson, reloadPackageJson } from '../jobs/packageJson';
+import { initArgs, reloadPackageJson, updatePackageJson } from '../jobs/packageJson';
 import { updateTsconfigJson } from '../jobs/tsconfigJson';
 
 export default async () => {
@@ -52,14 +52,9 @@ export default async () => {
 	packageJson = await reloadPackageJson();
 
 	if (!monorepoMode) {
-		fs.placeFile(`.idea/${basename(CONTENT_ROOT)}.iml`, readTemplate('idea/idea.iml'));
-		await linkWithLog(
-			await locateRootRelativeToProject('.idea/codeStyles', 'package/idea/codeStyles'),
-			resolve(CONTENT_ROOT, '.idea/codeStyles')
-		);
-		fs.placeFile('.idea/misc.xml', readTemplate('idea/misc.xml'));
-		fs.placeFile('.idea/vcs.xml', readTemplate('idea/vcs.xml'));
-		fs.placeFile('.idea/modules.xml', readTemplate('idea/modules.xml').replace(/{NAME}/g, basename(CONTENT_ROOT)));
+		fs.placeFile(`.vscode/extensions.json`, readTemplate('vscode/extensions.json'));
+		fs.placeFile(`.vscode/import-sorter.json`, readTemplate('vscode/import-sorter.json'));
+		fs.placeFile(`.vscode/settings.json`, readTemplate('vscode/settings.json'));
 
 		// create git repo
 		if (!fs.exists('.git')) {

@@ -13,8 +13,9 @@
 			"commandKind": "global",
 			"name": "pretty",
 			"summary": "运行“pretty-quick”命令，格式化所有文件",
+			"autoinstallerName": "rush-prettier",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "./common/temp/node_modules/.bin/pretty-quick"
+			"shellCommand": "pretty-quick --staged"
 		},
 		{
 			"commandKind": "global",

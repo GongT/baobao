@@ -1,0 +1,13 @@
+{
+	// "search.exclude": {
+	// 	"common/temp": true,
+	// 	"**/node_modules/**/*": true,
+	// 	"*/*/lib": true,
+	// 	"*/*/.rush": true
+	// },
+	// "prettier.prettierPath": "common/temp/node_modules/prettier",
+	// "typescript.tsdk": "./common/temp/node_modules/.pnpm/node_modules/typescript/lib",
+	"files.associations": {
+		"*.json": "json5"
+	}
+}

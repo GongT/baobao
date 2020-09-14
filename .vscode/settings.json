@@ -1,6 +1,6 @@
 {
 	"files.associations": {
-		"*.json": "jsonc"
+		"*.json": "json5"
 	},
 	"search.exclude": {
 		"common/temp": true,

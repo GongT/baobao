@@ -13,4 +13,13 @@ module.exports = {
 	requirePragma: false,
 	insertPragma: false,
 	endOfLine: 'lf',
+	overrides: [
+		{
+			files: ['*.yaml', '*.yml'],
+			options: {
+				useTabs: false,
+				tabWidth: 2,
+			},
+		},
+	],
 };
