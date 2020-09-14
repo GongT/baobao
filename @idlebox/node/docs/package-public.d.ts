@@ -6,6 +6,8 @@ import { Readable } from 'stream';
 import { Transform } from 'stream';
 import { Writable } from 'stream';
 
+export declare type AsyncMainFunction = () => Promise<void | number>;
+
 export declare class BlackHoleStream extends Writable {
     _write(_chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
@@ -162,6 +164,11 @@ export declare function exists(path: string): Promise<boolean>;
 
 export declare function existsSync(path: string): boolean;
 
+export declare class ExitError extends Error {
+    readonly code: number;
+    constructor(message: string, code?: number);
+}
+
 export declare function findUpUntil(from: string, file: string): Promise<string | null>;
 
 export declare function findUpUntilSync(from: string, file: string): string | null;
@@ -241,6 +248,8 @@ export declare const resolvePath: ResolvePathFunction;
 export declare interface ResolvePathFunction {
     (...pathSegments: string[]): string;
 }
+
+export declare function runMain(main: AsyncMainFunction): void;
 
 export declare function setErrorLogRoot(_root: string): void;
 

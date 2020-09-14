@@ -1,6 +1,6 @@
 {
 	"monorepo": "rush",
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"license": "MIT",
 	"name": "@idlebox/node",
 	"type": "module",

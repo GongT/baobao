@@ -11,6 +11,11 @@ import { Readable } from 'stream';
 import { Transform } from 'stream';
 import { Writable } from 'stream';
 
+// Warning: (ae-missing-release-tag) "AsyncMainFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type AsyncMainFunction = () => Promise<void | number>;
+
 // Warning: (ae-missing-release-tag) "BlackHoleStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -327,6 +332,15 @@ export function exists(path: string): Promise<boolean>;
 // @public (undocumented)
 export function existsSync(path: string): boolean;
 
+// Warning: (ae-missing-release-tag) "ExitError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class ExitError extends Error {
+    constructor(message: string, code?: number);
+    // (undocumented)
+    readonly code: number;
+}
+
 // Warning: (ae-missing-release-tag) "findUpUntil" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -481,6 +495,11 @@ export interface ResolvePathFunction {
     // (undocumented)
     (...pathSegments: string[]): string;
 }
+
+// Warning: (ae-missing-release-tag) "runMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function runMain(main: AsyncMainFunction): void;
 
 // Warning: (ae-missing-release-tag) "setErrorLogRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
