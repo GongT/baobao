@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-require('source-map-support/register');
 
-require('source');
-require('./lib/bin.js.js');
+// TODO: support dual stack
+require('source-map-support/register');
+require('./lib/bin.js');
