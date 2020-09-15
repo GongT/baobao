@@ -1,0 +1,25 @@
+name: publish to npm
+on:
+  workflow_dispatch:
+env:
+  NODE_ENV: production
+  DISABLE_SYSTEMD: yes
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 'Publish with rush'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          clean: false
+          fetch-depth: 0
+      - name: 'Install'
+        run: node common/scripts/install-run-rush.js install
+      - name: 'Build'
+        run: node common/scripts/install-run-rush.js rebuild
+      - name: 'Publish'
+        run: node common/scripts/install-run-rush.js ypublish
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

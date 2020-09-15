@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@build-script/export-all-in-one-inject",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/baobao",
 	"keywords": [
@@ -24,9 +24,9 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@build-script/builder": "^2.0.18",
-		"@idlebox/node-json-edit": "^2.0.6",
-		"unipm": "^1.0.10",
+		"@build-script/builder": "^2.0.19",
+		"@idlebox/node-json-edit": "^2.0.7",
+		"unipm": "^1.0.11",
 		"@microsoft/api-extractor": "^7.9.15",
 		"fs-extra": "^9.0.1",
 		"source-map-support": "^0.5.19"

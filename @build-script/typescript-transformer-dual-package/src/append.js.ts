@@ -19,8 +19,8 @@ export function appendDotJs(
 	function visitNode(node: Node): VisitResult<Node> {
 		if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, debug, program)) {
 			debug(' * %s', node.getText(node.getSourceFile()).split('\n')[0]);
-			const modified: ValidImportOrExportDeclaration = { ...node };
-			const moduleSpecifier = createLiteral(`${node.moduleSpecifier.text}.cjs`);
+			const modified: ValidImportOrExportDeclaration = Object.create(node);
+			const moduleSpecifier = createLiteral(`${node.moduleSpecifier.text}.js`);
 			Object.assign(moduleSpecifier, { parent: node });
 			Object.assign(modified, { moduleSpecifier });
 			return modified;

@@ -10,7 +10,7 @@
 		"es modules",
 		"commonjs"
 	],
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"license": "WTFPL",
 	"type": "module",
 	"main": "./lib/register.cjs",
