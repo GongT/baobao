@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 declare const $: any;
 
@@ -63,14 +63,7 @@ export function htmlPage(title: string, body: React.ReactNode) {
 					></script>
 				</head>
 				<body>
-					<div
-						id="toast"
-						className="toast"
-						role="alert"
-						aria-live="assertive"
-						aria-atomic="true"
-						style={toastStyle}
-					>
+					<div id="toast" className="toast" role="alert" aria-live="assertive" aria-atomic="true" style={toastStyle}>
 						<div className="toast-header">
 							<img src="..." className="rounded mr-2" alt="..." />
 							<strong id="sqlTitle" className="mr-auto"></strong>
@@ -85,10 +78,7 @@ export function htmlPage(title: string, body: React.ReactNode) {
 					<textarea id="output" style={{ opacity: 0, position: 'fixed', top: 0, zIndex: -1 }}></textarea>
 				</body>
 
-				<script
-					type="text/javascript"
-					dangerouslySetInnerHTML={{ __html: `(${initScript.toString()})();` }}
-				></script>
+				<script type="text/javascript" dangerouslySetInnerHTML={{ __html: `(${initScript.toString()})();` }}></script>
 			</html>
 		</React.Fragment>
 	);

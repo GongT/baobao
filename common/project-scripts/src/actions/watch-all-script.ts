@@ -1,10 +1,10 @@
-import { buildProjects } from '@build-script/rush-tools';
-import { spawn, ChildProcess } from 'child_process';
-import { resolve, relative } from 'path';
-import { REPO_ROOT, NPM_BIN } from '../include/paths';
-import { loadEnv } from '../include/envPass';
-import { Readable } from 'stream';
 import * as split2 from 'split2';
+import { ChildProcess, spawn } from 'child_process';
+import { relative, resolve } from 'path';
+import { Readable } from 'stream';
+import { buildProjects } from '@build-script/rush-tools';
+import { loadEnv } from '../include/envPass';
+import { REPO_ROOT } from '../include/paths';
 
 loadEnv();
 

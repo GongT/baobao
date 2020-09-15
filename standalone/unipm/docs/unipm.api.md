@@ -4,7 +4,7 @@
 
 ```ts
 
-import * as execa from 'execa';
+import execa from 'execa';
 
 // Warning: (ae-missing-release-tag) "getPackageManager" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

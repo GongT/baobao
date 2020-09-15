@@ -1,6 +1,6 @@
-import * as execa from 'execa';
-import * as ora from 'ora';
-import * as split2 from 'split2';
+import execa from 'execa';
+import ora from 'ora';
+import split2 from 'split2';
 import { resolve } from 'path';
 import { createWriteStream } from 'fs';
 import { streamPromise } from '@idlebox/node';

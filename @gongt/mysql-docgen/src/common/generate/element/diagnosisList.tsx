@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { diagnosisMessage, getAllDiagnosis } from '../../library/diagnosis';
 
 export class DiagnosisList extends React.PureComponent {

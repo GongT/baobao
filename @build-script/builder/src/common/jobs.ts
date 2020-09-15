@@ -3,8 +3,7 @@ import { PathEnvironment, streamPromise } from '@idlebox/node';
 import { ExecFunc } from '../global';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
-
-import split2 = require('split2');
+import split2 from 'split2';
 
 const execa = require('execa');
 

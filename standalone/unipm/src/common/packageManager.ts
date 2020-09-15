@@ -1,4 +1,4 @@
-import * as execa from 'execa';
+import execa from 'execa';
 import { stat, Stats } from 'fs';
 import { commandInPath } from '@idlebox/node';
 

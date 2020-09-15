@@ -1,4 +1,4 @@
-import * as log from 'fancy-log';
+import log from 'fancy-log';
 
 export interface Logger {
 	(...args: any[]): Logger;

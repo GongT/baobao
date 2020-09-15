@@ -1,9 +1,9 @@
-import { spawn, SpawnOptions } from 'child_process';
-import { TEMP_DIR } from './paths';
-import { CollectingStream, streamPromise } from '@idlebox/node';
 import * as split2 from 'split2';
-import { mkdirpSync, createWriteStream } from 'fs-extra';
+import { spawn, SpawnOptions } from 'child_process';
 import { dirname } from 'path';
+import { CollectingStream, streamPromise } from '@idlebox/node';
+import { createWriteStream, mkdirpSync } from 'fs-extra';
+import { TEMP_DIR } from './paths';
 
 export interface IOptions extends SpawnOptions {
 	cmd?: string;

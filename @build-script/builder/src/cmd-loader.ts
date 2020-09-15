@@ -13,10 +13,10 @@ export function fatalError(msg: string): never {
 export function load(file: string) {
 	Promise.resolve()
 		.then(() => {
-			return require(file).default;
+			return import(file);
 		})
 		.then((fn) => {
-			return fn();
+			return fn.default();
 		})
 		.catch((e) => {
 			if (e instanceof ExitError) {

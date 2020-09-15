@@ -33,7 +33,7 @@ async function main() {
 			console.error('\x1B[38;5;9m[     detect-package-change has failed.     ]\x1B[0m');
 			console.error('\x1B[2m%s\x1B[0m', full);
 			console.error('=============================================');
-			console.error(e.message);
+			console.error('failed parse json [ %s ]: %s', result, e.message);
 			process.exit(1);
 		}
 

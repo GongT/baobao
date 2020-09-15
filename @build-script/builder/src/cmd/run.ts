@@ -1,4 +1,4 @@
-import * as gulp from 'gulp';
+import gulp from 'gulp';
 import { resolve } from 'path';
 import { loadToGulp } from '../api/context';
 import { fancyLog } from '../common/fancyLog';
@@ -6,7 +6,7 @@ import { fancyLog } from '../common/fancyLog';
 export default async function runBuildScript() {
 	const command = process.argv[2]!;
 
-	require(resolve(__dirname, '../../api.js')); // init singleton
+	require(resolve(__dirname, '../../api')); // init singleton
 
 	loadToGulp(gulp, process.cwd());
 	try {

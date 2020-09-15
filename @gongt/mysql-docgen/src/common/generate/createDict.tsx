@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DiagnosisList } from './element/diagnosisList';
 import { ITable } from '../fetch/type';
 

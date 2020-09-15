@@ -110,11 +110,11 @@ export default async function runAutoFix(argv: string[]) {
 
 		let flShow = false;
 		for (const depName of Object.keys(deps)) {
-			if (!flShow) {
-				flShow = true;
-				warn('Warning:');
-			}
 			if (blacklist.has(depName)) {
+				if (!flShow) {
+					flShow = true;
+					warn('Warning:');
+				}
 				warn('    package "%s" depend private "%s"', packName, depName);
 			}
 		}

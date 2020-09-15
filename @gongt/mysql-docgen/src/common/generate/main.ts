@@ -8,7 +8,7 @@ import { createDocument } from './createDocument';
 import { htmlPage } from './htmlPageHeader';
 import { ITable } from '../fetch/type';
 // @ts-ignore
-import * as pretty from 'pretty';
+import pretty from 'pretty';
 
 const writeFile = promisify(writeFileAsync);
 

@@ -10,7 +10,7 @@
 		"es modules",
 		"commonjs"
 	],
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"license": "WTFPL",
 	"type": "module",
 	"main": "./lib/register.cjs",
@@ -34,7 +34,7 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "^1.0.3",
+		"@build-script/single-dog-asset": "^1.0.5",
 		"@types/node": "^14.10.1",
 		"rimraf": "^3.0.2",
 		"ts-node": "^9.0.0",

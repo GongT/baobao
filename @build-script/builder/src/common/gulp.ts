@@ -1,5 +1,5 @@
 import { nameFunction } from '@idlebox/common';
-import * as Gulp from 'gulp';
+import Gulp from 'gulp';
 import { BuildContext } from './buildContext';
 import { getBuildContext, setCurrentDir } from './buildContextInstance';
 import { fancyLog } from './fancyLog';

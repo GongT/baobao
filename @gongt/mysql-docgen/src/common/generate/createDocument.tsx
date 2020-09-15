@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DiagnosisList } from './element/diagnosisList';
 import { ITable, ITableColumn, ITableKey } from '../fetch/type';
 
@@ -152,9 +152,7 @@ function createFieldList(col: ITableColumn) {
 			<td>{col.type}</td>
 			<td>
 				{col.defaultValue ? (
-					<span className={'badge badge-' + (col.type.startsWith('DATETIME') ? 'success' : 'danger')}>
-						默认值
-					</span>
+					<span className={'badge badge-' + (col.type.startsWith('DATETIME') ? 'success' : 'danger')}>默认值</span>
 				) : null}
 				{col.keyType ? <span className="badge badge-primary">🔑{col.keyType}</span> : null}
 				{col.onUpdateCurrentTimestamp ? <span className="badge badge-light">更新时间</span> : null}
@@ -211,12 +209,7 @@ export function createDocument(tables: ITable[]): React.ReactElement {
 			<script dangerouslySetInnerHTML={{ __html: '$(' + findingCurrent.toString() + ');' }}></script>
 			<div className="p-2 d-flex flex-row">
 				<div className="text-right text-truncate mr-1" style={{ minWidth: '10em', maxWidth: '20em' }}>
-					<ul
-						className="nav flex-column nav-pills"
-						id="v-pills-tab"
-						role="tablist"
-						aria-orientation="vertical"
-					>
+					<ul className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 						{tables.map(link)}
 					</ul>
 				</div>

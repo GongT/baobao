@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import * as Gulp from 'gulp';
+import Gulp from 'gulp';
 import { forceGetContext, getBuildContext, getCurrentDir, setCurrentDir } from '../common/buildContextInstance';
 import { load } from '../common/gulp';
 import { currentArgs, currentPlugin } from './ctsStore';

@@ -194,6 +194,38 @@
         },
         {
           "kind": "Function",
+          "canonicalReference": "@build-script/rush-tools!createTasks:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export default function createTasks(): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [],
+          "name": "createTasks"
+        },
+        {
+          "kind": "Function",
           "canonicalReference": "@build-script/rush-tools!description:function(1)",
           "docComment": "",
           "excerptTokens": [
@@ -2328,6 +2360,34 @@
             },
             {
               "kind": "Method",
+              "canonicalReference": "@build-script/rush-tools!RushProject#getPackageManager:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getPackageManager(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        type: 'npm' | 'yarn' | 'pnpm';\n        bin: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "getPackageManager"
+            },
+            {
+              "kind": "Method",
               "canonicalReference": "@build-script/rush-tools!RushProject#packageDependency:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -2399,6 +2459,64 @@
                 }
               ],
               "name": "packageDependency"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@build-script/rush-tools!RushProject#packageJsonContent:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "packageJsonContent(project: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Immutable",
+                  "canonicalReference": "@build-script/rush-tools!Immutable:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IProjectConfig",
+                  "canonicalReference": "@build-script/rush-tools!IProjectConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "> | string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any | null"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 6,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "project",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 5
+                  }
+                }
+              ],
+              "name": "packageJsonContent"
             },
             {
               "kind": "Method",

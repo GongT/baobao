@@ -1,4 +1,4 @@
-import * as jspmResolve from '@jspm/resolve';
+import jspmResolve from '@jspm/resolve';
 import { basename } from 'path';
 
 const jspmCache: any = {};

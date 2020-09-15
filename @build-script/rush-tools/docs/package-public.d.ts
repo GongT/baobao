@@ -5,6 +5,8 @@ export declare function buildProjects(builder: IProjectCallback): Promise<void>;
 
 export declare function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 
+export declare function createTasks(): Promise<void>;
+
 export declare function description(func: any): string;
 
 export declare function description(func: any, desc: string): void;
@@ -114,7 +116,12 @@ export declare class RushProject {
     absolute(project: Immutable<IProjectConfig> | string, ...segments: string[]): string;
     getPackageByName(name: string): Immutable<IProjectConfig> | null;
     packageJsonPath(project: Immutable<IProjectConfig> | string): string | null;
+    packageJsonContent(project: Immutable<IProjectConfig> | string): any | null;
     packageDependency(project: Immutable<IProjectConfig> | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
+    getPackageManager(): {
+        type: 'npm' | 'yarn' | 'pnpm';
+        bin: string;
+    };
 }
 
 /** @innternal */

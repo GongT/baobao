@@ -10,10 +10,10 @@
 		"prepack": ""
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^2.0.5",
-		"@build-script/rush-tools": "^1.1.5",
-		"@idlebox/node": "^1.0.12",
-		"@idlebox/common": "^1.0.24",
+		"@idlebox/node-json-edit": "^2.0.6",
+		"@build-script/rush-tools": "^1.1.6",
+		"@idlebox/node": "^1.0.14",
+		"@idlebox/common": "^1.0.25",
 		"fs-extra": "^9.0.1",
 		"jsonc": "^2.0.0",
 		"split2": "^3.2.2",

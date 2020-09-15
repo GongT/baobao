@@ -18,6 +18,11 @@ export function buildProjects(builder: IProjectCallback): Promise<void>;
 // @public (undocumented)
 export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "createTasks" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createTasks(): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -217,10 +222,17 @@ export class RushProject {
     readonly configFile: string;
     // (undocumented)
     getPackageByName(name: string): Immutable<IProjectConfig> | null;
+    // (undocumented)
+    getPackageManager(): {
+        type: 'npm' | 'yarn' | 'pnpm';
+        bin: string;
+    };
     // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point _export_all_in_one_index.d.ts
     //
     // (undocumented)
     packageDependency(project: Immutable<IProjectConfig> | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
+    // (undocumented)
+    packageJsonContent(project: Immutable<IProjectConfig> | string): any | null;
     // (undocumented)
     packageJsonPath(project: Immutable<IProjectConfig> | string): string | null;
     // (undocumented)

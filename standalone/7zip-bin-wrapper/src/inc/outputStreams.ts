@@ -1,7 +1,7 @@
 import { Transform } from 'stream';
 import { decodeStream } from 'iconv-lite';
 import { platform } from 'os';
-import * as split2 from 'split2';
+import split2 from 'split2';
 
 const isWin = platform() === 'win32';
 /**aaa*/
