@@ -3,7 +3,7 @@ import { log } from './log';
 import { unlinkSync } from 'fs-extra';
 
 export async function decompressTargz(src: string, dest: string) {
-	log('decompressing files:');
+	log(`Decompress files:\n    tarball: ${src}\n    dest: ${dest}`);
 	await new Promise((resolve, reject) => {
 		decompress(
 			{
@@ -11,11 +11,14 @@ export async function decompressTargz(src: string, dest: string) {
 				dest,
 				tar: {
 					ignore(_, header) {
-						return header!.name.startsWith('package/') || header!.name === 'package';
+						return !header || !header.name;
 					},
 					map(header) {
-						header.name = header.name.replace(/^package\//, '');
-						log('    %s', header.name);
+						if (header.name.startsWith('package/')) {
+							header.name = header.name.replace(/^package\//, '');
+						} else {
+							header.name = '';
+						}
 						return header;
 					},
 				},

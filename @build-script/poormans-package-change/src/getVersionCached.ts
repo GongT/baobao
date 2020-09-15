@@ -6,11 +6,13 @@ import { get, ResponseAsJSON } from 'request';
 import { log } from './log';
 
 export async function getVersionCached(name: string, distTag: string, registry: string): Promise<IResult> {
+	log('Fetching npm registry: %s', `${registry}/${name}`);
+
 	const cache = resolve(tmpdir(), 'package-json-cache', name.replace(/[@\/]/g, '_') + '.cache.json');
 	let etag: string = '',
 		json: any;
 	if (await exists(cache)) {
-		log('cache file exists: %s', cache);
+		log('    cache file exists:\n      %s', cache);
 		const data = require(cache);
 		etag = data.etag;
 		json = data.json;
@@ -20,10 +22,9 @@ export async function getVersionCached(name: string, distTag: string, registry: 
 	};
 	if (etag) {
 		headers['If-None-Match'] = etag;
-		log('etag = %s', etag);
+		log('    etag = %s', etag);
 	}
 
-	log('fetching... %s', `${registry}/${name}`);
 	const response: ResponseAsJSON = await new Promise((resolve, reject) => {
 		get(
 			`${registry}/${name}`,
@@ -38,7 +39,7 @@ export async function getVersionCached(name: string, distTag: string, registry: 
 		);
 	});
 
-	log('response HTTP %s', response.statusCode);
+	log('    response HTTP %s', response.statusCode);
 	if (response.statusCode === 404) {
 		return { version: null };
 	}
@@ -48,8 +49,8 @@ export async function getVersionCached(name: string, distTag: string, registry: 
 	if (response.statusCode !== 200) {
 		throw new Error(`HTTP ${response.statusCode}\n${response.body}`);
 	}
-	log('dist-tags: %s', response.body['dist-tags']);
-	log('etag: %s', response.headers['etag']);
+	log('        dist-tags: %s', response.body['dist-tags']);
+	log('        etag: %s', response.headers['etag']);
 
 	json = response.body;
 	etag = response.headers['etag'];

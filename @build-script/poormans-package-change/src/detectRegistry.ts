@@ -24,11 +24,11 @@ export async function detectRegistry(url: string): Promise<string> {
 
 	try {
 		const pm = await getPackageManager();
-		log('using package manager: %s', pm);
+		log('Using package manager: %s', pm);
 		url = (await command(pm + ' config get registry', { stderr: 'ignore' })).stdout;
-		log('config get registry: %s', url);
+		log('    config get registry: %s', url);
 	} catch (e) {
-		log('error run config get: %s', e.message);
+		log('    [!!] error run config get: %s', e.message);
 	}
 	return url || 'https://registry.npmjs.org';
 }

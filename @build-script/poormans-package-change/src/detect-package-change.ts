@@ -32,14 +32,11 @@ export async function main(argv: string[]) {
 
 	const autoInc = argv.includes('--bump');
 	const packagePath = resolve(process.cwd(), getArg('--package', './'));
-	log('working at %s', packagePath);
+	log('Working at %s', packagePath);
 
-	console.error('before', process.env.PATH);
 	const p = new PathEnvironment();
-	console.error('after 1', process.env.PATH);
 	p.add(resolve(packagePath, 'node_modules/.bin'));
 	p.add(resolve(process.argv0, '..'));
-	console.error('after 2', process.env.PATH);
 	process.env.LANG = 'C.UTF-8';
 	process.env.LANGUAGE = 'C.UTF-8';
 	for (const l in process.env) {
@@ -55,6 +52,7 @@ export async function main(argv: string[]) {
 	}
 	const packageJson = require(packageFile);
 	log('package.name = %s', packageJson.name);
+	log('====');
 
 	if (packageJson.private) {
 		log('Private package detected, deny run.');
@@ -66,8 +64,8 @@ export async function main(argv: string[]) {
 	const registry = await detectRegistry(getArg('--registry', 'detect'));
 
 	const result = await getVersionCached(packageJson.name, distTag, registry);
-	log('npm remote version = %s', result.version);
-	log('package.json local version = %s', packageJson.version);
+	log(' -> npm remote version = %s', result.version);
+	log(' -> package.json local version = %s', packageJson.version);
 
 	if (!result.version || packageJson.version !== result.version) {
 		errorLog('local (%s) already !== remote (%s), no more change needed.', packageJson.version, result.version);
@@ -84,7 +82,7 @@ export async function main(argv: string[]) {
 	await gitInit(tempFolder);
 
 	const pack = await packCurrentVersion(packagePath);
-	log('\n--> ', pack);
+	log(' --> ', pack);
 
 	await decompressTargz(pack, tempFolder);
 	const changedFiles = await gitChange(tempFolder);
@@ -107,9 +105,9 @@ function printResult(forceJson: boolean, changedFiles: string[], changed?: boole
 		if (changedFiles.length === 0) {
 			console.log('changed: no.');
 		} else {
-			log('%s files has change:', changedFiles.length);
+			console.error('%s files has change:', changedFiles.length);
 			for (const f of changedFiles) {
-				log('  %s', f);
+				console.error('  %s', f);
 			}
 			console.log('changed: yes.');
 		}

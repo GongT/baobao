@@ -26,6 +26,6 @@ export async function prepareWorkingFolder(workingRoot: string, name: string, ve
 	await mkdirp(tempDir);
 	await emptyDir(tempDir);
 
-	log('working at temp dir %s', tempDir);
+	log('Working at temp dir %s', tempDir);
 	return tempDir;
 }

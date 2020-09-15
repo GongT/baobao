@@ -4,16 +4,16 @@ import { get } from 'request';
 import { log } from './log';
 
 export async function downloadIfNot(url: string, file: string) {
+	log('Download tarball:\n    url: %s\n    save: %s', url, file);
 	if (await exists(file)) {
-		log('tarball already downloaded:', file);
+		log('     -> already downloaded');
 		return;
 	}
 	const writeOut = createWriteStream(file);
 
-	log('download tarball from %s to %s', url, file);
 	get(url).pipe(writeOut, { end: true });
 
 	await streamPromise(writeOut);
 
-	log('download complete');
+	log('     -> download complete');
 }

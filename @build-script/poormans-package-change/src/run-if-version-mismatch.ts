@@ -1,5 +1,5 @@
 import { exists } from '@idlebox/node';
-import * as execa from 'execa';
+import execa from 'execa';
 import { resolve } from 'path';
 import { detectRegistry } from './detectRegistry';
 import { getArg } from './getArg';
