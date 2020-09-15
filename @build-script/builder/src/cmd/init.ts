@@ -1,6 +1,6 @@
 import { insertKeyAlphabet, loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { exists } from '@idlebox/node';
-import { createFile, readFile, writeFile } from 'fs-extra';
+import { createFile, readFile, renameSync, writeFile } from 'fs-extra';
 import { resolve } from 'path';
 import { BuildContext } from '../common/buildContext';
 import { createBuildContext, loaderProjectPath } from '../common/buildContextInstance';
@@ -51,7 +51,7 @@ async function addIgnoreFile(ctx: BuildContext) {
 	if (!lines[lines.length - 1]) {
 		lines.pop();
 	}
-	lines.push('### build-script ###', 'build-script.json', 'Gulpfile.js', '');
+	lines.push('### build-script ###', 'build-script.json', 'Gulpfile.*', '');
 	await writeFile(ignoreFile, lines.join('\n'));
 }
 
@@ -112,11 +112,17 @@ async function createGulpFile(_: BuildContext) {
 		return;
 	}
 
+	const GulpfileJs = resolve(loaderProjectPath, 'Gulpfile.js');
+	if (await exists(GulpfileJs)) {
+		renameSync(GulpfileJs, Gulpfile);
+		return;
+	}
+
 	await writeFile(
 		Gulpfile,
-		`const gulp = require('gulp');
-const { loadToGulp } = require('@build-script/builder');
-loadToGulp(gulp, __dirname);
+		`import gulp from 'gulp';
+import { loadToGulp } from '@build-script/builder';
+loadToGulp(gulp, import.meta.url);
 `
 	);
 

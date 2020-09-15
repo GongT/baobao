@@ -1,3 +1,3 @@
-const gulp = require('gulp');
-const { loadToGulp } = require('@idlebox/build-script');
-loadToGulp(gulp, __dirname);
+import gulp from 'gulp';
+import { loadToGulp } from '@build-script/builder';
+loadToGulp(gulp, import.meta.url);
