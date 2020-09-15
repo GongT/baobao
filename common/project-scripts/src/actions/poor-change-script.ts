@@ -4,6 +4,14 @@ import { increaseVersion } from '../include/increaseVersion';
 
 async function main() {
 	const rushProject = new RushProject();
+
+	console.log('✍️ \x1B[38;5;14mRunning "rush pretty"\x1B[0m');
+	await execPromise({
+		cmd: 'rush',
+		argv: ['pretty'],
+		cwd: rushProject.projectRoot,
+	});
+
 	const projects = overallOrder(rushProject); //.reverse();
 
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
@@ -38,9 +46,12 @@ async function main() {
 		}
 
 		if (changed) {
-			console.log('⏳     Change detected, updating version...');
+			console.log('🎯     Change detected');
+			console.log('         * %s', JSON.parse(result).changedFiles.join(', '));
+
+			console.log('✍️     Updating version...');
 			await increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));
-			console.log('⏳     Autofix...');
+			console.log('       Autofix...');
 			const logFile = rushProject.absolute('common/temp/autofix.log');
 			await execPromise({
 				argv: [syncBin, 'autofix', '--skip-cyclic'],

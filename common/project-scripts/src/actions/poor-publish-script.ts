@@ -1,9 +1,7 @@
 import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { commandInPath } from '@idlebox/node';
+import { readFile } from 'fs-extra';
 import { execPromise } from '../include/execPromise';
-import { loadEnv } from '../include/envPass';
-
-loadEnv();
 
 async function main() {
 	const rushProject = new RushProject();
@@ -43,6 +41,12 @@ async function main() {
 			],
 			logFile,
 		});
+		const log = await readFile(logFile, '');
+		if (/^success Published\.$/m.test(log)) {
+			console.error('    👍 success.');
+		} else {
+			console.error('    🤔 no change.');
+		}
 	});
 }
 

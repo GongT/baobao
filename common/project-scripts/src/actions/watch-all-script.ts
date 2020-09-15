@@ -3,10 +3,7 @@ import { ChildProcess, spawn } from 'child_process';
 import { relative, resolve } from 'path';
 import { Readable } from 'stream';
 import { buildProjects } from '@build-script/rush-tools';
-import { loadEnv } from '../include/envPass';
 import { REPO_ROOT } from '../include/paths';
-
-loadEnv();
 
 interface CompileStatus {
 	title: string;

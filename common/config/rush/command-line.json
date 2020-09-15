@@ -15,7 +15,7 @@
 			"summary": "运行“pretty-quick”命令，格式化所有文件",
 			"autoinstallerName": "rush-prettier",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "pretty-quick --staged"
+			"shellCommand": "pretty-quick"
 		},
 		{
 			"commandKind": "global",
@@ -62,6 +62,12 @@
 		}
 	],
 	"parameters": [
+		{
+			"parameterKind": "flag",
+			"longName": "--staged",
+			"description": "检查git缓冲区种的内容，默认包括未添加的文件",
+			"associatedCommands": ["pretty"]
+		},
 		{
 			"parameterKind": "flag",
 			"longName": "--no-systemd",

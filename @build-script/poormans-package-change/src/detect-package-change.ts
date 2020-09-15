@@ -11,6 +11,7 @@ import { increaseVersion } from './increaseVersion';
 import { errorLog, log } from './log';
 import { packCurrentVersion } from './package';
 import { prepareWorkingFolder } from './prepareWorkingFolder';
+import { rewritePackage } from './rewritePackage';
 
 function help() {
 	console.error(`Usage: detect-package-change --registry ??? --dist-tag ??? --package ??? --bump --quiet
@@ -79,12 +80,14 @@ export async function main(argv: string[]) {
 
 	await downloadIfNot(result.tarball, tempFile);
 	await decompressTargz(tempFile, tempFolder);
+	await rewritePackage(tempFolder);
 	await gitInit(tempFolder);
 
 	const pack = await packCurrentVersion(packagePath);
 	log(' --> ', pack);
 
 	await decompressTargz(pack, tempFolder);
+	await rewritePackage(tempFolder);
 	const changedFiles = await gitChange(tempFolder);
 
 	if (autoInc) {

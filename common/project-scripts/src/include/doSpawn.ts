@@ -3,7 +3,6 @@ import { commandInPath } from '@idlebox/node';
 import { existsSync, lstatSync, readlinkSync } from 'fs-extra';
 import { platform, userInfo } from 'os';
 import { resolve, basename } from 'path';
-import { writeEnv } from './envPass';
 import { TEMP_DIR } from './paths';
 
 export const doSpawn: (file: string, args?: string[]) => void =
@@ -22,7 +21,7 @@ function getFile(file: string) {
 	return file;
 }
 function nodejsArguments(file: string, args: string[]) {
-	return ['-r', 'source-map-support/register', file, ...args];
+	return ['-r', require.resolve('source-map-support/register'), file, ...args];
 }
 
 function spawnNormal(file: string, args: string[] = []) {
@@ -41,9 +40,9 @@ function spawnSystemd(file: string, args: string[] = []) {
 
 	console.log('Using systemd-run on linux.');
 	const { uid } = userInfo();
-	const unitName = `${basename(file, '.js')}.service`;
+	const unitName = `${basename(file, '.js')}.scope`;
 
-	const cmds = ['--quiet', '--wait', '--collect', '--pipe', '--pty', '--same-dir', `--unit=${unitName}`];
+	const cmds = ['--quiet', '--scope', '--collect', '--same-dir', `--unit=${unitName}`];
 	if (uid > 0) {
 		cmds.push('--user');
 	}
@@ -58,9 +57,6 @@ function spawnSystemd(file: string, args: string[] = []) {
 		isAlreadyQuit = true;
 		spawnQuit('systemctl', stop);
 	}
-
-	writeEnv();
-	cmds.push(`--setenv=LOAD_ENV_FILE=yes`);
 
 	cmds.push(process.argv0, ...nodejsArguments(file, args));
 

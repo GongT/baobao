@@ -3,7 +3,7 @@
 echo --------------------------------------------
 echo "Starting Git hook: pre-commit"
 
-node common/scripts/install-run-rush.js pretty
+node common/scripts/install-run-rush.js pretty --staged
 RET=$?
 
 echo "Finished Git hook: pre-commit ($RET)"
