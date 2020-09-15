@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path';
 import { loadJsonFileSync } from '@idlebox/node-json-edit';
-import { pathExistsSync } from 'fs-extra';
+import { pathExistsSync, readJsonSync } from 'fs-extra';
 import { requireRushPathSync } from '../common/loadRushJson';
 import { Immutable } from './deepReadonly';
 import { IProjectConfig, IRushConfig } from './limitedJson';
@@ -66,6 +66,11 @@ export class RushProject {
 		return pathExistsSync(p) ? p : null;
 	}
 
+	public packageJsonContent(project: Immutable<IProjectConfig> | string): any | null {
+		const p = resolve(this.absolute(project), 'package.json');
+		return pathExistsSync(p) ? readJsonSync(p) : null;
+	}
+
 	public packageDependency(
 		project: Immutable<IProjectConfig> | string,
 		{ removeCyclic, development }: IProjectDependencyOptions = {}
@@ -101,6 +106,24 @@ export class RushProject {
 			depNames.push(packageName);
 		}
 		return depNames;
+	}
+
+	getPackageManager(): { type: 'npm' | 'yarn' | 'pnpm'; bin: string } {
+		let type: 'npm' | 'yarn' | 'pnpm';
+		if (this.config.npmVersion) {
+			type = 'npm';
+		} else if (this.config.pnpmVersion) {
+			type = 'pnpm';
+		} else if (this.config.yarnVersion) {
+			type = 'yarn';
+		} else {
+			throw new Error('no package manager in rush.json');
+		}
+
+		return {
+			type,
+			bin: `common/temp/${type}-local/node_modules/.bin/${type}`,
+		};
 	}
 }
 
