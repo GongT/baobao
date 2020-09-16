@@ -16,6 +16,47 @@
       "name": "",
       "members": [
         {
+          "kind": "Interface",
+          "canonicalReference": "@idlebox/node!Async:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface Async "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "Async",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/node!Async#sync:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sync?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "sync",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
           "kind": "TypeAlias",
           "canonicalReference": "@idlebox/node!AsyncMainFunction:type",
           "docComment": "",
@@ -3603,6 +3644,80 @@
         },
         {
           "kind": "Function",
+          "canonicalReference": "@idlebox/node!findBinary:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function findBinary(what: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", pathvar?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "PathArray",
+              "canonicalReference": "@idlebox/common!PathArray:class"
+            },
+            {
+              "kind": "Content",
+              "text": ", cwd?: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "what",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "pathvar",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "parameterName": "cwd",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "findBinary"
+        },
+        {
+          "kind": "Function",
           "canonicalReference": "@idlebox/node!findUpUntil:function(1)",
           "docComment": "",
           "excerptTokens": [
@@ -3991,6 +4106,97 @@
             "endIndex": 3
           },
           "implementsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@idlebox/node!ICommand:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICommand "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ICommand",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/node!ICommand#cwd:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "cwd?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "cwd",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/node!ICommand#exec:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "exec: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "exec",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/node!ICommand#sync:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sync?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "sync",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
         },
         {
           "kind": "Interface",
@@ -5253,8 +5459,52 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "@idlebox/node!runMain:function(1)",
+          "canonicalReference": "@idlebox/node!respawnInScope:function(1)",
           "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function respawnInScope(mainFunc: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Function",
+              "canonicalReference": "!Function:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "unknown | never"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "mainFunc",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "respawnInScope"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/node!runMain:function(1)",
+          "docComment": "/**\n * should do this before:\n * ```\n * setErrorLogRoot(require('path').dirname(__dirname));\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5381,6 +5631,277 @@
             }
           ],
           "name": "sha256"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/node!spawnGetEverything:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function spawnGetEverything({ exec, cwd }: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ICommand",
+              "canonicalReference": "@idlebox/node!ICommand:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<string | undefined>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 5
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "{ exec, cwd }",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "spawnGetEverything"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/node!spawnGetOutput:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function spawnGetOutput(opt: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ICommand",
+              "canonicalReference": "@idlebox/node!ICommand:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Sync",
+              "canonicalReference": "@idlebox/node!Sync:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "opt",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "spawnGetOutput"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/node!spawnGetOutput:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function spawnGetOutput(opt: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ICommand",
+              "canonicalReference": "@idlebox/node!ICommand:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Async",
+              "canonicalReference": "@idlebox/node!Async:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<string>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 7
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "opt",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "spawnGetOutput"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/node!spawnWithoutOutput:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function spawnWithoutOutput(opt: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ICommand",
+              "canonicalReference": "@idlebox/node!ICommand:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Sync",
+              "canonicalReference": "@idlebox/node!Sync:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "opt",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "spawnWithoutOutput"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/node!spawnWithoutOutput:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function spawnWithoutOutput(opt: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ICommand",
+              "canonicalReference": "@idlebox/node!ICommand:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Async",
+              "canonicalReference": "@idlebox/node!Async:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 7
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "opt",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "spawnWithoutOutput"
         },
         {
           "kind": "Function",
@@ -5629,6 +6150,47 @@
             }
           ],
           "name": "streamToBuffer"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@idlebox/node!Sync:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface Sync "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "Sync",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/node!Sync#sync:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sync: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "true"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "sync",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
         },
         {
           "kind": "Function",

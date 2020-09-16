@@ -8,6 +8,12 @@ export class ExitError extends Error {
 	}
 }
 
+/**
+ * should do this before:
+ * ```
+ * setErrorLogRoot(require('path').dirname(__dirname));
+ * ```
+ **/
 export function runMain(main: AsyncMainFunction) {
 	Promise.resolve()
 		.then(main)
@@ -17,7 +23,6 @@ export function runMain(main: AsyncMainFunction) {
 				process.exit(1);
 			}
 
-			// setErrorLogRoot(require('path').dirname(__dirname));
 			prettyPrintError('build-script', e);
 			return e.code || 1;
 		})

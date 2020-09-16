@@ -31,7 +31,7 @@ const enum regSimpleFrameMatch {
 	fn = 1,
 }
 
-let root = __dirname;
+let root = import.meta.url.replace(/^file:\/\//, '');
 
 export function setErrorLogRoot(_root: string) {
 	root = _root;

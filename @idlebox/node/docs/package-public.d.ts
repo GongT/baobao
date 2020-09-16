@@ -6,6 +6,10 @@ import { Readable } from 'stream';
 import { Transform } from 'stream';
 import { Writable } from 'stream';
 
+export declare interface Async {
+    sync?: boolean;
+}
+
 export declare type AsyncMainFunction = () => Promise<void | number>;
 
 export declare class BlackHoleStream extends Writable {
@@ -169,6 +173,8 @@ export declare class ExitError extends Error {
     constructor(message: string, code?: number);
 }
 
+export declare function findBinary(what: string, pathvar?: PathArray, cwd?: string): string;
+
 export declare function findUpUntil(from: string, file: string): Promise<string | null>;
 
 export declare function findUpUntilSync(from: string, file: string): string | null;
@@ -182,6 +188,12 @@ export declare class HexDumpLoggerStream extends Transform {
     private readonly prefix;
     constructor(logFn: LogFunction, prefix?: string);
     _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
+}
+
+export declare interface ICommand {
+    exec: string[];
+    cwd?: string;
+    sync?: boolean;
 }
 
 export declare interface IEnvironmentResult {
@@ -249,11 +261,29 @@ export declare interface ResolvePathFunction {
     (...pathSegments: string[]): string;
 }
 
+export declare function respawnInScope(mainFunc: Function): unknown | never;
+
+/**
+ * should do this before:
+ * ```
+ * setErrorLogRoot(require('path').dirname(__dirname));
+ * ```
+ **/
 export declare function runMain(main: AsyncMainFunction): void;
 
 export declare function setErrorLogRoot(_root: string): void;
 
 export declare function sha256(data: Buffer): string;
+
+export declare function spawnGetEverything({ exec, cwd }: ICommand): Promise<string | undefined>;
+
+export declare function spawnGetOutput(opt: ICommand & Sync): string;
+
+export declare function spawnGetOutput(opt: ICommand & Async): Promise<string>;
+
+export declare function spawnWithoutOutput(opt: ICommand & Sync): void;
+
+export declare function spawnWithoutOutput(opt: ICommand & Async): Promise<void>;
 
 export declare function streamHasEnd(S: NodeJS.ReadableStream | NodeJS.WritableStream): any;
 
@@ -262,6 +292,10 @@ export declare function streamPromise(stream: NodeJS.ReadableStream | NodeJS.Wri
 export declare function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promise<string>;
 
 export declare function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
+
+export declare interface Sync {
+    sync: true;
+}
 
 export declare function writeFileIfChange(file: string, data: string | Buffer): Promise<boolean>;
 

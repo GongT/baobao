@@ -11,6 +11,14 @@ import { Readable } from 'stream';
 import { Transform } from 'stream';
 import { Writable } from 'stream';
 
+// Warning: (ae-missing-release-tag) "Async" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface Async {
+    // (undocumented)
+    sync?: boolean;
+}
+
 // Warning: (ae-missing-release-tag) "AsyncMainFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -341,6 +349,11 @@ export class ExitError extends Error {
     readonly code: number;
 }
 
+// Warning: (ae-missing-release-tag) "findBinary" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function findBinary(what: string, pathvar?: PathArray, cwd?: string): string;
+
 // Warning: (ae-missing-release-tag) "findUpUntil" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -368,6 +381,18 @@ export class HexDumpLoggerStream extends Transform {
     constructor(logFn: LogFunction, prefix?: string);
     // (undocumented)
     _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
+}
+
+// Warning: (ae-missing-release-tag) "ICommand" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface ICommand {
+    // (undocumented)
+    cwd?: string;
+    // (undocumented)
+    exec: string[];
+    // (undocumented)
+    sync?: boolean;
 }
 
 // Warning: (ae-missing-release-tag) "IEnvironmentResult" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -496,9 +521,14 @@ export interface ResolvePathFunction {
     (...pathSegments: string[]): string;
 }
 
-// Warning: (ae-missing-release-tag) "runMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "respawnInScope" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
+export function respawnInScope(mainFunc: Function): unknown | never;
+
+// Warning: (ae-missing-release-tag) "runMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public
 export function runMain(main: AsyncMainFunction): void;
 
 // Warning: (ae-missing-release-tag) "setErrorLogRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -510,6 +540,29 @@ export function setErrorLogRoot(_root: string): void;
 //
 // @public (undocumented)
 export function sha256(data: Buffer): string;
+
+// Warning: (ae-missing-release-tag) "spawnGetEverything" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function spawnGetEverything({ exec, cwd }: ICommand): Promise<string | undefined>;
+
+// Warning: (ae-missing-release-tag) "spawnGetOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnGetOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function spawnGetOutput(opt: ICommand & Sync): string;
+
+// @public (undocumented)
+export function spawnGetOutput(opt: ICommand & Async): Promise<string>;
+
+// Warning: (ae-missing-release-tag) "spawnWithoutOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnWithoutOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function spawnWithoutOutput(opt: ICommand & Sync): void;
+
+// @public (undocumented)
+export function spawnWithoutOutput(opt: ICommand & Async): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "streamHasEnd" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -529,6 +582,14 @@ export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promi
 
 // @public (undocumented)
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
+
+// Warning: (ae-missing-release-tag) "Sync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface Sync {
+    // (undocumented)
+    sync: true;
+}
 
 // Warning: (ae-missing-release-tag) "writeFileIfChange" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

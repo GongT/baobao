@@ -68,6 +68,7 @@ dependencies:
   is-fullwidth-code-point: 3.0.0
   json5: 2.1.3
   jsonc: 2.0.0
+  kexec: github.com/meteor/node-kexec/f29f54037c7db6ad29e1781463b182e5929215a0
   mocha: 8.1.3
   mysql: 2.18.1
   npm-check-updates: 9.0.1
@@ -4213,7 +4214,6 @@ packages:
       integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==
   /nan/2.14.1:
     dev: false
-    optional: true
     resolution:
       integrity: sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
   /nanomatch/1.2.13:
@@ -7076,7 +7076,9 @@ packages:
       '@build-script/builder': 2.0.19
       '@build-script/export-all-in-one': 3.0.16
       '@types/node': 14.10.1
+      execa: 4.0.3
       gulp: 4.0.2
+      kexec: github.com/meteor/node-kexec/f29f54037c7db6ad29e1781463b182e5929215a0
       source-map-support: 0.5.19
       tslib: 2.0.1
       ttypescript: 1.5.12
@@ -7084,7 +7086,7 @@ packages:
     dev: false
     name: '@rush-temp/node'
     resolution:
-      integrity: sha512-8Iszh7U8SLDdKJaPEdGE2hKMEDPZtVRKr5lNWxPC0JMseTKVQEVyGdBpLDc5h710O+cAxGebbDSIRfPXdOVzVQ==
+      integrity: sha512-hbInwKvR8zkxjIC0u0+9LztRwx+XXPOefgFBaweumOsjHqGVbmMtFK7y8/S4YgcV40SjTWoz5VF9jVXMAjm2xA==
       tarball: 'file:projects/node.tgz'
     version: 0.0.0
   'file:projects/poormans-package-change.tgz':
@@ -7303,6 +7305,17 @@ packages:
       integrity: sha512-WxHiFeGKoIYbDvBzVt2rQWIJYG9aihv9yFiKG+THKKw5Jk4El7oCvJ9Wwl1KaxH0UYILjVx61ipjK/vf2eBf2Q==
       tarball: 'file:projects/vscode-remote-thief.tgz'
     version: 0.0.0
+  github.com/meteor/node-kexec/f29f54037c7db6ad29e1781463b182e5929215a0:
+    dependencies:
+      nan: 2.14.1
+    dev: false
+    engines:
+      node: '>=0.10'
+    name: kexec
+    requiresBuild: true
+    resolution:
+      tarball: 'https://codeload.github.com/meteor/node-kexec/tar.gz/f29f54037c7db6ad29e1781463b182e5929215a0'
+    version: 3.0.0
 registry: ''
 specifiers:
   '@build-script/builder': ^2.0.19
@@ -7374,6 +7387,7 @@ specifiers:
   is-fullwidth-code-point: ^3.0.0
   json5: ^2.1.3
   jsonc: ^2.0.0
+  kexec: 'github:meteor/node-kexec#update-for-node-12'
   mocha: ^8.1.3
   mysql: ^2.18.1
   npm-check-updates: ^9.0.1
