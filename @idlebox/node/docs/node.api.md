@@ -523,7 +523,7 @@ export interface ResolvePathFunction {
 
 // Warning: (ae-missing-release-tag) "respawnInScope" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
-// @public (undocumented)
+// @public
 export function respawnInScope(mainFunc: Function): unknown | never;
 
 // Warning: (ae-missing-release-tag) "runMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -590,6 +590,11 @@ export interface Sync {
     // (undocumented)
     sync: true;
 }
+
+// Warning: (ae-missing-release-tag) "trySpawnInScope" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public
+export function trySpawnInScope(cmds: string[]): never;
 
 // Warning: (ae-missing-release-tag) "writeFileIfChange" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

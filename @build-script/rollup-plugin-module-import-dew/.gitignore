@@ -1,7 +1,0 @@
-.idea
-dist
-node_modules
-*.log
-*.bak
-*.tgz
-.rush

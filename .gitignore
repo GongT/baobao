@@ -1,6 +1,28 @@
+### Cache file
 common/temp
+*.tsbuildinfo
+.rpt2_cache/
+
+### Build result
+dist/
+lib/
+*.tgz
+
+### Package manager
 node_modules
-dist
-*.log
-package-deps.json
+jspm_packages
 .rush
+package-deps.json
+
+### logs
+*.log
+
+### no need in mono repo
+**/.editorconfig
+**/.git*
+**/.prettier*
+**/pnpm-lock.yaml
+**/yarn.lock
+
+### old files
+.idea

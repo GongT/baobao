@@ -261,6 +261,17 @@ export declare interface ResolvePathFunction {
     (...pathSegments: string[]): string;
 }
 
+/**
+ * Self restart in a pid/cgroup namespace on linux.
+ * Your application must inside mainFunc, not before or after it.
+ *
+ * ```typescript
+ * import {respawnInScope} from '@idlebox/node'
+ * respawnInScope(() => {
+ * 	import('./real-application');
+ * });
+ * ```
+ */
 export declare function respawnInScope(mainFunc: Function): unknown | never;
 
 /**
@@ -296,6 +307,12 @@ export declare function streamToBuffer(stream: NodeJS.ReadableStream, raw: true)
 export declare interface Sync {
     sync: true;
 }
+
+/**
+ * Spawn a command, replace current node process
+ * If can't do that (eg. on Windows), spawn as normal, but quit self after it quit.
+ */
+export declare function trySpawnInScope(cmds: string[]): never;
 
 export declare function writeFileIfChange(file: string, data: string | Buffer): Promise<boolean>;
 

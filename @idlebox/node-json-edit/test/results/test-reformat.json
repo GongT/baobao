@@ -1,0 +1,17 @@
+{
+	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"outDir": "../lib/testing",
+		"rootDir": "..",
+		"types": ["node"],
+		"sourceMap": false,
+		"inlineSourceMap": false,
+		"inlineSources": false,
+		"composite": false,
+		"incremental": false,
+		"declaration": false,
+		"declarationMap": false
+	},
+	"files": ["./test.ts"]
+}

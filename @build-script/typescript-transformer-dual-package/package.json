@@ -10,8 +10,8 @@
 		"es modules",
 		"commonjs"
 	],
-	"version": "1.0.12",
-	"license": "WTFPL",
+	"version": "1.0.13",
+	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",
 	"typings": "./lib/register.d.ts",
@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "^1.0.5",
-		"@types/node": "^14.10.1",
+		"@types/node": "^14.10.2",
 		"rimraf": "^3.0.2",
 		"ts-node": "^9.0.0",
 		"ttypescript": "^1.5.12",
