@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { commandInPath } from '@idlebox/node';
 import { command } from 'execa';
 import { emptyDir, pathExists } from 'fs-extra';
-import { line, log, logEnable, logExecStream } from './log';
+import { debug, line, log, logEnable, logExecStream } from './log';
 
 export async function gitInit(cwd: string) {
 	if (!(await commandInPath('git'))) {
@@ -13,12 +13,12 @@ export async function gitInit(cwd: string) {
 	if (await pathExists(gitDir)) {
 		await emptyDir(gitDir);
 	}
-	log(' + git init');
-	await command('git init', { cwd, stdout: 'ignore', stderr: 'inherit' });
-	log(' + git add .');
-	await command('git add .', { cwd, stdout: 'ignore', stderr: 'inherit' });
-	log(' + git commit -m Init');
-	await command('git commit -m Init', { cwd, stdout: 'ignore', stderr: 'inherit' });
+	debug(' + git init');
+	await command('git init', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	debug(' + git add .');
+	await command('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	debug(' + git commit -m Init');
+	await command('git commit -m Init', { cwd, stdout: process.stderr, stderr: 'inherit' });
 	log('(git init done)');
 	if (logEnable) {
 		line();
@@ -30,7 +30,7 @@ export async function gitInit(cwd: string) {
 export async function gitChange(cwd: string) {
 	log('Detect files change:');
 
-	log('+ git status');
+	debug(' + git status');
 	const { stdout: testOut } = await command('git status', { cwd, stdout: 'pipe', stderr: 'inherit' });
 	const statusOut = testOut.toString().trim();
 	if (statusOut.includes('nothing to commit, working tree clean')) {
@@ -40,10 +40,12 @@ export async function gitChange(cwd: string) {
 		log('    git say: modified');
 	}
 
-	log('+ git commit -a -m DetectChangedFiles');
-	await command('git commit -a -m DetectChangedFiles', { cwd, stdout: 'ignore', stderr: 'inherit' });
+	debug(' + git add .');
+	await command('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	debug(' + git commit -a -m DetectChangedFiles');
+	await command('git commit -a -m DetectChangedFiles', { cwd, stdout: process.stderr, stderr: 'inherit' });
 
-	log('+ git log --name-only -1');
+	debug(' + git log --name-only -1');
 	const { stdout } = await command('git log --name-only -1', { cwd, stdout: 'pipe', stderr: 'inherit' });
 	const lines = stdout
 		.toString()

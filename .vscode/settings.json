@@ -9,6 +9,7 @@
 		"*/*/.rush": true
 	},
 	"prettier.prettierPath": "common/temp/node_modules/prettier",
+	"prettier.requireConfig": true,
 	"typescript.tsdk": "./common/temp/node_modules/.pnpm/node_modules/typescript/lib",
 	"[json]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -18,6 +19,5 @@
 	},
 	"[jsonc]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"prettier.requireConfig": true
+	}
 }

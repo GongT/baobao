@@ -14,6 +14,15 @@ env:
   http_proxy: http://proxy-server.:3271
   DISABLE_SYSTEMD: yes
 jobs:
+  cancel:
+    name: Cancel Previous Runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: cancel running workflows
+        uses: GongT/cancel-previous-workflows@v1.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          DELETE: 'yes'
   build:
     runs-on: [self-hosted, linux]
     name: 'Run build with rush'

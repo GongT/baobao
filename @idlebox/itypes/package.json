@@ -1,13 +1,8 @@
 {
 	"name": "@idlebox/itypes",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "some global variables copied from @types/node or dom",
-	"keywords": [
-		"Typescript",
-		"typings",
-		"type",
-		"console"
-	],
+	"keywords": ["Typescript", "typings", "type", "console"],
 	"typings": "./index.d.ts",
 	"scripts": {
 		"build": "",

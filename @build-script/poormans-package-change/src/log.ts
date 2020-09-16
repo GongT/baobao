@@ -7,6 +7,10 @@ function _log(msg: string, ...args: any[]) {
 }
 export const log = logEnable ? _log : noop;
 
+export function debug(msg: string, ...args: any[]) {
+	log('\x1B[2m' + msg + '\x1B[0m', ...args);
+}
+
 function _logStream(source: NodeJS.ReadableStream) {
 	source.pipe(process.stderr, { end: false });
 }

@@ -1,36 +1,29 @@
-import { readFileSync, readFile as readFileAsync } from "fs";
-import {
-	format,
-	Options,
-	Options as PrettierOptions,
-	resolveConfig,
-} from "prettier";
-import { IFileFormatConfig } from "..";
-import { pathExistsSync, pathExistsAsync } from "./filesystem";
-import { promisify } from "util";
+import { readFileSync, readFile as readFileAsync } from 'fs';
+import { format, Options, Options as PrettierOptions, resolveConfig } from 'prettier';
+import { IFileFormatConfig } from '..';
+import { pathExistsSync, pathExistsAsync } from './filesystem';
+import { promisify } from 'util';
 
 const readFile = promisify(readFileAsync);
 
 enum LineFeed {
-	CRLF = "crlf",
-	LF = "lf",
+	CRLF = 'crlf',
+	LF = 'lf',
 }
 
-type PassedFormats = "trailingComma" | "parser" | "filepath" | "quoteProps";
+type PassedFormats = 'trailingComma' | 'parser' | 'filepath' | 'quoteProps';
 
-export interface IInternalFormat
-	extends IFileFormatConfig,
-		Pick<PrettierOptions, PassedFormats> {}
+export interface IInternalFormat extends IFileFormatConfig, Pick<PrettierOptions, PassedFormats> {}
 
 const defaultFormat: IInternalFormat = {
-	parser: "json",
+	parser: 'json',
 	printWidth: 120,
 	useTabs: true,
 	tabWidth: 4,
-	quoteProps: "consistent",
-	trailingComma: "es5",
+	quoteProps: 'consistent',
+	trailingComma: 'es5',
 	bracketSpacing: true,
-	endOfLine: "lf",
+	endOfLine: 'lf',
 	lastNewLine: false,
 };
 
@@ -44,10 +37,10 @@ export class PrettyFormat {
 	format(text: string) {
 		const result = format(text, {
 			...this.current,
-			parser: "json",
+			parser: 'json',
 			singleQuote: false,
-			trailingComma: "none",
-			quoteProps: "preserve",
+			trailingComma: 'none',
+			quoteProps: 'preserve',
 		});
 		return this.current.lastNewLine ? result : result.trim();
 	}
@@ -59,9 +52,7 @@ export class PrettyFormat {
 				editorconfig: true,
 			});
 			if (!f) {
-				throw new Error(
-					`[ENV] PRETTIER_CONFIG=${PRETTIER_CONFIG}: file not found`
-				);
+				throw new Error(`[ENV] PRETTIER_CONFIG=${process.env.PRETTIER_CONFIG}: file not found`);
 			}
 		}
 		if (!f) {
@@ -71,7 +62,7 @@ export class PrettyFormat {
 			this.setFormat({ ...f, lastNewLine: true });
 		} else if (pathExistsSync(file)) {
 			this.current.filepath = file;
-			if (!content) content = readFileSync(file, "utf-8");
+			if (!content) content = readFileSync(file, 'utf-8');
 			this.learnFromString(content);
 		}
 	}
@@ -82,7 +73,7 @@ export class PrettyFormat {
 			this.setFormat({ ...f, lastNewLine: true });
 		} else if (await pathExistsAsync(file)) {
 			this.current.filepath = file;
-			if (!content) content = await readFile(file, "utf-8");
+			if (!content) content = await readFile(file, 'utf-8');
 			this.learnFromString(content);
 		}
 	}
@@ -92,10 +83,10 @@ export class PrettyFormat {
 
 		const config = this.current;
 
-		config.endOfLine = text.includes("\r") ? LineFeed.CRLF : LineFeed.LF;
+		config.endOfLine = text.includes('\r') ? LineFeed.CRLF : LineFeed.LF;
 		config.tabWidth = 4;
 		if (someLineHasIndent) {
-			config.useTabs = someLineHasIndent[0] === "\t";
+			config.useTabs = someLineHasIndent[0] === '\t';
 			if (!config.useTabs) {
 				config.tabWidth = someLineHasIndent.length;
 			}
@@ -107,7 +98,7 @@ export class PrettyFormat {
 	}
 
 	private detectLastNewLine(text: string) {
-		const lastClose = text.lastIndexOf("}");
+		const lastClose = text.lastIndexOf('}');
 		this.current.lastNewLine = lastClose !== text.length - 1;
 	}
 

@@ -25,8 +25,10 @@ async function main() {
 		} catch (e) {
 			throw new Error('package.json is invalid');
 		}
+		// console.error('    check...');
 
 		const logFile = rushProject.absolute(item, 'yarn-publish.log');
+		// console.error('          log -> %s', logFile);
 		await execPromise({
 			cwd: rushProject.absolute(item),
 			argv: [
@@ -41,6 +43,7 @@ async function main() {
 			],
 			logFile,
 		});
+		// console.error('          complete.');
 		const log = await readFile(logFile, '');
 		if (/^success Published\.$/m.test(log)) {
 			console.error('    👍 success.');

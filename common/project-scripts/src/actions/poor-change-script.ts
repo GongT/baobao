@@ -32,9 +32,11 @@ async function main() {
 			],
 			logFile,
 		});
-		let changed: boolean;
+		let changed: boolean, changedFiles: string[];
 		try {
-			changed = JSON.parse(result).changed;
+			const data = JSON.parse(result);
+			changed = data.changed;
+			changedFiles = data.changedFiles;
 			if (typeof changed !== 'boolean') throw new Error('boolean value expected.');
 		} catch (e) {
 			console.error('=============================================');
@@ -47,7 +49,7 @@ async function main() {
 
 		if (changed) {
 			console.log('🎯     Change detected');
-			console.log('         * %s', JSON.parse(result).changedFiles.join(', '));
+			console.log('         * %s', changedFiles.join(', '));
 
 			console.log('✍️     Updating version...');
 			await increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));
@@ -58,6 +60,8 @@ async function main() {
 				logFile,
 			});
 			console.log('✨ \x1B[38;5;10m  Updated\x1B[0m');
+		} else if (changedFiles.length > 0) {
+			console.log('✨ \x1B[38;5;10m  Updated (already)\x1B[0m');
 		} else {
 			console.log('✨ \x1B[38;5;10m  No change detected\x1B[0m');
 		}

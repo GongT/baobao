@@ -20,20 +20,20 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^2.0.7",
-		"@idlebox/common": "^1.0.26",
+		"@idlebox/node-json-edit": "^2.0.8",
+		"@idlebox/common": "^1.0.27",
 		"tslib": "^2.0.1",
 		"fs-extra": "^9.0.1",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.49.0",
-		"@build-script/single-dog-asset": "^1.0.5",
+		"@build-script/single-dog-asset": "^1.0.6",
 		"@types/node": "^14.10.2",
 		"typescript": "^4.0.2",
 		"gulp": "^4.0.2",
-		"@build-script/builder": "^2.0.19",
-		"@build-script/export-all-in-one": "^3.0.16",
+		"@build-script/builder": "^2.0.20",
+		"@build-script/export-all-in-one": "^3.0.17",
 		"@types/fs-extra": "^9.0.1"
 	}
 }

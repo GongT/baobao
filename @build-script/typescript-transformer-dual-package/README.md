@@ -4,7 +4,7 @@ This is a [**t**typescript](https://github.com/cevek/ttypescript/) transformer:
 
 -   Transpile each source files **again** after it's normal transpile. And create commonjs files, next to esm versions, with `.cjs` extension.
 -   append `.js` after every top-level `import`s (dynamic ones currently not support)
--   convert `import.meta.url` to `"file://" + __filename` in hole file
+-   convert `import.meta.url` to `"file://" + __filename`
 
 # Usage
 
@@ -63,8 +63,8 @@ This is a [**t**typescript](https://github.com/cevek/ttypescript/) transformer:
     1. prepend to your loader file(s).
     ```js
     #!/usr/bin/env node
-    require("@build-script/dual-package-runtime"); // <<< add this
-    require("./dist/index");
+    require('@build-script/dual-package-runtime'); // <<< add this
+    require('./dist/index');
     ```
 
 # Related pages:

@@ -21,7 +21,7 @@ function getFile(file: string) {
 	return file;
 }
 function nodejsArguments(file: string, args: string[]) {
-	return ['-r', require.resolve('source-map-support/register'), file, ...args];
+	return ['--unhandled-rejections=strict', '-r', require.resolve('source-map-support/register'), file, ...args];
 }
 
 function spawnNormal(file: string, args: string[] = []) {

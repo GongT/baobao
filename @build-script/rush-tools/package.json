@@ -2,16 +2,11 @@
 	"monorepo": "rush",
 	"name": "@build-script/rush-tools",
 	"type": "module",
-	"version": "1.1.7",
+	"version": "1.1.8",
 	"license": "MIT",
 	"typings": "docs/package-public.d.ts",
 	"main": "./lib/_export_all_in_one_index.cjs",
-	"keywords": [
-		"rush",
-		"rush-stack",
-		"microsoft",
-		"tools"
-	],
+	"keywords": ["rush", "rush-stack", "microsoft", "tools"],
 	"bin": {
 		"rush-tools": "./bin.cjs"
 	},
@@ -32,10 +27,10 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@build-script/dual-package-runtime": "^1.0.4",
-		"@idlebox/common": "^1.0.26",
-		"@idlebox/node": "^1.0.16",
-		"@idlebox/node-json-edit": "^2.0.7",
+		"@build-script/dual-package-runtime": "^1.0.5",
+		"@idlebox/common": "^1.0.27",
+		"@idlebox/node": "^1.0.17",
+		"@idlebox/node-json-edit": "^2.0.8",
 		"@microsoft/rush-lib": "^5.34.0-pr2172.0",
 		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
@@ -48,9 +43,9 @@
 	},
 	"devDependencies": {
 		"@build-script/typescript-transformer-dual-package": "^1.0.13",
-		"@build-script/builder": "^2.0.19",
-		"@build-script/export-all-in-one": "^3.0.16",
-		"@build-script/single-dog-asset": "^1.0.5",
+		"@build-script/builder": "^2.0.20",
+		"@build-script/export-all-in-one": "^3.0.17",
+		"@build-script/single-dog-asset": "^1.0.6",
 		"@types/fs-extra": "^9.0.1",
 		"@types/node": "^14.10.2",
 		"@types/pacote": "^11.1.0",
