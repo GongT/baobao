@@ -88,7 +88,6 @@ dependencies:
   source-map-support: 0.5.19
   split2: 3.2.2
   targz: 1.0.1
-  ts-node: 9.0.0
   tsconfig-paths: 3.9.0
   tslib: 2.0.1
 lockfileVersion: 5.1
@@ -6889,13 +6888,14 @@ packages:
       '@build-script/export-all-in-one': 3.0.18
       gulp: 4.0.2
       source-map-support: 0.5.19
+      ts-node: 9.0.0
       tslib: 2.0.1
       ttypescript: 1.5.12
       typescript: 4.0.2
     dev: false
     name: '@rush-temp/common'
     resolution:
-      integrity: sha512-xzwoAfuZq/okFPlS2Cw2ujxPrAJqbwhaBfwnopCb+Z4JYwMLql8+DGi6Ma25P03gbL4dV4ZXNdqA1mr7JcFCuA==
+      integrity: sha512-89+81rkHYXfq8eYsV8Wq1LlOaJgNFR6W05AAG9H/LROmPhl/cu3TkKJq3nJYKrTgvwnjLbqa3tINiKsHiO1VHw==
       tarball: 'file:projects/common.tgz'
     version: 0.0.0
   'file:projects/dual-package-runtime.tgz':
@@ -7034,6 +7034,7 @@ packages:
       execa: 4.0.3
       gulp: 4.0.2
       source-map-support: 0.5.19
+      ts-node: 9.0.0
       tslib: 2.0.1
       ttypescript: 1.5.12
       typescript: 4.0.2
@@ -7042,7 +7043,7 @@ packages:
     optionalDependencies:
       kexec: github.com/meteor/node-kexec/f29f54037c7db6ad29e1781463b182e5929215a0
     resolution:
-      integrity: sha512-xzKSQjiTUB5OCKIIalu0U3ywEetrl+DMHL0DO1U1wj7OZueD2gE6WBJqt0OrO1d5DkFNJjU8Jhc/IVAV96M82w==
+      integrity: sha512-FLLVs30JSl9v7exs8bCTnIFHQu8Wz3V9hHTnMA/e2TB9+lTq85lJi7i/0CJ6Pf2mc4WjayNfkBxsVTb65Loi3g==
       tarball: 'file:projects/node.tgz'
     version: 0.0.0
   'file:projects/poormans-package-change.tgz':
@@ -7366,6 +7367,5 @@ specifiers:
   source-map-support: ^0.5.19
   split2: ^3.2.2
   targz: ^1.0.1
-  ts-node: ^9.0.0
   tsconfig-paths: ^3.9.0
   tslib: ^2.0.1
