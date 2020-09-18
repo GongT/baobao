@@ -2,7 +2,7 @@ import * as split2 from 'split2';
 import { spawn, SpawnOptions } from 'child_process';
 import { dirname } from 'path';
 import { CollectingStream, streamPromise } from '@idlebox/node';
-import { createWriteStream, mkdirpSync } from 'fs-extra';
+import { createFileSync, createWriteStream, mkdirpSync, truncateSync } from 'fs-extra';
 import { TEMP_DIR } from './paths';
 
 export interface IOptions extends SpawnOptions {
@@ -36,6 +36,8 @@ export function execPromise({
 
 	if (logFile) {
 		mkdirpSync(dirname(logFile));
+		createFileSync(logFile);
+		truncateSync(logFile);
 	}
 	const logger = logFile ? createWriteStream(logFile) : null;
 	r.stdout.pipe(split2()).on('data', (l) => {
@@ -68,7 +70,7 @@ export function execPromise({
 				console.error(`${l}\n\x1B[0m%s\n${l}`, full.getOutput());
 				reject(new Error('child process exit with code ' + code));
 			} else {
-				Promise.all([output.promise(), full.promise()]).then(([output, full]) => {
+				Promise.all([output.promise(), full.promise(), streamPromise(logger)]).then(([output, full]) => {
 					resolve({
 						result: output.trim(),
 						full: full,

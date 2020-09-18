@@ -1,7 +1,6 @@
 import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { commandInPath } from '@idlebox/node';
 import { readFile } from 'fs-extra';
-import { timeout } from '@idlebox/common';
 import { execPromise } from '../include/execPromise';
 
 async function main() {
@@ -28,7 +27,7 @@ async function main() {
 		}
 		// console.error('    check...');
 
-		const logFile = rushProject.absolute(item, 'yarn-publish.log');
+		const logFile = rushProject.tempFile('yarn-publish.log');
 		// console.error('          log -> %s', logFile);
 		await execPromise({
 			cwd: rushProject.absolute(item),
@@ -45,7 +44,6 @@ async function main() {
 			logFile,
 		});
 		// console.error('          complete.');
-		await timeout(1000);
 		const log = await readFile(logFile, '');
 		if (/^success Published\.$/m.test(log)) {
 			console.error('    👍 success.');
