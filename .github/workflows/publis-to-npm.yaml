@@ -16,6 +16,11 @@ jobs:
           submodules: 'recursive'
           clean: false
           fetch-depth: 0
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: pnpm
       - name: 'Install'
         run: node common/scripts/install-run-rush.js install
       - name: 'Build'
