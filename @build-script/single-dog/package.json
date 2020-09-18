@@ -18,7 +18,7 @@
 		"@build-script/builder": "^2.0.21",
 		"@build-script/rush-tools": "^1.1.9",
 		"@idlebox/ensure-symlink": "^1.0.12",
-		"@idlebox/node": "^1.0.18",
+		"@idlebox/node": "^1.0.19",
 		"@build-script/export-all-in-one-inject": "^1.0.10",
 		"@idlebox/node-json-edit": "^2.0.9",
 		"unipm": "^1.0.13",

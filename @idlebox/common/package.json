@@ -28,8 +28,8 @@
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.19",
-		"@build-script/export-all-in-one": "^3.0.16",
+		"@build-script/builder": "^2.0.21",
+		"@build-script/export-all-in-one": "^3.0.18",
 		"@build-script/single-dog-asset": "^1.0.8",
 		"@idlebox/itypes": "^0.0.4",
 		"gulp": "^4.0.2",

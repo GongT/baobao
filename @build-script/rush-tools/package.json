@@ -29,7 +29,7 @@
 	"dependencies": {
 		"@build-script/dual-package-runtime": "^1.0.6",
 		"@idlebox/common": "^1.0.28",
-		"@idlebox/node": "^1.0.18",
+		"@idlebox/node": "^1.0.19",
 		"@idlebox/node-json-edit": "^2.0.9",
 		"@microsoft/rush-lib": "^5.34.1",
 		"execa": "^4.0.3",

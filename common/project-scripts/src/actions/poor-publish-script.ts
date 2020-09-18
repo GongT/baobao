@@ -1,6 +1,7 @@
 import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { commandInPath } from '@idlebox/node';
 import { readFile } from 'fs-extra';
+import { timeout } from '@idlebox/common';
 import { execPromise } from '../include/execPromise';
 
 async function main() {
@@ -44,6 +45,7 @@ async function main() {
 			logFile,
 		});
 		// console.error('          complete.');
+		await timeout(1000);
 		const log = await readFile(logFile, '');
 		if (/^success Published\.$/m.test(log)) {
 			console.error('    👍 success.');

@@ -11,7 +11,7 @@ const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagati
  * If can't do that (eg. on Windows), spawn as normal, but quit self after it quit.
  */
 export function trySpawnInScope(cmds: string[]): never {
-	if (insideScope() || !supportScope()) {
+	if (process.env.NEVER_UNSHARE || insideScope() || !supportScope()) {
 		spawnSimulate(cmds[0], cmds.slice(1));
 	} else {
 		execLinux(cmds);

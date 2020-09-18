@@ -4,6 +4,7 @@ on:
 env:
   NODE_ENV: production
   DISABLE_SYSTEMD: yes
+  NEVER_UNSHARE: yes
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -12,7 +12,7 @@
 	"dependencies": {
 		"@idlebox/node-json-edit": "^2.0.9",
 		"@build-script/rush-tools": "^1.1.9",
-		"@idlebox/node": "^1.0.18",
+		"@idlebox/node": "^1.0.19",
 		"@idlebox/common": "^1.0.28",
 		"fs-extra": "^9.0.1",
 		"jsonc": "^2.0.0",
