@@ -1,9 +1,9 @@
-import { insertKeyAlphabet, loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { exists } from '@idlebox/node';
-import { createFile, readFile, renameSync, writeFile } from 'fs-extra';
 import { resolve } from 'path';
+import { exists } from '@idlebox/node';
+import { insertKeyAlphabet, loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { createFile, readFile, writeFile } from 'fs-extra';
 import { BuildContext } from '../common/buildContext';
-import { createBuildContext, loaderProjectPath } from '../common/buildContextInstance';
+import { createBuildContext } from '../common/buildContextInstance';
 
 const { manifest } = require('pacote');
 
@@ -33,7 +33,6 @@ export default async function init() {
 	await modifyPackageJson(ctx);
 	await addIgnoreFile(ctx);
 	await createBuildJson(ctx);
-	await createGulpFile(ctx);
 
 	console.log('You may need to update packages with package manager.');
 }
@@ -104,29 +103,6 @@ async function createBuildJson(ctx: BuildContext) {
 	ctx.addAction('watch', ['watch-ts']).title = 'Watch mode build project';
 
 	await ctx.writeBack();
-}
-
-async function createGulpFile(_: BuildContext) {
-	const Gulpfile = resolve(loaderProjectPath, 'Gulpfile.js');
-	if (await exists(Gulpfile)) {
-		return;
-	}
-
-	const GulpfileJs = resolve(loaderProjectPath, 'Gulpfile.js');
-	if (await exists(GulpfileJs)) {
-		renameSync(GulpfileJs, Gulpfile);
-		return;
-	}
-
-	await writeFile(
-		Gulpfile,
-		`import gulp from 'gulp';
-import { loadToGulp } from '@build-script/builder';
-loadToGulp(gulp, import.meta.url);
-`
-	);
-
-	console.log('Done.');
 }
 
 export const usage = 'Init build-script related files in current directory';

@@ -1,7 +1,7 @@
 {
 	"monorepo": true,
 	"name": "unipm",
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"type": "module",
 	"main": "./lib/_export_all_in_one_index.cjs",
 	"typings": "./docs/package-public.d.ts",
@@ -24,26 +24,27 @@
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"@idlebox/node-json-edit": "^2.0.8",
-		"@idlebox/common": "^1.0.27",
-		"@idlebox/node": "^1.0.17",
+		"@idlebox/node-json-edit": "^2.0.9",
+		"@idlebox/common": "^1.0.28",
+		"@idlebox/node": "^1.0.18",
 		"execa": "^4.0.3",
 		"json5": "^2.1.3",
 		"pacote": "^11.1.11",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.20",
-		"@build-script/export-all-in-one": "^3.0.17",
-		"@build-script/typescript-transformer-dual-package": "^1.0.13",
-		"@build-script/single-dog-asset": "^1.0.6",
+		"@build-script/builder": "^2.0.21",
+		"@build-script/export-all-in-one": "^3.0.18",
+		"@build-script/typescript-transformer-dual-package": "^1.0.14",
+		"@build-script/single-dog-asset": "^1.0.8",
 		"@types/json5": "^0.0.30",
-		"@types/node": "^14.10.2",
+		"@types/node": "^14.11.1",
 		"npm-check-updates": "^9.0.1",
 		"typescript": "^4.0.2",
 		"gulp": "^4.0.2",
 		"tslib": "^2.0.1",
-		"ttypescript": "^1.5.12"
+		"ttypescript": "^1.5.12",
+		"ts-node": "^9.0.0"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"license": "MIT"

@@ -1,7 +1,7 @@
 {
 	"main": "./lib/index.js",
 	"name": "@build-script/single-dog",
-	"version": "2.1.11",
+	"version": "2.1.12",
 	"license": "MIT",
 	"type": "commonjs",
 	"bin": {
@@ -15,20 +15,20 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@build-script/builder": "^2.0.20",
-		"@build-script/rush-tools": "^1.1.8",
+		"@build-script/builder": "^2.0.21",
+		"@build-script/rush-tools": "^1.1.9",
 		"@idlebox/ensure-symlink": "^1.0.12",
-		"@idlebox/node": "^1.0.17",
-		"@build-script/export-all-in-one-inject": "^1.0.9",
-		"@idlebox/node-json-edit": "^2.0.8",
-		"unipm": "^1.0.12",
+		"@idlebox/node": "^1.0.18",
+		"@build-script/export-all-in-one-inject": "^1.0.10",
+		"@idlebox/node-json-edit": "^2.0.9",
+		"unipm": "^1.0.13",
 		"fs-extra": "^9.0.1",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "^1.0.6",
+		"@build-script/single-dog-asset": "^1.0.8",
 		"@types/fs-extra": "^9.0.1",
-		"@types/node": "^14.10.2",
+		"@types/node": "^14.11.1",
 		"gulp": "^4.0.2",
 		"typescript": "^4.0.2",
 		"tslib": "^2.0.1",

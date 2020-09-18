@@ -4,8 +4,7 @@ import { ExecFunc } from '../global';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
 import split2 from 'split2';
-
-const execa = require('execa');
+import execa from 'execa';
 
 let ignore: string = '';
 let weakRed: string = '';
@@ -85,8 +84,8 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 			colorIfNot(false, weakRed, l);
 		});
 
-		delete ps.stdout;
-		delete ps.stderr;
+		ps.stdout = null;
+		ps.stderr = null;
 
 		Promise.all([ps, streamPromise(s1), streamPromise(s2)]).then(
 			() => {

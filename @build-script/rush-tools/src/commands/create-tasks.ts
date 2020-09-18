@@ -15,7 +15,7 @@ const template = {
 		reveal: 'never',
 		focus: false,
 		panel: 'shared',
-		showReuseMessage: true,
+		showReuseMessage: false,
 		clear: true,
 	},
 	command: '',

@@ -9,6 +9,10 @@ declare module '@build-script/builder' {
 		readonly args: ReadonlyArray<string>;
 	}
 
+	interface IJobRecord {
+		[name: string]: Gulp.TaskFunction;
+	}
+
 	export const buildContext: IBuildContext;
 
 	export function setProjectDir(dir: string): void;
@@ -21,7 +25,7 @@ declare module '@build-script/builder' {
 
 	export function addBuildStep(name: string, build: string[], watch: string[]): Promise<void>;
 
-	export function loadToGulp(gulp: typeof Gulp, __dirname: string): void;
+	export function loadToGulp(gulp: typeof Gulp, __dirname: string): IJobRecord;
 
 	export function isBuildConfigFileExists(): boolean;
 }

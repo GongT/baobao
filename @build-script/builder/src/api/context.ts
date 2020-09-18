@@ -62,11 +62,13 @@ export async function getPlugin(name: string) {
 
 export function loadToGulp(gulp: typeof Gulp, __dirname: string) {
 	require('source-map-support/register');
-	if ((gulp as EventEmitter).listenerCount('error') === 0) {
-		gulp.on('error', () => {
-			fancyLog.error('[BuildScript] Build failed...');
-		});
-	}
+	setImmediate(() => {
+		if ((gulp as EventEmitter).listenerCount('error') === 0) {
+			gulp.on('error', () => {
+				fancyLog.error('[BuildScript] Build failed...');
+			});
+		}
+	});
 	return load(gulp, __dirname);
 }
 

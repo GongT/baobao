@@ -1,7 +1,8 @@
+import { dirname, resolve } from 'path';
+import { existsSync, findUpUntilSync } from '@idlebox/node';
 import { getFormatInfo, loadJsonFile, loadJsonFileSync, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
-import { existsSync } from '@idlebox/node';
-import { resolve } from 'path';
 import { IMyProjectJson, rectLoadDefine } from '../global';
+import { createGulpFile } from './buildContext.createGulpFile';
 import { BuildContextBase } from './buildContextBase';
 import { isArrayOfString } from './func';
 import { loadPlugin, resetLoader } from './pluginLoader';
@@ -10,14 +11,23 @@ export interface MapLike<T> {
 	[key: string]: T;
 }
 export class BuildContext extends BuildContextBase {
-	public readonly configFilePath: string;
-
 	private rawProjectJson?: IMyProjectJson;
+	private configFilePath: string;
 
 	public constructor(public readonly projectRoot: string, creating: boolean = false) {
+		const configFile = findUpUntilSync(projectRoot, 'build-script.json');
+		if (configFile) {
+			projectRoot = dirname(configFile);
+		}
+
 		super(projectRoot);
 
-		this.configFilePath = resolve(projectRoot, 'build-script.json');
+		if (configFile) {
+			this.configFilePath = configFile;
+		} else {
+			this.configFilePath = resolve(projectRoot, 'build-script.json');
+		}
+
 		if (!creating) {
 			this._init();
 		}
@@ -34,6 +44,8 @@ export class BuildContext extends BuildContextBase {
 				process.exit(1);
 			}
 			this.rawProjectJson = loadJsonFileSync(this.configFilePath);
+
+			createGulpFile(this);
 		}
 		return this.rawProjectJson!;
 	}

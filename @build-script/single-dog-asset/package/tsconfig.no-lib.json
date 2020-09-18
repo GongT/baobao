@@ -20,7 +20,7 @@
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"inlineSourceMap": false,
-		"inlineSources": true,
+		"inlineSources": false,
 		"keyofStringsOnly": false,
 		"lib": ["ESNext", "ESNext.Array", "ESNext.AsyncIterable", "ESNext.Symbol"],
 		"noEmitOnError": false,

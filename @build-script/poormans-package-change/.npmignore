@@ -12,7 +12,6 @@ package-deps.json
 *.log
 
 ### build source
-src
 build-script.json
 Gulpfile.*
 *.tsbuildinfo

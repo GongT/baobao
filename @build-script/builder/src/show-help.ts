@@ -1,19 +1,22 @@
 import { readdir } from 'fs-extra';
-import { resolve } from 'path';
+import { basename, extname, resolve } from 'path';
 import { setProjectDir } from './api/context';
 import { getBuildContext } from './common/buildContextInstance';
 
-export default async function() {
+export default async function () {
 	setProjectDir(process.cwd());
 	const cmds = new Map();
 	let size = 0;
 
-	const cmddir = resolve(__dirname, 'cmd');
+	const filename = import.meta.url.replace(/^file:\/\//, '');
+	const ext = extname(filename);
+	const cmddir = resolve(filename, '../cmd');
 	for (const item of await readdir(cmddir)) {
-		if (item.endsWith('.js')) {
-			const n = item.replace(/\.js/, '');
+		if (item.endsWith(ext)) {
+			const n = basename(item, ext);
 			size = Math.max(n.length, size);
-			cmds.set(n, require(resolve(cmddir, item)).usage || '???');
+			const mdl = await import(resolve(cmddir, item));
+			cmds.set(n, mdl.usage || '???');
 		}
 	}
 

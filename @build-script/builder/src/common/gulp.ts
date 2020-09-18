@@ -1,11 +1,14 @@
+import { resolve } from 'path';
 import { nameFunction } from '@idlebox/common';
-import Gulp from 'gulp';
+import { findUpUntilSync } from '@idlebox/node';
+import { pathExistsSync } from 'fs-extra';
+import Gulp, { TaskFunction } from 'gulp';
+import { ExecFunc, MapLike } from '../global';
 import { BuildContext } from './buildContext';
 import { getBuildContext, setCurrentDir } from './buildContextInstance';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
 import { createJobFunc } from './jobs';
-import { ExecFunc, MapLike } from '../global';
 
 function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
 	fancyLog.debug(`defining new task: ${taskName}`);
@@ -14,7 +17,7 @@ function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
 
 const isPrintingTasks = process.argv.includes('--tasks');
 
-function createAliasRegistry(ctx: BuildContext) {
+function createAliasRegistry(gulp: typeof Gulp, ctx: BuildContext) {
 	const aliasRegistry: MapLike<ExecFunc> = {};
 	for (const [name, cmd] of ctx.projectJson.alias.entries()) {
 		aliasRegistry[name] = createJobFunc(aliasName(name), ctx.projectRoot, cmd);
@@ -27,7 +30,10 @@ function createAliasRegistry(ctx: BuildContext) {
 		if (aliasRegistry[name]) {
 			return aliasRegistry[name];
 		}
-		throw new Error(`Action alias not found: ${name}`);
+		if (gulp.task(name)) {
+			return name;
+		}
+		throw `Action alias not found: "${name}"`;
 	};
 }
 
@@ -86,7 +92,7 @@ function dependencyResolve(ctx: BuildContext) {
 	return orderDepend;
 }
 
-function createPickPreviousJob(pickAlias: (name: string) => ExecFunc) {
+function createPickPreviousJob(pickAlias: (name: string) => string | ExecFunc) {
 	const jobRegistry: MapLike<Gulp.TaskFunction> = {};
 
 	function pickJob(n: string) {
@@ -112,12 +118,45 @@ function createPickPreviousJob(pickAlias: (name: string) => ExecFunc) {
 	};
 }
 
-export function load(gulp: typeof Gulp, _dirname: string) {
+interface FindGulpFile {
+	file: string;
+	supportModule?: string;
+}
+export function findGulpfile(where: string = process.cwd(), findUp: boolean = false): null | FindGulpFile {
+	const gulpSupports = {
+		js: '',
+		ts: 'ts-node',
+		'esm.js': '',
+		'babel.js': '@babel/register',
+	};
+	for (const base of ['gulpfile', 'Gulpfile']) {
+		for (const [ext, supportModule] of Object.entries(gulpSupports)) {
+			if (findUp) {
+				const file = findUpUntilSync(where, base + '.' + ext);
+				if (file) {
+					return { file, supportModule };
+				}
+			} else {
+				const file = resolve(where, base + '.' + ext);
+				if (pathExistsSync(file)) {
+					return { file, supportModule };
+				}
+			}
+		}
+	}
+	return null;
+}
+
+export interface IJobRecord {
+	[name: string]: TaskFunction;
+}
+export function load(gulp: typeof Gulp, _dirname: string): IJobRecord {
+	const result: IJobRecord = {};
 	setCurrentDir(_dirname);
 	const ctx: BuildContext = getBuildContext();
 	ctx.loadPlugins();
 
-	const pickAlias = createAliasRegistry(ctx);
+	const pickAlias = createAliasRegistry(gulp, ctx);
 	const resolvedDependOrder = dependencyResolve(ctx);
 
 	const { pickJob, pickAction, registerJob } = createPickPreviousJob(pickAlias);
@@ -160,8 +199,13 @@ export function load(gulp: typeof Gulp, _dirname: string) {
 		const fn = list.length === 0 ? function emptyJob() {} : list.length === 1 ? list[0] : gulp.series(...list);
 
 		registerJob(name, fn);
-		task(gulp, name, functionWithName(fn, name, data.title));
+		const handler = functionWithName(fn, name, data.title);
+		task(gulp, name, handler);
+
+		result[name] = handler;
 	}
+
+	return result;
 }
 
 function gulpConcatAction(gulp: typeof Gulp, fns: (string | ExecFunc)[], toSerial = false): Gulp.TaskFunction {

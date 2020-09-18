@@ -5,7 +5,7 @@ import { BuildContext } from './buildContext';
 const bcs = Symbol.for('@build-script/builder');
 
 declare const global: any;
-export const loaderProjectPath: string = global.PROJECT_PATH || process.cwd();
+const loaderProjectPath: string = global.PROJECT_PATH || process.cwd();
 
 let currentPath: string;
 

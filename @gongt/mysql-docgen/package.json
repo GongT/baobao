@@ -6,7 +6,7 @@
 		"type": "git",
 		"url": "https://github.com/GongT/baobao"
 	},
-	"version": "1.1.9",
+	"version": "1.1.10",
 	"typings": "docs/package-public.d.ts",
 	"type": "module",
 	"main": "lib/api.cjs",
@@ -30,7 +30,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.0.27",
+		"@idlebox/common": "^1.0.28",
 		"fancy-log": "^1.3.3",
 		"fs-extra": "^9.0.1",
 		"mysql": "^2.18.1",
@@ -41,22 +41,23 @@
 		"tslib": "^2.0.1"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.20",
-		"@build-script/export-all-in-one": "^3.0.17",
-		"@build-script/single-dog-asset": "^1.0.6",
-		"@build-script/typescript-transformer-dual-package": "^1.0.13",
+		"@build-script/builder": "^2.0.21",
+		"@build-script/export-all-in-one": "^3.0.18",
+		"@build-script/single-dog-asset": "^1.0.8",
+		"@build-script/typescript-transformer-dual-package": "^1.0.14",
 		"@microsoft/api-extractor": "^7.9.15",
 		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^9.0.1",
 		"@types/mysql": "^2.15.15",
-		"@types/node": "^14.10.2",
+		"@types/node": "^14.11.1",
 		"@types/pretty": "^2.0.0",
 		"@types/react": "^16.9.49",
 		"@types/react-dom": "^16.9.8",
 		"gulp": "^4.0.2",
 		"prettier": "^2.1.2",
 		"ttypescript": "^1.5.12",
-		"typescript": "^4.0.2"
+		"typescript": "^4.0.2",
+		"ts-node": "^9.0.0"
 	},
 	"exportAllInOne": {
 		"exportEverything": false
