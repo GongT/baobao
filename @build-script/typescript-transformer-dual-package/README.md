@@ -1,3 +1,5 @@
+[中 文](./README.cn.md)
+
 # What is this
 
 This is a [**t**typescript](https://github.com/cevek/ttypescript/) transformer:
@@ -34,9 +36,9 @@ This is a [**t**typescript](https://github.com/cevek/ttypescript/) transformer:
     }
     ```
 1. Write typescript as you want. But:
-    - **Do not use any `require` in your code!**, `await import()` instead
+    - **Do not use any `require` in your code!**, `await import()` instead (not including `module::createRequire`)
     - Do not add `\.(c|m)?js` at end of `import` statement. (bad: `import "./some-file.js"`)
-1. Compile with `ttsc`, instead of `tsc`
+1. Compile with `ttsc`, instead of `tsc` (package tools like `webpack` also support ttypescript, please refer to their docs)
     ```bash
     npm install ttypescript
     ttsc -p path/to/tsconfig.json
@@ -75,8 +77,8 @@ This is a [**t**typescript](https://github.com/cevek/ttypescript/) transformer:
     -   [ttypescript](https://github.com/cevek/ttypescript)
 -   Add custom extension:
     -   Typescript will support custom extension very soon(?), after that, this package can be removed. (use two pass compile instead, it _should_ more robust than my code):
-    -   [TypeScript#27957](https://github.com/microsoft/TypeScript/issues/27957)
-    -   [TypeScript#18442](https://github.com/microsoft/TypeScript/issues/18442)
+        -   [TypeScript#27957](https://github.com/microsoft/TypeScript/issues/27957)
+        -   [TypeScript#18442](https://github.com/microsoft/TypeScript/issues/18442)
     -   Initial idea comes from: [Zoltu/typescript-transformer-append-js-extension](Zoltu/typescript-transformer-append-js-extension)
 -   Node.JS:
     -   `exports` field in package.json: [Conditional Exports](https://nodejs.org/api/esm.html#esm_conditional_exports)
