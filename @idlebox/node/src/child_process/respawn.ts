@@ -30,7 +30,7 @@ export function trySpawnInScope(cmds: string[]): never {
  * ```
  */
 export function respawnInScope(mainFunc: Function): unknown | never {
-	if (insideScope() || !supportScope()) {
+	if (process.env.NEVER_UNSHARE || insideScope() || !supportScope()) {
 		mainFunc();
 		return undefined;
 	} else {
@@ -69,6 +69,10 @@ function spawnSimulate(cmd: string, args: string[]): never {
 	const result = spawnSync(cmd, args, {
 		stdio: 'inherit',
 		windowsHide: true,
+		env: {
+			...process.env,
+			NEVER_UNSHARE: 'true',
+		},
 	});
 	if (result.signal) {
 		process.kill(process.pid, result.signal);
@@ -81,6 +85,7 @@ function execLinux(cmds: string[]): never {
 	const args = [...unshareArgs, '--wd=' + process.cwd(), ...cmds];
 
 	try {
+		process.env.NEVER_UNSHARE = 'true';
 		const require = createRequire(import.meta.url);
 		const kexec = require('kexec');
 		kexec(unshare, args);
