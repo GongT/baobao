@@ -292,6 +292,8 @@ export declare function spawnGetOutput(opt: ICommand & Sync): string;
 
 export declare function spawnGetOutput(opt: ICommand & Async): Promise<string>;
 
+export declare function spawnRecreateEventHandlers(): void;
+
 export declare function spawnWithoutOutput(opt: ICommand & Sync): void;
 
 export declare function spawnWithoutOutput(opt: ICommand & Async): Promise<void>;

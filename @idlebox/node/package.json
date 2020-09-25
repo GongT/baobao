@@ -1,6 +1,6 @@
 {
 	"monorepo": "rush",
-	"version": "1.0.21",
+	"version": "1.0.22",
 	"license": "MIT",
 	"name": "@idlebox/node",
 	"type": "module",
@@ -28,16 +28,16 @@
 		"kexec": "github:meteor/node-kexec#update-for-node-12"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.21",
-		"@build-script/export-all-in-one": "^3.0.18",
+		"@build-script/builder": "^2.0.22",
+		"@build-script/export-all-in-one": "^3.0.19",
 		"@build-script/single-dog-asset": "^1.0.8",
-		"@build-script/typescript-transformer-dual-package": "^1.0.14",
+		"@build-script/typescript-transformer-dual-package": "^1.0.15",
 		"@types/node": "^14.11.1",
 		"gulp": "^4.0.2",
 		"tslib": "^2.0.1",
 		"ttypescript": "^1.5.12",
 		"typescript": "^4.0.2",
-		"ts-node": "latest"
+		"ts-node": "^9.0.0"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

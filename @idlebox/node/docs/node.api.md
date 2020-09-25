@@ -555,6 +555,11 @@ export function spawnGetOutput(opt: ICommand & Sync): string;
 // @public (undocumented)
 export function spawnGetOutput(opt: ICommand & Async): Promise<string>;
 
+// Warning: (ae-missing-release-tag) "spawnRecreateEventHandlers" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function spawnRecreateEventHandlers(): void;
+
 // Warning: (ae-missing-release-tag) "spawnWithoutOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "spawnWithoutOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

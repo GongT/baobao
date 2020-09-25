@@ -6,6 +6,20 @@ import { spawnGetOutput } from './execa';
 
 const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagation=slave'];
 
+export function spawnRecreateEventHandlers() {
+	process.on('SIGINT', () => shutdown_quit('SIGINT', 130));
+	process.on('SIGTERM', () => shutdown_quit('SIGTERM', 143));
+	process.on('SIGHUP', () => shutdown_quit('SIGHUP', 129));
+}
+
+function shutdown_quit(signal: string, code: number) {
+	// console.error('receive signal', signal);
+	if (process.listenerCount(signal) > 1) {
+		return;
+	}
+	process.exit(code);
+}
+
 /**
  * Spawn a command, replace current node process
  * If can't do that (eg. on Windows), spawn as normal, but quit self after it quit.
@@ -31,6 +45,7 @@ export function trySpawnInScope(cmds: string[]): never {
  */
 export function respawnInScope(mainFunc: Function): unknown | never {
 	if (process.env.NEVER_UNSHARE || insideScope() || !supportScope()) {
+		spawnRecreateEventHandlers();
 		mainFunc();
 		return undefined;
 	} else {
@@ -66,6 +81,8 @@ function supportScope() {
 }
 
 function spawnSimulate(cmd: string, args: string[]): never {
+	process.removeAllListeners('SIGINT');
+	process.removeAllListeners('SIGTERM');
 	const result = spawnSync(cmd, args, {
 		stdio: 'inherit',
 		windowsHide: true,
@@ -88,6 +105,9 @@ function execLinux(cmds: string[]): never {
 		process.env.NEVER_UNSHARE = 'true';
 		const require = createRequire(import.meta.url);
 		const kexec = require('kexec');
+
+		process.removeAllListeners('SIGINT');
+		process.removeAllListeners('SIGTERM');
 		kexec(unshare, args);
 		console.error('[Linux] kexec failed.');
 	} catch (err) {
