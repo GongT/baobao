@@ -5,6 +5,10 @@ import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
 import split2 from 'split2';
 import execa from 'execa';
+import { ChildProcess } from 'child_process';
+import { error } from 'fancy-log';
+
+const managedProcesses = new Set<ChildProcess>();
 
 let ignore: string = '';
 let weakRed: string = '';
@@ -18,6 +22,38 @@ if (colorEnabled) {
 	green = '\x1B[38;5;2m';
 	red = '\x1B[38;5;1m';
 	reset = '\x1B[0m';
+}
+
+function killallChildProcess(s: NodeJS.Signals = 'SIGINT') {
+	if (managedProcesses.size > 0) {
+		error('send signal %s to %s processes.', s, managedProcesses.size);
+		for (const process of managedProcesses.values()) {
+			process.kill(s);
+		}
+	}
+}
+
+let quitHandle = false;
+let isGoingQuit = false;
+function initQuitHandle() {
+	if (quitHandle) return;
+	quitHandle = true;
+
+	process.on('SIGINT', () => {
+		if (isGoingQuit) {
+			error('[BuildScript] receive SIGINT, again, force quit.');
+			process.exit(130);
+		} else {
+			console.error('\r[BuildScript] receive SIGINT, quitting...');
+			killallChildProcess();
+			isGoingQuit = true;
+		}
+	});
+	const oexit = process.exit;
+	process.exit = (code?: any) => {
+		killallChildProcess('SIGKILL');
+		return oexit(code);
+	};
 }
 
 export function createOtherJobFunc(jobName: string, path: string): ExecFunc {
@@ -39,7 +75,7 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 	if (!command) {
 		return functionWithName(
 			async () => {
-				console.log('no script for %s, skip it.', jobName);
+				error('no script for %s, skip it.', jobName);
 			},
 			jobName,
 			`${command} ${args.join(' ')}`
@@ -75,7 +111,13 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 			cwd: path,
 			env: childEnv,
 			stdio: ['ignore', 'pipe', 'pipe'],
+			cleanup: true,
 		});
+
+		initQuitHandle();
+		managedProcesses.add(ps);
+
+		ps.once('exit', () => managedProcesses.delete(ps));
 
 		const s1 = ps.stdout!.pipe(split2()).on('data', (l: string) => {
 			colorIfNot(true, ignore, l);
@@ -93,9 +135,13 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 				cb();
 			},
 			(e: Error) => {
-				fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
-				fancyLog.error('  > cwd: %s', path);
-				cb(new Error(e?.message?.replace?.(/:/g, ':\n  ')));
+				if (isGoingQuit) {
+					cb();
+				} else {
+					fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
+					fancyLog.error('  > cwd: %s', path);
+					cb(new Error(e?.message?.replace?.(/:/g, ':\n  ')));
+				}
 			}
 		);
 	};

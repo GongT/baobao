@@ -61,6 +61,7 @@ export async function getPlugin(name: string) {
 }
 
 export function loadToGulp(gulp: typeof Gulp, __dirname: string) {
+	// console.error('load to gulp')
 	require('source-map-support/register');
 	setImmediate(() => {
 		if ((gulp as EventEmitter).listenerCount('error') === 0) {
