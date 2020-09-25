@@ -64,6 +64,7 @@ export default createProgramPlugin(function plugin(
 						}
 					}
 				} else {
+					debug('   -> not imported');
 					// not node_module
 				}
 

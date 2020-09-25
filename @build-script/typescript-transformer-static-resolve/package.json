@@ -1,15 +1,15 @@
 {
 	"name": "@build-script/typescript-transformer-static-resolve",
 	"description": "A TypeScript transformer for use with ttypescript that will resolve import target during transpile.",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"license": "MIT",
 	"type": "module",
-	"main": "./lib/register.cjs",
-	"module": "./lib/register.js",
+	"main": "./lib/transform.cjs",
+	"module": "./lib/transform.js",
 	"exports": {
 		".": {
-			"require": "./lib/register.cjs",
-			"import": "./lib/register.js"
+			"require": "./lib/transform.cjs",
+			"import": "./lib/transform.js"
 		}
 	},
 	"scripts": {
@@ -30,7 +30,7 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "^1.0.14",
+		"@build-script/typescript-transformer-dual-package": "^1.0.15",
 		"@build-script/single-dog-asset": "^1.0.8",
 		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^9.0.1",
