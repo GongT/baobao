@@ -1,8 +1,10 @@
 import { IBuildContext, IMyProjectJson, IMyProjectJsonParsed, IPluginDefine } from '../global';
+import { fancyLog } from './fancyLog';
 
 export abstract class BuildContextBase implements IBuildContext {
 	public projectJson: IMyProjectJsonParsed;
 	protected plugins?: IPluginDefine[];
+	protected pluginMode: boolean = false;
 
 	public readonly args: ReadonlyArray<string> = []; // handled by proxy
 
@@ -27,6 +29,7 @@ export abstract class BuildContextBase implements IBuildContext {
 
 	private getOrCreateCommand(cmd: string) {
 		if (!this.projectJson.job.has(cmd)) {
+			fancyLog.debug(' + createCommand: %s', cmd);
 			const run = new Set<string>();
 			let _title = '';
 			this.projectJson.job.set(cmd, {
@@ -41,6 +44,7 @@ export abstract class BuildContextBase implements IBuildContext {
 				preRun: new Set<string>(),
 				postRun: new Set<string>(),
 				run,
+				createByPlugin: this.pluginMode,
 			});
 		}
 		return this.projectJson.job.get(cmd)!;
@@ -53,6 +57,7 @@ export abstract class BuildContextBase implements IBuildContext {
 
 	prefixAction(command: string, jobs: string) {
 		const cmd = this.getOrCreateCommand(command);
+		fancyLog.debug('   + prefixAction: %s - %s', command, jobs);
 		for (const item of jobs) {
 			cmd.preRun.add(item);
 		}
@@ -60,6 +65,7 @@ export abstract class BuildContextBase implements IBuildContext {
 
 	addAction(command: string, jobs: string[], dependency?: string[]) {
 		const cmd = this.getOrCreateCommand(command);
+		fancyLog.debug('   + addAction: %s - %s (after: %s)', command, jobs.join(', '), dependency?.join(', '));
 		for (const item of jobs) {
 			cmd.run.add(item);
 		}
@@ -73,6 +79,7 @@ export abstract class BuildContextBase implements IBuildContext {
 
 	postfixAction(command: string, jobs: string) {
 		const cmd = this.getOrCreateCommand(command);
+		fancyLog.debug('   + postfixAction: %s - %s', command, jobs);
 		for (const item of jobs) {
 			cmd.postRun.add(item);
 		}

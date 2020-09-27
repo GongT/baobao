@@ -1,5 +1,5 @@
 import { TEMP_SOURCE_DIR_NAME } from './../../inc/argParse';
-import { ensureDirSync } from 'fs-extra';
+import { ensureDirSync, readFileSync } from 'fs-extra';
 import { dirname, relative, resolve } from 'path';
 import {
 	addSyntheticLeadingComment,
@@ -95,6 +95,12 @@ function visitSourceFile(
 
 export function copyFilteredSourceCodeFile(file: SourceFile, checker: TypeChecker) {
 	const target = resolve(EXPORT_TEMP_PATH, TEMP_SOURCE_DIR_NAME, relative(SOURCE_ROOT, file.fileName));
+	ensureDirSync(dirname(target));
+
+	if (file.isDeclarationFile) {
+		writeFileSyncIfChange(target, readFileSync(file.fileName, 'utf8'));
+		return;
+	}
 
 	const printer: Printer = createPrinter();
 	const result: TransformationResult<SourceFile> = transform<SourceFile>(
@@ -106,6 +112,5 @@ export function copyFilteredSourceCodeFile(file: SourceFile, checker: TypeChecke
 	const newContent = printer.printFile(transformedSourceFile);
 	result.dispose();
 
-	ensureDirSync(dirname(target));
 	writeFileSyncIfChange(target, newContent);
 }

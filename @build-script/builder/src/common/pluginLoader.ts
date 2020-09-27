@@ -34,7 +34,16 @@ export function loadPlugin(file: string, args: string[]) {
 	try {
 		require(file);
 	} catch (e) {
-		throw new Error(`Can't run plugin ${file}: ${e.message}`);
+		const msg = `Can't run plugin ${file}: ${e.message}`;
+		const ee = new Error(msg);
+		if (e.stack) {
+			const stack = e.stack.split(/\n/);
+			stack.splice(0, 1, msg);
+			ee.stack = stack.join('\n');
+		} else {
+			ee.stack = msg;
+		}
+		throw ee;
 	}
 	setCtxDisable();
 }

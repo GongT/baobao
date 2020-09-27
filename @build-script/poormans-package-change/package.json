@@ -16,7 +16,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/node": "^1.0.19",
+		"@idlebox/node": "^1.0.22",
 		"@idlebox/node-json-edit": "^2.0.9",
 		"@idlebox/common": "^1.0.28",
 		"execa": "^4.0.3",
@@ -27,7 +27,7 @@
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.21",
+		"@build-script/builder": "^2.0.22",
 		"@build-script/single-dog-asset": "^1.0.8",
 		"@types/fs-extra": "^9.0.1",
 		"@types/node": "^14.11.1",

@@ -4,7 +4,7 @@
 	"name": "@build-script/builder",
 	"description": "run build command(s) serial/parallel with order. (by generate a Gulp config)",
 	"keywords": ["gulp", "build", "process", "tool", "make", "pipeline"],
-	"version": "2.0.22",
+	"version": "2.1.0",
 	"main": "./api.cjs",
 	"module": "./api.js",
 	"typings": "./api.d.ts",
@@ -28,7 +28,7 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "^1.0.28",
-		"@idlebox/node": "^1.0.21",
+		"@idlebox/node": "^1.0.22",
 		"@idlebox/node-json-edit": "^2.0.9",
 		"@build-script/dual-package-runtime": "^1.0.6",
 		"execa": "^4.0.3",

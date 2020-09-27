@@ -1,17 +1,18 @@
 import { resolve } from 'path';
-import { nameFunction } from '@idlebox/common';
+import { inspect } from 'util';
+import { functionName, nameFunction } from '@idlebox/common';
 import { findUpUntilSync } from '@idlebox/node';
 import { pathExistsSync } from 'fs-extra';
 import Gulp, { TaskFunction } from 'gulp';
 import { ExecFunc, MapLike } from '../global';
 import { BuildContext } from './buildContext';
 import { getBuildContext, setCurrentDir } from './buildContextInstance';
-import { fancyLog } from './fancyLog';
+import { fancyLog, isVerbose } from './fancyLog';
 import { functionWithName } from './func';
 import { createJobFunc } from './jobs';
 
 function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
-	fancyLog.debug(`defining new task: ${taskName}`);
+	fancyLog.debug(`define task to gulp: ${taskName} = ${functionName(fn as any)}`);
 	gulp.task(taskName, fn);
 }
 
@@ -26,45 +27,45 @@ function createAliasRegistry(gulp: typeof Gulp, ctx: BuildContext) {
 		}
 	}
 
-	return function pickAlias(name: string) {
+	return function pickAlias(name: string, throwe = true) {
 		if (aliasRegistry[name]) {
 			return aliasRegistry[name];
 		}
 		if (gulp.task(name)) {
 			return name;
 		}
-		throw `Action alias not found: "${name}"`;
+		if (throwe) {
+			throw `Action alias not found: "${name}"`;
+		}
+		return '';
 	};
 }
 
 function dependencyResolve(ctx: BuildContext) {
+	fancyLog.debug('resolve dependency:');
 	const waitResolve: MapLike<string[]> = {};
 	const orderDepend: string[] = [];
 
 	function isFullFill(deps: string[]) {
-		if (deps.length === 0) {
-			return true;
-		} else if (deps.every((item) => orderDepend.includes(item))) {
-			return true;
+		if (deps.some((item) => waitResolve[item])) {
+			return false;
 		}
-		return false;
+		return true;
 	}
-
 	for (const [name, data] of ctx.projectJson.job.entries()) {
-		if (data.run.size) {
-			const deps: string[] = [...data.preRun, ...data.run, ...data.postRun]
-				.filter((item) => {
-					return item.startsWith('@');
-				})
-				.map((item) => {
-					return item.slice(1);
-				});
-
-			if (isFullFill(deps)) {
-				orderDepend.push(name);
-			} else {
-				waitResolve[name] = deps;
+		const deps: string[] = [...data.preRun, ...data.postRun, ...data.after];
+		for (const item of data.run.values()) {
+			if (item.startsWith('@')) {
+				deps.push(item.slice(1));
 			}
+		}
+
+		if (deps.length === 0) {
+			fancyLog.debug('  - %s (no need) is resolved', name, deps.join(', '));
+			orderDepend.push(name);
+		} else {
+			fancyLog.debug('  - %s (depend %s) to be resolve', name, deps.join(', '));
+			waitResolve[name] = deps;
 		}
 	}
 
@@ -76,6 +77,7 @@ function dependencyResolve(ctx: BuildContext) {
 		}
 		for (const [name, deps] of toResolve) {
 			if (isFullFill(deps)) {
+				fancyLog.debug('  - %s is resolved', name);
 				orderDepend.push(name);
 				delete waitResolve[name];
 			}
@@ -85,10 +87,13 @@ function dependencyResolve(ctx: BuildContext) {
 			break;
 		}
 		if (result === preventLoop) {
-			throw new Error(`Dependency loop found: ${Object.keys(waitResolve).join(', ')}`);
+			const lserror = Object.keys(waitResolve).join(', ');
+			const lssuccess = orderDepend.join(', ');
+			throw new Error(`Dependency loop found: ${lserror} | success: ${lssuccess}`);
 		}
 	}
 
+	fancyLog.debug('DONE: %s', orderDepend.join(', '));
 	return orderDepend;
 }
 
@@ -99,15 +104,30 @@ function createPickPreviousJob(pickAlias: (name: string) => string | ExecFunc) {
 		if (jobRegistry[n]) {
 			return jobRegistry[n];
 		} else {
-			throw new Error(`Job name not found: ${n}`);
+			return n;
+		}
+	}
+	function requireJob(n: string): Gulp.TaskFunction {
+		if (jobRegistry[n]) {
+			return jobRegistry[n];
+		} else {
+			throw new Error(`Job name not found: ${n} (available: ${Object.keys(jobRegistry).join(', ')})`);
 		}
 	}
 
 	return {
 		registerJob(name: string, fn: Gulp.TaskFunction) {
+			if (jobRegistry[name]) {
+				throw new Error(
+					`duplicate job: ${name} = ${functionName(jobRegistry[name] as any)} | new: ${functionName(
+						fn as any
+					)}`
+				); // this is impossible
+			}
 			jobRegistry[name] = fn;
 		},
 		pickJob,
+		requireJob,
 		pickAction(name: string) {
 			if (name.startsWith('@')) {
 				return pickJob(name.slice(1));
@@ -156,71 +176,99 @@ export function load(gulp: typeof Gulp, _dirname: string): IJobRecord {
 	const ctx: BuildContext = getBuildContext();
 	ctx.loadPlugins();
 
+	if (isVerbose) {
+		const b = '-'.repeat(process.stderr.columns || 80);
+		console.error(
+			'\r%s\n%s\n%s',
+			b,
+			inspect(ctx.projectJson, { colors: true, depth: Infinity, maxStringLength: 20, getters: true }),
+			b
+		);
+	}
+
 	const pickAlias = createAliasRegistry(gulp, ctx);
 	const resolvedDependOrder = dependencyResolve(ctx);
 
-	const { pickJob, pickAction, registerJob } = createPickPreviousJob(pickAlias);
+	const { pickJob, pickAction, registerJob, requireJob } = createPickPreviousJob(pickAlias);
 
 	for (const [name, command] of ctx.projectJson.scriptsJob.entries()) {
+		if (resolvedDependOrder.includes(name)) {
+			continue;
+		}
 		const fn = createJobFunc(name, ctx.projectRoot, command);
+		if (isPrintingTasks) {
+			console.error('[\x1B[38;5;9m%s\x1B[0m] npm: %s', name, command);
+		}
 		registerJob(name, fn);
-		task(gulp, name, functionWithName(fn, name, 'Npm command: ' + name));
+		task(gulp, name, functionWithName(fn, 'npm:' + name, 'Npm command: ' + name));
 	}
 
 	for (const name of resolvedDependOrder) {
+		if (isPrintingTasks) {
+			fancyLog.debug(' -- %s:', name);
+		}
 		const data = ctx.projectJson.job.get(name)!;
 		const list: Gulp.TaskFunction[] = [];
 
-		if (data.preRun.size || data.after.size) {
-			list.unshift(
-				nameFunction(
-					`${name}:pre`,
-					gulpConcatAction(gulp, [...map(data.preRun, pickJob), ...map(data.after, pickJob)]) as Function
-				) as Gulp.TaskFunction
-			);
+		if (data.after.size) {
+			list.unshift(gulpConcatAction(gulp, `${name}:wait`, map(data.after, pickJob)));
+		}
+		if (data.preRun.size) {
+			list.unshift(gulpConcatAction(gulp, `${name}:pre`, map(data.preRun, requireJob)));
 		}
 		if (data.run.size) {
-			list.push(
-				nameFunction(
-					`${name}:run`,
-					gulpConcatAction(gulp, map(data.run, pickAction), data.serial) as Function
-				) as Gulp.TaskFunction
-			);
+			list.push(gulpConcatAction(gulp, `${name}:run`, map(data.run, pickAction), data.serial));
 		}
 		if (data.postRun.size) {
-			list.push(
-				nameFunction(
-					`${name}:post`,
-					gulpConcatAction(gulp, map(data.preRun, pickJob)) as Function
-				) as Gulp.TaskFunction
-			);
+			list.push(gulpConcatAction(gulp, `${name}:post`, map(data.preRun, requireJob)));
 		}
 
-		const fn = list.length === 0 ? function emptyJob() {} : list.length === 1 ? list[0] : gulp.series(...list);
-
+		let fn: ExecFunc;
+		if (list.length === 0) {
+			fn = function emptyJob() {};
+		} else if (list.length === 1) {
+			fn = list[0];
+			if (typeof fn === 'string') {
+				fn = gulp.task(fn);
+			}
+		} else {
+			fn = gulp.series(...list);
+		}
 		registerJob(name, fn);
 		const handler = functionWithName(fn, name, data.title);
-		task(gulp, name, handler);
-
+		if (!data.createByPlugin) {
+			task(gulp, name, handler);
+		} else {
+			fancyLog.debug(`private task: ${name} = ${functionName(fn as any)}`);
+		}
 		result[name] = handler;
 	}
 
 	return result;
 }
 
-function gulpConcatAction(gulp: typeof Gulp, fns: (string | ExecFunc)[], toSerial = false): Gulp.TaskFunction {
+function gulpConcatAction(
+	gulp: typeof Gulp,
+	title: string,
+	fns: (string | TaskFunction)[],
+	toSerial = false
+): TaskFunction {
+	let ret: TaskFunction;
 	if (fns.length === 1) {
-		const o = fns.pop();
+		const o = fns.pop()!;
 		if (typeof o === 'string') {
 			return gulp.task(o);
 		} else {
-			return o as ExecFunc;
+			return o;
 		}
 	} else if (toSerial) {
-		return gulp.series(...fns);
+		ret = gulp.series(...fns);
 	} else {
-		return gulp.parallel(...fns);
+		ret = gulp.parallel(...fns);
 	}
+	nameFunction(title, ret as any);
+
+	return ret;
 }
 
 function aliasName(name: string) {

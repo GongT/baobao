@@ -46,6 +46,7 @@ export interface IMyProjectJsonParsed {
 			preRun: Set<string>;
 			postRun: Set<string>;
 			run: Set<string>;
+			createByPlugin: boolean;
 		}
 	>;
 	scriptsJob: Map<string, string>;

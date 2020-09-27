@@ -103,9 +103,11 @@ export class BuildContext extends BuildContextBase {
 
 	loadPlugins() {
 		resetLoader();
+		this.pluginMode = true;
 		for (const { file, args } of this.plugins!) {
 			loadPlugin(file, args);
 		}
+		this.pluginMode = false;
 	}
 
 	public async writeBack() {

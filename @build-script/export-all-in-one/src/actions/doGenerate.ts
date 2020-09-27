@@ -24,17 +24,22 @@ export async function doGenerate() {
 	let file: SourceFile;
 
 	for (file of program.getSourceFiles()) {
-		// console.log('%s -> declare:%s, stdlib:%s, external:%s', file.fileName, file.isDeclarationFile, program.isSourceFileDefaultLibrary(file), program.isSourceFileFromExternalLibrary(file));
-		if (
-			/*file.isDeclarationFile || */ program.isSourceFileDefaultLibrary(file) ||
-			program.isSourceFileFromExternalLibrary(file)
-		) {
+		const isDefaultLibrary = program.isSourceFileDefaultLibrary(file);
+		const isFromExternalLibrary = program.isSourceFileFromExternalLibrary(file);
+		debug(
+			'%s -> declare:%s, stdlib:%s, external:%s',
+			file.fileName,
+			file.isDeclarationFile,
+			isDefaultLibrary,
+			isFromExternalLibrary
+		);
+		if (isDefaultLibrary || isFromExternalLibrary) {
 			continue;
 		}
 
 		await copyFilteredSourceCodeFile(file, checker);
 
-		if (isFileIgnored(file.fileName)) {
+		if (isFileIgnored(file.fileName) || file.isDeclarationFile) {
 			debug(`ignore file: "${file.fileName}"`);
 		} else {
 			debug(`parse file: "${file.fileName}"`);
