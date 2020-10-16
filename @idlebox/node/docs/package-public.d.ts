@@ -16,6 +16,9 @@ export declare class BlackHoleStream extends Writable {
     _write(_chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
 
+/** @throws */
+export declare function checkChildProcessResult(result: IChildProcessStatus): void;
+
 export declare function cleanupEnvironment(name: string, env?: NodeJS.ProcessEnv): void;
 
 export declare class CollectingStream extends Writable {
@@ -188,6 +191,19 @@ export declare class HexDumpLoggerStream extends Transform {
     private readonly prefix;
     constructor(logFn: LogFunction, prefix?: string);
     _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
+}
+
+declare interface IChildProcessStatus {
+    signal?: NodeJS.Signals | string | null;
+    status?: number | null;
+    error?: Error;
+    signalCode?: NodeJS.Signals | string | null;
+    exitCode?: number | null;
+    signalDescription?: string;
+    command?: string;
+    killed?: boolean;
+    failed?: boolean;
+    timedOut?: boolean;
 }
 
 export declare interface ICommand {

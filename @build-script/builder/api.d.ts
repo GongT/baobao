@@ -6,6 +6,7 @@ declare module '@build-script/builder' {
 		prefixAction(command: string, jobs: string): void;
 		addAction(command: string, jobs: ReadonlyArray<string>, dependency?: ReadonlyArray<string>): void;
 		postfixAction(command: string, jobs: string): void;
+		setRunMode(command: string, mod: 'serial' | 'parallel'): void;
 		readonly args: ReadonlyArray<string>;
 	}
 
@@ -17,7 +18,7 @@ declare module '@build-script/builder' {
 
 	export function setProjectDir(dir: string): void;
 
-	export function getProjectDir(): void;
+	export function getProjectDir(): string;
 
 	export function registerPlugin(name: string, args: string[]): Promise<void>;
 

@@ -32,6 +32,12 @@ export class BlackHoleStream extends Writable {
     _write(_chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
 
+// Warning: (ae-forgotten-export) The symbol "IChildProcessStatus" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "checkChildProcessResult" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function checkChildProcessResult(result: IChildProcessStatus): void;
+
 // Warning: (ae-missing-release-tag) "cleanupEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

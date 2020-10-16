@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.9.15",
+    "toolVersion": "7.10.4",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -704,7 +704,7 @@
             {
               "kind": "Method",
               "canonicalReference": "unipm!PackageManager#install:member(1)",
-              "docComment": "/**\n * install packages * add packages into package.json * if \"-d\" or \"--dev\" in `packages`, add them to devDependencies\n */\n",
+              "docComment": "/**\n * install packages * add packages into package.json * if \"-D\" or \"--dev\" in `packages`, add them to devDependencies\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1442,6 +1442,54 @@
             }
           ],
           "name": "resolveLatestVersionOnNpm"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "unipm!resortPackage:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function resortPackage(file: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 5
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "file",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "resortPackage"
         }
       ]
     }

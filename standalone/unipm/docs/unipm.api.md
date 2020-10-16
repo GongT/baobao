@@ -108,6 +108,11 @@ export enum PackageManagerType {
 // @public (undocumented)
 export function resolveLatestVersionOnNpm(packageName: string): Promise<string>;
 
+// Warning: (ae-missing-release-tag) "resortPackage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function resortPackage(file: string): Promise<void>;
+
 
 // (No @packageDocumentation comment for this package)
 

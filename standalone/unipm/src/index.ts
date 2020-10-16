@@ -1,9 +1,21 @@
 import { getPackageManager } from './common/getPackageManager';
 
+function getArgs() {
+	const args = process.argv.slice(2);
+
+	const cmdAt = args.findIndex((e) => !e.startsWith('-'));
+
+	if (cmdAt === -1) {
+		return { cmd: '', args: [] };
+	}
+	const cmd = args.splice(cmdAt, 1)[0];
+	return { cmd, args };
+}
+
 /** @internal */
 export default async function () {
-	const cmd = (process.argv[2] || '').toLowerCase();
-	const args = process.argv.slice(3);
+	const { cmd, args } = getArgs();
+
 	// console.error('finding package manager');
 	const pm = await getPackageManager();
 	// console.error('detected package manager: %s', pm.friendlyName);

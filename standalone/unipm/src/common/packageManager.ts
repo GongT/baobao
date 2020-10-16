@@ -1,6 +1,6 @@
-import execa from 'execa';
 import { stat, Stats } from 'fs';
-import { commandInPath } from '@idlebox/node';
+import { checkChildProcessResult, commandInPath } from '@idlebox/node';
+import execa from 'execa';
 
 export interface PackageManagerConstructor {
 	new (cwd: string): PackageManager;
@@ -54,11 +54,39 @@ export abstract class PackageManager {
 		return this._invoke(this.cliName, aa);
 	}
 
+	/** spawn package manager binary, mute output */
+	protected async _invokeErrorLater(
+		cmd: string,
+		args: string[],
+		spawnOptions: Omit<execa.Options, 'stdio' | 'encoding'> = {}
+	): Promise<void> {
+		const p = this.__invoke(cmd, args, {
+			...spawnOptions,
+			stdio: ['ignore', 'pipe', 'pipe'],
+			all: true,
+			encoding: 'utf8',
+			reject: false,
+		});
+		return p.then((ret) => {
+			try {
+				checkChildProcessResult(ret);
+			} catch (e) {
+				console.error(ret.all);
+				throw e;
+			}
+		});
+	}
+
 	protected async _invoke(cmd: string, args: string[], spawnOptions: execa.Options = {}): Promise<void> {
+		await this.__invoke(cmd, args, spawnOptions);
+	}
+
+	protected __invoke(cmd: string, args: string[], spawnOptions: execa.Options) {
 		this.displayBeforeCommandRun && console.error('\x1B[38;5;14m%s %s\x1B[0m', cmd, args.join(' '));
-		await execa(cmd, args, {
+		return execa(cmd, args, {
 			stdio: 'inherit',
 			cwd: this.cwd,
+			reject: true,
 			...spawnOptions,
 		});
 	}
@@ -70,16 +98,18 @@ export abstract class PackageManager {
 
 	/** install packages
 	 *    * add packages into package.json
-	 *    * if "-d" or "--dev" in `packages`, add them to devDependencies
+	 *    * if "-D" or "--dev" in `packages`, add them to devDependencies
 	 **/
 	public install(...packages: string[]) {
-		const i1 = packages.indexOf('-d');
+		const i1 = packages.indexOf('-D');
 		if (i1 !== -1) {
-			packages.splice(i1, 1, this.installDevFlag);
+			packages.splice(i1, 1);
+			packages.unshift(this.installDevFlag);
 		}
 		const i2 = packages.indexOf('--dev');
 		if (i2 !== -1) {
-			packages.splice(i2, 1, this.installDevFlag);
+			packages.splice(i2, 1);
+			packages.unshift(this.installDevFlag);
 		}
 		return this.invokeCli(this.installCommand, ...packages);
 	}

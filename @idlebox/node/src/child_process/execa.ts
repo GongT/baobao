@@ -1,4 +1,5 @@
 import execa from 'execa';
+import { checkChildProcessResult } from './error';
 
 export interface Sync {
 	sync: true;
@@ -32,10 +33,10 @@ export function spawnWithoutOutput({ exec, cwd, sync }: ICommand & Async): void 
 	};
 
 	if (sync) {
-		handleError(execa.sync(cmd, args, opts));
+		checkChildProcessResult(execa.sync(cmd, args, opts));
 	} else {
 		return execa(cmd, args, opts)
-			.then(handleError)
+			.then(checkChildProcessResult)
 			.then(() => {
 				return;
 			});

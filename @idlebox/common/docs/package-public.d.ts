@@ -377,6 +377,8 @@ export declare enum SingletonType {
 
 export declare function sleep(ms: number): Promise<void>;
 
+export declare function sortByString(a: string, b: string): number;
+
 export declare function throwNull<T>(val: T): NonNullable<T>;
 
 export declare function timeout(ms: number, error?: string): Promise<never>;

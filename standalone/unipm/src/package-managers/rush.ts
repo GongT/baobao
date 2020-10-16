@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import { findUpUntil } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
 import { parse } from 'json5';
+import { resortPackage } from '../common/packageJson';
 import { PackageManager, PackageManagerType } from '../common/packageManager';
 
 const readFile = promisify(readFileAsync);
@@ -58,13 +59,19 @@ export class Rush extends PackageManager {
 	async install(..._packages: string[]) {
 		const packages = _packages.filter((item) => !item.startsWith('-'));
 		const flags = ['--caret', '--skip-update', '--make-consistent'];
-		if (_packages.includes('-d') || _packages.includes('--dev')) {
+		if (_packages.includes('-D') || _packages.includes('--dev')) {
 			flags.push('--dev');
 		}
 
 		for (const pkg of packages) {
-			await super.install(...flags, '-p', pkg);
+			await super._invokeErrorLater(this.cliName, [this.installCommand, ...flags, '-p', pkg]);
 		}
+
+		const pkgJson = await findUpUntil(this.cwd, 'package.json');
+		if (pkgJson) {
+			await resortPackage(pkgJson);
+		}
+
 		await super._invoke(this.cliName, ['update']);
 	}
 

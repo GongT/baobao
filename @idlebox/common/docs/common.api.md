@@ -767,6 +767,11 @@ export enum SingletonType {
 // @public (undocumented)
 export function sleep(ms: number): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "sortByString" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function sortByString(a: string, b: string): number;
+
 // Warning: (ae-missing-release-tag) "throwNull" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

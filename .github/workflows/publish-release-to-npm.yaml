@@ -1,11 +1,22 @@
 name: publish to npm
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - release
 env:
   NODE_ENV: production
   DISABLE_SYSTEMD: yes
   NEVER_UNSHARE: yes
 jobs:
+  cancel:
+    name: Cancel Previous Runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: cancel running workflows
+        uses: GongT/cancel-previous-workflows@5cdc17f4f91a30861d1f7be16f34719371d804d7
+        env:
+          DELETE: 'yes'
+          GITHUB_TOKEN: ${{ github.token }}
   build:
     runs-on: ubuntu-latest
     name: 'Publish with rush'
@@ -13,14 +24,14 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
         with:
-          submodules: 'recursive'
-          clean: false
-          fetch-depth: 0
-      - name: Cache multiple paths
+          clean: true
+      - name: Cache pnpm store
         uses: actions/cache@v2
         with:
           path: ~/.pnpm-store
-          key: pnpm
+          key: pnpm-gongt-baobao
+          restore-keys: |
+            pnpm
       - name: 'Install'
         run: node common/scripts/install-run-rush.js install
       - name: 'Build'

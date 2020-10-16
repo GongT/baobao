@@ -39,7 +39,7 @@ export declare abstract class PackageManager {
     run(script: string, ...args: string[]): Promise<void>;
     /** install packages
      *    * add packages into package.json
-     *    * if "-d" or "--dev" in `packages`, add them to devDependencies
+     *    * if "-D" or "--dev" in `packages`, add them to devDependencies
      **/
     install(...packages: string[]): Promise<void>;
     uninstall(...packages: string[]): Promise<void>;
@@ -65,5 +65,7 @@ export declare enum PackageManagerType {
 }
 
 export declare function resolveLatestVersionOnNpm(packageName: string): Promise<string>;
+
+export declare function resortPackage(file: string): Promise<void>;
 
 export { }

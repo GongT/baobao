@@ -20,6 +20,7 @@ package-deps.json
 ### no need in mono repo
 **/.editorconfig
 **/.git*
+!**/.github/
 **/.prettier*
 **/pnpm-lock.yaml
 **/yarn.lock

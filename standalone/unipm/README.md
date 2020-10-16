@@ -2,7 +2,7 @@
 
 wrapper for several different package manager
 
-> unipm install a b c d
+> unipm install (-D|--dev) a b c d
 
 | invoke command | command when install | condition                  |
 | -------------- | -------------------- | -------------------------- |
@@ -14,7 +14,7 @@ wrapper for several different package manager
 Supported command:
 
 -   `unipm install/i/add/a <...package-name>`
--   `unipm install/i/add/a --dev/-d <...package-name>`
+-   `unipm install/i/add/a --dev/-D <...package-name>`
 -   `unipm uninstall/un/remove/rm/erase <...package-name>`
 -   `unipm run/r package-script`
 -   `unipm init`

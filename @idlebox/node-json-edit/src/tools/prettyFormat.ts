@@ -25,6 +25,7 @@ const defaultFormat: IInternalFormat = {
 	bracketSpacing: true,
 	endOfLine: 'lf',
 	lastNewLine: false,
+	embeddedInHtml: false,
 };
 
 export class PrettyFormat {

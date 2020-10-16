@@ -1,12 +1,12 @@
+import { ChildProcess } from 'child_process';
 import { resolve } from 'path';
-import { PathEnvironment, streamPromise } from '@idlebox/node';
+import { checkChildProcessResult, PathEnvironment, streamPromise } from '@idlebox/node';
+import execa from 'execa';
+import { error } from 'fancy-log';
+import split2 from 'split2';
 import { ExecFunc } from '../global';
 import { fancyLog } from './fancyLog';
 import { functionWithName } from './func';
-import split2 from 'split2';
-import execa from 'execa';
-import { ChildProcess } from 'child_process';
-import { error } from 'fancy-log';
 
 const managedProcesses = new Set<ChildProcess>();
 
@@ -129,21 +129,25 @@ export function createJobFunc(jobName: string, path: string, cmds: string | stri
 		ps.stdout = null;
 		ps.stderr = null;
 
-		Promise.all([ps, streamPromise(s1), streamPromise(s2)]).then(
-			() => {
-				fancyLog.info('%s%s%s: success.', green, jobName, reset);
-				cb();
-			},
-			(e: Error) => {
-				if (isGoingQuit) {
+		Promise.all([ps, streamPromise(s1), streamPromise(s2)])
+			.then(() => {
+				checkChildProcessResult(ps);
+			})
+			.then(
+				() => {
+					fancyLog.info('%s%s%s: success.', green, jobName, reset);
 					cb();
-				} else {
-					fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
-					fancyLog.error('  > cwd: %s', path);
-					cb(new Error(e?.message?.replace?.(/:/g, ':\n  ')));
+				},
+				(e: Error) => {
+					if (isGoingQuit) {
+						cb();
+					} else {
+						fancyLog.error('%s%s%s: failed: %s.', red, jobName, reset, e.message);
+						fancyLog.error('  > cwd: %s', path);
+						cb(new Error(e?.message?.replace?.(/:/g, ':\n  ')));
+					}
 				}
-			}
-		);
+			);
 	};
 
 	return functionWithName(callback, jobName, `${command} ${args.join(' ')}`);
