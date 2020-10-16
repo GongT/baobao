@@ -10,7 +10,7 @@ function _(node: string | ValidImportOrExportDeclaration): string {
 	return typeof node === 'string' ? node : node.moduleSpecifier.text;
 }
 
-export function isImportNative(node: string | ValidImportOrExportDeclaration) {
+export function isImportNodeBuiltins(node: string | ValidImportOrExportDeclaration) {
 	const importPath = _(node);
 
 	if (builtinModules) {

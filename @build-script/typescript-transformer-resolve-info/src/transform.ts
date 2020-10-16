@@ -1,34 +1,21 @@
-import 'source-map-support/register';
+import * as ts from 'typescript';
 import { dirname } from 'path';
 import {
+	collectImportInfo,
 	createDependencies,
-	createDiagnosticMissingImport,
 	createProgramPlugin,
+	getAllImports,
 	getDebug,
 	getImportedName,
 	IExtraOpts,
-	isImportExport,
 	isImportFromNodeModules,
-	isImportNative,
-	resolveProjectFile,
+	isImportNodeBuiltins,
 	resolveTypescriptModule,
-	splitPackageName,
-	missing,
 } from '@build-script/typescript-transformer-common';
 import { writeFileIfChangeSync } from '@idlebox/node';
-import { error } from 'fancy-log';
 import { mkdirpSync } from 'fs-extra';
-import {
-	EmitHint,
-	Node,
-	Program,
-	SourceFile,
-	SyntaxKind,
-	TransformationContext,
-	visitEachChild,
-	VisitResult,
-} from 'typescript';
 import { IImportInfoFile } from './info';
+import { resolveProjectFile } from '../../typescript-transformer-common/src/resolvers/resolve.tsprogram';
 
 export interface IOptions {
 	verbose?: boolean;
@@ -36,13 +23,13 @@ export interface IOptions {
 }
 
 /** @external */
-export default createProgramPlugin(function plugin(
-	program: Program,
+export const pluginFunction = createProgramPlugin(function plugin(
+	program: ts.Program,
 	{ verbose }: IOptions = {},
 	{ rootDir, outDir, packageJsonPath }: IExtraOpts
 ) {
 	const debug = getDebug(verbose || false);
-	debug('new program... %s files', program.getSourceFiles().length);
+	debug('new ts.Program... %s files', program.getSourceFiles().length);
 
 	const wrapImportFileName = function (f: string) {
 		return f.replace(rootDir, outDir).replace(/\.tsx?$/, '.js') + '.importinfo';
@@ -52,18 +39,54 @@ export default createProgramPlugin(function plugin(
 	const dependencies = createDependencies(packageJsonPath);
 	debug('    dependencies count: %s', Object.keys(dependencies).length);
 
-	return function transformer(transformationContext: TransformationContext) {
-		transformationContext.enableEmitNotification(SyntaxKind.SourceFile);
+	const typeChecker = program.getTypeChecker();
 
-		return (sourceFile: SourceFile) => {
+	return function transformer(transformationContext: ts.TransformationContext) {
+		transformationContext.enableEmitNotification(ts.SyntaxKind.SourceFile);
+
+		return (sourceFile: ts.SourceFile) => {
 			const { fileName } = sourceFile;
 			const importInfoFile: IImportInfoFile = { externals: [], internals: [], errors: [] };
 
 			debug('[trans] visit \x1B[2m%s\x1B[0m', fileName);
-			const result = visitEachChild(sourceFile, visitNode, transformationContext);
+
+			const imports = getAllImports(sourceFile);
+			for (const importStat of imports) {
+				const importId = getImportedName(importStat);
+				if (isImportNodeBuiltins(importId)) {
+					continue;
+				}
+
+				if (isImportFromNodeModules(importStat)) {
+					const info = resolveTypescriptModule(importStat, packageJsonPath);
+					if (info.type === 'missing') {
+						importInfoFile.errors!.push(info);
+					} else {
+						const identifiers = collectImportInfo(sourceFile, [importStat], typeChecker);
+						importInfoFile.externals.push({
+							...info,
+							identifiers: identifiers.values,
+							types: identifiers.types,
+						});
+					}
+				} else {
+					const info = resolveProjectFile(importStat, program);
+					if (info.type === 'missing') {
+						importInfoFile.errors!.push(info);
+					} else {
+						const identifiers = collectImportInfo(sourceFile, [importStat], typeChecker);
+						importInfoFile.internals.push({
+							...info,
+							identifiers: identifiers.values,
+							types: identifiers.types,
+						});
+					}
+				}
+			}
+
 			debug('[trans] visit complete');
 
-			transformationContext.onEmitNode(EmitHint.SourceFile, sourceFile, () => {
+			transformationContext.onEmitNode(ts.EmitHint.SourceFile, sourceFile, () => {
 				const distFile = wrapImportFileName(fileName);
 				// console.log('---------------', distFile, importInfoFile);
 				mkdirpSync(dirname(distFile));
@@ -73,20 +96,29 @@ export default createProgramPlugin(function plugin(
 				writeFileIfChangeSync(distFile, JSON.stringify(importInfoFile, null, 4));
 			});
 
-			return result;
+			return sourceFile;
+		};
+	};
+});
+
+/*
 
 			function visitNode(node: Node): VisitResult<Node> {
 				try {
-					if (isImportExport(node)) {
+					if (isImport(node)) {
 						const importId = getImportedName(node);
-						if (isImportNative(importId)) {
+						if (isImportNodeBuiltins(importId)) {
 							return;
 						}
+						const identifiers = collectImportInfo(node, typeChecker);
 						debug(' * %s', node.getText().split('\n').join(' '));
 						if (isImportFromNodeModules(importId)) {
 							const { packageName } = splitPackageName(importId);
-							if (!dependencies[packageName]) {
-								importInfoFile.errors!.push(missing(importId));
+							if (identifiers.values.length > 0 && !dependencies[packageName]) {
+								importInfoFile.errors!.push({
+									...missing(importId),
+									identifiers: identifiers.values,
+								});
 								error(createDiagnosticMissingImport(node));
 							} else {
 								const info = resolveTypescriptModule(node, packageJsonPath);
@@ -94,16 +126,22 @@ export default createProgramPlugin(function plugin(
 									error(createDiagnosticMissingImport(node));
 									importInfoFile.errors!.push(info);
 								} else {
-									importInfoFile.externals.push(info);
+									importInfoFile.externals.push({
+										...info,
+										identifiers: identifiers.values,
+									});
 								}
 							}
 						} else {
-							const info = resolveProjectFile(node, program);
+							const info = resolveProjectFile(node, ts.Program);
 							if (info.type === 'missing') {
 								error(createDiagnosticMissingImport(node));
 								importInfoFile.errors!.push(info);
 							} else {
-								importInfoFile.internals.push(info);
+								importInfoFile.internals.push({
+									...info,
+									identifiers: identifiers.values,
+								});
 							}
 						}
 					}
@@ -113,6 +151,4 @@ export default createProgramPlugin(function plugin(
 					throw e;
 				}
 			}
-		};
-	};
-});
+			*/

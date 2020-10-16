@@ -19,3 +19,6 @@ Gulpfile.*
 ### docs
 docs/*
 !docs/*.d.ts
+
+### tests
+lib/tests

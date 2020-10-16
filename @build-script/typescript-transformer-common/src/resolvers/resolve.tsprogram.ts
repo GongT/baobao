@@ -1,14 +1,13 @@
 import { extname, resolve } from 'path';
 import { pathExistsSync } from 'fs-extra';
 import { Program } from 'typescript';
-import { collectImportNames } from '../importIds';
 import { ValidImportOrExportDeclaration } from '../types';
 import { IImportInfoMissing, IImportInfoTypeSource } from './types';
 
 export function resolveProjectFile(
 	node: ValidImportOrExportDeclaration,
 	program?: Program
-): IImportInfoTypeSource | IImportInfoMissing {
+): Omit<IImportInfoTypeSource, 'identifiers'> | IImportInfoMissing {
 	const importPath = node.moduleSpecifier.text;
 	const currentFile = node.getSourceFile().fileName;
 	const wantFile = resolve(currentFile, '..', importPath);
@@ -24,7 +23,6 @@ export function resolveProjectFile(
 		if (pathExistsSync(wantFile + ext)) {
 			return {
 				type: 'typescript',
-				identifiers: collectImportNames(node),
 				nodeResolve: importPath,
 				fsPath: wantFile + ext,
 				specifier: importPath,

@@ -1,9 +1,12 @@
 import { extname } from 'path';
 import { ExportDeclaration, ImportDeclaration, StringLiteral } from 'typescript';
 
-export type ValidImportOrExportDeclaration = (ImportDeclaration | ExportDeclaration) & {
+type valid = {
 	moduleSpecifier: StringLiteral;
 };
+export type ValidImportDeclaration = ImportDeclaration & valid;
+export type ValidExportDeclaration = ExportDeclaration & valid;
+export type ValidImportOrExportDeclaration = ValidImportDeclaration | ValidExportDeclaration;
 
 export function extensionIsKindOfScriptFile(f: string) {
 	const e = extname(f).toLowerCase();

@@ -1,0 +1,19 @@
+{
+	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		"module": "commonjs",
+		"outDir": "../lib/tests",
+		"rootDir": ".",
+		"types": ["node"],
+		"incremental": false,
+		"composite": false,
+		"declaration": false,
+		"declarationMap": false,
+		"plugins": [
+			{
+				"transform": "../src/register.ts",
+				"verbose": 0
+			}
+		]
+	}
+}

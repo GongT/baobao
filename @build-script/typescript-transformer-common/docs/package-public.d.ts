@@ -1,11 +1,18 @@
+/// <reference types="node" />
 import { ExportDeclaration } from 'typescript';
+import { Identifier } from 'typescript';
 import { ImportDeclaration } from 'typescript';
+import { InspectOptions } from 'util';
 import { Node } from 'typescript';
 import { Program } from 'typescript';
 import { SourceFile } from 'typescript';
 import { StringLiteral } from 'typescript';
 import { TransformationContext } from 'typescript';
+import * as ts from 'typescript';
 
+export declare function collectImportInfo(sourceFile: ts.SourceFile, nodes: ValidImportDeclaration[], typeChecker: ts.TypeChecker): IImportNames;
+
+/** @deprecated */
 export declare function collectImportNames(node: ValidImportOrExportDeclaration): string[];
 
 /**
@@ -18,9 +25,15 @@ export declare function createDiagnosticMissingImport(node: ValidImportOrExportD
 
 export declare function createProgramPlugin(plugin: IPluginFunction): IPluginFunction;
 
+export declare function dumpFlags(flags: number, def: any): void;
+
+export declare function dumpNode(node: Node, options?: InspectOptions): void;
+
 export declare function extensionIsKindOfScriptFile(f: string): boolean;
 
 export declare function findPackageFileExtension(pkg: PackageJson, wantModule: boolean): string;
+
+export declare function getAllImports(sourceFile: ts.SourceFile): ValidImportDeclaration[];
 
 export declare function getDebug(verbose: boolean): IDebug;
 
@@ -35,6 +48,8 @@ export declare interface IDebug {
 }
 
 export declare type IDependencyMap = Record<string, any>;
+
+export declare function idToString(id: Identifier): string;
 
 declare type IExportDefine = IExportDefineObj | string;
 
@@ -57,6 +72,8 @@ export declare interface IExtraOpts {
 export declare type IImportInfo = IImportInfoModule | IImportInfoCommonjs;
 
 declare interface IImportInfoBase {
+    types?: string[];
+    identifiers?: string[];
     specifier: string;
 }
 
@@ -82,6 +99,11 @@ export declare interface IImportInfoTypeSource extends IImportInfoResolveSuccess
     type: 'typescript';
 }
 
+export declare interface IImportNames {
+    types: string[];
+    values: string[];
+}
+
 export declare interface IImportTargetInfo {
     packageName: string;
     filePath: string;
@@ -91,17 +113,23 @@ export declare interface IPluginFunction {
     (program: Program, pluginOptions: any, extraOptions: IExtraOpts): IContextFunction;
 }
 
-export declare function isImportExport(node: Node): node is ValidImportOrExportDeclaration;
+export declare function isExport(node: ts.Node): node is ValidExportDeclaration;
+
+export declare function isImport(node: ts.Node): node is ValidImportDeclaration;
+
+export declare function isImportExport(node: ts.Node): node is ValidImportOrExportDeclaration;
 
 export declare function isImportFromNodeModules(node: string | ValidImportOrExportDeclaration): boolean;
 
-export declare function isImportNative(node: string | ValidImportOrExportDeclaration): boolean;
+export declare function isImportNodeBuiltins(node: string | ValidImportOrExportDeclaration): boolean;
 
 export declare interface ISourcefileFunction {
     (sourceFile: SourceFile): SourceFile;
 }
 
 export declare function missing(specifier: string): IImportInfoMissing;
+
+export declare function nameToString(name: Identifier | StringLiteral): string;
 
 /**
  * Create something like "xxx/yyy/zzz.ts:111:222"
@@ -139,13 +167,13 @@ export declare function resolveModule(wantType: 'module' | 'commonjs', packageJs
  */
 export declare function resolveModuleNative(packageJsonFilePath: string, file?: string): string | null;
 
-export declare function resolveProjectFile(node: ValidImportOrExportDeclaration, program?: Program): IImportInfoTypeSource | IImportInfoMissing;
+export declare function resolveProjectFile(node: ValidImportOrExportDeclaration, program?: Program): Omit<IImportInfoTypeSource, 'identifiers'> | IImportInfoMissing;
 
 /**
  * resolve import info from node_modules
  * @param packageJsonPath CURRENT project's package.json
  */
-export declare function resolveTypescriptModule(node: ValidImportOrExportDeclaration, packageJsonPath: string): IImportInfo | IImportInfoMissing;
+export declare function resolveTypescriptModule(node: ValidImportOrExportDeclaration, packageJsonPath: string): Omit<IImportInfo, 'identifiers'> | IImportInfoMissing;
 
 /**
  * split "@some/package/file.js" into "@some/package" and "file.js"
@@ -164,8 +192,14 @@ export declare function splitPackageName(path: string): {
  */
 export declare function testProjectFile(debug: IDebug, source: string, node: ValidImportOrExportDeclaration, program?: Program): boolean;
 
-export declare type ValidImportOrExportDeclaration = (ImportDeclaration | ExportDeclaration) & {
+declare type valid = {
     moduleSpecifier: StringLiteral;
 };
+
+export declare type ValidExportDeclaration = ExportDeclaration & valid;
+
+export declare type ValidImportDeclaration = ImportDeclaration & valid;
+
+export declare type ValidImportOrExportDeclaration = ValidImportDeclaration | ValidExportDeclaration;
 
 export { }

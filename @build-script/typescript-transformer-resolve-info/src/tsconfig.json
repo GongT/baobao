@@ -10,11 +10,10 @@
 		"incremental": false,
 		"plugins": [
 			{
-				"transform": "./transform.ts"
-				// "verbose": 1
+				"transform": "@build-script/typescript-transformer-dual-package"
 			},
 			{
-				"transform": "@build-script/typescript-transformer-dual-package"
+				"transform": "./register.ts"
 			}
 		]
 	},

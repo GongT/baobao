@@ -19,6 +19,8 @@ export interface IImportInfoMissing extends IImportInfoBase {
 }
 
 interface IImportInfoBase {
+	types?: string[];
+	identifiers?: string[];
 	specifier: string;
 }
 
