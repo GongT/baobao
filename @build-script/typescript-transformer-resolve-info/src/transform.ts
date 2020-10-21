@@ -11,11 +11,11 @@ import {
 	isImportFromNodeModules,
 	isImportNodeBuiltins,
 	resolveTypescriptModule,
+	resolveProjectFile,
 } from '@build-script/typescript-transformer-common';
 import { writeFileIfChangeSync } from '@idlebox/node';
 import { mkdirpSync } from 'fs-extra';
 import { IImportInfoFile } from './info';
-import { resolveProjectFile } from '../../typescript-transformer-common/src/resolvers/resolve.tsprogram';
 
 export interface IOptions {
 	verbose?: boolean;
@@ -100,55 +100,3 @@ export const pluginFunction = createProgramPlugin(function plugin(
 		};
 	};
 });
-
-/*
-
-			function visitNode(node: Node): VisitResult<Node> {
-				try {
-					if (isImport(node)) {
-						const importId = getImportedName(node);
-						if (isImportNodeBuiltins(importId)) {
-							return;
-						}
-						const identifiers = collectImportInfo(node, typeChecker);
-						debug(' * %s', node.getText().split('\n').join(' '));
-						if (isImportFromNodeModules(importId)) {
-							const { packageName } = splitPackageName(importId);
-							if (identifiers.values.length > 0 && !dependencies[packageName]) {
-								importInfoFile.errors!.push({
-									...missing(importId),
-									identifiers: identifiers.values,
-								});
-								error(createDiagnosticMissingImport(node));
-							} else {
-								const info = resolveTypescriptModule(node, packageJsonPath);
-								if (info.type === 'missing') {
-									error(createDiagnosticMissingImport(node));
-									importInfoFile.errors!.push(info);
-								} else {
-									importInfoFile.externals.push({
-										...info,
-										identifiers: identifiers.values,
-									});
-								}
-							}
-						} else {
-							const info = resolveProjectFile(node, ts.Program);
-							if (info.type === 'missing') {
-								error(createDiagnosticMissingImport(node));
-								importInfoFile.errors!.push(info);
-							} else {
-								importInfoFile.internals.push({
-									...info,
-									identifiers: identifiers.values,
-								});
-							}
-						}
-					}
-					return node;
-				} catch (e) {
-					e.message += '\n  current node: [' + node.getText().split('\n', 1)[0] + '] infile ' + fileName;
-					throw e;
-				}
-			}
-			*/

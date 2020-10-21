@@ -19,7 +19,7 @@ async function main() {
 
 	for (const item of projects) {
 		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s', item.packageName);
-		const logFile = rushProject.absolute(item.projectFolder, 'update-version.log');
+		const logFile = rushProject.tempFile('logs/update-version/' + item.packageName.replace('/', '__') + '.log');
 		const { full, result } = await execPromise({
 			argv: [
 				checkBin,

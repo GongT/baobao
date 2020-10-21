@@ -53,6 +53,14 @@
 			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update"
 		},
 		{
+			"commandKind": "global",
+			"name": "build-autoinstaller",
+			"summary": "运行autoinstaller的“build”脚本",
+			"allowWarningsInSuccessfulBuild": true,
+			"shellCommand": "node common/scripts/tools/build-autoinstallers.js",
+			"safeForSimultaneousRushProcesses": true
+		},
+		{
 			"commandKind": "bulk",
 			"name": "clean",
 			"summary": "在每个项目中运行“clean”命令",

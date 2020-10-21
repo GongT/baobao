@@ -10,7 +10,7 @@ import {
 	IExtraOpts,
 	isImportExport,
 	isImportFromNodeModules,
-	isImportNative,
+	isImportNodeBuiltins,
 	replaceImportExportSpecifier,
 	resolveModule,
 	resolveTypescriptModule,
@@ -46,22 +46,21 @@ export default createProgramPlugin(function plugin(
 			const fileName = node.getSourceFile().fileName;
 			if (isImportExport(node)) {
 				const importId = getImportedName(node);
-				if (isImportNative(importId)) {
+				if (isImportNodeBuiltins(importId)) {
 					return node;
 				}
 				debug(' * %s', node.getText(node.getSourceFile()).split('\n').join(' '));
 				if (isImportFromNodeModules(importId)) {
 					const { packageName } = splitPackageName(importId);
-					if (!dependencies[packageName]) {
+					const info = resolveTypescriptModule(node, packageJsonPath);
+					if (info.type === 'missing') {
 						error(createDiagnosticMissingImport(node));
-					} else {
-						const info = resolveTypescriptModule(node, packageJsonPath);
-						if (info.type === 'missing') {
+					} else if (info.specifier.length > 0) {
+						if (!dependencies[packageName]) {
 							error(createDiagnosticMissingImport(node));
-						} else if (info.identifiers.length > 0) {
-							debug('   -> replace to %s', info.nodeResolve);
-							return replaceImportExportSpecifier(node, info.nodeResolve);
 						}
+						debug('   -> replace to %s', info.nodeResolve);
+						return replaceImportExportSpecifier(node, info.nodeResolve);
 					}
 				} else {
 					debug('   -> not imported');

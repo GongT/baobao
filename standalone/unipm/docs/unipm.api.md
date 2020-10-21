@@ -39,6 +39,8 @@ export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[];
 export abstract class PackageManager {
     constructor(cwd: string);
     // (undocumented)
+    protected __invoke(cmd: string, args: string[], spawnOptions: execa.Options): execa.ExecaChildProcess<string>;
+    // (undocumented)
     protected abstract readonly cliName: string;
     // (undocumented)
     protected readonly cwd: string;
@@ -62,6 +64,7 @@ export abstract class PackageManager {
     // (undocumented)
     protected _invoke(cmd: string, args: string[], spawnOptions?: execa.Options): Promise<void>;
     invokeCli(cmd: string, ...args: string[]): Promise<void>;
+    protected _invokeErrorLater(cmd: string, args: string[], spawnOptions?: Omit<execa.Options, 'stdio' | 'encoding'>): Promise<void>;
     // (undocumented)
     protected abstract readonly packageName: string;
     run(script: string, ...args: string[]): Promise<void>;

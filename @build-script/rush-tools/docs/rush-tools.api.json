@@ -2236,6 +2236,46 @@
             },
             {
               "kind": "Property",
+              "canonicalReference": "@build-script/rush-tools!RushProject#autoinstallers:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly autoinstallers: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImmutableArray",
+                  "canonicalReference": "@build-script/rush-tools!ImmutableArray:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IProjectConfig",
+                  "canonicalReference": "@build-script/rush-tools!IProjectConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "autoinstallers",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "@build-script/rush-tools!RushProject#config:member",
               "docComment": "",
               "excerptTokens": [

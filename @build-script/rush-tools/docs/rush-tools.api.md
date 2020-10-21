@@ -217,6 +217,8 @@ export class RushProject {
     // (undocumented)
     absolute(project: Immutable<IProjectConfig> | string, ...segments: string[]): string;
     // (undocumented)
+    readonly autoinstallers: ImmutableArray<IProjectConfig>;
+    // (undocumented)
     readonly config: Immutable<IRushConfig>;
     // (undocumented)
     readonly configFile: string;

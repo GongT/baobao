@@ -1,6 +1,7 @@
+import { dirname } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
-import { commandInPath } from '@idlebox/node';
-import { readFile } from 'fs-extra';
+import { commandInPath, writeFileIfChange } from '@idlebox/node';
+import { mkdirp, pathExistsSync, readFile } from 'fs-extra';
 import { execPromise } from '../include/execPromise';
 
 async function main() {
@@ -17,17 +18,30 @@ async function main() {
 		current++;
 		console.error('📦 \x1B[38;5;14mPublishing package (%s of %s):\x1B[0m %s ...', current, count, item.packageName);
 
+		let pkgJson: any;
 		try {
-			if (require(rushProject.absolute(item, 'package.json')).private) {
-				console.error('    🛑 private package, skip!');
-				return;
-			}
+			pkgJson = require(rushProject.absolute(item, 'package.json'));
 		} catch (e) {
 			throw new Error('package.json is invalid');
 		}
+
+		if (pkgJson.private) {
+			console.error('    🛑 private package, skip!');
+			return;
+		}
+
+		const stateFile = rushProject.tempFile(
+			'proj_status/last-publish.' + item.packageName.replace('/', '__') + '.version.txt'
+		);
+
+		const lastPubVersion = pathExistsSync(stateFile) ? await readFile(stateFile, 'utf-8') : '-';
+		if (lastPubVersion === pkgJson.version) {
+			console.error('    🤔 no change.');
+			return;
+		}
 		// console.error('    check...');
 
-		const logFile = rushProject.tempFile('yarn-publish.log');
+		const logFile = rushProject.tempFile('logs/yarn-publish/' + item.packageName.replace('/', '__') + '.log');
 		// console.error('          log -> %s', logFile);
 		await execPromise({
 			cwd: rushProject.absolute(item),
@@ -50,6 +64,9 @@ async function main() {
 		} else {
 			console.error('    🤔 no change.');
 		}
+
+		await mkdirp(dirname(stateFile));
+		await writeFileIfChange(stateFile, pkgJson.version);
 	});
 }
 

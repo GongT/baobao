@@ -105,8 +105,10 @@ export declare class RushProject {
     readonly configFile: string;
     readonly projectRoot: string;
     readonly config: Immutable<IRushConfig>;
+    readonly autoinstallers: ImmutableArray<IProjectConfig>;
     private _preferredVersions;
     constructor(path?: string);
+    private listAutoInstallers;
     get tempRoot(): string;
     tempFile(name?: string): string;
     get preferredVersions(): {

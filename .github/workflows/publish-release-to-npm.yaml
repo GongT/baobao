@@ -5,7 +5,6 @@ on:
       - release
 env:
   NODE_ENV: production
-  DISABLE_SYSTEMD: yes
   NEVER_UNSHARE: yes
 jobs:
   cancel:

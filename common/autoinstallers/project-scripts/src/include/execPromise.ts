@@ -70,12 +70,15 @@ export function execPromise({
 				console.error(`${l}\n\x1B[0m%s\n${l}`, full.getOutput());
 				reject(new Error('child process exit with code ' + code));
 			} else {
-				Promise.all([output.promise(), full.promise(), streamPromise(logger)]).then(([output, full]) => {
-					resolve({
-						result: output.trim(),
-						full: full,
-					});
-				}, reject);
+				Promise.all([output.promise(), full.promise(), logger ? streamPromise(logger) : null]).then(
+					([output, full]) => {
+						resolve({
+							result: output.trim(),
+							full: full,
+						});
+					},
+					reject
+				);
 			}
 		});
 	});

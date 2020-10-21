@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@build-script/export-all-in-one",
-	"version": "3.0.19",
+	"version": "3.0.20",
 	"type": "commonjs",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/baobao",
@@ -19,9 +19,9 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/ensure-symlink": "^1.0.12",
-		"@idlebox/node-json-edit": "^2.0.9",
-		"@microsoft/api-extractor": "^7.9.15",
+		"@idlebox/ensure-symlink": "^1.0.13",
+		"@idlebox/node-json-edit": "^2.0.10",
+		"@microsoft/api-extractor": "^7.10.4",
 		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
 		"source-map-support": "^0.5.19",
@@ -29,13 +29,13 @@
 		"ttypescript": "^1.5.12"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.0.22",
-		"@build-script/single-dog-asset": "^1.0.8",
-		"@types/fs-extra": "^9.0.1",
-		"@types/node": "^14.11.1",
+		"@build-script/builder": "^2.1.2",
+		"@build-script/single-dog-asset": "^1.0.9",
+		"@types/fs-extra": "^9.0.2",
+		"@types/node": "^14.14.0",
 		"gulp": "^4.0.2",
-		"typescript": "^4.0.2",
-		"tslib": "^2.0.1"
+		"typescript": "^4.0.3",
+		"tslib": "^2.0.3"
 	},
 	"peerDependencies": {
 		"typescript": "*"

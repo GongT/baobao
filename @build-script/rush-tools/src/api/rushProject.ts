@@ -1,8 +1,8 @@
 import { dirname, resolve } from 'path';
 import { loadJsonFileSync } from '@idlebox/node-json-edit';
-import { pathExistsSync, readJsonSync } from 'fs-extra';
+import { pathExistsSync, readdirSync, readJsonSync } from 'fs-extra';
 import { requireRushPathSync } from '../common/loadRushJson';
-import { Immutable } from './deepReadonly';
+import { Immutable, ImmutableArray } from './deepReadonly';
 import { IProjectConfig, IRushConfig } from './limitedJson';
 
 interface IProjectDependencyOptions {
@@ -14,6 +14,7 @@ export class RushProject {
 	public readonly configFile: string;
 	public readonly projectRoot: string;
 	public readonly config: Immutable<IRushConfig>;
+	public readonly autoinstallers: ImmutableArray<IProjectConfig>;
 	private declare _preferredVersions: { [id: string]: string };
 
 	constructor(path: string = process.cwd()) {
@@ -22,13 +23,46 @@ export class RushProject {
 		this.projectRoot = dirname(configFile);
 
 		this.config = loadJsonFileSync(configFile);
+		this.autoinstallers = [];
+		this.autoinstallers = this.listAutoInstallers();
+	}
+
+	private listAutoInstallers() {
+		const AI_DIR = 'common/autoinstallers';
+		const dir = resolve(this.projectRoot, AI_DIR);
+		const ret: IProjectConfig[] = [];
+		for (const item of readdirSync(dir)) {
+			const pkgJson = resolve(dir, item, 'package.json');
+			if (!pathExistsSync(pkgJson)) {
+				continue;
+			}
+
+			const cyclicDependencyProjects = [];
+			const pkg = readJsonSync(pkgJson);
+			const keys: string[] = [];
+			if (pkg.dependencies) keys.push(...Object.keys(pkg.dependencies));
+			if (pkg.devDependencies) keys.push(...Object.keys(pkg.devDependencies));
+			for (const dep of keys) {
+				if (this.getPackageByName(dep)) {
+					cyclicDependencyProjects.push(dep);
+				}
+			}
+
+			const rel = `${AI_DIR}/${item}`;
+			ret.push({
+				packageName: item,
+				projectFolder: rel,
+				cyclicDependencyProjects,
+			});
+		}
+		return ret;
 	}
 
 	public get tempRoot() {
 		return resolve(this.projectRoot, 'common/temp');
 	}
 	public tempFile(name: string = randomHash()) {
-		return resolve(this.projectRoot, 'common/temp/.random/', name);
+		return resolve(this.projectRoot, 'common/temp/.my-temp-folder/', name);
 	}
 
 	public get preferredVersions() {
@@ -41,7 +75,7 @@ export class RushProject {
 	}
 
 	public get projects(): Immutable<IProjectConfig[]> {
-		return this.config.projects || [];
+		return [...this.config.projects, ...this.autoinstallers];
 	}
 
 	public absolute(project: Immutable<IProjectConfig> | string, ...segments: string[]): string {
@@ -58,7 +92,7 @@ export class RushProject {
 	}
 
 	public getPackageByName(name: string): Immutable<IProjectConfig> | null {
-		return this.config.projects.find(({ packageName }) => name === packageName) || null;
+		return this.projects.find(({ packageName }) => name === packageName) || null;
 	}
 
 	public packageJsonPath(project: Immutable<IProjectConfig> | string): string | null {
@@ -98,7 +132,7 @@ export class RushProject {
 		}
 
 		const depNames: string[] = [];
-		for (const { packageName } of this.config.projects) {
+		for (const { packageName } of this.projects) {
 			if (!deps[packageName]) continue;
 
 			if (cyclicCheck && cyclicCheck.includes(packageName)) continue;

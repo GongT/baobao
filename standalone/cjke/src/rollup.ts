@@ -1,6 +1,6 @@
 import * as isFullwidthCodePointType from 'is-fullwidth-code-point';
 import * as ansiRegexConstructorType from 'ansi-regex';
-import * as emojiRegexConstructorType from 'emoji-regex';
+import emojiRegexConstructorType from 'emoji-regex';
 
 const isFullwidthCodePointAny = (isFullwidthCodePointType as any).default || isFullwidthCodePointType;
 /** @internal */
@@ -14,7 +14,7 @@ export function ansiRegexConstructor(): RegExp {
 	return ansiRegexConstructorAny();
 }
 
-const emojiRegexConstructorAny: any = emojiRegexConstructorType.default || emojiRegexConstructorType;
+const emojiRegexConstructorAny: any = (emojiRegexConstructorType as any).default || emojiRegexConstructorType;
 /** @internal */
 export function emojiRegexConstructor(): RegExp {
 	return emojiRegexConstructorAny();

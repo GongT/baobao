@@ -16,6 +16,7 @@
 		"@build-script/rush-tools": "^1.1.9",
 		"@idlebox/node": "^1.0.23",
 		"@idlebox/common": "^1.0.28",
+		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
 		"jsonc": "^2.0.0",
 		"split2": "^3.2.2",
@@ -26,8 +27,8 @@
 	},
 	"devDependencies": {
 		"@types/semver": "^7.3.4",
-		"@types/fs-extra": "^9.0.1",
-		"@types/node": "^14.11.2",
+		"@types/fs-extra": "^9.0.2",
+		"@types/node": "^14.14.0",
 		"@types/split2": "^2.1.6"
 	}
 }
