@@ -2,6 +2,9 @@ import { DisposedError } from './disposedError';
 import { Emitter, EventRegister } from '../event/event';
 import { IDisposable, IDisposableBaseInternal } from './lifecycle';
 
+/**
+ * Standalone disposable class, can use as instance or base class.
+ */
 export class Disposable implements IDisposable, IDisposableBaseInternal {
 	private readonly _disposables: IDisposable[] = [];
 
@@ -17,20 +20,13 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
 		return !!this._disposed;
 	}
 
-	protected assertNotDisposed() {
+	/**
+	 * @throws if already disposed
+	 */
+	public assertNotDisposed() {
 		if (this._disposed) {
 			throw new DisposedError(this, this._disposed);
 		}
-	}
-
-	protected _publicDispose() {
-		if (this._disposed) {
-			console.warn(new DisposedError(this, this._disposed).message);
-			return false;
-		}
-		this._onBeforeDispose.fireNoError();
-		this._disposed = new Error('disposed');
-		return true;
 	}
 
 	public _register<T extends IDisposable>(d: T): T {
@@ -39,16 +35,21 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
 		return d;
 	}
 
-	public dispose() {
-		if (this._publicDispose()) {
-			this._disposables.push(this._onBeforeDispose);
-			this._disposables.push(this._onDisposeError);
-			for (const item of this._disposables.values()) {
-				try {
-					item.dispose();
-				} catch (e) {
-					this._onDisposeError.fire(e);
-				}
+	public dispose(): void {
+		if (this._disposed) {
+			console.warn(new DisposedError(this, this._disposed).message);
+			return;
+		}
+		this._onBeforeDispose.fireNoError();
+		this._disposed = new Error('disposed');
+
+		this._disposables.push(this._onBeforeDispose);
+		this._disposables.push(this._onDisposeError);
+		for (const item of this._disposables.values()) {
+			try {
+				item.dispose();
+			} catch (e) {
+				this._onDisposeError.fire(e);
 			}
 		}
 	}

@@ -1,6 +1,9 @@
 import { pad2 } from '../string/pad2';
 
 export namespace humanDate {
+	/**
+	 * Format: HH:mm:ss
+	 */
 	export function time(date: Date | string | number) {
 		if (typeof date === 'string') {
 			date = parseInt(date);
@@ -9,6 +12,11 @@ export namespace humanDate {
 		return `${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
 	}
 
+	/**
+	 * Format: YYYY-MM-dd
+	 *
+	 * separator can change
+	 */
 	export function date(date: Date | string | number, sp = '-') {
 		if (typeof date === 'string') {
 			date = parseInt(date);
@@ -17,6 +25,9 @@ export namespace humanDate {
 		return `${date.getFullYear()}${sp}${pad2(date.getMonth() + 1)}${sp}${pad2(date.getDate())}`;
 	}
 
+	/**
+	 * Format: YYYY-MM-dd HH:mm:ss
+	 */
 	export function datetime(date: Date | string | number) {
 		if (typeof date === 'string') {
 			date = parseInt(date);
@@ -55,11 +66,24 @@ export namespace humanDate {
 		},
 	};
 
+	/**
+	 * set format for time delta
+	 */
 	export function setLocaleFormatter(formatter: Partial<IFormatters>) {
 		Object.assign(formatters, formatter);
 	}
 
+	/**
+	 * format time delta (in ms) to string, like: '1d'
+	 * when ms<=0, returns '0s'
+	 *
+	 * format can set by `setLocaleFormatter`
+	 * day is the largest unit
+	 */
 	export function deltaTiny(ms: number) {
+		if (ms <= 0) {
+			return '0s';
+		}
 		if (ms > 86400000) {
 			return formatters.d(Math.floor(ms / 86400000));
 		}
@@ -72,11 +96,18 @@ export namespace humanDate {
 		return formatters.s(Math.floor(ms / 1000));
 	}
 
+	/**
+	 * format time delta (in ms) to string, like: '1d10m42s'
+	 * when ms<=0, returns '0s'
+	 *
+	 * format can set by `setLocaleFormatter`
+	 * day is the largest unit
+	 */
 	export function delta(ms: number) {
 		let ret = '';
 		let val = Math.ceil(ms / 1000);
 
-		if (val === 0) {
+		if (val <= 0) {
 			return '0s';
 		}
 

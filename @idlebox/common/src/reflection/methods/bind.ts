@@ -1,3 +1,6 @@
+/**
+ * Auto bind `this` to class method
+ */
 export const bindThis: MethodDecorator = <T>(
 	_target: Object,
 	propertyKey: string | symbol,
@@ -8,10 +11,12 @@ export const bindThis: MethodDecorator = <T>(
 		return {
 			configurable: true,
 			writable: false,
-			get: function(this: any) {
+			get: function (this: any) {
 				delete this[propertyKey];
-				this[propertyKey] = oldFunc.bind(this);
-				return oldFunc.apply(this, arguments);
+
+				const fn = oldFunc.bind(this);
+				this[propertyKey] = fn;
+				return fn;
 			},
 		};
 	} else {

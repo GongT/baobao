@@ -1,6 +1,13 @@
 import { isArraySame } from '../array/arraySame';
 
+/**
+ * Should ensure a and b is none-null before call this
+ * @returns true when a and b has EXACTLY same keys and values
+ */
 export function isObjectSame(a: any, b: any) {
+	if (a === b) {
+		return true;
+	}
 	const aks = Object.keys(a);
 	if (!isArraySame(aks, Object.keys(b))) {
 		return false;
@@ -14,6 +21,10 @@ export function isObjectSame(a: any, b: any) {
 	return true;
 }
 
+/**
+ * Should ensure a and b is none-null before call this
+ * @returns true when a and b has EXACTLY same keys and values, recursive compare all object values
+ */
 export function isObjectSameRecursive(a: any, b: any) {
 	const aks = Object.keys(a);
 	if (!isArraySame(aks, Object.keys(b))) {

@@ -1,5 +1,10 @@
 export const memorizeValueSymbol = Symbol('@gongt/memorizeValue');
 
+/**
+ * Decorate class method/getter
+ *
+ * remember first return value of method/getter, directlly return memorized value when call it again
+ */
 export const memo: MethodDecorator = <T>(
 	_target: Object,
 	propertyKey: string | symbol,

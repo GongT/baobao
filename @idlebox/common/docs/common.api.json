@@ -18,7 +18,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!arrayDiff:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Compare two array, returns the difference from `before` to `after`\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -89,7 +89,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!arrayUnique:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Returns a new array without duplicate values\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -145,7 +145,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!arrayUniqueReference:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Removes duplicate values from an array\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -188,7 +188,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!assertFunctionHasName:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Assert function must have oneof displayName/name property\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -232,7 +232,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!assertNotNull:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * assert value is not null or undefined or NaN\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -240,20 +240,15 @@
             },
             {
               "kind": "Content",
-              "text": "T"
+              "text": "T | null | undefined"
             },
             {
               "kind": "Content",
               "text": "): "
             },
             {
-              "kind": "Reference",
-              "text": "NonNullable",
-              "canonicalReference": "!NonNullable:type"
-            },
-            {
               "kind": "Content",
-              "text": "<T>"
+              "text": "T"
             },
             {
               "kind": "Content",
@@ -262,7 +257,7 @@
           ],
           "returnTypeTokenRange": {
             "startIndex": 3,
-            "endIndex": 5
+            "endIndex": 4
           },
           "releaseTag": "Public",
           "overloadIndex": 1,
@@ -293,7 +288,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!AsyncDisposable:class",
-          "docComment": "",
+          "docComment": "/**\n * Async version of Disposable\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -394,36 +389,8 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/common!AsyncDisposable#_publicDispose:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected _publicDispose(): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [],
-              "name": "_publicDispose"
-            },
-            {
-              "kind": "Method",
               "canonicalReference": "@idlebox/common!AsyncDisposable#_register:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * register a disposable object\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -489,11 +456,11 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!AsyncDisposable#assertNotDisposed:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * @throws\n *\n * if already disposed\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected assertNotDisposed(): "
+                  "text": "assertNotDisposed(): "
                 },
                 {
                   "kind": "Content",
@@ -659,7 +626,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!awaitIterator:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Convert Iterator into Promise, resolve with the last value from Iterator\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -725,7 +692,7 @@
         {
           "kind": "Variable",
           "canonicalReference": "@idlebox/common!bindThis:var",
-          "docComment": "",
+          "docComment": "/**\n * Auto bind `this` to class method\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -747,11 +714,19 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!CallbackList:class",
-          "docComment": "",
+          "docComment": "/**\n * Manage a list of callback\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare class CallbackList<Argument> "
+              "text": "export declare class CallbackList<Argument extends "
+            },
+            {
+              "kind": "Content",
+              "text": "[]"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
             }
           ],
           "releaseTag": "Public",
@@ -759,8 +734,8 @@
             {
               "typeParameterName": "Argument",
               "constraintTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 1,
+                "endIndex": 2
               },
               "defaultTypeTokenRange": {
                 "startIndex": 0,
@@ -771,9 +746,23 @@
           "name": "CallbackList",
           "members": [
             {
+              "kind": "Constructor",
+              "canonicalReference": "@idlebox/common!CallbackList:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `CallbackList` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor();"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!CallbackList#add:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * @param name - optional name of `item` (will assign displayName to `item`)\n *\n * @returns function list length\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -868,7 +857,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!CallbackList#remove:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * @returns if removed: return `item`; if did not exists: return null\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -888,13 +877,17 @@
                   "text": "): "
                 },
                 {
+                  "kind": "Content",
+                  "text": "typeof "
+                },
+                {
                   "kind": "Reference",
-                  "text": "MyCallback",
-                  "canonicalReference": "@idlebox/common!MyCallback:interface"
+                  "text": "item",
+                  "canonicalReference": "@idlebox/common!~item:var"
                 },
                 {
                   "kind": "Content",
-                  "text": "<Argument>[]"
+                  "text": " | null"
                 },
                 {
                   "kind": "Content",
@@ -904,7 +897,7 @@
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 4,
-                "endIndex": 6
+                "endIndex": 7
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -921,12 +914,40 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/common!CallbackList#run:member(1)",
+              "canonicalReference": "@idlebox/common!CallbackList#reset:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "run(argument: "
+                  "text": "reset(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "reset"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!CallbackList#run:member(1)",
+              "docComment": "/**\n * Stop run if one callback return `true`\n *\n * @returns {boolean} true if one callback return true\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "run(...argument: "
                 },
                 {
                   "kind": "Content",
@@ -962,6 +983,32 @@
                 }
               ],
               "name": "run"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/common!CallbackList#running:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected running: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "running",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
             }
           ],
           "implementsTokenRanges": []
@@ -969,7 +1016,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!camelCase:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -1012,7 +1059,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!CanceledError:class",
-          "docComment": "",
+          "docComment": "/**\n * Error when cancel() is called\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -1055,7 +1102,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!createSymbol:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Get a symbol from window/global object, if not exists, create it\n *\n * this is very like Symbol.for, but not real global symbol\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -1113,7 +1160,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!CustomSet:class",
-          "docComment": "",
+          "docComment": "/**\n * Like a Set, but use custom compare function insteadof ===\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -1198,7 +1245,7 @@
                 {
                   "kind": "Reference",
                   "text": "Finder",
-                  "canonicalReference": "@idlebox/common!Finder:type"
+                  "canonicalReference": "@idlebox/common!Finder:interface"
                 },
                 {
                   "kind": "Content",
@@ -1268,7 +1315,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!CustomSet#addAll:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * @returns all added values\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1308,6 +1355,122 @@
                 }
               ],
               "name": "addAll"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!CustomSet#clear:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "clear(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "clear"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!CustomSet#delete:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "delete(item: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "item",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "delete"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!CustomSet#deleteAll:member(1)",
+              "docComment": "/**\n * @returns all deleted values\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "deleteAll(items: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Type[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Type[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "items",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "deleteAll"
             },
             {
               "kind": "Method",
@@ -1352,6 +1515,39 @@
                 }
               ],
               "name": "has"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!CustomSet#keys:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "keys(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Iterator",
+                  "canonicalReference": "!Iterator:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Type>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "keys"
             },
             {
               "kind": "Property",
@@ -1407,94 +1603,6 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/common!CustomSet#remove:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "remove(item: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "Type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "item",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                }
-              ],
-              "name": "remove"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "@idlebox/common!CustomSet#removeAll:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "removeAll(items: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "Type[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "Type[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "items",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                }
-              ],
-              "name": "removeAll"
-            },
-            {
-              "kind": "Method",
               "canonicalReference": "@idlebox/common!CustomSet#setFinder:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -1505,7 +1613,7 @@
                 {
                   "kind": "Reference",
                   "text": "Finder",
-                  "canonicalReference": "@idlebox/common!Finder:type"
+                  "canonicalReference": "@idlebox/common!Finder:interface"
                 },
                 {
                   "kind": "Content",
@@ -1543,6 +1651,32 @@
               "name": "setFinder"
             },
             {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/common!CustomSet#size:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get size(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "size",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!CustomSet#toArray:member(1)",
               "docComment": "",
@@ -1569,6 +1703,39 @@
               "overloadIndex": 1,
               "parameters": [],
               "name": "toArray"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!CustomSet#values:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "values(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Iterator",
+                  "canonicalReference": "!Iterator:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Type>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "values"
             }
           ],
           "implementsTokenRanges": []
@@ -1635,7 +1802,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!DeferredPromise#cancel:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * reject the promise with CancelError\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1663,7 +1830,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!DeferredPromise#complete:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * resolve the promise\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1733,7 +1900,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!DeferredPromise#error:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * reject the promise\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1962,7 +2129,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!DeferredPromise.wrap:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * Convert promise into deferred returns a DeferredPromise, resolve when prev resolve, reject when prev reject\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -2019,11 +2186,19 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!DelayCallbackList:class",
-          "docComment": "",
+          "docComment": "/**\n * remember arguments after run run all later added function with memorized argument\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare class DelayCallbackList<Argument> "
+              "text": "export declare class DelayCallbackList<Argument extends "
+            },
+            {
+              "kind": "Content",
+              "text": "[]"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
             }
           ],
           "releaseTag": "Public",
@@ -2031,8 +2206,8 @@
             {
               "typeParameterName": "Argument",
               "constraintTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 1,
+                "endIndex": 2
               },
               "defaultTypeTokenRange": {
                 "startIndex": 0,
@@ -2187,7 +2362,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!Disposable:class",
-          "docComment": "",
+          "docComment": "/**\n * Standalone disposable class, can use as instance or base class.\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -2288,34 +2463,6 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/common!Disposable#_publicDispose:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected _publicDispose(): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [],
-              "name": "_publicDispose"
-            },
-            {
-              "kind": "Method",
               "canonicalReference": "@idlebox/common!Disposable#_register:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -2383,11 +2530,11 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!Disposable#assertNotDisposed:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * @throws\n *\n * if already disposed\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected assertNotDisposed(): "
+                  "text": "assertNotDisposed(): "
                 },
                 {
                   "kind": "Content",
@@ -2548,7 +2695,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!DisposedError:class",
-          "docComment": "",
+          "docComment": "/**\n * Error when call dispose() twice\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -2623,7 +2770,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!disposeGlobal:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Dispose the global disposable store this function must be manually called by user, when registerGlobalLifecycle is used\n *\n * @throws\n *\n * when call twice\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -2776,7 +2923,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!Emitter#fireNoError:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * Same with `fire`, but do not stop run when catch error\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -2909,7 +3056,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!ensureDisposeGlobal:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Same as disposeGlobal, but do not throw by duplicate call\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -2941,7 +3088,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!escapeRegExp:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3132,7 +3279,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!ExtendMap:class",
-          "docComment": "",
+          "docComment": "/**\n * A map, will throw error when try to get not exists key\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3178,7 +3325,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!ExtendMap#entry:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * Get a value, if not exists, call init() and set to map\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -3236,71 +3383,12 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@idlebox/common!ExtendMap#getDef:member(1)",
-              "docComment": "",
+              "canonicalReference": "@idlebox/common!ExtendMap#get:member(1)",
+              "docComment": "/**\n * Get value from map, if not exists, throw an error\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "getDef(id: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "K"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", def: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "V"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "V"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "id",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                },
-                {
-                  "parameterName": "def",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  }
-                }
-              ],
-              "name": "getDef"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "@idlebox/common!ExtendMap#getReq:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "getReq(id: "
+                  "text": "get(id: "
                 },
                 {
                   "kind": "Content",
@@ -3335,7 +3423,66 @@
                   }
                 }
               ],
-              "name": "getReq"
+              "name": "get"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!ExtendMap#get:member(2)",
+              "docComment": "/**\n * Get value from map, if not exists, return def instead (not insert it into map)\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get(id: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "K"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", def: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "V"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "V"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 2,
+              "parameters": [
+                {
+                  "parameterName": "id",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "def",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "get"
             }
           ],
           "extendsTokenRange": {
@@ -3345,25 +3492,16 @@
           "implementsTokenRanges": []
         },
         {
-          "kind": "TypeAlias",
-          "canonicalReference": "@idlebox/common!Finder:type",
-          "docComment": "",
+          "kind": "Interface",
+          "canonicalReference": "@idlebox/common!Finder:interface",
+          "docComment": "/**\n * Find the index of given item\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare type Finder<Type> = "
-            },
-            {
-              "kind": "Content",
-              "text": "(this: Type[], item: Type) => number"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
+              "text": "export interface Finder<Type> "
             }
           ],
           "releaseTag": "Public",
-          "name": "Finder",
           "typeParameters": [
             {
               "typeParameterName": "Type",
@@ -3377,15 +3515,72 @@
               }
             }
           ],
-          "typeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
+          "name": "Finder",
+          "members": [
+            {
+              "kind": "CallSignature",
+              "canonicalReference": "@idlebox/common!Finder:call(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "(this: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Type[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", item: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "this",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "item",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ]
+            }
+          ],
+          "extendsTokenRanges": []
         },
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!finishAllPromise:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @deprecated\n *\n * Use Promise.allSettled instead\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3460,7 +3655,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!fromTimeStamp:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Takes ms\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3504,7 +3699,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!functionName:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Get displayName/name of a function\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3548,7 +3743,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!getErrorFrame:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Get nth line of Error.stack\n *\n * @returns {string} if frame greater than max, return ''\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3607,7 +3802,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!getTimeStamp:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Returns ms\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3651,7 +3846,7 @@
         {
           "kind": "Variable",
           "canonicalReference": "@idlebox/common!globalObject:var",
-          "docComment": "",
+          "docComment": "/**\n * window in browser, global in nodejs\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3672,7 +3867,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!globalSingleton:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Same with globalSingletonStrong, but save instance in a WeakMap, so it maybe delete by gc if no reference\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3743,7 +3938,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!globalSingleton:function(2)",
-          "docComment": "",
+          "docComment": "/**\n * Same with globalSingletonStrong, but save instance in a WeakMap, so it maybe delete by gc if no reference\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3799,7 +3994,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!globalSingletonDelete:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Delete a key from window/global space use with care\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3842,7 +4037,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!globalSingletonStrong:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Get an singleton instance from window/global space if symbol did not exists, create it and assign to window/global\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -3913,7 +4108,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!globalSingletonStrong:function(2)",
-          "docComment": "",
+          "docComment": "/**\n * Get an singleton instance from window/global space\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -4088,7 +4283,7 @@
             {
               "kind": "Function",
               "canonicalReference": "@idlebox/common!humanDate.date:function(1)",
-              "docComment": "",
+              "docComment": "/**\n * Format: YYYY-MM-dd\n *\n * separator can change\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -4151,7 +4346,7 @@
             {
               "kind": "Function",
               "canonicalReference": "@idlebox/common!humanDate.datetime:function(1)",
-              "docComment": "",
+              "docComment": "/**\n * Format: YYYY-MM-dd HH:mm:ss\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -4199,7 +4394,7 @@
             {
               "kind": "Function",
               "canonicalReference": "@idlebox/common!humanDate.delta:function(1)",
-              "docComment": "",
+              "docComment": "/**\n * format time delta (in ms) to string, like: '1d10m42s' when ms<=0, returns '0s'\n *\n * format can set by `setLocaleFormatter` day is the largest unit\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -4242,7 +4437,7 @@
             {
               "kind": "Function",
               "canonicalReference": "@idlebox/common!humanDate.deltaTiny:function(1)",
-              "docComment": "",
+              "docComment": "/**\n * format time delta (in ms) to string, like: '1d' when ms<=0, returns '0s'\n *\n * format can set by `setLocaleFormatter` day is the largest unit\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -4463,7 +4658,7 @@
             {
               "kind": "Function",
               "canonicalReference": "@idlebox/common!humanDate.setLocaleFormatter:function(1)",
-              "docComment": "",
+              "docComment": "/**\n * set format for time delta\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -4520,7 +4715,7 @@
             {
               "kind": "Function",
               "canonicalReference": "@idlebox/common!humanDate.time:function(1)",
-              "docComment": "",
+              "docComment": "/**\n * Format: HH:mm:ss\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -4570,7 +4765,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!humanSize:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Convert bytes to largest unit, with binary prefix unit (1024), eg: 211.293GiB\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -4627,8 +4822,66 @@
         },
         {
           "kind": "Function",
+          "canonicalReference": "@idlebox/common!humanSizeSI:function(1)",
+          "docComment": "/**\n * Convert bytes to largest unit, with SI prefix unit (1000), eg: 211.293GB\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function humanSizeSI(bytes: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": ", fixed?: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "bytes",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "fixed",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "humanSizeSI"
+        },
+        {
+          "kind": "Function",
           "canonicalReference": "@idlebox/common!humanSpeed:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @deprecated\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -4671,7 +4924,7 @@
         {
           "kind": "Interface",
           "canonicalReference": "@idlebox/common!IArrayUpdate:interface",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -4775,7 +5028,7 @@
         {
           "kind": "Interface",
           "canonicalReference": "@idlebox/common!IAsyncDisposable:interface",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -4827,7 +5080,7 @@
         {
           "kind": "Interface",
           "canonicalReference": "@idlebox/common!IDisposable:interface",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -4870,7 +5123,7 @@
         {
           "kind": "Interface",
           "canonicalReference": "@idlebox/common!IDisposableBaseInternal:interface",
-          "docComment": "",
+          "docComment": "/**\n * @private\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -4980,7 +5233,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!init:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Decorater version of `initOnRead`  @see initOnRead\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5061,7 +5314,7 @@
         {
           "kind": "Interface",
           "canonicalReference": "@idlebox/common!InitFunc:interface",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5143,7 +5396,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!initOnRead:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Define property on target, call init it when first use, them memorize\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5355,7 +5608,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!isAbsolute:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * return true if a path is absolute: - /xxxx - \\xxxx - c:/ - c:\\ - http://\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5398,7 +5651,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!isArraySame:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * is the two array EXACTLY same\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5469,7 +5722,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!isCanceledError:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5512,7 +5765,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!isDateInvalid:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Check if a date is NaN\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5725,7 +5978,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!isObjectSame:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Should ensure a and b is none-null before call this\n *\n * @returns true when a and b has EXACTLY same keys and values\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5783,7 +6036,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!isObjectSameRecursive:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Should ensure a and b is none-null before call this\n *\n * @returns true when a and b has EXACTLY same keys and values, recursive compare all object values\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -5841,7 +6094,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!isTimeoutError:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -6008,7 +6261,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!lcfirst:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Lowercase first char\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -6049,99 +6302,9 @@
           "name": "lcfirst"
         },
         {
-          "kind": "Class",
-          "canonicalReference": "@idlebox/common!LifecycleObject:class",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare abstract class LifecycleObject extends "
-            },
-            {
-              "kind": "Reference",
-              "text": "AsyncDisposable",
-              "canonicalReference": "@idlebox/common!AsyncDisposable:class"
-            },
-            {
-              "kind": "Content",
-              "text": " "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "LifecycleObject",
-          "members": [
-            {
-              "kind": "Method",
-              "canonicalReference": "@idlebox/common!LifecycleObject#dispose:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "dispose(): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 3
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [],
-              "name": "dispose"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "@idlebox/common!LifecycleObject#done:member(1)",
-              "docComment": "/**\n * sub-class should shutdown program\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract done(): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "void"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [],
-              "name": "done"
-            }
-          ],
-          "extendsTokenRange": {
-            "startIndex": 1,
-            "endIndex": 3
-          },
-          "implementsTokenRanges": []
-        },
-        {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!linux_case_hyphen:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -6184,7 +6347,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!linux_case:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -6353,7 +6516,7 @@
         {
           "kind": "Variable",
           "canonicalReference": "@idlebox/common!memo:var",
-          "docComment": "",
+          "docComment": "/**\n * Decorate class method/getter\n *\n * remember first return value of method/getter, directlly return memorized value when call it again\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -6400,7 +6563,15 @@
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface MyCallback<Argument> "
+              "text": "export interface MyCallback<Argument extends "
+            },
+            {
+              "kind": "Content",
+              "text": "[]"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
             }
           ],
           "releaseTag": "Public",
@@ -6408,8 +6579,8 @@
             {
               "typeParameterName": "Argument",
               "constraintTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 1,
+                "endIndex": 2
               },
               "defaultTypeTokenRange": {
                 "startIndex": 0,
@@ -6426,7 +6597,7 @@
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "(param: "
+                  "text": "(...param: "
                 },
                 {
                   "kind": "Content",
@@ -6496,7 +6667,15 @@
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface MyDelayCallback<Argument> "
+              "text": "export interface MyDelayCallback<Argument extends "
+            },
+            {
+              "kind": "Content",
+              "text": "[]"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
             }
           ],
           "releaseTag": "Public",
@@ -6504,8 +6683,8 @@
             {
               "typeParameterName": "Argument",
               "constraintTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 1,
+                "endIndex": 2
               },
               "defaultTypeTokenRange": {
                 "startIndex": 0,
@@ -6522,7 +6701,7 @@
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "(param: "
+                  "text": "(...param: "
                 },
                 {
                   "kind": "Content",
@@ -6586,47 +6765,9 @@
           "extendsTokenRanges": []
         },
         {
-          "kind": "TypeAlias",
-          "canonicalReference": "@idlebox/common!MyFinder:type",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare type MyFinder<Type> = "
-            },
-            {
-              "kind": "Content",
-              "text": "(item: Type) => number"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "MyFinder",
-          "typeParameters": [
-            {
-              "typeParameterName": "Type",
-              "constraintTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
-              },
-              "defaultTypeTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
-              }
-            }
-          ],
-          "typeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
-        },
-        {
           "kind": "Interface",
           "canonicalReference": "@idlebox/common!NamedFunction:interface",
-          "docComment": "",
+          "docComment": "/**\n * Function with displayName\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -6681,7 +6822,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!nameFunction:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Set displayName of a function\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -7186,7 +7327,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!normalizeArray:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * ensure a value is an array\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -7194,7 +7335,7 @@
             },
             {
               "kind": "Content",
-              "text": "any"
+              "text": "T | T[]"
             },
             {
               "kind": "Content",
@@ -7242,7 +7383,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!normalizePath:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * replace // to / replace \\ to / remove ending /\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -7285,7 +7426,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!objectPath:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Get deep child property of an object\n *\n * @param path - object path seprate by \".\"\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -7428,7 +7569,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!pad2:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Pad number to two digits string, used in time format\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -7471,7 +7612,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!PathArray:class",
-          "docComment": "",
+          "docComment": "/**\n * Work on \"PATH\"-like values\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -7542,7 +7683,7 @@
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "add(path: "
+                  "text": "add(paths: "
                 },
                 {
                   "kind": "Content",
@@ -7570,7 +7711,7 @@
               "overloadIndex": 1,
               "parameters": [
                 {
-                  "parameterName": "path",
+                  "parameterName": "paths",
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
@@ -7586,7 +7727,7 @@
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "delete(path: "
+                  "text": "delete(paths: "
                 },
                 {
                   "kind": "Content",
@@ -7614,7 +7755,7 @@
               "overloadIndex": 1,
               "parameters": [
                 {
-                  "parameterName": "path",
+                  "parameterName": "paths",
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
@@ -7670,7 +7811,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!PathArray#join:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * @returns an array with `part` append to every element\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -7795,7 +7936,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!promiseBool:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * resolve with true when `p` resolve resolve with false when `p` reject (and drop error)\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -7848,7 +7989,7 @@
         {
           "kind": "Interface",
           "canonicalReference": "@idlebox/common!PromiseResultArray:interface",
-          "docComment": "",
+          "docComment": "/**\n * @deprecated\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8071,7 +8212,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!registerGlobalLifecycle:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Add object into global disposable store, it will be dispose when call to `disposeGlobal`\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8238,7 +8379,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!sleep:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @returns promise resolve after specific time\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8286,7 +8427,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!sortByString:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Sort string array alphabet order\n *\n * to be used in <arr>.sort()\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8344,7 +8485,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!throwNull:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * assert value is not null or undefined or NaN\n *\n * @throws\n *\n * Value is null or undefined\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8405,7 +8546,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!timeout:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * @returns promise reject with TimeoutError after specific time\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8468,7 +8609,7 @@
         {
           "kind": "Class",
           "canonicalReference": "@idlebox/common!TimeoutError:class",
-          "docComment": "",
+          "docComment": "/**\n * Error when timeout() done\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8934,7 +9075,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!toDisposable:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Convert \"dispose function\" to disposable object\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -8978,7 +9119,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!tryInspect:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * try to call `inspect` method of an object, if not exists, call `toString`.\n *\n * @returns {string}\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -9021,7 +9162,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!ucfirst:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Uppercase first char\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -9064,7 +9205,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/common!uniqueFilter:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * Returns a function to be used in <arr>.filter()\n *\n * the returned function can use multiple times, it will remember all values inter multiple arrays\n *\n * @param idFactory - function takes an array element, return it's id to be compare with each other\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",

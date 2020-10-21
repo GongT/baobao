@@ -1,12 +1,16 @@
 import { nameFunction } from './functionName';
 
-export interface MyDelayCallback<Argument> {
+export interface MyDelayCallback<Argument extends []> {
 	displayName?: string;
 
-	(param: Argument): void;
+	(...param: Argument): void;
 }
 
-export class DelayCallbackList<Argument> {
+/**
+ * remember arguments after run
+ * run all later added function with memorized argument
+ */
+export class DelayCallbackList<Argument extends []> {
 	private delayArgument?: Argument;
 	private delayComplete: boolean = false;
 
@@ -17,7 +21,7 @@ export class DelayCallbackList<Argument> {
 			nameFunction(name, item);
 		}
 		if (this.delayComplete) {
-			item(this.delayArgument!);
+			item(...this.delayArgument!);
 		} else {
 			this.list!.push(item);
 		}
@@ -30,7 +34,7 @@ export class DelayCallbackList<Argument> {
 		this.delayComplete = true;
 		this.delayArgument = argument;
 		this.list!.forEach((cb) => {
-			cb(argument);
+			cb(...argument);
 		});
 		delete this.list;
 	}

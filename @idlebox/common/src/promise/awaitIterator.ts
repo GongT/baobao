@@ -1,3 +1,6 @@
+/**
+ * Convert Iterator into Promise, resolve with the last value from Iterator
+ */
 export async function awaitIterator<T>(generator: Iterator<T>): Promise<T> {
 	let lastValue: any = {};
 	do {

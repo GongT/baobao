@@ -1,5 +1,7 @@
-export function getErrorFrame(e: Error, frame: number): string;
-
+/**
+ * Get nth line of Error.stack
+ * @returns {string} if frame greater than max, return ''
+ */
 export function getErrorFrame(e: Error, frame: number): string {
 	if (e && e.stack) {
 		const stackArr = e.stack.split('\n');

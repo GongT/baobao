@@ -13,10 +13,8 @@ export interface IProgressHolder<T, PT> {
  */
 export class DeferredPromise<T, PT = any> {
 	public readonly p: Promise<T> & IProgressHolder<T, PT>;
-	// @ts-ignore
-	private _completeCallback: ValueCallback<T>;
-	// @ts-ignore
-	private _errorCallback: (err: any) => void;
+	private declare _completeCallback: ValueCallback<T>;
+	private declare _errorCallback: (err: any) => void;
 	private _state: boolean | null = null;
 	private _progressList?: ProgressCallback<PT>[] = [];
 
@@ -61,21 +59,34 @@ export class DeferredPromise<T, PT = any> {
 		return this._state === false;
 	}
 
+	/**
+	 * resolve the promise
+	 */
 	public complete(value: T) {
 		this._state = true;
 		this._completeCallback(value);
 	}
 
+	/**
+	 * reject the promise
+	 */
 	public error(err: any) {
 		this._state = false;
 		this._errorCallback(err);
 	}
 
+	/**
+	 * reject the promise with CancelError
+	 */
 	public cancel() {
 		this._state = false;
 		this._errorCallback(new CanceledError());
 	}
 
+	/**
+	 * Convert promise into deferred
+	 * returns a DeferredPromise, resolve when prev resolve, reject when prev reject
+	 */
 	static wrap(prev: Promise<any>) {
 		const p = new DeferredPromise();
 		prev.then(

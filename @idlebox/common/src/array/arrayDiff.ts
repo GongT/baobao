@@ -1,9 +1,16 @@
+/**
+ * @public
+ */
 export interface IArrayUpdate<T> {
 	add: T[];
 	del: T[];
 	same: T[];
 }
 
+/**
+ * Compare two array, returns the difference from `before` to `after`
+ * @public
+ */
 export function arrayDiff<T>(before: T[], after: T[]) {
 	before = before.slice().sort();
 	const add: T[] = after.slice().sort();

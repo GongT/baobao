@@ -1,3 +1,7 @@
+/**
+ * is the two array EXACTLY same
+ * @public
+ */
 export function isArraySame<T>(a1: T[], a2: T[]): boolean {
 	if (a1.length !== a2.length) {
 		return false;

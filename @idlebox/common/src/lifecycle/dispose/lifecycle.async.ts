@@ -2,6 +2,10 @@ import { DisposedError } from './disposedError';
 import { Emitter, EventRegister } from '../event/event';
 import { IAsyncDisposable, IDisposableBaseInternal } from './lifecycle';
 
+/**
+ * Async version of Disposable
+ * @public
+ */
 export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInternal {
 	private readonly _disposables: IAsyncDisposable[] = [];
 
@@ -17,38 +21,39 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInterna
 		return !!this._disposed;
 	}
 
-	protected assertNotDisposed() {
+	/**
+	 * @throws if already disposed
+	 */
+	public assertNotDisposed() {
 		if (this._disposed) {
 			throw new DisposedError(this, this._disposed);
 		}
 	}
 
-	protected _publicDispose() {
-		if (this._disposed) {
-			console.warn(new DisposedError(this, this._disposed).message);
-			return false;
-		}
-		this._onBeforeDispose.fireNoError();
-		this._disposed = new Error('disposed');
-		return true;
-	}
-
+	/**
+	 * register a disposable object
+	 */
 	public _register<T extends IAsyncDisposable>(d: T): T {
 		this.assertNotDisposed();
 		this._disposables.unshift(d);
 		return d;
 	}
 
-	public async dispose() {
-		if (this._publicDispose()) {
-			this._disposables.push(this._onBeforeDispose);
-			this._disposables.push(this._onDisposeError);
-			for (const cb of this._disposables) {
-				try {
-					await cb.dispose();
-				} catch (e) {
-					this._onDisposeError.fire(e);
-				}
+	public async dispose(): Promise<void> {
+		if (this._disposed) {
+			console.warn(new DisposedError(this, this._disposed).message);
+			return;
+		}
+		this._onBeforeDispose.fireNoError();
+		this._disposed = new Error('disposed');
+
+		this._disposables.push(this._onBeforeDispose);
+		this._disposables.push(this._onDisposeError);
+		for (const cb of this._disposables) {
+			try {
+				await cb.dispose();
+			} catch (e) {
+				this._onDisposeError.fire(e);
 			}
 		}
 	}

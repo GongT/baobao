@@ -12,6 +12,10 @@ function tryGetSymbol() {
 	}
 }
 
+/**
+ * try to call `inspect` method of an object, if not exists, call `toString`.
+ * @returns {string}
+ */
 export function tryInspect(object: any) {
 	if (!object || typeof object !== 'object') {
 		return JSON.stringify(object);

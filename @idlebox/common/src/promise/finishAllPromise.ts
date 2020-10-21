@@ -1,3 +1,4 @@
+/** @deprecated */
 export interface PromiseResultArray<T> {
 	count: number;
 	fulfilledResult: T[];
@@ -6,6 +7,9 @@ export interface PromiseResultArray<T> {
 	rejected: number[];
 }
 
+/**
+ * @deprecated Use Promise.allSettled instead
+ */
 export function finishAllPromise<T>(ps: Promise<T>[]) {
 	return new Promise<PromiseResultArray<T>>((resolve) => {
 		const fulfilledResult: T[] = [];

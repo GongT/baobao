@@ -21,6 +21,9 @@ export class Emitter<T> implements IDisposable {
 		}
 	}
 
+	/**
+	 * Same with `fire`, but do not stop run when catch error
+	 */
 	public fireNoError(data: T) {
 		for (const callback of this._callbacks) {
 			try {

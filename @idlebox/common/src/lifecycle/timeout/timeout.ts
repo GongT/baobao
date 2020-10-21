@@ -1,6 +1,9 @@
 import { TimeoutError } from './timeoutError';
 import { DeferredPromise } from '../promise/deferredPromise';
 
+/**
+ * @returns promise reject with TimeoutError after specific time
+ */
 export function timeout(ms: number, error = 'no response'): Promise<never> {
 	return new Promise((_, reject) => {
 		setTimeout(() => {
@@ -9,6 +12,9 @@ export function timeout(ms: number, error = 'no response'): Promise<never> {
 	});
 }
 
+/**
+ * @returns promise resolve after specific time
+ */
 export function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => {
 		setTimeout(() => {

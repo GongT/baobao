@@ -2,26 +2,38 @@ export interface MapLike<V> {
 	[id: string]: V;
 }
 
+/**
+ * A map, will throw error when try to get not exists key
+ */
 export class ExtendMap<K, V> extends Map<K, V> {
-	public getReq(id: K): V {
-		if (this.has(id)) {
-			return this.get(id) as V;
+	/**
+	 * Get value from map, if not exists, throw an error
+	 */
+	public get(id: K): V;
+	/**
+	 * Get value from map, if not exists, return def instead (not insert it into map)
+	 */
+	public get(id: K, def: V): V;
+
+	public get(id: K, def?: V): V {
+		if (super.has(id)) {
+			return super.get(id)!;
+		} else if (arguments.length === 2) {
+			return def!;
 		} else {
 			throw new Error(`Unknown key {${id}} in map.`);
 		}
 	}
 
-	public getDef(id: K, def: V): V {
-		return this.get(id) || def;
-	}
-
+	/**
+	 * Get a value, if not exists, call init() and set to map
+	 */
 	public entry(id: K, init: (id: K) => V): V {
-		const v = this.get(id);
-		if (v) {
-			return v;
+		if (super.has(id)) {
+			return super.get(id)!;
 		} else {
 			const nv = init(id);
-			this.set(id, nv);
+			super.set(id, nv);
 			return nv;
 		}
 	}
