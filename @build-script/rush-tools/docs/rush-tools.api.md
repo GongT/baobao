@@ -228,6 +228,7 @@ export class RushProject {
     getPackageManager(): {
         type: 'npm' | 'yarn' | 'pnpm';
         bin: string;
+        version: string;
     };
     // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point _export_all_in_one_index.d.ts
     //

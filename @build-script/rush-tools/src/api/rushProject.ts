@@ -142,20 +142,25 @@ export class RushProject {
 		return depNames;
 	}
 
-	getPackageManager(): { type: 'npm' | 'yarn' | 'pnpm'; bin: string } {
+	getPackageManager(): { type: 'npm' | 'yarn' | 'pnpm'; bin: string; version: string } {
 		let type: 'npm' | 'yarn' | 'pnpm';
+		let version: string;
 		if (this.config.npmVersion) {
 			type = 'npm';
+			version = this.config.npmVersion;
 		} else if (this.config.pnpmVersion) {
 			type = 'pnpm';
+			version = this.config.pnpmVersion;
 		} else if (this.config.yarnVersion) {
 			type = 'yarn';
+			version = this.config.yarnVersion;
 		} else {
 			throw new Error('no package manager in rush.json');
 		}
 
 		return {
 			type,
+			version,
 			bin: `common/temp/${type}-local/node_modules/.bin/${type}`,
 		};
 	}

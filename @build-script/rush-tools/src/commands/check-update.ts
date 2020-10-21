@@ -1,6 +1,7 @@
 import { resolve } from 'path';
-import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { loadJsonFile, loadJsonFileSync, writeJsonFileBack, writeJsonFileBackSync } from '@idlebox/node-json-edit';
 import { pathExists, unlink } from 'fs-extra';
+import { IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
@@ -34,6 +35,8 @@ export default async function runCheckUpdate() {
 		delete alldeps[project.packageName];
 	}
 
+	collectRush(alldeps, rush);
+
 	info('Resolving npm registry:');
 	const map = await resolveNpm(new Map(Object.entries(alldeps)));
 
@@ -49,6 +52,9 @@ export default async function runCheckUpdate() {
 		totalChange += numChange;
 	}
 
+	info('Update rush and package manager:');
+	totalChange += updateRushConfig(rush, map);
+
 	if (totalChange == 0) {
 		info('OHHHH! No update!');
 		return;
@@ -62,6 +68,7 @@ export default async function runCheckUpdate() {
 			await unlink(f);
 		}
 	}
+	console.error(`You should run "rush update" now`);
 }
 
 function update(target: Record<string, string>, map: Map<string, string>) {
@@ -82,6 +89,48 @@ function update(target: Record<string, string>, map: Map<string, string>) {
 		changed++;
 	}
 	return changed;
+}
+
+function updateRushConfig(rush: RushProject, map: Map<string, string>): number {
+	let change = 0;
+	const { type, version } = rush.getPackageManager();
+	const config: IRushConfig = loadJsonFileSync(rush.configFile);
+
+	const rushVer = map.get('@microsoft/rush')!.slice(1);
+	if (rushVer !== config.rushVersion) {
+		change++;
+		config.rushVersion = rushVer;
+		console.log('  * {project} - rush updated');
+	}
+
+	const pmVer = map.get(type)!.slice(1);
+	if (pmVer !== version) {
+		change++;
+		if (type === 'npm') {
+			config.npmVersion = pmVer;
+		} else if (type === 'yarn') {
+			config.yarnVersion = pmVer;
+		} else {
+			config.pnpmVersion = pmVer;
+		}
+		console.log('  * {project} - package manager updated');
+	}
+
+	if (change > 0) {
+		writeJsonFileBackSync(config);
+	}
+
+	return change;
+}
+
+function collectRush(alldeps: any, rush: RushProject) {
+	if (!alldeps['@microsoft/rush']) {
+		alldeps['@microsoft/rush'] = '^' + rush.config.rushVersion;
+	}
+	const { type, version } = rush.getPackageManager();
+	if (!alldeps[type]) {
+		alldeps[type] = '^' + version;
+	}
 }
 
 description(runCheckUpdate, 'Upgrade all dependencies of every project.');

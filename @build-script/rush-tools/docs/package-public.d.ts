@@ -123,6 +123,7 @@ export declare class RushProject {
     getPackageManager(): {
         type: 'npm' | 'yarn' | 'pnpm';
         bin: string;
+        version: string;
     };
 }
 

@@ -2409,7 +2409,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "{\n        type: 'npm' | 'yarn' | 'pnpm';\n        bin: string;\n    }"
+                  "text": "{\n        type: 'npm' | 'yarn' | 'pnpm';\n        bin: string;\n        version: string;\n    }"
                 },
                 {
                   "kind": "Content",
