@@ -1,10 +1,10 @@
 import { exists } from '@idlebox/node';
 import execa from 'execa';
 import { resolve } from 'path';
-import { detectRegistry } from './detectRegistry';
-import { getArg } from './getArg';
-import { getVersionCached } from './getVersionCached';
-import { errorLog, log } from './log';
+import { getVersionCached } from './cache/tarball';
+import { detectRegistry } from './packageManage/detectRegistry';
+import { getArg } from './inc/getArg';
+import { errorLog, log } from './inc/log';
 
 export async function main(argv: string[]) {
 	const startExtraArgs = argv.indexOf('--');
@@ -32,14 +32,14 @@ export async function main(argv: string[]) {
 	const distTag = getArg('--dist-tag', 'latest');
 	const registry = await detectRegistry(getArg('--registry', 'detect'));
 
-	const result = await getVersionCached(packageJson.name, distTag, registry);
-	log('version = %s', result.version);
+	const version = await getVersionCached(packageJson.name, distTag, registry);
+	log('version = %s', version);
 
-	if (!result.version || packageJson.version !== result.version) {
-		log('local (%s) !== remote (%s), run command!', packageJson.version, result.version);
+	if (!version || packageJson.version !== version) {
+		log('local (%s) !== remote (%s), run command!', packageJson.version, version);
 		await execa(cmd[0], cmd.slice(1), { cwd: packagePath, stdout: 'inherit', stderr: 'inherit' });
 	} else {
-		log('local (%s) === remote (%s), do nothing and exit.', packageJson.version, result.version);
+		log('local (%s) === remote (%s), do nothing and exit.', packageJson.version, version);
 	}
 	return 0;
 }

@@ -5,6 +5,8 @@
 ```ts
 
 import { EventEmitter } from 'events';
+import execa from 'execa';
+import { ExecaReturnValue } from 'execa';
 import { IDisposable } from '@idlebox/common';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
@@ -336,6 +338,11 @@ export enum ERRNO_LINUX {
     EXFULL = 52
 }
 
+// Warning: (ae-missing-release-tag) "execLazyError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<execa.Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
+
 // Warning: (ae-missing-release-tag) "exists" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -409,6 +416,14 @@ export interface IEnvironmentResult {
     name: string;
     // (undocumented)
     value: string | undefined;
+}
+
+// Warning: (ae-missing-release-tag) "ISpawnAdditionOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface ISpawnAdditionOptions {
+    // (undocumented)
+    verbose?: boolean;
 }
 
 // Warning: (ae-missing-release-tag) "JoinPathFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -495,6 +510,11 @@ export function prettyFormatError(e: Error): string;
 //
 // @public (undocumented)
 export function prettyPrintError(type: string, e: Error): void;
+
+// Warning: (ae-missing-release-tag) "printLine" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function printLine(char?: string): void;
 
 // Warning: (ae-missing-release-tag) "RawCollectingStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

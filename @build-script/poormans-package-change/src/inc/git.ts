@@ -1,8 +1,8 @@
 import { resolve } from 'path';
-import { commandInPath } from '@idlebox/node';
+import { commandInPath, execLazyError } from '@idlebox/node';
 import { command } from 'execa';
 import { emptyDir, pathExists } from 'fs-extra';
-import { debug, line, log, logEnable, logExecStream } from './log';
+import { debug, log } from './log';
 
 export async function gitInit(cwd: string) {
 	if (!(await commandInPath('git'))) {
@@ -17,14 +17,8 @@ export async function gitInit(cwd: string) {
 	await command('git init', { cwd, stdout: process.stderr, stderr: 'inherit' });
 	debug(' + git add .');
 	await command('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
-	debug(' + git commit -m Init');
-	await command('git commit -m Init', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	await execLazyError('git', ['commit', '-m', 'Init'], { cwd, stdout: 'ignore', verbose: true });
 	log('(git init done)');
-	if (logEnable) {
-		line();
-		await command('git ls-tree -r HEAD', { cwd, stdout: logExecStream, stderr: 'inherit' });
-		line();
-	}
 }
 
 export async function gitChange(cwd: string) {
@@ -42,8 +36,7 @@ export async function gitChange(cwd: string) {
 
 	debug(' + git add .');
 	await command('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
-	debug(' + git commit -a -m DetectChangedFiles');
-	await command('git commit -a -m DetectChangedFiles', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	await execLazyError('git', ['commit', '-m', 'DetectChangedFiles'], { cwd, verbose: true });
 
 	debug(' + git log --name-only -1');
 	const { stdout } = await command('git log --name-only -1', { cwd, stdout: 'pipe', stderr: 'inherit' });
@@ -58,10 +51,6 @@ export async function gitChange(cwd: string) {
 		throw new Error('Failed to run git commit, unknown error.');
 	}
 	const files = lines.slice(titleLine + 1);
-	line();
-	log('%s', files.join('\n'));
-	log('%s lines of change', files.length);
-	line();
 
 	return files.map((item) => {
 		return item.replace('Would remove ', '');

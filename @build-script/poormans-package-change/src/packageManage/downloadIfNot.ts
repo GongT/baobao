@@ -1,7 +1,7 @@
 import { exists, streamPromise } from '@idlebox/node';
 import { createWriteStream } from 'fs-extra';
 import { get } from 'request';
-import { log } from './log';
+import { log } from '../inc/log';
 
 export async function downloadIfNot(url: string, file: string) {
 	log('Download tarball:\n    url: %s\n    save: %s', url, file);

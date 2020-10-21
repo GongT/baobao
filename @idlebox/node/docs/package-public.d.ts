@@ -1,5 +1,7 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events';
+import execa from 'execa';
+import { ExecaReturnValue } from 'execa';
 import { IDisposable } from '@idlebox/common';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
@@ -167,6 +169,8 @@ export declare enum ERRNO_LINUX {
     EOVERFLOW = 139
 }
 
+export declare function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<execa.Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
+
 export declare function exists(path: string): Promise<boolean>;
 
 export declare function existsSync(path: string): boolean;
@@ -217,6 +221,10 @@ export declare interface IEnvironmentResult {
     name: string;
 }
 
+export declare interface ISpawnAdditionOptions {
+    verbose?: boolean;
+}
+
 export declare interface JoinPathFunction {
     (from: string, to: string): string;
 }
@@ -259,6 +267,8 @@ export declare class PathEnvironment extends PathArray {
 export declare function prettyFormatError(e: Error): string;
 
 export declare function prettyPrintError(type: string, e: Error): void;
+
+export declare function printLine(char?: string): void;
 
 export declare class RawCollectingStream extends Writable {
     private buffer?;

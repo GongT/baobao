@@ -20,7 +20,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.0.28",
+		"@idlebox/common": "^1.0.29",
 		"execa": "^4.0.3",
 		"source-map-support": "^0.5.19"
 	},

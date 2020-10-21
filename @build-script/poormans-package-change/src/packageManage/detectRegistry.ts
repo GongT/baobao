@@ -1,6 +1,7 @@
-import { command } from 'execa';
-import { log } from './log';
 import { commandInPath } from '@idlebox/node';
+import { command } from 'execa';
+import { errorLog, log } from '../inc/log';
+import { parse } from 'url';
 
 let foundPm: string;
 
@@ -19,7 +20,13 @@ export async function getPackageManager() {
 export async function detectRegistry(url: string): Promise<string> {
 	if (url !== 'detect') {
 		log('using registry url from commandline (%s)', url);
-		return url;
+
+		if (url.startsWith('http://') || url.startsWith('https://')) {
+			return url.replace(/\/+$/, '');
+		}
+
+		errorLog('[!!] invalid argument: --registry: http: or https: is required');
+		process.exit(1);
 	}
 
 	try {
@@ -27,8 +34,18 @@ export async function detectRegistry(url: string): Promise<string> {
 		log('Using package manager: %s', pm);
 		url = (await command(pm + ' config get registry', { stderr: 'ignore' })).stdout;
 		log('    config get registry: %s', url);
+
+		const u = parse(url);
+		if (!u.protocol || !u.host) {
+			errorLog('[!!] invalid config (registry=%s): url is invalid', url);
+			process.exit(1);
+		}
 	} catch (e) {
 		log('    [!!] error run config get: %s', e.message);
 	}
-	return url || 'https://registry.npmjs.org';
+	if (url) {
+		return url.replace(/\/+$/, '');
+	} else {
+		return 'https://registry.npmjs.org';
+	}
 }

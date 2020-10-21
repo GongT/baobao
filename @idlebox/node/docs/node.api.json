@@ -3497,6 +3497,112 @@
         },
         {
           "kind": "Function",
+          "canonicalReference": "@idlebox/node!execLazyError:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function execLazyError(cmd: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", args: "
+            },
+            {
+              "kind": "Content",
+              "text": "string[]"
+            },
+            {
+              "kind": "Content",
+              "text": ", spawnOptions?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Omit",
+              "canonicalReference": "!Omit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "execa.Options",
+              "canonicalReference": "execa!~execa.Options:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & "
+            },
+            {
+              "kind": "Reference",
+              "text": "ISpawnAdditionOptions",
+              "canonicalReference": "@idlebox/node!ISpawnAdditionOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ExecaReturnValue",
+              "canonicalReference": "execa!~execa.ExecaReturnValue:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<string>>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 11,
+            "endIndex": 15
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "cmd",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "args",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "parameterName": "spawnOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 10
+              }
+            }
+          ],
+          "name": "execLazyError"
+        },
+        {
+          "kind": "Function",
           "canonicalReference": "@idlebox/node!exists:function(1)",
           "docComment": "",
           "excerptTokens": [
@@ -4300,6 +4406,47 @@
               ],
               "releaseTag": "Public",
               "name": "value",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@idlebox/node!ISpawnAdditionOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ISpawnAdditionOptions "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ISpawnAdditionOptions",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/node!ISpawnAdditionOptions#verbose:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "verbose?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "verbose",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -5183,6 +5330,49 @@
             }
           ],
           "name": "prettyPrintError"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/node!printLine:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function printLine(char?: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "char",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "printLine"
         },
         {
           "kind": "Class",

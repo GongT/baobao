@@ -1,21 +1,22 @@
-import { exists, PathEnvironment } from '@idlebox/node';
 import { tmpdir } from 'os';
 import { basename, resolve } from 'path';
-import { decompressTargz } from './decompress';
-import { detectRegistry } from './detectRegistry';
-import { downloadIfNot } from './downloadIfNot';
-import { getArg } from './getArg';
-import { getVersionCached } from './getVersionCached';
-import { gitChange, gitInit } from './git';
-import { increaseVersion } from './increaseVersion';
-import { errorLog, log } from './log';
-import { packCurrentVersion } from './package';
-import { prepareWorkingFolder } from './prepareWorkingFolder';
-import { rewritePackage } from './rewritePackage';
+import { exists, PathEnvironment, printLine } from '@idlebox/node';
+import { gt } from 'semver';
+import { getTarballCached, getVersionCached } from './cache/tarball';
+import { getArg } from './inc/getArg';
+import { gitChange, gitInit } from './inc/git';
+import { errorLog, log, logEnable } from './inc/log';
+import { prepareWorkingFolder } from './inc/prepareWorkingFolder';
+import { decompressTargz } from './packageManage/decompress';
+import { detectRegistry } from './packageManage/detectRegistry';
+import { downloadIfNot } from './packageManage/downloadIfNot';
+import { increaseVersion } from './packageManage/increaseVersion';
+import { packCurrentVersion } from './packageManage/package';
+import { rewritePackage } from './packageManage/rewritePackage';
 
 function help() {
 	console.error(`Usage: detect-package-change --registry ??? --dist-tag ??? --package ??? --bump --quiet
-	registry: default to use system .npmrc
+	registry: default to use system .npmrc (https:// should include)
 	dist-tag: default to "latest"
 	package: default to ./ (this folder contains package.json)
 	bump: increase patch version in package.json if change detected
@@ -64,27 +65,30 @@ export async function main(argv: string[]) {
 	const distTag = getArg('--dist-tag', 'latest');
 	const registry = await detectRegistry(getArg('--registry', 'detect'));
 
-	const result = await getVersionCached(packageJson.name, distTag, registry);
-	log(' -> npm remote version = %s', result.version);
+	const remoteVersion = await getVersionCached(packageJson.name, distTag, registry);
+	log(' -> npm remote version = %s', remoteVersion);
 	log(' -> package.json local version = %s', packageJson.version);
 
-	if (!result.version || packageJson.version !== result.version) {
-		errorLog('local (%s) already !== remote (%s), no more change needed.', packageJson.version, result.version);
+	if (!remoteVersion || gt(packageJson.version, remoteVersion)) {
+		errorLog('local (%s) already > remote (%s), no more change needed.', packageJson.version, remoteVersion);
 		printResult(argv.includes('--json'), ['package.json'], false);
 		return 0;
+	} else {
+		log('local (%s) <= remote (%s), try detect change...', packageJson.version, remoteVersion);
 	}
 
 	const workingRoot = resolve(tmpdir(), 'poor-man-s-package-change/working');
 	const tempFolder = await prepareWorkingFolder(workingRoot, packageJson.name, packageJson.version);
 	const tempFile = tempFolder + `${basename(packageJson.name)}.${packageJson.version}.tgz`;
 
-	await downloadIfNot(result.tarball, tempFile);
+	const tarball = await getTarballCached(packageJson.name, distTag, registry);
+	await downloadIfNot(tarball!, tempFile);
 	await decompressTargz(tempFile, tempFolder);
 	await rewritePackage(tempFolder);
 	await gitInit(tempFolder);
 
 	const pack = await packCurrentVersion(packagePath);
-	log(' --> ', pack);
+	log('  --> ', pack);
 
 	await decompressTargz(pack, tempFolder);
 	await rewritePackage(tempFolder);
@@ -93,7 +97,7 @@ export async function main(argv: string[]) {
 	if (autoInc) {
 		if (changedFiles.length) {
 			log('auto version increment...');
-			await increaseVersion(packageFile);
+			await increaseVersion(packageFile, remoteVersion);
 		} else {
 			log('nothing changed');
 		}
@@ -108,10 +112,10 @@ function printResult(forceJson: boolean, changedFiles: string[], changed?: boole
 		if (changedFiles.length === 0) {
 			console.log('changed: no.');
 		} else {
-			console.error('%s files has change:', changedFiles.length);
-			for (const f of changedFiles) {
-				console.error('  %s', f);
-			}
+			if (logEnable) printLine();
+			log('%s', changedFiles.join('\n'));
+			log('%s lines of change', changedFiles.length);
+			if (logEnable) printLine();
 			console.log('changed: yes.');
 		}
 	} else {
