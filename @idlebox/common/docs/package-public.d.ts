@@ -68,7 +68,8 @@ export declare const bindThis: MethodDecorator;
 /**
  * Manage a list of callback
  */
-export declare class CallbackList<Argument extends []> {
+export declare class CallbackList<Argument extends [
+]> {
     protected list: MyCallback<Argument>[];
     protected running: boolean;
     constructor();
@@ -175,7 +176,8 @@ export declare class DeferredPromise<T, PT = any> {
  * remember arguments after run
  * run all later added function with memorized argument
  */
-export declare class DelayCallbackList<Argument extends []> {
+export declare class DelayCallbackList<Argument extends [
+]> {
     private delayArgument?;
     private delayComplete;
     protected list?: MyDelayCallback<Argument>[];
@@ -548,12 +550,14 @@ export declare const memo: MethodDecorator;
 
 export declare const memorizeValueSymbol: unique symbol;
 
-export declare interface MyCallback<Argument extends []> {
+export declare interface MyCallback<Argument extends [
+]> {
     displayName?: string;
     (...param: Argument): void | undefined | boolean;
 }
 
-export declare interface MyDelayCallback<Argument extends []> {
+export declare interface MyDelayCallback<Argument extends [
+]> {
     displayName?: string;
     (...param: Argument): void;
 }

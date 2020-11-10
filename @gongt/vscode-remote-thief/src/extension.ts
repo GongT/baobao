@@ -1,8 +1,8 @@
 import { logger, vscodeExtensionActivate, vscodeExtensionDeactivate } from '@gongt/vscode-helpers';
-import { updateMyFolders } from './include/foldersCollect';
 import { ExtensionContext, workspace } from 'vscode';
+import { updateMyFolders } from './include/foldersCollect';
 
-export const activate = vscodeExtensionActivate(function activate(context: ExtensionContext) {
+export const activate = vscodeExtensionActivate(async function activate(context: ExtensionContext) {
 	updateMyFolders();
 	context.subscriptions.push(workspace.onDidChangeWorkspaceFolders(updateMyFolders));
 });

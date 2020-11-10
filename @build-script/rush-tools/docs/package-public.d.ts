@@ -7,6 +7,8 @@ export declare function buildProjects(opts: IBuildProjectOptions, builder: IProj
 
 export declare function createTasks(): Promise<void>;
 
+export declare function createYarn(): Promise<void>;
+
 export declare function description(func: any): string;
 
 export declare function description(func: any, desc: string): void;

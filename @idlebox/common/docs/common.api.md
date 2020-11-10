@@ -57,7 +57,8 @@ export const bindThis: MethodDecorator;
 // Warning: (ae-missing-release-tag) "CallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export class CallbackList<Argument extends []> {
+export class CallbackList<Argument extends [
+]> {
     constructor();
     // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
     //
@@ -146,7 +147,8 @@ export class DeferredPromise<T, PT = any> {
 // Warning: (ae-missing-release-tag) "DelayCallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export class DelayCallbackList<Argument extends []> {
+export class DelayCallbackList<Argument extends [
+]> {
     // (undocumented)
     add(item: MyDelayCallback<Argument>, name?: string): void;
     // (undocumented)
@@ -530,7 +532,8 @@ export const memorizeValueSymbol: unique symbol;
 // Warning: (ae-missing-release-tag) "MyCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface MyCallback<Argument extends []> {
+export interface MyCallback<Argument extends [
+]> {
     // (undocumented)
     (...param: Argument): void | undefined | boolean;
     // (undocumented)
@@ -540,7 +543,8 @@ export interface MyCallback<Argument extends []> {
 // Warning: (ae-missing-release-tag) "MyDelayCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface MyDelayCallback<Argument extends []> {
+export interface MyDelayCallback<Argument extends [
+]> {
     // (undocumented)
     (...param: Argument): void;
     // (undocumented)

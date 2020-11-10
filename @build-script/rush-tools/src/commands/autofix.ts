@@ -1,8 +1,8 @@
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
+import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
-import { RushProject } from '../api/rushProject';
 
 /** @internal */
 export default async function runAutoFix(argv: string[]) {
@@ -108,14 +108,16 @@ export default async function runAutoFix(argv: string[]) {
 			}
 		}
 
-		let flShow = false;
-		for (const depName of Object.keys(deps)) {
-			if (blacklist.has(depName)) {
-				if (!flShow) {
-					flShow = true;
-					warn('Warning:');
+		if (!blacklist.has(packName)) {
+			let flShow = false;
+			for (const depName of Object.keys(deps)) {
+				if (blacklist.has(depName)) {
+					if (!flShow) {
+						flShow = true;
+						warn('Warning:');
+					}
+					warn('    package "%s" depend private "%s"', packName, depName);
 				}
-				warn('    package "%s" depend private "%s"', packName, depName);
 			}
 		}
 	};

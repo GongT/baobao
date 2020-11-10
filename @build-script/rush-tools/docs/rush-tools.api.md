@@ -23,6 +23,11 @@ export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallb
 // @public (undocumented)
 export function createTasks(): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "createYarn" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createYarn(): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "description" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
