@@ -373,6 +373,93 @@
             },
             {
               "kind": "Method",
+              "canonicalReference": "@gongt/vscode-helpers!BaseLogger#dedent:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "dedent(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "dedent"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@gongt/vscode-helpers!BaseLogger#dir:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "dir(obj: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "obj",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "dir"
+            },
+            {
+              "kind": "Method",
               "canonicalReference": "@gongt/vscode-helpers!BaseLogger#dispose:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -541,6 +628,34 @@
             },
             {
               "kind": "Method",
+              "canonicalReference": "@gongt/vscode-helpers!BaseLogger#indent:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "indent(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "indent"
+            },
+            {
+              "kind": "Method",
               "canonicalReference": "@gongt/vscode-helpers!BaseLogger#info:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -629,6 +744,50 @@
             },
             {
               "kind": "Method",
+              "canonicalReference": "@gongt/vscode-helpers!BaseLogger#trace:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trace(...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "trace"
+            },
+            {
+              "kind": "Method",
               "canonicalReference": "@gongt/vscode-helpers!BaseLogger#warn:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -709,206 +868,6 @@
             "startIndex": 1,
             "endIndex": 4
           }
-        },
-        {
-          "kind": "Class",
-          "canonicalReference": "@gongt/vscode-helpers!ExtensionFileSystem:class",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare class ExtensionFileSystem "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "ExtensionFileSystem",
-          "members": [
-            {
-              "kind": "Method",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionFileSystem#createLog:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "createLog(name: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "name",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                }
-              ],
-              "name": "createLog"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionFileSystem#getAsset:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "getAsset(file: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "FileContext",
-                  "canonicalReference": "@gongt/vscode-helpers!~FileContext:class"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "file",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                }
-              ],
-              "name": "getAsset"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionFileSystem#getGlobal:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "getGlobal(file: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "FileContext",
-                  "canonicalReference": "@gongt/vscode-helpers!~FileContext:class"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "file",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                }
-              ],
-              "name": "getGlobal"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionFileSystem#getWorkspace:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "getWorkspace(file: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "FileContext",
-                  "canonicalReference": "@gongt/vscode-helpers!~FileContext:class"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "file",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  }
-                }
-              ],
-              "name": "getWorkspace"
-            }
-          ],
-          "implementsTokenRanges": []
         },
         {
           "kind": "Enum",
@@ -1053,114 +1012,22 @@
           }
         },
         {
-          "kind": "Class",
-          "canonicalReference": "@gongt/vscode-helpers!ExtensionStorage:class",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare class ExtensionStorage "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "ExtensionStorage",
-          "members": [
-            {
-              "kind": "Property",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionStorage#global:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly global: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Memento",
-                  "canonicalReference": "!\"\\\"vscode\\\"\".Memento:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "global",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionStorage#workspace:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "readonly workspace: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Memento",
-                  "canonicalReference": "!\"\\\"vscode\\\"\".Memento:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "releaseTag": "Public",
-              "name": "workspace",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false
-            }
-          ],
-          "implementsTokenRanges": []
-        },
-        {
           "kind": "Variable",
-          "canonicalReference": "@gongt/vscode-helpers!extFs:var",
+          "canonicalReference": "@gongt/vscode-helpers!filesystem:var",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "extFs: "
+              "text": "filesystem: "
             },
             {
               "kind": "Reference",
               "text": "ExtensionFileSystem",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionFileSystem:class"
+              "canonicalReference": "@gongt/vscode-helpers!~ExtensionFileSystem:class"
             }
           ],
           "releaseTag": "Public",
-          "name": "extFs",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
-        },
-        {
-          "kind": "Variable",
-          "canonicalReference": "@gongt/vscode-helpers!extStor:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "extStor: "
-            },
-            {
-              "kind": "Reference",
-              "text": "ExtensionStorage",
-              "canonicalReference": "@gongt/vscode-helpers!ExtensionStorage:class"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "extStor",
+          "name": "filesystem",
           "variableTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2
@@ -1659,6 +1526,97 @@
           "extendsTokenRanges": []
         },
         {
+          "kind": "Interface",
+          "canonicalReference": "@gongt/vscode-helpers!IContributeKeybinding:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IContributeKeybinding "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "IContributeKeybinding",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@gongt/vscode-helpers!IContributeKeybinding#command:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "command: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "command",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@gongt/vscode-helpers!IContributeKeybinding#key:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "key: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "key",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@gongt/vscode-helpers!IContributeKeybinding#when:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "when?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "when",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
           "kind": "Enum",
           "canonicalReference": "@gongt/vscode-helpers!IdCategory:enum",
           "docComment": "",
@@ -1785,6 +1743,64 @@
                 }
               ],
               "name": "debug"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@gongt/vscode-helpers!ILogger#dir:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "dir(obj: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "obj",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "dir"
             },
             {
               "kind": "MethodSignature",
@@ -1989,6 +2005,64 @@
             },
             {
               "kind": "MethodSignature",
+              "canonicalReference": "@gongt/vscode-helpers!ILogger#trace:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trace(msg: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "msg",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "trace"
+            },
+            {
+              "kind": "MethodSignature",
               "canonicalReference": "@gongt/vscode-helpers!ILogger#warn:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -2081,6 +2155,15 @@
                 },
                 {
                   "kind": "Content",
+                  "text": "[];\n        keybindings?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IContributeKeybinding",
+                  "canonicalReference": "@gongt/vscode-helpers!IContributeKeybinding:interface"
+                },
+                {
+                  "kind": "Content",
                   "text": "[];\n    }"
                 },
                 {
@@ -2092,7 +2175,7 @@
               "name": "contributes",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 4
+                "endIndex": 6
               }
             },
             {
@@ -2210,6 +2293,31 @@
           "members": [
             {
               "kind": "PropertySignature",
+              "canonicalReference": "@gongt/vscode-helpers!MyExtend#extensionId:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "extensionId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "extensionId",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
               "canonicalReference": "@gongt/vscode-helpers!MyExtend#extensionName:member",
               "docComment": "",
               "excerptTokens": [
@@ -2219,7 +2327,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "{\n        id: string;\n        display: string;\n    }"
+                  "text": "string"
                 },
                 {
                   "kind": "Content",
@@ -2380,6 +2488,51 @@
             }
           ],
           "name": "registerAction"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@gongt/vscode-helpers!replaceConsole:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function replaceConsole(_logger?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "VSCodeChannelLogger",
+              "canonicalReference": "@gongt/vscode-helpers!VSCodeChannelLogger:class"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Console",
+              "canonicalReference": "!__global.Console:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "_logger",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "replaceConsole"
         },
         {
           "kind": "Function",
@@ -2636,6 +2789,28 @@
           "implementsTokenRanges": []
         },
         {
+          "kind": "Variable",
+          "canonicalReference": "@gongt/vscode-helpers!storage:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "storage: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ExtensionStorage",
+              "canonicalReference": "@gongt/vscode-helpers!~ExtensionStorage:class"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "storage",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
           "kind": "Class",
           "canonicalReference": "@gongt/vscode-helpers!VSCodeChannelLogger:class",
           "docComment": "",
@@ -2689,12 +2864,56 @@
             },
             {
               "kind": "Method",
+              "canonicalReference": "@gongt/vscode-helpers!VSCodeChannelLogger#append:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "append(text: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "text",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "append"
+            },
+            {
+              "kind": "Method",
               "canonicalReference": "@gongt/vscode-helpers!VSCodeChannelLogger#appendLine:member(1)",
               "docComment": "",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "protected appendLine(line: "
+                  "text": "appendLine(line: "
                 },
                 {
                   "kind": "Content",
@@ -2730,6 +2949,34 @@
                 }
               ],
               "name": "appendLine"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@gongt/vscode-helpers!VSCodeChannelLogger#clear:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "clear(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "clear"
             },
             {
               "kind": "Method",

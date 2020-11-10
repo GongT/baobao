@@ -31,11 +31,21 @@ export class VSCodeChannelLogger extends BaseLogger {
 		return this.output.dispose();
 	}
 
-	protected appendLine(line: string): void {
+	clear() {
+		this.output.clear();
+	}
+
+	public appendLine(line: string): void {
 		this.output.appendLine(line);
+	}
+
+	public append(text: string): void {
+		this.output.append(text);
 	}
 
 	public show() {
 		this.output.show(false);
 	}
 }
+
+export const logger: VSCodeChannelLogger = new VSCodeChannelLogger(ignoreSymbol);

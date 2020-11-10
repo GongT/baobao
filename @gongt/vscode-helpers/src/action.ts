@@ -2,7 +2,7 @@ import { CanceledError } from '@idlebox/common';
 import { CancellationToken, CancellationTokenSource, commands } from 'vscode';
 import { context, IdCategory, wrapId } from './context';
 import { upgradePackageContributeAction } from './development';
-import { logger } from './main';
+import { logger } from './logger.ipc';
 import { ICommandIcon } from './packagejson';
 import { extensionState, ExtensionState } from './state';
 

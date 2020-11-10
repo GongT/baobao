@@ -1,31 +1,38 @@
 import { camelCase, ucfirst } from '@idlebox/common';
-import { ExtensionContext, extensions } from 'vscode';
+import { ExtensionContext, extensions, window } from 'vscode';
 import { IPackageJson } from './packagejson';
 
 let _context: any;
-let _extend: any /* MyExtend */;
+let _extend: MyExtend;
+
+let pkgJsonCache: IPackageJson;
 
 export interface MyExtend {
 	isDevelopment: boolean;
-	extensionName: {
-		id: string;
-		display: string;
-	};
+	extensionName: string;
+	extensionId: string;
 }
 
 /** @internal */
 export function _setContext(__context: ExtensionContext) {
 	_context = __context;
 	const found = extensions.all.find((item) => item.extensionPath === __context.extensionPath);
+	let extensionId = '';
 	if (found) {
+		extensionId = found.id;
 		pkgJsonCache = found.packageJSON;
 	} else {
-		console.error('Cannot find extension self in extensions.all');
+		window.showErrorMessage(`annot find self () in extensions.all, that's wired.`);
 		pkgJsonCache = require(_context.asAbsolutePath('package.json'));
+		extensionId = pkgJsonCache.publisher.toLowerCase() + '.' + pkgJsonCache.name;
 	}
+
+	const name = ucfirst(camelCase(pkgJsonCache.name.split('/').pop()!)).replace(/vscode/i, '');
+
 	_extend = {
-		extensionName: getExtensionName(),
+		extensionName: name,
 		isDevelopment: detectDevelopment(_context),
+		extensionId,
 	};
 }
 
@@ -33,7 +40,7 @@ export const context: ExtensionContext & MyExtend = new Proxy(
 	{},
 	{
 		get(_: any, p: PropertyKey) {
-			return _extend[p] || _context[p];
+			return _extend.hasOwnProperty(p) ? (_extend as any)[p] : _context[p];
 		},
 		getOwnPropertyDescriptor(_: any, p: PropertyKey) {
 			return Object.getOwnPropertyDescriptor(_extend, p) || Object.getOwnPropertyDescriptor(_context, p);
@@ -47,8 +54,8 @@ export const context: ExtensionContext & MyExtend = new Proxy(
 		ownKeys() {
 			return Object.keys(_context).concat(Object.keys(_extend));
 		},
-		set() {
-			throw new Error('cannot set() on context');
+		set(_: any, k: any, v: any) {
+			throw (_context[k] = v);
 		},
 		deleteProperty() {
 			throw new Error('cannot deleteProperty() on context');
@@ -57,21 +64,20 @@ export const context: ExtensionContext & MyExtend = new Proxy(
 			throw new Error('cannot defineProperty() on context');
 		},
 		getPrototypeOf() {
-			return null;
+			return Object.getPrototypeOf(_context);
 		},
-		setPrototypeOf() {
-			return false;
+		setPrototypeOf(_: any, v: any) {
+			return Object.setPrototypeOf(_context, v);
 		},
 		isExtensible() {
-			return false;
+			return Object.isExtensible(_context);
 		},
 		preventExtensions() {
-			return false;
+			return Object.preventExtensions(_context);
 		},
 	}
 );
 
-let pkgJsonCache: any;
 export function getPackageJson(): IPackageJson {
 	return pkgJsonCache;
 }
@@ -81,20 +87,11 @@ export enum IdCategory {
 	Setting = 'setting',
 }
 export function wrapId(category: IdCategory, short: string) {
-	return `${pkgJsonCache.publisher.toLowerCase()}-${pkgJsonCache.name}.${category}.${short}`;
+	return `${_extend.extensionId}.${category}.${short}`;
 }
 
 function detectDevelopment(context: ExtensionContext) {
 	const extensionPackage = getPackageJson().name;
 	const isDevelopment = context.extensionPath.endsWith(extensionPackage);
 	return isDevelopment;
-}
-
-function getExtensionName() {
-	let id: string = getPackageJson().name;
-	const name = ucfirst(camelCase(id.split('/').pop()!)).replace(/vscode/i, '');
-	return {
-		id,
-		display: name,
-	};
 }

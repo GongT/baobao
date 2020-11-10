@@ -30,7 +30,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.0.29",
+		"@idlebox/common": "^1.1.0",
 		"fancy-log": "^1.3.3",
 		"fs-extra": "^9.0.1",
 		"mysql": "^2.18.1",
@@ -42,7 +42,7 @@
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.1.2",
-		"@build-script/export-all-in-one": "^3.0.20",
+		"@build-script/export-all-in-one": "^3.0.21",
 		"@build-script/single-dog-asset": "^1.0.9",
 		"@build-script/typescript-transformer-dual-package": "^1.0.16",
 		"@microsoft/api-extractor": "^7.10.4",

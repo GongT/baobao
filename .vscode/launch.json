@@ -1,5 +1,5 @@
 {
-	// 使用 IntelliSense 了解相关属性。 
+	// 使用 IntelliSense 了解相关属性。
 	// 悬停以查看现有属性的描述。
 	// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
@@ -10,33 +10,26 @@
 			"name": "Attach NodeJS",
 			"port": 9229,
 			"cwd": "${workspaceFolder}",
-			"skipFiles": [
-				"<node_internals>/**"
-			]
+			"skipFiles": ["<node_internals>/**"]
 		},
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "启动扩展",
+			"name": "启动扩展 - vscode-remote-thief",
 			"runtimeExecutable": "${execPath}",
-			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-settings-sync"
-			],
-			"outFiles": [
-				"${workspaceFolder}/@gongt/vscode-settings-sync/lib/**/*.js"
-			]
+			"args": ["--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-remote-thief"],
+			"outFiles": ["${workspaceFolder}/@gongt/vscode-remote-thief/lib/**/*.js"]
 		},
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "启动扩展2",
+			"name": "启动扩展 - vscode-auto-extensions",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-settings-sync"
+				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-auto-extensions",
+				"${workspaceFolder}/@gongt/vscode-auto-extensions/.test"
 			],
-			"outFiles": [
-				"${workspaceFolder}/@gongt/vscode-settings-sync/lib/**/*.js"
-			]
+			"outFiles": ["${workspaceFolder}/@gongt/vscode-auto-extensions/lib/**/*.js"]
 		}
 	]
 }

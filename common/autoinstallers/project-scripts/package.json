@@ -12,10 +12,10 @@
 		"watch": "tsc -w -p src"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^2.0.9",
-		"@build-script/rush-tools": "^1.1.9",
-		"@idlebox/node": "^1.0.23",
-		"@idlebox/common": "^1.0.28",
+		"@idlebox/node-json-edit": "^2.0.10",
+		"@build-script/rush-tools": "^1.2.1",
+		"@idlebox/node": "^1.0.24",
+		"@idlebox/common": "^1.1.0",
 		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
 		"jsonc": "^2.0.0",

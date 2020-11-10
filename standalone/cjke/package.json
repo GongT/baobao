@@ -52,7 +52,7 @@
 		"source-map-support": "^0.5.19",
 		"ttypescript": "^1.5.12",
 		"typescript": "^4.0.3",
-		"@build-script/export-all-in-one": "^3.0.20",
+		"@build-script/export-all-in-one": "^3.0.21",
 		"ts-node": "^9.0.0"
 	},
 	"monorepo": "rush"

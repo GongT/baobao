@@ -7,12 +7,14 @@ common/temp
 dist/
 lib/
 *.tgz
+.test
 
 ### Package manager
 node_modules
 jspm_packages
 .rush
 package-deps.json
+/package.json
 
 ### logs
 *.log
@@ -27,3 +29,5 @@ package-deps.json
 
 ### old files
 .idea
+
+### temp project

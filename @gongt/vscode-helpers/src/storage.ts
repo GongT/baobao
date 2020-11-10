@@ -1,14 +1,9 @@
 import { ExtensionContext, Memento } from 'vscode';
 
-export class ExtensionStorage {
+class ExtensionStorage {
 	declare readonly workspace: Memento;
 	declare readonly global: Memento;
-	private constructor() {}
 
-	/** @internal */
-	static create(): ExtensionStorage {
-		return new ExtensionStorage();
-	}
 	/** @internal */
 	init(context: ExtensionContext) {
 		Object.defineProperty(this, 'global', {
@@ -23,3 +18,5 @@ export class ExtensionStorage {
 		});
 	}
 }
+
+export const storage: ExtensionStorage = new ExtensionStorage();

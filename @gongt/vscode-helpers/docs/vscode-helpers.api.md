@@ -7,7 +7,13 @@
 import { CancellationToken } from 'vscode';
 import { CancellationTokenSource } from 'vscode';
 import { ExtensionContext } from 'vscode';
+import { FileStat } from 'vscode';
+import { FileSystem } from 'vscode';
+import { FileType } from 'vscode';
+import { inspect } from 'util';
 import { Memento } from 'vscode';
+import { Uri } from 'vscode';
+import { WorkspaceFolder } from 'vscode';
 
 // Warning: (ae-missing-release-tag) "Action" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -36,6 +42,10 @@ export abstract class BaseLogger implements ILogger {
     // (undocumented)
     debug(...args: any[]): void;
     // (undocumented)
+    dedent(): void;
+    // (undocumented)
+    dir(obj: any, options?: any): void;
+    // (undocumented)
     abstract dispose(): void | Promise<void>;
     // (undocumented)
     emptyline(): void;
@@ -44,9 +54,13 @@ export abstract class BaseLogger implements ILogger {
     // (undocumented)
     protected format(tag: string, args: any[]): string;
     // (undocumented)
+    indent(): void;
+    // (undocumented)
     info(...args: any[]): void;
     // (undocumented)
     log(...args: any[]): void;
+    // (undocumented)
+    trace(...args: any[]): void;
     // (undocumented)
     warn(...args: any[]): void;
 }
@@ -55,22 +69,6 @@ export abstract class BaseLogger implements ILogger {
 //
 // @public (undocumented)
 export const context: ExtensionContext & MyExtend;
-
-// Warning: (ae-missing-release-tag) "ExtensionFileSystem" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export class ExtensionFileSystem {
-    // (undocumented)
-    createLog(name: string): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "FileContext" needs to be exported by the entry point _export_all_in_one_index.d.ts
-    //
-    // (undocumented)
-    getAsset(file: string): FileContext;
-    // (undocumented)
-    getGlobal(file: string): FileContext;
-    // (undocumented)
-    getWorkspace(file: string): FileContext;
-}
 
 // Warning: (ae-missing-release-tag) "ExtensionState" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -93,25 +91,11 @@ export enum ExtensionState {
 // @public (undocumented)
 export let extensionState: ExtensionState;
 
-// Warning: (ae-missing-release-tag) "ExtensionStorage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-forgotten-export) The symbol "ExtensionFileSystem" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "filesystem" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export class ExtensionStorage {
-    // (undocumented)
-    readonly global: Memento;
-    // (undocumented)
-    readonly workspace: Memento;
-}
-
-// Warning: (ae-missing-release-tag) "extFs" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export const extFs: ExtensionFileSystem;
-
-// Warning: (ae-missing-release-tag) "extStor" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export const extStor: ExtensionStorage;
+export const filesystem: ExtensionFileSystem;
 
 // Warning: (ae-missing-release-tag) "getPackageJson" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -168,6 +152,18 @@ export interface IContributeCommand {
     title: string;
 }
 
+// Warning: (ae-missing-release-tag) "IContributeKeybinding" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IContributeKeybinding {
+    // (undocumented)
+    command: string;
+    // (undocumented)
+    key: string;
+    // (undocumented)
+    when?: string;
+}
+
 // Warning: (ae-missing-release-tag) "IdCategory" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -185,6 +181,8 @@ export interface ILogger {
     // (undocumented)
     debug(msg: any, ...args: any[]): void;
     // (undocumented)
+    dir(obj: any, options?: any): void;
+    // (undocumented)
     emptyline(): void;
     // (undocumented)
     error(msg: any, ...args: any[]): void;
@@ -192,6 +190,8 @@ export interface ILogger {
     info(msg: any, ...args: any[]): void;
     // (undocumented)
     log(msg: any, ...args: any[]): void;
+    // (undocumented)
+    trace(msg: any, ...args: any[]): void;
     // (undocumented)
     warn(msg: any, ...args: any[]): void;
 }
@@ -203,6 +203,7 @@ export interface IPackageJson {
     // (undocumented)
     contributes?: {
         commands?: IContributeCommand[];
+        keybindings?: IContributeKeybinding[];
     };
     // (undocumented)
     name: string;
@@ -222,10 +223,9 @@ export const logger: VSCodeChannelLogger;
 // @public (undocumented)
 export interface MyExtend {
     // (undocumented)
-    extensionName: {
-        id: string;
-        display: string;
-    };
+    extensionId: string;
+    // (undocumented)
+    extensionName: string;
     // (undocumented)
     isDevelopment: boolean;
 }
@@ -240,6 +240,11 @@ export function onExtensionActivate(fn: IActivateFunction): void;
 //
 // @public (undocumented)
 export function registerAction<T>(actionCtor: IActionConstructor<T>, exposed?: boolean): void;
+
+// Warning: (ae-missing-release-tag) "replaceConsole" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function replaceConsole(_logger?: VSCodeChannelLogger): Console;
 
 // Warning: (ae-missing-release-tag) "runMyAction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -258,13 +263,23 @@ export abstract class SingleInstanceAction<T> extends Action<T> {
     static wait(): Promise<any>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "ExtensionStorage" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "storage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const storage: ExtensionStorage;
+
 // Warning: (ae-missing-release-tag) "VSCodeChannelLogger" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class VSCodeChannelLogger extends BaseLogger {
     constructor(title: string);
     // (undocumented)
-    protected appendLine(line: string): void;
+    append(text: string): void;
+    // (undocumented)
+    appendLine(line: string): void;
+    // (undocumented)
+    clear(): void;
     // (undocumented)
     dispose(): void;
     // (undocumented)

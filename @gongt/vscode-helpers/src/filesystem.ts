@@ -1,82 +1,174 @@
-import { ExtensionContext } from 'vscode';
+import { resolve } from 'path';
+import { promiseBool } from '@idlebox/common';
+import { parseJsonText, stringifyJsonText } from '@idlebox/node-json-edit';
+import { FileStat, FileSystem, FileType, Uri, workspace, WorkspaceFolder } from 'vscode';
+import { context } from './context';
 import { VSCodeFileLogger } from './logger.file';
-import { stat, mkdirp, pathExists, writeFile, readFile, remove as removeRaw } from 'fs-extra';
-import { resolve, dirname } from 'path';
+import { logger } from './logger.ipc';
+import { inspect } from 'util';
 
-function remove(dir: string) {
-	console.warn('delete "%s"', dir);
-	return removeRaw(dir);
-}
-
-export class ExtensionFileSystem {
-	private declare context: ExtensionContext;
-	private constructor() {}
-
-	/** @internal */
-	static create() {
-		return new ExtensionFileSystem();
-	}
-
-	/** @internal */
-	init(context: ExtensionContext) {
-		this.context = context;
-	}
+class ExtensionFileSystem {
+	public fs: FileSystem = workspace.fs;
 
 	async createLog(name: string) {
-		await mkdirp(this.context.logPath);
-		const logger = VSCodeFileLogger._create(resolve(this.context.logPath, name + '.log'));
-		this.context.subscriptions.push(logger);
+		await this.fs.createDirectory(context.logUri);
+		const logger = VSCodeFileLogger._create(resolve(context.logPath, name + '.log'));
+		context.subscriptions.push(logger);
 	}
 
 	getAsset(file: string) {
-		return new FileContext(this.context.asAbsolutePath(file));
+		return new FileContext(this, Uri.joinPath(context.extensionUri, file));
 	}
-	getGlobal(file: string) {
-		return new FileContext(resolve(this.context.globalStoragePath, file));
+	privateFileGlobal(file: string) {
+		return new FileContext(this, Uri.joinPath(context.globalStorageUri, file));
 	}
-	getWorkspace(file: string) {
-		if (!this.context.storagePath) {
+	privateFile(file: string) {
+		if (!context.storageUri) {
 			throw new Error('Not workspace context.');
 		}
-		return new FileContext(resolve(this.context.storagePath, file));
+		return new FileContext(this, Uri.joinPath(context.storageUri, file));
+	}
+
+	absoluteFile(baseUri: Uri, file: string) {
+		return new FileContext(this, Uri.joinPath(baseUri, file));
+	}
+
+	workspaceFile(workspace: WorkspaceFolder, file: string) {
+		return new FileContext(this, Uri.joinPath(workspace.uri, file));
+	}
+
+	stat(uri: Uri): Promise<FileStat> {
+		return Promise.resolve(this.fs.stat(uri));
+	}
+	readDirectory(uri: Uri): Promise<[string, FileType][]> {
+		return Promise.resolve(this.fs.readDirectory(uri));
+	}
+	createDirectory(uri: Uri): Promise<void> {
+		return Promise.resolve(this.fs.createDirectory(uri));
+	}
+	readFileRaw(uri: Uri): Promise<Uint8Array> {
+		return Promise.resolve(this.fs.readFile(uri));
+	}
+	async readFile(uri: Uri, encoding?: null): Promise<Buffer>;
+	async readFile(uri: Uri, encoding: BufferEncoding): Promise<string>;
+	async readFile(uri: Uri, encoding: undefined | null | BufferEncoding): Promise<string | Buffer> {
+		const buff = Buffer.from(await this.readFileRaw(uri));
+		return encoding ? buff.toString(encoding) : buff;
+	}
+	writeFileRaw(uri: Uri, content: Uint8Array): Promise<void> {
+		return Promise.resolve(this.fs.writeFile(uri, content));
+	}
+	writeFile(uri: Uri, content: ArrayBufferView, encoding?: null): Promise<void>;
+	writeFile(uri: Uri, content: string, encoding: BufferEncoding): Promise<void>;
+	writeFile(uri: Uri, content: string | ArrayBufferView, encoding: undefined | null | BufferEncoding): Promise<void> {
+		const data =
+			typeof content === 'string'
+				? Buffer.from(content as string, (encoding as BufferEncoding) || 'utf-8')
+				: Buffer.from(content);
+		return Promise.resolve(this.fs.writeFile(uri, data));
+	}
+	delete(uri: Uri, options?: { recursive?: boolean; useTrash?: boolean }): Promise<void> {
+		return Promise.resolve(this.fs.delete(uri, options));
+	}
+	rename(source: Uri, target: Uri, options?: { overwrite?: boolean }): Promise<void> {
+		return Promise.resolve(this.fs.rename(source, target, options));
+	}
+	copy(source: Uri, target: Uri, options?: { overwrite?: boolean }): Promise<void> {
+		return Promise.resolve(this.fs.copy(source, target, options));
+	}
+	async exists(uri: Uri): Promise<boolean> {
+		const s = await this.stat(uri).catch(() => null);
+		if (!s) return false;
+		return (s.type & FileType.Unknown) > 0;
+	}
+	lexists(uri: Uri): Promise<boolean> {
+		return promiseBool(this.stat(uri));
+	}
+	async isFile(uri: Uri) {
+		const statp = this.stat(uri);
+		if (await promiseBool(statp)) {
+			const stat = await statp;
+			return stat.type & FileType.File;
+		} else {
+			return false;
+		}
+	}
+	async isDir(uri: Uri) {
+		const statp = this.stat(uri);
+		if (await promiseBool(statp)) {
+			const stat = await statp;
+			return stat.type & FileType.Directory;
+		} else {
+			return false;
+		}
+	}
+	async isSymlink(uri: Uri) {
+		const statp = this.stat(uri);
+		if (await promiseBool(statp)) {
+			const stat = await statp;
+			return stat.type & FileType.SymbolicLink;
+		} else {
+			return false;
+		}
 	}
 }
 
 class FileContext {
-	constructor(private readonly fPath: string) {}
+	constructor(private readonly fs: ExtensionFileSystem, private readonly fPath: Uri) {}
 
 	get path() {
 		return this.fPath;
 	}
 
-	async normalFile() {
-		if (await pathExists(this.fPath)) {
-			if (!(await stat(this.fPath)).isFile()) {
-				await remove(this.fPath);
-			}
-		}
+	toString() {
+		return this.fPath.toString();
+	}
+	[inspect.custom]() {
+		return `<VSCodeFileContext ${this.fPath.toString(true)}>`;
 	}
 
-	async isFileExists() {
-		if (!this.fPath) return false;
-		return (await pathExists(this.fPath)) && (await stat(this.fPath)).isFile();
+	resolve(...subPath: string[]) {
+		return new FileContext(this.fs, Uri.joinPath(this.fPath, ...subPath));
+	}
+
+	async asNormalFile() {
+		if (!(await this.fs.isFile(this.fPath))) {
+			logger.warn(`delete file: ${this.fPath}`);
+			await this.fs.delete(this.fPath, { recursive: true });
+		}
+		return this;
+	}
+
+	async asDirectory() {
+		if (!(await this.fs.isDir(this.fPath))) {
+			logger.warn(`delete folder: ${this.fPath}`);
+			await this.fs.delete(this.fPath);
+		}
+		return this;
+	}
+
+	isFileExists() {
+		return this.fs.isFile(this.fPath);
 	}
 
 	async readText() {
-		await this.normalFile();
-		if (await pathExists(this.fPath)) {
-			return await readFile(this.fPath, 'utf-8');
+		if (await this.isFileExists()) {
+			return this.fs.readFile(this.fPath, 'utf-8');
 		} else {
 			return '';
 		}
 	}
 
-	async readJson() {
+	/**
+	 * @param comments Allow comment in json
+	 * @throws when read failed or json parse error
+	 */
+	async readJson(comments: boolean = false): Promise<any> {
 		const content = await this.readText();
-		try {
+		if (comments) {
+			return parseJsonText(content);
+		} else {
 			return JSON.parse(content);
-		} catch (e) {
-			return null;
 		}
 	}
 
@@ -88,35 +180,25 @@ class FileContext {
 		return true;
 	}
 	async writeTextForce(data: string) {
-		await this.normalFile();
-		mkdirp(dirname(this.fPath));
-		console.log(`write file ${this.fPath}`);
-		await writeFile(this.fPath, data);
+		this.fs.createDirectory(Uri.joinPath(this.fPath, '..'));
+		await this.fs.writeFile(this.fPath, data, 'utf-8');
 	}
+
 	writeJson(data: any) {
-		return this.writeText(JSON.stringify(data));
+		return this.writeText(stringifyJsonText(data));
 	}
 	writeJsonForce(data: any) {
-		return this.writeTextForce(JSON.stringify(data));
+		return this.writeTextForce(stringifyJsonText(data));
 	}
 
-	async createDirectory() {
-		if (await pathExists(this.fPath)) {
-			if ((await stat(this.fPath)).isDirectory()) {
-				return;
-			} else {
-				await remove(this.fPath);
-			}
-		}
-		await mkdirp(this.fPath);
-	}
-
-	async remove() {
-		if (await pathExists(this.fPath)) {
-			await remove(this.fPath);
+	async delete() {
+		if (await this.fs.exists(this.fPath)) {
+			await this.fs.delete(this.fPath, { recursive: true });
 			return true;
 		} else {
 			return false;
 		}
 	}
 }
+
+export const filesystem: ExtensionFileSystem = new ExtensionFileSystem();

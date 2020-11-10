@@ -8,6 +8,7 @@ export interface IPackageJson {
 	publisher: string;
 	contributes?: {
 		commands?: IContributeCommand[];
+		keybindings?: IContributeKeybinding[];
 	};
 }
 export interface IContributeCommand {
@@ -15,4 +16,9 @@ export interface IContributeCommand {
 	title: string;
 	category?: string;
 	icon?: ICommandIcon;
+}
+export interface IContributeKeybinding {
+	command: string;
+	key: string;
+	when?: string;
 }

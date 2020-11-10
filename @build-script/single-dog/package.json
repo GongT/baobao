@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"@build-script/builder": "^2.1.2",
-		"@build-script/rush-tools": "^1.2.0",
+		"@build-script/rush-tools": "^1.2.1",
 		"@idlebox/ensure-symlink": "^1.0.13",
 		"@idlebox/node": "^1.0.24",
 		"@build-script/export-all-in-one-inject": "^1.0.11",

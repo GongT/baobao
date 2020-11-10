@@ -1,7 +1,14 @@
+/// <reference types="node" />
 import { CancellationToken } from 'vscode';
 import { CancellationTokenSource } from 'vscode';
 import { ExtensionContext } from 'vscode';
+import { FileStat } from 'vscode';
+import { FileSystem } from 'vscode';
+import { FileType } from 'vscode';
+import { inspect } from 'util';
 import { Memento } from 'vscode';
+import { Uri } from 'vscode';
+import { WorkspaceFolder } from 'vscode';
 
 export declare abstract class Action<T> implements IAction<T> {
     protected readonly cancelSource: CancellationTokenSource;
@@ -13,27 +20,61 @@ export declare abstract class Action<T> implements IAction<T> {
 }
 
 export declare abstract class BaseLogger implements ILogger {
+    private prefix;
+    private prefixSkipTag;
     protected constructor(register?: boolean);
+    indent(): void;
+    dedent(): void;
     protected abstract appendLine(line: string): void;
     abstract dispose(): void | Promise<void>;
     protected format(tag: string, args: any[]): string;
+    dir(obj: any, options?: any): void;
     log(...args: any[]): void;
     info(...args: any[]): void;
     warn(...args: any[]): void;
     error(...args: any[]): void;
     debug(...args: any[]): void;
+    trace(...args: any[]): void;
     emptyline(): void;
 }
 
 export declare const context: ExtensionContext & MyExtend;
 
-export declare class ExtensionFileSystem {
-    private context;
-    private constructor();
+declare class ExtensionFileSystem {
+    fs: FileSystem;
     createLog(name: string): Promise<void>;
     getAsset(file: string): FileContext;
-    getGlobal(file: string): FileContext;
-    getWorkspace(file: string): FileContext;
+    privateFileGlobal(file: string): FileContext;
+    privateFile(file: string): FileContext;
+    absoluteFile(baseUri: Uri, file: string): FileContext;
+    workspaceFile(workspace: WorkspaceFolder, file: string): FileContext;
+    stat(uri: Uri): Promise<FileStat>;
+    readDirectory(uri: Uri): Promise<[
+        string,
+        FileType
+    ][]>;
+    createDirectory(uri: Uri): Promise<void>;
+    readFileRaw(uri: Uri): Promise<Uint8Array>;
+    readFile(uri: Uri, encoding?: null): Promise<Buffer>;
+    readFile(uri: Uri, encoding: BufferEncoding): Promise<string>;
+    writeFileRaw(uri: Uri, content: Uint8Array): Promise<void>;
+    writeFile(uri: Uri, content: ArrayBufferView, encoding?: null): Promise<void>;
+    writeFile(uri: Uri, content: string, encoding: BufferEncoding): Promise<void>;
+    delete(uri: Uri, options?: {
+        recursive?: boolean;
+        useTrash?: boolean;
+    }): Promise<void>;
+    rename(source: Uri, target: Uri, options?: {
+        overwrite?: boolean;
+    }): Promise<void>;
+    copy(source: Uri, target: Uri, options?: {
+        overwrite?: boolean;
+    }): Promise<void>;
+    exists(uri: Uri): Promise<boolean>;
+    lexists(uri: Uri): Promise<boolean>;
+    isFile(uri: Uri): Promise<number | false>;
+    isDir(uri: Uri): Promise<number | false>;
+    isSymlink(uri: Uri): Promise<number | false>;
 }
 
 export declare enum ExtensionState {
@@ -46,31 +87,36 @@ export declare enum ExtensionState {
 
 export declare let extensionState: ExtensionState;
 
-export declare class ExtensionStorage {
+declare class ExtensionStorage {
     readonly workspace: Memento;
     readonly global: Memento;
-    private constructor();
 }
 
-export declare const extFs: ExtensionFileSystem;
-
-export declare const extStor: ExtensionStorage;
-
 declare class FileContext {
+    private readonly fs;
     private readonly fPath;
-    constructor(fPath: string);
-    get path(): string;
-    normalFile(): Promise<void>;
-    isFileExists(): Promise<boolean>;
+    constructor(fs: ExtensionFileSystem, fPath: Uri);
+    get path(): Uri;
+    toString(): string;
+    [inspect.custom](): string;
+    resolve(...subPath: string[]): FileContext;
+    asNormalFile(): Promise<this>;
+    asDirectory(): Promise<this>;
+    isFileExists(): Promise<number | false>;
     readText(): Promise<string>;
-    readJson(): Promise<any>;
+    /**
+     * @param comments Allow comment in json
+     * @throws when read failed or json parse error
+     */
+    readJson(comments?: boolean): Promise<any>;
     writeText(data: string): Promise<boolean>;
     writeTextForce(data: string): Promise<void>;
     writeJson(data: any): Promise<boolean>;
     writeJsonForce(data: any): Promise<void>;
-    createDirectory(): Promise<void>;
-    remove(): Promise<boolean>;
+    delete(): Promise<boolean>;
 }
+
+export declare const filesystem: ExtensionFileSystem;
 
 export declare function getPackageJson(): IPackageJson;
 
@@ -88,7 +134,7 @@ export declare interface IActionConstructor<T = void> {
 }
 
 declare interface IActivateFunction {
-    (context: ExtensionContext): void | Promise<void>;
+    (context: ExtensionContext): Promise<any>;
 }
 
 export declare interface ICommandIcon {
@@ -103,6 +149,12 @@ export declare interface IContributeCommand {
     icon?: ICommandIcon;
 }
 
+export declare interface IContributeKeybinding {
+    command: string;
+    key: string;
+    when?: string;
+}
+
 export declare enum IdCategory {
     Action = "action",
     Setting = "setting"
@@ -113,11 +165,13 @@ declare interface IDeactivateFunction {
 }
 
 export declare interface ILogger {
+    dir(obj: any, options?: any): void;
     log(msg: any, ...args: any[]): void;
     info(msg: any, ...args: any[]): void;
     warn(msg: any, ...args: any[]): void;
     error(msg: any, ...args: any[]): void;
     debug(msg: any, ...args: any[]): void;
+    trace(msg: any, ...args: any[]): void;
     emptyline(): void;
 }
 
@@ -127,6 +181,7 @@ export declare interface IPackageJson {
     publisher: string;
     contributes?: {
         commands?: IContributeCommand[];
+        keybindings?: IContributeKeybinding[];
     };
 }
 
@@ -134,15 +189,15 @@ export declare const logger: VSCodeChannelLogger;
 
 export declare interface MyExtend {
     isDevelopment: boolean;
-    extensionName: {
-        id: string;
-        display: string;
-    };
+    extensionName: string;
+    extensionId: string;
 }
 
 export declare function onExtensionActivate(fn: IActivateFunction): void;
 
 export declare function registerAction<T>(actionCtor: IActionConstructor<T>, exposed?: boolean): void;
+
+export declare function replaceConsole(_logger?: VSCodeChannelLogger): Console;
 
 export declare function runMyAction<T>(Act: IActionConstructor<T>, args?: any[]): Promise<T>;
 
@@ -153,11 +208,15 @@ export declare abstract class SingleInstanceAction<T> extends Action<T> {
     abstract _run(...args: any[]): Promise<T>;
 }
 
+export declare const storage: ExtensionStorage;
+
 export declare class VSCodeChannelLogger extends BaseLogger {
     private output;
     constructor(title: string);
     dispose(): void;
-    protected appendLine(line: string): void;
+    clear(): void;
+    appendLine(line: string): void;
+    append(text: string): void;
     show(): void;
 }
 

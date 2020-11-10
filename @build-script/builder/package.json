@@ -27,7 +27,7 @@
 		"prepack": "run-s -l clean build"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.0.29",
+		"@idlebox/common": "^1.1.0",
 		"@idlebox/node": "^1.0.24",
 		"@idlebox/node-json-edit": "^2.0.10",
 		"@build-script/dual-package-runtime": "^1.0.6",

@@ -20,7 +20,7 @@ export async function createTempTSConfig() {
 			declaration: true,
 			declarationMap: true,
 			sourceMap: true,
-			module: 'esnext',
+			// module: 'esnext',
 			noEmit: false,
 			emitDeclarationOnly: false,
 			outDir: TEMP_DIST_DIR_NAME,

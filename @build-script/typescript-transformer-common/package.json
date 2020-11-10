@@ -29,7 +29,7 @@
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@build-script/export-all-in-one": "^3.0.20",
+		"@build-script/export-all-in-one": "^3.0.21",
 		"@build-script/builder": "^2.1.2",
 		"@build-script/single-dog-asset": "^1.0.9",
 		"@build-script/typescript-transformer-dual-package": "^1.0.16",

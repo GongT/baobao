@@ -1,10 +1,10 @@
 interface IChildProcessStatus {
-	// child_process
+	// child_process sync return
 	signal?: NodeJS.Signals | string | null;
 	status?: number | null;
 	error?: Error;
 
-	// spawn sync result
+	// spawn async process (after promise)
 	signalCode?: NodeJS.Signals | string | null;
 	exitCode?: number | null;
 

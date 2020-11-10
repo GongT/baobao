@@ -119,4 +119,4 @@ function createTitle(title: string) {
 	return '监视 - ' + title;
 }
 
-description(createTasks, 'Create watch all tasks define from .');
+description(createTasks, 'Create watch all tasks define by rush.json.');

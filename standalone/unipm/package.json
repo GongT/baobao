@@ -25,7 +25,7 @@
 	"preferGlobal": true,
 	"dependencies": {
 		"@idlebox/node-json-edit": "^2.0.10",
-		"@idlebox/common": "^1.0.29",
+		"@idlebox/common": "^1.1.0",
 		"@idlebox/node": "^1.0.24",
 		"execa": "^4.0.3",
 		"json5": "^2.1.3",
@@ -34,7 +34,7 @@
 	},
 	"devDependencies": {
 		"@build-script/builder": "^2.1.2",
-		"@build-script/export-all-in-one": "^3.0.20",
+		"@build-script/export-all-in-one": "^3.0.21",
 		"@build-script/typescript-transformer-dual-package": "^1.0.16",
 		"@build-script/single-dog-asset": "^1.0.9",
 		"@types/json5": "^0.0.30",

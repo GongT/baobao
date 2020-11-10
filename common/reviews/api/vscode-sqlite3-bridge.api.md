@@ -1,0 +1,1 @@
+../../../@gongt/vscode-sqlite3-bridge/docs/vscode-sqlite3-bridge.api.md

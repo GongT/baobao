@@ -1,17 +1,12 @@
 import { ExtensionContext } from 'vscode';
 import { _setContext, context } from './context';
-import { ExtensionFileSystem } from './filesystem';
-import { ignoreSymbol, VSCodeChannelLogger } from './logger.ipc';
-import { _setExtStat, ExtensionState } from './state';
-import { ExtensionStorage } from './storage';
 import { developmentFlushPackage } from './development';
-
-export const logger: VSCodeChannelLogger = new VSCodeChannelLogger(ignoreSymbol);
-export const extStor: ExtensionStorage = ExtensionStorage.create();
-export const extFs: ExtensionFileSystem = ExtensionFileSystem.create();
+import { logger, VSCodeChannelLogger } from './logger.ipc';
+import { _setExtStat, ExtensionState } from './state';
+import { storage } from './storage';
 
 interface IActivateFunction {
-	(context: ExtensionContext): void | Promise<void>;
+	(context: ExtensionContext): Promise<any>;
 }
 interface IDeactivateFunction {
 	(): void | Promise<void>;
@@ -39,7 +34,7 @@ export function vscodeExtensionActivate(activate: IActivateFunction): IActivateF
 		try {
 			_setContext(_context);
 
-			logger.setTitle(context.extensionName.display);
+			logger.setTitle(context.extensionName);
 			logger.log('extension activating... [%s]', context.isDevelopment ? 'development' : 'production');
 		} catch (e) {
 			const el = new VSCodeChannelLogger('early load error');
@@ -48,8 +43,7 @@ export function vscodeExtensionActivate(activate: IActivateFunction): IActivateF
 			el.show();
 		}
 
-		extStor.init(context);
-		extFs.init(context);
+		storage.init(context);
 
 		return Promise.resolve()
 			.then(async () => {
@@ -63,18 +57,18 @@ export function vscodeExtensionActivate(activate: IActivateFunction): IActivateF
 				return activate(context);
 			})
 			.then(
-				() => {
+				(data) => {
 					logger.log('extension loaded...');
 					_setExtStat(ExtensionState.NORMAL);
 
 					if (context.isDevelopment) {
-						logger.warn('rewrite package.json.');
 						developmentFlushPackage();
 					}
 
 					logger.emptyline();
 					logger.emptyline();
 					logger.emptyline();
+					return data;
 				},
 				(e) => {
 					logger.error('extension can not loaded!');

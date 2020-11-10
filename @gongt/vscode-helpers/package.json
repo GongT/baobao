@@ -21,9 +21,8 @@
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "^2.0.10",
-		"@idlebox/common": "^1.0.29",
+		"@idlebox/common": "^1.1.0",
 		"tslib": "^2.0.3",
-		"fs-extra": "^9.0.1",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
@@ -33,7 +32,6 @@
 		"typescript": "^4.0.3",
 		"gulp": "^4.0.2",
 		"@build-script/builder": "^2.1.2",
-		"@build-script/export-all-in-one": "^3.0.20",
-		"@types/fs-extra": "^9.0.2"
+		"@build-script/export-all-in-one": "^3.0.21"
 	}
 }
