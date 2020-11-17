@@ -2,8 +2,8 @@
 	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
 		"module": "commonjs",
-		"outDir": "../lib/tests",
-		"rootDir": ".",
+		"outDir": "../lib",
+		"rootDir": "..",
 		"types": ["node"],
 		"incremental": false,
 		"composite": false,
@@ -15,5 +15,7 @@
 				"verbose": 0
 			}
 		]
-	}
+	},
+	"include": ["./**/case/*.ts"],
+	"files": ["./entry.test.ts"]
 }

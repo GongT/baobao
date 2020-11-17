@@ -1,34 +1,47 @@
+export const enum ResolveResultType {
+	module = 'module',
+	commonjs = 'commonjs',
+	typescript = 'typescript',
+	missing = 'missing',
+}
+
 export interface IImportInfoModule extends IImportInfoResolveSuccess {
-	type: 'module';
+	type: ResolveResultType.module;
 }
 export interface IImportInfoCommonjs extends IImportInfoResolveSuccess {
-	type: 'commonjs';
+	type: ResolveResultType.commonjs;
 }
-export interface IImportInfoTypeSource extends IImportInfoResolveSuccess {
-	type: 'typescript';
+export interface IImportInfoProjectSource extends IImportInfoResolveSuccess {
+	type: ResolveResultType.typescript;
 }
 
 export interface IImportInfoResolveSuccess extends IImportInfoBase {
-	identifiers: string[];
+	sourceKind: SourceProjectKind;
 	nodeResolve: string;
 	fsPath: string;
 }
 
 export interface IImportInfoMissing extends IImportInfoBase {
-	type: 'missing';
+	type: ResolveResultType.missing;
+}
+
+export const enum SourceProjectKind {
+	internal = 'internal',
+	external = 'external',
 }
 
 interface IImportInfoBase {
+	sourceKind?: SourceProjectKind;
 	types?: string[];
-	identifiers?: string[];
 	specifier: string;
+	type: ResolveResultType;
 }
 
 export type IImportInfo = IImportInfoModule | IImportInfoCommonjs;
 
 export function missing(specifier: string): IImportInfoMissing {
 	return {
-		type: 'missing',
+		type: ResolveResultType.missing,
 		specifier,
 	};
 }

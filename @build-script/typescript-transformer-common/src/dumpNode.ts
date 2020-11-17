@@ -65,7 +65,7 @@ function deepRemoveParent<T>(node: T): [T, boolean] {
 
 	return ret as any;
 }
-export function dumpFlags(flags: number, def: any) {
+export function dumpFlagStrings(flags: number, def: any, sp = '\n\t') {
 	const hit = new Set<string>();
 	for (const item of Object.values(def) as any) {
 		if (item === 0) {
@@ -76,17 +76,22 @@ export function dumpFlags(flags: number, def: any) {
 			hit.add(`${def[item]}(${item})`);
 		}
 	}
-	console.log(
-		`%s = %s`,
-		inspect(flags, { colors: true }),
-		[...hit.values()].map((e) => `\n\t\x1B[38;5;6m${e}\x1B[0m`).join('')
-	);
+	return inspect(flags, { colors: true }) + ' =\x1B[38;5;6m' + [...hit.values()].join(sp) + '\x1B[0m';
+}
+export function dumpFlags(flags: number, def: any) {
+	console.error(dumpFlagStrings(flags, def));
 }
 
-export function dumpNode(node: Node, options: InspectOptions = {}) {
+export function prettyKind(node: Node) {
+	return '{ ' + inspect(showKind(node.kind)) + ' }';
+}
+export function dumpNode(node: Node | Node[], options: InspectOptions = {}) {
 	found.length = 0;
+
+	const v = Array.isArray(node) ? node.map((e: any) => deepRemoveParent(e)[0]) : deepRemoveParent(node)[0];
+
 	console.log(
-		inspect(deepRemoveParent(node)[0], {
+		inspect(v, {
 			depth: 10,
 			colors: true,
 			compact: false,

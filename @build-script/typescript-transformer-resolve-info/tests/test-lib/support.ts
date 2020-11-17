@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { readJsonSync } from 'fs-extra';
 import { describe, it } from 'mocha';
+import { IImportInfoFile, ImportWithInfo } from '../../src/info';
 
 const CASES_ROOT = __filename.endsWith('.ts')
 	? resolve(__dirname, '../../lib/tests/case')
@@ -29,16 +30,17 @@ export class ExpectedRecord {
 		return Object.keys(this.imports).join(',');
 	}
 
-	it(inputs: any) {
-		let foundModule: any;
+	it(inputs: IImportInfoFile) {
+		let foundModule: ImportWithInfo;
 		it(`should import "${this.specifier}"`, () => {
-			const infoImports = [...inputs.internals, ...inputs.externals];
-			foundModule = infoImports.find((item) => {
+			const infoImports = inputs.imports;
+			const found = infoImports.find((item) => {
 				return item.specifier === this.specifier;
 			});
-			if (!foundModule) {
+			if (!found) {
 				throw new Error('no such import');
 			}
+			foundModule = found;
 		});
 
 		for (const [identifier, kind] of Object.entries(this.imports)) {
@@ -46,10 +48,10 @@ export class ExpectedRecord {
 				let list: string[], another: string[], wrongType: string, index: number;
 				if (kind === ImportType.TYPE) {
 					list = foundModule.types;
-					another = foundModule.identifiers;
+					another = foundModule.values;
 					wrongType = ImportType[ImportType.VALUE].toLowerCase();
 				} else {
-					list = foundModule.identifiers;
+					list = foundModule.values;
 					another = foundModule.types;
 					wrongType = ImportType[ImportType.TYPE].toLowerCase();
 				}
@@ -68,9 +70,10 @@ export class ExpectedRecord {
 			});
 		}
 
-		it(`should not import anything else`, () => {
-			const extra = [].concat(foundModule.types, foundModule.identifiers);
-			if (extra.length > 0) {
+		it(`# should not import anything else`, () => {
+			const extra: string[] = [''].concat(foundModule.values, foundModule.types);
+			if (extra.length > 1) {
+				extra.shift();
 				throw new ExpectedError('redundant: ' + extra.join(', '));
 			}
 		});
@@ -80,15 +83,33 @@ export class ExpectedRecord {
 let num = 0;
 export function testCase(file: string, title: string, actions: ExpectedRecord[]) {
 	num++;
-	describe(`Case:${num} - ${title}`, async () => {
-		let data: any = {};
+	describe(`Case:${num}(${file}) - ${title}`, async () => {
+		let data: IImportInfoFile = {} as any;
 		before(`load importinfo file "${file}"`, () => {
-			const content = readJsonSync(resolve(CASES_ROOT, file + '.js.importinfo'));
+			const mapFile = resolve(CASES_ROOT, file + '.js.importinfo');
+			console.log('\t\x1B[2m%s\x1B[0m', mapFile);
+			const content = readJsonSync(mapFile);
 			Object.assign(data, content);
 		});
 
 		for (const action of actions) {
 			action.it(data);
 		}
+
+		it(`should not import anything else`, () => {
+			const externals: Record<string, boolean> = {};
+			if (data.imports) {
+				for (const item of data.imports) {
+					externals[item.specifier] = true;
+				}
+			}
+			for (const action of actions) {
+				delete externals[action.specifier];
+			}
+			const externalArr = Object.keys(externals);
+			if (externalArr.length > 0) {
+				throw new ExpectedError('should not import anything from: ' + externalArr.join(', '));
+			}
+		});
 	});
 }

@@ -33,7 +33,6 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"types": [],
 		"removeComments": false,
-		"resolveJsonModule": true,
 		"sourceMap": true,
 		"stripInternal": true,
 		"strictBindCallApply": true,

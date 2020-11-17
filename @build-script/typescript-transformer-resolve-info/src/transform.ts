@@ -46,42 +46,36 @@ export const pluginFunction = createProgramPlugin(function plugin(
 
 		return (sourceFile: ts.SourceFile) => {
 			const { fileName } = sourceFile;
-			const importInfoFile: IImportInfoFile = { externals: [], internals: [], errors: [] };
+			const importInfoFile: IImportInfoFile = { imports: [], errors: [] };
 
 			debug('[trans] visit \x1B[2m%s\x1B[0m', fileName);
 
 			const imports = getAllImports(sourceFile);
+			const importsWithoutBuiltin = imports.filter((importStat) => {
+				const importId = getImportedName(importStat);
+				return !isImportNodeBuiltins(importId);
+			});
+			const importInfoResult = collectImportInfo(sourceFile, importsWithoutBuiltin, typeChecker);
 			for (const importStat of imports) {
 				const importId = getImportedName(importStat);
 				if (isImportNodeBuiltins(importId)) {
 					continue;
 				}
 
-				if (isImportFromNodeModules(importStat)) {
-					const info = resolveTypescriptModule(importStat, packageJsonPath);
-					if (info.type === 'missing') {
-						importInfoFile.errors!.push(info);
-					} else {
-						const identifiers = collectImportInfo(sourceFile, [importStat], typeChecker);
-						importInfoFile.externals.push({
-							...info,
-							identifiers: identifiers.values,
-							types: identifiers.types,
-						});
-					}
-				} else {
-					const info = resolveProjectFile(importStat, program);
-					if (info.type === 'missing') {
-						importInfoFile.errors!.push(info);
-					} else {
-						const identifiers = collectImportInfo(sourceFile, [importStat], typeChecker);
-						importInfoFile.internals.push({
-							...info,
-							identifiers: identifiers.values,
-							types: identifiers.types,
-						});
-					}
+				const info = isImportFromNodeModules(importStat)
+					? resolveTypescriptModule(importStat, packageJsonPath)
+					: resolveProjectFile(importStat, program);
+				if (info.type === 'missing') {
+					importInfoFile.errors!.push(info);
+					continue;
 				}
+
+				const importInfo = importInfoResult.get(importStat);
+				importInfoFile.imports.push({
+					...info,
+					values: importInfo?.values ?? [],
+					types: importInfo?.types ?? [],
+				});
 			}
 
 			debug('[trans] visit complete');

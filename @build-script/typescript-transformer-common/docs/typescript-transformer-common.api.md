@@ -14,17 +14,12 @@ import { SourceFile } from 'typescript';
 import { StringLiteral } from 'typescript';
 import { TransformationContext } from 'typescript';
 import * as ts from 'typescript';
+import { default as ts_2 } from 'typescript';
 
 // Warning: (ae-missing-release-tag) "collectImportInfo" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function collectImportInfo(sourceFile: ts.SourceFile, nodes: ValidImportDeclaration[], typeChecker: ts.TypeChecker): IImportNames;
-
-// Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
-// Warning: (ae-missing-release-tag) "collectImportNames" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public @deprecated (undocumented)
-export function collectImportNames(node: ValidImportOrExportDeclaration): string[];
+export function collectImportInfo(sourceFile: ts.SourceFile, nodes: ValidImportDeclaration[], typeChecker: ts.TypeChecker): IImportInfoResult;
 
 // Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
 // Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
@@ -49,10 +44,15 @@ export function createProgramPlugin(plugin: IPluginFunction): IPluginFunction;
 // @public (undocumented)
 export function dumpFlags(flags: number, def: any): void;
 
+// Warning: (ae-missing-release-tag) "dumpFlagStrings" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function dumpFlagStrings(flags: number, def: any, sp?: string): string;
+
 // Warning: (ae-missing-release-tag) "dumpNode" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function dumpNode(node: Node, options?: InspectOptions): void;
+export function dumpNode(node: Node | Node[], options?: InspectOptions): void;
 
 // Warning: (ae-missing-release-tag) "extensionIsKindOfScriptFile" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -64,6 +64,11 @@ export function extensionIsKindOfScriptFile(f: string): boolean;
 //
 // @public (undocumented)
 export function findPackageFileExtension(pkg: PackageJson, wantModule: boolean): string;
+
+// Warning: (ae-missing-release-tag) "formatMyDiagnostic" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function formatMyDiagnostic(node: ts_2.Node, message: string, ...args: any[]): string;
 
 // Warning: (ae-missing-release-tag) "getAllImports" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -128,7 +133,7 @@ export type IImportInfo = IImportInfoModule | IImportInfoCommonjs;
 // @public (undocumented)
 export interface IImportInfoCommonjs extends IImportInfoResolveSuccess {
     // (undocumented)
-    type: 'commonjs';
+    type: ResolveResultType.commonjs;
 }
 
 // Warning: (ae-forgotten-export) The symbol "IImportInfoBase" needs to be exported by the entry point _export_all_in_one_index.d.ts
@@ -137,7 +142,7 @@ export interface IImportInfoCommonjs extends IImportInfoResolveSuccess {
 // @public (undocumented)
 export interface IImportInfoMissing extends IImportInfoBase {
     // (undocumented)
-    type: 'missing';
+    type: ResolveResultType.missing;
 }
 
 // Warning: (ae-missing-release-tag) "IImportInfoModule" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -145,7 +150,15 @@ export interface IImportInfoMissing extends IImportInfoBase {
 // @public (undocumented)
 export interface IImportInfoModule extends IImportInfoResolveSuccess {
     // (undocumented)
-    type: 'module';
+    type: ResolveResultType.module;
+}
+
+// Warning: (ae-missing-release-tag) "IImportInfoProjectSource" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IImportInfoProjectSource extends IImportInfoResolveSuccess {
+    // (undocumented)
+    type: ResolveResultType.typescript;
 }
 
 // Warning: (ae-missing-release-tag) "IImportInfoResolveSuccess" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -155,28 +168,16 @@ export interface IImportInfoResolveSuccess extends IImportInfoBase {
     // (undocumented)
     fsPath: string;
     // (undocumented)
-    identifiers: string[];
-    // (undocumented)
     nodeResolve: string;
+    // (undocumented)
+    sourceKind: SourceProjectKind;
 }
 
-// Warning: (ae-missing-release-tag) "IImportInfoTypeSource" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-forgotten-export) The symbol "IImportNames" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "IImportInfoResult" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface IImportInfoTypeSource extends IImportInfoResolveSuccess {
-    // (undocumented)
-    type: 'typescript';
-}
-
-// Warning: (ae-missing-release-tag) "IImportNames" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface IImportNames {
-    // (undocumented)
-    types: string[];
-    // (undocumented)
-    values: string[];
-}
+export type IImportInfoResult = Map<ValidImportDeclaration, IImportNames>;
 
 // Warning: (ae-missing-release-tag) "IImportTargetInfo" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -244,6 +245,16 @@ export function nameToString(name: Identifier | StringLiteral): string;
 // @public
 export function nodeDiagnosticPosition(node: ValidImportOrExportDeclaration): string;
 
+// Warning: (ae-missing-release-tag) "prettyKind" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function prettyKind(node: Node): string;
+
+// Warning: (ae-missing-release-tag) "printMyDiagnostic" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function printMyDiagnostic(node: ts_2.Node, message: string, ...args: any[]): void;
+
 // Warning: (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
 // Warning: (tsdoc-malformed-html-name) Invalid HTML element: An HTML name must be an ASCII letter followed by zero or more letters, digits, or hyphens
 // Warning: (ae-missing-release-tag) "replaceImportExportSpecifier" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -270,13 +281,37 @@ export function resolveModuleNative(packageJsonFilePath: string, file?: string):
 // Warning: (ae-missing-release-tag) "resolveProjectFile" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function resolveProjectFile(node: ValidImportOrExportDeclaration, program?: Program): Omit<IImportInfoTypeSource, 'identifiers'> | IImportInfoMissing;
+export function resolveProjectFile(node: ValidImportOrExportDeclaration, program?: Program): IImportInfoProjectSource | IImportInfoMissing;
+
+// Warning: (ae-missing-release-tag) "ResolveResultType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const enum ResolveResultType {
+    // (undocumented)
+    commonjs = "commonjs",
+    // (undocumented)
+    missing = "missing",
+    // (undocumented)
+    module = "module",
+    // (undocumented)
+    typescript = "typescript"
+}
 
 // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 // Warning: (ae-missing-release-tag) "resolveTypescriptModule" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export function resolveTypescriptModule(node: ValidImportOrExportDeclaration, packageJsonPath: string): Omit<IImportInfo, 'identifiers'> | IImportInfoMissing;
+export function resolveTypescriptModule(node: ValidImportOrExportDeclaration, packageJsonPath: string): IImportInfo | IImportInfoMissing;
+
+// Warning: (ae-missing-release-tag) "SourceProjectKind" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const enum SourceProjectKind {
+    // (undocumented)
+    external = "external",
+    // (undocumented)
+    internal = "internal"
+}
 
 // Warning: (tsdoc-at-sign-in-word) The "@" character looks like part of a TSDoc tag; use a backslash to escape it
 // Warning: (tsdoc-at-sign-in-word) The "@" character looks like part of a TSDoc tag; use a backslash to escape it

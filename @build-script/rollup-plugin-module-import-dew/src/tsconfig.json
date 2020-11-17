@@ -31,7 +31,6 @@
 		"pretty": false,
 		"typeRoots": ["../node_modules/@types"],
 		"removeComments": false,
-		"resolveJsonModule": false,
 		"sourceMap": true,
 		"stripInternal": true,
 		"strictBindCallApply": true,

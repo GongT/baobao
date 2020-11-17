@@ -4,6 +4,12 @@ interface InternalInterface {
 export interface Interface extends InternalInterface {
 	field2: string;
 }
+export interface InterfaceWithFunction {
+	__brand: any;
+}
+export function InterfaceWithFunction<TFunction extends Function>(cls: TFunction): TFunction {
+	return cls;
+}
 
 export interface InterfaceWithClass {
 	x: number;

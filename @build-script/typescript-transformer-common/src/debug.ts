@@ -5,7 +5,7 @@ export interface IDebug {
 let uid = 0;
 
 /** @internal */
-export let debugOut = getDebug(false);
+export let debugOut = getDebug(!!process.env.DEBUG_TRANSFORM_COMMON);
 
 export function getDebug(verbose: boolean): IDebug {
 	if ((verbose as any) === 1) {

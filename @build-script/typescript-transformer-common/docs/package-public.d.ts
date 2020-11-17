@@ -9,11 +9,9 @@ import { SourceFile } from 'typescript';
 import { StringLiteral } from 'typescript';
 import { TransformationContext } from 'typescript';
 import * as ts from 'typescript';
+import { default as ts_2 } from 'typescript';
 
-export declare function collectImportInfo(sourceFile: ts.SourceFile, nodes: ValidImportDeclaration[], typeChecker: ts.TypeChecker): IImportNames;
-
-/** @deprecated */
-export declare function collectImportNames(node: ValidImportOrExportDeclaration): string[];
+export declare function collectImportInfo(sourceFile: ts.SourceFile, nodes: ValidImportDeclaration[], typeChecker: ts.TypeChecker): IImportInfoResult;
 
 /**
  * convert dependencies to { name: true }
@@ -27,11 +25,15 @@ export declare function createProgramPlugin(plugin: IPluginFunction): IPluginFun
 
 export declare function dumpFlags(flags: number, def: any): void;
 
-export declare function dumpNode(node: Node, options?: InspectOptions): void;
+export declare function dumpFlagStrings(flags: number, def: any, sp?: string): string;
+
+export declare function dumpNode(node: Node | Node[], options?: InspectOptions): void;
 
 export declare function extensionIsKindOfScriptFile(f: string): boolean;
 
 export declare function findPackageFileExtension(pkg: PackageJson, wantModule: boolean): string;
+
+export declare function formatMyDiagnostic(node: ts_2.Node, message: string, ...args: any[]): string;
 
 export declare function getAllImports(sourceFile: ts.SourceFile): ValidImportDeclaration[];
 
@@ -72,34 +74,37 @@ export declare interface IExtraOpts {
 export declare type IImportInfo = IImportInfoModule | IImportInfoCommonjs;
 
 declare interface IImportInfoBase {
+    sourceKind?: SourceProjectKind;
     types?: string[];
-    identifiers?: string[];
     specifier: string;
+    type: ResolveResultType;
 }
 
 export declare interface IImportInfoCommonjs extends IImportInfoResolveSuccess {
-    type: 'commonjs';
+    type: ResolveResultType.commonjs;
 }
 
 export declare interface IImportInfoMissing extends IImportInfoBase {
-    type: 'missing';
+    type: ResolveResultType.missing;
 }
 
 export declare interface IImportInfoModule extends IImportInfoResolveSuccess {
-    type: 'module';
+    type: ResolveResultType.module;
+}
+
+export declare interface IImportInfoProjectSource extends IImportInfoResolveSuccess {
+    type: ResolveResultType.typescript;
 }
 
 export declare interface IImportInfoResolveSuccess extends IImportInfoBase {
-    identifiers: string[];
+    sourceKind: SourceProjectKind;
     nodeResolve: string;
     fsPath: string;
 }
 
-export declare interface IImportInfoTypeSource extends IImportInfoResolveSuccess {
-    type: 'typescript';
-}
+export declare type IImportInfoResult = Map<ValidImportDeclaration, IImportNames>;
 
-export declare interface IImportNames {
+declare interface IImportNames {
     types: string[];
     values: string[];
 }
@@ -143,6 +148,10 @@ declare interface PackageJson {
     exports?: IExportMap;
 }
 
+export declare function prettyKind(node: Node): string;
+
+export declare function printMyDiagnostic(node: ts_2.Node, message: string, ...args: any[]): void;
+
 /**
  * Replace specifier part of a import/export statement
  *
@@ -167,13 +176,25 @@ export declare function resolveModule(wantType: 'module' | 'commonjs', packageJs
  */
 export declare function resolveModuleNative(packageJsonFilePath: string, file?: string): string | null;
 
-export declare function resolveProjectFile(node: ValidImportOrExportDeclaration, program?: Program): Omit<IImportInfoTypeSource, 'identifiers'> | IImportInfoMissing;
+export declare function resolveProjectFile(node: ValidImportOrExportDeclaration, program?: Program): IImportInfoProjectSource | IImportInfoMissing;
+
+export declare const enum ResolveResultType {
+    module = "module",
+    commonjs = "commonjs",
+    typescript = "typescript",
+    missing = "missing"
+}
 
 /**
  * resolve import info from node_modules
  * @param packageJsonPath CURRENT project's package.json
  */
-export declare function resolveTypescriptModule(node: ValidImportOrExportDeclaration, packageJsonPath: string): Omit<IImportInfo, 'identifiers'> | IImportInfoMissing;
+export declare function resolveTypescriptModule(node: ValidImportOrExportDeclaration, packageJsonPath: string): IImportInfo | IImportInfoMissing;
+
+export declare const enum SourceProjectKind {
+    internal = "internal",
+    external = "external"
+}
 
 /**
  * split "@some/package/file.js" into "@some/package" and "file.js"
