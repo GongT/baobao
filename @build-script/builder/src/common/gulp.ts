@@ -220,19 +220,19 @@ export function load(gulp: typeof Gulp, _dirname: string): IJobRecord {
 			list.push(gulpConcatAction(gulp, `${name}:run`, map(data.run, pickAction), data.serial));
 		}
 		if (data.postRun.size) {
-			list.push(gulpConcatAction(gulp, `${name}:post`, map(data.preRun, requireJob)));
+			list.push(gulpConcatAction(gulp, `${name}:post`, map(data.postRun, requireJob)));
 		}
 
 		let fn: ExecFunc;
 		if (list.length === 0) {
-			fn = function emptyJob() {};
+			fn = emptyAction;
 		} else if (list.length === 1) {
 			fn = list[0];
 			if (typeof fn === 'string') {
 				fn = gulp.task(fn);
 			}
 		} else {
-			fn = gulp.series(...list);
+			fn = wrapSeries(list);
 		}
 		registerJob(name, fn);
 		const handler = functionWithName(fn, name, data.title);
@@ -254,7 +254,10 @@ function gulpConcatAction(
 	toSerial = false
 ): TaskFunction {
 	let ret: TaskFunction;
-	if (fns.length === 1) {
+	if (fns.length === 0) {
+		fancyLog.warn('job %s has no actions', title);
+		return emptyAction;
+	} else if (fns.length === 1) {
 		const o = fns.pop()!;
 		if (typeof o === 'string') {
 			return gulp.task(o);
@@ -262,9 +265,9 @@ function gulpConcatAction(
 			return o;
 		}
 	} else if (toSerial) {
-		ret = gulp.series(...fns);
+		ret = wrapSeries(fns);
 	} else {
-		ret = gulp.parallel(...fns);
+		ret = wrapParallel(fns);
 	}
 	nameFunction(title, ret as any);
 
@@ -277,4 +280,36 @@ function aliasName(name: string) {
 
 function map<T, V>(arr: Set<T>, mapper: (v: T) => V): V[] {
 	return [...arr.values()].map(mapper);
+}
+
+const emptyAction = nameFunction('noop', () => {});
+
+const revertSymbolSeries = Symbol('@@originalList:');
+const revertSymbolParallel = Symbol('@@originalList:');
+
+type WrappedTaskFunction = TaskFunction & {
+	[revertSymbolSeries]?: (string | TaskFunction)[];
+	[revertSymbolParallel]?: (string | TaskFunction)[];
+};
+
+function wrapList(tasks: (string | TaskFunction | WrappedTaskFunction)[], symbol: symbol): (string | TaskFunction)[] {
+	const wrapTasks: (string | TaskFunction)[] = [];
+	for (const item of tasks) {
+		if (symbol in (item as any)) {
+			wrapTasks.push(...(item as any)[symbol]);
+		} else {
+			wrapTasks.push(item);
+		}
+	}
+	return wrapTasks;
+}
+
+function wrapSeries(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
+	const wrapTasks = wrapList(tasks, revertSymbolSeries);
+	return Object.assign(Gulp.series(...wrapTasks), { [revertSymbolSeries]: wrapTasks });
+}
+
+function wrapParallel(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
+	const wrapTasks = wrapList(tasks, revertSymbolParallel);
+	return Object.assign(Gulp.parallel(...wrapTasks), { [revertSymbolParallel]: wrapTasks });
 }

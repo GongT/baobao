@@ -55,7 +55,7 @@ export abstract class BuildContextBase implements IBuildContext {
 		cmd.serial = mod === 'serial';
 	}
 
-	prefixAction(command: string, jobs: string) {
+	prefixAction(command: string, jobs: string[]) {
 		const cmd = this.getOrCreateCommand(command);
 		fancyLog.debug('   + prefixAction: %s - %s', command, jobs);
 		for (const item of jobs) {
@@ -77,7 +77,7 @@ export abstract class BuildContextBase implements IBuildContext {
 		return cmd;
 	}
 
-	postfixAction(command: string, jobs: string) {
+	postfixAction(command: string, jobs: string[]) {
 		const cmd = this.getOrCreateCommand(command);
 		fancyLog.debug('   + postfixAction: %s - %s', command, jobs);
 		for (const item of jobs) {

@@ -4,9 +4,9 @@ import { isArrayOfString } from './common/func';
 
 export interface IBuildContext {
 	registerAlias(name: string, command: string, args?: ReadonlyArray<string>): void;
-	prefixAction(command: string, jobs: string): void;
+	prefixAction(command: string, jobs: string[]): void;
 	addAction(command: string, jobs: ReadonlyArray<string>, dependency?: ReadonlyArray<string>): void;
-	postfixAction(command: string, jobs: string): void;
+	postfixAction(command: string, jobs: string[]): void;
 	readonly args: ReadonlyArray<string>;
 }
 
