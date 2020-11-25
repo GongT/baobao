@@ -28,5 +28,8 @@ declare module '@build-script/builder' {
 
 	export function loadToGulp(gulp: typeof Gulp, __dirname: string): IJobRecord;
 
+	export function gulpParallel(tasks: (string | Gulp.TaskFunction)[]): Gulp.TaskFunction;
+	export function gulpSeries(tasks: (string | Gulp.TaskFunction)[]): Gulp.TaskFunction;
+
 	export function isBuildConfigFileExists(): boolean;
 }

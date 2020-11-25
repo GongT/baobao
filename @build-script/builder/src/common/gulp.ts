@@ -232,7 +232,7 @@ export function load(gulp: typeof Gulp, _dirname: string): IJobRecord {
 				fn = gulp.task(fn);
 			}
 		} else {
-			fn = wrapSeries(list);
+			fn = gulpSeries(list);
 		}
 		registerJob(name, fn);
 		const handler = functionWithName(fn, name, data.title);
@@ -265,9 +265,9 @@ function gulpConcatAction(
 			return o;
 		}
 	} else if (toSerial) {
-		ret = wrapSeries(fns);
+		ret = gulpSeries(fns);
 	} else {
-		ret = wrapParallel(fns);
+		ret = gulpParallel(fns);
 	}
 	nameFunction(title, ret as any);
 
@@ -284,8 +284,8 @@ function map<T, V>(arr: Set<T>, mapper: (v: T) => V): V[] {
 
 const emptyAction = nameFunction('noop', () => {});
 
-const revertSymbolSeries = Symbol('@@originalList:');
-const revertSymbolParallel = Symbol('@@originalList:');
+const revertSymbolSeries = Symbol('@@originalList:series');
+const revertSymbolParallel = Symbol('@@originalList:parallel');
 
 type WrappedTaskFunction = TaskFunction & {
 	[revertSymbolSeries]?: (string | TaskFunction)[];
@@ -295,7 +295,7 @@ type WrappedTaskFunction = TaskFunction & {
 function wrapList(tasks: (string | TaskFunction | WrappedTaskFunction)[], symbol: symbol): (string | TaskFunction)[] {
 	const wrapTasks: (string | TaskFunction)[] = [];
 	for (const item of tasks) {
-		if (symbol in (item as any)) {
+		if (typeof item !== 'string' && symbol in item) {
 			wrapTasks.push(...(item as any)[symbol]);
 		} else {
 			wrapTasks.push(item);
@@ -304,12 +304,12 @@ function wrapList(tasks: (string | TaskFunction | WrappedTaskFunction)[], symbol
 	return wrapTasks;
 }
 
-function wrapSeries(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
+export function gulpSeries(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
 	const wrapTasks = wrapList(tasks, revertSymbolSeries);
 	return Object.assign(Gulp.series(...wrapTasks), { [revertSymbolSeries]: wrapTasks });
 }
 
-function wrapParallel(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
+export function gulpParallel(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
 	const wrapTasks = wrapList(tasks, revertSymbolParallel);
 	return Object.assign(Gulp.parallel(...wrapTasks), { [revertSymbolParallel]: wrapTasks });
 }

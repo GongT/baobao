@@ -1,9 +1,11 @@
 import { EventEmitter } from 'events';
 import Gulp from 'gulp';
 import { forceGetContext, getBuildContext, getCurrentDir, setCurrentDir } from '../common/buildContextInstance';
+import { fancyLog } from '../common/fancyLog';
 import { load } from '../common/gulp';
 import { currentArgs, currentPlugin } from './ctsStore';
-import { fancyLog } from '../common/fancyLog';
+
+export { gulpParallel, gulpSeries } from '../common/gulp';
 
 export const buildContext: any = new Proxy({} as any, {
 	get(_: any, p: string | number | symbol): any {
