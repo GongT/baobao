@@ -4,7 +4,7 @@ import { unlinkSync } from 'fs-extra';
 
 export async function decompressTargz(src: string, dest: string) {
 	log(`Decompress files:\n  --> ${dest}`);
-	await new Promise((resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		decompress(
 			{
 				src,

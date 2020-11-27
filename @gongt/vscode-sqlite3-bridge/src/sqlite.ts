@@ -51,7 +51,7 @@ export async function withDatabase<T>(dbPath: string, callback: ICallback<T | Pr
 		.then(() => callback(client))
 		.finally(() => {
 			logger.info('Close database.');
-			return new Promise((resolve, reject) => {
+			return new Promise<void>((resolve, reject) => {
 				client.close((e) => {
 					if (e) {
 						reject(e);
@@ -107,7 +107,7 @@ async function downloadAndBuild(moduleName: string) {
 	});
 	Object.assign(p, { command: `${manager} ${install} --unsafe-perm ${moduleName}` });
 
-	await new Promise((resolve) => {
+	await new Promise<void>((resolve) => {
 		p.on('exit', resolve);
 		p.on('error', (error) => {
 			Object.assign(p, { error });

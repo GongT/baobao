@@ -64,7 +64,7 @@ export default async function createTasks() {
 		names.push(createTitle(packageName));
 	}
 
-	const WatchAll = 'Watch All';
+	const WatchAll = `Watch All ${names.length} Projects`;
 	let allObj;
 
 	for (let index = tasksJson.tasks.length - 1; index >= 0; index--) {

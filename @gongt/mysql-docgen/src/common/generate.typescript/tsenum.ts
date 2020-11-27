@@ -24,7 +24,7 @@ export function generateTypescriptEnum(databaseName: string, outDir: string, tab
 		writer.end();
 	});
 
-	return new Promise((resolve, reject) => {
+	return new Promise<void>((resolve, reject) => {
 		writer.on('close', () => resolve());
 		writer.on('error', reject);
 	});

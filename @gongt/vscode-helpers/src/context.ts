@@ -36,47 +36,41 @@ export function _setContext(__context: ExtensionContext) {
 	};
 }
 
-export const context: ExtensionContext & MyExtend = new Proxy(
-	{},
-	{
-		get(_: any, p: PropertyKey) {
-			return _extend.hasOwnProperty(p) ? (_extend as any)[p] : _context[p];
-		},
-		getOwnPropertyDescriptor(_: any, p: PropertyKey) {
-			return Object.getOwnPropertyDescriptor(_extend, p) || Object.getOwnPropertyDescriptor(_context, p);
-		},
-		has(_: any, p: PropertyKey) {
-			return _extend.hasOwnProperty(p) || _context.hasOwnProperty(p);
-		},
-		enumerate() {
-			return Object.keys(_context).concat(Object.keys(_extend));
-		},
-		ownKeys() {
-			return Object.keys(_context).concat(Object.keys(_extend));
-		},
-		set(_: any, k: any, v: any) {
-			throw (_context[k] = v);
-		},
-		deleteProperty() {
-			throw new Error('cannot deleteProperty() on context');
-		},
-		defineProperty() {
-			throw new Error('cannot defineProperty() on context');
-		},
-		getPrototypeOf() {
-			return Object.getPrototypeOf(_context);
-		},
-		setPrototypeOf(_: any, v: any) {
-			return Object.setPrototypeOf(_context, v);
-		},
-		isExtensible() {
-			return Object.isExtensible(_context);
-		},
-		preventExtensions() {
-			return Object.preventExtensions(_context);
-		},
-	}
-);
+export const context: ExtensionContext & MyExtend = new Proxy({} as any, {
+	get(_: any, p: PropertyKey) {
+		return _extend.hasOwnProperty(p) ? (_extend as any)[p] : _context[p];
+	},
+	getOwnPropertyDescriptor(_: any, p: PropertyKey) {
+		return Object.getOwnPropertyDescriptor(_extend, p) || Object.getOwnPropertyDescriptor(_context, p);
+	},
+	has(_: any, p: PropertyKey) {
+		return _extend.hasOwnProperty(p) || _context.hasOwnProperty(p);
+	},
+	ownKeys() {
+		return Object.keys(_context).concat(Object.keys(_extend));
+	},
+	set(_: any, k: any, v: any) {
+		throw (_context[k] = v);
+	},
+	deleteProperty() {
+		throw new Error('cannot deleteProperty() on context');
+	},
+	defineProperty() {
+		throw new Error('cannot defineProperty() on context');
+	},
+	getPrototypeOf() {
+		return Object.getPrototypeOf(_context);
+	},
+	setPrototypeOf(_: any, v: any) {
+		return Object.setPrototypeOf(_context, v);
+	},
+	isExtensible() {
+		return Object.isExtensible(_context);
+	},
+	preventExtensions() {
+		return Object.preventExtensions(_context);
+	},
+});
 
 export function getPackageJson(): IPackageJson {
 	return pkgJsonCache;

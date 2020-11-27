@@ -1,0 +1,26 @@
+### PackageManager
+*.tgz
+yarn.lock
+node_modules
+jspm_modules
+
+### tests
+test
+tests
+
+### hidden files
+.*
+
+### temp files
+package-deps.json
+*.log
+
+### build source
+src
+build-script.json
+Gulpfile.*
+*.tsbuildinfo
+
+### docs
+docs/*
+!docs/*.d.ts

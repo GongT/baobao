@@ -10,6 +10,7 @@ import { getBuildContext, setCurrentDir } from './buildContextInstance';
 import { fancyLog, isVerbose } from './fancyLog';
 import { functionWithName } from './func';
 import { createJobFunc } from './jobs';
+import { gulpSeries, gulpParallel } from '@build-script/gulp-chain-simplify';
 
 function task(gulp: typeof Gulp, taskName: string, fn: Gulp.TaskFunction) {
 	fancyLog.debug(`define task to gulp: ${taskName} = ${functionName(fn as any)}`);
@@ -283,33 +284,3 @@ function map<T, V>(arr: Set<T>, mapper: (v: T) => V): V[] {
 }
 
 const emptyAction = nameFunction('noop', () => {});
-
-const revertSymbolSeries = Symbol('@@originalList:series');
-const revertSymbolParallel = Symbol('@@originalList:parallel');
-
-type WrappedTaskFunction = TaskFunction & {
-	[revertSymbolSeries]?: (string | TaskFunction)[];
-	[revertSymbolParallel]?: (string | TaskFunction)[];
-};
-
-function wrapList(tasks: (string | TaskFunction | WrappedTaskFunction)[], symbol: symbol): (string | TaskFunction)[] {
-	const wrapTasks: (string | TaskFunction)[] = [];
-	for (const item of tasks) {
-		if (typeof item !== 'string' && symbol in item) {
-			wrapTasks.push(...(item as any)[symbol]);
-		} else {
-			wrapTasks.push(item);
-		}
-	}
-	return wrapTasks;
-}
-
-export function gulpSeries(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
-	const wrapTasks = wrapList(tasks, revertSymbolSeries);
-	return Object.assign(Gulp.series(...wrapTasks), { [revertSymbolSeries]: wrapTasks });
-}
-
-export function gulpParallel(tasks: (string | TaskFunction | WrappedTaskFunction)[]): WrappedTaskFunction {
-	const wrapTasks = wrapList(tasks, revertSymbolParallel);
-	return Object.assign(Gulp.parallel(...wrapTasks), { [revertSymbolParallel]: wrapTasks });
-}

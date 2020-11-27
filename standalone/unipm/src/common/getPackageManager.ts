@@ -31,7 +31,7 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 				}
 			});
 		});
-		Promise.all(ps).finally(() => resolve());
+		Promise.all(ps).finally(() => resolve(undefined));
 	});
 
 	await Promise.all(

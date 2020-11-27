@@ -25,7 +25,7 @@ export function generateTypescriptDTS(databaseName: string, outDir: string, tabl
 		writer.end();
 	});
 
-	return new Promise((resolve, reject) => {
+	return new Promise<void>((resolve, reject) => {
 		writer.on('close', () => resolve());
 		writer.on('error', reject);
 	});

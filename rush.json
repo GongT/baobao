@@ -173,6 +173,11 @@
 			"packageName": "@idlebox/chokidar",
 			"projectFolder": "@idlebox/chokidar",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/gulp-chain-simplify",
+			"projectFolder": "@build-script/gulp-chain-simplify",
+			"shouldPublish": true
 		}
 	]
 }
