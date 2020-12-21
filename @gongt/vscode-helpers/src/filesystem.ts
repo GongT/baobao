@@ -58,15 +58,24 @@ class ExtensionFileSystem {
 	writeFileRaw(uri: Uri, content: Uint8Array): Promise<void> {
 		return Promise.resolve(this.fs.writeFile(uri, content));
 	}
-	writeFile(uri: Uri, content: ArrayBufferView, encoding?: null): Promise<void>;
+
+	writeFile(uri: Uri, content: ArrayBufferView): Promise<void>;
+	writeFile(uri: Uri, content: Uint8Array): Promise<void>;
 	writeFile(uri: Uri, content: string, encoding: BufferEncoding): Promise<void>;
-	writeFile(uri: Uri, content: string | ArrayBufferView, encoding: undefined | null | BufferEncoding): Promise<void> {
-		const data =
-			typeof content === 'string'
-				? Buffer.from(content as string, (encoding as BufferEncoding) || 'utf-8')
-				: Buffer.from(content);
+	writeFile(uri: Uri, content: string | ArrayBufferView | Uint8Array, encoding?: BufferEncoding): Promise<void> {
+		let data: Uint8Array;
+		if (typeof content === 'string') {
+			data = Buffer.from(content as string, (encoding as BufferEncoding) || 'utf-8');
+		} else if (Array.isArray(content)) {
+			data = content as Uint8Array;
+		} else if (content.buffer) {
+			data = content.buffer.slice(content.byteOffset, content.byteOffset + content.byteLength) as Buffer;
+		} else {
+			throw new Error('invalid content type to writeFile()');
+		}
 		return Promise.resolve(this.fs.writeFile(uri, data));
 	}
+
 	delete(uri: Uri, options?: { recursive?: boolean; useTrash?: boolean }): Promise<void> {
 		return Promise.resolve(this.fs.delete(uri, options));
 	}

@@ -36,6 +36,8 @@ export declare function commandInPath(cmd: string, alterExt?: string[]): Promise
 
 export declare function commmandInPathSync(cmd: string, alterExt?: string[]): string | undefined;
 
+export declare function createTempFolder(path: string): void;
+
 export declare function deleteEnvironment(name: string, env?: NodeJS.ProcessEnv): void;
 
 export declare function disposableStream<T extends Writable | Readable>(stream: T): T & IDisposable;
@@ -181,6 +183,8 @@ export declare class ExitError extends Error {
 }
 
 export declare function findBinary(what: string, pathvar?: PathArray, cwd?: string): string;
+
+export declare function findPackageRoot(packageName: string, require?: NodeRequire): string;
 
 export declare function findUpUntil(from: string, file: string): Promise<string | null>;
 

@@ -4,7 +4,9 @@ import { sortByString } from '@idlebox/common';
 export async function resortPackage(file: string) {
 	const original: any = await loadJsonFile(file);
 	for (const k of ['devDependencies', 'dependencies']) {
-		original[k] = sort(original[k]);
+		if (original[k]) {
+			original[k] = sort(original[k]);
+		}
 	}
 	await writeJsonFileBack(original);
 }

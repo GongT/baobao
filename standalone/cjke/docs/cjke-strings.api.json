@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.11.2",
+    "toolVersion": "7.12.1",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -68,6 +68,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "data",
               "propertyTypeTokenRange": {
@@ -93,6 +94,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "length",
               "propertyTypeTokenRange": {
@@ -118,6 +120,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "visible",
               "propertyTypeTokenRange": {
@@ -143,6 +146,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "width",
               "propertyTypeTokenRange": {
@@ -315,6 +319,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "result",
               "propertyTypeTokenRange": {
@@ -340,6 +345,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -367,6 +373,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "width",
               "propertyTypeTokenRange": {
@@ -624,6 +631,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "combining",
               "propertyTypeTokenRange": {
@@ -649,6 +657,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "emojiSequence",
               "propertyTypeTokenRange": {
@@ -674,6 +683,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "surrogates",
               "propertyTypeTokenRange": {

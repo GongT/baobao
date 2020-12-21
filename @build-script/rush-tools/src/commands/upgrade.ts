@@ -6,9 +6,10 @@ import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
 import { info } from '../common/output';
+import runUpdate from './update';
 
 /** @internal */
-export default async function runCheckUpdate() {
+export default async function runUpgrade(argv: string[]) {
 	const rush = new RushProject();
 
 	info('Collecting local project versions:');
@@ -68,7 +69,13 @@ export default async function runCheckUpdate() {
 			await unlink(f);
 		}
 	}
-	console.error(`You should run "rush update" now`);
+
+	if (argv.includes('--skip-update')) {
+		console.error(`You should run "rush update" now`);
+		return;
+	}
+
+	await runUpdate([]);
 }
 
 function update(target: Record<string, string>, map: Map<string, string>) {
@@ -133,4 +140,4 @@ function collectRush(alldeps: any, rush: RushProject) {
 	}
 }
 
-description(runCheckUpdate, 'Upgrade all dependencies of every project.');
+description(runUpgrade, 'Upgrade all dependencies of every project.');

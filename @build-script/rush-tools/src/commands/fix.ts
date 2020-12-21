@@ -5,7 +5,7 @@ import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
 
 /** @internal */
-export default async function runAutoFix(argv: string[]) {
+export default async function runFix(argv: string[]) {
 	const localHardVersions = new Map<string, string>(); // 本地硬性依赖，不允许指定其他值
 	const cyclicVersions = new Map<string, string>(); // 循环依赖 - 必须去npm请求才能确定
 	const conflictingVersions = new Map<string, string>(); // 有冲突，需要处理的依赖
@@ -137,4 +137,4 @@ function warn(msg: string, ...args: any[]) {
 	console.log(`\x1B[38;5;3m${msg}\x1B[0m`, ...args);
 }
 
-description(runAutoFix, 'Auto fix any mismatch dependency versions, use newest one inside workspace.');
+description(runFix, 'Auto fix any mismatch dependency versions, use newest one inside workspace.');

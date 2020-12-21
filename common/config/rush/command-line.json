@@ -33,7 +33,7 @@
 		},
 		{
 			"commandKind": "global",
-			"name": "update-version",
+			"name": "poor-change",
 			"summary": "检查本地有没有修改，如果有，version自增0.0.1",
 			"safeForSimultaneousRushProcesses": true,
 			"shellCommand": "node common/autoinstallers/project-scripts/lib/poor-change.js"
@@ -41,7 +41,7 @@
 		{
 			"commandKind": "global",
 			"name": "ypublish",
-			"summary": "把所有项目更新到npm（需要先运行update-version）",
+			"summary": "把所有项目更新到npm (需要先运行rush upgrade)",
 			"safeForSimultaneousRushProcesses": false,
 			"shellCommand": "node common/autoinstallers/project-scripts/lib/poor-publish.js"
 		},
@@ -78,9 +78,9 @@
 		},
 		{
 			"parameterKind": "flag",
-			"longName": "--no-systemd",
-			"description": "不使用“systemd-run”隔离环境",
-			"associatedCommands": ["watch", "update-version", "ypublish"]
+			"longName": "--no-linux-namespace",
+			"description": "不使用隔离环境",
+			"associatedCommands": ["watch", "upgrade", "ypublish"]
 		},
 		{
 			"argumentName": "FILE",

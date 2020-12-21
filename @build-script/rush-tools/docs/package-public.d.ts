@@ -1,3 +1,6 @@
+import execa from 'execa';
+
+export declare function argumentError(message: string, argMap: IArgumentsDefine[]): never;
 
 export declare function buildAction(action: string, argv: string[]): Promise<void>;
 
@@ -22,6 +25,12 @@ export declare function findRushJsonSync(fromPath?: string): string | null;
 export declare function findRushRootPath(fromPath?: string): Promise<string | null>;
 
 export declare function findRushRootPathSync(fromPath?: string): string | null;
+
+export declare interface IArgumentsDefine {
+    name: string;
+    optional?: boolean;
+    description: string;
+}
 
 export declare interface IBuildProjectOptions {
     rushProject?: RushProject;
@@ -84,9 +93,13 @@ export declare function main(): Promise<void>;
 export declare class NormalError extends Error {
 }
 
+export declare function optionalArgument(name: string): string | undefined;
+
 export declare function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
 
 export declare function registerProjectToRush(projectPath: string): Promise<boolean>;
+
+export declare function requireArgument(name: string): string;
 
 export declare function requireRushPath(path?: string): Promise<string>;
 
@@ -128,6 +141,8 @@ export declare class RushProject {
         version: string;
     };
 }
+
+export declare function spawnRushPassthrough(action: string, argv: string[]): Promise<execa.ExecaReturnValue<string>>;
 
 /** @innternal */
 export declare const spinner: {

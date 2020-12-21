@@ -381,6 +381,7 @@ export interface IDisposableBaseInternal {
     onDisposeError: EventRegister<Error>;
 }
 
+// Warning: (tsdoc-unsupported-tag) The TSDoc tag "@see" is not supported by this tool
 // Warning: (ae-missing-release-tag) "init" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public

@@ -56,7 +56,7 @@ function testConfilict(config: IRushConfig, name: string, relPath: string) {
 	});
 
 	if (nameConflict) {
-		if (name === nameConflict.packageName) {
+		if (relPath === nameConflict.projectFolder) {
 			return true;
 		}
 		throw new Error(`Project name "${name}" is already used at "${nameConflict.projectFolder}".`);
@@ -66,7 +66,7 @@ function testConfilict(config: IRushConfig, name: string, relPath: string) {
 		return normalize(projectFolder) === relPath;
 	});
 	if (pathConflict) {
-		if (relPath === pathConflict.projectFolder) {
+		if (name === pathConflict.packageName) {
 			return true;
 		}
 		throw new Error(`Path "${relPath}" is another project "${pathConflict.packageName}".`);

@@ -58,7 +58,8 @@ declare class ExtensionFileSystem {
     readFile(uri: Uri, encoding?: null): Promise<Buffer>;
     readFile(uri: Uri, encoding: BufferEncoding): Promise<string>;
     writeFileRaw(uri: Uri, content: Uint8Array): Promise<void>;
-    writeFile(uri: Uri, content: ArrayBufferView, encoding?: null): Promise<void>;
+    writeFile(uri: Uri, content: ArrayBufferView): Promise<void>;
+    writeFile(uri: Uri, content: Uint8Array): Promise<void>;
     writeFile(uri: Uri, content: string, encoding: BufferEncoding): Promise<void>;
     delete(uri: Uri, options?: {
         recursive?: boolean;

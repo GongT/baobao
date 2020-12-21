@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.11.2",
+    "toolVersion": "7.12.1",
     "schemaVersion": 1003,
     "oldestForwardsCompatibleVersion": 1001
   },
@@ -46,6 +46,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "CHARACTER_SET_NAME",
               "propertyTypeTokenRange": {
@@ -71,6 +72,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "COLUMN_COMMENT",
               "propertyTypeTokenRange": {
@@ -96,6 +98,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "COLUMN_DEFAULT",
               "propertyTypeTokenRange": {
@@ -121,6 +124,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "COLUMN_KEY",
               "propertyTypeTokenRange": {
@@ -146,6 +150,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "COLUMN_NAME",
               "propertyTypeTokenRange": {
@@ -171,6 +176,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "COLUMN_TYPE",
               "propertyTypeTokenRange": {
@@ -196,6 +202,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "EXTRA",
               "propertyTypeTokenRange": {
@@ -221,6 +228,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "IS_NULLABLE",
               "propertyTypeTokenRange": {
@@ -246,6 +254,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "ORDINAL_POSITION",
               "propertyTypeTokenRange": {
@@ -271,6 +280,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "TABLE_NAME",
               "propertyTypeTokenRange": {
@@ -312,6 +322,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "AUTO_INCREMENT",
               "propertyTypeTokenRange": {
@@ -337,6 +348,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "AVG_ROW_LENGTH",
               "propertyTypeTokenRange": {
@@ -362,6 +374,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "CREATE_TIME",
               "propertyTypeTokenRange": {
@@ -387,6 +400,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "ENGINE",
               "propertyTypeTokenRange": {
@@ -412,6 +426,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "TABLE_COLLATION",
               "propertyTypeTokenRange": {
@@ -437,6 +452,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "TABLE_COMMENT",
               "propertyTypeTokenRange": {
@@ -462,6 +478,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "TABLE_NAME",
               "propertyTypeTokenRange": {
@@ -487,6 +504,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "TABLE_ROWS",
               "propertyTypeTokenRange": {
@@ -512,6 +530,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "TABLE_SCHEMA",
               "propertyTypeTokenRange": {
@@ -537,6 +556,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "UPDATE_TIME",
               "propertyTypeTokenRange": {
@@ -578,6 +598,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "Column_name",
               "propertyTypeTokenRange": {
@@ -603,6 +624,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "Index_comment",
               "propertyTypeTokenRange": {
@@ -628,6 +650,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "Index_type",
               "propertyTypeTokenRange": {
@@ -653,6 +676,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "Key_name",
               "propertyTypeTokenRange": {
@@ -678,6 +702,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "Non_unique",
               "propertyTypeTokenRange": {
@@ -703,6 +728,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "Seq_in_index",
               "propertyTypeTokenRange": {
@@ -744,6 +770,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "average_row_length",
               "propertyTypeTokenRange": {
@@ -774,6 +801,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "columns",
               "propertyTypeTokenRange": {
@@ -799,6 +827,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "comment",
               "propertyTypeTokenRange": {
@@ -824,6 +853,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "create_time",
               "propertyTypeTokenRange": {
@@ -849,6 +879,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "current_index",
               "propertyTypeTokenRange": {
@@ -874,6 +905,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "engine",
               "propertyTypeTokenRange": {
@@ -904,6 +936,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "keys",
               "propertyTypeTokenRange": {
@@ -929,6 +962,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "name",
               "propertyTypeTokenRange": {
@@ -954,6 +988,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "row_count",
               "propertyTypeTokenRange": {
@@ -979,6 +1014,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "table_collation",
               "propertyTypeTokenRange": {
@@ -1004,6 +1040,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "update_time",
               "propertyTypeTokenRange": {
@@ -1045,6 +1082,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "charset",
               "propertyTypeTokenRange": {
@@ -1070,6 +1108,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "comment",
               "propertyTypeTokenRange": {
@@ -1095,6 +1134,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "defaultValue",
               "propertyTypeTokenRange": {
@@ -1120,6 +1160,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "keyType",
               "propertyTypeTokenRange": {
@@ -1145,6 +1186,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "name",
               "propertyTypeTokenRange": {
@@ -1170,6 +1212,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "onUpdateCurrentTimestamp",
               "propertyTypeTokenRange": {
@@ -1195,6 +1238,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "order",
               "propertyTypeTokenRange": {
@@ -1220,6 +1264,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "type",
               "propertyTypeTokenRange": {
@@ -1261,6 +1306,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "columns",
               "propertyTypeTokenRange": {
@@ -1286,6 +1332,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": true,
               "releaseTag": "Public",
               "name": "comment",
               "propertyTypeTokenRange": {
@@ -1311,6 +1358,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "name",
               "propertyTypeTokenRange": {
@@ -1336,6 +1384,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "type",
               "propertyTypeTokenRange": {
@@ -1361,6 +1410,7 @@
                   "text": ";"
                 }
               ],
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "unique",
               "propertyTypeTokenRange": {

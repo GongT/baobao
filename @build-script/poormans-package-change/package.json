@@ -16,31 +16,31 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.1.0",
-		"@idlebox/node": "^1.0.25",
-		"@idlebox/node-json-edit": "^2.0.11",
-		"@pnpm/store-path": "^4.0.2",
+		"@idlebox/common": "^1.1.1",
+		"@idlebox/node": "^1.0.26",
+		"@idlebox/node-json-edit": "^2.0.12",
+		"@pnpm/store-path": "^4.0.3",
 		"cacache": "^15.0.5",
-		"execa": "^4.1.0",
+		"execa": "^5.0.0",
 		"fs-extra": "^9.0.1",
 		"request": "^2.88.2",
-		"semver": "^7.3.2",
+		"semver": "^7.3.4",
 		"source-map-support": "^0.5.19",
 		"targz": "^1.0.1"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.1.3",
+		"@build-script/builder": "^2.1.6",
 		"@build-script/single-dog-asset": "^1.0.10",
 		"@types/cacache": "^12.0.1",
-		"@types/fs-extra": "^9.0.3",
-		"@types/node": "^14.14.7",
+		"@types/fs-extra": "^9.0.5",
+		"@types/node": "^14.14.14",
 		"@types/request": "^2.48.5",
 		"@types/semver": "^7.3.4",
 		"@types/targz": "^1.0.0",
 		"gulp": "^4.0.2",
 		"tslib": "^2.0.3",
 		"ttypescript": "^1.5.12",
-		"typescript": "^4.0.5"
+		"typescript": "^4.1.3"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

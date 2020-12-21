@@ -15,7 +15,7 @@
 		"fs-extra": "^9.0.1"
 	},
 	"devDependencies": {
-		"npm-check-updates": "^10.0.0",
+		"npm-check-updates": "^10.2.5",
 		"tslib": "^2.0.3",
 		"ttypescript": "^1.5.12"
 	},

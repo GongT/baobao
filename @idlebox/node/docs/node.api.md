@@ -68,6 +68,11 @@ export function commandInPath(cmd: string, alterExt?: string[]): Promise<string 
 // @public (undocumented)
 export function commmandInPathSync(cmd: string, alterExt?: string[]): string | undefined;
 
+// Warning: (ae-missing-release-tag) "createTempFolder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createTempFolder(path: string): void;
+
 // Warning: (ae-missing-release-tag) "deleteEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -366,6 +371,11 @@ export class ExitError extends Error {
 //
 // @public (undocumented)
 export function findBinary(what: string, pathvar?: PathArray, cwd?: string): string;
+
+// Warning: (ae-missing-release-tag) "findPackageRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function findPackageRoot(packageName: string, require?: NodeRequire): string;
 
 // Warning: (ae-missing-release-tag) "findUpUntil" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

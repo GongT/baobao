@@ -5,16 +5,20 @@ import { description } from './common/description';
 import { NormalError } from './common/error';
 
 export default async function main() {
-	const command: undefined | string = process.argv.slice(2).find((item) => !item.startsWith('-'));
-	if (!command) {
+	let argv = process.argv.slice(2);
+
+	const commandPos = argv.findIndex((item) => !item.startsWith('-'));
+	if (commandPos === -1) {
 		await showHelp();
 		return;
 	}
+	const command = argv.splice(commandPos, 1)[0];
+	const rcommand = compCommandName(command);
 
-	const fpath = resolve(__dirname, 'commands', command + '.cjs');
+	const fpath = resolve(__dirname, 'commands', rcommand + '.cjs');
 	if (await exists(fpath)) {
-		const argv = process.argv.slice(2).filter((item) => item !== command);
 		try {
+			process.env.__running_command = rcommand;
 			const { default: fn } = await import(fpath);
 			await fn(argv);
 		} catch (e) {
@@ -28,6 +32,15 @@ export default async function main() {
 		console.error('No such command: ' + command);
 		process.exit(1);
 	}
+}
+
+function compCommandName(n: string) {
+	if (n === 'autofix') {
+		return 'fix';
+	} else if (n === 'check-update') {
+		return 'upgrade';
+	}
+	return n;
 }
 
 async function showHelp() {

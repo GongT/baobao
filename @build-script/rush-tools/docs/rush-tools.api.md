@@ -4,6 +4,13 @@
 
 ```ts
 
+import execa from 'execa';
+
+// Warning: (ae-missing-release-tag) "argumentError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function argumentError(message: string, argMap: IArgumentsDefine[]): never;
+
 // Warning: (ae-missing-release-tag) "buildAction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -61,6 +68,18 @@ export function findRushRootPath(fromPath?: string): Promise<string | null>;
 //
 // @public (undocumented)
 export function findRushRootPathSync(fromPath?: string): string | null;
+
+// Warning: (ae-missing-release-tag) "IArgumentsDefine" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IArgumentsDefine {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    optional?: boolean;
+}
 
 // Warning: (ae-missing-release-tag) "IBuildProjectOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -178,6 +197,11 @@ export function main(): Promise<void>;
 export class NormalError extends Error {
 }
 
+// Warning: (ae-missing-release-tag) "optionalArgument" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function optionalArgument(name: string): string | undefined;
+
 // Warning: (ae-missing-release-tag) "overallOrder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -187,6 +211,11 @@ export function overallOrder(rushProject?: RushProject): Immutable<IProjectConfi
 //
 // @public (undocumented)
 export function registerProjectToRush(projectPath: string): Promise<boolean>;
+
+// Warning: (ae-missing-release-tag) "requireArgument" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function requireArgument(name: string): string;
 
 // Warning: (ae-missing-release-tag) "requireRushPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -256,6 +285,11 @@ export class RushProject {
     // (undocumented)
     get tempRoot(): string;
 }
+
+// Warning: (ae-missing-release-tag) "spawnRushPassthrough" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function spawnRushPassthrough(action: string, argv: string[]): Promise<execa.ExecaReturnValue<string>>;
 
 // Warning: (ae-missing-release-tag) "spinner" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
