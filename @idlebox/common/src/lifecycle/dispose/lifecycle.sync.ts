@@ -2,6 +2,24 @@ import { DisposedError } from './disposedError';
 import { Emitter, EventRegister } from '../event/event';
 import { IDisposable, IDisposableBaseInternal } from './lifecycle';
 
+export abstract class DisposableOnce implements IDisposable {
+	private _disposed?: Error;
+
+	public get hasDisposed() {
+		return !!this._disposed;
+	}
+	public dispose(): void {
+		if (this._disposed) {
+			console.warn(new DisposedError(this, this._disposed).message);
+			return;
+		}
+		this._disposed = new Error('disposed');
+		this._dispose();
+	}
+
+	protected abstract _dispose(): void;
+}
+
 /**
  * Standalone disposable class, can use as instance or base class.
  */

@@ -33,10 +33,10 @@
 	},
 	"devDependencies": {
 		"7zip-bin": "^5.0.3",
-		"@build-script/builder": "^2.1.6",
+		"@build-script/builder": "^2.1.7",
 		"@build-script/single-dog-asset": "^1.0.10",
 		"@build-script/typescript-transformer-dual-package": "^1.0.18",
-		"@types/node": "^14.14.14",
+		"@types/node": "^14.14.21",
 		"@types/split2": "^2.1.6",
 		"gulp": "^4.0.2",
 		"ttypescript": "^1.5.12",

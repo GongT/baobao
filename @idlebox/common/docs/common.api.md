@@ -4,6 +4,11 @@
 
 ```ts
 
+// Warning: (ae-missing-release-tag) "addDisposableEventListener" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T>, type: string, handler: T): IDisposable;
+
 // @public
 export function arrayDiff<T>(before: T[], after: T[]): {
     add: T[];
@@ -83,6 +88,25 @@ export function camelCase(str: string): string;
 // @public
 export class CanceledError extends Error {
     constructor();
+}
+
+// @public (undocumented)
+export interface CancellationToken {
+    // (undocumented)
+    readonly isCancellationRequested: boolean;
+    // (undocumented)
+    onCancellationRequested(callback: EventHandler<void>): IDisposable;
+}
+
+// @public (undocumented)
+export class CancellationTokenSource extends DisposableOnce implements IDisposable {
+    constructor();
+    // (undocumented)
+    cancel(): void;
+    // (undocumented)
+    _dispose(): void;
+    // (undocumented)
+    readonly token: CancellationToken;
 }
 
 // @public
@@ -177,6 +201,18 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
     protected readonly _onDisposeError: Emitter<Error>;
     // (undocumented)
     _register<T extends IDisposable>(d: T): T;
+}
+
+// Warning: (ae-missing-release-tag) "DisposableOnce" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export abstract class DisposableOnce implements IDisposable {
+    // (undocumented)
+    dispose(): void;
+    // (undocumented)
+    protected abstract _dispose(): void;
+    // (undocumented)
+    get hasDisposed(): boolean;
 }
 
 // Warning: (ae-missing-release-tag) "DisposedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -379,6 +415,16 @@ export interface IDisposableBaseInternal {
     onBeforeDispose: EventRegister<void>;
     // (undocumented)
     onDisposeError: EventRegister<Error>;
+}
+
+// Warning: (ae-missing-release-tag) "IEventHostObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IEventHostObject<T extends Function> {
+    // (undocumented)
+    addEventListener(type: string, handler: T): any;
+    // (undocumented)
+    removeEventListener(type: string, handler: T): any;
 }
 
 // Warning: (tsdoc-unsupported-tag) The TSDoc tag "@see" is not supported by this tool
@@ -773,6 +819,14 @@ export function ucfirst(str: string): string;
 //
 // @public
 export function uniqueFilter<T>(idFactory?: IUniqueIdFactory<T>): (item: T) => boolean;
+
+// Warning: (ae-forgotten-export) The symbol "Unsubscribable" needs to be exported by the entry point _export_all_in_one_index.d.ts
+// Warning: (ae-missing-release-tag) "unsubscribableToDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function unsubscribableToDisposable(subscription: Unsubscribable): {
+    dispose: () => void;
+};
 
 // Warning: (ae-missing-release-tag) "userAgent" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

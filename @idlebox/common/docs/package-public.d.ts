@@ -1,4 +1,6 @@
 
+export declare function addDisposableEventListener<T extends Function>(target: IEventHostObject<T>, type: string, handler: T): IDisposable;
+
 /**
  * Compare two array, returns the difference from `before` to `after`
  * @public
@@ -99,6 +101,21 @@ export declare function camelCase(str: string): string;
  */
 export declare class CanceledError extends Error {
     constructor();
+}
+
+/** @public */
+export declare interface CancellationToken {
+    readonly isCancellationRequested: boolean;
+    onCancellationRequested(callback: EventHandler<void>): IDisposable;
+}
+
+/** @public */
+export declare class CancellationTokenSource extends DisposableOnce implements IDisposable {
+    private readonly driver;
+    readonly token: CancellationToken;
+    constructor();
+    cancel(): void;
+    _dispose(): void;
 }
 
 /**
@@ -202,6 +219,13 @@ export declare class Disposable implements IDisposable, IDisposableBaseInternal 
     assertNotDisposed(): void;
     _register<T extends IDisposable>(d: T): T;
     dispose(): void;
+}
+
+export declare abstract class DisposableOnce implements IDisposable {
+    private _disposed?;
+    get hasDisposed(): boolean;
+    dispose(): void;
+    protected abstract _dispose(): void;
 }
 
 /**
@@ -430,6 +454,11 @@ export declare interface IDisposableBaseInternal {
     onDisposeError: EventRegister<Error>;
     onBeforeDispose: EventRegister<void>;
     readonly hasDisposed: boolean;
+}
+
+export declare interface IEventHostObject<T extends Function> {
+    addEventListener(type: string, handler: T): any;
+    removeEventListener(type: string, handler: T): any;
 }
 
 declare interface IHooks<T, TC> {
@@ -740,6 +769,14 @@ export declare function ucfirst(str: string): string;
  * @public
  */
 export declare function uniqueFilter<T>(idFactory?: IUniqueIdFactory<T>): (item: T) => boolean;
+
+declare interface Unsubscribable {
+    unsubscribe(): void;
+}
+
+export declare function unsubscribableToDisposable(subscription: Unsubscribable): {
+    dispose: () => void;
+};
 
 export declare const userAgent: string;
 

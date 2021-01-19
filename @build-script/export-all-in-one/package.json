@@ -21,7 +21,7 @@
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.14",
 		"@idlebox/node-json-edit": "^2.0.12",
-		"@microsoft/api-extractor": "^7.12.1",
+		"@microsoft/api-extractor": "^7.13.0",
 		"execa": "^5.0.0",
 		"fs-extra": "^9.0.1",
 		"source-map-support": "^0.5.19",
@@ -29,13 +29,13 @@
 		"ttypescript": "^1.5.12"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.1.6",
+		"@build-script/builder": "^2.1.7",
 		"@build-script/single-dog-asset": "^1.0.10",
-		"@types/fs-extra": "^9.0.5",
-		"@types/node": "^14.14.14",
+		"@types/fs-extra": "^9.0.6",
+		"@types/node": "^14.14.21",
 		"gulp": "^4.0.2",
 		"typescript": "^4.1.3",
-		"tslib": "^2.0.3"
+		"tslib": "^2.1.0"
 	},
 	"peerDependencies": {
 		"typescript": "*"

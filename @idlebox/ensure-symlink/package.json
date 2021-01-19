@@ -16,7 +16,7 @@
 	},
 	"devDependencies": {
 		"npm-check-updates": "^10.2.5",
-		"tslib": "^2.0.3",
+		"tslib": "^2.1.0",
 		"ttypescript": "^1.5.12"
 	},
 	"repository": "https://github.com/GongT/baobao"

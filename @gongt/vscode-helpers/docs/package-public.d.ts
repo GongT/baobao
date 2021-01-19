@@ -106,7 +106,7 @@ declare class FileContext {
     isFileExists(): Promise<number | false>;
     readText(): Promise<string>;
     /**
-     * @param comments Allow comment in json
+     * @param comments - Allow comment in json
      * @throws when read failed or json parse error
      */
     readJson(comments?: boolean): Promise<any>;

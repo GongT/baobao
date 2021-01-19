@@ -169,7 +169,7 @@ class FileContext {
 	}
 
 	/**
-	 * @param comments Allow comment in json
+	 * @param comments - Allow comment in json
 	 * @throws when read failed or json parse error
 	 */
 	async readJson(comments: boolean = false): Promise<any> {
