@@ -38,7 +38,7 @@ jobs:
           path: ~/.pnpm-store
           key: pnpm
       - name: 'Install'
-        run: node common/scripts/install-run-rush.js install
+        run: node common/scripts/install-run-rush.js update
       - name: 'Build'
         if: '!${{ github.event.inputs.rebuild }}'
         run: node common/scripts/install-run-rush.js build
