@@ -19,7 +19,7 @@ export class WatchHelper implements IWatchHelper {
 	private _watches = new Set<string>();
 	private state = State.IDLE;
 
-	protected debounceMs = 800;
+	public debounceMs = 800;
 	private lastRun?: Promise<void>;
 	private changes = new Set<string>();
 
