@@ -20,7 +20,7 @@ export declare class WatchHelper implements IWatchHelper {
     private readonly onChange;
     private _watches;
     private state;
-    protected debounceMs: number;
+    debounceMs: number;
     private lastRun?;
     private changes;
     constructor(watcher: FSWatcher, onChange: IReloadFunction);

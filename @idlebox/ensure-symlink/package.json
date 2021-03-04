@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/ensure-symlink",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"main": "index.js",
 	"typings": "index.d.ts",
 	"license": "MIT",
@@ -12,10 +12,10 @@
 	},
 	"monorepo": true,
 	"dependencies": {
-		"fs-extra": "^9.0.1"
+		"fs-extra": "^9.1.0"
 	},
 	"devDependencies": {
-		"npm-check-updates": "^10.2.5",
+		"npm-check-updates": "^11.1.10",
 		"tslib": "^2.1.0",
 		"ttypescript": "^1.5.12"
 	},

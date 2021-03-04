@@ -17,6 +17,7 @@ export async function getVersionCached(name: string, distTag: string, registry: 
 	const r = await getWithCache(name, distTag, registry);
 	return r?.version ?? null;
 }
+
 export async function getTarballCached(name: string, distTag: string, registry: string): Promise<string | null> {
 	const r = await getWithCache(name, distTag, registry);
 	return r?.tarball ?? null;

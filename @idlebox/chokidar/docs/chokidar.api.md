@@ -38,7 +38,7 @@ export class WatchHelper implements IWatchHelper {
     // (undocumented)
     addWatch(newWatch: string): void;
     // (undocumented)
-    protected debounceMs: number;
+    debounceMs: number;
     // (undocumented)
     delWatch(oldWatch: string): void;
     // (undocumented)
