@@ -10,7 +10,7 @@ export declare interface IWatchHelper {
     delWatch(oldWatch: string): void;
     reset(): void;
     dispose(): Promise<void>;
-    watches: ReadonlyArray<string>;
+    readonly watches: ReadonlyArray<string>;
 }
 
 export declare function startChokidar(reload: IReloadFunction): IWatchHelper;

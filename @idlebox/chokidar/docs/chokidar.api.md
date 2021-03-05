@@ -21,7 +21,7 @@ export interface IWatchHelper {
     // (undocumented)
     reset(): void;
     // (undocumented)
-    watches: ReadonlyArray<string>;
+    readonly watches: ReadonlyArray<string>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "IReloadFunction" needs to be exported by the entry point _export_all_in_one_index.d.ts

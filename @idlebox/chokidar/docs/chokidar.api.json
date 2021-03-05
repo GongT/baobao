@@ -184,7 +184,7 @@
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "watches: "
+                  "text": "readonly watches: "
                 },
                 {
                   "kind": "Reference",
