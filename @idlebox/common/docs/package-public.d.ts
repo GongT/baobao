@@ -1,5 +1,5 @@
 
-export declare function addDisposableEventListener<T extends Function>(target: IEventHostObject<T>, type: string, handler: T): IDisposable;
+export declare function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, handler: T): IDisposable;
 
 /**
  * Compare two array, returns the difference from `before` to `after`
@@ -33,6 +33,30 @@ export declare function assertFunctionHasName(func: MaybeNamedFunction): void;
  * @public
  */
 export declare function assertNotNull<T>(val: T | null | undefined): T;
+
+/**
+ * like CallbackList, but async
+ */
+export declare class AsyncCallbackList<Argument extends unknown[]> {
+    protected list: MyAsyncCallback<Argument>[];
+    protected running: boolean;
+    constructor();
+    reset(): void;
+    /**
+     * @param name optional name of `item` (will assign displayName to `item`)
+     * @returns function list length
+     */
+    add(item: MyAsyncCallback<Argument>, name?: string): number;
+    /**
+     * @returns if removed: return `item`; if did not exists: return null
+     */
+    remove(item: MyAsyncCallback<Argument>): null | MyAsyncCallback<Argument>;
+    /**
+     * Stop run if one callback return `true`
+     * @returns {boolean} true if one callback return true
+     */
+    run(...argument: Argument): Promise<boolean>;
+}
 
 /**
  * Async version of Disposable
@@ -70,8 +94,7 @@ export declare const bindThis: MethodDecorator;
 /**
  * Manage a list of callback
  */
-export declare class CallbackList<Argument extends [
-]> {
+export declare class CallbackList<Argument extends unknown[]> {
     protected list: MyCallback<Argument>[];
     protected running: boolean;
     constructor();
@@ -84,7 +107,7 @@ export declare class CallbackList<Argument extends [
     /**
      * @returns if removed: return `item`; if did not exists: return null
      */
-    remove(item: MyCallback<Argument>): typeof item | null;
+    remove(item: MyCallback<Argument>): null | MyCallback<Argument>;
     /**
      * Stop run if one callback return `true`
      * @returns {boolean} true if one callback return true
@@ -193,14 +216,15 @@ export declare class DeferredPromise<T, PT = any> {
  * remember arguments after run
  * run all later added function with memorized argument
  */
-export declare class DelayCallbackList<Argument extends [
-]> {
+export declare class DelayCallbackList<Argument extends unknown[]> {
     private delayArgument?;
     private delayComplete;
     protected list?: MyDelayCallback<Argument>[];
     add(item: MyDelayCallback<Argument>, name?: string): void;
     run(argument: Argument): void;
 }
+
+export declare function deleteSymbol(category: string, name: string): void;
 
 /**
  * Standalone disposable class, can use as instance or base class.
@@ -351,13 +375,13 @@ export declare function globalSingletonDelete(symbol: symbol | string): void;
  * if symbol did not exists, create it and assign to window/global
  * @public
  */
-export declare function globalSingletonStrong<T>(symbol: symbol, constructor: () => T): T;
+export declare function globalSingletonStrong<T>(symbol: symbol | string, constructor: () => T): T;
 
 /**
  * Get an singleton instance from window/global space
  * @public
  */
-export declare function globalSingletonStrong<T>(symbol: symbol): T | undefined;
+export declare function globalSingletonStrong<T>(symbol: symbol | string): T | undefined;
 
 export declare function hookClass<TC extends IConstructorOf<T>, T>(target: TC): IHooks<T, TC>;
 
@@ -454,6 +478,11 @@ export declare interface IDisposableBaseInternal {
     onDisposeError: EventRegister<Error>;
     onBeforeDispose: EventRegister<void>;
     readonly hasDisposed: boolean;
+}
+
+export declare interface IEventEmitterObject<T extends Function> {
+    addListener(type: string, handler: T): any;
+    removeListener(type: string, handler: T): any;
 }
 
 export declare interface IEventHostObject<T extends Function> {
@@ -579,14 +608,17 @@ export declare const memo: MethodDecorator;
 
 export declare const memorizeValueSymbol: unique symbol;
 
-export declare interface MyCallback<Argument extends [
-]> {
+export declare interface MyAsyncCallback<Argument extends unknown[]> {
+    displayName?: string;
+    (...param: Argument): Promise<void | undefined | boolean> | void | undefined | boolean;
+}
+
+export declare interface MyCallback<Argument extends unknown[]> {
     displayName?: string;
     (...param: Argument): void | undefined | boolean;
 }
 
-export declare interface MyDelayCallback<Argument extends [
-]> {
+export declare interface MyDelayCallback<Argument extends unknown[]> {
     displayName?: string;
     (...param: Argument): void;
 }

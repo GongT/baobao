@@ -1,16 +1,16 @@
 import { nameFunction } from './functionName';
 
-export interface MyCallback<Argument extends unknown[]> {
+export interface MyAsyncCallback<Argument extends unknown[]> {
 	displayName?: string;
 
-	(...param: Argument): void | undefined | boolean;
+	(...param: Argument): Promise<void | undefined | boolean> | void | undefined | boolean;
 }
 
 /**
- * Manage a list of callback
+ * like CallbackList, but async
  */
-export class CallbackList<Argument extends unknown[]> {
-	protected list: MyCallback<Argument>[] = [];
+export class AsyncCallbackList<Argument extends unknown[]> {
+	protected list: MyAsyncCallback<Argument>[] = [];
 	protected running: boolean = false;
 
 	constructor() {
@@ -28,7 +28,7 @@ export class CallbackList<Argument extends unknown[]> {
 	 * @param name optional name of `item` (will assign displayName to `item`)
 	 * @returns function list length
 	 */
-	add(item: MyCallback<Argument>, name?: string): number {
+	add(item: MyAsyncCallback<Argument>, name?: string): number {
 		if (this.running) {
 			throw new Error("Can not add callback when it's running.");
 		}
@@ -41,7 +41,7 @@ export class CallbackList<Argument extends unknown[]> {
 	/**
 	 * @returns if removed: return `item`; if did not exists: return null
 	 */
-	remove(item: MyCallback<Argument>): null | MyCallback<Argument> {
+	remove(item: MyAsyncCallback<Argument>): null | MyAsyncCallback<Argument> {
 		if (this.running) {
 			throw new Error("Can not remove callback when it's running.");
 		}
@@ -56,13 +56,16 @@ export class CallbackList<Argument extends unknown[]> {
 	 * Stop run if one callback return `true`
 	 * @returns {boolean} true if one callback return true
 	 */
-	run(...argument: Argument): boolean {
+	async run(...argument: Argument): Promise<boolean> {
 		this.running = true;
-		const ret = this.list.some((cb) => {
-			const ret = cb(...argument);
-			return ret === undefined || ret;
-		});
+		let ret: boolean | undefined | void;
+		for (const cb of this.list) {
+			ret = await cb(...argument);
+			if (ret === true) {
+				break;
+			}
+		}
 		this.running = false;
-		return ret;
+		return ret || false;
 	}
 }

@@ -26,11 +26,11 @@
 	"devDependencies": {
 		"@build-script/typescript-transformer-dual-package": "^1.0.19",
 		"@build-script/single-dog-asset": "^1.0.10",
-		"@types/node": "^14.14.31",
+		"@types/node": "^14.14.32",
 		"rimraf": "^3.0.2",
 		"ts-node": "^9.1.1",
 		"ttypescript": "^1.5.12",
-		"typescript": "^4.2.2",
+		"typescript": "^4.2.3",
 		"tslib": "^2.1.0"
 	},
 	"repository": "https://github.com/GongT/baobao"

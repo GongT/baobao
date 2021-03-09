@@ -1,6 +1,6 @@
 import { nameFunction } from './functionName';
 
-export interface MyDelayCallback<Argument extends []> {
+export interface MyDelayCallback<Argument extends unknown[]> {
 	displayName?: string;
 
 	(...param: Argument): void;
@@ -10,7 +10,7 @@ export interface MyDelayCallback<Argument extends []> {
  * remember arguments after run
  * run all later added function with memorized argument
  */
-export class DelayCallbackList<Argument extends []> {
+export class DelayCallbackList<Argument extends unknown[]> {
 	private delayArgument?: Argument;
 	private delayComplete: boolean = false;
 

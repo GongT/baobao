@@ -7,7 +7,7 @@
 // Warning: (ae-missing-release-tag) "addDisposableEventListener" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T>, type: string, handler: T): IDisposable;
+export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, handler: T): IDisposable;
 
 // @public
 export function arrayDiff<T>(before: T[], after: T[]): {
@@ -29,6 +29,28 @@ export function assertFunctionHasName(func: MaybeNamedFunction): void;
 
 // @public
 export function assertNotNull<T>(val: T | null | undefined): T;
+
+// Warning: (ae-missing-release-tag) "AsyncCallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public
+export class AsyncCallbackList<Argument extends unknown[]> {
+    constructor();
+    // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
+    //
+    // (undocumented)
+    add(item: MyAsyncCallback<Argument>, name?: string): number;
+    // (undocumented)
+    protected list: MyAsyncCallback<Argument>[];
+    // (undocumented)
+    remove(item: MyAsyncCallback<Argument>): null | MyAsyncCallback<Argument>;
+    // (undocumented)
+    reset(): void;
+    // Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
+    // Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+    run(...argument: Argument): Promise<boolean>;
+    // (undocumented)
+    protected running: boolean;
+}
 
 // @public
 export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInternal {
@@ -62,8 +84,7 @@ export const bindThis: MethodDecorator;
 // Warning: (ae-missing-release-tag) "CallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export class CallbackList<Argument extends [
-]> {
+export class CallbackList<Argument extends unknown[]> {
     constructor();
     // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
     //
@@ -72,7 +93,7 @@ export class CallbackList<Argument extends [
     // (undocumented)
     protected list: MyCallback<Argument>[];
     // (undocumented)
-    remove(item: MyCallback<Argument>): typeof item | null;
+    remove(item: MyCallback<Argument>): null | MyCallback<Argument>;
     // (undocumented)
     reset(): void;
     // Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
@@ -171,8 +192,7 @@ export class DeferredPromise<T, PT = any> {
 // Warning: (ae-missing-release-tag) "DelayCallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export class DelayCallbackList<Argument extends [
-]> {
+export class DelayCallbackList<Argument extends unknown[]> {
     // (undocumented)
     add(item: MyDelayCallback<Argument>, name?: string): void;
     // (undocumented)
@@ -180,6 +200,11 @@ export class DelayCallbackList<Argument extends [
     // (undocumented)
     run(argument: Argument): void;
 }
+
+// Warning: (ae-missing-release-tag) "deleteSymbol" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function deleteSymbol(category: string, name: string): void;
 
 // Warning: (ae-missing-release-tag) "Disposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -324,10 +349,10 @@ export function globalSingleton<T>(symbol: symbol | string): T | undefined;
 export function globalSingletonDelete(symbol: symbol | string): void;
 
 // @public
-export function globalSingletonStrong<T>(symbol: symbol, constructor: () => T): T;
+export function globalSingletonStrong<T>(symbol: symbol | string, constructor: () => T): T;
 
 // @public
-export function globalSingletonStrong<T>(symbol: symbol): T | undefined;
+export function globalSingletonStrong<T>(symbol: symbol | string): T | undefined;
 
 // Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point _export_all_in_one_index.d.ts
 // Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point _export_all_in_one_index.d.ts
@@ -415,6 +440,16 @@ export interface IDisposableBaseInternal {
     onBeforeDispose: EventRegister<void>;
     // (undocumented)
     onDisposeError: EventRegister<Error>;
+}
+
+// Warning: (ae-missing-release-tag) "IEventEmitterObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IEventEmitterObject<T extends Function> {
+    // (undocumented)
+    addListener(type: string, handler: T): any;
+    // (undocumented)
+    removeListener(type: string, handler: T): any;
 }
 
 // Warning: (ae-missing-release-tag) "IEventHostObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -576,11 +611,20 @@ export const memo: MethodDecorator;
 // @public (undocumented)
 export const memorizeValueSymbol: unique symbol;
 
+// Warning: (ae-missing-release-tag) "MyAsyncCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface MyAsyncCallback<Argument extends unknown[]> {
+    // (undocumented)
+    (...param: Argument): Promise<void | undefined | boolean> | void | undefined | boolean;
+    // (undocumented)
+    displayName?: string;
+}
+
 // Warning: (ae-missing-release-tag) "MyCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface MyCallback<Argument extends [
-]> {
+export interface MyCallback<Argument extends unknown[]> {
     // (undocumented)
     (...param: Argument): void | undefined | boolean;
     // (undocumented)
@@ -590,8 +634,7 @@ export interface MyCallback<Argument extends [
 // Warning: (ae-missing-release-tag) "MyDelayCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface MyDelayCallback<Argument extends [
-]> {
+export interface MyDelayCallback<Argument extends unknown[]> {
     // (undocumented)
     (...param: Argument): void;
     // (undocumented)
