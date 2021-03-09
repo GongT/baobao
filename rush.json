@@ -183,6 +183,11 @@
 			"packageName": "@build-script/gulp-chain-simplify",
 			"projectFolder": "@build-script/gulp-chain-simplify",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/state",
+			"projectFolder": "@idlebox/state",
+			"shouldPublish": true
 		}
 	]
 }
