@@ -21,18 +21,23 @@ export function uniqueArray(target: any[], source: any[]) {
 export class Filesystem {
 	constructor(private readonly targetBase: string) {}
 
+	get ROOT() {
+		return this.targetBase;
+	}
+
 	overwrite(file: string, content: string, mode: string = '0644') {
-		const abs = resolve(this.targetBase, file);
+		const abs = this.resolve(file);
 		ensureDirSync(resolve(abs, '..'));
 		if (existsSync(abs) && readFileSync(abs, 'utf8') === content) {
 			return;
 		}
-		debug('writeFile(%s, FileContent<%s>)', abs, content.length);
+		debug('\x1B[2m   writeFile(%s, FileContent<%s>)\x1B[0m', abs, content.length);
 		writeFileSync(abs, content, 'utf8');
-		chmodSync(file, mode);
+		chmodSync(abs, mode);
 	}
 
 	mergeIgnore(file: string, content: string) {
+		debug('\x1B[2m   mergeIgnore: %s\x1B[0m', this.resolve(file));
 		let original = this.readExists(file).trimRight() + '\n';
 		const exists = original
 			.split(/\n/)
@@ -55,7 +60,7 @@ export class Filesystem {
 	}
 
 	linkFile(file: string, target: string) {
-		const abs = resolve(this.targetBase, file);
+		const abs = this.resolve(file);
 		ensureDirSync(resolve(abs, '..'));
 
 		const partsTarget = target.split(/[\/\\]/g);
@@ -70,7 +75,7 @@ export class Filesystem {
 		const upFolders = partsFile.length - 1;
 		partsTarget.unshift(...new Array(upFolders).fill('..'));
 
-		debug('linkFile(%s, %s)', abs, partsTarget.join('/'));
+		debug('\x1B[2m  linkFile(%s, %s)\x1B[0m', abs, partsTarget.join('/'));
 		const t = partsTarget.join('/');
 		if (existsSync(abs)) {
 			if (lstatSync(abs).isSymbolicLink() && readlinkSync(abs) === t) {
@@ -82,14 +87,16 @@ export class Filesystem {
 	}
 
 	placeFile(file: string, content: string, mode: string = '0644') {
+		const abs = this.resolve(file);
+		debug('\x1B[2m   placeFile: %s\x1B[0m', abs);
 		if (!this.exists(file)) {
 			this.overwrite(file, content);
 		}
-		chmodSync(file, mode);
+		chmodSync(abs, mode);
 	}
 
 	readExists(file: string): string {
-		const abs = resolve(this.targetBase, file);
+		const abs = this.resolve(file);
 		if (existsSync(abs)) {
 			return readFileSync(abs, 'utf8');
 		} else {
@@ -98,11 +105,10 @@ export class Filesystem {
 	}
 
 	resolve(file: string) {
-		return resolve(this.targetBase, file);
+		return resolve(this.targetBase, './' + file);
 	}
 
 	exists(file: string) {
-		const abs = resolve(this.targetBase, file);
-		return existsSync(abs);
+		return existsSync(this.resolve(file));
 	}
 }

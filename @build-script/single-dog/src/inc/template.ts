@@ -13,8 +13,8 @@ export function readTemplate(what: string) {
 }
 
 export async function locateRootRelativeToProject(projectFile: string, singleDogFile: string) {
-	const resolveFrom = resolve(CONTENT_ROOT, projectFile, '..');
-	const require = createRequire(resolve(CONTENT_ROOT, projectFile));
+	const resolveFrom = resolve(projectFile, '..');
+	const require = createRequire(projectFile);
 	try {
 		require.resolve('@build-script/single-dog-asset/package.json');
 	} catch (e) {

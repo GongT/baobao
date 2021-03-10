@@ -23,7 +23,7 @@ export async function updateTsconfigJson({ libMode }: IRunMode) {
 	const tsconfigPath = resolve(CONTENT_ROOT, 'src/tsconfig.json');
 	const tsconfig: any = await loadJsonFileIfExists(tsconfigPath);
 	tsconfig.extends = await locateRootRelativeToProject(
-		'src/tsconfig.json',
+		resolve(CONTENT_ROOT, 'src/tsconfig.json'),
 		libMode ? 'package/tsconfig.json' : 'package/tsconfig.no-lib.json'
 	);
 	if (!tsconfig.compilerOptions) {

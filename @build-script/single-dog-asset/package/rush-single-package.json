@@ -1,0 +1,10 @@
+{
+	"name": "single-doge",
+	"version": "1.0.0",
+	"private": true,
+	"dependencies": {
+		"@build-script/rush-tools": "latest",
+		"@build-script/single-dog-asset": "latest",
+		"@build-script/poormans-package-change": "latest"
+	}
+}

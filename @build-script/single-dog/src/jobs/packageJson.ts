@@ -7,8 +7,9 @@ import { pathExists } from 'fs-extra';
 import { getPackageManager, PackageManagerType, resolveLatestVersionOnNpm } from 'unipm';
 import { debug } from '../inc/debug';
 import { getGitName } from '../inc/gitName';
+import { dirname } from 'path';
 
-export const prodPackages: string[] = [];
+export const prodPackages: string[] = ['tslib'];
 export const devPackages = [
 	'@build-script/builder',
 	'@build-script/single-dog-asset',
@@ -77,6 +78,24 @@ export async function initArgs(): Promise<IRunMode> {
 	return { appMode, libMode };
 }
 
+export async function detectMonoRepo() {
+	const parentDir = resolve(PACKAGE_JSON_PATH, '..');
+	const foundPackageJson = await findUpUntil(parentDir, 'package.json');
+	const foundRush = await findUpUntil(parentDir, 'rush.json');
+	if (foundPackageJson || foundRush) {
+		if (foundRush) {
+			debug('This should be a monorepo, because "rush.json" found in upper folder.');
+			debug('       root = %s', dirname(foundRush));
+			return { type: 'rush', root: dirname(foundRush) };
+		} else if (foundPackageJson && (await pathExists(resolve(foundPackageJson, '../yarn.lock')))) {
+			debug('This should be a monorepo, because "package.json" and "yarn.lock" found in same upper folder.');
+			debug('       root = %s', dirname(foundPackageJson));
+			return { type: 'yarn', root: dirname(foundPackageJson) };
+		}
+	}
+	return undefined;
+}
+
 export async function updatePackageJson(mode: IRunMode) {
 	const packageJson = await reloadPackageJson();
 	// package
@@ -90,20 +109,7 @@ export async function updatePackageJson(mode: IRunMode) {
 		});
 	}
 
-	const parentDir = resolve(PACKAGE_JSON_PATH, '../..');
-	const foundPackageJson = await findUpUntil(parentDir, 'package.json');
-	const foundRush = await findUpUntil(parentDir, 'rush.json');
-	if (foundPackageJson || foundRush) {
-		if (foundRush) {
-			debug('This should be a monorepo, because "rush.json" found in upper folder.');
-			packageJson['monorepo'] = 'rush';
-		} else if (foundPackageJson && (await pathExists(resolve(foundPackageJson, '../yarn.lock')))) {
-			debug('This should be a monorepo, because "package.json" and "yarn.lock" found in same upper folder.');
-			packageJson['monorepo'] = 'yarn';
-		} else {
-			delete packageJson['monorepo'];
-		}
-	}
+	delete packageJson['monorepo'];
 
 	const prodPackagesCopy = prodPackages.slice();
 	const devPackagesCopy = devPackages.slice();
