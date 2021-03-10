@@ -31,6 +31,11 @@ export class RushProject {
 		const AI_DIR = 'common/autoinstallers';
 		const dir = resolve(this.projectRoot, AI_DIR);
 		const ret: IProjectConfig[] = [];
+
+		if (!pathExistsSync(dir)) {
+			return ret;
+		}
+
 		for (const item of readdirSync(dir)) {
 			const pkgJson = resolve(dir, item, 'package.json');
 			if (!pathExistsSync(pkgJson)) {

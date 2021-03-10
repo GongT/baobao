@@ -1,4 +1,4 @@
-import * as split2 from 'split2';
+import split2 from 'split2';
 import { spawn, SpawnOptions } from 'child_process';
 import { dirname } from 'path';
 import { CollectingStream, streamPromise } from '@idlebox/node';

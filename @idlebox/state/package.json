@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/state",
 	"type": "module",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"license": "MIT",
 	"repository": "https://github.com/GongT/baobao",
 	"main": "./lib/_export_all_in_one_index.cjs",

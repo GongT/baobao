@@ -9,6 +9,7 @@
 		"sourceMap": false,
 		"isolatedModules": true,
 		"incremental": true,
+		"esModuleInterop": true,
 		"tsBuildInfoFile": "../lib/tsbuildinfo.json"
 	}
 }
