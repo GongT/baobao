@@ -1,8 +1,10 @@
 import { EventRegister, IDisposable } from '@idlebox/common';
 
+export type IMessageHandlerInternal = (message: IMessage) => Promise<any>;
+
 export interface IPCDriver extends IDisposable {
 	call<T extends IMessage>(message: T): Promise<any>;
-	handle(callback: (message: IMessage) => Promise<any>): void;
+	handle(callback: IMessageHandlerInternal): void;
 }
 
 export interface IPCServerDriver extends IPCDriver {

@@ -1,5 +1,7 @@
 /// <reference types="node" />
+/// <reference lib="dom" />
 import { Baobab } from 'baobab';
+import { BrowserWindow } from 'electron';
 import { Cursor } from 'baobab';
 import { Disposable } from '@idlebox/common';
 import { Emitter } from '@idlebox/common';
@@ -10,13 +12,33 @@ import { Watcher } from 'baobab';
 
 export declare function createDataMessage(id: number, data: IData): IDataMessage;
 
-export declare function createElectronMainDriver(): void;
-
-export declare function createElectronRendererDriver(): void;
-
 export declare function createMaster(options?: Partial<IOptions>): StateMaster;
 
+export declare function createSameProcessChild(title: string): IPCDriver;
+
+export declare function createSameProcessMain(title: string): SameProcessMain;
+
 export declare function createSlave(channel: IPCDriver): StateSlave;
+
+export declare class ElectronIPCMain extends Disposable implements IPCServerDriver {
+    private readonly channel;
+    private readonly browserWindow;
+    protected handlerHasRegister: boolean;
+    private static duplicateCheck;
+    constructor(channel: string, browserWindow: BrowserWindow);
+    get title(): string;
+    call<T extends IMessage>(message: T): Promise<any>;
+    handle(callback: IMessageHandlerInternal): void;
+}
+
+export declare class ElectronIPCRender extends Disposable implements IPCServerDriver {
+    private readonly channel;
+    protected handlerHasRegister: boolean;
+    readonly title: string;
+    constructor(channel: string);
+    call<T extends IMessage>(message: T): Promise<any>;
+    handle(callback: IMessageHandlerInternal): void;
+}
 
 declare class EventHelper<T> {
     private readonly id;
@@ -40,11 +62,6 @@ declare interface IDisposeMessage {
     action: 'dispose';
 }
 
-export declare interface IElectronOptions {
-    electron: true;
-    nodeipc?: boolean;
-}
-
 export declare interface IEventMessage {
     action: 'event';
     event: string;
@@ -55,6 +72,8 @@ export declare interface IMessage {
     action: string;
 }
 
+export declare type IMessageHandlerInternal = (message: IMessage) => Promise<any>;
+
 declare interface IOptions {
     development: boolean;
     defaultState: any;
@@ -62,7 +81,7 @@ declare interface IOptions {
 
 export declare interface IPCDriver extends IDisposable {
     call<T extends IMessage>(message: T): Promise<any>;
-    handle(callback: (message: IMessage) => Promise<any>): void;
+    handle(callback: IMessageHandlerInternal): void;
 }
 
 export declare interface IPCServerDriver extends IPCDriver {
@@ -121,7 +140,7 @@ export declare abstract class NodeIPCBase extends Disposable implements IPCDrive
     constructor(title: string, channel: IProcessSlice);
     protected handleMessage(msg: IRawMessageSend): void;
     call<T extends IMessage>(message: T): Promise<any>;
-    handle(callback: (message: IMessage) => Promise<any>): void;
+    handle(callback: IMessageHandlerInternal): void;
 }
 
 export declare class NodeIPCChild extends NodeIPCBase implements IPCDriver {
@@ -144,6 +163,17 @@ declare class RawMessageHandler {
 }
 
 export declare const rawMessageHandler: RawMessageHandler;
+
+export declare class SameProcessMain extends Disposable implements IPCServerDriver {
+    readonly title: string;
+    protected mHandler?: IMessageHandlerInternal;
+    protected cHandler?: IMessageHandlerInternal;
+    constructor(title: string);
+    call<T extends IMessage>(message: T): Promise<any>;
+    handle(callback: IMessageHandlerInternal): void;
+    dispose(): void;
+    fork(): IPCDriver;
+}
 
 declare type SimpleTypes = string | Buffer | number | boolean;
 

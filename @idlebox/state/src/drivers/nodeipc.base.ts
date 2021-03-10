@@ -1,6 +1,6 @@
 import { addDisposableEventListener, Disposable } from '@idlebox/common';
 import { IRawMessageSend, rawMessageHandler } from '../ipc/errorhandle';
-import { IMessage, IPCDriver } from '../ipc/protocol';
+import { IMessage, IMessageHandlerInternal, IPCDriver } from '../ipc/protocol';
 
 import type EventEmitter from 'node:events';
 
@@ -24,14 +24,16 @@ export abstract class NodeIPCBase extends Disposable implements IPCDriver {
 		}
 		// console.log('                   - %s', message.action);
 
-		Promise.resolve(this.handler!(message)).then(
-			(data) => {
-				this.channel.send(rawMessageHandler.reply(msg, data));
-			},
-			(e) => {
-				this.channel.send(rawMessageHandler.reply(msg, e));
-			}
-		);
+		Promise.resolve()
+			.then(() => this.handler!(message))
+			.then(
+				(data) => {
+					this.channel.send(rawMessageHandler.reply(msg, data));
+				},
+				(e) => {
+					this.channel.send(rawMessageHandler.reply(msg, e));
+				}
+			);
 	}
 
 	call<T extends IMessage>(message: T): Promise<any> {
@@ -49,7 +51,7 @@ export abstract class NodeIPCBase extends Disposable implements IPCDriver {
 		return p;
 	}
 
-	handle(callback: (message: IMessage) => Promise<any>): void {
+	handle(callback: IMessageHandlerInternal): void {
 		if (this.handler) {
 			throw new Error('duplicate handler');
 		}
