@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/itypes",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "some global variables copied from @types/node or dom",
 	"keywords": ["Typescript", "typings", "type", "console"],
 	"typings": "./index.d.ts",
@@ -9,5 +9,8 @@
 		"clean": "",
 		"watch": ""
 	},
-	"license": "MIT"
+	"license": "MIT",
+	"dependencies": {
+		"tslib": "^2.1.0"
+	}
 }

@@ -1,7 +1,7 @@
 {
 	"name": "7zip-bin-wrapper",
 	"type": "module",
-	"version": "1.0.18",
+	"version": "1.0.19",
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"license": "MIT",
 	"bin": {
@@ -29,19 +29,20 @@
 	"dependencies": {
 		"iconv-lite": "^0.6.2",
 		"source-map-support": "^0.5.19",
-		"split2": "^3.2.2"
+		"split2": "^3.2.2",
+		"tslib": "^2.1.0"
 	},
 	"devDependencies": {
 		"7zip-bin": "^5.1.0",
-		"@build-script/builder": "^2.1.7",
-		"@build-script/single-dog-asset": "^1.0.10",
-		"@build-script/typescript-transformer-dual-package": "^1.0.19",
-		"@types/node": "^14.14.32",
+		"@build-script/builder": "^2.1.8",
+		"@build-script/single-dog-asset": "^1.0.11",
+		"@build-script/typescript-transformer-dual-package": "^1.0.20",
+		"@types/node": "^14.14.33",
 		"@types/split2": "^2.1.6",
 		"gulp": "^4.0.2",
 		"ttypescript": "^1.5.12",
 		"typescript": "^4.2.3",
-		"@build-script/export-all-in-one": "^3.0.22",
+		"@build-script/export-all-in-one": "^3.0.23",
 		"ts-node": "^9.1.1"
 	},
 	"peerDependencies": {

@@ -1,13 +1,15 @@
 {
 	"name": "@build-script/single-dog-asset",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"license": "MIT",
 	"scripts": {
 		"build": "echo this package did not need build",
 		"clean": "rimraf lib",
 		"prepack": "echo this package did not need prepack"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"tslib": "^2.1.0"
+	},
 	"tslib": "^1.10.0",
 	"ttypescript": "^1.5.10",
 	"repository": "https://github.com/GongT/baobao"
