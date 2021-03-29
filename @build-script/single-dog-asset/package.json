@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/single-dog-asset",
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"license": "MIT",
 	"scripts": {
 		"build": "echo this package did not need build",

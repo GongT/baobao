@@ -3,7 +3,7 @@
 	"name": "@idlebox/common",
 	"type": "module",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.1.4",
+	"version": "1.1.7",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.cjs",
 	"module": "./lib/_export_all_in_one_index.js",

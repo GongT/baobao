@@ -1,4 +1,6 @@
 
+export declare function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, options: IEventListenerOptions, handler: T): IDisposable;
+
 export declare function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, handler: T): IDisposable;
 
 /**
@@ -211,6 +213,8 @@ export declare class DeferredPromise<T, PT = any> {
      */
     static wrap(prev: Promise<any>): DeferredPromise<unknown, any>;
 }
+
+export declare function definePublicConstant(object: any, propertyKey: string | symbol, value: any): void;
 
 /**
  * remember arguments after run
@@ -486,8 +490,14 @@ export declare interface IEventEmitterObject<T extends Function> {
 }
 
 export declare interface IEventHostObject<T extends Function> {
-    addEventListener(type: string, handler: T): any;
-    removeEventListener(type: string, handler: T): any;
+    addEventListener(type: string, handler: T, options?: IEventListenerOptions): any;
+    removeEventListener(type: string, handler: T, options?: IEventListenerOptions): any;
+}
+
+export declare interface IEventListenerOptions {
+    capture?: boolean;
+    once?: boolean;
+    passive?: boolean;
 }
 
 declare interface IHooks<T, TC> {

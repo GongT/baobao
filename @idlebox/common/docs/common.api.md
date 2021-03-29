@@ -5,7 +5,11 @@
 ```ts
 
 // Warning: (ae-missing-release-tag) "addDisposableEventListener" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "addDisposableEventListener" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
+// @public (undocumented)
+export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, options: IEventListenerOptions, handler: T): IDisposable;
+
 // @public (undocumented)
 export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, handler: T): IDisposable;
 
@@ -188,6 +192,11 @@ export class DeferredPromise<T, PT = any> {
     get resolved(): boolean;
     static wrap(prev: Promise<any>): DeferredPromise<unknown, any>;
 }
+
+// Warning: (ae-missing-release-tag) "definePublicConstant" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function definePublicConstant(object: any, propertyKey: string | symbol, value: any): void;
 
 // Warning: (ae-missing-release-tag) "DelayCallbackList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -457,9 +466,21 @@ export interface IEventEmitterObject<T extends Function> {
 // @public (undocumented)
 export interface IEventHostObject<T extends Function> {
     // (undocumented)
-    addEventListener(type: string, handler: T): any;
+    addEventListener(type: string, handler: T, options?: IEventListenerOptions): any;
     // (undocumented)
-    removeEventListener(type: string, handler: T): any;
+    removeEventListener(type: string, handler: T, options?: IEventListenerOptions): any;
+}
+
+// Warning: (ae-missing-release-tag) "IEventListenerOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IEventListenerOptions {
+    // (undocumented)
+    capture?: boolean;
+    // (undocumented)
+    once?: boolean;
+    // (undocumented)
+    passive?: boolean;
 }
 
 // Warning: (tsdoc-unsupported-tag) The TSDoc tag "@see" is not supported by this tool

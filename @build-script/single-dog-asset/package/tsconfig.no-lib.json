@@ -29,7 +29,7 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
-		"pretty": false,
+		"pretty": true,
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"types": [],
 		"removeComments": false,

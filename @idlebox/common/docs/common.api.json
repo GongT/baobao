@@ -61,6 +61,132 @@
             },
             {
               "kind": "Content",
+              "text": ", options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "IEventListenerOptions",
+              "canonicalReference": "@idlebox/common!IEventListenerOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", handler: "
+            },
+            {
+              "kind": "Content",
+              "text": "T"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "IDisposable",
+              "canonicalReference": "@idlebox/common!IDisposable:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 14,
+            "endIndex": 15
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "target",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              }
+            },
+            {
+              "parameterName": "type",
+              "parameterTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 9
+              }
+            },
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 11
+              }
+            },
+            {
+              "parameterName": "handler",
+              "parameterTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 13
+              }
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "addDisposableEventListener"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/common!addDisposableEventListener:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function addDisposableEventListener<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Function",
+              "canonicalReference": "!Function:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ">(target: "
+            },
+            {
+              "kind": "Reference",
+              "text": "IEventHostObject",
+              "canonicalReference": "@idlebox/common!IEventHostObject:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "IEventEmitterObject",
+              "canonicalReference": "@idlebox/common!IEventEmitterObject:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ", type: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
               "text": ", handler: "
             },
             {
@@ -86,7 +212,7 @@
             "endIndex": 13
           },
           "releaseTag": "Public",
-          "overloadIndex": 1,
+          "overloadIndex": 2,
           "parameters": [
             {
               "parameterName": "target",
@@ -2882,6 +3008,79 @@
             }
           ],
           "implementsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@idlebox/common!definePublicConstant:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function definePublicConstant(object: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", propertyKey: "
+            },
+            {
+              "kind": "Content",
+              "text": "string | symbol"
+            },
+            {
+              "kind": "Content",
+              "text": ", value: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "object",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "propertyKey",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "parameterName": "value",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "definePublicConstant"
         },
         {
           "kind": "Class",
@@ -6348,6 +6547,15 @@
                 },
                 {
                   "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IEventListenerOptions",
+                  "canonicalReference": "@idlebox/common!IEventListenerOptions:interface"
+                },
+                {
+                  "kind": "Content",
                   "text": "): "
                 },
                 {
@@ -6361,8 +6569,8 @@
               ],
               "isOptional": false,
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 7,
+                "endIndex": 8
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -6379,6 +6587,13 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
                   }
                 }
               ],
@@ -6407,6 +6622,15 @@
                 },
                 {
                   "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IEventListenerOptions",
+                  "canonicalReference": "@idlebox/common!IEventListenerOptions:interface"
+                },
+                {
+                  "kind": "Content",
                   "text": "): "
                 },
                 {
@@ -6420,8 +6644,8 @@
               ],
               "isOptional": false,
               "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
+                "startIndex": 7,
+                "endIndex": 8
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -6439,9 +6663,110 @@
                     "startIndex": 3,
                     "endIndex": 4
                   }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
                 }
               ],
               "name": "removeEventListener"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@idlebox/common!IEventListenerOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IEventListenerOptions "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "IEventListenerOptions",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/common!IEventListenerOptions#capture:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "capture?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "capture",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/common!IEventListenerOptions#once:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "once?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "once",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@idlebox/common!IEventListenerOptions#passive:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "passive?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "passive",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
             }
           ],
           "extendsTokenRanges": []
