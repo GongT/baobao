@@ -1,4 +1,5 @@
 import { FSWatcher } from 'chokidar';
+
 export { FSWatcher }
 
 declare interface IReloadFunction {

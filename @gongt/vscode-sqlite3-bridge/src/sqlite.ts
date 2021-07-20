@@ -144,7 +144,7 @@ async function getPackageManager() {
 
 async function getSystemStore(): Promise<string> {
 	const moduleDir = filesystem.privateFileGlobal('../../native_modules');
-	const hasPerm = promiseBool(moduleDir.resolve('try-perm.txt').writeText('ok:' + Date.now()));
+	const hasPerm = await promiseBool(moduleDir.resolve('try-perm.txt').writeText('ok:' + Date.now()));
 	if (hasPerm) {
 		logger.info('  - using plugin parent folder');
 		return moduleDir.path.fsPath;

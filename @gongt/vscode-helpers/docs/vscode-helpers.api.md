@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { CancellationToken } from 'vscode';
 import { CancellationTokenSource } from 'vscode';
 import { ExtensionContext } from 'vscode';
@@ -305,13 +307,12 @@ export class VSCodeFileLogger extends BaseLogger {
     protected appendLine(line: string): void;
     // (undocumented)
     dispose(): void | Promise<void>;
-    }
+}
 
 // Warning: (ae-missing-release-tag) "wrapId" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function wrapId(category: IdCategory, short: string): string;
-
 
 // (No @packageDocumentation comment for this package)
 

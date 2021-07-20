@@ -1,4 +1,3 @@
-
 export declare class TimeoutStorage<T> {
     private readonly storage;
     private readonly valueKey;

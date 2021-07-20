@@ -38,7 +38,11 @@ export default function typescriptTransformerDualPackage(program: Program, plugi
 	}
 	lastProgram = program;
 
-	const shadowProgram = cloneProgram(program, pluginOptions.compilerOptions || {}, debug);
+	const shadowCompilerOptions = pluginOptions.compilerOptions || {};
+	shadowCompilerOptions.declaration = false;
+	shadowCompilerOptions.declarationMap = false;
+	// console.error('[dual-package]: ttsc: creating shadow program!');
+	const shadowProgram = cloneProgram(program, shadowCompilerOptions, debug);
 	const appendDotCjsCall = appendDotCjs(shadowProgram, debug);
 
 	return (cachedTransformer = function transformer(transformationContext: TransformationContext) {

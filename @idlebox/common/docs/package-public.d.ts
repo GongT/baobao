@@ -1,4 +1,3 @@
-
 export declare function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, options: IEventListenerOptions, handler: T): IDisposable;
 
 export declare function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, handler: T): IDisposable;

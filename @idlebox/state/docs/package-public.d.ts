@@ -1,11 +1,12 @@
 /// <reference types="node" />
 /// <reference lib="dom" />
+
 import { Baobab } from 'baobab';
 import { BrowserWindow } from 'electron';
 import { Cursor } from 'baobab';
 import { Disposable } from '@idlebox/common';
 import { Emitter } from '@idlebox/common';
-import type EventEmitter from 'node:events';
+import type EventEmitter from 'events';
 import { EventRegister } from '@idlebox/common';
 import { IDisposable } from '@idlebox/common';
 import { Watcher } from 'baobab';
@@ -154,8 +155,8 @@ export declare class NodeIPCMain extends NodeIPCBase implements IPCServerDriver 
 declare class RawMessageHandler {
     private wait;
     send(message: IMessage): [
-        IRawMessageSend,
-        Promise<any>
+    IRawMessageSend,
+    Promise<any>
     ];
     reply(original: IRawMessageSend, replyData: any): IRawMessageReply;
     recv(data: IRawMessage): IMessage | null;

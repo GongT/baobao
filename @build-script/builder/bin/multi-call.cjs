@@ -22,12 +22,12 @@ global.PROJECT_PATH = process.cwd();
 require('@build-script/dual-package-runtime');
 
 if (cmd === 'init') {
-	require('../lib/cmd-loader.cjs').load(path.resolve(__dirname, '../lib/cmd/init'));
+	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/cmd/init'));
 } else if (cmd === 'tool') {
 	const tool = process.argv[3];
-	require('../lib/cmd-loader.cjs').load(path.resolve(__dirname, '../lib/tool', tool));
+	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/tool', tool));
 } else if (cmd) {
-	require('../lib/cmd-loader.cjs').load(path.resolve(__dirname, '../lib/cmd/run'));
+	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/cmd/run'));
 } else {
-	require('../lib/cmd-loader.cjs').load(path.resolve(__dirname, '../lib/show-help'));
+	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/show-help'));
 }

@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { ExportDeclaration } from 'typescript';
 import { Identifier } from 'typescript';
 import { ImportDeclaration } from 'typescript';
@@ -347,7 +349,6 @@ export type ValidImportDeclaration = ImportDeclaration & valid;
 //
 // @public (undocumented)
 export type ValidImportOrExportDeclaration = ValidImportDeclaration | ValidExportDeclaration;
-
 
 // (No @packageDocumentation comment for this package)
 

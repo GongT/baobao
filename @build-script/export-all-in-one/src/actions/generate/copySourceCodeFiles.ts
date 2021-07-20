@@ -31,7 +31,7 @@ const internalHint = '\n * @internal\n';
 function createCommentByComment(node: JSDoc) {
 	const lines: string[] = [];
 	if (node.comment) {
-		lines.push(node.comment);
+		lines.push(typeof node.comment === 'string' ? node.comment : node.comment.map((e) => e.text).join('\n'));
 	}
 	if (node.tags) {
 		for (const item of node.tags) {

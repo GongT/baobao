@@ -25,28 +25,30 @@
 		"@build-script/typescript-transformer-common": "^0.1.3",
 		"@idlebox/node": "^1.0.27",
 		"fancy-log": "^1.3.3",
-		"fs-extra": "^9.1.0",
+		"fs-extra": "^10.0.0",
 		"source-map-support": "^0.5.19",
-		"tslib": "^2.1.0"
+		"tslib": "^2.3.0"
 	},
 	"peerDependencies": {
 		"ttypescript": "*",
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.1.8",
-		"@build-script/single-dog-asset": "^1.0.11",
+		"@build-script/builder": "^3.0.2",
+		"@build-script/single-dog-asset": "^1.0.13",
 		"@build-script/typescript-transformer-dual-package": "^1.0.20",
 		"@types/fancy-log": "^1.3.1",
-		"@types/fs-extra": "^9.0.8",
-		"@types/mocha": "^8.2.1",
-		"@types/node": "^14.14.33",
+		"@types/fs-extra": "^9.0.12",
+		"@types/gulp": "^4.0.9",
+		"@types/mocha": "^8.2.3",
+		"@types/node": "^16.3.3",
 		"gulp": "^4.0.2",
-		"mocha": "^8.3.1",
+		"mocha": "^9.0.2",
 		"rimraf": "^3.0.2",
-		"ts-node": "^9.1.1",
+		"ts-node": "^10.1.0",
 		"ttypescript": "^1.5.12",
-		"typescript": "^4.2.3"
+		"typescript": "^4.3.5",
+		"@build-script/self-build-script": "^0.0.0"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

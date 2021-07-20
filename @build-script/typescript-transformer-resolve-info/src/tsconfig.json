@@ -13,7 +13,7 @@
 				"transform": "@build-script/typescript-transformer-dual-package"
 			},
 			{
-				"transform": "./register.ts"
+				"transform": "../lib/register.cjs"
 			}
 		]
 	},

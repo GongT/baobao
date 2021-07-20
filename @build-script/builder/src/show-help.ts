@@ -8,7 +8,7 @@ export default async function () {
 	const cmds = new Map();
 	let size = 0;
 
-	const filename = import.meta.url.replace(/^file:\/\//, '');
+	const filename = /*import.meta.url*/ __dirname.replace(/^file:\/\//, '');
 	const ext = extname(filename);
 	const cmddir = resolve(filename, '../cmd');
 	for (const item of await readdir(cmddir)) {

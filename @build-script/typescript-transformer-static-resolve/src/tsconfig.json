@@ -2,15 +2,14 @@
 	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
 		"module": "ESNext",
-		"declaration": true,
-		"declarationMap": true,
 		"outDir": "../lib",
 		"rootDir": ".",
 		"types": ["node"],
 		"incremental": false,
 		"plugins": [
 			{
-				"transform": "./transform.ts"
+				"transform": "@build-script/self-build-script/load-transform",
+				"file": "transform.ts"
 				// "verbose": 1
 			},
 			{

@@ -146,7 +146,7 @@ export async function updatePackageJson(mode: IRunMode) {
 	const pm = await getPackageManager({ cwd: CONTENT_ROOT, ask: false });
 	debug('    using package manager: %s', pm.friendlyName);
 	if (pm.type === PackageManagerType.RUSH) {
-		const r = registerProjectToRush(CONTENT_ROOT);
+		const r = await registerProjectToRush(CONTENT_ROOT);
 		if (r) {
 			debug('    added current package to rush.json');
 		}

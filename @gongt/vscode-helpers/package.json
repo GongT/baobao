@@ -21,17 +21,17 @@
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "^2.0.14",
-		"@idlebox/common": "^1.1.4",
-		"tslib": "^2.1.0",
+		"@idlebox/common": "^1.1.7",
+		"tslib": "^2.3.0",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.54.0",
-		"@build-script/single-dog-asset": "^1.0.11",
-		"@types/node": "^14.14.33",
-		"typescript": "^4.2.3",
+		"@types/vscode": "^1.58.1",
+		"@build-script/single-dog-asset": "^1.0.13",
+		"@types/node": "^16.3.3",
+		"typescript": "^4.3.5",
 		"gulp": "^4.0.2",
-		"@build-script/builder": "^2.1.8",
+		"@build-script/builder": "^3.0.2",
 		"@build-script/export-all-in-one": "^3.0.23"
 	}
 }

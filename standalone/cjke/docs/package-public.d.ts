@@ -1,4 +1,3 @@
-
 export declare const allSupport: SupportInfo;
 
 export declare interface CodePointInfo {

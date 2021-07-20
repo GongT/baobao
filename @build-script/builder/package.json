@@ -1,19 +1,12 @@
 {
 	"monorepo": "rush",
-	"type": "module",
+	"type": "commonjs",
 	"name": "@build-script/builder",
 	"description": "run build command(s) serial/parallel with order. (by generate a Gulp config)",
 	"keywords": ["gulp", "build", "process", "tool", "make", "pipeline"],
-	"version": "2.1.8",
-	"main": "./api.cjs",
-	"module": "./api.js",
+	"version": "3.0.2",
+	"main": "./lib/api/context.js",
 	"typings": "./api.d.ts",
-	"exports": {
-		".": {
-			"require": "./api.cjs",
-			"import": "./api.js"
-		}
-	},
 	"bin": {
 		"build-script": "bin/multi-call.cjs",
 		"rimraf": "bin/rimraf.cjs"
@@ -27,33 +20,33 @@
 		"prepack": "run-s -l clean build"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.1.4",
+		"@idlebox/common": "^1.1.7",
 		"@idlebox/node": "^1.0.27",
 		"@idlebox/node-json-edit": "^2.0.14",
 		"@build-script/dual-package-runtime": "^1.0.7",
 		"@build-script/gulp-chain-simplify": "^0.0.4",
-		"execa": "^5.0.0",
+		"execa": "^5.1.1",
 		"fancy-log": "^1.3.3",
-		"fs-extra": "^9.1.0",
-		"npm-check-updates": "^11.2.1",
-		"pacote": "^11.3.0",
+		"fs-extra": "^10.0.0",
+		"npm-check-updates": "^11.8.3",
+		"pacote": "^11.3.5",
 		"source-map-support": "^0.5.19",
 		"split2": "^3.2.2",
-		"tslib": "^2.1.0"
+		"tslib": "^2.3.0"
 	},
 	"devDependencies": {
 		"@build-script/typescript-transformer-dual-package": "^1.0.20",
-		"@build-script/single-dog-asset": "^1.0.11",
-		"@microsoft/api-extractor": "^7.13.2",
+		"@build-script/single-dog-asset": "^1.0.13",
+		"@microsoft/api-extractor": "^7.18.4",
 		"@types/fancy-log": "^1.3.1",
-		"@types/fs-extra": "^9.0.8",
-		"@types/gulp": "^4.0.8",
-		"@types/node": "^14.14.33",
-		"@types/split2": "^2.1.6",
+		"@types/fs-extra": "^9.0.12",
+		"@types/gulp": "^4.0.9",
+		"@types/node": "^16.3.3",
+		"@types/split2": "^3.2.1",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^3.0.2",
 		"ttypescript": "^1.5.12",
-		"typescript": "^4.2.3"
+		"typescript": "^4.3.5"
 	},
 	"repository": "https://github.com/GongT/baobao"
 }

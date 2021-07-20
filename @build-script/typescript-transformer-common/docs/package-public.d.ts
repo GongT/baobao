@@ -1,4 +1,5 @@
 /// <reference types="node" />
+
 import { ExportDeclaration } from 'typescript';
 import { Identifier } from 'typescript';
 import { ImportDeclaration } from 'typescript';

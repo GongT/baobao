@@ -22,18 +22,18 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.1.4",
+		"@idlebox/common": "^1.1.7",
 		"source-map-support": "^0.5.19",
-		"tslib": "^2.1.0"
+		"tslib": "^2.3.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^2.1.8",
+		"@build-script/builder": "^3.0.2",
 		"@build-script/typescript-transformer-dual-package": "^1.0.20",
 		"@build-script/export-all-in-one": "^3.0.23",
-		"@build-script/single-dog-asset": "^1.0.11",
+		"@build-script/single-dog-asset": "^1.0.13",
 		"gulp": "^4.0.2",
-		"typescript": "^4.2.3",
+		"typescript": "^4.3.5",
 		"ttypescript": "^1.5.12",
-		"ts-node": "^9.1.1"
+		"ts-node": "^10.1.0"
 	}
 }

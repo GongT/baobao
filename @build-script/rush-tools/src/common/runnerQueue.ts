@@ -98,6 +98,6 @@ class QueueItem {
 			throw new Error('re-run some job');
 		}
 		this.hasRun = true;
-		return new Promise((resolve) => setTimeout(resolve, 0)).then(this.job).then(done);
+		return new Promise<void>((resolve) => setTimeout(resolve, 0)).then(this.job).then(done);
 	}
 }

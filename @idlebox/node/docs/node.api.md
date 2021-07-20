@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { EventEmitter } from 'events';
 import execa from 'execa';
 import { ExecaReturnValue } from 'execa';
@@ -646,7 +648,6 @@ export function writeFileIfChange(file: string, data: string | Buffer): Promise<
 //
 // @public (undocumented)
 export function writeFileIfChangeSync(file: string, data: string | Buffer): boolean;
-
 
 // (No @packageDocumentation comment for this package)
 

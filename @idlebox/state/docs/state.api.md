@@ -4,12 +4,15 @@
 
 ```ts
 
+/// <reference types="node" />
+/// <reference lib="dom" />
+
 import { Baobab } from 'baobab';
 import { BrowserWindow } from 'electron';
 import { Cursor } from 'baobab';
 import { Disposable } from '@idlebox/common';
 import { Emitter } from '@idlebox/common';
-import type EventEmitter from 'node:events';
+import type EventEmitter from 'events';
 import { EventRegister } from '@idlebox/common';
 import { IDisposable } from '@idlebox/common';
 import { Watcher } from 'baobab';
@@ -300,7 +303,6 @@ export class StateSlave {
     // (undocumented)
     trigger(event: string, payload: any): Promise<void>;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

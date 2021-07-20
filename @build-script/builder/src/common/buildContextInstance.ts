@@ -50,6 +50,7 @@ export function getBuildContext(): BuildContext {
 let setBy = '@build-script/builder';
 
 export function setCurrentDir(v: string) {
+	v = v.replace(/^file:\/\//, '');
 	if (currentPath && currentPath !== v) {
 		throw new Error(
 			`currentDir is set by ${setBy}, can't set again by ${currentPlugin}. old value=${currentPath}, new value=${v}`

@@ -1,0 +1,11 @@
+{
+	"name": "@build-script/self-build-script",
+	"private": true,
+	"version": "0.0.0",
+	"type": "commonjs",
+	"main": "./execute.js",
+	"scripts": {
+		"build": "",
+		"clean": ""
+	}
+}

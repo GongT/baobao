@@ -10,7 +10,7 @@
 		"types": ["node"],
 		"plugins": [
 			{
-				"transform": "./register.ts"
+				"transform": "../lib/register.js"
 			},
 			{
 				"transform": "@build-script/typescript-transformer-dual-package"

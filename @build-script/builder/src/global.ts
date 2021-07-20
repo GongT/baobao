@@ -24,7 +24,13 @@ export interface IPluginDefine {
 	args: string[];
 }
 
+export enum ModuleKind {
+	CommonJS = 'commonjs',
+	ESNext = 'module',
+}
+
 export interface IMyProjectJson {
+	type?: 'commonjs' | 'module';
 	load: (string | IPluginDefine)[];
 	alias: MapLike<string | string[]>;
 	command: MapLike<{

@@ -2,7 +2,7 @@ import { addDisposableEventListener, Disposable } from '@idlebox/common';
 import { IRawMessageSend, rawMessageHandler } from '../ipc/errorhandle';
 import { IMessage, IMessageHandlerInternal, IPCDriver } from '../ipc/protocol';
 
-import type EventEmitter from 'node:events';
+import type EventEmitter from 'events';
 
 export interface IProcessSlice extends Pick<EventEmitter, 'addListener' | 'removeListener'> {
 	send(message: any, callback?: (error: Error | null) => void): boolean;

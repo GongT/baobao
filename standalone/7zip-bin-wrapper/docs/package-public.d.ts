@@ -1,4 +1,5 @@
 /// <reference types="node" />
+
 import { ChildProcess } from 'child_process';
 import { EventEmitter } from 'events';
 import { SpawnOptions } from 'child_process';

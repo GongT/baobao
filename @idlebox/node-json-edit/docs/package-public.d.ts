@@ -1,3 +1,5 @@
+/// <reference types="node" />
+// file: lib/api/manipulate.d.ts
 export declare enum UnorderdFieldsPlacement {
     PREPEND = 0,
     APPENND = 1
@@ -5,7 +7,9 @@ export declare enum UnorderdFieldsPlacement {
 export declare function manipulateJsonResult(data: any, oType?: UnorderdFieldsPlacement): any;
 export declare function insertKeyAlphabet(data: any, key: any, value: any): typeof data;
 export declare function sortObjectWithTargetOrder(data: any, targetOrder: string[]): typeof data;
-//# sourceMappingURL=manipulate.d.ts.map
+
+
+// file: lib/api/format.d.ts
 import { doc, Options as PrettierOptions } from 'prettier';
 declare type PassedEditableFormats = 'bracketSpacing' | 'endOfLine';
 export interface IFileFormatConfig extends doc.printer.Options, Pick<PrettierOptions, PassedEditableFormats> {
@@ -15,7 +19,9 @@ export declare function reformatJson<T = any>(data: T, format: Partial<IFileForm
 export declare function stringifyJsonText(data: any): string;
 export declare function getFormatInfo(data: any): IFileFormatConfig;
 export {};
-//# sourceMappingURL=format.d.ts.map
+
+
+// file: lib/api/readwrite.d.ts
 /**
  * When writeXxx() functions return a bool, it means:
  *   * true: data has change, file content altered
@@ -54,4 +60,5 @@ export declare function loadJsonFileIfExists(file: string, defaultValue?: any, c
 export declare function loadJsonFileSync(file: string, charset?: BufferEncoding): any;
 export declare function loadJsonFile(file: string, charset?: BufferEncoding): Promise<any>;
 export declare function parseJsonText(text: string): any;
-//# sourceMappingURL=readwrite.d.ts.map
+
+

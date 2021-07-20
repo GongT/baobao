@@ -1,4 +1,5 @@
 /// <reference types="node" />
+
 import { CancellationToken } from 'vscode';
 import { CancellationTokenSource } from 'vscode';
 import { ExtensionContext } from 'vscode';
@@ -50,8 +51,8 @@ declare class ExtensionFileSystem {
     workspaceFile(workspace: WorkspaceFolder, file: string): FileContext;
     stat(uri: Uri): Promise<FileStat>;
     readDirectory(uri: Uri): Promise<[
-        string,
-        FileType
+    string,
+    FileType
     ][]>;
     createDirectory(uri: Uri): Promise<void>;
     readFileRaw(uri: Uri): Promise<Uint8Array>;

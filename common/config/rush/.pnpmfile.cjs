@@ -1,6 +1,8 @@
 const { resolve } = require('path');
 const { readFileSync } = require('fs');
 
+const PROJECT_ROOT = resolve(__dirname, '../../..');
+
 function loadJsonSync(f) {
 	return JSON.parse(readFileSync(f, 'utf-8'));
 }
@@ -50,11 +52,11 @@ function fixDependencyIssue(packageJson) {
 const lockedDeps = {};
 (() => {
 	const reProjectFolder = /"projectFolder": "(.+)"/g;
-	const content = readFileSync(resolve(__dirname, '../../rush.json'), 'utf-8');
+	const content = readFileSync(resolve(PROJECT_ROOT, 'rush.json'), 'utf-8');
 	let projectFolder;
 	const myProjects = new Set();
 	while ((projectFolder = reProjectFolder.exec(content))) {
-		const p = resolve(__dirname, '../../', projectFolder[1], 'package.json');
+		const p = resolve(PROJECT_ROOT, projectFolder[1], 'package.json');
 		const val = loadJsonSync(p);
 		myProjects.add(val.name);
 		Object.assign(lockedDeps, val.dependencies, val.devDependencies);

@@ -1,7 +1,7 @@
 import { dirname, resolve } from 'path';
 import { existsSync, findUpUntilSync } from '@idlebox/node';
 import { getFormatInfo, loadJsonFile, loadJsonFileSync, reformatJson, writeJsonFile } from '@idlebox/node-json-edit';
-import { IMyProjectJson, rectLoadDefine } from '../global';
+import { IMyProjectJson, ModuleKind, rectLoadDefine } from '../global';
 import { createGulpFile } from './buildContext.createGulpFile';
 import { BuildContextBase } from './buildContextBase';
 import { isArrayOfString } from './func';
@@ -13,6 +13,7 @@ export interface MapLike<T> {
 export class BuildContext extends BuildContextBase {
 	private rawProjectJson?: IMyProjectJson;
 	private configFilePath: string;
+	public declare kind: ModuleKind;
 
 	public constructor(public readonly projectRoot: string, creating: boolean = false) {
 		const configFile = findUpUntilSync(projectRoot, 'build-script.json');
@@ -97,6 +98,8 @@ export class BuildContext extends BuildContextBase {
 				work.serial = true;
 			}
 		}
+
+		this.kind = packageJson.type === 'commonjs' ? ModuleKind.CommonJS : ModuleKind.ESNext;
 
 		this.plugins = rectLoadDefine(projectJson.load || []);
 	}

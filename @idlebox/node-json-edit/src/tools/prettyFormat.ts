@@ -1,5 +1,6 @@
 import { readFileSync, readFile as readFileAsync } from 'fs';
-import { format, Options, Options as PrettierOptions, resolveConfig } from 'prettier';
+import { Options as PrettierOptions } from 'prettier';
+const { format, resolveConfig } = require('prettier');
 import { IFileFormatConfig } from '..';
 import { pathExistsSync, pathExistsAsync } from './filesystem';
 import { promisify } from 'util';
@@ -25,7 +26,7 @@ const defaultFormat: IInternalFormat = {
 	bracketSpacing: true,
 	endOfLine: 'lf',
 	lastNewLine: false,
-	embeddedInHtml: false,
+	__embeddedInHtml: false,
 };
 
 export class PrettyFormat {
@@ -47,7 +48,7 @@ export class PrettyFormat {
 	}
 
 	learnFromFileSync(file: string, content?: string) {
-		let f: Options | null = null;
+		let f: PrettierOptions | null = null;
 		if (process.env.PRETTIER_CONFIG) {
 			f = resolveConfig.sync(process.env.PRETTIER_CONFIG, {
 				editorconfig: true,

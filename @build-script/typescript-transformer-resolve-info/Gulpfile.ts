@@ -1,3 +1,3 @@
-import * as gulp from 'gulp';
-import { loadToGulp } from '@build-script/builder';
-loadToGulp(gulp, __dirname);
+import gulp from 'gulp';
+import builder from '@build-script/builder';
+builder.loadToGulp(gulp, import.meta.url);

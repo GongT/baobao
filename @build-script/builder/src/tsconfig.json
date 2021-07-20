@@ -1,8 +1,9 @@
 {
-	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.no-lib.json",
 	"compilerOptions": {
 		"outDir": "../lib",
 		"stripInternal": true,
+		"declarationMap": false,
 		"rootDir": "."
 	}
 }
