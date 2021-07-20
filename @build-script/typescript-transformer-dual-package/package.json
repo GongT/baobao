@@ -15,12 +15,9 @@
 		}
 	},
 	"scripts": {
-		"prepack": "run-s clean build:*",
-		"build:step1": "tsc -p src --module commonjs",
-		"build:step2": "node -r @build-script/self-build-script ttsc -p src",
-		"build": "run-s build:*",
-		"watch": "run-s build:step1 watch:run",
-		"watch:run": "node -r @build-script/self-build-script ttsc -p src -w",
+		"prepack": "run-s clean build",
+		"build": "ttsc -p src",
+		"watch": "ttsc -p src -w --declarationMap false",
 		"clean": "rimraf lib",
 		"test": ""
 	},
@@ -35,8 +32,7 @@
 		"ts-node": "^10.1.0",
 		"ttypescript": "^1.5.12",
 		"typescript": "^4.3.5",
-		"npm-run-all": "^4.1.5",
-		"@build-script/self-build-script": "^0.0.0"
+		"npm-run-all": "^4.1.5"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

@@ -1,9 +1,7 @@
 {
 	"alias": {
-		"build-ts": "tsc -p src",
-		"build-tts": "node -r @build-script/self-build-script ttsc -p src",
-		"watch-ts": "tsc -w -p src",
-		"watch-tts": "node -r @build-script/self-build-script ttsc -w -p src",
+		"build-ts": "ttsc -p src",
+		"watch-ts": "ttsc -w -p src",
 		"cleanup-lib": "rimraf lib",
 		"yarn-publish": "yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
@@ -15,7 +13,7 @@
 		"build": {
 			"title": "Build project",
 			"serial": true,
-			"run": ["build-ts", "build-tts"]
+			"run": ["build-ts"]
 		},
 		"distclean": {
 			"title": "Delete git ignore files (without node_modules)",

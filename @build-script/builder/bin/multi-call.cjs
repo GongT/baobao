@@ -19,7 +19,10 @@ Error.stackTraceLimit = Infinity;
 
 global.PROJECT_PATH = process.cwd();
 
-require('@build-script/dual-package-runtime');
+// require('@build-script/dual-package-runtime');
+
+const { colorDim, colorReset, getVersion } = require('../lib/common/func');
+console.log('%s[build-script] v%s%s', colorDim, getVersion(), colorReset);
 
 if (cmd === 'init') {
 	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/cmd/init'));

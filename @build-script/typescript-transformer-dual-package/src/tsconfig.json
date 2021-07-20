@@ -2,19 +2,16 @@
 	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
 		"module": "ESNext",
-		"declaration": true,
-		"declarationMap": true,
 		"outDir": "../lib",
 		"rootDir": "./",
 		"typeRoots": ["../node_modules/@types"],
 		"types": ["node"],
 		"plugins": [
 			{
-				"transform": "../lib/register.js",
+				"transform": "./register.ts",
 				"verbose": 1
 			}
-		],
-		"incremental": false
+		]
 	},
 	"include": ["**/*.ts"]
 }

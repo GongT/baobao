@@ -4,7 +4,7 @@
 	"name": "@build-script/builder",
 	"description": "run build command(s) serial/parallel with order. (by generate a Gulp config)",
 	"keywords": ["gulp", "build", "process", "tool", "make", "pipeline"],
-	"version": "3.0.2",
+	"version": "3.0.3",
 	"main": "./lib/api/context.js",
 	"typings": "./api.d.ts",
 	"bin": {
@@ -15,15 +15,14 @@
 	"license": "MIT",
 	"scripts": {
 		"clean": "rimraf lib",
-		"watch": "ttsc -p src -w",
-		"build": "ttsc -p src",
+		"watch": "tsc -p src -w",
+		"build": "tsc -p src",
 		"prepack": "run-s -l clean build"
 	},
 	"dependencies": {
 		"@idlebox/common": "^1.1.7",
 		"@idlebox/node": "^1.0.27",
 		"@idlebox/node-json-edit": "^2.0.14",
-		"@build-script/dual-package-runtime": "^1.0.7",
 		"@build-script/gulp-chain-simplify": "^0.0.4",
 		"execa": "^5.1.1",
 		"fancy-log": "^1.3.3",
@@ -35,7 +34,6 @@
 		"tslib": "^2.3.0"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "^1.0.20",
 		"@build-script/single-dog-asset": "^1.0.13",
 		"@microsoft/api-extractor": "^7.18.4",
 		"@types/fancy-log": "^1.3.1",
@@ -45,7 +43,6 @@
 		"@types/split2": "^3.2.1",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^3.0.2",
-		"ttypescript": "^1.5.12",
 		"typescript": "^4.3.5"
 	},
 	"repository": "https://github.com/GongT/baobao"

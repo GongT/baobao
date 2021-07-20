@@ -3,7 +3,6 @@
 	"compilerOptions": {
 		"outDir": "../lib",
 		"stripInternal": true,
-		"declarationMap": false,
 		"rootDir": "."
 	}
 }

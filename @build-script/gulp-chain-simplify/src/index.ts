@@ -65,8 +65,15 @@ let gulpInstance: Undertaker;
 function parentGulp() {
 	if (!gulpInstance) {
 		const require = createRequire(import.meta.url);
-		const mainRequire = require.main?.require ?? require;
-		gulpInstance = mainRequire('gulp');
+		const mainRequire = createRequire(require.main?.filename || '.');
+		try {
+			gulpInstance = mainRequire('gulp');
+		} catch (e) {
+			if (e.code !== 'MODULE_NOT_FOUND') {
+				throw e;
+			}
+			console.error('[%s] %s from %s', e.code, e.message, require.main?.filename);
+		}
 	}
 	return gulpInstance;
 }

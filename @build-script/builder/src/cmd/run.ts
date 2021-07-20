@@ -22,9 +22,15 @@ export default async function runBuildScript() {
 	const targetRequire = createRequire(resolve(context.projectRoot, 'package.json'));
 	const gulpBin = targetRequire.resolve('gulp/bin/gulp.js');
 
+	// console.error('!!!!!!!!!!!!!', context.kind);
 	if (context.kind === ModuleKind.ESNext) {
 		process.env.TS_NODE_PROJECT = require.resolve('../../tsconfig-collect/esm.json');
-		trySpawnInScope(['node', '--loader', 'ts-node/esm', gulpBin, command]);
+		const noWarning = [];
+		if (process.stderr.isTTY) {
+			noWarning.push('--no-warnings');
+		}
+
+		trySpawnInScope(['node', ...noWarning, '--loader', 'ts-node/esm', gulpBin, command]);
 	} else {
 		process.env.TS_NODE_PROJECT = require.resolve('../../tsconfig-collect/cjs.json');
 		trySpawnInScope(['node', gulpBin, command]);

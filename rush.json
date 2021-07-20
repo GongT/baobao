@@ -188,11 +188,6 @@
 			"packageName": "@idlebox/state",
 			"projectFolder": "@idlebox/state",
 			"shouldPublish": true
-		},
-		{
-			"packageName": "@build-script/self-build-script",
-			"projectFolder": "@build-script/self-build-script",
-			"shouldPublish": false
 		}
 	]
 }
