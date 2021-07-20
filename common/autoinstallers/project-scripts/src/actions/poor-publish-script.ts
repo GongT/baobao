@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import { dirname } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { commandInPath, writeFileIfChange } from '@idlebox/node';
@@ -62,7 +63,7 @@ async function main() {
 		if (/^success Published\.$/m.test(log)) {
 			console.error('    👍 success.');
 		} else {
-			console.error('    🤔 no change.');
+			console.error('    🤔 no update.', lastPubVersion, pkgJson.version);
 		}
 
 		await mkdirp(dirname(stateFile));

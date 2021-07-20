@@ -2,7 +2,7 @@
 	"name": "@build-script/typescript-transformer-dual-package",
 	"description": "A TypeScript transformer for (mainly) use with ttypescript that will (semi-)auto create dual package hazard.",
 	"keywords": ["ttypescript", "typescript", "transformer", "dual package", "esm", "es modules", "commonjs"],
-	"version": "1.0.20",
+	"version": "1.0.21",
 	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",

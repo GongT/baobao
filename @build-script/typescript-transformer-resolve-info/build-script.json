@@ -7,7 +7,7 @@
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
 		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**",
 		"build-test": "ttsc -p tests",
-		"run-test": "mocha -r ts-node/register tests/*.test.ts"
+		"run-test": "mocha -r ts-node/register tests/out/tests/*.test.js"
 	},
 	"command": {
 		"build": {

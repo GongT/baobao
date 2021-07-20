@@ -21,4 +21,4 @@ docs/*
 !docs/*.d.ts
 
 ### tests
-lib/tests
+tests/out

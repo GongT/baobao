@@ -1,9 +1,12 @@
+import 'source-map-support/register';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
+import { readFileSync } from 'fs-extra';
 
 async function main() {
 	const rushProject = new RushProject();
+	const verbose = process.argv.includes('--verbose');
 
 	console.log('✍️ \x1B[38;5;14mRunning "rush pretty"\x1B[0m');
 	await execPromise({
@@ -45,6 +48,10 @@ async function main() {
 			console.error('=============================================');
 			console.error('failed parse json [ %s ]: %s', result, e.message);
 			process.exit(1);
+		}
+
+		if (verbose) {
+			console.error(readFileSync(logFile, 'utf8'));
 		}
 
 		if (changed) {

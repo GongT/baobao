@@ -72,6 +72,12 @@
 	"parameters": [
 		{
 			"parameterKind": "flag",
+			"longName": "--verbose",
+			"description": "显示详细输出",
+			"associatedCommands": ["poor-change"]
+		},
+		{
+			"parameterKind": "flag",
 			"longName": "--staged",
 			"description": "检查git缓冲区种的内容，默认包括未添加的文件",
 			"associatedCommands": ["pretty"]

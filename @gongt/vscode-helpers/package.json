@@ -20,8 +20,8 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "^2.0.14",
-		"@idlebox/common": "^1.1.7",
+		"@idlebox/node-json-edit": "^2.0.15",
+		"@idlebox/common": "^1.1.8",
 		"tslib": "^2.3.0",
 		"source-map-support": "^0.5.19"
 	},
@@ -31,7 +31,7 @@
 		"@types/node": "^16.3.3",
 		"typescript": "^4.3.5",
 		"gulp": "^4.0.2",
-		"@build-script/builder": "^3.0.2",
-		"@build-script/export-all-in-one": "^3.0.23"
+		"@build-script/builder": "^3.0.3",
+		"@build-script/export-all-in-one": "^3.0.24"
 	}
 }

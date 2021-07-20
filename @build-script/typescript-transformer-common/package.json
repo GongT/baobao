@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/typescript-transformer-common",
 	"type": "module",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"description": "transformer helpers",
 	"license": "MIT",
 	"repository": "https://github.com/GongT/baobao",
@@ -23,17 +23,17 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/node": "^1.0.27",
+		"@idlebox/node": "^1.0.28",
 		"fancy-log": "^1.3.3",
 		"fs-extra": "^10.0.0",
 		"source-map-support": "^0.5.19",
 		"tslib": "^2.3.0"
 	},
 	"devDependencies": {
-		"@build-script/export-all-in-one": "^3.0.23",
-		"@build-script/builder": "^3.0.2",
+		"@build-script/export-all-in-one": "^3.0.24",
+		"@build-script/builder": "^3.0.3",
 		"@build-script/single-dog-asset": "^1.0.13",
-		"@build-script/typescript-transformer-dual-package": "^1.0.20",
+		"@build-script/typescript-transformer-dual-package": "^1.0.21",
 		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^9.0.12",
 		"@types/node": "^16.3.3",

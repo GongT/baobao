@@ -1,6 +1,6 @@
 {
 	"monorepo": "rush",
-	"version": "1.0.27",
+	"version": "1.0.28",
 	"license": "MIT",
 	"name": "@idlebox/node",
 	"type": "module",
@@ -20,7 +20,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.1.7",
+		"@idlebox/common": "^1.1.8",
 		"execa": "^5.1.1",
 		"source-map-support": "^0.5.19",
 		"tslib": "^2.3.0"
@@ -29,10 +29,10 @@
 		"kexec": "github:meteor/node-kexec#update-for-node-12"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.0.1",
+		"@build-script/builder": "^3.0.2",
 		"@build-script/export-all-in-one": "^3.0.23",
 		"@build-script/single-dog-asset": "^1.0.13",
-		"@build-script/typescript-transformer-dual-package": "^1.0.20",
+		"@build-script/typescript-transformer-dual-package": "^1.0.21",
 		"@types/node": "^16.3.3",
 		"gulp": "^4.0.2",
 		"ttypescript": "^1.5.12",

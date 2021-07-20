@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import split2 from 'split2';
 import { ChildProcess, spawn } from 'child_process';
 import { relative, resolve } from 'path';

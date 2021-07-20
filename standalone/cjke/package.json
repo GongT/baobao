@@ -1,7 +1,7 @@
 {
 	"name": "cjke-strings",
 	"type": "module",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
 	"keywords": ["string", "unicode", "emoji", "CJK", "display width", "string width", "chinese"],
 	"license": "MIT",
@@ -36,9 +36,9 @@
 		"tslib": "^2.3.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.0.2",
+		"@build-script/builder": "^3.0.3",
 		"@build-script/single-dog-asset": "^1.0.13",
-		"@build-script/typescript-transformer-dual-package": "^1.0.20",
+		"@build-script/typescript-transformer-dual-package": "^1.0.21",
 		"@rollup/plugin-commonjs": "^19.0.1",
 		"@rollup/plugin-node-resolve": "^13.0.2",
 		"@types/chai": "^4.2.21",
@@ -52,7 +52,7 @@
 		"source-map-support": "^0.5.19",
 		"ttypescript": "^1.5.12",
 		"typescript": "^4.3.5",
-		"@build-script/export-all-in-one": "^3.0.23",
+		"@build-script/export-all-in-one": "^3.0.24",
 		"ts-node": "^10.1.0"
 	},
 	"monorepo": "rush"
