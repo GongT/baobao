@@ -65,12 +65,15 @@ function supportScope() {
 			return false;
 		}
 
-		if (
-			spawnGetOutput({
+		try {
+			const supported = spawnGetOutput({
 				exec: [unshare, ...unshareArgs, 'echo', 'yes'],
 				sync: true,
-			}) !== 'yes'
-		) {
+			});
+			if (supported !== 'yes') {
+				return false;
+			}
+		} catch {
 			return false;
 		}
 

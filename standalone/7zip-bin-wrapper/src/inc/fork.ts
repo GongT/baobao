@@ -91,7 +91,7 @@ export function spawn7z(args: string[], cli: boolean, extra: ExtraSpawnOptions =
 	const commandline = [path7za, ...args];
 	return {
 		commandline,
-		cwd,
+		cwd: cwd.toString(),
 		execute(handleData: MessageHandler, handleStatus: ProgressHandler) {
 			const cp = spawn(path7za, args, {
 				...extra,
