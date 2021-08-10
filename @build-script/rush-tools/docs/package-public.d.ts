@@ -10,6 +10,8 @@ export declare function buildProjects(opts: IBuildProjectOptions, builder: IProj
 
 export declare function createTasks(): Promise<void>;
 
+export declare function createVSCode(): Promise<void>;
+
 export declare function createYarn(): Promise<void>;
 
 export declare function description(func: any): string;
@@ -83,6 +85,8 @@ export declare interface IRushConfig {
     rushVersion: string;
     projects: IProjectConfig[];
 }
+
+export declare function linkLocalBins(): Promise<void>;
 
 export declare function loadConfig(fromPath?: string): Promise<IRushConfig | null>;
 

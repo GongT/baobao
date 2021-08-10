@@ -1,0 +1,6 @@
+/**
+ * https://rushjs.io/pages/configs/experiments_json/
+ */
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/experiments.schema.json"
+}

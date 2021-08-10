@@ -38,7 +38,7 @@
 		"strictFunctionTypes": true,
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
-		"outDir": "../dist",
+		"outDir": "../lib",
 		"rootDir": "."
 	}
 }

@@ -4,14 +4,14 @@
 	"type": "commonjs",
 	"description": "Convert (TypeScript compiled) module's import statements, to work with jspm dew file.",
 	"version": "1.0.14",
-	"main": "dist/api.js",
-	"types": "dist/api.d.ts",
+	"main": "lib/api.js",
+	"types": "lib/api.d.ts",
 	"license": "MIT",
 	"scripts": {
 		"prepack": "run-s clean build",
 		"watch": "tsc -p src -w",
 		"build": "tsc -p src",
-		"clean": "rm -rf dist"
+		"clean": "rm -rf lib"
 	},
 	"dependencies": {
 		"@jspm/resolve": "^1.0.0",

@@ -7,6 +7,7 @@
 		"strictPeerDependencies": false,
 		"resolutionStrategy": "fewer-dependencies"
 	},
+	"hotfixChangeEnabled": true,
 	"nodeSupportedVersionRange": ">=10.13.0",
 	"suppressNodeLtsWarning": true,
 	"ensureConsistentVersions": false,

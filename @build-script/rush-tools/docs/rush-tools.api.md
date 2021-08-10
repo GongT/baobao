@@ -30,6 +30,11 @@ export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallb
 // @public (undocumented)
 export function createTasks(): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "createVSCode" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createVSCode(): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "createYarn" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -176,6 +181,11 @@ export interface IRushConfig {
     yarnVersion?: string;
 }
 
+// Warning: (ae-missing-release-tag) "linkLocalBins" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function linkLocalBins(): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "loadConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -298,7 +308,6 @@ export const spinner: {
     interval: number;
     frames: string[];
 };
-
 
 // (No @packageDocumentation comment for this package)
 
