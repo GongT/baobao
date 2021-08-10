@@ -27,6 +27,8 @@ package-deps.json
 **/pnpm-lock.yaml
 **/yarn.lock
 
+!common/config/rush/pnpm-lock.yaml
+
 ### old files
 .idea
 

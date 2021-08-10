@@ -37,7 +37,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.pnpm-store
-          key: pnpm
+          key: pnpm-${{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
+          restore-keys: |
+            common-
 
       - name: '安装npm依赖'
         run: node common/scripts/install-run-rush.js update
