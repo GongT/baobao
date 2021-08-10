@@ -26,7 +26,7 @@
 	"dependencies": {
 		"@idlebox/node-json-edit": "^2.0.15",
 		"@idlebox/common": "^1.1.8",
-		"@idlebox/node": "^1.0.28",
+		"@idlebox/node": "^1.0.29",
 		"tslib": "^2.3.0",
 		"execa": "^5.1.1",
 		"json5": "^2.2.0",
@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"@build-script/builder": "^3.0.3",
-		"@build-script/export-all-in-one": "^3.0.24",
+		"@build-script/export-all-in-one": "^3.0.25",
 		"@build-script/typescript-transformer-dual-package": "^1.0.21",
 		"@build-script/single-dog-asset": "^1.0.13",
 		"@types/node": "^16.3.3",

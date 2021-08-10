@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "^1.1.8",
-		"@idlebox/node": "^1.0.28",
+		"@idlebox/node": "^1.0.29",
 		"@idlebox/node-json-edit": "^2.0.15",
 		"@build-script/gulp-chain-simplify": "^0.0.5",
 		"execa": "^5.1.1",

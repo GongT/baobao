@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "^1.1.8",
-		"@idlebox/node": "^1.0.28",
+		"@idlebox/node": "^1.0.29",
 		"@idlebox/node-json-edit": "^2.0.15",
 		"@pnpm/store-path": "^4.0.4",
 		"cacache": "^15.2.0",

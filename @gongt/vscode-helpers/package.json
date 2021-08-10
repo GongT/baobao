@@ -32,6 +32,6 @@
 		"typescript": "^4.3.5",
 		"gulp": "^4.0.2",
 		"@build-script/builder": "^3.0.3",
-		"@build-script/export-all-in-one": "^3.0.24"
+		"@build-script/export-all-in-one": "^3.0.25"
 	}
 }

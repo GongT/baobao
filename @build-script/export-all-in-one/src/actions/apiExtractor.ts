@@ -39,6 +39,7 @@ const apiExtractorJson: IConfigFile = {
 		enabled: true,
 		tsdocMetadataFilePath: PROJECT_ROOT + '/docs/tsdoc-metadata.json',
 	},
+	newlineKind: 'lf',
 	messages: {
 		compilerMessageReporting: {
 			default: {
