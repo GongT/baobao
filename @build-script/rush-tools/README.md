@@ -1,8 +1,8 @@
 # rush-tools
 
-Tools about [rush](https://rushjs.io/)
+Tools about [@microsoft/rush](https://rushjs.io/)
 
-## Command line tools:
+# CLI:
 
 Usage:
 
@@ -10,7 +10,9 @@ Usage:
 rush-tools <command> [...args]
 ```
 
-### autofix
+## commands:
+
+### fix
 
 Synchronize all projects, fix any version mismatch.
 
@@ -23,32 +25,57 @@ Synchronize all projects, fix any version mismatch.
 
 Run command in every project folder.
 
--   rush-tools foreach -c "bash command"
--   rush-tools foreach some/javascript/file.js # or .cjs/.mjs
--   rush-tools foreach some/typescript/file.ts # ts-node must installed
+1.  rush-tools foreach -c "bash command"
+1.  rush-tools foreach some/javascript/file.js # or .cjs/.mjs
+1.  rush-tools foreach some/typescript/file.ts # ts-node must installed
 
 commands will have environment variables:
 
--   PROJECT_PATH: abosolute path to currennt folder. (always same with `pwd` at start)
--   PROJECT_NAME: package name of this project.
+-   `PROJECT_PATH`: abosolute path to currennt folder. (always same with `pwd` at start)
+-   `PROJECT_NAME`: package name of this project.
 
-### check-update
+extra (fixed) arguments allowed for script
 
-Check each (dev-)depenencies version, upgrade them to latest stable version on NPM.
+### upgrade
 
-Need manualy run `rush update` after success.
+Check each (dev-)depenencies version of each project, upgrade them to latest stable version on NPM.
+
+Need manualy run `rush update` (or `rush-tools update`) after success.
 
 ### list <name|path|relpath>
 
 Print list of projects, use for shell pipeline.
 
-### register-project <folder>
+### register <folder/path>
 
 Add a new project into `rush.json`.
 
 `folder` must contains a package.json file.
 
-## Apis:
+### create-tasks
+
+Create watch task for each project in VSCode tasks.json
+
+### create-yarn
+
+Create yarn workspace file in the root directory
+
+### create-vscode
+
+Create VSCode workspace file in the root directory
+
+### update
+
+1. run `rush update`
+1. run`rush update-autoinstaller` in each autoinstaller folder.
+
+### link-local
+
+Link "bin"s from each project to `common/temp/bin`
+
+(You may need modify `PATH` to actually use this feature)
+
+# API:
 
 For detais, see [docs/package-public.d.ts](./docs/package-public.d.ts)
 

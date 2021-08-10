@@ -3,10 +3,9 @@
 	// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-		"EditorConfig.EditorConfig",
+		"editorconfig.editorconfig",
 		"esbenp.prettier-vscode",
 		"mike-co.import-sorter"
-		// "zxh404.vscode-proto3"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": ["hookyqr.beautify", "ms-mssql.mssql", "firefox-devtools.vscode-firefox-debug"]
