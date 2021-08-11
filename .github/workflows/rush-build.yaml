@@ -61,6 +61,8 @@ jobs:
           fi
 
       - name: '发布版本号有变化的包到NPM'
-        run: node common/scripts/install-run-rush.js ypublish
+        run: |
+          node common/scripts/install-run-rush.js build-autoinstaller
+          node common/scripts/install-run-rush.js ypublish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
