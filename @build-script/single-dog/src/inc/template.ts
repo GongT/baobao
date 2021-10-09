@@ -1,8 +1,9 @@
-import { findUpUntil, lrelative } from '@idlebox/node';
-import { readFileSync } from 'fs-extra';
 // @ts-ignore
 import { createRequire } from 'module';
 import { posix, resolve } from 'path';
+import { findUpUntil, lrelative } from '@idlebox/node';
+import { convertCatchedError } from '@idlebox/common';
+import { readFileSync } from 'fs-extra';
 
 export function getTemplatePath(what: string) {
 	return resolve(TEMPLATE_ROOT, what);
@@ -19,7 +20,7 @@ export async function locateRootRelativeToProject(projectFile: string, singleDog
 		require.resolve('@build-script/single-dog-asset/package.json');
 	} catch (e) {
 		console.error('------------------');
-		console.error(e.stack);
+		console.error(convertCatchedError(e).stack);
 		console.error('------------------');
 		console.error(`Can't resolve node path for file ${singleDogFile}.\n    From ${resolveFrom}.`);
 		console.error('------------------');

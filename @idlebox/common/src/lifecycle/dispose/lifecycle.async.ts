@@ -1,5 +1,6 @@
-import { DisposedError } from './disposedError';
+import { convertCatchedError } from '../../error/convertUnknown';
 import { Emitter, EventRegister } from '../event/event';
+import { DisposedError } from './disposedError';
 import { IAsyncDisposable, IDisposableBaseInternal } from './lifecycle';
 
 /**
@@ -53,7 +54,7 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInterna
 			try {
 				await cb.dispose();
 			} catch (e) {
-				this._onDisposeError.fire(e);
+				this._onDisposeError.fire(convertCatchedError(e));
 			}
 		}
 	}

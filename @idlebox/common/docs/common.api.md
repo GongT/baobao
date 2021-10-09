@@ -44,6 +44,8 @@ export class AsyncCallbackList<Argument extends unknown[]> {
     // (undocumented)
     add(item: MyAsyncCallback<Argument>, name?: string): number;
     // (undocumented)
+    count(): number;
+    // (undocumented)
     protected list: MyAsyncCallback<Argument>[];
     // (undocumented)
     remove(item: MyAsyncCallback<Argument>): null | MyAsyncCallback<Argument>;
@@ -95,6 +97,8 @@ export class CallbackList<Argument extends unknown[]> {
     // (undocumented)
     add(item: MyCallback<Argument>, name?: string): number;
     // (undocumented)
+    count(): number;
+    // (undocumented)
     protected list: MyCallback<Argument>[];
     // (undocumented)
     remove(item: MyCallback<Argument>): null | MyCallback<Argument>;
@@ -133,6 +137,11 @@ export class CancellationTokenSource extends DisposableOnce implements IDisposab
     // (undocumented)
     readonly token: CancellationToken;
 }
+
+// Warning: (ae-missing-release-tag) "convertCatchedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function convertCatchedError(e: unknown): Error;
 
 // @public
 export function createSymbol(category: string, name: string): symbol;
@@ -205,6 +214,8 @@ export class DelayCallbackList<Argument extends unknown[]> {
     // (undocumented)
     add(item: MyDelayCallback<Argument>, name?: string): void;
     // (undocumented)
+    count(): number;
+    // (undocumented)
     protected list?: MyDelayCallback<Argument>[];
     // (undocumented)
     run(argument: Argument): void;
@@ -273,6 +284,8 @@ export class Emitter<T> implements IDisposable {
     fireNoError(data: T): void;
     // (undocumented)
     handle(callback: EventHandler<T>): IDisposable;
+    // (undocumented)
+    listenerCount(): number;
     // (undocumented)
     get register(): EventRegister<T>;
 }
@@ -779,6 +792,26 @@ export type ProgressCallback<T = any> = (value: T) => void;
 // @public
 export function promiseBool(p: Promise<any>): Promise<boolean>;
 
+// Warning: (ae-missing-release-tag) "PromisePool" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class PromisePool {
+    // (undocumented)
+    create(id: string): Promise<any> & IProgressHolder<any, any>;
+    // (undocumented)
+    dispose(): void;
+    // (undocumented)
+    done(id: string, data: any): void;
+    // (undocumented)
+    error(id: string, e: Error): void;
+    // (undocumented)
+    has(id: string): boolean;
+    // (undocumented)
+    protected readonly promiseList: Record<string, DeferredPromise<any>>;
+    // (undocumented)
+    size(): number;
+}
+
 // Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
 // Warning: (ae-missing-release-tag) "PromiseResultArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -863,6 +896,15 @@ export function timeoutPromise<T, PT = any>(ms: number, p: DeferredPromise<T, PT
 
 // @public (undocumented)
 export function timeoutPromise<T, PT = any>(ms: number, message: string, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
+
+// Warning: (ae-missing-release-tag) "TimeoutPromisePool" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class TimeoutPromisePool extends PromisePool {
+    constructor(defaultTimeoutMs?: number);
+    // (undocumented)
+    create(id: string, timeoutMs?: number, timeoutMsg?: string): Promise<any> & IProgressHolder<any, any>;
+}
 
 // @public
 export function toDisposable(fn: () => void): IDisposable;

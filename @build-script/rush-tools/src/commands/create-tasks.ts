@@ -98,7 +98,7 @@ export default async function createTasks() {
 	}
 	allObj.dependsOn = names.sort(sortByString);
 
-	if (writeJsonFileBack(tasksJson)) {
+	if (await writeJsonFileBack(tasksJson)) {
 		console.log('write file: %s', configFile);
 	} else {
 		console.log('no change: %s', configFile);

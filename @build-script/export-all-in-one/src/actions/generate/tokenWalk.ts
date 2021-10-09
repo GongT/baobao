@@ -45,7 +45,7 @@ function warn(node: Node, s: string, e?: Error) {
 	let lineno: string = '';
 	try {
 		lineno = ':' + node.getSourceFile().getText().slice(0, node.getStart()).split('\n').length;
-	} catch (e) {}
+	} catch {}
 	console.error('\x1B[38;5;9m%s: %s%s\x1B[0m\n\t%s', s, node.getSourceFile().fileName, lineno, node.getText());
 }
 export function tokenWalk(collect: ExportCollector, node: Node, _checker: TypeChecker) {

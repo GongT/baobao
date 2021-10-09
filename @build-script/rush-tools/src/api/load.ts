@@ -1,12 +1,18 @@
 import { loadJsonFile, loadJsonFileSync } from '@idlebox/node-json-edit';
 import { findUpUntil, findUpUntilSync } from '@idlebox/node';
-import { dirname } from 'path';
+import { basename, dirname } from 'path';
 import { IRushConfig } from './limitedJson';
 
 export function findRushJson(fromPath = process.cwd()): Promise<string | null> {
+	if (basename(fromPath) === 'temp') {
+		fromPath = dirname(fromPath);
+	}
 	return findUpUntil(fromPath, 'rush.json');
 }
 export function findRushJsonSync(fromPath = process.cwd()): string | null {
+	if (basename(fromPath) === 'temp') {
+		fromPath = dirname(fromPath);
+	}
 	return findUpUntilSync(fromPath, 'rush.json');
 }
 export async function loadConfig(fromPath = process.cwd()): Promise<IRushConfig | null> {

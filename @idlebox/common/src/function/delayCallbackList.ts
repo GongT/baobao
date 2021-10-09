@@ -16,6 +16,10 @@ export class DelayCallbackList<Argument extends unknown[]> {
 
 	protected list?: MyDelayCallback<Argument>[] = [];
 
+	count() {
+		return this.list?.length ?? 0;
+	}
+
 	add(item: MyDelayCallback<Argument>, name?: string) {
 		if (name) {
 			nameFunction(name, item);

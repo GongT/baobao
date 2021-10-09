@@ -2,8 +2,6 @@ import execa from 'execa';
 
 export declare function argumentError(message: string, argMap: IArgumentsDefine[]): never;
 
-export declare function buildAction(action: string, argv: string[]): Promise<void>;
-
 export declare function buildProjects(builder: IProjectCallback): Promise<void>;
 
 export declare function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;

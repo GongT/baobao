@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/dual-package-runtime",
 	"description": "when require() without extension, try .cjs first, and then .js. see @build-script/typescript-transformer-dual-package.",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"license": "MIT",
 	"type": "commonjs",
 	"main": "./hook-extension.cjs",
@@ -19,6 +19,6 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"tslib": "^2.3.0"
+		"tslib": "^2.3.1"
 	}
 }

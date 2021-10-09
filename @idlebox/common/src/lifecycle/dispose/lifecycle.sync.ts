@@ -67,7 +67,12 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
 			try {
 				item.dispose();
 			} catch (e) {
-				this._onDisposeError.fire(e);
+				if (e instanceof Error) {
+					this._onDisposeError.fire(e);
+				} else {
+					console.error('error during dispose, throw:', e);
+					this._onDisposeError.fire(new Error('' + e));
+				}
 			}
 		}
 	}

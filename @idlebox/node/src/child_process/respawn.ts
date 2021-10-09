@@ -6,6 +6,10 @@ import { spawnGetOutput } from './execa';
 
 const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagation=slave'];
 
+if (platform() === 'linux' && process.getuid() !== 0) {
+	unshareArgs.push('--map-root-user');
+}
+
 export function spawnRecreateEventHandlers() {
 	process.on('SIGINT', () => shutdown_quit('SIGINT', 130));
 	process.on('SIGTERM', () => shutdown_quit('SIGTERM', 143));
@@ -113,7 +117,7 @@ function execLinux(cmds: string[]): never {
 		process.removeAllListeners('SIGTERM');
 		kexec(unshare, args);
 		console.error('[Linux] kexec failed.');
-	} catch (err) {
+	} catch (err: any) {
 		if (err.code === 'MODULE_NOT_FOUND' || err.code === 'UNDECLARED_DEPENDENCY') {
 			spawnSimulate(unshare, args);
 		} else {

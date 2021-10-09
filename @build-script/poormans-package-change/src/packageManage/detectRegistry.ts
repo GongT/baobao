@@ -1,7 +1,8 @@
+import { parse } from 'url';
+import { convertCatchedError } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
 import { command } from 'execa';
 import { errorLog, log } from '../inc/log';
-import { parse } from 'url';
 
 let foundPm: string;
 
@@ -41,7 +42,7 @@ export async function detectRegistry(url: string): Promise<string> {
 			process.exit(1);
 		}
 	} catch (e) {
-		log('    [!!] error run config get: %s', e.message);
+		log('    [!!] error run config get: %s', convertCatchedError(e).message);
 	}
 	if (url) {
 		return url.replace(/\/+$/, '');

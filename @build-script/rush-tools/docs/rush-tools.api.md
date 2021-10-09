@@ -11,11 +11,6 @@ import execa from 'execa';
 // @public (undocumented)
 export function argumentError(message: string, argMap: IArgumentsDefine[]): never;
 
-// Warning: (ae-missing-release-tag) "buildAction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function buildAction(action: string, argv: string[]): Promise<void>;
-
 // Warning: (ae-missing-release-tag) "buildProjects" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "buildProjects" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

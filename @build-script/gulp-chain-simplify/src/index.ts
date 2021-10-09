@@ -68,7 +68,7 @@ function parentGulp() {
 		const mainRequire = createRequire(require.main?.filename || '.');
 		try {
 			gulpInstance = mainRequire('gulp');
-		} catch (e) {
+		} catch (e: any) {
 			if (e.code !== 'MODULE_NOT_FOUND') {
 				throw e;
 			}

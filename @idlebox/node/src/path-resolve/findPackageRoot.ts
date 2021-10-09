@@ -5,7 +5,7 @@ import { findUpUntilSync } from './findUp';
 export function findPackageRoot(packageName: string, require = createRequire(process.cwd())) {
 	try {
 		return dirname(require.resolve(packageName + 'package.json'));
-	} catch (e) {
+	} catch (e: any) {
 		if (e.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED') {
 			const main = require.resolve(packageName);
 			const pkgJson = findUpUntilSync(main, 'package.json');

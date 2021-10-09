@@ -17,6 +17,10 @@ export class AsyncCallbackList<Argument extends unknown[]> {
 		this.run = (this.run as any).bind(this);
 	}
 
+	count() {
+		return this.list.length;
+	}
+
 	reset() {
 		if (this.running) {
 			throw new Error("Can not reset when it's running.");

@@ -1,5 +1,6 @@
-import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
+import { convertCatchedError } from '@idlebox/common';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
@@ -27,7 +28,7 @@ export default async function runFix(argv: string[]) {
 				blacklist.add(packageName);
 			}
 		} catch (e) {
-			throw new Error(`Cannot parse package.json of "${packageName}": ${e.message}`);
+			throw new Error(`Cannot parse package.json of "${packageName}": ${convertCatchedError(e).message}`);
 		}
 		console.log(' - %s: %s', packageName, version);
 		localHardVersions.set(packageName, '^' + version);

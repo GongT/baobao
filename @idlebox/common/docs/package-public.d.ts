@@ -42,6 +42,7 @@ export declare class AsyncCallbackList<Argument extends unknown[]> {
     protected list: MyAsyncCallback<Argument>[];
     protected running: boolean;
     constructor();
+    count(): number;
     reset(): void;
     /**
      * @param name optional name of `item` (will assign displayName to `item`)
@@ -99,6 +100,7 @@ export declare class CallbackList<Argument extends unknown[]> {
     protected list: MyCallback<Argument>[];
     protected running: boolean;
     constructor();
+    count(): number;
     reset(): void;
     /**
      * @param name optional name of `item` (will assign displayName to `item`)
@@ -141,6 +143,8 @@ export declare class CancellationTokenSource extends DisposableOnce implements I
     cancel(): void;
     _dispose(): void;
 }
+
+export declare function convertCatchedError(e: unknown): Error;
 
 /**
  * Get a symbol from window/global object, if not exists, create it
@@ -223,6 +227,7 @@ export declare class DelayCallbackList<Argument extends unknown[]> {
     private delayArgument?;
     private delayComplete;
     protected list?: MyDelayCallback<Argument>[];
+    count(): number;
     add(item: MyDelayCallback<Argument>, name?: string): void;
     run(argument: Argument): void;
 }
@@ -273,6 +278,7 @@ export declare function disposeGlobal(): Promise<void>;
 export declare class Emitter<T> implements IDisposable {
     private readonly _callbacks;
     constructor();
+    listenerCount(): number;
     fire(data: T): void;
     /**
      * Same with `fire`, but do not stop run when catch error
@@ -717,6 +723,16 @@ export declare type ProgressCallback<T = any> = (value: T) => void;
  */
 export declare function promiseBool(p: Promise<any>): Promise<boolean>;
 
+export declare class PromisePool {
+    protected readonly promiseList: Record<string, DeferredPromise<any>>;
+    size(): number;
+    create(id: string): Promise<any> & IProgressHolder<any, any>;
+    has(id: string): boolean;
+    done(id: string, data: any): void;
+    error(id: string, e: Error): void;
+    dispose(): void;
+}
+
 /** @deprecated */
 export declare interface PromiseResultArray<T> {
     count: number;
@@ -782,6 +798,12 @@ export declare function timeoutPromise<T>(ms: number, message: string, p: Promis
 export declare function timeoutPromise<T, PT = any>(ms: number, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
 
 export declare function timeoutPromise<T, PT = any>(ms: number, message: string, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
+
+export declare class TimeoutPromisePool extends PromisePool {
+    private readonly defaultTimeoutMs;
+    constructor(defaultTimeoutMs?: number);
+    create(id: string, timeoutMs?: number, timeoutMsg?: string): Promise<any> & IProgressHolder<any, any>;
+}
 
 /**
  * Convert "dispose function" to disposable object

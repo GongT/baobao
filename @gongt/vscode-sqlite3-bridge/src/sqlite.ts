@@ -1,5 +1,5 @@
 import { context, filesystem, logger } from '@gongt/vscode-helpers';
-import { promiseBool } from '@idlebox/common';
+import { convertCatchedError, promiseBool } from '@idlebox/common';
 import { checkChildProcessResult } from '@idlebox/node';
 import { spawn } from 'child_process';
 import commandExistsAsync from 'command-exists';
@@ -71,8 +71,9 @@ async function loadBundled(moduleName: string) {
 	try {
 		return require(moduleName);
 	} catch (e) {
-		logger.error('Can not require() VSCode bundled module: %s', e.stack || e.message);
-		throw e;
+		const err = convertCatchedError(e);
+		logger.error('Can not require() VSCode bundled module: %s', err.stack || err.message);
+		throw err;
 	}
 }
 
@@ -86,7 +87,7 @@ async function downloadAndBuild(moduleName: string) {
 		logger.info('Require success!');
 		return ret;
 	} catch (e) {
-		if (e.code !== 'MODULE_NOT_FOUND') {
+		if (e instanceof Error && (e as any).code !== 'MODULE_NOT_FOUND') {
 			logger.error('Can not require() module: %s', e.stack || e.message);
 			throw e;
 		}
@@ -123,8 +124,9 @@ async function downloadAndBuild(moduleName: string) {
 	try {
 		return require(moduleName);
 	} catch (e) {
-		logger.error('Can not require() module: %s', e.stack || e.message);
-		throw e;
+		const err = convertCatchedError(e);
+		logger.error('Can not require() module: %s', err);
+		throw err;
 	}
 }
 

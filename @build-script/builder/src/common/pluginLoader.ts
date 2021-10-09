@@ -1,3 +1,4 @@
+import { convertCatchedError } from '@idlebox/common';
 import { nodeResolvePathArray } from '@idlebox/node';
 import { setCtxDisable, setCtxEnable } from '../api/ctsStore';
 import { getCurrentDir } from './buildContextInstance';
@@ -34,16 +35,20 @@ export function loadPlugin(file: string, args: string[]) {
 	try {
 		require(file);
 	} catch (e) {
-		const msg = `Can't run plugin ${file}: ${e.message}`;
-		const ee = new Error(msg);
-		if (e.stack) {
-			const stack = e.stack.split(/\n/);
-			stack.splice(0, 1, msg);
-			ee.stack = stack.join('\n');
+		if (e instanceof Error) {
+			const msg = `Can't run plugin ${file}: ${e.message}`;
+			const ee = new Error(msg);
+			if (e.stack) {
+				const stack = e.stack.split(/\n/);
+				stack.splice(0, 1, msg);
+				ee.stack = stack.join('\n');
+			} else {
+				ee.stack = msg;
+			}
+			throw ee;
 		} else {
-			ee.stack = msg;
+			throw convertCatchedError(e);
 		}
-		throw ee;
 	}
 	setCtxDisable();
 }

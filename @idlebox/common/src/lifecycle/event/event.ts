@@ -15,6 +15,10 @@ export class Emitter<T> implements IDisposable {
 		this.handle = this.handle.bind(this);
 	}
 
+	listenerCount() {
+		return this._callbacks.length;
+	}
+
 	fire(data: T) {
 		for (const callback of this._callbacks) {
 			callback(data);

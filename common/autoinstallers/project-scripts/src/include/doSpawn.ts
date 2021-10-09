@@ -40,6 +40,10 @@ function spawnUnshare(file: string, args: string[] = []) {
 		`--wd=${TEMP_DIR}`,
 	];
 
+	if (process.getuid() !== 0) {
+		cmds.unshift('--map-root-user');
+	}
+
 	cmds.push(process.argv0, ...nodejsArguments(file, args));
 
 	normalExec('unshare', cmds);
