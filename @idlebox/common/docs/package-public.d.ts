@@ -144,10 +144,17 @@ export declare class CancellationTokenSource extends DisposableOnce implements I
     _dispose(): void;
 }
 
+export declare enum ColorKind {
+    DISABLE = 0,
+    TERMINAL = 1,
+    WEB = 2,
+    DETECT = 3
+}
+
 export declare function convertCatchedError(e: unknown): Error;
 
 /**
- * Get a symbol from window/global object, if not exists, create it
+ * Get a symbol singleton, if not exists, create it
  *
  * this is very like Symbol.for, but not real global symbol
  * @public
@@ -232,6 +239,10 @@ export declare class DelayCallbackList<Argument extends unknown[]> {
     run(argument: Argument): void;
 }
 
+/**
+ * Delete a symbol from window/global object
+ * @public
+ */
 export declare function deleteSymbol(category: string, name: string): void;
 
 /**
@@ -355,7 +366,8 @@ export declare function getErrorFrame(e: Error, frame: number): string;
 export declare function getTimeStamp(date: Date): number;
 
 /**
- * window in browser, global in nodejs
+ * globalThis when supported.
+ * if not, window in browser, global in nodejs
  * @public
  */
 export declare const globalObject: any;
@@ -844,5 +856,46 @@ export declare function unsubscribableToDisposable(subscription: Unsubscribable)
 export declare const userAgent: string;
 
 export declare type ValueCallback<T = any> = (value: T | Promise<T>) => void;
+
+export declare abstract class WrappedConsole {
+    info: Console['info'];
+    log: Console['log'];
+    success: Console['log'];
+    debug: Console['debug'];
+    error: Console['error'];
+    trace: Console['trace'];
+    warn: Console['warn'];
+    assert: Console['assert'];
+    time: Console['time'];
+    timeEnd: Console['timeEnd'];
+    timeLog: Console['timeLog'];
+    count: Console['count'];
+    countReset: Console['countReset'];
+    group: Console['group'];
+    groupCollapsed: Console['groupCollapsed'];
+    groupEnd: Console['groupEnd'];
+    table: Console['table'];
+    dir: Console['dir'];
+    clear: Console['clear'];
+    protected readonly title: string;
+    protected readonly parent: Console;
+    protected readonly bind: boolean;
+    constructor(title: string, { parent, bind }?: WrappedConsoleOptions);
+    protected wrap<T extends keyof Omit<Console & {
+        Console: any;
+    }, 'Console'>>(original: T): Function;
+    private wrapSimple;
+    private wrapExtra;
+    protected createPrefix(message: string): string;
+    private wrapMessageAt;
+    private convertObjectArg;
+    protected abstract processColorLabel(normalizedArguments: any[], messageLoc: number, level: string, prefix: string): void;
+    protected uncolor(args: any[], pos: number, prefix: string, postfix: string): void;
+}
+
+export declare interface WrappedConsoleOptions {
+    parent?: Console;
+    bind?: boolean;
+}
 
 export { }

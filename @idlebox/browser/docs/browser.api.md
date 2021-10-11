@@ -4,6 +4,9 @@
 
 ```ts
 
+import { WrappedConsole } from '@idlebox/common';
+import { WrappedConsoleOptions } from '@idlebox/common';
+
 // Warning: (ae-missing-release-tag) "TimeoutStorage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -19,8 +22,17 @@ export class TimeoutStorage<T> {
     read(): Readonly<T> | undefined;
     // (undocumented)
     save(data: Readonly<T>, expire: string | Date): void;
-    }
+}
 
+// Warning: (ae-missing-release-tag) "WrappedWebConsole" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class WrappedWebConsole extends WrappedConsole {
+    // Warning: (ae-forgotten-export) The symbol "WebConsoleOptions" needs to be exported by the entry point _export_all_in_one_index.d.ts
+    constructor(title: string, { color, ...opt }?: WrappedConsoleOptions & WebConsoleOptions);
+    // (undocumented)
+    protected processColorLabel(msg: any[], pos: number, level: string, prefix: string): void;
+}
 
 // (No @packageDocumentation comment for this package)
 

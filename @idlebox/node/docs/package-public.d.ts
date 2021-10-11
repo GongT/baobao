@@ -7,6 +7,8 @@ import { IDisposable } from '@idlebox/common';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
 import { Transform } from 'stream';
+import { WrappedConsole } from '@idlebox/common';
+import { WrappedConsoleOptions } from '@idlebox/common';
 import { Writable } from 'stream';
 
 export declare interface Async {
@@ -32,6 +34,16 @@ export declare class CollectingStream extends Writable {
     getOutput(): string;
     promise(): Promise<string>;
 }
+
+declare const colorMap: {
+    info: string;
+    success: string;
+    debug: string;
+    error: string;
+    trace: string;
+    warn: string;
+    assert: string;
+};
 
 export declare function commandInPath(cmd: string, alterExt?: string[]): Promise<string | undefined>;
 
@@ -341,11 +353,21 @@ export declare interface Sync {
     sync: true;
 }
 
+declare interface TerminalConsoleOptions {
+    color?: boolean | Partial<typeof colorMap>;
+}
+
 /**
  * Spawn a command, replace current node process
  * If can't do that (eg. on Windows), spawn as normal, but quit self after it quit.
  */
 export declare function trySpawnInScope(cmds: string[]): never;
+
+export declare class WrappedTerminalConsole extends WrappedConsole {
+    private readonly colors;
+    constructor(title: string, { color, ...opt }?: WrappedConsoleOptions & TerminalConsoleOptions);
+    protected processColorLabel(msg: any[], pos: number, level: string, prefix: string): void;
+}
 
 export declare function writeFileIfChange(file: string, data: string | Buffer): Promise<boolean>;
 

@@ -13,6 +13,8 @@ import { IDisposable } from '@idlebox/common';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
 import { Transform } from 'stream';
+import { WrappedConsole } from '@idlebox/common';
+import { WrappedConsoleOptions } from '@idlebox/common';
 import { Writable } from 'stream';
 
 // Warning: (ae-missing-release-tag) "Async" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -638,6 +640,16 @@ export interface Sync {
 //
 // @public
 export function trySpawnInScope(cmds: string[]): never;
+
+// Warning: (ae-missing-release-tag) "WrappedTerminalConsole" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class WrappedTerminalConsole extends WrappedConsole {
+    // Warning: (ae-forgotten-export) The symbol "TerminalConsoleOptions" needs to be exported by the entry point _export_all_in_one_index.d.ts
+    constructor(title: string, { color, ...opt }?: WrappedConsoleOptions & TerminalConsoleOptions);
+    // (undocumented)
+    protected processColorLabel(msg: any[], pos: number, level: string, prefix: string): void;
+}
 
 // Warning: (ae-missing-release-tag) "writeFileIfChange" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

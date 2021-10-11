@@ -138,6 +138,20 @@ export class CancellationTokenSource extends DisposableOnce implements IDisposab
     readonly token: CancellationToken;
 }
 
+// Warning: (ae-missing-release-tag) "ColorKind" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export enum ColorKind {
+    // (undocumented)
+    DETECT = 3,
+    // (undocumented)
+    DISABLE = 0,
+    // (undocumented)
+    TERMINAL = 1,
+    // (undocumented)
+    WEB = 2
+}
+
 // Warning: (ae-missing-release-tag) "convertCatchedError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -221,9 +235,7 @@ export class DelayCallbackList<Argument extends unknown[]> {
     run(argument: Argument): void;
 }
 
-// Warning: (ae-missing-release-tag) "deleteSymbol" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
+// @public
 export function deleteSymbol(category: string, name: string): void;
 
 // Warning: (ae-missing-release-tag) "Disposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -942,6 +954,77 @@ export const userAgent: string;
 //
 // @public (undocumented)
 export type ValueCallback<T = any> = (value: T | Promise<T>) => void;
+
+// Warning: (ae-missing-release-tag) "WrappedConsole" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export abstract class WrappedConsole {
+    constructor(title: string, { parent, bind }?: WrappedConsoleOptions);
+    // (undocumented)
+    assert: Console['assert'];
+    // (undocumented)
+    protected readonly bind: boolean;
+    // (undocumented)
+    clear: Console['clear'];
+    // (undocumented)
+    count: Console['count'];
+    // (undocumented)
+    countReset: Console['countReset'];
+    // (undocumented)
+    protected createPrefix(message: string): string;
+    // (undocumented)
+    debug: Console['debug'];
+    // (undocumented)
+    dir: Console['dir'];
+    // (undocumented)
+    error: Console['error'];
+    // (undocumented)
+    group: Console['group'];
+    // (undocumented)
+    groupCollapsed: Console['groupCollapsed'];
+    // (undocumented)
+    groupEnd: Console['groupEnd'];
+    // (undocumented)
+    info: Console['info'];
+    // (undocumented)
+    log: Console['log'];
+    // (undocumented)
+    protected readonly parent: Console;
+    // (undocumented)
+    protected abstract processColorLabel(normalizedArguments: any[], messageLoc: number, level: string, prefix: string): void;
+    // (undocumented)
+    success: Console['log'];
+    // (undocumented)
+    table: Console['table'];
+    // (undocumented)
+    time: Console['time'];
+    // (undocumented)
+    timeEnd: Console['timeEnd'];
+    // (undocumented)
+    timeLog: Console['timeLog'];
+    // (undocumented)
+    protected readonly title: string;
+    // (undocumented)
+    trace: Console['trace'];
+    // (undocumented)
+    protected uncolor(args: any[], pos: number, prefix: string, postfix: string): void;
+    // (undocumented)
+    warn: Console['warn'];
+    // (undocumented)
+    protected wrap<T extends keyof Omit<Console & {
+        Console: any;
+    }, 'Console'>>(original: T): Function;
+}
+
+// Warning: (ae-missing-release-tag) "WrappedConsoleOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface WrappedConsoleOptions {
+    // (undocumented)
+    bind?: boolean;
+    // (undocumented)
+    parent?: Console;
+}
 
 // (No @packageDocumentation comment for this package)
 

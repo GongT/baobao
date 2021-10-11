@@ -4,7 +4,6 @@
 		"module": "esnext",
 		"outDir": "../lib",
 		"rootDir": ".",
-		"types": ["@idlebox/itypes"],
 		"declaration": false,
 		"declarationMap": false
 	},

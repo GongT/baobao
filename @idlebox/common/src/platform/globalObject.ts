@@ -1,43 +1,51 @@
+import { functionName } from '../function/functionName';
+
 declare const global: any;
 declare const window: any;
 
 /**
- * window in browser, global in nodejs
+ * globalThis when supported.
+ * if not, window in browser, global in nodejs
  * @public
  */
 export const globalObject: any =
 	typeof globalThis === 'undefined' ? (typeof window === 'undefined' ? global : window) : globalThis;
 
-const globalRegistrySymbol = Symbol.for(`@@idlebox/global-symbol`);
+function ensureGlobalObject<T>(symbol: string, constructor: () => T): T {
+	const sm = Symbol.for(symbol);
+	if (!globalObject[sm]) {
+		globalObject[sm] = constructor();
+	}
+	return globalObject[sm];
+}
 
-const weakRef = createSymbol('idlebox-internal', 'weakref');
+const symbolRegistry = ensureGlobalObject(`@@idlebox/global-symbol`, () => {
+	return {} as Record<string, Record<string, symbol>>;
+});
 
 /**
- * Get a symbol from window/global object, if not exists, create it
+ * Get a symbol singleton, if not exists, create it
  *
  * this is very like Symbol.for, but not real global symbol
  * @public
  */
 export function createSymbol(category: string, name: string): symbol {
-	if (!globalObject[globalRegistrySymbol]) {
-		globalObject[globalRegistrySymbol] = {};
-	}
-	const symbolRegistry = globalObject[globalRegistrySymbol];
 	if (symbolRegistry[category] && symbolRegistry[category][name]) {
 		return symbolRegistry[category][name];
 	} else {
 		if (!symbolRegistry[category]) {
 			symbolRegistry[category] = {};
 		}
-		return (symbolRegistry[category][name] = Symbol(name));
+		symbolRegistry[category][name] = Symbol(name);
+		return symbolRegistry[category][name];
 	}
 }
 
+/**
+ * Delete a symbol from window/global object
+ * @public
+ */
 export function deleteSymbol(category: string, name: string) {
-	if (!globalObject[globalRegistrySymbol]) {
-		return;
-	}
-	const symbolRegistry = globalObject[globalRegistrySymbol];
 	if (symbolRegistry[category] && symbolRegistry[category][name]) {
 		delete symbolRegistry[category][name];
 		if (Object.keys(symbolRegistry[category]).length === 0) {
@@ -45,6 +53,10 @@ export function deleteSymbol(category: string, name: string) {
 		}
 	}
 }
+
+const singletonRegistry = ensureGlobalObject(`@@idlebox/global-singleton`, () => {
+	return new Map<string | symbol, any>();
+});
 
 /**
  * Get an singleton instance from window/global space
@@ -58,15 +70,28 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor: (
  */
 export function globalSingletonStrong<T>(symbol: symbol | string): T | undefined;
 
-export function globalSingletonStrong<T>(symbol: symbol | string, constructor?: () => T): T {
-	if (!globalObject[symbol] && constructor) {
-		globalObject[symbol] = constructor();
+export function globalSingletonStrong<T>(symbol: symbol | string, constructor?: () => T): T | undefined {
+	let object = globalObject.get(symbol);
+	if (object instanceof WeakRef) {
+		const target = object.deref();
+		if (target !== undefined) {
+			object = target;
+		} else if (constructor) {
+			object = constructor();
+			if (object === undefined)
+				throw new TypeError(`singleton constructor (${functionName(constructor)}) returned undefined.`);
+		} else {
+			singletonRegistry.delete(symbol);
+			return undefined;
+		}
+		singletonRegistry.set(symbol, object);
+	} else if (object === undefined && constructor) {
+		object = constructor();
+		if (object === undefined)
+			throw new TypeError(`singleton constructor (${functionName(constructor)}) returned undefined.`);
+		singletonRegistry.set(symbol, object);
 	}
-	if (globalObject[symbol][weakRef]) {
-		return globalObject.referrence.get(globalObject[symbol]);
-	} else {
-		return globalObject[symbol];
-	}
+	return object;
 }
 
 /**
@@ -75,9 +100,7 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor?: 
  * @public
  */
 export function globalSingletonDelete(symbol: symbol | string) {
-	if (globalObject[symbol]) {
-		delete globalObject[symbol];
-	}
+	singletonRegistry.delete(symbol);
 }
 
 /**
@@ -91,26 +114,22 @@ export function globalSingleton<T>(symbol: symbol | string, constructor: () => T
  */
 export function globalSingleton<T>(symbol: symbol | string): T | undefined;
 export function globalSingleton<T>(symbol: symbol | string, constructor?: () => T): T | undefined {
-	if (globalObject[symbol]) {
-		return globalObject[symbol];
+	if (singletonRegistry.has(symbol)) {
+		let object = singletonRegistry.get(symbol);
+		if (object instanceof WeakRef) {
+			object = object.deref();
+			if (object) return object;
+			singletonRegistry.delete(symbol);
+		} else {
+			return object; // strong
+		}
 	}
 
-	globalObject[symbol] = { [weakRef]: symbol };
-	const key: object = globalObject[symbol];
-
-	if (!globalObject.referrence) {
-		globalObject.referrence = new WeakMap();
+	if (constructor) {
+		const object = new WeakRef(constructor() as any);
+		singletonRegistry.set(symbol, object);
+		return object.deref();
 	}
-	const referrence: WeakMap<any, T> = globalObject.referrence;
 
-	let ref: T | undefined;
-	if (referrence.has(key)) {
-		ref = referrence.get(key);
-	} else if (constructor) {
-		ref = constructor();
-		referrence.set(key, ref);
-	} else {
-		delete globalObject[symbol];
-	}
-	return ref;
+	return undefined;
 }

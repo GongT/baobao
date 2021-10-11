@@ -1,6 +1,6 @@
 {
 	"monorepo": "rush",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"license": "MIT",
 	"name": "@idlebox/browser",
 	"repository": "https://github.com/GongT/baobao",
@@ -22,7 +22,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.1.10",
+		"@idlebox/common": "^1.2.1",
 		"source-map-support": "^0.5.20",
 		"tslib": "^2.3.1"
 	},

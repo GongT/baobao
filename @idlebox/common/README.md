@@ -1,3 +1,3 @@
 # common helper function
 
-[Documents](docs/package-public.d.ts)
+[Documents](https://github.com/GongT/baobao/blob/master/@idlebox/common/docs/package-public.d.ts)
