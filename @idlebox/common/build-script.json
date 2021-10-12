@@ -3,6 +3,9 @@
 		{
 			"file": "@build-script/export-all-in-one/build-script-register",
 			"args": ["src/tsconfig.json"]
+		},
+		{
+			"file": "./scripts/postbuild.js"
 		}
 	],
 	"alias": {

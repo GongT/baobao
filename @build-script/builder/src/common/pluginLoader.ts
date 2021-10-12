@@ -14,6 +14,9 @@ export function resetLoader() {
 
 export function resolveByLoader(target: string) {
 	try {
+		if (target.startsWith('.')) {
+			target = require('path').resolve(getCurrentDir(), target);
+		}
 		return require.resolve(target);
 	} catch (e) {
 		return undefined;
@@ -31,12 +34,12 @@ export function loadPlugin(file: string, args: string[]) {
 		throw new Error(`Can't load plugin module ${file}.`);
 	}
 
-	setCtxEnable(file, args);
+	setCtxEnable(mdlPath, args);
 	try {
-		require(file);
+		require(mdlPath);
 	} catch (e) {
 		if (e instanceof Error) {
-			const msg = `Can't run plugin ${file}: ${e.message}`;
+			const msg = `Can't run plugin ${mdlPath}: ${e.message}`;
 			const ee = new Error(msg);
 			if (e.stack) {
 				const stack = e.stack.split(/\n/);

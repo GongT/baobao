@@ -20,7 +20,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.2.1",
+		"@idlebox/common": "^1.2.4",
 		"execa": "^5.1.1",
 		"source-map-support": "^0.5.20",
 		"tslib": "^2.3.1"
@@ -29,7 +29,7 @@
 		"kexec": "github:meteor/node-kexec#update-for-node-12"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.0.4",
+		"@build-script/builder": "^3.1.2",
 		"@build-script/export-all-in-one": "^3.0.25",
 		"@build-script/single-dog-asset": "^1.0.14",
 		"@build-script/typescript-transformer-dual-package": "^1.0.22",

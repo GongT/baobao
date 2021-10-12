@@ -19,7 +19,8 @@ export function createGulpFile(ctx: BuildContext) {
 			Gulpfile,
 			`import gulp from 'gulp';
 import { loadToGulp } from '@build-script/builder';
-loadToGulp(gulp, import.meta.url);
+import { dirname } from 'path';
+loadToGulp(gulp, dirname(import.meta.url));
 `
 		);
 

@@ -23,14 +23,14 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.1.10",
+		"@idlebox/common": "^1.2.4",
 		"chokidar": "^3.5.2",
 		"debug": "^4.3.2",
 		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.0.4",
-		"@build-script/export-all-in-one": "^3.0.25",
+		"@build-script/builder": "^3.1.3",
+		"@build-script/export-all-in-one": "^3.0.26",
 		"@build-script/single-dog-asset": "^1.0.14",
 		"@build-script/typescript-transformer-dual-package": "^1.0.22",
 		"@types/node": "^16.10.3",

@@ -61,6 +61,7 @@ export async function getPlugin(name: string) {
 }
 
 export function loadToGulp(gulp: typeof Gulp, __dirname: string) {
+	Error.stackTraceLimit = Infinity;
 	// console.error('load to gulp')
 	require('source-map-support/register');
 	setImmediate(() => {

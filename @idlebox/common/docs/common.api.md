@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="@idlebox/itypes" />
+
 // Warning: (ae-missing-release-tag) "addDisposableEventListener" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "addDisposableEventListener" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

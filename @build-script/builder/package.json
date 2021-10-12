@@ -4,7 +4,7 @@
 	"name": "@build-script/builder",
 	"description": "run build command(s) serial/parallel with order. (by generate a Gulp config)",
 	"keywords": ["gulp", "build", "process", "tool", "make", "pipeline"],
-	"version": "3.0.4",
+	"version": "3.1.3",
 	"main": "./lib/api/context.js",
 	"typings": "./api.d.ts",
 	"bin": {
@@ -20,8 +20,8 @@
 		"prepack": "run-s -l clean build"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.1.10",
-		"@idlebox/node": "^1.1.0",
+		"@idlebox/common": "^1.2.4",
+		"@idlebox/node": "^1.1.1",
 		"@idlebox/node-json-edit": "^2.0.16",
 		"@build-script/gulp-chain-simplify": "^0.0.6",
 		"execa": "^5.1.1",
