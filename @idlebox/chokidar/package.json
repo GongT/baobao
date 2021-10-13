@@ -23,7 +23,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.2.4",
+		"@idlebox/common": "^1.2.5",
 		"chokidar": "^3.5.2",
 		"debug": "^4.3.2",
 		"tslib": "^2.3.1"

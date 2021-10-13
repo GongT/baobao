@@ -309,6 +309,11 @@ export class Emitter<T> implements IDisposable {
 // @public
 export function ensureDisposeGlobal(): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "ensureGlobalObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function ensureGlobalObject<T>(symbol: string, constructor: () => T): T;
+
 // @public (undocumented)
 export function escapeRegExp(str: string): string;
 

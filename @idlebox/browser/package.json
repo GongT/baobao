@@ -22,7 +22,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.2.4",
+		"@idlebox/common": "^1.2.5",
 		"source-map-support": "^0.5.20",
 		"tslib": "^2.3.1"
 	},

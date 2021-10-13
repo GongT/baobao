@@ -28,7 +28,7 @@
 	},
 	"dependencies": {
 		"@build-script/dual-package-runtime": "^1.0.9",
-		"@idlebox/common": "^1.2.4",
+		"@idlebox/common": "^1.2.5",
 		"@idlebox/ensure-symlink": "^1.0.18",
 		"@idlebox/node": "^1.1.1",
 		"@idlebox/node-json-edit": "^2.0.16",

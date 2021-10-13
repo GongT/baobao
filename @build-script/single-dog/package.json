@@ -19,7 +19,7 @@
 		"@build-script/export-all-in-one-inject": "^1.0.15",
 		"@build-script/rush-tools": "^1.2.9",
 		"@build-script/single-dog-asset": "^1.0.14",
-		"@idlebox/common": "^1.2.4",
+		"@idlebox/common": "^1.2.5",
 		"@idlebox/ensure-symlink": "^1.0.18",
 		"@idlebox/node": "^1.1.1",
 		"@idlebox/node-json-edit": "^2.0.16",

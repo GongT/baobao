@@ -305,6 +305,8 @@ export declare class Emitter<T> implements IDisposable {
  */
 export declare function ensureDisposeGlobal(): Promise<void>;
 
+export declare function ensureGlobalObject<T>(symbol: string, constructor: () => T): T;
+
 /** @public */
 export declare function escapeRegExp(str: string): string;
 

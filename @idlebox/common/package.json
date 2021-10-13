@@ -3,7 +3,7 @@
 	"name": "@idlebox/common",
 	"type": "module",
 	"typings": "docs/package-public.d.ts",
-	"version": "1.2.4",
+	"version": "1.2.5",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.cjs",
 	"module": "./lib/_export_all_in_one_index.js",
@@ -29,8 +29,8 @@
 		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.1.2",
-		"@build-script/export-all-in-one": "^3.0.25",
+		"@build-script/builder": "^3.1.3",
+		"@build-script/export-all-in-one": "^3.0.26",
 		"@build-script/single-dog-asset": "^1.0.14",
 		"@build-script/typescript-transformer-dual-package": "^1.0.22",
 		"@idlebox/itypes": "^0.0.7",

@@ -1,5 +1,6 @@
+import { globalSingletonStrong } from '../../platform/globalSingleton';
+import { createSymbol } from '../../platform/globalSymbol';
 import { IDisposable } from './lifecycle';
-import { createSymbol, globalSingletonStrong } from '../../platform/globalObject';
 import { AsyncDisposable } from './lifecycle.async';
 
 const symbol = createSymbol('lifecycle', 'application');

@@ -23,7 +23,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.2.4",
+		"@idlebox/common": "^1.2.5",
 		"baobab": "^2.6.1",
 		"tslib": "^2.3.1"
 	},

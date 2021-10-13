@@ -29,7 +29,7 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.2.4",
+		"@idlebox/common": "^1.2.5",
 		"fancy-log": "^1.3.3",
 		"fs-extra": "^10.0.0",
 		"mysql": "^2.18.1",
