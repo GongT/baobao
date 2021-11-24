@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa, ExecaReturnBase, execaSync, SyncOptions } from 'execa';
 import { checkChildProcessResult } from './error';
 
 export interface Sync {
@@ -13,7 +13,7 @@ export interface ICommand {
 	sync?: boolean;
 }
 
-function handleError<T extends execa.ExecaReturnBase<string>>(result: T): T {
+function handleError<T extends ExecaReturnBase<string>>(result: T): T {
 	if (result.exitCode !== 0) {
 		throw new Error('command exit with code ' + result.exitCode);
 	} else if (result.signal) {
@@ -26,14 +26,14 @@ export function spawnWithoutOutput(opt: ICommand & Sync): void;
 export function spawnWithoutOutput(opt: ICommand & Async): Promise<void>;
 export function spawnWithoutOutput({ exec, cwd, sync }: ICommand & Async): void | Promise<void> {
 	const [cmd, ...args] = exec;
-	const opts: execa.SyncOptions = {
+	const opts: SyncOptions = {
 		stdio: ['ignore', process.stderr, process.stderr],
 		cwd,
 		reject: false,
 	};
 
 	if (sync) {
-		checkChildProcessResult(execa.sync(cmd, args, opts));
+		checkChildProcessResult(execaSync(cmd, args, opts));
 	} else {
 		return execa(cmd, args, opts)
 			.then(checkChildProcessResult)
@@ -47,7 +47,7 @@ export function spawnGetOutput(opt: ICommand & Sync): string;
 export function spawnGetOutput(opt: ICommand & Async): Promise<string>;
 export function spawnGetOutput({ exec, cwd, sync }: ICommand) {
 	const [cmd, ...args] = exec;
-	const opts: execa.SyncOptions = {
+	const opts: SyncOptions = {
 		stdio: ['ignore', 'pipe', process.stderr],
 		cwd,
 		reject: false,
@@ -56,7 +56,7 @@ export function spawnGetOutput({ exec, cwd, sync }: ICommand) {
 	};
 
 	if (sync) {
-		const result = handleError(execa.sync(cmd, args, opts));
+		const result = handleError(execaSync(cmd, args, opts));
 		return result.stdout;
 	} else {
 		return execa(cmd, args, opts)
@@ -69,7 +69,7 @@ export function spawnGetOutput({ exec, cwd, sync }: ICommand) {
 
 export function spawnGetEverything({ exec, cwd }: ICommand) {
 	const [cmd, ...args] = exec;
-	const opts: execa.SyncOptions = {
+	const opts: SyncOptions = {
 		stdio: ['ignore', 'pipe', 'pipe'],
 		cwd,
 		reject: false,

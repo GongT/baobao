@@ -2,6 +2,8 @@
 
 require('source-map-support/register');
 
+const fixEsm = require('fix-esm');
+
 const { emitWarning } = process;
 process.emitWarning = (warning, type, code, ...extraArgs) => {
 	if (code === 'DEP0097') {
@@ -21,16 +23,20 @@ global.PROJECT_PATH = process.cwd();
 
 // require('@build-script/dual-package-runtime');
 
+fixEsm.register();
 const { colorDim, colorReset, getVersion } = require('../lib/common/func');
 console.log('%s[build-script] v%s%s', colorDim, getVersion(), colorReset);
 
+const loader = require('../lib/cmd-loader.js');
+fixEsm.unregister();
+
 if (cmd === 'init') {
-	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/cmd/init'));
+	loader.load(path.resolve(__dirname, '../lib/cmd/init'));
 } else if (cmd === 'tool') {
 	const tool = process.argv[3];
-	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/tool', tool));
+	loader.load(path.resolve(__dirname, '../lib/tool', tool));
 } else if (cmd) {
-	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/cmd/run'));
+	loader.load(path.resolve(__dirname, '../lib/cmd/run'));
 } else {
-	require('../lib/cmd-loader.js').load(path.resolve(__dirname, '../lib/show-help'));
+	loader.load(path.resolve(__dirname, '../lib/show-help'));
 }

@@ -60,7 +60,8 @@
 			"commandKind": "global",
 			"name": "upgrade",
 			"summary": "更新所有项目的依赖版本到最新，注意：执行后需要手动运行rush update -p",
-			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update"
+			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update",
+			"safeForSimultaneousRushProcesses": true
 		},
 		{
 			"commandKind": "global",

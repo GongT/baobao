@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { ExecaReturnValue } from 'execa';
 
 export declare function argumentError(message: string, argMap: IArgumentsDefine[]): never;
 
@@ -144,7 +144,7 @@ export declare class RushProject {
     };
 }
 
-export declare function spawnRushPassthrough(action: string, argv: string[]): Promise<execa.ExecaReturnValue<string>>;
+export declare function spawnRushPassthrough(action: string, argv: string[]): Promise<ExecaReturnValue<string>>;
 
 /** @innternal */
 export declare const spinner: {

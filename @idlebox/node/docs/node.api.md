@@ -7,9 +7,9 @@
 /// <reference types="node" />
 
 import { EventEmitter } from 'events';
-import execa from 'execa';
 import { ExecaReturnValue } from 'execa';
 import { IDisposable } from '@idlebox/common';
+import { Options } from 'execa';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
 import { Transform } from 'stream';
@@ -350,7 +350,7 @@ export enum ERRNO_LINUX {
 // Warning: (ae-missing-release-tag) "execLazyError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<execa.Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
+export function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
 
 // Warning: (ae-missing-release-tag) "exists" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

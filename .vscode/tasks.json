@@ -2,6 +2,40 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "Watch All 28 Projects",
+			"problemMatcher": [],
+			"dependsOn": [
+				"监视（10） - @build-script/export-all-in-one-inject",
+				"监视（11） - @build-script/single-dog",
+				"监视（13） - @build-script/rollup-plugin-module-import-dew",
+				"监视（14） - @build-script/typescript-transformer-dual-package",
+				"监视（16） - @build-script/typescript-transformer-common",
+				"监视（17） - @build-script/typescript-transformer-resolve-info",
+				"监视（18） - @build-script/typescript-transformer-static-resolve",
+				"监视（19） - @build-script/typescript-transformer-import-commonjs",
+				"监视（20） - @build-script/typescript-transformer-append-js-extension",
+				"监视（21） - @build-script/builder",
+				"监视（22） - unipm",
+				"监视（23） - @gongt/vscode-helpers",
+				"监视（24） - @gongt/vscode-sqlite3-bridge",
+				"监视（25） - vscode-remote-thief",
+				"监视（26） - @gongt/mysql-docgen",
+				"监视（27） - 7zip-bin-wrapper",
+				"监视（28） - cjke-strings",
+				"监视（29） - @idlebox/chokidar",
+				"监视（2） - @idlebox/node-json-edit",
+				"监视（30） - @build-script/gulp-chain-simplify",
+				"监视（31） - @idlebox/state",
+				"监视（32） - project-scripts",
+				"监视（4） - @idlebox/common",
+				"监视（5） - @idlebox/browser",
+				"监视（6） - @idlebox/node",
+				"监视（7） - @build-script/export-all-in-one",
+				"监视（8） - @build-script/rush-tools",
+				"监视（9） - @build-script/poormans-package-change"
+			]
+		},
+		{
 			"label": "Watch All",
 			"problemMatcher": [],
 			"dependsOn": [
@@ -69,7 +103,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @idlebox/node-json-edit",
+			"label": "监视（2） - @idlebox/node-json-edit",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -97,7 +131,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @idlebox/common",
+			"label": "监视（4） - @idlebox/common",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -125,7 +159,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @idlebox/browser",
+			"label": "监视（5） - @idlebox/browser",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -153,7 +187,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @idlebox/node",
+			"label": "监视（6） - @idlebox/node",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -181,7 +215,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/export-all-in-one",
+			"label": "监视（7） - @build-script/export-all-in-one",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -209,7 +243,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/rush-tools",
+			"label": "监视（8） - @build-script/rush-tools",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -237,7 +271,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/poormans-package-change",
+			"label": "监视（9） - @build-script/poormans-package-change",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -265,7 +299,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/export-all-in-one-inject",
+			"label": "监视（10） - @build-script/export-all-in-one-inject",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -293,7 +327,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/single-dog",
+			"label": "监视（11） - @build-script/single-dog",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -321,7 +355,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/rollup-plugin-module-import-dew",
+			"label": "监视（13） - @build-script/rollup-plugin-module-import-dew",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -349,7 +383,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/typescript-transformer-dual-package",
+			"label": "监视（14） - @build-script/typescript-transformer-dual-package",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -377,7 +411,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/typescript-transformer-common",
+			"label": "监视（16） - @build-script/typescript-transformer-common",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -405,7 +439,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/typescript-transformer-resolve-info",
+			"label": "监视（17） - @build-script/typescript-transformer-resolve-info",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -433,7 +467,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/typescript-transformer-static-resolve",
+			"label": "监视（18） - @build-script/typescript-transformer-static-resolve",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -461,7 +495,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/typescript-transformer-import-commonjs",
+			"label": "监视（19） - @build-script/typescript-transformer-import-commonjs",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -489,7 +523,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @build-script/builder",
+			"label": "监视（21） - @build-script/builder",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -517,7 +551,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - unipm",
+			"label": "监视（22） - unipm",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -545,7 +579,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @gongt/vscode-helpers",
+			"label": "监视（23） - @gongt/vscode-helpers",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -573,7 +607,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - vscode-remote-thief",
+			"label": "监视（25） - vscode-remote-thief",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -601,7 +635,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @gongt/mysql-docgen",
+			"label": "监视（26） - @gongt/mysql-docgen",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -629,7 +663,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - 7zip-bin-wrapper",
+			"label": "监视（27） - 7zip-bin-wrapper",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -657,7 +691,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - cjke-strings",
+			"label": "监视（28） - cjke-strings",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -685,7 +719,7 @@
 		},
 		{
 			// This task is created by @build-script/rush-tools
-			"label": "监视 - @idlebox/chokidar",
+			"label": "监视（29） - @idlebox/chokidar",
 			"type": "process",
 			"isBackground": true,
 			"runOptions": {
@@ -709,6 +743,149 @@
 			"options": {
 				"_is_build": "true",
 				"cwd": "${workspaceFolder}/@idlebox/chokidar"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（20） - @build-script/typescript-transformer-append-js-extension",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": [
+					"relative",
+					"${workspaceFolder}/@build-script/typescript-transformer-append-js-extension"
+				]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/@build-script/typescript-transformer-append-js-extension"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（24） - @gongt/vscode-sqlite3-bridge",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/@gongt/vscode-sqlite3-bridge"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/@gongt/vscode-sqlite3-bridge"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（30） - @build-script/gulp-chain-simplify",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/@build-script/gulp-chain-simplify"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/@build-script/gulp-chain-simplify"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（31） - @idlebox/state",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/@idlebox/state"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/@idlebox/state"
+			}
+		},
+		{
+			// This task is created by @build-script/rush-tools
+			"label": "监视（32） - project-scripts",
+			"type": "process",
+			"isBackground": true,
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"command": "${workspaceFolder}/common/temp/pnpm-local/node_modules/.bin/pnpm",
+			"problemMatcher": {
+				"base": "$tsc-watch",
+				"fileLocation": ["relative", "${workspaceFolder}/common/autoinstallers/project-scripts"]
+			},
+			"group": "build",
+			"args": ["run", "watch"],
+			"options": {
+				"_is_build": "true",
+				"cwd": "${workspaceFolder}/common/autoinstallers/project-scripts"
 			}
 		}
 	]

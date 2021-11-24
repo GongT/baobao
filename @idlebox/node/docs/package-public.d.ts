@@ -1,9 +1,9 @@
 /// <reference types="node" />
 
 import { EventEmitter } from 'events';
-import execa from 'execa';
 import { ExecaReturnValue } from 'execa';
 import { IDisposable } from '@idlebox/common';
+import { Options } from 'execa';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
 import { Transform } from 'stream';
@@ -184,7 +184,7 @@ export declare enum ERRNO_LINUX {
     EOVERFLOW = 139
 }
 
-export declare function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<execa.Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
+export declare function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
 
 export declare function exists(path: string): Promise<boolean>;
 

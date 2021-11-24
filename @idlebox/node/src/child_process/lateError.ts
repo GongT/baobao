@@ -1,5 +1,4 @@
-import execa, { ExecaReturnValue } from 'execa';
-
+import { execa, ExecaReturnValue, Options as ExecaOptions } from 'execa';
 import { printLine } from '../cli-io/output';
 import { checkChildProcessResult } from './error';
 
@@ -10,7 +9,7 @@ export interface ISpawnAdditionOptions {
 export async function execLazyError(
 	cmd: string,
 	args: string[],
-	spawnOptions: Omit<execa.Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions = {}
+	spawnOptions: Omit<ExecaOptions, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions = {}
 ): Promise<ExecaReturnValue<string>> {
 	let all = false;
 	let { stdout, stdin, verbose, ...options } = spawnOptions;

@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/ensure-symlink",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
-	"version": "1.0.18",
+	"version": "1.0.19",
 	"main": "index.js",
 	"typings": "index.d.ts",
 	"license": "MIT",
@@ -16,7 +16,7 @@
 		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
-		"npm-check-updates": "^11.8.5",
+		"npm-check-updates": "^12.0.2",
 		"ttypescript": "^1.5.12"
 	},
 	"repository": "https://github.com/GongT/baobao"

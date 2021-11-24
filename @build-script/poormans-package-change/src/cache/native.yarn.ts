@@ -1,4 +1,4 @@
-import execa, { Options } from 'execa';
+import { execa, Options } from 'execa';
 import { log } from '../inc/log';
 
 const spawnOpts: Options = {

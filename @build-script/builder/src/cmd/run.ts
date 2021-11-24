@@ -7,7 +7,7 @@ import { ModuleKind } from '../global';
 export default async function runBuildScript() {
 	const command = process.argv[2]!;
 
-	require(resolve(__dirname, '../../api')); // init singleton
+	require(resolve(__dirname, '../../bin/api.cjs')); // init singleton
 
 	const context = new BuildContext(process.cwd());
 

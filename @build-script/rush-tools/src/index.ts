@@ -3,6 +3,9 @@ import { resolve } from 'path';
 import { exists } from '@idlebox/node';
 import { description } from './common/description';
 import { NormalError } from './common/error';
+import { extname } from 'path';
+
+const __extname = extname(import.meta.url);
 
 export default async function main() {
 	let argv = process.argv.slice(2);
@@ -47,9 +50,9 @@ async function showHelp() {
 	const list: [string, string][] = [];
 	const fdir = resolve(__dirname, 'commands');
 	for (const fname of await readdir(fdir)) {
-		if (fname.endsWith('.js')) {
-			const command = fname.replace(/\.js$/, '');
-			const { default: fn } = await import(resolve(fdir, command));
+		if (fname.endsWith(__extname)) {
+			const command = fname.substring(0, fname.length - __extname.length);
+			const { default: fn } = await import(resolve(fdir, fname));
 			const desc = description(fn);
 
 			list.push([command, desc]);

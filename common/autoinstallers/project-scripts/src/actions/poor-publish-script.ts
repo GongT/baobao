@@ -1,4 +1,4 @@
-import 'source-map-support/register';
+import '../include/prefix';
 import { dirname } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { commandInPath, writeFileIfChange } from '@idlebox/node';

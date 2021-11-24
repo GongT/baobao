@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from 'execa';
 import { findRushRootPath } from '../api/load';
 
 export async function spawnRushPassthrough(action: string, argv: string[]) {

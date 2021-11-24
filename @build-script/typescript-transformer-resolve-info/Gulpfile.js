@@ -1,3 +1,4 @@
 import gulp from 'gulp';
-import builder from '@build-script/builder';
-builder.loadToGulp(gulp, import.meta.url);
+import api from '@build-script/builder';
+import { dirname } from 'path';
+api.loadToGulp(gulp, dirname(import.meta.url));

@@ -1,5 +1,5 @@
 import { exists } from '@idlebox/node';
-import execa from 'execa';
+import { execa } from 'execa';
 import { resolve } from 'path';
 import { getVersionCached } from './cache/tarball';
 import { detectRegistry } from './packageManage/detectRegistry';

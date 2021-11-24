@@ -1,17 +1,26 @@
 #!/usr/bin/env node
 
-require('@build-script/dual-package-runtime');
+// require('@build-script/dual-package-runtime');
 require('source-map-support/register');
+const fixEsm = require('fix-esm');
 
-const { prettyPrintError } = require('@idlebox/node');
+const __require = require('esm')(module);
+function _require(id) {
+	fixEsm.register();
+	const ret = require(id);
+	fixEsm.unregister();
+	return ret;
+}
+const { prettyPrintError } = _require('@idlebox/node');
+
 Promise.resolve()
 	.then(() => {
-		return require('./lib/index').default();
+		return _require('./lib/index.cjs');
 	})
-	.then(
-		() => {},
-		(e) => {
-			prettyPrintError('rush-tools', e);
-			process.exit(1);
-		}
-	);
+	.then(({ default: main }) => {
+		return main();
+	})
+	.catch((e) => {
+		prettyPrintError('rush-tools', e);
+		process.exit(1);
+	});

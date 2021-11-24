@@ -1,4 +1,4 @@
-import 'source-map-support/register';
+import '../include/prefix';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+
 require('source-map-support/register');
+require('fix-esm').register();
 
 if (process.argv.length !== 3) {
 	// node export-all-in-one --inject src

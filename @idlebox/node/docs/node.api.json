@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.18.15",
+    "toolVersion": "7.18.19",
     "schemaVersion": 1004,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
@@ -3733,8 +3733,8 @@
             },
             {
               "kind": "Reference",
-              "text": "execa.Options",
-              "canonicalReference": "execa!~execa.Options:interface"
+              "text": "ExecaOptions",
+              "canonicalReference": "execa!Options:interface"
             },
             {
               "kind": "Content",
@@ -3761,7 +3761,7 @@
             {
               "kind": "Reference",
               "text": "ExecaReturnValue",
-              "canonicalReference": "execa!~execa.ExecaReturnValue:interface"
+              "canonicalReference": "execa!ExecaReturnValue:interface"
             },
             {
               "kind": "Content",

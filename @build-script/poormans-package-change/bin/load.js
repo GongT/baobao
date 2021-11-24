@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 require('source-map-support/register');
+require('fix-esm').register();
 const { prettyPrintError } = require('@idlebox/node');
 
 const cmdList = {

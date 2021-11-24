@@ -1,4 +1,5 @@
-import execa from 'execa';
+import { ExecaChildProcess } from 'execa';
+import { Options } from 'execa';
 
 export declare function getPackageManager(_options?: Partial<IGetPackageManagerOptions>): Promise<PackageManager>;
 
@@ -35,9 +36,9 @@ export declare abstract class PackageManager {
     /** spawn package manager binary, with inherit stdio */
     invokeCli(cmd: string, ...args: string[]): Promise<void>;
     /** spawn package manager binary, mute output */
-    protected _invokeErrorLater(cmd: string, args: string[], spawnOptions?: Omit<execa.Options, 'stdio' | 'encoding'>): Promise<void>;
-    protected _invoke(cmd: string, args: string[], spawnOptions?: execa.Options): Promise<void>;
-    protected __invoke(cmd: string, args: string[], spawnOptions: execa.Options): execa.ExecaChildProcess<string>;
+    protected _invokeErrorLater(cmd: string, args: string[], spawnOptions?: Omit<Options, 'stdio' | 'encoding'>): Promise<void>;
+    protected _invoke(cmd: string, args: string[], spawnOptions?: Options): Promise<void>;
+    protected __invoke(cmd: string, args: string[], spawnOptions: Options): ExecaChildProcess<string>;
     /** run scripts in package.json, by package manager */
     run(script: string, ...args: string[]): Promise<void>;
     /** install packages

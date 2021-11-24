@@ -1,7 +1,7 @@
 import { parse } from 'url';
 import { convertCatchedError } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
-import { command } from 'execa';
+import { execaCommand } from 'execa';
 import { errorLog, log } from '../inc/log';
 
 let foundPm: string;
@@ -33,7 +33,7 @@ export async function detectRegistry(url: string): Promise<string> {
 	try {
 		const pm = await getPackageManager();
 		log('Using package manager: %s', pm);
-		url = (await command(pm + ' config get registry', { stderr: 'ignore' })).stdout;
+		url = (await execaCommand(pm + ' config get registry', { stderr: 'ignore' })).stdout;
 		log('    config get registry: %s', url);
 
 		const u = parse(url);

@@ -4,7 +4,8 @@
 
 ```ts
 
-import execa from 'execa';
+import { ExecaChildProcess } from 'execa';
+import { Options } from 'execa';
 
 // Warning: (ae-missing-release-tag) "getPackageManager" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -39,7 +40,7 @@ export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[];
 export abstract class PackageManager {
     constructor(cwd: string);
     // (undocumented)
-    protected __invoke(cmd: string, args: string[], spawnOptions: execa.Options): execa.ExecaChildProcess<string>;
+    protected __invoke(cmd: string, args: string[], spawnOptions: Options): ExecaChildProcess<string>;
     // (undocumented)
     protected abstract readonly cliName: string;
     // (undocumented)
@@ -62,9 +63,9 @@ export abstract class PackageManager {
     // (undocumented)
     protected abstract readonly installDevFlag: string;
     // (undocumented)
-    protected _invoke(cmd: string, args: string[], spawnOptions?: execa.Options): Promise<void>;
+    protected _invoke(cmd: string, args: string[], spawnOptions?: Options): Promise<void>;
     invokeCli(cmd: string, ...args: string[]): Promise<void>;
-    protected _invokeErrorLater(cmd: string, args: string[], spawnOptions?: Omit<execa.Options, 'stdio' | 'encoding'>): Promise<void>;
+    protected _invokeErrorLater(cmd: string, args: string[], spawnOptions?: Omit<Options, 'stdio' | 'encoding'>): Promise<void>;
     // (undocumented)
     protected abstract readonly packageName: string;
     run(script: string, ...args: string[]): Promise<void>;
@@ -116,6 +117,12 @@ export function resolveLatestVersionOnNpm(packageName: string): Promise<string>;
 // @public (undocumented)
 export function resortPackage(file: string): Promise<void>;
 
+// Warnings were encountered during analysis:
+//
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:123:17 - (TS2503) Cannot find namespace 'NodeJS'.
 
 // (No @packageDocumentation comment for this package)
 

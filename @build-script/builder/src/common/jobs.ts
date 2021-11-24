@@ -1,7 +1,7 @@
 import { ChildProcess } from 'child_process';
 import { resolve } from 'path';
 import { checkChildProcessResult, PathEnvironment, streamPromise } from '@idlebox/node';
-import execa from 'execa';
+import { execa } from 'execa';
 import { error } from 'fancy-log';
 import split2 from 'split2';
 import { ExecFunc } from '../global';

@@ -3,7 +3,7 @@
 	"keywords": [],
 	"type": "commonjs",
 	"description": "Convert (TypeScript compiled) module's import statements, to work with jspm dew file.",
-	"version": "1.0.15",
+	"version": "1.0.16",
 	"main": "lib/api.js",
 	"types": "lib/api.d.ts",
 	"license": "MIT",
@@ -19,8 +19,8 @@
 		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
-		"@types/node": "^16.10.3",
-		"typescript": "^4.4.3",
+		"@types/node": "^16.11.10",
+		"typescript": "^4.5.2",
 		"npm-run-all": "^4.1.5"
 	},
 	"repository": "https://github.com/GongT/baobao"

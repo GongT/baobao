@@ -4,7 +4,7 @@
 
 ```ts
 
-import execa from 'execa';
+import { ExecaReturnValue } from 'execa';
 
 // Warning: (ae-missing-release-tag) "argumentError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -294,7 +294,7 @@ export class RushProject {
 // Warning: (ae-missing-release-tag) "spawnRushPassthrough" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnRushPassthrough(action: string, argv: string[]): Promise<execa.ExecaReturnValue<string>>;
+export function spawnRushPassthrough(action: string, argv: string[]): Promise<ExecaReturnValue<string>>;
 
 // Warning: (ae-missing-release-tag) "spinner" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -303,6 +303,13 @@ export const spinner: {
     interval: number;
     frames: string[];
 };
+
+// Warnings were encountered during analysis:
+//
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /home/gongt/projects/baobao/common/temp/node_modules/.pnpm/execa@6.0.0/node_modules/execa/index.d.ts:123:17 - (TS2503) Cannot find namespace 'NodeJS'.
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/typescript-transformer-import-commonjs",
 	"description": "A TypeScript transformer for use with ttypescript that will change import statement of commonjs packages.",
-	"version": "1.0.17",
+	"version": "1.0.18",
 	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",
@@ -24,13 +24,13 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "^1.0.22",
+		"@build-script/typescript-transformer-dual-package": "^1.0.23",
 		"@build-script/single-dog-asset": "^1.0.14",
-		"@types/node": "^16.10.3",
+		"@types/node": "^16.11.10",
 		"rimraf": "^3.0.2",
 		"esm": "^3.2.25",
 		"ttypescript": "^1.5.12",
-		"typescript": "^4.4.3",
+		"typescript": "^4.5.2",
 		"npm-run-all": "^4.1.5"
 	},
 	"repository": "https://github.com/GongT/baobao",

@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.18.15",
+    "toolVersion": "7.18.19",
     "schemaVersion": 1004,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
@@ -448,17 +448,21 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "execa.Options",
-                  "canonicalReference": "execa!~execa.Options:interface"
+                  "text": "ExecaOptions",
+                  "canonicalReference": "execa!Options:interface"
                 },
                 {
                   "kind": "Content",
                   "text": "): "
                 },
                 {
+                  "kind": "Content",
+                  "text": "import(\"execa\")."
+                },
+                {
                   "kind": "Reference",
-                  "text": "execa.ExecaChildProcess",
-                  "canonicalReference": "execa!~execa.ExecaChildProcess:type"
+                  "text": "ExecaChildProcess",
+                  "canonicalReference": "execa!ExecaChildProcess:type"
                 },
                 {
                   "kind": "Content",
@@ -473,7 +477,7 @@
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 7,
-                "endIndex": 9
+                "endIndex": 10
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -613,8 +617,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "execa.Options",
-                  "canonicalReference": "execa!~execa.Options:interface"
+                  "text": "ExecaOptions",
+                  "canonicalReference": "execa!Options:interface"
                 },
                 {
                   "kind": "Content",
@@ -703,8 +707,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "execa.Options",
-                  "canonicalReference": "execa!~execa.Options:interface"
+                  "text": "ExecaOptions",
+                  "canonicalReference": "execa!Options:interface"
                 },
                 {
                   "kind": "Content",

@@ -1,6 +1,6 @@
-import 'source-map-support/register';
-import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
+import './include/prefix';
 import { RushProject } from '@build-script/rush-tools';
+import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
 import { pathExistsSync } from 'fs-extra';
 import { getopts, handleShort } from './include/rushArguments';
 

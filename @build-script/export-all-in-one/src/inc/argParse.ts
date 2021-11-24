@@ -6,13 +6,6 @@ import { resolve } from 'path';
 import { findUp } from './findUp';
 import { isDebug } from './debug';
 
-export const NO_DUAL_FLAG = '--no-dual-package';
-const flagIndex = process.argv.findIndex((e) => e == NO_DUAL_FLAG);
-export const dualMode = flagIndex === -1;
-if (!dualMode) {
-	process.argv.splice(flagIndex, 1);
-}
-
 const item = process.argv[process.argv.length - 1] || '.';
 const project = resolve(process.cwd(), item);
 let configFilePath = '';

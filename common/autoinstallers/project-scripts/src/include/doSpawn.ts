@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from 'execa';
 import { resolve } from 'path';
 import { checkChildProcessResult, commmandInPathSync } from '@idlebox/node';
 import { existsSync } from 'fs-extra';

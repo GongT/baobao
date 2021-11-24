@@ -1,5 +1,5 @@
 import { get } from 'cacache';
-import execa, { sync } from 'execa';
+import { execa, execaSync } from 'execa';
 import { debug, errorLog, log } from '../inc/log';
 import { ifExists, spawnOpts } from './helper';
 
@@ -9,7 +9,7 @@ const npmCacheIdPrefix = 'make-fetch-happen:request-cache:';
 
 function findCachePath() {
 	cachePathFound = true;
-	npmCachePath = ifExists(sync('npm', ['config', 'get', 'cache'], spawnOpts).stdout);
+	npmCachePath = ifExists(execaSync('npm', ['config', 'get', 'cache'], spawnOpts).stdout);
 }
 
 export function findNpmCachePath() {

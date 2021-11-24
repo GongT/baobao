@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { commandInPath, execLazyError } from '@idlebox/node';
-import { command } from 'execa';
+import { execaCommand } from 'execa';
 import { emptyDir, pathExists } from 'fs-extra';
 import { debug, log } from './log';
 
@@ -14,9 +14,9 @@ export async function gitInit(cwd: string) {
 		await emptyDir(gitDir);
 	}
 	debug(' + git init');
-	await command('git init', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	await execaCommand('git init', { cwd, stdout: process.stderr, stderr: 'inherit' });
 	debug(' + git add .');
-	await command('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	await execaCommand('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
 	await execLazyError('git', ['commit', '-m', 'Init'], { cwd, stdout: 'ignore', verbose: true });
 	log('(git init done)');
 }
@@ -25,7 +25,7 @@ export async function gitChange(cwd: string) {
 	log('Detect files change:');
 
 	debug(' + git status');
-	const { stdout: testOut } = await command('git status', { cwd, stdout: 'pipe', stderr: 'inherit' });
+	const { stdout: testOut } = await execaCommand('git status', { cwd, stdout: 'pipe', stderr: 'inherit' });
 	const statusOut = testOut.toString().trim();
 	if (statusOut.includes('nothing to commit, working tree clean')) {
 		log('    git say: clean');
@@ -35,11 +35,11 @@ export async function gitChange(cwd: string) {
 	}
 
 	debug(' + git add .');
-	await command('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
+	await execaCommand('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
 	await execLazyError('git', ['commit', '-m', 'DetectChangedFiles'], { cwd, verbose: true });
 
 	debug(' + git log --name-only -1');
-	const { stdout } = await command('git log --name-only -1', { cwd, stdout: 'pipe', stderr: 'inherit' });
+	const { stdout } = await execaCommand('git log --name-only -1', { cwd, stdout: 'pipe', stderr: 'inherit' });
 	const lines = stdout
 		.toString()
 		.trim()

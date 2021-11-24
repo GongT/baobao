@@ -5,7 +5,7 @@
 			"args": ["src/tsconfig.json"]
 		},
 		{
-			"file": "./scripts/postbuild.js"
+			"file": "@idlebox/itypes/remove"
 		}
 	],
 	"alias": {

@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from 'execa';
 import { resolve } from 'path';
 import { PassThrough } from 'stream';
 import { createWriteStream } from 'fs-extra';

@@ -1,6 +1,6 @@
 import { stat, Stats } from 'fs';
 import { checkChildProcessResult, commandInPath } from '@idlebox/node';
-import execa from 'execa';
+import { execa, Options as ExecaOptions } from 'execa';
 
 export interface PackageManagerConstructor {
 	new (cwd: string): PackageManager;
@@ -58,7 +58,7 @@ export abstract class PackageManager {
 	protected async _invokeErrorLater(
 		cmd: string,
 		args: string[],
-		spawnOptions: Omit<execa.Options, 'stdio' | 'encoding'> = {}
+		spawnOptions: Omit<ExecaOptions, 'stdio' | 'encoding'> = {}
 	): Promise<void> {
 		const p = this.__invoke(cmd, args, {
 			...spawnOptions,
@@ -77,11 +77,11 @@ export abstract class PackageManager {
 		});
 	}
 
-	protected async _invoke(cmd: string, args: string[], spawnOptions: execa.Options = {}): Promise<void> {
+	protected async _invoke(cmd: string, args: string[], spawnOptions: ExecaOptions = {}): Promise<void> {
 		await this.__invoke(cmd, args, spawnOptions);
 	}
 
-	protected __invoke(cmd: string, args: string[], spawnOptions: execa.Options) {
+	protected __invoke(cmd: string, args: string[], spawnOptions: ExecaOptions) {
 		this.displayBeforeCommandRun && console.error('\x1B[38;5;14m%s %s\x1B[0m', cmd, args.join(' '));
 		return execa(cmd, args, {
 			stdio: 'inherit',

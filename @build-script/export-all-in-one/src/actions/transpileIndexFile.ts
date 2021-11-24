@@ -1,4 +1,4 @@
-import { copyFile, readdir } from 'fs-extra';
+import { writeFile, access, copyFile, readdir } from 'fs-extra';
 import { resolve } from 'path';
 import { EXPORT_TEMP_PATH, INDEX_FILE_NAME, SOURCE_ROOT, TEMP_DIST_DIR_NAME } from '../inc/argParse';
 import { getOptions } from '../inc/configFile';
@@ -17,5 +17,14 @@ export async function transpileIndexFile() {
 			debug(' - copy %s', item);
 			await copyFile(resolve(copyFrom, item), resolve(saveTo, item));
 		}
+	}
+
+	const cjsWrapper = resolve(saveTo, `${INDEX_FILE_NAME}.cjs`);
+	try {
+		await access(cjsWrapper);
+	} catch {
+		debug(' - create cjs wrapper with fix-esm');
+		const data = `module.exports = require('fix-esm').require('./${INDEX_FILE_NAME}.js')`;
+		await writeFile(cjsWrapper, data);
 	}
 }
