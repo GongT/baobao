@@ -25,14 +25,15 @@
 		"ttypescript": "*"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "^1.0.22",
 		"@build-script/single-dog-asset": "^1.0.14",
+		"@build-script/typescript-transformer-dual-package": "^1.0.22",
 		"@types/node": "^16.10.3",
-		"rimraf": "^3.0.2",
 		"esm": "^3.2.25",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
+		"ts-node": "^10.4.0",
 		"ttypescript": "^1.5.12",
-		"typescript": "^4.4.3",
-		"npm-run-all": "^4.1.5"
+		"typescript": "^4.4.3"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

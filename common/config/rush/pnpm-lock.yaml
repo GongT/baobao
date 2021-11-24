@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@build-script/builder': ^3.1.3
+  '@build-script/builder': ^3.1.5
   '@build-script/export-all-in-one': ^3.0.26
   '@jspm/resolve': ^1.0.0
   '@microsoft/api-extractor': ^7.18.15
@@ -98,13 +98,13 @@ specifiers:
   source-map-support: ^0.5.20
   split2: ^3.2.2
   targz: ^1.0.1
-  ts-node: ^10.2.1
+  ts-node: ^10.4.0
   tsconfig-paths: ^3.11.0
   tslib: ^2.3.1
   vscode-sqlite3: ^4.0.11
 
 dependencies:
-  '@build-script/builder': 3.1.3
+  '@build-script/builder': 3.1.5
   '@build-script/export-all-in-one': 3.0.26
   '@jspm/resolve': 1.0.0
   '@microsoft/api-extractor': 7.18.15
@@ -201,7 +201,7 @@ dependencies:
   source-map-support: 0.5.20
   split2: 3.2.2
   targz: 1.0.1
-  ts-node: 10.2.1
+  ts-node: 10.4.0
   tsconfig-paths: 3.11.0
   tslib: 2.3.1
   vscode-sqlite3: 4.0.11
@@ -353,12 +353,12 @@ packages:
       js-tokens: 4.0.0
     dev: false
 
-  /@build-script/builder/3.1.3:
-    resolution: {integrity: sha512-YvgtoGope/ku4QJPYUpsL7wNJSz7dYSc+s98pRA/nIfBcblsXiVJugFkMfNJ/XlrKxYMtlqkFRN1T/OGsXY6kA==}
+  /@build-script/builder/3.1.5:
+    resolution: {integrity: sha512-iOKzz4U2MLBUoALrwYaqNJIoe13KUiBYALHUgQsI8KMhrxB1RldJom1nyF6Yy5+n4GePIQZz16l5jKng3gCZ6Q==}
     hasBin: true
     dependencies:
       '@build-script/gulp-chain-simplify': 0.0.6
-      '@idlebox/common': 1.2.4
+      '@idlebox/common': 1.2.5
       '@idlebox/node': 1.1.1
       '@idlebox/node-json-edit': 2.0.16
       execa: 5.1.1
@@ -406,6 +406,13 @@ packages:
       '@cspotcode/source-map-consumer': 0.8.0
     dev: false
 
+  /@cspotcode/source-map-support/0.7.0:
+    resolution: {integrity: sha512-X4xqRHqN8ACt2aHVe51OxeA2HjbcL4MqFqXkrmQszJ1NOUuUu5u6Vqx/0lZSVNku7velL5FC/s5uEAj1lsBMhA==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@cspotcode/source-map-consumer': 0.8.0
+    dev: false
+
   /@electron/get/1.13.0:
     resolution: {integrity: sha512-+SjZhRuRo+STTO1Fdhzqnv9D2ZhjxXP6egsJ9kiO8dtP68cDx7dFCwWi64dlMQV7sWcfW1OYCW4wviEBzmRsfQ==}
     engines: {node: '>=8.6'}
@@ -428,8 +435,8 @@ packages:
     resolution: {integrity: sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==}
     dev: false
 
-  /@idlebox/common/1.2.4:
-    resolution: {integrity: sha512-SRh9vOi+foh9ZNov3GFTcwZHGLVjcXTh+DX84uv81miGfmh4FGz2DPWpW01XZSSPzWpHIcxol4sorqlHe8PycQ==}
+  /@idlebox/common/1.2.5:
+    resolution: {integrity: sha512-P+aBpKCpfbHmxnCJA1G5gfEqixBZuYaADaNMxUcbhtNvNqMzDQEDj+qwuqy6th97AzlYZgIDeRDj9WX34JGXIw==}
     dependencies:
       source-map-support: 0.5.20
       tslib: 2.3.1
@@ -453,7 +460,7 @@ packages:
   /@idlebox/node/1.1.1:
     resolution: {integrity: sha512-wcH+BvGC8dLR6WEBDuNbdyeeMu8Jko1Ol4rsjfEDiD2X+CePKav13aDZYUC6J5jo3HA+KAuFqLcJmw/0eqM7aQ==}
     dependencies:
-      '@idlebox/common': 1.2.4
+      '@idlebox/common': 1.2.5
       execa: 5.1.1
       source-map-support: 0.5.20
       tslib: 2.3.1
@@ -6680,6 +6687,32 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node/10.4.0:
+    resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '*'
+      '@swc/wasm': '*'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.7.0
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
+      acorn: 8.5.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      yn: 3.1.1
+    dev: false
+
   /tsconfig-paths/3.11.0:
     resolution: {integrity: sha512-7ecdYDnIdmv639mmDwslG6KQg1Z9STTz1j7Gcz0xa+nshh/gKDAHcPxRbWOsA3SPp0tXP2leTcY9Kw+NAkfZzA==}
     dependencies:
@@ -7235,13 +7268,14 @@ packages:
     dev: false
 
   file:projects/7zip-bin-wrapper.tgz:
-    resolution: {integrity: sha512-MxOTG7GwUtbAj45rAqJyNorTjTNxpaF3G8zP3X6TXTcEevPGm16fP0eO5pll1f/jOT/r8Vc2zxSbNxOWkGv0jg==, tarball: file:projects/7zip-bin-wrapper.tgz}
+    resolution: {integrity: sha512-ejOiPkpi9fHQTFy7Nt5oN1HHYFmIMtoo67IE8pds8XBpYOubeSyOf8tEzyYRPoxQFGVxTROpfDlBASPe+T2O5g==, tarball: file:projects/7zip-bin-wrapper.tgz}
     name: '@rush-temp/7zip-bin-wrapper'
     version: 0.0.0
     dependencies:
       '@types/node': 16.10.3
       '@types/split2': 3.2.1
       7zip-bin: 5.1.1
+      esm: 3.2.25
       gulp: 4.0.2
       iconv-lite: 0.6.3
       source-map-support: 0.5.20
@@ -7250,25 +7284,20 @@ packages:
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/browser.tgz:
-    resolution: {integrity: sha512-5z7f8EKaGu9OlSQFDDezWETJUghGK4U0uIVnibpz11FfE90PWxzRns84usWYaigyG0qgkik3b3XrO5czk0uSAw==, tarball: file:projects/browser.tgz}
+    resolution: {integrity: sha512-//QdErnPiaLXSjAMWn656966/SKGlYDI8gHiY7QwJV1+heU8q6SS1VUbfetM6PoL+1+VvKaYU8u0goNC4dn+rw==, tarball: file:projects/browser.tgz}
     name: '@rush-temp/browser'
     version: 0.0.0
     dependencies:
+      esm: 3.2.25
       gulp: 4.0.2
       source-map-support: 0.5.20
       ts-node: 10.2.1
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/builder.tgz:
@@ -7298,26 +7327,25 @@ packages:
     dev: false
 
   file:projects/chokidar.tgz:
-    resolution: {integrity: sha512-WXDk1UumOyJT7jfoVf0UKOybKKcy1SNa1F1M0OCODnrhPevIETxYcsDFBEUFc49TyOxJOzlQNJkh94XY1+EfBw==, tarball: file:projects/chokidar.tgz}
+    resolution: {integrity: sha512-Z7ieLzWhw2m/fWUzUV2t0esBa5HZ5j3ZNXUOHeomoBH2kPiDw9jbXDsvjoUo14CDCRkGaB2XYUTwyFOnQmAdjQ==, tarball: file:projects/chokidar.tgz}
     name: '@rush-temp/chokidar'
     version: 0.0.0
     dependencies:
       '@types/node': 16.10.3
       chokidar: 3.5.2
       debug: 4.3.2
+      esm: 3.2.25
       gulp: 4.0.2
       ts-node: 10.2.1
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - supports-color
     dev: false
 
   file:projects/cjke-strings.tgz:
-    resolution: {integrity: sha512-MP7DEffgND4tYq77FjFEeg5GGfIkLQOnh9eM3NYFk6xdb/M0slN2KYsOyfUdtk5FPT4BludDk0U+APKWhEX+lw==, tarball: file:projects/cjke-strings.tgz}
+    resolution: {integrity: sha512-T9tUuXUj37VuhKn8Dfok7PVb9j+YRFUA9eydp68Z5RGRjzqHoFbVlp2HFc6rd7lVxRmgtstnFJFR/N4mH9D0NA==, tarball: file:projects/cjke-strings.tgz}
     name: '@rush-temp/cjke-strings'
     version: 0.0.0
     dependencies:
@@ -7329,6 +7357,7 @@ packages:
       chai: 4.3.4
       chokidar: 3.5.2
       emoji-regex: 10.0.0
+      esm: 3.2.25
       gulp: 4.0.2
       is-fullwidth-code-point: 4.0.0
       mocha: 9.1.2
@@ -7339,17 +7368,14 @@ packages:
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/common.tgz:
-    resolution: {integrity: sha512-tA07i0FNiliTgbA+baw5QUXtUNpeG/NugTSFGs3AycYXbdGPMimKXrDRBozpeoYnrw+6tPssnhRUiFMXMQPckw==, tarball: file:projects/common.tgz}
+    resolution: {integrity: sha512-4/kDwasVGWwxRlHEkY7X4zp961+LWmzPm25YBYx7Rw2H/KWh9u+g+/gM3d689w6gAGtplpTPkZAmbedavO/L+A==, tarball: file:projects/common.tgz}
     name: '@rush-temp/common'
     version: 0.0.0
     dependencies:
-      '@build-script/builder': 3.1.3
+      '@build-script/builder': 3.1.5
       '@build-script/export-all-in-one': 3.0.26
       esm: 3.2.25
       gulp: 4.0.2
@@ -7359,8 +7385,6 @@ packages:
       ttypescript: 1.5.12
       typescript: 4.4.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -7386,13 +7410,14 @@ packages:
     dev: false
 
   file:projects/export-all-in-one-inject.tgz:
-    resolution: {integrity: sha512-SCwBOd5a6MSH3uXDyRw4Vp0+y3GUTlMuh6rZQXldgVnDMqz9WgjJdORE22C8CBsbyE6Ds/iPXTlNmdskeOgQeg==, tarball: file:projects/export-all-in-one-inject.tgz}
+    resolution: {integrity: sha512-Djq5veM0qjbjtr0JM/onnQ7kBZn880f4xIXSN5TstMLKlsQdxaZG1ca3jVP1trKnDJpL67Chagv/bl/cjvsyvA==, tarball: file:projects/export-all-in-one-inject.tgz}
     name: '@rush-temp/export-all-in-one-inject'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.15
       '@types/fs-extra': 9.0.13
       '@types/node': 16.10.3
+      esm: 3.2.25
       fs-extra: 10.0.0
       gulp: 4.0.2
       source-map-support: 0.5.20
@@ -7400,13 +7425,10 @@ packages:
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/export-all-in-one.tgz:
-    resolution: {integrity: sha512-9mxAWapy+rxUz9cdtnyZgmjmUxqAvMF5KfFQ/8cDZ7oIVysRnSXGnZwurtGcdQbB3T0e7UYtvE6qNcmNQiVplQ==, tarball: file:projects/export-all-in-one.tgz}
+    resolution: {integrity: sha512-OBB8w/SxHp4kua3qweIJY3B2IX2/2raO78f6LHMi3uJtVL4hgfOGrLsa5a+4sg2/LWOCa8Ssqt+Tbbf6MFYKvg==, tarball: file:projects/export-all-in-one.tgz}
     name: '@rush-temp/export-all-in-one'
     version: 0.0.0
     dependencies:
@@ -7446,7 +7468,7 @@ packages:
     dev: false
 
   file:projects/mysql-docgen.tgz:
-    resolution: {integrity: sha512-2BESBA9yGI6atfSfBik7eJHU/mwypLZLi1qL3HiCmBGpgE+XQzzthlWeWE+Hu+CQDIMl+Dl9FaMZL4TYbNQ3jg==, tarball: file:projects/mysql-docgen.tgz}
+    resolution: {integrity: sha512-UYhir51vVUBCyO3Gggidji2a6+vWL44n3Pi3I9ytN9U2Xfsudhi61siOfxObhiWBClvCwmqjiLDgvn7aQrIDtw==, tarball: file:projects/mysql-docgen.tgz}
     name: '@rush-temp/mysql-docgen'
     version: 0.0.0
     dependencies:
@@ -7458,6 +7480,7 @@ packages:
       '@types/pretty': 2.0.0
       '@types/react': 17.0.27
       '@types/react-dom': 17.0.9
+      esm: 3.2.25
       fancy-log: 1.3.3
       fs-extra: 10.0.0
       gulp: 4.0.2
@@ -7471,9 +7494,6 @@ packages:
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/node-json-edit.tgz:
@@ -7496,13 +7516,14 @@ packages:
     dev: false
 
   file:projects/node.tgz:
-    resolution: {integrity: sha512-Q0BBPJ/cxe+/8qlyqju50TAeudBDBsu0v0xErAhv+n9mWb2jX+GhfHU172CdDozU2ax4keikHP8WjLVWj+7TuA==, tarball: file:projects/node.tgz}
+    resolution: {integrity: sha512-cKRQE64Loxobcsvog3lKxYvdEQ144FDtnb+iy/IcXu4LfghrxU1ErcPUYDKWxQ8y05s8qpoJ8WJ67hQIZ0lzFQ==, tarball: file:projects/node.tgz}
     name: '@rush-temp/node'
     version: 0.0.0
     dependencies:
-      '@build-script/builder': 3.1.3
+      '@build-script/builder': 3.1.5
       '@build-script/export-all-in-one': 3.0.26
       '@types/node': 16.10.3
+      esm: 3.2.25
       execa: 5.1.1
       gulp: 4.0.2
       source-map-support: 0.5.20
@@ -7513,13 +7534,11 @@ packages:
     optionalDependencies:
       kexec: github.com/meteor/node-kexec/f29f54037c7db6ad29e1781463b182e5929215a0
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - supports-color
     dev: false
 
   file:projects/poormans-package-change.tgz:
-    resolution: {integrity: sha512-gw1iEJZ0aOsiYKYAfiUpX8+XohWNvp1ylujSLwDyjMwXyVVs2CMUwUvG+5Owej/ScNSnEYNxUTijeRCMviLMig==, tarball: file:projects/poormans-package-change.tgz}
+    resolution: {integrity: sha512-YE5PynM606vs7N6bxfZtopMy65a6hxE5ehPullIsZ9vU3F/i3tHxU2ytiyiB0mWmYR1NY28z4V/BHI4/NoSWBQ==, tarball: file:projects/poormans-package-change.tgz}
     name: '@rush-temp/poormans-package-change'
     version: 0.0.0
     dependencies:
@@ -7557,7 +7576,7 @@ packages:
     dev: false
 
   file:projects/rush-tools.tgz:
-    resolution: {integrity: sha512-NTZCY7k3TtEZQF5XzSH/C80NDJDeTad67DSoCELX3Ozf0et8nxLHkP1xY6yUoN+GYnooH2VQPOukmslKFq0c6w==, tarball: file:projects/rush-tools.tgz}
+    resolution: {integrity: sha512-24SxO0I99NEH/7oXYLQAiEPeMSPBXCDbLOLzG9G56/3ux6NZOxrllpT/SQL5DTaPWzsUkpMr8mlnEq4T3VapAQ==, tarball: file:projects/rush-tools.tgz}
     name: '@rush-temp/rush-tools'
     version: 0.0.0
     dependencies:
@@ -7570,6 +7589,7 @@ packages:
       cli-spinners: 2.6.1
       comment-json: 4.1.1
       dependency-graph: 0.11.0
+      esm: 3.2.25
       execa: 5.1.1
       fs-extra: 10.0.0
       gulp: 4.0.2
@@ -7584,8 +7604,6 @@ packages:
       ttypescript: 1.5.12
       typescript: 4.4.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -7598,7 +7616,7 @@ packages:
     dev: false
 
   file:projects/single-dog.tgz:
-    resolution: {integrity: sha512-Q6i1/1JtQfWLCYvo9TS56MszL/YnB/DgaGrtNxMkJyWXd9v22ASTFXCVwT60Mm7IZQmJzt8v2m16fdDSXiZgfw==, tarball: file:projects/single-dog.tgz}
+    resolution: {integrity: sha512-mvmZRWRw+w/TfO6475WnLcLBhvoX7LH6jKEoJJVSQ1DB1I4k6+sXqbNQPtKwLd0S4/uNaSEx80YeA8TkcoGO8w==, tarball: file:projects/single-dog.tgz}
     name: '@rush-temp/single-dog'
     version: 0.0.0
     dependencies:
@@ -7613,33 +7631,33 @@ packages:
     dev: false
 
   file:projects/state.tgz:
-    resolution: {integrity: sha512-nb6dT2Wd/36J5Fnr4DyrTiG9WqhgwvxytMGOsF9vE76LKz5QNKywc3zJExZCjtIEa3uvJzuSQAHq4Jtn7sPnIA==, tarball: file:projects/state.tgz}
+    resolution: {integrity: sha512-6drm2EWFlbNo1uaMs07iyJJ653Y3C1xS+mfNEVPr+oXHl2VxDedkXXHj8HfD5qNrCONMJb9pv31WRFJY+pXppA==, tarball: file:projects/state.tgz}
     name: '@rush-temp/state'
     version: 0.0.0
     dependencies:
       '@types/node': 16.10.3
       baobab: 2.6.1
       electron: 15.1.1
+      esm: 3.2.25
       gulp: 4.0.2
       ts-node: 10.2.1
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - supports-color
     dev: false
 
   file:projects/typescript-transformer-append-js-extension.tgz:
-    resolution: {integrity: sha512-cGdoHHpBtDQnANG9apHCxqHirVzzjNckPlslaEx4HqX0JiPQfgafihjgWEugmbNcMR4SDng5BYtCwFcCfWCzLw==, tarball: file:projects/typescript-transformer-append-js-extension.tgz}
+    resolution: {integrity: sha512-e83oTYVwyxwmtRetdSSA67PmTYcvHZy5Dc4MXEk4MkVckzQzY31pp9z+v122PPidNWiECedKpL1K5MBt1+0S7g==, tarball: file:projects/typescript-transformer-append-js-extension.tgz}
     name: '@rush-temp/typescript-transformer-append-js-extension'
     version: 0.0.0
     dependencies:
       '@types/node': 16.10.3
+      esm: 3.2.25
       npm-run-all: 4.1.5
       rimraf: 3.0.2
-      ts-node: 10.2.1
+      ts-node: 10.4.0
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
@@ -7649,13 +7667,14 @@ packages:
     dev: false
 
   file:projects/typescript-transformer-common.tgz:
-    resolution: {integrity: sha512-Kpg6m6iuDbgB6Z3zR+0Wfmlm6TdH6HB/pW2FLGWAd++zqqMllRjXLr9ghPc82r6n8wxzHFqbglf6rVj3Giacag==, tarball: file:projects/typescript-transformer-common.tgz}
+    resolution: {integrity: sha512-HZJuHUxFhexKEgfHMvXHh/yy0mYVa1bZI0O2+AXhAgQcQQa1qA+z7EpcvOEuKy5gSCfY/2lLa+q9Yp3Sl7YXeA==, tarball: file:projects/typescript-transformer-common.tgz}
     name: '@rush-temp/typescript-transformer-common'
     version: 0.0.0
     dependencies:
       '@types/fancy-log': 1.3.1
       '@types/fs-extra': 9.0.13
       '@types/node': 16.10.3
+      esm: 3.2.25
       fancy-log: 1.3.3
       fs-extra: 10.0.0
       gulp: 4.0.2
@@ -7663,47 +7682,40 @@ packages:
       ts-node: 10.2.1
       tslib: 2.3.1
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/typescript-transformer-dual-package.tgz:
-    resolution: {integrity: sha512-cENg4Y6fAl65p7f4SaWXN/3AZdbkUzBKWAVHbZpg3pvh3WJTdgII6nQywgmzaJrhGz6D0SjoAOkSpJi6FkE4Hg==, tarball: file:projects/typescript-transformer-dual-package.tgz}
+    resolution: {integrity: sha512-HMXkvlkSeQgmEguSJc8Bb2AQkw+hnGTxcOzdcmH5bRVF+Q7xtIFPr1s3BnU4lTO/hTxTAoF8HbefRLsDVBVeWQ==, tarball: file:projects/typescript-transformer-dual-package.tgz}
     name: '@rush-temp/typescript-transformer-dual-package'
     version: 0.0.0
     dependencies:
       '@types/node': 16.10.3
+      esm: 3.2.25
       npm-run-all: 4.1.5
       rimraf: 3.0.2
       ts-node: 10.2.1
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/typescript-transformer-import-commonjs.tgz:
-    resolution: {integrity: sha512-Cc6RlFKyiFfYW2+DBcNCNAYyxnwXOhDrIUvlvQ82Sh7TZ3vjT9zzqvumB4WxqdsRFB64DQ86cG+UVtDfTKWP9w==, tarball: file:projects/typescript-transformer-import-commonjs.tgz}
+    resolution: {integrity: sha512-vvJ/GtRNWiZJQSZgeeaOfTAGC1Sg+bGm0+racxn+H6OsyFgeh5KYm8P63VY2KZhV9HaQLVFm9jDx3k1VvbSPCQ==, tarball: file:projects/typescript-transformer-import-commonjs.tgz}
     name: '@rush-temp/typescript-transformer-import-commonjs'
     version: 0.0.0
     dependencies:
       '@types/node': 16.10.3
+      esm: 3.2.25
       npm-run-all: 4.1.5
       rimraf: 3.0.2
       ts-node: 10.2.1
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: false
 
   file:projects/typescript-transformer-resolve-info.tgz:
-    resolution: {integrity: sha512-XhcMO3YsC7BaX02UHAObzmHdUV6W2JxSc62pYO5ILOgx2wPC0FON+KZR13eWrH63qWjj9QrnhgKs424MVaDM/w==, tarball: file:projects/typescript-transformer-resolve-info.tgz}
+    resolution: {integrity: sha512-q3VO8HOftuSwZNOhB7hkpYCL2YENWGODytofcJoipSKHe4IDb0mhSS/9sw4JM1KpQIHlqUfRP6Jl6bL0enxLFA==, tarball: file:projects/typescript-transformer-resolve-info.tgz}
     name: '@rush-temp/typescript-transformer-resolve-info'
     version: 0.0.0
     dependencies:
@@ -7712,13 +7724,14 @@ packages:
       '@types/gulp': 4.0.9
       '@types/mocha': 9.0.0
       '@types/node': 16.10.3
+      esm: 3.2.25
       fancy-log: 1.3.3
       fs-extra: 10.0.0
       gulp: 4.0.2
       mocha: 9.1.2
       rimraf: 3.0.2
       source-map-support: 0.5.20
-      ts-node: 10.2.1
+      ts-node: 10.4.0
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
@@ -7728,19 +7741,20 @@ packages:
     dev: false
 
   file:projects/typescript-transformer-static-resolve.tgz:
-    resolution: {integrity: sha512-1hq2KrzBJgPCdwx0INlf4/pnNmgPygjtNo6EWVczFbfeoq4ZFeWtMjACVlWQvo9bM095hAlsckiDFEOMfJeuhA==, tarball: file:projects/typescript-transformer-static-resolve.tgz}
+    resolution: {integrity: sha512-I/ZcNgEwNRpJudOqRZpZZisFmo9j0tQ95p7geuZJajLOJ4MNLAvXvKWWviYC4UTwJAr9ZbVLmIXsVSh0SZ+u/w==, tarball: file:projects/typescript-transformer-static-resolve.tgz}
     name: '@rush-temp/typescript-transformer-static-resolve'
     version: 0.0.0
     dependencies:
       '@types/fancy-log': 1.3.1
       '@types/fs-extra': 9.0.13
       '@types/node': 16.10.3
+      esm: 3.2.25
       fancy-log: 1.3.3
       fs-extra: 10.0.0
       npm-run-all: 4.1.5
       rimraf: 3.0.2
       source-map-support: 0.5.20
-      ts-node: 10.2.1
+      ts-node: 10.4.0
       tslib: 2.3.1
       ttypescript: 1.5.12
       typescript: 4.4.3
@@ -7750,11 +7764,12 @@ packages:
     dev: false
 
   file:projects/unipm.tgz:
-    resolution: {integrity: sha512-SwuGZDKGfMxwHoMN7+xA0LzmzE8mCq0dlxDkwDxF7t9V2IkyaH07wvRf+GpfeIWd7Qxrqlis4MuVK7ZMtYwCIg==, tarball: file:projects/unipm.tgz}
+    resolution: {integrity: sha512-u8VUe+L056TeXZvJdC0Rb4nVXQXaxPuvo+TxT0kDR+dERAiFXbKUQXEUx4oXrhAXR64aTRrfSoCUAfDXW9cm3A==, tarball: file:projects/unipm.tgz}
     name: '@rush-temp/unipm'
     version: 0.0.0
     dependencies:
       '@types/node': 16.10.3
+      esm: 3.2.25
       execa: 5.1.1
       gulp: 4.0.2
       json5: 2.2.0
@@ -7766,13 +7781,11 @@ packages:
       ttypescript: 1.5.12
       typescript: 4.4.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - supports-color
     dev: false
 
   file:projects/vscode-helpers.tgz:
-    resolution: {integrity: sha512-A5DRfI08IvS2B9h9Ma4vIEpmyWmA7EkMeUr/LH6KdYumS17GaFN5KpHU4Pe0+4sTof5SmcR+Gag0SSwzds+pgQ==, tarball: file:projects/vscode-helpers.tgz}
+    resolution: {integrity: sha512-i177rdb9RsHGJKYm34clkXuJYiWfhbS3z9p3gCcPGEqaLBmNmNKfMTSS+PafvBOdWbosVrIWdG5MDupY85DTiw==, tarball: file:projects/vscode-helpers.tgz}
     name: '@rush-temp/vscode-helpers'
     version: 0.0.0
     dependencies:
@@ -7796,7 +7809,7 @@ packages:
     dev: false
 
   file:projects/vscode-sqlite3-bridge.tgz:
-    resolution: {integrity: sha512-J0NteXcuPw+sOx2tgzY+lNdtN0blXxaIShWJ3e1vPGrIvdtSkMnLPGuXJBioAJemXC5JmRjohx9yGRvMPAE0IA==, tarball: file:projects/vscode-sqlite3-bridge.tgz}
+    resolution: {integrity: sha512-K6MO3U5cwdRFrOCuZH54F58Wu+esit8OkAKnigMiefMc1B61t03hgD2u3IbMBKgv8oN5f/z1xZonm3SGg0dXBQ==, tarball: file:projects/vscode-sqlite3-bridge.tgz}
     name: '@rush-temp/vscode-sqlite3-bridge'
     version: 0.0.0
     dependencies:

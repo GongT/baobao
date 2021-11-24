@@ -8,9 +8,9 @@ export default async function () {
 	const cmds = new Map();
 	let size = 0;
 
-	const filename = /*import.meta.url*/ __dirname.replace(/^file:\/\//, '');
-	const ext = extname(filename);
-	const cmddir = resolve(filename, '../cmd');
+	const _filename = /*import.meta.url.replace(/^file:\/\//, '')*/ __filename;
+	const ext = extname(_filename);
+	const cmddir = resolve(_filename, '../cmd');
 	for (const item of await readdir(cmddir)) {
 		if (item.endsWith(ext)) {
 			const n = basename(item, ext);

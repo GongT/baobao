@@ -60,14 +60,12 @@
 			"commandKind": "global",
 			"name": "upgrade",
 			"summary": "更新所有项目的依赖版本到最新，注意：执行后需要手动运行rush update -p",
-			"allowWarningsInSuccessfulBuild": true,
 			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update"
 		},
 		{
 			"commandKind": "global",
 			"name": "build-autoinstaller",
 			"summary": "运行autoinstaller的“build”脚本",
-			"allowWarningsInSuccessfulBuild": true,
 			"shellCommand": "node common/scripts/tools/build-autoinstallers.js",
 			"safeForSimultaneousRushProcesses": true
 		},
