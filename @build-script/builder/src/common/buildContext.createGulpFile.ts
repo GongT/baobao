@@ -11,10 +11,9 @@ export function createGulpFile(ctx: BuildContext) {
 		return;
 	}
 
-	let Gulpfile: string;
+	const Gulpfile: string = resolve(ctx.projectRoot, 'Gulpfile.js');
 	const packageJson: any = loadJsonFileSync(resolve(ctx.projectRoot, 'package.json'));
 	if (packageJson.type === 'module') {
-		Gulpfile = resolve(ctx.projectRoot, 'Gulpfile.ts');
 		writeFileSync(
 			Gulpfile,
 			`import gulp from 'gulp';
@@ -24,13 +23,12 @@ loadToGulp(gulp, dirname(import.meta.url));
 `
 		);
 
-		if (!packageJson.dependencies?.['ts-node'] && !packageJson.devDependencies?.['ts-node']) {
+		if (!packageJson.dependencies?.['esm'] && !packageJson.devDependencies?.['esm']) {
 			if (!packageJson.devDependencies) packageJson.devDependencies = {};
-			packageJson.devDependencies['ts-node'] = 'latest';
+			packageJson.devDependencies['esm'] = 'latest';
 			writeJsonFileBackSync(packageJson);
 		}
 	} else {
-		Gulpfile = resolve(ctx.projectRoot, 'Gulpfile.js');
 		writeFileSync(
 			Gulpfile,
 			`const gulp = require('gulp');
