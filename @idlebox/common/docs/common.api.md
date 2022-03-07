@@ -108,9 +108,15 @@ export class CallbackList<Argument extends unknown[]> {
     reset(): void;
     // Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
     // Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
+    //
+    // (undocumented)
     run(...argument: Argument): boolean;
     // (undocumented)
     protected running: boolean;
+    // (undocumented)
+    protected stop: boolean;
+    // (undocumented)
+    stopRun(): void;
 }
 
 // @public (undocumented)
@@ -678,7 +684,7 @@ export interface MyAsyncCallback<Argument extends unknown[]> {
 // @public (undocumented)
 export interface MyCallback<Argument extends unknown[]> {
     // (undocumented)
-    (...param: Argument): void | undefined | boolean;
+    (...param: Argument): any;
     // (undocumented)
     displayName?: string;
 }

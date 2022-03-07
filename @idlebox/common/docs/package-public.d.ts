@@ -99,6 +99,7 @@ export declare const bindThis: MethodDecorator;
 export declare class CallbackList<Argument extends unknown[]> {
     protected list: MyCallback<Argument>[];
     protected running: boolean;
+    protected stop: boolean;
     constructor();
     count(): number;
     reset(): void;
@@ -112,10 +113,10 @@ export declare class CallbackList<Argument extends unknown[]> {
      */
     remove(item: MyCallback<Argument>): null | MyCallback<Argument>;
     /**
-     * Stop run if one callback return `true`
-     * @returns {boolean} true if one callback return true
+     * @returns {boolean} true if every callback called, false if stop in middle
      */
     run(...argument: Argument): boolean;
+    stopRun(): void;
 }
 
 /** @public */
@@ -644,7 +645,7 @@ export declare interface MyAsyncCallback<Argument extends unknown[]> {
 
 export declare interface MyCallback<Argument extends unknown[]> {
     displayName?: string;
-    (...param: Argument): void | undefined | boolean;
+    (...param: Argument): any;
 }
 
 export declare interface MyDelayCallback<Argument extends unknown[]> {

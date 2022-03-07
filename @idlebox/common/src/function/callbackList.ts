@@ -3,7 +3,7 @@ import { nameFunction } from './functionName';
 export interface MyCallback<Argument extends unknown[]> {
 	displayName?: string;
 
-	(...param: Argument): void | undefined | boolean;
+	(...param: Argument): any;
 }
 
 /**
@@ -12,6 +12,7 @@ export interface MyCallback<Argument extends unknown[]> {
 export class CallbackList<Argument extends unknown[]> {
 	protected list: MyCallback<Argument>[] = [];
 	protected running: boolean = false;
+	protected stop: boolean = false;
 
 	constructor() {
 		this.run = (this.run as any).bind(this);
@@ -57,16 +58,27 @@ export class CallbackList<Argument extends unknown[]> {
 	}
 
 	/**
-	 * Stop run if one callback return `true`
-	 * @returns {boolean} true if one callback return true
+	 * @returns {boolean} true if every callback called, false if stop in middle
 	 */
 	run(...argument: Argument): boolean {
+		if (this.running) {
+			throw new Error("can not run CallbackList in it's callback.");
+		}
+		this.stop = false;
+
 		this.running = true;
-		const ret = this.list.some((cb) => {
-			const ret = cb(...argument);
-			return ret === undefined || ret;
-		});
+		for (const cb of this.list) {
+			if (this.stop) break;
+			cb(...argument);
+		}
 		this.running = false;
+
+		const ret = !this.stop;
+		this.stop = false;
 		return ret;
+	}
+
+	stopRun() {
+		this.stop = true;
 	}
 }

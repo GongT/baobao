@@ -1716,7 +1716,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@idlebox/common!CallbackList#run:member(1)",
-              "docComment": "/**\n * Stop run if one callback return `true`\n *\n * @returns {boolean} true if one callback return true\n */\n",
+              "docComment": "/**\n * @returns {boolean} true if every callback called, false if stop in middle\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1784,6 +1784,62 @@
                 "endIndex": 2
               },
               "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@idlebox/common!CallbackList#stop:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected stop: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "stop",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@idlebox/common!CallbackList#stopRun:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "stopRun(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "stopRun"
             }
           ],
           "implementsTokenRanges": []
@@ -8746,7 +8802,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "void | undefined | boolean"
+                  "text": "any"
                 },
                 {
                   "kind": "Content",
