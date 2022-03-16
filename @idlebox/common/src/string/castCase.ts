@@ -9,16 +9,16 @@ export function camelCase(str: string) {
  * Uppercase first char
  * @public
  */
-export function ucfirst(str: string) {
-	return str[0].toUpperCase() + str.slice(1);
+export function ucfirst<T extends string>(str: T): Capitalize<T> {
+	return <any>(str[0].toUpperCase() + str.slice(1));
 }
 
 /**
- * Lowercase first char
+ * lowercase first char
  * @public
  */
-export function lcfirst(str: string) {
-	return str.substr(0, 1).toLowerCase() + str.substr(1);
+export function lcfirst<T extends string>(str: T): Uncapitalize<T> {
+	return <any>(str[0].toLowerCase() + str.slice(1));
 }
 
 /** @public */

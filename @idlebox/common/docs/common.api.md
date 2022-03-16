@@ -628,7 +628,7 @@ export interface IUniqueIdFactory<T> {
 }
 
 // @public
-export function lcfirst(str: string): string;
+export function lcfirst<T extends string>(str: T): Uncapitalize<T>;
 
 // @alpha
 export abstract class LifecycleObject extends AsyncDisposable {
@@ -942,7 +942,7 @@ export function toDisposable(fn: () => void): IDisposable;
 export function tryInspect(object: any): any;
 
 // @public
-export function ucfirst(str: string): string;
+export function ucfirst<T extends string>(str: T): Capitalize<T>;
 
 // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 // Warning: (tsdoc-param-tag-with-invalid-type) The @param block should not include a JSDoc-style '{type}'

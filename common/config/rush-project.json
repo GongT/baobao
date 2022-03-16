@@ -1,5 +1,18 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush-project.schema.json",
-	"projectOutputFolderNames": ["lib"],
-	"buildCacheOptions": {}
+	"incrementalBuildIgnoredGlobs": ["temp/**", "*.log", "*.tgz"],
+	"operationSettings": [
+		{
+			"operationName": "build",
+			"outputFolderNames": ["lib"]
+		},
+		{
+			"operationName": "_phase:build",
+			"outputFolderNames": ["lib"]
+		},
+		{
+			"operationName": "test",
+			"disableBuildCacheForOperation": true
+		}
+	]
 }

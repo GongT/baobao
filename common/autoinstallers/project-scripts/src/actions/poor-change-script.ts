@@ -3,6 +3,7 @@ import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
 import { readFileSync } from 'fs-extra';
+import { humanDate } from '@idlebox/common';
 
 async function main() {
 	const rushProject = new RushProject();
@@ -20,8 +21,9 @@ async function main() {
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
 	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.cjs');
 
-	for (const item of projects) {
-		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s', item.packageName);
+	const start = Date.now();
+	for (const [index, item] of projects.entries()) {
+		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s (%s/%s)', item.packageName, index, projects.length);
 		const logFile = rushProject.tempFile('logs/update-version/' + item.packageName.replace('/', '__') + '.log');
 		const { full, result } = await execPromise({
 			argv: [
@@ -66,11 +68,11 @@ async function main() {
 				argv: [syncBin, 'autofix', '--skip-cyclic'],
 				logFile,
 			});
-			console.log('✨ \x1B[38;5;10m  Updated\x1B[0m');
+			console.log('✨ \x1B[38;5;10m  Updated\x1B[0m (in %s)', humanDate.delta(Date.now() - start));
 		} else if (changedFiles.length > 0) {
-			console.log('✨ \x1B[38;5;10m  Updated (already)\x1B[0m');
+			console.log('✨ \x1B[38;5;10m  Updated (already)\x1B[0m (in %s)', humanDate.delta(Date.now() - start));
 		} else {
-			console.log('✨ \x1B[38;5;10m  No change detected\x1B[0m');
+			console.log('✨ \x1B[38;5;10m  No change detected\x1B[0m (in %s)', humanDate.delta(Date.now() - start));
 		}
 		console.log('');
 	}

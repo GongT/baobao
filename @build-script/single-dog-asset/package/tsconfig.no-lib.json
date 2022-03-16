@@ -13,6 +13,7 @@
 		"composite": false,
 		"declaration": true,
 		"declarationMap": true,
+		"downlevelIteration": true,
 		"emitBOM": false,
 		"emitDeclarationOnly": false,
 		"emitDecoratorMetadata": true,
@@ -45,6 +46,6 @@
 		"importHelpers": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-		"incremental": true
+		"incremental": false
 	}
 }

@@ -2,7 +2,7 @@
 	"name": "@build-script/typescript-transformer-dual-package",
 	"description": "A TypeScript transformer for (mainly) use with ttypescript that will (semi-)auto create dual package hazard.",
 	"keywords": ["ttypescript", "typescript", "transformer", "dual package", "esm", "es modules", "commonjs"],
-	"version": "1.0.23",
+	"version": "1.0.24",
 	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",
@@ -26,12 +26,12 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "^1.0.14",
-		"@types/node": "^16.11.10",
+		"@build-script/single-dog-asset": "^1.0.15",
+		"@types/node": "^17.0.21",
 		"rimraf": "^3.0.2",
 		"esm": "^3.2.25",
-		"ttypescript": "^1.5.12",
-		"typescript": "^4.5.2",
+		"ttypescript": "^1.5.13",
+		"typescript": "^4.6.2",
 		"npm-run-all": "^4.1.5"
 	},
 	"repository": "https://github.com/GongT/baobao",

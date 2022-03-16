@@ -111,7 +111,7 @@ function createConfig(index: number, title: string, path: string) {
 		`{\n\t// This task is created by @build-script/rush-tools`
 	);
 
-	const task: VSCodeTask = parse(json);
+	const task: VSCodeTask = parse(json) as any;
 
 	task.options.cwd = '${workspaceFolder}/' + path;
 	task.label = createTitle(index, title);

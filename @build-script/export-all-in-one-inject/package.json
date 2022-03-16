@@ -1,7 +1,7 @@
 {
 	"monorepo": "rush",
 	"name": "@build-script/export-all-in-one-inject",
-	"version": "1.0.16",
+	"version": "1.0.17",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"repository": "https://github.com/GongT/baobao",
 	"keywords": ["typescript", "library", "ts", "cli", "concat"],
@@ -18,22 +18,22 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@build-script/builder": "^3.2.2",
-		"@idlebox/node-json-edit": "^2.0.17",
-		"@microsoft/api-extractor": "^7.18.19",
-		"fs-extra": "^10.0.0",
+		"@build-script/builder": "^3.2.3",
+		"@idlebox/node-json-edit": "^2.0.18",
+		"@microsoft/api-extractor": "^7.19.5",
+		"fs-extra": "^10.0.1",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.3.1",
-		"unipm": "^1.1.5"
+		"unipm": "^1.1.6"
 	},
 	"devDependencies": {
-		"@build-script/export-all-in-one": "^3.1.0",
-		"@build-script/single-dog-asset": "^1.0.14",
+		"@build-script/export-all-in-one": "^3.1.1",
+		"@build-script/single-dog-asset": "^1.0.15",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^16.11.10",
+		"@types/node": "^17.0.21",
 		"gulp": "^4.0.2",
-		"ttypescript": "^1.5.12",
+		"ttypescript": "^1.5.13",
 		"esm": "^3.2.25",
-		"typescript": "^4.5.2"
+		"typescript": "^4.6.2"
 	}
 }

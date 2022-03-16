@@ -608,10 +608,10 @@ export declare interface IUniqueIdFactory<T> {
 }
 
 /**
- * Lowercase first char
+ * lowercase first char
  * @public
  */
-export declare function lcfirst(str: string): string;
+export declare function lcfirst<T extends string>(str: T): Uncapitalize<T>;
 
 /* Excluded from this release type: LifecycleObject */
 
@@ -836,7 +836,7 @@ export declare function tryInspect(object: any): any;
  * Uppercase first char
  * @public
  */
-export declare function ucfirst(str: string): string;
+export declare function ucfirst<T extends string>(str: T): Capitalize<T>;
 
 /**
  * Returns a function to be used in <arr>.filter()

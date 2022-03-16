@@ -9,13 +9,18 @@ export const bindThis: MethodDecorator = <T>(
 	const oldFunc = descriptor.value;
 	if (typeof oldFunc === 'function') {
 		return {
+			enumerable: true,
 			configurable: true,
-			writable: false,
 			get: function (this: any) {
 				delete this[propertyKey];
 
 				const fn = oldFunc.bind(this);
-				this[propertyKey] = fn;
+				Object.defineProperty(this, propertyKey, {
+					value: fn,
+					writable: false,
+					enumerable: true,
+					configurable: false,
+				});
 				return fn;
 			},
 		};
