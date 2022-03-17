@@ -9,6 +9,7 @@
 		}
 	],
 	"alias": {
+		"generate": "ts-node --esm --cwd generate --project tsconfig.json --cwdMode main",
 		"build-ts": "ttsc -p src",
 		"watch-ts": "ttsc -w -p src",
 		"yarn-publish": "yarn publish --registry https://registry.npmjs.org --access=public",
@@ -16,9 +17,15 @@
 		"run-test": ""
 	},
 	"command": {
+		"generate": {
+			"title": "Generate Code",
+			"serial": true,
+			"run": ["generate"]
+		},
 		"build": {
 			"title": "Build project",
-			"run": ["build-ts"]
+			"run": ["build-ts"],
+			"after": ["generate"]
 		},
 		"rebuild": {
 			"title": "Prepare for publish package",
@@ -41,7 +48,8 @@
 		},
 		"watch": {
 			"title": "Watch mode build project",
-			"run": ["watch-ts"]
+			"run": ["watch-ts"],
+			"after": ["generate"]
 		}
 	}
 }

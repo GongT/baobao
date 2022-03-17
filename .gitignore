@@ -8,6 +8,7 @@ dist/
 lib/
 *.tgz
 .test
+build-*/
 
 ### Package manager
 node_modules
@@ -31,5 +32,10 @@ package-deps.json
 
 ### old files
 .idea
+
+### generated files
+*.generated.*
+c_cpp_properties.json
+vcpkg_installed
 
 ### temp project

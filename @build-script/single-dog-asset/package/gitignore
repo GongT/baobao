@@ -1,8 +1,41 @@
+### Cache file
+common/temp
+*.tsbuildinfo
 .rpt2_cache/
-node_modules/
-jspm_packages/
-*.log
+
+### Build result
 dist/
+lib/
 *.tgz
-lib
-test*
+.test
+build-*/
+
+### Package manager
+node_modules
+jspm_packages
+.rush
+package-deps.json
+/package.json
+
+### logs
+*.log
+
+### no need in mono repo
+**/.editorconfig
+**/.git*
+!**/.github/
+**/.prettier*
+**/pnpm-lock.yaml
+**/yarn.lock
+
+!common/config/rush/pnpm-lock.yaml
+
+### old files
+.idea
+
+### generated files
+*.generated.*
+c_cpp_properties.json
+vcpkg_installed
+
+### temp project

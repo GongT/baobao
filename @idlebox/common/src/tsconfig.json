@@ -8,5 +8,6 @@
 		"declaration": false,
 		"declarationMap": false
 	},
-	"include": ["global.d.ts", "**/*.ts"]
+	"include": ["global.d.ts", "**/*.ts"],
+	"exclude": ["**/*.generator.ts"]
 }

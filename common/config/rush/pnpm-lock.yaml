@@ -8643,7 +8643,7 @@ packages:
   file:projects/7zip-bin-wrapper.tgz:
     resolution:
       {
-        integrity: sha512-3ZSpzKEmzaxCMmXxEJjhqSO40Ja/bBI3mvFbXj+PAF8VwxonVJm+Z4xcaJOh1wTpsa7/5Z6Dol49BUkFsNvkrQ==,
+        integrity: sha512-KAHl4SKpROvlIE4gWhYgILnbglL1UT1FYenL5kK2I25VtYky+njYgLehyo7A6Bwvdl6oH3IUElbIqxYuViFKZg==,
         tarball: file:projects/7zip-bin-wrapper.tgz,
       }
     name: '@rush-temp/7zip-bin-wrapper'
@@ -8665,7 +8665,7 @@ packages:
   file:projects/browser.tgz:
     resolution:
       {
-        integrity: sha512-deLTAET2XBUoQvMHmtr0WGEYnzxRyNLBWjij/o5/tZJgcBDcKuJ9Qyr2gQSYLLoNbaTB1Kc8PI4yzhlp/qczhQ==,
+        integrity: sha512-sxxksvOAmzoOCOLJL3KiODmqJ5hec6Xm0hoWILt7/qfqYt0ruOjCBmlE3frb+g+zyVRh3bI/7l6qTu8ZSUpb7w==,
         tarball: file:projects/browser.tgz,
       }
     name: '@rush-temp/browser'
@@ -8682,7 +8682,7 @@ packages:
   file:projects/builder.tgz:
     resolution:
       {
-        integrity: sha512-Da2aAZTVihl0Cg+l4fHXGNpQ9ZkfLXA8DdppkZAZE0SGg4mEq1ssEYc+yDZ7ymIwfgJJdb1gRE/VFv78AisALw==,
+        integrity: sha512-Mz+mdGrvGsgki7BOsELr1jfvS2vVhMFXkSq3h96klif4wC8aa6Rpogu1P35Wu9av9+tnL6YmkDiIseprjCCuVg==,
         tarball: file:projects/builder.tgz,
       }
     name: '@rush-temp/builder'
@@ -8714,7 +8714,7 @@ packages:
   file:projects/chokidar.tgz:
     resolution:
       {
-        integrity: sha512-rBY1RI2phob5txe5VrV7Qqkny6HbchsiR36ZwRRgfcRGN4a+i8vwvxsYel99NIraDzE1odcMmBIP8ZMl0+cpKQ==,
+        integrity: sha512-XL1FhM3vF/3YqM1YQbmaKVdivFrvFrrWBDE9YL4AlwBzg1dZTvq7huCXDb5FCCoTT9MSMWCdKSZyP4BrN8RPIg==,
         tarball: file:projects/chokidar.tgz,
       }
     name: '@rush-temp/chokidar'
@@ -8735,7 +8735,7 @@ packages:
   file:projects/cjke-strings.tgz:
     resolution:
       {
-        integrity: sha512-jpQykl0oXEe69A7P+ELf18OirR7Byl+PL6xf1ryMhudnAhMTI+VnlXEQiq4jjRecCJ9f6LHhtxVwEkT/GFz6tw==,
+        integrity: sha512-GARZAwzf/0T0bpZ8MMRe4jjU7oq2QocyOTXeu/U2uhxc1pHjLtrZsdm7EJVP8SWPLfI0KQ/08HNxtN92cHGR5A==,
         tarball: file:projects/cjke-strings.tgz,
       }
     name: '@rush-temp/cjke-strings'
@@ -8764,7 +8764,7 @@ packages:
   file:projects/common.tgz:
     resolution:
       {
-        integrity: sha512-NeAaNXxENU9DCD5PKdVoshXMW60/wVzugg3OsNHxYCLfT5pdR9G5b4ONHgOX07fM1Vr3cySGEdGi7xwaWVUuAQ==,
+        integrity: sha512-FgvD0nMBOvTEZ5N6l/b6zhNICbqZuzaL1SIz91SjYJxA0yLjdCdHBjXKkAKc5BLozhIJZqd9Z4D2Kl+g1HpWbg==,
         tarball: file:projects/common.tgz,
       }
     name: '@rush-temp/common'
@@ -8775,10 +8775,13 @@ packages:
       esm: 3.2.25
       gulp: 4.0.2
       source-map-support: 0.5.21
+      ts-node: 10.7.0
       tslib: 2.3.1
       ttypescript: 1.5.13
       typescript: 4.6.2
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -8814,7 +8817,7 @@ packages:
   file:projects/export-all-in-one-inject.tgz:
     resolution:
       {
-        integrity: sha512-LKi0YMZibi2hu5Y5tlHiCPoFyKMiW+RdNE73v/5uFzQWESz+gExkcLqCPG4QDyfGfLnpOr0LlG8KNtlxqNEnuw==,
+        integrity: sha512-JFXCqk3LI2Gq0LAEu0r7aIGgWTBq17F3HRpP5PY2JlWRSaRGHWEe6Ig1hKOtMOtuDnu5Lom+c/tuF/imYEogaA==,
         tarball: file:projects/export-all-in-one-inject.tgz,
       }
     name: '@rush-temp/export-all-in-one-inject'
@@ -8835,7 +8838,7 @@ packages:
   file:projects/export-all-in-one.tgz:
     resolution:
       {
-        integrity: sha512-+biQtVT0/AnSVzKiYduQ8f06FmhpMViLnbe3d/P2mCciKqPZroDS86fzoRBtaINMvEfeOTTJRz6DhrEQsYGIXg==,
+        integrity: sha512-WMja9o90O5yh7CmWE4c2dlJkKEQ5PpxqmhMF8Et9jgw35wbQJFWvl+YwnRjuday8Pr0k2I8Dt817/fYJombsfw==,
         tarball: file:projects/export-all-in-one.tgz,
       }
     name: '@rush-temp/export-all-in-one'
@@ -8860,7 +8863,7 @@ packages:
   file:projects/gulp-chain-simplify.tgz:
     resolution:
       {
-        integrity: sha512-IevlWnGfw4RpCkms15tF+8ja5BGL7xgNRPvnh087Y7j1W3PiQXiOC4aN2YpC9/R4JXzGF7XV9Qmy1Mzj3DD2yA==,
+        integrity: sha512-2riNIn8jNxrM5GvTxJHG7d7ud+T4oqD4SJDTGAi/M6k3qjLw8SoA0N5C/jf2bQOETcGQfjENso7Xlui7+JTrvQ==,
         tarball: file:projects/gulp-chain-simplify.tgz,
       }
     name: '@rush-temp/gulp-chain-simplify'
@@ -8890,7 +8893,7 @@ packages:
   file:projects/mysql-docgen.tgz:
     resolution:
       {
-        integrity: sha512-5e4mZTxBPUZX3W/ILLvJK7D99SKByFNvnhrtq7mXDNo6M/ZYLpQcAxDvu3LH1WOC4ELZTTdGOlF6SoUcnaXhtA==,
+        integrity: sha512-8Tqcsnqz74ZniIltoyAVcjSbbafIXlrxA+mFcJ3E6b5P8Hm/4pdludYY10thNpj8bwnlfT0ncD4EVNVF1hytZg==,
         tarball: file:projects/mysql-docgen.tgz,
       }
     name: '@rush-temp/mysql-docgen'
@@ -8922,7 +8925,7 @@ packages:
   file:projects/node-json-edit.tgz:
     resolution:
       {
-        integrity: sha512-XAlUVEpnebkTy2gCSgOmgis6HY1++ZKhvPYDx1ASPwxKZOjYsegEDhpK8UCC6/Yh2AkbY3qN3tZRbZaCicgRFA==,
+        integrity: sha512-H0I7VBqysTCkaGWPosxsl9Wvg3yjR8obSgGgYN4X4hn7BWYvkLAp1vQU2KSsdpdHM39kpKC14zPvfpkV3wqRiA==,
         tarball: file:projects/node-json-edit.tgz,
       }
     name: '@rush-temp/node-json-edit'
@@ -8945,7 +8948,7 @@ packages:
   file:projects/node.tgz:
     resolution:
       {
-        integrity: sha512-DQpHS0429IpoxZOJWRshrltVinZKazueo1EH6QebWf9a9iLcD8uhc5+YMSYOFZlBJ1UprO83CoQFBPp+0cWX1g==,
+        integrity: sha512-f2NOlgbuZ7SoGzGZvDHu4acTkeZlwIuLmRjV0AYePHRIL6FUmOppxfPZWEB33d6P6DN+AJ0Yx2qPJ15OLB6RLA==,
         tarball: file:projects/node.tgz,
       }
     name: '@rush-temp/node'
@@ -8974,7 +8977,7 @@ packages:
   file:projects/poormans-package-change.tgz:
     resolution:
       {
-        integrity: sha512-J0wUt9KFE60oVkiMUt5zMAvspmvL4m4BX3Yswju3V3UK2lS/gWkC8wbdgN6R3tL38irPTPobMGNH3+YapZs99Q==,
+        integrity: sha512-3SM+noIb1JlNHmtNhfgWe5yMvWleH+LTcZBt+Ccw3qN9s23fCLa7ekrOdkBDkZSxHp3d/7PQStZLpaaJXqJNWA==,
         tarball: file:projects/poormans-package-change.tgz,
       }
     name: '@rush-temp/poormans-package-change'
@@ -9023,7 +9026,7 @@ packages:
   file:projects/rush-tools.tgz:
     resolution:
       {
-        integrity: sha512-3Owav9oA9RQb6ALO1WtOXLjNAT2jbucKrqNWD9VZEERtWmFp32UTrMwL4swcwvcSfNQdzLWlUFQZBBofhP3+CA==,
+        integrity: sha512-qeC84nXgGWdVtgumt7oF1BjI/zlEKnbiM234EvoMvFNqk9SiHJafEIZzOC29TfL7YsjJCjg6WGra08BfiXBzsw==,
         tarball: file:projects/rush-tools.tgz,
       }
     name: '@rush-temp/rush-tools'
@@ -9071,7 +9074,7 @@ packages:
   file:projects/single-dog.tgz:
     resolution:
       {
-        integrity: sha512-kseyBgvn+IQSLuc58LyPgFwdZ25hv/MyNAA78GdgcXp3c0oop4sWbp+p7VT5he7DYSCgffNWAe1J3B8dq9GCcA==,
+        integrity: sha512-cs54Jp2fJvLn1OpYobcCVNkurF6om4BX+0aaE3vR5cf0k0/nXU3uXue4S9Ljq7wKJRsZii8Sb4iu7bTp2Mm3wg==,
         tarball: file:projects/single-dog.tgz,
       }
     name: '@rush-temp/single-dog'
@@ -9090,7 +9093,7 @@ packages:
   file:projects/state.tgz:
     resolution:
       {
-        integrity: sha512-m+G3WU4BoDU9BHbHzOQfcOuuA5EzPkXTUlNhRBCGdZS8/ayyG7+a6X+Yv9jM7JIkafXvYF+s7sIo8fZBBJERIw==,
+        integrity: sha512-dFhnyANz5ioMu57EmAD5mK4lwVJp0Lk64pY4x8wLab03lhnnU22jNVx28n/yUSIfQoy3Gbw1kCIQ3hMQrJR6MA==,
         tarball: file:projects/state.tgz,
       }
     name: '@rush-temp/state'
@@ -9111,7 +9114,7 @@ packages:
   file:projects/typescript-transformer-append-js-extension.tgz:
     resolution:
       {
-        integrity: sha512-449DC0ppwNm7/Aa+WIJiVpElqwncYlAYcxmVBalV0+FCs+7mh1bMaEg2O0r2YWziBD7W1ZTDmvaIcb71v8h5SA==,
+        integrity: sha512-ho3E1dik7DZHZPFjIN8GOUdnUpRHjoXpQWQU3ZNj0169aIRhIqnDR4m2rLEcAmG1YheXuaZ/FxSGm9L5JTeTEQ==,
         tarball: file:projects/typescript-transformer-append-js-extension.tgz,
       }
     name: '@rush-temp/typescript-transformer-append-js-extension'
@@ -9133,7 +9136,7 @@ packages:
   file:projects/typescript-transformer-common.tgz:
     resolution:
       {
-        integrity: sha512-HK1auIFKicBVDfgzvDhnGFENYm2bFzeUhruVFPVAoUPbnuU56DrxYZuhHi1AzR2CYSOzzoC9QnIO8cQ0hJqhQg==,
+        integrity: sha512-/Ve6Jo3Gy5FYD7wNpRF+XqvOXGAUOPkS7PRUjgqJNy2/HuM658VNvn8ewBytYKjqQ/1npw1xZQJKAg9jPwppTA==,
         tarball: file:projects/typescript-transformer-common.tgz,
       }
     name: '@rush-temp/typescript-transformer-common'
@@ -9155,7 +9158,7 @@ packages:
   file:projects/typescript-transformer-dual-package.tgz:
     resolution:
       {
-        integrity: sha512-vVdNyV+2jEZfrbzPvR3+1isFLi5kk4I5kKgGkm3R+SiS0y9Bn1O9ORnNVyxt7uZcbu6QOTdH/CDgQFxufl7KMQ==,
+        integrity: sha512-1+d+1QqZVKYsmliTMxXI48TgIacQIJ3zg0TsvleLQquiRi81pPe+jBQZdNLPJJcl2z6HFiwbNPzQZUnwnGuXcA==,
         tarball: file:projects/typescript-transformer-dual-package.tgz,
       }
     name: '@rush-temp/typescript-transformer-dual-package'
@@ -9173,7 +9176,7 @@ packages:
   file:projects/typescript-transformer-import-commonjs.tgz:
     resolution:
       {
-        integrity: sha512-sWHYjbOd8pCqLMIoyn/rcKT1Y0JRC7KAX+lL6+v4L0yEqTsXIcZIn7Dl4R+dfZnqvMC67VFd5UVFOA6Lhjin9A==,
+        integrity: sha512-ftG7bIPcj019wN9XO03zfJLIeWCTDT0ywSZz0VCgc8XLeaXIMuws80D+U8uBWkAJ7HoILGkFZRSyejocLrOwiA==,
         tarball: file:projects/typescript-transformer-import-commonjs.tgz,
       }
     name: '@rush-temp/typescript-transformer-import-commonjs'
@@ -9191,7 +9194,7 @@ packages:
   file:projects/typescript-transformer-resolve-info.tgz:
     resolution:
       {
-        integrity: sha512-1NSQnp/FkUJp4eNoBDnx654VXkQeMhTo4ipr/KYj+0ZoJTHd6cY4AdvPS9/xSApuwLoNiaGusjeJIewajRm/6w==,
+        integrity: sha512-ILqV+qLlIZiIYigSam4ZfWsZLPwKGZqB8Ecbg6kqkXfbuIg51EhV7Zle5+POBJuAZWGZgKHKFlwxmlJLGs/o0g==,
         tarball: file:projects/typescript-transformer-resolve-info.tgz,
       }
     name: '@rush-temp/typescript-transformer-resolve-info'
@@ -9221,7 +9224,7 @@ packages:
   file:projects/typescript-transformer-static-resolve.tgz:
     resolution:
       {
-        integrity: sha512-bprnAJiWHgqPsShlVPUQ8ifXXsX628kwMypATYLQjQNz0vRqHeampOkinHzbdffXWmbfvR3D8LCXYOb+khwUPw==,
+        integrity: sha512-/Y6CbvUIxXJg5HlrqsIb7bwgdRbCpRTiOSA85vro1zJsR6iUuXdpTWEieIPL8mkitesuF1YULt9sSPNXcFdkBQ==,
         tarball: file:projects/typescript-transformer-static-resolve.tgz,
       }
     name: '@rush-temp/typescript-transformer-static-resolve'
@@ -9248,7 +9251,7 @@ packages:
   file:projects/unipm.tgz:
     resolution:
       {
-        integrity: sha512-9psGl5/oGgXjfCOl7HfFi9ZZC/Po3qPMEgSsxWCV/237Q/bKS6BfLM8Pus0+NXUqhSyyz+HZz5QKeyZn8pR2kw==,
+        integrity: sha512-efNfTfALzRF2SkkBMu9bvN78EjpUNuzpfRgpV1KRFz0/JqaHHkCYm4ERgijJuWHWUmfOukFlBSgGJ/F/+iRSuw==,
         tarball: file:projects/unipm.tgz,
       }
     name: '@rush-temp/unipm'
@@ -9272,7 +9275,7 @@ packages:
   file:projects/vscode-helpers.tgz:
     resolution:
       {
-        integrity: sha512-dBH93BEAFCjWo7IkiCoOT7cndkNgFCVCMBAechIofhclQ6VjnlW7DSP94/tEugevSIL719evYJgxnYnRAjDM2w==,
+        integrity: sha512-e5h7rs16fodn3RiEKKoSNIzOfygUskqjYi6Olbyu8Zl7uNmK6Appm9vX4MeafpIGprktRe5prYXzJEVIU1ay1A==,
         tarball: file:projects/vscode-helpers.tgz,
       }
     name: '@rush-temp/vscode-helpers'
@@ -9289,7 +9292,7 @@ packages:
   file:projects/vscode-remote-thief.tgz:
     resolution:
       {
-        integrity: sha512-law9u17eaBDfvYs/9xVoOezpBV1qqG2RyFRgCLtiZvivcQiYM8jOlMpwoljSc8+bMs+MUmCBADO4ZP0Tj5UJTg==,
+        integrity: sha512-GiWC15x+d6x1/1eFXTG5Mhz+BCtqREjMQqwWewXLyB8CZdMiobykEJaMOl8Vqf7Q3eTAWaFo1unHqRg/KtwwKA==,
         tarball: file:projects/vscode-remote-thief.tgz,
       }
     name: '@rush-temp/vscode-remote-thief'
@@ -9304,7 +9307,7 @@ packages:
   file:projects/vscode-sqlite3-bridge.tgz:
     resolution:
       {
-        integrity: sha512-YBc9oPMRifDnNzll18pLfUwpSj63JUTKSH+XvlB0ofBRZ3FGGV0i03PmeDbMFvRZcxLkrlGhvC863kcsNSW2Rg==,
+        integrity: sha512-xyzhMIloG6pBBKI4LnBG3HOwMSnEhGNIRec9TgxoC7yey2584JdZCsyY6dfPmilNRN2XOaI1HARPAa8VV5gSTw==,
         tarball: file:projects/vscode-sqlite3-bridge.tgz,
       }
     name: '@rush-temp/vscode-sqlite3-bridge'

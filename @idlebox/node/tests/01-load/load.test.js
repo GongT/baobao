@@ -3,7 +3,7 @@ import { resolve, dirname } from 'path';
 import { execaNode } from 'execa';
 import { mkdirSync, rmSync, symlinkSync, existsSync } from 'fs';
 
-const __dirname = dirname(import.meta.url).replace(/^file:/, '');
+const __dirname = dirname(import.meta.url).replace(/^file:\/\//, '');
 
 describe('The module', () => {
 	const tmp_node_modules = resolve(__dirname, 'node_modules');
