@@ -5,10 +5,6 @@ node_modules
 jspm_modules
 config
 
-### tests
-test
-tests
-
 ### hidden files
 .*
 
@@ -17,15 +13,15 @@ package-deps.json
 *.log
 
 ### build source
-src
-build-script.json
-Gulpfile.*
+/src
+/build-script.json
+/Gulpfile.*
 *.tsbuildinfo
 
 ### docs
-docs/*
-!docs/*.d.ts
+/docs/*
+!/docs/*.d.ts
 
 ### tests
-/tests/
-/test/
+/tests
+/test
