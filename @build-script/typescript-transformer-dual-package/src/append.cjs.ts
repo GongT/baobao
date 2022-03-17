@@ -1,4 +1,4 @@
-import { basename, dirname } from "path";
+import { basename, dirname } from 'path';
 import {
 	CompilerOptions,
 	createProgram,
@@ -15,17 +15,13 @@ import {
 	TransformationContext,
 	visitEachChild,
 	VisitResult,
-} from "typescript";
-import { IDebug } from "./debug";
-import { selfCreatedProgram } from "./preventLoop";
-import { shouldMutateModuleSpecifier } from "./shouldMutateModuleSpecifier";
+} from 'typescript';
+import { IDebug } from './debug';
+import { selfCreatedProgram } from './preventLoop';
+import { shouldMutateModuleSpecifier } from './shouldMutateModuleSpecifier';
 
-export function cloneProgram(
-	mainProgram: Program,
-	overrideOptions: CompilerOptions,
-	debug: IDebug
-) {
-	debug(" + before createProgram");
+export function cloneProgram(mainProgram: Program, overrideOptions: CompilerOptions, debug: IDebug) {
+	debug(' + before createProgram');
 	let options: CompilerOptions = {
 		...mainProgram.getCompilerOptions(),
 	};
@@ -47,9 +43,7 @@ export function cloneProgram(
 	const knownSources: string[] = [];
 	for (const file of mainProgram.getSourceFiles()) {
 		if (file.isDeclarationFile) continue;
-		knownSources.push(
-			file.fileName /*.replace(/\.tsx?/i, (m0: string) => `.cjs${m0}`)*/
-		);
+		knownSources.push(file.fileName /*.replace(/\.tsx?/i, (m0: string) => `.cjs${m0}`)*/);
 	}
 	// debug('knownSources=%j', knownSources);
 
@@ -65,7 +59,7 @@ export function cloneProgram(
 		enumerable: false,
 	});
 
-	debug(" + after createProgram");
+	debug(' + after createProgram');
 
 	return program;
 }
@@ -74,21 +68,25 @@ export function appendDotCjs(program: Program, debug: IDebug) {
 	function writeFile(fileName: string, data: string, ...args: any[]) {
 		const dir = dirname(fileName);
 		const base = basename(fileName);
-		const newBase = base.replace(/(?:\.jsx?)(.map$|$)/i, ".cjs$1");
-		debug("   * cjs write: %s/{%s => %s}", dir, base, newBase);
+		const newBase = base.replace(/(?:\.jsx?)(\.map$|$)/i, '.cjs$1');
+		debug('   * cjs write: %s/{%s => %s}', dir, base, newBase);
+
+		if (base.endsWith('.map')) {
+			const mapData = JSON.parse(data);
+			if (mapData.file) {
+				mapData.file = mapData.file.replace(/\.jsx?$/i, '.cjs');
+			} else {
+				console.warn('[dual-package] warning: sourcemap file %s/%s did not contains file.', dir, newBase);
+			}
+			data = JSON.stringify(mapData, null, 4);
+		}
+
 		return sys.writeFile(`${dir}/${newBase}`, data, ...args);
 	}
 
 	function addCjsExtension(transformationContext: TransformationContext) {
 		function visitNode(node: Node): VisitResult<Node> {
-			if (
-				shouldMutateModuleSpecifier(
-					node.getSourceFile().fileName,
-					node,
-					debug,
-					program
-				)
-			) {
+			if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, debug, program)) {
 				const moduleSpecifier = transformationContext.factory.createStringLiteral(
 					`${node.moduleSpecifier.text}.cjs`
 				);
@@ -111,14 +109,14 @@ export function appendDotCjs(program: Program, debug: IDebug) {
 			if (
 				isPropertyAccessExpression(node) &&
 				isMetaProperty(node.expression) &&
-				idText(node.expression.name) === "meta" &&
-				idText(node.name) === "url"
+				idText(node.expression.name) === 'meta' &&
+				idText(node.name) === 'url'
 			) {
 				return ts.createParenthesizedExpression(
 					ts.createBinaryExpression(
-						ts.createStringLiteral("file://"),
+						ts.createStringLiteral('file://'),
 						SyntaxKind.PlusToken,
-						ts.createIdentifier("__filename")
+						ts.createIdentifier('__filename')
 					)
 				);
 			} else {
@@ -131,14 +129,8 @@ export function appendDotCjs(program: Program, debug: IDebug) {
 	}
 
 	return (sourceFile: SourceFile) => {
-		program.emit(
-			program.getSourceFile(sourceFile.fileName),
-			writeFile,
-			undefined,
-			false,
-			{
-				before: [addCjsExtension, updateMetaRequest],
-			}
-		);
+		program.emit(program.getSourceFile(sourceFile.fileName), writeFile, undefined, false, {
+			before: [addCjsExtension, updateMetaRequest],
+		});
 	};
 }

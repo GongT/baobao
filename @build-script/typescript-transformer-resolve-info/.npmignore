@@ -22,4 +22,8 @@ docs/*
 !docs/*.d.ts
 
 ### tests
+/tests/
+/test/
+
+### tests
 tests/out

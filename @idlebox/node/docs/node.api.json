@@ -6497,7 +6497,7 @@
         {
           "kind": "Function",
           "canonicalReference": "@idlebox/node!streamPromise:function(1)",
-          "docComment": "",
+          "docComment": "/**\n * wait read/write stream end/close, as promise reject when stream emit error\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",

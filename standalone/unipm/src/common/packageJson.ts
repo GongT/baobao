@@ -19,3 +19,24 @@ function sort(obj: any): any {
 	}
 	return ret;
 }
+
+export async function deletePackageDependency(file: string, ...deps: string[]) {
+	const original: any = await loadJsonFile(file);
+	for (const k of ['devDependencies', 'dependencies']) {
+		if (!original[k]) {
+			continue;
+		}
+
+		let found = false;
+		for (const name of deps) {
+			if (original[k][name]) {
+				delete original[k][name];
+				found = true;
+			}
+		}
+		if (found) {
+			original[k] = sort(original[k]);
+		}
+	}
+	await writeJsonFileBack(original);
+}

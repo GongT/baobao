@@ -2,8 +2,6 @@
 
 require('source-map-support/register');
 
-const fixEsm = require('fix-esm');
-
 const { emitWarning } = process;
 process.emitWarning = (warning, type, code, ...extraArgs) => {
 	if (code === 'DEP0097') {
@@ -23,12 +21,10 @@ global.PROJECT_PATH = process.cwd();
 
 // require('@build-script/dual-package-runtime');
 
-fixEsm.register();
 const { colorDim, colorReset, getVersion } = require('../lib/common/func');
 console.log('%s[build-script] v%s%s', colorDim, getVersion(), colorReset);
 
 const loader = require('../lib/cmd-loader.js');
-fixEsm.unregister();
 
 if (cmd === 'init') {
 	loader.load(path.resolve(__dirname, '../lib/cmd/init'));

@@ -1,8 +1,8 @@
 import { dirname, resolve } from 'path';
-import { exists } from '@idlebox/node';
+import { exists, streamToBuffer } from '@idlebox/node';
 import { mkdirp, writeFile } from 'fs-extra';
-import { get, ResponseAsJSON } from 'request';
-import { log } from '../inc/log';
+import { downloadFile, HttpError, INormalizedResponse } from '../inc/http';
+import { errorLog, log } from '../inc/log';
 import { cachedir } from './location';
 import { getNewNpmCache } from './native.npm';
 
@@ -65,40 +65,46 @@ async function _getCustomCache(name: string, distTag: string, registry: string):
 		log('    etag = %s', etag);
 	}
 
-	const response: ResponseAsJSON = await new Promise((resolve, reject) => {
-		get(
-			`${registry}/${name}`,
-			{
-				headers,
-				followRedirect: true,
-				maxRedirects: 5,
-				gzip: true,
-				json: true,
-			},
-			(err, response) => (err ? reject(err) : resolve(response))
-		);
-	});
+	let response: INormalizedResponse;
+	try {
+		response = await downloadFile(`${registry}/${name}`, headers);
+	} catch (e: any) {
+		if (HttpError.is(e)) {
+			log('    response HTTP %s (error)', e.code);
+			if (e.code === 404) {
+				return null;
+			} else if (e.code === 304) {
+				return resultOf(json, distTag);
+			} else {
+				errorLog(`failed request npm registry: ${registry}/${name}: ${e.message}`);
+				throw e;
+			}
+		} else {
+			errorLog(`failed request npm registry: ${registry}/${name}: ${e.message}`);
+			throw e;
+		}
+	}
 
 	log('    response HTTP %s', response.statusCode);
-	if (response.statusCode === 404) {
-		return null;
+
+	try {
+		json = JSON.parse(await streamToBuffer(response.stream, false));
+	} catch (e: any) {
+		errorLog(`failed parse npm registry response: ${registry}/${name}: ${e.message}`);
 	}
-	if (response.statusCode === 304) {
-		return resultOf(json, distTag);
-	}
-	if (response.statusCode !== 200) {
-		throw new Error(`HTTP ${response.statusCode}\n${response.body}`);
-	}
-	log('        dist-tags: %s', response.body['dist-tags']);
+	log('        dist-tags: %s', json['dist-tags']);
 	log('        etag: %s', response.headers['etag']);
 
-	json = response.body;
-	etag = response.headers['etag'];
+	if (response.headers['etag']) {
+		etag = response.headers['etag'];
 
-	log('write cache file -> ', cache);
+		log('write cache file -> ', cache);
 
-	await mkdirp(dirname(cache));
-	await writeFile(cache, JSON.stringify({ etag, json }), 'utf-8');
+		await mkdirp(dirname(cache));
+		await writeFile(cache, JSON.stringify({ etag, json }), 'utf-8');
+	} else {
+		errorLog(`npm registry response without etag header: ${registry}/${name}`);
+	}
 
 	return resultOf(json, distTag);
 }

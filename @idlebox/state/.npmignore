@@ -26,6 +26,10 @@ Gulpfile.*
 docs/*
 !docs/*.d.ts
 
+### tests
+/tests/
+/test/
+
 ### export-all-in-one ###
 lib/*.d.ts
 lib/**/*.d.ts

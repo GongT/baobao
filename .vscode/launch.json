@@ -9,8 +9,8 @@
 			"request": "attach",
 			"name": "Attach NodeJS",
 			"port": 9229,
-			"cwd": "${workspaceFolder}",
-			"skipFiles": ["<node_internals>/**"]
+			"cwd": "${workspaceFolder}"
+			// "skipFiles": ["<node_internals>/**"]
 		},
 		{
 			"type": "extensionHost",

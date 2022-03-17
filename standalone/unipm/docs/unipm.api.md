@@ -7,6 +7,11 @@
 import { ExecaChildProcess } from 'execa';
 import { Options } from 'execa';
 
+// Warning: (ae-missing-release-tag) "deletePackageDependency" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function deletePackageDependency(file: string, ...deps: string[]): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "getPackageManager" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

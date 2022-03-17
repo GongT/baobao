@@ -1,6 +1,8 @@
 import { ExecaChildProcess } from 'execa';
 import { Options } from 'execa';
 
+export declare function deletePackageDependency(file: string, ...deps: string[]): Promise<void>;
+
 export declare function getPackageManager(_options?: Partial<IGetPackageManagerOptions>): Promise<PackageManager>;
 
 export declare function getPackageManagerByName(name: string): PackageManagerConstructor | undefined;

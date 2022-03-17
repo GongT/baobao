@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 require('source-map-support/register');
-require('fix-esm').register();
 
 if (process.argv.length !== 3) {
 	// node export-all-in-one --inject src
@@ -13,7 +12,7 @@ if (process.argv.length !== 3) {
 
 Promise.resolve()
 	.then(() => {
-		return require('./lib/mainBuild').default;
+		return require('fix-esm').require(__dirname + '/lib/mainBuild.js').default;
 	})
 	.then((cb) => {
 		return cb();

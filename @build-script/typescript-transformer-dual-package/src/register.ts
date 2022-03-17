@@ -26,7 +26,7 @@ let lastProgram: Program;
 let cachedTransformer: TransformerFactory<SourceFile>;
 
 export default function typescriptTransformerDualPackage(program: Program, pluginOptions: IOptions) {
-	const debug = getDebug(pluginOptions.verbose || false);
+	const debug = getDebug(pluginOptions.verbose || process.env.NODE_DEBUG?.includes('tramsform') || false);
 
 	if (selfCreatedProgram in program) {
 		return () => {

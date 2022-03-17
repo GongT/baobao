@@ -1,3 +1,7 @@
+/**
+ * wait read/write stream end/close, as promise
+ * reject when stream emit error
+ */
 export function streamPromise(stream: NodeJS.ReadableStream | NodeJS.WritableStream): Promise<void> {
 	if (streamHasEnd(stream)) {
 		return Promise.resolve();

@@ -2,7 +2,7 @@ const singleton = Symbol.for('@build-script/builder/api-interface');
 
 if (!global[singleton]) {
 	const resolve = require('path').resolve;
-	global[singleton] = require('fix-esm').require(resolve(__dirname, '../lib/api/context.js'));
+	global[singleton] = require(resolve(__dirname, '../lib/api/context.js'));
 }
 
 module.exports = global[singleton];

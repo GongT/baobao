@@ -4,7 +4,7 @@ import { promisify } from 'util';
 import { findUpUntil } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
 import { parse } from 'json5';
-import { resortPackage } from '../common/packageJson';
+import { deletePackageDependency, resortPackage } from '../common/packageJson';
 import { PackageManager, PackageManagerType } from '../common/packageManager';
 
 const readFile = promisify(readFileAsync);
@@ -17,7 +17,7 @@ export class Rush extends PackageManager {
 	readonly cliName: string = 'rush';
 	readonly installCommand: string = 'add';
 	readonly packageName: string = '@microsoft/rush';
-	readonly uninstallCommand: string = 'remove';
+	readonly uninstallCommand: string = '!!';
 	readonly installDevFlag: string = '--dev';
 	readonly syncCommand: string = 'update';
 	showCommand = '';
@@ -54,6 +54,14 @@ export class Rush extends PackageManager {
 		}
 
 		return true;
+	}
+
+	public async uninstall(...packages: string[]): Promise<void> {
+		const pkgJson = await findUpUntil(this.cwd, 'package.json');
+		if (pkgJson) {
+			await deletePackageDependency(pkgJson, ...packages);
+		}
+		await super._invoke(this.cliName, ['update']);
 	}
 
 	async install(..._packages: string[]) {

@@ -8,8 +8,8 @@
 		"declarationMap": true,
 		"sourceMap": true,
 		"isolatedModules": true,
-		"incremental": true,
+		"incremental": false,
 		"esModuleInterop": true,
-		"tsBuildInfoFile": "../lib/tsbuildinfo.json"
+		"downlevelIteration": true
 	}
 }

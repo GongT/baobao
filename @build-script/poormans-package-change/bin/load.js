@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 require('source-map-support/register');
-require('fix-esm').register();
+process.env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
+require('global-agent/bootstrap');
 const { prettyPrintError } = require('@idlebox/node');
 
 const cmdList = {

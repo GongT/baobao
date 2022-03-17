@@ -343,6 +343,10 @@ export declare function spawnWithoutOutput(opt: ICommand & Async): Promise<void>
 
 export declare function streamHasEnd(S: NodeJS.ReadableStream | NodeJS.WritableStream): any;
 
+/**
+ * wait read/write stream end/close, as promise
+ * reject when stream emit error
+ */
 export declare function streamPromise(stream: NodeJS.ReadableStream | NodeJS.WritableStream): Promise<void>;
 
 export declare function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promise<string>;

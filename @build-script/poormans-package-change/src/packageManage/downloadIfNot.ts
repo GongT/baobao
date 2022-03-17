@@ -1,6 +1,6 @@
 import { exists, streamPromise } from '@idlebox/node';
-import { createWriteStream } from 'fs-extra';
-import { get } from 'request';
+import { createWriteStream, move } from 'fs-extra';
+import { downloadFile } from '../inc/http';
 import { log } from '../inc/log';
 
 export async function downloadIfNot(url: string, file: string) {
@@ -9,11 +9,11 @@ export async function downloadIfNot(url: string, file: string) {
 		log('     -> already downloaded');
 		return;
 	}
-	const writeOut = createWriteStream(file);
+	const writeOut = createWriteStream(file + '.downloading');
+	const response = await downloadFile(url);
 
-	get(url).pipe(writeOut, { end: true });
+	await streamPromise(response.stream.pipe(writeOut));
 
-	await streamPromise(writeOut);
-
+	await move(file + '.downloading', file);
 	log('     -> download complete');
 }

@@ -20,3 +20,7 @@ Gulpfile.*
 ### docs
 docs/*
 !docs/*.d.ts
+
+### tests
+/tests/
+/test/

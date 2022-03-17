@@ -616,7 +616,7 @@ export function streamHasEnd(S: NodeJS.ReadableStream | NodeJS.WritableStream): 
 
 // Warning: (ae-missing-release-tag) "streamPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
-// @public (undocumented)
+// @public
 export function streamPromise(stream: NodeJS.ReadableStream | NodeJS.WritableStream): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "streamToBuffer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
