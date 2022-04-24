@@ -2,7 +2,7 @@
 	"name": "@build-script/typescript-transformer-append-js-extension",
 	"description": "A TypeScript transformer append '.js' in each import path.",
 	"keywords": ["ttypescript", "typescript", "transformer"],
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",
