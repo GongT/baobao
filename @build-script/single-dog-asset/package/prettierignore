@@ -2,3 +2,4 @@ docs/
 /common/scripts/
 jspm_packages
 lib/
+pnpm-lock.yaml
