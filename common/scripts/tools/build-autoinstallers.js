@@ -24,14 +24,7 @@ function spawn(title, item, packageName, cmd, args) {
 	console.error('[%s] %s', title, item);
 	process.chdir(resolve(root, item));
 	const result = installAndRun(console, packageName, 'latest', cmd, args);
-	if (result.error) {
-		throw result.error;
-	}
-	if (result.signal) {
-		console.error('[%s] "%s %s" killed by signal %s', title, cmd, args.join(' '), result.signal);
-		process.exit(1);
-	}
-	if (result.status !== 0) {
+	if (result !== 0) {
 		console.error('[%s] "%s %s" exit with code %s', title, cmd, args.join(' '), result.status);
 		process.exit(1);
 	}
