@@ -45,11 +45,11 @@
 	},
 	"dependencies": {
 		"tslib": "^2.4.0",
-		"@gongt/vscode-helpers": "workspace:*"
+		"@gongt/vscode-helpers": "workspace:^0.0.3"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.68.0",
-		"@build-script/single-dog-asset": "^1.0.17",
+		"@build-script/single-dog-asset": "workspace:^1.0.17",
 		"@types/node": "^18.0.0",
 		"typescript": "^4.7.4"
 	}

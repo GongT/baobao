@@ -7,13 +7,14 @@
 	"license": "WTFPL",
 	"scripts": {
 		"prepack": "tsc -p src",
+		"watch": "tsc -p src -w",
 		"build": "tsc -p src"
 	},
 	"dependencies": {
 		"fix-esm": "^1.0.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "^1.0.17",
+		"@build-script/single-dog-asset": "workspace:^1.0.17",
 		"@types/node": "^18.0.0",
 		"typescript": "^4.7.4"
 	}

@@ -8,6 +8,7 @@ const ctx = typeof global === 'undefined' ? window : global;
 
 function loadOnce() {
 	if (!ctx[globalSymbol]) {
+		// console.error('[fix-esm] load');
 		ctx[globalSymbol] = module.require('fix-esm');
 		ctx[globalSymbol][activeSymbol] = 0;
 	}
@@ -20,6 +21,7 @@ export function register() {
 	if (mdl[activeSymbol] !== 1) {
 		return;
 	}
+	// console.error('[fix-esm] register');
 	mdl.register();
 }
 
@@ -29,6 +31,7 @@ export function unregister() {
 	if (mdl[activeSymbol] !== 0) {
 		return;
 	}
+	// console.error('[fix-esm] unregister');
 	mdl.unregister();
 }
 

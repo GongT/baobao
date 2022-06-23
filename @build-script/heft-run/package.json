@@ -11,14 +11,14 @@
 		"clean": "rimraf lib"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "^1.0.17",
+		"@build-script/single-dog-asset": "workspace:^1.0.17",
 		"@rushstack/heft": "^0.45.8",
 		"@types/node": "^18.0.0",
 		"typescript": "^4.7.4",
 		"ttypescript": "^1.5.13"
 	},
 	"dependencies": {
-		"@gongt/fix-esm": "^0.0.4",
+		"@gongt/fix-esm": "workspace:^0.0.4",
 		"execa": "^6.1.0"
 	}
 }

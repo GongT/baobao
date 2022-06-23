@@ -20,9 +20,9 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.3.7",
+		"@idlebox/common": "workspace:^1.3.7",
 		"execa": "^6.1.0",
-		"@gongt/fix-esm": "^0.0.4",
+		"@gongt/fix-esm": "workspace:^0.0.4",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0"
 	},
@@ -35,10 +35,10 @@
 		}
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.2.4",
-		"@build-script/export-all-in-one": "^3.1.2",
-		"@build-script/single-dog-asset": "^1.0.17",
-		"@build-script/typescript-transformer-dual-package": "^1.0.25",
+		"@build-script/builder": "npm:@build-script/builder@^3.2.4",
+		"@build-script/export-all-in-one": "npm:@build-script/export-all-in-one@^3.1.2",
+		"@build-script/single-dog-asset": "workspace:^1.0.17",
+		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.25",
 		"@types/node": "^18.0.0",
 		"chai": "^4.3.6",
 		"fs-extra": "^10.1.0",

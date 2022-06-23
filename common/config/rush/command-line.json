@@ -19,43 +19,39 @@
 		},
 		{
 			"commandKind": "global",
-			"name": "watch",
-			"summary": "在每个项目中运行“watch”命令",
-			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node common/autoinstallers/project-scripts/lib/watch-all.js"
-		},
-		{
-			"commandKind": "global",
 			"name": "batch-modify-json",
 			"summary": "修改每个项目中的指定json文件 // BUG: value不能带空格",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node common/autoinstallers/project-scripts/lib/batch-modify-json.js"
+			"autoinstallerName": "project-scripts",
+			"shellCommand": "batch-modify-json"
 		},
 		{
 			"commandKind": "global",
 			"name": "poor-change",
 			"summary": "检查本地有没有修改，如果有，version自增0.0.1",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node common/autoinstallers/project-scripts/lib/poor-change.js"
+			"autoinstallerName": "project-scripts",
+			"shellCommand": "poor-change"
 		},
 		{
 			"commandKind": "global",
 			"name": "ypublish",
 			"summary": "把所有项目更新到npm (需要先运行rush upgrade)",
 			"safeForSimultaneousRushProcesses": false,
-			"shellCommand": "node common/autoinstallers/project-scripts/lib/poor-publish.js"
+			"autoinstallerName": "project-scripts",
+			"shellCommand": "poor-publish"
 		},
 		{
 			"commandKind": "global",
 			"name": "upgrade",
-			"summary": "更新所有项目的依赖版本到最新，注意：执行后需要手动运行rush update -p",
+			"summary": "更新所有项目的依赖版本到最新，注意观察日志：执行后可能需要手动运行rush update -p",
 			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update",
 			"safeForSimultaneousRushProcesses": true
 		},
 		{
 			"commandKind": "global",
 			"name": "build-autoinstaller",
-			"summary": "运行autoinstaller的“build”脚本",
+			"summary": "安装、更新autoinstaller的依赖包，然后运行build脚本",
 			"shellCommand": "node common/scripts/tools/build-autoinstallers.js",
 			"safeForSimultaneousRushProcesses": true
 		},
@@ -85,7 +81,7 @@
 			"parameterKind": "flag",
 			"longName": "--no-linux-namespace",
 			"description": "不使用隔离环境",
-			"associatedCommands": ["watch", "upgrade", "ypublish"]
+			"associatedCommands": ["upgrade", "ypublish"]
 		},
 		{
 			"argumentName": "FILE",

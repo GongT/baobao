@@ -16,9 +16,9 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.3.7",
-		"@idlebox/node": "^1.2.3",
-		"@idlebox/node-json-edit": "^2.0.19",
+		"@idlebox/common": "workspace:^1.3.7",
+		"@idlebox/node": "workspace:^1.2.4",
+		"@idlebox/node-json-edit": "workspace:^2.0.19",
 		"@pnpm/store-path": "^6.0.0",
 		"cacache": "^16.1.1",
 		"execa": "^6.1.0",
@@ -30,8 +30,8 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.2.4",
-		"@build-script/single-dog-asset": "^1.0.17",
+		"@build-script/builder": "workspace:^3.2.4",
+		"@build-script/single-dog-asset": "workspace:^1.0.17",
 		"@types/cacache": "^15.0.1",
 		"@types/fs-extra": "^9.0.13",
 		"@types/node": "^18.0.0",

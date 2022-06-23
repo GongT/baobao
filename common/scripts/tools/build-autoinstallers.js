@@ -1,4 +1,4 @@
-const { spawnSync } = require('child_process');
+const { installAndRun } = require('../install-run');
 const { readdirSync, existsSync } = require('fs');
 const { resolve } = require('path');
 
@@ -10,22 +10,20 @@ for (const item of readdirSync(root)) {
 		continue;
 	}
 
-	spawn('Update', item, 'rush', ['update-autoinstaller', '--name', item]);
+	spawn('Update', item, '@microsoft/rush', 'rush', ['update-autoinstaller', '--name', item]);
 
 	const content = require(pkgFile);
 	if (!content.scripts?.postinstall) {
 		continue;
 	}
 
-	spawn('Build', item, 'npm', ['run', 'postinstall']);
+	// spawn('Build', item, 'npm', ['run', 'postinstall']);
 }
 
-function spawn(title, item, cmd, args) {
+function spawn(title, item, packageName, cmd, args) {
 	console.error('[%s] %s', title, item);
-	const result = spawnSync(cmd, args, {
-		cwd: resolve(root, item),
-		stdio: 'inherit'
-	});
+	process.chdir(resolve(root, item));
+	const result = installAndRun(console, packageName, 'latest', cmd, args);
 	if (result.error) {
 		throw result.error;
 	}

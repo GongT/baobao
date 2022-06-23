@@ -29,11 +29,11 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "^3.2.4",
-		"@build-script/export-all-in-one": "^3.1.2",
-		"@build-script/single-dog-asset": "^1.0.17",
-		"@build-script/typescript-transformer-dual-package": "^1.0.25",
-		"@idlebox/itypes": "^1.0.0",
+		"@build-script/builder": "npm:@build-script/builder@^3.2.4",
+		"@build-script/export-all-in-one": "npm:@build-script/export-all-in-one@^3.1.2",
+		"@build-script/single-dog-asset": "workspace:^1.0.17",
+		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.25",
+		"@idlebox/itypes": "workspace:^1.0.0",
 		"gulp": "^4.0.2",
 		"ts-node": "^10.8.1",
 		"ttypescript": "^1.5.13",

@@ -1,8 +1,8 @@
-import './include/prefix';
+import '../include/prefix';
 import { RushProject } from '@build-script/rush-tools';
 import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
 import { pathExistsSync } from 'fs-extra';
-import { getopts, handleShort } from './include/rushArguments';
+import { getopts, handleShort } from '../include/rushArguments';
 
 interface IOptions {
 	file: string;

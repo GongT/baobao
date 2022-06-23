@@ -96,7 +96,7 @@ export default async function runFix(argv: string[]) {
 				// this package have cyclic depend, and this dep is cyclic
 				fix = cyclicVersions.get(depName)!;
 				if (isWorkspaceEnabled) {
-					fix = 'npm:' + fix;
+					fix = 'npm:' + depName + '@' + fix;
 				}
 			} else if (localHardVersions.has(depName)) {
 				// depend on other package
