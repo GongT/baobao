@@ -13,6 +13,7 @@ package-deps.json
 *.log
 
 ### build source
+index.ts
 /src
 /build-script.json
 /Gulpfile.*

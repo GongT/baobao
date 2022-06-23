@@ -47,7 +47,7 @@
 		"clean": "rimraf lib"
 	},
 	"dependencies": {
-		"@gongt/vscode-helpers": "^0.0.3",
+		"@gongt/vscode-helpers": "workspace:*",
 		"@idlebox/common": "^1.1.0",
 		"@idlebox/node": "^1.0.24",
 		"@idlebox/node-json-edit": "^2.0.10",

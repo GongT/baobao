@@ -23,8 +23,8 @@ export async function transpileIndexFile() {
 	try {
 		await access(cjsWrapper);
 	} catch {
-		debug(' - create cjs wrapper with fix-esm');
-		const data = `module.exports = require('fix-esm').require('./${INDEX_FILE_NAME}.js')`;
+		debug(' - create cjs wrapper with @gongt/fix-esm');
+		const data = `module.exports = require('@gongt/fix-esm').require('./${INDEX_FILE_NAME}.js')`;
 		await writeFile(cjsWrapper, data);
 	}
 }

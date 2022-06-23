@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.19.5",
-    "schemaVersion": 1004,
+    "toolVersion": "7.25.2",
+    "schemaVersion": 1006,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -156,7 +156,8 @@
         "@betaDocumentation": true,
         "@internalRemarks": true,
         "@preapproved": true
-      }
+      },
+      "reportUnsupportedHtmlElements": false
     }
   },
   "kind": "Package",
@@ -256,28 +257,32 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 7
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "type",
               "parameterTypeTokenRange": {
                 "startIndex": 8,
                 "endIndex": 9
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "options",
               "parameterTypeTokenRange": {
                 "startIndex": 10,
                 "endIndex": 11
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "handler",
               "parameterTypeTokenRange": {
                 "startIndex": 12,
                 "endIndex": 13
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -373,21 +378,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 7
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "type",
               "parameterTypeTokenRange": {
                 "startIndex": 8,
                 "endIndex": 9
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "handler",
               "parameterTypeTokenRange": {
                 "startIndex": 10,
                 "endIndex": 11
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -451,14 +459,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "after",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -514,7 +524,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -570,7 +581,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "arrayUniqueReference"
@@ -614,7 +626,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "assertFunctionHasName"
@@ -657,7 +670,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -720,6 +734,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": []
             },
@@ -762,13 +777,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 6,
                 "endIndex": 7
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -776,16 +791,19 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "name",
                   "parameterTypeTokenRange": {
                     "startIndex": 4,
                     "endIndex": 5
-                  }
+                  },
+                  "isOptional": true
                 }
               ],
+              "isOptional": false,
               "name": "add"
             },
             {
@@ -806,15 +824,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "count"
             },
             {
@@ -840,6 +859,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "list",
@@ -847,7 +867,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -889,13 +910,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 7
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -903,9 +924,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "remove"
             },
             {
@@ -926,15 +949,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "reset"
             },
             {
@@ -968,13 +992,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 5
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -982,9 +1006,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "run"
             },
             {
@@ -1005,6 +1031,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "running",
@@ -1012,7 +1039,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             }
           ],
           "implementsTokenRanges": []
@@ -1071,6 +1099,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "_onBeforeDispose",
@@ -1078,7 +1107,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Property",
@@ -1112,6 +1142,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "_onDisposeError",
@@ -1119,7 +1150,8 @@
                 "startIndex": 1,
                 "endIndex": 5
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -1156,23 +1188,6 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "d",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  }
-                }
-              ],
               "typeParameters": [
                 {
                   "typeParameterName": "T",
@@ -1186,6 +1201,25 @@
                   }
                 }
               ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "d",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
               "name": "_register"
             },
             {
@@ -1206,15 +1240,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "assertNotDisposed"
             },
             {
@@ -1240,15 +1275,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "dispose"
             },
             {
@@ -1269,6 +1305,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "hasDisposed",
@@ -1276,7 +1313,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -1301,6 +1339,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "onBeforeDispose",
@@ -1308,7 +1347,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -1342,6 +1382,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "onDisposeError",
@@ -1349,7 +1390,8 @@
                 "startIndex": 1,
                 "endIndex": 5
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             }
           ],
           "implementsTokenRanges": [
@@ -1359,7 +1401,7 @@
             },
             {
               "startIndex": 3,
-              "endIndex": 5
+              "endIndex": 4
             }
           ]
         },
@@ -1411,7 +1453,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -1444,6 +1487,7 @@
               "canonicalReference": "!MethodDecorator:type"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "bindThis",
           "variableTypeTokenRange": {
@@ -1496,6 +1540,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": []
             },
@@ -1538,13 +1583,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 6,
                 "endIndex": 7
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -1552,16 +1597,19 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "name",
                   "parameterTypeTokenRange": {
                     "startIndex": 4,
                     "endIndex": 5
-                  }
+                  },
+                  "isOptional": true
                 }
               ],
+              "isOptional": false,
               "name": "add"
             },
             {
@@ -1582,15 +1630,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "count"
             },
             {
@@ -1616,6 +1665,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "list",
@@ -1623,7 +1673,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -1665,13 +1716,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 7
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -1679,9 +1730,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "remove"
             },
             {
@@ -1702,15 +1755,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "reset"
             },
             {
@@ -1739,13 +1793,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -1753,9 +1807,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "run"
             },
             {
@@ -1776,6 +1832,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "running",
@@ -1783,7 +1840,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Property",
@@ -1803,6 +1861,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "stop",
@@ -1810,7 +1869,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -1830,15 +1890,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "stopRun"
             }
           ],
@@ -1882,7 +1943,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "camelCase"
@@ -1920,13 +1982,14 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": []
             }
           ],
           "extendsTokenRange": {
             "startIndex": 1,
-            "endIndex": 3
+            "endIndex": 2
           },
           "implementsTokenRanges": []
         },
@@ -1961,6 +2024,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "isCancellationRequested",
@@ -2014,7 +2078,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "onCancellationRequested"
@@ -2075,15 +2140,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "_dispose"
             },
             {
@@ -2097,6 +2163,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": []
             },
@@ -2118,15 +2185,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "cancel"
             },
             {
@@ -2148,6 +2216,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "token",
@@ -2155,17 +2224,18 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             }
           ],
           "extendsTokenRange": {
             "startIndex": 1,
-            "endIndex": 3
+            "endIndex": 2
           },
           "implementsTokenRanges": [
             {
               "startIndex": 4,
-              "endIndex": 6
+              "endIndex": 5
             }
           ]
         },
@@ -2314,7 +2384,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -2522,70 +2593,80 @@
               "parameterTypeTokenRange": {
                 "startIndex": 21,
                 "endIndex": 22
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 23,
                 "endIndex": 24
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 25,
                 "endIndex": 26
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 27,
                 "endIndex": 28
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 29,
                 "endIndex": 30
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -2908,77 +2989,88 @@
               "parameterTypeTokenRange": {
                 "startIndex": 23,
                 "endIndex": 24
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 25,
                 "endIndex": 26
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 27,
                 "endIndex": 28
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 29,
                 "endIndex": 30
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -3328,84 +3420,96 @@
               "parameterTypeTokenRange": {
                 "startIndex": 25,
                 "endIndex": 26
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 27,
                 "endIndex": 28
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 29,
                 "endIndex": 30
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -3782,91 +3886,104 @@
               "parameterTypeTokenRange": {
                 "startIndex": 27,
                 "endIndex": 28
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 29,
                 "endIndex": 30
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -4270,98 +4387,112 @@
               "parameterTypeTokenRange": {
                 "startIndex": 29,
                 "endIndex": 30
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 53,
                 "endIndex": 54
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t13",
               "parameterTypeTokenRange": {
                 "startIndex": 55,
                 "endIndex": 56
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -4792,105 +4923,120 @@
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 53,
                 "endIndex": 54
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 55,
                 "endIndex": 56
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t13",
               "parameterTypeTokenRange": {
                 "startIndex": 57,
                 "endIndex": 58
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t14",
               "parameterTypeTokenRange": {
                 "startIndex": 59,
                 "endIndex": 60
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -5348,112 +5494,128 @@
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 53,
                 "endIndex": 54
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 55,
                 "endIndex": 56
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 57,
                 "endIndex": 58
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t13",
               "parameterTypeTokenRange": {
                 "startIndex": 59,
                 "endIndex": 60
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t14",
               "parameterTypeTokenRange": {
                 "startIndex": 61,
                 "endIndex": 62
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t15",
               "parameterTypeTokenRange": {
                 "startIndex": 63,
                 "endIndex": 64
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -5938,119 +6100,136 @@
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 53,
                 "endIndex": 54
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 55,
                 "endIndex": 56
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 57,
                 "endIndex": 58
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 59,
                 "endIndex": 60
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t13",
               "parameterTypeTokenRange": {
                 "startIndex": 61,
                 "endIndex": 62
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t14",
               "parameterTypeTokenRange": {
                 "startIndex": 63,
                 "endIndex": 64
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t15",
               "parameterTypeTokenRange": {
                 "startIndex": 65,
                 "endIndex": 66
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t16",
               "parameterTypeTokenRange": {
                 "startIndex": 67,
                 "endIndex": 68
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -6562,126 +6741,144 @@
               "parameterTypeTokenRange": {
                 "startIndex": 37,
                 "endIndex": 38
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 53,
                 "endIndex": 54
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 55,
                 "endIndex": 56
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 57,
                 "endIndex": 58
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 59,
                 "endIndex": 60
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 61,
                 "endIndex": 62
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t13",
               "parameterTypeTokenRange": {
                 "startIndex": 63,
                 "endIndex": 64
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t14",
               "parameterTypeTokenRange": {
                 "startIndex": 65,
                 "endIndex": 66
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t15",
               "parameterTypeTokenRange": {
                 "startIndex": 67,
                 "endIndex": 68
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t16",
               "parameterTypeTokenRange": {
                 "startIndex": 69,
                 "endIndex": 70
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t17",
               "parameterTypeTokenRange": {
                 "startIndex": 71,
                 "endIndex": 72
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -7220,133 +7417,152 @@
               "parameterTypeTokenRange": {
                 "startIndex": 39,
                 "endIndex": 40
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 53,
                 "endIndex": 54
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 55,
                 "endIndex": 56
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 57,
                 "endIndex": 58
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 59,
                 "endIndex": 60
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 61,
                 "endIndex": 62
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 63,
                 "endIndex": 64
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t13",
               "parameterTypeTokenRange": {
                 "startIndex": 65,
                 "endIndex": 66
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t14",
               "parameterTypeTokenRange": {
                 "startIndex": 67,
                 "endIndex": 68
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t15",
               "parameterTypeTokenRange": {
                 "startIndex": 69,
                 "endIndex": 70
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t16",
               "parameterTypeTokenRange": {
                 "startIndex": 71,
                 "endIndex": 72
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t17",
               "parameterTypeTokenRange": {
                 "startIndex": 73,
                 "endIndex": 74
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t18",
               "parameterTypeTokenRange": {
                 "startIndex": 75,
                 "endIndex": 76
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -7624,14 +7840,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 7,
                 "endIndex": 8
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -8010,140 +8228,160 @@
               "parameterTypeTokenRange": {
                 "startIndex": 41,
                 "endIndex": 42
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 43,
                 "endIndex": 44
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 45,
                 "endIndex": 46
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 47,
                 "endIndex": 48
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 49,
                 "endIndex": 50
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 51,
                 "endIndex": 52
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 53,
                 "endIndex": 54
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 55,
                 "endIndex": 56
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 57,
                 "endIndex": 58
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t9",
               "parameterTypeTokenRange": {
                 "startIndex": 59,
                 "endIndex": 60
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t10",
               "parameterTypeTokenRange": {
                 "startIndex": 61,
                 "endIndex": 62
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t11",
               "parameterTypeTokenRange": {
                 "startIndex": 63,
                 "endIndex": 64
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t12",
               "parameterTypeTokenRange": {
                 "startIndex": 65,
                 "endIndex": 66
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t13",
               "parameterTypeTokenRange": {
                 "startIndex": 67,
                 "endIndex": 68
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t14",
               "parameterTypeTokenRange": {
                 "startIndex": 69,
                 "endIndex": 70
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t15",
               "parameterTypeTokenRange": {
                 "startIndex": 71,
                 "endIndex": 72
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t16",
               "parameterTypeTokenRange": {
                 "startIndex": 73,
                 "endIndex": 74
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t17",
               "parameterTypeTokenRange": {
                 "startIndex": 75,
                 "endIndex": 76
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t18",
               "parameterTypeTokenRange": {
                 "startIndex": 77,
                 "endIndex": 78
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t19",
               "parameterTypeTokenRange": {
                 "startIndex": 79,
                 "endIndex": 80
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -8448,21 +8686,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 7,
                 "endIndex": 8
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 9,
                 "endIndex": 10
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 11,
                 "endIndex": 12
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -8596,28 +8837,32 @@
               "parameterTypeTokenRange": {
                 "startIndex": 9,
                 "endIndex": 10
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 11,
                 "endIndex": 12
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 13,
                 "endIndex": 14
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 15,
                 "endIndex": 16
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -8778,35 +9023,40 @@
               "parameterTypeTokenRange": {
                 "startIndex": 11,
                 "endIndex": 12
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 13,
                 "endIndex": 14
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 15,
                 "endIndex": 16
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 17,
                 "endIndex": 18
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 19,
                 "endIndex": 20
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -8994,42 +9244,48 @@
               "parameterTypeTokenRange": {
                 "startIndex": 13,
                 "endIndex": 14
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 15,
                 "endIndex": 16
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 17,
                 "endIndex": 18
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 19,
                 "endIndex": 20
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 21,
                 "endIndex": 22
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 23,
                 "endIndex": 24
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -9244,49 +9500,56 @@
               "parameterTypeTokenRange": {
                 "startIndex": 15,
                 "endIndex": 16
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 17,
                 "endIndex": 18
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 19,
                 "endIndex": 20
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 21,
                 "endIndex": 22
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 23,
                 "endIndex": 24
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 25,
                 "endIndex": 26
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 27,
                 "endIndex": 28
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -9528,56 +9791,64 @@
               "parameterTypeTokenRange": {
                 "startIndex": 17,
                 "endIndex": 18
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 19,
                 "endIndex": 20
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 21,
                 "endIndex": 22
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 23,
                 "endIndex": 24
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 25,
                 "endIndex": 26
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 27,
                 "endIndex": 28
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 29,
                 "endIndex": 30
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -9846,63 +10117,72 @@
               "parameterTypeTokenRange": {
                 "startIndex": 19,
                 "endIndex": 20
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t1",
               "parameterTypeTokenRange": {
                 "startIndex": 21,
                 "endIndex": 22
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t2",
               "parameterTypeTokenRange": {
                 "startIndex": 23,
                 "endIndex": 24
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t3",
               "parameterTypeTokenRange": {
                 "startIndex": 25,
                 "endIndex": 26
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t4",
               "parameterTypeTokenRange": {
                 "startIndex": 27,
                 "endIndex": 28
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t5",
               "parameterTypeTokenRange": {
                 "startIndex": 29,
                 "endIndex": 30
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t6",
               "parameterTypeTokenRange": {
                 "startIndex": 31,
                 "endIndex": 32
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t7",
               "parameterTypeTokenRange": {
                 "startIndex": 33,
                 "endIndex": 34
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "t8",
               "parameterTypeTokenRange": {
                 "startIndex": 35,
                 "endIndex": 36
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -10047,7 +10327,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "convertCatchedError"
@@ -10098,14 +10379,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "name",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "createSymbol"
@@ -10176,15 +10459,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 5
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "[Symbol.iterator]"
             },
             {
@@ -10211,6 +10495,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10218,7 +10503,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": true
                 }
               ]
             },
@@ -10248,13 +10534,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10262,9 +10548,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "add"
             },
             {
@@ -10293,13 +10581,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10307,9 +10595,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "addAll"
             },
             {
@@ -10330,15 +10620,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "clear"
             },
             {
@@ -10367,13 +10658,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10381,9 +10672,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "delete"
             },
             {
@@ -10412,13 +10705,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10426,9 +10719,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "deleteAll"
             },
             {
@@ -10457,13 +10752,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10471,9 +10766,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "has"
             },
             {
@@ -10499,15 +10796,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "keys"
             },
             {
@@ -10528,6 +10826,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "length",
@@ -10535,7 +10834,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -10555,6 +10855,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "registry",
@@ -10562,7 +10863,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -10595,13 +10897,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 5
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10609,9 +10911,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "setFinder"
             },
             {
@@ -10632,6 +10936,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "size",
@@ -10639,7 +10944,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Method",
@@ -10659,15 +10965,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "toArray"
             },
             {
@@ -10693,19 +11000,114 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "values"
             }
           ],
           "implementsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@idlebox/common!DeepPartial:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type DeepPartial<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [P in keyof T]?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "DeepPartial",
+              "canonicalReference": "@idlebox/common!DeepPartial:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T[P]>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "DeepPartial",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@idlebox/common!DeepReadonly:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type DeepReadonly<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    readonly [P in keyof T]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "DeepReadonly",
+              "canonicalReference": "@idlebox/common!DeepReadonly:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T[P]>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "DeepReadonly",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
         },
         {
           "kind": "Class",
@@ -10763,6 +11165,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": []
             },
@@ -10784,15 +11187,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "cancel"
             },
             {
@@ -10821,13 +11225,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10835,9 +11239,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "complete"
             },
             {
@@ -10858,6 +11264,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "completed",
@@ -10865,7 +11272,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Method",
@@ -10893,13 +11301,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10907,9 +11315,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "error"
             },
             {
@@ -10938,13 +11348,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -10952,9 +11362,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "notify"
             },
             {
@@ -10989,6 +11401,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "p",
@@ -10996,7 +11409,8 @@
                 "startIndex": 1,
                 "endIndex": 5
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Method",
@@ -11029,13 +11443,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 5
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -11043,9 +11457,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "progress"
             },
             {
@@ -11066,6 +11482,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "rejected",
@@ -11073,7 +11490,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -11093,6 +11511,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "resolved",
@@ -11100,7 +11519,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Method",
@@ -11138,13 +11558,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": true,
               "returnTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 6
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -11152,9 +11572,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "wrap"
             }
           ],
@@ -11214,21 +11636,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "propertyKey",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "value",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "definePublicConstant"
@@ -11306,13 +11731,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 6,
                 "endIndex": 7
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -11320,16 +11745,19 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "name",
                   "parameterTypeTokenRange": {
                     "startIndex": 4,
                     "endIndex": 5
-                  }
+                  },
+                  "isOptional": true
                 }
               ],
+              "isOptional": false,
               "name": "add"
             },
             {
@@ -11350,15 +11778,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "count"
             },
             {
@@ -11384,6 +11813,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "list",
@@ -11391,7 +11821,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -11419,13 +11850,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -11433,9 +11864,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "run"
             }
           ],
@@ -11487,14 +11920,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "name",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "deleteSymbol"
@@ -11553,6 +11988,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "_onBeforeDispose",
@@ -11560,7 +11996,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Property",
@@ -11594,6 +12031,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "_onDisposeError",
@@ -11601,7 +12039,8 @@
                 "startIndex": 1,
                 "endIndex": 5
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -11638,23 +12077,6 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 6
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "d",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  }
-                }
-              ],
               "typeParameters": [
                 {
                   "typeParameterName": "T",
@@ -11668,6 +12090,25 @@
                   }
                 }
               ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "d",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
               "name": "_register"
             },
             {
@@ -11688,15 +12129,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "assertNotDisposed"
             },
             {
@@ -11717,15 +12159,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "dispose"
             },
             {
@@ -11746,6 +12189,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "hasDisposed",
@@ -11753,7 +12197,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -11778,6 +12223,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "onBeforeDispose",
@@ -11785,7 +12231,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -11819,6 +12266,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "onDisposeError",
@@ -11826,7 +12274,8 @@
                 "startIndex": 1,
                 "endIndex": 5
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             }
           ],
           "implementsTokenRanges": [
@@ -11836,7 +12285,7 @@
             },
             {
               "startIndex": 3,
-              "endIndex": 5
+              "endIndex": 4
             }
           ]
         },
@@ -11880,15 +12329,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": true,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "_dispose"
             },
             {
@@ -11909,15 +12359,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "dispose"
             },
             {
@@ -11938,6 +12389,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "hasDisposed",
@@ -11945,13 +12397,14 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             }
           ],
           "implementsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -12005,6 +12458,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -12012,21 +12466,23 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "previous",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
           ],
           "extendsTokenRange": {
             "startIndex": 1,
-            "endIndex": 3
+            "endIndex": 2
           },
           "implementsTokenRanges": []
         },
@@ -12108,6 +12564,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": []
             },
@@ -12129,15 +12586,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "dispose"
             },
             {
@@ -12166,13 +12624,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -12180,9 +12638,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "fire"
             },
             {
@@ -12211,13 +12671,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -12225,9 +12685,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "fireNoError"
             },
             {
@@ -12262,13 +12724,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 5
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -12276,9 +12738,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "handle"
             },
             {
@@ -12299,15 +12763,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "listenerCount"
             },
             {
@@ -12333,6 +12798,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "register",
@@ -12340,13 +12806,14 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             }
           ],
           "implementsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -12428,14 +12895,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "constructor",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -12491,7 +12960,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "escapeRegExp"
@@ -12560,7 +13030,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -12637,7 +13108,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -12724,13 +13196,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -12738,16 +13210,19 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "init",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "entry"
             },
             {
@@ -12776,13 +13251,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -12790,9 +13265,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "get"
             },
             {
@@ -12829,13 +13306,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 2,
               "parameters": [
                 {
@@ -12843,22 +13320,25 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "def",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "get"
             }
           ],
           "extendsTokenRange": {
             "startIndex": 1,
-            "endIndex": 3
+            "endIndex": 2
           },
           "implementsTokenRanges": []
         },
@@ -12934,14 +13414,16 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "item",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -13005,7 +13487,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -13062,7 +13545,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "fromTimeStamp"
@@ -13106,7 +13590,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "functionName"
@@ -13158,14 +13643,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "frame",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "getErrorFrame"
@@ -13209,7 +13696,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "getTimeStamp"
@@ -13228,6 +13716,7 @@
               "text": "any"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "globalObject",
           "variableTypeTokenRange": {
@@ -13281,14 +13770,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "constructor",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -13344,7 +13835,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -13400,7 +13892,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "globalSingletonDelete"
@@ -13451,14 +13944,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "constructor",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -13514,7 +14009,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -13588,7 +14084,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 5
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -13631,6 +14128,7 @@
               "text": "unique symbol"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "hookClassSymbol",
           "variableTypeTokenRange": {
@@ -13702,14 +14200,16 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "sp",
                   "parameterTypeTokenRange": {
                     "startIndex": 4,
                     "endIndex": 5
-                  }
+                  },
+                  "isOptional": true
                 }
               ],
               "name": "date"
@@ -13757,7 +14257,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "datetime"
@@ -13800,7 +14301,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "delta"
@@ -13843,7 +14345,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "deltaTiny"
@@ -13880,6 +14383,7 @@
                       "text": ";"
                     }
                   ],
+                  "isReadonly": false,
                   "isOptional": false,
                   "releaseTag": "Public",
                   "name": "d",
@@ -13907,6 +14411,7 @@
                       "text": ";"
                     }
                   ],
+                  "isReadonly": false,
                   "isOptional": false,
                   "releaseTag": "Public",
                   "name": "h",
@@ -13934,6 +14439,7 @@
                       "text": ";"
                     }
                   ],
+                  "isReadonly": false,
                   "isOptional": false,
                   "releaseTag": "Public",
                   "name": "m",
@@ -13961,6 +14467,7 @@
                       "text": ";"
                     }
                   ],
+                  "isReadonly": false,
                   "isOptional": false,
                   "releaseTag": "Public",
                   "name": "s",
@@ -14023,7 +14530,8 @@
                       "parameterTypeTokenRange": {
                         "startIndex": 1,
                         "endIndex": 2
-                      }
+                      },
+                      "isOptional": false
                     }
                   ]
                 }
@@ -14082,7 +14590,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 5
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "setLocaleFormatter"
@@ -14130,7 +14639,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "time"
@@ -14183,14 +14693,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "fixed",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "humanSize"
@@ -14241,14 +14753,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "fixed",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "humanSizeSI"
@@ -14291,7 +14805,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "humanSpeed"
@@ -14340,6 +14855,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "add",
@@ -14366,6 +14882,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "del",
@@ -14392,6 +14909,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "same",
@@ -14531,6 +15049,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "hasDisposed",
@@ -14562,6 +15081,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "onBeforeDispose",
@@ -14602,6 +15122,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "onDisposeError",
@@ -14695,14 +15216,16 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "handler",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "addListener"
@@ -14754,14 +15277,16 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "handler",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "removeListener"
@@ -14860,21 +15385,24 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "handler",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "options",
                   "parameterTypeTokenRange": {
                     "startIndex": 5,
                     "endIndex": 6
-                  }
+                  },
+                  "isOptional": true
                 }
               ],
               "name": "addEventListener"
@@ -14935,21 +15463,24 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "handler",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "options",
                   "parameterTypeTokenRange": {
                     "startIndex": 5,
                     "endIndex": 6
-                  }
+                  },
+                  "isOptional": true
                 }
               ],
               "name": "removeEventListener"
@@ -14988,6 +15519,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "capture",
@@ -15014,6 +15546,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "once",
@@ -15040,6 +15573,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "passive",
@@ -15103,7 +15637,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 5
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -15207,7 +15742,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -15281,21 +15817,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "propertyKey",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "init",
               "parameterTypeTokenRange": {
                 "startIndex": 7,
                 "endIndex": 9
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -15419,7 +15958,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 3
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
               "name": "progress"
@@ -15465,7 +16005,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isAbsolute"
@@ -15516,14 +16057,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "a2",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -15579,7 +16122,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isCanceledError"
@@ -15623,7 +16167,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isDateInvalid"
@@ -15666,7 +16211,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isDisposedError"
@@ -15685,6 +16231,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isElectron",
           "variableTypeTokenRange": {
@@ -15706,6 +16253,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isElectronMain",
           "variableTypeTokenRange": {
@@ -15727,6 +16275,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isElectronRenderer",
           "variableTypeTokenRange": {
@@ -15748,6 +16297,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isLinux",
           "variableTypeTokenRange": {
@@ -15769,6 +16319,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isMacintosh",
           "variableTypeTokenRange": {
@@ -15790,6 +16341,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isNative",
           "variableTypeTokenRange": {
@@ -15843,14 +16395,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "b",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isObjectSame"
@@ -15901,14 +16455,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "b",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isObjectSameRecursive"
@@ -15962,7 +16518,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isTimeoutError"
@@ -15981,6 +16538,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isWeb",
           "variableTypeTokenRange": {
@@ -16002,6 +16560,7 @@
               "text": "boolean"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "isWindows",
           "variableTypeTokenRange": {
@@ -16073,7 +16632,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -16131,7 +16691,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -16187,7 +16748,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "linux_case_hyphen"
@@ -16230,7 +16792,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "linux_case"
@@ -16299,7 +16862,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -16346,6 +16910,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "displayName",
@@ -16358,7 +16923,7 @@
           "extendsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -16377,6 +16942,7 @@
               "canonicalReference": "!MethodDecorator:type"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "memo",
           "variableTypeTokenRange": {
@@ -16398,6 +16964,7 @@
               "text": "unique symbol"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "memorizeValueSymbol",
           "variableTypeTokenRange": {
@@ -16482,7 +17049,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             },
@@ -16504,6 +17072,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "displayName",
@@ -16587,7 +17156,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             },
@@ -16609,6 +17179,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "displayName",
@@ -16692,7 +17263,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             },
@@ -16714,6 +17286,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "displayName",
@@ -16765,6 +17338,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "displayName",
@@ -16777,7 +17351,7 @@
           "extendsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -16841,14 +17415,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "func",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -16914,14 +17490,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "n",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "nextDay"
@@ -16974,14 +17552,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "n",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "nextHour"
@@ -17034,14 +17614,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "n",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "nextMinute"
@@ -17094,14 +17676,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "n",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "nextMonth"
@@ -17154,14 +17738,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "n",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "nextSecond"
@@ -17214,14 +17800,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "n",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "nextWeek"
@@ -17274,14 +17862,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "n",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "nextYear"
@@ -17324,7 +17914,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -17380,7 +17971,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "normalizePath"
@@ -17431,14 +18023,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "path",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "objectPath"
@@ -17453,6 +18047,7 @@
               "text": "oneDay = 86400000"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "oneDay",
           "variableTypeTokenRange": {
@@ -17470,6 +18065,7 @@
               "text": "oneHour = 1440000"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "oneHour",
           "variableTypeTokenRange": {
@@ -17487,6 +18083,7 @@
               "text": "oneMinute = 60000"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "oneMinute",
           "variableTypeTokenRange": {
@@ -17504,6 +18101,7 @@
               "text": "oneSecond = 1000"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "oneSecond",
           "variableTypeTokenRange": {
@@ -17521,6 +18119,7 @@
               "text": "oneWeek = 604800000"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "oneWeek",
           "variableTypeTokenRange": {
@@ -17566,7 +18165,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "pad2"
@@ -17620,6 +18220,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -17627,14 +18228,16 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "sep",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             },
@@ -17664,13 +18267,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -17678,9 +18281,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "add"
             },
             {
@@ -17709,13 +18314,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -17723,9 +18328,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "delete"
             },
             {
@@ -17754,13 +18361,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -17768,9 +18375,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "has"
             },
             {
@@ -17799,13 +18408,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -17813,9 +18422,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "join"
             },
             {
@@ -17836,21 +18447,22 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "toString"
             }
           ],
           "extendsTokenRange": {
             "startIndex": 1,
-            "endIndex": 3
+            "endIndex": 2
           },
           "implementsTokenRanges": []
         },
@@ -17948,7 +18560,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "promiseBool"
@@ -18006,13 +18619,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 7
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -18020,9 +18633,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "create"
             },
             {
@@ -18043,15 +18658,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "dispose"
             },
             {
@@ -18088,13 +18704,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -18102,16 +18718,19 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "data",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "done"
             },
             {
@@ -18149,13 +18768,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -18163,16 +18782,19 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "e",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "error"
             },
             {
@@ -18201,13 +18823,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -18215,9 +18837,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "has"
             },
             {
@@ -18252,6 +18876,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "promiseList",
@@ -18259,7 +18884,8 @@
                 "startIndex": 1,
                 "endIndex": 5
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -18279,15 +18905,16 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [],
+              "isOptional": false,
               "name": "size"
             }
           ],
@@ -18337,6 +18964,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "count",
@@ -18363,6 +18991,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "fulfilled",
@@ -18389,6 +19018,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "fulfilledResult",
@@ -18415,6 +19045,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "rejected",
@@ -18446,6 +19077,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "rejectedResult",
@@ -18509,14 +19141,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "item",
               "parameterTypeTokenRange": {
                 "startIndex": 4,
                 "endIndex": 5
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "RegexpFinder"
@@ -18560,7 +19194,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "registerGlobalLifecycle"
@@ -18605,7 +19240,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "singleton"
@@ -18624,6 +19260,7 @@
               "text": "unique symbol"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "singletonSymbol",
           "variableTypeTokenRange": {
@@ -18731,7 +19368,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "sleep"
@@ -18782,14 +19420,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "b",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "sortByString"
@@ -18837,7 +19477,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -18906,14 +19547,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "error",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "timeout"
@@ -18967,6 +19610,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -18974,21 +19618,23 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "what",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": true
                 }
               ]
             }
           ],
           "extendsTokenRange": {
             "startIndex": 1,
-            "endIndex": 3
+            "endIndex": 2
           },
           "implementsTokenRanges": []
         },
@@ -19048,14 +19694,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "p",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 5
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -19137,21 +19785,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "message",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "p",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 7
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -19233,14 +19884,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "p",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 7
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -19341,21 +19994,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "message",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "p",
               "parameterTypeTokenRange": {
                 "startIndex": 7,
                 "endIndex": 9
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -19425,6 +20081,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -19432,7 +20089,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": true
                 }
               ]
             },
@@ -19492,13 +20150,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 7,
                 "endIndex": 11
               },
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -19506,29 +20164,33 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "timeoutMs",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": true
                 },
                 {
                   "parameterName": "timeoutMsg",
                   "parameterTypeTokenRange": {
                     "startIndex": 5,
                     "endIndex": 6
-                  }
+                  },
+                  "isOptional": true
                 }
               ],
+              "isOptional": false,
               "name": "create"
             }
           ],
           "extendsTokenRange": {
             "startIndex": 1,
-            "endIndex": 3
+            "endIndex": 2
           },
           "implementsTokenRanges": []
         },
@@ -19571,7 +20233,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "toDisposable"
@@ -19614,7 +20277,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "tryInspect"
@@ -19670,7 +20334,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "typeParameters": [
@@ -19731,7 +20396,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
-              }
+              },
+              "isOptional": true
             }
           ],
           "typeParameters": [
@@ -19788,7 +20454,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "unsubscribableToDisposable"
@@ -19807,6 +20474,7 @@
               "text": "string"
             }
           ],
+          "isReadonly": true,
           "releaseTag": "Public",
           "name": "userAgent",
           "variableTypeTokenRange": {
@@ -19910,6 +20578,7 @@
                 }
               ],
               "releaseTag": "Public",
+              "isProtected": false,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -19917,14 +20586,16 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "{ parent, bind }",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": true
                 }
               ]
             },
@@ -19951,6 +20622,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "assert",
@@ -19958,7 +20630,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -19978,6 +20651,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "bind",
@@ -19985,7 +20659,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Property",
@@ -20010,6 +20685,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "clear",
@@ -20017,7 +20693,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20042,6 +20719,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "count",
@@ -20049,7 +20727,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20074,6 +20753,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "countReset",
@@ -20081,7 +20761,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Method",
@@ -20109,13 +20790,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
               },
               "releaseTag": "Public",
+              "isProtected": true,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -20123,9 +20804,11 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "createPrefix"
             },
             {
@@ -20151,6 +20834,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "debug",
@@ -20158,7 +20842,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20183,6 +20868,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "dir",
@@ -20190,7 +20876,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20215,6 +20902,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "error",
@@ -20222,7 +20910,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20247,6 +20936,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "group",
@@ -20254,7 +20944,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20279,6 +20970,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "groupCollapsed",
@@ -20286,7 +20978,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20311,6 +21004,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "groupEnd",
@@ -20318,7 +21012,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20343,6 +21038,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "info",
@@ -20350,7 +21046,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20375,6 +21072,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "log",
@@ -20382,7 +21080,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20403,6 +21102,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "parent",
@@ -20410,7 +21110,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Method",
@@ -20462,13 +21163,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 9,
                 "endIndex": 10
               },
               "releaseTag": "Public",
+              "isProtected": true,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -20476,30 +21177,35 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "messageLoc",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "level",
                   "parameterTypeTokenRange": {
                     "startIndex": 5,
                     "endIndex": 6
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "prefix",
                   "parameterTypeTokenRange": {
                     "startIndex": 7,
                     "endIndex": 8
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "processColorLabel"
             },
             {
@@ -20525,6 +21231,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "success",
@@ -20532,7 +21239,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20557,6 +21265,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "table",
@@ -20564,7 +21273,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20589,6 +21299,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "time",
@@ -20596,7 +21307,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20621,6 +21333,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "timeEnd",
@@ -20628,7 +21341,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20653,6 +21367,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "timeLog",
@@ -20660,7 +21375,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Property",
@@ -20680,6 +21396,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": true,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "title",
@@ -20687,7 +21404,8 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": true
             },
             {
               "kind": "Property",
@@ -20712,6 +21430,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "trace",
@@ -20719,7 +21438,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Method",
@@ -20771,13 +21491,13 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
               "isStatic": false,
               "returnTypeTokenRange": {
                 "startIndex": 9,
                 "endIndex": 10
               },
               "releaseTag": "Public",
+              "isProtected": true,
               "overloadIndex": 1,
               "parameters": [
                 {
@@ -20785,30 +21505,35 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "pos",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "prefix",
                   "parameterTypeTokenRange": {
                     "startIndex": 5,
                     "endIndex": 6
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "postfix",
                   "parameterTypeTokenRange": {
                     "startIndex": 7,
                     "endIndex": 8
-                  }
+                  },
+                  "isOptional": false
                 }
               ],
+              "isOptional": false,
               "name": "uncolor"
             },
             {
@@ -20834,6 +21559,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "warn",
@@ -20841,7 +21567,8 @@
                 "startIndex": 1,
                 "endIndex": 3
               },
-              "isStatic": false
+              "isStatic": false,
+              "isProtected": false
             },
             {
               "kind": "Method",
@@ -20896,23 +21623,6 @@
                   "text": ";"
                 }
               ],
-              "isOptional": false,
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 9,
-                "endIndex": 10
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "original",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 7,
-                    "endIndex": 8
-                  }
-                }
-              ],
               "typeParameters": [
                 {
                   "typeParameterName": "T",
@@ -20926,6 +21636,25 @@
                   }
                 }
               ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "isProtected": true,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "original",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 8
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
               "name": "wrap"
             }
           ],
@@ -20962,6 +21691,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "bind",
@@ -20989,6 +21719,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
               "name": "parent",

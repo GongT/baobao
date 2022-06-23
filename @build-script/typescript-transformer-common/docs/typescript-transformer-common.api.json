@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.19.5",
-    "schemaVersion": 1004,
+    "toolVersion": "7.25.2",
+    "schemaVersion": 1006,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -156,7 +156,8 @@
         "@betaDocumentation": true,
         "@internalRemarks": true,
         "@preapproved": true
-      }
+      },
+      "reportUnsupportedHtmlElements": false
     }
   },
   "kind": "Package",
@@ -231,21 +232,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "nodes",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 5
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "typeChecker",
               "parameterTypeTokenRange": {
                 "startIndex": 6,
                 "endIndex": 7
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "collectImportInfo"
@@ -289,7 +293,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "createDependencies"
@@ -333,7 +338,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "createDiagnosticMissingImport"
@@ -378,7 +384,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "createProgramPlugin"
@@ -429,14 +436,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "def",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "dumpFlags"
@@ -495,21 +504,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "def",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "sp",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "dumpFlagStrings"
@@ -575,14 +587,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 5
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "options",
               "parameterTypeTokenRange": {
                 "startIndex": 6,
                 "endIndex": 7
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "dumpNode"
@@ -625,7 +639,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "extensionIsKindOfScriptFile"
@@ -677,14 +692,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "wantModule",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "findPackageFileExtension"
@@ -744,21 +761,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "message",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "args",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "formatMyDiagnostic"
@@ -807,7 +827,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "getAllImports"
@@ -851,7 +872,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "getDebug"
@@ -895,7 +917,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "getImportedName"
@@ -953,7 +976,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -1019,14 +1043,16 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": true
                 },
                 {
                   "parameterName": "optionalParams",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -1102,7 +1128,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "idToString"
@@ -1138,6 +1165,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "outDir",
@@ -1164,6 +1192,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "packageJsonPath",
@@ -1190,6 +1219,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "rootDir",
@@ -1277,6 +1307,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "type",
@@ -1289,7 +1320,7 @@
           "extendsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -1334,6 +1365,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "type",
@@ -1346,7 +1378,7 @@
           "extendsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -1391,6 +1423,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "type",
@@ -1403,7 +1436,7 @@
           "extendsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -1448,6 +1481,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "type",
@@ -1460,7 +1494,7 @@
           "extendsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -1504,6 +1538,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "fsPath",
@@ -1530,6 +1565,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "nodeResolve",
@@ -1557,6 +1593,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "sourceKind",
@@ -1569,7 +1606,7 @@
           "extendsTokenRanges": [
             {
               "startIndex": 1,
-              "endIndex": 3
+              "endIndex": 2
             }
           ]
         },
@@ -1652,6 +1689,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "filePath",
@@ -1678,6 +1716,7 @@
                   "text": ";"
                 }
               ],
+              "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
               "name": "packageName",
@@ -1759,21 +1798,24 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "pluginOptions",
                   "parameterTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
-                  }
+                  },
+                  "isOptional": false
                 },
                 {
                   "parameterName": "extraOptions",
                   "parameterTypeTokenRange": {
                     "startIndex": 5,
                     "endIndex": 6
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -1829,7 +1871,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isExport"
@@ -1883,7 +1926,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isImport"
@@ -1937,7 +1981,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isImportExport"
@@ -1985,7 +2030,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isImportFromNodeModules"
@@ -2033,7 +2079,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "isImportNodeBuiltins"
@@ -2091,7 +2138,8 @@
                   "parameterTypeTokenRange": {
                     "startIndex": 1,
                     "endIndex": 2
-                  }
+                  },
+                  "isOptional": false
                 }
               ]
             }
@@ -2137,7 +2185,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "missing"
@@ -2190,7 +2239,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "nameToString"
@@ -2234,7 +2284,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "nodeDiagnosticPosition"
@@ -2278,7 +2329,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "prettyKind"
@@ -2338,21 +2390,24 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "message",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "args",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "printMyDiagnostic"
@@ -2405,14 +2460,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "newSpecifier",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "replaceImportExportSpecifier"
@@ -2479,28 +2536,32 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "packageJsonFilePath",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "file",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": true
             },
             {
               "parameterName": "useModuleField",
               "parameterTypeTokenRange": {
                 "startIndex": 7,
                 "endIndex": 8
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "resolveModule"
@@ -2551,14 +2612,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "file",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "resolveModuleNative"
@@ -2621,14 +2684,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "program",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "resolveProjectFile"
@@ -2789,14 +2854,16 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "packageJsonPath",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "resolveTypescriptModule"
@@ -2896,7 +2963,8 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             }
           ],
           "name": "splitPackageName"
@@ -2966,28 +3034,32 @@
               "parameterTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "source",
               "parameterTypeTokenRange": {
                 "startIndex": 3,
                 "endIndex": 4
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "node",
               "parameterTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
-              }
+              },
+              "isOptional": false
             },
             {
               "parameterName": "program",
               "parameterTypeTokenRange": {
                 "startIndex": 7,
                 "endIndex": 8
-              }
+              },
+              "isOptional": true
             }
           ],
           "name": "testProjectFile"

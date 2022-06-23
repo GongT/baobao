@@ -12,7 +12,7 @@ if (process.argv.length !== 3) {
 
 Promise.resolve()
 	.then(() => {
-		return require('fix-esm').require(__dirname + '/lib/mainBuild.js').default;
+		return require('@gongt/fix-esm').require(__dirname + '/lib/mainBuild.js').default;
 	})
 	.then((cb) => {
 		return cb();

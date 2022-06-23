@@ -11,5 +11,6 @@
 		"incremental": false,
 		"esModuleInterop": true,
 		"downlevelIteration": true
-	}
+	},
+	"include": ["./**/*.ts"]
 }

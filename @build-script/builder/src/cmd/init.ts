@@ -83,8 +83,8 @@ async function createBuildJson(ctx: BuildContext) {
 	ctx.registerAlias('watch-ts', 'tsc -w -p src');
 	ctx.registerAlias('cleanup-lib', 'rimraf lib');
 	ctx.registerAlias(
-		'yarn-publish',
-		'yarn publish --ignore-scripts --registry https://registry.npmjs.org --access=public'
+		'do-publish',
+		'pnpm publish --no-git-checks --registry https://registry.npmjs.org --access=public'
 	);
 	ctx.registerAlias('upgrade-node-modules', 'npm-check-updates --update --packageFile ./package.json');
 	ctx.registerAlias('run-test', '');
@@ -97,7 +97,7 @@ async function createBuildJson(ctx: BuildContext) {
 	ctx.addAction('distclean', ['git-clean']).title = 'Delete git ignore files (without node_modules)';
 	ctx.addAction('clean', ['cleanup-lib']).title = 'Delete lib folder';
 	ctx.addAction('rebuild', ['@build'], ['distclean']).title = 'Prepare for publish package';
-	ctx.addAction('publish', ['yarn-publish'], ['rebuild']).title = 'Publish package (do same thing with npm publish)';
+	ctx.addAction('publish', ['do-publish'], ['rebuild']).title = 'Publish package (do same thing with npm publish)';
 	ctx.addAction('test', ['run-test'], ['build']).title = 'Run test';
 	ctx.addAction('upgrade', ['upgrade-node-modules']).title = 'Do project dependency upgrade';
 	ctx.addAction('watch', ['watch-ts']).title = 'Watch mode build project';

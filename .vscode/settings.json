@@ -3,7 +3,7 @@
 		"*.json": "jsonc"
 	},
 	"search.exclude": {
-		"common/temp": true,
+		"/common/temp/**": true,
 		"**/node_modules/**/*": true,
 		"*/*/lib": true,
 		"*/*/.rush": true,

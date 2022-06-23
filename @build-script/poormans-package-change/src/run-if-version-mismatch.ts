@@ -11,7 +11,7 @@ export async function main(argv: string[]) {
 	const cmd = argv.splice(startExtraArgs + 1, Infinity);
 	if (startExtraArgs === -1 || cmd.length === 0) {
 		errorLog(
-			'must have "--" in arguments, and follow command to run.\n  eg: run-if-version-mismatch --quiet -- yarn publish'
+			'must have "--" in arguments, and follow command to run.\n  eg: run-if-version-mismatch --quiet -- pnpm publish'
 		);
 		return 22;
 	}

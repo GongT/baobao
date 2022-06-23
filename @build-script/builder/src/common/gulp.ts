@@ -230,7 +230,11 @@ export function load(gulp: typeof Gulp, _dirname: string): IJobRecord {
 		} else if (list.length === 1) {
 			fn = list[0];
 			if (typeof fn === 'string') {
-				fn = gulp.task(fn);
+				const taskFn = gulp.task(fn);
+				if (!taskFn) {
+					throw new TypeError(`missing gulp task named '${fn}'`);
+				}
+				fn = taskFn;
 			}
 		} else {
 			fn = gulpSeries(list);
@@ -261,7 +265,9 @@ function gulpConcatAction(
 	} else if (fns.length === 1) {
 		const o = fns.pop()!;
 		if (typeof o === 'string') {
-			return gulp.task(o);
+			const taskFn = gulp.task(o);
+			if (taskFn === undefined) throw new TypeError(`missing gulp task named '${o}'`);
+			return taskFn;
 		} else {
 			return o;
 		}

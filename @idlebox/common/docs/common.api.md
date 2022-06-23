@@ -284,6 +284,20 @@ export class CustomSet<Type = string> {
     values(): Iterator<Type>;
 }
 
+// Warning: (ae-missing-release-tag) "DeepPartial" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type DeepPartial<T> = {
+    [P in keyof T]?: DeepPartial<T[P]>;
+};
+
+// Warning: (ae-missing-release-tag) "DeepReadonly" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type DeepReadonly<T> = {
+    readonly [P in keyof T]: DeepReadonly<T[P]>;
+};
+
 // @public
 export class DeferredPromise<T, PT = any> {
     constructor();

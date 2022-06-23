@@ -20,19 +20,19 @@
 	"dependencies": {
 		"@build-script/builder": "^3.2.4",
 		"@idlebox/node-json-edit": "^2.0.19",
-		"@microsoft/api-extractor": "^7.19.5",
-		"fs-extra": "^10.0.1",
+		"@microsoft/api-extractor": "^7.25.2",
+		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.3.1",
+		"tslib": "^2.4.0",
 		"unipm": "^1.1.7"
 	},
 	"devDependencies": {
 		"@build-script/export-all-in-one": "^3.1.2",
-		"@build-script/single-dog-asset": "^1.0.16",
+		"@build-script/single-dog-asset": "^1.0.17",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^17.0.21",
+		"@types/node": "^18.0.0",
 		"gulp": "^4.0.2",
 		"ttypescript": "^1.5.13",
-		"typescript": "^4.6.2"
+		"typescript": "^4.7.4"
 	}
 }

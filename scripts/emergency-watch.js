@@ -16,7 +16,7 @@ const filePath = /^.+\.ts\(\d+/;
 
 const relativeToRoot = relative(resolve(__dirname, '..'), process.cwd());
 
-const p = spawn('yarn', ['watch'], { stdio: ['ignore', 'pipe', 'inherit'] });
+const p = spawn('npm', ['run', 'watch'], { stdio: ['ignore', 'pipe', 'inherit'] });
 
 stdoutHandle(p.stdout);
 

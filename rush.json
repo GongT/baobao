@@ -1,11 +1,15 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.63.0",
-	"pnpmVersion": "6.32.3",
+	"rushVersion": "5.74.0",
+	"pnpmVersion": "7.2.1",
 	"pnpmOptions": {
 		"pnpmStore": "global",
 		"strictPeerDependencies": false,
-		"resolutionStrategy": "fewer-dependencies"
+		"resolutionStrategy": "fewer-dependencies",
+		"environmentVariables": {
+			// "ELECTRON_MIRROR": { "value": "https://npmmirror.com/mirrors/electron/", "override": false }
+		},
+		"useWorkspaces": true
 	},
 	"hotfixChangeEnabled": true,
 	"nodeSupportedVersionRange": ">=10.13.0",
@@ -33,6 +37,11 @@
 	},
 	"variants": [],
 	"projects": [
+		{
+			"packageName": "@gongt/fix-esm",
+			"projectFolder": "@gongt/fix-esm",
+			"shouldPublish": true
+		},
 		{
 			"packageName": "@idlebox/ensure-symlink",
 			"projectFolder": "@idlebox/ensure-symlink",
@@ -188,6 +197,11 @@
 		{
 			"packageName": "@idlebox/state",
 			"projectFolder": "@idlebox/state",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/heft-run",
+			"projectFolder": "@build-script/heft-run",
 			"shouldPublish": true
 		}
 	]

@@ -1,0 +1,24 @@
+{
+	"name": "@build-script/heft-run",
+	"type": "commonjs",
+	"description": "run any script in heft",
+	"version": "0.0.1",
+	"main": "./load.js",
+	"types": "./lib/main.d.ts",
+	"scripts": {
+		"build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "^1.0.17",
+		"@rushstack/heft": "^0.45.8",
+		"@types/node": "^18.0.0",
+		"typescript": "^4.7.4",
+		"ttypescript": "^1.5.13"
+	},
+	"dependencies": {
+		"@gongt/fix-esm": "^0.0.4",
+		"execa": "^6.1.0"
+	}
+}

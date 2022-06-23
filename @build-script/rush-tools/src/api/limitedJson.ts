@@ -14,4 +14,11 @@ export interface IRushConfig {
 	yarnVersion?: string;
 	rushVersion: string;
 	projects: IProjectConfig[];
+	pnpmOptions?: {
+		pnpmStore?: 'global' | 'local';
+		strictPeerDependencies?: boolean;
+		resolutionStrategy?: 'fast' | 'fewer-dependencies';
+		preventManualShrinkwrapChanges?: boolean;
+		useWorkspaces?: boolean;
+	};
 }

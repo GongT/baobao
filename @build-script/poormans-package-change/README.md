@@ -41,7 +41,7 @@ The return code always 0 if no error. no matter changed or not.
 1. compare `version` field with local package.json
     - If they are not equal. Then I will do nothing and print "changed yes.".
 1. download published tarball from npm
-1. run `yarn pack` locally, or `npm run prepack`+`npm pack` if no yarn.
+1. run `pnpm pack` locally, or `npm run prepack`+`npm pack` if no pnpm.
 1. compare files in created `.tgz` file and downloaded one. (by running some magic `git` commands)
     1. if `--bump` is set, increase patch version in `package.json`
     2. if any file do not equal, print "changed yes.".
@@ -51,7 +51,7 @@ The return code always 0 if no error. no matter changed or not.
 
 ```
 Usage: poormans-package-change run-if-version-mismatch [--quiet] -- <command to run>
-	Eg: poormans-package-change run-if-version-mismatch -- yarn publish
+	Eg: poormans-package-change run-if-version-mismatch -- pnpm publish --no-git-checks
 ```
 
 Run a command, if local `version` in `package.json` is NOT same with npm registry.  
@@ -62,8 +62,8 @@ Run a command, if local `version` in `package.json` is NOT same with npm registr
 ```bash
 # update package.json if something changed
 poormans-package-change detect-package-change --bump --quiet
-# run yarn publish if version is not same with npm
+# run pnpm publish if version is not same with npm
 #    maybe modified by above command
 #    maybe by hand
-poormans-package-change run-if-version-mismatch --quiet -- yarn publish
+poormans-package-change run-if-version-mismatch --quiet -- pnpm publish --no-git-checks
 ```

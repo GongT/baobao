@@ -82,6 +82,13 @@ export declare interface IRushConfig {
     yarnVersion?: string;
     rushVersion: string;
     projects: IProjectConfig[];
+    pnpmOptions?: {
+        pnpmStore?: 'global' | 'local';
+        strictPeerDependencies?: boolean;
+        resolutionStrategy?: 'fast' | 'fewer-dependencies';
+        preventManualShrinkwrapChanges?: boolean;
+        useWorkspaces?: boolean;
+    };
 }
 
 export declare function linkLocalBins(): Promise<void>;
@@ -137,6 +144,7 @@ export declare class RushProject {
     packageJsonPath(project: Immutable<IProjectConfig> | string): string | null;
     packageJsonContent(project: Immutable<IProjectConfig> | string): any | null;
     packageDependency(project: Immutable<IProjectConfig> | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
+    isWorkspaceEnabled(): boolean | undefined;
     getPackageManager(): {
         type: 'npm' | 'yarn' | 'pnpm';
         bin: string;

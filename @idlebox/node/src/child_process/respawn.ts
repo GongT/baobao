@@ -6,7 +6,7 @@ import { spawnGetOutput } from './execa';
 
 const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagation=slave'];
 
-if (platform() === 'linux' && process.getuid() !== 0) {
+if (platform() === 'linux' && process.getuid!() !== 0) {
 	unshareArgs.push('--map-root-user');
 }
 

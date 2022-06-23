@@ -16,6 +16,7 @@ jspm_packages
 .rush
 package-deps.json
 /package.json
+/common/autoinstallers/*/.npmrc
 
 ### logs
 *.log

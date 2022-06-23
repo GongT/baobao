@@ -1,4 +1,4 @@
 import 'source-map-support/register';
-import { register } from 'fix-esm';
+import { register } from '@gongt/fix-esm';
 
 register();

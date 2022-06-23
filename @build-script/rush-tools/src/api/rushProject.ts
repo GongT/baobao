@@ -147,6 +147,10 @@ export class RushProject {
 		return depNames;
 	}
 
+	isWorkspaceEnabled() {
+		return this.config.pnpmOptions?.useWorkspaces; // TODO: how to get default?
+	}
+
 	getPackageManager(): { type: 'npm' | 'yarn' | 'pnpm'; bin: string; version: string } {
 		let type: 'npm' | 'yarn' | 'pnpm';
 		let version: string;

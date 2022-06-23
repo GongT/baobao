@@ -9,9 +9,9 @@ async function main() {
 	const rushProject = new RushProject();
 
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
-	const yarnBin = await commandInPath('yarn');
-	if (!yarnBin) {
-		throw new Error(`Failed to find yarn in PATH.`);
+	const pnpmBin = await commandInPath('pnpm');
+	if (!pnpmBin) {
+		throw new Error(`Failed to find pnpm in PATH.`);
 	}
 	const count = rushProject.projects.length;
 	let current = 0;
@@ -42,7 +42,7 @@ async function main() {
 		}
 		// console.error('    check...');
 
-		const logFile = rushProject.tempFile('logs/yarn-publish/' + item.packageName.replace('/', '__') + '.log');
+		const logFile = rushProject.tempFile('logs/do-publish/' + item.packageName.replace('/', '__') + '.log');
 		// console.error('          log -> %s', logFile);
 		await execPromise({
 			cwd: rushProject.absolute(item),

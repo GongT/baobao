@@ -84,6 +84,7 @@ export default async function runFix(argv: string[]) {
 
 	console.log('Fixing versions:');
 	let fixed = 0;
+	const isWorkspaceEnabled = rush.isWorkspaceEnabled();
 	const fix = (packName: string, deps: { [id: string]: string }) => {
 		if (!deps) {
 			return;
@@ -94,9 +95,15 @@ export default async function runFix(argv: string[]) {
 			if (cyclicPackages.get(packName)?.includes(depName)) {
 				// this package have cyclic depend, and this dep is cyclic
 				fix = cyclicVersions.get(depName)!;
+				if (isWorkspaceEnabled) {
+					fix = 'npm:' + fix;
+				}
 			} else if (localHardVersions.has(depName)) {
 				// depend on other package
 				fix = localHardVersions.get(depName)!;
+				if (isWorkspaceEnabled) {
+					fix = 'workspace:' + fix;
+				}
 			} else if (conflictingVersions.has(depName)) {
 				// depend on NPM package, and
 				fix = conflictingVersions.get(depName)!;

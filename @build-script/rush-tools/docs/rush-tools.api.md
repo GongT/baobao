@@ -167,6 +167,14 @@ export interface IRushConfig {
     // (undocumented)
     npmVersion?: string;
     // (undocumented)
+    pnpmOptions?: {
+        pnpmStore?: 'global' | 'local';
+        strictPeerDependencies?: boolean;
+        resolutionStrategy?: 'fast' | 'fewer-dependencies';
+        preventManualShrinkwrapChanges?: boolean;
+        useWorkspaces?: boolean;
+    };
+    // (undocumented)
     pnpmVersion?: string;
     // (undocumented)
     projects: IProjectConfig[];
@@ -269,6 +277,8 @@ export class RushProject {
         bin: string;
         version: string;
     };
+    // (undocumented)
+    isWorkspaceEnabled(): boolean | undefined;
     // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point _export_all_in_one_index.d.ts
     //
     // (undocumented)
@@ -306,13 +316,13 @@ export const spinner: {
 
 // Warnings were encountered during analysis:
 //
-// /data/Projects/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
-// /data/Projects/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
-// /data/Projects/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
-// /data/Projects/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:40:31 - (TS2304) Cannot find name 'URL'.
-// /data/Projects/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:120:26 - (TS2304) Cannot find name 'URL'.
-// /data/Projects/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:127:17 - (TS2503) Cannot find namespace 'NodeJS'.
-// /data/Projects/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:237:20 - (TS2304) Cannot find name 'AbortSignal'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:40:31 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:120:26 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:127:17 - (TS2503) Cannot find namespace 'NodeJS'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:237:20 - (TS2304) Cannot find name 'AbortSignal'.
 
 // (No @packageDocumentation comment for this package)
 

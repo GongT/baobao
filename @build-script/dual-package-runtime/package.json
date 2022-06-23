@@ -19,6 +19,6 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"tslib": "^2.3.1"
+		"tslib": "^2.4.0"
 	}
 }

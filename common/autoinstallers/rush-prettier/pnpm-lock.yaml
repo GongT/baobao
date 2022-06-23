@@ -1,14 +1,14 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
-  prettier: ^2.6.0
+  prettier: ^2.7.1
   pretty-quick: ^3.1.3
-  tslib: ^2.3.1
+  tslib: ^2.4.0
 
 dependencies:
-  prettier: 2.6.0
-  pretty-quick: 3.1.3_prettier@2.6.0
-  tslib: 2.3.1
+  prettier: 2.7.1
+  pretty-quick: 3.1.3_prettier@2.7.1
+  tslib: 2.4.0
 
 packages:
   /@types/minimatch/3.0.5:
@@ -262,14 +262,14 @@ packages:
     engines: { node: '>=8' }
     dev: false
 
-  /prettier/2.6.0:
+  /prettier/2.7.1:
     resolution:
-      { integrity: sha512-m2FgJibYrBGGgQXNzfd0PuDGShJgRavjUoRCw1mZERIWVSXF0iLzLm+aOqTAbLnC3n6JzUhAA8uZnFVghHJ86A== }
+      { integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g== }
     engines: { node: '>=10.13.0' }
     hasBin: true
     dev: false
 
-  /pretty-quick/3.1.3_prettier@2.6.0:
+  /pretty-quick/3.1.3_prettier@2.7.1:
     resolution:
       { integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA== }
     engines: { node: '>=10.13' }
@@ -283,7 +283,7 @@ packages:
       ignore: 5.2.0
       mri: 1.2.0
       multimatch: 4.0.0
-      prettier: 2.6.0
+      prettier: 2.7.1
     dev: false
 
   /pump/3.0.0:
@@ -327,9 +327,9 @@ packages:
       has-flag: 4.0.0
     dev: false
 
-  /tslib/2.3.1:
+  /tslib/2.4.0:
     resolution:
-      { integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw== }
+      { integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ== }
     dev: false
 
   /which/2.0.2:

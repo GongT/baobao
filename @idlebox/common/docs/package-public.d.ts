@@ -230,6 +230,14 @@ export declare class CustomSet<Type = string> {
     toArray(): Type[];
 }
 
+export declare type DeepPartial<T> = {
+    [P in keyof T]?: DeepPartial<T[P]>;
+};
+
+export declare type DeepReadonly<T> = {
+    readonly [P in keyof T]: DeepReadonly<T[P]>;
+};
+
 /**
  * a promise can resolve or reject later
  * @public

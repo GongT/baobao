@@ -45,7 +45,7 @@
 	},
 	"dependencies": {
 		"tslib": "^2.0.1",
-		"@gongt/vscode-helpers": "^0.0.3"
+		"@gongt/vscode-helpers": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.49.0",

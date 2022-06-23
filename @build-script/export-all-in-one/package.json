@@ -21,22 +21,22 @@
 	"dependencies": {
 		"@idlebox/ensure-symlink": "^1.0.20",
 		"@idlebox/node-json-edit": "^2.0.19",
-		"@microsoft/api-extractor": "^7.19.5",
+		"@microsoft/api-extractor": "^7.25.2",
 		"execa": "^6.1.0",
-		"fix-esm": "^1.0.1",
-		"fs-extra": "^10.0.1",
+		"@gongt/fix-esm": "^0.0.4",
+		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
-		"tsconfig-paths": "^3.14.0",
-		"tslib": "^2.3.1",
+		"tsconfig-paths": "^4.0.0",
+		"tslib": "^2.4.0",
 		"ttypescript": "^1.5.13"
 	},
 	"devDependencies": {
 		"@build-script/builder": "^3.2.4",
-		"@build-script/single-dog-asset": "^1.0.16",
+		"@build-script/single-dog-asset": "^1.0.17",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^17.0.21",
+		"@types/node": "^18.0.0",
 		"gulp": "^4.0.2",
-		"typescript": "^4.6.2"
+		"typescript": "^4.7.4"
 	},
 	"peerDependencies": {
 		"typescript": "*"
