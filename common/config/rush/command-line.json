@@ -50,7 +50,7 @@
 		},
 		{
 			"commandKind": "global",
-			"name": "build-autoinstaller",
+			"name": "ai",
 			"summary": "安装、更新autoinstaller的依赖包，然后运行build脚本",
 			"shellCommand": "node common/scripts/tools/build-autoinstallers.js",
 			"safeForSimultaneousRushProcesses": true

@@ -2,7 +2,7 @@
 	"name": "@idlebox/node-json-edit",
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
 	"keywords": ["json", "comment", "jsonc", "edit"],
-	"version": "2.0.19",
+	"version": "2.0.20",
 	"monorepo": true,
 	"type": "module",
 	"main": "./lib/index.cjs",
@@ -29,8 +29,8 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.25",
-		"@build-script/single-dog-asset": "workspace:^1.0.17",
+		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.26",
+		"@build-script/single-dog-asset": "workspace:^1.0.18",
 		"@types/node": "^18.0.0",
 		"rimraf": "^3.0.2",
 		"npm-check-updates": "^14.0.2",

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/typescript-transformer-resolve-info",
 	"description": "A TypeScript transformer for use with ttypescript that will save import/export information to json file.",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",
@@ -22,8 +22,8 @@
 		"test": "build-script test"
 	},
 	"dependencies": {
-		"@build-script/typescript-transformer-common": "workspace:^0.1.8",
-		"@idlebox/node": "workspace:^1.2.4",
+		"@build-script/typescript-transformer-common": "workspace:^0.1.9",
+		"@idlebox/node": "workspace:^1.2.5",
 		"fancy-log": "^2.0.0",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
@@ -34,9 +34,9 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/builder": "workspace:^3.2.4",
-		"@build-script/single-dog-asset": "workspace:^1.0.17",
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.25",
+		"@build-script/builder": "workspace:^3.2.5",
+		"@build-script/single-dog-asset": "workspace:^1.0.18",
+		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.26",
 		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^9.0.13",
 		"@types/gulp": "^4.0.9",

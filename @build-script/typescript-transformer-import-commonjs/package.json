@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/typescript-transformer-import-commonjs",
 	"description": "A TypeScript transformer for use with ttypescript that will change import statement of commonjs packages.",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"license": "MIT",
 	"type": "module",
 	"main": "./lib/register.cjs",
@@ -24,8 +24,8 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.25",
-		"@build-script/single-dog-asset": "workspace:^1.0.17",
+		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.26",
+		"@build-script/single-dog-asset": "workspace:^1.0.18",
 		"@types/node": "^18.0.0",
 		"rimraf": "^3.0.2",
 		"ttypescript": "^1.5.13",

@@ -12,6 +12,13 @@ export default async function runForEach(argv: string[]) {
 		quiet = true;
 		argv.shift();
 	}
+	if (argv[0] === '--help' || argv[0] === '-h') {
+		console.error('Usage: $0 foreach -c "bash script"');
+		console.error('                  -C "powershell script"');
+		console.error('                  script.js ...args');
+		console.error('                  script.ts ...args');
+		return;
+	}
 	if (argv.length === 0) {
 		throw new Error('Must specific some command or js file to run');
 	}
