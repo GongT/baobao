@@ -63,7 +63,7 @@ export async function main(argv: string[]) {
 	}
 
 	const distTag = getArg('--dist-tag', 'latest');
-	const registry = await detectRegistry(getArg('--registry', 'detect'));
+	const registry = await detectRegistry(getArg('--registry', 'detect'), packagePath);
 
 	const remoteVersion = await getVersionCached(packageJson.name, distTag, registry);
 	log(' -> npm remote version = %s', remoteVersion);

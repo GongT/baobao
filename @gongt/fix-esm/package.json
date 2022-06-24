@@ -2,7 +2,7 @@
 	"name": "@gongt/fix-esm",
 	"description": "wrapper of fix-esm, only register once.",
 	"type": "commonjs",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"main": "./lib/index.js",
 	"license": "WTFPL",
 	"scripts": {
@@ -14,7 +14,7 @@
 		"fix-esm": "^1.0.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^1.0.18",
+		"@build-script/single-dog-asset": "workspace:^1.0.19",
 		"@types/node": "^18.0.0",
 		"typescript": "^4.7.4"
 	}

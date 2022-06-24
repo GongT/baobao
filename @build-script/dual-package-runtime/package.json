@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/dual-package-runtime",
 	"description": "when require() without extension, try .cjs first, and then .js. see @build-script/typescript-transformer-dual-package.",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"license": "MIT",
 	"type": "commonjs",
 	"main": "./hook-extension.cjs",

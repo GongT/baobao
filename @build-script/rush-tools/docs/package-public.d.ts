@@ -135,6 +135,7 @@ export declare class RushProject {
     private listAutoInstallers;
     get tempRoot(): string;
     tempFile(name?: string): string;
+    get configRoot(): string;
     get preferredVersions(): {
         [id: string]: string;
     };

@@ -90,7 +90,7 @@ async function createBuildJson(ctx: BuildContext) {
 	ctx.registerAlias('run-test', '');
 	ctx.registerAlias(
 		'git-clean',
-		'git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**'
+		'git clean -f -d -X -e !node_modules -e !node_modules/** -e !.vscode -e !.vscode/** -e !.npm*'
 	);
 
 	ctx.addAction('build', ['build-ts']).title = 'Build project';

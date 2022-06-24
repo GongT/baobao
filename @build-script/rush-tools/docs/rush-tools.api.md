@@ -270,6 +270,8 @@ export class RushProject {
     // (undocumented)
     readonly configFile: string;
     // (undocumented)
+    get configRoot(): string;
+    // (undocumented)
     getPackageByName(name: string): Immutable<IProjectConfig> | null;
     // (undocumented)
     getPackageManager(): {

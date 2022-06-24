@@ -1,9 +1,10 @@
 import '../include/prefix';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { commandInPath, writeFileIfChange } from '@idlebox/node';
 import { mkdirp, pathExistsSync, readFile } from 'fs-extra';
 import { execPromise } from '../include/execPromise';
+import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 
 async function main() {
 	const rushProject = new RushProject();
@@ -18,6 +19,11 @@ async function main() {
 	buildProjects({ rushProject, concurrent: 1 }, async (item) => {
 		current++;
 		console.error('📦 \x1B[38;5;14mPublishing package (%s of %s):\x1B[0m %s ...', current, count, item.packageName);
+
+		if (!item.shouldPublish) {
+			console.error('    🛑 should not publish, skip!');
+			return;
+		}
 
 		let pkgJson: any;
 		try {
@@ -43,19 +49,16 @@ async function main() {
 		// console.error('    check...');
 
 		const logFile = rushProject.tempFile('logs/do-publish/' + item.packageName.replace('/', '__') + '.log');
+		const pkgPath = rushProject.absolute(item);
+
+		const localNpmrc = resolve(pkgPath, '.npmrc');
+		const configNpmrc = resolve(rushProject.configRoot, '.npmrc-publish');
+		await ensureLinkTarget(configNpmrc, localNpmrc);
+
 		// console.error('          log -> %s', logFile);
 		await execPromise({
-			cwd: rushProject.absolute(item),
-			argv: [
-				checkBin,
-				'run-if-version-mismatch',
-				'--',
-				'yarn',
-				'publish',
-				'--registry',
-				'https://registry.npmjs.org',
-				'--access=public',
-			],
+			cwd: pkgPath,
+			argv: [checkBin, 'run-if-version-mismatch', '--', 'pnpm', 'publish', '--no-git-checks'],
 			logFile,
 		});
 		// console.error('          complete.');

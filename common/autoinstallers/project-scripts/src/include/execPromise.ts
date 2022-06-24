@@ -20,7 +20,7 @@ export function execPromise({
 	cwd = TEMP_DIR,
 	...opts
 }: IOptions): Promise<{ result: string; full: string }> {
-	const debugExec = ` + ${cmd} ${argv.join(' ')}`;
+	const debugExec = ` + ${cmd} ${argv.join(' ')} (wd: ${cwd})`;
 	if (verbose) console.error('\x1B[2m%s\x1B[0m', debugExec);
 	const r = spawn(cmd, argv, {
 		...opts,

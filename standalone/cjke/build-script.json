@@ -12,7 +12,7 @@
 		"do-publish": "pnpm publish --no-git-checks",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
 		"run-test": "mocha lib/test.cjs",
-		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**"
+		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.npm*"
 	},
 	"command": {
 		"build": {

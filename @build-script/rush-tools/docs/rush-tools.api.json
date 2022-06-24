@@ -2881,6 +2881,35 @@
               "isProtected": false
             },
             {
+              "kind": "Property",
+              "canonicalReference": "@build-script/rush-tools!RushProject#configRoot:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get configRoot(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "configRoot",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false
+            },
+            {
               "kind": "Method",
               "canonicalReference": "@build-script/rush-tools!RushProject#getPackageByName:member(1)",
               "docComment": "",

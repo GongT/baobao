@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
+		"target": "ESNext",
 		"rootDir": ".",
 		"outDir": "../lib",
 		"noEmitOnError": false,

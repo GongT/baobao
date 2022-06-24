@@ -70,6 +70,10 @@ export class RushProject {
 		return resolve(this.projectRoot, 'common/temp/.my-temp-folder/', name);
 	}
 
+	public get configRoot() {
+		return resolve(this.projectRoot, 'common/config/rush');
+	}
+
 	public get preferredVersions() {
 		if (!this._preferredVersions) {
 			this._preferredVersions =

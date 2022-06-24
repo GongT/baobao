@@ -4,7 +4,7 @@
 	"name": "@build-script/builder",
 	"description": "run build command(s) serial/parallel with order. (by generate a Gulp config)",
 	"keywords": ["gulp", "build", "process", "tool", "make", "pipeline"],
-	"version": "3.2.5",
+	"version": "3.2.6",
 	"main": "./bin/api.cjs",
 	"typings": "./bin/api.d.ts",
 	"bin": {
@@ -20,13 +20,13 @@
 		"prepack": "run-s -l clean build"
 	},
 	"dependencies": {
-		"@build-script/gulp-chain-simplify": "workspace:^0.0.10",
-		"@idlebox/common": "workspace:^1.3.8",
-		"@idlebox/node": "workspace:^1.2.5",
-		"@idlebox/node-json-edit": "workspace:^2.0.20",
+		"@build-script/gulp-chain-simplify": "workspace:^0.0.11",
+		"@idlebox/common": "workspace:^1.3.9",
+		"@idlebox/node": "workspace:^1.2.6",
+		"@idlebox/node-json-edit": "workspace:^2.0.21",
 		"execa": "^6.1.0",
 		"fancy-log": "^2.0.0",
-		"@gongt/fix-esm": "workspace:^0.0.5",
+		"@gongt/fix-esm": "workspace:^0.0.6",
 		"fs-extra": "^10.1.0",
 		"npm-check-updates": "^14.0.2",
 		"pacote": "^13.6.1",
@@ -35,7 +35,7 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^1.0.18",
+		"@build-script/single-dog-asset": "workspace:^1.0.19",
 		"@microsoft/api-extractor": "^7.25.2",
 		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^9.0.13",

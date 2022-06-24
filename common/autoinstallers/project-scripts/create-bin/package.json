@@ -4,6 +4,7 @@
 	"bin": {
 		"batch-modify-json": "batch-modify-json.js",
 		"poor-change": "poor-change.js",
-		"poor-publish": "poor-publish.js"
+		"poor-publish": "poor-publish.js",
+		"refresh-version": "refresh-version.js"
 	}
 }

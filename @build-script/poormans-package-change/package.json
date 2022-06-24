@@ -2,7 +2,7 @@
 	"monorepo": "rush",
 	"name": "@build-script/poormans-package-change",
 	"type": "commonjs",
-	"version": "1.0.21",
+	"version": "1.0.22",
 	"main": "index.js",
 	"license": "MIT",
 	"bin": {
@@ -16,9 +16,9 @@
 		"watch": "build-script watch"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^1.3.8",
-		"@idlebox/node": "workspace:^1.2.5",
-		"@idlebox/node-json-edit": "workspace:^2.0.20",
+		"@idlebox/common": "workspace:^1.3.9",
+		"@idlebox/node": "workspace:^1.2.6",
+		"@idlebox/node-json-edit": "workspace:^2.0.21",
 		"@pnpm/store-path": "^6.0.0",
 		"cacache": "^16.1.1",
 		"execa": "^6.1.0",
@@ -30,8 +30,8 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "workspace:^3.2.5",
-		"@build-script/single-dog-asset": "workspace:^1.0.18",
+		"@build-script/builder": "workspace:^3.2.6",
+		"@build-script/single-dog-asset": "workspace:^1.0.19",
 		"@types/cacache": "^15.0.1",
 		"@types/fs-extra": "^9.0.13",
 		"@types/node": "^18.0.0",

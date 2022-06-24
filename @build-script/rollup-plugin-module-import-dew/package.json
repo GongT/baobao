@@ -3,7 +3,7 @@
 	"keywords": [],
 	"type": "commonjs",
 	"description": "Convert (TypeScript compiled) module's import statements, to work with jspm dew file.",
-	"version": "1.0.18",
+	"version": "1.0.19",
 	"main": "lib/api.js",
 	"types": "lib/api.d.ts",
 	"license": "MIT",

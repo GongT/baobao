@@ -30,7 +30,7 @@ export async function main(argv: string[]) {
 	log('package.name = %s', packageJson.name);
 
 	const distTag = getArg('--dist-tag', 'latest');
-	const registry = await detectRegistry(getArg('--registry', 'detect'));
+	const registry = await detectRegistry(getArg('--registry', 'detect'), packagePath);
 
 	const version = await getVersionCached(packageJson.name, distTag, registry);
 	log('version = %s', version);

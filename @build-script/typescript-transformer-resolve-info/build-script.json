@@ -5,7 +5,7 @@
 		"cleanup-lib": "rimraf lib",
 		"do-publish": "pnpm publish --no-git-checks",
 		"upgrade-node-modules": "npm-check-updates --update --packageFile ./package.json",
-		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.idea -e !.idea/** -e !.vscode -e !.vscode/**",
+		"git-clean": "git clean -f -d -X -e !node_modules -e !node_modules/** -e !.npm*",
 		"build-test": "ttsc -p tests",
 		"run-test": "mocha -r ts-node/register tests/out/tests/*.test.js"
 	},
