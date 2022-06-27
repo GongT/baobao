@@ -32,18 +32,18 @@ function usage(rush: RushProject) {
 }
 
 async function update(rush: RushProject, argv: string[]) {
-	const pm = rush.getPackageManager().binAbsolute;
+	const pm = rush.getPackageManager();
 	for (const project of rush.autoinstallers) {
-		console.log('[rush-tools] %srun %s in %s%s', '\x1B[38;5;10m', 'update', project.packageName, '\x1B[0m');
-		await execa(pm, ['install', ...argv], { stdio: 'inherit', cwd: rush.absolute(project) });
+		console.log('[rush-tools] \x1B[38;5;10mrun %s:install in %s\x1B[0m', pm.type, project.packageName);
+		await execa(pm.binAbsolute, ['install', ...argv], { stdio: 'inherit', cwd: rush.absolute(project) });
 	}
 }
 
 async function upgrade(rush: RushProject, argv: string[]) {
-	const pm = rush.getPackageManager().binAbsolute;
+	const pm = rush.getPackageManager();
 	for (const project of rush.autoinstallers) {
-		console.log('[rush-tools] %srun %s in %s%s', '\x1B[38;5;10m', 'upgrade', project.packageName, '\x1B[0m');
-		await execa(pm, ['upgrade', ...argv], { stdio: 'inherit', cwd: rush.absolute(project) });
+		console.log('[rush-tools] \x1B[38;5;10mrun %s:update in %s\x1B[0m', pm.type, project.packageName);
+		await execa(pm.binAbsolute, ['update', '--latest', ...argv], { stdio: 'inherit', cwd: rush.absolute(project) });
 	}
 }
 
