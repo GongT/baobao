@@ -6,6 +6,10 @@ export declare function buildProjects(builder: IProjectCallback): Promise<void>;
 
 export declare function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 
+export declare function createLink(rush: RushProject, name: string, path: string): Promise<void>;
+
+export declare function createLinkIfNot(rush: RushProject, name: string, path: string): Promise<void>;
+
 export declare function createTasks(): Promise<void>;
 
 export declare function createVSCode(): Promise<void>;
@@ -64,6 +68,7 @@ export declare interface IProjectCallback {
 export declare interface IProjectConfig {
     packageName: string;
     projectFolder: string;
+    _isAutoInstaller?: boolean;
     reviewCategory?: string;
     cyclicDependencyProjects?: string[];
     shouldPublish?: boolean;
@@ -105,6 +110,8 @@ export declare class NormalError extends Error {
 export declare function optionalArgument(name: string): string | undefined;
 
 export declare function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
+
+export declare function publishLocal(argv: string[]): Promise<void>;
 
 export declare function registerProjectToRush(projectPath: string): Promise<boolean>;
 
@@ -149,8 +156,10 @@ export declare class RushProject {
     getPackageManager(): {
         type: 'npm' | 'yarn' | 'pnpm';
         bin: string;
+        binAbsolute: string;
         version: string;
     };
+    copyNpmrc(project: Immutable<IProjectConfig> | string, symlink?: boolean, force?: boolean): Promise<void>;
 }
 
 export declare function spawnRushPassthrough(action: string, argv: string[]): Promise<ExecaReturnValue<string>>;

@@ -1,6 +1,10 @@
+import { createHash } from 'crypto';
 import { dirname, resolve } from 'path';
+import { isWindows } from '@idlebox/common';
+import { ensureLinkTarget } from '@idlebox/ensure-symlink';
+import { relativePath, writeFileIfChange } from '@idlebox/node';
 import { loadJsonFileSync } from '@idlebox/node-json-edit';
-import { pathExistsSync, readdirSync, readJsonSync } from 'fs-extra';
+import { pathExists, pathExistsSync, readdirSync, readFile, readJsonSync } from 'fs-extra';
 import { requireRushPathSync } from '../common/loadRushJson';
 import { Immutable, ImmutableArray } from './deepReadonly';
 import { IProjectConfig, IRushConfig } from './limitedJson';
@@ -58,6 +62,7 @@ export class RushProject {
 				packageName: item,
 				projectFolder: rel,
 				cyclicDependencyProjects,
+				_isAutoInstaller: true,
 			});
 		}
 		return ret;
@@ -155,7 +160,7 @@ export class RushProject {
 		return this.config.pnpmOptions?.useWorkspaces; // TODO: how to get default?
 	}
 
-	getPackageManager(): { type: 'npm' | 'yarn' | 'pnpm'; bin: string; version: string } {
+	getPackageManager(): { type: 'npm' | 'yarn' | 'pnpm'; bin: string; binAbsolute: string; version: string } {
 		let type: 'npm' | 'yarn' | 'pnpm';
 		let version: string;
 		if (this.config.npmVersion) {
@@ -175,11 +180,35 @@ export class RushProject {
 			type,
 			version,
 			bin: `common/temp/${type}-local/node_modules/.bin/${type}`,
+			binAbsolute: resolve(this.tempRoot, `${type}-local/node_modules/.bin/${type}`),
 		};
+	}
+
+	async copyNpmrc(
+		project: Immutable<IProjectConfig> | string,
+		symlink: boolean = !isWindows,
+		force: boolean = false
+	) {
+		const wantFile = this.absolute(project, '.npmrc');
+		if (!force && (await pathExists(wantFile))) {
+			return;
+		}
+
+		const source = resolve(this.configRoot, '.npmrc-publish');
+
+		if (symlink) {
+			const rel = relativePath(dirname(wantFile), source);
+			console.log('create symlink: %s', wantFile);
+			await ensureLinkTarget(rel, wantFile);
+		} else {
+			const changed = await writeFileIfChange(wantFile, await readFile(source, 'utf-8'));
+			if (changed) {
+				console.log('write file: %s', wantFile);
+			}
+		}
 	}
 }
 
-import { createHash } from 'crypto';
 function randomHash() {
 	return createHash('md4')
 		.update(Date.now().toFixed(0) + Math.random().toString())

@@ -1,6 +1,7 @@
 export interface IProjectConfig {
 	packageName: string;
 	projectFolder: string;
+	_isAutoInstaller?: boolean;
 	reviewCategory?: string;
 	cyclicDependencyProjects?: string[];
 	shouldPublish?: boolean;

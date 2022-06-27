@@ -354,6 +354,170 @@
         },
         {
           "kind": "Function",
+          "canonicalReference": "@build-script/rush-tools!createLink:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function createLink(rush: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RushProject",
+              "canonicalReference": "@build-script/rush-tools!RushProject:class"
+            },
+            {
+              "kind": "Content",
+              "text": ", name: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", path: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 9
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "rush",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "name",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "path",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "createLink"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@build-script/rush-tools!createLinkIfNot:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function createLinkIfNot(rush: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RushProject",
+              "canonicalReference": "@build-script/rush-tools!RushProject:class"
+            },
+            {
+              "kind": "Content",
+              "text": ", name: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", path: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 9
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "rush",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "name",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "path",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "createLinkIfNot"
+        },
+        {
+          "kind": "Function",
           "canonicalReference": "@build-script/rush-tools!createTasks:function(1)",
           "docComment": "",
           "excerptTokens": [
@@ -1518,6 +1682,33 @@
           "members": [
             {
               "kind": "PropertySignature",
+              "canonicalReference": "@build-script/rush-tools!IProjectConfig#_isAutoInstaller:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_isAutoInstaller?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "_isAutoInstaller",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
               "canonicalReference": "@build-script/rush-tools!IProjectConfig#cyclicDependencyProjects:member",
               "docComment": "",
               "excerptTokens": [
@@ -2192,6 +2383,55 @@
             }
           ],
           "name": "overallOrder"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@build-script/rush-tools!publishLocal:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export default function publishLocal(argv: "
+            },
+            {
+              "kind": "Content",
+              "text": "string[]"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 5
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "argv",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "publishLocal"
         },
         {
           "kind": "Function",
@@ -2911,6 +3151,104 @@
             },
             {
               "kind": "Method",
+              "canonicalReference": "@build-script/rush-tools!RushProject#copyNpmrc:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "copyNpmrc(project: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Immutable",
+                  "canonicalReference": "@build-script/rush-tools!Immutable:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IProjectConfig",
+                  "canonicalReference": "@build-script/rush-tools!IProjectConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "> | string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", symlink?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", force?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<void>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 12
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "project",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 5
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "symlink",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 6,
+                    "endIndex": 7
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "force",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 8,
+                    "endIndex": 9
+                  },
+                  "isOptional": true
+                }
+              ],
+              "isOptional": false,
+              "name": "copyNpmrc"
+            },
+            {
+              "kind": "Method",
               "canonicalReference": "@build-script/rush-tools!RushProject#getPackageByName:member(1)",
               "docComment": "",
               "excerptTokens": [
@@ -2981,7 +3319,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "{\n        type: 'npm' | 'yarn' | 'pnpm';\n        bin: string;\n        version: string;\n    }"
+                  "text": "{\n        type: 'npm' | 'yarn' | 'pnpm';\n        bin: string;\n        binAbsolute: string;\n        version: string;\n    }"
                 },
                 {
                   "kind": "Content",

@@ -6,12 +6,12 @@ importers:
 
   ../../@build-script/builder:
     specifiers:
-      '@build-script/gulp-chain-simplify': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@gongt/fix-esm': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/gulp-chain-simplify': workspace:^0.0.11
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@gongt/fix-esm': workspace:^0.0.6
+      '@idlebox/common': workspace:^1.3.9
+      '@idlebox/node': workspace:^1.2.6
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@microsoft/api-extractor': ^7.25.2
       '@types/fancy-log': ^1.3.1
       '@types/fs-extra': ^9.0.13
@@ -63,11 +63,11 @@ importers:
 
   ../../@build-script/export-all-in-one:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@gongt/fix-esm': workspace:*
-      '@idlebox/ensure-symlink': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@gongt/fix-esm': workspace:^0.0.6
+      '@idlebox/ensure-symlink': workspace:^1.0.22
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@microsoft/api-extractor': ^7.25.2
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.0.0
@@ -100,10 +100,10 @@ importers:
 
   ../../@build-script/export-all-in-one-inject:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@microsoft/api-extractor': ^7.25.2
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.0.0
@@ -113,7 +113,7 @@ importers:
       tslib: ^2.4.0
       ttypescript: ^1.5.13
       typescript: ^4.7.4
-      unipm: workspace:*
+      unipm: workspace:^1.1.9
     dependencies:
       '@build-script/builder': link:../builder
       '@idlebox/node-json-edit': link:../../@idlebox/node-json-edit
@@ -133,8 +133,8 @@ importers:
 
   ../../@build-script/gulp-chain-simplify:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
       '@types/undertaker': ^1.2.8
       gulp: ^4.0.2
       npm-run-all: ^4.1.5
@@ -156,8 +156,8 @@ importers:
 
   ../../@build-script/heft-run:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@gongt/fix-esm': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@gongt/fix-esm': workspace:^0.0.6
       '@rushstack/heft': ^0.45.8
       '@types/node': ^18.0.0
       execa: ^6.1.0
@@ -175,11 +175,11 @@ importers:
 
   ../../@build-script/poormans-package-change:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@idlebox/common': workspace:^1.3.9
+      '@idlebox/node': workspace:^1.2.6
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@pnpm/store-path': ^6.0.0
       '@types/cacache': ^15.0.1
       '@types/fs-extra': ^9.0.13
@@ -243,15 +243,15 @@ importers:
 
   ../../@build-script/rush-tools:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/dual-package-runtime': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/ensure-symlink': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/dual-package-runtime': workspace:^1.0.11
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/common': workspace:^1.3.9
+      '@idlebox/ensure-symlink': workspace:^1.0.22
+      '@idlebox/node': workspace:^1.2.6
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@microsoft/rush-lib': ^5.74.0
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.0.0
@@ -306,14 +306,14 @@ importers:
 
   ../../@build-script/single-dog:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one-inject': workspace:*
-      '@build-script/rush-tools': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/ensure-symlink': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one-inject': workspace:^1.0.20
+      '@build-script/rush-tools': workspace:^1.2.13
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@idlebox/common': workspace:^1.3.9
+      '@idlebox/ensure-symlink': workspace:^1.0.22
+      '@idlebox/node': workspace:^1.2.6
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.0.0
       fs-extra: ^10.1.0
@@ -322,7 +322,7 @@ importers:
       tslib: ^2.4.0
       ttypescript: ^1.5.13
       typescript: ^4.7.4
-      unipm: workspace:*
+      unipm: workspace:^1.1.9
     dependencies:
       '@build-script/builder': link:../builder
       '@build-script/export-all-in-one-inject': link:../export-all-in-one-inject
@@ -351,8 +351,8 @@ importers:
 
   ../../@build-script/typescript-transformer-append-js-extension:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
       '@types/node': ^18.0.0
       npm-run-all: ^4.1.5
       rimraf: ^3.0.2
@@ -374,11 +374,11 @@ importers:
 
   ../../@build-script/typescript-transformer-common:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/node': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/node': workspace:^1.2.6
       '@types/fancy-log': ^1.3.1
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.0.0
@@ -409,7 +409,7 @@ importers:
 
   ../../@build-script/typescript-transformer-dual-package:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
       '@types/node': ^18.0.0
       npm-run-all: ^4.1.5
       rimraf: ^3.0.2
@@ -428,8 +428,8 @@ importers:
 
   ../../@build-script/typescript-transformer-import-commonjs:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
       '@types/node': ^18.0.0
       npm-run-all: ^4.1.5
       rimraf: ^3.0.2
@@ -449,11 +449,11 @@ importers:
 
   ../../@build-script/typescript-transformer-resolve-info:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-common': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/node': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-common': workspace:^0.1.10
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/node': workspace:^1.2.6
       '@types/fancy-log': ^1.3.1
       '@types/fs-extra': ^9.0.13
       '@types/gulp': ^4.0.9
@@ -494,9 +494,9 @@ importers:
 
   ../../@build-script/typescript-transformer-static-resolve:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-common': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-common': workspace:^0.1.10
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
       '@types/fancy-log': ^1.3.1
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.0.0
@@ -529,7 +529,7 @@ importers:
 
   ../../@gongt/fix-esm:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
       '@types/node': ^18.0.0
       fix-esm: ^1.0.1
       typescript: ^4.7.4
@@ -542,11 +542,11 @@ importers:
 
   ../../@gongt/mysql-docgen:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/common': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/common': workspace:^1.3.9
       '@microsoft/api-extractor': ^7.25.2
       '@types/fancy-log': ^1.3.1
       '@types/fs-extra': ^9.0.13
@@ -597,11 +597,11 @@ importers:
 
   ../../@gongt/vscode-helpers:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@idlebox/common': workspace:^1.3.9
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@types/node': ^18.0.0
       '@types/vscode': ^1.68.0
       gulp: ^4.0.2
@@ -624,8 +624,8 @@ importers:
 
   ../../@gongt/vscode-remote-thief:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@gongt/vscode-helpers': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@gongt/vscode-helpers': workspace:^0.0.3
       '@types/node': ^18.0.0
       '@types/vscode': ^1.68.0
       tslib: ^2.4.0
@@ -641,12 +641,12 @@ importers:
 
   ../../@gongt/vscode-sqlite3-bridge:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@gongt/vscode-helpers': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/node': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@gongt/vscode-helpers': workspace:^0.0.3
+      '@idlebox/common': workspace:^1.3.9
+      '@idlebox/node': workspace:^1.2.6
       '@types/command-exists': ^1.2.0
       '@types/node': ^18.0.0
       '@types/vscode': ^1.68.0
@@ -674,11 +674,11 @@ importers:
 
   ../../@idlebox/browser:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/common': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/common': workspace:^1.3.9
       gulp: ^4.0.2
       source-map-support: ^0.5.21
       tslib: ^2.4.0
@@ -699,11 +699,11 @@ importers:
 
   ../../@idlebox/chokidar:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/common': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/common': workspace:^1.3.9
       '@types/node': ^18.0.0
       chokidar: ^3.5.3
       debug: ^4.3.4
@@ -728,11 +728,11 @@ importers:
 
   ../../@idlebox/common:
     specifiers:
-      '@build-script/builder': npm:@build-script/builder@^3.2.4
-      '@build-script/export-all-in-one': npm:@build-script/export-all-in-one@^3.1.2
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/itypes': workspace:*
+      '@build-script/builder': npm:@build-script/builder@^3.2.6
+      '@build-script/export-all-in-one': npm:@build-script/export-all-in-one@^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/itypes': workspace:^1.0.2
       gulp: ^4.0.2
       source-map-support: ^0.5.21
       ts-node: ^10.8.1
@@ -743,8 +743,8 @@ importers:
       source-map-support: 0.5.21
       tslib: 2.4.0
     devDependencies:
-      '@build-script/builder': 3.2.4
-      '@build-script/export-all-in-one': 3.1.2
+      '@build-script/builder': 3.2.6
+      '@build-script/export-all-in-one': 3.1.4
       '@build-script/single-dog-asset': link:../../@build-script/single-dog-asset
       '@build-script/typescript-transformer-dual-package': link:../../@build-script/typescript-transformer-dual-package
       '@idlebox/itypes': link:../itypes
@@ -774,12 +774,12 @@ importers:
 
   ../../@idlebox/node:
     specifiers:
-      '@build-script/builder': npm:@build-script/builder@^3.2.4
-      '@build-script/export-all-in-one': npm:@build-script/export-all-in-one@^3.1.2
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@gongt/fix-esm': workspace:*
-      '@idlebox/common': workspace:*
+      '@build-script/builder': npm:@build-script/builder@^3.2.6
+      '@build-script/export-all-in-one': npm:@build-script/export-all-in-one@^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@gongt/fix-esm': workspace:^0.0.6
+      '@idlebox/common': workspace:^1.3.9
       '@types/node': ^18.0.0
       chai: ^4.3.6
       execa: ^6.1.0
@@ -797,8 +797,8 @@ importers:
       source-map-support: 0.5.21
       tslib: 2.4.0
     devDependencies:
-      '@build-script/builder': 3.2.4
-      '@build-script/export-all-in-one': 3.1.2
+      '@build-script/builder': 3.2.6
+      '@build-script/export-all-in-one': 3.1.4
       '@build-script/single-dog-asset': link:../../@build-script/single-dog-asset
       '@build-script/typescript-transformer-dual-package': link:../../@build-script/typescript-transformer-dual-package
       '@types/node': 18.0.0
@@ -811,8 +811,8 @@ importers:
 
   ../../@idlebox/node-json-edit:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
       '@types/node': ^18.0.0
       '@types/prettier': ^2.6.3
       comment-json: ^4.2.2
@@ -840,11 +840,11 @@ importers:
 
   ../../@idlebox/state:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/common': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/common': workspace:^1.3.9
       '@types/node': ^18.0.0
       baobab: ^2.6.1
       electron: ^19.0.6
@@ -869,10 +869,10 @@ importers:
 
   ../../standalone/7zip-bin-wrapper:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
       '@types/node': ^18.0.0
       '@types/split2': ^3.2.1
       7zip-bin: ^5.2.0
@@ -902,10 +902,10 @@ importers:
 
   ../../standalone/cjke:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
       '@rollup/plugin-commonjs': ^22.0.0
       '@rollup/plugin-node-resolve': ^13.3.0
       '@types/chai': ^4.3.1
@@ -949,13 +949,13 @@ importers:
 
   ../../standalone/unipm:
     specifiers:
-      '@build-script/builder': workspace:*
-      '@build-script/export-all-in-one': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/builder': workspace:^3.2.6
+      '@build-script/export-all-in-one': workspace:^3.1.4
+      '@build-script/single-dog-asset': workspace:^1.0.19
+      '@build-script/typescript-transformer-dual-package': workspace:^1.0.27
+      '@idlebox/common': workspace:^1.3.9
+      '@idlebox/node': workspace:^1.2.6
+      '@idlebox/node-json-edit': workspace:^2.0.21
       '@types/node': ^18.0.0
       execa: ^6.1.0
       gulp: ^4.0.2
@@ -1356,51 +1356,52 @@ packages:
       '@babel/helper-validator-identifier': 7.16.7
       to-fast-properties: 2.0.0
 
-  /@build-script/builder/3.2.4:
+  /@build-script/builder/3.2.6:
     resolution:
-      { integrity: sha512-AYOaVWkmw8viOAozcpt/SlE5w3cSz8zQqpTLKS/rdCgNUDwnKkwgp3wxsujFXGmc3tjMshlW+JAx/q8NVsUGGQ== }
+      { integrity: sha512-MG4Pq3VokUCtFLGVmpX9II6NDxG+V0yX89Tc9rcmxaBBjdqZkgOR+1yAMZtTVymb7n0XWXT1x4kCB1NNP+lpog== }
     hasBin: true
     dependencies:
-      '@build-script/gulp-chain-simplify': 0.0.9
-      '@idlebox/common': 1.3.7
-      '@idlebox/node': 1.2.3
-      '@idlebox/node-json-edit': 2.0.19
+      '@build-script/gulp-chain-simplify': 0.0.10
+      '@gongt/fix-esm': 0.0.5
+      '@idlebox/common': 1.3.9
+      '@idlebox/node': 1.2.6
+      '@idlebox/node-json-edit': 2.0.21
       execa: 6.1.0
       fancy-log: 2.0.0
-      fix-esm: 1.0.1
       fs-extra: 10.1.0
-      npm-check-updates: 12.5.12
+      npm-check-updates: 14.0.2
       pacote: 13.6.1
       source-map-support: 0.5.21
       split2: 4.1.0
       tslib: 2.4.0
     transitivePeerDependencies:
       - bluebird
+      - kexec
       - supports-color
     dev: true
 
-  /@build-script/export-all-in-one/3.1.2:
+  /@build-script/export-all-in-one/3.1.4:
     resolution:
-      { integrity: sha512-+eJseJwgWlPpJmKGycGkElbT4u2nPrVLdbvAOr1KHFmSilQgZMdgLKdLmbMaz2eCaoRjNxHXJRb1xtVypiianQ== }
+      { integrity: sha512-BJx5s/+JSloXtbz1W4SmanmJCLvFkjBWA7NDRREa7ubwcY8ZbYHU7P+CTr8Qn55+Xqg16ztKBbmKWu+80UvZNQ== }
     hasBin: true
     dependencies:
-      '@idlebox/ensure-symlink': 1.0.20
-      '@idlebox/node-json-edit': 2.0.19
+      '@gongt/fix-esm': 0.0.5
+      '@idlebox/ensure-symlink': 1.0.22
+      '@idlebox/node-json-edit': 2.0.21
       '@microsoft/api-extractor': 7.25.2
       execa: 6.1.0
-      fix-esm: 1.0.1
       fs-extra: 10.1.0
       source-map-support: 0.5.21
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.0.0
       tslib: 2.4.0
       ttypescript: 1.5.13
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@build-script/gulp-chain-simplify/0.0.9:
+  /@build-script/gulp-chain-simplify/0.0.10:
     resolution:
-      { integrity: sha512-rim/A8NP6UjXt8W3E4ghjuBXuRxmu6LR1KcCbu49RuTMwKwoH0f8l+zs/Wf3TqZpIWPo/jY1lJ/nz2ixeWFvpg== }
+      { integrity: sha512-vLWJw1Ur2AIhMtkDXPyPftk29nhwE5rBg4XfzwAmL7MAs/0FRoZT9fHYyBnoAB5uvtq85BQpMDPHrjyUoLWYpA== }
     dependencies:
       tslib: 2.4.0
     dev: true
@@ -1436,42 +1437,54 @@ packages:
     resolution:
       { integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw== }
 
-  /@idlebox/common/1.3.7:
+  /@gongt/fix-esm/0.0.5:
     resolution:
-      { integrity: sha512-mDGr+yqFBL/Hd8/SjF3hV40fKNorU/xiJ26qWFEF2jlrRjggdg2FdnU7dxt9fj0HKS39sCZ0cHZBYZ/2VvS4rw== }
+      { integrity: sha512-UlDZ5b86FXGFHy0JAUYFKfAWjFt9PEQnRGR0n7cNa/dbSFL5BA64E4NacpaNztUGXCImB7Ap1uw1yiPOJqksqg== }
+    dependencies:
+      fix-esm: 1.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@idlebox/common/1.3.9:
+    resolution:
+      { integrity: sha512-3v4uKfG52rNJ0rzONYwi+6nHzMCbbTFGtdhzmGtbw9Gq3W2xgze/A1NU++fV8Zw3v/86Gu7h+RJGAfQz4+kUDw== }
     dependencies:
       source-map-support: 0.5.21
       tslib: 2.4.0
     dev: true
 
-  /@idlebox/ensure-symlink/1.0.20:
+  /@idlebox/ensure-symlink/1.0.22:
     resolution:
-      { integrity: sha512-snD69DVpFhWN8ZhUkpmKW4mL0KZhmZZB4i2nr8tySYAs78Xu0gUsFIb9L6qO8Tddq/3EXOciCYGr2XFsYiXTUg== }
+      { integrity: sha512-ykHCE4/HgAKDJ/wImDPOd60tFB6PZvwhd5t38YubR1Hd0VVsO2fRLlOzBVtSi4c7jvlZ8AzxDazNsPplTZyXLQ== }
     dependencies:
       fs-extra: 10.1.0
       tslib: 2.4.0
     dev: true
 
-  /@idlebox/node-json-edit/2.0.19:
+  /@idlebox/node-json-edit/2.0.21:
     resolution:
-      { integrity: sha512-hTA+oIw0rbQjRCLxv9UaaMZFHTGHRSy2GoFgKBGP4mUAWztvI6SxOyd+O1fqNqdfNTsghcZH8wL1mWz6MKXwIg== }
+      { integrity: sha512-vDXb276NSmAQ+LArpP16Ng4cXQSIUiIFpqHGvyXp9vvm6q9zlsVN46cxjoPPM1gVHEs1WsliwbWcMOyt5lx+7g== }
     dependencies:
       comment-json: 4.2.2
       prettier: 2.7.1
       tslib: 2.4.0
     dev: true
 
-  /@idlebox/node/1.2.3:
+  /@idlebox/node/1.2.6:
     resolution:
-      { integrity: sha512-WvQm0VmQzzrINk3DaJ++dvU8mb1nkcYHZH85Gp1OODhfl/HTVbSFFNdvj+P/QftU3fFTE5/+rXHrJtV1ScZXYg== }
+      { integrity: sha512-BTj/yOjIc7a/CeX795HwwDO0UN+Dq0NKZ/hRmpD801r+lLnxyoqyFiKXR80ZVkRUDQAKVUqoFqXyP1GqI2ei0A== }
+    peerDependencies:
+      kexec: '*'
+    peerDependenciesMeta:
+      kexec:
+        optional: true
     dependencies:
-      '@idlebox/common': 1.3.7
+      '@gongt/fix-esm': 0.0.5
+      '@idlebox/common': 1.3.9
       execa: 6.1.0
-      fix-esm: 1.0.1
       source-map-support: 0.5.21
       tslib: 2.4.0
-    optionalDependencies:
-      kexec: github.com/meteor/node-kexec/f29f54037c7db6ad29e1781463b182e5929215a0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2160,11 +2173,6 @@ packages:
       '@types/undertaker': 1.2.8
       '@types/vinyl-fs': 2.4.12
       chokidar: 3.5.3
-    dev: true
-
-  /@types/json5/0.0.29:
-    resolution:
-      { integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ== }
     dev: true
 
   /@types/keyv/3.1.4:
@@ -4104,11 +4112,6 @@ packages:
       pend: 1.2.0
     dev: true
 
-  /figgy-pudding/3.5.2:
-    resolution:
-      { integrity: sha512-0btnI/H8f2pavGMN8w40mlSKOfTK2SVJmBfBeVIj3kNw0swwgzyRq0d5TJVOwodFmtvpPeWPN/MCcfuWF0Ezbw== }
-    dev: true
-
   /figures/3.2.0:
     resolution:
       { integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg== }
@@ -4159,14 +4162,6 @@ packages:
     dependencies:
       path-exists: 2.1.0
       pinkie-promise: 2.0.1
-    dev: true
-
-  /find-up/3.0.0:
-    resolution:
-      { integrity: sha512-1yD6RmLI1XBfxugvORwlck6f75tYL+iR0jqwsOrOxMZyGYqUuDhJ0l4AXdO1iX/FTs9cBAMEk1gWSEx1kSbylg== }
-    engines: { node: '>=6' }
-    dependencies:
-      locate-path: 3.0.0
     dev: true
 
   /find-up/4.1.0:
@@ -5532,14 +5527,6 @@ packages:
     resolution:
       { integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA== }
 
-  /json5/1.0.1:
-    resolution:
-      { integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow== }
-    hasBin: true
-    dependencies:
-      minimist: 1.2.6
-    dev: true
-
   /json5/2.2.1:
     resolution:
       { integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA== }
@@ -5684,16 +5671,6 @@ packages:
       flush-write-stream: 1.1.1
     dev: true
 
-  /libnpmconfig/1.2.1:
-    resolution:
-      { integrity: sha512-9esX8rTQAHqarx6qeZqmGQKBNZR5OIbl/Ayr0qQDy3oXja2iFVQQI81R6GZ2a02bSNZ9p3YOGX1O6HHCb1X7kA== }
-    deprecated: This module is not used anymore. npm config is parsed by npm itself and by @npmcli/config
-    dependencies:
-      figgy-pudding: 3.5.2
-      find-up: 3.0.0
-      ini: 1.3.8
-    dev: true
-
   /lie/3.3.0:
     resolution:
       { integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ== }
@@ -5756,15 +5733,6 @@ packages:
       strip-bom: 4.0.0
       type-fest: 0.6.0
     dev: false
-
-  /locate-path/3.0.0:
-    resolution:
-      { integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A== }
-    engines: { node: '>=6' }
-    dependencies:
-      p-locate: 3.0.0
-      path-exists: 3.0.0
-    dev: true
 
   /locate-path/5.0.0:
     resolution:
@@ -6364,46 +6332,6 @@ packages:
     dependencies:
       npm-normalize-package-bin: 1.0.1
 
-  /npm-check-updates/12.5.12:
-    resolution:
-      { integrity: sha512-JAFs+kKokZmYPRzhSHgIpKashX6vSGGXYo0VJXNaKV/nLnq3ZKI0nTVou9OwTix+PFfLAWTEJ6T/byGxkDlhWA== }
-    engines: { node: '>=12' }
-    hasBin: true
-    dependencies:
-      chalk: 4.1.2
-      cint: 8.2.1
-      cli-table: 0.3.11
-      commander: 9.3.0
-      fast-memoize: 2.5.2
-      find-up: 5.0.0
-      fp-and-or: 0.1.3
-      get-stdin: 8.0.0
-      globby: 11.1.0
-      hosted-git-info: 5.0.0
-      json-parse-helpfulerror: 1.0.3
-      jsonlines: 0.1.1
-      libnpmconfig: 1.2.1
-      lodash: 4.17.21
-      minimatch: 5.1.0
-      p-map: 4.0.0
-      pacote: 13.6.1
-      parse-github-url: 1.0.2
-      progress: 2.0.3
-      prompts: 2.4.2
-      rc-config-loader: 4.1.0
-      remote-git-tags: 3.0.0
-      rimraf: 3.0.2
-      semver: 7.3.7
-      semver-utils: 1.1.4
-      source-map-support: 0.5.21
-      spawn-please: 1.0.0
-      update-notifier: 5.1.0
-      yaml: 1.10.2
-    transitivePeerDependencies:
-      - bluebird
-      - supports-color
-    dev: true
-
   /npm-check-updates/14.0.2:
     resolution:
       { integrity: sha512-rVetP51QHbbbcDhTBkQv+h+EEZbLx1ehPgqT6F9MH3Z23O8tS2Jb7PWusIWCM04qhp2IXu6D3u1sjagG0H7SLw== }
@@ -6727,14 +6655,6 @@ packages:
     dependencies:
       yocto-queue: 0.1.0
 
-  /p-locate/3.0.0:
-    resolution:
-      { integrity: sha512-x+12w/To+4GFfgJhBEpiDcLozRJGegY+Ei7/z0tSLkMmxGZNybVMSfWj9aJn8Z5Fc7dBUNJOOVgPv2H7IwulSQ== }
-    engines: { node: '>=6' }
-    dependencies:
-      p-limit: 2.3.0
-    dev: true
-
   /p-locate/4.1.0:
     resolution:
       { integrity: sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A== }
@@ -6902,12 +6822,6 @@ packages:
     engines: { node: '>=0.10.0' }
     dependencies:
       pinkie-promise: 2.0.1
-    dev: true
-
-  /path-exists/3.0.0:
-    resolution:
-      { integrity: sha512-bpC7GYwiDYQ4wYLe+FA8lhRjhQCMcQGuSgGGqDkg/QerRWw9CmGRT0iSOVRSZJ29NMLZgIzqaljJ63oaL4NIJQ== }
-    engines: { node: '>=4' }
     dev: true
 
   /path-exists/4.0.0:
@@ -8415,16 +8329,6 @@ packages:
       yn: 3.1.1
     dev: true
 
-  /tsconfig-paths/3.14.1:
-    resolution:
-      { integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ== }
-    dependencies:
-      '@types/json5': 0.0.29
-      json5: 1.0.1
-      minimist: 1.2.6
-      strip-bom: 3.0.0
-    dev: true
-
   /tsconfig-paths/4.0.0:
     resolution:
       { integrity: sha512-SLBg2GBKlR6bVtMgJJlud/o3waplKtL7skmLkExomIiaAtLGtVsoXIqP3SYdjbcH9lq/KVv7pMZeCBpLYOit6Q== }
@@ -8432,7 +8336,6 @@ packages:
       json5: 2.2.1
       minimist: 1.2.6
       strip-bom: 3.0.0
-    dev: false
 
   /tslib/1.14.1:
     resolution:
@@ -8938,12 +8841,6 @@ packages:
     resolution:
       { integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A== }
 
-  /yaml/1.10.2:
-    resolution:
-      { integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg== }
-    engines: { node: '>= 6' }
-    dev: true
-
   /yaml/2.1.1:
     resolution:
       { integrity: sha512-o96x3OPo8GjWeSLF+wOAbrPfhFOGY0W00GNaxCDv+9hkcDJEnev1yh8S7pgHF0ik6zc8sQLuL8hjHjJULZp8bw== }
@@ -9037,19 +8934,3 @@ packages:
       validator: 13.7.0
     optionalDependencies:
       commander: 2.20.3
-
-  github.com/meteor/node-kexec/f29f54037c7db6ad29e1781463b182e5929215a0:
-    resolution:
-      {
-        commit: f29f54037c7db6ad29e1781463b182e5929215a0,
-        repo: git+ssh://git@github.com/meteor/node-kexec.git,
-        type: git,
-      }
-    name: kexec
-    version: 3.0.0
-    engines: { node: '>=0.10' }
-    requiresBuild: true
-    dependencies:
-      nan: 2.16.0
-    dev: true
-    optional: true

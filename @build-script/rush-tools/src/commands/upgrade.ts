@@ -36,10 +36,18 @@ export default async function runUpgrade(argv: string[]) {
 		delete alldeps[project.packageName];
 	}
 
+	for (const depLock of Object.keys(rush.preferredVersions)) {
+		delete alldeps[depLock];
+	}
+
 	collectRush(alldeps, rush);
 
 	info('Resolving npm registry:');
 	const map = await resolveNpm(new Map(Object.entries(alldeps)));
+
+	for (const [name, version] of Object.entries(rush.preferredVersions)) {
+		map.set(name, version);
+	}
 
 	info('Write changed files:');
 	let totalChange = 0;

@@ -20,6 +20,16 @@ export function buildProjects(builder: IProjectCallback): Promise<void>;
 // @public (undocumented)
 export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "createLink" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createLink(rush: RushProject, name: string, path: string): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createLinkIfNot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createLinkIfNot(rush: RushProject, name: string, path: string): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "createTasks" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -147,6 +157,8 @@ export interface IProjectConfig {
     // (undocumented)
     cyclicDependencyProjects?: string[];
     // (undocumented)
+    _isAutoInstaller?: boolean;
+    // (undocumented)
     packageName: string;
     // (undocumented)
     projectFolder: string;
@@ -220,6 +232,11 @@ export function optionalArgument(name: string): string | undefined;
 // @public (undocumented)
 export function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
 
+// Warning: (ae-missing-release-tag) "publishLocal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function publishLocal(argv: string[]): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "registerProjectToRush" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -272,11 +289,14 @@ export class RushProject {
     // (undocumented)
     get configRoot(): string;
     // (undocumented)
+    copyNpmrc(project: Immutable<IProjectConfig> | string, symlink?: boolean, force?: boolean): Promise<void>;
+    // (undocumented)
     getPackageByName(name: string): Immutable<IProjectConfig> | null;
     // (undocumented)
     getPackageManager(): {
         type: 'npm' | 'yarn' | 'pnpm';
         bin: string;
+        binAbsolute: string;
         version: string;
     };
     // (undocumented)
