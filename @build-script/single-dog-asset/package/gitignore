@@ -1,41 +1,53 @@
-### Cache file
+### Hidden Files
+.*
+!/.*
+
+### Git
+!*.gitignore
+
+### Cache File
 common/temp
+common/deploy
 *.tsbuildinfo
 .rpt2_cache/
 
-### Build result
+### Temp Files
+*.lock
+.lock
+temp/
+
+### Build Result
 dist/
 lib/
 *.tgz
 .test
 build-*/
 
-### Package manager
+### Package Manager
 node_modules
 jspm_packages
-.rush
+bower_components
 package-deps.json
 /package.json
+!common/config/rush/.npmrc
+!.npmignore
 
-### logs
+### Log Files
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-### no need in mono repo
+### Monorepo Local Files
 **/.editorconfig
 **/.git*
-!**/.github/
 **/.prettier*
 **/pnpm-lock.yaml
 **/yarn.lock
 
 !common/config/rush/pnpm-lock.yaml
 
-### old files
-.idea
-
-### generated files
+### Generated Files
 *.generated.*
 c_cpp_properties.json
 vcpkg_installed
-
-### temp project

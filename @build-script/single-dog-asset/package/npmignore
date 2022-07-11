@@ -5,24 +5,28 @@ node_modules
 jspm_modules
 config
 
-### hidden files
+### Hidden Files
 .*
+_*
 
-### temp files
+### Temp Files
 package-deps.json
 *.log
+temp
 
-### build source
+### Build Source
 index.ts
 /src
 /build-script.json
 /Gulpfile.*
 *.tsbuildinfo
 
-### docs
-/docs/*
-!/docs/*.d.ts
+### Api Extractor
+/etc
 
-### tests
+### Tests
 /tests
 /test
+
+### Temp Files
+/lib/dts

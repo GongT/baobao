@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/single-dog-asset",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"license": "MIT",
 	"scripts": {
 		"build": "",
