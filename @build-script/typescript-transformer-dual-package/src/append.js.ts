@@ -5,11 +5,11 @@ import { shouldMutateModuleSpecifier, ValidImportOrExportDeclaration } from './s
 export function appendDotJs(
 	program: Program,
 	transformationContext: TransformationContext,
-	debug: IDebug
+	console: IDebug
 ): Transformer<SourceFile> {
 	function visitNode(node: Node): VisitResult<Node> {
-		if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, debug, program)) {
-			debug(' * %s', node.getText(node.getSourceFile()).split('\n')[0]);
+		if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, console, program)) {
+			console.debug(' * %s', node.getText(node.getSourceFile()).split('\n')[0]);
 			const modified: ValidImportOrExportDeclaration = Object.create(node);
 			const moduleSpecifier = transformationContext.factory.createStringLiteral(
 				`${node.moduleSpecifier.text}.js`
@@ -18,15 +18,15 @@ export function appendDotJs(
 			Object.assign(modified, { moduleSpecifier });
 			return modified;
 		} else if (node.getText(node.getSourceFile()).startsWith('import ')) {
-			debug(' ? %s', node.getText(node.getSourceFile()).split('\n')[0]);
+			console.debug(' ? %s', node.getText(node.getSourceFile()).split('\n')[0]);
 		}
 		return node;
 	}
 
 	return (sourceFile: SourceFile) => {
-		debug('[trans] visit \x1B[2m%s\x1B[0m', sourceFile.fileName);
+		console.debug('[trans] visit \x1B[2m%s\x1B[0m', sourceFile.fileName);
 		const result = visitEachChild(sourceFile, visitNode, transformationContext);
-		debug('[trans] visit complete');
+		console.debug('[trans] visit complete');
 		return result;
 	};
 }

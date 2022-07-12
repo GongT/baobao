@@ -20,7 +20,7 @@ import { IDebug } from './debug';
 import { selfCreatedProgram } from './preventLoop';
 import { shouldMutateModuleSpecifier } from './shouldMutateModuleSpecifier';
 
-export function cloneProgram(mainProgram: Program, overrideOptions: CompilerOptions, debug: IDebug) {
+export function cloneProgram(mainProgram: Program, overrideOptions: CompilerOptions, { debug }: IDebug) {
 	debug(' + before createProgram');
 	let options: CompilerOptions = {
 		...mainProgram.getCompilerOptions(),
@@ -64,19 +64,19 @@ export function cloneProgram(mainProgram: Program, overrideOptions: CompilerOpti
 	return program;
 }
 
-export function appendDotCjs(program: Program, debug: IDebug) {
+export function appendDotCjs(program: Program, console: IDebug) {
 	function writeFile(fileName: string, data: string, ...args: any[]) {
 		const dir = dirname(fileName);
 		const base = basename(fileName);
 		const newBase = base.replace(/(?:\.jsx?)(\.map$|$)/i, '.cjs$1');
-		debug('   * cjs write: %s/{%s => %s}', dir, base, newBase);
+		console.debug('   * cjs write: %s/{%s => %s}', dir, base, newBase);
 
 		if (base.endsWith('.map')) {
 			const mapData = JSON.parse(data);
 			if (mapData.file) {
 				mapData.file = mapData.file.replace(/\.jsx?$/i, '.cjs');
 			} else {
-				console.warn('[dual-package] warning: sourcemap file %s/%s did not contains file.', dir, newBase);
+				console.error(`[dual-package] warning: sourcemap file ${dir}/${newBase} did not contains file.`);
 			}
 			data = JSON.stringify(mapData, null, 4);
 		}
@@ -86,7 +86,7 @@ export function appendDotCjs(program: Program, debug: IDebug) {
 
 	function addCjsExtension(transformationContext: TransformationContext) {
 		function visitNode(node: Node): VisitResult<Node> {
-			if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, debug, program)) {
+			if (shouldMutateModuleSpecifier(node.getSourceFile().fileName, node, console, program)) {
 				const moduleSpecifier = transformationContext.factory.createStringLiteral(
 					`${node.moduleSpecifier.text}.cjs`
 				);

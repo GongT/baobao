@@ -17,10 +17,12 @@ export type ValidImportOrExportDeclaration = (ImportDeclaration | ExportDeclarat
 	moduleSpecifier: StringLiteral;
 };
 
+const allExtension = /\.[cm]?js$/i;
+
 export function shouldMutateModuleSpecifier(
 	source: string,
 	node: Node,
-	debug: IDebug,
+	{ debug, error }: IDebug,
 	program?: Program
 ): node is ValidImportOrExportDeclaration {
 	if (!isImportDeclaration(node) && !isExportDeclaration(node)) {
@@ -34,27 +36,32 @@ export function shouldMutateModuleSpecifier(
 	}
 	if (moduleSpecifier.text.startsWith('./') || moduleSpecifier.text.startsWith('../')) {
 		const dir = dirname(source);
-		for (const ext of ['.ts', '.tsx']) {
-			const fp = resolve(dir, moduleSpecifier.text + ext);
-			if (program) {
-				if (program.getSourceFile(fp)) {
-					return true;
+		const cachedObjectName = moduleSpecifier.text.replace(allExtension, '');
+		for (const ms of [moduleSpecifier.text, cachedObjectName]) {
+			for (const ext of ['.ts', '.tsx']) {
+				const fp = resolve(dir, ms + ext);
+				if (program) {
+					if (program.getSourceFile(fp)) {
+						moduleSpecifier.text = ms;
+						return true;
+					} else {
+						debug('  ! imported file <%s> not in program', fp);
+					}
 				} else {
-					debug('  ! imported file <%s> not in program');
-				}
-			} else {
-				if (existsSync(fp)) {
-					return true;
-				} else {
-					debug('  ! imported file <%s> not exists');
+					if (existsSync(fp)) {
+						moduleSpecifier.text = ms;
+						return true;
+					} else {
+						debug('  ! imported file <%s> not exists', fp);
+					}
 				}
 			}
 		}
-		debug(' ??? ', dir, moduleSpecifier.text);
+		error(` ??? failed parse require ${dir} -> ${moduleSpecifier.text}`);
 		return false;
 	} else {
 		// TODO: handle paths mapping (absolute to tsconfig.json)
-		debug('absolute import: %s', node.moduleSpecifier?.getText());
+		error(`absolute import: ${node.moduleSpecifier?.getText()}`);
 		return false;
 	}
 }
