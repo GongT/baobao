@@ -1,0 +1,37 @@
+{
+	"name": "@build-script/heft-duel-stack",
+	"module": "commonjs",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./lib/plugin.js",
+	"exports": "./lib/plugin.js",
+	"scripts": {
+		"build": "tsc -p src",
+		"prepack": "run-s clean build",
+		"watch": "tsc -p src --watch",
+		"clean": "rimraf lib temp"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@build-script/rushstack-config-loader": "workspace:*",
+		"@idlebox/node": "npm:@idlebox/node@latest",
+		"@idlebox/node-json-edit": "workspace:*",
+		"@idlebox/tsconfig-loader": "workspace:*",
+		"@idlebox/typescript-surface-analyzer": "workspace:*",
+		"tslib": "^2.4.0",
+		"ttypescript": "^1.5.13"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:*",
+		"@rushstack/heft": "^0.46.2",
+		"@rushstack/node-core-library": "^3.49.0",
+		"@types/node": "^18.0.3",
+		"@types/resolve": "^1.20.2",
+		"local-rig": "workspace:*",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.7.4"
+	}
+}
