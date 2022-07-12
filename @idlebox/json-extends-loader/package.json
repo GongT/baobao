@@ -1,15 +1,10 @@
 {
 	"name": "@idlebox/json-extends-loader",
-	"type": "module",
-	"version": "1.0.0",
+	"type": "commonjs",
+	"version": "1.0.1",
 	"description": "",
-	"main": "./lib/api.cjs",
-	"module": "./lib/api.js",
-	"types": "./dist/json-extends-loader-public.d.ts",
-	"exports": {
-		"import": "./lib/api.js",
-		"require": "./lib/api.cjs"
-	},
+	"main": "./lib/api.js",
+	"types": "./lib/api.d.ts",
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
