@@ -1,0 +1,13 @@
+{
+	"extends": "local-rig/profiles/default/tsconfig.json",
+	"compilerOptions": {
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
+		"outDir": "../lib",
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
+
+		"skipLibCheck": true,
+		"types": ["node"]
+	}
+}

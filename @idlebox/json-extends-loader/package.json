@@ -1,0 +1,39 @@
+{
+	"name": "@idlebox/json-extends-loader",
+	"type": "module",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./lib/api.cjs",
+	"module": "./lib/api.js",
+	"types": "./dist/json-extends-loader-public.d.ts",
+	"exports": {
+		"import": "./lib/api.js",
+		"require": "./lib/api.cjs"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"scripts": {
+		"build": "heft build --lite",
+		"prepack": "heft build --clean --production",
+		"watch": "heft build --watch",
+		"lint": "heft build",
+		"clean": "heft clean",
+		"test": "heft test"
+	},
+	"dependencies": {
+		"comment-json": "^4.2.2",
+		"deepmerge": "^4.2.2",
+		"object-path": "^0.11.8",
+		"tslib": "^2.4.0"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:*",
+		"@microsoft/api-extractor": "^7.28.3",
+		"@rushstack/heft": "^0.46.2",
+		"@types/node": "^18.0.3",
+		"@types/object-path": "^0.11.1",
+		"local-rig": "workspace:*",
+		"typescript": "^4.7.4"
+	}
+}
