@@ -1,0 +1,31 @@
+{
+	"name": "@build-script/rushstack-config-loader",
+	"version": "0.0.1",
+	"description": "",
+	"main": "lib/api.js",
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsc -p src",
+		"prepack": "run-s clean build",
+		"watch": "tsc -p src --watch",
+		"clean": "rimraf lib temp"
+	},
+	"dependencies": {
+		"@idlebox/json-extends-loader": "workspace:*",
+		"@idlebox/tsconfig-loader": "workspace:*",
+		"@rushstack/rig-package": "^0.3.13",
+		"tslib": "^2.4.0"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:*",
+		"@microsoft/api-extractor": "^7.28.3",
+		"@rushstack/heft": "^0.46.2",
+		"@types/node": "^18.0.3",
+		"local-rig": "workspace:*",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.7.4"
+	}
+}
