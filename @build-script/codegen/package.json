@@ -1,0 +1,39 @@
+{
+	"name": "@build-script/codegen",
+	"version": "0.0.1",
+	"description": "generate code helper",
+	"type": "commonjs",
+	"keywords": [],
+	"repository": "https://github.com/GongT/baobao",
+	"license": "MIT",
+	"bin": "bin.js",
+	"main": "lib/api.js",
+	"scripts": {
+		"build": "tsc -p src",
+		"prepack": "run-s clean build",
+		"watch": "tsc -p src --watch",
+		"clean": "rimraf lib temp"
+	},
+	"peerDependencies": {
+		"typescript": "*"
+	},
+	"dependencies": {
+		"@idlebox/node": "npm:@idlebox/node",
+		"@idlebox/node-ignore-edit": "workspace:*",
+		"@idlebox/node-json-edit": "workspace:*",
+		"glob": "^8.0.3",
+		"source-map-support": "^0.5.21",
+		"ts-node": "^10.8.2",
+		"tslib": "^2.4.0"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^1.0.19",
+		"@rushstack/heft": "^0.46.2",
+		"@types/glob": "^7.2.0",
+		"@types/node": "^18.0.3",
+		"local-rig": "workspace:*",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.7.4"
+	}
+}
