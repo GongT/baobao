@@ -1,0 +1,12 @@
+{
+	"extends": "local-rig/profiles/default/tsconfig.json",
+	"compilerOptions": {
+		"module": "CommonJS",
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
+		"tsBuildInfoFile": "../lib/tsbuildinfo.json",
+		"outDir": "../lib",
+		"rootDir": "./",
+		"types": ["node"]
+	},
+	"exclude": ["**/*.generator.ts"]
+}
