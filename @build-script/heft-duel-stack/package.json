@@ -1,10 +1,10 @@
 {
 	"name": "@build-script/heft-duel-stack",
-	"module": "commonjs",
-	"version": "1.0.0",
+	"type": "commonjs",
+	"version": "1.0.1",
 	"description": "",
-	"main": "./lib/plugin.js",
-	"exports": "./lib/plugin.js",
+	"main": "./plugin.js",
+	"exports": "./plugin.js",
 	"scripts": {
 		"build": "tsc -p src",
 		"prepack": "run-s clean build",

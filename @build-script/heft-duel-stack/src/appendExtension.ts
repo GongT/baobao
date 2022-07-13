@@ -1,11 +1,11 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { RushStackConfig } from '@build-script/rushstack-config-loader';
-import { md5, writeFileIfChangeSync } from '@idlebox/node';
-import { IMyOptions, PLUGIN_NAME } from './plugin';
+import { md5 } from '@idlebox/node';
+import { IMyOptions } from './plugin';
 
-import type TS from 'typescript';
-import type { IBuildStageContext, IPostBuildSubstage, HeftConfiguration, HeftSession } from '@rushstack/heft';
+import type { HeftConfiguration, HeftSession } from '@rushstack/heft';
+import { createRequire } from 'module';
 declare const global: any;
 
 function monkeyPatchBuilder(file: string, exports: any) {
@@ -28,85 +28,35 @@ function monkeyPatchBuilder(file: string, exports: any) {
 	fileData += sig + patchFile;
 	writeFileSync(file, fileData);
 
-	delete require.cache[file];
-	Object.assign(exports, require(file));
+	if (exports) {
+		delete require.cache[file];
+		console.error('[monkey-patch] assign self');
+		Object.assign(exports, require(file));
+	}
 }
 
-// function monkeyPatchResolver(Class: Function) {
-// 	const original = Class.prototype._resolveToolPackagesInnerAsync;
-// 	if (Class.prototype._tryResolveToolPackageAsync.length !== 3) {
-// 		throw new Error('heft change internal method, see ToolPackageResolver.ts update');
-// 	}
-// 	Class.prototype._resolveToolPackagesInnerAsync = async function _monkeyPatch_resolveToolPackagesInnerAsync(
-// 		this: any,
-// 		heftConfiguration: HeftConfiguration,
-// 		terminal: HeftConfiguration['globalTerminal']
-// 	) {
-// 		const oReturn = await original.apply(this, arguments);
-
-// 		oReturn.typeScriptPackagePath = await this._tryResolveToolPackageAsync(
-// 			'ttypescript',
-// 			heftConfiguration,
-// 			terminal
-// 		);
-
-// 		return oReturn;
-// 	};
-// }
-
 export function applyAppendExtension(
-	heftSession: HeftSession,
+	_heftSession: HeftSession,
 	heftConfiguration: HeftConfiguration,
-	config: RushStackConfig,
+	_config: RushStackConfig,
 	_options: IMyOptions
 ) {
+	let heft_found = '';
 	for (const file of Object.keys(require.cache)) {
-		// if (file.endsWith('ToolPackageResolver.js')) {
-		// 	monkeyPatchResolver(require.cache[file]!.exports.ToolPackageResolver);
-		// }
 		if (file.endsWith('TypeScriptBuilder.js')) {
 			monkeyPatchBuilder(file, require.cache[file]!.exports);
+			return;
+		}
+		if (file.endsWith('@rushstack/heft/lib/index.js')) {
+			heft_found = file;
 		}
 	}
 
-	heftSession.hooks.build.tap(PLUGIN_NAME, (build: IBuildStageContext) => {
-		build.hooks.postBuild.tap(PLUGIN_NAME, (postBuild: IPostBuildSubstage) => {
-			postBuild.hooks.run.tap(PLUGIN_NAME, function createPackageJson() {
-				const dist = { cjs: '', esm: '' };
-				const tsconfig = config.tsconfig();
-				const ts: typeof TS = config.require('typescript');
-				if (tsconfig.options.module === ts.ModuleKind.CommonJS) {
-					dist.cjs = tsconfig.options.outDir;
-				} else if (
-					tsconfig.options.module! >= ts.ModuleKind.ES2015 &&
-					tsconfig.options.module! <= ts.ModuleKind.ESNext
-				) {
-					dist.esm = tsconfig.options.outDir;
-				}
-
-				const tscfg = config.typescript();
-				if (tscfg.additionalModuleKindsToEmit) {
-					if (!dist.esm) {
-						const f = tscfg.additionalModuleKindsToEmit.find(
-							(e) => e.moduleKind === 'es2015' || e.moduleKind === 'esnext'
-						)?.outFolderName;
-						if (f) dist.esm = resolve(heftConfiguration.buildFolder, f);
-					}
-					if (!dist.cjs) {
-						const f = tscfg.additionalModuleKindsToEmit.find(
-							(e) => e.moduleKind === 'commonjs'
-						)?.outFolderName;
-						if (f) dist.cjs = resolve(heftConfiguration.buildFolder, f);
-					}
-				}
-
-				if (dist.cjs) {
-					writeFileIfChangeSync(resolve(dist.cjs, 'package.json'), JSON.stringify({ type: 'commonjs' }));
-				}
-				if (dist.esm) {
-					writeFileIfChangeSync(resolve(dist.esm, 'package.json'), JSON.stringify({ type: 'module' }));
-				}
-			});
-		});
-	});
+	if (heft_found) {
+		const resolver = createRequire(heft_found).resolve;
+		const file = resolver('./plugins/TypeScriptPlugin/TypeScriptBuilder');
+		monkeyPatchBuilder(file, undefined);
+	} else {
+		heftConfiguration.globalTerminal.writeError('can not resolve ');
+	}
 }

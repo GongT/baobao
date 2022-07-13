@@ -29,8 +29,15 @@ interface IExtendConfig {
 }
 
 function findSelf(die = true): string {
+	if (process.env.HEFT_DUEL_STACK) {
+		return process.env.HEFT_DUEL_STACK;
+	}
 	for (const file of Object.keys(require.cache)) {
-		if (file.endsWith(packageName + '/package.json')) {
+		if (!file.endsWith('package.json')) continue;
+		const mdl = require.cache[file]!;
+		if (!mdl.exports) continue;
+
+		if (mdl.exports.name === packageName) {
 			return file;
 		}
 	}
@@ -98,5 +105,8 @@ class TypeScriptBuilderExtended extends TypeScriptBuilder {
 }
 
 if (findSelf(false)) {
+	console.error('[monkey-patch] wrapped TypeScriptBuilder loaded success.');
 	module.exports.TypeScriptBuilder = TypeScriptBuilderExtended;
+} else {
+	console.error('[monkey-patch] missing self, not run from plugin interface.');
 }

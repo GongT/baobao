@@ -19,7 +19,8 @@ export interface IMyOptions {
 export function apply(heftSession: HeftSession, heftConfiguration: HeftConfiguration, options: IMyOptions = {}): void {
 	const config = loadHeftConfig(heftConfiguration);
 
-	require('../package.json');
+	process.env.HEFT_DUEL_STACK = require.resolve('../package.json');
+	require(process.env.HEFT_DUEL_STACK);
 
 	applyCreateIndex(heftSession, heftConfiguration, config, options);
 	applyAppendExtension(heftSession, heftConfiguration, config, options);
