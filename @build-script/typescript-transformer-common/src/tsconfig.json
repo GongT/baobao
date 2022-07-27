@@ -1,14 +1,21 @@
 {
-	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
-		"module": "ESNext",
-		"declaration": false,
-		"declarationMap": false,
+		"module": "CommonJS",
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
-		"rootDir": ".",
-		"types": ["node"],
-		"incremental": false,
-		"typeRoots": ["../node_modules/@types", "../node_modules"]
-	},
-	"include": ["**/*.ts"]
+		"declarationDir": "../lib",
+		"rootDir": "./",
+
+		"types": ["node", "typescript"],
+		// "composite": false,
+		// "incremental": false,
+
+		"plugins": [
+			// {
+			// 	"transform": "./register.ts",
+			// 	"verbose": 1
+			// }
+		]
+	}
 }

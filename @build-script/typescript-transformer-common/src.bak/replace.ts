@@ -1,4 +1,4 @@
-import { factory } from 'typescript';
+import { factory, setOriginalNode } from 'typescript';
 import { ValidImportOrExportDeclaration } from './types';
 
 /**
@@ -14,6 +14,7 @@ export function replaceImportExportSpecifier(
 	Object.assign(modified, {
 		moduleSpecifier: factory.createStringLiteral(newSpecifier),
 	});
+	setOriginalNode(modified, node);
 	Object.assign(modified.moduleSpecifier, {
 		parent: node,
 	});
