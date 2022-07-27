@@ -16,13 +16,7 @@ export default async function runRegister(argv: string[]) {
 		argumentError('Require project argument.', argumentDefines);
 	}
 
-	const added = await registerProjectToRush(_projectPath);
-
-	if (added) {
-		console.log('register success.');
-	} else {
-		console.log('register success. (already exists)');
-	}
+	await registerProjectToRush(_projectPath);
 }
 
 description(runRegister, 'Register a newly created package.json into rush.json');
