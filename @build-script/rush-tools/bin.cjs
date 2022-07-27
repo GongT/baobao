@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 
-require('source-map-support/register');
+// require('source-map-support/register');
 const { prettyPrintError } = require('@idlebox/node');
 
-Promise.resolve()
-	.then(() => {
-		return require('./lib/index.cjs');
-	})
-	.then(({ default: main }) => {
-		return main();
-	})
-	.catch((e) => {
+module.exports.run = run;
+
+async function run() {
+	const { default: main } = require('./lib/index.cjs');
+	return await main();
+}
+
+if (require.main === module) {
+	Error.stackTraceLimit = Infinity;
+	run().catch((e) => {
 		prettyPrintError('rush-tools', e);
 		process.exit(1);
 	});
+}

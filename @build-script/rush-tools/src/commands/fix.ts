@@ -85,7 +85,7 @@ export default async function runFix(argv: string[]) {
 	console.log('Fixing versions:');
 	let fixed = 0;
 	const isWorkspaceEnabled = rush.isWorkspaceEnabled();
-	const fix = (packName: string, deps: { [id: string]: string }) => {
+	const fix = (packName: string, deps: { [id: string]: string }, isDevDeps: boolean) => {
 		if (!deps) {
 			return;
 		}
@@ -102,7 +102,7 @@ export default async function runFix(argv: string[]) {
 				// depend on other package
 				fix = localHardVersions.get(depName)!;
 				if (isWorkspaceEnabled) {
-					fix = 'workspace:' + fix;
+					fix = 'workspace:^'; // TODO: configurable
 				}
 			} else if (conflictingVersions.has(depName)) {
 				// depend on NPM package, and
@@ -116,7 +116,7 @@ export default async function runFix(argv: string[]) {
 			}
 		}
 
-		if (!blacklist.has(packName)) {
+		if (!isDevDeps && !blacklist.has(packName)) {
 			let flShow = false;
 			for (const depName of Object.keys(deps)) {
 				if (blacklist.has(depName)) {
@@ -130,8 +130,8 @@ export default async function runFix(argv: string[]) {
 		}
 	};
 	for (const item of packageJsons) {
-		fix(item.name, item.dependencies);
-		fix(item.name, item.devDependencies);
+		fix(item.name, item.dependencies, false);
+		fix(item.name, item.devDependencies, true);
 
 		if (await writeJsonFileBack(item)) {
 			console.log('  updated %s', item.name);

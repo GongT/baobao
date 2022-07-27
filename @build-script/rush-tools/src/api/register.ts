@@ -1,6 +1,6 @@
 import { dirname, relative, resolve } from 'path';
 import { writeJsonFileBack } from '@idlebox/node-json-edit';
-import { access } from 'fs-extra';
+import { access, pathExistsSync } from 'fs-extra';
 import { IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 
@@ -23,54 +23,58 @@ export async function registerProjectToRush(projectPath: string) {
 
 	const rush = new RushProject(projectPath);
 
-	const absPath = normalize(rush.absolute(projectPath));
-	let relPath = normalize(relative(dirname(rush.configFile), absPath));
+	const absolutePathToRegister = normalize(rush.absolute(projectPath));
+	let pathToRegister = normalize(relative(dirname(rush.configFile), absolutePathToRegister));
 
-	if (relPath.startsWith('..')) {
+	if (pathToRegister.startsWith('..')) {
 		throw new Error('project is out of root.');
 	}
-	relPath = relPath.replace(/^\.\//, '');
+	pathToRegister = pathToRegister.replace(/^\.\//, '').replace(/\\/g, '/');
 
 	const config = { ...rush.config } as IRushConfig;
-	if (testConfilict(config, name, relPath)) {
-		return false;
-	}
 
-	config.projects.push({
-		packageName: name,
-		projectFolder: relPath,
-		shouldPublish: true,
+	const nameConflict = config.projects.find(({ packageName }) => {
+		return packageName === name;
+	});
+	const pathConflict = config.projects.find(({ projectFolder }) => {
+		return normalize(projectFolder) === pathToRegister;
 	});
 
-	await writeJsonFileBack(config);
-	return true;
+	let msg: string;
+	if (nameConflict) {
+		const conflictPath = rush.absolute(nameConflict);
+		if (absolutePathToRegister === conflictPath) {
+			console.log('register success (no change)');
+			return;
+		}
+
+		if (pathExistsSync(conflictPath)) {
+			throw new Error(`project name "${name}" is already used at "${nameConflict.projectFolder}".`);
+		}
+
+		msg = 'move previous package from ' + nameConflict.projectFolder;
+		nameConflict.projectFolder = pathToRegister;
+	} else if (pathConflict) {
+		msg = 'rename previous package ' + pathConflict.packageName;
+		pathConflict.packageName = name;
+	} else {
+		msg = '';
+		config.projects.push({
+			packageName: name,
+			projectFolder: pathToRegister,
+			shouldPublish: true,
+		});
+	}
+
+	const changed = await writeJsonFileBack(config);
+	if (changed) {
+		console.log('register success: %s', msg);
+	} else {
+		console.error('%s. but result file not changed.', msg);
+	}
+	return;
 }
 
 function normalize(s: string) {
 	return s.replace(/^\.+[\/\\]+/g, '').replace(/\\/g, '/');
-}
-
-function testConfilict(config: IRushConfig, name: string, relPath: string) {
-	const nameConflict = config.projects.find(({ packageName }) => {
-		return packageName === name;
-	});
-
-	if (nameConflict) {
-		if (relPath === nameConflict.projectFolder) {
-			return true;
-		}
-		throw new Error(`Project name "${name}" is already used at "${nameConflict.projectFolder}".`);
-	}
-
-	const pathConflict = config.projects.find(({ projectFolder }) => {
-		return normalize(projectFolder) === relPath;
-	});
-	if (pathConflict) {
-		if (name === pathConflict.packageName) {
-			return true;
-		}
-		throw new Error(`Path "${relPath}" is another project "${pathConflict.packageName}".`);
-	}
-
-	return false;
 }

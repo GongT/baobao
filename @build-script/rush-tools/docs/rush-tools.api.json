@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.25.2",
-    "schemaVersion": 1006,
+    "toolVersion": "7.28.3",
+    "schemaVersion": 1009,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -164,11 +164,13 @@
   "canonicalReference": "@build-script/rush-tools!",
   "docComment": "",
   "name": "@build-script/rush-tools",
+  "preserveMemberOrder": false,
   "members": [
     {
       "kind": "EntryPoint",
       "canonicalReference": "@build-script/rush-tools!",
       "name": "",
+      "preserveMemberOrder": false,
       "members": [
         {
           "kind": "Function",
@@ -963,6 +965,7 @@
           ],
           "releaseTag": "Public",
           "name": "IArgumentsDefine",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1060,6 +1063,7 @@
           ],
           "releaseTag": "Public",
           "name": "IBuildProjectOptions",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1144,6 +1148,7 @@
             }
           ],
           "name": "IJob",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "CallSignature",
@@ -1601,6 +1606,7 @@
           ],
           "releaseTag": "Public",
           "name": "IProjectCallback",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "CallSignature",
@@ -1679,6 +1685,7 @@
           ],
           "releaseTag": "Public",
           "name": "IProjectConfig",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1911,6 +1918,7 @@
           ],
           "releaseTag": "Public",
           "name": "IRushConfig",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -2274,6 +2282,7 @@
           ],
           "releaseTag": "Public",
           "name": "NormalError",
+          "preserveMemberOrder": false,
           "members": [],
           "extendsTokenRange": {
             "startIndex": 1,
@@ -2707,6 +2716,7 @@
             }
           ],
           "name": "RunQueue",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Constructor",
@@ -2895,6 +2905,7 @@
           ],
           "releaseTag": "Public",
           "name": "RushProject",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Constructor",

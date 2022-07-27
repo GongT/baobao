@@ -5,7 +5,8 @@ import { description } from './common/description';
 import { NormalError } from './common/error';
 import { extname } from 'path';
 
-const __extname = extname(import.meta.url);
+// const __extname = extname(import.meta.url);
+const __extname = extname(__filename);
 
 export default async function main() {
 	let argv = process.argv.slice(2);

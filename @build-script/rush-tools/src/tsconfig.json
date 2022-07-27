@@ -1,11 +1,12 @@
 {
-	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
-		"module": "ESNext",
+		"typeRoots": ["./node_modules/@types", "./node_modules"],
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"outDir": "../lib",
-		"rootDir": ".",
-		"typeRoots": ["../node_modules/@types"],
-		"declaration": false,
-		"declarationMap": false
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
+
+		"skipLibCheck": true // https://github.com/microsoft/TypeScript/pull/49746
 	}
 }

@@ -1,38 +1,39 @@
 {
-	"monorepo": "rush",
-	"name": "@build-script/rush-tools",
+	"name": "@build-script/rush-toolsx",
 	"type": "module",
-	"version": "1.3.2",
+	"version": "1.3.3",
+	"keywords": ["microsoft", "rush", "rush-stack", "tools"],
 	"license": "MIT",
-	"typings": "docs/package-public.d.ts",
-	"main": "./lib/_export_all_in_one_index.cjs",
-	"module": "./lib/_export_all_in_one_index.js",
-	"keywords": ["rush", "rush-stack", "microsoft", "tools"],
+	"engines": {
+		"node": ">=14"
+	},
+	"main": "./lib/_index.cjs",
+	"module": "./lib/_index.js",
+	"exports": {
+		".": {
+			"import": "./lib/_index.js",
+			"require": "./lib/_index.cjs"
+		},
+		"./package.json": "./package.json"
+	},
 	"bin": {
 		"rush-tools": "./bin.cjs"
 	},
-	"engines": {
-		"node": "<=12 || >=14"
-	},
-	"exports": {
-		".": {
-			"require": "./lib/_export_all_in_one_index.cjs",
-			"import": "./lib/_export_all_in_one_index.js"
-		}
-	},
+	"types": "./dist/rush-tools-public.d.ts",
 	"scripts": {
-		"build": "build-script build",
-		"clean": "rimraf lib",
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"watch": "build-script watch"
+		"prepack": "heft test --clean --production",
+		"test": "heft test",
+		"lint": "heft build",
+		"build": "heft test",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
+	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@build-script/dual-package-runtime": "workspace:^1.0.11",
-		"@idlebox/common": "workspace:^1.3.9",
-		"@idlebox/ensure-symlink": "workspace:^1.0.22",
-		"@idlebox/node": "workspace:^1.2.6",
-		"@idlebox/node-json-edit": "workspace:^2.0.21",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/ensure-symlink": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@idlebox/node-json-edit": "workspace:^",
 		"@microsoft/rush-lib": "^5.74.0",
 		"cli-spinners": "^2.6.1",
 		"comment-json": "^4.2.2",
@@ -41,24 +42,22 @@
 		"fs-extra": "^10.1.0",
 		"pacote": "^13.6.1",
 		"semver": "^7.3.7",
+		"source-map-support": "^0.5.21",
 		"split2": "^4.1.0",
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "workspace:^3.2.6",
-		"@build-script/export-all-in-one": "workspace:^3.1.4",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.27",
+		"@build-script/builder": "workspace:^",
+		"@build-script/heft-duel-stack": "workspace:^",
+		"@rushstack/heft": "^0.46.2",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.0.0",
+		"@types/node": "^18.6.1",
 		"@types/pacote": "^11.1.5",
 		"@types/semver": "^7.3.10",
 		"@types/split2": "^3.2.1",
-		"gulp": "^4.0.2",
+		"local-rig": "workspace:^",
 		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.21",
-		"ttypescript": "^1.5.13",
 		"typescript": "^4.7.4"
-	},
-	"repository": "https://github.com/GongT/baobao"
+	}
 }
