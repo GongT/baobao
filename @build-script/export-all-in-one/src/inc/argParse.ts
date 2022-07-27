@@ -54,6 +54,7 @@ if (!isDebug) {
 
 export const EXPORT_TEMP_PATH = resolve(getTemp(), tempNam);
 export const DTS_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'tsconfig.json');
+export const PKG_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'package.json');
 export const API_CONFIG_FILE = resolve(EXPORT_TEMP_PATH, 'api-extractor.json');
 
 export const IS_WINDOWS = platform() === 'win32';
