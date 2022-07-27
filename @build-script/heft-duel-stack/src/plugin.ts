@@ -1,9 +1,10 @@
 import { basename, resolve } from 'path';
-import { applyCreateIndex } from './createIndex';
-
-import type { HeftConfiguration, HeftSession } from '@rushstack/heft';
 import { loadHeftConfig } from '@build-script/rushstack-config-loader';
 import { applyAppendExtension } from './appendExtension';
+import { applyCreateIndex } from './createIndex';
+import { applyAutoTestImport } from './test-import';
+
+import type { HeftConfiguration, HeftSession } from '@rushstack/heft';
 // export const optionsSchema = loadJsonFileSync(resolve(__dirname, '../assets/schema.json'));
 
 export const pluginName = require(resolve(__dirname, '../package.json')).name;
@@ -24,4 +25,5 @@ export function apply(heftSession: HeftSession, heftConfiguration: HeftConfigura
 
 	applyCreateIndex(heftSession, heftConfiguration, config, options);
 	applyAppendExtension(heftSession, heftConfiguration, config, options);
+	applyAutoTestImport(heftSession, heftConfiguration, config, options);
 }

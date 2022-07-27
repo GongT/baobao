@@ -8,7 +8,10 @@ import { IScopedLogger } from '@rushstack/heft';
 type TS = typeof TSPublic & typeof TSPrivate;
 
 const isModuleResolutionError = (ex: any) =>
-	typeof ex === 'object' && !!ex && 'code' in ex && ex.code === 'MODULE_NOT_FOUND';
+	typeof ex === 'object' &&
+	!!ex &&
+	'code' in ex &&
+	(ex.code === 'MODULE_NOT_FOUND' || ex.code === 'ERR_MODULE_NOT_FOUND');
 
 const patched = Symbol('ts-patched');
 
@@ -63,10 +66,21 @@ export function patch(typescriptTool: string, require: IRequire, verbose: boolea
 		}
 
 		resolveFactory(transform: string, importKey: string = 'default'): TTS.PluginFactory | undefined {
+			logger.terminal.writeVerboseLine('loading TypeScript transform plugin: ', transform);
 			resolve.sync = require.resolve;
 			try {
 				// @ts-ignore
-				return super.resolveFactory(transform, importKey);
+				const ret = super.resolveFactory(transform, importKey);
+				logger.terminal.writeVerboseLine('  transform resolve success!');
+				return ret;
+			} catch (e: any) {
+				logger.terminal.writeErrorLine(
+					'failed resolve TypeScript transform plugin "',
+					transform,
+					'": ',
+					e.stack
+				);
+				throw e;
 			} finally {
 				resolve.sync = resolveOrig;
 			}
@@ -94,7 +108,7 @@ export function patch(typescriptTool: string, require: IRequire, verbose: boolea
 			};
 			const pluginCreator = new PluginCreator(compilerOptions.plugins as any);
 			mergedTransformers = pluginCreator.createTransformers({ program }, customTransformers);
-			logger.terminal.writeDebugLine('creating new pluginCreator!');
+			logger.terminal.writeVerboseLine('creating new pluginCreator!');
 			cache.set(hash, mergedTransformers);
 		}
 

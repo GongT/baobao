@@ -8,36 +8,66 @@ import type { HeftConfiguration, HeftSession } from '@rushstack/heft';
 import { createRequire } from 'module';
 declare const global: any;
 
-function monkeyPatchBuilder(file: string, exports: any) {
-	const patchFile = readFileSync(resolve(__dirname, 'monkeyPatch.js'));
-	const hash = md5(patchFile);
+function transform(data: string) {
+	if (__filename.endsWith('.ts')) {
+		const ts: typeof import('typescript') = require('typescript');
+		const output = ts.transpileModule(data, {
+			compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ESNext, noEmitHelpers: true },
+		});
+		return output.outputText;
+	} else {
+		return data;
+	}
+}
+
+function getSrouceData() {
+	if (__filename.endsWith('.ts')) {
+		return readFileSync(resolve(__dirname, 'monkeyPatch.ts'), 'utf-8');
+	} else {
+		return readFileSync(resolve(__dirname, 'monkeyPatch.js'), 'utf-8');
+	}
+}
+
+function monkeyPatchBuilder(targetFile: string, exports: any) {
+	const patchFileData = getSrouceData();
+	const hash = md5(Buffer.from(patchFileData));
 	const sig = `/* __MonkeyPatch__:${hash}\n`;
 
-	let fileData = readFileSync(file, 'utf-8');
+	const originalData = readFileSync(targetFile, 'utf-8');
+	let targetData = originalData;
 
-	if (fileData.includes(sig)) {
+	if (targetData.includes(sig)) {
 		return;
 	}
 
-	console.log(`[monkey-patch] modify ${file}`);
-	const found = fileData.indexOf('/* __MonkeyPatch__:');
+	console.log(`[monkey-patch] modify ${targetFile}`);
+	const found = targetData.indexOf('/* __MonkeyPatch__:');
 	if (found > 0) {
-		fileData = fileData.slice(0, found);
+		targetData = targetData.slice(0, found);
 	}
-	fileData = fileData.trimEnd() + '\n';
-	fileData += sig + patchFile;
-	writeFileSync(file, fileData);
+	targetData = targetData.trimEnd() + '\n';
+	targetData += sig + transform(patchFileData);
+	writeFileSync(targetFile, targetData);
+
+	delete require.cache[targetFile];
+
+	try {
+		require(targetFile);
+	} catch (e: any) {
+		console.error(`[monkey-patch] error require, revert content... ${e.message}`);
+		writeFileSync(targetFile, originalData);
+		throw e;
+	}
 
 	if (exports) {
-		delete require.cache[file];
-		console.error('[monkey-patch] assign self');
-		Object.assign(exports, require(file));
+		console.log('[monkey-patch] assign self');
+		Object.assign(exports, require(targetFile));
 	}
 }
 
 export function applyAppendExtension(
 	_heftSession: HeftSession,
-	heftConfiguration: HeftConfiguration,
+	_heftConfiguration: HeftConfiguration,
 	_config: RushStackConfig,
 	_options: IMyOptions
 ) {
@@ -57,6 +87,6 @@ export function applyAppendExtension(
 		const file = resolver('./plugins/TypeScriptPlugin/TypeScriptBuilder');
 		monkeyPatchBuilder(file, undefined);
 	} else {
-		heftConfiguration.globalTerminal.writeError('can not resolve ');
+		throw new Error('can not resolve heft from require.cache');
 	}
 }

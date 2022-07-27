@@ -8,7 +8,7 @@ import type { HeftSession } from '@rushstack/heft/lib/pluginFramework/HeftSessio
 
 /**
  * remove all require above
- * MUST FIRST
+ * MUST AT TOP, ALL STATEMENTS ABOVE NEVER RUN
  */
 const packageName = '@build-script/heft-duel-stack';
 
@@ -34,16 +34,23 @@ function findSelf(die = true): string {
 	}
 	for (const file of Object.keys(require.cache)) {
 		if (!file.endsWith('package.json')) continue;
+
 		const mdl = require.cache[file]!;
 		if (!mdl.exports) continue;
 
 		if (mdl.exports.name === packageName) {
-			return file;
+			return (process.env.HEFT_DUEL_STACK = file);
 		}
 	}
+	const subRequire = require('module').createRequire(process.cwd() + '/package.json');
+	try {
+		return (process.env.HEFT_DUEL_STACK = subRequire.resolve(packageName + '/package.json'));
+	} catch {}
+
 	if (die) {
 		throw new Error(`can not found self (${packageName}): package.json not loaded`);
 	}
+	debugger;
 	return '';
 }
 
@@ -70,6 +77,16 @@ class TypeScriptBuilderExtended extends TypeScriptBuilder {
 
 	protected async invokeAsync(): Promise<void> {
 		const logger = await this.requestScopedLoggerAsync('monkey-patch');
+
+		const realTypescript = this._configuration.typeScriptToolPath;
+
+		logger.terminal.writeLine('using patched ', { text: 'typescript', foregroundColor: ColorValue.Cyan }, '@v', {
+			text: require(realTypescript + '/package.json').version,
+			foregroundColor: ColorValue.Magenta,
+		});
+		logger.terminal.writeLine({ text: `  typescript at: ${realTypescript}`, foregroundColor: ColorValue.Gray });
+		logger.terminal.writeLine({ text: `  source code at: ${__filename}`, foregroundColor: ColorValue.Gray });
+
 		try {
 			const { createRequire } = require('module');
 
@@ -84,17 +101,14 @@ class TypeScriptBuilderExtended extends TypeScriptBuilder {
 				logger.terminal.writeWarningLine(txt)
 			);
 
-			const realTypescript = this._configuration.typeScriptToolPath;
 			const tlog = await this.requestScopedLoggerAsync('transform');
-			buildRequire('./lib/typescriptPatch').patch(realTypescript, rsc.require, this.isDebug, tlog);
 
-			logger.terminal.writeLine(
-				`patching `,
-				{ text: 'typescript', foregroundColor: ColorValue.Cyan },
-				'@v',
-				{ text: require(realTypescript + '/package.json').version, foregroundColor: ColorValue.Magenta },
-				` using ${buildRequire.resolve('./lib/typescriptPatch')}`
-			);
+			logger.terminal.writeLine({
+				text: `  patcher file is: ${buildRequire.resolve('./lib/typescriptPatch')}`,
+				foregroundColor: ColorValue.Gray,
+			});
+
+			buildRequire('./lib/typescriptPatch').patch(realTypescript, rsc.require, this.isDebug, tlog);
 		} catch (e: any) {
 			logger.terminal.writeError(e.stack);
 			throw e;
@@ -105,8 +119,8 @@ class TypeScriptBuilderExtended extends TypeScriptBuilder {
 }
 
 if (findSelf(false)) {
-	console.error('[monkey-patch] wrapped TypeScriptBuilder loaded success.');
+	console.log('[monkey-patch] wrapped TypeScriptBuilder loaded success.');
 	module.exports.TypeScriptBuilder = TypeScriptBuilderExtended;
 } else {
-	console.error('[monkey-patch] missing self, not run from plugin interface.');
+	console.log('[monkey-patch] missing self, not run from plugin interface.');
 }

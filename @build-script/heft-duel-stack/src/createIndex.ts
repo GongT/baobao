@@ -128,7 +128,7 @@ export function createIndex(
 
 	const myLogger: ILogger = {
 		log: function (msg: string, ...args: any[]): void {
-			logger.terminal.writeDebugLine(format(msg, ...args));
+			logger.terminal.writeVerboseLine(format(msg, ...args));
 		},
 		error: function (msg: string, ...args: any[]): void {
 			logger.terminal.writeErrorLine(format(msg, ...args));

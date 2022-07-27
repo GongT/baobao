@@ -1,10 +1,13 @@
 {
 	"name": "@build-script/heft-duel-stack",
 	"type": "commonjs",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "",
-	"main": "./plugin.js",
-	"exports": "./plugin.js",
+	"main": "./lib/entry.js",
+	"exports": {
+		".": "./lib/entry.js",
+		"./package.json": "./package.json"
+	},
 	"scripts": {
 		"build": "tsc -p src",
 		"prepack": "run-s clean build",
@@ -15,18 +18,20 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
+		"@gongt/fix-esm": "workspace:*",
 		"@build-script/rushstack-config-loader": "workspace:*",
+		"@build-script/heft-plugin-entry": "workspace:*",
 		"@idlebox/node": "npm:@idlebox/node@latest",
 		"@idlebox/node-json-edit": "workspace:*",
 		"@idlebox/tsconfig-loader": "workspace:*",
 		"@idlebox/typescript-surface-analyzer": "workspace:*",
+		"@rushstack/node-core-library": "^3.49.0",
 		"tslib": "^2.4.0",
 		"ttypescript": "^1.5.13"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:*",
 		"@rushstack/heft": "^0.46.2",
-		"@rushstack/node-core-library": "^3.49.0",
 		"@types/node": "^18.0.3",
 		"@types/resolve": "^1.20.2",
 		"local-rig": "workspace:*",
