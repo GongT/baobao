@@ -52,7 +52,7 @@ export class FileCollector {
 		}
 
 		if (ts.isExportDeclaration(node)) {
-			logger.debug(' * found ExportDeclaration');
+			// logger.debug(' * found ExportDeclaration');
 			let reference: IResolveResult;
 			try {
 				const path = (0 || eval)(node.moduleSpecifier!.getText());
@@ -92,7 +92,7 @@ export class FileCollector {
 
 		if (ts.isExportAssignment(node)) {
 			// export default VALUE
-			logger.debug(' * found ExportAssignment');
+			// logger.debug(' * found ExportAssignment');
 			const id: ts.Identifier | undefined = ts.isIdentifier(node.expression) ? node.expression : undefined;
 
 			collect.setDefault(id, node, ExportKind.Variable);
@@ -101,12 +101,12 @@ export class FileCollector {
 		}
 
 		if (!isExported(node)) {
-			logger.debug(' * not exported: %s', ts.SyntaxKind[node.kind]);
+			// logger.debug(' * not exported: %s', ts.SyntaxKind[node.kind]);
 			return;
 		}
 
 		if (ts.isModuleDeclaration(node)) {
-			logger.debug(' * found ModuleDeclaration');
+			// logger.debug(' * found ModuleDeclaration');
 			// export namespace|module
 			if (ts.isStringLiteral(node.name)) {
 				this.logger.error(
