@@ -1,6 +1,7 @@
 {
 	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
+		"module": "CommonJS",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"outDir": "../lib",
