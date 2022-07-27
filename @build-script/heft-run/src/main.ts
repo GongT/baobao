@@ -16,7 +16,7 @@ export async function runAsync({
 	scriptOptions: options,
 	heftConfiguration: configuration,
 }: IRunScriptOptions<any> & { scriptOptions: IMyOptions }) {
-	logger.terminal.writeDebugLine(JSON.stringify(options, null, 4));
+	logger.terminal.writeVerboseLine(JSON.stringify(options, null, 4));
 
 	let exe: string = process.execPath;
 	const args: string[] = [];
