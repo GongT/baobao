@@ -111,14 +111,18 @@ function execLinux(cmds: string[]): never {
 	try {
 		process.env.NEVER_UNSHARE = 'true';
 		const require = createRequire(import.meta.url);
-		const kexec = require('kexec');
+		const kexec = require('@gongt/kexec');
 
 		process.removeAllListeners('SIGINT');
 		process.removeAllListeners('SIGTERM');
 		kexec(unshare, args);
 		console.error('[Linux] kexec failed.');
 	} catch (err: any) {
-		if (err.code === 'MODULE_NOT_FOUND' || err.code === 'UNDECLARED_DEPENDENCY') {
+		if (
+			err.code === 'MODULE_NOT_FOUND' ||
+			err.code === 'ERR_MODULE_NOT_FOUND' ||
+			err.code === 'UNDECLARED_DEPENDENCY'
+		) {
 			spawnSimulate(unshare, args);
 		} else {
 			console.error('[Linux] <%s> kexec failed:', err.code, err);
