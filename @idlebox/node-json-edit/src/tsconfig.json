@@ -4,6 +4,8 @@
 		"baseUrl": ".",
 		"outDir": "../lib",
 		"rootDir": ".",
-		"types": ["node"]
+		"types": ["node"],
+		"sourceMap": false,
+		"inlineSourceMap": true
 	}
 }
