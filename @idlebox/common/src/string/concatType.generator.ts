@@ -22,7 +22,7 @@ export function generate() {
 		content += `export function concatStringType<${type}>(\n\t${arg}\n): \`${ret}\`;\n`;
 	}
 
-	const full: string = readFileSync(import.meta.url.replace(/^file:\/\//, ''), 'utf-8');
+	const full: string = readFileSync(__filename, 'utf-8');
 	const lines = full.split('\n');
 	content += '\n';
 	content += lines.slice(lines.indexOf('/* copy */'), lines.indexOf('/* copy end */')).join('\n');

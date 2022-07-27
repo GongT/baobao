@@ -16,3 +16,7 @@ export function ensureGlobalObject<T>(symbol: string, constructor: () => T): T {
 	}
 	return globalObject[sm];
 }
+
+export function x() {
+	return 1;
+}

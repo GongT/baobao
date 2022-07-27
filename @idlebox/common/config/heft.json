@@ -1,0 +1,10 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/heft.schema.json",
+	"extends": "local-rig/profiles/default/heft.json",
+	"eventActions": [],
+	"heftPlugins": [
+		{ "plugin": "@build-script/heft-duel-stack" },
+		{ "plugin": "@idlebox/itypes/remove" },
+		{ "plugin": "@build-script/codegen", "options": { "project": "src" } }
+	]
+}

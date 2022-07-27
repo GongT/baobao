@@ -1,9 +1,0 @@
-{
-	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
-	"compilerOptions": {
-		"module": "ESNext",
-		"target": "ESNext",
-		"types": ["@idlebox/itypes", "node"],
-		"downlevelIteration": true
-	}
-}

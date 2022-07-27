@@ -1,42 +1,43 @@
 {
 	"monorepo": "rush",
 	"name": "@idlebox/common",
-	"type": "module",
-	"typings": "docs/package-public.d.ts",
-	"version": "1.3.9",
+	"version": "1.3.10",
 	"license": "MIT",
-	"main": "./lib/_export_all_in_one_index.cjs",
-	"module": "./lib/_export_all_in_one_index.js",
+	"main": "./lib/_index.cjs",
+	"module": "./lib/_index.js",
+	"types": "./dist/common-public.d.ts",
+	"type": "module",
 	"exports": {
 		".": {
-			"require": "./lib/_export_all_in_one_index.cjs",
-			"import": "./lib/_export_all_in_one_index.js"
-		}
+			"require": "./lib/_index.cjs",
+			"import": "./lib/_index.js"
+		},
+		"./package.json": "./package.json"
 	},
 	"jspm": {
 		"main": "./lib/_export_all_in_one_index.js",
 		"format": "es6"
 	},
 	"scripts": {
-		"build": "build-script build",
-		"clean": "rimraf lib",
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"watch": "build-script watch"
+		"build": "heft test",
+		"prepack": "heft test --clean --production",
+		"watch": "heft build --watch",
+		"lint": "heft build",
+		"clean": "heft clean",
+		"test": "heft test"
 	},
 	"dependencies": {
-		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "npm:@build-script/builder@^3.2.6",
-		"@build-script/export-all-in-one": "npm:@build-script/export-all-in-one@^3.1.4",
+		"@build-script/codegen": "workspace:*",
+		"@build-script/typescript-transformer-dual-package": "workspace:*",
+		"@build-script/heft-duel-stack": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.27",
 		"@idlebox/itypes": "workspace:^1.0.2",
-		"gulp": "^4.0.2",
-		"ts-node": "^10.8.1",
-		"ttypescript": "^1.5.13",
+		"@rushstack/heft": "^0.46.2",
+		"local-rig": "workspace:*",
+		"source-map-support": "^0.5.21",
 		"typescript": "^4.7.4"
 	},
 	"repository": "https://github.com/GongT/baobao"

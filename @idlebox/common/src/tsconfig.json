@@ -1,13 +1,14 @@
 {
-	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
-		"module": "esnext",
+		"typeRoots": ["./node_modules/@types", "./node_modules"],
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"outDir": "../lib",
-		"rootDir": ".",
-		"types": ["@idlebox/itypes"],
-		"declaration": false,
-		"declarationMap": false
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
+
+		"types": ["@idlebox/itypes"]
 	},
-	"include": ["global.d.ts", "**/*.ts"],
+	"include": ["**/*.ts"],
 	"exclude": ["**/*.generator.ts"]
 }
