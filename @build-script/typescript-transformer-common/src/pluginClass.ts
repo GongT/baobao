@@ -1,13 +1,12 @@
 import { dirname, isAbsolute } from 'path';
 import { bindThis, getErrorFrame } from '@idlebox/common';
-import { md5 } from '@idlebox/node';
 import ts from 'typescript';
 import { cache } from './inc/cache';
 import { getValidPackageFile } from './inc/getValidPackageName';
 import { getDebug, IDebug, wrapHeftLogger } from './logger';
+import { ModuleResolver } from './ModuleResolver';
 
 import type { IScopedLogger } from '@rushstack/heft';
-import { ModuleResolver } from './ModuleResolver';
 Error.stackTraceLimit = Infinity;
 
 export enum EngineKind {
@@ -35,7 +34,6 @@ export interface INotify {
 
 export abstract class TypescriptTransformPlugin<IOptions extends Record<string, any> = {}> {
 	private readonly callee: Error;
-	private declare optionsHash: string;
 	protected declare isDebug: boolean;
 	protected declare engine: EngineKind;
 	protected declare logger: IDebug;
@@ -197,34 +195,25 @@ export abstract class TypescriptTransformPlugin<IOptions extends Record<string, 
 	@bindThis
 	private receiveContext(context: ts.TransformationContext): ts.Transformer<ts.SourceFile> {
 		this.context = context;
-
 		this._compilerOptions = context.getCompilerOptions();
 
-		const hash = md5(Buffer.from(JSON.stringify(this._compilerOptions)));
-		if (this.optionsHash !== hash) {
-			// TODO satate should not in class
-			// this.logger.debug('==== New Context ====');
-			// this.logger.debug(this.optionsHash);
-			// this.logger.debug(hash);
+		this.logger.debug('==== New Context ====', ts.ModuleKind[this._compilerOptions.module!]);
 
-			this.compilerHost = ts.createCompilerHost(this._compilerOptions, true);
-			this.compilerHost.getModuleResolutionCache = cache(() =>
-				ts.createModuleResolutionCache(
-					this.compilerHost.getCurrentDirectory(),
-					this.compilerHost.getCanonicalFileName,
-					this._compilerOptions
-				)
-			);
-			this.resolver = new ModuleResolver(this._compilerOptions, this.logger, this.compilerHost);
-			if (this.configure) {
-				this._notifies.length = 0;
-				this._mutations.length = 0;
-				this.configurePhase = true;
-				this.configure(context, this._compilerOptions);
-				this.configurePhase = false;
-			}
-
-			this.optionsHash = hash;
+		this.compilerHost = ts.createCompilerHost(this._compilerOptions, true);
+		this.compilerHost.getModuleResolutionCache = cache(() =>
+			ts.createModuleResolutionCache(
+				this.compilerHost.getCurrentDirectory(),
+				this.compilerHost.getCanonicalFileName,
+				this._compilerOptions
+			)
+		);
+		this.resolver = new ModuleResolver(this._compilerOptions, this.logger, this.compilerHost);
+		if (this.configure) {
+			this._notifies.length = 0;
+			this._mutations.length = 0;
+			this.configurePhase = true;
+			this.configure(context, this._compilerOptions);
+			this.configurePhase = false;
 		}
 
 		if (this._notifies.length) {
