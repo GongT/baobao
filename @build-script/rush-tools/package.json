@@ -1,5 +1,5 @@
 {
-	"name": "@build-script/rush-toolsx",
+	"name": "@build-script/rush-tools",
 	"type": "module",
 	"version": "1.3.3",
 	"keywords": ["microsoft", "rush", "rush-stack", "tools"],
