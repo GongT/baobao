@@ -8,8 +8,8 @@ function loadJsonSync(f) {
 }
 
 function readPackage(packageJson, context) {
-	// if (packageJson.dependencies) lockDep(packageJson.name, packageJson.dependencies, context);
-	// if (packageJson.devDependencies) lockDep(packageJson.name, packageJson.devDependencies, context);
+	if (packageJson.dependencies) lockDep(packageJson.name, packageJson.dependencies, context);
+	if (packageJson.devDependencies) lockDep(packageJson.name, packageJson.devDependencies, context);
 
 	if (packageJson.peerDependencies) delete packageJson.peerDependencies;
 
@@ -68,13 +68,15 @@ const lockedDeps = {};
 
 function lockDep(pkgName, deps, context) {
 	for (const [name, version] of Object.entries(deps)) {
-		if (lockedDeps[name]) {
-			if (lockedDeps[name] !== version) {
-				context.log(` * lock [${name}] of [${pkgName}] from [${version}] to [${lockedDeps[name]}].`);
-				deps[name] = lockedDeps[name];
-			}
+		if (!lockedDeps[name]) {
+			continue;
+		}
+
+		if (name.startsWith('@types/')) {
+			deps[name] = lockedDeps[name];
+			// if (lockedDeps[name] !== version) context.log(` * lock [${name}] of [${pkgName}] from [${version}] to [${lockedDeps[name]}].`);
 		} else {
-			lockedDeps[name] = version;
+			// lockedDeps[name] = version;
 		}
 	}
 }

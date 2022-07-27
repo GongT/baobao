@@ -1,0 +1,8 @@
+{
+	"name": "documents",
+	"version": "1.0.0",
+	"private": true,
+	"dependencies": {
+		"@microsoft/api-extractor": "^7.28.3"
+	}
+}

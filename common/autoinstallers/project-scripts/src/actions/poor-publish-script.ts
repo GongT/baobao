@@ -7,6 +7,10 @@ import { execPromise } from '../include/execPromise';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 
 async function main() {
+	if (1 + 1 > 1) {
+		throw new Error();
+	}
+
 	const rushProject = new RushProject();
 
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');

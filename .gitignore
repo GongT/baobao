@@ -1,63 +1,55 @@
-### Cache file
+### Hidden Files
+.*
+!/.*
+
+### Git
+!*.gitignore
+
+### Cache File
+common/temp
+common/deploy
 *.tsbuildinfo
 .rpt2_cache/
 
-# Rush temporary files
-common/deploy/
-common/temp/
-**/.rush/temp/
+### Temp Files
+*.lock
+.lock
+temp/
 
-### Build result
+### Build Result
 dist/
 lib/
 *.tgz
 .test
 build-*/
-temp/
+tsdoc-metadata.json
 
-### Package manager
+### Package Manager
 node_modules
 jspm_packages
 bower_components
-.rush
 package-deps.json
 /package.json
-.npmrc
 !common/config/rush/.npmrc
+!.npmignore
 
-### logs
+### Log Files
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-### no need in mono repo
+### Monorepo Local Files
 **/.editorconfig
 **/.git*
-!**/.github/
 **/.prettier*
 **/pnpm-lock.yaml
 **/yarn.lock
 
 !common/config/rush/pnpm-lock.yaml
-!common/autoinstallers/*/pnpm-lock.yaml
 
-# Runtime data
-*.pid
-*.seed
-*.pid.lock
-
-### old files
-.idea
-
-### generated files
+### Generated Files
 *.generated.*
 c_cpp_properties.json
 vcpkg_installed
-.DS_Store
-Thumbs.db
-
-### user config
-.env
-
-### temp project
+_*.ts

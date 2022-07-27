@@ -1,0 +1,33 @@
+{
+	"name": "local-rig",
+	"version": "1.0.0",
+	"private": true,
+	"description": "",
+	"scripts": {
+		"build": "",
+		"clean": "",
+		"watch": ""
+	},
+	"license": "WTFPL",
+	"peerDependencies": {
+		"@build-script/single-dog-asset": "workspace:^1.0.19"
+	},
+	"peerDependenciesMeta": {
+		"@build-script/single-dog-asset": {
+			"optional": false
+		}
+	},
+	"dependencies": {
+		"@microsoft/api-extractor": "^7.28.3",
+		"@rushstack/eslint-config": "^2.6.2",
+		"@rushstack/eslint-patch": "^1.1.4",
+		"@rushstack/eslint-plugin": "^0.9.1",
+		"@telia/rush-select": "^0.13.1",
+		"eslint": "^8.19.0",
+		"eslint-plugin-import": "^2.26.0",
+		"typescript": "^4.7.4"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^1.0.19"
+	}
+}

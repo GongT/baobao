@@ -12,7 +12,7 @@
 		"watch": "tsc -w -p src"
 	},
 	"dependencies": {
-		"@build-script/rush-tools": "npm:@build-script/rush-tools@^1.2.13",
+		"@build-script/rush-tools": "npm:@build-script/rush-tools@^1.3.2",
 		"@gongt/fix-esm": "npm:@gongt/fix-esm@^0.0.6",
 		"@idlebox/common": "npm:@idlebox/common@^1.3.9",
 		"@idlebox/ensure-symlink": "npm:@idlebox/ensure-symlink@^1.0.22",

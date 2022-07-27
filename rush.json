@@ -6,9 +6,7 @@
 		"pnpmStore": "global",
 		"strictPeerDependencies": false,
 		"resolutionStrategy": "fewer-dependencies",
-		"environmentVariables": {
-			// "ELECTRON_MIRROR": { "value": "https://npmmirror.com/mirrors/electron/", "override": false }
-		},
+		"environmentVariables": {},
 		"useWorkspaces": true
 	},
 	"hotfixChangeEnabled": true,
@@ -37,6 +35,11 @@
 	},
 	"variants": [],
 	"projects": [
+		{
+			"packageName": "local-rig",
+			"projectFolder": "common/local-rig",
+			"shouldPublish": false
+		},
 		{
 			"packageName": "@gongt/fix-esm",
 			"projectFolder": "@gongt/fix-esm",
@@ -105,11 +108,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@build-script/rollup-plugin-module-import-dew",
-			"projectFolder": "@build-script/rollup-plugin-module-import-dew",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@build-script/typescript-transformer-dual-package",
 			"projectFolder": "@build-script/typescript-transformer-dual-package",
 			"shouldPublish": true
@@ -125,26 +123,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@build-script/typescript-transformer-resolve-info",
-			"projectFolder": "@build-script/typescript-transformer-resolve-info",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@build-script/typescript-transformer-static-resolve",
-			"projectFolder": "@build-script/typescript-transformer-static-resolve",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@build-script/typescript-transformer-import-commonjs",
-			"projectFolder": "@build-script/typescript-transformer-import-commonjs",
-			"shouldPublish": false
-		},
-		{
-			"packageName": "@build-script/typescript-transformer-append-js-extension",
-			"projectFolder": "@build-script/typescript-transformer-append-js-extension",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@build-script/builder",
 			"projectFolder": "@build-script/builder",
 			"shouldPublish": true
@@ -153,21 +131,6 @@
 			"packageName": "unipm",
 			"projectFolder": "standalone/unipm",
 			"shouldPublish": true
-		},
-		{
-			"packageName": "@gongt/vscode-helpers",
-			"projectFolder": "@gongt/vscode-helpers",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@gongt/vscode-sqlite3-bridge",
-			"projectFolder": "@gongt/vscode-sqlite3-bridge",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "vscode-remote-thief",
-			"projectFolder": "@gongt/vscode-remote-thief",
-			"shouldPublish": false
 		},
 		{
 			"packageName": "@gongt/mysql-docgen",
@@ -202,6 +165,48 @@
 		{
 			"packageName": "@build-script/heft-run",
 			"projectFolder": "@build-script/heft-run",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/codegen",
+			"projectFolder": "@build-script/codegen",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/node-ignore-edit",
+			"projectFolder": "@idlebox/node-ignore-edit",
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@idlebox/common"]
+		},
+		{
+			"packageName": "@idlebox/typescript-surface-analyzer",
+			"projectFolder": "@idlebox/typescript-surface-analyzer",
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@idlebox/common"]
+		},
+		{
+			"packageName": "@idlebox/tsconfig-loader",
+			"projectFolder": "@idlebox/tsconfig-loader",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/heft-duel-stack",
+			"projectFolder": "@build-script/heft-duel-stack",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/rushstack-config-loader",
+			"projectFolder": "@build-script/rushstack-config-loader",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/json-extends-loader",
+			"projectFolder": "@idlebox/json-extends-loader",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/heft-plugin-entry",
+			"projectFolder": "@build-script/heft-plugin-entry",
 			"shouldPublish": true
 		}
 	]
