@@ -1,119 +1,81 @@
-import { format } from 'util';
-import ts, {
-	CompilerOptions,
-	Program,
-	SourceFile,
-	TransformationContext,
-	Transformer,
-	TransformerFactory,
-} from 'typescript';
-import { appendDotCjs, cloneProgram } from './append.cjs';
-import { appendDotCjsDirect } from './append.cjs.heft';
-import { appendDotJs } from './append.js';
-import { getDebug, IDebug } from './debug';
-import { selfCreatedProgram } from './preventLoop';
+import {
+	EngineKind,
+	isEsModule,
+	ReplacementSet,
+	TypescriptTransformPlugin,
+} from '@build-script/typescript-transformer-common';
+import ts from 'typescript';
+import { appendCallback } from './appender';
+import { ImportCommonJS } from './replace/importCommonJS';
+import { ImportMetaReplacer } from './replace/importMetaReplacer';
+import { ImportExportSpecifierReplacer } from './replace/importSpecifier';
+import { ShadowTranform } from './ttypescript';
 
-export { ISelfTest } from './self.test';
 export type Extension = '.js' | '.mjs' | '.cjs';
 
-interface IOptions {
+export interface IOptions {
 	mjs?: Extension | false;
 	cjs?: Extension | false;
-	compilerOptions?: CompilerOptions;
-	verbose?: boolean;
-	logger?: any;
+	compilerOptions?: ts.CompilerOptions;
 }
 
-export interface ITransformerSlice {
-	(program: Program, transformationContext: TransformationContext, debug: IDebug): Transformer<SourceFile>;
-}
+class TypescriptTransformDualPackage extends TypescriptTransformPlugin<IOptions> {
+	private declare replacement: ReplacementSet;
+	private replaceMjsRequire?: ImportCommonJS;
+	private shadowPlugin?: ShadowTranform;
 
-let lastProgram: Program;
-let cachedTransformer: TransformerFactory<SourceFile>;
+	private reEmitSourceFile(file: ts.SourceFile) {
+		if (file.isDeclarationFile) return;
+		this.shadowPlugin?.emit(file);
+	}
 
-function makeLogger(logger: any, verbose: boolean) {
-	return {
-		debug(msg: string, ...args: any) {
-			if (verbose) {
-				logger.terminal.writeLine(format(msg, ...args));
-			} else {
-				logger.terminal.writeVerboseLine(format(msg, ...args));
-			}
-		},
-		error(msg: string) {
-			logger.terminal.writeWarningLine(msg);
-		},
-	};
-}
+	protected override configure(context: ts.TransformationContext, options: ts.CompilerOptions) {
+		this.replacement = new ReplacementSet(context, this.logger);
 
-export default function typescriptTransformerDualPackage(program: Program, pluginOptions: IOptions) {
-	const verbose = pluginOptions.verbose || process.env.NODE_DEBUG?.includes('tramsform') || false;
-	const logger = pluginOptions.logger ? makeLogger(pluginOptions.logger, verbose) : getDebug(verbose);
+		this.registerNotifycation([ts.SyntaxKind.SourceFile], this.reEmitSourceFile);
 
-	if (selfCreatedProgram in program) {
-		return () => {
-			(node: SourceFile) => node;
+		const createAppendCallback = (extension: string) => {
+			return appendCallback(extension, this.resolver, this.logger);
 		};
-	}
-	if (program === lastProgram) {
-		return cachedTransformer;
-	}
-	lastProgram = program;
 
-	if (pluginOptions.logger) {
-		let transformer: ts.TransformerFactory<ts.SourceFile>;
-		const mdl = program.getCompilerOptions().module as number;
-		logger.debug('emit program type ' + ts.ModuleKind[mdl]);
-		if (mdl === ts.ModuleKind.CommonJS) {
-			if (pluginOptions.cjs === false) {
-				logger.debug('config cjs is false');
-				transformer = noop;
+		if (this.engine === EngineKind.TTypescript) {
+			if (options.module === ts.ModuleKind.CommonJS) {
+				this.replacement.push(new ImportMetaReplacer(ImportMetaReplacer.UrlToFilename));
+
+				this.shadowPlugin = new ShadowTranform('.mjs', this);
 			} else {
-				const ext: Extension = pluginOptions.cjs || '.cjs';
-				logger.debug('creating program for %s', ext);
-				transformer = function transformer(transformationContext: TransformationContext) {
-					logger.debug('[trans] NewContext');
-					return appendDotCjsDirect(program, transformationContext, logger);
-				};
+				this.replaceMjsRequire = new ImportCommonJS(this.resolver);
+				this.shadowPlugin = new ShadowTranform('.cjs', this);
 			}
-		} else if (mdl >= ts.ModuleKind.ES2015 && mdl <= ts.ModuleKind.ESNext) {
-			if (pluginOptions.mjs === false) {
-				logger.debug('config mjs is false');
-				transformer = noop;
-			} else {
-				const ext: Extension = pluginOptions.mjs || '.js';
-				logger.debug('creating program for %s', ext);
-				transformer = function transformer(transformationContext: TransformationContext) {
-					logger.debug('[trans] NewContext');
-					return appendDotJs(program, transformationContext, logger);
-				};
-			}
+			this.replacement.push(new ImportExportSpecifierReplacer(createAppendCallback('.js')));
+			this.registerMutation(this.replacement.syntaxKinds, this.replacement.execute);
 		} else {
-			logger.debug('creating noop program');
-			transformer = noop;
+			if (options.module === ts.ModuleKind.CommonJS) {
+				this.replacement.push(new ImportMetaReplacer(ImportMetaReplacer.UrlToFilename));
+				this.replacement.push(
+					new ImportExportSpecifierReplacer(createAppendCallback(this.pluginOptions.cjs || '.cjs'))
+				);
+			} else if (isEsModule(options.module)) {
+				this.replaceMjsRequire = new ImportCommonJS(this.resolver);
+				this.replacement.push(
+					new ImportExportSpecifierReplacer(createAppendCallback(this.pluginOptions.mjs || '.js'))
+				);
+			}
+			this.registerMutation(this.replacement.syntaxKinds, this.replacement.execute);
 		}
-		return transformer;
-	} else {
-		const shadowCompilerOptions = pluginOptions.compilerOptions || {};
-		shadowCompilerOptions.declaration = false;
-		shadowCompilerOptions.declarationMap = false;
-		// console.error('[dual-package]: ttsc: creating shadow program!');
-		const shadowProgram = cloneProgram(program, shadowCompilerOptions, logger);
-		const appendDotCjsCall = appendDotCjs(shadowProgram, logger);
+	}
 
-		return (cachedTransformer = function transformer(transformationContext: TransformationContext) {
-			logger.debug('[trans] NewContext');
+	protected override transformToplevelNodes(node: ts.Node): ts.Node[] | ts.Node {
+		// console.log(' - ', ts.SyntaxKind[node.kind]);
+		if (!this.replaceMjsRequire) {
+			return node;
+		}
 
-			const appendDotJsCall = appendDotJs(program, transformationContext, logger);
-
-			return (sourceFile: SourceFile) => {
-				appendDotCjsCall(sourceFile);
-				return appendDotJsCall(sourceFile);
-			};
-		});
+		if (this.replaceMjsRequire.check(node, this.logger)) {
+			return this.replaceMjsRequire.replace(node, this.context, this.logger) || node;
+		}
+		return node;
 	}
 }
 
-function noop() {
-	return (s: ts.SourceFile) => s;
-}
+export default new TypescriptTransformDualPackage().plugin;
