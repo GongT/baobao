@@ -7,7 +7,16 @@ export async function formatPackageJson(file: string, args: string[]) {
 	const data = reformatPackageJson(pkg);
 	reformatJson(data, format);
 
-	if (args.includes('-i')) {
+	const i = args.includes('-i');
+	if (i) {
+		args = args.filter((e) => e !== '-i');
+	}
+	if (args.length) {
+		console.error('invalid arguments: %s', args);
+		process.exit(1);
+	}
+
+	if (i) {
 		const change = await writeJsonFile(file, data, 'utf-8');
 		if (change) {
 			console.log('format:', file);

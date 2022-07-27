@@ -25,6 +25,8 @@ const scriptFields = [
 	'start',
 	'stop',
 	'restart',
+	// 'build',
+	// 'watch',
 	'test',
 	'serve',
 	'lint',
@@ -156,7 +158,7 @@ function sortNative(obj: any): any {
 function sortRegular(obj: any, knowns: string[]) {
 	const keys = new Set(Object.keys(obj));
 	const ret: any = {};
-	for (const key in knowns) {
+	for (const key of knowns) {
 		if (key in obj) {
 			ret[key] = obj[key];
 			keys.delete(key);
@@ -186,10 +188,17 @@ function sortScripts({ ...scripts }: any): any {
 			if (scripts[field]) {
 				ret[field] = scripts[field];
 				delete scripts[field];
+
+				for (const k of Object.keys(scripts)) {
+					if (k.startsWith(field + ':')) {
+						ret[k] = scripts[k];
+						delete scripts[k];
+					}
+				}
 			}
 		}
 	}
-	for (const [k, v] of Object.keys(scripts)) {
+	for (const [k, v] of Object.entries(scripts)) {
 		ret[k] = v;
 	}
 	return ret;

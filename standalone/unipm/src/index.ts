@@ -39,7 +39,7 @@ export default async function () {
 		console.error('  * run                                  - run npm script or node_modules/.bin');
 		console.error('  * init                                 - run init script');
 		console.error('  * show, view                           - get and show package info from registry');
-		console.error('  * format-package                       - format package.json');
+		console.error('  * format-package                       - format package.json (-i write back)');
 		console.error('other command: direct pass to package manager.');
 		process.exit(1);
 	}
