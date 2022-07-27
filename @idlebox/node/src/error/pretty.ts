@@ -1,10 +1,12 @@
 import { isAbsolute } from '@idlebox/common';
+import { relativePath } from '../path-resolve/resolvePath';
 
-const regNormal = /^\s+at ([^\/\s]+)(?: \[as ([^\]]+)])? \(([^:]+)(:\d+)?(:\d+)\)$/;
+const regNormal = /^\s+at ([^\/\s]+)(?: \[as ([^\]]+)])? \(((?:node|file):\/*)?([^:]+)(:\d+)?(:\d+)\)$/;
 
 const enum regNormalMatch {
 	fn = 1,
 	fnAlias,
+	fileSchema,
 	file,
 	row,
 	column,
@@ -31,7 +33,7 @@ const enum regSimpleFrameMatch {
 	fn = 1,
 }
 
-let root = import.meta.url.replace(/^file:\/\//, '');
+let root = process.cwd();
 
 export function setErrorLogRoot(_root: string) {
 	root = _root;
@@ -42,14 +44,25 @@ interface IInternalData {
 	fn?: string;
 	as?: string;
 	file?: string;
+	fileSchema?: string; // 'node' | 'file';
 	line?: number;
 	col?: number;
 	abs?: boolean;
 }
 
+let notify_printed = false;
 export function prettyPrintError(type: string, e: Error) {
+	if (process.env.DISABLE_PRETTY_ERROR) {
+		console.error('[${type}] %s', e.stack || e.message);
+		return;
+	}
 	console.error(`------------------------------------------
 [${type}] ${prettyFormatError(e)}`);
+
+	if (!notify_printed) {
+		notify_printed = true;
+		console.error('\x1B[2muse env.DISABLE_PRETTY_ERROR=yes to see original error stack\x1B[0m');
+	}
 }
 
 function red(s: string) {
@@ -72,6 +85,7 @@ export function prettyFormatError(e: Error) {
 			return {
 				fn: m[regNormalMatch.fn],
 				as: m[regNormalMatch.fnAlias],
+				fileSchema: m[regNormalMatch.fileSchema],
 				file: m[regNormalMatch.file],
 				line: parseInt(m[regNormalMatch.row].slice(1)),
 				col: parseInt(m[regNormalMatch.column].slice(1)),
@@ -114,7 +128,7 @@ export function prettyFormatError(e: Error) {
 	const stackOutput = stack
 		.filter(ignoreSomeFiles)
 		.map(translateFunction)
-		.map(({ raw, fn, file, as, abs, line, col }) => {
+		.map(({ raw, fn, file, as, abs, line, col, fileSchema }) => {
 			let ret;
 			if (raw) {
 				return raw;
@@ -135,7 +149,7 @@ export function prettyFormatError(e: Error) {
 					if (!isNodeModule) {
 						ret += '\x1b[38;5;2m';
 					}
-					ret += formatFileLine(file.replace(root, '.'), line, col);
+					ret += formatFileLine(fileSchema, file, line, col);
 					ret += '\x1B[0m)';
 				}
 			} else {
@@ -147,7 +161,7 @@ export function prettyFormatError(e: Error) {
 					if (fn) {
 						ret += ' (';
 					}
-					ret += formatFileLine(file.replace(root, '.'), line, col);
+					ret += formatFileLine(fileSchema, file, line, col);
 					if (fn) {
 						ret += ')';
 					}
@@ -166,8 +180,19 @@ export function prettyFormatError(e: Error) {
 	return first + '\n' + stackOutput.join('\n');
 }
 
-function formatFileLine(file: string, row?: number, col?: number) {
-	return `${file}${row ? `:${row}` : ''}${col ? `:${col}` : ''}`;
+function formatFileLine(schema: string | undefined, file: string, row?: number, col?: number) {
+	let rel = file;
+
+	if (schema !== 'node:') {
+		rel = relativePath(root, file);
+		if (rel.startsWith('..')) {
+			rel = file;
+		} else if (!rel.startsWith('.')) {
+			rel = './' + rel;
+		}
+	}
+
+	return `${schema || ''}${rel}${row ? `:${row}` : ''}${col ? `:${col}` : ''}`;
 }
 
 function formatFunctionName(fn?: string, as?: string) {
@@ -203,7 +228,7 @@ function ignoreSomeFiles({ file }: IInternalData): boolean {
 	if (file === 'internal/timers.js') {
 		return false;
 	}
-	if (file === 'internal/modules/cjs/loader.js') {
+	if (file.startsWith('internal/modules/cjs/loader')) {
 		return false;
 	}
 	if (!file.includes('/')) {

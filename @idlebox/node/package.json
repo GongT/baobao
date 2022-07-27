@@ -22,9 +22,9 @@
 		"test": "heft test"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^1.3.9",
+		"@idlebox/common": "workspace:^",
 		"execa": "^6.1.0",
-		"@gongt/fix-esm": "workspace:^0.0.6",
+		"@gongt/fix-esm": "workspace:^",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0"
 	},
@@ -32,13 +32,13 @@
 		"@gongt/kexec": "latest"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:*",
+		"@build-script/heft-duel-stack": "workspace:^",
 		"@gongt/kexec": "latest",
-		"local-rig": "workspace:*",
-		"@build-script/typescript-transformer-dual-package": "workspace:*",
+		"local-rig": "workspace:^",
+		"@build-script/typescript-transformer-dual-package": "workspace:^",
 		"@rushstack/heft": "^0.46.2",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"@types/node": "^18.0.3",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@types/node": "^18.6.1",
 		"chai": "^4.3.6",
 		"fs-extra": "^10.1.0",
 		"gulp": "^4.0.2",
