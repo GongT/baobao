@@ -1,9 +1,14 @@
 import { createInterface } from 'readline';
-import { KNOWN_PACKAGE_MANAGERS } from './getPackageManagerByName';
+import {
+	getPackageManagerByName,
+	KNOWN_PACKAGE_MANAGER_NAMES,
+	KNOWN_PACKAGE_MANAGERS,
+} from './getPackageManagerByName';
 import { PackageManager } from './packageManager';
 
 export interface IGetPackageManagerOptions {
 	cwd: string;
+	packageJson?: string;
 	default: 'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto';
 	ask: boolean;
 }
@@ -19,35 +24,46 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 		_options || {}
 	);
 
-	const all: PackageManager[] = KNOWN_PACKAGE_MANAGERS.map((Manager) => {
+	if (options.packageJson) {
+		try {
+			const json = require(options.packageJson);
+			if (typeof json.packageManager === 'string') {
+				for (const name of KNOWN_PACKAGE_MANAGER_NAMES) {
+					if (json.packageManager.toLowerCase().startsWith(name)) {
+						const PM = getPackageManagerByName(name)!;
+						return new PM(options.cwd);
+					}
+				}
+			}
+		} catch {}
+	}
+
+	const packageManagers: PackageManager[] = KNOWN_PACKAGE_MANAGERS.map((Manager) => {
 		return new Manager(options.cwd);
 	});
 
 	const detected = await new Promise<PackageManager | undefined>((resolve) => {
-		let ps = all.map((pm) => {
-			return pm.detect().then((found) => {
-				if (found) {
-					resolve(pm);
-				}
-			});
-		});
+		const ps = [];
+		for (const pm of packageManagers) {
+			const p = pm
+				.detect()
+				.catch()
+				.then((pm) => {
+					if (pm) resolve(pm);
+				});
+
+			ps.push(p);
+		}
 		Promise.all(ps).finally(() => resolve(undefined));
 	});
 
-	await Promise.all(
-		all.map((pm) => {
-			return pm.detect().then((found) => {
-				return found ? pm : undefined;
-			});
-		})
-	);
 	if (detected) {
 		return detected;
 	}
 
 	const installed = (
 		await Promise.all(
-			all.map((pm) => {
+			packageManagers.map((pm) => {
 				return pm.exists().then((found) => {
 					return found ? pm : undefined;
 				});
@@ -74,7 +90,7 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 		if (installed.length) {
 			return installed[0];
 		} else {
-			return all[0];
+			return packageManagers[0];
 		}
 	}
 
@@ -84,7 +100,7 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 		}
 	}
 
-	return all[0];
+	return packageManagers[0];
 }
 
 async function askUserSelect(installed: PackageManager[]): Promise<PackageManager | undefined> {

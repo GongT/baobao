@@ -12,6 +12,11 @@ import { Options } from 'execa';
 // @public (undocumented)
 export function deletePackageDependency(file: string, ...deps: string[]): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "formatPackageJson" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function formatPackageJson(file: string, args: string[]): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "getPackageManager" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -32,7 +37,14 @@ export interface IGetPackageManagerOptions {
     cwd: string;
     // (undocumented)
     default: 'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto';
+    // (undocumented)
+    packageJson?: string;
 }
+
+// Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGER_NAMES" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const KNOWN_PACKAGE_MANAGER_NAMES: string[];
 
 // Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGERS" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -50,7 +62,7 @@ export abstract class PackageManager {
     protected abstract readonly cliName: string;
     // (undocumented)
     protected readonly cwd: string;
-    detect(): Promise<boolean>;
+    detect(): Promise<this | undefined>;
     // (undocumented)
     protected abstract _detect(): Promise<boolean>;
     // (undocumented)
@@ -111,6 +123,11 @@ export enum PackageManagerType {
     // (undocumented)
     YARN = 3
 }
+
+// Warning: (ae-missing-release-tag) "reformatPackageJson" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function reformatPackageJson({ ...packageJson }: any): typeof packageJson;
 
 // Warning: (ae-missing-release-tag) "resolveLatestVersionOnNpm" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

@@ -3,15 +3,20 @@ import { Options } from 'execa';
 
 export declare function deletePackageDependency(file: string, ...deps: string[]): Promise<void>;
 
+export declare function formatPackageJson(file: string, args: string[]): Promise<void>;
+
 export declare function getPackageManager(_options?: Partial<IGetPackageManagerOptions>): Promise<PackageManager>;
 
 export declare function getPackageManagerByName(name: string): PackageManagerConstructor | undefined;
 
 export declare interface IGetPackageManagerOptions {
     cwd: string;
+    packageJson?: string;
     default: 'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto';
     ask: boolean;
 }
+
+export declare const KNOWN_PACKAGE_MANAGER_NAMES: string[];
 
 export declare const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[];
 
@@ -31,7 +36,7 @@ export declare abstract class PackageManager {
     /** if set to true, debug info will print to stderr, default is process.stderr.isTTY */
     displayBeforeCommandRun: boolean;
     /** detect if this package manager is used by current project */
-    detect(): Promise<boolean>;
+    detect(): Promise<this | undefined>;
     protected abstract _detect(): Promise<boolean>;
     constructor(cwd: string);
     protected _detectFile(file: string): Promise<boolean>;
@@ -69,6 +74,8 @@ export declare enum PackageManagerType {
     RUSH = 2,
     YARN = 3
 }
+
+export declare function reformatPackageJson({ ...packageJson }: any): typeof packageJson;
 
 export declare function resolveLatestVersionOnNpm(packageName: string): Promise<string>;
 

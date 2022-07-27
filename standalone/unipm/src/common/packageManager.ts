@@ -30,11 +30,16 @@ export abstract class PackageManager {
 	public displayBeforeCommandRun = process.stderr.isTTY;
 
 	/** detect if this package manager is used by current project */
-	public detect(): Promise<boolean> {
-		return this._detect().catch((e) => {
-			console.error('Exception of detect() package manager %s\n%s', this.friendlyName, e.stack);
-			return false;
-		});
+	public detect(): Promise<this | undefined> {
+		return this._detect().then(
+			(found) => {
+				return found ? this : undefined;
+			},
+			(e) => {
+				console.error('Exception of detect() package manager %s\n%s', this.friendlyName, e.stack);
+				return undefined;
+			}
+		);
 	}
 
 	protected abstract _detect(): Promise<boolean>;
@@ -93,6 +98,7 @@ export abstract class PackageManager {
 
 	/** run scripts in package.json, by package manager */
 	public run(script: string, ...args: string[]) {
+		// TODO: run node_modules/.bin
 		return this.invokeCli(this.runCommand, script, ...args);
 	}
 
