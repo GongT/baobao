@@ -1,13 +1,13 @@
 {
 	"name": "@build-script/codegen",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "generate code helper",
 	"type": "commonjs",
 	"keywords": [],
 	"repository": "https://github.com/GongT/baobao",
 	"license": "MIT",
 	"bin": "bin.js",
-	"main": "lib/api.js",
+	"main": "heft.js",
 	"scripts": {
 		"build": "tsc -p src",
 		"prepack": "run-s clean build",
@@ -24,7 +24,8 @@
 		"glob": "^8.0.3",
 		"source-map-support": "^0.5.21",
 		"ts-node": "^10.8.2",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.0",
+		"@gongt/fix-esm": "workspace:*"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^1.0.19",
