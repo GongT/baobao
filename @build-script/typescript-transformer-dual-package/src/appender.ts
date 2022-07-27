@@ -5,6 +5,9 @@ export function appendCallback(extension: string, resolver: ModuleResolver, logg
 	return (file: string, node: ts.Node) => {
 		const sourceFile = tryGetSourceFile(node);
 		if (!sourceFile) {
+			if (file === 'tslib') {
+				return file;
+			}
 			logger.warn('found node no source file import:', file);
 			return file;
 		}

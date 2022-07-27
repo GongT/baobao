@@ -30,6 +30,7 @@ class TypescriptTransformDualPackage extends TypescriptTransformPlugin<IOptions>
 	}
 
 	protected override configure(context: ts.TransformationContext, options: ts.CompilerOptions) {
+		delete this.replaceMjsRequire;
 		this.replacement = new ReplacementSet(context, this.logger);
 
 		this.registerNotifycation([ts.SyntaxKind.SourceFile], this.reEmitSourceFile);

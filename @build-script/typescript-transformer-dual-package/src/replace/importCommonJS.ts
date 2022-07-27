@@ -54,10 +54,11 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 	override _replace(
 		node: ValidImportOrExportFromDeclaration,
 		{ factory }: ts.TransformationContext,
-		_logger: IDebug
+		logger: IDebug
 	): ts.Node[] {
 		const uniqueName =
 			'_' + node.moduleSpecifier.text.replace(/^@/, '').replace(/[/\.-]/g, '_') + '_' + node.getStart();
+		logger.debug(`modify import to {default} with id: ${uniqueName}`);
 		if (ts.isExportDeclaration(node)) {
 			const uid = factory.createIdentifier(uniqueName);
 
@@ -87,6 +88,8 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 		} else {
 			const nameToUse = node.importClause?.name?.text ?? uniqueName;
 			const uid = factory.createIdentifier(nameToUse);
+			if (node.importClause) ts.setOriginalNode(uid, node.importClause.name);
+
 			return [
 				factory.createImportDeclaration(
 					node.decorators,
