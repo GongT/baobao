@@ -2,27 +2,27 @@
 	"name": "7zip-bin-wrapper",
 	"type": "module",
 	"version": "1.0.25",
-	"author": "GongT <gongteng524702837@gmail.com>",
 	"license": "MIT",
-	"bin": {
-		"7za": "./7za.js",
-		"7z": "./7za.js"
-	},
+	"author": "GongT <gongteng524702837@gmail.com>",
 	"main": "./dist/_export_all_in_one_index.cjs",
 	"module": "./dist/_export_all_in_one_index.js",
-	"typings": "docs/package-public.d.ts",
 	"exports": {
 		".": {
-			"require": "./dist/_export_all_in_one_index.cjs",
-			"import": "./dist/_export_all_in_one_index.js"
+			"import": "./dist/_export_all_in_one_index.js",
+			"require": "./dist/_export_all_in_one_index.cjs"
 		}
 	},
+	"bin": {
+		"7z": "./7za.js",
+		"7za": "./7za.js"
+	},
+	"typings": "docs/package-public.d.ts",
 	"scripts": {
+		"prepack": "build-script rebuild",
+		"test": "build-script test",
 		"build": "build-script build",
 		"clean": "rimraf lib",
 		"distclean": "build-script distclean",
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"
 	},
@@ -34,15 +34,16 @@
 	},
 	"devDependencies": {
 		"7zip-bin": "^5.2.0",
-		"@build-script/builder": "workspace:^3.2.6",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.27",
-		"@types/node": "^18.0.0",
+		"@build-script/builder": "workspace:^",
+		"@build-script/export-all-in-one": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@types/node": "^18.6.1",
 		"@types/split2": "^3.2.1",
 		"gulp": "^4.0.2",
+		"local-rig": "workspace:^",
 		"ttypescript": "^1.5.13",
-		"typescript": "^4.7.4",
-		"@build-script/export-all-in-one": "workspace:^3.1.4"
+		"typescript": "^4.7.4"
 	},
 	"peerDependencies": {
 		"7zip-bin": "latest"

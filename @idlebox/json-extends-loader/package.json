@@ -3,18 +3,18 @@
 	"type": "commonjs",
 	"version": "1.0.2",
 	"description": "",
+	"keywords": [],
+	"license": "MIT",
+	"author": "",
 	"main": "./lib/api.js",
 	"types": "./lib/api.d.ts",
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
 	"scripts": {
-		"build": "heft build --lite",
 		"prepack": "heft build --clean --production",
-		"watch": "heft build --watch",
+		"test": "heft test",
 		"lint": "heft build",
-		"clean": "heft clean",
-		"test": "heft test"
+		"build": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"dependencies": {
 		"comment-json": "^4.2.2",
@@ -23,12 +23,12 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:*",
+		"@build-script/single-dog-asset": "workspace:^",
 		"@microsoft/api-extractor": "^7.28.3",
 		"@rushstack/heft": "^0.46.2",
-		"@types/node": "^18.0.3",
+		"@types/node": "^18.6.1",
 		"@types/object-path": "^0.11.1",
-		"local-rig": "workspace:*",
+		"local-rig": "workspace:^",
 		"typescript": "^4.7.4"
 	}
 }

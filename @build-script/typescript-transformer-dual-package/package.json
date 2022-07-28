@@ -1,29 +1,31 @@
 {
 	"name": "@build-script/typescript-transformer-dual-package",
-	"description": "A TypeScript transformer for (mainly) use with ttypescript that will (semi-)auto create dual package hazard.",
-	"keywords": ["ttypescript", "typescript", "transformer", "dual package", "esm", "es modules", "commonjs"],
-	"version": "2.0.1",
-	"license": "MIT",
 	"type": "module",
+	"version": "2.0.1",
+	"description": "A TypeScript transformer for (mainly) use with ttypescript that will (semi-)auto create dual package hazard.",
+	"keywords": ["commonjs", "dual package", "es modules", "esm", "transformer", "ttypescript", "typescript"],
+	"license": "MIT",
 	"main": "./lib/register.cjs",
-	"typings": "./lib/register.d.ts",
 	"module": "./lib/register.js",
 	"exports": {
 		".": {
-			"require": "./lib/register.cjs",
-			"import": "./lib/register.js"
+			"import": "./lib/register.js",
+			"require": "./lib/register.cjs"
 		}
 	},
+	"typings": "./lib/register.d.ts",
 	"scripts": {
 		"prepack": "run-s clean build test",
+		"test": "node lib/tests/try-load.js",
 		"build": "ttsc -p src",
 		"watch": "nodemon",
-		"clean": "rimraf lib",
-		"test": "node lib/tests/try-load.js"
+		"clean": "rimraf lib"
 	},
-	"peerDependencies": {
-		"ttypescript": "*",
-		"typescript": ">=3.8.0-dev.20200115"
+	"repository": "https://github.com/GongT/baobao",
+	"dependencies": {
+		"@build-script/typescript-transformer-common": "workspace:^",
+		"nodemon": "^2.0.19",
+		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -34,10 +36,8 @@
 		"ttypescript": "^1.5.13",
 		"typescript": "^4.7.4"
 	},
-	"repository": "https://github.com/GongT/baobao",
-	"dependencies": {
-		"@build-script/typescript-transformer-common": "workspace:^",
-		"nodemon": "^2.0.19",
-		"tslib": "^2.4.0"
+	"peerDependencies": {
+		"ttypescript": "*",
+		"typescript": ">=3.8.0-dev.20200115"
 	}
 }

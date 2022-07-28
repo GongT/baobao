@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.25.2",
-    "schemaVersion": 1006,
+    "toolVersion": "7.28.3",
+    "schemaVersion": 1009,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -164,11 +164,13 @@
   "canonicalReference": "@gongt/vscode-sqlite3-bridge!",
   "docComment": "",
   "name": "@gongt/vscode-sqlite3-bridge",
+  "preserveMemberOrder": false,
   "members": [
     {
       "kind": "EntryPoint",
       "canonicalReference": "@gongt/vscode-sqlite3-bridge!",
       "name": "",
+      "preserveMemberOrder": false,
       "members": [
         {
           "kind": "TypeAlias",

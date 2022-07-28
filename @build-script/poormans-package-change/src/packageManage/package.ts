@@ -25,7 +25,7 @@ export async function packCurrentVersion(cwd: string) {
 		const ret = JSON.parse(resultLine[0]);
 		result = ret.data.replace(/^Wrote tarball to "/, '').replace(/"\.$/, '');
 	} else {
-		const chProcess = await execLazyError(pm, ['pack', '--unsafe-perm'], {
+		const chProcess = await execLazyError(pm, ['pack'], {
 			stdout: 'inherit',
 			verbose: true,
 			env: { LANG: 'C.UTF-8' },

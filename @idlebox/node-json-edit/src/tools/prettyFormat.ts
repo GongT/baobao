@@ -1,6 +1,5 @@
 import { readFileSync, readFile as readFileAsync } from 'fs';
-import { Options as PrettierOptions } from 'prettier';
-const { format, resolveConfig } = require('prettier');
+import { format, resolveConfig, Options as PrettierOptions } from 'prettier';
 import { IFileFormatConfig } from '..';
 import { pathExistsSync, pathExistsAsync } from './filesystem';
 import { promisify } from 'util';

@@ -246,7 +246,10 @@ export function publishLocal(argv: string[]): Promise<void>;
 // Warning: (ae-missing-release-tag) "registerProjectToRush" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function registerProjectToRush(projectPath: string): Promise<boolean>;
+export function registerProjectToRush(
+	projectPath: string,
+	log?: (message?: any, ...optionalParams: any[]) => void
+): Promise<boolean>;
 
 // Warning: (ae-missing-release-tag) "requireArgument" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

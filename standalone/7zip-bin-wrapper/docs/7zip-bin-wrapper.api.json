@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.25.2",
-    "schemaVersion": 1006,
+    "toolVersion": "7.28.3",
+    "schemaVersion": 1009,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -164,11 +164,13 @@
   "canonicalReference": "7zip-bin-wrapper!",
   "docComment": "",
   "name": "7zip-bin-wrapper",
+  "preserveMemberOrder": false,
   "members": [
     {
       "kind": "EntryPoint",
       "canonicalReference": "7zip-bin-wrapper!",
       "name": "",
+      "preserveMemberOrder": false,
       "members": [
         {
           "kind": "Function",
@@ -554,6 +556,7 @@
           ],
           "releaseTag": "Public",
           "name": "I7zHandler",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Method",
@@ -867,6 +870,7 @@
           ],
           "releaseTag": "Public",
           "name": "IStatusReport",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -964,6 +968,7 @@
           ],
           "releaseTag": "Public",
           "name": "IToRun",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1107,6 +1112,7 @@
           ],
           "releaseTag": "Public",
           "name": "LoggerStream",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Method",
@@ -1406,6 +1412,7 @@
           ],
           "releaseTag": "Public",
           "name": "ProgramError",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",

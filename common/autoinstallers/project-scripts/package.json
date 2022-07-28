@@ -1,9 +1,7 @@
 {
 	"name": "project-scripts",
-	"version": "1.0.0",
-	"private": true,
 	"type": "commonjs",
-	"repository": "https://github.com/GongT/baobao",
+	"version": "1.0.0",
 	"license": "MIT",
 	"scripts": {
 		"postinstall": "tsc -p src",
@@ -11,6 +9,8 @@
 		"build": "tsc -p src",
 		"watch": "tsc -w -p src"
 	},
+	"private": true,
+	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@build-script/rush-tools": "npm:@build-script/rush-tools@^1.3.2",
 		"@gongt/fix-esm": "npm:@gongt/fix-esm@^0.0.6",
@@ -31,7 +31,7 @@
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.0.0",
+		"@types/node": "^18.6.1",
 		"@types/semver": "^7.3.10",
 		"@types/split2": "^3.2.1"
 	}

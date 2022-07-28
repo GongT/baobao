@@ -65,6 +65,7 @@ async function getNpmCacheJson(packageName: string, registry: string): Promise<a
 }
 
 export async function getNewNpmCache(name: string, distTag: string, registry: string) {
+	console.error(`     * npm show ${name}@${distTag}`);
 	await execa('npm', ['show', `--registry=${registry}`, `${name}@${distTag}`], spawnOpts);
 	const json = await getNpmCacheJson(name, registry);
 	if (!json) {

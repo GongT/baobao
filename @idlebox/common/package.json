@@ -1,44 +1,44 @@
 {
-	"monorepo": "rush",
 	"name": "@idlebox/common",
+	"type": "module",
 	"version": "1.3.10",
 	"license": "MIT",
 	"main": "./lib/_index.cjs",
 	"module": "./lib/_index.js",
-	"types": "./dist/common-public.d.ts",
-	"type": "module",
 	"exports": {
 		".": {
-			"require": "./lib/_index.cjs",
-			"import": "./lib/_index.js"
+			"import": "./lib/_index.js",
+			"require": "./lib/_index.cjs"
 		},
 		"./package.json": "./package.json"
 	},
-	"jspm": {
-		"main": "./lib/_export_all_in_one_index.js",
-		"format": "es6"
-	},
+	"types": "./dist/common-public.d.ts",
 	"scripts": {
-		"build": "heft test",
 		"prepack": "heft test --clean --production",
-		"watch": "heft build --watch",
+		"test": "heft test",
 		"lint": "heft build",
-		"clean": "heft clean",
-		"test": "heft test"
+		"build": "heft test",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
+	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/codegen": "workspace:*",
-		"@build-script/typescript-transformer-dual-package": "workspace:*",
-		"@build-script/heft-duel-stack": "workspace:*",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"@idlebox/itypes": "workspace:^1.0.2",
+		"@build-script/codegen": "workspace:^",
+		"@build-script/heft-duel-stack": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@idlebox/itypes": "workspace:^",
 		"@rushstack/heft": "^0.46.2",
-		"local-rig": "workspace:*",
+		"local-rig": "workspace:^",
 		"source-map-support": "^0.5.21",
 		"typescript": "^4.7.4"
 	},
-	"repository": "https://github.com/GongT/baobao"
+	"monorepo": "rush",
+	"jspm": {
+		"format": "es6",
+		"main": "./lib/_export_all_in_one_index.js"
+	}
 }

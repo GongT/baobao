@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.25.2",
-    "schemaVersion": 1006,
+    "toolVersion": "7.28.3",
+    "schemaVersion": 1009,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -164,11 +164,13 @@
   "canonicalReference": "@idlebox/browser!",
   "docComment": "",
   "name": "@idlebox/browser",
+  "preserveMemberOrder": false,
   "members": [
     {
       "kind": "EntryPoint",
       "canonicalReference": "@idlebox/browser!",
       "name": "",
+      "preserveMemberOrder": false,
       "members": [
         {
           "kind": "Class",
@@ -195,6 +197,7 @@
             }
           ],
           "name": "TimeoutStorage",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Constructor",
@@ -499,6 +502,7 @@
           ],
           "releaseTag": "Public",
           "name": "WrappedWebConsole",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Constructor",

@@ -63,8 +63,7 @@
 		{
 			"packageName": "@idlebox/common",
 			"projectFolder": "@idlebox/common",
-			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@build-script/builder", "@build-script/export-all-in-one"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/browser",
@@ -74,8 +73,7 @@
 		{
 			"packageName": "@idlebox/node",
 			"projectFolder": "@idlebox/node",
-			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@build-script/builder", "@build-script/export-all-in-one"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/export-all-in-one",
@@ -120,7 +118,8 @@
 		{
 			"packageName": "@build-script/typescript-transformer-common",
 			"projectFolder": "@build-script/typescript-transformer-common",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
 		},
 		{
 			"packageName": "@build-script/builder",
@@ -170,7 +169,8 @@
 		{
 			"packageName": "@build-script/codegen",
 			"projectFolder": "@build-script/codegen",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
 		},
 		{
 			"packageName": "@idlebox/node-ignore-edit",
@@ -182,7 +182,7 @@
 			"packageName": "@idlebox/typescript-surface-analyzer",
 			"projectFolder": "@idlebox/typescript-surface-analyzer",
 			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@idlebox/common"]
+			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
 		},
 		{
 			"packageName": "@idlebox/tsconfig-loader",
@@ -192,7 +192,8 @@
 		{
 			"packageName": "@build-script/heft-duel-stack",
 			"projectFolder": "@build-script/heft-duel-stack",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
 		},
 		{
 			"packageName": "@build-script/rushstack-config-loader",

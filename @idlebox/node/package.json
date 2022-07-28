@@ -1,49 +1,49 @@
 {
-	"monorepo": "rush",
-	"version": "1.2.7",
-	"license": "MIT",
 	"name": "@idlebox/node",
 	"type": "module",
-	"types": "dist/node-public.d.ts",
+	"version": "1.2.7",
+	"license": "MIT",
 	"main": "./_fix_esm_loader.cjs",
 	"module": "./lib/_index.js",
 	"exports": {
 		".": {
-			"require": "./_fix_esm_loader.cjs",
-			"import": "./lib/_index.js"
+			"import": "./lib/_index.js",
+			"require": "./_fix_esm_loader.cjs"
 		}
 	},
+	"types": "dist/node-public.d.ts",
 	"scripts": {
-		"build": "heft build --lite",
 		"prepack": "heft build --clean --production",
-		"watch": "heft build --watch",
+		"test": "heft test",
 		"lint": "heft build",
-		"clean": "heft clean",
-		"test": "heft test"
+		"build": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
+	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
+		"@gongt/fix-esm": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"execa": "^6.1.0",
-		"@gongt/fix-esm": "workspace:^",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0"
 	},
-	"optionalDependencies": {
-		"@gongt/kexec": "latest"
-	},
 	"devDependencies": {
 		"@build-script/heft-duel-stack": "workspace:^",
-		"@gongt/kexec": "latest",
-		"local-rig": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@rushstack/heft": "^0.46.2",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@gongt/kexec": "latest",
+		"@rushstack/heft": "^0.46.2",
 		"@types/node": "^18.6.1",
 		"chai": "^4.3.6",
 		"fs-extra": "^10.1.0",
 		"gulp": "^4.0.2",
+		"local-rig": "workspace:^",
 		"mocha": "^10.0.0",
 		"typescript": "^4.7.4"
 	},
-	"repository": "https://github.com/GongT/baobao"
+	"optionalDependencies": {
+		"@gongt/kexec": "latest"
+	},
+	"monorepo": "rush"
 }

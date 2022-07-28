@@ -87,7 +87,11 @@ async function downloadAndBuild(moduleName: string) {
 		logger.info('Require success!');
 		return ret;
 	} catch (e) {
-		if (e instanceof Error && (e as any).code !== 'MODULE_NOT_FOUND') {
+		if (
+			e instanceof Error &&
+			(e as any).code !== 'MODULE_NOT_FOUND' &&
+			(e as any).code !== 'ERR_MODULE_NOT_FOUND'
+		) {
 			logger.error('Can not require() module: %s', e.stack || e.message);
 			throw e;
 		}
@@ -98,7 +102,7 @@ async function downloadAndBuild(moduleName: string) {
 
 	logger.info('Install start...');
 
-	const p = spawn(manager, [install, '--unsafe-perm', moduleName], {
+	const p = spawn(manager, [install, moduleName], {
 		stdio: ['ignore', 'pipe', 'pipe'],
 		cwd: store,
 		env: {
@@ -106,7 +110,7 @@ async function downloadAndBuild(moduleName: string) {
 			NODE_ENV: 'production',
 		},
 	});
-	Object.assign(p, { command: `${manager} ${install} --unsafe-perm ${moduleName}` });
+	Object.assign(p, { command: `${manager} ${install} ${moduleName}` });
 
 	await new Promise<void>((resolve) => {
 		p.on('exit', resolve);

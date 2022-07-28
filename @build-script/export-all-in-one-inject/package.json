@@ -1,38 +1,39 @@
 {
-	"monorepo": "rush",
 	"name": "@build-script/export-all-in-one-inject",
 	"version": "1.0.20",
 	"description": "write your library with typescript. make all exports available from single entry.",
-	"repository": "https://github.com/GongT/baobao",
-	"keywords": ["typescript", "library", "ts", "cli", "concat"],
+	"keywords": ["cli", "concat", "library", "ts", "typescript"],
+	"license": "MIT",
+	"author": "GongT <gongteng524702837@gmail.com>",
 	"bin": {
 		"export-all-in-one-inject": "./bin.js"
 	},
-	"author": "GongT <gongteng524702837@gmail.com>",
-	"license": "MIT",
 	"scripts": {
-		"build": "build-script build",
-		"clean": "rimraf lib",
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
+		"build": "build-script build",
+		"clean": "rimraf lib",
 		"watch": "build-script watch"
 	},
+	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@build-script/builder": "workspace:^3.2.6",
-		"@idlebox/node-json-edit": "workspace:^2.0.21",
-		"@microsoft/api-extractor": "^7.25.2",
+		"@build-script/builder": "workspace:^",
+		"@idlebox/node-json-edit": "workspace:^",
+		"@microsoft/api-extractor": "^7.28.3",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0",
-		"unipm": "workspace:^1.1.9"
+		"unipm": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/export-all-in-one": "workspace:^3.1.4",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
+		"@build-script/export-all-in-one": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.0.0",
+		"@types/node": "^18.6.1",
 		"gulp": "^4.0.2",
+		"local-rig": "workspace:^",
 		"ttypescript": "^1.5.13",
 		"typescript": "^4.7.4"
-	}
+	},
+	"monorepo": "rush"
 }

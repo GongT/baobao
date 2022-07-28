@@ -1,16 +1,16 @@
 {
 	"name": "@idlebox/itypes",
 	"type": "commonjs",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "some global variables copied from @types/node or dom",
-	"keywords": ["Typescript", "typings", "type", "console"],
+	"keywords": ["Typescript", "console", "type", "typings"],
+	"license": "MIT",
 	"typings": "./index.d.ts",
 	"scripts": {
 		"build": "",
 		"clean": "",
 		"watch": ""
 	},
-	"license": "MIT",
 	"dependencies": {
 		"tslib": "^2.4.0"
 	}

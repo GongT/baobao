@@ -3,31 +3,29 @@
 	"type": "module",
 	"version": "1.0.20",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
-	"keywords": ["string", "unicode", "emoji", "CJK", "display width", "string width", "chinese"],
+	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
 	"license": "MIT",
-	"repository": "https://github.com/GongT/cjke.git",
+	"main": "./_fix_esm_loader.cjs",
+	"module": "./lib/_index.js",
+	"exports": {
+		".": {
+			"import": "./lib/_index.js",
+			"require": "./_fix_esm_loader.cjs"
+		}
+	},
 	"bin": {
 		"cjke-strings": "./bin.js"
 	},
-	"main": "./lib/_export_all_in_one_index.cjs",
-	"jsnext:main": "dist/esnext.js",
-	"module": "./lib/_export_all_in_one_index.js",
-	"typings": "docs/package-public.d.ts",
-	"exports": {
-		".": {
-			"require": "./lib/_export_all_in_one_index.cjs",
-			"import": "./lib/_export_all_in_one_index.js"
-		}
-	},
+	"typings": "./dist/cjke-strings-public.d.ts",
 	"scripts": {
-		"build": "build-script build",
-		"clean": "rimraf lib",
-		"distclean": "build-script distclean",
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"upgrade": "build-script upgrade",
-		"watch": "build-script watch"
+		"prepack": "heft build --clean --production",
+		"test": "heft test",
+		"lint": "heft build",
+		"build": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
+	"repository": "https://github.com/GongT/cjke.git",
 	"dependencies": {
 		"ansi-regex": "^6.0.1",
 		"emoji-regex": "^10.1.0",
@@ -36,23 +34,16 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/builder": "workspace:^3.2.6",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.27",
-		"@rollup/plugin-commonjs": "^22.0.0",
-		"@rollup/plugin-node-resolve": "^13.3.0",
+		"@build-script/heft-duel-stack": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@rushstack/heft": "^0.46.2",
 		"@types/chai": "^4.3.1",
 		"@types/mocha": "^9.1.1",
 		"chai": "^4.3.6",
-		"chokidar": "^3.5.3",
-		"gulp": "^4.0.2",
+		"local-rig": "workspace:^",
 		"mocha": "^10.0.0",
-		"rollup": "^2.75.7",
-		"rollup-plugin-typescript2": "^0.32.1",
-		"source-map-support": "^0.5.21",
-		"ttypescript": "^1.5.13",
-		"typescript": "^4.7.4",
-		"@build-script/export-all-in-one": "workspace:^3.1.4"
+		"typescript": "^4.7.4"
 	},
 	"monorepo": "rush"
 }

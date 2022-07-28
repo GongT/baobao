@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.25.2",
-    "schemaVersion": 1006,
+    "toolVersion": "7.28.3",
+    "schemaVersion": 1009,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -164,11 +164,13 @@
   "canonicalReference": "@gongt/mysql-docgen!",
   "docComment": "",
   "name": "@gongt/mysql-docgen",
+  "preserveMemberOrder": false,
   "members": [
     {
       "kind": "EntryPoint",
       "canonicalReference": "@gongt/mysql-docgen!",
       "name": "",
+      "preserveMemberOrder": false,
       "members": [
         {
           "kind": "Interface",
@@ -182,6 +184,7 @@
           ],
           "releaseTag": "Public",
           "name": "IInformationSchemaColumnsRow",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -468,6 +471,7 @@
           ],
           "releaseTag": "Public",
           "name": "IInformationSchemaTablesRow",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -754,6 +758,7 @@
           ],
           "releaseTag": "Public",
           "name": "IShowIndexesRow",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -932,6 +937,7 @@
           ],
           "releaseTag": "Public",
           "name": "ITable",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1255,6 +1261,7 @@
           ],
           "releaseTag": "Public",
           "name": "ITableColumn",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1487,6 +1494,7 @@
           ],
           "releaseTag": "Public",
           "name": "ITableKey",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",

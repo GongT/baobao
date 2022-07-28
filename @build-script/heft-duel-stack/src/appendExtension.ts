@@ -1,11 +1,12 @@
 import { readFileSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { createRequire } from 'module';
+import { dirname, resolve } from 'path';
 import { RushStackConfig } from '@build-script/rushstack-config-loader';
 import { md5 } from '@idlebox/node';
+import { Executable, LockFile } from '@rushstack/node-core-library';
 import { IMyOptions } from './plugin';
 
 import type { HeftConfiguration, HeftSession } from '@rushstack/heft';
-import { createRequire } from 'module';
 declare const global: any;
 
 function transform(data: string) {
@@ -29,39 +30,51 @@ function getSrouceData() {
 }
 
 function monkeyPatchBuilder(targetFile: string, exports: any) {
-	const patchFileData = getSrouceData();
-	const hash = md5(Buffer.from(patchFileData));
-	const sig = `/* __MonkeyPatch__:${hash}\n`;
+	let lock;
+	while (true) {
+		lock = LockFile.tryAcquire(dirname(targetFile), 'monkey-patch.lock');
+		if (lock) break;
 
-	const originalData = readFileSync(targetFile, 'utf-8');
-	let targetData = originalData;
-
-	if (targetData.includes(sig)) {
-		return;
+		console.log('waitting lock file at %s', dirname(targetFile));
+		Executable.spawnSync(process.argv0, ['-e', 'setTimeout(new Function, 3000)']);
 	}
-
-	console.log(`[monkey-patch] modify ${targetFile}`);
-	const found = targetData.indexOf('/* __MonkeyPatch__:');
-	if (found > 0) {
-		targetData = targetData.slice(0, found);
-	}
-	targetData = targetData.trimEnd() + '\n';
-	targetData += sig + transform(patchFileData);
-	writeFileSync(targetFile, targetData);
-
-	delete require.cache[targetFile];
-
 	try {
-		require(targetFile);
-	} catch (e: any) {
-		console.error(`[monkey-patch] error require, revert content... ${e.message}`);
-		writeFileSync(targetFile, originalData);
-		throw e;
-	}
+		const patchFileData = getSrouceData();
+		const hash = md5(Buffer.from(patchFileData));
+		const sig = `/* __MonkeyPatch__:${hash}\n`;
 
-	if (exports) {
-		console.log('[monkey-patch] assign self');
-		Object.assign(exports, require(targetFile));
+		const originalData = readFileSync(targetFile, 'utf-8');
+		let targetData = originalData;
+
+		if (targetData.includes(sig)) {
+			return;
+		}
+
+		console.log(`[monkey-patch] modify ${targetFile}`);
+		const found = targetData.indexOf('/* __MonkeyPatch__:');
+		if (found > 0) {
+			targetData = targetData.slice(0, found);
+		}
+		targetData = targetData.trimEnd() + '\n';
+		targetData += sig + transform(patchFileData);
+		writeFileSync(targetFile, targetData);
+
+		delete require.cache[targetFile];
+
+		try {
+			require(targetFile);
+		} catch (e: any) {
+			console.error(`[monkey-patch] error require, revert content... ${e.message}`);
+			writeFileSync(targetFile, originalData);
+			throw e;
+		}
+
+		if (exports) {
+			console.log('[monkey-patch] assign self');
+			Object.assign(exports, require(targetFile));
+		}
+	} finally {
+		lock.release();
 	}
 }
 

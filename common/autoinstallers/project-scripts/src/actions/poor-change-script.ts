@@ -2,14 +2,33 @@ import '../include/prefix';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
-import { readFileSync } from 'fs-extra';
+import { pathExists, readFileSync } from 'fs-extra';
 import { humanDate } from '@idlebox/common';
+import { ensureLinkTarget } from '@idlebox/ensure-symlink';
+import { resolve } from 'path';
+
+async function getNpmRc(rushProject: RushProject) {
+	let npmrc = resolve(rushProject.configRoot, '.npmrc-publish');
+	if (await pathExists(npmrc)) {
+		return npmrc;
+	}
+	npmrc = resolve(rushProject.configRoot, '.npmrc');
+	if (await pathExists(npmrc)) {
+		return npmrc;
+	}
+	return undefined;
+}
 
 async function main() {
 	const rushProject = new RushProject();
 	const verbose = process.argv.includes('--verbose');
 
-	console.log('✍️ \x1B[38;5;14mRunning "rush pretty"\x1B[0m');
+	const npmrc = await getNpmRc(rushProject);
+	if (verbose) {
+		console.error('\x1B[2m - using npmrc file: %s\x1B[0m', npmrc || '*missing');
+	}
+
+	console.log('✍️  \x1B[38;5;14mRunning "rush pretty"\x1B[0m');
 	await execPromise({
 		cmd: 'rush',
 		argv: ['pretty'],
@@ -25,16 +44,13 @@ async function main() {
 	for (const [index, item] of projects.entries()) {
 		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s (%s/%s)', item.packageName, index, projects.length);
 		const logFile = rushProject.tempFile('logs/update-version/' + item.packageName.replace('/', '__') + '.log');
+
+		const path = rushProject.absolute(item.projectFolder);
+		if (npmrc) await ensureLinkTarget(npmrc, resolve(path, '.npmrc'));
+
 		const { full, result } = await execPromise({
-			argv: [
-				checkBin,
-				'detect-package-change',
-				'--registry',
-				'https://registry.npmjs.org/',
-				'--package',
-				rushProject.absolute(item.projectFolder),
-				'--json',
-			],
+			argv: [checkBin, 'detect-package-change', '--json'],
+			cwd: path,
 			logFile,
 		});
 		let changed: boolean, changedFiles: string[];

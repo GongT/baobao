@@ -1,21 +1,24 @@
 {
 	"name": "@gongt/fix-esm",
-	"description": "wrapper of fix-esm, only register once.",
 	"type": "commonjs",
 	"version": "0.0.6",
-	"main": "./lib/index.js",
+	"description": "wrapper of fix-esm, only register once.",
 	"license": "WTFPL",
+	"main": "./lib/index.js",
 	"scripts": {
 		"prepack": "tsc -p src",
 		"watch": "tsc -p src -w",
-		"build": "tsc -p src"
+		"build": "tsc -p src",
+		"clean": "rimraf lib"
 	},
 	"dependencies": {
 		"fix-esm": "^1.0.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"@types/node": "^18.0.0",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@types/node": "^18.6.1",
+		"local-rig": "workspace:^",
+		"rimraf": "^3.0.2",
 		"typescript": "^4.7.4"
 	}
 }

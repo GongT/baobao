@@ -4,7 +4,7 @@ import { access, pathExistsSync } from 'fs-extra';
 import { IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 
-export async function registerProjectToRush(projectPath: string) {
+export async function registerProjectToRush(projectPath: string, log = console.log) {
 	projectPath = resolve(process.cwd(), projectPath);
 
 	if (
@@ -44,8 +44,8 @@ export async function registerProjectToRush(projectPath: string) {
 	if (nameConflict) {
 		const conflictPath = rush.absolute(nameConflict);
 		if (absolutePathToRegister === conflictPath) {
-			console.log('register success (no change)');
-			return;
+			log('register success (no change)');
+			return false;
 		}
 
 		if (pathExistsSync(conflictPath)) {
@@ -68,11 +68,11 @@ export async function registerProjectToRush(projectPath: string) {
 
 	const changed = await writeJsonFileBack(config);
 	if (changed) {
-		console.log('register success: %s', msg);
+		log('register success: %s', msg);
 	} else {
-		console.error('%s. but result file not changed.', msg);
+		log('%s. but result file not changed.', msg);
 	}
-	return;
+	return changed;
 }
 
 function normalize(s: string) {

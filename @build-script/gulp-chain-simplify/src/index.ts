@@ -69,7 +69,7 @@ function parentGulp() {
 		try {
 			gulpInstance = mainRequire('gulp');
 		} catch (e: any) {
-			if (e.code !== 'MODULE_NOT_FOUND') {
+			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ERR_MODULE_NOT_FOUND') {
 				throw e;
 			}
 			console.error('[%s] %s from %s', e.code, e.message, require.main?.filename);

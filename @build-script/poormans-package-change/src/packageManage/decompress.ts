@@ -3,7 +3,7 @@ import { log } from '../inc/log';
 import { unlinkSync } from 'fs-extra';
 
 export async function decompressTargz(src: string, dest: string) {
-	log(`Decompress files:\n  --> ${dest}`);
+	log(`Decompress files:\n ${src} --> ${dest}`);
 	await new Promise<void>((resolve, reject) => {
 		decompress(
 			{

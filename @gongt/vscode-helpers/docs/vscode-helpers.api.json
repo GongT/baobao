@@ -1,8 +1,8 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.25.2",
-    "schemaVersion": 1006,
+    "toolVersion": "7.28.3",
+    "schemaVersion": 1009,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
       "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -164,11 +164,13 @@
   "canonicalReference": "@gongt/vscode-helpers!",
   "docComment": "",
   "name": "@gongt/vscode-helpers",
+  "preserveMemberOrder": false,
   "members": [
     {
       "kind": "EntryPoint",
       "canonicalReference": "@gongt/vscode-helpers!",
       "name": "",
+      "preserveMemberOrder": false,
       "members": [
         {
           "kind": "Class",
@@ -204,6 +206,7 @@
             }
           ],
           "name": "Action",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Constructor",
@@ -421,6 +424,7 @@
           ],
           "releaseTag": "Public",
           "name": "BaseLogger",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Constructor",
@@ -1090,6 +1094,7 @@
           ],
           "releaseTag": "Public",
           "name": "ExtensionState",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "EnumMember",
@@ -1105,12 +1110,12 @@
                   "text": "0"
                 }
               ],
-              "releaseTag": "Public",
-              "name": "BEFORE_INIT",
               "initializerTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "releaseTag": "Public",
+              "name": "BEFORE_INIT"
             },
             {
               "kind": "EnumMember",
@@ -1126,12 +1131,12 @@
                   "text": "3"
                 }
               ],
-              "releaseTag": "Public",
-              "name": "DEINIT",
               "initializerTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "releaseTag": "Public",
+              "name": "DEINIT"
             },
             {
               "kind": "EnumMember",
@@ -1147,12 +1152,12 @@
                   "text": "4"
                 }
               ],
-              "releaseTag": "Public",
-              "name": "EXIT",
               "initializerTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "releaseTag": "Public",
+              "name": "EXIT"
             },
             {
               "kind": "EnumMember",
@@ -1168,12 +1173,12 @@
                   "text": "1"
                 }
               ],
-              "releaseTag": "Public",
-              "name": "INIT",
               "initializerTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "releaseTag": "Public",
+              "name": "INIT"
             },
             {
               "kind": "EnumMember",
@@ -1189,12 +1194,12 @@
                   "text": "2"
                 }
               ],
-              "releaseTag": "Public",
-              "name": "NORMAL",
               "initializerTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "releaseTag": "Public",
+              "name": "NORMAL"
             }
           ]
         },
@@ -1305,6 +1310,7 @@
             }
           ],
           "name": "IAction",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "MethodSignature",
@@ -1420,6 +1426,7 @@
             }
           ],
           "name": "IActionConstructor",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "ConstructSignature",
@@ -1576,6 +1583,7 @@
           ],
           "releaseTag": "Public",
           "name": "ICommandIcon",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1646,6 +1654,7 @@
           ],
           "releaseTag": "Public",
           "name": "IContributeCommand",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1771,6 +1780,7 @@
           ],
           "releaseTag": "Public",
           "name": "IContributeKeybinding",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -1868,6 +1878,7 @@
           ],
           "releaseTag": "Public",
           "name": "IdCategory",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "EnumMember",
@@ -1883,12 +1894,12 @@
                   "text": "\"action\""
                 }
               ],
-              "releaseTag": "Public",
-              "name": "Action",
               "initializerTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "releaseTag": "Public",
+              "name": "Action"
             },
             {
               "kind": "EnumMember",
@@ -1904,12 +1915,12 @@
                   "text": "\"setting\""
                 }
               ],
-              "releaseTag": "Public",
-              "name": "Setting",
               "initializerTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "releaseTag": "Public",
+              "name": "Setting"
             }
           ]
         },
@@ -1925,6 +1936,7 @@
           ],
           "releaseTag": "Public",
           "name": "ILogger",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "MethodSignature",
@@ -2396,6 +2408,7 @@
           ],
           "releaseTag": "Public",
           "name": "IPackageJson",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -2561,6 +2574,7 @@
           ],
           "releaseTag": "Public",
           "name": "MyExtend",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
@@ -2932,6 +2946,7 @@
             }
           ],
           "name": "SingleInstanceAction",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Method",
@@ -3123,6 +3138,7 @@
           ],
           "releaseTag": "Public",
           "name": "VSCodeChannelLogger",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Constructor",
@@ -3460,6 +3476,7 @@
           ],
           "releaseTag": "Public",
           "name": "VSCodeFileLogger",
+          "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Method",

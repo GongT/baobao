@@ -1,44 +1,44 @@
 {
 	"name": "@idlebox/node-json-edit",
-	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
-	"keywords": ["json", "comment", "jsonc", "edit"],
-	"version": "2.0.22",
-	"monorepo": true,
 	"type": "module",
+	"version": "2.0.22",
+	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
+	"keywords": ["comment", "edit", "json", "jsonc"],
+	"license": "MIT",
 	"main": "./lib/index.cjs",
 	"module": "./lib/index.js",
-	"typings": "./docs/package-public.d.ts",
 	"exports": {
 		".": {
-			"require": "./lib/index.cjs",
-			"import": "./lib/index.js"
+			"import": "./lib/index.js",
+			"require": "./lib/index.cjs"
 		}
 	},
+	"typings": "./docs/package-public.d.ts",
 	"scripts": {
-		"build": "scripts/build.sh",
 		"prepack": "scripts/pack.sh",
 		"postpack": "scripts/postpack.sh",
-		"watch": "ttsc -p src -w",
 		"test": "scripts/test.sh",
+		"build": "scripts/build.sh",
+		"watch": "ttsc -p src -w",
 		"clean": "rimraf lib"
 	},
-	"license": "MIT",
+	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"comment-json": "^4.2.2",
 		"prettier": "^2.7.1",
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.27",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
-		"local-rig": "workspace:*",
-		"@types/node": "^18.0.3",
-		"rimraf": "^3.0.2",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@types/node": "^18.6.1",
+		"@types/prettier": "^2.6.3",
+		"local-rig": "workspace:^",
 		"npm-check-updates": "^14.0.2",
+		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.21",
 		"ttypescript": "^1.5.13",
-		"typescript": "^4.7.4",
-		"@types/prettier": "^2.6.3"
+		"typescript": "^4.7.4"
 	},
-	"repository": "https://github.com/GongT/baobao"
+	"monorepo": true
 }
