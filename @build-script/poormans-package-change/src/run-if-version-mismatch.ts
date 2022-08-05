@@ -7,6 +7,12 @@ import { getArg } from './inc/getArg';
 import { errorLog, log } from './inc/log';
 
 export async function main(argv: string[]) {
+	process.on('unhandledRejection', (reason, promise) => {
+		debugger;
+		console.error('got unhandledRejection: %s', reason);
+		console.error(promise);
+	});
+
 	const startExtraArgs = argv.indexOf('--');
 	const cmd = argv.splice(startExtraArgs + 1, Infinity);
 	if (startExtraArgs === -1 || cmd.length === 0) {

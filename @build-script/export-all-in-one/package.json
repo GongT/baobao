@@ -13,7 +13,7 @@
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"build": "build-script build",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"watch": "build-script watch"
 	},
 	"repository": "https://github.com/GongT/baobao",

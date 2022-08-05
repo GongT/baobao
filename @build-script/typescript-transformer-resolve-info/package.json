@@ -14,7 +14,7 @@
 	},
 	"scripts": {
 		"build": "build-script build",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"distclean": "build-script distclean",
 		"prepack": "build-script prepack",
 		"upgrade": "build-script upgrade",

@@ -26,6 +26,8 @@
 		"@build-script/single-dog-asset": "workspace:^"
 	},
 	"peerDependenciesMeta": {
-		"@build-script/single-dog-asset": { "optional": false }
+		"@build-script/single-dog-asset": {
+			"optional": false
+		}
 	}
 }

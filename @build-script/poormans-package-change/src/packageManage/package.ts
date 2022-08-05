@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { execLazyError } from '@idlebox/node';
-import { pathExists } from 'fs-extra';
+import { pathExistsSync } from 'fs-extra';
 import { log } from '../inc/log';
 import { getPackageManager } from './detectRegistry';
 
@@ -26,14 +26,15 @@ export async function packCurrentVersion(cwd: string) {
 		result = ret.data.replace(/^Wrote tarball to "/, '').replace(/"\.$/, '');
 	} else {
 		const chProcess = await execLazyError(pm, ['pack'], {
-			stdout: 'inherit',
+			stdout: 'pipe',
 			verbose: true,
 			env: { LANG: 'C.UTF-8' },
 		});
-		result = resolve(cwd, chProcess.stdout.trim());
+		const lastLine = chProcess.stdout.trim().split('\n').pop()!;
+		result = resolve(cwd, lastLine);
 	}
 
-	if (!pathExists(result)) {
+	if (!pathExistsSync(result)) {
 		throw new Error('File [' + result + '] must exists after pack.');
 	}
 

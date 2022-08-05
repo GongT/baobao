@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/state",
 	"type": "module",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.cjs",
 	"module": "./lib/_export_all_in_one_index.js",
@@ -16,7 +16,7 @@
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"build": "build-script build",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"distclean": "build-script distclean",
 		"upgrade": "build-script upgrade",
 		"watch": "build-script watch"

@@ -1,4 +1,5 @@
-docs/
+*.md
+!README.md
 /common/scripts/
 /common/project-scripts/output/
 jspm_packages

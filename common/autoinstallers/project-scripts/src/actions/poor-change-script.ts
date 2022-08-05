@@ -42,6 +42,8 @@ async function main() {
 
 	const start = Date.now();
 	for (const [index, item] of projects.entries()) {
+		if (item._isAutoInstaller) continue;
+
 		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s (%s/%s)', item.packageName, index, projects.length);
 		const logFile = rushProject.tempFile('logs/update-version/' + item.packageName.replace('/', '__') + '.log');
 

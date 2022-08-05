@@ -1,5 +1,5 @@
 import { get } from 'cacache';
-import { execa, execaSync } from 'execa';
+import { execa, ExecaError, execaSync } from 'execa';
 import { debug, errorLog, log } from '../inc/log';
 import { ifExists, spawnOpts } from './helper';
 
@@ -66,7 +66,14 @@ async function getNpmCacheJson(packageName: string, registry: string): Promise<a
 
 export async function getNewNpmCache(name: string, distTag: string, registry: string) {
 	console.error(`     * npm show ${name}@${distTag}`);
-	await execa('npm', ['show', `--registry=${registry}`, `${name}@${distTag}`], spawnOpts);
+	try {
+		await execa('npm', ['show', `--registry=${registry}`, `${name}@${distTag}`], spawnOpts);
+	} catch (err: any) {
+		const e = err as ExecaError<string>;
+		if (e.stderr.includes('not in this registry')) {
+			return undefined;
+		}
+	}
 	const json = await getNpmCacheJson(name, registry);
 	if (!json) {
 		errorLog('[!!] NPM cache structure changed!');

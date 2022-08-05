@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node-ignore-edit",
 	"type": "commonjs",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "api for modify .*ignore files",
 	"keywords": ["gitignore", "ignorefile"],
 	"license": "MIT",
@@ -14,10 +14,10 @@
 		"prepack": "run-s clean build",
 		"build": "tsc -p src",
 		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib temp"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"dependencies": {
-		"@idlebox/common": "npm:@idlebox/common@^1.3.9",
+		"@idlebox/common": "npm:@idlebox/common@",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0"
 	},

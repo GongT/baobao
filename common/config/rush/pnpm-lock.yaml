@@ -60,7 +60,7 @@ importers:
     specifiers:
       '@build-script/single-dog-asset': workspace:^
       '@gongt/fix-esm': workspace:^
-      '@idlebox/node': npm:@idlebox/node@^1.2.6
+      '@idlebox/node': npm:@idlebox/node@
       '@idlebox/node-ignore-edit': workspace:^
       '@idlebox/node-json-edit': workspace:^
       '@rushstack/heft': ^0.46.2
@@ -204,7 +204,7 @@ importers:
       '@build-script/rushstack-config-loader': workspace:^
       '@build-script/single-dog-asset': workspace:^
       '@gongt/fix-esm': workspace:^
-      '@idlebox/node': npm:@idlebox/node@^1.2.6
+      '@idlebox/node': npm:@idlebox/node@
       '@idlebox/node-json-edit': workspace:^
       '@idlebox/tsconfig-loader': workspace:^
       '@idlebox/typescript-surface-analyzer': workspace:^
@@ -342,6 +342,7 @@ importers:
     specifiers:
       '@build-script/builder': workspace:^
       '@build-script/heft-duel-stack': workspace:^
+      '@build-script/single-dog-asset': workspace:^
       '@build-script/typescript-transformer-dual-package': workspace:^
       '@idlebox/common': workspace:^
       '@idlebox/ensure-symlink': workspace:^
@@ -386,6 +387,7 @@ importers:
     devDependencies:
       '@build-script/builder': link:../builder
       '@build-script/heft-duel-stack': link:../heft-duel-stack
+      '@build-script/single-dog-asset': link:../single-dog-asset
       '@build-script/typescript-transformer-dual-package': link:../typescript-transformer-dual-package
       '@rushstack/heft': 0.46.2
       '@types/fs-extra': 9.0.13
@@ -476,8 +478,8 @@ importers:
   ../../@build-script/typescript-transformer-common:
     specifiers:
       '@build-script/single-dog-asset': workspace:^
-      '@idlebox/common': npm:@idlebox/common@^1.3.9
-      '@idlebox/node': npm:@idlebox/node@^1.2.6
+      '@idlebox/common': npm:@idlebox/common@
+      '@idlebox/node': npm:@idlebox/node@
       '@rushstack/heft': ^0.46.2
       '@types/fancy-log': ^1.3.1
       '@types/fs-extra': ^9.0.13
@@ -485,6 +487,7 @@ importers:
       fancy-log: ^2.0.0
       fs-extra: ^10.1.0
       local-rig: workspace:^
+      npm-run-all: ^4.1.5
       source-map-support: ^0.5.21
       tslib: ^2.4.0
       ttypescript: ^1.5.13
@@ -503,6 +506,7 @@ importers:
       '@types/fs-extra': 9.0.13
       '@types/node': 18.6.1
       local-rig: link:../../common/local-rig
+      npm-run-all: 4.1.5
       ttypescript: 1.5.13
       typescript: 4.7.4
 
@@ -777,7 +781,7 @@ importers:
   ../../@idlebox/node-ignore-edit:
     specifiers:
       '@build-script/single-dog-asset': workspace:^
-      '@idlebox/common': npm:@idlebox/common@^1.3.9
+      '@idlebox/common': npm:@idlebox/common@
       '@types/node': ^18.6.1
       local-rig: workspace:^
       npm-run-all: ^4.1.5
@@ -878,8 +882,8 @@ importers:
 
   ../../@idlebox/typescript-surface-analyzer:
     specifiers:
-      '@idlebox/common': npm:@idlebox/common@^1.3.9
-      '@idlebox/node': npm:@idlebox/node@^1.2.6
+      '@idlebox/common': npm:@idlebox/common@
+      '@idlebox/node': npm:@idlebox/node@
       '@idlebox/node-ignore-edit': workspace:^
       '@idlebox/node-json-edit': workspace:^
       '@idlebox/tsconfig-loader': workspace:^

@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/ensure-symlink",
-	"version": "1.0.22",
+	"version": "1.0.23",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
 	"license": "MIT",
 	"main": "index.js",

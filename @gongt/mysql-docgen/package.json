@@ -1,7 +1,7 @@
 {
 	"name": "@gongt/mysql-docgen",
 	"type": "module",
-	"version": "1.1.19",
+	"version": "1.1.20",
 	"description": "生成MySQL文档，用于我自己的微服务系统。",
 	"license": "MIT",
 	"main": "lib/api.cjs",
@@ -21,7 +21,7 @@
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"build": "build-script build",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"watch": "build-script watch"
 	},
 	"repository": {

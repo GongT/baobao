@@ -20,7 +20,7 @@
 		"test": "scripts/test.sh",
 		"build": "scripts/build.sh",
 		"watch": "ttsc -p src -w",
-		"clean": "rimraf lib"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

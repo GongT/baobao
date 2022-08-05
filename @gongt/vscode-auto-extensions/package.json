@@ -44,7 +44,7 @@
 	"scripts": {
 		"watch": "tsc -w -p src",
 		"build": "tsc -p src",
-		"clean": "rimraf lib"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"dependencies": {
 		"@gongt/vscode-helpers": "workspace:*",

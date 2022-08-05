@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/tsconfig-loader",
 	"type": "commonjs",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"license": "MIT",
@@ -13,7 +13,7 @@
 		"prepack": "run-s clean build",
 		"build": "tsc -p src",
 		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib temp"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

@@ -21,9 +21,9 @@ export async function execLazyError(
 
 	if (verbose) {
 		if (process.stderr.isTTY) {
-			process.stderr.write(`\x1B[2m${cmd} ${args.join(' ')}\x1B[0m\n`);
+			process.stderr.write(`\x1B[2m + ${cmd} ${args.join(' ')}\x1B[0m\n`);
 		} else {
-			process.stderr.write(`${cmd} ${args.join(' ')}\n`);
+			process.stderr.write(` + ${cmd} ${args.join(' ')}\n`);
 		}
 	}
 

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/gulp-chain-simplify",
 	"type": "module",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"main": "./lib/index.cjs",
@@ -16,7 +16,7 @@
 		"build": "run-s build:*",
 		"build:normal": "ttsc -p src --declarationMap false",
 		"build:fixmap": "tsc -p src --declarationMap true",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"watch": "ttsc -w -p src --declarationMap false"
 	},
 	"dependencies": {

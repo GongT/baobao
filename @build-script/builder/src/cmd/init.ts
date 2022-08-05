@@ -61,7 +61,7 @@ async function modifyPackageJson(ctx: BuildContext) {
 		packageJson.scripts = {};
 	}
 	addOrFail(packageJson.scripts, 'build', 'build-script build');
-	addOrFail(packageJson.scripts, 'clean', 'rimraf lib');
+	addOrFail(packageJson.scripts, 'clean', 'rimraf lib dist .rush temp');
 	addOrFail(packageJson.scripts, 'distclean', 'build-script distclean');
 	addOrFail(packageJson.scripts, 'prepack', 'build-script rebuild');
 	addOrFail(packageJson.scripts, 'test', 'build-script test');
@@ -81,20 +81,22 @@ async function modifyPackageJson(ctx: BuildContext) {
 async function createBuildJson(ctx: BuildContext) {
 	ctx.registerAlias('build-ts', 'tsc -p src');
 	ctx.registerAlias('watch-ts', 'tsc -w -p src');
-	ctx.registerAlias('cleanup-lib', 'rimraf lib');
+	ctx.registerAlias('cleanup-lib', 'rimraf lib dist .rush temp');
 	ctx.registerAlias(
 		'do-publish',
 		'pnpm publish --no-git-checks --registry https://registry.npmjs.org --access=public'
 	);
 	ctx.registerAlias('upgrade-node-modules', 'npm-check-updates --update --packageFile ./package.json');
 	ctx.registerAlias('run-test', '');
-	ctx.registerAlias(
-		'git-clean',
-		'git clean -f -d -X -e !node_modules -e !node_modules/** -e !.vscode -e !.vscode/** -e !.npm*'
-	);
+	// ctx.registerAlias(
+	// 	'git-clean',
+	// 	'git clean -f -d -X -e !node_modules -e !node_modules/** -e !node_modules/.* -e !.vscode -e !.vscode/** -e !.npm*'
+	// );
 
 	ctx.addAction('build', ['build-ts']).title = 'Build project';
-	ctx.addAction('distclean', ['git-clean']).title = 'Delete git ignore files (without node_modules)';
+	ctx.addAction('distclean', [
+		/*'git-clean'*/
+	]).title = 'Delete git ignore files (without node_modules)';
 	ctx.addAction('clean', ['cleanup-lib']).title = 'Delete lib folder';
 	ctx.addAction('rebuild', ['@build'], ['distclean']).title = 'Prepare for publish package';
 	ctx.addAction('publish', ['do-publish'], ['rebuild']).title = 'Publish package (do same thing with npm publish)';

@@ -11,12 +11,12 @@
 		"prepack": "run-s clean build",
 		"build": "tsc -p src",
 		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib temp"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@gongt/fix-esm": "workspace:^",
-		"@idlebox/node": "npm:@idlebox/node@^1.2.6",
+		"@idlebox/node": "npm:@idlebox/node@",
 		"@idlebox/node-ignore-edit": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
 		"glob": "^8.0.3",

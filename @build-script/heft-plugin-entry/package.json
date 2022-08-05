@@ -8,7 +8,7 @@
 	"main": "lib/entry.js",
 	"scripts": {
 		"prepack": "run-s -l clean build",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"watch": "tsc -p src -w",
 		"build": "tsc -p src"
 	},

@@ -15,13 +15,13 @@
 		"prepack": "run-s clean build",
 		"build": "tsc -p src",
 		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib temp"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"dependencies": {
 		"@build-script/heft-plugin-entry": "workspace:^",
 		"@build-script/rushstack-config-loader": "workspace:^",
 		"@gongt/fix-esm": "workspace:^",
-		"@idlebox/node": "npm:@idlebox/node@^1.2.6",
+		"@idlebox/node": "npm:@idlebox/node@",
 		"@idlebox/node-json-edit": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
 		"@idlebox/typescript-surface-analyzer": "workspace:^",

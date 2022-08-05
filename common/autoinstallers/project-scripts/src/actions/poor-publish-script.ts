@@ -7,17 +7,11 @@ import { execPromise } from '../include/execPromise';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 
 async function main() {
-	if (1 + 1 > 1) {
-		throw new Error();
-	}
-
 	const rushProject = new RushProject();
 
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
-	const pnpmBin = await commandInPath('pnpm');
-	if (!pnpmBin) {
-		throw new Error(`Failed to find pnpm in PATH.`);
-	}
+	const pnpmBin = rushProject.getPackageManager().binAbsolute;
+
 	const count = rushProject.projects.length;
 	let current = 0;
 	buildProjects({ rushProject, concurrent: 1 }, async (item) => {
@@ -62,7 +56,7 @@ async function main() {
 		// console.error('          log -> %s', logFile);
 		await execPromise({
 			cwd: pkgPath,
-			argv: [checkBin, 'run-if-version-mismatch', '--', 'pnpm', 'publish', '--no-git-checks'],
+			argv: [checkBin, 'run-if-version-mismatch', '--', pnpmBin, 'publish', '--no-git-checks'],
 			logFile,
 		});
 		// console.error('          complete.');

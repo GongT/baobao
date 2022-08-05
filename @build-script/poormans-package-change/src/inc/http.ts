@@ -5,8 +5,8 @@ import { createBrotliDecompress, createGunzip, createInflate } from 'zlib';
 import { DeferredPromise } from '@idlebox/common';
 
 export class HttpError extends Error {
-	constructor(public readonly code: number, msg: string) {
-		super(`Server responded with ${code}: ${msg}`);
+	constructor(public readonly url: string, public readonly code: number, msg: string) {
+		super(`Request ${url} - Server responded with ${code}: ${msg}`);
 	}
 
 	static is(obj: any): obj is HttpError {
@@ -55,7 +55,7 @@ function _downloadFile(dfd: DeferredPromise<IncomingMessage & IStream>, url: str
 		) {
 			_downloadFile(dfd, response.headers.location, headers);
 		} else {
-			dfd.error(new HttpError(response.statusCode!, response.statusMessage!));
+			dfd.error(new HttpError(url, response.statusCode!, response.statusMessage!));
 		}
 	});
 

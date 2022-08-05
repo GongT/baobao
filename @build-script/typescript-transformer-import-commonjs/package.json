@@ -16,7 +16,7 @@
 		"prepack": "run-s clean build",
 		"build": "ttsc -p src",
 		"watch": "ttsc -p src -w",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"test": ""
 	},
 	"peerDependencies": {

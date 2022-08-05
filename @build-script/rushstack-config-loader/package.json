@@ -10,7 +10,7 @@
 		"prepack": "run-s clean build",
 		"build": "tsc -p src",
 		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib temp"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"dependencies": {
 		"@idlebox/json-extends-loader": "workspace:^",

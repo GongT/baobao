@@ -9,9 +9,9 @@ export async function downloadIfNot(url: string, file: string) {
 		log('     -> already downloaded');
 		return;
 	}
-	const writeOut = createWriteStream(file + '.downloading');
 	const response = await downloadFile(url);
 
+	const writeOut = createWriteStream(file + '.downloading');
 	await streamPromise(response.stream.pipe(writeOut));
 
 	await move(file + '.downloading', file);

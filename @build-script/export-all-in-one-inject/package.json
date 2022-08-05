@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/export-all-in-one-inject",
-	"version": "1.0.20",
+	"version": "1.0.21",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"keywords": ["cli", "concat", "library", "ts", "typescript"],
 	"license": "MIT",
@@ -12,7 +12,7 @@
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"build": "build-script build",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"watch": "build-script watch"
 	},
 	"repository": "https://github.com/GongT/baobao",

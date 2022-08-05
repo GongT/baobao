@@ -19,7 +19,7 @@
 		"test": "node lib/tests/try-load.js",
 		"build": "ttsc -p src",
 		"watch": "nodemon",
-		"clean": "rimraf lib"
+		"clean": "rimraf lib dist .rush temp"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

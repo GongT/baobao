@@ -7,6 +7,12 @@ import { resolveNpm } from '../common/npm';
 
 /** @internal */
 export default async function runFix(argv: string[]) {
+	return fix(argv).catch((e) => {
+		throw convertCatchedError(e);
+	});
+}
+
+async function fix(argv: string[]) {
 	const localHardVersions = new Map<string, string>(); // 本地硬性依赖，不允许指定其他值
 	const cyclicVersions = new Map<string, string>(); // 循环依赖 - 必须去npm请求才能确定
 	const conflictingVersions = new Map<string, string>(); // 有冲突，需要处理的依赖
@@ -16,21 +22,23 @@ export default async function runFix(argv: string[]) {
 
 	console.log('Finding local project versions:');
 	const rush = new RushProject();
-	for (const { projectFolder, packageName, cyclicDependencyProjects } of rush.projects) {
-		let version: string;
-		const pkgFile = resolve(rush.absolute(projectFolder), 'package.json');
-		try {
-			const data = await loadJsonFile(pkgFile);
-			packageJsons.push(data);
-			version = data.version;
-
-			if (data.private) {
-				blacklist.add(packageName);
-			}
-		} catch (e) {
-			throw new Error(`Cannot parse package.json of "${packageName}": ${convertCatchedError(e).message}`);
+	for (const { projectFolder, packageName, cyclicDependencyProjects, _isAutoInstaller } of rush.projects) {
+		if (_isAutoInstaller) {
+			continue;
 		}
+
+		const pkgFile = resolve(rush.absolute(projectFolder), 'package.json');
+		const data = await loadJsonFile(pkgFile);
+
+		const version = data.version;
 		console.log(' - %s: %s', packageName, version);
+
+		packageJsons.push(data);
+
+		if (data.private) {
+			blacklist.add(packageName);
+		}
+
 		localHardVersions.set(packageName, '^' + version);
 
 		if (cyclicDependencyProjects && cyclicDependencyProjects.length > 0) {
@@ -129,6 +137,7 @@ export default async function runFix(argv: string[]) {
 			}
 		}
 	};
+
 	for (const item of packageJsons) {
 		fix(item.name, item.dependencies, false);
 		fix(item.name, item.devDependencies, true);

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/builder",
 	"type": "commonjs",
-	"version": "3.2.6",
+	"version": "3.2.7",
 	"description": "run build command(s) serial/parallel with order. (by generate a Gulp config)",
 	"keywords": ["build", "gulp", "make", "pipeline", "process", "tool"],
 	"license": "MIT",
@@ -13,7 +13,7 @@
 	"typings": "./bin/api.d.ts",
 	"scripts": {
 		"prepack": "run-s -l clean build",
-		"clean": "rimraf lib",
+		"clean": "rimraf lib dist .rush temp",
 		"watch": "tsc -p src -w",
 		"build": "tsc -p src"
 	},
