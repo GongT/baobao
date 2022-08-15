@@ -1,14 +1,14 @@
+import { resolve } from 'path';
+import { DeepReadonly } from '@idlebox/common';
 import { loadJsonFileSync } from '@idlebox/node-json-edit';
 import { DepGraph } from 'dependency-graph';
 import { pathExistsSync } from 'fs-extra';
-import { resolve } from 'path';
-import { Immutable } from './deepReadonly';
+import { RunQueue } from '../common/runnerQueue';
 import { IProjectConfig } from './limitedJson';
 import { RushProject } from './rushProject';
-import { RunQueue } from '../common/runnerQueue';
 
 export interface IProjectCallback {
-	(project: Immutable<IProjectConfig>): Promise<void>;
+	(project: DeepReadonly<IProjectConfig>): Promise<void>;
 }
 
 function createDeps(rushProject: RushProject) {
@@ -33,7 +33,7 @@ function createDeps(rushProject: RushProject) {
 	return dep;
 }
 
-export function overallOrder(rushProject = new RushProject()): Immutable<IProjectConfig>[] {
+export function overallOrder(rushProject = new RushProject()): DeepReadonly<IProjectConfig>[] {
 	const dep = createDeps(rushProject);
 	return dep.overallOrder().map((name) => rushProject.getPackageByName(name)!);
 }

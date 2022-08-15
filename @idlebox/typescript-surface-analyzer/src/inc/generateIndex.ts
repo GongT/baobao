@@ -18,6 +18,10 @@ export interface IOptions {
 }
 
 export function generateIndex({ excludes, filter, outFile, project, logger }: IOptions) {
+	if (excludes && !Array.isArray(excludes)) {
+		throw new Error('invalid config in heft.json: excludes must be array');
+	}
+
 	let config: IExtendParsedCommandLine;
 	if (typeof project === 'string') {
 		config = getOptions(resolve(process.cwd(), project), true);

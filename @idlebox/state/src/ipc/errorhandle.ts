@@ -62,9 +62,6 @@ class RawMessageHandler {
 			// console.log('                   - resolved! (last %s items)', this.wait.size);
 			if (this.wait.size > 10) {
 				console.warn('more than %s pending ipc message, something seems wrong.', this.wait.size);
-				if (this.wait.size > 30) {
-					process.exit(1);
-				}
 			}
 			this.gotReply(data);
 			return null;

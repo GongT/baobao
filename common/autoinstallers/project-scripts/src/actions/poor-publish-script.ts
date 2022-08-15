@@ -1,10 +1,21 @@
 import '../include/prefix';
 import { dirname, resolve } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
-import { commandInPath, writeFileIfChange } from '@idlebox/node';
+import { ensureLinkTarget } from '@idlebox/ensure-symlink';
+import { writeFileIfChange } from '@idlebox/node';
 import { mkdirp, pathExistsSync, readFile } from 'fs-extra';
 import { execPromise } from '../include/execPromise';
-import { ensureLinkTarget } from '@idlebox/ensure-symlink';
+
+const yarnSuccessLine = /^success Published\.$/m;
+
+function checkPnpmUploadLog(name: string, version: string, log: string) {
+	console.error('------------------------------------------------------');
+	console.error(log);
+	console.error('------------------------------------------------------');
+	console.error(`+ ${name}@${version}`);
+	console.error('------------------------------------------------------');
+	return log.includes(`+ ${name}@${version}`);
+}
 
 async function main() {
 	const rushProject = new RushProject();
@@ -41,7 +52,7 @@ async function main() {
 
 		const lastPubVersion = pathExistsSync(stateFile) ? await readFile(stateFile, 'utf-8') : '-';
 		if (lastPubVersion === pkgJson.version) {
-			console.error('    🤔 no change.');
+			console.error('    🤔 no change: %s', lastPubVersion);
 			return;
 		}
 		// console.error('    check...');
@@ -60,8 +71,8 @@ async function main() {
 			logFile,
 		});
 		// console.error('          complete.');
-		const log = await readFile(logFile, '');
-		if (/^success Published\.$/m.test(log)) {
+		const log = await readFile(logFile, 'utf-8');
+		if (yarnSuccessLine.test(log) || checkPnpmUploadLog(pkgJson.name, pkgJson.version, log)) {
 			console.error('    👍 success.');
 		} else {
 			console.error('    🤔 no update.', lastPubVersion, pkgJson.version);

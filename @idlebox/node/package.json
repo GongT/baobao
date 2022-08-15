@@ -1,14 +1,14 @@
 {
 	"name": "@idlebox/node",
 	"type": "module",
-	"version": "1.2.7",
+	"version": "1.2.9",
 	"license": "MIT",
-	"main": "./_fix_esm_loader.cjs",
-	"module": "./lib/_index.js",
+	"main": "./fix_esm_loader.cjs",
+	"module": "./lib/index.generated.js",
 	"exports": {
 		".": {
-			"import": "./lib/_index.js",
-			"require": "./_fix_esm_loader.cjs"
+			"import": "./lib/index.generated.js",
+			"require": "./fix_esm_loader.cjs"
 		}
 	},
 	"types": "dist/node-public.d.ts",
@@ -32,9 +32,9 @@
 		"@build-script/heft-duel-stack": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@gongt/kexec": "latest",
-		"@rushstack/heft": "^0.46.2",
-		"@types/node": "^18.6.1",
+		"@gongt/kexec": "^3.0.0",
+		"@rushstack/heft": "^0.47.2",
+		"@types/node": "^18.7.2",
 		"chai": "^4.3.6",
 		"fs-extra": "^10.1.0",
 		"gulp": "^4.0.2",

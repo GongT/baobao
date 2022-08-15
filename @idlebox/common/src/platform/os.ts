@@ -43,3 +43,4 @@ export const isLinux = _isLinux;
 export const isNative = _isNative;
 export const isWeb = _isWeb;
 export const userAgent = _userAgent;
+export const sepList = isWindows ? ';' : ':';

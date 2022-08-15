@@ -33,6 +33,14 @@ export function isSubscribeMessage(v: IMessage): v is ISubscribeMessage {
 	return v.action === 'subscribe';
 }
 
+export interface ISubscribeAfterMessage {
+	action: 'subscribeAfter';
+	subscribeId: number;
+}
+export function isSubscribeAfterMessage(v: IMessage): v is ISubscribeAfterMessage {
+	return v.action === 'subscribeAfter';
+}
+
 interface IUnsubscribeMessage {
 	action: 'unsubscribe';
 	subscribeId: number;
@@ -41,7 +49,7 @@ export function isUnsubscribeMessage(v: IMessage): v is IUnsubscribeMessage {
 	return v.action === 'unsubscribe';
 }
 
-type SimpleTypes = string | Buffer | number | boolean;
+type SimpleTypes = string | Uint8Array | number | boolean;
 export type IData = Record<string, SimpleTypes>;
 interface IDataMessage {
 	action: 'update';

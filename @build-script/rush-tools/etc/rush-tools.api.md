@@ -4,6 +4,7 @@
 
 ```ts
 
+import { DeepReadonly } from '@idlebox/common';
 import { ExecaReturnValue } from 'execa';
 
 // Warning: (ae-missing-release-tag) "argumentError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -101,6 +102,11 @@ export interface IBuildProjectOptions {
     rushProject?: RushProject;
 }
 
+// Warning: (ae-missing-release-tag) "ICProjectConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type ICProjectConfig = DeepReadonly<IProjectConfig>;
+
 // Warning: (ae-missing-release-tag) "IJob" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -108,34 +114,6 @@ export interface IJob<T> {
     // (undocumented)
     (arg: T): Promise<void>;
 }
-
-// Warning: (ae-forgotten-export) The symbol "ImmutablePrimitive" needs to be exported by the entry point _index.d.ts
-// Warning: (ae-missing-release-tag) "Immutable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export type Immutable<T> = T extends ImmutablePrimitive ? T : T extends Array<infer U> ? ImmutableArray<U> : T extends Map<infer K, infer V> ? ImmutableMap<K, V> : T extends Set<infer M> ? ImmutableSet<M> : ImmutableObject<T>;
-
-// Warning: (ae-missing-release-tag) "ImmutableArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export type ImmutableArray<T> = ReadonlyArray<Immutable<T>>;
-
-// Warning: (ae-missing-release-tag) "ImmutableMap" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export type ImmutableMap<K, V> = ReadonlyMap<Immutable<K>, Immutable<V>>;
-
-// Warning: (ae-missing-release-tag) "ImmutableObject" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export type ImmutableObject<T> = {
-    readonly [K in keyof T]: Immutable<T[K]>;
-};
-
-// Warning: (ae-missing-release-tag) "ImmutableSet" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
 
 // Warning: (ae-missing-release-tag) "info" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -147,7 +125,7 @@ export function info(txt: string, ...args: any[]): void;
 // @public (undocumented)
 export interface IProjectCallback {
     // (undocumented)
-    (project: Immutable<IProjectConfig>): Promise<void>;
+    (project: DeepReadonly<IProjectConfig>): Promise<void>;
 }
 
 // Warning: (ae-missing-release-tag) "IProjectConfig" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -156,8 +134,6 @@ export interface IProjectCallback {
 export interface IProjectConfig {
     // (undocumented)
     cyclicDependencyProjects?: string[];
-    // (undocumented)
-    _isAutoInstaller?: boolean;
     // (undocumented)
     packageName: string;
     // (undocumented)
@@ -230,7 +206,7 @@ export function optionalArgument(name: string): string | undefined;
 // Warning: (ae-missing-release-tag) "overallOrder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function overallOrder(rushProject?: RushProject): Immutable<IProjectConfig>[];
+export function overallOrder(rushProject?: RushProject): DeepReadonly<IProjectConfig>[];
 
 // Warning: (ae-missing-release-tag) "publishLocal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -279,19 +255,19 @@ export class RunQueue<T> {
 export class RushProject {
     constructor(path?: string);
     // (undocumented)
-    absolute(project: Immutable<IProjectConfig> | string, ...segments: string[]): string;
+    absolute(project: ICProjectConfig | string, ...segments: string[]): string;
     // (undocumented)
-    readonly autoinstallers: ImmutableArray<IProjectConfig>;
+    readonly autoinstallers: readonly ICProjectConfig[];
     // (undocumented)
-    readonly config: Immutable<IRushConfig>;
+    readonly config: DeepReadonly<IRushConfig>;
     // (undocumented)
     readonly configFile: string;
     // (undocumented)
     get configRoot(): string;
     // (undocumented)
-    copyNpmrc(project: Immutable<IProjectConfig> | string, symlink?: boolean, force?: boolean): Promise<void>;
+    copyNpmrc(project: ICProjectConfig | string, symlink?: boolean, force?: boolean): Promise<void>;
     // (undocumented)
-    getPackageByName(name: string): Immutable<IProjectConfig> | null;
+    getPackageByName(name: string): ICProjectConfig | null;
     // (undocumented)
     getPackageManager(): {
         type: 'npm' | 'yarn' | 'pnpm';
@@ -300,15 +276,15 @@ export class RushProject {
         version: string;
     };
     // (undocumented)
-    isWorkspaceEnabled(): boolean | undefined;
-    // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point _index.d.ts
+    isWorkspaceEnabled(): DeepReadonly<boolean | undefined>;
+    // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point index.generated.d.ts
     //
     // (undocumented)
-    packageDependency(project: Immutable<IProjectConfig> | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
+    packageDependency(project: ICProjectConfig | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
     // (undocumented)
-    packageJsonContent(project: Immutable<IProjectConfig> | string): any | null;
+    packageJsonContent(project: ICProjectConfig | string): any | null;
     // (undocumented)
-    packageJsonPath(project: Immutable<IProjectConfig> | string): string | null;
+    packageJsonPath(project: ICProjectConfig | string): string | null;
     // (undocumented)
     get preferredVersions(): {
         [id: string]: string;
@@ -316,7 +292,7 @@ export class RushProject {
     // (undocumented)
     readonly projectRoot: string;
     // (undocumented)
-    get projects(): Immutable<IProjectConfig[]>;
+    get projects(): readonly ICProjectConfig[];
     // (undocumented)
     tempFile(name?: string): string;
     // (undocumented)
@@ -326,7 +302,7 @@ export class RushProject {
 // Warning: (ae-missing-release-tag) "spawnRushPassthrough" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnRushPassthrough(action: string, argv: string[]): Promise<ExecaReturnValue<string>>;
+export function spawnRushPassthrough(action: string, argv: string[], env?: Record<string, string>): Promise<ExecaReturnValue<string>>;
 
 // Warning: (ae-missing-release-tag) "spinner" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

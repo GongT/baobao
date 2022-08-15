@@ -1,11 +1,11 @@
 import '../include/prefix';
+import { resolve } from 'path';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
-import { execPromise } from '../include/execPromise';
-import { increaseVersion } from '../include/increaseVersion';
-import { pathExists, readFileSync } from 'fs-extra';
 import { humanDate } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { resolve } from 'path';
+import { pathExists, readFileSync } from 'fs-extra';
+import { execPromise } from '../include/execPromise';
+import { increaseVersion } from '../include/increaseVersion';
 
 async function getNpmRc(rushProject: RushProject) {
 	let npmrc = resolve(rushProject.configRoot, '.npmrc-publish');
@@ -17,6 +17,11 @@ async function getNpmRc(rushProject: RushProject) {
 		return npmrc;
 	}
 	return undefined;
+}
+
+interface ICheckResult {
+	changed: boolean;
+	changedFiles: string[];
 }
 
 async function main() {
@@ -40,9 +45,9 @@ async function main() {
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
 	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.cjs');
 
-	const start = Date.now();
 	for (const [index, item] of projects.entries()) {
 		if (item._isAutoInstaller) continue;
+		let start: number = Date.now();
 
 		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s (%s/%s)', item.packageName, index, projects.length);
 		const logFile = rushProject.tempFile('logs/update-version/' + item.packageName.replace('/', '__') + '.log');
@@ -55,12 +60,11 @@ async function main() {
 			cwd: path,
 			logFile,
 		});
-		let changed: boolean, changedFiles: string[];
+
+		let data: ICheckResult;
 		try {
-			const data = JSON.parse(result);
-			changed = data.changed;
-			changedFiles = data.changedFiles;
-			if (typeof changed !== 'boolean') throw new Error('boolean value expected.');
+			data = JSON.parse(result);
+			if (typeof data.changed !== 'boolean') throw new Error('boolean value expected.');
 		} catch (e) {
 			console.error('=============================================');
 			console.error('\x1B[38;5;9m[     detect-package-change has failed.     ]\x1B[0m');
@@ -74,6 +78,7 @@ async function main() {
 			console.error(readFileSync(logFile, 'utf8'));
 		}
 
+		const { changed, changedFiles } = data;
 		if (changed) {
 			console.log('🎯     Change detected');
 			console.log('         * %s', changedFiles.join(', '));

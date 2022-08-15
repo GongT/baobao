@@ -22,11 +22,7 @@ async function fix(argv: string[]) {
 
 	console.log('Finding local project versions:');
 	const rush = new RushProject();
-	for (const { projectFolder, packageName, cyclicDependencyProjects, _isAutoInstaller } of rush.projects) {
-		if (_isAutoInstaller) {
-			continue;
-		}
-
+	for (const { projectFolder, packageName, cyclicDependencyProjects } of rush.projects) {
 		const pkgFile = resolve(rush.absolute(projectFolder), 'package.json');
 		const data = await loadJsonFile(pkgFile);
 

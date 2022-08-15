@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/gulp-chain-simplify",
 	"type": "module",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"main": "./lib/index.cjs",

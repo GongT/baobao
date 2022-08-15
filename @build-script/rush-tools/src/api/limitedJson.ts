@@ -1,7 +1,8 @@
+import type { DeepReadonly } from '@idlebox/common';
+
 export interface IProjectConfig {
 	packageName: string;
 	projectFolder: string;
-	_isAutoInstaller?: boolean;
 	reviewCategory?: string;
 	cyclicDependencyProjects?: string[];
 	shouldPublish?: boolean;
@@ -9,6 +10,7 @@ export interface IProjectConfig {
 	versionPolicyName?: string;
 }
 
+export type ICProjectConfig = DeepReadonly<IProjectConfig>;
 export interface IRushConfig {
 	npmVersion?: string;
 	pnpmVersion?: string;

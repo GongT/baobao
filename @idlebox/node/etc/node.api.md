@@ -38,7 +38,7 @@ export class BlackHoleStream extends Writable {
     _write(_chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
 
-// Warning: (ae-forgotten-export) The symbol "IChildProcessStatus" needs to be exported by the entry point _index.d.ts
+// Warning: (ae-forgotten-export) The symbol "IChildProcessStatus" needs to be exported by the entry point index.generated.d.ts
 // Warning: (ae-missing-release-tag) "checkChildProcessResult" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -401,6 +401,11 @@ export function getAllPathUpToRoot(from: string, append?: string): string[];
 // @public (undocumented)
 export function getEnvironment(name: string, env?: NodeJS.ProcessEnv): IEnvironmentResult;
 
+// Warning: (ae-missing-release-tag) "getNpmConfigValue" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function getNpmConfigValue(field: string): Promise<string>;
+
 // Warning: (ae-missing-release-tag) "HexDumpLoggerStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -415,7 +420,13 @@ export class HexDumpLoggerStream extends Transform {
 // @public (undocumented)
 export interface ICommand {
     // (undocumented)
+    addonPath?: string[];
+    // (undocumented)
     cwd?: string;
+    // Warning: (ae-forgotten-export) The symbol "ProcessEnv" needs to be exported by the entry point index.generated.d.ts
+    //
+    // (undocumented)
+    env?: ProcessEnv;
     // (undocumented)
     exec: string[];
     // (undocumented)
@@ -584,7 +595,7 @@ export function sha256(data: Buffer): string;
 // Warning: (ae-missing-release-tag) "spawnGetEverything" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnGetEverything({ exec, cwd }: ICommand): Promise<string | undefined>;
+export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<string | undefined>;
 
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -645,7 +656,7 @@ export function trySpawnInScope(cmds: string[]): never;
 //
 // @public (undocumented)
 export class WrappedTerminalConsole extends WrappedConsole {
-    // Warning: (ae-forgotten-export) The symbol "TerminalConsoleOptions" needs to be exported by the entry point _index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "TerminalConsoleOptions" needs to be exported by the entry point index.generated.d.ts
     constructor(title: string, { color, ...opt }?: WrappedConsoleOptions & TerminalConsoleOptions);
     // (undocumented)
     protected processColorLabel(msg: any[], pos: number, level: string, prefix: string): void;

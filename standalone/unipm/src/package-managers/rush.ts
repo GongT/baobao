@@ -80,7 +80,8 @@ export class Rush extends PackageManager {
 			await resortPackage(pkgJson);
 		}
 
-		await super._invoke(this.cliName, ['update']);
+		const env = { npm_config_prefer_frozen_lockfile: 'false', npm_config_prefer_offline: 'false' };
+		await super._invoke(this.cliName, ['update'], { env });
 	}
 
 	async init() {

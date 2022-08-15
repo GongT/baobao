@@ -1,5 +1,5 @@
 import split2 from 'split2';
-import { spawn, SpawnOptions } from 'child_process';
+import { execa, Options as SpawnOptions } from 'execa';
 import { dirname } from 'path';
 import { CollectingStream, streamPromise } from '@idlebox/node';
 import { createFileSync, createWriteStream, mkdirpSync, truncateSync } from 'fs-extra';
@@ -22,7 +22,7 @@ export function execPromise({
 }: IOptions): Promise<{ result: string; full: string }> {
 	const debugExec = ` + ${cmd} ${argv.join(' ')} (wd: ${cwd})`;
 	if (verbose) console.error('\x1B[2m%s\x1B[0m', debugExec);
-	const r = spawn(cmd, argv, {
+	const r = execa(cmd, argv, {
 		...opts,
 		stdio: ['ignore', 'pipe', 'pipe'],
 		shell: false,

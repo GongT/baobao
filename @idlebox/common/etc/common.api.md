@@ -399,21 +399,18 @@ export class DisposedError extends Error {
 // @public
 export function disposeGlobal(): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "Emitter" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
+// @public
 export class Emitter<T> implements IDisposable {
     constructor();
     // (undocumented)
     dispose(): void;
-    // (undocumented)
+    // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
     fire(data: T): void;
     fireNoError(data: T): void;
-    // (undocumented)
+    // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
     handle(callback: EventHandler<T>): IDisposable;
     // (undocumented)
     listenerCount(): number;
-    // (undocumented)
     get register(): EventRegister<T>;
 }
 
@@ -513,8 +510,8 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor: (
 // @public
 export function globalSingletonStrong<T>(symbol: symbol | string): T | undefined;
 
-// Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point _index.d.ts
-// Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point _index.d.ts
+// Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point index.generated.d.ts
 // Warning: (ae-missing-release-tag) "hookClass" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -786,6 +783,20 @@ export interface MaybeNamedFunction extends Function {
 // @public
 export const memo: MethodDecorator;
 
+// @public
+export class MemorizedEmitter<T> extends Emitter<T> {
+    // (undocumented)
+    dispose(): void;
+    // (undocumented)
+    fire(data: T): void;
+    // (undocumented)
+    fireNoError(data: T): void;
+    // (undocumented)
+    forget(): void;
+    // (undocumented)
+    handle(callback: EventHandler<T>): IDisposable;
+}
+
 // Warning: (ae-missing-release-tag) "memorizeValueSymbol" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -986,6 +997,11 @@ export function RegexpFinder(this: RegExp[], item: RegExp): number;
 // @public
 export function registerGlobalLifecycle(object: IDisposable): void;
 
+// Warning: (ae-missing-release-tag) "sepList" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const sepList: string;
+
 // Warning: (ae-missing-release-tag) "SerializableKind" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -1086,7 +1102,7 @@ export function ucfirst<T extends string>(str: T): Capitalize<T>;
 // @public
 export function uniqueFilter<T>(idFactory?: IUniqueIdFactory<T>): (item: T) => boolean;
 
-// Warning: (ae-forgotten-export) The symbol "Unsubscribable" needs to be exported by the entry point _index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Unsubscribable" needs to be exported by the entry point index.generated.d.ts
 // Warning: (ae-missing-release-tag) "unsubscribableToDisposable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

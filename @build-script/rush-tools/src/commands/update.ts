@@ -6,10 +6,12 @@ import { spawnRushPassthrough } from '../common/spawnRush';
 export default async function runUpdate(argv: string[]) {
 	const rush = new RushProject();
 
-	await spawnRushPassthrough('update', argv);
+	const env = { npm_config_prefer_frozen_lockfile: 'false', npm_config_prefer_offline: 'false' };
+
+	await spawnRushPassthrough('update', argv, env);
 
 	for (const item of rush.autoinstallers) {
-		await spawnRushPassthrough('update-autoinstaller', ['--name', item.packageName]);
+		await spawnRushPassthrough('update-autoinstaller', ['--name', item.packageName], env);
 	}
 }
 

@@ -1,13 +1,12 @@
 import { createHash } from 'crypto';
 import { dirname, resolve } from 'path';
-import { isWindows } from '@idlebox/common';
+import { DeepReadonly, isWindows } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { relativePath, writeFileIfChange } from '@idlebox/node';
 import { loadJsonFileSync } from '@idlebox/node-json-edit';
 import { pathExists, pathExistsSync, readdirSync, readFile, readJsonSync } from 'fs-extra';
 import { requireRushPathSync } from '../common/loadRushJson';
-import { Immutable, ImmutableArray } from './deepReadonly';
-import { IProjectConfig, IRushConfig } from './limitedJson';
+import { ICProjectConfig, IProjectConfig, IRushConfig } from './limitedJson';
 
 interface IProjectDependencyOptions {
 	removeCyclic?: boolean;
@@ -17,8 +16,8 @@ interface IProjectDependencyOptions {
 export class RushProject {
 	public readonly configFile: string;
 	public readonly projectRoot: string;
-	public readonly config: Immutable<IRushConfig>;
-	public readonly autoinstallers: ImmutableArray<IProjectConfig>;
+	public readonly config: DeepReadonly<IRushConfig>;
+	public readonly autoinstallers: readonly ICProjectConfig[];
 	private declare _preferredVersions: { [id: string]: string };
 
 	constructor(path: string = process.cwd()) {
@@ -62,7 +61,6 @@ export class RushProject {
 				packageName: item,
 				projectFolder: rel,
 				cyclicDependencyProjects,
-				_isAutoInstaller: true,
 			});
 		}
 		return ret;
@@ -88,11 +86,11 @@ export class RushProject {
 		return this._preferredVersions;
 	}
 
-	public get projects(): Immutable<IProjectConfig[]> {
-		return [...this.config.projects, ...this.autoinstallers];
+	public get projects(): readonly ICProjectConfig[] {
+		return this.config.projects;
 	}
 
-	public absolute(project: Immutable<IProjectConfig> | string, ...segments: string[]): string {
+	public absolute(project: ICProjectConfig | string, ...segments: string[]): string {
 		if (typeof project === 'string') {
 			const p2 = this.getPackageByName(project);
 			if (p2) {
@@ -105,22 +103,26 @@ export class RushProject {
 		}
 	}
 
-	public getPackageByName(name: string): Immutable<IProjectConfig> | null {
-		return this.projects.find(({ packageName }) => name === packageName) || null;
+	public getPackageByName(name: string): ICProjectConfig | null {
+		let f = this.projects.find(({ packageName }) => name === packageName);
+		if (!f) {
+			f = this.autoinstallers.find(({ packageName }) => name === packageName);
+		}
+		return f || null;
 	}
 
-	public packageJsonPath(project: Immutable<IProjectConfig> | string): string | null {
+	public packageJsonPath(project: ICProjectConfig | string): string | null {
 		const p = resolve(this.absolute(project), 'package.json');
 		return pathExistsSync(p) ? p : null;
 	}
 
-	public packageJsonContent(project: Immutable<IProjectConfig> | string): any | null {
+	public packageJsonContent(project: ICProjectConfig | string): any | null {
 		const p = resolve(this.absolute(project), 'package.json');
 		return pathExistsSync(p) ? readJsonSync(p) : null;
 	}
 
 	public packageDependency(
-		project: Immutable<IProjectConfig> | string,
+		project: ICProjectConfig | string,
 		{ removeCyclic, development }: IProjectDependencyOptions = {}
 	): string[] {
 		const pkgFile = this.packageJsonPath(project);
@@ -132,7 +134,7 @@ export class RushProject {
 		if (development !== true && pkg.dependencies) Object.assign(deps, pkg.dependencies);
 		if (development !== false && pkg.devDependencies) Object.assign(deps, pkg.devDependencies);
 
-		let cyclicCheck: Immutable<string[]> | undefined;
+		let cyclicCheck: readonly string[] | undefined;
 		if (removeCyclic) {
 			if (typeof project === 'string') {
 				const p = this.getPackageByName(project);
@@ -184,11 +186,7 @@ export class RushProject {
 		};
 	}
 
-	async copyNpmrc(
-		project: Immutable<IProjectConfig> | string,
-		symlink: boolean = !isWindows,
-		force: boolean = false
-	) {
+	async copyNpmrc(project: ICProjectConfig | string, symlink: boolean = !isWindows, force: boolean = false) {
 		const wantFile = this.absolute(project, '.npmrc');
 		if (!force && (await pathExists(wantFile))) {
 			return;

@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/typescript-surface-analyzer",
 	"type": "commonjs",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"description": "Api and CLI tool for collect export information in typescript project",
 	"keywords": [],
 	"license": "MIT",
@@ -33,7 +33,7 @@
 	},
 	"devDependencies": {
 		"@types/minimatch": "^3.0.5",
-		"@types/node": "^18.6.1",
+		"@types/node": "^18.7.2",
 		"local-rig": "workspace:^",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^3.0.2",

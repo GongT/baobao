@@ -8,6 +8,10 @@ export interface EventRegister<T> {
 	(callback: EventHandler<T>): IDisposable;
 }
 
+/**
+ * 事件注册对象
+ * @public
+ */
 export class Emitter<T> implements IDisposable {
 	private readonly _callbacks: EventHandler<T>[] = [];
 
@@ -15,18 +19,25 @@ export class Emitter<T> implements IDisposable {
 		this.handle = this.handle.bind(this);
 	}
 
-	listenerCount() {
+	/**
+	 * @returns 当前注册回调数量
+	 */
+	public listenerCount() {
 		return this._callbacks.length;
 	}
 
-	fire(data: T) {
+	/**
+	 * 触发本事件
+	 * @param data 回调数据
+	 */
+	public fire(data: T) {
 		for (const callback of this._callbacks) {
 			callback(data);
 		}
 	}
 
 	/**
-	 * Same with `fire`, but do not stop run when catch error
+	 * 与 `fire()`相同，但是忽略任何错误，并且即便出错也继续执行全部callback
 	 */
 	public fireNoError(data: T) {
 		for (const callback of this._callbacks) {
@@ -38,10 +49,17 @@ export class Emitter<T> implements IDisposable {
 		}
 	}
 
+	/**
+	 * 获取handle()方法的引用
+	 */
 	get register(): EventRegister<T> {
 		return this.handle;
 	}
 
+	/**
+	 * 注册本事件的新回调
+	 * @param callback 回调函数
+	 */
 	handle(callback: EventHandler<T>): IDisposable {
 		this._callbacks.unshift(callback);
 		return {

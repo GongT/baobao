@@ -69,7 +69,7 @@ function die(...msg: any[]): never {
 function usage(msg = ''): never {
 	if (msg) console.error(msg);
 	console.error(
-		'Usage: $0 -p src/tsconfig.json [--name _index.ts] [--filter output-filter.js] [--exclude **.test.ts]'
+		'Usage: $0 -p src/tsconfig.json [--name index.generated.ts] [--filter output-filter.js] [--exclude **.test.ts]'
 	);
 	console.error('Usage: $0 -p src/tsconfig.json --normalize');
 	process.exit(1);

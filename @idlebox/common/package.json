@@ -1,14 +1,14 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.3.10",
+	"version": "1.3.12",
 	"license": "MIT",
-	"main": "./lib/_index.cjs",
-	"module": "./lib/_index.js",
+	"main": "./lib/index.generated.cjs",
+	"module": "./lib/index.generated.js",
 	"exports": {
 		".": {
-			"import": "./lib/_index.js",
-			"require": "./lib/_index.cjs"
+			"import": "./lib/index.generated.js",
+			"require": "./lib/index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
@@ -31,7 +31,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
-		"@rushstack/heft": "^0.46.2",
+		"@rushstack/heft": "^0.47.2",
 		"local-rig": "workspace:^",
 		"source-map-support": "^0.5.21",
 		"typescript": "^4.7.4"

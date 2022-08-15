@@ -10,12 +10,12 @@
 	},
 	"private": true,
 	"dependencies": {
-		"@microsoft/api-extractor": "^7.28.3",
-		"@rushstack/eslint-config": "^2.6.2",
+		"@microsoft/api-extractor": "^7.29.2",
+		"@rushstack/eslint-config": "^3.0.0",
 		"@rushstack/eslint-patch": "^1.1.4",
-		"@rushstack/eslint-plugin": "^0.9.1",
+		"@rushstack/eslint-plugin": "^0.10.0",
 		"@telia/rush-select": "^0.13.1",
-		"eslint": "^8.19.0",
+		"eslint": "^8.21.0",
 		"eslint-plugin-import": "^2.26.0",
 		"typescript": "^4.7.4"
 	},

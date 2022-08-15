@@ -1,7 +1,7 @@
 import { execa } from 'execa';
 import { findRushRootPath } from '../api/load';
 
-export async function spawnRushPassthrough(action: string, argv: string[]) {
+export async function spawnRushPassthrough(action: string, argv: string[], env: Record<string, string> = {}) {
 	const rushRoot = await findRushRootPath();
 	if (!rushRoot) {
 		throw new Error('not in rush project');
@@ -14,5 +14,6 @@ export async function spawnRushPassthrough(action: string, argv: string[]) {
 	return execa('rush', args, {
 		stdio: 'inherit',
 		cwd: rushRoot,
+		env,
 	});
 }

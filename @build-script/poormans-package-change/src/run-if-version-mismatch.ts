@@ -1,10 +1,10 @@
+import { resolve } from 'path';
 import { exists } from '@idlebox/node';
 import { execa } from 'execa';
-import { resolve } from 'path';
-import { getVersionCached } from './cache/tarball';
-import { detectRegistry } from './packageManage/detectRegistry';
+import { getNewNpmCache } from './cache/native.npm';
 import { getArg } from './inc/getArg';
 import { errorLog, log } from './inc/log';
+import { detectRegistry } from './packageManage/detectRegistry';
 
 export async function main(argv: string[]) {
 	process.on('unhandledRejection', (reason, promise) => {
@@ -38,12 +38,14 @@ export async function main(argv: string[]) {
 	const distTag = getArg('--dist-tag', 'latest');
 	const registry = await detectRegistry(getArg('--registry', 'detect'), packagePath);
 
-	const version = await getVersionCached(packageJson.name, distTag, registry);
+	const version = await getNewNpmCache(packageJson.name, distTag, registry);
 	log('version = %s', version);
 
 	if (!version || packageJson.version !== version) {
 		log('local (%s) !== remote (%s), run command!', packageJson.version, version);
 		await execa(cmd[0], cmd.slice(1), { cwd: packagePath, stdout: 'inherit', stderr: 'inherit' });
+
+		await getNewNpmCache(packageJson.name, distTag, registry);
 	} else {
 		log('local (%s) === remote (%s), do nothing and exit.', packageJson.version, version);
 	}

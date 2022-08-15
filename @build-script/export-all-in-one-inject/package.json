@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/export-all-in-one-inject",
-	"version": "1.0.21",
+	"version": "1.0.23",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"keywords": ["cli", "concat", "library", "ts", "typescript"],
 	"license": "MIT",
@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@build-script/builder": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
-		"@microsoft/api-extractor": "^7.28.3",
+		"@microsoft/api-extractor": "^7.29.2",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0",
@@ -29,7 +29,7 @@
 		"@build-script/export-all-in-one": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.6.1",
+		"@types/node": "^18.7.2",
 		"gulp": "^4.0.2",
 		"local-rig": "workspace:^",
 		"ttypescript": "^1.5.13",

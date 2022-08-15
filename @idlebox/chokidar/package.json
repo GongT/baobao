@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/chokidar",
 	"type": "module",
-	"version": "0.0.13",
+	"version": "0.0.15",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"main": "./lib/_export_all_in_one_index.cjs",
@@ -33,7 +33,7 @@
 		"@build-script/export-all-in-one": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@types/node": "^18.6.1",
+		"@types/node": "^18.7.2",
 		"gulp": "^4.0.2",
 		"local-rig": "workspace:^",
 		"ttypescript": "^1.5.13",

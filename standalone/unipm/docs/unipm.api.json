@@ -1,2163 +1,2163 @@
 {
-  "metadata": {
-    "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.28.3",
-    "schemaVersion": 1009,
-    "oldestForwardsCompatibleVersion": 1001,
-    "tsdocConfig": {
-      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
-      "noStandardTags": true,
-      "tagDefinitions": [
-        {
-          "tagName": "@alpha",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@beta",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@defaultValue",
-          "syntaxKind": "block"
-        },
-        {
-          "tagName": "@decorator",
-          "syntaxKind": "block",
-          "allowMultiple": true
-        },
-        {
-          "tagName": "@deprecated",
-          "syntaxKind": "block"
-        },
-        {
-          "tagName": "@eventProperty",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@example",
-          "syntaxKind": "block",
-          "allowMultiple": true
-        },
-        {
-          "tagName": "@experimental",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@inheritDoc",
-          "syntaxKind": "inline"
-        },
-        {
-          "tagName": "@internal",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@label",
-          "syntaxKind": "inline"
-        },
-        {
-          "tagName": "@link",
-          "syntaxKind": "inline",
-          "allowMultiple": true
-        },
-        {
-          "tagName": "@override",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@packageDocumentation",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@param",
-          "syntaxKind": "block",
-          "allowMultiple": true
-        },
-        {
-          "tagName": "@privateRemarks",
-          "syntaxKind": "block"
-        },
-        {
-          "tagName": "@public",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@readonly",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@remarks",
-          "syntaxKind": "block"
-        },
-        {
-          "tagName": "@returns",
-          "syntaxKind": "block"
-        },
-        {
-          "tagName": "@sealed",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@see",
-          "syntaxKind": "block"
-        },
-        {
-          "tagName": "@throws",
-          "syntaxKind": "block",
-          "allowMultiple": true
-        },
-        {
-          "tagName": "@typeParam",
-          "syntaxKind": "block",
-          "allowMultiple": true
-        },
-        {
-          "tagName": "@virtual",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@betaDocumentation",
-          "syntaxKind": "modifier"
-        },
-        {
-          "tagName": "@internalRemarks",
-          "syntaxKind": "block"
-        },
-        {
-          "tagName": "@preapproved",
-          "syntaxKind": "modifier"
-        }
-      ],
-      "supportForTags": {
-        "@alpha": true,
-        "@beta": true,
-        "@defaultValue": true,
-        "@decorator": true,
-        "@deprecated": true,
-        "@eventProperty": true,
-        "@example": true,
-        "@experimental": true,
-        "@inheritDoc": true,
-        "@internal": true,
-        "@label": true,
-        "@link": true,
-        "@override": true,
-        "@packageDocumentation": true,
-        "@param": true,
-        "@privateRemarks": true,
-        "@public": true,
-        "@readonly": true,
-        "@remarks": true,
-        "@returns": true,
-        "@sealed": true,
-        "@see": true,
-        "@throws": true,
-        "@typeParam": true,
-        "@virtual": true,
-        "@betaDocumentation": true,
-        "@internalRemarks": true,
-        "@preapproved": true
-      },
-      "reportUnsupportedHtmlElements": false
-    }
-  },
-  "kind": "Package",
-  "canonicalReference": "unipm!",
-  "docComment": "",
-  "name": "unipm",
-  "preserveMemberOrder": false,
-  "members": [
-    {
-      "kind": "EntryPoint",
-      "canonicalReference": "unipm!",
-      "name": "",
-      "preserveMemberOrder": false,
-      "members": [
-        {
-          "kind": "Function",
-          "canonicalReference": "unipm!deletePackageDependency:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function deletePackageDependency(file: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": ", ...deps: "
-            },
-            {
-              "kind": "Content",
-              "text": "string[]"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 5,
-            "endIndex": 7
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "file",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isOptional": false
-            },
-            {
-              "parameterName": "deps",
-              "parameterTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "isOptional": false
-            }
-          ],
-          "name": "deletePackageDependency"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "unipm!formatPackageJson:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function formatPackageJson(file: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": ", args: "
-            },
-            {
-              "kind": "Content",
-              "text": "string[]"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 5,
-            "endIndex": 7
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "file",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isOptional": false
-            },
-            {
-              "parameterName": "args",
-              "parameterTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "isOptional": false
-            }
-          ],
-          "name": "formatPackageJson"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "unipm!getPackageManager:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function getPackageManager(_options?: "
-            },
-            {
-              "kind": "Reference",
-              "text": "Partial",
-              "canonicalReference": "!Partial:type"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "IGetPackageManagerOptions",
-              "canonicalReference": "unipm!IGetPackageManagerOptions:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ">"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<"
-            },
-            {
-              "kind": "Reference",
-              "text": "PackageManager",
-              "canonicalReference": "unipm!PackageManager:class"
-            },
-            {
-              "kind": "Content",
-              "text": ">"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 6,
-            "endIndex": 10
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "_options",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 5
-              },
-              "isOptional": true
-            }
-          ],
-          "name": "getPackageManager"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "unipm!getPackageManagerByName:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function getPackageManagerByName(name: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "PackageManagerConstructor",
-              "canonicalReference": "unipm!PackageManagerConstructor:interface"
-            },
-            {
-              "kind": "Content",
-              "text": " | undefined"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "name",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isOptional": false
-            }
-          ],
-          "name": "getPackageManagerByName"
-        },
-        {
-          "kind": "Interface",
-          "canonicalReference": "unipm!IGetPackageManagerOptions:interface",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export interface IGetPackageManagerOptions "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "IGetPackageManagerOptions",
-          "preserveMemberOrder": false,
-          "members": [
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "unipm!IGetPackageManagerOptions#ask:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "ask: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "ask",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "unipm!IGetPackageManagerOptions#cwd:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "cwd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "cwd",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "unipm!IGetPackageManagerOptions#default:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "default: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto'"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "default",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "unipm!IGetPackageManagerOptions#packageJson:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "packageJson?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "packageJson",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            }
-          ],
-          "extendsTokenRanges": []
-        },
-        {
-          "kind": "Variable",
-          "canonicalReference": "unipm!KNOWN_PACKAGE_MANAGER_NAMES:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "KNOWN_PACKAGE_MANAGER_NAMES: "
-            },
-            {
-              "kind": "Content",
-              "text": "string[]"
-            }
-          ],
-          "isReadonly": true,
-          "releaseTag": "Public",
-          "name": "KNOWN_PACKAGE_MANAGER_NAMES",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
-        },
-        {
-          "kind": "Variable",
-          "canonicalReference": "unipm!KNOWN_PACKAGE_MANAGERS:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "KNOWN_PACKAGE_MANAGERS: "
-            },
-            {
-              "kind": "Reference",
-              "text": "PackageManagerConstructor",
-              "canonicalReference": "unipm!PackageManagerConstructor:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "[]"
-            }
-          ],
-          "isReadonly": true,
-          "releaseTag": "Public",
-          "name": "KNOWN_PACKAGE_MANAGERS",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 3
-          }
-        },
-        {
-          "kind": "Class",
-          "canonicalReference": "unipm!PackageManager:class",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare abstract class PackageManager "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "PackageManager",
-          "preserveMemberOrder": false,
-          "members": [
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#__invoke:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected __invoke(cmd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", spawnOptions: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "ExecaOptions",
-                  "canonicalReference": "execa!Options:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Content",
-                  "text": "import(\"execa\")."
-                },
-                {
-                  "kind": "Reference",
-                  "text": "ExecaChildProcess",
-                  "canonicalReference": "execa!ExecaChildProcess:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<string>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 10
-              },
-              "releaseTag": "Public",
-              "isProtected": true,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "cmd",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "spawnOptions",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 5,
-                    "endIndex": 6
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "__invoke"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#_detect:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract _detect(): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<boolean>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 3
-              },
-              "releaseTag": "Public",
-              "isProtected": true,
-              "overloadIndex": 1,
-              "parameters": [],
-              "isOptional": false,
-              "name": "_detect"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#_detectFile:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected _detectFile(file: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<boolean>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
-              },
-              "releaseTag": "Public",
-              "isProtected": true,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "file",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "_detectFile"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#_invoke:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected _invoke(cmd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", spawnOptions?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "ExecaOptions",
-                  "canonicalReference": "execa!Options:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 7,
-                "endIndex": 9
-              },
-              "releaseTag": "Public",
-              "isProtected": true,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "cmd",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "spawnOptions",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 5,
-                    "endIndex": 6
-                  },
-                  "isOptional": true
-                }
-              ],
-              "isOptional": false,
-              "name": "_invoke"
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#_invokeErrorLater:member(1)",
-              "docComment": "/**\n * spawn package manager binary, mute output\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected _invokeErrorLater(cmd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", spawnOptions?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Omit",
-                  "canonicalReference": "!Omit:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<"
-                },
-                {
-                  "kind": "Reference",
-                  "text": "ExecaOptions",
-                  "canonicalReference": "execa!Options:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", 'stdio' | 'encoding'>"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 10,
-                "endIndex": 12
-              },
-              "releaseTag": "Public",
-              "isProtected": true,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "cmd",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "spawnOptions",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 5,
-                    "endIndex": 9
-                  },
-                  "isOptional": true
-                }
-              ],
-              "isOptional": false,
-              "name": "_invokeErrorLater"
-            },
-            {
-              "kind": "Constructor",
-              "canonicalReference": "unipm!PackageManager:constructor(1)",
-              "docComment": "/**\n * Constructs a new instance of the `PackageManager` class\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "constructor(cwd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ");"
-                }
-              ],
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "cwd",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ]
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#cliName:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract readonly cliName: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "cliName",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#cwd:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected readonly cwd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "cwd",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#detect:member(1)",
-              "docComment": "/**\n * detect if this package manager is used by current project\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "detect(): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<this | undefined>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 3
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [],
-              "isOptional": false,
-              "name": "detect"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#displayBeforeCommandRun:member",
-              "docComment": "/**\n * if set to true, debug info will print to stderr, default is process.stderr.isTTY\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "displayBeforeCommandRun: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "displayBeforeCommandRun",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": false
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#exists:member(1)",
-              "docComment": "/**\n * detect this package manager callable (installed and in PATH)\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "exists(): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<string | undefined>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 3
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [],
-              "isOptional": false,
-              "name": "exists"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#friendlyName:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "abstract readonly friendlyName: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "friendlyName",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": false
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#init:member(1)",
-              "docComment": "/**\n * run package init command, normally this will create a new package.json, and maybe ask some questions\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "init(...args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "init"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#initCommand:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected readonly initCommand: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "initCommand",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#install:member(1)",
-              "docComment": "/**\n * install packages * add packages into package.json * if \"-D\" or \"--dev\" in `packages`, add them to devDependencies\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "install(...packages: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "packages",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "install"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#installCommand:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract readonly installCommand: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "installCommand",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#installDevFlag:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract readonly installDevFlag: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "installDevFlag",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#invokeCli:member(1)",
-              "docComment": "/**\n * spawn package manager binary, with inherit stdio\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "invokeCli(cmd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", ...args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 7
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "cmd",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "invokeCli"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#packageName:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract readonly packageName: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "packageName",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#run:member(1)",
-              "docComment": "/**\n * run scripts in package.json, by package manager\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "run(script: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", ...args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 5,
-                "endIndex": 7
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "script",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                },
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 3,
-                    "endIndex": 4
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "run"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#runCommand:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected readonly runCommand: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "runCommand",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#show:member(1)",
-              "docComment": "/**\n * show package info from NPM registry\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "show(...args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "show"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#showCommand:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected readonly showCommand: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "showCommand",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#sync:member(1)",
-              "docComment": "/**\n * sync package.json to node_modules, eg: npm i\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "sync(...args: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "args",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "sync"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#syncCommand:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract readonly syncCommand: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "syncCommand",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#type:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "abstract readonly type: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "PackageManagerType",
-                  "canonicalReference": "unipm!PackageManagerType:enum"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "type",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": false
-            },
-            {
-              "kind": "Method",
-              "canonicalReference": "unipm!PackageManager#uninstall:member(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "uninstall(...packages: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string[]"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "Promise",
-                  "canonicalReference": "!Promise:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<void>"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isStatic": false,
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 5
-              },
-              "releaseTag": "Public",
-              "isProtected": false,
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "packages",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ],
-              "isOptional": false,
-              "name": "uninstall"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "unipm!PackageManager#uninstallCommand:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "protected abstract readonly uninstallCommand: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": true,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "uninstallCommand",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": true
-            }
-          ],
-          "implementsTokenRanges": []
-        },
-        {
-          "kind": "Interface",
-          "canonicalReference": "unipm!PackageManagerConstructor:interface",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export interface PackageManagerConstructor "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "PackageManagerConstructor",
-          "preserveMemberOrder": false,
-          "members": [
-            {
-              "kind": "ConstructSignature",
-              "canonicalReference": "unipm!PackageManagerConstructor:new(1)",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "new (cwd: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": "): "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "PackageManager",
-                  "canonicalReference": "unipm!PackageManager:class"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "returnTypeTokenRange": {
-                "startIndex": 3,
-                "endIndex": 4
-              },
-              "releaseTag": "Public",
-              "overloadIndex": 1,
-              "parameters": [
-                {
-                  "parameterName": "cwd",
-                  "parameterTypeTokenRange": {
-                    "startIndex": 1,
-                    "endIndex": 2
-                  },
-                  "isOptional": false
-                }
-              ]
-            }
-          ],
-          "extendsTokenRanges": []
-        },
-        {
-          "kind": "Enum",
-          "canonicalReference": "unipm!PackageManagerType:enum",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare enum PackageManagerType "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "PackageManagerType",
-          "preserveMemberOrder": false,
-          "members": [
-            {
-              "kind": "EnumMember",
-              "canonicalReference": "unipm!PackageManagerType.NPM:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "NPM = "
-                },
-                {
-                  "kind": "Content",
-                  "text": "0"
-                }
-              ],
-              "initializerTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "releaseTag": "Public",
-              "name": "NPM"
-            },
-            {
-              "kind": "EnumMember",
-              "canonicalReference": "unipm!PackageManagerType.PNPM:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "PNPM = "
-                },
-                {
-                  "kind": "Content",
-                  "text": "1"
-                }
-              ],
-              "initializerTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "releaseTag": "Public",
-              "name": "PNPM"
-            },
-            {
-              "kind": "EnumMember",
-              "canonicalReference": "unipm!PackageManagerType.RUSH:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "RUSH = "
-                },
-                {
-                  "kind": "Content",
-                  "text": "2"
-                }
-              ],
-              "initializerTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "releaseTag": "Public",
-              "name": "RUSH"
-            },
-            {
-              "kind": "EnumMember",
-              "canonicalReference": "unipm!PackageManagerType.YARN:member",
-              "docComment": "",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "YARN = "
-                },
-                {
-                  "kind": "Content",
-                  "text": "3"
-                }
-              ],
-              "initializerTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "releaseTag": "Public",
-              "name": "YARN"
-            }
-          ]
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "unipm!reformatPackageJson:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function reformatPackageJson({ ...packageJson }: "
-            },
-            {
-              "kind": "Content",
-              "text": "any"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Content",
-              "text": "typeof "
-            },
-            {
-              "kind": "Reference",
-              "text": "packageJson",
-              "canonicalReference": "unipm!~packageJson:var"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "{ ...packageJson }",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isOptional": false
-            }
-          ],
-          "name": "reformatPackageJson"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "unipm!resolveLatestVersionOnNpm:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function resolveLatestVersionOnNpm(packageName: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<string>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "packageName",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isOptional": false
-            }
-          ],
-          "name": "resolveLatestVersionOnNpm"
-        },
-        {
-          "kind": "Function",
-          "canonicalReference": "unipm!resortPackage:function(1)",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare function resortPackage(file: "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            },
-            {
-              "kind": "Content",
-              "text": "): "
-            },
-            {
-              "kind": "Reference",
-              "text": "Promise",
-              "canonicalReference": "!Promise:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<void>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "returnTypeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          "releaseTag": "Public",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "parameterName": "file",
-              "parameterTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isOptional": false
-            }
-          ],
-          "name": "resortPackage"
-        }
-      ]
-    }
-  ]
+	"metadata": {
+		"toolPackage": "@microsoft/api-extractor",
+		"toolVersion": "7.29.2",
+		"schemaVersion": 1009,
+		"oldestForwardsCompatibleVersion": 1001,
+		"tsdocConfig": {
+			"$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+			"noStandardTags": true,
+			"tagDefinitions": [
+				{
+					"tagName": "@alpha",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@beta",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@defaultValue",
+					"syntaxKind": "block"
+				},
+				{
+					"tagName": "@decorator",
+					"syntaxKind": "block",
+					"allowMultiple": true
+				},
+				{
+					"tagName": "@deprecated",
+					"syntaxKind": "block"
+				},
+				{
+					"tagName": "@eventProperty",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@example",
+					"syntaxKind": "block",
+					"allowMultiple": true
+				},
+				{
+					"tagName": "@experimental",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@inheritDoc",
+					"syntaxKind": "inline"
+				},
+				{
+					"tagName": "@internal",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@label",
+					"syntaxKind": "inline"
+				},
+				{
+					"tagName": "@link",
+					"syntaxKind": "inline",
+					"allowMultiple": true
+				},
+				{
+					"tagName": "@override",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@packageDocumentation",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@param",
+					"syntaxKind": "block",
+					"allowMultiple": true
+				},
+				{
+					"tagName": "@privateRemarks",
+					"syntaxKind": "block"
+				},
+				{
+					"tagName": "@public",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@readonly",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@remarks",
+					"syntaxKind": "block"
+				},
+				{
+					"tagName": "@returns",
+					"syntaxKind": "block"
+				},
+				{
+					"tagName": "@sealed",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@see",
+					"syntaxKind": "block"
+				},
+				{
+					"tagName": "@throws",
+					"syntaxKind": "block",
+					"allowMultiple": true
+				},
+				{
+					"tagName": "@typeParam",
+					"syntaxKind": "block",
+					"allowMultiple": true
+				},
+				{
+					"tagName": "@virtual",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@betaDocumentation",
+					"syntaxKind": "modifier"
+				},
+				{
+					"tagName": "@internalRemarks",
+					"syntaxKind": "block"
+				},
+				{
+					"tagName": "@preapproved",
+					"syntaxKind": "modifier"
+				}
+			],
+			"supportForTags": {
+				"@alpha": true,
+				"@beta": true,
+				"@defaultValue": true,
+				"@decorator": true,
+				"@deprecated": true,
+				"@eventProperty": true,
+				"@example": true,
+				"@experimental": true,
+				"@inheritDoc": true,
+				"@internal": true,
+				"@label": true,
+				"@link": true,
+				"@override": true,
+				"@packageDocumentation": true,
+				"@param": true,
+				"@privateRemarks": true,
+				"@public": true,
+				"@readonly": true,
+				"@remarks": true,
+				"@returns": true,
+				"@sealed": true,
+				"@see": true,
+				"@throws": true,
+				"@typeParam": true,
+				"@virtual": true,
+				"@betaDocumentation": true,
+				"@internalRemarks": true,
+				"@preapproved": true
+			},
+			"reportUnsupportedHtmlElements": false
+		}
+	},
+	"kind": "Package",
+	"canonicalReference": "unipm!",
+	"docComment": "",
+	"name": "unipm",
+	"preserveMemberOrder": false,
+	"members": [
+		{
+			"kind": "EntryPoint",
+			"canonicalReference": "unipm!",
+			"name": "",
+			"preserveMemberOrder": false,
+			"members": [
+				{
+					"kind": "Function",
+					"canonicalReference": "unipm!deletePackageDependency:function(1)",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare function deletePackageDependency(file: "
+						},
+						{
+							"kind": "Content",
+							"text": "string"
+						},
+						{
+							"kind": "Content",
+							"text": ", ...deps: "
+						},
+						{
+							"kind": "Content",
+							"text": "string[]"
+						},
+						{
+							"kind": "Content",
+							"text": "): "
+						},
+						{
+							"kind": "Reference",
+							"text": "Promise",
+							"canonicalReference": "!Promise:interface"
+						},
+						{
+							"kind": "Content",
+							"text": "<void>"
+						},
+						{
+							"kind": "Content",
+							"text": ";"
+						}
+					],
+					"returnTypeTokenRange": {
+						"startIndex": 5,
+						"endIndex": 7
+					},
+					"releaseTag": "Public",
+					"overloadIndex": 1,
+					"parameters": [
+						{
+							"parameterName": "file",
+							"parameterTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isOptional": false
+						},
+						{
+							"parameterName": "deps",
+							"parameterTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 4
+							},
+							"isOptional": false
+						}
+					],
+					"name": "deletePackageDependency"
+				},
+				{
+					"kind": "Function",
+					"canonicalReference": "unipm!formatPackageJson:function(1)",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare function formatPackageJson(file: "
+						},
+						{
+							"kind": "Content",
+							"text": "string"
+						},
+						{
+							"kind": "Content",
+							"text": ", args: "
+						},
+						{
+							"kind": "Content",
+							"text": "string[]"
+						},
+						{
+							"kind": "Content",
+							"text": "): "
+						},
+						{
+							"kind": "Reference",
+							"text": "Promise",
+							"canonicalReference": "!Promise:interface"
+						},
+						{
+							"kind": "Content",
+							"text": "<void>"
+						},
+						{
+							"kind": "Content",
+							"text": ";"
+						}
+					],
+					"returnTypeTokenRange": {
+						"startIndex": 5,
+						"endIndex": 7
+					},
+					"releaseTag": "Public",
+					"overloadIndex": 1,
+					"parameters": [
+						{
+							"parameterName": "file",
+							"parameterTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isOptional": false
+						},
+						{
+							"parameterName": "args",
+							"parameterTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 4
+							},
+							"isOptional": false
+						}
+					],
+					"name": "formatPackageJson"
+				},
+				{
+					"kind": "Function",
+					"canonicalReference": "unipm!getPackageManager:function(1)",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare function getPackageManager(_options?: "
+						},
+						{
+							"kind": "Reference",
+							"text": "Partial",
+							"canonicalReference": "!Partial:type"
+						},
+						{
+							"kind": "Content",
+							"text": "<"
+						},
+						{
+							"kind": "Reference",
+							"text": "IGetPackageManagerOptions",
+							"canonicalReference": "unipm!IGetPackageManagerOptions:interface"
+						},
+						{
+							"kind": "Content",
+							"text": ">"
+						},
+						{
+							"kind": "Content",
+							"text": "): "
+						},
+						{
+							"kind": "Reference",
+							"text": "Promise",
+							"canonicalReference": "!Promise:interface"
+						},
+						{
+							"kind": "Content",
+							"text": "<"
+						},
+						{
+							"kind": "Reference",
+							"text": "PackageManager",
+							"canonicalReference": "unipm!PackageManager:class"
+						},
+						{
+							"kind": "Content",
+							"text": ">"
+						},
+						{
+							"kind": "Content",
+							"text": ";"
+						}
+					],
+					"returnTypeTokenRange": {
+						"startIndex": 6,
+						"endIndex": 10
+					},
+					"releaseTag": "Public",
+					"overloadIndex": 1,
+					"parameters": [
+						{
+							"parameterName": "_options",
+							"parameterTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 5
+							},
+							"isOptional": true
+						}
+					],
+					"name": "getPackageManager"
+				},
+				{
+					"kind": "Function",
+					"canonicalReference": "unipm!getPackageManagerByName:function(1)",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare function getPackageManagerByName(name: "
+						},
+						{
+							"kind": "Content",
+							"text": "string"
+						},
+						{
+							"kind": "Content",
+							"text": "): "
+						},
+						{
+							"kind": "Reference",
+							"text": "PackageManagerConstructor",
+							"canonicalReference": "unipm!PackageManagerConstructor:interface"
+						},
+						{
+							"kind": "Content",
+							"text": " | undefined"
+						},
+						{
+							"kind": "Content",
+							"text": ";"
+						}
+					],
+					"returnTypeTokenRange": {
+						"startIndex": 3,
+						"endIndex": 5
+					},
+					"releaseTag": "Public",
+					"overloadIndex": 1,
+					"parameters": [
+						{
+							"parameterName": "name",
+							"parameterTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isOptional": false
+						}
+					],
+					"name": "getPackageManagerByName"
+				},
+				{
+					"kind": "Interface",
+					"canonicalReference": "unipm!IGetPackageManagerOptions:interface",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export interface IGetPackageManagerOptions "
+						}
+					],
+					"releaseTag": "Public",
+					"name": "IGetPackageManagerOptions",
+					"preserveMemberOrder": false,
+					"members": [
+						{
+							"kind": "PropertySignature",
+							"canonicalReference": "unipm!IGetPackageManagerOptions#ask:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "ask: "
+								},
+								{
+									"kind": "Content",
+									"text": "boolean"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": false,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "ask",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							}
+						},
+						{
+							"kind": "PropertySignature",
+							"canonicalReference": "unipm!IGetPackageManagerOptions#cwd:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "cwd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": false,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "cwd",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							}
+						},
+						{
+							"kind": "PropertySignature",
+							"canonicalReference": "unipm!IGetPackageManagerOptions#default:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "default: "
+								},
+								{
+									"kind": "Content",
+									"text": "'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto'"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": false,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "default",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							}
+						},
+						{
+							"kind": "PropertySignature",
+							"canonicalReference": "unipm!IGetPackageManagerOptions#packageJson:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "packageJson?: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": false,
+							"isOptional": true,
+							"releaseTag": "Public",
+							"name": "packageJson",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							}
+						}
+					],
+					"extendsTokenRanges": []
+				},
+				{
+					"kind": "Variable",
+					"canonicalReference": "unipm!KNOWN_PACKAGE_MANAGER_NAMES:var",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "KNOWN_PACKAGE_MANAGER_NAMES: "
+						},
+						{
+							"kind": "Content",
+							"text": "string[]"
+						}
+					],
+					"isReadonly": true,
+					"releaseTag": "Public",
+					"name": "KNOWN_PACKAGE_MANAGER_NAMES",
+					"variableTypeTokenRange": {
+						"startIndex": 1,
+						"endIndex": 2
+					}
+				},
+				{
+					"kind": "Variable",
+					"canonicalReference": "unipm!KNOWN_PACKAGE_MANAGERS:var",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "KNOWN_PACKAGE_MANAGERS: "
+						},
+						{
+							"kind": "Reference",
+							"text": "PackageManagerConstructor",
+							"canonicalReference": "unipm!PackageManagerConstructor:interface"
+						},
+						{
+							"kind": "Content",
+							"text": "[]"
+						}
+					],
+					"isReadonly": true,
+					"releaseTag": "Public",
+					"name": "KNOWN_PACKAGE_MANAGERS",
+					"variableTypeTokenRange": {
+						"startIndex": 1,
+						"endIndex": 3
+					}
+				},
+				{
+					"kind": "Class",
+					"canonicalReference": "unipm!PackageManager:class",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare abstract class PackageManager "
+						}
+					],
+					"releaseTag": "Public",
+					"name": "PackageManager",
+					"preserveMemberOrder": false,
+					"members": [
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#__invoke:member(1)",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected __invoke(cmd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ", args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": ", spawnOptions: "
+								},
+								{
+									"kind": "Reference",
+									"text": "ExecaOptions",
+									"canonicalReference": "execa!Options:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Content",
+									"text": "import(\"execa\")."
+								},
+								{
+									"kind": "Reference",
+									"text": "ExecaChildProcess",
+									"canonicalReference": "execa!ExecaChildProcess:type"
+								},
+								{
+									"kind": "Content",
+									"text": "<string>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 7,
+								"endIndex": 10
+							},
+							"releaseTag": "Public",
+							"isProtected": true,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "cmd",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 3,
+										"endIndex": 4
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "spawnOptions",
+									"parameterTypeTokenRange": {
+										"startIndex": 5,
+										"endIndex": 6
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "__invoke"
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#_detect:member(1)",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected abstract _detect(): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<boolean>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 3
+							},
+							"releaseTag": "Public",
+							"isProtected": true,
+							"overloadIndex": 1,
+							"parameters": [],
+							"isOptional": false,
+							"name": "_detect"
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#_detectFile:member(1)",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected _detectFile(file: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<boolean>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 5
+							},
+							"releaseTag": "Public",
+							"isProtected": true,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "file",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "_detectFile"
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#_invoke:member(1)",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected _invoke(cmd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ", args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": ", spawnOptions?: "
+								},
+								{
+									"kind": "Reference",
+									"text": "ExecaOptions",
+									"canonicalReference": "execa!Options:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 7,
+								"endIndex": 9
+							},
+							"releaseTag": "Public",
+							"isProtected": true,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "cmd",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 3,
+										"endIndex": 4
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "spawnOptions",
+									"parameterTypeTokenRange": {
+										"startIndex": 5,
+										"endIndex": 6
+									},
+									"isOptional": true
+								}
+							],
+							"isOptional": false,
+							"name": "_invoke"
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#_invokeErrorLater:member(1)",
+							"docComment": "/**\n * spawn package manager binary, mute output\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected _invokeErrorLater(cmd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ", args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": ", spawnOptions?: "
+								},
+								{
+									"kind": "Reference",
+									"text": "Omit",
+									"canonicalReference": "!Omit:type"
+								},
+								{
+									"kind": "Content",
+									"text": "<"
+								},
+								{
+									"kind": "Reference",
+									"text": "ExecaOptions",
+									"canonicalReference": "execa!Options:interface"
+								},
+								{
+									"kind": "Content",
+									"text": ", 'stdio' | 'encoding'>"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 10,
+								"endIndex": 12
+							},
+							"releaseTag": "Public",
+							"isProtected": true,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "cmd",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 3,
+										"endIndex": 4
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "spawnOptions",
+									"parameterTypeTokenRange": {
+										"startIndex": 5,
+										"endIndex": 9
+									},
+									"isOptional": true
+								}
+							],
+							"isOptional": false,
+							"name": "_invokeErrorLater"
+						},
+						{
+							"kind": "Constructor",
+							"canonicalReference": "unipm!PackageManager:constructor(1)",
+							"docComment": "/**\n * Constructs a new instance of the `PackageManager` class\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "constructor(cwd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ");"
+								}
+							],
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "cwd",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							]
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#cliName:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected abstract readonly cliName: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "cliName",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#cwd:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected readonly cwd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "cwd",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#detect:member(1)",
+							"docComment": "/**\n * detect if this package manager is used by current project\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "detect(): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<this | undefined>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 3
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [],
+							"isOptional": false,
+							"name": "detect"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#displayBeforeCommandRun:member",
+							"docComment": "/**\n * if set to true, debug info will print to stderr, default is process.stderr.isTTY\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "displayBeforeCommandRun: "
+								},
+								{
+									"kind": "Content",
+									"text": "boolean"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": false,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "displayBeforeCommandRun",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": false
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#exists:member(1)",
+							"docComment": "/**\n * detect this package manager callable (installed and in PATH)\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "exists(): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<string | undefined>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 3
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [],
+							"isOptional": false,
+							"name": "exists"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#friendlyName:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "abstract readonly friendlyName: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "friendlyName",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": false
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#init:member(1)",
+							"docComment": "/**\n * run package init command, normally this will create a new package.json, and maybe ask some questions\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "init(...args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 5
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "init"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#initCommand:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected readonly initCommand: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "initCommand",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#install:member(1)",
+							"docComment": "/**\n * install packages * add packages into package.json * if \"-D\" or \"--dev\" in `packages`, add them to devDependencies\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "install(...packages: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 5
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "packages",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "install"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#installCommand:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected abstract readonly installCommand: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "installCommand",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#installDevFlag:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected abstract readonly installDevFlag: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "installDevFlag",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#invokeCli:member(1)",
+							"docComment": "/**\n * spawn package manager binary, with inherit stdio\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "invokeCli(cmd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ", ...args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 5,
+								"endIndex": 7
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "cmd",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 3,
+										"endIndex": 4
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "invokeCli"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#packageName:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected abstract readonly packageName: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "packageName",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#run:member(1)",
+							"docComment": "/**\n * run scripts in package.json, by package manager\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "run(script: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ", ...args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 5,
+								"endIndex": 7
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "script",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								},
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 3,
+										"endIndex": 4
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "run"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#runCommand:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected readonly runCommand: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "runCommand",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#show:member(1)",
+							"docComment": "/**\n * show package info from NPM registry\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "show(...args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 5
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "show"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#showCommand:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected readonly showCommand: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "showCommand",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#sync:member(1)",
+							"docComment": "/**\n * sync package.json to node_modules, eg: npm i\n */\n",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "sync(...args: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 5
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "args",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "sync"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#syncCommand:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected abstract readonly syncCommand: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "syncCommand",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#type:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "abstract readonly type: "
+								},
+								{
+									"kind": "Reference",
+									"text": "PackageManagerType",
+									"canonicalReference": "unipm!PackageManagerType:enum"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "type",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": false
+						},
+						{
+							"kind": "Method",
+							"canonicalReference": "unipm!PackageManager#uninstall:member(1)",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "uninstall(...packages: "
+								},
+								{
+									"kind": "Content",
+									"text": "string[]"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "Promise",
+									"canonicalReference": "!Promise:interface"
+								},
+								{
+									"kind": "Content",
+									"text": "<void>"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isStatic": false,
+							"returnTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 5
+							},
+							"releaseTag": "Public",
+							"isProtected": false,
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "packages",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							],
+							"isOptional": false,
+							"name": "uninstall"
+						},
+						{
+							"kind": "Property",
+							"canonicalReference": "unipm!PackageManager#uninstallCommand:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "protected abstract readonly uninstallCommand: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"isReadonly": true,
+							"isOptional": false,
+							"releaseTag": "Public",
+							"name": "uninstallCommand",
+							"propertyTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isStatic": false,
+							"isProtected": true
+						}
+					],
+					"implementsTokenRanges": []
+				},
+				{
+					"kind": "Interface",
+					"canonicalReference": "unipm!PackageManagerConstructor:interface",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export interface PackageManagerConstructor "
+						}
+					],
+					"releaseTag": "Public",
+					"name": "PackageManagerConstructor",
+					"preserveMemberOrder": false,
+					"members": [
+						{
+							"kind": "ConstructSignature",
+							"canonicalReference": "unipm!PackageManagerConstructor:new(1)",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "new (cwd: "
+								},
+								{
+									"kind": "Content",
+									"text": "string"
+								},
+								{
+									"kind": "Content",
+									"text": "): "
+								},
+								{
+									"kind": "Reference",
+									"text": "PackageManager",
+									"canonicalReference": "unipm!PackageManager:class"
+								},
+								{
+									"kind": "Content",
+									"text": ";"
+								}
+							],
+							"returnTypeTokenRange": {
+								"startIndex": 3,
+								"endIndex": 4
+							},
+							"releaseTag": "Public",
+							"overloadIndex": 1,
+							"parameters": [
+								{
+									"parameterName": "cwd",
+									"parameterTypeTokenRange": {
+										"startIndex": 1,
+										"endIndex": 2
+									},
+									"isOptional": false
+								}
+							]
+						}
+					],
+					"extendsTokenRanges": []
+				},
+				{
+					"kind": "Enum",
+					"canonicalReference": "unipm!PackageManagerType:enum",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare enum PackageManagerType "
+						}
+					],
+					"releaseTag": "Public",
+					"name": "PackageManagerType",
+					"preserveMemberOrder": false,
+					"members": [
+						{
+							"kind": "EnumMember",
+							"canonicalReference": "unipm!PackageManagerType.NPM:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "NPM = "
+								},
+								{
+									"kind": "Content",
+									"text": "0"
+								}
+							],
+							"initializerTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"releaseTag": "Public",
+							"name": "NPM"
+						},
+						{
+							"kind": "EnumMember",
+							"canonicalReference": "unipm!PackageManagerType.PNPM:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "PNPM = "
+								},
+								{
+									"kind": "Content",
+									"text": "1"
+								}
+							],
+							"initializerTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"releaseTag": "Public",
+							"name": "PNPM"
+						},
+						{
+							"kind": "EnumMember",
+							"canonicalReference": "unipm!PackageManagerType.RUSH:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "RUSH = "
+								},
+								{
+									"kind": "Content",
+									"text": "2"
+								}
+							],
+							"initializerTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"releaseTag": "Public",
+							"name": "RUSH"
+						},
+						{
+							"kind": "EnumMember",
+							"canonicalReference": "unipm!PackageManagerType.YARN:member",
+							"docComment": "",
+							"excerptTokens": [
+								{
+									"kind": "Content",
+									"text": "YARN = "
+								},
+								{
+									"kind": "Content",
+									"text": "3"
+								}
+							],
+							"initializerTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"releaseTag": "Public",
+							"name": "YARN"
+						}
+					]
+				},
+				{
+					"kind": "Function",
+					"canonicalReference": "unipm!reformatPackageJson:function(1)",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare function reformatPackageJson({ ...packageJson }: "
+						},
+						{
+							"kind": "Content",
+							"text": "any"
+						},
+						{
+							"kind": "Content",
+							"text": "): "
+						},
+						{
+							"kind": "Content",
+							"text": "typeof "
+						},
+						{
+							"kind": "Reference",
+							"text": "packageJson",
+							"canonicalReference": "unipm!~packageJson:var"
+						},
+						{
+							"kind": "Content",
+							"text": ";"
+						}
+					],
+					"returnTypeTokenRange": {
+						"startIndex": 3,
+						"endIndex": 5
+					},
+					"releaseTag": "Public",
+					"overloadIndex": 1,
+					"parameters": [
+						{
+							"parameterName": "{ ...packageJson }",
+							"parameterTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isOptional": false
+						}
+					],
+					"name": "reformatPackageJson"
+				},
+				{
+					"kind": "Function",
+					"canonicalReference": "unipm!resolveLatestVersionOnNpm:function(1)",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare function resolveLatestVersionOnNpm(packageName: "
+						},
+						{
+							"kind": "Content",
+							"text": "string"
+						},
+						{
+							"kind": "Content",
+							"text": "): "
+						},
+						{
+							"kind": "Reference",
+							"text": "Promise",
+							"canonicalReference": "!Promise:interface"
+						},
+						{
+							"kind": "Content",
+							"text": "<string>"
+						},
+						{
+							"kind": "Content",
+							"text": ";"
+						}
+					],
+					"returnTypeTokenRange": {
+						"startIndex": 3,
+						"endIndex": 5
+					},
+					"releaseTag": "Public",
+					"overloadIndex": 1,
+					"parameters": [
+						{
+							"parameterName": "packageName",
+							"parameterTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isOptional": false
+						}
+					],
+					"name": "resolveLatestVersionOnNpm"
+				},
+				{
+					"kind": "Function",
+					"canonicalReference": "unipm!resortPackage:function(1)",
+					"docComment": "",
+					"excerptTokens": [
+						{
+							"kind": "Content",
+							"text": "export declare function resortPackage(file: "
+						},
+						{
+							"kind": "Content",
+							"text": "string"
+						},
+						{
+							"kind": "Content",
+							"text": "): "
+						},
+						{
+							"kind": "Reference",
+							"text": "Promise",
+							"canonicalReference": "!Promise:interface"
+						},
+						{
+							"kind": "Content",
+							"text": "<void>"
+						},
+						{
+							"kind": "Content",
+							"text": ";"
+						}
+					],
+					"returnTypeTokenRange": {
+						"startIndex": 3,
+						"endIndex": 5
+					},
+					"releaseTag": "Public",
+					"overloadIndex": 1,
+					"parameters": [
+						{
+							"parameterName": "file",
+							"parameterTypeTokenRange": {
+								"startIndex": 1,
+								"endIndex": 2
+							},
+							"isOptional": false
+						}
+					],
+					"name": "resortPackage"
+				}
+			]
+		}
+	]
 }

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/export-all-in-one",
 	"type": "commonjs",
-	"version": "3.1.5",
+	"version": "3.1.7",
 	"description": "write your library with typescript. make all exports available from single entry.",
 	"keywords": ["cli", "concat", "library", "ts", "typescript"],
 	"license": "MIT",
@@ -21,11 +21,11 @@
 		"@gongt/fix-esm": "workspace:^",
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
-		"@microsoft/api-extractor": "^7.28.3",
+		"@microsoft/api-extractor": "^7.29.2",
 		"execa": "^6.1.0",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
-		"tsconfig-paths": "^4.0.0",
+		"tsconfig-paths": "^4.1.0",
 		"tslib": "^2.4.0",
 		"ttypescript": "^1.5.13"
 	},
@@ -33,7 +33,7 @@
 		"@build-script/builder": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.6.1",
+		"@types/node": "^18.7.2",
 		"gulp": "^4.0.2",
 		"local-rig": "workspace:^",
 		"typescript": "^4.7.4"

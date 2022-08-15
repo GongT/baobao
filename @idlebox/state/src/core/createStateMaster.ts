@@ -6,6 +6,11 @@ interface IOptions {
 	defaultState: any;
 }
 
+/**
+ * 创建 [StateMaster]，应在主线程调用
+ * @public
+ * @param options
+ */
 export function createMaster(options: Partial<IOptions> = {}): StateMaster {
 	const stateObject = new Baobab(options.defaultState || {}, {
 		immutable: !!options.development,

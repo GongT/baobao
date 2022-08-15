@@ -46,6 +46,7 @@ async function getNpmCacheData(packageName: string, registry: string): Promise<B
 	try {
 		debug('[cache]     get cache: %s/_cacache :: %s', npmCachePath, cacheId);
 		const cache = await get(npmCachePath + '/_cacache', cacheId);
+		// console.log(cache)
 		return cache.data;
 	} catch {
 		return null;
@@ -65,7 +66,7 @@ async function getNpmCacheJson(packageName: string, registry: string): Promise<a
 }
 
 export async function getNewNpmCache(name: string, distTag: string, registry: string) {
-	console.error(`     * npm show ${name}@${distTag}`);
+	console.error(`     * npm show --registry=${registry} ${name}@${distTag}`);
 	try {
 		await execa('npm', ['show', `--registry=${registry}`, `${name}@${distTag}`], spawnOpts);
 	} catch (err: any) {

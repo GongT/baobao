@@ -1,4 +1,4 @@
-import minimatch from 'minimatch';
+import { Minimatch } from 'minimatch';
 import { ILogger } from './logger';
 export type IIgnore = RegExp | string | MatchFn;
 type MatchFn = (file: string) => boolean;
@@ -8,7 +8,10 @@ function matcher(reg: RegExp): MatchFn {
 }
 
 function minimatcher(glob: string): MatchFn {
-	return (str) => minimatch(str, glob);
+	const m = new Minimatch(glob);
+	return (str) => {
+		return m.match(str);
+	};
 }
 
 export class IgnoreFiles {

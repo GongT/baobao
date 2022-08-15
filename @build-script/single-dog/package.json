@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/single-dog",
 	"type": "commonjs",
-	"version": "2.1.23",
+	"version": "2.1.25",
 	"license": "MIT",
 	"main": "./lib/index.js",
 	"bin": {
@@ -31,7 +31,7 @@
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.6.1",
+		"@types/node": "^18.7.2",
 		"gulp": "^4.0.2",
 		"local-rig": "workspace:^",
 		"ttypescript": "^1.5.13",
