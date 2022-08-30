@@ -75,7 +75,7 @@ export function commmandInPathSync(cmd: string, alterExt?: string[]): string | u
 // Warning: (ae-missing-release-tag) "createTempFolder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function createTempFolder(path: string): void;
+export function createTempFolder(fullPath: string): IDisposable;
 
 // Warning: (ae-missing-release-tag) "deleteEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

@@ -1,19 +1,27 @@
 import { mkdirSync, readdirSync, rmdirSync, statSync, unlinkSync } from 'fs';
 import { resolve } from 'path';
+import { IDisposable } from '@idlebox/common';
 import { existsSync } from './exists';
 
 let registered = false;
-const tempFolders: string[] = [];
+const tempFolders = new Set<string>();
 
-export function createTempFolder(path: string) {
-	if (existsSync(path)) {
-		throw new Error('temp folder already exists: ' + path);
+export function createTempFolder(fullPath: string): IDisposable {
+	if (existsSync(fullPath)) {
+		throw new Error('temp folder already exists: ' + fullPath);
 	}
 	if (!registered) {
 		process.on('beforeExit', onBeforeExit);
 	}
-	tempFolders.push(path);
-	mkdirSync(path);
+	tempFolders.add(fullPath);
+	mkdirSync(fullPath);
+
+	return {
+		dispose() {
+			tempFolders.delete(fullPath);
+			rmdirpSync(fullPath);
+		},
+	};
 }
 
 function rmdirpSync(p: string) {
