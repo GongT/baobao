@@ -1,4 +1,4 @@
-import { normalize } from 'path';
+import { relativePath } from '@idlebox/node';
 import { getSourceRoot, IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
 import ts from 'typescript';
 import { ILogger, showFile } from './logger';
@@ -37,9 +37,7 @@ export class FileCollector {
 	}
 
 	private relativeToRoot(abs: string) {
-		return normalize(abs)
-			.replace(this.sourceRoot, '')
-			.replace(/^[\/\\]/g, '');
+		return relativePath(this.sourceRoot, abs).replace(/^\/+|^[a-z]:[/\\]+/gi, '');
 	}
 
 	private tokenWalk(collect: TokenCollector, node: ts.Node, logger: ILogger) {

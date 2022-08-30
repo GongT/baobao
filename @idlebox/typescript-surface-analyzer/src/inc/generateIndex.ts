@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path';
 import { camelCase, ucfirst } from '@idlebox/common';
-import { writeFileIfChangeSync } from '@idlebox/node';
+import { relativePath, writeFileIfChangeSync } from '@idlebox/node';
 import { IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
 import { TypescriptProject } from '../api';
 import { getOptions } from './load-tsconfig';
@@ -50,10 +50,7 @@ export function generateIndex({ excludes, filter, outFile, project, logger }: IO
 
 	const indexDir =
 		'./' +
-		dirname(outFile)
-			.replace(config.options.rootDir || dirname(config.options.configFilePath), '')
-			.replace('\\', '/')
-			.replace(/^\/+/, '')
+		relativePath(config.options.rootDir || dirname(config.options.configFilePath), dirname(outFile))
 			.split('/')
 			.filter((e) => e && e !== '.')
 			.map(() => '..')
