@@ -31,9 +31,11 @@ export class DeferredPromise<T, PT = any> {
 				},
 			}
 		);
-		this.p.finally(() => {
-			delete this._progressList;
-		});
+		this.p
+			.finally(() => {
+				delete this._progressList;
+			})
+			.catch(() => void 0);
 	}
 
 	notify(progress: PT): this {

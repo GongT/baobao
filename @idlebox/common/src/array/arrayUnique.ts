@@ -2,7 +2,7 @@
  * Returns a new array without duplicate values
  * @public
  */
-export function arrayUnique<T>(arr: T[]): T[] {
+export function arrayUnique<T>(arr: readonly T[]): T[] {
 	return arr.filter((item, index) => {
 		return arr.lastIndexOf(item) === index;
 	});

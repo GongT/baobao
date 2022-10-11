@@ -11,8 +11,8 @@ export interface IArrayUpdate<T> {
  * Compare two array, returns the difference from `before` to `after`
  * @public
  */
-export function arrayDiff<T>(before: T[], after: T[]) {
-	before = before.slice().sort();
+export function arrayDiff<T>(_before: readonly T[], after: readonly T[]) {
+	const before = _before.slice().sort();
 	const add: T[] = after.slice().sort();
 	const del: T[] = [];
 	const same: T[] = [];

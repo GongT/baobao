@@ -32,7 +32,7 @@ function rmdirpSync(p: string) {
 		} else if (stat.isDirectory()) {
 			let succ = true;
 			for (const item of readdirSync(p)) {
-				if (!rmdirpSync(resolve(item, p))) {
+				if (!rmdirpSync(resolve(p, item))) {
 					succ = false;
 				}
 			}

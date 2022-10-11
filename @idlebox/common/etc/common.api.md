@@ -16,14 +16,14 @@ export function addDisposableEventListener<T extends Function>(target: IEventHos
 export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, handler: T): IDisposable;
 
 // @public
-export function arrayDiff<T>(before: T[], after: T[]): {
+export function arrayDiff<T>(_before: readonly T[], after: readonly T[]): {
     add: T[];
     del: T[];
     same: T[];
 };
 
 // @public
-export function arrayUnique<T>(arr: T[]): T[];
+export function arrayUnique<T>(arr: readonly T[]): T[];
 
 // @public
 export function arrayUniqueReference(arr: any[]): void;
@@ -289,26 +289,41 @@ export class CustomSet<Type = string> {
     values(): Iterator<Type>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableArray" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableMap" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableSet" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableObject" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-missing-release-tag) "DeepNonNullable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type DeepNonNullable<T> = T extends Primitive ? T : T extends ReadonlyArray<infer U> | Array<infer U> ? DeepNonNullableArray<U> : T extends ReadonlyMap<infer K, infer V> | Map<infer K, infer V> ? DeepNonNullableMap<K, V> : T extends ReadonlySet<infer M> ? DeepNonNullableSet<M> : DeepNonNullableObject<T>;
+
+// Warning: (ae-forgotten-export) The symbol "DeepPartialArray" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepPartialMap" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepPartialSet" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepPartialObject" needs to be exported by the entry point index.generated.d.ts
 // Warning: (ae-missing-release-tag) "DeepPartial" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export type DeepPartial<T> = {
-    [P in keyof T]?: DeepPartial<T[P]>;
-};
+export type DeepPartial<T> = T extends Primitive ? T : T extends ReadonlyArray<infer U> ? DeepPartialArray<U> : T extends ReadonlyMap<infer K, infer V> ? DeepPartialMap<K, V> : T extends ReadonlySet<infer M> ? DeepPartialSet<M> : DeepPartialObject<T>;
 
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlyArray" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlyMap" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlySet" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlyObject" needs to be exported by the entry point index.generated.d.ts
 // Warning: (ae-missing-release-tag) "DeepReadonly" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export type DeepReadonly<T> = {
-    readonly [P in keyof T]: DeepReadonly<T[P]>;
-};
+export type DeepReadonly<T> = T extends Primitive ? T : T extends Array<infer U> ? DeepReadonlyArray<U> : T extends Map<infer K, infer V> ? DeepReadonlyMap<K, V> : T extends Set<infer M> ? DeepReadonlySet<M> : DeepReadonlyObject<T>;
 
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableArray" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableMap" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableSet" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableObject" needs to be exported by the entry point index.generated.d.ts
 // Warning: (ae-missing-release-tag) "DeepWriteable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export type DeepWriteable<T> = {
-    -readonly [P in keyof T]: DeepWriteable<T[P]>;
-};
+export type DeepWriteable<T> = T extends Primitive ? T : T extends ReadonlyArray<infer U> ? DeepWriteableArray<U> : T extends ReadonlyMap<infer K, infer V> ? DeepWriteableMap<K, V> : T extends ReadonlySet<infer M> ? DeepWriteableSet<M> : DeepWriteableObject<T>;
 
 // @public
 export class DeferredPromise<T, PT = any> {
@@ -490,7 +505,7 @@ export function getTimeStamp(date: Date): number;
 // Warning: (ae-missing-release-tag) "getTypeOf" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getTypeOf(value: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "function" | "null" | "Promise" | "Error" | "DOM" | "EventTarget" | "unknown";
+export function getTypeOf(value: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "function" | "null" | "Promise" | "Error" | "DOM" | "EventTarget" | "datetime" | "regexp" | "unknown";
 
 // @public
 export const globalObject: any;
@@ -660,7 +675,7 @@ export interface IProgressHolder<T, PT> {
 export function isAbsolute(path: string): boolean;
 
 // @public
-export function isArraySame<T>(a1: T[], a2: T[]): boolean;
+export function isArraySame<T>(a1: readonly T[], a2: readonly T[]): boolean;
 
 // @public (undocumented)
 export function isCanceledError(error: any): boolean;
@@ -715,10 +730,11 @@ export function isObjectSame(a: any, b: any): boolean;
 // @public
 export function isObjectSameRecursive(a: any, b: any): boolean;
 
+// Warning: (ae-forgotten-export) The symbol "ScalarTypes" needs to be exported by the entry point index.generated.d.ts
 // Warning: (ae-missing-release-tag) "isScalar" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function isScalar(value: any): value is bigint | number | boolean | string | symbol | undefined | null | Date;
+export function isScalar(value: any): value is ScalarTypes;
 
 // Warning: (ae-missing-release-tag) "isSerializable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -939,6 +955,11 @@ export class PathArray extends Set<string> {
     // (undocumented)
     toString(): string;
 }
+
+// Warning: (ae-missing-release-tag) "Primitive" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type Primitive = undefined | null | boolean | string | number | Function | bigint;
 
 // Warning: (ae-missing-release-tag) "ProgressCallback" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -1190,13 +1211,6 @@ export interface WrappedConsoleOptions {
     // (undocumented)
     parent?: Console;
 }
-
-// Warning: (ae-missing-release-tag) "Writeable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export type Writeable<T> = {
-    -readonly [P in keyof T]: T[P];
-};
 
 // Warning: (ae-missing-release-tag) "x" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

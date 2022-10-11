@@ -2,15 +2,30 @@ declare const window: any;
 declare const EventTarget: any;
 declare const Element: any;
 
-export function isScalar(value: any): value is bigint | number | boolean | string | symbol | undefined | null | Date {
-	const t = typeof value;
-	switch (t) {
+type ScalarTypes =
+	| bigint
+	| number
+	| Number
+	| boolean
+	| Boolean
+	| string
+	| String
+	| symbol
+	| undefined
+	| null
+	| Date
+	| RegExp
+	| Function;
+
+export function isScalar(value: any): value is ScalarTypes {
+	switch (typeof value) {
 		case 'bigint':
 		case 'number':
 		case 'boolean':
 		case 'string':
 		case 'symbol':
 		case 'undefined':
+		case 'function':
 			return true;
 		case 'object':
 			return (
@@ -18,10 +33,12 @@ export function isScalar(value: any): value is bigint | number | boolean | strin
 				value instanceof Date ||
 				value instanceof Boolean ||
 				value instanceof String ||
-				value instanceof Number
+				value instanceof Number ||
+				value instanceof RegExp
 			);
+		default:
+			return false;
 	}
-	return false;
 }
 
 export enum SerializableKind {
@@ -100,6 +117,8 @@ export function getTypeOf(value: any) {
 	if (value instanceof String) return 'string';
 	if (value instanceof Number) return 'number';
 	if (value instanceof Boolean) return 'boolean';
+	if (value instanceof Date) return 'datetime';
+	if (value instanceof RegExp) return 'regexp';
 
 	return 'unknown';
 }
