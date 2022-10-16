@@ -14,7 +14,7 @@ import { MemorizedEmitter } from '@idlebox/common';
 import { Watcher } from 'baobab';
 
 // Warning: (ae-forgotten-export) The symbol "IDataMessage" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-missing-release-tag) "createDataMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "createDataMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function createDataMessage(id: number, data: IData): IDataMessage;
@@ -25,12 +25,12 @@ export function createDataMessage(id: number, data: IData): IDataMessage;
 // @public
 export function createMaster(options?: Partial<IOptions>): StateMaster;
 
-// Warning: (ae-missing-release-tag) "createSameProcessChild" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "createSameProcessChild" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function createSameProcessChild(title: string): IPCDriver;
 
-// Warning: (ae-missing-release-tag) "createSameProcessMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "createSameProcessMain" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function createSameProcessMain(title: string): SameProcessMain;
@@ -41,12 +41,12 @@ export function createSameProcessMain(title: string): SameProcessMain;
 export function createSlave(channel: IPCDriver): StateSlave;
 
 // Warning: (ae-forgotten-export) The symbol "SimpleTypes" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-missing-release-tag) "IData" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IData" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type IData = Record<string, SimpleTypes>;
 
-// Warning: (ae-missing-release-tag) "IEventMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IEventMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IEventMessage {
@@ -58,7 +58,7 @@ export interface IEventMessage {
     payload: any;
 }
 
-// Warning: (ae-missing-release-tag) "IMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IMessage {
@@ -66,12 +66,12 @@ export interface IMessage {
     action: string;
 }
 
-// Warning: (ae-missing-release-tag) "IMessageHandlerInternal" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IMessageHandlerInternal" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type IMessageHandlerInternal = (message: IMessage) => Promise<any>;
 
-// Warning: (ae-missing-release-tag) "IPCDriver" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IPCDriver" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IPCDriver extends IDisposable {
@@ -81,7 +81,7 @@ export interface IPCDriver extends IDisposable {
     handle(callback: IMessageHandlerInternal): void;
 }
 
-// Warning: (ae-missing-release-tag) "IPCServerDriver" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IPCServerDriver" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IPCServerDriver extends IPCDriver {
@@ -91,12 +91,12 @@ export interface IPCServerDriver extends IPCDriver {
     title: string;
 }
 
-// Warning: (ae-missing-release-tag) "IRawMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IRawMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type IRawMessage = IRawMessageReply | IRawMessageSend;
 
-// Warning: (ae-missing-release-tag) "IRawMessageReply" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IRawMessageReply" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IRawMessageReply {
@@ -115,7 +115,7 @@ export interface IRawMessageReply {
     reply: true;
 }
 
-// Warning: (ae-missing-release-tag) "IRawMessageSend" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IRawMessageSend" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IRawMessageSend {
@@ -129,33 +129,33 @@ export interface IRawMessageSend {
     reply: false;
 }
 
-// Warning: (ae-missing-release-tag) "isDataMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "isDataMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function isDataMessage(v: IMessage): v is IDataMessage;
 
 // Warning: (ae-forgotten-export) The symbol "IDisposeMessage" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-missing-release-tag) "isDisposeMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "isDisposeMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function isDisposeMessage(v: IMessage): v is IDisposeMessage;
 
-// Warning: (ae-missing-release-tag) "isEventMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "isEventMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function isEventMessage(v: IMessage): v is IEventMessage;
 
-// Warning: (ae-missing-release-tag) "isSubscribeAfterMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "isSubscribeAfterMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function isSubscribeAfterMessage(v: IMessage): v is ISubscribeAfterMessage;
 
-// Warning: (ae-missing-release-tag) "isSubscribeMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "isSubscribeMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function isSubscribeMessage(v: IMessage): v is ISubscribeMessage;
 
-// Warning: (ae-missing-release-tag) "ISubscribeAfterMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ISubscribeAfterMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ISubscribeAfterMessage {
@@ -165,7 +165,7 @@ export interface ISubscribeAfterMessage {
     subscribeId: number;
 }
 
-// Warning: (ae-missing-release-tag) "ISubscribeMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ISubscribeMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ISubscribeMessage {
@@ -176,18 +176,18 @@ export interface ISubscribeMessage {
 }
 
 // Warning: (ae-forgotten-export) The symbol "IUnsubscribeMessage" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-missing-release-tag) "isUnsubscribeMessage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "isUnsubscribeMessage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function isUnsubscribeMessage(v: IMessage): v is IUnsubscribeMessage;
 
 // Warning: (ae-forgotten-export) The symbol "RawMessageHandler" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-missing-release-tag) "rawMessageHandler" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "rawMessageHandler" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export const rawMessageHandler: RawMessageHandler;
 
-// Warning: (ae-missing-release-tag) "SameProcessMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "SameProcessMain" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class SameProcessMain extends Disposable implements IPCServerDriver {
@@ -230,7 +230,7 @@ export class StateMaster {
     protected unsubscribe(subscribeId: number, watchList: WatchList): void;
 }
 
-// Warning: (ae-missing-release-tag) "StateSlave" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "StateSlave" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class StateSlave {

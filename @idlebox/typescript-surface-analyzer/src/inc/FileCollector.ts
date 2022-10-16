@@ -53,8 +53,13 @@ export class FileCollector {
 			// logger.debug(' * found ExportDeclaration');
 			let reference: IResolveResult;
 			try {
-				const path = (0 || eval)(node.moduleSpecifier!.getText());
-				reference = this.resolver.require(collect.absolutePath, path);
+				if (node.moduleSpecifier) {
+					const path = (0 || eval)(node.moduleSpecifier.getText());
+					reference = this.resolver.require(collect.absolutePath, path);
+				} else {
+					// export ...;
+					reference = this.resolver.convert(collect.absolutePath);
+				}
 			} catch (e: any) {
 				this.logger.error(
 					'===================\n%s\nLINE: %s\n%s\n===================',

@@ -1,5 +1,5 @@
 import { existsSync } from 'fs';
-import { basename, dirname, resolve } from 'path';
+import { basename, dirname, extname, resolve } from 'path';
 import { relativePath } from '@idlebox/node';
 
 export interface IResolveResult {
@@ -56,6 +56,14 @@ export class MapResolver {
 			};
 		}
 		return null;
+	}
+
+	convert(absolute: string): IResolveResult {
+		return {
+			absolute: absolute,
+			relative: basename(absolute, extname(absolute)),
+			relativeFromRoot: relativePath(this.root, absolute),
+		};
 	}
 
 	require(source: string, target: string): IResolveResult {

@@ -31,9 +31,9 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
-		"@rushstack/heft": "^0.47.2",
+		"@rushstack/heft": "^0.48.4",
 		"local-rig": "workspace:^",
-		"typescript": "^4.7.4"
+		"typescript": "^4.8.4"
 	},
 	"monorepo": "rush",
 	"exportAllInOne": {

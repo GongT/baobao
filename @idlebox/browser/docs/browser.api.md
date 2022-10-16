@@ -7,7 +7,7 @@
 import { WrappedConsole } from '@idlebox/common';
 import { WrappedConsoleOptions } from '@idlebox/common';
 
-// Warning: (ae-missing-release-tag) "TimeoutStorage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "TimeoutStorage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class TimeoutStorage<T> {
@@ -24,7 +24,7 @@ export class TimeoutStorage<T> {
     save(data: Readonly<T>, expire: string | Date): void;
 }
 
-// Warning: (ae-missing-release-tag) "WrappedWebConsole" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "WrappedWebConsole" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class WrappedWebConsole extends WrappedConsole {

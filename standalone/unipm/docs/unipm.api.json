@@ -1,8 +1,8 @@
 {
 	"metadata": {
 		"toolPackage": "@microsoft/api-extractor",
-		"toolVersion": "7.29.2",
-		"schemaVersion": 1009,
+		"toolVersion": "7.33.2",
+		"schemaVersion": 1010,
 		"oldestForwardsCompatibleVersion": 1001,
 		"tsdocConfig": {
 			"$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -211,6 +211,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/common/packageJson.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 5,
 						"endIndex": 7
@@ -276,6 +277,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/local/formatPackageJson.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 5,
 						"endIndex": 7
@@ -356,6 +358,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/common/getPackageManager.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 6,
 						"endIndex": 10
@@ -405,6 +408,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/common/getPackageManagerByName.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 5
@@ -433,6 +437,7 @@
 							"text": "export interface IGetPackageManagerOptions "
 						}
 					],
+					"fileUrlPath": "source/common/getPackageManager.ts",
 					"releaseTag": "Public",
 					"name": "IGetPackageManagerOptions",
 					"preserveMemberOrder": false,
@@ -562,6 +567,7 @@
 							"text": "string[]"
 						}
 					],
+					"fileUrlPath": "source/common/getPackageManagerByName.ts",
 					"isReadonly": true,
 					"releaseTag": "Public",
 					"name": "KNOWN_PACKAGE_MANAGER_NAMES",
@@ -589,6 +595,7 @@
 							"text": "[]"
 						}
 					],
+					"fileUrlPath": "source/common/getPackageManagerByName.ts",
 					"isReadonly": true,
 					"releaseTag": "Public",
 					"name": "KNOWN_PACKAGE_MANAGERS",
@@ -607,6 +614,7 @@
 							"text": "export declare abstract class PackageManager "
 						}
 					],
+					"fileUrlPath": "source/common/packageManager.ts",
 					"releaseTag": "Public",
 					"name": "PackageManager",
 					"preserveMemberOrder": false,
@@ -1859,6 +1867,7 @@
 							"text": "export interface PackageManagerConstructor "
 						}
 					],
+					"fileUrlPath": "source/common/packageManager.ts",
 					"releaseTag": "Public",
 					"name": "PackageManagerConstructor",
 					"preserveMemberOrder": false,
@@ -1920,6 +1929,7 @@
 							"text": "export declare enum PackageManagerType "
 						}
 					],
+					"fileUrlPath": "source/common/packageManager.ts",
 					"releaseTag": "Public",
 					"name": "PackageManagerType",
 					"preserveMemberOrder": false,
@@ -2041,6 +2051,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/common/packageJson.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 5
@@ -2090,6 +2101,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/common/pacote.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 5
@@ -2139,6 +2151,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/common/packageJson.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 5

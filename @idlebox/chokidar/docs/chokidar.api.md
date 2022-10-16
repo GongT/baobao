@@ -8,7 +8,7 @@ import { FSWatcher } from 'chokidar';
 
 export { FSWatcher }
 
-// Warning: (ae-missing-release-tag) "IWatchHelper" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IWatchHelper" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IWatchHelper {
@@ -25,12 +25,12 @@ export interface IWatchHelper {
 }
 
 // Warning: (ae-forgotten-export) The symbol "IReloadFunction" needs to be exported by the entry point _export_all_in_one_index.d.ts
-// Warning: (ae-missing-release-tag) "startChokidar" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "startChokidar" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function startChokidar(reload: IReloadFunction): IWatchHelper;
 
-// Warning: (ae-missing-release-tag) "WatchHelper" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "WatchHelper" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class WatchHelper implements IWatchHelper {
@@ -47,8 +47,7 @@ export class WatchHelper implements IWatchHelper {
     reset(): void;
     // (undocumented)
     get watches(): ReadonlyArray<string>;
-    }
-
+}
 
 // (No @packageDocumentation comment for this package)
 

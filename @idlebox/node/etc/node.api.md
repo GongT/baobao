@@ -17,7 +17,7 @@ import { WrappedConsole } from '@idlebox/common';
 import { WrappedConsoleOptions } from '@idlebox/common';
 import { Writable } from 'stream';
 
-// Warning: (ae-missing-release-tag) "Async" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "Async" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface Async {
@@ -25,12 +25,12 @@ export interface Async {
     sync?: boolean;
 }
 
-// Warning: (ae-missing-release-tag) "AsyncMainFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "AsyncMainFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type AsyncMainFunction = () => Promise<void | number>;
 
-// Warning: (ae-missing-release-tag) "BlackHoleStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "BlackHoleStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class BlackHoleStream extends Writable {
@@ -39,17 +39,17 @@ export class BlackHoleStream extends Writable {
 }
 
 // Warning: (ae-forgotten-export) The symbol "IChildProcessStatus" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-missing-release-tag) "checkChildProcessResult" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "checkChildProcessResult" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function checkChildProcessResult(result: IChildProcessStatus): void;
 
-// Warning: (ae-missing-release-tag) "cleanupEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "cleanupEnvironment" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function cleanupEnvironment(name: string, env?: NodeJS.ProcessEnv): void;
 
-// Warning: (ae-missing-release-tag) "CollectingStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "CollectingStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class CollectingStream extends Writable {
@@ -62,42 +62,42 @@ export class CollectingStream extends Writable {
     _write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void;
 }
 
-// Warning: (ae-missing-release-tag) "commandInPath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "commandInPath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function commandInPath(cmd: string, alterExt?: string[]): Promise<string | undefined>;
 
-// Warning: (ae-missing-release-tag) "commmandInPathSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "commmandInPathSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function commmandInPathSync(cmd: string, alterExt?: string[]): string | undefined;
 
-// Warning: (ae-missing-release-tag) "createTempFolder" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "createTempFolder" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function createTempFolder(fullPath: string): IDisposable;
 
-// Warning: (ae-missing-release-tag) "deleteEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "deleteEnvironment" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function deleteEnvironment(name: string, env?: NodeJS.ProcessEnv): void;
 
-// Warning: (ae-missing-release-tag) "disposableStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "disposableStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function disposableStream<T extends Writable | Readable>(stream: T): T & IDisposable;
 
-// Warning: (ae-missing-release-tag) "drainStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "drainStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function drainStream(stream: NodeJS.ReadableStream, size: number, start?: number, extra?: number): Promise<Buffer>;
 
-// Warning: (ae-missing-release-tag) "dumpEventEmitterEmit" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "dumpEventEmitterEmit" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function dumpEventEmitterEmit(ev: EventEmitter): void;
 
-// Warning: (ae-missing-release-tag) "ERRNO_LINUX" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ERRNO_LINUX" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export enum ERRNO_LINUX {
@@ -347,22 +347,22 @@ export enum ERRNO_LINUX {
     EXFULL = 52
 }
 
-// Warning: (ae-missing-release-tag) "execLazyError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "execLazyError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
 
-// Warning: (ae-missing-release-tag) "exists" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "exists" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function exists(path: string): Promise<boolean>;
 
-// Warning: (ae-missing-release-tag) "existsSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "existsSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function existsSync(path: string): boolean;
 
-// Warning: (ae-missing-release-tag) "ExitError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ExitError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class ExitError extends Error {
@@ -371,42 +371,42 @@ export class ExitError extends Error {
     readonly code: number;
 }
 
-// Warning: (ae-missing-release-tag) "findBinary" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "findBinary" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function findBinary(what: string, pathvar?: PathArray, cwd?: string): string;
 
-// Warning: (ae-missing-release-tag) "findPackageRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "findPackageRoot" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function findPackageRoot(packageName: string, require?: NodeRequire): string;
 
-// Warning: (ae-missing-release-tag) "findUpUntil" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "findUpUntil" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function findUpUntil(from: string, file: string): Promise<string | null>;
 
-// Warning: (ae-missing-release-tag) "findUpUntilSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "findUpUntilSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function findUpUntilSync(from: string, file: string): string | null;
 
-// Warning: (ae-missing-release-tag) "getAllPathUpToRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "getAllPathUpToRoot" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function getAllPathUpToRoot(from: string, append?: string): string[];
 
-// Warning: (ae-missing-release-tag) "getEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "getEnvironment" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function getEnvironment(name: string, env?: NodeJS.ProcessEnv): IEnvironmentResult;
 
-// Warning: (ae-missing-release-tag) "getNpmConfigValue" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "getNpmConfigValue" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function getNpmConfigValue(field: string): Promise<string>;
 
-// Warning: (ae-missing-release-tag) "HexDumpLoggerStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "HexDumpLoggerStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class HexDumpLoggerStream extends Transform {
@@ -415,7 +415,7 @@ export class HexDumpLoggerStream extends Transform {
     _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
 }
 
-// Warning: (ae-missing-release-tag) "ICommand" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ICommand" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ICommand {
@@ -433,7 +433,7 @@ export interface ICommand {
     sync?: boolean;
 }
 
-// Warning: (ae-missing-release-tag) "IEnvironmentResult" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IEnvironmentResult" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IEnvironmentResult {
@@ -443,7 +443,7 @@ export interface IEnvironmentResult {
     value: string | undefined;
 }
 
-// Warning: (ae-missing-release-tag) "ISpawnAdditionOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ISpawnAdditionOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ISpawnAdditionOptions {
@@ -451,7 +451,7 @@ export interface ISpawnAdditionOptions {
     verbose?: boolean;
 }
 
-// Warning: (ae-missing-release-tag) "JoinPathFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "JoinPathFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface JoinPathFunction {
@@ -459,12 +459,12 @@ export interface JoinPathFunction {
     (from: string, to: string): string;
 }
 
-// Warning: (ae-missing-release-tag) "LogFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "LogFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type LogFunction = (message: string, ...args: any[]) => void;
 
-// Warning: (ae-missing-release-tag) "LoggerStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "LoggerStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class LoggerStream extends Transform {
@@ -473,27 +473,27 @@ export class LoggerStream extends Transform {
     _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void;
 }
 
-// Warning: (ae-missing-release-tag) "lrelative" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "lrelative" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function lrelative(from: string, to: string): string;
 
-// Warning: (ae-missing-release-tag) "md5" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "md5" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function md5(data: Buffer): string;
 
-// Warning: (ae-missing-release-tag) "nodeResolvePathArray" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "nodeResolvePathArray" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function nodeResolvePathArray(from: string, file?: string): string[];
 
-// Warning: (ae-missing-release-tag) "normalizePath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "normalizePath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export const normalizePath: NormalizePathFunction;
 
-// Warning: (ae-missing-release-tag) "NormalizePathFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "NormalizePathFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface NormalizePathFunction {
@@ -501,17 +501,17 @@ export interface NormalizePathFunction {
     (path: string): string;
 }
 
-// Warning: (ae-missing-release-tag) "osTempDir" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "osTempDir" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function osTempDir(name?: string): string;
 
-// Warning: (ae-missing-release-tag) "PATH_SEPARATOR" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "PATH_SEPARATOR" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export const PATH_SEPARATOR: string;
 
-// Warning: (ae-missing-release-tag) "PathEnvironment" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "PathEnvironment" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class PathEnvironment extends PathArray {
@@ -526,22 +526,22 @@ export class PathEnvironment extends PathArray {
     save(): void;
 }
 
-// Warning: (ae-missing-release-tag) "prettyFormatError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "prettyFormatError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function prettyFormatError(e: Error): string;
 
-// Warning: (ae-missing-release-tag) "prettyPrintError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "prettyPrintError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function prettyPrintError(type: string, e: Error): void;
 
-// Warning: (ae-missing-release-tag) "printLine" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "printLine" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function printLine(char?: string): void;
 
-// Warning: (ae-missing-release-tag) "RawCollectingStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "RawCollectingStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class RawCollectingStream extends Writable {
@@ -554,17 +554,17 @@ export class RawCollectingStream extends Writable {
     _write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
 
-// Warning: (ae-missing-release-tag) "relativePath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "relativePath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export const relativePath: JoinPathFunction;
 
-// Warning: (ae-missing-release-tag) "resolvePath" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "resolvePath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export const resolvePath: ResolvePathFunction;
 
-// Warning: (ae-missing-release-tag) "ResolvePathFunction" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ResolvePathFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ResolvePathFunction {
@@ -572,33 +572,33 @@ export interface ResolvePathFunction {
     (...pathSegments: string[]): string;
 }
 
-// Warning: (ae-missing-release-tag) "respawnInScope" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "respawnInScope" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
 export function respawnInScope(mainFunc: Function): unknown | never;
 
-// Warning: (ae-missing-release-tag) "runMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "runMain" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
 export function runMain(main: AsyncMainFunction): void;
 
-// Warning: (ae-missing-release-tag) "setErrorLogRoot" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "setErrorLogRoot" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function setErrorLogRoot(_root: string): void;
 
-// Warning: (ae-missing-release-tag) "sha256" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "sha256" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function sha256(data: Buffer): string;
 
-// Warning: (ae-missing-release-tag) "spawnGetEverything" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnGetEverything" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<string | undefined>;
 
-// Warning: (ae-missing-release-tag) "spawnGetOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "spawnGetOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function spawnGetOutput(opt: ICommand & Sync): string;
@@ -606,13 +606,13 @@ export function spawnGetOutput(opt: ICommand & Sync): string;
 // @public (undocumented)
 export function spawnGetOutput(opt: ICommand & Async): Promise<string>;
 
-// Warning: (ae-missing-release-tag) "spawnRecreateEventHandlers" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnRecreateEventHandlers" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function spawnRecreateEventHandlers(): void;
 
-// Warning: (ae-missing-release-tag) "spawnWithoutOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "spawnWithoutOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnWithoutOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnWithoutOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function spawnWithoutOutput(opt: ICommand & Sync): void;
@@ -620,18 +620,18 @@ export function spawnWithoutOutput(opt: ICommand & Sync): void;
 // @public (undocumented)
 export function spawnWithoutOutput(opt: ICommand & Async): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "streamHasEnd" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "streamHasEnd" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function streamHasEnd(S: NodeJS.ReadableStream | NodeJS.WritableStream): any;
 
-// Warning: (ae-missing-release-tag) "streamPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "streamPromise" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
 export function streamPromise(stream: NodeJS.ReadableStream | NodeJS.WritableStream): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "streamToBuffer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "streamToBuffer" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "streamToBuffer" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "streamToBuffer" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promise<string>;
@@ -639,7 +639,7 @@ export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promi
 // @public (undocumented)
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
 
-// Warning: (ae-missing-release-tag) "Sync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "Sync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface Sync {
@@ -647,12 +647,12 @@ export interface Sync {
     sync: true;
 }
 
-// Warning: (ae-missing-release-tag) "trySpawnInScope" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "trySpawnInScope" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
 export function trySpawnInScope(cmds: string[]): never;
 
-// Warning: (ae-missing-release-tag) "WrappedTerminalConsole" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "WrappedTerminalConsole" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class WrappedTerminalConsole extends WrappedConsole {
@@ -662,12 +662,12 @@ export class WrappedTerminalConsole extends WrappedConsole {
     protected processColorLabel(msg: any[], pos: number, level: string, prefix: string): void;
 }
 
-// Warning: (ae-missing-release-tag) "writeFileIfChange" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "writeFileIfChange" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function writeFileIfChange(file: string, data: string | Buffer): Promise<boolean>;
 
-// Warning: (ae-missing-release-tag) "writeFileIfChangeSync" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "writeFileIfChangeSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function writeFileIfChangeSync(file: string, data: string | Buffer): boolean;

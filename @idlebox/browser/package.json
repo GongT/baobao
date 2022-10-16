@@ -33,7 +33,7 @@
 		"gulp": "^4.0.2",
 		"local-rig": "workspace:^",
 		"ttypescript": "^1.5.13",
-		"typescript": "^4.7.4"
+		"typescript": "^4.8.4"
 	},
 	"monorepo": "rush"
 }

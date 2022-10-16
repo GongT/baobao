@@ -6,7 +6,7 @@
 
 import { ConnectionConfig } from 'mysql';
 
-// Warning: (ae-missing-release-tag) "IInformationSchemaColumnsRow" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IInformationSchemaColumnsRow" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IInformationSchemaColumnsRow {
@@ -32,7 +32,7 @@ export interface IInformationSchemaColumnsRow {
     TABLE_NAME: string;
 }
 
-// Warning: (ae-missing-release-tag) "IInformationSchemaTablesRow" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IInformationSchemaTablesRow" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IInformationSchemaTablesRow {
@@ -58,7 +58,7 @@ export interface IInformationSchemaTablesRow {
     UPDATE_TIME: number;
 }
 
-// Warning: (ae-missing-release-tag) "IShowIndexesRow" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IShowIndexesRow" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IShowIndexesRow {
@@ -76,7 +76,7 @@ export interface IShowIndexesRow {
     Seq_in_index: number;
 }
 
-// Warning: (ae-missing-release-tag) "ITable" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ITable" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ITable {
@@ -104,7 +104,7 @@ export interface ITable {
     update_time: number;
 }
 
-// Warning: (ae-missing-release-tag) "ITableColumn" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ITableColumn" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ITableColumn {
@@ -126,7 +126,7 @@ export interface ITableColumn {
     type: string;
 }
 
-// Warning: (ae-missing-release-tag) "ITableKey" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ITableKey" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ITableKey {
@@ -143,11 +143,10 @@ export interface ITableKey {
 }
 
 // Warning: (ae-forgotten-export) The symbol "WithDatabase" needs to be exported by the entry point _export_all_in_one_index.d.ts
-// Warning: (ae-missing-release-tag) "resolveDatabase" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "resolveDatabase" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function resolveDatabase(connection: Omit<ConnectionConfig, 'database' | 'charset'> & WithDatabase): Promise<ITable[]>;
-
 
 // (No @packageDocumentation comment for this package)
 

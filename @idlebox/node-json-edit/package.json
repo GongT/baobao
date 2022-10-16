@@ -24,21 +24,21 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"comment-json": "^4.2.2",
+		"comment-json": "^4.2.3",
 		"prettier": "^2.7.1",
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@types/node": "^18.7.2",
-		"@types/prettier": "^2.7.0",
+		"@types/node": "^18.11.0",
+		"@types/prettier": "^2.7.1",
 		"local-rig": "workspace:^",
-		"npm-check-updates": "^16.0.5",
+		"npm-check-updates": "^16.3.11",
 		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.21",
 		"ttypescript": "^1.5.13",
-		"typescript": "^4.7.4"
+		"typescript": "^4.8.4"
 	},
 	"monorepo": true
 }

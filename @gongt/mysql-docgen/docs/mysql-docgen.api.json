@@ -1,8 +1,8 @@
 {
 	"metadata": {
 		"toolPackage": "@microsoft/api-extractor",
-		"toolVersion": "7.29.2",
-		"schemaVersion": 1009,
+		"toolVersion": "7.33.2",
+		"schemaVersion": 1010,
 		"oldestForwardsCompatibleVersion": 1001,
 		"tsdocConfig": {
 			"$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -182,6 +182,7 @@
 							"text": "export interface IInformationSchemaColumnsRow "
 						}
 					],
+					"fileUrlPath": "source/common/fetch/type.ts",
 					"releaseTag": "Public",
 					"name": "IInformationSchemaColumnsRow",
 					"preserveMemberOrder": false,
@@ -469,6 +470,7 @@
 							"text": "export interface IInformationSchemaTablesRow "
 						}
 					],
+					"fileUrlPath": "source/common/fetch/type.ts",
 					"releaseTag": "Public",
 					"name": "IInformationSchemaTablesRow",
 					"preserveMemberOrder": false,
@@ -756,6 +758,7 @@
 							"text": "export interface IShowIndexesRow "
 						}
 					],
+					"fileUrlPath": "source/common/fetch/type.ts",
 					"releaseTag": "Public",
 					"name": "IShowIndexesRow",
 					"preserveMemberOrder": false,
@@ -935,6 +938,7 @@
 							"text": "export interface ITable "
 						}
 					],
+					"fileUrlPath": "source/common/fetch/type.ts",
 					"releaseTag": "Public",
 					"name": "ITable",
 					"preserveMemberOrder": false,
@@ -1259,6 +1263,7 @@
 							"text": "export interface ITableColumn "
 						}
 					],
+					"fileUrlPath": "source/common/fetch/type.ts",
 					"releaseTag": "Public",
 					"name": "ITableColumn",
 					"preserveMemberOrder": false,
@@ -1492,6 +1497,7 @@
 							"text": "export interface ITableKey "
 						}
 					],
+					"fileUrlPath": "source/common/fetch/type.ts",
 					"releaseTag": "Public",
 					"name": "ITableKey",
 					"preserveMemberOrder": false,
@@ -1693,6 +1699,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/api.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 7,
 						"endIndex": 11

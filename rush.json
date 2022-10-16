@@ -1,7 +1,7 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.76.1",
-	"pnpmVersion": "7.9.0",
+	"rushVersion": "5.81.0",
+	"pnpmVersion": "7.13.4",
 	"pnpmOptions": {
 		"pnpmStore": "global",
 		"strictPeerDependencies": false,
@@ -10,7 +10,7 @@
 		"useWorkspaces": true
 	},
 	"hotfixChangeEnabled": true,
-	"nodeSupportedVersionRange": ">=10.13.0",
+	"nodeSupportedVersionRange": ">=16",
 	"suppressNodeLtsWarning": true,
 	"ensureConsistentVersions": false,
 	"projectFolderMinDepth": 2,

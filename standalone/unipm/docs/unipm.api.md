@@ -7,27 +7,27 @@
 import { ExecaChildProcess } from 'execa';
 import { Options } from 'execa';
 
-// Warning: (ae-missing-release-tag) "deletePackageDependency" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "deletePackageDependency" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function deletePackageDependency(file: string, ...deps: string[]): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "formatPackageJson" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "formatPackageJson" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function formatPackageJson(file: string, args: string[]): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "getPackageManager" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "getPackageManager" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function getPackageManager(_options?: Partial<IGetPackageManagerOptions>): Promise<PackageManager>;
 
-// Warning: (ae-missing-release-tag) "getPackageManagerByName" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "getPackageManagerByName" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function getPackageManagerByName(name: string): PackageManagerConstructor | undefined;
 
-// Warning: (ae-missing-release-tag) "IGetPackageManagerOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IGetPackageManagerOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IGetPackageManagerOptions {
@@ -41,17 +41,17 @@ export interface IGetPackageManagerOptions {
     packageJson?: string;
 }
 
-// Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGER_NAMES" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGER_NAMES" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export const KNOWN_PACKAGE_MANAGER_NAMES: string[];
 
-// Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGERS" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGERS" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[];
 
-// Warning: (ae-missing-release-tag) "PackageManager" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "PackageManager" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export abstract class PackageManager {
@@ -102,7 +102,7 @@ export abstract class PackageManager {
     protected abstract readonly uninstallCommand: string;
 }
 
-// Warning: (ae-missing-release-tag) "PackageManagerConstructor" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "PackageManagerConstructor" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface PackageManagerConstructor {
@@ -110,7 +110,7 @@ export interface PackageManagerConstructor {
     new (cwd: string): PackageManager;
 }
 
-// Warning: (ae-missing-release-tag) "PackageManagerType" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "PackageManagerType" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export enum PackageManagerType {
@@ -124,17 +124,17 @@ export enum PackageManagerType {
     YARN = 3
 }
 
-// Warning: (ae-missing-release-tag) "reformatPackageJson" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "reformatPackageJson" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function reformatPackageJson({ ...packageJson }: any): typeof packageJson;
 
-// Warning: (ae-missing-release-tag) "resolveLatestVersionOnNpm" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "resolveLatestVersionOnNpm" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function resolveLatestVersionOnNpm(packageName: string): Promise<string>;
 
-// Warning: (ae-missing-release-tag) "resortPackage" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "resortPackage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function resortPackage(file: string): Promise<void>;

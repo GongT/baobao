@@ -91,7 +91,7 @@ class EventHelper<T> {
 	}
 
 	getCurrentState(): DeepReadonly<T> {
-		return this.store;
+		return this.store as DeepReadonly<T>;
 	}
 
 	stop() {}

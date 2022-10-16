@@ -38,12 +38,12 @@
 		"@build-script/export-all-in-one": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@types/node": "^18.7.2",
+		"@types/node": "^18.11.0",
 		"@types/split2": "^3.2.1",
 		"gulp": "^4.0.2",
 		"local-rig": "workspace:^",
 		"ttypescript": "^1.5.13",
-		"typescript": "^4.7.4"
+		"typescript": "^4.8.4"
 	},
 	"peerDependencies": {
 		"7zip-bin": "latest"

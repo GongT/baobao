@@ -11,39 +11,39 @@ import { EventEmitter } from 'events';
 import { SpawnOptions } from 'child_process';
 import { Transform } from 'stream';
 
-// Warning: (ae-missing-release-tag) "compress" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "compress" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function compress(zipFile: string, sourceDir: string, ...extraSource: string[]): I7zHandler;
 
-// Warning: (ae-missing-release-tag) "extract" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "extract" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function extract(zipFile: string, targetDir: string): I7zHandler;
 
-// Warning: (ae-missing-release-tag) "extractSfx" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "extractSfx" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function extractSfx(sfxFile: string, targetDir: string, extraSpawn?: ExtraSpawnOptions): I7zHandler;
 
-// Warning: (ae-missing-release-tag) "ExtraSpawnOptions" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ExtraSpawnOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type ExtraSpawnOptions = Pick<SpawnOptions, 'cwd' | 'env' | 'uid' | 'gid' | 'shell'>;
 
 // Warning: (ae-forgotten-export) The symbol "FilterStream" needs to be exported by the entry point _export_all_in_one_index.d.ts
-// Warning: (ae-missing-release-tag) "handleOutput" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "handleOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function handleOutput(stream: NodeJS.ReadableStream): FilterStream;
 
 // Warning: (ae-forgotten-export) The symbol "ProgressStream" needs to be exported by the entry point _export_all_in_one_index.d.ts
-// Warning: (ae-missing-release-tag) "handleProgress" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "handleProgress" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function handleProgress(stream: NodeJS.ReadableStream, message: boolean): ProgressStream;
 
-// Warning: (ae-missing-release-tag) "I7zHandler" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "I7zHandler" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class I7zHandler extends EventEmitter {
@@ -63,7 +63,7 @@ export class I7zHandler extends EventEmitter {
     promise(): Promise<void>;
 }
 
-// Warning: (ae-missing-release-tag) "IStatusReport" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IStatusReport" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IStatusReport {
@@ -75,7 +75,7 @@ export interface IStatusReport {
     progress: number;
 }
 
-// Warning: (ae-missing-release-tag) "IToRun" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IToRun" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IToRun {
@@ -87,7 +87,7 @@ export interface IToRun {
     execute(handleData: MessageHandler, handleStatus: ProgressHandler): ChildProcess;
 }
 
-// Warning: (ae-missing-release-tag) "LoggerStream" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "LoggerStream" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class LoggerStream extends Transform {
@@ -96,22 +96,22 @@ export class LoggerStream extends Transform {
     _transform(chunk: string, encoding: BufferEncoding, callback: Function): void;
 }
 
-// Warning: (ae-missing-release-tag) "MessageHandler" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "MessageHandler" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type MessageHandler = (data: string) => void;
 
-// Warning: (ae-missing-release-tag) "processPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "processPromise" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function processPromise(cp: ChildProcess, cmd: string[], cwd: string): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "processQuitPromise" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "processQuitPromise" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function processQuitPromise(cp: ChildProcess): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "ProgramError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ProgramError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface ProgramError extends Error {
@@ -127,13 +127,13 @@ export interface ProgramError extends Error {
     status: number;
 }
 
-// Warning: (ae-missing-release-tag) "ProgressHandler" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ProgressHandler" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type ProgressHandler = (status: IStatusReport) => void;
 
-// Warning: (ae-missing-release-tag) "sevenZip" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "sevenZip" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "sevenZip" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "sevenZip" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function sevenZip(ex: ExtraSpawnOptions, ...args: string[]): I7zHandler;
@@ -141,8 +141,8 @@ export function sevenZip(ex: ExtraSpawnOptions, ...args: string[]): I7zHandler;
 // @public (undocumented)
 export function sevenZip(...args: string[]): I7zHandler;
 
-// Warning: (ae-missing-release-tag) "sevenZipCli" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "sevenZipCli" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "sevenZipCli" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "sevenZipCli" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function sevenZipCli(ex: ExtraSpawnOptions, ...args: string[]): I7zHandler;
@@ -150,12 +150,12 @@ export function sevenZipCli(ex: ExtraSpawnOptions, ...args: string[]): I7zHandle
 // @public (undocumented)
 export function sevenZipCli(...args: string[]): I7zHandler;
 
-// Warning: (ae-missing-release-tag) "spawnSfx" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "spawnSfx" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function spawnSfx(sfxFile: string, targetDir: string, extra?: ExtraSpawnOptions): IToRun;
 
-// Warning: (ae-missing-release-tag) "StatusCodeError" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "StatusCodeError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function StatusCodeError(status: number, signal: string, _cwd: string, cmd: string[]): ProgramError | null;

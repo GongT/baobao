@@ -8,5 +8,7 @@
 		"rootDir": "./",
 
 		"types": ["node"]
-	}
+	},
+	"files": ["preload.ts"],
+	"include": ["**/*.ts"]
 }

@@ -1,8 +1,8 @@
 {
 	"metadata": {
 		"toolPackage": "@microsoft/api-extractor",
-		"toolVersion": "7.29.2",
-		"schemaVersion": 1009,
+		"toolVersion": "7.33.2",
+		"schemaVersion": 1010,
 		"oldestForwardsCompatibleVersion": 1001,
 		"tsdocConfig": {
 			"$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -182,6 +182,7 @@
 							"text": "export interface IWatchHelper "
 						}
 					],
+					"fileUrlPath": "source/chokidar.ts",
 					"releaseTag": "Public",
 					"name": "IWatchHelper",
 					"preserveMemberOrder": false,
@@ -400,6 +401,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/chokidar.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 4
@@ -437,6 +439,7 @@
 							"text": " "
 						}
 					],
+					"fileUrlPath": "source/chokidar.ts",
 					"releaseTag": "Public",
 					"name": "WatchHelper",
 					"preserveMemberOrder": false,

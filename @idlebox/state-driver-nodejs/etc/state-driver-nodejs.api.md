@@ -14,7 +14,7 @@ import { IPCDriver } from '@idlebox/state';
 import { IPCServerDriver } from '@idlebox/state';
 import { IRawMessageSend } from '@idlebox/state';
 
-// Warning: (ae-missing-release-tag) "IProcessSlice" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IProcessSlice" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export interface IProcessSlice extends Pick<EventEmitter, 'addListener' | 'removeListener'> {
@@ -22,7 +22,7 @@ export interface IProcessSlice extends Pick<EventEmitter, 'addListener' | 'remov
     send(message: any, callback?: (error: Error | null) => void): boolean;
 }
 
-// Warning: (ae-missing-release-tag) "NodeIPCBase" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "NodeIPCBase" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export abstract class NodeIPCBase extends Disposable implements IPCDriver {
@@ -41,14 +41,14 @@ export abstract class NodeIPCBase extends Disposable implements IPCDriver {
     readonly title: string;
 }
 
-// Warning: (ae-missing-release-tag) "NodeIPCChild" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "NodeIPCChild" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class NodeIPCChild extends NodeIPCBase implements IPCDriver {
     constructor(title?: string);
 }
 
-// Warning: (ae-missing-release-tag) "NodeIPCMain" is exported by the package, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "NodeIPCMain" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export class NodeIPCMain extends NodeIPCBase implements IPCServerDriver {

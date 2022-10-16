@@ -44,19 +44,19 @@
 		"@build-script/export-all-in-one": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@microsoft/api-extractor": "^7.29.2",
+		"@microsoft/api-extractor": "^7.33.2",
 		"@types/fancy-log": "^2.0.0",
 		"@types/fs-extra": "^9.0.13",
 		"@types/mysql": "^2.15.21",
-		"@types/node": "^18.7.2",
+		"@types/node": "^18.11.0",
 		"@types/pretty": "^2.0.1",
-		"@types/react": "^18.0.17",
+		"@types/react": "^18.0.21",
 		"@types/react-dom": "^18.0.6",
 		"gulp": "^4.0.2",
 		"local-rig": "workspace:^",
 		"prettier": "^2.7.1",
 		"ttypescript": "^1.5.13",
-		"typescript": "^4.7.4"
+		"typescript": "^4.8.4"
 	},
 	"exportAllInOne": {
 		"exportEverything": false

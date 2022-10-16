@@ -1,8 +1,8 @@
 {
 	"metadata": {
 		"toolPackage": "@microsoft/api-extractor",
-		"toolVersion": "7.29.2",
-		"schemaVersion": 1009,
+		"toolVersion": "7.33.2",
+		"schemaVersion": 1010,
 		"oldestForwardsCompatibleVersion": 1001,
 		"tsdocConfig": {
 			"$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
@@ -215,6 +215,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/index.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 7,
 						"endIndex": 8
@@ -284,6 +285,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/index.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 5,
 						"endIndex": 6
@@ -354,6 +356,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/index.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 7,
 						"endIndex": 8
@@ -420,6 +423,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"releaseTag": "Public",
 					"name": "ExtraSpawnOptions",
 					"typeTokenRange": {
@@ -455,6 +459,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/outputStreams.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 4
@@ -509,6 +514,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/outputStreams.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 5,
 						"endIndex": 6
@@ -547,13 +553,14 @@
 						{
 							"kind": "Reference",
 							"text": "EventEmitter",
-							"canonicalReference": "!\"\\\"events\\\"\"~EventEmitter:class"
+							"canonicalReference": "!\"\\\"events\\\"\".EventEmitter:class"
 						},
 						{
 							"kind": "Content",
 							"text": " "
 						}
 					],
+					"fileUrlPath": "source/inc/handler.ts",
 					"releaseTag": "Public",
 					"name": "I7zHandler",
 					"preserveMemberOrder": false,
@@ -868,6 +875,7 @@
 							"text": "export interface IStatusReport "
 						}
 					],
+					"fileUrlPath": "source/inc/outputStreams.ts",
 					"releaseTag": "Public",
 					"name": "IStatusReport",
 					"preserveMemberOrder": false,
@@ -966,6 +974,7 @@
 							"text": "export interface IToRun "
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"releaseTag": "Public",
 					"name": "IToRun",
 					"preserveMemberOrder": false,
@@ -1103,13 +1112,14 @@
 						{
 							"kind": "Reference",
 							"text": "Transform",
-							"canonicalReference": "!\"\\\"stream\\\"\"~internal.Transform:class"
+							"canonicalReference": "!\"\\\"stream\\\"\".internal.Transform:class"
 						},
 						{
 							"kind": "Content",
 							"text": " "
 						}
 					],
+					"fileUrlPath": "source/inc/outputStreams.ts",
 					"releaseTag": "Public",
 					"name": "LoggerStream",
 					"preserveMemberOrder": false,
@@ -1134,7 +1144,7 @@
 								{
 									"kind": "Reference",
 									"text": "BufferEncoding",
-									"canonicalReference": "!\"\\\"buffer\\\"\"~__global.BufferEncoding:type"
+									"canonicalReference": "!\"\\\"buffer\\\"\".__global.BufferEncoding:type"
 								},
 								{
 									"kind": "Content",
@@ -1252,6 +1262,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"releaseTag": "Public",
 					"name": "MessageHandler",
 					"typeTokenRange": {
@@ -1307,6 +1318,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 7,
 						"endIndex": 9
@@ -1373,6 +1385,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 5
@@ -1410,6 +1423,7 @@
 							"text": " "
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"releaseTag": "Public",
 					"name": "ProgramError",
 					"preserveMemberOrder": false,
@@ -1584,6 +1598,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"releaseTag": "Public",
 					"name": "ProgressHandler",
 					"typeTokenRange": {
@@ -1627,6 +1642,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/index.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 5,
 						"endIndex": 6
@@ -1680,6 +1696,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/index.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 4
@@ -1734,6 +1751,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/index.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 5,
 						"endIndex": 6
@@ -1787,6 +1805,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/index.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 3,
 						"endIndex": 4
@@ -1849,6 +1868,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 7,
 						"endIndex": 8
@@ -1938,6 +1958,7 @@
 							"text": ";"
 						}
 					],
+					"fileUrlPath": "source/inc/fork.ts",
 					"returnTypeTokenRange": {
 						"startIndex": 9,
 						"endIndex": 11
