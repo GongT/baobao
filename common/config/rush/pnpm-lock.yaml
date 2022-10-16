@@ -615,6 +615,12 @@ importers:
       ttypescript: 1.5.13
       typescript: 4.8.4
 
+  ../../@gongt/pnpm-instead-npm:
+    specifiers:
+      '@gongt/kexec': latest
+    optionalDependencies:
+      '@gongt/kexec': 3.0.0
+
   ../../@idlebox/browser:
     specifiers:
       '@build-script/builder': workspace:^

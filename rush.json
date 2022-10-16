@@ -219,6 +219,11 @@
 			"packageName": "@idlebox/state-driver-nodejs",
 			"projectFolder": "@idlebox/state-driver-nodejs",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@gongt/pnpm-instead-npm",
+			"projectFolder": "@gongt/pnpm-instead-npm",
+			"shouldPublish": true
 		}
 	]
 }

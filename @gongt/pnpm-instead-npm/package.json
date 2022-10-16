@@ -1,0 +1,16 @@
+{
+	"name": "@gongt/pnpm-instead-npm",
+	"version": "0.0.1",
+	"preferGlobal": true,
+	"bin": {
+		"npm": "bin/npm.js",
+		"npx": "bin/npx.js"
+	},
+	"optionalDependencies": {
+		"@gongt/kexec": "latest"
+	},
+	"peerDependencies": {
+		"npm": "*",
+		"pnpm": "*"
+	}
+}
