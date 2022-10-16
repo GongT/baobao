@@ -1,23 +1,21 @@
+#!/usr/bin/env node
+
 const { createRequire } = require('module');
 const { readlinkSync } = require('fs');
 const { resolve } = require('path');
+const { exec } = require('../library/lib');
 
-const pnpmBin = readlinkSync(resolve(process.execPath, '..', 'pnpm'));
-const req = createRequire(pnpmBin);
+const pnpmGlobalBin = resolve(process.execPath, '..', 'pnpm');
+const pnpmLinkValue = readlinkSync(pnpmGlobalBin);
+const pnpmNodeBin = resolve(pnpmGlobalBin, '..', pnpmLinkValue);
+const req = createRequire(pnpmNodeBin);
+
+let entry;
 if (process.env.EXEC_BY_PNPM) {
-	req('npm/bin/npx-cli.js');
+	entry = resolve(req.resolve('npm'), '../bin/npx-cli.js');
 } else {
-	process.env.EXEC_BY_PNPM = 'yes';
-	req('pnpm/bin/pnpx.js');
+	entry = resolve(req.resolve('pnpm'), '../../bin/pnpx.js');
 }
 
-function exec(target) {
-	let kexec;
-	try {
-		kexec = require('@gongt/kexec');
-	} catch {}
-
-	if (kexec) {
-	}
-	kexec;
-}
+const argv = process.argv.slice(2);
+exec(entry, argv);
