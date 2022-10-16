@@ -29,7 +29,7 @@
 		"url": "https://github.com/GongT/baobao"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:*",
 		"fancy-log": "^2.0.0",
 		"fs-extra": "^10.1.0",
 		"mysql": "^2.18.1",

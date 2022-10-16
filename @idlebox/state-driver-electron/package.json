@@ -20,7 +20,7 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:*",
 		"tslib": "^2.4.0"
 	},
 	"peerDependencies": {

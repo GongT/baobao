@@ -25,7 +25,7 @@
 	"repository": "https://github.com/GongT/baobao",
 	"preferGlobal": true,
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:*",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
 		"execa": "^6.1.0",

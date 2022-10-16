@@ -22,7 +22,7 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:*",
 		"baobab": "^2.6.1",
 		"tslib": "^2.4.0"
 	},

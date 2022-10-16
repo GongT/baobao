@@ -20,7 +20,7 @@
 		"@build-script/export-all-in-one-inject": "workspace:^",
 		"@build-script/rush-tools": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:*",
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",

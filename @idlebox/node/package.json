@@ -23,7 +23,7 @@
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@gongt/fix-esm": "workspace:^",
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:*",
 		"execa": "^6.1.0",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.0"
