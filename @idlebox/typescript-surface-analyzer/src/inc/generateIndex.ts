@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'path';
+import { basename, dirname, resolve } from 'path';
 import { camelCase, ucfirst } from '@idlebox/common';
 import { relativePath, writeFileIfChangeSync } from '@idlebox/node';
 import { IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
@@ -59,7 +59,9 @@ export function generateIndex({ excludes, filter, outFile, project, logger }: IO
 	const content = [];
 	for (const file of list) {
 		if (file.absolutePath === indexFileAbs) {
-			throw new MyError('override output file: ' + indexFileAbs);
+			throw new MyError(
+				'override output file: ' + indexFileAbs + ' (are you import xxx from ' + basename(indexFileAbs) + '?)'
+			);
 		}
 
 		const path = importSpec(indexDir, file.relativePath);

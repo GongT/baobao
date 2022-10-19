@@ -22,7 +22,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/common": "workspace:*",
 		"@idlebox/ensure-symlink": "workspace:^",
-		"@idlebox/node": "workspace:^",
+		"@idlebox/node": "workspace:*",
 		"@idlebox/node-json-edit": "workspace:^",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",

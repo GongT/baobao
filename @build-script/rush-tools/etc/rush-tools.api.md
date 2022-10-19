@@ -26,6 +26,11 @@ export function buildProjects(builder: IProjectCallback): Promise<void>;
 // @public (undocumented)
 export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "createExecuteWrapper" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createExecuteWrapper(rush: RushProject, name: string, path: string): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "createLink" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -316,6 +321,12 @@ export const spinner: {
     interval: number;
     frames: string[];
 };
+
+// Warning: (ae-forgotten-export) The symbol "update" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-missing-release-tag) "updateAllInstallers" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const updateAllInstallers: typeof update;
 
 // (No @packageDocumentation comment for this package)
 

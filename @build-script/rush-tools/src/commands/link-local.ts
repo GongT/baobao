@@ -1,9 +1,10 @@
 import { basename, resolve } from 'path';
 import { loadJsonFile } from '@idlebox/node-json-edit';
-import { mkdirp } from 'fs-extra';
+import { mkdirp, pathExists, readdir } from 'fs-extra';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
-import { createLink } from '../common/link';
+import { createExecuteWrapper } from '../common/link';
+import { updateAllInstallers } from './ai';
 
 description(linkLocalBins, 'Link "bin"s from each project to common/temp/bin');
 
@@ -13,7 +14,21 @@ export default async function linkLocalBins() {
 	const binTempDir = resolve(rush.tempRoot, 'bin');
 	await mkdirp(binTempDir);
 
-	for (const project of rush.projects) {
+	const map = new Map<string, string>();
+
+	await updateAllInstallers(rush, []);
+
+	for (const ai of rush.autoinstallers) {
+		const localBinPath = rush.absolute(ai, 'node_modules/.bin');
+		if (!(await pathExists(localBinPath))) {
+			continue;
+		}
+		for (const item of await readdir(localBinPath)) {
+			map.set(item, resolve(localBinPath, item));
+		}
+	}
+
+	for (const project of [...rush.projects, ...rush.autoinstallers]) {
 		const pkgJson = rush.packageJsonPath(project);
 		if (!pkgJson) {
 			console.error('Error: package.json not found in: %s', project.projectFolder);
@@ -21,11 +36,15 @@ export default async function linkLocalBins() {
 		}
 		const packageJson = await loadJsonFile(pkgJson);
 		if (typeof packageJson.bin == 'string') {
-			await createLink(rush, basename(packageJson.name), rush.absolute(project, packageJson.bin));
+			map.set(basename(packageJson.name), rush.absolute(project, packageJson.bin));
 		} else if (typeof packageJson.bin == 'object') {
-			for (const [name, path] of Object.entries(packageJson.bin)) {
-				await createLink(rush, name, rush.absolute(project, path as string));
+			for (const [name, path] of Object.entries<string>(packageJson.bin)) {
+				map.set(name, rush.absolute(project, rush.absolute(project, path)));
 			}
 		}
+	}
+
+	for (const [name, path] of map.entries()) {
+		createExecuteWrapper(rush, name, path);
 	}
 }

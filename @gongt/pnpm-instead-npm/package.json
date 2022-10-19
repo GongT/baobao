@@ -6,6 +6,11 @@
 		"npm": "bin/npm.js",
 		"npx": "bin/npx.js"
 	},
+	"scripts": {
+		"build": "",
+		"clean": "",
+		"prepack": ""
+	},
 	"optionalDependencies": {
 		"@gongt/kexec": "latest"
 	},

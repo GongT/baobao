@@ -23,7 +23,7 @@
 		"@build-script/gulp-chain-simplify": "workspace:^",
 		"@gongt/fix-esm": "workspace:^",
 		"@idlebox/common": "workspace:*",
-		"@idlebox/node": "workspace:^",
+		"@idlebox/node": "workspace:*",
 		"@idlebox/node-json-edit": "workspace:^",
 		"execa": "^6.1.0",
 		"fancy-log": "^2.0.0",

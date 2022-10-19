@@ -39,6 +39,8 @@ async function update(rush: RushProject, argv: string[]) {
 	}
 }
 
+export const updateAllInstallers = update;
+
 async function upgrade(rush: RushProject, argv: string[]) {
 	const pm = rush.getPackageManager();
 	for (const project of rush.autoinstallers) {
