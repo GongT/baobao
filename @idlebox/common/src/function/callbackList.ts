@@ -22,6 +22,9 @@ export class CallbackList<Argument extends unknown[]> {
 		return this.list.length;
 	}
 
+	/**
+	 * remove all callback
+	 */
 	reset() {
 		if (this.running) {
 			throw new Error("Can not reset when it's running.");
@@ -58,6 +61,7 @@ export class CallbackList<Argument extends unknown[]> {
 	}
 
 	/**
+	 * in a callback, call this.stopRun() to stop remain callbacks (not by return false)
 	 * @returns {boolean} true if every callback called, false if stop in middle
 	 */
 	run(...argument: Argument): boolean {

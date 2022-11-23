@@ -10,6 +10,7 @@
 	"scripts": {
 		"prepack": "run-s clean build",
 		"watch": "tsc -p src -w",
+		"build:watch": "tsc -p src",
 		"build": "tsc -p src",
 		"clean": "rm -rf lib"
 	},

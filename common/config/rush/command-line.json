@@ -18,6 +18,15 @@
 			"shellCommand": "pretty-quick"
 		},
 		{
+			"name": "build:watch",
+			"commandKind": "bulk",
+			"summary": "启动文件监视模式",
+			"incremental": true, // important
+			"enableParallelism": true,
+			"watchForChanges": true,
+			"safeForSimultaneousRushProcesses": true
+		},
+		{
 			"commandKind": "global",
 			"name": "batch-modify-json",
 			"summary": "修改每个项目中的指定json文件 // BUG: value不能带空格",

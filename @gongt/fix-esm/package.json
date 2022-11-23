@@ -8,6 +8,7 @@
 	"scripts": {
 		"prepack": "tsc -p src",
 		"watch": "tsc -p src -w",
+		"build:watch": "tsc -p src",
 		"build": "tsc -p src",
 		"clean": "rimraf lib dist .rush temp"
 	},

@@ -17,7 +17,8 @@
 		"prepack": "heft test --clean --production",
 		"test": "heft test",
 		"lint": "heft build",
-		"build": "heft test",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
 		"watch": "heft build --watch",
 		"clean": "heft clean"
 	},

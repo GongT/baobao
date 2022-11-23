@@ -8,6 +8,7 @@
 	"main": "lib/api.js",
 	"scripts": {
 		"prepack": "run-s clean build",
+		"build:watch": "tsc -p src",
 		"build": "tsc -p src",
 		"watch": "tsc -p src --watch",
 		"clean": "rimraf lib dist .rush temp"

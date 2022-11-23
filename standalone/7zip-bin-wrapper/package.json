@@ -21,6 +21,7 @@
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"build": "build-script build",
+		"build:watch": "build-script build",
 		"clean": "rimraf lib dist .rush temp",
 		"distclean": "build-script distclean",
 		"upgrade": "build-script upgrade",

@@ -18,6 +18,7 @@
 		"prepack": "run-s clean build test",
 		"test": "node lib/tests/try-load.js",
 		"build": "ttsc -p src",
+		"build:watch": "ttsc -p src",
 		"watch": "nodemon",
 		"clean": "rimraf lib dist .rush temp"
 	},

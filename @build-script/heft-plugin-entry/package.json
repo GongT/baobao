@@ -10,6 +10,7 @@
 		"prepack": "run-s -l clean build",
 		"clean": "rimraf lib dist .rush temp",
 		"watch": "tsc -p src -w",
+		"build:watch": "tsc -p src",
 		"build": "tsc -p src"
 	},
 	"dependencies": {

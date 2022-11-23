@@ -19,6 +19,7 @@
 		"postpack": "scripts/postpack.sh",
 		"test": "scripts/test.sh",
 		"build": "scripts/build.sh",
+		"build:watch": "scripts/build.sh",
 		"watch": "ttsc -p src -w",
 		"clean": "rimraf lib dist .rush temp"
 	},

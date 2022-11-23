@@ -15,6 +15,10 @@
 			"outputFolderNames": ["lib", "temp"]
 		},
 		{
+			"operationName": "build:watch",
+			"outputFolderNames": ["lib", "temp"]
+		},
+		{
 			"operationName": "test",
 			"disableBuildCacheForOperation": true
 		}

@@ -4,8 +4,19 @@ import { loadJsonFileSync, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { sync as globSync } from 'glob';
 import { readFile, writeFile } from 'fs/promises';
 import { exists, MyError } from './lib';
-
 import type { IConfig } from './load-config';
+import { FileBuilder } from './builder';
+
+const header = `/* eslint-disable */
+// @ts-ignore
+/**
+ * 
+ *  GENERATED FILE, DO NOT MODIFY
+ *  这是生成的文件，千万不要修改
+ * 
+ */
+`;
+
 async function genInner(config: IConfig) {
 	for (const file of globSync('**/*.generator.ts', { cwd: config.rootDir, absolute: false })) {
 		const filePath = resolve(config.rootDir, file);
@@ -15,10 +26,16 @@ async function genInner(config: IConfig) {
 		if (typeof generate !== 'function') {
 			throw new MyError('generator did not exporting {generate} function: ' + filePath);
 		}
-		const content: string = generate();
+		const builder = new FileBuilder(filePath);
+		let content: string = generate(builder);
+		if (builder === (content as any)) {
+			content = builder.toString();
+		}
 		if (typeof content !== 'string') {
 			throw new MyError('the {generate} function did not return string: ' + filePath);
 		}
+
+		content = header + '\n\n' + content;
 		await writeFileIfChange(filePath.replace(/\.generator\.ts$/, '.generated.ts'), content);
 	}
 }

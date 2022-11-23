@@ -10,15 +10,16 @@
 	"module": "./lib/index.generated.js",
 	"exports": {
 		".": {
-			"require": "./lib/index.generated.cjs",
-			"import": "./lib/index.generated.js"
+			"import": "./lib/index.generated.js",
+			"require": "./lib/index.generated.cjs"
 		}
 	},
 	"scripts": {
 		"prepack": "heft build --clean --production",
 		"test": "heft test",
 		"lint": "heft build",
-		"build": "heft build --lite",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
 		"watch": "heft build --watch",
 		"clean": "heft clean"
 	},
@@ -27,17 +28,17 @@
 		"@idlebox/common": "workspace:*",
 		"tslib": "^2.4.0"
 	},
-	"peerDependencies": {
-		"@idlebox/state": "*"
-	},
 	"devDependencies": {
-		"@idlebox/state": "workspace:^",
 		"@build-script/heft-duel-stack": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@idlebox/state": "workspace:^",
 		"@rushstack/heft": "^0.48.4",
 		"@types/node": "^18.11.0",
 		"local-rig": "workspace:^",
 		"typescript": "^4.8.4"
+	},
+	"peerDependencies": {
+		"@idlebox/state": "*"
 	}
 }

@@ -4,6 +4,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "",
+		"build:watch": "",
 		"clean": "",
 		"prepack": ""
 	},

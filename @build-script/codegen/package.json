@@ -1,21 +1,24 @@
 {
 	"name": "@build-script/codegen",
 	"type": "commonjs",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "generate code helper",
 	"keywords": [],
 	"license": "MIT",
 	"main": "heft.js",
 	"bin": "bin.js",
+	"types": "./lib/client.d.ts",
 	"scripts": {
 		"prepack": "run-s clean build",
 		"build": "tsc -p src",
+		"build:watch": "tsc -p src",
 		"watch": "tsc -p src --watch",
 		"clean": "rimraf lib dist .rush temp"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@gongt/fix-esm": "workspace:^",
+		"@idlebox/common": "npm:@idlebox/common@",
 		"@idlebox/node": "npm:@idlebox/node@",
 		"@idlebox/node-ignore-edit": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",

@@ -5,6 +5,7 @@
 	"license": "WTFPL",
 	"scripts": {
 		"build": "",
+		"build:watch": "",
 		"clean": "",
 		"watch": ""
 	},

@@ -1,16 +1,17 @@
 {
 	"name": "@gongt/pnpm-instead-npm",
 	"version": "0.0.2",
-	"preferGlobal": true,
 	"bin": {
 		"npm": "bin/npm.js",
 		"npx": "bin/npx.js"
 	},
 	"scripts": {
 		"build": "",
+		"build:watch": "",
 		"clean": "",
 		"prepack": ""
 	},
+	"preferGlobal": true,
 	"optionalDependencies": {
 		"@gongt/kexec": "latest"
 	},

@@ -12,6 +12,7 @@
 	},
 	"scripts": {
 		"build": "",
+		"build:watch": "",
 		"watch": "",
 		"prepack": "",
 		"clean": "rimraf lib dist .rush temp",

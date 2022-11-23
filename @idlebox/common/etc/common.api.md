@@ -109,12 +109,9 @@ export class CallbackList<Argument extends unknown[]> {
     protected list: MyCallback<Argument>[];
     // (undocumented)
     remove(item: MyCallback<Argument>): null | MyCallback<Argument>;
-    // (undocumented)
     reset(): void;
     // Warning: (tsdoc-escape-right-brace) The "}" character should be escaped using a backslash to avoid confusion with a TSDoc inline tag
     // Warning: (tsdoc-malformed-inline-tag) Expecting a TSDoc tag starting with "{@"
-    //
-    // (undocumented)
     run(...argument: Argument): boolean;
     // (undocumented)
     protected running: boolean;
@@ -186,7 +183,7 @@ export enum ColorKind {
 // Warning: (ae-missing-release-tag) "concatStringType" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "concatStringType" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
-// @public (undocumented)
+// @public
 export function concatStringType<T0 extends string>(t0: T0): `${T0}`;
 
 // @public (undocumented)

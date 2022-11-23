@@ -19,6 +19,7 @@
 		"prepack": "build-script rebuild",
 		"test": "build-script test",
 		"build": "build-script build",
+		"build:watch": "build-script build",
 		"clean": "rimraf lib dist .rush temp",
 		"watch": "build-script watch"
 	},

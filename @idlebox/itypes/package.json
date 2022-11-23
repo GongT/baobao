@@ -8,6 +8,7 @@
 	"typings": "./index.d.ts",
 	"scripts": {
 		"build": "",
+		"build:watch": "",
 		"clean": "",
 		"watch": ""
 	},
