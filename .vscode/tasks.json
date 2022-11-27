@@ -27,7 +27,9 @@
 				"id": "package"
 			},
 			"options": {
-				"env": { "EXEC_BY_PNPM": "yes" }
+				"env": {
+					"EXEC_BY_PNPM": "yes"
+				}
 			},
 			"command": "node",
 			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "update", "--full"],

@@ -176,11 +176,13 @@ importers:
     specifiers:
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.0
+      local-rig: workspace:*
       rimraf: ^3.0.2
       typescript: ^4.8.4
     devDependencies:
       '@rushstack/heft': 0.48.8
       '@types/node': 18.11.9
+      local-rig: link:../../common/local-rig
       rimraf: 3.0.2
       typescript: 4.9.3
 
@@ -437,7 +439,6 @@ importers:
     specifiers:
       '@build-script/single-dog-asset': workspace:*
       '@idlebox/common': workspace:*
-      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/fancy-log': ^2.0.0
       '@types/fs-extra': ^9.0.13
@@ -468,7 +469,6 @@ importers:
       tslib: 2.4.1
     devDependencies:
       '@build-script/single-dog-asset': link:../../@build-script/single-dog-asset
-      '@microsoft/api-extractor': 7.33.6
       '@rushstack/heft': 0.48.8
       '@types/fancy-log': 2.0.0
       '@types/fs-extra': 9.0.13
@@ -488,6 +488,7 @@ importers:
 
   ../../@idlebox/browser:
     specifiers:
+      '@build-script/heft-duel-stack': workspace:*
       '@build-script/single-dog-asset': workspace:*
       '@idlebox/common': workspace:*
       '@rushstack/heft': ^0.48.8
@@ -500,6 +501,7 @@ importers:
       source-map-support: 0.5.21
       tslib: 2.4.1
     devDependencies:
+      '@build-script/heft-duel-stack': link:../../@build-script/heft-duel-stack
       '@build-script/single-dog-asset': link:../../@build-script/single-dog-asset
       '@rushstack/heft': 0.48.8
       local-rig: link:../../common/local-rig
@@ -507,6 +509,7 @@ importers:
 
   ../../@idlebox/chokidar:
     specifiers:
+      '@build-script/heft-duel-stack': workspace:*
       '@build-script/single-dog-asset': workspace:*
       '@idlebox/common': workspace:*
       '@rushstack/heft': ^0.48.8
@@ -522,6 +525,7 @@ importers:
       debug: 4.3.4
       tslib: 2.4.1
     devDependencies:
+      '@build-script/heft-duel-stack': link:../../@build-script/heft-duel-stack
       '@build-script/single-dog-asset': link:../../@build-script/single-dog-asset
       '@rushstack/heft': 0.48.8
       '@types/node': 18.11.9
@@ -568,7 +572,6 @@ importers:
   ../../@idlebox/json-extends-loader:
     specifiers:
       '@build-script/single-dog-asset': workspace:*
-      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.0
       '@types/object-path': ^0.11.1
@@ -585,7 +588,6 @@ importers:
       tslib: 2.4.1
     devDependencies:
       '@build-script/single-dog-asset': link:../../@build-script/single-dog-asset
-      '@microsoft/api-extractor': 7.33.6
       '@rushstack/heft': 0.48.8
       '@types/node': 18.11.9
       '@types/object-path': 0.11.1
@@ -3466,7 +3468,7 @@ packages:
       node-sass-tilde-importer: 1.0.2
       please-upgrade-node: 3.2.0
       require-package-name: 2.0.1
-      resolve: 1.17.0
+      resolve: 1.22.1
       vue-template-compiler: 2.7.14
       walkdir: 0.3.2
       yargs: 13.3.2
@@ -6186,7 +6188,7 @@ packages:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.17.0
+      resolve: 1.22.1
       semver: 5.7.1
       validate-npm-package-license: 3.0.4
     dev: false

@@ -1,10 +1,10 @@
 {
 	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
-		"outDir": "../lib",
-		"rootDir": ".",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"declaration": false,
-		"declarationMap": false
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
+		"outDir": "../lib",
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
 	}
 }

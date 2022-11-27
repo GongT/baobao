@@ -19,7 +19,7 @@
 				"transform": "@build-script/typescript-transformer-dual-package",
 				"cjs": ".cjs",
 				"mjs": ".js",
-				"verbose": false
+				"verbose": true
 			}
 		]
 	}

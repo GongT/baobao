@@ -11,7 +11,5 @@
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"tslib": "^2.4.1"
-	},
-	"tslib": "^1.10.0",
-	"ttypescript": "^1.5.10"
+	}
 }

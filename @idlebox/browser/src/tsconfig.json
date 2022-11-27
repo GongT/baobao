@@ -1,10 +1,11 @@
 {
 	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"outDir": "../lib",
-		"rootDir": ".",
-		"declaration": false,
-		"declarationMap": false,
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
 		"lib": ["DOM", "ESNext", "ESNext.Array", "ESNext.AsyncIterable", "ESNext.Symbol"],
 		"types": []
 	}

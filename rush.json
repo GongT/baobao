@@ -38,8 +38,7 @@
 		{
 			"packageName": "local-rig",
 			"projectFolder": "common/local-rig",
-			"shouldPublish": false,
-			"decoupledLocalDependencies": ["@build-script/typescript-transformer-dual-package"]
+			"shouldPublish": false
 		},
 		{
 			"packageName": "@gongt/fix-esm",
@@ -113,8 +112,7 @@
 			"packageName": "@build-script/typescript-transformer-dual-package",
 			"projectFolder": "@build-script/typescript-transformer-dual-package",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@build-script/heft-duel-stack"]
-			// "decoupledLocalDependencies": ["local-rig"]
+			"decoupledLocalDependencies": ["@build-script/heft-duel-stack", "local-rig"]
 		},
 		{
 			"packageName": "@build-script/dual-package-runtime",
@@ -125,7 +123,7 @@
 			"packageName": "@build-script/typescript-transformer-common",
 			"projectFolder": "@build-script/typescript-transformer-common",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@idlebox/common", "@idlebox/node"]
+			"decoupledLocalDependencies": ["@idlebox/common", "@idlebox/node", "local-rig"]
 		},
 		{
 			"packageName": "unipm",
@@ -233,7 +231,8 @@
 		{
 			"packageName": "@build-script/node-import-test",
 			"projectFolder": "@build-script/import-test",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		}
 	]
 }

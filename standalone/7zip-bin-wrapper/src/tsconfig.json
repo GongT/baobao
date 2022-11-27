@@ -1,13 +1,11 @@
 {
 	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": ".",
-		"outDir": "../dist",
-		"declaration": false,
-		"types": ["node"],
-		"rootDir": ".",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"declarationMap": false
-	},
-	"exclude": ["_export_all_in_once_index.ts"]
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
+		"outDir": "../lib",
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
+		"types": ["node"]
+	}
 }

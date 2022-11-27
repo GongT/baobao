@@ -1,12 +1,12 @@
 {
 	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
-		"outDir": "../lib",
-		"rootDir": ".",
-		"module": "commonjs",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"types": ["vscode", "node"],
-		"declaration": false,
-		"declarationMap": false
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
+		"outDir": "../lib",
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
+		"module": "commonjs",
+		"types": ["vscode", "node"]
 	}
 }
