@@ -10,40 +10,34 @@
 		".": {
 			"import": "./dist/_export_all_in_one_index.js",
 			"require": "./dist/_export_all_in_one_index.cjs"
-		}
+		},
+		"./package.json": "./package.json"
 	},
 	"bin": {
 		"7z": "./7za.js",
 		"7za": "./7za.js"
 	},
-	"typings": "docs/package-public.d.ts",
+	"typings": "./lib/package-public.d.ts",
 	"scripts": {
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"build": "build-script build",
-		"build:watch": "build-script build",
-		"clean": "rimraf lib dist .rush temp",
-		"distclean": "build-script distclean",
-		"upgrade": "build-script upgrade",
-		"watch": "build-script watch"
+		"lint": "heft build",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"dependencies": {
 		"iconv-lite": "^0.6.3",
 		"source-map-support": "^0.5.21",
 		"split2": "^4.1.0",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
 		"7zip-bin": "^5.2.0",
-		"@build-script/builder": "workspace:^",
-		"@build-script/export-all-in-one": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@rushstack/heft": "^0.48.8",
+		"@build-script/single-dog-asset": "workspace:*",
 		"@types/node": "^18.11.0",
 		"@types/split2": "^3.2.1",
-		"gulp": "^4.0.2",
-		"local-rig": "workspace:^",
-		"ttypescript": "^1.5.13",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},
 	"peerDependencies": {

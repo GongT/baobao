@@ -12,7 +12,7 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"types": "./dist/common-public.d.ts",
+	"types": "./lib/common-public.d.ts",
 	"scripts": {
 		"prepack": "heft test --clean --production",
 		"test": "heft test",
@@ -24,16 +24,15 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/codegen": "workspace:^",
-		"@build-script/heft-duel-stack": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@idlebox/itypes": "workspace:^",
-		"@rushstack/heft": "^0.48.4",
-		"local-rig": "workspace:^",
+		"@build-script/codegen": "workspace:*",
+		"@build-script/heft-duel-stack": "workspace:*",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@idlebox/itypes": "workspace:*",
+		"@rushstack/heft": "^0.48.8",
+		"local-rig": "workspace:*",
 		"source-map-support": "^0.5.21",
 		"typescript": "^4.8.4"
 	},

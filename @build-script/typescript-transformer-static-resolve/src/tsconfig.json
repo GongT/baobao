@@ -1,5 +1,5 @@
 {
-	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
 		"module": "ESNext",
 		"outDir": "../lib",

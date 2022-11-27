@@ -51,7 +51,7 @@ export class RushStackConfig {
 		}
 		this.projectFolder = this.rigConfig.projectFolderPath;
 		this.localRequirePath = this.projectFolder;
-		this.localRequire = createRequire(this.localRequirePath);
+		this.localRequire = createRequire(this.localRequirePath + '/package.json');
 
 		this.resolve = this.resolve.bind(this);
 		this.require = this.require.bind(this);
@@ -113,7 +113,7 @@ export class RushStackConfig {
 		if (this.rigRequirePath) {
 			message += '\n- ' + this.rigRequirePath;
 		}
-		throw Object.assign(e, { code: 'MODULE_NOT_FOUND', message });
+		throw Object.assign(e, { code: 'MODULE_NOT_FOUND', message, stack: e1.stack });
 	}
 
 	apiExtractor(): TApiExtractor.IConfigFile | undefined {

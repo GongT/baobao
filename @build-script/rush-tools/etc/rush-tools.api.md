@@ -5,17 +5,6 @@
 ```ts
 
 import { DeepReadonly } from '@idlebox/common';
-import { ExecaReturnValue } from 'execa';
-
-// Warning: (ae-missing-release-tag) "argumentError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function argumentError(message: string, argMap: IArgumentsDefine[]): never;
-
-// Warning: (ae-missing-release-tag) "buildAction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function buildAction(action: string, argv: string[]): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "buildProjects" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "buildProjects" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -25,45 +14,6 @@ export function buildProjects(builder: IProjectCallback): Promise<void>;
 
 // @public (undocumented)
 export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "createExecuteWrapper" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function createExecuteWrapper(rush: RushProject, name: string, path: string): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "createLink" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function createLink(rush: RushProject, name: string, path: string): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "createLinkIfNot" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function createLinkIfNot(rush: RushProject, name: string, path: string): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "createTasks" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function createTasks(): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "createVSCode" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function createVSCode(): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "createYarn" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function createYarn(): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "description" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "description" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function description(func: any): string;
-
-// @public (undocumented)
-export function description(func: any, desc: string): void;
 
 // Warning: (ae-missing-release-tag) "eachProject" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -90,18 +40,6 @@ export function findRushRootPath(fromPath?: string): Promise<string | null>;
 // @public (undocumented)
 export function findRushRootPathSync(fromPath?: string): string | null;
 
-// Warning: (ae-missing-release-tag) "IArgumentsDefine" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface IArgumentsDefine {
-    // (undocumented)
-    description: string;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    optional?: boolean;
-}
-
 // Warning: (ae-missing-release-tag) "IBuildProjectOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -116,19 +54,6 @@ export interface IBuildProjectOptions {
 //
 // @public (undocumented)
 export type ICProjectConfig = DeepReadonly<IProjectConfig>;
-
-// Warning: (ae-missing-release-tag) "IJob" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface IJob<T> {
-    // (undocumented)
-    (arg: T): Promise<void>;
-}
-
-// Warning: (ae-missing-release-tag) "info" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function info(txt: string, ...args: any[]): void;
 
 // Warning: (ae-missing-release-tag) "IProjectCallback" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -182,11 +107,6 @@ export interface IRushConfig {
     yarnVersion?: string;
 }
 
-// Warning: (ae-missing-release-tag) "linkLocalBins" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function linkLocalBins(): Promise<void>;
-
 // Warning: (ae-missing-release-tag) "loadConfig" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -197,67 +117,15 @@ export function loadConfig(fromPath?: string): Promise<IRushConfig | null>;
 // @public (undocumented)
 export function loadConfigSync(fromPath?: string): IRushConfig | null;
 
-// Warning: (ae-missing-release-tag) "main" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function main(): Promise<void>;
-
-// Warning: (ae-missing-release-tag) "NormalError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export class NormalError extends Error {
-}
-
-// Warning: (ae-missing-release-tag) "optionalArgument" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function optionalArgument(name: string): string | undefined;
-
 // Warning: (ae-missing-release-tag) "overallOrder" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function overallOrder(rushProject?: RushProject): DeepReadonly<IProjectConfig>[];
 
-// Warning: (ae-missing-release-tag) "publishLocal" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function publishLocal(argv: string[]): Promise<void>;
-
 // Warning: (ae-missing-release-tag) "registerProjectToRush" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function registerProjectToRush(projectPath: string, log?: (message?: any, ...optionalParams: any[]) => void): Promise<boolean>;
-
-// Warning: (ae-missing-release-tag) "requireArgument" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function requireArgument(name: string): string;
-
-// Warning: (ae-missing-release-tag) "requireRushPath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function requireRushPath(path?: string): Promise<string>;
-
-// Warning: (ae-missing-release-tag) "requireRushPathSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function requireRushPathSync(path?: string): string;
-
-// Warning: (ae-missing-release-tag) "resolveNpm" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function resolveNpm(versions: Map<string, string>): Promise<Map<string, string>>;
-
-// Warning: (ae-missing-release-tag) "RunQueue" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export class RunQueue<T> {
-    constructor(job: IJob<T>, concurrent?: number);
-    // (undocumented)
-    register(id: string, arg: T, deps: ReadonlyArray<string>): void;
-    // (undocumented)
-    run(): Promise<void>;
-}
 
 // Warning: (ae-missing-release-tag) "RushProject" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -287,7 +155,7 @@ export class RushProject {
     };
     // (undocumented)
     isWorkspaceEnabled(): boolean | undefined;
-    // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point index.generated.d.ts
+    // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point api.d.ts
     //
     // (undocumented)
     packageDependency(project: ICProjectConfig | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
@@ -308,25 +176,6 @@ export class RushProject {
     // (undocumented)
     get tempRoot(): string;
 }
-
-// Warning: (ae-missing-release-tag) "spawnRushPassthrough" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function spawnRushPassthrough(action: string, argv: string[], env?: Record<string, string>): Promise<ExecaReturnValue<string>>;
-
-// Warning: (ae-missing-release-tag) "spinner" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export const spinner: {
-    interval: number;
-    frames: string[];
-};
-
-// Warning: (ae-forgotten-export) The symbol "update" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-missing-release-tag) "updateAllInstallers" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export const updateAllInstallers: typeof update;
 
 // (No @packageDocumentation comment for this package)
 

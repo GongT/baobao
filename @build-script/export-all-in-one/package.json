@@ -10,34 +10,34 @@
 		"export-all-in-one": "./index.cjs"
 	},
 	"scripts": {
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"build": "build-script build",
-		"build:watch": "build-script build",
-		"clean": "rimraf lib dist .rush temp",
-		"watch": "build-script watch"
+		"prepack": "heft test --clean --production",
+		"test": "heft test",
+		"lint": "heft build",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@gongt/fix-esm": "workspace:^",
-		"@idlebox/ensure-symlink": "workspace:^",
-		"@idlebox/node-json-edit": "workspace:^",
-		"@microsoft/api-extractor": "^7.33.2",
+		"@gongt/fix-esm": "workspace:*",
+		"@idlebox/ensure-symlink": "workspace:*",
+		"@idlebox/node-json-edit": "workspace:*",
+		"@microsoft/api-extractor": "^7.33.6",
 		"execa": "^6.1.0",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
 		"tsconfig-paths": "^4.1.0",
-		"tslib": "^2.4.0",
-		"ttypescript": "^1.5.13"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/builder": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/heft-duel-stack": "workspace:*",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@build-script/typescript-transformer-dual-package": "workspace:*",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.11.0",
-		"gulp": "^4.0.2",
-		"local-rig": "workspace:^",
-		"typescript": "^4.8.4"
+		"@types/node": "^18.11.9",
+		"local-rig": "workspace:*",
+		"typescript": "^4.9.3"
 	},
 	"peerDependencies": {
 		"typescript": "*"

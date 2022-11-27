@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "CommonJS",
+		"rootDir": ".",
+		"outDir": "../lib",
+		"types": ["node"],
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"moduleResolution": "Node"
+	}
+}

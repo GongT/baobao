@@ -106,7 +106,7 @@ async function fix(argv: string[]) {
 				// depend on other package
 				fix = localHardVersions.get(depName)!;
 				if (isWorkspaceEnabled) {
-					fix = 'workspace:^'; // TODO: configurable
+					fix = 'workspace:*'; // TODO: configurable
 				}
 			} else if (conflictingVersions.has(depName)) {
 				// depend on NPM package, and

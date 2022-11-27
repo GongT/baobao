@@ -1,11 +1,15 @@
 {
 	"extends": "@build-script/single-dog-asset/package/tsconfig.no-lib.json",
 	"compilerOptions": {
-		// "typeRoots": ["../node_modules/@types", "../node_modules"],
-		// "tsBuildInfoFile": "../temp/tsbuildinfo.json",
-		// "outDir": "../lib",
-		// "declarationDir": "../temp/dts",
-		// "rootDir": "./",
+		/*
+
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
+		"outDir": "../lib",
+		"declarationDir": "../temp/dts",
+		"rootDir": "./",
+
+		*/
 
 		"module": "ESNext",
 		"noEmitOnError": false,
@@ -13,8 +17,9 @@
 		"plugins": [
 			{
 				"transform": "@build-script/typescript-transformer-dual-package",
-				"mjs": ".js"
-				// "verbose": true
+				"cjs": ".cjs",
+				"mjs": ".js",
+				"verbose": false
 			}
 		]
 	}

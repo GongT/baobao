@@ -17,6 +17,7 @@ export interface IOptions {
 	mjs?: Extension | false;
 	cjs?: Extension | false;
 	compilerOptions?: ts.CompilerOptions;
+	verbose?: boolean;
 }
 
 class TypescriptTransformDualPackage extends TypescriptTransformPlugin<IOptions> {
@@ -67,7 +68,7 @@ class TypescriptTransformDualPackage extends TypescriptTransformPlugin<IOptions>
 	}
 
 	protected override transformToplevelNodes(node: ts.Node): ts.Node[] | ts.Node {
-		// console.log(' - ', ts.SyntaxKind[node.kind]);
+		this.logger.debug(' - ', ts.SyntaxKind[node.kind]);
 		if (!this.replaceMjsRequire) {
 			return node;
 		}

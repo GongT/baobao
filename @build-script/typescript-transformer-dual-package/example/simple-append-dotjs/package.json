@@ -1,0 +1,11 @@
+{
+	"name": "simple-append-dotjs",
+	"version": "0.0.0",
+	"private": true,
+	"dependencies": {
+		"@build-script/typescript-transformer-dual-package": "^2.0.2",
+		"debug": "^4.3.4",
+		"ttypescript": "^1.5.13",
+		"typescript": "<=4.8"
+	}
+}

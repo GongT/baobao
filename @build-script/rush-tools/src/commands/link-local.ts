@@ -19,11 +19,13 @@ export default async function linkLocalBins() {
 	await updateAllInstallers(rush, []);
 
 	for (const ai of rush.autoinstallers) {
+		console.log('\x1B[2m   - [auto-installer] %s:\x1B[0m', ai.packageName);
 		const localBinPath = rush.absolute(ai, 'node_modules/.bin');
 		if (!(await pathExists(localBinPath))) {
 			continue;
 		}
 		for (const item of await readdir(localBinPath)) {
+			console.log('\x1B[2m      * %s\x1B[0m', item);
 			map.set(item, resolve(localBinPath, item));
 		}
 	}
@@ -35,10 +37,14 @@ export default async function linkLocalBins() {
 			process.exit(1);
 		}
 		const packageJson = await loadJsonFile(pkgJson);
+		console.log('\x1B[2m   - [project] %s:\x1B[0m', packageJson.name);
 		if (typeof packageJson.bin == 'string') {
-			map.set(basename(packageJson.name), rush.absolute(project, packageJson.bin));
+			const name = basename(packageJson.name);
+			console.log('\x1B[2m      * %s\x1B[0m', name);
+			map.set(name, rush.absolute(project, packageJson.bin));
 		} else if (typeof packageJson.bin == 'object') {
 			for (const [name, path] of Object.entries<string>(packageJson.bin)) {
+				console.log('\x1B[2m      * %s\x1B[0m', name);
 				map.set(name, rush.absolute(project, rush.absolute(project, path)));
 			}
 		}

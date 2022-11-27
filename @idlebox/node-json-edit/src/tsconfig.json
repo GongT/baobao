@@ -1,8 +1,10 @@
 {
-	"extends": "../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
+		"module": "ESNext",
 		"outDir": "../lib",
+		"declarationDir": "../temp/dts",
 		"rootDir": ".",
 		"types": ["node"],
 		"sourceMap": false,

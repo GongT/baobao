@@ -15,8 +15,8 @@ package-deps.json
 temp
 
 ### Build Source
-index.ts
-/src
+# index.ts
+# /src
 /build-script.json
 /Gulpfile.*
 *.tsbuildinfo
@@ -29,3 +29,6 @@ index.ts
 /test
 
 ### Temp Files
+
+### Examples
+/example

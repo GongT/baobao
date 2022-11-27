@@ -16,9 +16,9 @@
 		"fix-esm": "^1.0.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:*",
 		"@types/node": "^18.11.0",
-		"local-rig": "workspace:^",
+		"local-rig": "workspace:*",
 		"rimraf": "^3.0.2",
 		"typescript": "^4.8.4"
 	}

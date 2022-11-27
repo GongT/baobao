@@ -8,7 +8,8 @@
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"main": "lib/api.js",
 	"exports": {
-		".": "./lib/api.js"
+		".": "./lib/api.js",
+		"./package.json": "./package.json"
 	},
 	"bin": {
 		"generate-ts-index": "bin.js"
@@ -23,21 +24,19 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "npm:@idlebox/common@",
-		"@idlebox/node": "npm:@idlebox/node@",
-		"@idlebox/node-ignore-edit": "workspace:^",
-		"@idlebox/node-json-edit": "workspace:^",
-		"@idlebox/tsconfig-loader": "workspace:^",
+		"@idlebox/common": "latest",
+		"@idlebox/node": "latest",
+		"@idlebox/node-ignore-edit": "latest",
+		"@idlebox/node-json-edit": "latest",
+		"@idlebox/tsconfig-loader": "workspace:*",
 		"minimatch": "^5.1.0",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
 		"@types/minimatch": "^5.1.2",
 		"@types/node": "^18.11.0",
-		"local-rig": "workspace:^",
-		"npm-run-all": "^4.1.5",
-		"rimraf": "^3.0.2",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},
 	"peerDependencies": {

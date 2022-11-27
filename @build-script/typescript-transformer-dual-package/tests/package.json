@@ -1,0 +1,12 @@
+{
+	"name": "test",
+	"type": "module",
+	"version": "0.0.0",
+	"dependencies": {
+		"ttypescript": "^1.5.13",
+		"typescript": "^4.9.3"
+	},
+	"scripts": {
+		"test": "ttsc -p . && cp ./package.json ../temp/test-out && node ../temp/test-out/try-load.js"
+	}
+}

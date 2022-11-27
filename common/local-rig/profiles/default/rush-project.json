@@ -4,7 +4,17 @@
  */
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush-project.schema.json",
-	"incrementalBuildIgnoredGlobs": ["scripts", "docs", "*.md", "test/", "tests/", "*.test.ts"],
+	"incrementalBuildIgnoredGlobs": [
+		"scripts",
+		"docs",
+		"*.md",
+		"test/",
+		"tests/",
+		"*.test.ts",
+		"*-logs",
+		"*.log",
+		"temp/"
+	],
 	"operationSettings": [
 		{
 			"operationName": "build",

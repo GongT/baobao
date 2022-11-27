@@ -10,22 +10,23 @@
 		".": {
 			"require": "./lib/register.cjs",
 			"import": "./lib/register.js"
-		}
+		},
+		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"prepack": "run-s clean build",
-		"build": "ttsc -p src",
-		"watch": "ttsc -p src -w",
-		"clean": "rimraf lib dist .rush temp",
-		"test": ""
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"peerDependencies": {
 		"ttypescript": "*",
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.27",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
+		"@rushstack/heft": "^0.48.8",
+		"@build-script/typescript-transformer-dual-package": "workspace:*1.0.27",
+		"@build-script/single-dog-asset": "workspace:*1.0.19",
 		"@types/node": "^18.0.3",
 		"rimraf": "^3.0.2",
 		"ttypescript": "^1.5.13",

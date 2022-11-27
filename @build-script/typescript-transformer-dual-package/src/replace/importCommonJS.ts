@@ -14,21 +14,26 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 		super();
 	}
 
-	override check(node: ts.Node, logger: IDebug): node is ValidImportOrExportFromDeclaration {
+	override _check(node: ts.Node): node is ValidImportOrExportFromDeclaration {
+		// logger.debug('[replacer/import]', ts.SyntaxKind[node.kind], node.getText());
 		if (!isImportExportFrom(node)) {
 			return false;
 		}
 		if (ts.isExportDeclaration(node)) {
+			this.logger.debug('            - isExportDeclaration');
 			if (node.isTypeOnly || !node.exportClause || !ts.isNamedExports(node.exportClause)) {
+				this.logger.debug('                should skip');
 				return false;
 			}
 		} else {
+			this.logger.debug('            - !isExportDeclaration');
 			if (
 				!node.importClause ||
 				node.importClause.isTypeOnly ||
 				!node.importClause.namedBindings ||
 				!ts.isNamedImports(node.importClause.namedBindings)
 			) {
+				this.logger.debug('                should skip');
 				return false;
 			}
 		}
@@ -38,16 +43,17 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 		const out = this.resolver.resolve(self, id);
 
 		if (!out.isNodeModules) {
+			this.logger.debug('                skip node_modules');
 			return false;
 		}
 
 		const pkgJson = out.readPackageJson();
 		if (('' + pkgJson.type).toLowerCase() === 'module' || pkgJson.module) {
-			logger.debug(`importing esnext module: ${id}`);
+			this.logger.debug(`importing esnext module: ${id}`);
 			return false;
 		}
 
-		logger.debug(`importing commonjs module: ${id}`);
+		this.logger.debug(`importing commonjs module: ${id}`);
 		return true;
 	}
 
@@ -75,7 +81,6 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 			return [
 				factory.createImportDeclaration(
 					undefined,
-					undefined,
 					factory.createImportClause(false, uid, undefined),
 					node.moduleSpecifier,
 					undefined
@@ -92,7 +97,6 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 
 			return [
 				factory.createImportDeclaration(
-					node.decorators,
 					node.modifiers,
 					factory.createImportClause(false, uid, undefined),
 					node.moduleSpecifier,

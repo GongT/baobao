@@ -11,20 +11,22 @@
 	},
 	"private": true,
 	"dependencies": {
-		"@microsoft/api-extractor": "^7.33.2",
+		"@build-script/node-import-test": "workspace:*",
+		"@microsoft/api-extractor": "^7.33.6",
 		"@rushstack/eslint-config": "^3.1.1",
 		"@rushstack/eslint-patch": "^1.2.0",
 		"@rushstack/eslint-plugin": "^0.11.0",
 		"@telia/rush-select": "^0.13.1",
-		"eslint": "^8.25.0",
+		"eslint": "^8.28.0",
 		"eslint-plugin-import": "^2.26.0",
-		"typescript": "^4.8.4"
+		"typescript": "^4.8.4",
+		"@build-script/typescript-transformer-dual-package": "workspace:*"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^"
+		"@build-script/single-dog-asset": "workspace:*"
 	},
 	"peerDependencies": {
-		"@build-script/single-dog-asset": "workspace:^"
+		"@build-script/single-dog-asset": "workspace:*"
 	},
 	"peerDependenciesMeta": {
 		"@build-script/single-dog-asset": {

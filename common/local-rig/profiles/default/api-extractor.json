@@ -179,9 +179,9 @@
 		 * prepend a folder token such as "<projectFolder>".
 		 *
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
-		 * DEFAULT VALUE: "<projectFolder>/dist/<unscopedPackageName>.d.ts"
+		 * DEFAULT VALUE: "<projectFolder>/lib/<unscopedPackageName>.d.ts"
 		 */
-		"untrimmedFilePath": "<projectFolder>/../dist/<unscopedPackageName>.d.ts",
+		"untrimmedFilePath": "<projectFolder>/../lib/<unscopedPackageName>.d.ts",
 
 		/**
 		 * Specifies the output path for a .d.ts rollup file to be generated with trimming for an "alpha" release.
@@ -193,7 +193,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: ""
 		 */
-		"alphaTrimmedFilePath": "<projectFolder>/../dist/<unscopedPackageName>-alpha.d.ts",
+		"alphaTrimmedFilePath": "<projectFolder>/../lib/<unscopedPackageName>-alpha.d.ts",
 
 		/**
 		 * Specifies the output path for a .d.ts rollup file to be generated with trimming for a "beta" release.
@@ -205,7 +205,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: ""
 		 */
-		"betaTrimmedFilePath": "<projectFolder>/../dist/<unscopedPackageName>-beta.d.ts",
+		"betaTrimmedFilePath": "<projectFolder>/../lib/<unscopedPackageName>-beta.d.ts",
 
 		/**
 		 * Specifies the output path for a .d.ts rollup file to be generated with trimming for a "public" release.
@@ -219,7 +219,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: ""
 		 */
-		"publicTrimmedFilePath": "<projectFolder>/../dist/<unscopedPackageName>-public.d.ts",
+		"publicTrimmedFilePath": "<projectFolder>/../lib/<unscopedPackageName>-public.d.ts",
 
 		/**
 		 * When a declaration is trimmed, by default it will be replaced by a code comment such as
@@ -254,7 +254,7 @@
 		 * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
 		 * DEFAULT VALUE: "<lookup>"
 		 */
-		// "tsdocMetadataFilePath": "<projectFolder>/../dist/tsdoc-metadata.json"
+		// "tsdocMetadataFilePath": "<projectFolder>/../lib/tsdoc-metadata.json"
 	},
 
 	/**

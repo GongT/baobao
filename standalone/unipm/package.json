@@ -8,43 +8,38 @@
 		".": {
 			"import": "./lib/_export_all_in_one_index.js",
 			"require": "./lib/_export_all_in_one_index.cjs"
-		}
+		},
+		"./package.json": "./package.json"
 	},
 	"bin": {
 		"unipm": "./bin.cjs",
 		"unpm": "./bin.cjs"
 	},
-	"typings": "./docs/package-public.d.ts",
+	"typings": "./lib/package-public.d.ts",
 	"scripts": {
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"build": "build-script build",
-		"build:watch": "build-script build",
-		"clean": "rimraf lib dist .rush temp",
-		"watch": "build-script watch"
+		"lint": "heft build",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"preferGlobal": true,
 	"dependencies": {
 		"@idlebox/common": "workspace:*",
 		"@idlebox/node": "workspace:*",
-		"@idlebox/node-json-edit": "workspace:^",
+		"@idlebox/node-json-edit": "workspace:*",
 		"execa": "^6.1.0",
 		"json5": "^2.2.1",
-		"pacote": "^15.0.0",
+		"pacote": "^15.0.6",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/builder": "workspace:^",
-		"@build-script/export-all-in-one": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
-		"gulp": "^4.0.2",
-		"local-rig": "workspace:^",
-		"npm-check-updates": "^16.3.11",
-		"ttypescript": "^1.5.13",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},
 	"monorepo": true

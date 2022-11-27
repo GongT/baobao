@@ -6,6 +6,8 @@
 		"tsBuildInfoFile": "../lib/tsbuildinfo.json",
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"]
+		"declarationDir": "../temp/dts",
+		"types": ["node"],
+		"plugins": []
 	}
 }

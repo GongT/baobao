@@ -20,10 +20,11 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 		super();
 	}
 
-	override check(node: ts.Node, logger: IDebug) {
+	override _check(node: ts.Node) {
+		// logger.debug('[replacer/re-export]', ts.SyntaxKind[node.kind], node.getText());
 		try {
-			// console.log(' ! ', ts.SyntaxKind[node.kind]);
 			if (!isImportExportFrom(node)) {
+				this.logger.debug('             export from');
 				if (ts.isCallExpression(node)) {
 					if (node.parent && !ts.isSourceFile(node.parent)) {
 						return false;
@@ -41,7 +42,7 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 				return false;
 			}
 		} catch (e: any) {
-			logger.error(e.message);
+			this.logger.error('[replacer] failed:', e.message);
 			return false;
 		}
 
@@ -61,13 +62,12 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 		node: ValidImportOrExportFromDeclaration | ts.CallExpression,
 		context: ts.TransformationContext
 	): ts.ImportDeclaration | ts.ExportDeclaration | ts.CallExpression {
-		// console.debug(' * %s', node.moduleSpecifier.text);
+		this.logger.debug(' * %s', (node as any).moduleSpecifier?.text);
 		if (ts.isImportDeclaration(node)) {
 			const moduleSpecifier = this.createString(node, context);
 			if (!moduleSpecifier) return node;
 			return context.factory.updateImportDeclaration(
 				node,
-				node.decorators,
 				node.modifiers,
 				node.importClause,
 				moduleSpecifier,
@@ -78,7 +78,6 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 			if (!moduleSpecifier) return node;
 			return context.factory.updateExportDeclaration(
 				node,
-				node.decorators,
 				node.modifiers,
 				node.isTypeOnly,
 				node.exportClause,

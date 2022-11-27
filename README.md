@@ -56,9 +56,6 @@ _Some tool can use as library too | 有些命令行工具也可以当库用_
 -   [@build-script/single-dog]
     A _single_ coder can create project in one key
     单身狗可以在半夜一键向 GitHub 拉一坨新屎的工具（一键创建工程）
--   [@build-script/builder]
-    Convert a simple json file into `Gulp` config file, for little project without complex build instructions
-    通过一个简单的 json 编写`Gulp`配置文件，以简化那些构建过程没那么复杂的项目
 -   [unipm]
     A commandline wrapper for `npm`, `yarn`, `pnpm` and `rush`
     一个用统一参数调用`npm`、`yarn`、`pnpm`、`rush`的工具
@@ -99,7 +96,6 @@ _Some tool can use as library too | 有些命令行工具也可以当库用_
 [@build-script/typescript-transformer-dual-package]: ./@build-script/typescript-transformer-dual-package/
 [@build-script/dual-package-runtime]: ./@build-script/dual-package-runtime/
 [@build-script/typescript-transformer-import-commonjs]: ./@build-script/typescript-transformer-import-commonjs/
-[@build-script/builder]: ./@build-script/builder/
 [unipm]: ./standalone/unipm/
 [@gongt/vscode-helpers]: ./@gongt/vscode-helpers/
 [vscode-remote-thief]: ./vscode-remote-thief/

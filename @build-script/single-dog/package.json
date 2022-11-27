@@ -8,34 +8,30 @@
 		"single-dog": "./bin.js"
 	},
 	"scripts": {
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"build": "build-script build",
-		"build:watch": "build-script build",
-		"clean": "rimraf lib dist .rush temp",
-		"watch": "build-script watch"
+		"lint": "heft build",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@build-script/builder": "workspace:^",
-		"@build-script/export-all-in-one-inject": "workspace:^",
-		"@build-script/rush-tools": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/rush-tools": "workspace:*",
+		"@build-script/single-dog-asset": "workspace:*",
 		"@idlebox/common": "workspace:*",
-		"@idlebox/ensure-symlink": "workspace:^",
+		"@idlebox/ensure-symlink": "workspace:*",
 		"@idlebox/node": "workspace:*",
-		"@idlebox/node-json-edit": "workspace:^",
+		"@idlebox/node-json-edit": "workspace:*",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.4.0",
-		"unipm": "workspace:^"
+		"tslib": "^2.4.1",
+		"unipm": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^9.0.13",
+		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
-		"gulp": "^4.0.2",
-		"local-rig": "workspace:^",
-		"ttypescript": "^1.5.13",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	}
 }

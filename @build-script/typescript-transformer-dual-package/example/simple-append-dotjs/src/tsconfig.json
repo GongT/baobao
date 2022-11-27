@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"module": "ESNext",
+		"target": "ESNext",
+		"rootDir": ".",
+		"outDir": "../lib",
+		"moduleResolution": "Node",
+		"plugins": [
+			{
+				"transform": "@build-script/typescript-transformer-dual-package",
+				"cjs": false,
+				"mjs": ".js"
+				// "verbose": true,
+			}
+		]
+	}
+}

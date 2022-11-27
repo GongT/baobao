@@ -1,0 +1,14 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/typescript.schema.json",
+	// "extends": "local-rig/profiles/default/typescript.json",
+	// "copyFromCacheMode": "copy",
+	"additionalModuleKindsToEmit": [],
+	// "emitCjsExtensionForCommonJS": true,
+	// "emitMjsExtensionForESModule": true,
+	// "emitFolderNameForTests": "lib-commonjs",
+	// "disableTslint": true,
+	// "maxWriteParallelism": 50,
+	"staticAssetsToCopy": {},
+
+	"project": "src/tsconfig.json"
+}

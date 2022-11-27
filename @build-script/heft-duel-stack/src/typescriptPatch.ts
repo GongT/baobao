@@ -65,6 +65,20 @@ export function patch(typescriptTool: string, require: IRequire, verbose: boolea
 			}
 		}
 
+		override createTransformers(
+			params: { program: TSPublic.Program } | { ls: TSPublic.LanguageService },
+			customTransformers?: TSPublic.CustomTransformers | undefined
+		): Required<TSPublic.CustomTransformers> {
+			if (!module.parent) module.parent = { id: '', ...(module.require.main as any) };
+			if (!module.parent!.parent) module.parent!.parent = { id: '', ...(module.require.main as any) };
+			if (!module.parent!.parent!.parent)
+				module.parent!.parent!.parent = { id: '', ...(module.require.main as any) };
+			if (!module.parent!.parent!.parent!.parent)
+				module.parent!.parent!.parent!.parent = { id: '', ...(module.require.main as any) };
+
+			return super.createTransformers(params, customTransformers);
+		}
+
 		resolveFactory(transform: string, importKey: string = 'default'): TTS.PluginFactory | undefined {
 			logger.terminal.writeVerboseLine('loading TypeScript transform plugin: ', transform);
 			resolve.sync = require.resolve;
@@ -93,10 +107,17 @@ export function patch(typescriptTool: string, require: IRequire, verbose: boolea
 		customTransformers?: TSPublic.CustomTransformers,
 		emitOnlyDtsFiles?: boolean
 	) {
-		console.assert(
-			compilerOptions.configFilePath,
-			'TypeScript Api change, report issue to @build-script/heft-duel-stack'
-		);
+		if (!compilerOptions.configFilePath) {
+			if (compilerOptions.outDir?.includes('/.ts-node')) {
+				return original(compilerOptions, customTransformers, emitOnlyDtsFiles);
+			}
+			console.error('Problem compile options:', compilerOptions);
+			throw new Error('TypeScript Api change, report issue to @build-script/heft-duel-stack');
+		}
+
+		if (!compilerOptions.plugins) {
+			return original(compilerOptions, customTransformers, emitOnlyDtsFiles);
+		}
 
 		const hash = md5(Buffer.from(JSON.stringify(compilerOptions)));
 		let mergedTransformers = cache.get(hash);

@@ -12,15 +12,14 @@
 		"clean": "rimraf lib dist .rush temp"
 	},
 	"dependencies": {
-		"@gongt/fix-esm": "workspace:^",
+		"@gongt/fix-esm": "workspace:*",
 		"execa": "^6.1.0"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.48.4",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
-		"local-rig": "workspace:^",
-		"ttypescript": "^1.5.13",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	}
 }

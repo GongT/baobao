@@ -3,20 +3,15 @@
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
-		"declarationDir": "../temp/dts",
 		"rootDir": "./",
+		"module": "CommonJS",
 
 		"types": ["node"],
 		"composite": false,
 		"incremental": false,
+		"declaration": false,
+		"declarationMap": false,
 
-		"paths": { "@T/*": ["./tests/*"] },
-
-		"plugins": [
-			{
-				"transform": "./register.ts",
-				"verbose": true
-			}
-		]
+		"plugins": []
 	}
 }

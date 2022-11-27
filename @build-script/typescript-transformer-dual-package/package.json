@@ -1,44 +1,36 @@
 {
 	"name": "@build-script/typescript-transformer-dual-package",
-	"type": "module",
+	"type": "commonjs",
 	"version": "2.0.2",
 	"description": "A TypeScript transformer for (mainly) use with ttypescript that will (semi-)auto create dual package hazard.",
 	"keywords": ["commonjs", "dual package", "es modules", "esm", "transformer", "ttypescript", "typescript"],
 	"license": "MIT",
-	"main": "./lib/register.cjs",
-	"module": "./lib/register.js",
-	"exports": {
-		".": {
-			"import": "./lib/register.js",
-			"require": "./lib/register.cjs"
-		}
-	},
+	"main": "./lib/register.js",
+	"exports": "./lib/register.js",
 	"typings": "./lib/register.d.ts",
 	"scripts": {
-		"prepack": "run-s clean build test",
-		"test": "node lib/tests/try-load.js",
-		"build": "ttsc -p src",
-		"build:watch": "ttsc -p src",
-		"watch": "nodemon",
-		"clean": "rimraf lib dist .rush temp"
+		"test": "heft build --lite --clean && cd tests && pnpm i && pnpm run test",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@build-script/typescript-transformer-common": "workspace:^",
+		"@build-script/typescript-transformer-common": "workspace:*",
 		"nodemon": "^2.0.20",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/node-import-test": "workspace:*",
+		"@build-script/heft-duel-stack": "workspace:*",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
-		"local-rig": "workspace:^",
-		"npm-run-all": "^4.1.5",
-		"rimraf": "^3.0.2",
-		"ttypescript": "^1.5.13",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},
 	"peerDependencies": {
-		"ttypescript": "*",
 		"typescript": ">=3.8.0-dev.20200115"
 	}
 }

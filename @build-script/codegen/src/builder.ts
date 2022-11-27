@@ -55,10 +55,10 @@ export class FileBuilder {
 		for (let i = from; i <= to; i++) {
 			r.push(i.toFixed(0));
 		}
-		return wrapArr(r);
+		return new WrappedArray(r);
 	}
 
-	reduceRecursive(from: number, to: number, map: (arr: IWrapArray, index: string) => string) {
+	reduceRecursive(from: number, to: number, map: (arr: WrappedArray, index: string) => string) {
 		const arr = this.seq(from, to);
 		const strs = arr.map((v, i) => {
 			return map(arr.first(i + 1), v);
@@ -67,34 +67,37 @@ export class FileBuilder {
 	}
 }
 
-interface IWrapArray {
-	prefix(p: string): IWrapArray;
-	toList(): string;
-	toLines(): string;
-	first(cnt: number): IWrapArray;
-	map(fn: (v: string, index: number) => string): IWrapArray;
-	[Symbol.iterator](): IterableIterator<string>;
-}
-
-function wrapArr(arr: string[]): IWrapArray {
-	return {
-		toList() {
-			return arr.join(', ');
-		},
-		toLines() {
-			return arr.join('\n');
-		},
-		first(cnt: number | string) {
-			return wrapArr(arr.slice(0, typeof cnt === 'string' ? parseInt(cnt) : cnt));
-		},
-		prefix(p: string) {
-			return wrapArr(Array.prototype.map.call(arr, (i) => p + i) as string[]);
-		},
-		map(fn: (v: string, index: number) => string) {
-			return wrapArr(Array.prototype.map.call(arr, fn) as string[]);
-		},
-		[Symbol.iterator]() {
-			return arr.values();
-		},
-	};
+export class WrappedArray {
+	constructor(private array: string[]) {}
+	toList() {
+		return this.array.join(', ');
+	}
+	toLines() {
+		return this.array.join('\n');
+	}
+	toUnion() {
+		return this.array.join(' | ');
+	}
+	recursion(map: (subarr: WrappedArray) => string[]) {
+		let a = [];
+		for (let i = 1; i < this.array.length; i++) {
+			a.push(...map(this.first(i)));
+		}
+		return a;
+	}
+	first(cnt: number | string) {
+		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? parseInt(cnt) : cnt));
+	}
+	prefix(p: string | ((v: string, i: number) => string)) {
+		return new WrappedArray(this.array.map((i) => p + i));
+	}
+	postfix(p: string | ((v: string, i: number) => string)) {
+		return new WrappedArray(this.array.map((i) => p + i));
+	}
+	map(fn: (v: string, index: number) => string) {
+		return new WrappedArray(this.array.map(fn));
+	}
+	[Symbol.iterator]() {
+		return this.array.values();
+	}
 }

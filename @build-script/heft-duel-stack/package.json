@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-duel-stack",
 	"type": "commonjs",
-	"version": "1.0.4",
+	"version": "1.0.6",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",
@@ -12,32 +12,29 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"prepack": "run-s clean build",
-		"build:watch": "tsc -p src",
-		"build": "tsc -p src",
-		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib dist .rush temp"
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@build-script/heft-plugin-entry": "workspace:^",
-		"@build-script/rushstack-config-loader": "workspace:^",
-		"@gongt/fix-esm": "workspace:^",
-		"@idlebox/node": "npm:@idlebox/node@",
-		"@idlebox/node-json-edit": "workspace:^",
-		"@idlebox/tsconfig-loader": "workspace:^",
-		"@idlebox/typescript-surface-analyzer": "workspace:^",
+		"@build-script/heft-plugin-entry": "workspace:*",
+		"@build-script/rushstack-config-loader": "workspace:*",
+		"@gongt/fix-esm": "workspace:*",
+		"@idlebox/node": "latest",
+		"@idlebox/node-json-edit": "latest",
+		"@idlebox/tsconfig-loader": "latest",
+		"@idlebox/typescript-surface-analyzer": "workspace:*",
 		"@rushstack/node-core-library": "^3.53.2",
 		"tslib": "^2.4.0",
 		"ttypescript": "^1.5.13"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.48.4",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
 		"@types/resolve": "^1.20.2",
-		"local-rig": "workspace:^",
-		"npm-run-all": "^4.1.5",
-		"rimraf": "^3.0.2",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	}
 }

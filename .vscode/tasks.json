@@ -3,6 +3,7 @@
 	"tasks": [
 		{
 			"label": "Fast Update",
+			"detail": "npm_config_prefer_offline=yes rush update",
 			"type": "process",
 			"icon": {
 				"id": "package",
@@ -19,21 +20,19 @@
 		},
 		{
 			"label": "Install Dependencies",
+			"detail": "rush update --full",
 			"type": "process",
 			"icon": {
 				"id": "package"
 			},
-			"options": {
-				"env": {
-					"npm_config_prefer_offline": "false"
-				}
-			},
+			"options": {},
 			"command": "node",
 			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "update", "--full"],
 			"problemMatcher": []
 		},
 		{
 			"label": "Format Code",
+			"detail": "rush pretty",
 			"icon": {
 				"id": "code"
 			},
@@ -47,6 +46,7 @@
 		},
 		{
 			"label": "Watch All",
+			"detail": "rush build:watch",
 			"icon": {
 				"id": "eye-watch"
 			},
@@ -56,6 +56,7 @@
 		},
 		{
 			"label": "Build",
+			"detail": "rush build",
 			"icon": {
 				"id": "wrench"
 			},
@@ -69,6 +70,7 @@
 		},
 		{
 			"label": "Cleanup Everything",
+			"detail": "git clean -ffdx",
 			"icon": {
 				"id": "repo-delete"
 			},

@@ -10,7 +10,8 @@
 		".": {
 			"require": "./lib/transform.cjs",
 			"import": "./lib/transform.js"
-		}
+		},
+		"./package.json": "./package.json"
 	},
 	"scripts": {
 		"prepack": "run-s clean build",
@@ -21,7 +22,7 @@
 	},
 	"dependencies": {
 		"source-map-support": "^0.5.21",
-		"@build-script/typescript-transformer-common": "workspace:^0.1.10",
+		"@build-script/typescript-transformer-common": "workspace:*0.1.10",
 		"fancy-log": "^2.0.0",
 		"fs-extra": "^10.1.0",
 		"tslib": "^2.4.0"
@@ -31,8 +32,8 @@
 		"typescript": ">=3.8.0-dev.20200115"
 	},
 	"devDependencies": {
-		"@build-script/typescript-transformer-dual-package": "workspace:^1.0.27",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
+		"@build-script/typescript-transformer-dual-package": "workspace:*1.0.27",
+		"@build-script/single-dog-asset": "workspace:*1.0.19",
 		"@types/fancy-log": "^1.3.1",
 		"@types/fs-extra": "^9.0.13",
 		"@types/node": "^18.0.3",

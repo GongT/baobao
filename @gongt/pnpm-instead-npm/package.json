@@ -1,6 +1,6 @@
 {
 	"name": "@gongt/pnpm-instead-npm",
-	"version": "0.0.2",
+	"version": "0.0.7",
 	"bin": {
 		"npm": "bin/npm.js",
 		"npx": "bin/npx.js"

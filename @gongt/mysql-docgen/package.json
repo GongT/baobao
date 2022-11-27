@@ -7,23 +7,20 @@
 	"main": "lib/api.cjs",
 	"module": "lib/api.js",
 	"exports": {
-		".": {
-			"import": "lib/api.js",
-			"require": "lib/api.cjs"
-		}
+		".": { "import": "./lib/api.js", "require": "./lib/api.cjs" },
+		"./package.json": "./package.json"
 	},
 	"bin": {
 		"mysql-docgenerate": "bin/mysql-docgen.cjs"
 	},
-	"typings": "docs/package-public.d.ts",
-	"types": "docs/package-public.d.ts",
+	"typings": "./lib/package-public.d.ts",
+	"types": "./lib/package-public.d.ts",
 	"scripts": {
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"build": "build-script build",
-		"build:watch": "build-script build",
-		"clean": "rimraf lib dist .rush temp",
-		"watch": "build-script watch"
+		"lint": "heft build",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": {
 		"type": "git",
@@ -38,25 +35,20 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/builder": "workspace:^",
-		"@build-script/export-all-in-one": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@microsoft/api-extractor": "^7.33.2",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@microsoft/api-extractor": "^7.33.6",
 		"@types/fancy-log": "^2.0.0",
+		"@rushstack/heft": "^0.48.8",
 		"@types/fs-extra": "^9.0.13",
 		"@types/mysql": "^2.15.21",
 		"@types/node": "^18.11.0",
 		"@types/pretty": "^2.0.1",
-		"@types/react": "^18.0.21",
-		"@types/react-dom": "^18.0.6",
-		"gulp": "^4.0.2",
-		"local-rig": "workspace:^",
-		"prettier": "^2.7.1",
-		"ttypescript": "^1.5.13",
+		"@types/react": "^18.0.25",
+		"@types/react-dom": "^18.0.9",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},
 	"exportAllInOne": {

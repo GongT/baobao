@@ -11,34 +11,32 @@
 		".": {
 			"import": "./lib/index.js",
 			"require": "./lib/index.cjs"
-		}
+		},
+		"./package.json": "./package.json"
 	},
-	"typings": "./docs/package-public.d.ts",
+	"typings": "./lib/node-json-edit.d.ts",
 	"scripts": {
-		"prepack": "scripts/pack.sh",
-		"postpack": "scripts/postpack.sh",
-		"test": "scripts/test.sh",
-		"build": "scripts/build.sh",
-		"build:watch": "scripts/build.sh",
-		"watch": "ttsc -p src -w",
-		"clean": "rimraf lib dist .rush temp"
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"comment-json": "^4.2.3",
-		"prettier": "^2.7.1",
-		"tslib": "^2.4.0"
+		"prettier": "^2.8.0",
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
+		"@rushstack/heft": "^0.48.8",
+		"@build-script/node-import-test": "workspace:*",
+		"@build-script/typescript-transformer-dual-package": "latest",
+		"@build-script/heft-duel-stack": "workspace:*",
+		"@build-script/single-dog-asset": "workspace:*",
 		"@types/node": "^18.11.0",
 		"@types/prettier": "^2.7.1",
-		"local-rig": "workspace:^",
-		"npm-check-updates": "^16.3.11",
-		"rimraf": "^3.0.2",
+		"local-rig": "workspace:*",
 		"source-map-support": "^0.5.21",
-		"ttypescript": "^1.5.13",
 		"typescript": "^4.8.4"
 	},
 	"monorepo": true

@@ -1,0 +1,20 @@
+{
+	"extends": "../src/tsconfig.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"target": "ESNext",
+		"rootDir": ".",
+		"outDir": "../temp/test-out",
+
+		"paths": { "@T/*": ["./virtual-path/*"] },
+
+		"plugins": [
+			{
+				"transform": "../lib/register.js",
+				"mjs": ".mmjs",
+				"cjs": ".ccjs",
+				"verbose": 1
+			}
+		]
+	}
+}

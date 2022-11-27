@@ -21,23 +21,23 @@ const apiExtractorJson: IConfigFile = {
 	apiReport: {
 		enabled: true,
 		reportFileName: '<unscopedPackageName>.api.md',
-		reportFolder: PROJECT_ROOT + '/docs/',
+		reportFolder: PROJECT_ROOT + '/lib/',
 		// reportTempFolder: '<projectFolder>/temp/',
 	},
 	docModel: {
 		enabled: true,
-		apiJsonFilePath: PROJECT_ROOT + '/docs/<unscopedPackageName>.api.json',
+		apiJsonFilePath: PROJECT_ROOT + '/lib/<unscopedPackageName>.api.json',
 	},
 	dtsRollup: {
 		enabled: true,
-		// "untrimmedFilePath": "<projectFolder>/dist/<unscopedPackageName>.d.ts",
-		// "betaTrimmedFilePath": "<projectFolder>/dist/<unscopedPackageName>-beta.d.ts",
-		publicTrimmedFilePath: PROJECT_ROOT + '/docs/package-public.d.ts',
+		// "untrimmedFilePath": "<projectFolder>/lib/<unscopedPackageName>.d.ts",
+		// "betaTrimmedFilePath": "<projectFolder>/lib/<unscopedPackageName>-beta.d.ts",
+		publicTrimmedFilePath: PROJECT_ROOT + '/lib/package-public.d.ts',
 		omitTrimmingComments: false,
 	},
 	tsdocMetadata: {
 		enabled: true,
-		tsdocMetadataFilePath: PROJECT_ROOT + '/docs/tsdoc-metadata.json',
+		tsdocMetadataFilePath: PROJECT_ROOT + '/lib/tsdoc-metadata.json',
 	},
 	newlineKind: 'lf',
 	messages: {

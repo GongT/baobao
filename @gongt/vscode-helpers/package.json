@@ -5,35 +5,32 @@
 	"type": "commonjs",
 	"version": "0.0.3",
 	"license": "MIT",
-	"typings": "docs/package-public.d.ts",
+	"typings": "./lib/package-public.d.ts",
 	"main": "./lib/_export_all_in_one_index.js",
 	"repository": "https://github.com/GongT/baobao.git",
 	"engines": {
 		"vscode": "^1.32.0"
 	},
 	"scripts": {
-		"build": "build-script build",
-		"build:watch": "build-script build",
-		"clean": "rimraf lib dist .rush temp",
-		"distclean": "build-script distclean",
-		"prepack": "build-script rebuild",
-		"test": "build-script test",
-		"watch": "build-script watch"
+		"lint": "heft build",
+		"build": "heft build --production",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@idlebox/node-json-edit": "workspace:^2.0.21",
-		"@idlebox/common": "workspace:^1.3.9",
+		"@idlebox/node-json-edit": "workspace:*2.0.21",
+		"@idlebox/common": "workspace:*1.3.9",
 		"tslib": "^2.4.0",
 		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.68.0",
 		"local-rig": "workspace:*",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
+		"@build-script/single-dog-asset": "workspace:*1.0.19",
 		"@types/node": "^18.0.3",
 		"typescript": "^4.7.4",
 		"gulp": "^4.0.2",
-		"@build-script/builder": "workspace:^3.2.6",
-		"@build-script/export-all-in-one": "workspace:^3.1.4"
+		"rimraf": "^3.0.2"
 	}
 }

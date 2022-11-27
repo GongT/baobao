@@ -13,6 +13,8 @@ export class ShadowTranform extends TypescriptTransformPlugin<{ extension: strin
 	constructor(extension: string, parent: TypescriptTransformPlugin) {
 		super();
 
+		(this.logger?.debug ?? console.log)('create shadow transform:', extension);
+
 		this.pluginOptions = { extension, ...parent.pluginOptions };
 
 		this.shadowProgram = parent.forkProgram({
@@ -77,7 +79,7 @@ export class ShadowTranform extends TypescriptTransformPlugin<{ extension: strin
 					lastLine = lastLine.replace(re, this.pluginOptions.extension + '$1');
 					text = text.slice(0, lastLineAt) + '\n' + lastLine + '\n';
 				} else {
-					console.log('inline-sourcemap currently not support');
+					this.logger.debug('inline-sourcemap currently not support');
 				}
 			}
 		}
@@ -87,11 +89,12 @@ export class ShadowTranform extends TypescriptTransformPlugin<{ extension: strin
 
 	emit(file: ts.SourceFile) {
 		try {
+			this.logger.debug('re-emit file: %s', file.fileName);
 			this.shadowProgram.emit(this.shadowProgram.getSourceFile(file.fileName), this.writeFile, undefined, false, {
 				before: [this.plugin(this.shadowProgram, this.pluginOptions)],
 			});
 		} catch (e: any) {
-			console.error('failed re-emit shadow program: %s', e.stack || e.message);
+			this.logger.error('failed re-emit shadow program: %s', e.stack || e.message);
 			throw e;
 		}
 	}

@@ -1,7 +1,7 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.81.0",
-	"pnpmVersion": "7.13.4",
+	"rushVersion": "5.85.1",
+	"pnpmVersion": "7.17.1",
 	"pnpmOptions": {
 		"pnpmStore": "global",
 		"strictPeerDependencies": false,
@@ -38,47 +38,56 @@
 		{
 			"packageName": "local-rig",
 			"projectFolder": "common/local-rig",
-			"shouldPublish": false
+			"shouldPublish": false,
+			"decoupledLocalDependencies": ["@build-script/typescript-transformer-dual-package"]
 		},
 		{
 			"packageName": "@gongt/fix-esm",
 			"projectFolder": "@gongt/fix-esm",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
 		},
 		{
 			"packageName": "@idlebox/ensure-symlink",
 			"projectFolder": "@idlebox/ensure-symlink",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
 		},
 		{
 			"packageName": "@idlebox/node-json-edit",
 			"projectFolder": "@idlebox/node-json-edit",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
+		},
+		{
+			"packageName": "@idlebox/node-ignore-edit",
+			"projectFolder": "@idlebox/node-ignore-edit",
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
 		},
 		{
 			"packageName": "@idlebox/itypes",
 			"projectFolder": "@idlebox/itypes",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
 		},
 		{
 			"packageName": "@idlebox/common",
 			"projectFolder": "@idlebox/common",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
 		},
 		{
 			"packageName": "@idlebox/browser",
 			"projectFolder": "@idlebox/browser",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
 		},
 		{
 			"packageName": "@idlebox/node",
 			"projectFolder": "@idlebox/node",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@build-script/export-all-in-one",
-			"projectFolder": "@build-script/export-all-in-one",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": []
 		},
 		{
 			"packageName": "@build-script/rush-tools",
@@ -88,11 +97,6 @@
 		{
 			"packageName": "@build-script/poormans-package-change",
 			"projectFolder": "@build-script/poormans-package-change",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@build-script/export-all-in-one-inject",
-			"projectFolder": "@build-script/export-all-in-one-inject",
 			"shouldPublish": true
 		},
 		{
@@ -108,7 +112,9 @@
 		{
 			"packageName": "@build-script/typescript-transformer-dual-package",
 			"projectFolder": "@build-script/typescript-transformer-dual-package",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["@build-script/heft-duel-stack"]
+			// "decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/dual-package-runtime",
@@ -119,12 +125,7 @@
 			"packageName": "@build-script/typescript-transformer-common",
 			"projectFolder": "@build-script/typescript-transformer-common",
 			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
-		},
-		{
-			"packageName": "@build-script/builder",
-			"projectFolder": "@build-script/builder",
-			"shouldPublish": true
+			"decoupledLocalDependencies": ["@idlebox/common", "@idlebox/node"]
 		},
 		{
 			"packageName": "unipm",
@@ -152,11 +153,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@build-script/gulp-chain-simplify",
-			"projectFolder": "@build-script/gulp-chain-simplify",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@idlebox/state",
 			"projectFolder": "@idlebox/state",
 			"shouldPublish": true
@@ -170,19 +166,23 @@
 			"packageName": "@build-script/codegen",
 			"projectFolder": "@build-script/codegen",
 			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
-		},
-		{
-			"packageName": "@idlebox/node-ignore-edit",
-			"projectFolder": "@idlebox/node-ignore-edit",
-			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@idlebox/common"]
+			"decoupledLocalDependencies": [
+				"@idlebox/common",
+				"@idlebox/node",
+				"@idlebox/node-ignore-edit",
+				"@idlebox/node-json-edit"
+			]
 		},
 		{
 			"packageName": "@idlebox/typescript-surface-analyzer",
 			"projectFolder": "@idlebox/typescript-surface-analyzer",
 			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
+			"decoupledLocalDependencies": [
+				"@idlebox/common",
+				"@idlebox/node",
+				"@idlebox/node-ignore-edit",
+				"@idlebox/node-json-edit"
+			]
 		},
 		{
 			"packageName": "@idlebox/tsconfig-loader",
@@ -193,7 +193,7 @@
 			"packageName": "@build-script/heft-duel-stack",
 			"projectFolder": "@build-script/heft-duel-stack",
 			"shouldPublish": true,
-			"cyclicDependencyProjects": ["@idlebox/common", "@idlebox/node"]
+			"decoupledLocalDependencies": ["@idlebox/node"]
 		},
 		{
 			"packageName": "@build-script/rushstack-config-loader",
@@ -223,6 +223,16 @@
 		{
 			"packageName": "@gongt/pnpm-instead-npm",
 			"projectFolder": "@gongt/pnpm-instead-npm",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/esbuild",
+			"projectFolder": "@build-script/esbuild",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/node-import-test",
+			"projectFolder": "@build-script/import-test",
 			"shouldPublish": true
 		}
 	]

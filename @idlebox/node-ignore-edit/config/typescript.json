@@ -23,17 +23,16 @@
 	 * Note that this option only applies to the main tsconfig.json configuration.
 	 */
 	"additionalModuleKindsToEmit": [
-		{
-			/**
-			 * (Required) Must be one of "commonjs", "amd", "umd", "system", "es2015", "esnext"
-			 */
-			"moduleKind": "esnext",
-
-			/**
-			 * (Required) The name of the folder where the output will be written.
-			 */
-			"outFolderName": "lib/esm"
-		}
+		// {
+		/**
+		 * (Required) Must be one of "commonjs", "amd", "umd", "system", "es2015", "esnext"
+		 */
+		// "moduleKind": "commonjs",
+		/**
+		 * (Required) The name of the folder where the output will be written.
+		 */
+		// "outFolderName": "lib/cjs"
+		// }
 	],
 
 	/**

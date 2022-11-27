@@ -5,8 +5,8 @@
 			"actionId": "clean:delete",
 			"actionKind": "deleteGlobs",
 			"heftEvent": "clean",
-			"globsToDelete": ["lib/", "temp/"]
+			"globsToDelete": ["lib/", "temp/", "*.tgz", "*.log", "*-logs"]
 		}
 	],
-	"heftPlugins": []
+	"heftPlugins": [{ "plugin": "@build-script/node-import-test" }]
 }

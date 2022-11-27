@@ -6,7 +6,7 @@ import { isAstNode, linkParentNode } from './util';
 export abstract class NodeReplacer<T extends ts.Node, RT = ts.Node> {
 	public declare logger: IDebug;
 	public abstract readonly kinds: ReadonlyArray<ts.SyntaxKind>;
-	public abstract check(node: ts.Node, logger: IDebug): boolean;
+	protected abstract _check(node: ts.Node): boolean;
 	protected abstract _replace(node: T, context: ts.TransformationContext, logger: IDebug): RT | undefined | void;
 
 	constructor() {
@@ -15,7 +15,13 @@ export abstract class NodeReplacer<T extends ts.Node, RT = ts.Node> {
 		}
 	}
 
+	public check(node: ts.Node, logger: IDebug): node is T {
+		this.logger = logger;
+		return this._check(node);
+	}
+
 	public replace(node: T, context: ts.TransformationContext, logger: IDebug): RT | undefined | void {
+		this.logger = logger;
 		const result = this._replace(node, context, logger);
 		if (!result) return result;
 

@@ -5,5 +5,6 @@
 	"$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
 	"extends": "local-rig/profiles/default/api-extractor.json",
 
-	"projectFolder": "../src"
+	"projectFolder": "../src",
+	"mainEntryPointFilePath": "../temp/dts/api.d.ts"
 }

@@ -145,7 +145,7 @@ export abstract class TypescriptTransformPlugin<IOptions extends Record<string, 
 		hint: ts.EmitHint,
 		node: ts.Node
 	) {
-		// console.log('  ! %s', ts.SyntaxKind[node.kind]);
+		this.logger.debug('  - onSubstituteNode: %s', ts.SyntaxKind[node.kind]);
 		for (const { types, method } of mutations) {
 			if (types.includes(node.kind)) {
 				node = method.call(this, node) || node;
@@ -161,6 +161,7 @@ export abstract class TypescriptTransformPlugin<IOptions extends Record<string, 
 		node: ts.Node,
 		callback: (hint: ts.EmitHint, node: ts.Node) => void
 	) {
+		this.logger.debug('  - onEmitNode: %s', ts.SyntaxKind[node.kind]);
 		let willEmit = true;
 		for (const { types, method } of notifies) {
 			if (types.includes(node.kind)) {
@@ -197,7 +198,7 @@ export abstract class TypescriptTransformPlugin<IOptions extends Record<string, 
 		this.context = context;
 		this._compilerOptions = context.getCompilerOptions();
 
-		this.logger.debug('==== New Context ====', ts.ModuleKind[this._compilerOptions.module!]);
+		this.logger.debug('New Context =', ts.ModuleKind[this._compilerOptions.module!]);
 
 		this.compilerHost = ts.createCompilerHost(this._compilerOptions, true);
 		this.compilerHost.getModuleResolutionCache = cache(() =>
@@ -245,6 +246,7 @@ export abstract class TypescriptTransformPlugin<IOptions extends Record<string, 
 
 	@bindThis
 	private transformer(sourceFile: ts.SourceFile) {
+		this.logger.debug('> walk file: %s', sourceFile.fileName);
 		if (!this.transformToplevelNodes) {
 			return sourceFile;
 		}

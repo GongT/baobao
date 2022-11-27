@@ -9,9 +9,10 @@
 		".": {
 			"import": "./lib/index.generated.js",
 			"require": "./lib/index.generated.cjs"
-		}
+		},
+		"./package.json": "./package.json"
 	},
-	"types": "dist/state-public.d.ts",
+	"types": "./lib/state-public.d.ts",
 	"scripts": {
 		"prepack": "heft build --clean --production",
 		"test": "heft test",
@@ -25,15 +26,14 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:*",
 		"baobab": "^2.6.1",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@idlebox/itypes": "workspace:^",
-		"@rushstack/heft": "^0.48.4",
-		"local-rig": "workspace:^",
+		"@build-script/heft-duel-stack": "workspace:*",
+		"@build-script/single-dog-asset": "workspace:*",
+		"@idlebox/itypes": "workspace:*",
+		"@rushstack/heft": "^0.48.8",
+		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},
 	"monorepo": "rush",

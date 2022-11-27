@@ -15,15 +15,17 @@ export class ImportMetaReplacer extends NodeReplacer<ts.PropertyAccessExpression
 		super();
 	}
 
-	override check(node: ts.Node) {
-		return (
+	override _check(node: ts.Node) {
+		const r =
 			ts.isPropertyAccessExpression(node) &&
 			ts.isMetaProperty(node.expression) &&
-			ts.idText(node.expression.name) === 'meta'
-		);
+			ts.idText(node.expression.name) === 'meta';
+		// this.logger?.debug('[replacer/import]', ts.SyntaxKind[node.kind], node.getText(), r);
+		return r;
 	}
 
 	override _replace(node: ts.PropertyAccessExpression, context: ts.TransformationContext): ts.Node | undefined {
+		this.logger.debug('replace meta var:', node.name);
 		return this.replacer(ts.idText(node.name), node, context, this.logger);
 	}
 

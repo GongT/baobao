@@ -46,13 +46,14 @@
 	},
 	"dependencies": {
 		"tslib": "^2.4.0",
-		"@gongt/vscode-helpers": "workspace:^0.0.3"
+		"@gongt/vscode-helpers": "workspace:*0.0.3"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.68.0",
-		"@build-script/single-dog-asset": "workspace:^1.0.19",
+		"@build-script/single-dog-asset": "workspace:*1.0.19",
 		"local-rig": "workspace:*",
 		"@types/node": "^18.0.3",
-		"typescript": "^4.7.4"
+		"typescript": "^4.7.4",
+		"rimraf": "^3.0.2"
 	}
 }

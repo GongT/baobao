@@ -7,8 +7,11 @@
 	"main": "./hook-extension.cjs",
 	"module": "./hook-extension.js",
 	"exports": {
-		"default": "./hook-extension.js",
-		"require": "./hook-extension.cjs"
+		".": {
+			"default": "./hook-extension.js",
+			"require": "./hook-extension.cjs"
+		},
+		"./package.json": "./package.json"
 	},
 	"scripts": {
 		"build": "",
@@ -20,6 +23,6 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.1"
 	}
 }

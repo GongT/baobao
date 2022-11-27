@@ -62,7 +62,6 @@ export async function registerProjectToRush(projectPath: string, log = console.l
 		config.projects.push({
 			packageName: name,
 			projectFolder: pathToRegister,
-			shouldPublish: true,
 		});
 	}
 
