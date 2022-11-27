@@ -6,13 +6,34 @@ import { dirname, resolve } from 'path';
 export function run(p: string) {
 	const path = p.endsWith('package.json') ? resolve(process.cwd(), p) : resolve(process.cwd(), p, 'package.json');
 	if (!existsSync(path)) {
-		console.error('missing package.json');
-		process.exit(1);
+		return 'missing package.json';
 	}
 
-	const pkgName = JSON.parse(readFileSync(path, 'utf-8')).name;
+	const {
+		name: pkgName,
+		main: pkgMain,
+		module: pkgModule,
+		exports: pkgExports,
+		types,
+	} = JSON.parse(readFileSync(path, 'utf-8'));
 
-	console.log('try import:');
+	if (pkgMain === undefined && pkgModule === undefined) {
+		if (pkgExports === undefined) {
+			return undefined;
+		}
+	}
+
+	if (types) {
+		console.log('test file:', types);
+		const dts = resolve(path, '..', types);
+		if (existsSync(dts)) {
+			console.log('  - ok');
+		} else {
+			console.log('  - fail');
+			return `missing .d.ts file`;
+		}
+	}
+
 	const TMP = mkdtempSync(tmpdir() + '/');
 	process.on('beforeExit', () => {
 		rmSync(TMP, { recursive: true });
@@ -45,19 +66,18 @@ export function run(p: string) {
 		[script1, 'import'],
 		[script2, 'require'],
 	] as const) {
+		console.log('try %s:', title);
 		const r = spawnSync(process.execPath, [src], {
-			stdio: ['inherit', 'pipe', 'inherit'],
+			stdio: ['ignore', 'pipe', 'pipe'],
 			shell: true,
 			encoding: 'utf8',
 			cwd: TMP,
 		});
 		if (r.status !== 0 || !r.stdout.trim().endsWith('ok')) {
-			console.error('\x1B[48;5;9m\x1B[K⚠️  %s test failed: %s\x1B[0m', title, path);
-			process.exit(1);
+			console.log('  - fail');
+			return `${title} test failed: ${r.stderr}`;
 		}
-
-		if (process.stdout.isTTY) {
-			console.log('\x1B[48;5;10m\x1B[K✅  %s test success: %s\x1B[0m', title, path);
-		}
+		console.log('  - ok');
 	}
+	return undefined;
 }

@@ -11,6 +11,7 @@
 			},
 			"options": {
 				"env": {
+					"EXEC_BY_PNPM": "yes",
 					"npm_config_prefer_offline": "true"
 				}
 			},
@@ -25,7 +26,9 @@
 			"icon": {
 				"id": "package"
 			},
-			"options": {},
+			"options": {
+				"env": { "EXEC_BY_PNPM": "yes" }
+			},
 			"command": "node",
 			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "update", "--full"],
 			"problemMatcher": []

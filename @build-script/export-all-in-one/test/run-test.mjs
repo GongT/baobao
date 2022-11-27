@@ -9,7 +9,7 @@ const singleFile = process.argv[2];
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const tsconfig = {
-	extends: '../node_modules/@build-script/single-dog-asset/package/tsconfig.json',
+	extends: '../node_modules/local-rig/profiles/default/tsconfig.json',
 	compilerOptions: {
 		module: 'ESNext',
 		baseUrl: '.',

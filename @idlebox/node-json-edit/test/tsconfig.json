@@ -1,6 +1,6 @@
 {
 	// this comment is for test................................................................................
-	"extends": "@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
 		"outDir": "../lib/testing",

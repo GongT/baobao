@@ -6,4 +6,14 @@ if (!p) {
 	process.exit(1);
 }
 
-run(p);
+const re = run(p);
+if (!re) {
+	if (process.stdout.isTTY) {
+		console.log('\x1B[48;5;10m\x1B[K✅  Test Success%s\x1B[0m');
+	}
+	process.exit(0);
+} else {
+	console.error('\x1B[48;5;9m\x1B[K⚠️  %s\x1B[0m', re);
+
+	process.exit(1);
+}

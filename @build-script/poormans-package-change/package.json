@@ -3,7 +3,6 @@
 	"type": "commonjs",
 	"version": "1.0.26",
 	"license": "MIT",
-	"main": "index.js",
 	"bin": {
 		"poormans-package-change": "./bin/load.js"
 	},

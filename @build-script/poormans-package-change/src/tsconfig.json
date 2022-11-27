@@ -1,9 +1,14 @@
 {
-	"extends": "@build-script/single-dog-asset/package/tsconfig.no-lib.json",
+	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
+		"baseUrl": ".",
+		"types": ["node"],
 		"outDir": "../lib",
 		"module": "commonjs",
+		"declarationDir": "../temp/dts",
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"rootDir": ".",
-		"typeRoots": ["../node_modules/@types"]
+		"typeRoots": ["../node_modules/@types"],
+		"plugins": []
 	}
 }
