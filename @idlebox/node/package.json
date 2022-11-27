@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node",
 	"type": "module",
-	"version": "1.2.12",
+	"version": "1.2.13",
 	"license": "MIT",
 	"main": "./fix_esm_loader.cjs",
 	"module": "./lib/index.generated.js",

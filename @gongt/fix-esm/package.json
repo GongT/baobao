@@ -1,7 +1,7 @@
 {
 	"name": "@gongt/fix-esm",
 	"type": "commonjs",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "wrapper of fix-esm, only register once.",
 	"license": "WTFPL",
 	"main": "./lib/index.js",

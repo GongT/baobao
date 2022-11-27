@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/browser",
 	"type": "module",
-	"version": "0.0.24",
+	"version": "0.0.25",
 	"license": "MIT",
 	"main": "./lib/_export_all_in_one_index.cjs",
 	"exports": {

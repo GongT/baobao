@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/chokidar",
 	"type": "module",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"main": "./lib/_export_all_in_one_index.cjs",

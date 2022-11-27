@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "new version",
+      "type": "hotfix",
+      "packageName": "@build-script/esbuild"
+    }
+  ],
+  "packageName": "@build-script/esbuild",
+  "email": "admin@gongt.me"
+}

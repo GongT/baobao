@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "new version",
+      "type": "hotfix",
+      "packageName": "@idlebox/state-driver-nodejs"
+    }
+  ],
+  "packageName": "@idlebox/state-driver-nodejs",
+  "email": "admin@gongt.me"
+}

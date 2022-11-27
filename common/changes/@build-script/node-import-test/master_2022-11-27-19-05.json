@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "new version",
+      "type": "hotfix",
+      "packageName": "@build-script/node-import-test"
+    }
+  ],
+  "packageName": "@build-script/node-import-test",
+  "email": "admin@gongt.me"
+}

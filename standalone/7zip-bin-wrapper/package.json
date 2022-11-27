@@ -1,7 +1,7 @@
 {
 	"name": "7zip-bin-wrapper",
 	"type": "module",
-	"version": "1.0.28",
+	"version": "1.0.29",
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"main": "./dist/_export_all_in_one_index.cjs",

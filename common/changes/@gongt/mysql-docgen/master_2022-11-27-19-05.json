@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "new version",
+      "type": "hotfix",
+      "packageName": "@gongt/mysql-docgen"
+    }
+  ],
+  "packageName": "@gongt/mysql-docgen",
+  "email": "admin@gongt.me"
+}

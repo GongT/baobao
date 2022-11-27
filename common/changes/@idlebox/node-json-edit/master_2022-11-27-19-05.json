@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "new version",
+      "type": "hotfix",
+      "packageName": "@idlebox/node-json-edit"
+    }
+  ],
+  "packageName": "@idlebox/node-json-edit",
+  "email": "admin@gongt.me"
+}

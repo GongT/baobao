@@ -1,7 +1,7 @@
 {
 	"name": "@gongt/mysql-docgen",
 	"type": "module",
-	"version": "1.1.22",
+	"version": "1.1.23",
 	"description": "生成MySQL文档，用于我自己的微服务系统。",
 	"license": "MIT",
 	"main": "lib/api.cjs",

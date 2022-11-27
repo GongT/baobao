@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/state-driver-electron",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "communication driver for @idlebox/state",
 	"keywords": [],
 	"license": "MIT",

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-run",
 	"type": "commonjs",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "run any script in heft",
 	"main": "./load.js",
 	"types": "./lib/main.d.ts",

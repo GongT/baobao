@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "new version",
+      "type": "hotfix",
+      "packageName": "@gongt/pnpm-instead-npm"
+    }
+  ],
+  "packageName": "@gongt/pnpm-instead-npm",
+  "email": "admin@gongt.me"
+}
