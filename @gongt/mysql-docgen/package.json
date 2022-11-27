@@ -7,7 +7,10 @@
 	"main": "lib/api.cjs",
 	"module": "lib/api.js",
 	"exports": {
-		".": { "import": "./lib/api.js", "require": "./lib/api.cjs" },
+		".": {
+			"import": "./lib/api.js",
+			"require": "./lib/api.cjs"
+		},
 		"./package.json": "./package.json"
 	},
 	"bin": {
@@ -40,8 +43,8 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:*",
 		"@microsoft/api-extractor": "^7.33.6",
-		"@types/fancy-log": "^2.0.0",
 		"@rushstack/heft": "^0.48.8",
+		"@types/fancy-log": "^2.0.0",
 		"@types/fs-extra": "^9.0.13",
 		"@types/mysql": "^2.15.21",
 		"@types/node": "^18.11.0",

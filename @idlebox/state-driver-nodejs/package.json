@@ -30,9 +30,9 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@idlebox/state": "workspace:*",
 		"@build-script/heft-duel-stack": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
+		"@idlebox/state": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
 		"local-rig": "workspace:*",

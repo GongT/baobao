@@ -28,8 +28,8 @@
 		"unipm": "workspace:*"
 	},
 	"devDependencies": {
-		"@types/fs-extra": "^9.0.13",
 		"@rushstack/heft": "^0.48.8",
+		"@types/fs-extra": "^9.0.13",
 		"@types/node": "^18.11.0",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"

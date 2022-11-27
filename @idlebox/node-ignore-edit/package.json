@@ -29,10 +29,10 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/node-import-test": "workspace:*",
-		"@build-script/typescript-transformer-dual-package": "latest",
 		"@build-script/heft-duel-stack": "workspace:*",
+		"@build-script/node-import-test": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
+		"@build-script/typescript-transformer-dual-package": "latest",
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
 		"local-rig": "workspace:*",

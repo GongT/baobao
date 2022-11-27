@@ -31,7 +31,7 @@ try {
 }
 
 const argv = process.argv.slice(2);
-if (process.env.EXEC_BY_PNPM) {
+if (process.env.EXEC_BY_PNPM || process.env.INSTALL_RUN_LOCKFILE_PATH) {
 	// console.error('corepack run npm', argv);
 	req('corepack/dist/corepack.js').runMain(['npm', ...argv]);
 } else {

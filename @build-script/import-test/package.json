@@ -1,7 +1,9 @@
 {
 	"name": "@build-script/node-import-test",
-	"version": "0.0.0",
 	"type": "commonjs",
+	"version": "0.0.0",
+	"main": "./heft.js",
+	"module": "./test-main.mjs",
 	"bin": {
 		"node-import-test": "bin.js"
 	},
@@ -11,8 +13,6 @@
 		"clean": "rimraf lib temp *-logs *.log",
 		"watch": "tsc -p src -w"
 	},
-	"main": "./heft.js",
-	"module": "./test-main.mjs",
 	"devDependencies": {
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",

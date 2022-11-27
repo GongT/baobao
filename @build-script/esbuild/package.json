@@ -5,7 +5,6 @@
 	"bin": {
 		"webbuild-frontend": "./bin/build.js"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"scripts": {
 		"lint": "heft build",
 		"build": "heft build --production",
@@ -13,10 +12,11 @@
 		"watch": "heft build --watch",
 		"clean": "heft clean"
 	},
+	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
+		"@build-script/rush-tools": "workspace:*",
 		"@idlebox/common": "workspace:*",
 		"@idlebox/node": "workspace:*",
-		"@build-script/rush-tools": "workspace:*",
 		"chokidar": "^3.5.3",
 		"crc": "^4.1.1",
 		"esbuild": "^0.15.15",

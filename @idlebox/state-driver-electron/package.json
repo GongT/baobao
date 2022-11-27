@@ -10,8 +10,8 @@
 	"exports": {
 		".": "./lib/auto-detect.js",
 		"./main": "./lib/electron.main.js",
-		"./renderer": "./lib/electron.render.js",
-		"./package.json": "./package.json"
+		"./package.json": "./package.json",
+		"./renderer": "./lib/electron.render.js"
 	},
 	"scripts": {
 		"prepack": "run-s -l clean build",
@@ -26,8 +26,8 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@idlebox/state": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
+		"@idlebox/state": "workspace:*",
 		"electron": "^21.3.1",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"

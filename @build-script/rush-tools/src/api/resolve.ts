@@ -14,10 +14,14 @@ export interface IProjectCallback {
 function createDeps(rushProject: RushProject) {
 	const dep = new DepGraph<boolean>();
 
-	for (const { packageName } of rushProject.projects) {
+	const filterOutNoBuild = rushProject.projects.filter((project) => {
+		return !!rushProject.packageJsonContent(project).scripts?.build;
+	});
+
+	for (const { packageName } of filterOutNoBuild) {
 		dep.addNode(packageName, false);
 	}
-	for (const { packageName } of rushProject.projects) {
+	for (const { packageName } of filterOutNoBuild) {
 		const deps = rushProject.packageDependency(packageName, { development: true, removeCyclic: true });
 		for (const name of deps) {
 			dep.addDependency(packageName, name);
