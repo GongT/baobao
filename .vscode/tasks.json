@@ -4,7 +4,7 @@
 		{
 			"label": "Fast Update",
 			"detail": "npm_config_prefer_offline=yes rush update",
-			"type": "process",
+			"type": "shell",
 			"icon": {
 				"id": "package",
 				"color": "terminal.ansiGreen"
@@ -22,7 +22,7 @@
 		{
 			"label": "Install Dependencies",
 			"detail": "rush update --full",
-			"type": "process",
+			"type": "shell",
 			"icon": {
 				"id": "package"
 			},
@@ -41,10 +41,7 @@
 			"icon": {
 				"id": "code"
 			},
-			"type": "process",
-			"windows": {
-				"type": "shell"
-			},
+			"type": "shell",
 			"command": "node",
 			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "pretty"],
 			"problemMatcher": []
@@ -79,10 +76,7 @@
 			"icon": {
 				"id": "repo-delete"
 			},
-			"type": "process",
-			"windows": {
-				"type": "shell"
-			},
+			"type": "shell",
 			"command": "node",
 			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "distclean"],
 			"problemMatcher": []

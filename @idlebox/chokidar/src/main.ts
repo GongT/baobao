@@ -1,8 +1,8 @@
 import { registerGlobalLifecycle } from '@idlebox/common';
 import { FSWatcher } from 'chokidar';
-export { FSWatcher } from 'chokidar';
+import debug from 'debug';
 
-const log = require('debug')('chokidar');
+const log = debug('chokidar');
 
 enum State {
 	// nothing happen

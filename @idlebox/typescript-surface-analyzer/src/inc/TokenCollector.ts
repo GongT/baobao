@@ -10,8 +10,9 @@ export interface WithOriginal {
 	id?: ts.Identifier;
 }
 
-export interface IResolveResultWithNode extends IResolveResult {
+export interface IResolveResultWithNode {
 	node: ts.Node;
+	reference: IResolveResult;
 }
 
 export interface IDefaultResult {
@@ -75,7 +76,7 @@ export class TokenCollector implements ITypescriptFile {
 
 	addNamespaceRef(otherFile: IResolveResult, node: ts.Node) {
 		this.references.push({
-			...otherFile,
+			reference: otherFile,
 			node,
 		});
 	}
@@ -104,7 +105,7 @@ export class TokenCollector implements ITypescriptFile {
 					if (def.kind !== ExportKind.Unknown) {
 						ret += ExportKind[def.kind] + ' ';
 					}
-					ret += `from ${def.reference.relative}`;
+					ret += `from ${def.reference.type === 'file' ? def.reference.relative : def.reference.name}`;
 					if (def.reference.id) {
 						ret += `:${idToString(def.reference.id)}`;
 					}
@@ -118,8 +119,8 @@ export class TokenCollector implements ITypescriptFile {
 
 		if (this.references.length) {
 			ret += tab + c.blue('references') + `(${this.references.length}):\n`;
-			for (const e of this.references) {
-				ret += tab + '  - ' + c.green(e.relative) + '\n';
+			for (const { reference } of this.references) {
+				ret += tab + '  - ' + c.green(reference.type === 'file' ? reference.relative : reference.name) + '\n';
 			}
 		}
 

@@ -54,10 +54,17 @@ export class FileCollector {
 			let reference: IResolveResult;
 			try {
 				if (node.moduleSpecifier) {
+					// export {a, b, c} from 'xxxx';
 					const path = (0 || eval)(node.moduleSpecifier.getText());
-					reference = this.resolver.require(collect.absolutePath, path);
+					const ref = this.resolver.resolve(collect.absolutePath, path);
+
+					if (ref) {
+						reference = ref;
+					} else {
+						reference = { type: 'dependency', name: path };
+					}
 				} else {
-					// export ...;
+					// export {a, b, c};
 					reference = this.resolver.convert(collect.absolutePath);
 				}
 			} catch (e: any) {

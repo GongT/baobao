@@ -2,11 +2,17 @@ import { existsSync } from 'fs';
 import { basename, dirname, extname, resolve } from 'path';
 import { relativePath } from '@idlebox/node';
 
-export interface IResolveResult {
+interface ILocalResolve {
+	type: 'file';
 	absolute: string;
 	relative: string;
 	relativeFromRoot: string;
 }
+interface IExternalResolve {
+	type: 'dependency';
+	name: string;
+}
+export type IResolveResult = ILocalResolve | IExternalResolve;
 
 export class MapResolver {
 	constructor(private readonly root: string, private readonly map?: Record<string, string[]>) {}
@@ -50,6 +56,7 @@ export class MapResolver {
 		const found = this._resolve(source, target);
 		if (found) {
 			return {
+				type: 'file',
 				absolute: found,
 				relative: relativePath(dirname(source), found),
 				relativeFromRoot: relativePath(this.root, found),
@@ -60,6 +67,7 @@ export class MapResolver {
 
 	convert(absolute: string): IResolveResult {
 		return {
+			type: 'file',
 			absolute: absolute,
 			relative: basename(absolute, extname(absolute)),
 			relativeFromRoot: relativePath(this.root, absolute),

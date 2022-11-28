@@ -9,6 +9,9 @@
 		"clean": "",
 		"watch": ""
 	},
+	"bin": {
+		"api-extractor-local": "./scripts/api-extractor-local.sh"
+	},
 	"private": true,
 	"dependencies": {
 		"@build-script/node-import-test": "workspace:*",

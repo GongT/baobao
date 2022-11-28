@@ -1,0 +1,1 @@
+export { FSWatcher } from 'chokidar';

@@ -78,8 +78,13 @@ export function generateIndex({ excludes, filter, outFile, project, logger }: IO
 		}
 		if (file.references.length) {
 			content.push('\t// References');
-			for (const item of file.references) {
-				content.push(`\t\texport * from "${importSpec(indexDir, item.relativeFromRoot)}";`);
+			for (const { reference } of file.references) {
+				content.push(
+					`\t\texport * from "${importSpec(
+						indexDir,
+						reference.type === 'file' ? reference.relativeFromRoot : reference.name
+					)}";`
+				);
 			}
 		}
 		if (file.defaultExport) {
