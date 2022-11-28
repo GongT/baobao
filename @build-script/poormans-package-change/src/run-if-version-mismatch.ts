@@ -38,7 +38,8 @@ export async function main(argv: string[]) {
 	const distTag = getArg('--dist-tag', 'latest');
 	const registry = await detectRegistry(getArg('--registry', 'detect'), packagePath);
 
-	const version = await getNewNpmCache(packageJson.name, distTag, registry);
+	const pkg = await getNewNpmCache(packageJson.name, distTag, registry);
+	const version = pkg?.version;
 	log('version = %s', version);
 
 	if (!version || packageJson.version !== version) {
