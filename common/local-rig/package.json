@@ -14,8 +14,8 @@
 	},
 	"private": true,
 	"devDependencies": {
-		"@build-script/node-import-test": "workspace:*",
-		"@build-script/typescript-transformer-dual-package": "workspace:*",
+		"@build-script/node-import-test": "workspace:^",
+		"@build-script/typescript-transformer-dual-package": "workspace:^",
 		"@microsoft/api-extractor": "^7.33.6",
 		"@rushstack/eslint-config": "^3.1.1",
 		"@rushstack/eslint-patch": "^1.2.0",
@@ -24,7 +24,7 @@
 		"eslint": "^8.28.0",
 		"eslint-plugin-import": "^2.26.0",
 		"typescript": "^4.9.3",
-		"@build-script/single-dog-asset": "workspace:*"
+		"@build-script/single-dog-asset": "^1.0.23"
 	},
 	"peerDependencies": {
 		"@build-script/single-dog-asset": "workspace:*"

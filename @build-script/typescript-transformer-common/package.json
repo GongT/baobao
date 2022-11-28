@@ -16,8 +16,8 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "latest",
-		"@idlebox/node": "latest",
+		"@idlebox/common": "^1.3.16",
+		"@idlebox/node": "^1.2.13",
 		"fancy-log": "^2.0.0",
 		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",

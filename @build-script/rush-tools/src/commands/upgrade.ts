@@ -1,7 +1,7 @@
 import { resolve } from 'path';
-import { loadJsonFile, loadJsonFileSync, writeJsonFileBack, writeJsonFileBackSync } from '@idlebox/node-json-edit';
+import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
 import { pathExists, unlink } from 'fs-extra';
-import { IRushConfig } from '../api/limitedJson';
+import { ICProjectConfig, IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
@@ -13,26 +13,37 @@ export default async function runUpgrade(argv: string[]) {
 	const rush = new RushProject();
 
 	info('Collecting local project versions:');
-	const alldeps: any = {};
-	const jsonList: any[] = [];
-	for (const project of rush.projects) {
-		const pkgJson = rush.packageJsonPath(project);
-		if (!pkgJson) {
-			console.error('Error: package.json not found in: %s', project.projectFolder);
-			process.exit(1);
+	const alldeps: Record<string, string> = {};
+	const decoupled: Record<string, string> = {};
+	for (const project of [...rush.projects, ...rush.autoinstallers]) {
+		const packageJson = rush.packageJsonContent(project, true);
+		const myDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
+		Object.assign(alldeps, filter(myDeps));
+
+		if (project.decoupledLocalDependencies) {
+			for (const item of project.decoupledLocalDependencies) {
+				decoupled[item] = '';
+			}
 		}
 
-		const packageJson = await loadJsonFile(pkgJson);
-		const myDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
-		Object.assign(alldeps, myDeps);
-
 		const size = Object.keys(myDeps).length;
-		console.log('  * %s - %s dep%s', project.packageName, size, size > 1 ? 's' : '');
-
-		jsonList.push(packageJson);
+		console.log(
+			'  * %s%s - %s dep%s',
+			project.isAutoInstaller ? '[auto-installer] ' : '',
+			project.packageName,
+			size,
+			size > 1 ? 's' : ''
+		);
 	}
 
 	for (const project of rush.projects) {
+		if (project.shouldPublish) {
+			if (Object.hasOwn(decoupled, project.packageName)) {
+				decoupled[project.packageName] = '^' + rush.packageJsonContent(project, true).version;
+			}
+		} else {
+			delete decoupled[project.packageName];
+		}
 		delete alldeps[project.packageName];
 	}
 
@@ -44,27 +55,40 @@ export default async function runUpgrade(argv: string[]) {
 
 	info('Resolving npm registry:');
 	const map = await resolveNpm(new Map(Object.entries(alldeps)));
+	const dMap = await resolveNpm(new Map(Object.entries(decoupled)));
 
 	for (const [name, version] of Object.entries(rush.preferredVersions)) {
 		map.set(name, version);
 	}
 
 	info('Write changed files:');
-	let totalChange = 0;
-	for (const packageJson of jsonList) {
-		let numChange = update(packageJson.dependencies, map);
+	let hasSomeChange = 0;
+	for (const project of [...rush.projects, ...rush.autoinstallers]) {
+		const packageJson = rush.packageJsonContent(project, true);
+
+		let numChange = 0;
+		numChange += update(packageJson.dependencies, map);
 		numChange += update(packageJson.devDependencies, map);
-		const changed = await writeJsonFileBack(packageJson);
+		numChange += resolveLocalDependency(rush, project, dMap);
+
+		const changed = writeJsonFileBackSync(packageJson);
+
 		if (changed) {
-			console.log('  * %s - %s change%s', packageJson.name, numChange, numChange > 1 ? 's' : '');
+			console.log(
+				'  * %s%s - %s change%s',
+				project.isAutoInstaller ? '[auto-installer] ' : '',
+				packageJson.name,
+				numChange,
+				numChange > 1 ? 's' : ''
+			);
 		}
-		totalChange += numChange;
+		hasSomeChange += numChange;
 	}
 
 	info('Update rush and package manager:');
-	totalChange += updateRushConfig(rush, map);
+	hasSomeChange += updateRushConfig(rush, map);
 
-	if (totalChange == 0) {
+	if (hasSomeChange == 0) {
 		info('OHHHH! No update!');
 		return;
 	}
@@ -90,17 +114,13 @@ function update(target: Record<string, string>, map: Map<string, string>) {
 	let changed = 0;
 	if (!target) return changed;
 	for (const item of Object.keys(target)) {
-		const nver = map.get(item)!;
-		if (!nver) {
-			continue;
-		}
+		const nver = map.get(item);
+		if (!nver) continue;
 
-		if (target[item] === nver) {
-			continue;
-		}
-
-		// console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
+		if (target[item] === nver) continue;
+		console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
 		target[item] = nver;
+
 		changed++;
 	}
 	return changed;
@@ -146,6 +166,44 @@ function collectRush(alldeps: any, rush: RushProject) {
 	if (!alldeps[type]) {
 		alldeps[type] = '^' + version;
 	}
+}
+
+function filter(map: Record<string, string>): Record<string, string> {
+	for (const name of Object.keys(map)) {
+		const v = map[name];
+		if (
+			v.startsWith('.') ||
+			v.startsWith('http') ||
+			v.startsWith('ssh') ||
+			v.startsWith('git') ||
+			v.startsWith('/')
+		) {
+			console.log('\x1B[2mnot supported protocol: %s: %s\x1B[0m', name, v);
+			delete map[name];
+		}
+		if (v.startsWith('workspace:')) {
+			delete map[name];
+		}
+	}
+	return map;
+}
+function resolveLocalDependency(rush: RushProject, project: ICProjectConfig, dMap: Map<string, string>) {
+	let change = 0;
+	if (!project.decoupledLocalDependencies) return change;
+
+	const localMap = new Map<string, string>();
+	for (const item of project.decoupledLocalDependencies) {
+		const v = dMap.get(item);
+		if (!v) continue; // must be private
+
+		localMap.set(item, v);
+	}
+
+	const packageJson = rush.packageJsonContent(project, true);
+	change += update(packageJson.dependencies, localMap);
+	change += update(packageJson.devDependencies, localMap);
+
+	return change;
 }
 
 description(runUpgrade, 'Upgrade all dependencies of every project.');

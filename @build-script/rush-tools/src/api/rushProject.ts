@@ -87,6 +87,7 @@ export class RushProject {
 				packageName: item,
 				projectFolder: rel,
 				decoupledLocalDependencies,
+				isAutoInstaller: true,
 			});
 		}
 		return ret;
@@ -158,14 +159,18 @@ export class RushProject {
 	}
 
 	private packageJsonCache = new Map<string, Object>();
-	public packageJsonContent(project: ICProjectConfig | string): any | null {
+	public packageJsonContent(project: ICProjectConfig | string, reference = false): any | null {
 		const name = typeof project === 'string' ? project : project.packageName;
 		if (!this.packageJsonCache.has(name)) {
 			const pkgPath = this.packageJsonPath(name);
 			if (!pkgPath) return null;
 
-			const content = readJsonSync(pkgPath);
+			const content = loadJsonFileSync(pkgPath);
 			this.packageJsonCache.set(name, content);
+		}
+
+		if (reference) {
+			return this.packageJsonCache.get(name);
 		}
 
 		return JSON.parse(JSON.stringify(this.packageJsonCache.get(name)));

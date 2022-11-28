@@ -10,6 +10,7 @@ export interface IProjectConfig {
 	shouldPublish?: boolean;
 	skipRushCheck?: boolean;
 	versionPolicyName?: string;
+	isAutoInstaller?: boolean;
 }
 
 export type ICProjectConfig = DeepReadonly<Omit<IProjectConfig, 'cyclicDependencyProjects'>>;

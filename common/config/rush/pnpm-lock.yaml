@@ -9,10 +9,10 @@ importers:
     specifiers:
       '@build-script/single-dog-asset': workspace:*
       '@gongt/fix-esm': workspace:*
-      '@idlebox/common': latest
-      '@idlebox/node': latest
-      '@idlebox/node-ignore-edit': latest
-      '@idlebox/node-json-edit': latest
+      '@idlebox/common': ^1.3.16
+      '@idlebox/node': ^1.2.13
+      '@idlebox/node-ignore-edit': ^0.0.4
+      '@idlebox/node-json-edit': ^2.0.24
       '@rushstack/heft': ^0.48.8
       '@types/glob': ^8.0.0
       '@types/node': ^18.11.9
@@ -101,8 +101,8 @@ importers:
       '@build-script/rushstack-config-loader': workspace:*
       '@build-script/single-dog-asset': workspace:*
       '@gongt/fix-esm': workspace:*
-      '@idlebox/node': latest
-      '@idlebox/node-json-edit': latest
+      '@idlebox/node': ^1.2.13
+      '@idlebox/node-json-edit': ^2.0.24
       '@idlebox/tsconfig-loader': latest
       '@idlebox/typescript-surface-analyzer': workspace:*
       '@rushstack/heft': ^0.48.8
@@ -190,10 +190,10 @@ importers:
 
   ../../@build-script/poormans-package-change:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/single-dog-asset': workspace:^
+      '@idlebox/common': workspace:^
+      '@idlebox/node': workspace:^
+      '@idlebox/node-json-edit': workspace:^
       '@pnpm/store-path': ^7.0.0
       '@rushstack/heft': ^0.48.8
       '@types/cacache': ^15.0.1
@@ -206,7 +206,7 @@ importers:
       execa: ^6.1.0
       fs-extra: ^10.1.0
       global-agent: ^3.0.0
-      local-rig: workspace:*
+      local-rig: workspace:^
       semver: ^7.3.8
       source-map-support: ^0.5.21
       targz: ^1.0.1
@@ -239,13 +239,13 @@ importers:
 
   ../../@build-script/rush-tools:
     specifiers:
-      '@build-script/heft-duel-stack': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/ensure-symlink': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@build-script/heft-duel-stack': workspace:^
+      '@build-script/single-dog-asset': workspace:^
+      '@idlebox/common': workspace:^
+      '@idlebox/ensure-symlink': workspace:^
+      '@idlebox/node': workspace:^
+      '@idlebox/node-json-edit': workspace:^
+      '@microsoft/api-extractor': ^7.33.6
       '@microsoft/rush-lib': ^5.85.1
       '@rushstack/heft': ^0.48.8
       '@types/fs-extra': ^9.0.13
@@ -259,7 +259,7 @@ importers:
       dependency-graph: ^0.11.0
       execa: ^6.1.0
       fs-extra: ^10.1.0
-      local-rig: workspace:*
+      local-rig: workspace:^
       ora: ^6.1.2
       pacote: ^15.0.6
       semver: ^7.3.8
@@ -327,21 +327,21 @@ importers:
 
   ../../@build-script/single-dog:
     specifiers:
-      '@build-script/rush-tools': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': workspace:*
-      '@idlebox/ensure-symlink': workspace:*
-      '@idlebox/node': workspace:*
-      '@idlebox/node-json-edit': workspace:*
+      '@build-script/rush-tools': workspace:^
+      '@build-script/single-dog-asset': workspace:^
+      '@idlebox/common': workspace:^
+      '@idlebox/ensure-symlink': workspace:^
+      '@idlebox/node': workspace:^
+      '@idlebox/node-json-edit': workspace:^
       '@rushstack/heft': ^0.48.8
       '@types/fs-extra': ^9.0.13
       '@types/node': ^18.11.9
       fs-extra: ^10.1.0
-      local-rig: workspace:*
+      local-rig: workspace:^
       source-map-support: ^0.5.21
       tslib: ^2.4.1
       typescript: ^4.9.3
-      unipm: workspace:*
+      unipm: workspace:^
     dependencies:
       '@build-script/rush-tools': link:../rush-tools
       '@build-script/single-dog-asset': link:../single-dog-asset
@@ -369,8 +369,8 @@ importers:
   ../../@build-script/typescript-transformer-common:
     specifiers:
       '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': latest
-      '@idlebox/node': latest
+      '@idlebox/common': ^1.3.16
+      '@idlebox/node': ^1.2.13
       '@rushstack/heft': ^0.48.8
       '@types/fancy-log': ^2.0.0
       '@types/fs-extra': ^9.0.13
@@ -422,11 +422,11 @@ importers:
 
   ../../@gongt/fix-esm:
     specifiers:
-      '@build-script/single-dog-asset': workspace:*
+      '@build-script/single-dog-asset': workspace:^
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.9
       fix-esm: ^1.0.1
-      local-rig: workspace:*
+      local-rig: workspace:^
       typescript: ^4.9.3
     dependencies:
       fix-esm: 1.0.1
@@ -448,12 +448,12 @@ importers:
 
   ../../@idlebox/browser:
     specifiers:
-      '@build-script/heft-duel-stack': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/common': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@build-script/heft-duel-stack': workspace:^
+      '@build-script/single-dog-asset': workspace:^
+      '@idlebox/common': workspace:^
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
-      local-rig: workspace:*
+      local-rig: workspace:^
       source-map-support: ^0.5.21
       tslib: ^2.4.1
       typescript: ^4.9.3
@@ -474,7 +474,7 @@ importers:
       '@build-script/heft-duel-stack': workspace:*
       '@build-script/single-dog-asset': workspace:*
       '@idlebox/common': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/debug': ^4.1.7
       '@types/node': ^18.11.9
@@ -500,13 +500,13 @@ importers:
 
   ../../@idlebox/common:
     specifiers:
-      '@build-script/codegen': workspace:*
-      '@build-script/heft-duel-stack': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@idlebox/itypes': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@build-script/codegen': workspace:^
+      '@build-script/heft-duel-stack': workspace:^
+      '@build-script/single-dog-asset': workspace:^
+      '@idlebox/itypes': workspace:^
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
-      local-rig: workspace:*
+      local-rig: workspace:^
       source-map-support: ^0.5.21
       tslib: ^2.4.1
       typescript: ^4.9.3
@@ -564,18 +564,18 @@ importers:
 
   ../../@idlebox/node:
     specifiers:
-      '@build-script/heft-duel-stack': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@gongt/fix-esm': workspace:*
+      '@build-script/heft-duel-stack': workspace:^
+      '@build-script/single-dog-asset': workspace:^
+      '@gongt/fix-esm': workspace:^
       '@gongt/kexec': latest
-      '@idlebox/common': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@idlebox/common': workspace:^
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.9
       chai: ^4.3.7
       execa: ^6.1.0
       fs-extra: ^10.1.0
-      local-rig: workspace:*
+      local-rig: workspace:^
       mocha: ^10.1.0
       source-map-support: ^0.5.21
       tslib: ^2.4.1
@@ -602,15 +602,15 @@ importers:
 
   ../../@idlebox/node-ignore-edit:
     specifiers:
-      '@build-script/heft-duel-stack': workspace:*
-      '@build-script/node-import-test': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@idlebox/common': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@build-script/heft-duel-stack': workspace:^
+      '@build-script/node-import-test': workspace:^
+      '@build-script/single-dog-asset': workspace:^
+      '@build-script/typescript-transformer-dual-package': workspace:^
+      '@idlebox/common': workspace:^
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.9
-      local-rig: workspace:*
+      local-rig: workspace:^
       source-map-support: ^0.5.21
       tslib: ^2.4.1
       typescript: ^4.9.3
@@ -631,16 +631,16 @@ importers:
 
   ../../@idlebox/node-json-edit:
     specifiers:
-      '@build-script/heft-duel-stack': workspace:*
-      '@build-script/node-import-test': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@build-script/heft-duel-stack': workspace:^
+      '@build-script/node-import-test': workspace:^
+      '@build-script/single-dog-asset': workspace:^
+      '@build-script/typescript-transformer-dual-package': workspace:^
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.9
       '@types/prettier': ^2.7.1
       comment-json: ^4.2.3
-      local-rig: workspace:*
+      local-rig: workspace:^
       prettier: ^2.8.0
       source-map-support: ^0.5.21
       tslib: ^2.4.1
@@ -668,7 +668,7 @@ importers:
       '@build-script/single-dog-asset': workspace:*
       '@idlebox/common': workspace:*
       '@idlebox/itypes': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       baobab: ^2.6.1
       local-rig: workspace:*
@@ -714,7 +714,7 @@ importers:
       '@build-script/single-dog-asset': workspace:*
       '@idlebox/common': workspace:*
       '@idlebox/state': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.9
       local-rig: workspace:*
@@ -750,10 +750,10 @@ importers:
 
   ../../@idlebox/typescript-surface-analyzer:
     specifiers:
-      '@idlebox/common': latest
-      '@idlebox/node': latest
-      '@idlebox/node-ignore-edit': latest
-      '@idlebox/node-json-edit': latest
+      '@idlebox/common': ^1.3.16
+      '@idlebox/node': ^1.2.13
+      '@idlebox/node-ignore-edit': ^0.0.4
+      '@idlebox/node-json-edit': ^2.0.24
       '@idlebox/tsconfig-loader': workspace:*
       '@rushstack/heft': ^0.48.8
       '@types/minimatch': ^5.1.2
@@ -784,7 +784,7 @@ importers:
       7zip-bin: ^5.2.0
       '@build-script/heft-duel-stack': workspace:*
       '@build-script/single-dog-asset': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.9
       '@types/split2': ^3.2.1
@@ -814,7 +814,7 @@ importers:
     specifiers:
       '@build-script/heft-duel-stack': workspace:*
       '@build-script/single-dog-asset': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/chai': ^4.3.4
       '@types/mocha': ^10.0.0
@@ -852,7 +852,7 @@ importers:
       '@idlebox/common': workspace:*
       '@idlebox/node': workspace:*
       '@idlebox/node-json-edit': workspace:*
-      '@microsoft/api-extractor': ^7.28.3
+      '@microsoft/api-extractor': ^7.33.6
       '@rushstack/heft': ^0.48.8
       '@types/node': ^18.11.9
       '@types/pacote': ^11.1.5
@@ -884,9 +884,9 @@ importers:
 
   ../local-rig:
     specifiers:
-      '@build-script/node-import-test': workspace:*
-      '@build-script/single-dog-asset': workspace:*
-      '@build-script/typescript-transformer-dual-package': workspace:*
+      '@build-script/node-import-test': workspace:^
+      '@build-script/single-dog-asset': ^1.0.23
+      '@build-script/typescript-transformer-dual-package': workspace:^
       '@microsoft/api-extractor': ^7.33.6
       '@rushstack/eslint-config': ^3.1.1
       '@rushstack/eslint-patch': ^1.2.0
@@ -897,7 +897,7 @@ importers:
       typescript: ^4.9.3
     devDependencies:
       '@build-script/node-import-test': link:../../@build-script/node-import-test
-      '@build-script/single-dog-asset': link:../../@build-script/single-dog-asset
+      '@build-script/single-dog-asset': 1.0.23
       '@build-script/typescript-transformer-dual-package': link:../../@build-script/typescript-transformer-dual-package
       '@microsoft/api-extractor': 7.33.6
       '@rushstack/eslint-config': 3.1.1_typescript@4.9.3
@@ -1322,6 +1322,12 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
     dev: false
+
+  /@build-script/single-dog-asset/1.0.23:
+    resolution: {integrity: sha512-0m0ylbOEK71ZK8LgtbuVqgTiQond7q7x6HR0b+AMG4DqfaSr4FmGN+s9vawPpQYrDi1MXSBdXTeUBrJQSxtr3g==}
+    dependencies:
+      tslib: 2.4.1
+    dev: true
 
   /@cspotcode/source-map-support/0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -3446,7 +3452,7 @@ packages:
       node-sass-tilde-importer: 1.0.2
       please-upgrade-node: 3.2.0
       require-package-name: 2.0.1
-      resolve: 1.22.1
+      resolve: 1.17.0
       vue-template-compiler: 2.7.14
       walkdir: 0.3.2
       yargs: 13.3.2
@@ -8047,7 +8053,6 @@ packages:
 
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
-    dev: false
 
   /tsutils/3.21.0:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

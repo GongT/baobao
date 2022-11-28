@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-require('source-map-support/register');
+if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
+	require('source-map-support/register');
+}
+
 const { prettyPrintError } = require('@idlebox/node');
 
 module.exports.run = run;

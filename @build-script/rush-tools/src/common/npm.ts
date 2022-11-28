@@ -3,10 +3,15 @@ import { getNpmConfigValue } from '@idlebox/node';
 import asyncPool from 'tiny-async-pool';
 
 async function resolveNpmVersion([packageName, currentVersion]: string[]) {
-	const pkgjson = await manifest(packageName + '@latest', { offline: true });
+	const d = new Date();
+	d.setHours(d.getHours() - 1);
+	const pkgjson = await manifest(packageName + '@latest', { before: d });
 	const newVersion = '^' + pkgjson.version;
 	return [packageName, newVersion, currentVersion];
 }
+
+const cs = process.stdout.isTTY ? '\x1B[38;5;12m' : '';
+const ce = process.stdout.isTTY ? '\x1B[0m' : '';
 
 export async function resolveNpm(versions: Map<string, string>) {
 	let i = 1;
@@ -24,7 +29,7 @@ export async function resolveNpm(versions: Map<string, string>) {
 
 		let updated = '';
 		if (currentVersion && currentVersion != newVersion) {
-			updated = ` (from ${currentVersion})`;
+			updated = ` ${cs}(from ${currentVersion})${ce}`;
 		}
 
 		console.log(`  - [${i.toFixed().padStart(padto, ' ')}/${total}] ${packName}: ${newVersion}${updated}`);
