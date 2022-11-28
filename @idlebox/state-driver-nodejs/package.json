@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/state-driver-nodejs",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "communication driver for @idlebox/state",
 	"keywords": [],
 	"license": "MIT",

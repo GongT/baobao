@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/state",
 	"type": "module",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"license": "MIT",
 	"main": "./lib/index.generated.cjs",
 	"module": "./lib/index.generated.js",

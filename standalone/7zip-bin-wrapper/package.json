@@ -1,7 +1,7 @@
 {
 	"name": "7zip-bin-wrapper",
 	"type": "module",
-	"version": "1.0.29",
+	"version": "1.0.30",
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"main": "./lib/index.generated.cjs",

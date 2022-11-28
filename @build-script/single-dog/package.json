@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/single-dog",
 	"type": "commonjs",
-	"version": "2.1.26",
+	"version": "2.1.27",
 	"license": "MIT",
 	"main": "./lib/index.js",
 	"bin": {
