@@ -1,6 +1,6 @@
-import { resolve } from 'path';
 import { convertCatchedError } from '@idlebox/common';
-import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { writeJsonFileBackSync } from '@idlebox/node-json-edit';
+import { ICProjectConfig } from '../api';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { resolveNpm } from '../common/npm';
@@ -12,48 +12,35 @@ export default async function runFix(argv: string[]) {
 	});
 }
 
-async function fix(argv: string[]) {
+async function fix(_argv: string[]) {
 	const localHardVersions = new Map<string, string>(); // 本地硬性依赖，不允许指定其他值
-	const cyclicVersions = new Map<string, string>(); // 循环依赖 - 必须去npm请求才能确定
 	const conflictingVersions = new Map<string, string>(); // 有冲突，需要处理的依赖
+	const locallist = new Set<string>();
 	const blacklist = new Set<string>();
-	const packageJsons: any[] = [];
-	const cyclicPackages = new Map<string, string[]>(); // 循环依赖 - 必须去npm请求才能确定
 
 	console.log('Finding local project versions:');
 	const rush = new RushProject();
-	for (const { projectFolder, packageName, decoupledLocalDependencies } of rush.projects) {
-		const pkgFile = resolve(rush.absolute(projectFolder), 'package.json');
-		const data = await loadJsonFile(pkgFile);
-
-		const version = data.version;
-		console.log(' - %s: %s', packageName, version);
-
-		packageJsons.push(data);
-
-		if (data.private) {
-			blacklist.add(packageName);
-		}
-
-		localHardVersions.set(packageName, '^' + version);
-
-		if (decoupledLocalDependencies && decoupledLocalDependencies.length > 0) {
-			cyclicPackages.set(packageName, decoupledLocalDependencies.slice());
-			for (const id of decoupledLocalDependencies) {
-				cyclicVersions.set(id, '');
+	const dList = new Set<string>();
+	for (const project of rush.projects) {
+		if (project.decoupledLocalDependencies) {
+			for (const i of project.decoupledLocalDependencies) {
+				dList.add(i);
 			}
 		}
-	}
 
-	if (cyclicVersions.size > 0) {
-		console.log('Resolving cyclic dependencies from NPM:');
-		if (argv.includes('--skip-cyclic')) {
-			console.log('  * Skip by --skip-cyclic. (%s)', [...cyclicVersions.keys()].join(', '));
+		const isPub = rush.isProjectPublic(project);
+
+		if (isPub) {
+			locallist.add(project.packageName);
 		} else {
-			await resolveNpm(cyclicVersions);
+			blacklist.add(project.packageName);
 		}
-	} else {
-		console.log('Project do not have cyclic dependencies.');
+	}
+	for (const pn of dList) {
+		if (rush.isProjectPublic(rush.getProject(pn))) {
+			console.log(' - found local dependency: %s', pn);
+			conflictingVersions.set(pn, '');
+		}
 	}
 
 	console.log('Load preferred versions: (common/config/rush/common-versions.json)');
@@ -65,12 +52,24 @@ async function fix(argv: string[]) {
 
 	console.log('Finding conflict dependencies:');
 	const knownVersion = new Map<string, string>();
-	for (const item of packageJsons) {
-		const deps: { [id: string]: string } = Object.assign({}, item.dependencies, item.devDependencies);
+	for (const project of rush.projects) {
+		const data = rush.packageJsonContent(project.projectFolder, true);
+		const deps: { [id: string]: string } = Object.assign({}, data.dependencies, data.devDependencies);
 		for (const [name, version] of Object.entries(deps)) {
 			if (localHardVersions.has(name) || conflictingVersions.has(name)) {
 				continue;
 			}
+
+			if (version === '*' || version === 'latest') {
+				console.log(' - found glob version of %s: %s', name, version);
+				conflictingVersions.set(name, '');
+				continue;
+			}
+
+			if (locallist.has(name) || blacklist.has(name)) {
+				continue;
+			}
+
 			if (knownVersion.has(name)) {
 				if (knownVersion.get(name) !== version) {
 					console.log(' - found mismatch version of %s: %s', name, version);
@@ -88,58 +87,49 @@ async function fix(argv: string[]) {
 
 	console.log('Fixing versions:');
 	let fixed = 0;
-	const isWorkspaceEnabled = rush.isWorkspaceEnabled();
-	const fix = (packName: string, deps: { [id: string]: string }, isDevDeps: boolean) => {
+	const fix = (project: ICProjectConfig, deps: { [id: string]: string }, isDevDeps: boolean) => {
 		if (!deps) {
 			return;
 		}
+		let flShow = false;
 		for (const depName of Object.keys(deps)) {
 			let fix: string | undefined;
+			const lastValue = deps[depName];
 
-			if (cyclicPackages.get(packName)?.includes(depName)) {
-				// this package have cyclic depend, and this dep is cyclic
-				fix = cyclicVersions.get(depName)!;
-				if (isWorkspaceEnabled) {
-					fix = 'npm:' + depName + '@' + fix;
-				}
+			if (lastValue.startsWith('workspace:')) {
+				// as is
 			} else if (localHardVersions.has(depName)) {
 				// depend on other package
 				fix = localHardVersions.get(depName)!;
-				if (isWorkspaceEnabled) {
-					fix = 'workspace:*'; // TODO: configurable
-				}
 			} else if (conflictingVersions.has(depName)) {
-				// depend on NPM package, and
+				// depend on NPM package
 				fix = conflictingVersions.get(depName)!;
 			}
 
 			if (fix && fix !== deps[depName]) {
 				fixed++;
-				console.log('   - update [%s] %s -> %s', depName, deps[depName], fix);
+				console.log('    - update [%s] %s -> %s', depName, deps[depName], fix);
 				deps[depName] = fix;
 			}
-		}
 
-		if (!isDevDeps && !blacklist.has(packName)) {
-			let flShow = false;
-			for (const depName of Object.keys(deps)) {
-				if (blacklist.has(depName)) {
-					if (!flShow) {
-						flShow = true;
-						warn('Warning:');
-					}
-					warn('    package "%s" depend private "%s"', packName, depName);
+			if (!isDevDeps && blacklist.has(depName)) {
+				if (!flShow) {
+					flShow = true;
+					warn('Warning:');
 				}
+				warn('    ! package "%s" depend private "%s"', project.packageName, depName);
 			}
 		}
 	};
 
-	for (const item of packageJsons) {
-		fix(item.name, item.dependencies, false);
-		fix(item.name, item.devDependencies, true);
+	for (const project of rush.projects) {
+		console.log('  %s:', project.packageName);
+		const packageJson = rush.packageJsonContent(project, true);
+		fix(project, packageJson.dependencies, false);
+		fix(project, packageJson.devDependencies, true);
 
-		if (await writeJsonFileBack(item)) {
-			console.log('  updated %s', item.name);
+		if (writeJsonFileBackSync(packageJson)) {
+			console.log('    ~ updated.');
 		}
 	}
 

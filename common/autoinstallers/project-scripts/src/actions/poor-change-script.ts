@@ -87,7 +87,7 @@ async function main() {
 			console.log('       Autofix...');
 			const logFile = rushProject.absolute('common/temp/autofix.log');
 			await execPromise({
-				argv: [syncBin, 'autofix', '--skip-cyclic'],
+				argv: [syncBin, 'fix', '--skip-cyclic'],
 				logFile,
 			});
 			console.log('✨ \x1B[38;5;10m  Updated\x1B[0m (in %s)', humanDate.delta(Date.now() - start));

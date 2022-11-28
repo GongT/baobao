@@ -23,7 +23,7 @@ export function createDeps(rushProject: RushProject) {
 		dep.addNode(project.packageName, {
 			project,
 			packageJson,
-			shouldPublish: (project.shouldPublish ?? true) && !(packageJson.private ?? false),
+			shouldPublish: rushProject.isProjectPublic(project),
 			hasBuildScript: !!rushProject.packageJsonContent(project).scripts?.build,
 		});
 	}

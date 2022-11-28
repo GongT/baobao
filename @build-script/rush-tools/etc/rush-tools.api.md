@@ -205,6 +205,8 @@ export class RushProject {
     // (undocumented)
     getProjectByName(name: string, required?: false): ICProjectConfig | null;
     // (undocumented)
+    isProjectPublic(project: ICProjectConfig): boolean;
+    // (undocumented)
     isWorkspaceEnabled(): boolean | undefined;
     // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point api.d.ts
     //

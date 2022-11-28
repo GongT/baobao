@@ -140,6 +140,17 @@ export class RushProject {
 		return name;
 	}
 
+	public isProjectPublic(project: ICProjectConfig) {
+		if (project.isAutoInstaller) return false;
+
+		if (project.shouldPublish === false) return false;
+
+		const packageJson = this.packageJsonContent(project, true);
+		if (packageJson.private === false) return false;
+
+		return true;
+	}
+
 	public getProjectByName(name: string, required: true): ICProjectConfig;
 	public getProjectByName(name: string, required?: false): ICProjectConfig | null;
 	public getProjectByName(name: string, required = false): ICProjectConfig | null {

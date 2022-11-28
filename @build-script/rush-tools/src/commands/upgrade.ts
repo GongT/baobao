@@ -118,7 +118,7 @@ function update(target: Record<string, string>, map: Map<string, string>) {
 		if (!nver) continue;
 
 		if (target[item] === nver) continue;
-		console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
+		// console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
 		target[item] = nver;
 
 		changed++;
