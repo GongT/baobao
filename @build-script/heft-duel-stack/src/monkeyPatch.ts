@@ -1,3 +1,4 @@
+import { IScopedLogger } from '@rushstack/heft';
 import { ColorValue, ITerminalProvider } from '@rushstack/node-core-library';
 
 import type {
@@ -5,7 +6,6 @@ import type {
 	TypeScriptBuilder as TypeScriptBuilderClass,
 } from '@rushstack/heft/lib/plugins/TypeScriptPlugin/TypeScriptBuilder';
 import type { HeftSession } from '@rushstack/heft/lib/pluginFramework/HeftSession';
-
 /**
  * remove all require above
  * MUST AT TOP, ALL STATEMENTS ABOVE NEVER RUN
@@ -88,6 +88,7 @@ class TypeScriptBuilderExtended extends TypeScriptBuilder {
 		});
 		if (this.selfBuilding) {
 			logger.terminal.writeLine('self building, skip patch');
+			return super.invokeAsync();
 		}
 
 		logger.terminal.writeLine({ text: `  typescript at: ${realTypescript}`, foregroundColor: ColorValue.Gray });

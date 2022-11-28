@@ -17,8 +17,17 @@ function checkPnpmUploadLog(name: string, version: string, log: string) {
 	return log.includes(`+ ${name}@${version}`);
 }
 
-async function main() {
+async function main(argv: string[]) {
 	const rushProject = new RushProject();
+
+	let skip = 0;
+	{
+		const index = argv.indexOf('--skip');
+		skip = parseInt(argv.splice(index, 2).pop());
+		if (isNaN(skip)) {
+			throw new Error('--skip must with number');
+		}
+	}
 
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
 	const pnpmBin = rushProject.getPackageManager().binAbsolute;
@@ -28,6 +37,11 @@ async function main() {
 	buildProjects({ rushProject, concurrent: 1 }, async (item) => {
 		current++;
 		console.error('📦 \x1B[38;5;14mPublishing package (%s of %s):\x1B[0m %s ...', current, count, item.packageName);
+
+		if (--skip > 0) {
+			console.error('    🛑 user request skip...');
+			return;
+		}
 
 		if (!item.shouldPublish) {
 			console.error('    🛑 should not publish, skip!');
@@ -83,7 +97,7 @@ async function main() {
 	});
 }
 
-main().then(
+main(process.argv.slice(2)).then(
 	() => {
 		console.log(`\x1B[38;5;10mComplete.\x1B[0m `);
 	},

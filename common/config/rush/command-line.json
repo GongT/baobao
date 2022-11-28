@@ -140,6 +140,13 @@
 			"shortName": "-v",
 			"description": "要增加、设置的内容 // BUG: 不能有空格",
 			"associatedCommands": ["batch-modify-json"]
+		},
+		{
+			"argumentName": "SKIP",
+			"parameterKind": "string",
+			"longName": "--skip",
+			"description": "跳过N个项目",
+			"associatedCommands": ["ypublish"]
 		}
 	]
 }
