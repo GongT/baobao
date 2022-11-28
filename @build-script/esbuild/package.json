@@ -20,7 +20,7 @@
 		"@idlebox/node": "workspace:*",
 		"chokidar": "^3.5.3",
 		"crc": "^4.1.1",
-		"esbuild": "^0.15.15",
+		"esbuild": "^0.15.16",
 		"esbuild-sass-plugin": "^2.4.1",
 		"express": "^4.18.2",
 		"fs-extra": "^10.1.0",
@@ -30,7 +30,7 @@
 		"sass": "^1.56.1",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.1",
-		"typescript": "^4.8.4"
+		"typescript": "^4.9.3"
 	},
 	"devDependencies": {
 		"@rushstack/heft": "^0.48.8",

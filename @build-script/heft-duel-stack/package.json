@@ -27,7 +27,7 @@
 		"@idlebox/tsconfig-loader": "latest",
 		"@idlebox/typescript-surface-analyzer": "workspace:*",
 		"@rushstack/node-core-library": "^3.53.2",
-		"tslib": "^2.4.0",
+		"tslib": "^2.4.1",
 		"ttypescript": "^1.5.13"
 	},
 	"devDependencies": {
@@ -36,6 +36,6 @@
 		"@types/node": "^18.11.9",
 		"@types/resolve": "^1.20.2",
 		"local-rig": "workspace:*",
-		"typescript": "^4.8.4"
+		"typescript": "^4.9.3"
 	}
 }

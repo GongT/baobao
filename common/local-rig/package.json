@@ -23,7 +23,7 @@
 		"@telia/rush-select": "^0.13.1",
 		"eslint": "^8.28.0",
 		"eslint-plugin-import": "^2.26.0",
-		"typescript": "^4.8.4"
+		"typescript": "^4.9.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:*"

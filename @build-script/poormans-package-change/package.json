@@ -39,7 +39,7 @@
 		"@types/semver": "^7.3.13",
 		"@types/targz": "^1.0.1",
 		"local-rig": "workspace:*",
-		"typescript": "^4.8.4"
+		"typescript": "^4.9.3"
 	},
 	"monorepo": "rush"
 }

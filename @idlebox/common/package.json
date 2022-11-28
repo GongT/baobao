@@ -34,7 +34,7 @@
 		"@rushstack/heft": "^0.48.8",
 		"local-rig": "workspace:*",
 		"source-map-support": "^0.5.21",
-		"typescript": "^4.8.4"
+		"typescript": "^4.9.3"
 	},
 	"monorepo": "rush",
 	"jspm": {

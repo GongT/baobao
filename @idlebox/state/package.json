@@ -34,7 +34,7 @@
 		"@idlebox/itypes": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
 		"local-rig": "workspace:*",
-		"typescript": "^4.8.4"
+		"typescript": "^4.9.3"
 	},
 	"monorepo": "rush",
 	"exportAllInOne": {
