@@ -39,7 +39,7 @@
 		"@build-script/single-dog-asset": "workspace:*",
 		"@build-script/heft-duel-stack": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4",
 		"@types/pacote": "^11.1.5"

@@ -33,7 +33,7 @@
 		"@rushstack/heft": "^0.48.8",
 		"@types/cacache": "^15.0.1",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"@types/request": "^2.48.8",
 		"@types/semver": "^7.3.13",
 		"@types/targz": "^1.0.1",

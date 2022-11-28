@@ -35,7 +35,7 @@
 		"@build-script/single-dog-asset": "workspace:*",
 		"@gongt/kexec": "^3.0.0",
 		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"chai": "^4.3.7",
 		"fs-extra": "^10.1.0",
 		"local-rig": "workspace:*",

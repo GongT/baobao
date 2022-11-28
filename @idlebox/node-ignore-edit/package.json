@@ -3,10 +3,7 @@
 	"type": "module",
 	"version": "0.0.4",
 	"description": "api for modify .*ignore files",
-	"keywords": [
-		"gitignore",
-		"ignorefile"
-	],
+	"keywords": ["gitignore", "ignorefile"],
 	"license": "MIT",
 	"author": "GongT",
 	"main": "./lib/api.cjs",
@@ -37,7 +34,7 @@
 		"@build-script/single-dog-asset": "workspace:*",
 		"@build-script/typescript-transformer-dual-package": "latest",
 		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	}

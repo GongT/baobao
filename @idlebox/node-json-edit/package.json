@@ -3,12 +3,7 @@
 	"type": "module",
 	"version": "2.0.24",
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
-	"keywords": [
-		"comment",
-		"edit",
-		"json",
-		"jsonc"
-	],
+	"keywords": ["comment", "edit", "json", "jsonc"],
 	"license": "MIT",
 	"main": "./lib/index.cjs",
 	"module": "./lib/index.js",
@@ -38,7 +33,7 @@
 		"@build-script/single-dog-asset": "workspace:*",
 		"@build-script/typescript-transformer-dual-package": "latest",
 		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"@types/prettier": "^2.7.1",
 		"local-rig": "workspace:*",
 		"source-map-support": "^0.5.21",

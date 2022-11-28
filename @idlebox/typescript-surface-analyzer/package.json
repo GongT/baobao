@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"@types/minimatch": "^5.1.2",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},

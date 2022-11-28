@@ -3,6 +3,10 @@
 echo --------------------------------------------
 echo "Starting Git hook: pre-commit"
 
+if ! command -v node &>/dev/null; then
+	export PATH+=":/usr/nodejs/bin:/usr/local/bin:./common/temp/node_modules/.bin"
+fi
+
 node common/scripts/install-run-rush.js pretty --staged
 RET=$?
 

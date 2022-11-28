@@ -34,7 +34,7 @@
 		"@build-script/single-dog-asset": "workspace:*",
 		"@idlebox/state": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},

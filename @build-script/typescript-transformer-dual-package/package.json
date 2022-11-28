@@ -3,15 +3,7 @@
 	"type": "commonjs",
 	"version": "2.0.3",
 	"description": "A TypeScript transformer for (mainly) use with ttypescript that will (semi-)auto create dual package hazard.",
-	"keywords": [
-		"commonjs",
-		"dual package",
-		"es modules",
-		"esm",
-		"transformer",
-		"ttypescript",
-		"typescript"
-	],
+	"keywords": ["commonjs", "dual package", "es modules", "esm", "transformer", "ttypescript", "typescript"],
 	"license": "MIT",
 	"main": "./lib/register.js",
 	"exports": "./lib/register.js",
@@ -34,7 +26,7 @@
 		"@build-script/node-import-test": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},

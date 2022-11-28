@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
+/// <reference lib="node" />
+
 const { createRequire } = require('module');
-const { readlinkSync, readFileSync } = require('fs');
+const { readlinkSync, readFileSync, writeFileSync, existsSync } = require('fs');
 const { resolve } = require('path');
 
 const pnpmGlobalBin = resolve(process.execPath, '..', 'pnpm');
@@ -35,6 +37,11 @@ if (process.env.EXEC_BY_PNPM || process.env.INSTALL_RUN_LOCKFILE_PATH) {
 	// console.error('corepack run npm', argv);
 	req('corepack/dist/corepack.js').runMain(['npm', ...argv]);
 } else {
+	if (process.cwd().includes('/temp/install-run/')) {
+		if (!existsSync('pnpm-workspace.yaml')) {
+			writeFileSync('pnpm-workspace.yaml', '');
+		}
+	}
 	process.env.EXEC_BY_PNPM = 'yes';
 	// console.error('corepack run PNPM', argv);
 	req('corepack/dist/corepack.js').runMain(['pnpm', ...argv]);

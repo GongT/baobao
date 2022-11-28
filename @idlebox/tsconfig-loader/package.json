@@ -21,7 +21,7 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@types/node": "^18.11.0",
+		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},
