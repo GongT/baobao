@@ -4,6 +4,151 @@
 
 ```ts
 
+import { ExecaChildProcess } from 'execa';
+import { Options } from 'execa';
+
+// Warning: (ae-missing-release-tag) "deletePackageDependency" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function deletePackageDependency(file: string, ...deps: string[]): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "formatPackageJson" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function formatPackageJson(file: string, args: string[]): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "getPackageManager" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function getPackageManager(_options?: Partial<IGetPackageManagerOptions>): Promise<PackageManager>;
+
+// Warning: (ae-missing-release-tag) "getPackageManagerByName" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function getPackageManagerByName(name: string): PackageManagerConstructor | undefined;
+
+// Warning: (ae-missing-release-tag) "IGetPackageManagerOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IGetPackageManagerOptions {
+    // (undocumented)
+    ask: boolean;
+    // (undocumented)
+    cwd: string;
+    // (undocumented)
+    default: 'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto';
+    // (undocumented)
+    packageJson?: string;
+}
+
+// Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGER_NAMES" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const KNOWN_PACKAGE_MANAGER_NAMES: string[];
+
+// Warning: (ae-missing-release-tag) "KNOWN_PACKAGE_MANAGERS" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[];
+
+// Warning: (ae-missing-release-tag) "PackageManager" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export abstract class PackageManager {
+    constructor(cwd: string);
+    // (undocumented)
+    protected __invoke(cmd: string, args: string[], spawnOptions: Options): ExecaChildProcess<string>;
+    // (undocumented)
+    protected abstract readonly cliName: string;
+    // (undocumented)
+    protected readonly cwd: string;
+    detect(): Promise<this | undefined>;
+    // (undocumented)
+    protected abstract _detect(): Promise<boolean>;
+    // (undocumented)
+    protected _detectFile(file: string): Promise<boolean>;
+    displayBeforeCommandRun: boolean;
+    exists(): Promise<string | undefined>;
+    // (undocumented)
+    abstract readonly friendlyName: string;
+    init(...args: string[]): Promise<void>;
+    // (undocumented)
+    protected readonly initCommand: string;
+    install(...packages: string[]): Promise<void>;
+    // (undocumented)
+    protected abstract readonly installCommand: string;
+    // (undocumented)
+    protected abstract readonly installDevFlag: string;
+    // (undocumented)
+    protected _invoke(cmd: string, args: string[], spawnOptions?: Options): Promise<void>;
+    invokeCli(cmd: string, ...args: string[]): Promise<void>;
+    protected _invokeErrorLater(cmd: string, args: string[], spawnOptions?: Omit<Options, 'stdio' | 'encoding'>): Promise<void>;
+    // (undocumented)
+    protected abstract readonly packageName: string;
+    run(script: string, ...args: string[]): Promise<void>;
+    // (undocumented)
+    protected readonly runCommand: string;
+    show(...args: string[]): Promise<void>;
+    // (undocumented)
+    protected readonly showCommand: string;
+    sync(...args: string[]): Promise<void>;
+    // (undocumented)
+    protected abstract readonly syncCommand: string;
+    // (undocumented)
+    abstract readonly type: PackageManagerType;
+    // (undocumented)
+    uninstall(...packages: string[]): Promise<void>;
+    // (undocumented)
+    protected abstract readonly uninstallCommand: string;
+}
+
+// Warning: (ae-missing-release-tag) "PackageManagerConstructor" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface PackageManagerConstructor {
+    // (undocumented)
+    new (cwd: string): PackageManager;
+}
+
+// Warning: (ae-missing-release-tag) "PackageManagerType" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export enum PackageManagerType {
+    // (undocumented)
+    NPM = 0,
+    // (undocumented)
+    PNPM = 1,
+    // (undocumented)
+    RUSH = 2,
+    // (undocumented)
+    YARN = 3
+}
+
+// Warning: (ae-missing-release-tag) "reformatPackageJson" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function reformatPackageJson({ ...packageJson }: any): typeof packageJson;
+
+// Warning: (ae-missing-release-tag) "resolveLatestVersionOnNpm" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function resolveLatestVersionOnNpm(packageName: string): Promise<string>;
+
+// Warning: (ae-missing-release-tag) "resortPackage" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function resortPackage(file: string): Promise<void>;
+
+// Warnings were encountered during analysis:
+//
+// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
+// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
+// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:40:31 - (TS2304) Cannot find name 'URL'.
+// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:120:26 - (TS2304) Cannot find name 'URL'.
+// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:127:17 - (TS2503) Cannot find namespace 'NodeJS'.
+// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:237:20 - (TS2304) Cannot find name 'AbortSignal'.
+
 // (No @packageDocumentation comment for this package)
 
 ```

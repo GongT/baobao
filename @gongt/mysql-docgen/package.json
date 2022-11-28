@@ -16,8 +16,7 @@
 	"bin": {
 		"mysql-docgenerate": "bin/mysql-docgen.cjs"
 	},
-	"typings": "./lib/package-public.d.ts",
-	"types": "./lib/package-public.d.ts",
+	"types": "./lib/api.d.ts",
 	"scripts": {
 		"lint": "heft build",
 		"build": "heft build --production",
@@ -51,7 +50,8 @@
 		"@types/react": "^18.0.25",
 		"@types/react-dom": "^18.0.9",
 		"local-rig": "workspace:*",
-		"typescript": "^4.8.4"
+		"typescript": "^4.8.4",
+		"@build-script/heft-duel-stack": "workspace:*"
 	},
 	"exportAllInOne": {
 		"exportEverything": false

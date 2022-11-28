@@ -131,11 +131,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@gongt/mysql-docgen",
-			"projectFolder": "@gongt/mysql-docgen",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "7zip-bin-wrapper",
 			"projectFolder": "standalone/7zip-bin-wrapper",
 			"shouldPublish": true

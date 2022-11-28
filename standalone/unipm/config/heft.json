@@ -2,5 +2,5 @@
 	"$schema": "https://developer.microsoft.com/json-schemas/heft/heft.schema.json",
 	"extends": "local-rig/profiles/default/heft.json",
 	"eventActions": [],
-	"heftPlugins": []
+	"heftPlugins": [{ "plugin": "@build-script/heft-duel-stack" }]
 }

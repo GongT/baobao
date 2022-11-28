@@ -3,11 +3,11 @@
 	"type": "module",
 	"version": "1.1.13",
 	"license": "MIT",
-	"main": "./lib/_export_all_in_one_index.cjs",
+	"main": "./lib/index.generated.cjs",
 	"exports": {
 		".": {
-			"import": "./lib/_export_all_in_one_index.js",
-			"require": "./lib/_export_all_in_one_index.cjs"
+			"import": "./lib/index.generated.js",
+			"require": "./lib/index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
@@ -15,7 +15,7 @@
 		"unipm": "./bin.cjs",
 		"unpm": "./bin.cjs"
 	},
-	"typings": "./lib/package-public.d.ts",
+	"typings": "./lib/unipm-public.d.ts",
 	"scripts": {
 		"lint": "heft build",
 		"build": "heft build --production",
@@ -37,10 +37,12 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:*",
+		"@build-script/heft-duel-stack": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.0",
 		"local-rig": "workspace:*",
-		"typescript": "^4.8.4"
+		"typescript": "^4.8.4",
+		"@types/pacote": "^11.1.5"
 	},
 	"monorepo": true
 }

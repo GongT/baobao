@@ -3,7 +3,7 @@ import { dirname, relative, resolve } from 'path';
 import { promisify } from 'util';
 import { findUpUntil } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
-import { parse } from 'json5';
+import json5 from 'json5';
 import { deletePackageDependency, resortPackage } from '../common/packageJson';
 import { PackageManager, PackageManagerType } from '../common/packageManager';
 
@@ -31,7 +31,7 @@ export class Rush extends PackageManager {
 			return false;
 		}
 		this.rushRoot = dirname(found);
-		const data = parse(await readFile(found, 'utf-8'));
+		const data = json5.parse(await readFile(found, 'utf-8'));
 		let pm = '';
 		for (const key of ['pnpm', 'npm', 'yarn']) {
 			if (data[key + 'Version']) {

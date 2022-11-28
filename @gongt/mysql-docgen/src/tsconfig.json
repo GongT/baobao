@@ -4,8 +4,10 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"outDir": "../lib",
-		"declarationDir": "../temp/dts",
+		// "declarationDir": "../temp/dts",
 		"rootDir": "./",
+		"declaration": false,
+		"declarationMap": false,
 
 		"lib": ["ESNext", "DOM"]
 	},

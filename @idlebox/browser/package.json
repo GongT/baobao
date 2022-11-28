@@ -3,11 +3,12 @@
 	"type": "module",
 	"version": "0.0.25",
 	"license": "MIT",
-	"main": "./lib/_export_all_in_one_index.cjs",
+	"main": "./lib/index.generated.cjs",
+	"module": "./lib/index.generated.js",
 	"exports": {
 		".": {
-			"import": "./lib/_export_all_in_one_index.js",
-			"require": "./lib/_export_all_in_one_index.cjs"
+			"import": "./lib/index.generated.js",
+			"require": "./lib/index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
