@@ -24,6 +24,7 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
+		"@build-script/node-import-test": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
 		"@types/fancy-log": "^2.0.0",

@@ -102,6 +102,8 @@ export interface IProjectConfig {
     // (undocumented)
     decoupledLocalDependencies?: string[];
     // (undocumented)
+    isAutoInstaller?: boolean;
+    // (undocumented)
     packageName: string;
     // (undocumented)
     projectFolder: string;
@@ -196,6 +198,7 @@ export class RushProject {
         readonly shouldPublish?: boolean | undefined;
         readonly skipRushCheck?: boolean | undefined;
         readonly versionPolicyName?: string | undefined;
+        readonly isAutoInstaller?: boolean | undefined;
     };
     // (undocumented)
     getProjectByName(name: string, required: true): ICProjectConfig;
@@ -208,7 +211,7 @@ export class RushProject {
     // (undocumented)
     packageDependency(project: ICProjectConfig | string, options?: IProjectDependencyOptions): string[];
     // (undocumented)
-    packageJsonContent(project: ICProjectConfig | string): any | null;
+    packageJsonContent(project: ICProjectConfig | string, reference?: boolean): any | null;
     // (undocumented)
     packageJsonPath(project: ICProjectConfig | string): string | null;
     // (undocumented)

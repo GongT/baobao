@@ -368,6 +368,7 @@ importers:
 
   ../../@build-script/typescript-transformer-common:
     specifiers:
+      '@build-script/node-import-test': workspace:*
       '@build-script/single-dog-asset': workspace:*
       '@idlebox/common': ^1.3.16
       '@idlebox/node': ^1.2.13
@@ -389,6 +390,7 @@ importers:
       source-map-support: 0.5.21
       tslib: 2.4.1
     devDependencies:
+      '@build-script/node-import-test': link:../node-import-test
       '@build-script/single-dog-asset': link:../single-dog-asset
       '@rushstack/heft': 0.48.8
       '@types/fancy-log': 2.0.0
