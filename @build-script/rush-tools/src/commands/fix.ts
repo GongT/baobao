@@ -22,7 +22,7 @@ async function fix(argv: string[]) {
 
 	console.log('Finding local project versions:');
 	const rush = new RushProject();
-	for (const { projectFolder, packageName, cyclicDependencyProjects } of rush.projects) {
+	for (const { projectFolder, packageName, decoupledLocalDependencies } of rush.projects) {
 		const pkgFile = resolve(rush.absolute(projectFolder), 'package.json');
 		const data = await loadJsonFile(pkgFile);
 
@@ -37,9 +37,9 @@ async function fix(argv: string[]) {
 
 		localHardVersions.set(packageName, '^' + version);
 
-		if (cyclicDependencyProjects && cyclicDependencyProjects.length > 0) {
-			cyclicPackages.set(packageName, cyclicDependencyProjects.slice());
-			for (const id of cyclicDependencyProjects) {
+		if (decoupledLocalDependencies && decoupledLocalDependencies.length > 0) {
+			cyclicPackages.set(packageName, decoupledLocalDependencies.slice());
+			for (const id of decoupledLocalDependencies) {
 				cyclicVersions.set(id, '');
 			}
 		}

@@ -8,8 +8,9 @@
 		"single-dog": "./bin.js"
 	},
 	"scripts": {
+		"prepack": "heft build --production --clean",
 		"lint": "heft build",
-		"build": "heft build --production",
+		"build": "heft build",
 		"build:watch": "heft build --lite",
 		"watch": "heft build --watch",
 		"clean": "heft clean"

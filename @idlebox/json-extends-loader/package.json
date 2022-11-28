@@ -9,10 +9,10 @@
 	"main": "./lib/api.js",
 	"types": "./lib/api.d.ts",
 	"scripts": {
-		"prepack": "heft build --clean --production",
+		"prepack": "heft build --production --clean",
 		"test": "heft test",
 		"lint": "heft build",
-		"build": "heft build --production",
+		"build": "heft build",
 		"build:watch": "heft build --lite",
 		"watch": "heft build --watch",
 		"clean": "heft clean"

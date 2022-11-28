@@ -5,6 +5,7 @@
 ```ts
 
 import { DeepReadonly } from '@idlebox/common';
+import { DepGraph } from 'dependency-graph';
 
 // Warning: (ae-missing-release-tag) "buildProjects" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "buildProjects" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -14,6 +15,11 @@ export function buildProjects(builder: IProjectCallback): Promise<void>;
 
 // @public (undocumented)
 export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createDeps" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createDeps(rushProject: RushProject): DepGraph<IGraphAttachedData>;
 
 // Warning: (ae-missing-release-tag) "eachProject" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -53,7 +59,29 @@ export interface IBuildProjectOptions {
 // Warning: (ae-missing-release-tag) "ICProjectConfig" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export type ICProjectConfig = DeepReadonly<IProjectConfig>;
+export type ICProjectConfig = DeepReadonly<Omit<IProjectConfig, 'cyclicDependencyProjects'>>;
+
+// Warning: (ae-missing-release-tag) "ICRushConfig" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface ICRushConfig extends DeepReadonly<IRushConfig> {
+    // (undocumented)
+    projects: IProjectConfig[];
+}
+
+// Warning: (ae-missing-release-tag) "IGraphAttachedData" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IGraphAttachedData {
+    // (undocumented)
+    readonly hasBuildScript: boolean;
+    // (undocumented)
+    readonly packageJson: any;
+    // (undocumented)
+    readonly project: ICProjectConfig;
+    // (undocumented)
+    readonly shouldPublish: boolean;
+}
 
 // Warning: (ae-missing-release-tag) "IProjectCallback" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -67,8 +95,12 @@ export interface IProjectCallback {
 //
 // @public (undocumented)
 export interface IProjectConfig {
-    // (undocumented)
+    // Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
+    //
+    // @deprecated (undocumented)
     cyclicDependencyProjects?: string[];
+    // (undocumented)
+    decoupledLocalDependencies?: string[];
     // (undocumented)
     packageName: string;
     // (undocumented)
@@ -137,14 +169,16 @@ export class RushProject {
     // (undocumented)
     readonly autoinstallers: readonly ICProjectConfig[];
     // (undocumented)
-    readonly config: DeepReadonly<IRushConfig>;
+    readonly config: ICRushConfig;
     // (undocumented)
     readonly configFile: string;
     // (undocumented)
     get configRoot(): string;
     // (undocumented)
     copyNpmrc(project: ICProjectConfig | string, symlink?: boolean, force?: boolean): Promise<void>;
-    // (undocumented)
+    // Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
+    //
+    // @deprecated (undocumented)
     getPackageByName(name: string): ICProjectConfig | null;
     // (undocumented)
     getPackageManager(): {
@@ -154,11 +188,25 @@ export class RushProject {
         version: string;
     };
     // (undocumented)
+    getProject(name: string | ICProjectConfig): {
+        readonly packageName: string;
+        readonly projectFolder: string;
+        readonly reviewCategory?: string | undefined;
+        readonly decoupledLocalDependencies?: readonly string[] | undefined;
+        readonly shouldPublish?: boolean | undefined;
+        readonly skipRushCheck?: boolean | undefined;
+        readonly versionPolicyName?: string | undefined;
+    };
+    // (undocumented)
+    getProjectByName(name: string, required: true): ICProjectConfig;
+    // (undocumented)
+    getProjectByName(name: string, required?: false): ICProjectConfig | null;
+    // (undocumented)
     isWorkspaceEnabled(): boolean | undefined;
     // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point api.d.ts
     //
     // (undocumented)
-    packageDependency(project: ICProjectConfig | string, { removeCyclic, development }?: IProjectDependencyOptions): string[];
+    packageDependency(project: ICProjectConfig | string, options?: IProjectDependencyOptions): string[];
     // (undocumented)
     packageJsonContent(project: ICProjectConfig | string): any | null;
     // (undocumented)

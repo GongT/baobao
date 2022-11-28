@@ -12,7 +12,8 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"build": "heft build --production",
+		"prepack": "heft build --production --clean",
+		"build": "heft build",
 		"build:watch": "heft build --lite",
 		"watch": "heft build --watch",
 		"clean": "heft clean"

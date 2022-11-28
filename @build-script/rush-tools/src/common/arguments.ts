@@ -51,6 +51,13 @@ export function optionalArgument(name: string): string | undefined {
 	}
 }
 
+export function shiftArgumentFlag(argv: string[], flag: string): boolean {
+	const found = argv.indexOf('--' + flag);
+	if (found === -1) return false;
+	argv.splice(found, 1);
+	return true;
+}
+
 export interface IArgumentsDefine {
 	name: string;
 	optional?: boolean;

@@ -44,64 +44,65 @@
 			"packageName": "@gongt/fix-esm",
 			"projectFolder": "@gongt/fix-esm",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/ensure-symlink",
 			"projectFolder": "@idlebox/ensure-symlink",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/node-json-edit",
 			"projectFolder": "@idlebox/node-json-edit",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/node-ignore-edit",
 			"projectFolder": "@idlebox/node-ignore-edit",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/itypes",
 			"projectFolder": "@idlebox/itypes",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/common",
 			"projectFolder": "@idlebox/common",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/browser",
 			"projectFolder": "@idlebox/browser",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/node",
 			"projectFolder": "@idlebox/node",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/rush-tools",
 			"projectFolder": "@build-script/rush-tools",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/poormans-package-change",
 			"projectFolder": "@build-script/poormans-package-change",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/single-dog",
 			"projectFolder": "@build-script/single-dog",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/single-dog-asset",
@@ -128,32 +129,38 @@
 		{
 			"packageName": "unipm",
 			"projectFolder": "standalone/unipm",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "7zip-bin-wrapper",
 			"projectFolder": "standalone/7zip-bin-wrapper",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "cjke-strings",
 			"projectFolder": "standalone/cjke",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/chokidar",
 			"projectFolder": "@idlebox/chokidar",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/state",
 			"projectFolder": "@idlebox/state",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/heft-run",
 			"projectFolder": "@build-script/heft-run",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/codegen",
@@ -163,7 +170,8 @@
 				"@idlebox/common",
 				"@idlebox/node",
 				"@idlebox/node-ignore-edit",
-				"@idlebox/node-json-edit"
+				"@idlebox/node-json-edit",
+				"local-rig"
 			]
 		},
 		{
@@ -174,58 +182,67 @@
 				"@idlebox/common",
 				"@idlebox/node",
 				"@idlebox/node-ignore-edit",
-				"@idlebox/node-json-edit"
+				"@idlebox/node-json-edit",
+				"local-rig"
 			]
 		},
 		{
 			"packageName": "@idlebox/tsconfig-loader",
 			"projectFolder": "@idlebox/tsconfig-loader",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/heft-duel-stack",
 			"projectFolder": "@build-script/heft-duel-stack",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@idlebox/node"]
+			"decoupledLocalDependencies": ["@idlebox/node", "local-rig", "@idlebox/node-json-edit"]
 		},
 		{
 			"packageName": "@build-script/rushstack-config-loader",
 			"projectFolder": "@build-script/rushstack-config-loader",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/json-extends-loader",
 			"projectFolder": "@idlebox/json-extends-loader",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/heft-plugin-entry",
 			"projectFolder": "@build-script/heft-plugin-entry",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/state-driver-electron",
 			"projectFolder": "@idlebox/state-driver-electron",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@idlebox/state-driver-nodejs",
 			"projectFolder": "@idlebox/state-driver-nodejs",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@gongt/pnpm-instead-npm",
 			"projectFolder": "@gongt/pnpm-instead-npm",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/esbuild",
 			"projectFolder": "@build-script/esbuild",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/node-import-test",
-			"projectFolder": "@build-script/import-test",
+			"projectFolder": "@build-script/node-import-test",
 			"shouldPublish": true,
 			"decoupledLocalDependencies": ["local-rig"]
 		}

@@ -1,37 +1,37 @@
-import { resolve } from 'path';
 import { DeepReadonly } from '@idlebox/common';
-import { loadJsonFileSync } from '@idlebox/node-json-edit';
 import { DepGraph } from 'dependency-graph';
-import { pathExistsSync } from 'fs-extra';
 import { RunQueue } from '../common/runnerQueue';
-import { IProjectConfig } from './limitedJson';
+import { ICProjectConfig, IProjectConfig } from './limitedJson';
 import { RushProject } from './rushProject';
 
 export interface IProjectCallback {
 	(project: DeepReadonly<IProjectConfig>): Promise<void>;
 }
 
-function createDeps(rushProject: RushProject) {
-	const dep = new DepGraph<boolean>();
+export interface IGraphAttachedData {
+	readonly packageJson: any;
+	readonly hasBuildScript: boolean;
+	readonly shouldPublish: boolean;
+	readonly project: ICProjectConfig;
+}
 
-	const filterOutNoBuild = rushProject.projects.filter((project) => {
-		return !!rushProject.packageJsonContent(project).scripts?.build;
-	});
+export function createDeps(rushProject: RushProject) {
+	const dep = new DepGraph<IGraphAttachedData>();
 
-	for (const { packageName } of filterOutNoBuild) {
-		dep.addNode(packageName, false);
+	for (const project of rushProject.projects) {
+		const packageJson = rushProject.packageJsonContent(project);
+		dep.addNode(project.packageName, {
+			project,
+			packageJson,
+			shouldPublish: (project.shouldPublish ?? true) && !(packageJson.private ?? false),
+			hasBuildScript: !!rushProject.packageJsonContent(project).scripts?.build,
+		});
 	}
-	for (const { packageName } of filterOutNoBuild) {
-		const deps = rushProject.packageDependency(packageName, { development: true, removeCyclic: true });
+
+	for (const { packageName } of rushProject.projects) {
+		const deps = rushProject.packageDependency(packageName, { removeCyclic: true, includingRuntime: true });
 		for (const name of deps) {
 			dep.addDependency(packageName, name);
-		}
-
-		const runtimeDeps = rushProject.packageDependency(packageName, { development: false, removeCyclic: true });
-		for (const name of runtimeDeps) {
-			if (isTypingsProvider(rushProject.packageJsonPath(name)!)) {
-				dep.addDependency(packageName, name);
-			}
 		}
 	}
 	return dep;
@@ -39,7 +39,21 @@ function createDeps(rushProject: RushProject) {
 
 export function overallOrder(rushProject = new RushProject()): DeepReadonly<IProjectConfig>[] {
 	const dep = createDeps(rushProject);
-	return dep.overallOrder().map((name) => rushProject.getPackageByName(name)!);
+	return dep.overallOrder().map((name) => {
+		return dep.getNodeData(name).project;
+	});
+}
+
+function filterBuildscript(list: IGraphAttachedData[]) {
+	return list.filter((e) => {
+		return e.hasBuildScript;
+	});
+}
+
+function mapData(deps: DepGraph<IGraphAttachedData>, list: string[] = deps.overallOrder()) {
+	return list.map((e) => {
+		return deps.getNodeData(e);
+	});
 }
 
 export interface IBuildProjectOptions {
@@ -63,33 +77,38 @@ export async function buildProjects(
 	const { rushProject = new RushProject(), concurrent = 4 } = opts;
 
 	const dep = createDeps(rushProject);
-	const overall = dep.overallOrder().map((name) => rushProject.getPackageByName(name)!);
+	const overall = filterBuildscript(mapData(dep));
 
 	const q = new RunQueue(builder, concurrent);
-	for (const proj of overall) {
-		q.register(proj.packageName, proj, dep.dependenciesOf(proj.packageName));
+	for (const { project } of overall) {
+		const sub = filterBuildscript(mapData(dep, dep.dependenciesOf(project.packageName)));
+		q.register(
+			project.packageName,
+			project,
+			sub.map((e) => e.project.packageName)
+		);
 	}
 
 	await q.run();
 }
 
-function isTypingsProvider(packagePath: string) {
-	const data = loadJsonFileSync(packagePath);
-	if (data.typings) {
-		return true;
-	}
-	if (data.main) {
-		const f = resolve(packagePath, '..', data.main);
-		if (pathExistsSync(f.replace(/\..+$/, '.d.ts'))) {
-			return true;
-		}
-		if (pathExistsSync(f + '.d.ts')) {
-			return true;
-		}
-	}
-	if (pathExistsSync(resolve(packagePath, '../index.d.ts'))) {
-		return true;
-	}
+// function isTypingsProvider(packagePath: string) {
+// 	const data = loadJsonFileSync(packagePath);
+// 	if (data.typings || data.types) {
+// 		return true;
+// 	}
+// 	if (data.main) {
+// 		const f = resolve(packagePath, '..', data.main);
+// 		if (pathExistsSync(f.replace(/\..+$/, '.d.ts'))) {
+// 			return true;
+// 		}
+// 		if (pathExistsSync(f + '.d.ts')) {
+// 			return true;
+// 		}
+// 	}
+// 	if (pathExistsSync(resolve(packagePath, '../index.d.ts'))) {
+// 		return true;
+// 	}
 
-	return false;
-}
+// 	return false;
+// }

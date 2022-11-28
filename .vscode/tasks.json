@@ -68,7 +68,8 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			}
+			},
+			"dependsOn": ["Fast Update"]
 		},
 		{
 			"label": "Cleanup Everything",

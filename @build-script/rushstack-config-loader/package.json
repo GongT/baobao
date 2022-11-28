@@ -1,5 +1,6 @@
 {
 	"name": "@build-script/rushstack-config-loader",
+	"type": "commonjs",
 	"version": "0.0.7",
 	"description": "",
 	"keywords": [],
@@ -7,11 +8,12 @@
 	"author": "",
 	"main": "lib/api.js",
 	"scripts": {
-		"prepack": "run-s clean build",
-		"build:watch": "tsc -p src",
-		"build": "tsc -p src",
-		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib dist .rush temp"
+		"prepack": "heft build --production --clean",
+		"lint": "heft build",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"dependencies": {
 		"@idlebox/json-extends-loader": "workspace:*",

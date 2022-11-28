@@ -39,10 +39,12 @@
 		]
 	},
 	"scripts": {
-		"watch": "tsc -w -p src",
-		"build:watch": "tsc -p src",
-		"build": "tsc -p src",
-		"clean": "rimraf lib dist .rush temp"
+		"prepack": "heft build --production --clean",
+		"lint": "heft build",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"dependencies": {
 		"tslib": "^2.4.0",
@@ -50,10 +52,10 @@
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.68.0",
+		"@rushstack/heft": "^0.48.8",
 		"@build-script/single-dog-asset": "workspace:*1.0.19",
 		"local-rig": "workspace:*",
 		"@types/node": "^18.0.3",
-		"typescript": "^4.7.4",
-		"rimraf": "^3.0.2"
+		"typescript": "^4.7.4"
 	}
 }

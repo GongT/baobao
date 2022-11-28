@@ -7,10 +7,11 @@
 		"poormans-package-change": "./bin/load.js"
 	},
 	"scripts": {
+		"prepack": "heft build --production --clean",
 		"lint": "heft build",
-		"build": "tsc -p src",
-		"build:watch": "tsc -p src",
-		"watch": "tsc -p src -w",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",

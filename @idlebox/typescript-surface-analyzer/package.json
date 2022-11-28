@@ -16,11 +16,12 @@
 	},
 	"types": "./lib/api.d.ts",
 	"scripts": {
-		"prepack": "run-s clean build",
-		"build:watch": "tsc -p src",
-		"build": "tsc -p src",
-		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib dist .rush temp"
+		"prepack": "heft build --production --clean",
+		"lint": "heft build",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
@@ -35,6 +36,7 @@
 	},
 	"devDependencies": {
 		"@types/minimatch": "^5.1.2",
+		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"

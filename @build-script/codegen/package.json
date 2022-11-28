@@ -9,11 +9,12 @@
 	"bin": "bin.js",
 	"types": "./lib/client.d.ts",
 	"scripts": {
-		"prepack": "run-s clean build",
-		"build": "tsc -p src",
-		"build:watch": "tsc -p src",
-		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib dist .rush temp"
+		"prepack": "heft build --production --clean",
+		"lint": "heft build",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

@@ -8,8 +8,7 @@
 	"scripts": {
 		"build": "",
 		"build:watch": "",
-		"clean": "",
-		"prepack": ""
+		"clean": ""
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

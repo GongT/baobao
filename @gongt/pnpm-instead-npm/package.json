@@ -8,8 +8,7 @@
 	"scripts": {
 		"build": "",
 		"build:watch": "",
-		"clean": "",
-		"prepack": ""
+		"clean": ""
 	},
 	"preferGlobal": true,
 	"optionalDependencies": {

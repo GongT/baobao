@@ -1,22 +1,22 @@
 import { createHash } from 'crypto';
 import { dirname, resolve } from 'path';
-import { DeepReadonly, isWindows } from '@idlebox/common';
+import { isWindows } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { relativePath, writeFileIfChange } from '@idlebox/node';
 import { loadJsonFileSync } from '@idlebox/node-json-edit';
 import { pathExists, pathExistsSync, readdirSync, readFile, readJsonSync } from 'fs-extra';
 import { requireRushPathSync } from '../common/loadRushJson';
-import { ICProjectConfig, IProjectConfig, IRushConfig } from './limitedJson';
+import { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson';
 
 interface IProjectDependencyOptions {
 	removeCyclic?: boolean;
-	development?: boolean;
+	includingRuntime?: boolean;
 }
 
 export class RushProject {
 	public readonly configFile: string;
 	public readonly projectRoot: string;
-	public readonly config: DeepReadonly<IRushConfig>;
+	public readonly config: ICRushConfig;
 	public readonly autoinstallers: readonly ICProjectConfig[];
 	private declare _preferredVersions: { [id: string]: string };
 
@@ -25,7 +25,33 @@ export class RushProject {
 		this.configFile = configFile;
 		this.projectRoot = dirname(configFile);
 
-		this.config = loadJsonFileSync(configFile);
+		const config: IRushConfig = loadJsonFileSync(configFile);
+		for (const project of config.projects ?? []) {
+			if (project.decoupledLocalDependencies && project.cyclicDependencyProjects) {
+				throw new Error(
+					'rush.json contains invalid project: ' +
+						JSON.stringify(project, null, 4) +
+						' (cyclicDependencyProjects and decoupledLocalDependencies both exists)'
+				);
+			} else if (project.cyclicDependencyProjects) {
+				console.error(
+					'\x1B[38;5;11mdeprecated: cyclicDependencyProjects, use decoupledLocalDependencies.\x1B[0m'
+				);
+				project.decoupledLocalDependencies = project.cyclicDependencyProjects;
+				delete project.cyclicDependencyProjects;
+			}
+
+			project.toString = () => {
+				return project.packageName;
+			};
+		}
+
+		this.config = config;
+		Object.freeze(config);
+		Object.freeze(config.pnpmOptions);
+		config.projects.forEach(Object.freeze);
+		Object.freeze(config.projects);
+
 		this.autoinstallers = [];
 		this.autoinstallers = this.listAutoInstallers();
 	}
@@ -45,14 +71,14 @@ export class RushProject {
 				continue;
 			}
 
-			const cyclicDependencyProjects = [];
+			const decoupledLocalDependencies = [];
 			const pkg = readJsonSync(pkgJson);
 			const keys: string[] = [];
 			if (pkg.dependencies) keys.push(...Object.keys(pkg.dependencies));
 			if (pkg.devDependencies) keys.push(...Object.keys(pkg.devDependencies));
 			for (const dep of keys) {
 				if (this.getPackageByName(dep)) {
-					cyclicDependencyProjects.push(dep);
+					decoupledLocalDependencies.push(dep);
 				}
 			}
 
@@ -60,7 +86,7 @@ export class RushProject {
 			ret.push({
 				packageName: item,
 				projectFolder: rel,
-				cyclicDependencyProjects,
+				decoupledLocalDependencies,
 			});
 		}
 		return ret;
@@ -103,10 +129,25 @@ export class RushProject {
 		}
 	}
 
+	/** @deprecated */
 	public getPackageByName(name: string): ICProjectConfig | null {
+		return this.getProjectByName(name);
+	}
+
+	public getProject(name: string | ICProjectConfig) {
+		if (typeof name === 'string') return this.getProjectByName(name, true);
+		return name;
+	}
+
+	public getProjectByName(name: string, required: true): ICProjectConfig;
+	public getProjectByName(name: string, required?: false): ICProjectConfig | null;
+	public getProjectByName(name: string, required = false): ICProjectConfig | null {
 		let f = this.projects.find(({ packageName }) => name === packageName);
 		if (!f) {
 			f = this.autoinstallers.find(({ packageName }) => name === packageName);
+		}
+		if (!f && required) {
+			throw new Error('missing project with name ' + name);
 		}
 		return f || null;
 	}
@@ -116,46 +157,73 @@ export class RushProject {
 		return pathExistsSync(p) ? p : null;
 	}
 
+	private packageJsonCache = new Map<string, Object>();
 	public packageJsonContent(project: ICProjectConfig | string): any | null {
-		const p = resolve(this.absolute(project), 'package.json');
-		return pathExistsSync(p) ? readJsonSync(p) : null;
+		const name = typeof project === 'string' ? project : project.packageName;
+		if (!this.packageJsonCache.has(name)) {
+			const pkgPath = this.packageJsonPath(name);
+			if (!pkgPath) return null;
+
+			const content = readJsonSync(pkgPath);
+			this.packageJsonCache.set(name, content);
+		}
+
+		return JSON.parse(JSON.stringify(this.packageJsonCache.get(name)));
 	}
 
-	public packageDependency(
-		project: ICProjectConfig | string,
-		{ removeCyclic, development }: IProjectDependencyOptions = {}
-	): string[] {
-		const pkgFile = this.packageJsonPath(project);
-		if (!pkgFile) {
-			throw new Error('file not readable: ' + pkgFile);
+	public packageDependency(project: ICProjectConfig | string, options: IProjectDependencyOptions = {}): string[] {
+		let projectName: string;
+		let cyclicList: readonly string[];
+		if (typeof project === 'string') {
+			projectName = project;
+			cyclicList = this.getProjectByName(project, true).decoupledLocalDependencies || [];
+		} else {
+			projectName = project.packageName;
+			cyclicList = project.decoupledLocalDependencies || [];
 		}
-		const pkg = loadJsonFileSync(pkgFile);
-		const deps: { [id: string]: any } = {};
-		if (development !== true && pkg.dependencies) Object.assign(deps, pkg.dependencies);
-		if (development !== false && pkg.devDependencies) Object.assign(deps, pkg.devDependencies);
 
-		let cyclicCheck: readonly string[] | undefined;
-		if (removeCyclic) {
-			if (typeof project === 'string') {
-				const p = this.getPackageByName(project);
-				if (!p) {
-					throw new Error('project ' + project + ' does not exists.');
-				}
-				cyclicCheck = p.cyclicDependencyProjects;
-			} else {
-				cyclicCheck = project.cyclicDependencyProjects;
+		const pkg = this.packageJsonContent(project);
+		if (!pkg) {
+			throw new Error('file json not readable: ' + project.toString());
+		}
+		const deps: { [id: string]: any } = { ...(pkg.devDependencies || {}) };
+		if (options.includingRuntime && pkg.dependencies) {
+			Object.assign(deps, pkg.dependencies);
+		}
+
+		for (const item of cyclicList) {
+			if (!deps[item]) {
+				console.warn(
+					`\x1B[38;5;11mproject "${projectName}" set "${item}" as decoupled, but never depend on it\x1B[0m`
+				);
 			}
 		}
 
-		const depNames: string[] = [];
-		for (const { packageName } of this.projects) {
-			if (!deps[packageName]) continue;
+		const localDepNames = [];
+		for (const name of Object.keys(deps)) {
+			if (typeof deps[name] !== 'string') {
+				throw new Error(`project "${projectName}" package.json structure error`);
+			}
 
-			if (cyclicCheck && cyclicCheck.includes(packageName)) continue;
+			if (deps[name].startsWith('workspace:')) {
+				if (!this.getProjectByName(name)) {
+					throw new Error(`project "${projectName}" depend local "${name}", but not exists`);
+				}
+				if (cyclicList.includes(name) && (options.removeCyclic ?? true)) {
+					continue;
+				}
 
-			depNames.push(packageName);
+				localDepNames.push(name);
+			} else if (this.getProjectByName(name)) {
+				if (!cyclicList.includes(name)) {
+					console.warn(
+						`\x1B[38;5;11mproject "${projectName}" depend on "${name}" from npm, but not set decoupled\x1B[0m`
+					);
+				}
+			}
 		}
-		return depNames;
+
+		return localDepNames;
 	}
 
 	isWorkspaceEnabled() {

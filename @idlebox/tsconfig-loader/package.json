@@ -1,20 +1,28 @@
 {
 	"name": "@idlebox/tsconfig-loader",
-	"type": "commonjs",
+	"type": "module",
 	"version": "1.0.3",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "lib/index.js",
-	"exports": "./lib/index.js",
+	"main": "./lib/index.cjs",
+	"module": "./lib/index.js",
+	"exports": {
+		".": {
+			"import": "./lib/index.js",
+			"require": "./lib/index.cjs"
+		},
+		"./package.json": "./package.json"
+	},
 	"types": "./lib/index.d.ts",
 	"scripts": {
-		"prepack": "run-s clean build",
-		"build:watch": "tsc -p src",
-		"build": "tsc -p src",
-		"watch": "tsc -p src --watch",
-		"clean": "rimraf lib dist .rush temp"
+		"prepack": "heft build --production --clean",
+		"lint": "heft build",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
@@ -22,6 +30,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.9",
+		"@rushstack/heft": "^0.48.8",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
 	},

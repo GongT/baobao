@@ -4,13 +4,15 @@ export interface IProjectConfig {
 	packageName: string;
 	projectFolder: string;
 	reviewCategory?: string;
+	/** @deprecated */
 	cyclicDependencyProjects?: string[];
+	decoupledLocalDependencies?: string[];
 	shouldPublish?: boolean;
 	skipRushCheck?: boolean;
 	versionPolicyName?: string;
 }
 
-export type ICProjectConfig = DeepReadonly<IProjectConfig>;
+export type ICProjectConfig = DeepReadonly<Omit<IProjectConfig, 'cyclicDependencyProjects'>>;
 export interface IRushConfig {
 	npmVersion?: string;
 	pnpmVersion?: string;
@@ -24,4 +26,8 @@ export interface IRushConfig {
 		preventManualShrinkwrapChanges?: boolean;
 		useWorkspaces?: boolean;
 	};
+}
+
+export interface ICRushConfig extends DeepReadonly<IRushConfig> {
+	projects: IProjectConfig[];
 }

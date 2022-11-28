@@ -16,7 +16,8 @@
 	},
 	"typings": "./lib/node-json-edit.d.ts",
 	"scripts": {
-		"build": "heft build --production",
+		"prepack": "heft build --production --clean",
+		"build": "heft build",
 		"build:watch": "heft build --lite",
 		"watch": "heft build --watch",
 		"clean": "heft clean"
@@ -31,7 +32,7 @@
 		"@build-script/heft-duel-stack": "workspace:*",
 		"@build-script/node-import-test": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
-		"@build-script/typescript-transformer-dual-package": "latest",
+		"@build-script/typescript-transformer-dual-package": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.9",
 		"@types/prettier": "^2.7.1",

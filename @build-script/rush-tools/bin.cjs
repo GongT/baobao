@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// require('source-map-support/register');
+require('source-map-support/register');
 const { prettyPrintError } = require('@idlebox/node');
 
 module.exports.run = run;

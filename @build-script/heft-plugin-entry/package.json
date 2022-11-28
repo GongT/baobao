@@ -7,11 +7,12 @@
 	"author": "GongT <admin@gongt.me>",
 	"main": "lib/entry.js",
 	"scripts": {
-		"prepack": "run-s -l clean build",
-		"clean": "rimraf lib dist .rush temp",
-		"watch": "tsc -p src -w",
-		"build:watch": "tsc -p src",
-		"build": "tsc -p src"
+		"prepack": "heft build --production --clean",
+		"lint": "heft build",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"dependencies": {
 		"tslib": "^2.4.1"

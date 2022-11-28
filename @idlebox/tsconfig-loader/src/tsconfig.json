@@ -1,11 +1,12 @@
 {
 	"extends": "local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
-		"module": "CommonJS",
+		"module": "ESNext",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"tsBuildInfoFile": "../lib/tsbuildinfo.json",
 		"outDir": "../lib",
 		"rootDir": "./",
+		"declarationDir": "../lib",
 		"types": ["node"]
 	}
 }

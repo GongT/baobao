@@ -18,7 +18,7 @@
 		"build:watch": "",
 		"watch": "",
 		"prepack": "",
-		"clean": "rimraf lib dist .rush temp",
+		"clean": "rimraf lib dist temp",
 		"postinstall": ""
 	},
 	"repository": "https://github.com/GongT/baobao",

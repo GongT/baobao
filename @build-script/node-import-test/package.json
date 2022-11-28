@@ -1,10 +1,12 @@
 {
-	"name": "@build-script/heft-run",
+	"name": "@build-script/node-import-test",
 	"type": "commonjs",
-	"version": "0.0.6",
-	"description": "run any script in heft",
-	"main": "./load.js",
-	"types": "./lib/main.d.ts",
+	"version": "0.0.1",
+	"main": "./heft.js",
+	"module": "./test-main.mjs",
+	"bin": {
+		"node-import-test": "bin.js"
+	},
 	"scripts": {
 		"prepack": "heft build --production --clean",
 		"lint": "heft build",
@@ -13,12 +15,7 @@
 		"watch": "heft build --watch",
 		"clean": "heft clean"
 	},
-	"dependencies": {
-		"@gongt/fix-esm": "workspace:*",
-		"execa": "^6.1.0"
-	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",

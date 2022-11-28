@@ -6,19 +6,18 @@
 	"keywords": [],
 	"license": "MIT",
 	"author": "",
-	"main": "./lib/auto-detect.js",
 	"exports": {
-		".": "./lib/auto-detect.js",
 		"./main": "./lib/electron.main.js",
 		"./package.json": "./package.json",
 		"./renderer": "./lib/electron.render.js"
 	},
 	"scripts": {
-		"prepack": "run-s -l clean build",
-		"clean": "rimraf lib dist .rush temp",
-		"watch": "tsc -p src -w",
-		"build:watch": "tsc -p src",
-		"build": "tsc -p src"
+		"prepack": "heft build --production --clean",
+		"lint": "heft build",
+		"build": "heft build",
+		"build:watch": "heft build --lite",
+		"watch": "heft build --watch",
+		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
@@ -28,6 +27,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:*",
 		"@idlebox/state": "workspace:*",
+		"@rushstack/heft": "^0.48.8",
 		"electron": "^21.3.1",
 		"local-rig": "workspace:*",
 		"typescript": "^4.8.4"
