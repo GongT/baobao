@@ -46,7 +46,6 @@ async function main() {
 	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.cjs');
 
 	for (const [index, item] of projects.entries()) {
-		if (item._isAutoInstaller) continue;
 		let start: number = Date.now();
 
 		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s (%s/%s)', item.packageName, index, projects.length);
