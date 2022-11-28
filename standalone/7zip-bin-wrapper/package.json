@@ -4,12 +4,12 @@
 	"version": "1.0.29",
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "./lib/index.cjs",
-	"module": "./lib/index.js",
+	"main": "./lib/index.generated.cjs",
+	"module": "./lib/index.generated.js",
 	"exports": {
 		".": {
-			"import": "./lib/index.js",
-			"require": "./lib/index.cjs"
+			"import": "./lib/index.generated.js",
+			"require": "./lib/index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},

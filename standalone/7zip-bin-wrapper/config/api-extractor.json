@@ -6,5 +6,5 @@
 	"extends": "local-rig/profiles/default/api-extractor.json",
 
 	"projectFolder": "../src",
-	"mainEntryPointFilePath": "../temp/dts/index.d.ts"
+	"mainEntryPointFilePath": "../temp/dts/index.generated.d.ts"
 }

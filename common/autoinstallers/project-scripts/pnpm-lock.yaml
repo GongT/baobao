@@ -465,7 +465,7 @@ packages:
     dev: false
 
   /@gongt/kexec/3.0.0:
-    resolution: {integrity: sha512-HoNnINhgeWsDrfqUtf5g7CDNWJpVcOhtKKeG4jVaf3sHeF5usFpGdLQlMbNA50oTKiS0n9CMOxh9On/1uvVvMw==}
+    resolution: {integrity: sha1-XYdgu4QvlGru3HZCkGKgI9VLY70=, tarball: https://repo.moffettai.com:443/artifactory/api/npm/npm/@gongt/kexec/-/kexec-3.0.0.tgz}
     engines: {node: '>=0.10'}
     requiresBuild: true
     dependencies:
@@ -1254,7 +1254,7 @@ packages:
     dev: false
 
   /commander/2.20.3:
-    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+    resolution: {integrity: sha1-/UhehMA+tIgcIHIrpIA16FMa6zM=, tarball: https://repo.moffettai.com:443/artifactory/api/npm/npm/commander/-/commander-2.20.3.tgz}
     requiresBuild: true
     dev: false
     optional: true
@@ -1367,7 +1367,7 @@ packages:
     dev: false
 
   /encoding/0.1.13:
-    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+    resolution: {integrity: sha1-VldK/deR9UqOmyeFwFgqLSYhD6k=, tarball: https://repo.moffettai.com:443/artifactory/api/npm/npm/encoding/-/encoding-0.1.13.tgz}
     requiresBuild: true
     dependencies:
       iconv-lite: 0.6.3
@@ -2201,7 +2201,7 @@ packages:
     dev: false
 
   /nan/2.16.0:
-    resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    resolution: {integrity: sha1-Zk9D5FRg+5j68A7coLsNe43OeRY=, tarball: https://repo.moffettai.com:443/artifactory/api/npm/npm/nan/-/nan-2.16.0.tgz}
     dev: false
     optional: true
 
