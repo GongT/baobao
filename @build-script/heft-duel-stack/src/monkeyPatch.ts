@@ -57,6 +57,7 @@ function findSelf(die = true): string {
 class TypeScriptBuilderExtended extends TypeScriptBuilder {
 	protected declare readonly _configuration: IExtendConfig & ITypeScriptBuilder['_configuration'];
 	private readonly isDebug: boolean;
+	private readonly selfBuilding: boolean;
 
 	constructor(
 		parentGlobalTerminalProvider: ITerminalProvider,
@@ -65,6 +66,7 @@ class TypeScriptBuilderExtended extends TypeScriptBuilder {
 		emitCallback: () => void
 	) {
 		super(parentGlobalTerminalProvider, configuration, heftSession, emitCallback);
+		this.selfBuilding = configuration.buildFolder.endsWith('@build-script/heft-duel-stack');
 
 		if (configuration.builderPackageDir) {
 			this._configuration.builderPackageDir = configuration.builderPackageDir;
@@ -84,6 +86,10 @@ class TypeScriptBuilderExtended extends TypeScriptBuilder {
 			text: require(realTypescript + '/package.json').version,
 			foregroundColor: ColorValue.Magenta,
 		});
+		if (this.selfBuilding) {
+			logger.terminal.writeLine('self building, skip patch');
+		}
+
 		logger.terminal.writeLine({ text: `  typescript at: ${realTypescript}`, foregroundColor: ColorValue.Gray });
 		logger.terminal.writeLine({ text: `  source code at: ${__filename}`, foregroundColor: ColorValue.Gray });
 

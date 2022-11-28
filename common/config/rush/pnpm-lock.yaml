@@ -103,7 +103,7 @@ importers:
       '@gongt/fix-esm': workspace:*
       '@idlebox/node': ^1.2.13
       '@idlebox/node-json-edit': ^2.0.24
-      '@idlebox/tsconfig-loader': latest
+      '@idlebox/tsconfig-loader': ^1.0.2
       '@idlebox/typescript-surface-analyzer': workspace:*
       '@rushstack/heft': ^0.48.8
       '@rushstack/node-core-library': ^3.53.2

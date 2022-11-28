@@ -60,9 +60,9 @@ jobs:
             echo "::error ::构建后有文件发生变化" >&2
           fi
 
-      - name: '发布版本号有变化的包到NPM'
-        run: |
-          node common/scripts/install-run-rush.js build-autoinstaller
-          node common/scripts/install-run-rush.js ypublish
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      # - name: '发布版本号有变化的包到NPM'
+      #   run: |
+      #     node common/scripts/install-run-rush.js build-autoinstaller
+      #     node common/scripts/install-run-rush.js ypublish
+      #   env:
+      #     NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
