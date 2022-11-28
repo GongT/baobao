@@ -8,17 +8,18 @@
 		"node-import-test": "bin.js"
 	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
-		"clean": "heft clean"
+		"prepack": "run-s clean build",
+		"build": "tsc -p src",
+		"build:watch": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib rush-logs temp"
 	},
 	"devDependencies": {
-		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.9",
+		"@rushstack/heft": "^0.48.8",
 		"local-rig": "workspace:*",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
 		"typescript": "^4.9.3"
 	}
 }

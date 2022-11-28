@@ -34,6 +34,7 @@
 		"@idlebox/common": "workspace:*",
 		"@idlebox/ensure-symlink": "workspace:*",
 		"@idlebox/node": "workspace:*",
+		"@microsoft/api-extractor": "^7.28.3",
 		"@idlebox/node-json-edit": "workspace:*",
 		"@microsoft/rush-lib": "^5.85.1",
 		"cli-spinners": "^2.7.0",

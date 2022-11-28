@@ -34,6 +34,7 @@
 		"@build-script/heft-duel-stack": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
 		"@gongt/kexec": "^3.0.0",
+		"@microsoft/api-extractor": "^7.28.3",
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.9",
 		"chai": "^4.3.7",

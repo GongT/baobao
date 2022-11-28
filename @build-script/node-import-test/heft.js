@@ -1,2 +1,3 @@
 Error.stackTraceLimit = Infinity;
-module.exports = require('./lib/heft.js');
+const path = require('path');
+module.exports = require(path.resolve(__dirname, './lib/heft.js'));

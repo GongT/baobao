@@ -15,6 +15,7 @@ common/deploy
 *.lock
 .lock
 temp/
+*.bak
 
 ### Build Result
 dist/

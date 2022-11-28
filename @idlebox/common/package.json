@@ -29,6 +29,7 @@
 	"devDependencies": {
 		"@build-script/codegen": "workspace:*",
 		"@build-script/heft-duel-stack": "workspace:*",
+		"@microsoft/api-extractor": "^7.28.3",
 		"@build-script/single-dog-asset": "workspace:*",
 		"@idlebox/itypes": "workspace:*",
 		"@rushstack/heft": "^0.48.8",

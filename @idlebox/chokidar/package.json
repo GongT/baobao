@@ -30,6 +30,7 @@
 	},
 	"devDependencies": {
 		"@build-script/heft-duel-stack": "workspace:*",
+		"@microsoft/api-extractor": "^7.28.3",
 		"@build-script/single-dog-asset": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
 		"@types/debug": "^4.1.7",

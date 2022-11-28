@@ -35,6 +35,7 @@
 		"@build-script/single-dog-asset": "workspace:*",
 		"@build-script/typescript-transformer-dual-package": "workspace:*",
 		"@rushstack/heft": "^0.48.8",
+		"@microsoft/api-extractor": "^7.28.3",
 		"@types/node": "^18.11.9",
 		"local-rig": "workspace:*",
 		"typescript": "^4.9.3"

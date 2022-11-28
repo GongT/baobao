@@ -38,13 +38,13 @@
 		{
 			"packageName": "local-rig",
 			"projectFolder": "common/local-rig",
-			"shouldPublish": false
+			"shouldPublish": false,
+			"decoupledLocalDependencies": ["@build-script/single-dog-asset"]
 		},
 		{
 			"packageName": "@gongt/fix-esm",
 			"projectFolder": "@gongt/fix-esm",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/ensure-symlink",
@@ -54,14 +54,12 @@
 		{
 			"packageName": "@idlebox/node-json-edit",
 			"projectFolder": "@idlebox/node-json-edit",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/node-ignore-edit",
 			"projectFolder": "@idlebox/node-ignore-edit",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/itypes",
@@ -71,54 +69,38 @@
 		{
 			"packageName": "@idlebox/common",
 			"projectFolder": "@idlebox/common",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/browser",
 			"projectFolder": "@idlebox/browser",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/node",
 			"projectFolder": "@idlebox/node",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/rush-tools",
 			"projectFolder": "@build-script/rush-tools",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/poormans-package-change",
 			"projectFolder": "@build-script/poormans-package-change",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/single-dog",
 			"projectFolder": "@build-script/single-dog",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/single-dog-asset",
 			"projectFolder": "@build-script/single-dog-asset",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@build-script/typescript-transformer-dual-package",
-			"projectFolder": "@build-script/typescript-transformer-dual-package",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@build-script/heft-duel-stack", "local-rig"]
-		},
-		{
-			"packageName": "@build-script/dual-package-runtime",
-			"projectFolder": "@build-script/dual-package-runtime",
-			"shouldPublish": true
+			"decoupledLocalDependencies": ["local-rig"]
 		},
 		{
 			"packageName": "@build-script/typescript-transformer-common",
@@ -127,40 +109,45 @@
 			"decoupledLocalDependencies": ["@idlebox/common", "@idlebox/node", "local-rig"]
 		},
 		{
-			"packageName": "unipm",
-			"projectFolder": "standalone/unipm",
+			"packageName": "@build-script/typescript-transformer-dual-package",
+			"projectFolder": "@build-script/typescript-transformer-dual-package",
 			"shouldPublish": true,
 			"decoupledLocalDependencies": ["local-rig"]
+		},
+		{
+			"packageName": "@build-script/dual-package-runtime",
+			"projectFolder": "@build-script/dual-package-runtime",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "unipm",
+			"projectFolder": "standalone/unipm",
+			"shouldPublish": true
 		},
 		{
 			"packageName": "7zip-bin-wrapper",
 			"projectFolder": "standalone/7zip-bin-wrapper",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "cjke-strings",
 			"projectFolder": "standalone/cjke",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/chokidar",
 			"projectFolder": "@idlebox/chokidar",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/state",
 			"projectFolder": "@idlebox/state",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/heft-run",
 			"projectFolder": "@build-script/heft-run",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/codegen",
@@ -170,8 +157,7 @@
 				"@idlebox/common",
 				"@idlebox/node",
 				"@idlebox/node-ignore-edit",
-				"@idlebox/node-json-edit",
-				"local-rig"
+				"@idlebox/node-json-edit"
 			]
 		},
 		{
@@ -182,63 +168,54 @@
 				"@idlebox/common",
 				"@idlebox/node",
 				"@idlebox/node-ignore-edit",
-				"@idlebox/node-json-edit",
-				"local-rig"
+				"@idlebox/node-json-edit"
 			]
 		},
 		{
 			"packageName": "@idlebox/tsconfig-loader",
 			"projectFolder": "@idlebox/tsconfig-loader",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/heft-duel-stack",
 			"projectFolder": "@build-script/heft-duel-stack",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@idlebox/node", "local-rig", "@idlebox/node-json-edit"]
+			"decoupledLocalDependencies": ["@idlebox/node", "@idlebox/node-json-edit", "local-rig"]
 		},
 		{
 			"packageName": "@build-script/rushstack-config-loader",
 			"projectFolder": "@build-script/rushstack-config-loader",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/json-extends-loader",
 			"projectFolder": "@idlebox/json-extends-loader",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/heft-plugin-entry",
 			"projectFolder": "@build-script/heft-plugin-entry",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/state-driver-electron",
 			"projectFolder": "@idlebox/state-driver-electron",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@idlebox/state-driver-nodejs",
 			"projectFolder": "@idlebox/state-driver-nodejs",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@gongt/pnpm-instead-npm",
 			"projectFolder": "@gongt/pnpm-instead-npm",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/esbuild",
 			"projectFolder": "@build-script/esbuild",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/node-import-test",

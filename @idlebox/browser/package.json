@@ -29,6 +29,7 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:*",
+		"@microsoft/api-extractor": "^7.28.3",
 		"@rushstack/heft": "^0.48.8",
 		"local-rig": "workspace:*",
 		"typescript": "^4.9.3",

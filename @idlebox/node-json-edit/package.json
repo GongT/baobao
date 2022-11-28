@@ -33,6 +33,7 @@
 		"@build-script/node-import-test": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:*",
 		"@build-script/typescript-transformer-dual-package": "workspace:*",
+		"@microsoft/api-extractor": "^7.28.3",
 		"@rushstack/heft": "^0.48.8",
 		"@types/node": "^18.11.9",
 		"@types/prettier": "^2.7.1",
