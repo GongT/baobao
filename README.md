@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.com/GongT/baobao.svg?branch=master)](https://travis-ci.com/GongT/baobao)
-[![Actions Status](https://github.com/GongT/baobao/workflows/Test%20Build/badge.svg)](https://github.com/GongT/baobao/actions)
+[![Actions Status](https://github.com/GongT/baobao/workflows/ci/badge.svg)](https://github.com/GongT/baobao/actions)
 
 # GongT's Node.js Monorepo
 
