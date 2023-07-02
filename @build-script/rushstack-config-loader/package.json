@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rushstack-config-loader",
 	"type": "commonjs",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",

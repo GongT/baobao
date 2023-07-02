@@ -27,7 +27,10 @@ temp
 ### Tests
 /tests
 /test
-lib/test*
+lib/**/test/
+lib/**/tests/
+lib/**/*.test.*
+lib/**/test.*
 
 ### Temp Files
 
