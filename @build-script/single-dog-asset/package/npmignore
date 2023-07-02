@@ -27,6 +27,7 @@ temp
 ### Tests
 /tests
 /test
+lib/test*
 
 ### Temp Files
 

@@ -2,13 +2,12 @@ import { existsSync } from 'fs';
 import { createRequire } from 'module';
 import { basename, resolve } from 'path';
 import { createDynamicReader, loadInheritedJson } from '@idlebox/json-extends-loader';
-import { IExtendParsedCommandLine, loadTsConfigJsonFile } from '@idlebox/tsconfig-loader';
-import { RigConfig } from '@rushstack/rig-package';
+import { IFilledOptions, loadTsConfigJsonFile } from '@idlebox/tsconfig-loader';
+import { IRigConfig, RigConfig } from '@rushstack/rig-package';
 
 import type * as TApiExtractor from '@microsoft/api-extractor';
 import type { HeftConfiguration } from '@rushstack/heft';
-import type { ITypeScriptConfigurationJson } from '@rushstack/heft/lib/plugins/TypeScriptPlugin/TypeScriptPlugin';
-
+import type { ITypeScriptConfigurationJson } from '@rushstack/heft-typescript-plugin';
 const cache = new WeakMap<HeftConfiguration, RushStackConfig>();
 
 const isModuleResolutionError = (ex: any) =>
@@ -19,7 +18,10 @@ const isModuleResolutionError = (ex: any) =>
 
 export function loadHeftConfig(heftConfiguration: HeftConfiguration): RushStackConfig {
 	if (!cache.has(heftConfiguration)) {
-		cache.set(heftConfiguration, new RushStackConfig(heftConfiguration.buildFolder, heftConfiguration.rigConfig));
+		cache.set(
+			heftConfiguration,
+			new RushStackConfig(heftConfiguration.buildFolderPath, heftConfiguration.rigConfig)
+		);
 	}
 	return cache.get(heftConfiguration)!;
 }
@@ -30,9 +32,9 @@ export interface IWarning {
 
 export class RushStackConfig {
 	private typescriptConfig?: ITypeScriptConfigurationJson;
-	private tsconfigConfig?: IExtendParsedCommandLine;
+	private tsconfigConfig?: IFilledOptions;
 	private apiExtractorConfig?: TApiExtractor.IConfigFile;
-	private readonly rigConfig: RigConfig;
+	private readonly rigConfig: IRigConfig;
 	private readonly localRequire: NodeRequire;
 	private readonly rigRequire?: NodeRequire;
 	private readonly localRequirePath: string;
@@ -43,11 +45,11 @@ export class RushStackConfig {
 	 *
 	 * @param projectFolder absolute path of directory where the package.json is in
 	 */
-	constructor(projectFolder: string, rigConfig?: RigConfig, private readonly warning: IWarning = console.warn) {
+	constructor(projectFolder: string, rigConfig?: IRigConfig, private readonly warning: IWarning = console.warn) {
 		this.rigConfig = rigConfig || RigConfig.loadForProjectFolder({ projectFolderPath: projectFolder });
 		if (this.rigConfig.rigFound) {
-			this.rigRequirePath = this.rigConfig.getResolvedProfileFolder();
-			this.rigRequire = createRequire(this.rigRequirePath);
+			this.rigRequirePath = resolve(this.rigConfig.getResolvedProfileFolder(), '../..');
+			this.rigRequire = createRequire(this.rigRequirePath + '/package.json');
 		}
 		this.projectFolder = this.rigConfig.projectFolderPath;
 		this.localRequirePath = this.projectFolder;
@@ -70,17 +72,7 @@ export class RushStackConfig {
 			);
 		}
 
-		return this.loadRig('typescript.json');
-	}
-	private loadRig(file: string) {
-		if (!this.rigConfig.rigFound) {
-			return undefined;
-		}
-		const cfgFile = resolve(this.rigConfig.getResolvedProfileFolder(), file);
-		if (existsSync(cfgFile)) {
-			return cfgFile;
-		}
-		return undefined;
+		return this.rigConfig.tryResolveConfigFilePath('config/typescript.json');
 	}
 
 	require(packageName: string): any {
@@ -130,22 +122,41 @@ export class RushStackConfig {
 		return this.apiExtractorConfig;
 	}
 
+	public typescriptSearchSrcFolder = false;
+	private defaultTypeScript() {
+		const r = this.rigConfig.tryResolveConfigFilePath('tsconfig.json');
+		if (r) return r;
+
+		if (this.typescriptSearchSrcFolder) {
+			const r = this.rigConfig.tryResolveConfigFilePath('src/tsconfig.json');
+			if (r) return r;
+		}
+
+		this.warning('internal resolver failed.');
+		return undefined;
+	}
+
+	private projectRootResolver(_file: string, data: any) {
+		if (data.project) {
+			data.project = resolve(this.projectFolder, data.project);
+		}
+	}
+
 	typescript(): ITypeScriptConfigurationJson {
 		if (!this.typescriptConfig) {
 			let cfgFile = this.resolveConfigFile('typescript.json');
 
 			let cfg: ITypeScriptConfigurationJson;
 			if (cfgFile) {
+				this.warning(`found config file: ${cfgFile}`);
 				cfg = loadInheritedJson(cfgFile, {
 					cwd: this.projectFolder,
-					readJsonFile: createDynamicReader(resolveProjectFolder),
+					readJsonFile: createDynamicReader(this.projectRootResolver.bind(this)),
 				});
 			} else {
 				this.warning('missing config/typescript.json (searched rig package), using internal resolver.');
-				cfg = {
-					project: resolve(this.projectFolder, 'tsconfig.json'),
-					maxWriteParallelism: undefined,
-				};
+				const project = this.defaultTypeScript();
+				cfg = { project };
 			}
 			this.typescriptConfig = cfg;
 		}
@@ -153,26 +164,26 @@ export class RushStackConfig {
 		return this.typescriptConfig;
 	}
 
-	tsconfigPath(): string {
+	tsconfigPath() {
 		const cfg = this.typescript().project;
-		if (cfg) return cfg;
-		this.warning(`missing "project" field in "typescript.json"`);
-
-		return resolve(this.projectFolder, 'tsconfig.json');
+		// this.warning(`using "project" field in "typescript.json": ${cfg}`);
+		return cfg;
 	}
 
-	tsconfig(): IExtendParsedCommandLine {
+	tsconfig(): IFilledOptions {
 		if (!this.tsconfigConfig) {
 			const proj = this.tsconfigPath();
-			this.tsconfigConfig = loadTsConfigJsonFile(proj, this.require('typescript'));
+
+			if (proj) {
+				this.tsconfigConfig = loadTsConfigJsonFile(proj, this.require('typescript')).options;
+			} else {
+				this.tsconfigConfig = loadTsConfigJsonFile(
+					resolve(this.projectFolder, 'tsconfig.json'),
+					this.require('typescript')
+				).options;
+			}
 		}
 		return this.tsconfigConfig;
-	}
-}
-
-function resolveProjectFolder(filePath: string, data: any) {
-	if (data.project) {
-		data.project = resolve(filePath, '../..', data.project);
 	}
 }
 

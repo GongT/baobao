@@ -1,11 +1,10 @@
 {
-	"extends": "local-rig/profiles/default/tsconfig.json",
+	"extends": "local-rig/profiles/simple/tsconfig.json",
 	"compilerOptions": {
-		"module": "CommonJS",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"tsBuildInfoFile": "../lib/tsbuildinfo.json",
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"]
+		"types": ["node"],
+		"tsBuildInfoFile": "../lib/tsbuildinfo.json"
 	}
 }

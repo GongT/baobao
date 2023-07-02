@@ -1,32 +1,31 @@
 {
 	"name": "@build-script/rushstack-config-loader",
 	"type": "commonjs",
-	"version": "0.0.7",
+	"version": "0.0.9",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",
 	"author": "",
 	"main": "lib/api.js",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@idlebox/json-extends-loader": "workspace:*",
-		"@idlebox/tsconfig-loader": "workspace:*",
-		"@rushstack/rig-package": "^0.3.17",
+		"@idlebox/json-extends-loader": "workspace:^",
+		"@idlebox/tsconfig-loader": "workspace:^",
+		"@rushstack/rig-package": "^0.4.0",
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:*",
-		"@microsoft/api-extractor": "^7.33.6",
-		"@rushstack/heft": "^0.48.8",
+		"@rushstack/heft-typescript-plugin": "^0.1.11",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@microsoft/api-extractor": "^7.36.0",
+		"@rushstack/heft": "^0.56.0",
 		"@types/node": "^18.11.9",
-		"local-rig": "workspace:*",
-		"typescript": "^4.9.3"
+		"local-rig": "workspace:^"
 	}
 }
