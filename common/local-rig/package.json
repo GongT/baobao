@@ -13,25 +13,20 @@
 		"api-extractor-local": "./scripts/api-extractor-local.sh"
 	},
 	"private": true,
+	"dependencies": {
+		"@microsoft/api-extractor": "^7.36.0",
+		"typescript": "^5.1.6"
+	},
 	"devDependencies": {
-		"@build-script/node-import-test": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@microsoft/api-extractor": "^7.33.6",
 		"@rushstack/eslint-config": "^3.1.1",
 		"@rushstack/eslint-patch": "^1.2.0",
-		"@rushstack/eslint-plugin": "^0.11.0",
+		"@rushstack/heft-api-extractor-plugin": "^0.1.10",
+		"@rushstack/heft-lint-plugin": "^0.1.11",
+		"@rushstack/heft-typescript-plugin": "^0.1.11",
 		"@telia/rush-select": "^0.13.1",
 		"eslint": "^8.28.0",
-		"eslint-plugin-import": "^2.26.0",
-		"typescript": "^4.9.3",
-		"@build-script/single-dog-asset": "^1.0.23"
-	},
-	"peerDependencies": {
-		"@build-script/single-dog-asset": "workspace:*"
-	},
-	"peerDependenciesMeta": {
-		"@build-script/single-dog-asset": {
-			"optional": false
-		}
+		"eslint-plugin-import": "^2.26.0"
 	}
 }

@@ -2,7 +2,7 @@
  * Configures the TypeScript plugin for Heft.  This plugin also manages linting.
  */
 {
-	"$schema": "https://developer.microsoft.com/json-schemas/heft/typescript.schema.json",
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/typescript.schema.json",
 
 	/**
 	 * Can be set to "copy" or "hardlink". If set to "copy", copy files from cache.
@@ -18,35 +18,33 @@
 	 */
 	"additionalModuleKindsToEmit": [
 		// {
-		//   /**
-		//    * (Required) Must be one of "commonjs", "amd", "umd", "system", "es2015", "esnext"
-		//    */
-		//  "moduleKind": "amd",
-		//
-		//   /**
-		//    * (Required) The name of the folder where the output will be written.
-		//    */
-		//    "outFolderName": "lib-amd"
+		/**
+		 * (Required) Must be one of "commonjs", "amd", "umd", "system", "es2015", "esnext"
+		 */
+		//  "moduleKind": "commonjs",
+		/**
+		 * (Required) The name of the folder where the output will be written.
+		 */
+		//    "outFolderName": "lib/cjs"
 		// },
+		// {
+		// 	"moduleKind": "esnext",
+		// 	"outFolderName": "lib/esm"
+		// }
 	],
 
 	/**
 	 * If true, emit CommonJS module output to the folder specified in the tsconfig "outDir" compiler option with the .cjs extension alongside (or instead of, if TSConfig specifies CommonJS) the default compilation output.
 	 */
-	// "emitCjsExtensionForCommonJS": true,
+	"emitCjsExtensionForCommonJS": false,
 
 	/**
 	 * If true, emit ESNext module output to the folder specified in the tsconfig "outDir" compiler option with the .mjs extension alongside (or instead of, if TSConfig specifies ESNext) the default compilation output.
 	 */
-	// "emitMjsExtensionForESModule": true,
+	"emitMjsExtensionForESModule": false,
 
-	/**
-	 * Specifies the intermediary folder that tests will use.  Because Jest uses the
-	 * Node.js runtime to execute tests, the module format must be CommonJS.
-	 *
-	 * The default value is "lib".
-	 */
-	"emitFolderNameForTests": "temp/test",
+	"buildProjectReferences": false,
+	"useTranspilerWorker": false,
 
 	/**
 	 * If set to "true", the TSlint task will not be invoked.
@@ -85,5 +83,5 @@
 		// ]
 	},
 
-	"project": "tsconfig.json"
+	"project": "./src/tsconfig.json"
 }

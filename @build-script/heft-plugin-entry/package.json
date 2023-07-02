@@ -1,6 +1,7 @@
 {
 	"name": "@build-script/heft-plugin-entry",
-	"version": "1.0.0",
+	"type": "commonjs",
+	"version": "1.0.1",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",

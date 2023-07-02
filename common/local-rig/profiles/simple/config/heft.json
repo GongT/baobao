@@ -1,0 +1,44 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+	"extends": "../../default/config/heft.json",
+	"aliasesByName": {},
+	"phasesByName": {
+		"build": {
+			// "phaseDescription": "run build process",
+			"cleanFiles": [
+				{ "sourcePath": "temp" },
+				{ "sourcePath": "lib" },
+				{ "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
+				{ "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
+			],
+			"tasksByName": {
+				"typescript": {
+					"taskPlugin": {
+						"pluginPackage": "@rushstack/heft-typescript-plugin",
+						"options": {}
+					}
+				},
+				"lint": {
+					"taskDependencies": ["typescript"],
+					"taskPlugin": {
+						"pluginPackage": "@rushstack/heft-lint-plugin"
+					}
+				}
+				// "api-extractor": {
+				// 	"taskDependencies": ["typescript"],
+				// 	"taskPlugin": {
+				// 		"pluginPackage": "@rushstack/heft-api-extractor-plugin"
+				// 	}
+				// }
+				// "test-import": {
+				// 	"taskDependencies": ["typescript"],
+				// 	"taskPlugin": {
+				// 		"pluginName": "node-import-test",
+				// 		"pluginPackage": "@build-script/node-import-test"
+				// 	}
+				// }
+			}
+		}
+	},
+	"heftPlugins": []
+}
