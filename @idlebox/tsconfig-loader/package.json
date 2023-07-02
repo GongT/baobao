@@ -1,27 +1,21 @@
 {
 	"name": "@idlebox/tsconfig-loader",
 	"type": "module",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "./lib/index.cjs",
-	"module": "./lib/index.js",
+	"main": "./lib/index.js",
 	"exports": {
-		".": {
-			"import": "./lib/index.js",
-			"require": "./lib/index.cjs"
-		},
+		".": "./lib/index.js",
 		"./package.json": "./package.json"
 	},
-	"types": "./lib/index.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
@@ -30,9 +24,9 @@
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.9",
-		"@rushstack/heft": "^0.48.8",
-		"local-rig": "workspace:*",
-		"typescript": "^4.9.3"
+		"@rushstack/heft": "^0.56.0",
+		"local-rig": "workspace:^",
+		"typescript": "^5.1.6"
 	},
 	"peerDependencies": {
 		"typescript": "*"

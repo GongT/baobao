@@ -102,7 +102,7 @@ export function getProjectConfigFile(command: TypeScriptApi.ParsedCommandLine | 
 	let options: TypeScriptApi.CompilerOptions = command.raw
 		? (command as TypeScriptApi.ParsedCommandLine).options
 		: (command as TypeScriptApi.CompilerOptions);
-	return options.configFilePath as string;
+	return options['configFilePath'] as string;
 }
 
 function getRoot(command: TypeScriptApi.ParsedCommandLine | TypeScriptApi.CompilerOptions, type: 'outDir' | 'rootDir') {
