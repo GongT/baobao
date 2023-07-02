@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/tsconfig-loader",
-	"type": "module",
-	"version": "1.0.4",
+	"type": "commonjs",
+	"version": "1.0.5",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"license": "MIT",
