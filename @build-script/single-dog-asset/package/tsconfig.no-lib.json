@@ -45,7 +45,7 @@
 		"noImplicitThis": true,
 		"noImplicitAny": true,
 		"noImplicitOverride": true,
-		"noPropertyAccessFromIndexSignature": true,
+		"noPropertyAccessFromIndexSignature": false,
 		"noStrictGenericChecks": false,
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,

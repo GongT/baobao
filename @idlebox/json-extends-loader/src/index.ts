@@ -8,15 +8,47 @@
  * @packageDocumentation
  */
 
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { createRequire } from 'module';
 import { resolve } from 'path';
-import { assign, CommentArray } from 'comment-json';
+import { assign, CommentArray, parse } from 'comment-json';
 import deepmerge, { Options } from 'deepmerge';
 import { del as delPath, get as getPath } from 'object-path';
-import { readJsonFile } from './utils';
 
-export * from './utils';
+export function readJsonFile(filePath: string): any {
+	return parse(readFileSync(filePath, 'utf-8'));
+}
+
+interface IProcess {
+	(file: string, data: any): void;
+}
+
+function localResolve(object: any, key: number | string, currentFile: string) {
+	object[key] = resolve(currentFile, '..', object[key]);
+}
+
+function tsconfigParser(file: string, tsconfig: any) {
+	for (const key of ['outDir', 'rootDir', 'tsBuildInfoFile']) {
+		if (!tsconfig.compilerOptions[key]) continue;
+		localResolve(tsconfig.compilerOptions, key, file);
+	}
+	for (const key of ['typeRoots']) {
+		const arr = tsconfig.compilerOptions[key];
+		if (!arr) continue;
+		for (let index = 0; index < arr.length; index++) {
+			localResolve(arr, index, file);
+		}
+	}
+}
+export const tsconfigReader = createDynamicReader(tsconfigParser);
+
+export function createDynamicReader(processor: IProcess) {
+	return function wrappedReadJsonFile(filePath: string) {
+		const ret = readJsonFile(filePath);
+		processor(filePath, ret);
+		return ret;
+	};
+}
 
 interface IReadFile {
 	(file: string): any;

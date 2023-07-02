@@ -1,6 +1,5 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
-	"extends": "../../default/config/heft.json",
 	"aliasesByName": {},
 	"phasesByName": {
 		"build": {
@@ -24,19 +23,6 @@
 						"pluginPackage": "@rushstack/heft-lint-plugin"
 					}
 				}
-				// "api-extractor": {
-				// 	"taskDependencies": ["typescript"],
-				// 	"taskPlugin": {
-				// 		"pluginPackage": "@rushstack/heft-api-extractor-plugin"
-				// 	}
-				// }
-				// "test-import": {
-				// 	"taskDependencies": ["typescript"],
-				// 	"taskPlugin": {
-				// 		"pluginName": "node-import-test",
-				// 		"pluginPackage": "@build-script/node-import-test"
-				// 	}
-				// }
 			}
 		}
 	},

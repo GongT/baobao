@@ -1,20 +1,22 @@
 {
 	"name": "@idlebox/json-extends-loader",
 	"type": "commonjs",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",
 	"author": "",
-	"main": "./lib/api.js",
-	"types": "./lib/api.d.ts",
+	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js",
+		"./package.json": "./package.json"
+	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
+		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
@@ -24,11 +26,10 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:*",
-		"@rushstack/heft": "^0.48.8",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@rushstack/heft": "^0.56.0",
 		"@types/node": "^18.11.9",
 		"@types/object-path": "^0.11.1",
-		"local-rig": "workspace:*",
-		"typescript": "^4.9.3"
+		"local-rig": "workspace:^"
 	}
 }

@@ -137,16 +137,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/state",
-			"projectFolder": "@idlebox/state",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@build-script/heft-run",
-			"projectFolder": "@build-script/heft-run",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@build-script/codegen",
 			"projectFolder": "@build-script/codegen",
 			"shouldPublish": true,
@@ -195,16 +185,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@idlebox/state-driver-electron",
-			"projectFolder": "@idlebox/state-driver-electron",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@idlebox/state-driver-nodejs",
-			"projectFolder": "@idlebox/state-driver-nodejs",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@gongt/pnpm-instead-npm",
 			"projectFolder": "@gongt/pnpm-instead-npm",
 			"shouldPublish": true
@@ -215,8 +195,8 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@build-script/node-import-test",
-			"projectFolder": "@build-script/node-import-test",
+			"packageName": "@build-script/heft-plugins",
+			"projectFolder": "@build-script/heft-plugins",
 			"shouldPublish": true,
 			"decoupledLocalDependencies": ["local-rig"]
 		}
