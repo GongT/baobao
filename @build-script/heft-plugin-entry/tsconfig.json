@@ -1,0 +1,13 @@
+{
+	"extends": "local-rig/profiles/simple/tsconfig.json",
+	"compilerOptions": {
+		"typeRoots": ["node_modules/@types", "node_modules"],
+		"outDir": "./lib",
+		"rootDir": "./src",
+		"types": ["node"],
+		"module": "CommonJS",
+		"composite": true,
+		"incremental": true,
+		"tsBuildInfoFile": "./lib/tsbuildinfo.json"
+	}
+}

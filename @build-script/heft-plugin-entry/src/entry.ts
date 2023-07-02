@@ -1,9 +1,5 @@
 import { dirname, resolve } from 'path';
-const isModuleResolutionError = (ex: any) =>
-	typeof ex === 'object' &&
-	!!ex &&
-	'code' in ex &&
-	(ex.code === 'MODULE_NOT_FOUND' || ex.code === 'ERR_MODULE_NOT_FOUND');
+import { isModuleResolutionError } from './lib';
 
 export interface IOptions {
 	projectRoot: string;
@@ -56,7 +52,7 @@ export function loadPlugin({ projectRoot, sourceEntry, distEntry }: IOptions) {
 
 		return plugin;
 	} catch (e: any) {
-		if (process.env.PRINT_ERROR_STACK) {
+		if (process.env['PRINT_ERROR_STACK']) {
 			console.error('When loading heft plugin "%s", An error occur: %s', pkg.name, e.stack);
 		} else {
 			console.error(

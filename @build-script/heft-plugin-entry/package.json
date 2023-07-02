@@ -1,29 +1,27 @@
 {
 	"name": "@build-script/heft-plugin-entry",
-	"version": "0.0.3",
+	"version": "1.0.0",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me>",
 	"main": "lib/entry.js",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:*",
-		"@gongt/fix-esm": "workspace:*",
-		"@rushstack/heft": "^0.48.8",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@gongt/fix-esm": "workspace:^",
+		"@rushstack/heft": "^0.56.0",
 		"@types/node": "^18.11.9",
-		"local-rig": "workspace:*",
-		"ts-node": "^10.9.1",
-		"typescript": "^4.9.3"
+		"local-rig": "workspace:^",
+		"ts-node": "^10.9.1"
 	}
 }
