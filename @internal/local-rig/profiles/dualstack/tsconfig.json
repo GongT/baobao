@@ -1,0 +1,15 @@
+{
+	"extends": "../simple/tsconfig.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"composite": true,
+		"incremental": true
+
+		/*
+		"typeRoots": ["./node_modules/@types", "./node_modules"],
+		"outDir": "./lib/esm",
+		"rootDir": "./src",
+		// "types": ["node"],
+		*/
+	}
+}

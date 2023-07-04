@@ -139,16 +139,6 @@ export function resolveLatestVersionOnNpm(packageName: string): Promise<string>;
 // @public (undocumented)
 export function resortPackage(file: string): Promise<void>;
 
-// Warnings were encountered during analysis:
-//
-// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
-// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
-// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
-// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:40:31 - (TS2304) Cannot find name 'URL'.
-// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:120:26 - (TS2304) Cannot find name 'URL'.
-// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:127:17 - (TS2503) Cannot find namespace 'NodeJS'.
-// /home/moffett/workspace/songrenbo/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:237:20 - (TS2304) Cannot find name 'AbortSignal'.
-
 // (No @packageDocumentation comment for this package)
 
 ```

@@ -9,7 +9,7 @@ export class PathArray extends Set<string> {
 		if (init) this.add(init);
 	}
 
-	add(paths: string) {
+	override add(paths: string) {
 		for (const p of paths.split(this.sep)) {
 			if (!p) continue;
 			super.add(normalizePath(p));
@@ -17,7 +17,7 @@ export class PathArray extends Set<string> {
 		return this;
 	}
 
-	delete(paths: string) {
+	override delete(paths: string) {
 		let anyRet = false;
 		for (const p of paths.split(this.sep)) {
 			anyRet = anyRet || super.delete(normalizePath(p));
@@ -25,11 +25,11 @@ export class PathArray extends Set<string> {
 		return anyRet;
 	}
 
-	has(path: string): boolean {
+	override has(path: string): boolean {
 		return super.has(normalizePath(path));
 	}
 
-	toString() {
+	override toString() {
 		return [...this.values()].join(this.sep);
 	}
 

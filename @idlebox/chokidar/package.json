@@ -4,39 +4,34 @@
 	"version": "0.0.17",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
-	"main": "./lib/index.generated.cjs",
-	"module": "./lib/index.generated.js",
+	"main": "./lib/cjs/__create_index.generated.cjs",
+	"module": "./lib/esm/__create_index.generated.mjs",
 	"exports": {
 		".": {
-			"import": "./lib/index.generated.js",
-			"require": "./lib/index.generated.cjs"
+			"import": "./lib/esm/__create_index.generated.mjs",
+			"require": "./lib/cjs/__create_index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
-	"typings": "./lib/chokidar-public.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:*",
+		"@idlebox/common": "workspace:^",
 		"chokidar": "^3.5.3",
 		"debug": "^4.3.4",
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:*",
-		"@microsoft/api-extractor": "^7.33.6",
-		"@build-script/single-dog-asset": "workspace:*",
-		"@rushstack/heft": "^0.48.8",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@rushstack/heft": "^0.56.0",
 		"@types/debug": "^4.1.7",
-		"@types/node": "^18.11.9",
-		"local-rig": "workspace:*",
-		"typescript": "^4.9.3"
+		"@types/node": "^18.15.2",
+		"@internal/dualstack-rig": "workspace:^"
 	},
 	"monorepo": "rush"
 }

@@ -6,11 +6,10 @@
 	"license": "WTFPL",
 	"main": "./lib/index.js",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
@@ -18,9 +17,8 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.9",
-		"local-rig": "workspace:^",
-		"typescript": "^4.9.3"
+		"@rushstack/heft": "^0.56.0",
+		"@types/node": "^18.15.2",
+		"@internal/local-rig": "workspace:^"
 	}
 }

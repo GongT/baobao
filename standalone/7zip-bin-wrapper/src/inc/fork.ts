@@ -154,7 +154,7 @@ ${indentArgs(cmd.slice(1))}
 			signal,
 			__programError: true,
 			__program,
-			__cwd: cmd[2],
+			__cwd: cmd[2]!,
 		}
 	);
 }

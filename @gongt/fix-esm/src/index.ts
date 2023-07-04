@@ -44,7 +44,7 @@ export function require(id: string) {
 	if (mdl[activeSymbol] === 0) {
 		register();
 	}
-	const frame = new Error().stack!.split('\n', 3)[2].trim();
+	const frame = new Error().stack!.split('\n', 3)[2]!.trim();
 	const file = frame
 		.replace(/^at /, '')
 		.replace(/^.+ \(/, '')

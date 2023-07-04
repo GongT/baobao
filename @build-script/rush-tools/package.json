@@ -4,29 +4,24 @@
 	"version": "1.3.11",
 	"keywords": ["microsoft", "rush", "rush-stack", "tools"],
 	"license": "MIT",
-	"engines": {
-		"node": ">=14"
-	},
-	"main": "./lib/api.cjs",
-	"module": "./lib/api.js",
+	"module": "./lib/esm/__create_index.generated.mjs",
+	"main": "./lib/cjs/__create_index.generated.cjs",
 	"exports": {
 		".": {
-			"import": "./lib/api.js",
-			"require": "./lib/api.cjs"
+			"import": "./lib/esm/__create_index.generated.mjs",
+			"require": "./lib/cjs/__create_index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
 	"bin": {
 		"rush-tools": "./bin.cjs"
 	},
-	"types": "./lib/rush-tools-public.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
+		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean",
 		"postinstall": "bash link-local.sh"
 	},
@@ -35,7 +30,6 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@microsoft/api-extractor": "^7.33.6",
 		"@idlebox/node-json-edit": "workspace:^",
 		"@microsoft/rush-lib": "^5.85.1",
 		"cli-spinners": "^2.7.0",
@@ -52,16 +46,14 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.48.8",
+		"@rushstack/heft": "^0.56.0",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.11.9",
+		"@types/node": "^18.15.2",
 		"@types/pacote": "^11.1.5",
 		"@types/semver": "^7.3.13",
 		"@types/split2": "^3.2.1",
 		"@types/tiny-async-pool": "^2.0.0",
-		"local-rig": "workspace:^",
-		"typescript": "^4.9.3"
+		"@internal/dualstack-rig": "workspace:^"
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"extends": "local-rig/profiles/default/tsconfig.json",
+	"extends": "@internal/local-rig/profiles/simple/tsconfig.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json",

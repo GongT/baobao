@@ -1,0 +1,52 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Heft Import Test Plugin Options Configuration",
+	"description": "This schema describes the \"options\" field that can be specified in heft.json when loading \"shell\" of \"@build-script/heft-plugins\".",
+	"type": "object",
+
+	"additionalProperties": false,
+	"required": ["script"],
+
+	"properties": {
+		"interpreter": {
+			"title": "Interpreter to be used",
+			"description": "You probably want to set this to \"bash\" or \"python\". Defaults to node.",
+			"type": "string"
+		},
+		"interpreterArgs": {
+			"title": "Interpreter arguments",
+			"description": "Arguments to be passed to the interpreter. Defaults to nothing.",
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"script": {
+			"title": "Main script path",
+			"description": "Required.",
+			"type": "string"
+		},
+		"args": {
+			"title": "Script arguments",
+			"description": "Arguments to be passed to the script. Defaults to nothing.",
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"env": {
+			"title": "Script environment variables",
+			"description": "Defaults to nothing.",
+			"type": "object",
+			"additionalProperties": {
+				"type": "string"
+			}
+		},
+		"inheritEnv": {
+			"title": "Should environment variables be inherited?",
+			"description": "Defaults to true.",
+			"type": "boolean"
+		},
+		"workingDirectory": {
+			"title": "Script working directory",
+			"description": "Relative to the directory of package.json file in. Defaults to \"./\".",
+			"type": "string"
+		}
+	}
+}

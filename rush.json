@@ -8,7 +8,7 @@
 	"ensureConsistentVersions": false,
 	"projectFolderMinDepth": 2,
 	"projectFolderMaxDepth": 2,
-	"allowMostlyStandardPackageNames": false,
+	"allowMostlyStandardPackageNames": true,
 	"gitPolicy": {
 		// "allowedEmailRegExps": [
 		//   "[^@]+@users\\.noreply\\.github\\.com",
@@ -33,10 +33,19 @@
 	"variants": [],
 	"projects": [
 		{
-			"packageName": "local-rig",
-			"projectFolder": "common/local-rig",
-			"shouldPublish": false,
-			"decoupledLocalDependencies": ["@build-script/single-dog-asset"]
+			"packageName": "@internal/plugins",
+			"projectFolder": "@internal/plugins",
+			"shouldPublish": false
+		},
+		{
+			"packageName": "@internal/local-rig",
+			"projectFolder": "@internal/local-rig",
+			"shouldPublish": false
+		},
+		{
+			"packageName": "@internal/dualstack-rig",
+			"projectFolder": "@internal/dualstack-rig",
+			"shouldPublish": false
 		},
 		{
 			"packageName": "@gongt/fix-esm",
@@ -56,7 +65,8 @@
 		{
 			"packageName": "@idlebox/node-ignore-edit",
 			"projectFolder": "@idlebox/node-ignore-edit",
-			"shouldPublish": true
+			"shouldPublish": true,
+			"decoupledLocalDependencies": ["@idlebox/common"]
 		},
 		{
 			"packageName": "@idlebox/itypes",
@@ -88,34 +98,33 @@
 			"projectFolder": "@build-script/poormans-package-change",
 			"shouldPublish": true
 		},
-		{
-			"packageName": "@build-script/single-dog",
-			"projectFolder": "@build-script/single-dog",
-			"shouldPublish": true
-		},
+		// {
+		// 	"packageName": "@build-script/single-dog",
+		// 	"projectFolder": "@build-script/single-dog",
+		// 	"shouldPublish": true
+		// },
 		{
 			"packageName": "@build-script/single-dog-asset",
 			"projectFolder": "@build-script/single-dog-asset",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
-		},
-		{
-			"packageName": "@build-script/typescript-transformer-common",
-			"projectFolder": "@build-script/typescript-transformer-common",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@idlebox/common", "@idlebox/node", "local-rig"]
-		},
-		{
-			"packageName": "@build-script/typescript-transformer-dual-package",
-			"projectFolder": "@build-script/typescript-transformer-dual-package",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
-		},
-		{
-			"packageName": "@build-script/dual-package-runtime",
-			"projectFolder": "@build-script/dual-package-runtime",
 			"shouldPublish": true
 		},
+		// {
+		// 	"packageName": "@build-script/typescript-transformer-common",
+		// 	"projectFolder": "@build-script/typescript-transformer-common",
+		// 	"shouldPublish": true,
+		// 	"decoupledLocalDependencies": ["@idlebox/common", "@idlebox/node", "local-rig"]
+		// },
+		// {
+		// 	"packageName": "@build-script/typescript-transformer-dual-package",
+		// 	"projectFolder": "@build-script/typescript-transformer-dual-package",
+		// 	"shouldPublish": true,
+		// 	"decoupledLocalDependencies": ["local-rig"]
+		// },
+		// {
+		// 	"packageName": "@build-script/dual-package-runtime",
+		// 	"projectFolder": "@build-script/dual-package-runtime",
+		// 	"shouldPublish": true
+		// },
 		{
 			"packageName": "unipm",
 			"projectFolder": "standalone/unipm",
@@ -136,39 +145,32 @@
 			"projectFolder": "@idlebox/chokidar",
 			"shouldPublish": true
 		},
-		{
-			"packageName": "@build-script/codegen",
-			"projectFolder": "@build-script/codegen",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": [
-				"@idlebox/common",
-				"@idlebox/node",
-				"@idlebox/node-ignore-edit",
-				"@idlebox/node-json-edit"
-			]
-		},
+		// {
+		// 	"packageName": "@build-script/codegen",
+		// 	"projectFolder": "@build-script/codegen",
+		// 	"shouldPublish": true,
+		// 	"decoupledLocalDependencies": [
+		// 		"@idlebox/common",
+		// 		"@idlebox/node",
+		// 	]
+		// },
 		{
 			"packageName": "@idlebox/typescript-surface-analyzer",
 			"projectFolder": "@idlebox/typescript-surface-analyzer",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": [
-				"@idlebox/common",
-				"@idlebox/node",
-				"@idlebox/node-ignore-edit",
-				"@idlebox/node-json-edit"
-			]
+			"decoupledLocalDependencies": ["@idlebox/common", "@idlebox/node"]
 		},
 		{
 			"packageName": "@idlebox/tsconfig-loader",
 			"projectFolder": "@idlebox/tsconfig-loader",
 			"shouldPublish": true
 		},
-		{
-			"packageName": "@build-script/heft-duel-stack",
-			"projectFolder": "@build-script/heft-duel-stack",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@idlebox/node", "@idlebox/node-json-edit", "local-rig"]
-		},
+		// {
+		// 	"packageName": "@build-script/heft-duel-stack",
+		// 	"projectFolder": "@build-script/heft-duel-stack",
+		// 	"shouldPublish": true,
+		// 	"decoupledLocalDependencies": ["@idlebox/node", "@idlebox/node-json-edit", "local-rig"]
+		// },
 		{
 			"packageName": "@build-script/rushstack-config-loader",
 			"projectFolder": "@build-script/rushstack-config-loader",
@@ -179,11 +181,11 @@
 			"projectFolder": "@idlebox/json-extends-loader",
 			"shouldPublish": true
 		},
-		{
-			"packageName": "@build-script/heft-plugin-entry",
-			"projectFolder": "@build-script/heft-plugin-entry",
-			"shouldPublish": true
-		},
+		// {
+		// 	"packageName": "@build-script/heft-plugin-entry",
+		// 	"projectFolder": "@build-script/heft-plugin-entry",
+		// 	"shouldPublish": true
+		// },
 		{
 			"packageName": "@gongt/pnpm-instead-npm",
 			"projectFolder": "@gongt/pnpm-instead-npm",
@@ -198,7 +200,7 @@
 			"packageName": "@build-script/heft-plugins",
 			"projectFolder": "@build-script/heft-plugins",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": ["local-rig"]
+			"decoupledLocalDependencies": []
 		}
 	]
 }

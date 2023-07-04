@@ -117,8 +117,8 @@ export abstract class TypescriptTransformPlugin<IOptions extends Record<string, 
 
 		if (
 			options.verbose ||
-			process.env.DEBUG_TRANSFORM_COMMON ||
-			/\btramsform\b/i.test(process.env.NODE_DEBUG || '')
+			process.env['DEBUG_TRANSFORM_COMMON'] ||
+			/\btramsform\b/i.test(process.env['NODE_DEBUG'] || '')
 		) {
 			this.isDebug = true;
 		} else {

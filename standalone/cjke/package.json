@@ -5,23 +5,21 @@
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
 	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
 	"license": "MIT",
-	"main": "./_fix_esm_loader.cjs",
-	"module": "./lib/index.generated.js",
+	"main": "./lib/cjs/__create_index.generated.cjs",
+	"module": "./lib/esm/__create_index.generated.mjs",
 	"exports": {
 		".": {
-			"import": "./lib/index.generated.js",
-			"require": "./_fix_esm_loader.cjs"
+			"import": "./lib/esm/__create_index.generated.mjs",
+			"require": "./lib/cjs/__create_index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
-	"typings": "./dist/cjke-strings-public.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
+		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/cjke.git",
@@ -33,16 +31,13 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:*",
-		"@build-script/single-dog-asset": "workspace:*",
-		"@microsoft/api-extractor": "^7.33.6",
-		"@rushstack/heft": "^0.48.8",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@rushstack/heft": "^0.56.0",
 		"@types/chai": "^4.3.4",
 		"@types/mocha": "^10.0.0",
 		"chai": "^4.3.7",
-		"local-rig": "workspace:*",
-		"mocha": "^10.1.0",
-		"typescript": "^4.9.3"
+		"@internal/dualstack-rig": "workspace:^",
+		"mocha": "^10.1.0"
 	},
 	"monorepo": "rush"
 }

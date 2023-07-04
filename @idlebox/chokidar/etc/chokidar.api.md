@@ -22,7 +22,7 @@ export interface IWatchHelper {
     readonly watches: ReadonlyArray<string>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "IReloadFunction" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "IReloadFunction" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "startChokidar" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

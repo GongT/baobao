@@ -3,22 +3,20 @@
 	"type": "module",
 	"version": "0.0.26",
 	"license": "MIT",
-	"main": "./lib/index.generated.cjs",
-	"module": "./lib/index.generated.js",
+	"main": "./lib/cjs/__create_index.generated.cjs",
+	"module": "./lib/esm/__create_index.generated.mjs",
 	"exports": {
 		".": {
-			"import": "./lib/index.generated.js",
-			"require": "./lib/index.generated.cjs"
+			"import": "./lib/esm/__create_index.generated.mjs",
+			"require": "./lib/cjs/__create_index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
-	"typings": "./lib/package-public.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
@@ -29,11 +27,8 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@microsoft/api-extractor": "^7.33.6",
-		"@rushstack/heft": "^0.48.8",
-		"local-rig": "workspace:^",
-		"typescript": "^4.9.3",
-		"@build-script/heft-duel-stack": "workspace:^"
+		"@rushstack/heft": "^0.56.0",
+		"@internal/dualstack-rig": "workspace:^"
 	},
 	"monorepo": "rush"
 }

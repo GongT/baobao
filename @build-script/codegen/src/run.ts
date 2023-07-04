@@ -1,11 +1,11 @@
-import { renameSync, unlinkSync } from 'fs';
-import { resolve } from 'path';
 import { loadJsonFileSync, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { sync as globSync } from 'glob';
+import { renameSync, unlinkSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
+import { sync as globSync } from 'glob';
+import { resolve } from 'path';
+import { FileBuilder } from './builder';
 import { exists, MyError } from './lib';
 import type { IConfig } from './load-config';
-import { FileBuilder } from './builder';
 
 const header = `/* eslint-disable */
 // @ts-ignore

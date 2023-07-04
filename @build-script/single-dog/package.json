@@ -8,11 +8,10 @@
 		"single-dog": "./bin.js"
 	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
@@ -29,10 +28,9 @@
 		"unipm": "workspace:^"
 	},
 	"devDependencies": {
-		"@rushstack/heft": "^0.48.8",
+		"@rushstack/heft": "^0.56.0",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.11.9",
-		"local-rig": "workspace:^",
-		"typescript": "^4.9.3"
+		"@types/node": "^18.15.2",
+		"@internal/local-rig": "workspace:^"
 	}
 }

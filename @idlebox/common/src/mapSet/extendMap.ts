@@ -9,13 +9,13 @@ export class ExtendMap<K, V> extends Map<K, V> {
 	/**
 	 * Get value from map, if not exists, throw an error
 	 */
-	public get(id: K): V;
+	public override get(id: K): V;
 	/**
 	 * Get value from map, if not exists, return def instead (not insert it into map)
 	 */
-	public get(id: K, def: V): V;
+	public override get(id: K, def: V): V;
 
-	public get(id: K, def?: V): V {
+	public override get(id: K, def?: V): V {
 		if (super.has(id)) {
 			return super.get(id)!;
 		} else if (arguments.length === 2) {

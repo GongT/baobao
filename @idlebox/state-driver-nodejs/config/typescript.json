@@ -1,9 +1,0 @@
-{
-	"$schema": "https://developer.microsoft.com/json-schemas/heft/typescript.schema.json",
-	"extends": "local-rig/profiles/default/typescript.json",
-	"additionalModuleKindsToEmit": [],
-	"emitCjsExtensionForCommonJS": true,
-	"staticAssetsToCopy": {},
-
-	"project": "src/tsconfig.json"
-}

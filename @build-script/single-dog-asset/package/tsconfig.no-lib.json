@@ -31,7 +31,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"inlineSourceMap": false,
 		"inlineSources": false,
-		"isolatedModules": true,
+		"isolatedModules": false,
 		"keyofStringsOnly": false,
 		"lib": [
 			"ESNext",

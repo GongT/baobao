@@ -1,0 +1,9 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft-plugin.schema.json",
+	"taskPlugins": [
+		{
+			"pluginName": "filter-dts",
+			"entryPoint": "./scripts/filter-dts.cjs"
+		}
+	]
+}

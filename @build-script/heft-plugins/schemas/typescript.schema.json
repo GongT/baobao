@@ -1,0 +1,73 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Heft Typescript Compile Plugin Options Configuration",
+	"description": "This schema describes the \"options\" field that can be specified in heft.json when loading \"typescript\" of \"@build-script/heft-plugins\".",
+	"type": "object",
+
+	"additionalProperties": false,
+	// "required": [],
+
+	"properties": {
+		"project": {
+			"title": "Location of tsconfig.json",
+			"description": "If not set, try typescript.json, then ./tsconfig.json, then ./src/tsconfig.json, then throw.",
+			"type": "string"
+		},
+		"include": {
+			"title": "Include pattern",
+			"description": "same with tsconfig.json",
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"exclude": {
+			"title": "Exclude pattern",
+			"description": "same with tsconfig.json",
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"files": {
+			"title": "Source file paths",
+			"description": "same with tsconfig.json",
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"extension": {
+			"title": "Extension of import statement and emited file",
+			"description": "If not set, \".mjs\" when module is esnext, \".cjs\" when module is commonjs",
+			"type": "string",
+			"pattern": "^\\..+"
+		},
+		"fast": {
+			"title": "Skip most check, fast compile",
+			"description": "ts simple transform mode",
+			"type": "boolean"
+		},
+		"compilerOptions": {
+			"type": "object",
+			"additionalProperties": true,
+			"properties": {
+				"module": {
+					"title": "Override \"module\" field in tsconfig.json",
+					"description": "Support CommongJS and ESNext.",
+					"type": "string",
+					"pattern": "^([cC][oO][mM][mM][oO][nN][jJ][sS]|[eE][sS][nN][eE][xX][tT])$"
+				},
+				"outDir": {
+					"title": "Override \"outDir\" field in tsconfig.json",
+					"description": "",
+					"type": "string"
+				},
+				"plugins": {
+					"title": "Append to \"plugins\" field in tsconfig.json",
+					"description": "",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,8 +1,7 @@
+import type { HeftConfiguration, HeftSession, IBuildStageContext, IPostBuildSubstage } from '@rushstack/heft';
+import { register } from 'ts-node';
 import { loadConfig } from './load-config';
 import { runGenerate } from './run';
-
-import type { IBuildStageContext, IPostBuildSubstage, HeftConfiguration, HeftSession } from '@rushstack/heft';
-import { register } from 'ts-node';
 
 // export const optionsSchema = loadJsonFileSync(resolve(__dirname, '../assets/schema.json'));
 

@@ -61,7 +61,7 @@ class ResolveResult {
 		return './' + r;
 	}
 	get relativeToSourceRoot() {
-		const root = this.options.rootDir || dirname(this.options.configFilePath as any);
+		const root = this.options.rootDir || dirname(this.options['configFilePath'] as any);
 		const r = relativePath(root, this.absolutePath);
 		if (r.startsWith('.')) return r;
 		return './' + r;
@@ -175,7 +175,7 @@ export class ModuleResolver extends ProjectConfig {
 
 	getPathInfo(id: string) {
 		const packageName = id.startsWith('@') ? id.split('/', 2).join('/') : id.split('/', 1)[0];
-		const fileName = id.slice(packageName.length + 1);
+		const fileName = id.slice(packageName!.length + 1);
 		return { packageName, fileName };
 	}
 }

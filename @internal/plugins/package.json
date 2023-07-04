@@ -1,0 +1,22 @@
+{
+	"name": "@internal/plugins",
+	"type": "commonjs",
+	"version": "0.0.0",
+	"scripts": {
+		"build": "tsc -p src #",
+		"build:watch": "tsc -p src #",
+		"clean": "rimraf temp lib",
+		"watch": "tsc -p src -w"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "WTFPL",
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"comment-json": "^4.2.3",
+		"rimraf": "^3.0.2",
+		"@rushstack/heft": "^0.56.0",
+		"@types/node": "^18.15.2",
+		"typescript": "^5.1.6"
+	}
+}

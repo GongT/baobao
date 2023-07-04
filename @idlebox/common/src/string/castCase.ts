@@ -1,7 +1,7 @@
 /** @public */
 export function camelCase(str: string) {
 	return str.replace(/[-.\/_][a-z]/g, (s) => {
-		return s[1].toUpperCase();
+		return s[1]!.toUpperCase();
 	});
 }
 
@@ -10,7 +10,7 @@ export function camelCase(str: string) {
  * @public
  */
 export function ucfirst<T extends string>(str: T): Capitalize<T> {
-	return <any>(str[0].toUpperCase() + str.slice(1));
+	return <any>(str[0]!.toUpperCase() + str.slice(1));
 }
 
 /**
@@ -18,7 +18,7 @@ export function ucfirst<T extends string>(str: T): Capitalize<T> {
  * @public
  */
 export function lcfirst<T extends string>(str: T): Uncapitalize<T> {
-	return <any>(str[0].toLowerCase() + str.slice(1));
+	return <any>(str[0]!.toLowerCase() + str.slice(1));
 }
 
 /** @public */

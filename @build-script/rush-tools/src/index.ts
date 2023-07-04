@@ -5,8 +5,7 @@ import { description } from './common/description';
 import { NormalError } from './common/error';
 import { extname } from 'path';
 
-// const __extname = extname(import.meta.url);
-const __extname = extname(__filename);
+const __extname = extname(import.meta.url);
 
 export default async function main() {
 	let argv = process.argv.slice(2);
@@ -16,7 +15,7 @@ export default async function main() {
 		await showHelp();
 		return;
 	}
-	const command = argv.splice(commandPos, 1)[0];
+	const command = argv.splice(commandPos, 1)[0]!;
 	const rcommand = compCommandName(command);
 
 	const fpath = resolve(__dirname, 'commands', rcommand + '.cjs');

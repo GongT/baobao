@@ -53,7 +53,7 @@ export abstract class LifecycleObject extends AsyncDisposable {
 	/** sub-class should shutdown program in this method */
 	protected abstract done(): void;
 
-	public async dispose(): Promise<void> {
+	public override async dispose(): Promise<void> {
 		return super.dispose().finally(() => {
 			this.done();
 		});

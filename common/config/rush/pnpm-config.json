@@ -166,7 +166,7 @@
 	 * in the package.json file for individual Rush projects.
 	 */
 	"globalAllowedDeprecatedVersions": {
-		// "request": "*"
+		"fsevents": "*"
 	},
 
 	/**

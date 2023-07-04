@@ -6,8 +6,10 @@
 	"license": "MIT",
 	"main": "lib/api.cjs",
 	"module": "lib/api.js",
+	"types": "./lib/api.d.ts",
 	"exports": {
 		".": {
+			"types": "./lib/api.d.ts",
 			"import": "./lib/api.js",
 			"require": "./lib/api.cjs"
 		},
@@ -16,13 +18,11 @@
 	"bin": {
 		"mysql-docgenerate": "bin/mysql-docgen.cjs"
 	},
-	"types": "./lib/api.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": {
@@ -30,7 +30,7 @@
 		"url": "https://github.com/GongT/baobao"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:*",
+		"@idlebox/common": "workspace:^",
 		"fancy-log": "^2.0.0",
 		"fs-extra": "^10.1.0",
 		"mysql": "^2.18.1",
@@ -41,8 +41,8 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:*",
-		"@rushstack/heft": "^0.48.8",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@rushstack/heft": "^0.56.0",
 		"@types/fancy-log": "^2.0.0",
 		"@types/fs-extra": "^9.0.13",
 		"@types/mysql": "^2.15.21",
@@ -50,9 +50,7 @@
 		"@types/pretty": "^2.0.1",
 		"@types/react": "^18.0.25",
 		"@types/react-dom": "^18.0.9",
-		"local-rig": "workspace:*",
-		"typescript": "^4.8.4",
-		"@build-script/heft-duel-stack": "workspace:*"
+		"@internal/local-rig": "workspace:^"
 	},
 	"exportAllInOne": {
 		"exportEverything": false

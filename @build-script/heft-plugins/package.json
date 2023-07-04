@@ -1,0 +1,35 @@
+{
+	"name": "@build-script/heft-plugins",
+	"type": "commonjs",
+	"version": "0.0.2",
+	"main": "./tests/a.cjs",
+	"module": "./tests/a.mjs",
+	"bin": {
+		"node-import-test": "bin/node-import-test.js",
+		"codegen": "bin/codegen.js"
+	},
+	"scripts": {
+		"prepack": "heft build --production --clean",
+		"build": "heft build",
+		"_phase:build": "heft build",
+		"watch": "heft build-watch",
+		"clean": "heft clean",
+		"test": "heft test --clean"
+	},
+	"dependencies": {
+		"@gongt/fix-esm": "workspace:^",
+		"@idlebox/json-extends-loader": "workspace:^",
+		"@idlebox/typescript-surface-analyzer": "workspace:^",
+		"@rushstack/heft-typescript-plugin": "^0.1.11",
+		"@rushstack/node-core-library": "^3.59.4",
+		"execa": "^6.1.0",
+		"glob": "^10.3.1",
+		"tslib": "^2.4.1"
+	},
+	"devDependencies": {
+		"@rushstack/heft": "^0.56.0",
+		"@types/node": "^18.15.2",
+		"@internal/local-rig": "workspace:^",
+		"typescript": "^5.1.6"
+	}
+}

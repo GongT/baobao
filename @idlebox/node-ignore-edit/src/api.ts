@@ -71,7 +71,7 @@ function isEmptyLine(line: string | symbol) {
 }
 
 function trimLastEmptyLines(lines: (string | symbol)[]) {
-	while (isEmptyLine(lines[lines.length - 1])) {
+	while (isEmptyLine(lines[lines.length - 1]!)) {
 		lines.pop();
 	}
 }
@@ -93,7 +93,7 @@ function wrapProxy(instance: IIgnoreFileData, content: string): IIgnoreFile {
 			sections.push(section);
 			instance[section] = current;
 		} else if (!line) {
-			if (current.length > 0 && !isEmptyLine(current[current.length - 1])) {
+			if (current.length > 0 && !isEmptyLine(current[current.length - 1]!)) {
 				current.push(emptyLine());
 			}
 		} else {
@@ -169,7 +169,7 @@ export function loadFile(file: string, create = false): IIgnoreFile {
 }
 
 export class WrappedArray extends Array<string> {
-	push(...items: string[]): number {
+	override push(...items: string[]): number {
 		if (items.length === 0) {
 			return super.length;
 		}
@@ -197,7 +197,7 @@ export class WrappedArray extends Array<string> {
 		return super.length;
 	}
 
-	unshift(...items: string[]): number {
+	override unshift(...items: string[]): number {
 		if (items.length === 0) {
 			return super.length;
 		}
@@ -222,7 +222,7 @@ export class WrappedArray extends Array<string> {
 
 		return super.length;
 	}
-	splice(start: number, deleteCount: number, ...items: string[]): string[] {
+	override splice(start: number, deleteCount: number, ...items: string[]): string[] {
 		const ret = super.splice(start, deleteCount);
 		if (items.length === 0) {
 			return ret;

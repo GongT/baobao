@@ -1,14 +1,11 @@
 {
-	"extends": "local-rig/profiles/default/tsconfig.json",
+	"extends": "@internal/dualstack-rig/profiles/all-in-one/tsconfig.json",
 	"compilerOptions": {
-		"typeRoots": ["./node_modules/@types", "./node_modules"],
-		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
-		"declarationDir": "../temp/dts",
 		"rootDir": "./",
-
-		"types": ["@idlebox/itypes"]
+		"declarationDir": "../temp/dts-out",
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json"
 	},
-	"include": ["**/*.ts"],
 	"exclude": ["**/*.generator.ts"]
 }

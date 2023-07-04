@@ -1,0 +1,88 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+	"extends": "../../default/config/heft.json",
+	"aliasesByName": {},
+	"phasesByName": {
+		"pre-compile": {
+			"cleanFiles": [{ "sourcePath": "src", "includeGlobs": ["__create_index.generated.ts"] }],
+			"tasksByName": {
+				"create-index": {
+					"taskDependencies": ["codegen"],
+					"taskPlugin": {
+						"pluginName": "create-index",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"project": "src/tsconfig.json"
+						}
+					}
+				}
+			}
+		},
+		"compile": {
+			"cleanFiles": [{ "sourcePath": "temp" }, { "sourcePath": "lib" }],
+			"tasksByName": {
+				"typescript": {
+					"taskPlugin": {
+						"pluginName": "typescript",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"extension": ".mjs",
+							"compilerOptions": {
+								"module": "esnext",
+								"outDir": "../lib/esm",
+								"tsBuildInfoFile": "../temp/tsbuildinfo.mjs.json"
+							}
+						}
+					}
+				},
+				"typescript-cjs": {
+					"taskPlugin": {
+						"pluginName": "typescript",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"fast": true,
+							"extension": ".cjs",
+							"compilerOptions": {
+								"module": "commonjs",
+								"outDir": "../lib/cjs",
+								"tsBuildInfoFile": "../temp/tsbuildinfo.cjs.json"
+							}
+						}
+					}
+				}
+			}
+		},
+		"post-compile": {
+			"tasksByName": {
+				"api-extractor": {
+					"taskPlugin": {
+						"pluginPackage": "@rushstack/heft-api-extractor-plugin"
+					}
+				},
+				"copy-dts": {
+					"taskDependencies": ["api-extractor"],
+					"taskPlugin": {
+						"pluginName": "copy-dts-index",
+						"pluginPackage": "@internal/plugins",
+						"options": {
+							"sourceFile": "temp/api-extractor/public.d.ts"
+						}
+					}
+				},
+				"add-fix-esm": {
+					"taskPlugin": {
+						"pluginName": "modify-entry",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"main": {
+								"prefix": "< scripts/prefix.js",
+								"missing": true
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"heftPlugins": []
+}

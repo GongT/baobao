@@ -17,9 +17,9 @@ export function generate() {
 		returnList.push(`\${T${i}}`);
 
 		const type = typeList.join(', ');
-		const arg = argList.join(',\n\t');
+		const arg = argList.join(', ');
 		const ret = returnList.join('');
-		content += `export function concatStringType<${type}>(\n\t${arg}\n): \`${ret}\`;\n`;
+		content += `export function concatStringType\n\t<${type}>\n\t\t(${arg}):\n\t\`${ret}\`;\n`;
 	}
 
 	const full: string = readFileSync(__filename, 'utf-8');

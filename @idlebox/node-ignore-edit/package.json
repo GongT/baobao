@@ -6,38 +6,32 @@
 	"keywords": ["gitignore", "ignorefile"],
 	"license": "MIT",
 	"author": "GongT",
-	"main": "./lib/api.cjs",
-	"module": "./lib/api.js",
+	"bin": "bin.cjs",
+	"main": "./lib/cjs/api.js",
+	"module": "./lib/esm/api.js",
 	"exports": {
 		".": {
-			"import": "./lib/api.js",
-			"require": "./lib/api.cjs"
+			"require": "./lib/cjs/api.js",
+			"import": "./lib/esm/api.js"
 		},
 		"./package.json": "./package.json"
 	},
-	"bin": "bin.cjs",
-	"types": "./lib/node-ignore-edit.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "latest",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:^",
-		"@build-script/node-import-test": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@rushstack/heft": "^0.48.8",
-		"@microsoft/api-extractor": "^7.33.6",
-		"@types/node": "^18.11.9",
-		"local-rig": "workspace:^",
-		"typescript": "^4.9.3"
+		"@rushstack/heft": "^0.56.0",
+		"@types/node": "^18.15.2",
+		"@internal/local-rig": "workspace:^"
 	}
 }

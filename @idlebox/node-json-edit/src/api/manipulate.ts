@@ -1,5 +1,5 @@
-import { getKeySort, setKeySort } from '../tools/attachData';
-import { insertArrayAlphabet } from '../tools/array';
+import { getKeySort, setKeySort } from '../tools/attachData.js';
+import { insertArrayAlphabet } from '../tools/array.js';
 
 export enum UnorderdFieldsPlacement {
 	PREPEND,

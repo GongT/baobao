@@ -1,0 +1,9 @@
+{
+	"extends": "@build-script/single-dog-asset/package/tsconfig.no-lib.json",
+	"compilerOptions": {
+		"module": "CommonJS",
+		"typeRoots": ["../node_modules"],
+		"rootDir": "./",
+		"outDir": "../lib"
+	}
+}

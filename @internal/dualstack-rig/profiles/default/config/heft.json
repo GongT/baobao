@@ -1,0 +1,70 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+	"aliasesByName": {},
+	"phasesByName": {
+		"pre-compile": {
+			"cleanFiles": [{ "sourcePath": "src", "includeGlobs": ["**/*.generated.ts"] }],
+			"tasksByName": {
+				"check-project": {
+					"taskPlugin": {
+						"pluginName": "check-project",
+						"pluginPackage": "@internal/plugins",
+						"options": {}
+					}
+				},
+				"codegen": {
+					"taskPlugin": {
+						"pluginName": "codegen",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"project": "src/tsconfig.json"
+						}
+					}
+				}
+			}
+		},
+		"compile": {
+			// "phaseDescription": "run build process",
+			"phaseDependencies": ["pre-compile"],
+			"cleanFiles": [
+				{ "sourcePath": "temp" },
+				{ "sourcePath": "lib" },
+				{ "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
+				{ "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
+			],
+			"tasksByName": {
+				"typescript": {
+					"taskPlugin": {
+						"pluginPackage": "@rushstack/heft-typescript-plugin",
+						"options": {}
+					}
+				}
+			}
+		},
+		"post-compile": {
+			"phaseDependencies": ["compile"]
+		},
+		"build": {
+			"cleanFiles": [
+				{ "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
+				{ "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
+			],
+			"phaseDependencies": ["post-compile"],
+			"tasksByName": {
+				"import-test": {
+					"taskPlugin": {
+						"pluginName": "import-test",
+						"pluginPackage": "@build-script/heft-plugins"
+					}
+				}
+
+				// "lint": {
+				// 	"taskPlugin": {
+				// 		"pluginPackage": "@rushstack/heft-lint-plugin"
+				// 	}
+				// }
+			}
+		}
+	},
+	"heftPlugins": []
+}

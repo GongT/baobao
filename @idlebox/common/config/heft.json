@@ -1,10 +1,18 @@
 {
-	"$schema": "https://developer.microsoft.com/json-schemas/heft/heft.schema.json",
-	"extends": "local-rig/profiles/default/heft.json",
-	"eventActions": [],
-	"heftPlugins": [
-		{ "plugin": "@build-script/heft-duel-stack" },
-		{ "plugin": "@idlebox/itypes/remove" },
-		{ "plugin": "@build-script/codegen", "options": { "project": "src" } }
-	]
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+	"extends": "@internal/dualstack-rig/profiles/all-in-one/config/heft.json",
+	"aliasesByName": {},
+	"phasesByName": {
+		"post-compile": {
+			"tasksByName": {
+				"filter-dts": {
+					"taskDependencies": ["copy-dts"],
+					"taskPlugin": {
+						"pluginPackage": "@idlebox/common",
+						"options": {}
+					}
+				}
+			}
+		}
+	}
 }

@@ -16,13 +16,13 @@ import { Transform } from 'stream';
 // @public (undocumented)
 export type ExtraSpawnOptions = Pick<SpawnOptions, 'cwd' | 'env' | 'uid' | 'gid' | 'shell'>;
 
-// Warning: (ae-forgotten-export) The symbol "FilterStream" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "FilterStream" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "handleOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function handleOutput(stream: NodeJS.ReadableStream): FilterStream;
 
-// Warning: (ae-forgotten-export) The symbol "ProgressStream" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "ProgressStream" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "handleProgress" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

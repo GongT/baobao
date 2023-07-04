@@ -1,29 +1,29 @@
+import type TypeScriptApi from 'typescript';
 import { inspect, InspectOptions } from 'util';
-import ts from 'typescript';
 import { createColor, createInspectTab, ILogger } from './logger';
 import { IResolveResult } from './MapResolver';
-import { idToString } from './tsapi.helpers';
+import { ApiHost } from './tsapi.helpers';
 
 import type { inspect as utilsInspect } from 'util';
 
 export interface WithOriginal {
-	id?: ts.Identifier;
+	id?: TypeScriptApi.Identifier;
 }
 
 export interface IResolveResultWithNode {
-	node: ts.Node;
+	node: TypeScriptApi.Node;
 	reference: IResolveResult;
 }
 
 export interface IDefaultResult {
-	node: ts.Node;
-	id?: ts.Identifier;
+	node: TypeScriptApi.Node;
+	id?: TypeScriptApi.Identifier;
 	kind: ExportKind;
 }
 
 export interface IIdentifierResult {
-	node: ts.Node;
-	id: ts.Identifier;
+	node: TypeScriptApi.Node;
+	id: TypeScriptApi.Identifier;
 	kind: ExportKind;
 	reference?: IResolveResult & WithOriginal;
 }
@@ -37,7 +37,7 @@ export enum ExportKind {
 }
 
 export interface ITypescriptFile {
-	readonly sourceFile: ts.SourceFile;
+	readonly sourceFile: TypeScriptApi.SourceFile;
 	readonly relativePath: string;
 	readonly absolutePath: string;
 
@@ -53,35 +53,40 @@ export class TokenCollector implements ITypescriptFile {
 
 	public readonly absolutePath: string;
 	constructor(
-		public readonly sourceFile: ts.SourceFile,
+		public readonly sourceFile: TypeScriptApi.SourceFile,
 		public readonly relativePath: string,
 		private readonly logger: ILogger
 	) {
 		this.absolutePath = sourceFile.fileName;
 	}
 
-	add(id: ts.Identifier, node: ts.Node, kind: ExportKind) {
-		const name = idToString(id);
-		if (this.identifiers.has(name)) this.logger.log('duplicate exported identifier: %s', idToString(id));
+	add(id: TypeScriptApi.Identifier, node: TypeScriptApi.Node, kind: ExportKind) {
+		const name = ApiHost.idToString(id);
+		if (this.identifiers.has(name)) this.logger.debug('duplicate exported identifier: %s', ApiHost.idToString(id));
 
 		this.identifiers.set(name, { node, id, kind });
 	}
 
-	addRef(id: ts.Identifier, node: ts.Node, reference: IResolveResult & WithOriginal, kind = ExportKind.Unknown) {
-		const name = idToString(id);
-		if (this.identifiers.has(name)) this.logger.log('duplicate exported identifier: %s', idToString(id));
+	addRef(
+		id: TypeScriptApi.Identifier,
+		node: TypeScriptApi.Node,
+		reference: IResolveResult & WithOriginal,
+		kind = ExportKind.Unknown
+	) {
+		const name = ApiHost.idToString(id);
+		if (this.identifiers.has(name)) this.logger.debug('duplicate exported identifier: %s', ApiHost.idToString(id));
 
 		this.identifiers.set(name, { node, id, kind, reference });
 	}
 
-	addNamespaceRef(otherFile: IResolveResult, node: ts.Node) {
+	addNamespaceRef(otherFile: IResolveResult, node: TypeScriptApi.Node) {
 		this.references.push({
 			reference: otherFile,
 			node,
 		});
 	}
 
-	setDefault(id: undefined | ts.Identifier, node: ts.Node, kind: ExportKind) {
+	setDefault(id: undefined | TypeScriptApi.Identifier, node: TypeScriptApi.Node, kind: ExportKind) {
 		if (this._defaultExport) this.logger.error('duplicate exported identifier: default');
 		this._defaultExport = { id, node, kind };
 	}
@@ -107,7 +112,7 @@ export class TokenCollector implements ITypescriptFile {
 					}
 					ret += `from ${def.reference.type === 'file' ? def.reference.relative : def.reference.name}`;
 					if (def.reference.id) {
-						ret += `:${idToString(def.reference.id)}`;
+						ret += `:${ApiHost.idToString(def.reference.id)}`;
 					}
 					ret += ')';
 				} else {
@@ -127,7 +132,7 @@ export class TokenCollector implements ITypescriptFile {
 		if (this._defaultExport) {
 			ret += tab + c.red('default') + ': ';
 			if (this._defaultExport.id) {
-				ret += c.gay(idToString(this._defaultExport.id));
+				ret += c.gay(ApiHost.idToString(this._defaultExport.id));
 			} else {
 				ret += c.gay('anonymouse');
 			}

@@ -1,45 +1,42 @@
 {
 	"name": "@idlebox/typescript-surface-analyzer",
-	"type": "commonjs",
 	"version": "0.0.7",
 	"description": "Api and CLI tool for collect export information in typescript project",
 	"keywords": [],
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "lib/api.js",
+	"main": "./lib/cjs/api.js",
+	"module": "./lib/esm/api.js",
 	"exports": {
-		".": "./lib/api.js",
+		".": {
+			"require": "./lib/cjs/api.js",
+			"import": "./lib/esm/api.js"
+		},
 		"./package.json": "./package.json"
 	},
-	"bin": {
-		"generate-ts-index": "bin.js"
-	},
-	"types": "./lib/api.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "^1.3.16",
 		"@idlebox/node": "^1.2.13",
-		"@idlebox/node-ignore-edit": "^0.0.4",
-		"@idlebox/node-json-edit": "^2.0.24",
-		"@idlebox/tsconfig-loader": "workspace:*",
+		"@idlebox/node-ignore-edit": "workspace:^",
+		"@idlebox/node-json-edit": "workspace:^",
+		"@idlebox/tsconfig-loader": "workspace:^",
 		"minimatch": "^5.1.0",
-		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
+		"@rushstack/heft": "^0.56.0",
 		"@types/minimatch": "^5.1.2",
-		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.9",
-		"local-rig": "workspace:*",
-		"typescript": "^4.9.3"
+		"@types/node": "^18.15.2",
+		"@internal/local-rig": "workspace:^",
+		"typescript": "^5.1.6"
 	},
 	"peerDependencies": {
 		"typescript": "*"

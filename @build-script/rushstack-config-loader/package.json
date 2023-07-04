@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rushstack-config-loader",
 	"type": "commonjs",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",
@@ -25,7 +25,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@microsoft/api-extractor": "^7.36.0",
 		"@rushstack/heft": "^0.56.0",
-		"@types/node": "^18.11.9",
-		"local-rig": "workspace:^"
+		"@types/node": "^18.15.2",
+		"@internal/local-rig": "workspace:^"
 	}
 }

@@ -1,8 +1,8 @@
-import { readFileSync, readFile as readFileAsync } from 'fs';
-import { format, resolveConfig, Options as PrettierOptions } from 'prettier';
-import { IFileFormatConfig } from '..';
-import { pathExistsSync, pathExistsAsync } from './filesystem';
+import { readFile as readFileAsync, readFileSync } from 'fs';
 import { promisify } from 'util';
+import prettier from 'prettier';
+import { IFileFormatConfig } from '../';
+import { pathExistsAsync, pathExistsSync } from './filesystem.js';
 
 const readFile = promisify(readFileAsync);
 
@@ -13,7 +13,7 @@ enum LineFeed {
 
 type PassedFormats = 'trailingComma' | 'parser' | 'filepath' | 'quoteProps';
 
-export interface IInternalFormat extends IFileFormatConfig, Pick<PrettierOptions, PassedFormats> {}
+export interface IInternalFormat extends IFileFormatConfig, Pick<prettier.Options, PassedFormats> {}
 
 const defaultFormat: IInternalFormat = {
 	parser: 'json',
@@ -36,7 +36,7 @@ export class PrettyFormat {
 	}
 
 	format(text: string) {
-		const result = format(text, {
+		const result = prettier.format(text, {
 			...this.current,
 			parser: 'json',
 			singleQuote: false,
@@ -47,9 +47,9 @@ export class PrettyFormat {
 	}
 
 	learnFromFileSync(file: string, content?: string) {
-		let f: PrettierOptions | null = null;
+		let f: prettier.Options | null = null;
 		if (process.env.PRETTIER_CONFIG) {
-			f = resolveConfig.sync(process.env.PRETTIER_CONFIG, {
+			f = prettier.resolveConfig.sync(process.env.PRETTIER_CONFIG, {
 				editorconfig: true,
 			});
 			if (!f) {
@@ -57,7 +57,7 @@ export class PrettyFormat {
 			}
 		}
 		if (!f) {
-			f = resolveConfig.sync(file, { editorconfig: true });
+			f = prettier.resolveConfig.sync(file, { editorconfig: true });
 		}
 		if (f) {
 			this.setFormat({ ...f, lastNewLine: true });
@@ -69,7 +69,7 @@ export class PrettyFormat {
 	}
 
 	async learnFromFileAsync(file: string, content?: string) {
-		const f = await resolveConfig(file, { editorconfig: true });
+		const f = await prettier.resolveConfig(file, { editorconfig: true });
 		if (f) {
 			this.setFormat({ ...f, lastNewLine: true });
 		} else if (await pathExistsAsync(file)) {

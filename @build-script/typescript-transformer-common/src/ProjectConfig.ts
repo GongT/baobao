@@ -6,7 +6,7 @@ export class ProjectConfig {
 	public readonly tsconfigPath: string;
 
 	constructor(protected readonly options: ts.CompilerOptions, protected readonly logger: IDebug) {
-		this.tsconfigPath = options.configFilePath as any;
+		this.tsconfigPath = options['configFilePath'] as any;
 		if (!this.tsconfigPath) {
 			logger.error(
 				`current TypeScript API (${ts.version}) not compitable with "${require('../package.json').name}"`

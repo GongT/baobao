@@ -6,7 +6,7 @@ export class TimeoutPromisePool extends PromisePool {
 		super();
 	}
 
-	create(id: string, timeoutMs: number = this.defaultTimeoutMs, timeoutMsg?: string) {
+	override create(id: string, timeoutMs: number = this.defaultTimeoutMs, timeoutMsg?: string) {
 		const p = super.create(id);
 
 		const to = setTimeout(() => {

@@ -101,6 +101,12 @@
 			"associatedCommands": ["batch-modify-json"]
 		},
 		{
+			"parameterKind": "flag",
+			"longName": "--clean",
+			"description": "运行构建附带--clean参数",
+			"associatedCommands": ["build", "rebuild"]
+		},
+		{
 			"parameterKind": "choice",
 			"longName": "--action",
 			"shortName": "-a",

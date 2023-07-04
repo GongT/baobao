@@ -1,7 +1,7 @@
 import { stringify } from 'comment-json';
 import { doc, Options as PrettierOptions } from 'prettier';
-import { getAttachedFormat } from '../tools/attachData';
-import { manipulateJsonResult, UnorderdFieldsPlacement } from './manipulate';
+import { getAttachedFormat } from '../tools/attachData.js';
+import { manipulateJsonResult, UnorderdFieldsPlacement } from './manipulate.js';
 
 type PassedEditableFormats = 'bracketSpacing' | 'endOfLine';
 export interface IFileFormatConfig extends doc.printer.Options, Pick<PrettierOptions, PassedEditableFormats> {

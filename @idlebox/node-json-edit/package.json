@@ -5,21 +5,20 @@
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"license": "MIT",
-	"main": "./lib/index.cjs",
-	"module": "./lib/index.js",
+	"main": "./lib/cjs/index.js",
+	"module": "./lib/esm/index.js",
 	"exports": {
 		".": {
-			"import": "./lib/index.js",
-			"require": "./lib/index.cjs"
+			"require": "./lib/cjs/index.js",
+			"import": "./lib/esm/index.js"
 		},
 		"./package.json": "./package.json"
 	},
-	"typings": "./lib/node-json-edit.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
@@ -29,17 +28,12 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:^",
-		"@build-script/node-import-test": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/typescript-transformer-dual-package": "workspace:^",
-		"@microsoft/api-extractor": "^7.33.6",
-		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.9",
+		"@rushstack/heft": "^0.56.0",
+		"@types/node": "^18.15.2",
 		"@types/prettier": "^2.7.1",
-		"local-rig": "workspace:^",
-		"source-map-support": "^0.5.21",
-		"typescript": "^4.9.3"
+		"@internal/local-rig": "workspace:^",
+		"source-map-support": "^0.5.21"
 	},
 	"monorepo": true
 }

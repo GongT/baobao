@@ -7,11 +7,10 @@
 		"poormans-package-change": "./bin/load.js"
 	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
@@ -31,15 +30,14 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.48.8",
+		"@rushstack/heft": "^0.56.0",
 		"@types/cacache": "^15.0.1",
 		"@types/fs-extra": "^9.0.13",
-		"@types/node": "^18.11.9",
+		"@types/node": "^18.15.2",
 		"@types/request": "^2.48.8",
 		"@types/semver": "^7.3.13",
 		"@types/targz": "^1.0.1",
-		"local-rig": "workspace:^",
-		"typescript": "^4.9.3"
+		"@internal/local-rig": "workspace:^"
 	},
 	"monorepo": "rush"
 }

@@ -106,7 +106,7 @@ export function getProjectConfigFile(command: TypeScriptApi.ParsedCommandLine | 
 }
 
 function getRoot(command: TypeScriptApi.ParsedCommandLine | TypeScriptApi.CompilerOptions, type: 'outDir' | 'rootDir') {
-	let options: TypeScriptApi.CompilerOptions = command.raw
+	let options: TypeScriptApi.CompilerOptions = command.options
 		? (command as TypeScriptApi.ParsedCommandLine).options
 		: (command as TypeScriptApi.CompilerOptions);
 	const ret = options[type] || dirname(options.configFilePath as string);

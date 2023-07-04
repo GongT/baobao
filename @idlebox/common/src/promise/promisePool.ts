@@ -22,12 +22,12 @@ export class PromisePool {
 	}
 
 	done(id: string, data: any) {
-		this.promiseList[id].complete(data);
+		this.promiseList[id]!.complete(data);
 		delete this.promiseList[id];
 	}
 
 	error(id: string, e: Error) {
-		this.promiseList[id].error(e);
+		this.promiseList[id]!.error(e);
 		delete this.promiseList[id];
 	}
 

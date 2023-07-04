@@ -38,7 +38,7 @@ export class BlackHoleStream extends Writable {
     _write(_chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
 
-// Warning: (ae-forgotten-export) The symbol "IChildProcessStatus" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "IChildProcessStatus" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "checkChildProcessResult" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -423,7 +423,7 @@ export interface ICommand {
     addonPath?: string[];
     // (undocumented)
     cwd?: string;
-    // Warning: (ae-forgotten-export) The symbol "ProcessEnv" needs to be exported by the entry point index.generated.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ProcessEnv" needs to be exported by the entry point __create_index.generated.d.ts
     //
     // (undocumented)
     env?: ProcessEnv;
@@ -595,7 +595,7 @@ export function sha256(data: Buffer): string;
 // Warning: (ae-missing-release-tag) "spawnGetEverything" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<string | undefined>;
+export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<(string & Buffer) | undefined>;
 
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -656,7 +656,7 @@ export function trySpawnInScope(cmds: string[]): never;
 //
 // @public (undocumented)
 export class WrappedTerminalConsole extends WrappedConsole {
-    // Warning: (ae-forgotten-export) The symbol "TerminalConsoleOptions" needs to be exported by the entry point index.generated.d.ts
+    // Warning: (ae-forgotten-export) The symbol "TerminalConsoleOptions" needs to be exported by the entry point __create_index.generated.d.ts
     constructor(title: string, { color, ...opt }?: WrappedConsoleOptions & TerminalConsoleOptions);
     // (undocumented)
     protected processColorLabel(msg: any[], pos: number, level: string, prefix: string): void;

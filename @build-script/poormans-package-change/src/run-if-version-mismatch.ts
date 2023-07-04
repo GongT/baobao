@@ -44,7 +44,7 @@ export async function main(argv: string[]) {
 
 	if (!version || packageJson.version !== version) {
 		log('local (%s) !== remote (%s), run command!', packageJson.version, version);
-		await execa(cmd[0], cmd.slice(1), { cwd: packagePath, stdout: 'inherit', stderr: 'inherit' });
+		await execa(cmd[0]!, cmd.slice(1), { cwd: packagePath, stdout: 'inherit', stderr: 'inherit' });
 
 		await getNewNpmCache(packageJson.name, distTag, registry);
 	} else {

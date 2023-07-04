@@ -51,7 +51,7 @@ export class AsyncCallbackList<Argument extends unknown[]> {
 		}
 		const found = this.list.indexOf(item);
 		if (found !== -1) {
-			return this.list.splice(found, 1)[0];
+			return this.list.splice(found, 1)[0]!;
 		}
 		return null;
 	}

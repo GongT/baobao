@@ -1,0 +1,36 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+	"extends": "../../simple/config/heft.json",
+	"aliasesByName": {},
+	"phasesByName": {
+		"post-compile": {
+			// "phaseDescription": "run build process",
+			"tasksByName": {
+				"finalize-package": {
+					"taskPlugin": {
+						"pluginName": "make-dualstack-package",
+						"pluginPackage": "@internal/plugins",
+						"options": {}
+					}
+				},
+				"duplicate-typings": {
+					"taskPlugin": {
+						"pluginName": "copy-files-plugin",
+						"pluginPackage": "@rushstack/heft",
+						"options": {
+							"copyOperations": [
+								{
+									"sourcePath": "lib/esm",
+									"destinationFolders": ["lib/cjs"],
+									"fileExtensions": [".d.ts", ".d.ts.map"],
+									"hardlink": true
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	},
+	"heftPlugins": []
+}

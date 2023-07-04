@@ -4,4 +4,4 @@ export * from './ProjectConfig';
 export * from './ModuleResolver';
 export * from './testReplace';
 export { AstDebug } from './astDebug';
-export { IDebug, printMyDiagnostic, formatMyDiagnostic } from './logger';
+export { type IDebug, printMyDiagnostic, formatMyDiagnostic } from './logger';

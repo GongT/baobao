@@ -1,62 +1,72 @@
+import type TypeScriptApi from 'typescript';
 import { relative } from 'path';
-import ts from 'typescript';
 
-export function relativePosix(from: string, to: string): string {
-	return relative(from, to).replace(/\\/g, '/');
-}
+export class ApiHost {
+	constructor(public readonly ts: typeof TypeScriptApi) {}
 
-export function isTagInternal(node: ts.Node) {
-	for (const item of ts.getJSDocTags(node)) {
-		if (item.tagName) {
-			const n = idToString(item.tagName).toLowerCase();
-			if (n === 'internal') {
-				return false;
+	static relativePosix(from: string, to: string): string {
+		return relative(from, to).replace(/\\/g, '/');
+	}
+
+	isTagInternal(node: TypeScriptApi.Node) {
+		for (const item of this.ts.getJSDocTags(node)) {
+			if (item.tagName) {
+				const n = ApiHost.idToString(item.tagName).toLowerCase();
+				if (n === 'internal') {
+					return false;
+				}
 			}
 		}
+		return true;
 	}
-	return true;
-}
 
-export function idToString(id: ts.Identifier) {
-	return id.escapedText.toString();
-}
-
-export function nameToString(name: ts.Identifier | ts.StringLiteral) {
-	if (ts.isStringLiteral(name)) {
-		return name.text;
-	} else {
-		return name.escapedText.toString();
+	static idToString(id: TypeScriptApi.Identifier) {
+		return id.escapedText.toString();
 	}
-}
 
-export function isExported(node: ts.Node) {
-	if (!node.modifiers) {
-		return false; // no any modify
+	idToString(id: TypeScriptApi.Identifier) {
+		return id.escapedText.toString();
 	}
-	return node.modifiers.findIndex((e) => e.kind === ts.SyntaxKind.ExportKeyword) !== -1;
-}
 
-export function isDefaultExport(node: ts.Node) {
-	if (!node.modifiers) {
-		return false; // no any modify
-	}
-	return node.modifiers.findIndex((e) => e.kind === ts.SyntaxKind.DefaultKeyword) !== -1;
-}
-
-export function findingBindingType(node: ts.BindingName): ts.Identifier[] {
-	const ret: ts.Identifier[] = [];
-	if (ts.isObjectBindingPattern(node)) {
-		for (const element of node.elements) {
-			ret.push(...findingBindingType(element.name));
+	nameToString(name: TypeScriptApi.Identifier | TypeScriptApi.StringLiteral) {
+		if (this.ts.isStringLiteral(name)) {
+			return name.text;
+		} else {
+			return name.escapedText.toString();
 		}
-	} else if (ts.isArrayBindingPattern(node)) {
-		for (const element of node.elements) {
-			if (!ts.isOmittedExpression(element)) {
-				ret.push(...findingBindingType(element.name));
+	}
+
+	isExported(n: TypeScriptApi.Node) {
+		const node = n as TypeScriptApi.ExportDeclaration;
+		if (!node.modifiers) {
+			return false; // no any modify
+		}
+		return node.modifiers.findIndex((e) => e.kind === this.ts.SyntaxKind.ExportKeyword) !== -1;
+	}
+
+	isDefaultExport(n: TypeScriptApi.Node) {
+		const node = n as TypeScriptApi.ExportDeclaration;
+		if (!node.modifiers) {
+			return false; // no any modify
+		}
+		return node.modifiers.findIndex((e) => e.kind === this.ts.SyntaxKind.DefaultKeyword) !== -1;
+	}
+
+	findingBindingType(node: TypeScriptApi.BindingName): TypeScriptApi.Identifier[] {
+		const ret: TypeScriptApi.Identifier[] = [];
+		if (this.ts.isObjectBindingPattern(node)) {
+			for (const element of node.elements) {
+				ret.push(...this.findingBindingType(element.name));
 			}
+		} else if (this.ts.isArrayBindingPattern(node)) {
+			for (const element of node.elements) {
+				if (!this.ts.isOmittedExpression(element)) {
+					ret.push(...this.findingBindingType(element.name));
+				}
+			}
+		} else if (this.ts.isIdentifier(node)) {
+			ret.push(node);
 		}
-	} else if (ts.isIdentifier(node)) {
-		ret.push(node);
+		return ret;
 	}
-	return ret;
 }

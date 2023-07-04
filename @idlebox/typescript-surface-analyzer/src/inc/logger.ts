@@ -1,4 +1,4 @@
-import ts from 'typescript';
+import type TypeScriptApi from 'typescript';
 import { InspectOptions } from 'util';
 
 export interface ILogger {
@@ -19,7 +19,7 @@ export const consoleLogger: ILogger = {
 	debug: isDebug ? console.error : () => {},
 };
 
-export function showFile(node: ts.Node) {
+export function showFile(node: TypeScriptApi.Node) {
 	const file = node.getSourceFile();
 	return '(at: ' + file.fileName + ':' + file.getLineAndCharacterOfPosition(node.getStart()).line + ')';
 }

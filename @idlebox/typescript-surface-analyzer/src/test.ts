@@ -1,10 +1,11 @@
+import * as api from './api';
 import { resolve } from 'path';
 import { inspect } from 'util';
-import * as api from './api';
+import ts from 'typescript';
 import { getOptions } from './inc/load-tsconfig';
 
 const options = getOptions(resolve(__dirname, '../test'), true);
-const p = new api.TypescriptProject(options);
+const p = new api.TypescriptProject(ts, options);
 p.additionalIgnores.add('**/*.ignore.ts');
 const list = p.execute();
 console.log(

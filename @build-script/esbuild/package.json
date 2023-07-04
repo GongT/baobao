@@ -6,18 +6,17 @@
 		"webbuild-frontend": "./bin/build.js"
 	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@build-script/rush-tools": "workspace:*",
-		"@idlebox/common": "workspace:*",
-		"@idlebox/node": "workspace:*",
+		"@build-script/rush-tools": "workspace:^",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
 		"chokidar": "^3.5.3",
 		"crc": "^4.1.1",
 		"esbuild": "^0.15.16",
@@ -29,15 +28,15 @@
 		"postcss-modules": "^6.0.0",
 		"sass": "^1.56.1",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.4.1",
-		"typescript": "^4.9.3"
+		"typescript": "^5.1.6",
+		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@rushstack/heft": "^0.48.8",
+		"@rushstack/heft": "^0.56.0",
 		"@types/express": "^4.17.14",
 		"@types/fs-extra": "^9.0.13",
 		"@types/morgan": "^1.9.3",
-		"@types/node": "^18.11.9",
-		"local-rig": "workspace:*"
+		"@types/node": "^18.15.2",
+		"@internal/local-rig": "workspace:^"
 	}
 }

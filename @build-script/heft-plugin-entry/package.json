@@ -22,7 +22,7 @@
 		"@gongt/fix-esm": "workspace:^",
 		"@rushstack/heft": "^0.56.0",
 		"@types/node": "^18.11.9",
-		"local-rig": "workspace:^",
+		"@internal/local-rig": "workspace:^",
 		"ts-node": "^10.9.1"
 	}
 }

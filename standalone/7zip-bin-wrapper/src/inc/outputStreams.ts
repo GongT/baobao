@@ -1,6 +1,6 @@
+import { platform } from 'os';
 import { Transform } from 'stream';
 import { decodeStream } from 'iconv-lite';
-import { platform } from 'os';
 import split2 from 'split2';
 
 const isWin = platform() === 'win32';
@@ -15,7 +15,7 @@ function transformOutputEncode(source: NodeJS.ReadableStream): NodeJS.ReadableSt
  * bbb
  **/
 class BackspaceNewlineStream extends Transform {
-	_transform(chunk: Buffer, _encoding: BufferEncoding, callback: Function): void {
+	override _transform(chunk: Buffer, _encoding: BufferEncoding, callback: Function): void {
 		const str = chunk
 			.toString('utf8')
 			.replace(/[\x08\x0d]+/g, '\n')
@@ -30,7 +30,7 @@ class FilterStream extends Transform {
 		super({ objectMode: true });
 	}
 
-	_transform(chunk: Buffer | string, encoding: BufferEncoding, callback: Function): void {
+	override _transform(chunk: Buffer | string, encoding: BufferEncoding, callback: Function): void {
 		if (typeof chunk !== 'string') {
 			chunk = chunk.toString(encoding);
 		}
@@ -56,10 +56,10 @@ class ProgressStream extends Transform {
 		super({ objectMode: true });
 	}
 
-	_transform(chunk: string, _encoding: BufferEncoding, callback: Function): void {
+	override _transform(chunk: string, _encoding: BufferEncoding, callback: Function): void {
 		const match = matchExp.exec(chunk);
 		if (match) {
-			const percent = parseInt(match[1]);
+			const percent = parseInt(match[1]!);
 			if (!isNaN(percent)) {
 				this.push({
 					progress: percent,
@@ -93,7 +93,7 @@ export class LoggerStream extends Transform {
 		super({ objectMode: true });
 	}
 
-	_transform(chunk: string, encoding: BufferEncoding, callback: Function): void {
+	override _transform(chunk: string, encoding: BufferEncoding, callback: Function): void {
 		console.error(`${this.pp}: ${chunk}`);
 		this.push(chunk, encoding);
 		callback();

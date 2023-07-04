@@ -36,9 +36,9 @@ export class I7zHandler extends EventEmitter {
 		this._promise = processPromise(this.cp, this.commandline, this.cwd).catch((e) => e);
 	}
 
-	on(event: 'progress', cb: (progress: IStatusReport) => void): this;
-	on(event: 'output', cb: (data: string) => void): this;
-	on(event: string, cb: (...args: any[]) => void): this {
+	override on(event: 'progress', cb: (progress: IStatusReport) => void): this;
+	override on(event: 'output', cb: (data: string) => void): this;
+	override on(event: string, cb: (...args: any[]) => void): this {
 		return super.on(event, cb);
 	}
 

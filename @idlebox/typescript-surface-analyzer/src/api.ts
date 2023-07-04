@@ -1,27 +1,34 @@
-import { IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
-import ts from 'typescript';
+import type TypeScriptApi from 'typescript';
 import { FileCollector } from './inc/FileCollector';
 import { IgnoreFiles } from './inc/IgnoreFiles';
 import { consoleLogger, ILogger } from './inc/logger';
 import { ITypescriptFile } from './inc/TokenCollector';
+import { ApiHost } from './inc/tsapi.helpers';
 
-export { generateIndex } from './inc/generateIndex';
 export { loadFilter } from './inc/loadFilter';
-export { ILogger } from './inc/logger';
+export type { ILogger } from './inc/logger';
+export type { IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
+export { ExportKind } from './inc/TokenCollector';
 
 export class TypescriptProject {
 	public readonly projectFiles: readonly string[];
-	private readonly host: ts.CompilerHost;
+	private readonly host: TypeScriptApi.CompilerHost;
 	public readonly additionalIgnores: IgnoreFiles;
+	private readonly api: ApiHost;
 
-	constructor(private readonly command: IExtendParsedCommandLine, private readonly logger: ILogger = consoleLogger) {
+	constructor(
+		readonly ts: typeof TypeScriptApi,
+		private readonly command: TypeScriptApi.ParsedCommandLine,
+		private readonly logger: ILogger = consoleLogger
+	) {
+		this.api = new ApiHost(ts);
 		this.projectFiles = this.command.fileNames;
 		this.host = ts.createCompilerHost(this.command.options, true);
 
 		this.additionalIgnores = new IgnoreFiles(logger);
 	}
 
-	get compilerOptions(): Readonly<ts.CompilerOptions> {
+	get compilerOptions(): Readonly<TypeScriptApi.CompilerOptions> {
 		return this.command.options;
 	}
 
@@ -29,13 +36,13 @@ export class TypescriptProject {
 		return this.command.options.rootDir;
 	}
 
-	public createNewProgram(): ts.Program {
-		return ts.createProgram(this.additionalIgnores.filter(this.projectFiles), this.command.options, this.host);
+	public createNewProgram(): TypeScriptApi.Program {
+		return this.ts.createProgram(this.additionalIgnores.filter(this.projectFiles), this.command.options, this.host);
 	}
 
 	public execute(): ITypescriptFile[] {
 		const program = this.createNewProgram();
-		const ret = new FileCollector(this.command.options, this.logger);
+		const ret = new FileCollector(this.api, this.command.options, this.logger);
 		// const tc = program.getTypeChecker();
 		// this.logger.debug('project files: %s', this.projectFiles);
 		// this.logger.debug('matched files: %s', program.getRootFileNames());

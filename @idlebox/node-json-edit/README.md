@@ -6,12 +6,7 @@ Additional:
 
 -   Insert property at alphabet order, not at last.
 -   Re-sort keys (in any order you want).
--   Format file with prettier. auto load prettier config. can override with argument.
-
-**prettier**: `http://prettier.io/`
+-   Format file with [prettier](https://prettier.io/).
+-   Auto load prettier config (can override with argument).
 
 ## Usage
-
-See:
-
--   [docs](./docs/package-public.d.ts)

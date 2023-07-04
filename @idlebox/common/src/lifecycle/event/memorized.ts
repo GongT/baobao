@@ -32,7 +32,7 @@ export class MemorizedEmitter<T> extends Emitter<T> {
 		this._is_memo = false;
 	}
 
-	dispose(): void {
+	override dispose(): void {
 		this.forget();
 		super.dispose();
 	}

@@ -6,6 +6,17 @@
 
 import { DeepReadonly } from '@idlebox/common';
 import { DepGraph } from 'dependency-graph';
+import { ExecaReturnValue } from 'execa';
+
+// Warning: (ae-missing-release-tag) "argumentError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function argumentError(message: string, argMap: IArgumentsDefine[]): never;
+
+// Warning: (ae-missing-release-tag) "buildAction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function buildAction(action: string, argv: string[]): Promise<void>;
 
 // Warning: (ae-missing-release-tag) "buildProjects" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "buildProjects" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -20,6 +31,45 @@ export function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallb
 //
 // @public (undocumented)
 export function createDeps(rushProject: RushProject): DepGraph<IGraphAttachedData>;
+
+// Warning: (ae-missing-release-tag) "createExecuteWrapper" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createExecuteWrapper(rush: RushProject, name: string, path: string): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createLink" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createLink(rush: RushProject, name: string, path: string): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createLinkIfNot" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createLinkIfNot(rush: RushProject, name: string, path: string): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createTasks" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createTasks(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createVSCode" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createVSCode(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "createYarn" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function createYarn(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "description" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "description" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function description(func: any): string;
+
+// @public (undocumented)
+export function description(func: any, desc: string): void;
 
 // Warning: (ae-missing-release-tag) "eachProject" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -45,6 +95,18 @@ export function findRushRootPath(fromPath?: string): Promise<string | null>;
 //
 // @public (undocumented)
 export function findRushRootPathSync(fromPath?: string): string | null;
+
+// Warning: (ae-missing-release-tag) "IArgumentsDefine" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IArgumentsDefine {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    optional?: boolean;
+}
 
 // Warning: (ae-missing-release-tag) "IBuildProjectOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -82,6 +144,19 @@ export interface IGraphAttachedData {
     // (undocumented)
     readonly shouldPublish: boolean;
 }
+
+// Warning: (ae-missing-release-tag) "IJob" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IJob<T> {
+    // (undocumented)
+    (arg: T): Promise<void>;
+}
+
+// Warning: (ae-missing-release-tag) "info" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function info(txt: string, ...args: any[]): void;
 
 // Warning: (ae-missing-release-tag) "IProjectCallback" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -141,6 +216,11 @@ export interface IRushConfig {
     yarnVersion?: string;
 }
 
+// Warning: (ae-missing-release-tag) "linkLocalBins" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function linkLocalBins(): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "loadConfig" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -151,15 +231,78 @@ export function loadConfig(fromPath?: string): Promise<IRushConfig | null>;
 // @public (undocumented)
 export function loadConfigSync(fromPath?: string): IRushConfig | null;
 
+// Warning: (ae-missing-release-tag) "main" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function main(): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "NormalError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class NormalError extends Error {
+}
+
+// Warning: (ae-missing-release-tag) "optionalArgument" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function optionalArgument(name: string): string | undefined;
+
 // Warning: (ae-missing-release-tag) "overallOrder" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function overallOrder(rushProject?: RushProject): DeepReadonly<IProjectConfig>[];
 
+// Warning: (ae-forgotten-export) The symbol "IRunArgs" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-missing-release-tag) "parseForeachCommand" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function parseForeachCommand(argv: string[], extraFlags?: string[]): IRunArgs;
+
+// Warning: (ae-missing-release-tag) "publishLocal" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function publishLocal(argv: string[]): Promise<void>;
+
 // Warning: (ae-missing-release-tag) "registerProjectToRush" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function registerProjectToRush(projectPath: string, log?: (message?: any, ...optionalParams: any[]) => void): Promise<boolean>;
+
+// Warning: (ae-missing-release-tag) "requireArgument" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function requireArgument(name: string): string;
+
+// Warning: (ae-missing-release-tag) "requireRushPath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function requireRushPath(path?: string): Promise<string>;
+
+// Warning: (ae-missing-release-tag) "requireRushPathSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function requireRushPathSync(path?: string): string;
+
+// Warning: (ae-missing-release-tag) "resolveNpm" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function resolveNpm(versions: Map<string, string>): Promise<Map<string, string>>;
+
+// Warning: (ae-missing-release-tag) "runCustomCommand" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function runCustomCommand(rush: RushProject, project: string | ICProjectConfig, options: IRunArgs): Promise<void>;
+
+// Warning: (ae-missing-release-tag) "RunQueue" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class RunQueue<T> {
+    constructor(job: IJob<T>, concurrent?: number);
+    // (undocumented)
+    register(id: string, arg: T, deps: ReadonlyArray<string>): void;
+    // (undocumented)
+    run(): Promise<void>;
+}
 
 // Warning: (ae-missing-release-tag) "RushProject" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -208,7 +351,7 @@ export class RushProject {
     isProjectPublic(project: ICProjectConfig): boolean;
     // (undocumented)
     isWorkspaceEnabled(): boolean | undefined;
-    // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point api.d.ts
+    // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point __create_index.generated.d.ts
     //
     // (undocumented)
     packageDependency(project: ICProjectConfig | string, options?: IProjectDependencyOptions): string[];
@@ -229,6 +372,62 @@ export class RushProject {
     // (undocumented)
     get tempRoot(): string;
 }
+
+// Warning: (ae-missing-release-tag) "shiftArgumentFlag" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function shiftArgumentFlag(argv: string[], flag: string): boolean;
+
+// Warning: (ae-missing-release-tag) "spawnRushPassthrough" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function spawnRushPassthrough(action: string, argv: string[], env?: Record<string, string>): Promise<ExecaReturnValue<string>>;
+
+// Warning: (ae-missing-release-tag) "spinner" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const spinner: {
+    interval: number;
+    frames: string[];
+};
+
+// Warning: (ae-forgotten-export) The symbol "update" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-missing-release-tag) "updateAllInstallers" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const updateAllInstallers: typeof update;
+
+// Warnings were encountered during analysis:
+//
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1014:11 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1015:10 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1016:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1017:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1018:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1019:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1020:11 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1021:13 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1022:11 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1023:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1024:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1025:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1026:17 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1027:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1028:21 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1029:15 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1030:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1031:10 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1032:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1034:32 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1037:41 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1050:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:40:31 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:120:26 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:127:17 - (TS2503) Cannot find namespace 'NodeJS'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:237:20 - (TS2304) Cannot find name 'AbortSignal'.
 
 // (No @packageDocumentation comment for this package)
 

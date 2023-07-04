@@ -12,11 +12,10 @@
 		"vscode": "^1.32.0"
 	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
@@ -27,10 +26,9 @@
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.68.0",
-		"local-rig": "workspace:*",
+		"@internal/local-rig": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:*1.0.19",
 		"@types/node": "^18.0.3",
-		"typescript": "^4.7.4",
 		"gulp": "^4.0.2",
 		"rimraf": "^3.0.2"
 	}

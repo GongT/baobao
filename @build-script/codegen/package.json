@@ -9,32 +9,30 @@
 	"bin": "bin.js",
 	"types": "./lib/client.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@gongt/fix-esm": "workspace:*",
+		"@gongt/fix-esm": "workspace:^",
 		"@idlebox/common": "^1.3.16",
 		"@idlebox/node": "^1.2.13",
 		"@idlebox/node-ignore-edit": "^0.0.4",
 		"@idlebox/node-json-edit": "^2.0.24",
-		"glob": "^8.0.3",
+		"glob": "^10.3.1",
 		"source-map-support": "^0.5.21",
 		"ts-node": "^10.9.1",
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:*",
-		"@rushstack/heft": "^0.48.8",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@rushstack/heft": "^0.56.0",
 		"@types/glob": "^8.0.0",
 		"@types/node": "^18.11.9",
-		"local-rig": "workspace:*",
-		"typescript": "^4.9.3"
+		"@internal/local-rig": "workspace:^"
 	},
 	"peerDependencies": {
 		"typescript": "*"

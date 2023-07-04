@@ -1,4 +1,3 @@
-import { existsSync } from 'fs';
 import { createRequire } from 'module';
 import { basename, resolve } from 'path';
 import { createDynamicReader, loadInheritedJson } from '@idlebox/json-extends-loader';
@@ -60,21 +59,6 @@ export class RushStackConfig {
 		Object.assign(this.require, { resolve: this.resolve });
 	}
 
-	private resolveConfigFile(name: string) {
-		let path = resolve(this.projectFolder, 'config', name);
-		if (existsSync(path)) {
-			return path;
-		}
-
-		if (!existsSync(resolve(this.projectFolder, 'package.json'))) {
-			throw new Error(
-				`can not resolve ${name}. another error during resolve: package.json did not exists in projectFolder(${this.projectFolder})`
-			);
-		}
-
-		return this.rigConfig.tryResolveConfigFilePath('config/typescript.json');
-	}
-
 	require(packageName: string): any {
 		return require(this.resolve(packageName));
 	}
@@ -110,7 +94,7 @@ export class RushStackConfig {
 
 	apiExtractor(): TApiExtractor.IConfigFile | undefined {
 		if (!this.apiExtractorConfig) {
-			const file = this.resolveConfigFile('api-extractor.json');
+			const file = this.rigConfig.tryResolveConfigFilePath('config/api-extractor.json');
 			if (file) {
 				const apiExtractor: typeof TApiExtractor = this.require('@microsoft/api-extractor');
 				this.apiExtractorConfig = wrapApiExtractorConfig(
@@ -144,7 +128,7 @@ export class RushStackConfig {
 
 	typescript(): ITypeScriptConfigurationJson {
 		if (!this.typescriptConfig) {
-			let cfgFile = this.resolveConfigFile('typescript.json');
+			let cfgFile = this.rigConfig.tryResolveConfigFilePath('config/typescript.json');
 
 			let cfg: ITypeScriptConfigurationJson;
 			if (cfgFile) {
@@ -170,8 +154,14 @@ export class RushStackConfig {
 		return cfg;
 	}
 
-	tsconfig(): IFilledOptions {
-		if (!this.tsconfigConfig) {
+	tsconfig(alterPath?: string): IFilledOptions {
+		if (alterPath) {
+			const path = this.rigConfig.tryResolveConfigFilePath(alterPath);
+			if (!path) {
+				throw new Error('file not found: ' + alterPath);
+			}
+			return loadTsConfigJsonFile(path, this.require('typescript')).options;
+		} else if (!this.tsconfigConfig) {
 			const proj = this.tsconfigPath();
 
 			if (proj) {

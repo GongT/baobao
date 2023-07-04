@@ -28,7 +28,7 @@ export class TimeoutStorage<T> {
 //
 // @public (undocumented)
 export class WrappedWebConsole extends WrappedConsole {
-    // Warning: (ae-forgotten-export) The symbol "WebConsoleOptions" needs to be exported by the entry point index.generated.d.ts
+    // Warning: (ae-forgotten-export) The symbol "WebConsoleOptions" needs to be exported by the entry point __create_index.generated.d.ts
     constructor(title: string, { color, ...opt }?: WrappedConsoleOptions & WebConsoleOptions);
     // (undocumented)
     protected processColorLabel(msg: any[], pos: number, level: string, prefix: string): void;

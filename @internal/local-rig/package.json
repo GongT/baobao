@@ -1,0 +1,29 @@
+{
+	"name": "@internal/local-rig",
+	"version": "1.0.1",
+	"description": "",
+	"license": "WTFPL",
+	"scripts": {
+		"build": "",
+		"build:watch": "",
+		"clean": "",
+		"watch": ""
+	},
+	"bin": {
+		"api-extractor-local": "./scripts/api-extractor-local.sh"
+	},
+	"private": true,
+	"dependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@microsoft/api-extractor": "^7.36.0",
+		"typescript": "^5.1.6"
+	},
+	"devDependencies": {
+		"@internal/plugins": "workspace:^",
+		"@rushstack/heft-api-extractor-plugin": "^0.1.10",
+		"@rushstack/heft-lint-plugin": "^0.1.11",
+		"@rushstack/heft-typescript-plugin": "^0.1.11",
+		"eslint": "^8.28.0",
+		"eslint-plugin-import": "^2.26.0"
+	}
+}

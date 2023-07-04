@@ -2,6 +2,6 @@
 // Documentation for this system: https://www.npmjs.com/package/@rushstack/rig-package
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rig-package/rig.schema.json",
-	"rigPackageName": "local-rig",
+	"rigPackageName": "@internal/local-rig",
 	"rigProfile": "simple"
 }

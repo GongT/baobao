@@ -1,5 +1,5 @@
 {
-	"extends": "local-rig/profiles/default/tsconfig.json",
+	"extends": "@internal/local-rig/profiles/simple/tsconfig.json",
 	"compilerOptions": {
 		"module": "CommonJS",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],

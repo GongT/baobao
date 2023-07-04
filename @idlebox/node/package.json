@@ -3,23 +3,21 @@
 	"type": "module",
 	"version": "1.2.14",
 	"license": "MIT",
-	"main": "./fix_esm_loader.cjs",
-	"module": "./lib/index.generated.js",
+	"main": "./lib/cjs/__create_index.generated.cjs",
+	"module": "./lib/esm/__create_index.generated.mjs",
 	"exports": {
 		".": {
-			"import": "./lib/index.generated.js",
-			"require": "./fix_esm_loader.cjs"
+			"require": "./lib/cjs/__create_index.generated.cjs",
+			"import": "./lib/esm/__create_index.generated.mjs"
 		},
 		"./package.json": "./package.json"
 	},
-	"types": "./lib/node-public.d.ts",
 	"scripts": {
-		"prepack": "heft build --production --clean",
+		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
-		"lint": "heft build",
-		"build": "heft build",
-		"build:watch": "heft build --lite",
-		"watch": "heft build --watch",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
@@ -31,17 +29,14 @@
 		"tslib": "^2.4.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-duel-stack": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@gongt/kexec": "^3.0.0",
-		"@microsoft/api-extractor": "^7.33.6",
-		"@rushstack/heft": "^0.48.8",
-		"@types/node": "^18.11.9",
+		"@rushstack/heft": "^0.56.0",
+		"@types/node": "^18.15.2",
 		"chai": "^4.3.7",
 		"fs-extra": "^10.1.0",
-		"local-rig": "workspace:^",
-		"mocha": "^10.1.0",
-		"typescript": "^4.9.3"
+		"@internal/dualstack-rig": "workspace:^",
+		"mocha": "^10.1.0"
 	},
 	"optionalDependencies": {
 		"@gongt/kexec": "latest"

@@ -6,7 +6,7 @@
 
 import { isAbsolute, resolve } from 'path';
 import { parse } from 'comment-json';
-import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormat } from '../tools/attachData';
+import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormat } from '../tools/attachData.js';
 import {
 	checkChange,
 	pathExistsAsync,
@@ -15,9 +15,9 @@ import {
 	loadFileSync,
 	writeAsync,
 	writeSync,
-} from '../tools/filesystem';
-import { PrettyFormat } from '../tools/prettyFormat';
-import { stringifyJsonText } from './format';
+} from '../tools/filesystem.js';
+import { PrettyFormat } from '../tools/prettyFormat.js';
+import { stringifyJsonText } from './format.js';
 
 const DEFAULT_ENCODING = 'utf-8';
 

@@ -286,37 +286,37 @@ export class CustomSet<Type = string> {
     values(): Iterator<Type>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DeepNonNullableArray" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepNonNullableMap" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepNonNullableSet" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepNonNullableObject" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableArray" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableMap" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableSet" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepNonNullableObject" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "DeepNonNullable" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type DeepNonNullable<T> = T extends Primitive ? T : T extends ReadonlyArray<infer U> | Array<infer U> ? DeepNonNullableArray<U> : T extends ReadonlyMap<infer K, infer V> | Map<infer K, infer V> ? DeepNonNullableMap<K, V> : T extends ReadonlySet<infer M> ? DeepNonNullableSet<M> : DeepNonNullableObject<T>;
 
-// Warning: (ae-forgotten-export) The symbol "DeepPartialArray" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepPartialMap" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepPartialSet" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepPartialObject" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepPartialArray" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepPartialMap" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepPartialSet" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepPartialObject" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "DeepPartial" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type DeepPartial<T> = T extends Primitive ? T : T extends ReadonlyArray<infer U> ? DeepPartialArray<U> : T extends ReadonlyMap<infer K, infer V> ? DeepPartialMap<K, V> : T extends ReadonlySet<infer M> ? DeepPartialSet<M> : DeepPartialObject<T>;
 
-// Warning: (ae-forgotten-export) The symbol "DeepReadonlyArray" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepReadonlyMap" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepReadonlySet" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepReadonlyObject" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlyArray" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlyMap" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlySet" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepReadonlyObject" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "DeepReadonly" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export type DeepReadonly<T> = T extends Primitive ? T : T extends Array<infer U> ? DeepReadonlyArray<U> : T extends Map<infer K, infer V> ? DeepReadonlyMap<K, V> : T extends Set<infer M> ? DeepReadonlySet<M> : DeepReadonlyObject<T>;
 
-// Warning: (ae-forgotten-export) The symbol "DeepWriteableArray" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepWriteableMap" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepWriteableSet" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "DeepWriteableObject" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableArray" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableMap" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableSet" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "DeepWriteableObject" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "DeepWriteable" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -502,7 +502,7 @@ export function getTimeStamp(date: Date): number;
 // Warning: (ae-missing-release-tag) "getTypeOf" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getTypeOf(value: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "function" | "null" | "Promise" | "Error" | "DOM" | "EventTarget" | "datetime" | "regexp" | "unknown";
+export function getTypeOf(value: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "function" | "unknown" | "null" | "Promise" | "Error" | "DOM" | "EventTarget" | "datetime" | "regexp";
 
 // @public
 export const globalObject: any;
@@ -522,8 +522,8 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor: (
 // @public
 export function globalSingletonStrong<T>(symbol: symbol | string): T | undefined;
 
-// Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point index.generated.d.ts
-// Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "hookClass" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -727,7 +727,7 @@ export function isObjectSame(a: any, b: any): boolean;
 // @public
 export function isObjectSameRecursive(a: any, b: any): boolean;
 
-// Warning: (ae-forgotten-export) The symbol "ScalarTypes" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "ScalarTypes" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "isScalar" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -1120,7 +1120,7 @@ export function ucfirst<T extends string>(str: T): Capitalize<T>;
 // @public
 export function uniqueFilter<T>(idFactory?: IUniqueIdFactory<T>): (item: T) => boolean;
 
-// Warning: (ae-forgotten-export) The symbol "Unsubscribable" needs to be exported by the entry point index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "Unsubscribable" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "unsubscribableToDisposable" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
