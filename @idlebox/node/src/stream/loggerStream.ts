@@ -10,7 +10,7 @@ export class LoggerStream extends Transform {
 		this.prefix = prefix ? prefix + ' %s' : '%s';
 	}
 
-	_transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void {
+	override _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void {
 		if ((encoding as any) === 'buffer' || encoding === 'binary') {
 			encoding = undefined as any;
 		}
@@ -39,7 +39,7 @@ export class HexDumpLoggerStream extends Transform {
 		this.prefix = prefix ? prefix + ' ' : '';
 	}
 
-	_transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void {
+	override _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void {
 		let itr = 0;
 		while (chunk.length - itr > 0) {
 			const l = Array.from(chunk.slice(itr, itr + 16))

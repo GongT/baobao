@@ -25,7 +25,7 @@ export class RawCollectingStream extends Writable {
 		}
 	}
 
-	_write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void {
+	override _write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void {
 		this.buffer = Buffer.concat([this.buffer!, chunk]);
 		callback();
 	}
@@ -59,7 +59,7 @@ export class CollectingStream extends Writable {
 		}
 	}
 
-	_write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
+	override _write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
 		if (!encoding) {
 			encoding = 'utf8';
 		} else if ((encoding as any) === 'buffer' || encoding === 'binary') {

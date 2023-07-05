@@ -10,7 +10,7 @@ export class Yarn extends PackageManager {
 	readonly uninstallCommand: string = 'remove';
 	readonly installDevFlag: string = '--dev';
 	readonly syncCommand: string = 'install';
-	readonly showCommand: string = 'view';
+	override readonly showCommand: string = 'view';
 
 	_detect(): Promise<boolean> {
 		return this._detectFile('yarn.lock');

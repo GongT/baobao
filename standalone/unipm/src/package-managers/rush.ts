@@ -20,7 +20,7 @@ export class Rush extends PackageManager {
 	readonly uninstallCommand: string = '!!';
 	readonly installDevFlag: string = '--dev';
 	readonly syncCommand: string = 'update';
-	showCommand = '';
+	override showCommand = '';
 
 	private rushRoot?: string;
 	private subPackageManager?: string;
@@ -56,7 +56,7 @@ export class Rush extends PackageManager {
 		return true;
 	}
 
-	public async uninstall(...packages: string[]): Promise<void> {
+	public override async uninstall(...packages: string[]): Promise<void> {
 		const pkgJson = await findUpUntil(this.cwd, 'package.json');
 		if (pkgJson) {
 			await deletePackageDependency(pkgJson, ...packages);
@@ -64,7 +64,7 @@ export class Rush extends PackageManager {
 		await super._invoke(this.cliName, ['update']);
 	}
 
-	async install(..._packages: string[]) {
+	override async install(..._packages: string[]) {
 		const packages = _packages.filter((item) => !item.startsWith('-'));
 		const flags = ['--caret', '--skip-update', '--make-consistent'];
 		if (_packages.includes('-D') || _packages.includes('--dev')) {
@@ -84,7 +84,7 @@ export class Rush extends PackageManager {
 		await super._invoke(this.cliName, ['update'], { env });
 	}
 
-	async init() {
+	override async init() {
 		await super.init();
 
 		const data = await loadJsonFile(resolve(this.rushRoot!, 'rush.json'));
@@ -104,7 +104,7 @@ export class Rush extends PackageManager {
 		});
 	}
 
-	public async invokeCli(cmd: string, ...args: string[]): Promise<void> {
+	public override async invokeCli(cmd: string, ...args: string[]): Promise<void> {
 		if (subCommands.includes(cmd)) {
 			if (!this.subPackageManager) {
 				await this._detect(true);

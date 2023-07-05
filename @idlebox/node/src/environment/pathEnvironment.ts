@@ -1,5 +1,5 @@
-import { PathArray } from '@idlebox/common';
 import { platform } from 'os';
+import { PathArray } from '@idlebox/common';
 import { cleanupEnvironment, getEnvironment } from './getEnvironment';
 
 export const PATH_SEPARATOR = platform() === 'win32' ? ';' : ':';
@@ -18,7 +18,7 @@ export class PathEnvironment extends PathArray {
 		cleanupEnvironment(varName);
 	}
 
-	add(p: string) {
+	override add(p: string) {
 		const pSize = this.size;
 		super.add(p);
 		if (pSize !== this.size) {
@@ -26,12 +26,12 @@ export class PathEnvironment extends PathArray {
 		}
 		return this;
 	}
-	clear() {
+	override clear() {
 		const change = this.size > 0;
 		super.clear();
 		if (change) this.save();
 	}
-	delete(p: string) {
+	override delete(p: string) {
 		if (super.delete(p)) {
 			this.save();
 			return true;

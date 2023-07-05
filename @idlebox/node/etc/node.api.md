@@ -595,7 +595,7 @@ export function sha256(data: Buffer): string;
 // Warning: (ae-missing-release-tag) "spawnGetEverything" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<(string & Buffer) | undefined>;
+export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<string | undefined>;
 
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)

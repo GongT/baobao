@@ -5,7 +5,6 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"declarationDir": "../temp/dts-out",
-		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
-		"types": ["node"]
+		"tsBuildInfoFile": "../temp/tsbuildinfo.json"
 	}
 }
