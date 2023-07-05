@@ -23,9 +23,12 @@ async function main(argv: string[]) {
 	let skip = 0;
 	{
 		const index = argv.indexOf('--skip');
-		skip = parseInt(argv.splice(index, 2).pop());
-		if (isNaN(skip)) {
-			throw new Error('--skip must with number');
+		if (index !== -1) {
+			const skipArg = argv.splice(index, 2);
+			skip = parseInt(skipArg.pop());
+			if (isNaN(skip)) {
+				throw new Error('--skip must with number (got ' + argv.join(' ') + ')');
+			}
 		}
 	}
 

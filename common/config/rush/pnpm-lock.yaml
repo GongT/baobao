@@ -507,7 +507,7 @@ importers:
   ../../@idlebox/node-ignore-edit:
     dependencies:
       '@idlebox/common':
-        specifier: latest
+        specifier: ^1.3.17
         version: 1.3.17
       source-map-support:
         specifier: ^0.5.21
@@ -582,11 +582,11 @@ importers:
   ../../@idlebox/typescript-surface-analyzer:
     dependencies:
       '@idlebox/common':
-        specifier: ^1.3.16
+        specifier: ^1.3.17
         version: 1.3.17
       '@idlebox/node':
-        specifier: ^1.2.13
-        version: 1.2.13
+        specifier: ^1.2.14
+        version: 1.2.14
       '@idlebox/node-ignore-edit':
         specifier: workspace:^
         version: link:../node-ignore-edit
@@ -1278,8 +1278,8 @@ packages:
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
     dev: false
 
-  /@gongt/fix-esm@0.0.9:
-    resolution: {integrity: sha512-mxXsgosZyUp4vSFbBgxlLO1CyZ1wJRjGRAY5wGsARcFvvj3Lf9Wi8hcDKvLMF9A3XAlz84O/CUGYeZQrO0h6cw==}
+  /@gongt/fix-esm@0.0.10:
+    resolution: {integrity: sha512-BI4uNalfzXPIPPaQYGON4Szj3OSEW+1gq4+Z/EjT9EFGE4BSeUxUZeTH0EFXtXkNuOcD/Jk6maMie0fPMC9aQQ==}
     dependencies:
       fix-esm: 1.0.1
     transitivePeerDependencies:
@@ -1315,26 +1315,20 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@idlebox/common@1.3.16:
-    resolution: {integrity: sha512-9e0m3Im8JoDjM1+oXaGyCDwsfxEoeSnmpuiB/YsZZ0i0UB2m0y6odBLLvOE8uINpSMcDjbcxN7Iz0uGLuH27lg==}
-    dependencies:
-      tslib: 2.6.0
-    dev: false
-
   /@idlebox/common@1.3.17:
     resolution: {integrity: sha512-Pzxz4wTZC/4TcO8NalaJ0h4mqDkmlJXGCAu2fvQaswkJYf/G7At8CezNwMgwU80ShtmTd+rjv+8SBSkVtB4Stw==}
     dependencies:
       tslib: 2.6.0
     dev: false
 
-  /@idlebox/node@1.2.13:
-    resolution: {integrity: sha512-6SsJB4I0s+6pG3XrKp4vVHM4UgG3kvgm1w51UTdDfL+xJ/JUIbCGBYQjK41F+WrUjDCj4ZoZdsWtXuvOEjJ0xw==}
+  /@idlebox/node@1.2.14:
+    resolution: {integrity: sha512-WtigDvgG6fAJgEMK5RdIx/2tB/Hodnn7d/vqEir4v0H2O9pWZCP4NZmirrEFZGGOiaDxTNaDqThL2AbPR5crQg==}
     dependencies:
-      '@gongt/fix-esm': 0.0.9
-      '@idlebox/common': 1.3.16
+      '@gongt/fix-esm': 0.0.10
+      '@idlebox/common': 1.3.17
       execa: 6.1.0
       source-map-support: 0.5.21
-      tslib: 2.4.1
+      tslib: 2.6.0
     optionalDependencies:
       '@gongt/kexec': 3.0.0
     transitivePeerDependencies:

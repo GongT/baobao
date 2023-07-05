@@ -1,13 +1,24 @@
-import { manifest } from 'pacote';
 import { getNpmConfigValue } from '@idlebox/node';
+import { manifest } from 'pacote';
 import asyncPool from 'tiny-async-pool';
 
 async function resolveNpmVersion([packageName, currentVersion]: string[]) {
 	const d = new Date();
 	d.setHours(d.getHours() - 1);
-	const pkgjson = await manifest(packageName + '@latest', { before: d });
-	const newVersion = '^' + pkgjson.version;
-	return [packageName, newVersion, currentVersion];
+
+	const maxCnt = 3;
+	let retryCnt = maxCnt;
+	while (--retryCnt) {
+		try {
+			const pkgjson = await manifest(packageName + '@latest', { before: d });
+			const newVersion = '^' + pkgjson.version;
+			return [packageName, newVersion, currentVersion];
+		} catch (e: any) {
+			console.error('[try %s] failed fetch package %s: %s', maxCnt - retryCnt, packageName, e.message);
+			if (e.code === 'ECONNRESET') continue;
+			throw e;
+		}
+	}
 }
 
 const cs = process.stdout.isTTY ? '\x1B[38;5;12m' : '';
