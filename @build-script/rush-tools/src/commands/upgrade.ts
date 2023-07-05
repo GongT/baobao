@@ -169,19 +169,18 @@ function collectRush(alldeps: any, rush: RushProject) {
 }
 
 function filter(map: Record<string, string>): Record<string, string> {
-	for (const name of Object.keys(map)) {
-		const v = map[name];
+	for (const [name, value] of Object.entries(map)) {
 		if (
-			v.startsWith('.') ||
-			v.startsWith('http') ||
-			v.startsWith('ssh') ||
-			v.startsWith('git') ||
-			v.startsWith('/')
+			value.startsWith('.') ||
+			value.startsWith('http') ||
+			value.startsWith('ssh') ||
+			value.startsWith('git') ||
+			value.startsWith('/')
 		) {
-			console.log('\x1B[2mnot supported protocol: %s: %s\x1B[0m', name, v);
+			console.log('\x1B[2mnot supported protocol: %s: %s\x1B[0m', name, value);
 			delete map[name];
 		}
-		if (v.startsWith('workspace:')) {
+		if (value.startsWith('workspace:')) {
 			delete map[name];
 		}
 	}

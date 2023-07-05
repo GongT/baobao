@@ -2,6 +2,7 @@ import type TypeScriptApi from 'typescript';
 
 import { basename, dirname, resolve } from 'path';
 import { ExportKind, TypescriptProject } from '@idlebox/typescript-surface-analyzer';
+import { IIdentifierResult } from '@idlebox/typescript-surface-analyzer/lib/cjs/inc/TokenCollector';
 import { camelCase, relativePath, ucfirst, writeFileIfChange } from '../../../misc/functions';
 import { IOutputShim } from '../../../misc/scopedLogger';
 import { idToString } from '../../typescript/transform/library/util';
@@ -52,7 +53,7 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 				if (def.reference && !def.reference.id) {
 					continue;
 				}
-				content.push(`\texport {${idToString(def.id)}} from "${path}";`);
+				content.push(`\texport {${typeTag(def)}${idToString(def.id)}} from "${path}";`);
 			}
 		}
 		if (file.references.length) {
@@ -94,4 +95,12 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 
 function importSpec(indexDir: string, target: string) {
 	return (indexDir + '/' + target.replace(/\.tsx?$/, '.js')).replace(/\/\//g, '/').replace(/^\.\/\.\.\//, '../');
+}
+
+function typeTag(def: IIdentifierResult) {
+	if (def.kind === ExportKind.Type) {
+		return 'type ';
+	} else {
+		return '';
+	}
 }

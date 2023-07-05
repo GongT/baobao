@@ -95,12 +95,12 @@ export async function buildAction(action: string, argv: string[]) {
 	function handleLine(text: string) {
 		text = text.replace(/\x1B\[[0-9;]+m/g, '');
 		if (startReg.test(text)) {
-			const name = startReg.exec(text)![1];
+			const name = startReg.exec(text)![1]!;
 			update(name, true);
 		} else if (isImportantLine.test(text)) {
 			const match = isImportantLine.exec(text)!;
-			const name = match[2];
-			const result = match[3];
+			const name = match[2]!;
+			const result = match[3]!;
 
 			if (result.includes('skipped') || result.includes('had an empty script')) {
 				print('♻', text);

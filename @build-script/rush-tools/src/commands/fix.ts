@@ -92,9 +92,8 @@ async function fix(_argv: string[]) {
 			return;
 		}
 		let flShow = false;
-		for (const depName of Object.keys(deps)) {
+		for (const [depName, lastValue] of Object.entries(deps)) {
 			let fix: string | undefined;
-			const lastValue = deps[depName];
 
 			if (lastValue.startsWith('workspace:')) {
 				// as is

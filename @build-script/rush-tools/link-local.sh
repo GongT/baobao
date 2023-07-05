@@ -4,16 +4,17 @@ set -Eeuo pipefail
 
 cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-{
-	cd ../../common/temp
+cd ../../common/temp
 
-	mkdir -p bin
-	cd bin
+mkdir -p bin
 
-	if [[ -e rush-tools ]]; then
-		exit 0
-	fi
+if ! [[ -e bin/rush-tools ]]; then
+	rm -f bin/rush-tools
+	ln -sv ../../../@build-script/rush-tools/bin.cjs bin/rush-tools
+fi
 
-	rm -f rush-tools
-	ln -s ../../../@build-script/rush-tools/bin.cjs rush-tools
-} || true
+if ! [[ -e install-run/pnpm-workspace.yaml ]]; then
+	cat <<-EOF >install-run/pnpm-workspace.yaml
+		packages:
+	EOF
+fi

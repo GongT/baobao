@@ -12,8 +12,9 @@ const PLUGIN_NAME = 'typescript';
 
 export default class TypeScriptPlugin implements IHeftTaskPlugin<IMyOptions> {
 	apply(session: IHeftTaskSession, heftConfiguration: HeftConfiguration, options: IMyOptions = {}): void {
+		const compilerOptions = Object.assign({}, options.compilerOptions);
 		if (options.fast) {
-			options.compilerOptions = Object.assign({}, options.compilerOptions || {}, {
+			Object.assign(compilerOptions, {
 				skipDefaultLibCheck: true,
 				skipLibCheck: true,
 				incremental: false,
@@ -22,11 +23,21 @@ export default class TypeScriptPlugin implements IHeftTaskPlugin<IMyOptions> {
 				declarationMap: false,
 				alwaysStrict: false,
 				isolatedModules: true,
+				tsBuildInfoFile: null as any,
+				declarationDir: null as any,
 			} as TypeScriptApi.CompilerOptions);
 		}
 
-		session.hooks.run.tapPromise(PLUGIN_NAME, ({ cancellationToken }) => {
-			return this.executeBuild(session, heftConfiguration, options || {}, cancellationToken);
+		session.hooks.run.tapPromise(PLUGIN_NAME, async ({ cancellationToken }) => {
+			await this.executeBuild(
+				session,
+				heftConfiguration,
+				{
+					...options,
+					compilerOptions,
+				},
+				cancellationToken
+			);
 		});
 
 		// session.hooks.runIncremental.tapPromise(PLUGIN_NAME, (_opt) => {});
@@ -41,6 +52,7 @@ export default class TypeScriptPlugin implements IHeftTaskPlugin<IMyOptions> {
 		const ts = await getTypeScript(session, configuration);
 
 		const command = await loadTsConfigJson(session.logger, ts, configuration.rigConfig, options);
+		session.logger.terminal.writeVerboseLine('tsconfig file loaded');
 
 		if (command.options.module !== ts.ModuleKind.CommonJS && command.options.module! < ts.ModuleKind.ES2015) {
 			throw new Error(
@@ -65,6 +77,22 @@ export default class TypeScriptPlugin implements IHeftTaskPlugin<IMyOptions> {
 			oldProgram: undefined,
 		});
 
+		const diagnostics = [];
+		diagnostics.push(...innerProgram.getConfigFileParsingDiagnostics());
+		diagnostics.push(...innerProgram.getOptionsDiagnostics());
+		if (!!options.fast) {
+			diagnostics.push(...innerProgram.getSyntacticDiagnostics());
+			diagnostics.push(...innerProgram.getGlobalDiagnostics());
+			diagnostics.push(...innerProgram.getSemanticDiagnostics());
+			if (!!(command.options.declaration || command.options.composite)) {
+				diagnostics.push(...innerProgram.getDeclarationDiagnostics());
+			}
+		}
+		const sortedDiagnostics = ts.sortAndDeduplicateDiagnostics(diagnostics || []);
+
+		printCompileDiagnostic(ts, !!options.fast, configuration.buildFolderPath, session.logger, sortedDiagnostics);
+		session.logger.terminal.writeVerboseLine('program created');
+
 		if (!options.extension) options.extension = getExtension(ts, command.options);
 
 		const customTransformers = await loadTransformers(
@@ -77,7 +105,13 @@ export default class TypeScriptPlugin implements IHeftTaskPlugin<IMyOptions> {
 		);
 
 		const result = innerProgram.emit(undefined, writeFile, undefined, undefined, customTransformers);
-		printCompileDiagnostic(ts, configuration.buildFolderPath, session.logger, result.diagnostics);
+		printCompileDiagnostic(ts, !!options.fast, configuration.buildFolderPath, session.logger, result.diagnostics);
+		session.logger.terminal.writeVerboseLine('emit complete');
+
+		if (options.fast) session.logger.terminal.write('[FAST]');
+		session.logger.terminal.writeLine(
+			`typescript compiled. ${ts.ModuleKind[command.options.module!]}: ${command.options.outDir}`
+		);
 		return;
 
 		function writeFile(

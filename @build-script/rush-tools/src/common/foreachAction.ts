@@ -1,11 +1,11 @@
 import { resolve } from 'path';
 import { PassThrough } from 'stream';
+import { sleep } from '@idlebox/common';
+import { streamPromise } from '@idlebox/node';
 import { execa } from 'execa';
 import { createWriteStream, ensureDirSync } from 'fs-extra';
 import { ICProjectConfig, RushProject } from '../api';
 import { shiftArgumentFlag } from './arguments';
-import { streamPromise } from '@idlebox/node';
-import { sleep } from '@idlebox/common';
 
 interface IRunArgs {
 	quiet: boolean;
@@ -17,6 +17,10 @@ export function parseForeachCommand(argv: string[], extraFlags: string[] = []): 
 	const quiet = shiftArgumentFlag(argv, 'quiet');
 	const errcontinue = shiftArgumentFlag(argv, 'continue');
 
+	if (argv.length === 0) {
+		throw new Error('Must specific some command or js file to run');
+	}
+
 	if (argv[0] === '--help' || argv[0] === '-h') {
 		console.error(
 			'Usage: $0 foreach [--quiet] [--continue]%s <command>',
@@ -27,9 +31,6 @@ export function parseForeachCommand(argv: string[], extraFlags: string[] = []): 
 		console.error('                  script.js ...args');
 		console.error('                  script.ts ...args');
 		process.exit(0);
-	}
-	if (argv.length === 0) {
-		throw new Error('Must specific some command or js file to run');
 	}
 
 	if (argv[0] === '-c') {

@@ -76,7 +76,7 @@ export default async function createTasks() {
 			allObj = obj;
 		} else if (obj?.options?._is_build) {
 			if (cfgMap[obj.options.cwd]) {
-				merge(obj, cfgMap[obj.options.cwd]);
+				merge(obj, cfgMap[obj.options.cwd]!);
 				delete cfgMap[obj.options.cwd];
 			} else {
 				tasksJson.tasks.splice(index, 1);
