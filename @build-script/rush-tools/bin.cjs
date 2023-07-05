@@ -9,7 +9,7 @@ const { prettyPrintError } = require('@idlebox/node');
 module.exports.run = run;
 
 async function run() {
-	const { default: main } = require('./lib/index.cjs');
+	const { default: main } = require('./lib/cjs/index.cjs');
 	return await main();
 }
 

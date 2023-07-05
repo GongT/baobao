@@ -17,6 +17,8 @@ temp
 ### Build Source
 # index.ts
 # /src
+tsconfig.json
+tsconfig.*.json
 /build-script.json
 /Gulpfile.*
 *.tsbuildinfo
