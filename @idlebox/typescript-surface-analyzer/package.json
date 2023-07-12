@@ -23,8 +23,8 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "^1.3.17",
-		"@idlebox/node": "^1.2.14",
+		"@idlebox/common": "^1.3.18",
+		"@idlebox/node": "^1.2.15",
 		"@idlebox/node-ignore-edit": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",

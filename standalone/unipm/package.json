@@ -1,7 +1,7 @@
 {
 	"name": "unipm",
 	"type": "module",
-	"version": "1.1.15",
+	"version": "1.1.16",
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
 	"module": "./lib/esm/__create_index.generated.mjs",

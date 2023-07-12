@@ -24,7 +24,7 @@
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.3.17",
+		"@idlebox/common": "^1.3.18",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.1"
 	},

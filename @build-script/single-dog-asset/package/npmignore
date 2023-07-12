@@ -38,3 +38,5 @@ lib/**/test.*
 
 ### Examples
 /example
+
+!lib/**/*
