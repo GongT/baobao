@@ -1,11 +1,16 @@
 import type TypeScriptApi from 'typescript';
 import type { IScopedLogger } from '@rushstack/heft';
 import { readFileSync } from 'fs';
-import { builtinModules, createRequire } from 'module';
+import { builtinModules as _builtinModules, createRequire } from 'module';
 import { platform } from 'os';
 import { dirname, join, resolve } from 'path';
 import { format } from 'util';
 import { findUpUntilSync, relativePath } from '../../../../misc/functions';
+
+const builtinModules = new Set(_builtinModules);
+for (const item of _builtinModules) {
+	builtinModules.add(`node:${item}`);
+}
 
 interface IRequireResolved {
 	path?: string;
@@ -63,7 +68,7 @@ class ResolveResult {
 
 		this.isInternal = false;
 		if (!this.resolvedModule) {
-			if (builtinModules.includes(id)) {
+			if (builtinModules.has(id)) {
 				this.isInternal = true;
 			}
 		}
@@ -100,7 +105,8 @@ class ResolveResult {
 	}
 
 	relativeToSelf() {
-		if (!this.absolutePath) throw new Error('not success resolved');
+		if (!this.absolutePath)
+			throw new Error(`Can not read from unresolved module: ${this.id} is not resolved from ${this.self}`);
 
 		const r = relativePath(dirname(this.self), this.absolutePath);
 		if (r.startsWith('.')) return r;
@@ -108,7 +114,8 @@ class ResolveResult {
 	}
 
 	relativeToSourceRoot() {
-		if (!this.absolutePath) throw new Error('not success resolved');
+		if (!this.absolutePath)
+			throw new Error(`Can not read from unresolved module: ${this.id} is not resolved from ${this.self}`);
 
 		const root = this.options.rootDir || dirname(this.options['configFilePath'] as any);
 		const r = relativePath(root, this.absolutePath);
