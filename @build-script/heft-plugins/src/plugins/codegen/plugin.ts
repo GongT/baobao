@@ -1,30 +1,66 @@
-import { getTypeScript } from '../../misc/getTypeScript';
-import { loadTsConfigJson } from '../../misc/loadTsConfigJson';
-import { createHeftLogger } from '../../misc/scopedLogger';
+import type { HeftConfiguration, IHeftTaskRunIncrementalHookOptions, IHeftTaskSession } from '@rushstack/heft';
+
+import { parseTsConfigJson } from '../../misc/loadTsConfigJson';
+import { HeftTypescriptPlugin, ITypeScriptState } from '../../misc/pluginBase';
+import { createHeftLogger, IOutputShim } from '../../misc/scopedLogger';
 import { run } from './share';
 
-import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
+interface IState extends ITypeScriptState {
+	logger: IOutputShim;
+}
 
-const PLUGIN_NAME = 'codegen';
+export default class CodeGenPlugin extends HeftTypescriptPlugin<IState, {}> {
+	override PLUGIN_NAME = 'codegen';
 
-export default class CodeGenPlugin implements IHeftTaskPlugin {
-	apply(session: IHeftTaskSession, configuration: HeftConfiguration, _pluginOptions?: void): void {
-		session.hooks.run.tapPromise(PLUGIN_NAME, async (_opt) => {
-			const options = {
-				exclude: [],
-				files: [],
-				include: ['**/*.generator.ts', '**/*.generator.js'],
-			};
-			const command = await loadTsConfigJson(
-				session.logger,
-				await getTypeScript(session, configuration),
-				configuration.rigConfig,
-				options
-			);
+	override async run(session: IHeftTaskSession, configuration: HeftConfiguration) {
+		const command = await this.listGenFiles(session, configuration);
 
-			run(command.fileNames, createHeftLogger(session));
+		if (command.fileNames.length === 0) {
+			session.logger.terminal.writeLine('no generator found.');
+			return;
+		}
 
-			session.logger.terminal.writeLine('code generate complete.');
-		});
+		run(command.fileNames, this.state.logger);
+
+		session.logger.terminal.writeLine('code generate complete.');
+	}
+
+	override async runWatch(
+		session: IHeftTaskSession,
+		configuration: HeftConfiguration,
+		watchOptions: IHeftTaskRunIncrementalHookOptions
+	): Promise<void> {
+		const command = await this.listGenFiles(session, configuration);
+
+		const map = await watchOptions.watchGlobAsync(command.fileNames, { cwd: configuration.buildFolderPath });
+
+		const files = [];
+		for (const [file, { changed }] of map.entries()) {
+			if (!changed) continue;
+
+			files.push(file);
+		}
+
+		if (files.length === 0) {
+			session.logger.terminal.writeLine('no generator found or changed.');
+			return;
+		}
+
+		run(files, this.state.logger);
+
+		session.logger.terminal.writeLine('code generate complete.');
+	}
+
+	protected override async loadExtraState(state: IState & { options: {} }, session: IHeftTaskSession): Promise<void> {
+		if (!state.logger) state.logger = createHeftLogger(session);
+	}
+
+	private async listGenFiles(session: IHeftTaskSession, configuration: HeftConfiguration) {
+		const options = {
+			exclude: [],
+			files: [],
+			include: ['**/*.generator.ts', '**/*.generator.js'],
+		};
+		return parseTsConfigJson(session.logger, this.state.ts, configuration.rigConfig, options);
 	}
 }

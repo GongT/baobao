@@ -10,8 +10,12 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 		return [ts.SyntaxKind.ImportDeclaration, ts.SyntaxKind.ExportDeclaration];
 	}
 
-	constructor(protected readonly resolver: ModuleResolver, private readonly cache = new Map<string, boolean>()) {
+	private readonly cache;
+
+	constructor(protected readonly resolver: ModuleResolver, fileDetectCache = new Map<string, boolean>()) {
 		super();
+
+		this.cache = fileDetectCache;
 	}
 
 	override _check(node: TypeScriptApi.Node): node is ValidImportOrExportFromDeclaration {
@@ -48,12 +52,12 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 			return this.cache.get(cid)!;
 		}
 
-		const r = this.resolve(self, id);
+		const r = this.detectShouldReplace(self, id);
 		this.cache.set(cid, r);
 		return r;
 	}
 
-	private resolve(self: string, id: string) {
+	private detectShouldReplace(self: string, id: string) {
 		const { logger } = this.context;
 
 		const result = this.resolver.resolve(self, id, WantModuleKind.ESM);

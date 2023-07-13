@@ -1,7 +1,7 @@
 import type TypeScriptApi from 'typescript';
 import type { HeftConfiguration, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
 import { isAbsolute, resolve } from 'path';
-import { IMyOptions, IMyPluginConfig, isModuleResolutionError } from './type';
+import { IMyPluginConfig, IProgramState, isModuleResolutionError } from './type';
 
 export interface IMyTransformTool {
 	ts: typeof TypeScriptApi;
@@ -11,25 +11,43 @@ export interface IMyTransformTool {
 	extension: string;
 	options: IMyPluginConfig['options'];
 }
+
+/** plugin file should export this: */
 export interface IMyTransformCallback<T extends TypeScriptApi.Node> {
 	(context: TypeScriptApi.TransformationContext, tools: IMyTransformTool): TypeScriptApi.Transformer<T>;
 }
 
+export interface IPluginInit {
+	(program: TypeScriptApi.Program, compilerHost: TypeScriptApi.CompilerHost): TypeScriptApi.CustomTransformers;
+}
+
+interface IPluginApply {
+	(
+		transformers: TypeScriptApi.CustomTransformers,
+		program: TypeScriptApi.Program,
+		compilerHost: TypeScriptApi.CompilerHost
+	): void;
+}
+
+interface IMyPluginLoaded {
+	readonly name: string;
+	readonly plugin: IPluginApply;
+}
+
+const selfPlugin = resolve(__dirname, '../transform/main.js');
+
 export async function loadTransformers(
-	host: TypeScriptApi.CompilerHost,
-	program: TypeScriptApi.Program,
 	session: IHeftTaskSession,
 	configuration: HeftConfiguration,
-	options: IMyOptions,
-	ts: typeof TypeScriptApi
+	{ options, ts }: IProgramState
 ) {
-	const customTransformers: TypeScriptApi.CustomTransformers = {};
-
-	const plugins: IMyPluginConfig[] = [];
-	plugins.push({
-		transform: resolve(__dirname, '../transform/main.js'),
-	});
-	if (options.compilerOptions?.plugins) plugins.push(...options.compilerOptions?.plugins);
+	const plugins: IMyPluginConfig[] = [
+		{
+			transform: selfPlugin,
+		},
+	];
+	if (options.compilerOptions?.plugins) plugins.push(...options.compilerOptions.plugins);
+	const loaded: IMyPluginLoaded[] = [];
 
 	for (const item of plugins) {
 		let pkg, packagePath;
@@ -65,12 +83,14 @@ export async function loadTransformers(
 		}
 
 		function creator<T extends TypeScriptApi.Node>(
+			program: TypeScriptApi.Program,
+			host: TypeScriptApi.CompilerHost,
 			context: TypeScriptApi.TransformationContext
 		): TypeScriptApi.Transformer<T> {
 			const transformer = callback(context, {
 				program,
 				options: item.options,
-				ts,
+				ts: ts,
 				logger: session.logger,
 				compilerHost: host,
 				extension: options.extension!,
@@ -79,20 +99,43 @@ export async function loadTransformers(
 			return transformer;
 		}
 
+		let plugin: IPluginApply;
 		if (item.after) {
-			if (!customTransformers.after) customTransformers.after = [];
-			customTransformers.after.push(creator);
-			session.logger.terminal.writeVerboseLine(`register after transformer: ${item.transform}`);
+			plugin = (transformers, program, host) => {
+				if (!transformers.after) transformers.after = [];
+				transformers.after.push((context: TypeScriptApi.TransformationContext) => {
+					return creator(program, host, context);
+				});
+				session.logger.terminal.writeVerboseLine(`register after transformer: ${item.transform}`);
+			};
 		} else if (item.afterDeclarations) {
-			if (!customTransformers.afterDeclarations) customTransformers.afterDeclarations = [];
-			customTransformers.afterDeclarations.push(creator);
-			session.logger.terminal.writeVerboseLine(`register dts transformer: ${item.transform}`);
+			plugin = (transformers, program, host) => {
+				if (!transformers.afterDeclarations) transformers.afterDeclarations = [];
+				transformers.afterDeclarations.push((context: TypeScriptApi.TransformationContext) => {
+					return creator(program, host, context);
+				});
+				session.logger.terminal.writeVerboseLine(`register dts transformer: ${item.transform}`);
+			};
 		} else {
-			if (!customTransformers.before) customTransformers.before = [];
-			customTransformers.before.push(creator);
-			session.logger.terminal.writeVerboseLine(`register before transformer: ${item.transform}`);
+			plugin = (transformers, program, host) => {
+				if (!transformers.before) transformers.before = [];
+				transformers.before.push((context: TypeScriptApi.TransformationContext) => {
+					return creator(program, host, context);
+				});
+				session.logger.terminal.writeVerboseLine(`register before transformer: ${item.transform}`);
+			};
 		}
+
+		loaded.push({ name: item.transform, plugin });
 	}
 
-	return customTransformers;
+	const r: IPluginInit = (program, host) => {
+		const transformers: TypeScriptApi.CustomTransformers = {};
+		for (const item of loaded) {
+			item.plugin(transformers, program, host);
+		}
+		return transformers;
+	};
+
+	return r;
 }

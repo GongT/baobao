@@ -1,5 +1,7 @@
 import type TypeScriptApi from 'typescript';
 import { ILoadConfigOverride } from '../../../misc/loadTsConfigJson';
+import { ITypeScriptState } from '../../../misc/pluginBase';
+import { IPluginInit } from './transform-load';
 
 export interface IMyPluginConfig {
 	readonly transform: string;
@@ -24,3 +26,8 @@ export const isModuleResolutionError = (ex: any) =>
 	!!ex &&
 	'code' in ex &&
 	(ex.code === 'MODULE_NOT_FOUND' || ex.code === 'ERR_MODULE_NOT_FOUND');
+
+export interface IProgramState extends ITypeScriptState {
+	createTransformers: IPluginInit;
+	options: IMyOptions;
+}

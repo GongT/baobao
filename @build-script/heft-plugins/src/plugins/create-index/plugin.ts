@@ -1,29 +1,34 @@
-import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
-import { getTypeScript } from '../../misc/getTypeScript';
-import { ILoadConfigOverride, loadTsConfigJson } from '../../misc/loadTsConfigJson';
+import type { HeftConfiguration, IHeftTaskRunIncrementalHookOptions, IHeftTaskSession } from '@rushstack/heft';
+import { ILoadConfigOverride } from '../../misc/loadTsConfigJson';
+import { HeftTypescriptPlugin, ITypeScriptState } from '../../misc/pluginBase';
 import { createHeftLogger } from '../../misc/scopedLogger';
 import { createIndex } from './inc/create';
 
 export const PLUGIN_NAME = 'create-index';
 
-export default class CreateIndexPlugin implements IHeftTaskPlugin<ILoadConfigOverride> {
-	apply(session: IHeftTaskSession, configuration: HeftConfiguration, options: ILoadConfigOverride): void {
-		session.hooks.run.tapPromise(PLUGIN_NAME, async (_opt) => {
-			const command = await loadTsConfigJson(
-				session.logger,
-				await getTypeScript(session, configuration),
-				configuration.rigConfig,
-				options
-			);
+export default class CreateIndexPlugin extends HeftTypescriptPlugin<ITypeScriptState, ILoadConfigOverride> {
+	override PLUGIN_NAME: string = PLUGIN_NAME;
 
-			const toolPath = await configuration.rigPackageResolver.resolvePackageAsync(
-				'typescript',
-				session.logger.terminal
-			);
-			const ts = await import(toolPath);
-			createIndex(ts, command, createHeftLogger(session));
+	override async run(session: IHeftTaskSession, configuration: HeftConfiguration) {
+		const { command } = this.loadConfig(session, configuration);
+		createIndex(this.state.ts, command, createHeftLogger(session));
 
-			session.logger.terminal.writeDebugLine('index created.');
-		});
+		session.logger.terminal.writeLine('index created.');
+	}
+
+	override async runWatch(
+		session: IHeftTaskSession,
+		configuration: HeftConfiguration,
+		watchOptions: IHeftTaskRunIncrementalHookOptions
+	): Promise<void> {
+		const { command, files } = await this.loadConfigWatch(session, configuration, watchOptions);
+
+		if (files.length === 0) {
+			session.logger.terminal.writeLine('not change, index skip.');
+			return;
+		}
+
+		createIndex(this.state.ts, command, createHeftLogger(session));
+		session.logger.terminal.writeLine('index created.');
 	}
 }
