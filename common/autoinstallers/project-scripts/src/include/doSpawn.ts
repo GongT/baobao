@@ -1,7 +1,7 @@
-import { execa } from 'execa';
+import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { checkChildProcessResult, commmandInPathSync } from '@idlebox/node';
-import { existsSync } from 'fs-extra';
+import { execa } from 'execa';
 import { TEMP_DIR } from './paths';
 
 export const doSpawn: (file: string, args?: string[]) => void =

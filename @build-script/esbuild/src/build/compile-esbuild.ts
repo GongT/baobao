@@ -1,14 +1,15 @@
+import type { RawSourceMap } from 'source-map-js';
+import { mkdir } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import { Emitter } from '@idlebox/common';
 import { relativePath, writeFileIfChange } from '@idlebox/node';
-import { build, BuildFailure, BuildOptions, BuildResult } from 'esbuild';
-import { ensureDir } from 'fs-extra';
+import { watch as chokidar } from 'chokidar';
+import { BuildOptions, BuildResult, context } from 'esbuild';
 import { createEntrypoints } from './esbuild/chunker';
 import { resolveStylesPlugin } from './esbuild/css-resolver';
 import { hackedScssBuildPlugin } from './esbuild/scss-hack';
 import { entrySourceRoot, isProd, isVerbose, outputDir, projectRoot } from './library/constants';
 
-import type { RawSourceMap } from 'source-map-js';
 const events = new Emitter<string | Error>();
 
 const config: BuildOptions = {
@@ -54,32 +55,42 @@ export async function runESBuild(watch: boolean) {
 	// 	}
 	// }
 	// console.log(pass1);
-
-	build({
+	const ctx = await context({
 		...config,
-		watch: watch
-			? {
-					onRebuild(error, result) {
-						if (error) {
-							events.fireNoError(new Error(error.message));
-						} else {
-							writeOut(result!);
-						}
-					},
-			  }
-			: false,
 		logLevel: isVerbose ? 'verbose' : watch ? 'warning' : 'info',
 		entryPoints: entry,
-	}).then(writeOut, (e: BuildFailure) => {
-		events.fireNoError(e);
+		write: false,
+		metafile: true,
 	});
+
+	if (watch) {
+		const result = await ctx.rebuild();
+		writeOut(result);
+
+		const inputs = Object.keys(result.metafile!.inputs);
+
+		const watcher = chokidar(inputs, { ignoreInitial: true, disableGlobbing: true, atomic: true });
+		watcher.on('all', async () => {
+			try {
+				const result = await ctx.rebuild();
+				writeOut(result);
+				const inputs = Object.keys(result.metafile!.inputs);
+				watcher.add(inputs);
+			} catch (e: any) {
+				events.fireNoError(e);
+			}
+		});
+	} else {
+		const result = await ctx.rebuild();
+		writeOut(result);
+	}
 
 	return events.register;
 }
 
 async function writeOut(dist: BuildResult) {
 	for (const i of dist.outputFiles!) {
-		await ensureDir(dirname(i.path));
+		await mkdir(dirname(i.path), { recursive: true });
 		if (i.path.endsWith('.map')) {
 			const sourcemap: RawSourceMap = JSON.parse(i.text);
 			sourcemap.sources = sourcemap.sources.map((f) => relativePath(projectRoot, resolve(i.path, '..', f)));

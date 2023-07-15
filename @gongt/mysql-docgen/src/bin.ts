@@ -1,6 +1,6 @@
 import { posix, resolve } from 'path';
 import { error, info } from 'fancy-log';
-import { mkdirp } from 'fs-extra';
+import { mkdirp } from 'fs/promises';
 import { ConnectionConfig } from 'mysql';
 import { resolveInformation } from './common/fetch/main';
 import { generateDocuments } from './common/generate/main';

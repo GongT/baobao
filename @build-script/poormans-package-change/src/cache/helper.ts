@@ -1,9 +1,9 @@
+import { existsSync } from 'fs';
 import { SyncOptions } from 'execa';
-import { pathExistsSync } from 'fs-extra';
 
 export function ifExists(s: string): string {
 	if (typeof s !== 'string') return '';
-	if (pathExistsSync(s)) {
+	if (existsSync(s)) {
 		return s;
 	} else {
 		return '';

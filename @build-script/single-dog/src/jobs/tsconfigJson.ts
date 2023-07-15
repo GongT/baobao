@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { ensureDir, readdir, writeFile } from 'fs-extra';
+import { ensureDir, readdir, writeFile } from 'fs/promises';
 import { debug } from '../inc/debug';
 import { locateRootRelativeToProject } from '../inc/template';
 import { IRunMode } from './packageJson';

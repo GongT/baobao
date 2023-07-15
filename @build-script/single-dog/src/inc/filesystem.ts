@@ -8,7 +8,7 @@ import {
 	removeSync,
 	symlinkSync,
 	writeFileSync,
-} from 'fs-extra';
+} from 'fs/promises';
 import { resolve } from 'path';
 import { debug } from './debug';
 

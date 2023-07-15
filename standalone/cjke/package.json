@@ -28,16 +28,16 @@
 		"emoji-regex": "^10.2.1",
 		"is-fullwidth-code-point": "^4.0.0",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.4.1"
+		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.56.0",
-		"@types/chai": "^4.3.4",
-		"@types/mocha": "^10.0.0",
+		"@rushstack/heft": "^0.57.0",
+		"@types/chai": "^4.3.5",
+		"@types/mocha": "^10.0.1",
 		"chai": "^4.3.7",
 		"@internal/dualstack-rig": "workspace:^",
-		"mocha": "^10.1.0"
+		"mocha": "^10.2.0"
 	},
 	"monorepo": "rush"
 }

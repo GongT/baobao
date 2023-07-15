@@ -75,7 +75,9 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 
 		if (change) {
 			await writeFile(file, data);
-			logger.terminal.writeVerboseLine(' * commit file content');
+			logger.terminal.writeLine('commit file content');
+		} else {
+			logger.terminal.writeLine('file content unchanged');
 		}
 	}
 }

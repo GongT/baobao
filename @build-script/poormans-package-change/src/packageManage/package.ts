@@ -1,6 +1,6 @@
+import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { execLazyError } from '@idlebox/node';
-import { pathExistsSync } from 'fs-extra';
 import { log } from '../inc/log';
 import { getPackageManager } from './detectRegistry';
 
@@ -34,7 +34,7 @@ export async function packCurrentVersion(cwd: string) {
 		result = resolve(cwd, lastLine);
 	}
 
-	if (!pathExistsSync(result)) {
+	if (!existsSync(result)) {
 		throw new Error('File [' + result + '] must exists after pack.');
 	}
 

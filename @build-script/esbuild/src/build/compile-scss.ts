@@ -1,7 +1,7 @@
 import { basename, resolve } from 'path';
 import { Emitter } from '@idlebox/common';
 import { FSWatcher } from 'chokidar';
-import { writeFile } from 'fs-extra';
+import { writeFile } from 'fs/promises';
 import { compileAsync } from 'sass';
 import { hash } from './esbuild/library';
 import { entrySourceRoot, isTTY, outputDir } from './library/constants';

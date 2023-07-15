@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { readFile, writeFile } from 'fs-extra';
+import { readFile, writeFile } from 'fs/promises';
 import { entrySourceRoot, outputDir } from './library/constants';
 
 export async function generateIndexHtml(params: Record<string, string>) {

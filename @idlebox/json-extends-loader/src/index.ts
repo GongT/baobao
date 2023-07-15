@@ -130,7 +130,7 @@ export function loadInheritedJson(file: string, options: Partial<ILoadJsonOption
 	return result;
 }
 
-function overwriteMerge(_destinationArray: any[], sourceArray: any[], _options: Options) {
+function overwriteMerge(_destinationArray: any[], sourceArray: any[], _options?: Options) {
 	return sourceArray;
 }
 const isModuleResolutionError = (ex: any) =>

@@ -1,8 +1,9 @@
-const fs = require('fs-extra');
+const fsa = require('fs/promises');
+const fss = require('fs');
 const path = require('path');
 
 exports.ensureLinkTarget = async (target, symlink) => {
-	const stat = await fs.lstat(symlink).catch(e => {
+	const stat = await fsa.lstat(symlink).catch(e => {
 		if (e.code === 'ENOENT') {
 			return false;
 		} else {
@@ -11,24 +12,26 @@ exports.ensureLinkTarget = async (target, symlink) => {
 	});
 	if (stat) {
 		if (stat.isSymbolicLink()) {
-			const dest = await fs.readlink(symlink);
+			const dest = await fsa.readlink(symlink);
 			const destAbs = path.resolve(path.dirname(symlink), dest);
 
 			if (target === dest || target === destAbs) {
 				return false;
 			}
+		} else if (!stat.isFile()) {
+			throw new Error(`ensureLinkTarget: ${target} is not regular file`);
 		}
-		await fs.remove(symlink);
+		await fsa.unlink(symlink);
 	}
-	await fs.mkdirp(path.dirname(symlink));
-	await fs.symlink(target, symlink, 'junction');
+	await fsa.mkdir(path.dirname(symlink), { recursive: tru });
+	await fsa.symlink(target, symlink, 'junction');
 	return true;
 };
 
 exports.ensureLinkTargetSync = (target, symlink) => {
 	let stat;
 	try {
-		stat = fs.lstatSync(symlink);
+		stat = fss.lstatSync(symlink);
 	} catch (e) {
 		if (e.code === 'ENOENT') {
 			stat = false;
@@ -37,18 +40,19 @@ exports.ensureLinkTargetSync = (target, symlink) => {
 		}
 	}
 	if (stat) {
-		const stat = fs.lstatSync(symlink);
 		if (stat.isSymbolicLink()) {
-			const dest = fs.readlinkSync(symlink);
+			const dest = fss.readlinkSync(symlink);
 			const destAbs = path.resolve(path.dirname(symlink), dest);
 
 			if (target === dest || target === destAbs) {
 				return false;
 			}
+		} else if (!stat.isFile()) {
+			throw new Error(`ensureLinkTarget: ${target} is not regular file`);
 		}
-		fs.removeSync(symlink);
+		fss.unlinkSync(symlink);
 	}
-	fs.mkdirpSync(path.dirname(symlink));
-	fs.symlinkSync(target, symlink, 'junction');
+	fss.mkdirSync(path.dirname(symlink), { recursive: tru });
+	fss.symlinkSync(target, symlink, 'junction');
 	return true;
 };

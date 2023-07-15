@@ -1,7 +1,7 @@
 import { builtinModules, createRequire } from 'module';
 import { dirname } from 'path';
 import { findUpUntilSync, relativePath } from '@idlebox/node';
-import { readJsonSync } from 'fs-extra';
+import { readJsonSync } from 'fs/promises';
 import ts from 'typescript';
 import { IDebug } from './logger';
 import { ProjectConfig } from './ProjectConfig';

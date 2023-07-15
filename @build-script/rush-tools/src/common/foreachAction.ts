@@ -1,9 +1,9 @@
+import { createWriteStream, mkdirSync } from 'fs';
 import { resolve } from 'path';
 import { PassThrough } from 'stream';
 import { sleep } from '@idlebox/common';
 import { streamPromise } from '@idlebox/node';
 import { execa } from 'execa';
-import { createWriteStream, ensureDirSync } from 'fs-extra';
 import { ICProjectConfig, RushProject } from '../api';
 import { shiftArgumentFlag } from './arguments';
 
@@ -72,7 +72,7 @@ export async function runCustomCommand(rush: RushProject, project: string | ICPr
 	stderr.pipe(process.stderr);
 
 	const logPath = resolve(absPath, 'rush-logs');
-	ensureDirSync(logPath);
+	mkdirSync(logPath, { recursive: true });
 	const logger = createWriteStream(logPath + '/rush-tools.run.log');
 	stdout.pipe(logger, { end: false });
 	stderr.pipe(logger, { end: false });

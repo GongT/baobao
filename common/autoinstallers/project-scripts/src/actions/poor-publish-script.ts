@@ -1,9 +1,10 @@
 import '../include/prefix';
+import { existsSync } from 'fs';
+import { mkdir, readFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { writeFileIfChange } from '@idlebox/node';
-import { mkdirp, pathExistsSync, readFile } from 'fs-extra';
 import { execPromise } from '../include/execPromise';
 
 const yarnSuccessLine = /^success Published\.$/m;
@@ -67,7 +68,7 @@ async function main(argv: string[]) {
 			'proj_status/last-publish.' + item.packageName.replace('/', '__') + '.version.txt'
 		);
 
-		const lastPubVersion = pathExistsSync(stateFile) ? await readFile(stateFile, 'utf-8') : '-';
+		const lastPubVersion = existsSync(stateFile) ? await readFile(stateFile, 'utf-8') : '-';
 		if (lastPubVersion === pkgJson.version) {
 			console.error('    🤔 no change: %s', lastPubVersion);
 			return;
@@ -95,7 +96,7 @@ async function main(argv: string[]) {
 			console.error('    🤔 no update.', lastPubVersion, pkgJson.version);
 		}
 
-		await mkdirp(dirname(stateFile));
+		await mkdir(dirname(stateFile), { recursive: true });
 		await writeFileIfChange(stateFile, pkgJson.version);
 	});
 }

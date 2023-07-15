@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { camelCase, ucfirst, linux_case } from '@idlebox/common';
 import { info } from 'fancy-log';
-import { createWriteStream } from 'fs-extra';
+import { createWriteStream } from 'fs/promises';
 import { ITable } from '../fetch/type';
 import { createEmitter } from '../library/emitFile';
 

@@ -1,10 +1,10 @@
-import { exists } from '@idlebox/node';
-import { emptyDir, mkdirp, writeFile } from 'fs-extra';
+import { mkdir, writeFile } from 'fs/promises';
 import { resolve } from 'path';
+import { emptyDir, exists } from '@idlebox/node';
 import { log } from './log';
 
 export async function prepareWorkingFolder(workingRoot: string, name: string, version: string) {
-	await mkdirp(workingRoot);
+	await mkdir(workingRoot, { recursive: true });
 
 	const workingFile = resolve(workingRoot, 'package.json');
 	const workingJson = {
@@ -23,7 +23,6 @@ export async function prepareWorkingFolder(workingRoot: string, name: string, ve
 	await writeFile(workingFile, JSON.stringify(workingJson, null, 4));
 
 	const tempDir = resolve(workingRoot, 'node_modules', name);
-	await mkdirp(tempDir);
 	await emptyDir(tempDir);
 
 	log('Working at temp dir %s', tempDir);

@@ -1,7 +1,6 @@
 import { resolve } from 'path';
-import { commandInPath, execLazyError } from '@idlebox/node';
+import { commandInPath, emptyDir, execLazyError, exists } from '@idlebox/node';
 import { execaCommand } from 'execa';
-import { emptyDir, pathExists } from 'fs-extra';
 import { debug, log } from './log';
 
 export async function gitInit(cwd: string) {
@@ -10,7 +9,7 @@ export async function gitInit(cwd: string) {
 	}
 
 	const gitDir = resolve(cwd, '.git');
-	if (await pathExists(gitDir)) {
+	if (await exists(gitDir)) {
 		await emptyDir(gitDir);
 	}
 	debug(' + git init');

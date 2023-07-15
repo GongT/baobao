@@ -7,6 +7,7 @@
 import { DeepReadonly } from '@idlebox/common';
 import { DepGraph } from 'dependency-graph';
 import { ExecaReturnValue } from 'execa';
+import { IPackageJson } from '@idlebox/node';
 
 // Warning: (ae-missing-release-tag) "argumentError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -74,16 +75,17 @@ export function description(func: any, desc: string): void;
 // Warning: (ae-missing-release-tag) "eachProject" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function eachProject(fromPath?: string): IProjectConfig[];
+export function eachProject(fromPath?: string): Promise<IProjectConfig[]>;
 
 // Warning: (ae-missing-release-tag) "findRushJson" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
 export function findRushJson(fromPath?: string): Promise<string | null>;
 
+// Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
 // Warning: (ae-missing-release-tag) "findRushJsonSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function findRushJsonSync(fromPath?: string): string | null;
 
 // Warning: (ae-missing-release-tag) "findRushRootPath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -91,9 +93,10 @@ export function findRushJsonSync(fromPath?: string): string | null;
 // @public (undocumented)
 export function findRushRootPath(fromPath?: string): Promise<string | null>;
 
+// Warning: (tsdoc-missing-deprecation-message) The @deprecated block must include a deprecation message, e.g. describing the recommended alternative
 // Warning: (ae-missing-release-tag) "findRushRootPathSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function findRushRootPathSync(fromPath?: string): string | null;
 
 // Warning: (ae-missing-release-tag) "IArgumentsDefine" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -226,11 +229,6 @@ export function linkLocalBins(): Promise<void>;
 // @public (undocumented)
 export function loadConfig(fromPath?: string): Promise<IRushConfig | null>;
 
-// Warning: (ae-missing-release-tag) "loadConfigSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function loadConfigSync(fromPath?: string): IRushConfig | null;
-
 // Warning: (ae-missing-release-tag) "main" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -356,7 +354,9 @@ export class RushProject {
     // (undocumented)
     packageDependency(project: ICProjectConfig | string, options?: IProjectDependencyOptions): string[];
     // (undocumented)
-    packageJsonContent(project: ICProjectConfig | string, reference?: boolean): any | null;
+    packageJsonContent<T extends IPackageJson = IPackageJson>(project: ICProjectConfig | string): DeepReadonly<T>;
+    // (undocumented)
+    packageJsonForEdit<T extends IPackageJson = IPackageJson>(project: ICProjectConfig | string): Promise<DeepReadonly<T>>;
     // (undocumented)
     packageJsonPath(project: ICProjectConfig | string): string | null;
     // (undocumented)
@@ -396,38 +396,6 @@ export const spinner: {
 //
 // @public (undocumented)
 export const updateAllInstallers: typeof update;
-
-// Warnings were encountered during analysis:
-//
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1014:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1015:10 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1016:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1017:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1018:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1019:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1020:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1021:13 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1022:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1023:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1024:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1025:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1026:17 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1027:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1028:21 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1029:15 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1030:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1031:10 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1032:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1034:32 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1037:41 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1050:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:1:22 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:2:28 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:3:50 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:40:31 - (TS2304) Cannot find name 'URL'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:120:26 - (TS2304) Cannot find name 'URL'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:127:17 - (TS2503) Cannot find namespace 'NodeJS'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@6.1.0/node_modules/execa/index.d.ts:237:20 - (TS2304) Cannot find name 'AbortSignal'.
 
 // (No @packageDocumentation comment for this package)
 

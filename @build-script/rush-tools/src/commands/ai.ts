@@ -1,6 +1,7 @@
+import { readdir } from 'fs/promises';
 import { basename, extname, resolve } from 'path';
+import { exists } from '@idlebox/node';
 import { execa } from 'execa';
-import { readdir, pathExists } from 'fs-extra';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { createLinkIfNot } from '../common/link';
@@ -53,7 +54,7 @@ async function linkLocal(rush: RushProject, _argv: string[]) {
 	for (const project of rush.autoinstallers) {
 		const path = rush.absolute(project);
 		const nm = resolve(path, 'node_modules/.bin');
-		if (await pathExists(nm)) {
+		if (await exists(nm)) {
 			console.log('[rush-tools] \x1B[38;5;10mcreating symlink to %s/node_modules\x1B[0m', project.packageName);
 			for (const item of await readdir(nm)) {
 				const name = basename(item, extname(item));

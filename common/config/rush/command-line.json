@@ -15,7 +15,7 @@
 			"summary": "运行“pretty-quick”命令，格式化所有文件",
 			"autoinstallerName": "rush-prettier",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "pretty-quick"
+			"shellCommand": "echo" // TODO
 		},
 		{
 			"name": "build:watch",

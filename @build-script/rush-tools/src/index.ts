@@ -1,4 +1,4 @@
-import { readdir } from 'fs-extra';
+import { readdir } from 'fs/promises';
 import { resolve } from 'path';
 import { exists } from '@idlebox/node';
 import { description } from './common/description';

@@ -1,6 +1,7 @@
+import { access } from 'fs/promises';
 import { dirname, relative, resolve } from 'path';
+import { exists } from '@idlebox/node';
 import { writeJsonFileBack } from '@idlebox/node-json-edit';
-import { access, pathExistsSync } from 'fs-extra';
 import { IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 
@@ -48,7 +49,7 @@ export async function registerProjectToRush(projectPath: string, log = console.l
 			return false;
 		}
 
-		if (pathExistsSync(conflictPath)) {
+		if (await exists(conflictPath)) {
 			throw new Error(`project name "${name}" is already used at "${nameConflict.projectFolder}".`);
 		}
 

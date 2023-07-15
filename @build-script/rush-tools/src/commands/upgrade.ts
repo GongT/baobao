@@ -1,6 +1,6 @@
+import { unlink } from 'fs/promises';
 import { resolve } from 'path';
-import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
-import { pathExists, unlink } from 'fs-extra';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { ICProjectConfig, IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
@@ -16,7 +16,7 @@ export default async function runUpgrade(argv: string[]) {
 	const alldeps: Record<string, string> = {};
 	const decoupled: Record<string, string> = {};
 	for (const project of [...rush.projects, ...rush.autoinstallers]) {
-		const packageJson = rush.packageJsonContent(project, true);
+		const packageJson = rush.packageJsonContent(project);
 		const myDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 		Object.assign(alldeps, filter(myDeps));
 
@@ -39,7 +39,7 @@ export default async function runUpgrade(argv: string[]) {
 	for (const project of rush.projects) {
 		if (project.shouldPublish) {
 			if (Object.hasOwn(decoupled, project.packageName)) {
-				decoupled[project.packageName] = '^' + rush.packageJsonContent(project, true).version;
+				decoupled[project.packageName] = '^' + rush.packageJsonContent(project).version;
 			}
 		} else {
 			delete decoupled[project.packageName];
@@ -64,14 +64,14 @@ export default async function runUpgrade(argv: string[]) {
 	info('Write changed files:');
 	let hasSomeChange = 0;
 	for (const project of [...rush.projects, ...rush.autoinstallers]) {
-		const packageJson = rush.packageJsonContent(project, true);
+		const packageJson = await rush.packageJsonForEdit(project);
 
 		let numChange = 0;
 		numChange += update(packageJson.dependencies, map);
 		numChange += update(packageJson.devDependencies, map);
-		numChange += resolveLocalDependency(rush, project, dMap);
+		numChange += await resolveLocalDependency(rush, project, dMap);
 
-		const changed = writeJsonFileBackSync(packageJson);
+		const changed = await writeJsonFileBack(packageJson);
 
 		if (changed) {
 			console.log(
@@ -86,7 +86,7 @@ export default async function runUpgrade(argv: string[]) {
 	}
 
 	info('Update rush and package manager:');
-	hasSomeChange += updateRushConfig(rush, map);
+	hasSomeChange += await updateRushConfig(rush, map);
 
 	if (hasSomeChange == 0) {
 		info('OHHHH! No update!');
@@ -96,9 +96,14 @@ export default async function runUpgrade(argv: string[]) {
 	info('Delete temp file(s):');
 	const tempfiles = [resolve(rush.projectRoot, 'common/config/rush/pnpm-lock.yaml')];
 	for (const f of tempfiles) {
-		if (await pathExists(f)) {
-			console.log('  * delete %s', f);
+		try {
 			await unlink(f);
+			console.log('  * delete %s', f);
+		} catch (e: any) {
+			if (e.code === 'ENOENT') {
+				continue;
+			}
+			throw e;
 		}
 	}
 
@@ -126,10 +131,10 @@ function update(target: Record<string, string>, map: Map<string, string>) {
 	return changed;
 }
 
-function updateRushConfig(rush: RushProject, map: Map<string, string>): number {
+async function updateRushConfig(rush: RushProject, map: Map<string, string>) {
 	let change = 0;
 	const { type, version } = rush.getPackageManager();
-	const config: IRushConfig = loadJsonFileSync(rush.configFile);
+	const config: IRushConfig = await loadJsonFile(rush.configFile);
 
 	const rushVer = map.get('@microsoft/rush')!.slice(1);
 	if (rushVer !== config.rushVersion) {
@@ -152,7 +157,7 @@ function updateRushConfig(rush: RushProject, map: Map<string, string>): number {
 	}
 
 	if (change > 0) {
-		writeJsonFileBackSync(config);
+		await writeJsonFileBack(config);
 	}
 
 	return change;
@@ -186,7 +191,7 @@ function filter(map: Record<string, string>): Record<string, string> {
 	}
 	return map;
 }
-function resolveLocalDependency(rush: RushProject, project: ICProjectConfig, dMap: Map<string, string>) {
+async function resolveLocalDependency(rush: RushProject, project: ICProjectConfig, dMap: Map<string, string>) {
 	let change = 0;
 	if (!project.decoupledLocalDependencies) return change;
 
@@ -198,7 +203,7 @@ function resolveLocalDependency(rush: RushProject, project: ICProjectConfig, dMa
 		localMap.set(item, v);
 	}
 
-	const packageJson = rush.packageJsonContent(project, true);
+	const packageJson = await rush.packageJsonForEdit(project);
 	change += update(packageJson.dependencies, localMap);
 	change += update(packageJson.devDependencies, localMap);
 

@@ -12,7 +12,10 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 
 	private readonly cache;
 
-	constructor(protected readonly resolver: ModuleResolver, fileDetectCache = new Map<string, boolean>()) {
+	constructor(
+		protected readonly resolver: ModuleResolver,
+		fileDetectCache = new Map<string, boolean>()
+	) {
 		super();
 
 		this.cache = fileDetectCache;
@@ -76,8 +79,9 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 		}
 
 		const pkgJson = result.readPackageJson();
-		if (('' + pkgJson.type).toLowerCase() === 'module' || pkgJson.module || pkgJson.exports) {
-			logger.terminal.writeDebugLine(`                assume esnext module: ${id}`);
+		const isTypeModule = pkgJson.type?.toLowerCase?.() === 'module';
+		if (isTypeModule) {
+			logger.terminal.writeDebugLine(`                assume esnext module: ${id} (package.json type is module)`);
 			return false;
 		}
 

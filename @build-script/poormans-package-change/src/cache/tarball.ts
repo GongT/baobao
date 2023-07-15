@@ -1,6 +1,6 @@
+import { mkdir, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import { exists, streamToBuffer } from '@idlebox/node';
-import { mkdirp, writeFile } from 'fs-extra';
 import { downloadFile, HttpError, INormalizedResponse } from '../inc/http';
 import { errorLog, log } from '../inc/log';
 import { cachedir } from './location';
@@ -100,7 +100,7 @@ async function _getCustomCache(name: string, distTag: string, registry: string):
 
 		log('write cache file -> ', cache);
 
-		await mkdirp(dirname(cache));
+		await mkdir(dirname(cache), { recursive: true });
 		await writeFile(cache, JSON.stringify({ etag, json }), 'utf-8');
 	} else {
 		errorLog(`npm registry response without etag header: ${registry}/${name}`);

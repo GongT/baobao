@@ -1,10 +1,11 @@
 import { createHash } from 'crypto';
+import { existsSync, readdirSync, readFileSync } from 'fs';
+import { readFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
-import { isWindows } from '@idlebox/common';
+import { DeepReadonly, isWindows } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { relativePath, writeFileIfChange } from '@idlebox/node';
-import { loadJsonFileSync } from '@idlebox/node-json-edit';
-import { pathExists, pathExistsSync, readdirSync, readFile, readJsonSync } from 'fs-extra';
+import { exists, IPackageJson, relativePath, writeFileIfChange } from '@idlebox/node';
+import { loadJsonFile, readCommentJsonFileSync } from '@idlebox/node-json-edit';
 import { requireRushPathSync } from '../common/loadRushJson';
 import { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson';
 
@@ -25,7 +26,7 @@ export class RushProject {
 		this.configFile = configFile;
 		this.projectRoot = dirname(configFile);
 
-		const config: IRushConfig = loadJsonFileSync(configFile);
+		const config: IRushConfig = readCommentJsonFileSync(configFile);
 		for (const project of config.projects ?? []) {
 			if (project.decoupledLocalDependencies && project.cyclicDependencyProjects) {
 				throw new Error(
@@ -61,23 +62,23 @@ export class RushProject {
 		const dir = resolve(this.projectRoot, AI_DIR);
 		const ret: IProjectConfig[] = [];
 
-		if (!pathExistsSync(dir)) {
+		if (!existsSync(dir)) {
 			return ret;
 		}
 
 		for (const item of readdirSync(dir)) {
 			const pkgJson = resolve(dir, item, 'package.json');
-			if (!pathExistsSync(pkgJson)) {
+			if (!existsSync(pkgJson)) {
 				continue;
 			}
 
 			const decoupledLocalDependencies = [];
-			const pkg = readJsonSync(pkgJson);
+			const pkg = JSON.parse(readFileSync(pkgJson, 'utf-8'));
 			const keys: string[] = [];
 			if (pkg.dependencies) keys.push(...Object.keys(pkg.dependencies));
 			if (pkg.devDependencies) keys.push(...Object.keys(pkg.devDependencies));
 			for (const dep of keys) {
-				if (this.getPackageByName(dep)) {
+				if (this.getProjectByName(dep)) {
 					decoupledLocalDependencies.push(dep);
 				}
 			}
@@ -107,7 +108,7 @@ export class RushProject {
 	public get preferredVersions() {
 		if (!this._preferredVersions) {
 			this._preferredVersions =
-				loadJsonFileSync(resolve(this.projectRoot, 'common/config/rush/common-versions.json'))
+				readCommentJsonFileSync(resolve(this.projectRoot, 'common/config/rush/common-versions.json'))
 					.preferredVersions || {};
 		}
 		return this._preferredVersions;
@@ -119,7 +120,7 @@ export class RushProject {
 
 	public absolute(project: ICProjectConfig | string, ...segments: string[]): string {
 		if (typeof project === 'string') {
-			const p2 = this.getPackageByName(project);
+			const p2 = this.getProjectByName(project);
 			if (p2) {
 				return resolve(this.projectRoot, p2.projectFolder, ...segments);
 			} else {
@@ -145,7 +146,7 @@ export class RushProject {
 
 		if (project.shouldPublish === false) return false;
 
-		const packageJson = this.packageJsonContent(project, true);
+		const packageJson = this.packageJsonContent(project);
 		if (packageJson.private === false) return false;
 
 		return true;
@@ -166,25 +167,43 @@ export class RushProject {
 
 	public packageJsonPath(project: ICProjectConfig | string): string | null {
 		const p = resolve(this.absolute(project), 'package.json');
-		return pathExistsSync(p) ? p : null;
+		return existsSync(p) ? p : null;
 	}
 
-	private packageJsonCache = new Map<string, Object>();
-	public packageJsonContent(project: ICProjectConfig | string, reference = false): any | null {
+	private packageJsonCache = new Map<string, any>();
+	public packageJsonContent<T extends IPackageJson = IPackageJson>(
+		project: ICProjectConfig | string
+	): DeepReadonly<T> {
 		const name = typeof project === 'string' ? project : project.packageName;
 		if (!this.packageJsonCache.has(name)) {
 			const pkgPath = this.packageJsonPath(name);
-			if (!pkgPath) return null;
+			if (!pkgPath) {
+				throw new Error('missing package.json: ' + name);
+			}
 
-			const content = loadJsonFileSync(pkgPath);
+			const content = readCommentJsonFileSync(pkgPath);
 			this.packageJsonCache.set(name, content);
 		}
 
-		if (reference) {
-			return this.packageJsonCache.get(name);
+		return this.packageJsonCache.get(name)!;
+	}
+
+	private packageJsonCacheAsync = new Map<string, any>();
+	public async packageJsonForEdit<T extends IPackageJson = IPackageJson>(
+		project: ICProjectConfig | string
+	): Promise<DeepReadonly<T>> {
+		const name = typeof project === 'string' ? project : project.packageName;
+		if (!this.packageJsonCacheAsync.has(name)) {
+			const pkgPath = this.packageJsonPath(name);
+			if (!pkgPath) {
+				throw new Error('missing package.json: ' + name);
+			}
+
+			const content = await loadJsonFile(pkgPath);
+			this.packageJsonCacheAsync.set(name, content);
 		}
 
-		return JSON.parse(JSON.stringify(this.packageJsonCache.get(name)));
+		return this.packageJsonCacheAsync.get(name)!;
 	}
 
 	public packageDependency(project: ICProjectConfig | string, options: IProjectDependencyOptions = {}): string[] {
@@ -272,7 +291,7 @@ export class RushProject {
 
 	async copyNpmrc(project: ICProjectConfig | string, symlink: boolean = !isWindows, force: boolean = false) {
 		const wantFile = this.absolute(project, '.npmrc');
-		if (!force && (await pathExists(wantFile))) {
+		if (!force && (await exists(wantFile))) {
 			return;
 		}
 

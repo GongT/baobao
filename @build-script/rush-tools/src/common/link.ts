@@ -1,6 +1,6 @@
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { relativePath, writeFileIfChange } from '@idlebox/node';
-import { access, chmod } from 'fs-extra';
+import { access, chmod } from 'fs/promises';
 import { F_OK } from 'constants';
 import { dirname, resolve } from 'path';
 import { RushProject } from '../api/rushProject';

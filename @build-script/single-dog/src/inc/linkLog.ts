@@ -1,5 +1,5 @@
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { lstatSync, pathExistsSync } from 'fs-extra';
+import { lstatSync, pathExistsSync } from 'fs/promises';
 import { debug } from './debug';
 
 export async function linkWithLog(from: string, symlink: string) {

@@ -1,7 +1,7 @@
 /// <reference path="../globals.d.ts" />
 
 import { DeferredPromise, EventRegister } from '@idlebox/common';
-import { emptyDir, mkdir, pathExistsSync } from 'fs-extra';
+import { emptyDir } from '@idlebox/node';
 import { transpileBootstrap } from './compile-bootstrap';
 import { runESBuild } from './compile-esbuild';
 import { generateIndexHtml } from './compile-html';
@@ -38,11 +38,7 @@ export async function execute(watch = false) {
 	console.log('mode: %s, version: %s', watch ? 'watch' : 'build', isProd ? 'production' : 'development');
 
 	console.log(' == prepare temp output dir');
-	if (pathExistsSync(outputDir)) {
-		await emptyDir(outputDir);
-	} else {
-		await mkdir(outputDir);
-	}
+	await emptyDir(outputDir);
 
 	// console.log(' == generate loader');
 	// await generateLoader();

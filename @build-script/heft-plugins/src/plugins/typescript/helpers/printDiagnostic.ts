@@ -28,7 +28,7 @@ export function printCompileDiagnostic(
 	if (warningCount > 0 || errorCount > 0) {
 		const s1 = errorCount === 1 ? '' : 's';
 		const s2 = warningCount === 1 ? '' : 's';
-		throw new Error(`TypeScript encountered ${errorCount} warning${s1} and ${warningCount} warning${s2}`);
+		throw new Error(`TypeScript encountered ${errorCount} error${s1} and ${warningCount} warning${s2}`);
 	}
 }
 

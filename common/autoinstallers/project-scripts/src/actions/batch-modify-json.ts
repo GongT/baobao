@@ -1,7 +1,7 @@
 import '../include/prefix';
+import { existsSync } from 'fs';
 import { RushProject } from '@build-script/rush-tools';
 import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
-import { pathExistsSync } from 'fs-extra';
 import { getopts, handleShort } from '../include/rushArguments';
 
 interface IOptions {
@@ -67,7 +67,7 @@ const rush = new RushProject();
 for (const { projectFolder, packageName } of rush.projects) {
 	const path = rush.absolute(projectFolder, file);
 
-	if (!pathExistsSync(path)) {
+	if (!existsSync(path)) {
 		continue;
 	}
 

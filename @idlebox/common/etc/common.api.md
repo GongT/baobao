@@ -183,7 +183,7 @@ export enum ColorKind {
 // Warning: (ae-missing-release-tag) "concatStringType" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "concatStringType" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
-// @public
+// @public (undocumented)
 export function concatStringType<T0 extends string>(t0: T0): `${T0}`;
 
 // @public (undocumented)

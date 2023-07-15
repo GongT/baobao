@@ -18,7 +18,7 @@ function orderdStringify(data: any, others: UnorderdFieldsPlacement = UnorderdFi
 	return stringify(manipulateJsonResult(data, others), null, 2);
 }
 
-export function stringifyJsonText(data: any): string {
+export function stringifyJsonText(data: any) {
 	const config = getAttachedFormat(data);
 	const str = orderdStringify(data);
 	return config.format(str);

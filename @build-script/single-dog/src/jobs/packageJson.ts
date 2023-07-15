@@ -3,7 +3,7 @@ import { createInterface } from 'readline';
 import { registerProjectToRush } from '@build-script/rush-tools';
 import { findUpUntil } from '@idlebox/node';
 import { insertKeyAlphabet, loadJsonFile, writeJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { pathExists } from 'fs-extra';
+import { pathExists } from 'fs/promises';
 import { getPackageManager, PackageManagerType, resolveLatestVersionOnNpm } from 'unipm';
 import { debug } from '../inc/debug';
 import { getGitName } from '../inc/gitName';

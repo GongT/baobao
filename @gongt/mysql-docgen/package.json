@@ -32,7 +32,6 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"fancy-log": "^2.0.0",
-		"fs-extra": "^10.1.0",
 		"mysql": "^2.18.1",
 		"pretty": "^2.0.0",
 		"react": "^18.2.0",
@@ -44,7 +43,6 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@rushstack/heft": "^0.56.0",
 		"@types/fancy-log": "^2.0.0",
-		"@types/fs-extra": "^9.0.13",
 		"@types/mysql": "^2.15.21",
 		"@types/node": "^18.11.0",
 		"@types/pretty": "^2.0.1",

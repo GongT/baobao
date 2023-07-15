@@ -41,7 +41,7 @@ async function genInner(config: IConfig) {
 }
 
 export async function runGenerate(config: IConfig) {
-	const pkgJson = loadJsonFileSync(config.packagePath);
+	const pkgJson = await loadJsonFile(config.packagePath);
 	let needHack = false;
 	if (pkgJson && pkgJson.type === 'module') {
 		needHack = true;

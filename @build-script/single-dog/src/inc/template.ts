@@ -3,7 +3,7 @@ import { createRequire } from 'module';
 import { posix, resolve } from 'path';
 import { findUpUntil, lrelative } from '@idlebox/node';
 import { convertCatchedError } from '@idlebox/common';
-import { readFileSync } from 'fs-extra';
+import { readFileSync } from 'fs/promises';
 
 export function getTemplatePath(what: string) {
 	return resolve(TEMPLATE_ROOT, what);

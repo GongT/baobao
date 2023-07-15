@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { entrySourceRoot } from '../library/constants';
-import { normalizePackageName } from './library';
 import { rush } from '../library/rush';
+import { normalizePackageName } from './library';
 
 export function createEntrypoints() {
 	const entries: Record<string, string> = {
@@ -11,8 +11,8 @@ export function createEntrypoints() {
 
 	for (const project of rush.projects) {
 		if (project.packageName === '@moffett/entry' || project.packageName === '@moffett/build-rig') continue;
-		const { main, module, exports } = rush.packageJsonContent(project);
-		const mainEntry = exports || module || main;
+		const { main, module } = rush.packageJsonContent(project);
+		const mainEntry = module || main;
 		if (!mainEntry) {
 			console.error('\x1B[38;5;11mWarn: missing entry of package %s\x1B[0m', project.packageName);
 			continue;

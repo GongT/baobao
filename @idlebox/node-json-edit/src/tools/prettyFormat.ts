@@ -1,8 +1,8 @@
-import { readFile as readFileAsync, readFileSync } from 'fs';
+import { readFile as readFileAsync } from 'fs';
 import { promisify } from 'util';
 import prettier from 'prettier';
 import { IFileFormatConfig } from '../';
-import { pathExistsAsync, pathExistsSync } from './filesystem.js';
+import { pathExists } from './filesystem.js';
 
 const readFile = promisify(readFileAsync);
 
@@ -35,8 +35,8 @@ export class PrettyFormat {
 		Object.assign(this.current, format);
 	}
 
-	format(text: string) {
-		const result = prettier.format(text, {
+	async format(text: string) {
+		const result = await prettier.format(text, {
 			...this.current,
 			parser: 'json',
 			singleQuote: false,
@@ -46,33 +46,16 @@ export class PrettyFormat {
 		return this.current.lastNewLine ? result : result.trim();
 	}
 
-	learnFromFileSync(file: string, content?: string) {
-		let f: prettier.Options | null = null;
-		if (process.env.PRETTIER_CONFIG) {
-			f = prettier.resolveConfig.sync(process.env.PRETTIER_CONFIG, {
-				editorconfig: true,
-			});
-			if (!f) {
-				throw new Error(`[ENV] PRETTIER_CONFIG=${process.env.PRETTIER_CONFIG}: file not found`);
-			}
-		}
-		if (!f) {
-			f = prettier.resolveConfig.sync(file, { editorconfig: true });
-		}
-		if (f) {
-			this.setFormat({ ...f, lastNewLine: true });
-		} else if (pathExistsSync(file)) {
-			this.current.filepath = file;
-			if (!content) content = readFileSync(file, 'utf-8');
-			this.learnFromString(content);
-		}
+	/** @deprecated */
+	learnFromFileAsync(file: string, content?: string) {
+		return this.learnFromFile(file, content);
 	}
 
-	async learnFromFileAsync(file: string, content?: string) {
+	async learnFromFile(file: string, content?: string) {
 		const f = await prettier.resolveConfig(file, { editorconfig: true });
 		if (f) {
 			this.setFormat({ ...f, lastNewLine: true });
-		} else if (await pathExistsAsync(file)) {
+		} else if (await pathExists(file)) {
 			this.current.filepath = file;
 			if (!content) content = await readFile(file, 'utf-8');
 			this.learnFromString(content);

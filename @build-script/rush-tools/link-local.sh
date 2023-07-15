@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-cd ../../common/temp
+cd ../../common/temp || exit 0
 
 mkdir -p bin
 

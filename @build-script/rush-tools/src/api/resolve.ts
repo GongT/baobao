@@ -19,12 +19,12 @@ export function createDeps(rushProject: RushProject) {
 	const dep = new DepGraph<IGraphAttachedData>();
 
 	for (const project of rushProject.projects) {
-		const packageJson = rushProject.packageJsonContent(project);
+		const packageJson = rushProject.packageJsonContent(project)!;
 		dep.addNode(project.packageName, {
 			project,
 			packageJson,
 			shouldPublish: rushProject.isProjectPublic(project),
-			hasBuildScript: !!rushProject.packageJsonContent(project).scripts?.build,
+			hasBuildScript: !!packageJson.scripts?.build,
 		});
 	}
 

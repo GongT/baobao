@@ -1,19 +1,20 @@
 import '../include/prefix';
+import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { humanDate } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { pathExists, readFileSync } from 'fs-extra';
+import { exists } from '@idlebox/node';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
 
 async function getNpmRc(rushProject: RushProject) {
 	let npmrc = resolve(rushProject.configRoot, '.npmrc-publish');
-	if (await pathExists(npmrc)) {
+	if (await exists(npmrc)) {
 		return npmrc;
 	}
 	npmrc = resolve(rushProject.configRoot, '.npmrc');
-	if (await pathExists(npmrc)) {
+	if (await exists(npmrc)) {
 		return npmrc;
 	}
 	return undefined;

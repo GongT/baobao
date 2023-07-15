@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 import { arrayUniqueReference } from '@idlebox/common';
 
@@ -47,13 +48,27 @@ export function stringify(data: IIgnoreFile): string {
 	return ret.trim() + '\n';
 }
 
-export function saveFile(data: IIgnoreFile, saveAs: string = data[filePath]!) {
+/** @deprecated */
+export function saveFileSync(data: IIgnoreFile, saveAs: string = data[filePath]!) {
 	if (!saveAs) {
 		throw new Error('not opened by loadFile(), use saveAs');
 	}
 	const result = stringify(data);
 	if (result !== data[originalContent]) {
 		writeFileSync(saveAs, result, 'utf-8');
+		return true;
+	} else {
+		return false;
+	}
+}
+
+export async function saveFile(data: IIgnoreFile, saveAs: string = data[filePath]!) {
+	if (!saveAs) {
+		throw new Error('not opened by loadFile(), use saveAs');
+	}
+	const result = stringify(data);
+	if (result !== data[originalContent]) {
+		await writeFile(saveAs, result, 'utf-8');
 		return true;
 	} else {
 		return false;
@@ -150,7 +165,26 @@ export function parse(content: string): IIgnoreFile {
 	return wrapProxy(struct, content);
 }
 
-export function loadFile(file: string, create = false): IIgnoreFile {
+export async function loadFile(file: string, create = false): Promise<IIgnoreFile> {
+	file = resolve(process.cwd(), file);
+
+	if (create && !existsSync(file)) {
+		await writeFile(file, '');
+	}
+
+	const content = await readFile(file, 'utf-8');
+
+	const struct: IIgnoreFileData = {
+		[unscoped]: new WrappedArray(),
+		[originalContent]: content,
+		[filePath]: file,
+	};
+
+	return wrapProxy(struct, content);
+}
+
+/** @deprecated */
+export function loadFileSync(file: string, create = false): IIgnoreFile {
 	file = resolve(process.cwd(), file);
 
 	if (create && !existsSync(file)) {

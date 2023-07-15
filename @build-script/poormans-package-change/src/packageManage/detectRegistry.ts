@@ -1,10 +1,10 @@
+import { readFile } from 'fs/promises';
+import { resolve } from 'path';
 import { parse } from 'url';
 import { convertCatchedError } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
 import { execaCommand } from 'execa';
 import { errorLog, log } from '../inc/log';
-import { resolve } from 'path';
-import { readJson } from 'fs-extra';
 
 let foundPm: string;
 
@@ -55,7 +55,7 @@ async function resolveRegistry(path: string) {
 	const pm = await getPackageManager();
 	log('Using package manager: %s', pm);
 
-	const pkgJson = await readJson(resolve(path, 'package.json'));
+	const pkgJson = JSON.parse(await readFile(resolve(path, 'package.json'), 'utf-8'));
 	const scope = pkgJson.name.startsWith('@') ? pkgJson.name.replace(/\/.+$/, '') : '';
 	log('    package scope: %s', scope);
 	if (scope) {

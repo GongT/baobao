@@ -1,8 +1,7 @@
-import { loadConfigSync } from './load';
-import { IProjectConfig } from './limitedJson';
+import { loadConfig } from './load';
 
-export function eachProject(fromPath = process.cwd()): IProjectConfig[] {
-	const cfg = loadConfigSync(fromPath);
+export async function eachProject(fromPath = process.cwd()) {
+	const cfg = await loadConfig(fromPath);
 	if (!cfg) throw new Error('Can not find config rush.json.');
 	return cfg.projects;
 }

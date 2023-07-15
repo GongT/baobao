@@ -24,13 +24,13 @@
 		"@idlebox/common": "workspace:^",
 		"chokidar": "^3.5.3",
 		"debug": "^4.3.4",
-		"tslib": "^2.4.1"
+		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.56.0",
-		"@types/debug": "^4.1.7",
-		"@types/node": "^18.15.2",
+		"@rushstack/heft": "^0.57.0",
+		"@types/debug": "^4.1.8",
+		"@types/node": "^20.3.1",
 		"@internal/dualstack-rig": "workspace:^"
 	},
 	"monorepo": "rush"

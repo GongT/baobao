@@ -1,20 +1,20 @@
 import { resolve } from 'path';
+import { exists } from '@idlebox/node';
 import { execa } from 'execa';
-import { pathExists } from 'fs-extra';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 
 description(publishLocal, 'run pnpm/npm/yarn publish in single project');
 
 export default async function publishLocal(argv: string[]) {
-	if (!(await pathExists('package.json'))) {
+	if (!(await exists('package.json'))) {
 		console.error('Must run inside project');
 		process.exit(1);
 	}
 	const pkgJson = require(resolve(process.cwd(), 'package.json'));
 
 	const rush = new RushProject();
-	const project = rush.getPackageByName(pkgJson.name);
+	const project = rush.getProjectByName(pkgJson.name);
 
 	if (!project) {
 		console.error('Must run inside rush project');

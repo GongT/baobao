@@ -1,8 +1,8 @@
-import split2 from 'split2';
-import { execa, Options as SpawnOptions } from 'execa';
+import { createWriteStream, existsSync, mkdirSync, truncateSync } from 'fs';
 import { dirname } from 'path';
 import { CollectingStream, streamPromise } from '@idlebox/node';
-import { createFileSync, createWriteStream, mkdirpSync, truncateSync } from 'fs-extra';
+import { execa, Options as SpawnOptions } from 'execa';
+import split2 from 'split2';
 import { TEMP_DIR } from './paths';
 
 export interface IOptions extends SpawnOptions {
@@ -35,9 +35,10 @@ export function execPromise({
 	full.write(debugExec + '\n\n');
 
 	if (logFile) {
-		mkdirpSync(dirname(logFile));
-		createFileSync(logFile);
-		truncateSync(logFile);
+		mkdirSync(dirname(logFile), { recursive: true });
+		if (existsSync(logFile)) {
+			truncateSync(logFile);
+		}
 	}
 	const logger = logFile ? createWriteStream(logFile) : null;
 	r.stdout.pipe(split2()).on('data', (l) => {

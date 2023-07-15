@@ -18,14 +18,14 @@
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
 		"@rushstack/rig-package": "^0.4.0",
-		"tslib": "^2.4.1"
+		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
-		"@rushstack/heft-typescript-plugin": "^0.1.11",
+		"@rushstack/heft-typescript-plugin": "^0.1.17",
 		"@build-script/single-dog-asset": "workspace:^",
-		"@microsoft/api-extractor": "^7.36.0",
-		"@rushstack/heft": "^0.56.0",
-		"@types/node": "^18.15.2",
+		"@microsoft/api-extractor": "^7.36.2",
+		"@rushstack/heft": "^0.57.0",
+		"@types/node": "^20.3.1",
 		"@internal/local-rig": "workspace:^"
 	}
 }

@@ -20,11 +20,11 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"tslib": "^2.4.1"
+		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
-		"@types/node": "^18.15.2",
-		"@rushstack/heft": "^0.56.0",
+		"@types/node": "^20.3.1",
+		"@rushstack/heft": "^0.57.0",
 		"@internal/local-rig": "workspace:^",
 		"typescript": "^5.1.6"
 	},

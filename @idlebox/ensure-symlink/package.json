@@ -12,8 +12,10 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"fs-extra": "^10.1.0",
-		"tslib": "^2.4.1"
+		"tslib": "^2.6.0"
 	},
-	"monorepo": true
+	"monorepo": true,
+	"devDependencies": {
+		"@types/node": "^20.3.1"
+	}
 }

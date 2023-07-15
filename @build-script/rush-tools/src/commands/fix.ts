@@ -1,5 +1,5 @@
 import { convertCatchedError } from '@idlebox/common';
-import { writeJsonFileBackSync } from '@idlebox/node-json-edit';
+import { writeJsonFileBack } from '@idlebox/node-json-edit';
 import { ICProjectConfig } from '../api';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
@@ -53,7 +53,7 @@ async function fix(_argv: string[]) {
 	console.log('Finding conflict dependencies:');
 	const knownVersion = new Map<string, string>();
 	for (const project of rush.projects) {
-		const data = rush.packageJsonContent(project.projectFolder, true);
+		const data = rush.packageJsonContent(project.projectFolder);
 		const deps: { [id: string]: string } = Object.assign({}, data.dependencies, data.devDependencies);
 		for (const [name, version] of Object.entries(deps)) {
 			if (localHardVersions.has(name) || conflictingVersions.has(name)) {
@@ -123,11 +123,11 @@ async function fix(_argv: string[]) {
 
 	for (const project of rush.projects) {
 		console.log('  %s:', project.packageName);
-		const packageJson = rush.packageJsonContent(project, true);
+		const packageJson = await rush.packageJsonForEdit(project);
 		fix(project, packageJson.dependencies, false);
 		fix(project, packageJson.devDependencies, true);
 
-		if (writeJsonFileBackSync(packageJson)) {
+		if (await writeJsonFileBack(packageJson)) {
 			console.log('    ~ updated.');
 		}
 	}

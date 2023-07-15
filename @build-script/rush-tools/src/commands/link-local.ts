@@ -1,6 +1,7 @@
+import { mkdir, readdir } from 'fs/promises';
 import { basename, resolve } from 'path';
+import { exists } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
-import { mkdirp, pathExists, readdir } from 'fs-extra';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 import { createExecuteWrapper } from '../common/link';
@@ -12,7 +13,7 @@ export default async function linkLocalBins() {
 	const rush = new RushProject();
 
 	const binTempDir = resolve(rush.tempRoot, 'bin');
-	await mkdirp(binTempDir);
+	await mkdir(binTempDir, { recursive: true });
 
 	const map = new Map<string, string>();
 
@@ -21,7 +22,7 @@ export default async function linkLocalBins() {
 	for (const ai of rush.autoinstallers) {
 		console.log('\x1B[2m   - [auto-installer] %s:\x1B[0m', ai.packageName);
 		const localBinPath = rush.absolute(ai, 'node_modules/.bin');
-		if (!(await pathExists(localBinPath))) {
+		if (!(await exists(localBinPath))) {
 			continue;
 		}
 		for (const item of await readdir(localBinPath)) {

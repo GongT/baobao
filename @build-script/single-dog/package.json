@@ -22,14 +22,12 @@
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
-		"fs-extra": "^10.1.0",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.4.1",
 		"unipm": "workspace:^"
 	},
 	"devDependencies": {
 		"@rushstack/heft": "^0.56.0",
-		"@types/fs-extra": "^9.0.13",
 		"@types/node": "^18.15.2",
 		"@internal/local-rig": "workspace:^"
 	}

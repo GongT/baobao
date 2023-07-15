@@ -23,11 +23,11 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.4.1"
+		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.56.0",
+		"@rushstack/heft": "^0.57.0",
 		"@internal/dualstack-rig": "workspace:^"
 	},
 	"monorepo": "rush"

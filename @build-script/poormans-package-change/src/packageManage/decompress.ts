@@ -1,7 +1,7 @@
+import { unlinkSync } from 'fs';
+import { convertCatchedError } from '@idlebox/common';
 import { decompress } from 'targz';
 import { log } from '../inc/log';
-import { unlinkSync } from 'fs-extra';
-import { convertCatchedError } from '@idlebox/common';
 
 export async function decompressTargz(src: string, dest: string) {
 	log(`Decompress files:\n ${src} --> ${dest}`);

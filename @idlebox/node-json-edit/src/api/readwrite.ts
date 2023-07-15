@@ -4,18 +4,11 @@
  *   * false: data did not change, no write happen
  */
 
+import { readFileSync } from 'fs';
 import { isAbsolute, resolve } from 'path';
 import { parse } from 'comment-json';
 import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormat } from '../tools/attachData.js';
-import {
-	checkChange,
-	pathExistsAsync,
-	pathExistsSync,
-	loadFileAsync,
-	loadFileSync,
-	writeAsync,
-	writeSync,
-} from '../tools/filesystem.js';
+import { checkChange, loadFile, pathExists, saveFile } from '../tools/filesystem.js';
 import { PrettyFormat } from '../tools/prettyFormat.js';
 import { stringifyJsonText } from './format.js';
 
@@ -30,37 +23,12 @@ function requireFile(data: any) {
 }
 
 /**
- * @see {writeJsonFileBackForce}
- * Synchronize operation
- */
-export function writeJsonFileBackForceSync(data: any): void {
-	const file = requireFile(data);
-	const str = stringifyJsonText(data);
-	writeSync(file, str);
-}
-
-/**
  * Unconditional write `data` back into it's source file
  */
-export function writeJsonFileBackForce(data: any): Promise<void> {
+export async function writeJsonFileBackForce(data: any): Promise<void> {
 	const file = requireFile(data);
-	const str = stringifyJsonText(data);
-	return writeAsync(file, str);
-}
-
-/**
- * @see {writeJsonFileBack}
- * Synchronize operation
- */
-export function writeJsonFileBackSync(data: any): boolean {
-	const file = requireFile(data);
-	const str = stringifyJsonText(data);
-	if (checkChange(file, str)) {
-		writeSync(file, str);
-		return true;
-	} else {
-		return false;
-	}
+	const str = await stringifyJsonText(data);
+	await saveFile(file, str);
 }
 
 /**
@@ -68,30 +36,13 @@ export function writeJsonFileBackSync(data: any): boolean {
  */
 export async function writeJsonFileBack(data: any): Promise<boolean> {
 	const file = requireFile(data);
-	const str = stringifyJsonText(data);
+	const str = await stringifyJsonText(data);
 	if (checkChange(file, str)) {
-		await writeAsync(file, str);
+		await saveFile(file, str);
 		return true;
 	} else {
 		return false;
 	}
-}
-
-/**
- * @see {writeJsonFile}
- * Synchronize operation
- */
-export function writeJsonFileSync(file: string, data: any, charset: BufferEncoding = DEFAULT_ENCODING): boolean {
-	file = abs(file);
-	const newData = Object.assign({}, data);
-	cloneAttachedFieldsInto(data, newData);
-	if (pathExistsSync(file)) {
-		const targetFile = loadFileSync(file, charset);
-		setAttachedFile(newData, targetFile);
-	} else {
-		setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
-	}
-	return writeJsonFileBackSync(newData);
 }
 
 /**
@@ -105,8 +56,8 @@ export async function writeJsonFile(
 	file = abs(file);
 	const newData = Object.assign({}, data);
 	cloneAttachedFieldsInto(data, newData);
-	if (await pathExistsAsync(file)) {
-		const targetFile = await loadFileAsync(file, charset);
+	if (await pathExists(file)) {
+		const targetFile = await loadFile(file, charset);
 		setAttachedFile(newData, targetFile);
 	} else {
 		setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
@@ -121,59 +72,31 @@ export async function writeJsonFile(
 	return ret;
 }
 
-export function loadJsonFileIfExistsSync(
-	file: string,
-	defaultValue: any = {},
-	charset: BufferEncoding = DEFAULT_ENCODING
-): Promise<any> {
-	file = abs(file);
-	if (pathExistsSync(file)) {
-		return loadJsonFileSync(file, charset);
-	} else {
-		const newData = Object.assign({}, defaultValue);
-		setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
-		const format = new PrettyFormat();
-		format.learnFromFileSync(file);
-		setAttachedFormat(newData, format);
-		return newData;
-	}
-}
 export async function loadJsonFileIfExists(
 	file: string,
 	defaultValue: any = {},
 	charset: BufferEncoding = DEFAULT_ENCODING
 ): Promise<any> {
 	file = abs(file);
-	if (pathExistsSync(file)) {
+	if (await pathExists(file)) {
 		return loadJsonFile(file, charset);
 	} else {
 		const newData = Object.assign({}, defaultValue);
 		setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
 		const format = new PrettyFormat();
-		await format.learnFromFileAsync(file);
+		await format.learnFromFile(file);
 		setAttachedFormat(newData, format);
 		return newData;
 	}
 }
 
-export function loadJsonFileSync(file: string, charset: BufferEncoding = DEFAULT_ENCODING): any {
-	file = abs(file);
-	const targetFile = loadFileSync(file, charset);
-	const data = parse(targetFile.originalContent);
-	setAttachedFile(data, targetFile);
-	const format = new PrettyFormat();
-	format.learnFromFileSync(file, targetFile.originalContent);
-	setAttachedFormat(data, format);
-	return data;
-}
-
 export async function loadJsonFile(file: string, charset: BufferEncoding = DEFAULT_ENCODING): Promise<any> {
 	file = abs(file);
-	const targetFile = await loadFileAsync(file, charset);
+	const targetFile = await loadFile(file, charset);
 	const data = parse(targetFile.originalContent);
 	setAttachedFile(data, targetFile);
 	const format = new PrettyFormat();
-	await format.learnFromFileAsync(file, targetFile.originalContent);
+	await format.learnFromFile(file, targetFile.originalContent);
 	setAttachedFormat(data, format);
 	return data;
 }
@@ -187,4 +110,10 @@ function abs(p: string) {
 		return p;
 	}
 	return resolve(process.cwd(), p);
+}
+
+export function readCommentJsonFileSync(file: string, charset: BufferEncoding = DEFAULT_ENCODING): any {
+	file = abs(file);
+	const data = readFileSync(file, charset);
+	return parse(data, undefined, true);
 }
