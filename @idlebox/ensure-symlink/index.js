@@ -23,7 +23,7 @@ exports.ensureLinkTarget = async (target, symlink) => {
 		}
 		await fsa.unlink(symlink);
 	}
-	await fsa.mkdir(path.dirname(symlink), { recursive: tru });
+	await fsa.mkdir(path.dirname(symlink), { recursive: true });
 	await fsa.symlink(target, symlink, 'junction');
 	return true;
 };

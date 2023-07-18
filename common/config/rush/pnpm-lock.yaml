@@ -565,8 +565,8 @@ importers:
         specifier: ^1.3.19
         version: 1.3.19
       '@idlebox/node':
-        specifier: ^1.2.16
-        version: 1.2.16
+        specifier: ^1.2.17
+        version: 1.2.17
       '@idlebox/node-ignore-edit':
         specifier: workspace:^
         version: link:../node-ignore-edit
@@ -1504,8 +1504,8 @@ packages:
       tslib: 2.6.0
     dev: false
 
-  /@idlebox/node@1.2.16:
-    resolution: {integrity: sha512-6wPKBYMNAOukssGxnYs/4KPch9x8dYnoJ2k1MRqMdSNoX9B6t0UHWrSB8EiH+oOTin2vw3GpztKHQEhlsaYZwA==}
+  /@idlebox/node@1.2.17:
+    resolution: {integrity: sha512-qsCRgD5LyOF3EZEptyfgJ93So9xv6M9P10E8Ct+KfVjPsHbFm2PSh/eS0w94TTpBztha5bECc4bmlImROjmCDg==}
     dependencies:
       '@gongt/fix-esm': 0.0.11
       '@idlebox/common': 1.3.19

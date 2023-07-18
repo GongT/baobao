@@ -29,8 +29,8 @@
 			"cleanFiles": [
 				{ "sourcePath": "temp" },
 				{ "sourcePath": "lib" },
-				{ "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
-				{ "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
+				{ "sourcePath": ".", "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
+				{ "sourcePath": ".", "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
 			],
 			"tasksByName": {
 				"typescript": {
@@ -46,8 +46,8 @@
 		},
 		"build": {
 			"cleanFiles": [
-				{ "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
-				{ "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
+				{ "sourcePath": ".", "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
+				{ "sourcePath": ".", "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
 			],
 			"phaseDependencies": ["post-compile"],
 			"tasksByName": {
