@@ -34,7 +34,7 @@ export async function commandInPath(cmd: string, alterExt?: string[]): Promise<s
 	}
 	return undefined;
 }
-export function commmandInPathSync(cmd: string, alterExt?: string[]): string | undefined {
+export function commandInPathSync(cmd: string, alterExt?: string[]): string | undefined {
 	const pathVar = new PathEnvironment();
 	for (const item of pathVar.join(cmd)) {
 		for (const ext of exts(alterExt)) {

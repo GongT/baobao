@@ -9,8 +9,8 @@
 	"module": "./lib/esm/api.js",
 	"exports": {
 		".": {
-			"require": "./lib/cjs/api.js",
-			"import": "./lib/esm/api.js"
+			"import": "./lib/esm/api.js",
+			"require": "./lib/cjs/api.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -24,7 +24,7 @@
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "^1.3.19",
-		"@idlebox/node": "^1.2.16",
+		"@idlebox/node": "^1.2.17",
 		"@idlebox/node-ignore-edit": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
@@ -32,10 +32,10 @@
 		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
+		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.0",
 		"@types/minimatch": "^5.1.2",
 		"@types/node": "^20.3.1",
-		"@internal/local-rig": "workspace:^",
 		"typescript": "^5.1.6"
 	},
 	"peerDependencies": {

@@ -27,14 +27,14 @@
 		"postcss-modules": "^6.0.0",
 		"sass": "^1.63.6",
 		"source-map-support": "^0.5.21",
-		"typescript": "^5.1.6",
-		"tslib": "^2.6.0"
+		"tslib": "^2.6.0",
+		"typescript": "^5.1.6"
 	},
 	"devDependencies": {
+		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.0",
 		"@types/express": "^4.17.17",
 		"@types/morgan": "^1.9.4",
-		"@types/node": "^20.3.1",
-		"@internal/local-rig": "workspace:^"
+		"@types/node": "^20.3.1"
 	}
 }

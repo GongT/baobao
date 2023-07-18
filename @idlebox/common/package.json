@@ -1,10 +1,10 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.3.19",
+	"version": "1.3.20",
 	"license": "MIT",
-	"module": "./lib/esm/__create_index.generated.mjs",
 	"main": "./lib/cjs/__create_index.generated.cjs",
+	"module": "./lib/esm/__create_index.generated.mjs",
 	"exports": {
 		".": {
 			"import": "./lib/esm/__create_index.generated.mjs",
@@ -12,6 +12,7 @@
 		},
 		"./package.json": "./package.json"
 	},
+	"sideEffects": false,
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
@@ -27,13 +28,8 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
-		"@rushstack/heft": "^0.57.0",
 		"@internal/dualstack-rig": "workspace:^",
+		"@rushstack/heft": "^0.57.0",
 		"source-map-support": "^0.5.21"
-	},
-	"monorepo": "rush",
-	"jspm": {
-		"format": "es6",
-		"main": "./lib/_export_all_in_one_index.js"
 	}
 }

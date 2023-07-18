@@ -1,21 +1,22 @@
 {
 	"name": "@idlebox/node-ignore-edit",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "api for modify .*ignore files",
 	"keywords": ["gitignore", "ignorefile"],
 	"license": "MIT",
 	"author": "GongT",
-	"bin": "bin.cjs",
 	"main": "./lib/cjs/api.js",
 	"module": "./lib/esm/api.js",
 	"exports": {
 		".": {
-			"require": "./lib/cjs/api.js",
-			"import": "./lib/esm/api.js"
+			"import": "./lib/esm/api.js",
+			"require": "./lib/cjs/api.js"
 		},
 		"./package.json": "./package.json"
 	},
+	"bin": "bin.cjs",
+	"sideEffects": false,
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
 		"build": "heft --unmanaged build",
@@ -30,8 +31,8 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.0",
-		"@types/node": "^20.3.1",
-		"@internal/local-rig": "workspace:^"
+		"@types/node": "^20.3.1"
 	}
 }

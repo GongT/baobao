@@ -3,14 +3,14 @@
 	"version": "1.0.1",
 	"description": "",
 	"license": "WTFPL",
+	"bin": {
+		"api-extractor-local": "./scripts/api-extractor-local.sh"
+	},
 	"scripts": {
 		"build": "",
 		"build:watch": "",
 		"clean": "",
 		"watch": ""
-	},
-	"bin": {
-		"api-extractor-local": "./scripts/api-extractor-local.sh"
 	},
 	"private": true,
 	"dependencies": {

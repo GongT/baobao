@@ -11,14 +11,14 @@
 		"clean": ""
 	},
 	"preferGlobal": true,
+	"devDependencies": {
+		"@types/node": "^20.3.1"
+	},
 	"optionalDependencies": {
 		"@gongt/kexec": "latest"
 	},
 	"peerDependencies": {
 		"npm": "*",
 		"pnpm": "*"
-	},
-	"devDependencies": {
-		"@types/node": "^20.3.1"
 	}
 }

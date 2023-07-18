@@ -21,11 +21,11 @@
 		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
-		"@rushstack/heft-typescript-plugin": "^0.1.17",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
 		"@microsoft/api-extractor": "^7.36.2",
 		"@rushstack/heft": "^0.57.0",
-		"@types/node": "^20.3.1",
-		"@internal/local-rig": "workspace:^"
+		"@rushstack/heft-typescript-plugin": "^0.1.17",
+		"@types/node": "^20.3.1"
 	}
 }

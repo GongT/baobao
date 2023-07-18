@@ -2,21 +2,21 @@
 	"name": "@internal/plugins",
 	"type": "commonjs",
 	"version": "0.0.0",
+	"keywords": [],
+	"license": "WTFPL",
+	"author": "",
 	"scripts": {
 		"build": "tsc -p src #",
 		"build:watch": "tsc -p src #",
 		"clean": "rimraf temp lib",
 		"watch": "tsc -p src -w"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "WTFPL",
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"comment-json": "^4.2.3",
-		"rimraf": "^5.0.1",
 		"@rushstack/heft": "^0.57.0",
 		"@types/node": "^20.3.1",
+		"comment-json": "^4.2.3",
+		"rimraf": "^5.0.1",
 		"typescript": "^5.1.6"
 	}
 }

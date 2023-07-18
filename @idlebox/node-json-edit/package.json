@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node-json-edit",
 	"type": "module",
-	"version": "2.0.26",
+	"version": "2.0.27",
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"license": "MIT",
@@ -9,11 +9,12 @@
 	"module": "./lib/esm/index.js",
 	"exports": {
 		".": {
-			"require": "./lib/cjs/index.js",
-			"import": "./lib/esm/index.js"
+			"import": "./lib/esm/index.js",
+			"require": "./lib/cjs/index.js"
 		},
 		"./package.json": "./package.json"
 	},
+	"sideEffects": false,
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
 		"build": "heft --unmanaged build",
@@ -29,10 +30,10 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.0",
 		"@types/node": "^20.3.1",
 		"@types/prettier": "^2.7.3",
-		"@internal/local-rig": "workspace:^",
 		"source-map-support": "^0.5.21"
 	},
 	"monorepo": true

@@ -656,6 +656,108 @@ export interface InitFunc<O, T> {
 // @public
 export function initOnRead<O, T extends keyof O>(target: any, propertyKey: T, init: InitFunc<O, O[T]>): void;
 
+// Warning: (ae-missing-release-tag) "IPackageJson" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IPackageJson {
+    // (undocumented)
+    [field: string]: any;
+    // Warning: (ae-forgotten-export) The symbol "Person" needs to be exported by the entry point __create_index.generated.d.ts
+    //
+    // (undocumented)
+    author: Person;
+    // (undocumented)
+    bin: StringOr<Record<string, string>>;
+    // (undocumented)
+    browser: string;
+    // Warning: (ae-forgotten-export) The symbol "StructString" needs to be exported by the entry point __create_index.generated.d.ts
+    //
+    // (undocumented)
+    bugs: StructString<{
+        url: string;
+        email: string;
+    }>;
+    // (undocumented)
+    bundleDependencies: string[];
+    // (undocumented)
+    config: Record<string, any>;
+    // (undocumented)
+    contributors: Person[];
+    // (undocumented)
+    cpu: string[];
+    // (undocumented)
+    dependencies: Record<string, string>;
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    devDependencies: Record<string, string>;
+    // (undocumented)
+    directories: {
+        bin: string;
+        man: string;
+        [name: string]: string;
+    };
+    // (undocumented)
+    engines: Record<string, string>;
+    // (undocumented)
+    exports: string | Record<string, string | Record<string, string>>;
+    // (undocumented)
+    files: string[];
+    // Warning: (ae-forgotten-export) The symbol "MaybeArray" needs to be exported by the entry point __create_index.generated.d.ts
+    // Warning: (ae-forgotten-export) The symbol "StringOr" needs to be exported by the entry point __create_index.generated.d.ts
+    //
+    // (undocumented)
+    funding: MaybeArray<StringOr<{
+        type: string;
+        url: string;
+    }>>;
+    // (undocumented)
+    homepage: string;
+    // (undocumented)
+    keywords: string[];
+    // (undocumented)
+    license: string;
+    // (undocumented)
+    main: string;
+    // (undocumented)
+    man: MaybeArray<string>;
+    // (undocumented)
+    module: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    optionalDependencies: Record<string, string>;
+    // (undocumented)
+    os: string[];
+    // Warning: (ae-forgotten-export) The symbol "IOverrides" needs to be exported by the entry point __create_index.generated.d.ts
+    //
+    // (undocumented)
+    overrides: IOverrides;
+    // (undocumented)
+    peerDependencies: Record<string, string>;
+    // (undocumented)
+    peerDependenciesMeta: Record<string, {
+        optional: true;
+        [option: string]: any;
+    }>;
+    // (undocumented)
+    private: boolean;
+    // (undocumented)
+    publishConfig: Record<string, any>;
+    // (undocumented)
+    repository: StructString<{
+        type: string;
+        url: string;
+        directory: string;
+    }>;
+    // (undocumented)
+    scripts: Record<string, string>;
+    // (undocumented)
+    version: string;
+    // (undocumented)
+    workspaces: string[];
+}
+
 // Warning: (ae-missing-release-tag) "IProgressHolder" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

@@ -23,9 +23,9 @@
 		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
-		"@types/node": "^20.3.1",
-		"@rushstack/heft": "^0.57.0",
 		"@internal/local-rig": "workspace:^",
+		"@rushstack/heft": "^0.57.0",
+		"@types/node": "^20.3.1",
 		"typescript": "^5.1.6"
 	},
 	"peerDependencies": {

@@ -32,11 +32,11 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.0",
 		"@types/chai": "^4.3.5",
 		"@types/mocha": "^10.0.1",
 		"chai": "^4.3.7",
-		"@internal/dualstack-rig": "workspace:^",
 		"mocha": "^10.2.0"
 	},
 	"monorepo": "rush"

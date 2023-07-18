@@ -28,10 +28,10 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.0",
 		"@types/debug": "^4.1.8",
-		"@types/node": "^20.3.1",
-		"@internal/dualstack-rig": "workspace:^"
+		"@types/node": "^20.3.1"
 	},
 	"monorepo": "rush"
 }

@@ -7,8 +7,8 @@
 	"module": "./lib/esm/__create_index.generated.mjs",
 	"exports": {
 		".": {
-			"require": "./lib/cjs/__create_index.generated.cjs",
-			"import": "./lib/esm/__create_index.generated.mjs"
+			"import": "./lib/esm/__create_index.generated.mjs",
+			"require": "./lib/cjs/__create_index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
@@ -37,9 +37,9 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.0",
 		"@types/node": "^20.3.1",
-		"@internal/dualstack-rig": "workspace:^",
 		"@types/pacote": "^11.1.5"
 	},
 	"monorepo": true
