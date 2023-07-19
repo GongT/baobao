@@ -1,7 +1,8 @@
-import type TypeScriptApi from 'typescript';
 import { normalize, resolve } from 'path';
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
 import { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
+import type TypeScriptApi from 'typescript';
+import { parseConfigFileTextToJson } from 'typescript';
 
 export interface ILoadConfigOverride {
 	project?: string;
@@ -129,7 +130,15 @@ export function loadTsConfigJson(
 		readFile(file: string, encoding?: string) {
 			if (file === virtual) return JSON.stringify(virtualJson);
 			readFiles.push(file);
-			return ts.sys.readFile(file, encoding);
+			const text = ts.sys.readFile(file, encoding)!;
+			const json = parseConfigFileTextToJson(file, text);
+			if (json.error) {
+				return text;
+			}
+			if (Array.isArray(json.config?.exclude) && json.config.exclude.includes('__create_index.generated.ts')) {
+				json.config.exclude.splice(json.config.exclude.indexOf('__create_index.generated.ts'), 1);
+			}
+			return JSON.stringify(json.config);
 		},
 		getCurrentDirectory: ts.sys.getCurrentDirectory,
 	};

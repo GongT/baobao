@@ -522,6 +522,21 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor: (
 // @public
 export function globalSingletonStrong<T>(symbol: symbol | string): T | undefined;
 
+// Warning: (ae-missing-release-tag) "hasGlobal" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const hasGlobal: boolean;
+
+// Warning: (ae-missing-release-tag) "hasProcess" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const hasProcess: boolean;
+
+// Warning: (ae-missing-release-tag) "hasWindow" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const hasWindow: boolean;
+
 // Warning: (ae-forgotten-export) The symbol "IConstructorOf" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-forgotten-export) The symbol "IHooks" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "hookClass" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -766,6 +781,16 @@ export interface IProgressHolder<T, PT> {
     progress(fn: ProgressCallback<PT>): Promise<T> & IProgressHolder<T, PT>;
 }
 
+// Warning: (ae-missing-release-tag) "is32Bit" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const is32Bit: boolean;
+
+// Warning: (ae-missing-release-tag) "is64Bit" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export let is64Bit: boolean;
+
 // Warning: (tsdoc-unnecessary-backslash) A backslash can only be used to escape a punctuation character
 // Warning: (tsdoc-unnecessary-backslash) A backslash can only be used to escape a punctuation character
 // Warning: (ae-missing-release-tag) "isAbsolute" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -792,32 +817,37 @@ export function isDisposedError(error: any): boolean;
 // Warning: (ae-missing-release-tag) "isElectron" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isElectron: boolean;
+export let isElectron: boolean;
 
 // Warning: (ae-missing-release-tag) "isElectronMain" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isElectronMain: boolean;
+export let isElectronMain: boolean;
 
 // Warning: (ae-missing-release-tag) "isElectronRenderer" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isElectronRenderer: boolean;
+export let isElectronRenderer: boolean;
+
+// Warning: (ae-missing-release-tag) "isElectronSandbox" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export let isElectronSandbox: boolean;
 
 // Warning: (ae-missing-release-tag) "isLinux" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isLinux: boolean;
+export let isLinux: boolean;
 
 // Warning: (ae-missing-release-tag) "isMacintosh" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isMacintosh: boolean;
+export let isMacintosh: boolean;
 
 // Warning: (ae-missing-release-tag) "isNative" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isNative: boolean;
+export let isNative: boolean;
 
 // Warning: (ae-missing-release-tag) "isObjectSame" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -846,12 +876,12 @@ export function isTimeoutError(error: Error): error is TimeoutError;
 // Warning: (ae-missing-release-tag) "isWeb" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isWeb: boolean;
+export let isWeb: boolean;
 
 // Warning: (ae-missing-release-tag) "isWindows" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export const isWindows: boolean;
+export let isWindows: boolean;
 
 // Warning: (ae-missing-release-tag) "IUniqueIdFactory" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -1038,11 +1068,19 @@ export const oneWeek = 604800000;
 // @public
 export function pad2(s: number): string;
 
+// Warning: (ae-forgotten-export) The symbol "PathArrayAbstract" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "PathArray" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
-// @public
-export class PathArray extends Set<string> {
-    constructor(init: string, sep: ':' | ';');
+// @public (undocumented)
+export class PathArray extends PathArrayAbstract {
+    // (undocumented)
+    normalize(path: string): string;
+}
+
+// Warning: (ae-missing-release-tag) "PathArrayPosix" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class PathArrayPosix extends PathArrayAbstract {
     // (undocumented)
     add(paths: string): this;
     // (undocumented)
@@ -1050,9 +1088,25 @@ export class PathArray extends Set<string> {
     // (undocumented)
     has(path: string): boolean;
     // (undocumented)
-    join(part: string): string[];
+    normalize(path: string): string;
+}
+
+// Warning: (ae-missing-release-tag) "PathArrayWindows" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class PathArrayWindows extends PathArrayAbstract {
     // (undocumented)
-    toString(): string;
+    add(paths: string): this;
+    // (undocumented)
+    clear(): void;
+    // (undocumented)
+    delete(paths: string): boolean;
+    // (undocumented)
+    has(path: string): boolean;
+    // (undocumented)
+    normalize(path: string): string;
+    // (undocumented)
+    values(): IterableIterator<string>;
 }
 
 // Warning: (ae-missing-release-tag) "Primitive" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -1230,11 +1284,6 @@ export function unsubscribableToDisposable(subscription: Unsubscribable): {
     dispose: () => void;
 };
 
-// Warning: (ae-missing-release-tag) "userAgent" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export const userAgent: string;
-
 // Warning: (ae-missing-release-tag) "ValueCallback" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -1315,6 +1364,10 @@ export interface WrappedConsoleOptions {
 //
 // @public (undocumented)
 export function x(): number;
+
+// Warnings were encountered during analysis:
+//
+// src/path/pathArray.ts:8:59 - (tsdoc-unnecessary-backslash) A backslash can only be used to escape a punctuation character
 
 // (No @packageDocumentation comment for this package)
 

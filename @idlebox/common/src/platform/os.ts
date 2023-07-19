@@ -1,46 +1,58 @@
 declare const process: any;
 declare const navigator: any;
+declare const window: any;
+declare const global: any;
 
-let _isWindows = false;
-let _isMacintosh = false;
-let _isLinux = false;
-let _isNative = false;
-let _isWeb = false;
-let _userAgent: string;
+export const hasProcess = typeof process !== 'undefined' && typeof process.pid === 'number';
+export const hasWindow = typeof window !== 'undefined' && globalThis === window;
+export const hasGlobal = typeof global !== 'undefined' && globalThis === global;
 
-export const isElectron =
-	typeof process !== 'undefined' &&
-	typeof process.versions !== 'undefined' &&
-	typeof process.versions.electron !== 'undefined';
-export const isElectronRenderer = isElectron && process.type === 'renderer';
-export const isElectronMain = !isElectronRenderer;
-
-if (typeof navigator === 'object' && !isElectronRenderer) {
-	_userAgent = navigator.userAgent;
-	_isWindows = _userAgent.indexOf('Windows') >= 0;
-	_isMacintosh = _userAgent.indexOf('Macintosh') >= 0;
-	_isLinux = _userAgent.indexOf('Linux') >= 0;
-	_isWeb = true;
-} else if (typeof process === 'object') {
-	_userAgent = `nodejs(${process.versions.node})`;
-	if (process.versions.electron) {
-		_userAgent += ` electron(${process.versions.electron})`;
-		if (isElectronRenderer) {
-			_userAgent += ' ' + navigator.userAgent;
+export let isElectron = false,
+	isElectronSandbox = false,
+	isElectronRenderer = false,
+	isElectronMain = false;
+if (hasProcess) {
+	if (typeof process.versions?.electron !== 'undefined') {
+		isElectron = true;
+		if (process.type === 'renderer') {
+			isElectronRenderer = true;
+		} else {
+			isElectronMain = true;
 		}
 	}
-	_isWindows = process.platform === 'win32';
-	_isMacintosh = process.platform === 'darwin';
-	_isLinux = process.platform === 'linux';
-	_isNative = true;
-} else {
-	_userAgent = 'unsupported';
+} else if (hasWindow) {
+	if (window.navigator.userAgent.includes(' Electron/')) {
+		isElectron = true;
+		isElectronRenderer = true;
+		isElectronSandbox = true;
+	}
 }
 
-export const isWindows = _isWindows;
-export const isMacintosh = _isMacintosh;
-export const isLinux = _isLinux;
-export const isNative = _isNative;
-export const isWeb = _isWeb;
-export const userAgent = _userAgent;
+export let isWindows = false;
+export let isMacintosh = false;
+export let isLinux = false;
+export let isNative = false;
+export let isWeb = false;
+export let is64Bit = false;
+
+if (hasWindow && !hasProcess) {
+	const userAgent = navigator.userAgent;
+	isWindows = userAgent.includes('Windows NT');
+	isMacintosh = userAgent.includes('Macintosh');
+	isLinux = userAgent.includes('Linux');
+	isWeb = true;
+	is64Bit = userAgent.includes('x64');
+} else if (hasProcess) {
+	isNative = true;
+	is64Bit = process.arch === 'x64';
+	if (process.platform === 'linux') {
+		isLinux = true;
+	} else if (process.platform === 'darwin') {
+		isMacintosh = true;
+	} else if (process.platform === 'win32') {
+		isWindows = true;
+	}
+}
+
 export const sepList = isWindows ? ';' : ':';
+export const is32Bit = !is64Bit;

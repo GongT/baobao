@@ -1,0 +1,11 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Heft esbuild Plugin Options Configuration",
+	"description": "This schema describes the \"options\" field that can be specified in heft.json when loading \"@build-script/heft-esbuild-plugin\".",
+	"type": "object",
+
+	"additionalProperties": false,
+	// "required": [],
+
+	"properties": {}
+}

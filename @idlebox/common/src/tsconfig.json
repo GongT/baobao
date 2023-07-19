@@ -7,5 +7,5 @@
 		"declarationDir": "../temp/dts-out",
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json"
 	},
-	"exclude": ["**/*.generator.ts"]
+	"exclude": ["**/*.generator.ts", "__create_index.generated.ts"]
 }

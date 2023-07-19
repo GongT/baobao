@@ -199,8 +199,12 @@
 		{
 			"packageName": "@build-script/heft-plugins",
 			"projectFolder": "@build-script/heft-plugins",
-			"shouldPublish": true,
-			"decoupledLocalDependencies": []
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@build-script/heft-esbuild-plugin",
+			"projectFolder": "@build-script/heft-esbuild-plugin",
+			"shouldPublish": true
 		}
 	]
 }

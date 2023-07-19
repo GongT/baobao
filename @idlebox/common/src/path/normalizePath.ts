@@ -4,5 +4,8 @@
  * remove ending /
  */
 export function normalizePath(p: string) {
-	return p.replace(/\\+/, '/').replace(/\/\/+/, '/').replace(/\/+$/, '');
+	if (p.startsWith('file:')) {
+		throw new Error('normalizePath not support file url.');
+	}
+	return p.replace(/\\+/g, '/').replace(/\/\/+/g, '/').replace(/\/+$/, '');
 }

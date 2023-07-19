@@ -1,9 +1,9 @@
 {
 	"extends": "@internal/local-rig/profiles/simple/tsconfig.json",
 	"compilerOptions": {
-		"typeRoots": ["./node_modules/@types", "./node_modules"],
-		"outDir": "./lib",
-		"rootDir": "./src",
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
+		"outDir": "../lib",
+		"rootDir": "./",
 		"types": ["node"]
 	}
 }

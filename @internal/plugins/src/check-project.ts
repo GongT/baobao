@@ -1,6 +1,6 @@
-import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
+import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
 import { IHeftTaskPlugin } from '@rushstack/heft';
 import { parse } from 'comment-json';
 
@@ -29,13 +29,12 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 			check.tsconfig.extends = `${rigName}/${rigRelPath}/tsconfig.json`;
 			const physicalPath = resolve(rigPath, 'tsconfig.json');
 			check.tsconfig.template = await loadCommentTemplate(physicalPath);
+			check.tsconfig.placement = 'src/tsconfig.json';
 
 			if (rigName === '@internal/local-rig') {
 				session.logger.terminal.writeDebugLine('check simple project');
-				check.tsconfig.placement = 'tsconfig.json';
 			} else if (rigName === '@internal/dualstack-rig') {
 				session.logger.terminal.writeDebugLine('check complex project');
-				check.tsconfig.placement = 'src/tsconfig.json';
 			} else {
 				throw new Error('update plugins/check-project.ts');
 			}
