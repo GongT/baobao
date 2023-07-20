@@ -1,6 +1,7 @@
 {
 	"name": "project-scripts-bins",
 	"private": true,
+	"type": "module",
 	"bin": {
 		"batch-modify-json": "batch-modify-json.js",
 		"poor-change": "poor-change.js",

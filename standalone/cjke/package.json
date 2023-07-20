@@ -1,7 +1,7 @@
 {
 	"name": "cjke-strings",
 	"type": "module",
-	"version": "1.0.27",
+	"version": "1.0.28",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
 	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
 	"license": "MIT",

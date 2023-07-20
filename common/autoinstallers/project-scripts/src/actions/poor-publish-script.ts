@@ -1,5 +1,5 @@
 import '../include/prefix';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { mkdir, readFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
@@ -54,7 +54,7 @@ async function main(argv: string[]) {
 
 		let pkgJson: any;
 		try {
-			pkgJson = require(rushProject.absolute(item, 'package.json'));
+			pkgJson = JSON.parse(readFileSync(rushProject.absolute(item, 'package.json'), 'utf-8'));
 		} catch (e) {
 			throw new Error('package.json is invalid');
 		}

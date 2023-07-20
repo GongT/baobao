@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rush-tools",
 	"type": "module",
-	"version": "1.3.13",
+	"version": "1.3.15",
 	"keywords": ["microsoft", "rush", "rush-stack", "tools"],
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
@@ -18,7 +18,6 @@
 	},
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
-		"postinstall": "bash link-local.sh",
 		"test": "heft test",
 		"build": "heft --unmanaged build",
 		"_phase:build": "heft --unmanaged build",

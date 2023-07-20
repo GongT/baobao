@@ -1,12 +1,12 @@
 const cjs = typeof require !== 'undefined';
 if (cjs) {
-	require('fix-esm').register();
+	require('@gongt/fix-esm').register();
 }
 
 import { execaSync } from 'execa';
 
 if (cjs) {
-	require('fix-esm').unregister();
+	require('@gongt/fix-esm').unregister();
 }
 
 export const execaSyncLibrary = execaSync;

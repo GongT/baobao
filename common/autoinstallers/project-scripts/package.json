@@ -1,6 +1,6 @@
 {
 	"name": "project-scripts",
-	"type": "commonjs",
+	"type": "module",
 	"version": "1.0.0",
 	"license": "MIT",
 	"scripts": {
@@ -13,7 +13,8 @@
 	"private": true,
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@build-script/rush-tools": "^1.3.13",
+		"@gongt/fix-esm": "latest",
+		"@build-script/rush-tools": "^1.3.14",
 		"@rushstack/heft": "^0.57.0",
 		"@idlebox/common": "^1.3.19",
 		"@idlebox/ensure-symlink": "^1.0.25",

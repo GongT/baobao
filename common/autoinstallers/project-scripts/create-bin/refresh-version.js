@@ -1,3 +1,4 @@
 #!/usr/bin/env node
-Error.stackTraceLimit = Infinity;
-require('../lib/actions/refresh-version');
+import { exec } from './exec.js';
+
+exec('../lib/actions/refresh-version');

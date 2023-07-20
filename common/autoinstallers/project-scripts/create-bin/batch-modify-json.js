@@ -1,3 +1,4 @@
 #!/usr/bin/env node
-Error.stackTraceLimit = Infinity;
-require('../lib/actions/batch-modify-json');
+import { exec } from './exec.js';
+
+exec('../lib/actions/batch-modify-json');

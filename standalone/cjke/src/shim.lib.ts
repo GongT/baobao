@@ -2,14 +2,14 @@ declare const require: any;
 
 const cjs = typeof require !== 'undefined';
 if (cjs) {
-	require('fix-esm').register();
+	require('@gongt/fix-esm').register();
 }
 
 import ansiRegexConstructor from 'ansi-regex';
 import isFullwidthCodePoint from 'is-fullwidth-code-point';
 
 if (cjs) {
-	require('fix-esm').unregister();
+	require('@gongt/fix-esm').unregister();
 }
 
 

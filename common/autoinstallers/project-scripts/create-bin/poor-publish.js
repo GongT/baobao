@@ -1,3 +1,4 @@
 #!/usr/bin/env node
-Error.stackTraceLimit = Infinity;
-require('../lib/actions/poor-publish-script');
+import { exec } from './exec.js';
+
+exec('../lib/actions/poor-publish-script');
