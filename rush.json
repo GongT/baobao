@@ -23,10 +23,10 @@
 		"defaultRemote": "origin"
 	},
 	"eventHooks": {
-		"preRushInstall": [
-			// "common/scripts/pre-rush-install.js"
+		"preRushInstall": [],
+		"postRushInstall": [
+			"common/scripts/postRushInstall.cjs"
 		],
-		"postRushInstall": [],
 		"preRushBuild": [],
 		"postRushBuild": []
 	},
