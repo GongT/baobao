@@ -1,9 +1,0 @@
-{
-	"$schema": "https://json.schemastore.org/nodemon.json",
-	"nodeArgs": [],
-	"noUpdateNotifier": true,
-	"verbose": false,
-	"watch": ["src"],
-	"ext": ".ts,.json",
-	"exec": "ttsc -p src"
-}

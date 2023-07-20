@@ -1,9 +1,0 @@
-{
-	"name": "simple-append-dotjs",
-	"version": "0.0.0",
-	"private": true,
-	"dependencies": {
-		"debug": "^4.3.4",
-		"ttypescript": "^1.5.13"
-	}
-}
