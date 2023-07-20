@@ -57,6 +57,10 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 				rootDir: this.rootDir,
 				options: userInput,
 				tempFolderPath: session.tempFolderPath,
+				resolve(packageName: string) {
+					return configuration.rigPackageResolver.resolvePackageAsync(packageName, session.logger.terminal);
+				},
+				rigConfig: configuration.rigConfig,
 				watchFiles(_files: string[]) {
 					//TODO
 				},
