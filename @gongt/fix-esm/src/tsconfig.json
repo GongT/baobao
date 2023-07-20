@@ -1,9 +1,12 @@
 {
 	"extends": "@internal/local-rig/profiles/simple/tsconfig.json",
 	"compilerOptions": {
+		"module": "commonjs",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"]
+		"lib": ["DOM", "ESNext"],
+		"types": ["node"],
+		"importHelpers": false
 	}
 }

@@ -4,7 +4,7 @@ import asyncPool from 'tiny-async-pool';
 
 async function resolveNpmVersion([packageName, currentVersion]: [string, string]) {
 	const d = new Date();
-	d.setHours(d.getHours() - 1);
+	d.setMinutes(d.getMinutes() - 1);
 
 	const maxCnt = 5;
 	let lastError;

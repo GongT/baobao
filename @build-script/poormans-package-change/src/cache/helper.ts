@@ -15,6 +15,6 @@ export const spawnOpts: SyncOptions = {
 	reject: true,
 	stdio: ['ignore', 'pipe', 'pipe'],
 	stripFinalNewline: true,
-	env: { LANG: 'C.UTF-8' },
+	env: { LANG: 'C.UTF-8', npm_config_perfer_offline: 'false', npm_config_perfer_online: 'true' },
 	extendEnv: true,
 };

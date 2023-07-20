@@ -10,7 +10,7 @@ Watch mode is not implemented yet. currentlly `taskDependencies` is required to 
 ## Usage
 
 1. add task in heft.json:
-    ```json
+    ```jsonc
     	"esbuild": {
     		// "taskDependencies": ["typescript"], // you may need this
     		"taskPlugin": {

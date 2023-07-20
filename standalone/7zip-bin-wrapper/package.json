@@ -1,7 +1,7 @@
 {
 	"name": "7zip-bin-wrapper",
 	"type": "module",
-	"version": "1.0.33",
+	"version": "1.0.34",
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"main": "./lib/cjs/__create_index.generated.cjs",
@@ -40,6 +40,5 @@
 	},
 	"peerDependencies": {
 		"7zip-bin": "latest"
-	},
-	"monorepo": "rush"
+	}
 }

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-plugins",
 	"type": "commonjs",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"main": "./tests/a.cjs",
 	"module": "./tests/a.mjs",
 	"bin": {

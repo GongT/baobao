@@ -44,11 +44,11 @@ async function getNpmCacheData(packageName: string, registry: string): Promise<B
 	}
 	const cacheId = `${npmCacheIdPrefix}${registry}/${packageName.replace(/\//g, '%2f')}`;
 	try {
-		debug('[cache]     get cache: %s/_cacache :: %s', npmCachePath, cacheId);
 		const cache = await get(npmCachePath + '/_cacache', cacheId);
-		// console.log(cache)
+		debug('[cache]     cache hit : %s/_cacache :: %s', npmCachePath, cacheId);
 		return cache.data;
 	} catch {
+		debug('[cache]     cache miss: %s/_cacache :: %s', npmCachePath, cacheId);
 		return null;
 	}
 }

@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/poormans-package-change",
 	"type": "commonjs",
-	"version": "1.0.30",
+	"version": "1.0.31",
 	"license": "MIT",
 	"bin": {
 		"poormans-package-change": "./bin/load.js"
@@ -36,6 +36,5 @@
 		"@types/request": "^2.48.8",
 		"@types/semver": "^7.5.0",
 		"@types/targz": "^1.0.1"
-	},
-	"monorepo": "rush"
+	}
 }

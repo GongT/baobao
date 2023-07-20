@@ -1,4 +1,3 @@
-import { tmpdir } from 'os';
 import { basename, resolve } from 'path';
 import { exists, PathEnvironment, printLine } from '@idlebox/node';
 import { gt } from 'semver';
@@ -7,6 +6,7 @@ import { getArg } from './inc/getArg';
 import { gitChange, gitInit } from './inc/git';
 import { errorLog, log, logEnable } from './inc/log';
 import { prepareWorkingFolder } from './inc/prepareWorkingFolder';
+import { getTempFolder } from './inc/rush';
 import { decompressTargz } from './packageManage/decompress';
 import { detectRegistry } from './packageManage/detectRegistry';
 import { downloadIfNot } from './packageManage/downloadIfNot';
@@ -77,11 +77,14 @@ export async function main(argv: string[]) {
 		log('local (%s) <= remote (%s), try detect change...', packageJson.version, remoteVersion);
 	}
 
-	const workingRoot = resolve(tmpdir(), 'poor-man-s-package-change/working');
+	const workingRoot = resolve(getTempFolder(packagePath), 'package-change/working');
 	const tempFolder = await prepareWorkingFolder(workingRoot, packageJson.name, packageJson.version);
 	const tempFile = tempFolder + `${basename(packageJson.name)}.${packageJson.version}.tgz`;
 
 	const tarball = await getTarballCached(packageJson.name, distTag, registry);
+	if (!tarball) {
+		throw new Error(`can not get tarball url: "${packageJson.name}@${distTag}" from "${registry}"`);
+	}
 	await downloadIfNot(tarball!, tempFile);
 	await decompressTargz(tempFile, tempFolder);
 	await rewritePackage(tempFolder);

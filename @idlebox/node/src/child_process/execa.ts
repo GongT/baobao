@@ -1,7 +1,8 @@
+import '@gongt/fix-esm';
 import { isWindows, sepList } from '@idlebox/common';
 import type { ExecaReturnBase, SyncOptions } from 'execa';
+import { execaSync } from 'execa';
 import { checkChildProcessResult } from './error';
-import { execaSyncLibrary } from './execa.lib';
 
 type ProcessEnv = Record<string, string> & {
 	Path?: never;
@@ -45,7 +46,7 @@ export function spawnWithoutOutputSync({ exec, cwd, env, addonPath }: ICommand):
 		env: sanitizeEnv(env, addonPath),
 	};
 
-	checkChildProcessResult(execaSyncLibrary(cmd, args, opts));
+	checkChildProcessResult(execaSync(cmd, args, opts));
 }
 
 export async function spawnWithoutOutput({ exec, cwd, env, addonPath }: ICommand) {
@@ -73,7 +74,7 @@ export function spawnGetOutputSync({ exec, cwd, env, addonPath }: ICommand) {
 		env: sanitizeEnv(env, addonPath),
 	};
 
-	const result = handleError(execaSyncLibrary(cmd, args, opts));
+	const result = handleError(execaSync(cmd, args, opts));
 	return result.stdout;
 }
 

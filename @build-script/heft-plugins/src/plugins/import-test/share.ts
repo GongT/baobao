@@ -2,17 +2,21 @@ import { spawnSync } from 'child_process';
 import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { dirname, resolve } from 'path';
+import { IPackageJson } from '@rushstack/node-core-library';
 import { execaSync } from 'execa';
 import ts from 'typescript';
 import { IOutputShim } from '../../misc/scopedLogger';
 
+const signal = '\x00';
+
 function tester(exports: any) {
+	const signal = '\x00'; // for stringify
 	const imports = exports?.default ?? exports;
 	const info = {
 		hasDefault: Object.hasOwn(exports, 'default'),
 		symbolList: Object.keys(imports),
 	};
-	process.stdout.write(JSON.stringify(info));
+	process.stdout.write('\n\n\n' + signal + JSON.stringify(info));
 	process.exit(0);
 }
 
@@ -38,8 +42,21 @@ export function run(projectInput: string, logger: IOutputShim, tempdir: string =
 	}
 }
 
-function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdir: string) {
-	const { name: pkgName, main: pkgMain, module: pkgModule, exports: pkgExports, types: pkgTypes } = pkgJson;
+function runInner(
+	projectRoot: string,
+	pkgJson: IPackageJson & Record<string, any>,
+	logger: IOutputShim,
+	tempdir: string
+) {
+	const {
+		name: pkgName,
+		main: pkgMain,
+		module: pkgModule,
+		exports: pkgExports,
+		types: pkgTypes,
+		dependencies,
+		devDependencies,
+	} = pkgJson;
 	const innerTypes = pkgExports?.['.']?.['types'];
 
 	for (const types of [innerTypes, pkgTypes]) {
@@ -77,10 +94,12 @@ function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdi
 		}
 	});
 
+	const spec = JSON.stringify(pkgName);
+
 	const script1 = resolve(tempdir, 'import.js');
-	writeFileSync(script1, `${tester.toString()}\nimport * as items from ${JSON.stringify(pkgName)};tester(items);`);
+	writeFileSync(script1, `${tester.toString()}\nimport ${spec}\nimport * as items from ${spec};tester(items);`);
 	const script2 = resolve(tempdir, 'require.cjs');
-	writeFileSync(script2, `${tester.toString()}\ntester(require(${JSON.stringify(pkgName)}));`);
+	writeFileSync(script2, `${tester.toString()}\n require(${spec});\ntester(require(${spec}));`);
 	writeFileSync(
 		resolve(tempdir, 'package.json'),
 		JSON.stringify(
@@ -111,12 +130,23 @@ function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdi
 			encoding: 'utf8',
 			cwd: tempdir,
 		});
-		if (r.status !== 0 || !r.stdout.trim().endsWith('}')) {
+		let output = r.stdout.trim();
+		if (r.status !== 0 || !output.endsWith('}')) {
 			logger.debug('  - fail\n');
 			return `<${title}> test failed: ${r.stderr}`;
 		}
+		if (output.startsWith(signal)) {
+			output = output.slice(signal.length);
+		} else {
+			const pos = output.lastIndexOf(signal);
+			logger.warn('%s has unexpect output: %s', title, output.slice(0, pos).trim());
+			output = output.slice(pos + 1);
+		}
+		if (r.stderr.trim()) {
+			logger.warn('%s has unexpect stderr output: %s', title, r.stderr);
+		}
 
-		const data = JSON.parse(r.stdout);
+		const data = JSON.parse(output);
 		const oDef = `default=${data.hasDefault ? 'yes' : 'no'}`;
 		let oSymSz = `symbols=${data.symbolList.length} [`;
 		oSymSz += data.symbolList.slice(0, 5).join(', ');
@@ -129,6 +159,15 @@ function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdi
 		logger.log(`  ${oDef}, ${oSymSz}`);
 	}
 
+	const tsCompileOption: ts.CompilerOptions = {
+		lib: ['DOM', 'ESNext'],
+		typeRoots: [resolve(slink, 'node_modules'), resolve(slink, 'node_modules/@types')],
+		types: [],
+	};
+	if (dependencies?.['@types/node'] || devDependencies?.['@types/node']) {
+		tsCompileOption.types!.push('node');
+	}
+
 	try {
 		logger.debug('test node16 (esm) loader:');
 		checkTs(resolve(tempdir, 'node-16-esm'), pkgName, {
@@ -136,6 +175,7 @@ function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdi
 			resolvePackageJsonImports: true,
 			resolvePackageJsonExports: true,
 			module: ts.ModuleKind[ts.ModuleKind.NodeNext],
+			...tsCompileOption,
 		});
 		logger.debug(`  - ok\n`);
 	} catch (e: any) {
@@ -149,6 +189,7 @@ function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdi
 			resolvePackageJsonImports: true,
 			resolvePackageJsonExports: true,
 			module: ts.ModuleKind[ts.ModuleKind.CommonJS],
+			...tsCompileOption,
 		});
 		logger.debug(`  - ok\n`);
 	} catch (e: any) {
@@ -160,6 +201,7 @@ function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdi
 		checkTs(resolve(tempdir, 'node'), pkgName, {
 			moduleResolution: ts.ModuleResolutionKind[ts.ModuleResolutionKind.Node10],
 			module: ts.ModuleKind[ts.ModuleKind.ESNext],
+			...tsCompileOption,
 		});
 		logger.debug(`  - ok\n`);
 	} catch (e: any) {
@@ -169,7 +211,7 @@ function runInner(projectRoot: string, pkgJson: any, logger: IOutputShim, tempdi
 	return undefined;
 }
 
-function checkTs(path: string, pkgName: string, options: any) {
+function checkTs(path: string, pkgName: string, options: Record<keyof ts.CompilerOptions, any>) {
 	mkdirSync(path);
 	writeFileSync(resolve(path, 'index.ts'), `import * as __lib from '${pkgName}';`);
 	writeFileSync(
@@ -179,16 +221,6 @@ function checkTs(path: string, pkgName: string, options: any) {
 				compilerOptions: {
 					strict: true,
 					noEmit: true,
-					lib: [
-						'DOM',
-						'ESNext',
-						'ESNext.Array',
-						'ESNext.AsyncIterable',
-						'ESNext.BigInt',
-						'ESNext.Promise',
-						'ESNext.String',
-						'ESNext.WeakRef',
-					],
 					...options,
 				},
 				files: ['index.ts'],

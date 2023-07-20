@@ -8,7 +8,6 @@
 
 import { EventEmitter } from 'events';
 import { ExecaReturnValue } from 'execa';
-import { execaSync } from 'execa';
 import { IDisposable } from '@idlebox/common';
 import { Options } from 'execa';
 import { PathArray } from '@idlebox/common';
@@ -342,11 +341,6 @@ export enum ERRNO_LINUX {
     // (undocumented)
     EXFULL = 52
 }
-
-// Warning: (ae-missing-release-tag) "execaSyncLibrary" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export const execaSyncLibrary: typeof execaSync;
 
 // Warning: (ae-missing-release-tag) "execLazyError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/chokidar",
 	"type": "module",
-	"version": "0.0.20",
+	"version": "0.0.21",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"main": "./lib/cjs/__create_index.generated.cjs",
@@ -32,6 +32,5 @@
 		"@rushstack/heft": "^0.57.1",
 		"@types/debug": "^4.1.8",
 		"@types/node": "^20.4.2"
-	},
-	"monorepo": "rush"
+	}
 }

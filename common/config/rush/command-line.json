@@ -78,7 +78,7 @@
 			"parameterKind": "flag",
 			"longName": "--verbose",
 			"description": "显示详细输出",
-			"associatedCommands": ["poor-change"]
+			"associatedCommands": ["poor-change", "ypublish"]
 		},
 		{
 			"parameterKind": "flag",

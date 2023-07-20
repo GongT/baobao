@@ -11,18 +11,9 @@ const spawnOpts: Options = {
 	all: true,
 };
 
-let cachePathFound = false;
 let yarnExists = false;
 
-function findCachePath() {
-	cachePathFound = true;
-	yarnExists = !!execa('yarn', ['--version'], spawnOpts).stdout;
-}
-
 export async function getYarnCache(packageName: string): Promise<string[]> {
-	if (!cachePathFound) {
-		findCachePath();
-	}
 	if (!yarnExists) {
 		return [];
 	}
@@ -32,6 +23,7 @@ export async function getYarnCache(packageName: string): Promise<string[]> {
 		const ret = await execa('yarn', ['cache', 'list', '--pattern', packageName, '--json'], spawnOpts);
 		data = JSON.parse(ret.all!).data;
 	} catch {
+		yarnExists = false;
 		return [];
 	}
 

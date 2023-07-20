@@ -1,11 +1,11 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
-import { checkChildProcessResult, commmandInPathSync } from '@idlebox/node';
+import { checkChildProcessResult, commandInPathSync } from '@idlebox/node';
 import { execa } from 'execa';
 import { TEMP_DIR } from './paths';
 
 export const doSpawn: (file: string, args?: string[]) => void =
-	commmandInPathSync('unshare') && !process.env.NEVER_UNSHARE ? spawnUnshare : spawnNormal;
+	commandInPathSync('unshare') && !process.env.NEVER_UNSHARE ? spawnUnshare : spawnNormal;
 
 function getFile(file: string) {
 	file = resolve(__dirname, '../actions/', file);

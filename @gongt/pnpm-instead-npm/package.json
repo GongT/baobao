@@ -16,9 +16,5 @@
 	},
 	"optionalDependencies": {
 		"@gongt/kexec": "latest"
-	},
-	"peerDependencies": {
-		"npm": "*",
-		"pnpm": "*"
 	}
 }

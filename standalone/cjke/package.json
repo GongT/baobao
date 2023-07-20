@@ -1,7 +1,7 @@
 {
 	"name": "cjke-strings",
 	"type": "module",
-	"version": "1.0.28",
+	"version": "1.0.29",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
 	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
 	"license": "MIT",
@@ -24,6 +24,7 @@
 	},
 	"repository": "https://github.com/GongT/cjke.git",
 	"dependencies": {
+		"@gongt/fix-esm": "workspace:^",
 		"ansi-regex": "^6.0.1",
 		"emoji-regex": "^10.2.1",
 		"is-fullwidth-code-point": "^4.0.0",
@@ -38,6 +39,5 @@
 		"@types/mocha": "^10.0.1",
 		"chai": "^4.3.7",
 		"mocha": "^10.2.0"
-	},
-	"monorepo": "rush"
+	}
 }

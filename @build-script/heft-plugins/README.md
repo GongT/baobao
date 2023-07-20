@@ -6,7 +6,7 @@ Build typescript project. This plugin not related to heft's internal typescript 
 
 Options:
 
--   `project`: tsconfig location, relative to current project.json, override `config/typescript.json``.
+-   `project`: tsconfig location, relative to current project.json, override project field in `config/typescript.json``.
 -   `include`/`exclude`/`files`: override `tsconfig.json`, not join!
 -   `extension`: update `import` statements, add `.mjs` or `.cjs` to specifiers (also hook file write).
 -   `fast`: if `true`, will modify compilerOptions, skip most check to speed up compile. (useful for multi-output)
@@ -34,10 +34,11 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 Note:
 
 1. If `tsconfig.json` file not found, and `config/rig.json` exists, rig package will be used.  
-   All path-like field _(eg. rootDir/typeRoots/declarationDir)_ will resolve to current package.  
-   Official plugin will resolve inside rig package.
+   All path-like field _(eg. rootDir/typeRoots/declarationDir)_ in `heft.json` will resolve to current package root.   
+   Official ts plugin will resolve inside rig package, this is different.
 2. `include`/`exclude`/`files`/`outDir` is relative to `rootDir` in final resolved `compilerOptions`, not package root or config/ folder.
 
+#### examples:
 ```json
 {
 	"typescript": {
@@ -79,7 +80,7 @@ Note:
 
 ## create-index [task]
 
-Collect all exports in all project files, and generate `index.ts` in `src` folder.
+Collect all exports in all project files, and generate a `__create_index.generated.ts` beside `tsconfig.json`.
 
 ```json
 {
@@ -98,6 +99,8 @@ Collect all exports in all project files, and generate `index.ts` in `src` folde
 	}
 }
 ```
+
+tip: if you use my `typescript` plugin, you can place `__create_index.generated.ts` in tsconfig `exclude` array.
 
 ## shell [task]
 

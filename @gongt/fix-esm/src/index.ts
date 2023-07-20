@@ -1,63 +1,63 @@
-declare const global: any;
-declare const window: any;
+import { existsSync, readFileSync } from 'fs';
+import esbuild from 'esbuild';
 
-const globalSymbol = Symbol.for('fix-esm');
-const activeSymbol = Symbol.for('fix-esm:active');
+const sym = Symbol.for('fix-esm');
+const Module = require('module') as any;
 
-const ctx = typeof global === 'undefined' ? window : global;
-
-function loadOnce() {
-	if (!ctx[globalSymbol]) {
-		// console.error('[fix-esm] load');
-		ctx[globalSymbol] = module.require('fix-esm');
-		ctx[globalSymbol][activeSymbol] = 0;
+function executeBuild(filename: string) {
+	const code = readFileSync(filename, 'utf8');
+	const result = esbuild.buildSync({
+		stdin: {
+			contents: code,
+			loader: 'js',
+		},
+		outfile: filename + 'c',
+		format: 'cjs',
+		sourcemap: 'inline',
+		write: true,
+	});
+	if (result.errors.length) {
+		throw new Error('[fix-esm] compile failed: ' + result.errors[0].text);
 	}
-	return ctx[globalSymbol];
+	return readFileSync(filename + 'c', 'utf-8');
 }
 
-export function register() {
-	const mdl = loadOnce();
-	mdl[activeSymbol]++;
-	if (mdl[activeSymbol] !== 1) {
-		return;
+let originalLoader: typeof wrappedLoader;
+
+function wrappedLoader(mod: any, filename: string) {
+	if (filename.endsWith('.mjs')) return buildLoader(mod, filename);
+
+	try {
+		// console.error('[fix-esm] try: %s', filename);
+		return originalLoader(mod, filename);
+	} catch (error: any) {
+		// console.log('[fix-esm] error!', error.message);
+		if (
+			error &&
+			(error.code === 'ERR_REQUIRE_ESM' ||
+				/^Cannot use (import|export) statement outside a module/.test(error.message))
+		) {
+			if (existsSync(filename + 'c')) {
+				return originalLoader(mod, filename + 'c');
+			}
+			return buildLoader(mod, filename);
+		}
+		throw error;
 	}
-	// console.error('[fix-esm] register');
-	mdl.register();
 }
 
-export function unregister() {
-	const mdl = loadOnce();
-	mdl[activeSymbol]--;
-	if (mdl[activeSymbol] !== 0) {
-		return;
-	}
-	// console.error('[fix-esm] unregister');
-	mdl.unregister();
+function buildLoader(mod: any, filename: string) {
+	console.error('[fix-esm] realtime compile: %s', filename);
+	// console.error('          cache items: %s', Object.keys(Module ._cache).length);
+	let transpiledCode = executeBuild(filename);
+
+	mod._compile(transpiledCode, filename);
+	mod.loaded = true;
 }
 
-// @ts-ignore
-export function require(id: string) {
-	const { createRequire } = module.require('module');
-	const { isAbsolute } = module.require('path');
-
-	const mdl = loadOnce();
-	if (mdl[activeSymbol] === 0) {
-		register();
-	}
-	const frame = new Error().stack!.split('\n', 3)[2]!.trim();
-	const file = frame
-		.replace(/^at /, '')
-		.replace(/^.+ \(/, '')
-		.replace(/\)$/, '')
-		.replace(/(:\d)+$/, '');
-
-	if (!isAbsolute(file)) {
-		console.error('can not get absolute path from upper frame: %s', file);
-	}
-
-	const require = createRequire(file);
-	const r = require(id);
-	unregister();
-
-	return r;
+if (!Module[sym]) {
+	originalLoader = Module._extensions['.js'];
+	Module._extensions['.js'] = wrappedLoader;
+	Module._extensions['.mjs'] = wrappedLoader;
+	Module[sym] = originalLoader;
 }

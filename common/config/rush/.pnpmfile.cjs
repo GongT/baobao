@@ -7,13 +7,20 @@ function loadJsonSync(f) {
 	return JSON.parse(readFileSync(f, 'utf-8'));
 }
 
+const myProjects = new Set();
+
 function readPackage(packageJson, context) {
+	if (myProjects.has(packageJson.name)) {
+		// console.log('skip ', packageJson.name);
+		return packageJson;
+	}
+
 	if (packageJson.dependencies) lockDep(packageJson.name, packageJson.dependencies, context);
 	if (packageJson.devDependencies) lockDep(packageJson.name, packageJson.devDependencies, context);
 
 	if (packageJson.peerDependencies) delete packageJson.peerDependencies;
 
-	fixDependencyIssue(packageJson);
+	// fixDependencyIssue(packageJson);
 
 	return packageJson;
 }
@@ -41,9 +48,9 @@ function fixDependencyIssue(packageJson) {
 		// case 'npm-check-updates':
 		// 	packageJson.dependencies['package-json'] = '^6.4.0';
 		// 	return;
-		case '@microsoft/api-extractor':
-			forceVersion(packageJson, 'source-map', '~0.6.1');
-			return;
+		// case '@microsoft/api-extractor':
+		// 	forceVersion(packageJson, 'source-map', '~0.6.1');
+		// 	return;
 		default:
 			return;
 	}
@@ -54,7 +61,6 @@ const lockedDeps = {};
 	const reProjectFolder = /"projectFolder": "(.+)"/g;
 	const content = readFileSync(resolve(PROJECT_ROOT, 'rush.json'), 'utf-8');
 	let projectFolder;
-	const myProjects = new Set();
 	while ((projectFolder = reProjectFolder.exec(content))) {
 		const p = resolve(PROJECT_ROOT, projectFolder[1], 'package.json');
 		const val = loadJsonSync(p);

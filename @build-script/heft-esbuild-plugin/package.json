@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-esbuild-plugin",
 	"type": "commonjs",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"license": "WTFPL",
 	"description": "lowlevel esbuild plugin for [heft]",
 	"keywords": ["esbuild", "rushstack", "heft", "toolchain", "bundle", "compiler", "incremental"],
@@ -35,7 +35,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.1",
 		"@types/node": "^20.4.2",
-		"esbuild": "^0.18.12",
+		"esbuild": "^0.18.14",
 		"ts-node": "^10.9.1",
 		"typescript": "^5.1.6"
 	}
