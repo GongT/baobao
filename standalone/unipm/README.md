@@ -13,11 +13,14 @@ wrapper for several different package manager
 
 Supported command:
 
--   `unipm install/i/add/a <...package-name>`
--   `unipm install/i/add/a --dev/-D <...package-name>`
--   `unipm uninstall/un/remove/rm/erase <...package-name>`
--   `unipm run/r package-script`
--   `unipm init`
+-   `unpm install/i/add/a <...package-name>`
+-   `unpm install/i/add/a --dev/-D <...package-name>`
+-   `unpm uninstall/un/remove/rm/erase <...package-name>`
+-   `unpm run/r package-script`
+-   `unpm init`
+-   `unpm format-package`: re-format package.json with prettier
+
+[ ] `unpm update-latest`: update package.json dependency version, but don't run install
 
 Any other command/options will direct pass to the package manager.
 

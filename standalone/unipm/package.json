@@ -1,7 +1,7 @@
 {
 	"name": "unipm",
 	"type": "module",
-	"version": "1.1.18",
+	"version": "1.1.20",
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
 	"module": "./lib/esm/__create_index.generated.mjs",
@@ -13,8 +13,8 @@
 		"./package.json": "./package.json"
 	},
 	"bin": {
-		"unipm": "./bin.cjs",
-		"unpm": "./bin.cjs"
+		"unipm": "./bin.mjs",
+		"unpm": "./bin.mjs"
 	},
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",

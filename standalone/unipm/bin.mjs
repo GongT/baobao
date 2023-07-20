@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
-	require('source-map-support/register');
+	await import('source-map-support/register.js');
 }
 
 Error.stackTraceLimit = Infinity;
-require(`./lib/index.cjs`)
-	.default()
+await import(`./lib/esm/index.mjs`)
+	.then((e) => {
+		return e.default();
+	})
 	.catch((e) => {
 		console.error(e);
 		process.exit(1);
