@@ -1,6 +1,6 @@
 import { allSupport, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, SupportInfo } from './base';
 import { combiningCharactersRegexStarting, isCombiningCharacters } from './combiningCharacters';
-import { isFullwidthCodePoint } from './rollup';
+import { isFullwidthCodePointLibrary } from './shim.lib';
 
 export interface CodePointInfo {
 	data: string;
@@ -66,7 +66,7 @@ export function readFirstCompleteChar(str: string, supports: SupportInfo = allSu
 				visible: true,
 			};
 			if (supports.surrogates) {
-				ret.width = isFullwidthCodePoint(code) ? 2 : 1;
+				ret.width = isFullwidthCodePointLibrary(code) ? 2 : 1;
 			}
 		} else {
 			// common unicode char
@@ -91,7 +91,7 @@ export function readFirstCompleteChar(str: string, supports: SupportInfo = allSu
 function commonSingleChar(str: string, code: number) {
 	return {
 		data: str[0],
-		width: isFullwidthCodePoint(code) ? 2 : 1,
+		width: isFullwidthCodePointLibrary(code) ? 2 : 1,
 		length: 1,
 		visible: true,
 	};

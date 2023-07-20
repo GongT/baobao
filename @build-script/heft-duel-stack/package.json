@@ -21,7 +21,6 @@
 	"dependencies": {
 		"@build-script/heft-plugin-entry": "workspace:^",
 		"@build-script/rushstack-config-loader": "workspace:^",
-		"@gongt/fix-esm": "workspace:^",
 		"@idlebox/node": "^1.2.13",
 		"@idlebox/node-json-edit": "^2.0.24",
 		"@idlebox/tsconfig-loader": "workspace:^1.0.2",

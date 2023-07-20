@@ -56,5 +56,8 @@ export function require(id: string) {
 	}
 
 	const require = createRequire(file);
-	return require(id);
+	const r = require(id);
+	unregister();
+
+	return r;
 }

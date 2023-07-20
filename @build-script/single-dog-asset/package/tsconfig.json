@@ -71,6 +71,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"incremental": false,
 		"jsxImportSource": "react",
-		"jsx": "react-jsx"
+		"jsx": "react-jsx",
 	}
 }

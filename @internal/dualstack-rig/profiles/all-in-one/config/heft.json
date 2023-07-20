@@ -69,18 +69,6 @@
 						}
 					}
 				},
-				"add-fix-esm": {
-					"taskPlugin": {
-						"pluginName": "modify-entry",
-						"pluginPackage": "@build-script/heft-plugins",
-						"options": {
-							"main": {
-								"prefix": "< scripts/prefix.js",
-								"missing": true
-							}
-						}
-					}
-				}
 			}
 		}
 	},

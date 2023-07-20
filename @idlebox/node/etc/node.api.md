@@ -8,6 +8,7 @@
 
 import { EventEmitter } from 'events';
 import { ExecaReturnValue } from 'execa';
+import { execaSync } from 'execa';
 import { IDisposable } from '@idlebox/common';
 import { Options } from 'execa';
 import { PathArray } from '@idlebox/common';
@@ -16,14 +17,6 @@ import { Transform } from 'stream';
 import { WrappedConsole } from '@idlebox/common';
 import { WrappedConsoleOptions } from '@idlebox/common';
 import { Writable } from 'stream';
-
-// Warning: (ae-missing-release-tag) "Async" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface Async {
-    // (undocumented)
-    sync?: boolean;
-}
 
 // Warning: (ae-missing-release-tag) "AsyncMainFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -350,6 +343,11 @@ export enum ERRNO_LINUX {
     EXFULL = 52
 }
 
+// Warning: (ae-missing-release-tag) "execaSyncLibrary" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const execaSyncLibrary: typeof execaSync;
+
 // Warning: (ae-missing-release-tag) "execLazyError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -432,8 +430,6 @@ export interface ICommand {
     env?: ProcessEnv;
     // (undocumented)
     exec: string[];
-    // (undocumented)
-    sync?: boolean;
 }
 
 // Warning: (ae-missing-release-tag) "IEnvironmentResult" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -601,13 +597,14 @@ export function sha256(data: Buffer): string;
 export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<string | undefined>;
 
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnGetOutput(opt: ICommand & Sync): string;
+export function spawnGetOutput({ exec, cwd, env, addonPath }: ICommand): Promise<string>;
 
+// Warning: (ae-missing-release-tag) "spawnGetOutputSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
 // @public (undocumented)
-export function spawnGetOutput(opt: ICommand & Async): Promise<string>;
+export function spawnGetOutputSync({ exec, cwd, env, addonPath }: ICommand): string;
 
 // Warning: (ae-missing-release-tag) "spawnRecreateEventHandlers" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -615,13 +612,14 @@ export function spawnGetOutput(opt: ICommand & Async): Promise<string>;
 export function spawnRecreateEventHandlers(): void;
 
 // Warning: (ae-missing-release-tag) "spawnWithoutOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-// Warning: (ae-missing-release-tag) "spawnWithoutOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnWithoutOutput(opt: ICommand & Sync): void;
+export function spawnWithoutOutput({ exec, cwd, env, addonPath }: ICommand): Promise<void>;
 
+// Warning: (ae-missing-release-tag) "spawnWithoutOutputSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
 // @public (undocumented)
-export function spawnWithoutOutput(opt: ICommand & Async): Promise<void>;
+export function spawnWithoutOutputSync({ exec, cwd, env, addonPath }: ICommand): void;
 
 // Warning: (ae-missing-release-tag) "streamHasEnd" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -641,14 +639,6 @@ export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promi
 
 // @public (undocumented)
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;
-
-// Warning: (ae-missing-release-tag) "Sync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export interface Sync {
-    // (undocumented)
-    sync: true;
-}
 
 // Warning: (ae-missing-release-tag) "trySpawnInScope" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

@@ -11,12 +11,12 @@ export function loadPlugin({ projectRoot, sourceEntry, distEntry }: IOptions) {
 	const pkg = require(resolve(projectRoot, 'package.json'));
 
 	try {
-		require('@gongt/fix-esm').register();
-
 		Error.stackTraceLimit = Infinity;
 		try {
 			const dist = resolve(projectRoot, distEntry);
+			require('@gongt/fix-esm').register();
 			const ex = require(dist);
+			require('@gongt/fix-esm').unregister();
 			const plugin = ex.default || ex;
 			console.log('[heft-plugin-entry] load plugin %s success. (%s)', plugin.pluginName, dist);
 			return plugin;

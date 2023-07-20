@@ -63,8 +63,8 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.17
@@ -72,7 +72,7 @@ importers:
         specifier: ^1.9.4
         version: 1.9.4
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
 
   ../../@build-script/heft-esbuild-plugin:
@@ -83,6 +83,9 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
+      '@rushstack/node-core-library':
+        specifier: ^3.59.6
+        version: 3.59.6(@types/node@20.4.2)
       comment-json:
         specifier: ^4.2.3
         version: 4.2.3
@@ -97,10 +100,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.56.3
-        version: 0.56.3(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       esbuild:
         specifier: ^0.18.12
@@ -114,9 +117,6 @@ importers:
 
   ../../@build-script/heft-plugins:
     dependencies:
-      '@gongt/fix-esm':
-        specifier: workspace:^
-        version: link:../../@gongt/fix-esm
       '@idlebox/json-extends-loader':
         specifier: workspace:^
         version: link:../../@idlebox/json-extends-loader
@@ -127,8 +127,8 @@ importers:
         specifier: ^0.1.17
         version: 0.1.17(@types/node@20.4.2)
       '@rushstack/node-core-library':
-        specifier: ^3.59.5
-        version: 3.59.5(@types/node@20.4.2)
+        specifier: ^3.59.6
+        version: 3.59.6(@types/node@20.4.2)
       execa:
         specifier: ^7.1.1
         version: 7.1.1
@@ -143,10 +143,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       typescript:
         specifier: ^5.1.6
@@ -195,13 +195,13 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/cacache':
         specifier: ^15.0.1
         version: 15.0.1
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       '@types/request':
         specifier: ^2.48.8
@@ -271,10 +271,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       '@types/pacote':
         specifier: ^11.1.5
@@ -314,13 +314,13 @@ importers:
         specifier: ^7.36.2
         version: 7.36.2(@types/node@20.4.2)
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@rushstack/heft-typescript-plugin':
         specifier: ^0.1.17
         version: 0.1.17(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
 
   ../../@build-script/single-dog-asset:
@@ -342,10 +342,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
 
   ../../@gongt/pnpm-instead-npm:
@@ -355,7 +355,7 @@ importers:
         version: 3.0.0
     devDependencies:
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
 
   ../../@idlebox/browser:
@@ -377,8 +377,8 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
 
   ../../@idlebox/chokidar:
     dependencies:
@@ -402,13 +402,13 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.8
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
 
   ../../@idlebox/common:
@@ -427,8 +427,8 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -440,7 +440,7 @@ importers:
         version: 2.6.0
     devDependencies:
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
 
   ../../@idlebox/itypes:
@@ -471,10 +471,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       '@types/object-path':
         specifier: ^0.11.1
@@ -482,11 +482,8 @@ importers:
 
   ../../@idlebox/node:
     dependencies:
-      '@gongt/fix-esm':
-        specifier: workspace:^
-        version: link:../../@gongt/fix-esm
       '@idlebox/common':
-        specifier: workspace:^
+        specifier: 'workspace:'
         version: link:../common
       execa:
         specifier: ^7.1.1
@@ -509,10 +506,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       chai:
         specifier: ^4.3.7
@@ -524,8 +521,8 @@ importers:
   ../../@idlebox/node-ignore-edit:
     dependencies:
       '@idlebox/common':
-        specifier: ^1.3.19
-        version: 1.3.19
+        specifier: ^1.3.23
+        version: 1.3.23
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -540,14 +537,17 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
 
   ../../@idlebox/node-json-edit:
     dependencies:
+      '@types/prettier':
+        specifier: ^2.7.3
+        version: 2.7.3
       comment-json:
         specifier: ^4.2.3
         version: 4.2.3
@@ -565,14 +565,11 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
-      '@types/prettier':
-        specifier: ^2.7.3
-        version: 2.7.3
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -587,10 +584,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       typescript:
         specifier: ^5.1.6
@@ -599,11 +596,11 @@ importers:
   ../../@idlebox/typescript-surface-analyzer:
     dependencies:
       '@idlebox/common':
-        specifier: ^1.3.19
-        version: 1.3.19
+        specifier: ^1.3.23
+        version: 1.3.23
       '@idlebox/node':
-        specifier: ^1.2.17
-        version: 1.2.17
+        specifier: ^1.2.19
+        version: 1.2.19
       '@idlebox/node-ignore-edit':
         specifier: workspace:^
         version: link:../node-ignore-edit
@@ -624,13 +621,13 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/minimatch':
         specifier: ^5.1.2
         version: 5.1.2
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       typescript:
         specifier: ^5.1.6
@@ -707,10 +704,10 @@ importers:
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       comment-json:
         specifier: ^4.2.3
@@ -747,10 +744,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       '@types/split2':
         specifier: ^4.2.0
@@ -781,8 +778,8 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/chai':
         specifier: ^4.3.5
         version: 4.3.5
@@ -830,10 +827,10 @@ importers:
         specifier: workspace:^
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
-        specifier: ^0.57.0
-        version: 0.57.0(@types/node@20.4.2)
+        specifier: ^0.57.1
+        version: 0.57.1(@types/node@20.4.2)
       '@types/node':
-        specifier: ^20.4.1
+        specifier: ^20.4.2
         version: 20.4.2
       '@types/pacote':
         specifier: ^11.1.5
@@ -1483,14 +1480,6 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@gongt/fix-esm@0.0.11:
-    resolution: {integrity: sha512-Y6//Skb0vLfzMeLy76SmN3INs8rvKQZnY6u3M2Usg18zdRkuE6O6u0lU6YhS1q7JNX3jPd0IInX4AbwVDkMrwA==}
-    dependencies:
-      fix-esm: 1.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@gongt/kexec@3.0.0:
     resolution: {integrity: sha512-HoNnINhgeWsDrfqUtf5g7CDNWJpVcOhtKKeG4jVaf3sHeF5usFpGdLQlMbNA50oTKiS0n9CMOxh9On/1uvVvMw==}
     engines: {node: '>=0.10'}
@@ -1520,24 +1509,26 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@idlebox/common@1.3.19:
-    resolution: {integrity: sha512-b7MZTG3GBPr6pshtaAoPh5gn18jKunDou51Gq63KXZ7/2txcEWi7BjdxvETu01w9acnSZNx7HU5Hy0ukk8xA3A==}
+  /@idlebox/common@1.3.23:
+    resolution: {integrity: sha512-2qSrFegBAXpQxbCilotcg68ko7Fdi6D+JK2HsXA5Ylg/aSICdovb0nobCflVxiGxYukbLv4+Jv0tQrSfotiOUA==}
     dependencies:
       tslib: 2.6.0
     dev: false
 
-  /@idlebox/node@1.2.17:
-    resolution: {integrity: sha512-qsCRgD5LyOF3EZEptyfgJ93So9xv6M9P10E8Ct+KfVjPsHbFm2PSh/eS0w94TTpBztha5bECc4bmlImROjmCDg==}
+  /@idlebox/node@1.2.19:
+    resolution: {integrity: sha512-2o7x6XJ4EdaII/VbzIZJgpqIQTBgBhW/q6TiqjoZ2lOAOQWPj74HU3/bUnpN23hdJqJGkWNhUEefXiEROWxSdg==}
+    peerDependencies:
+      fix-esm: '*'
+    peerDependenciesMeta:
+      fix-esm:
+        optional: true
     dependencies:
-      '@gongt/fix-esm': 0.0.11
-      '@idlebox/common': 1.3.19
-      execa: 6.1.0
+      '@idlebox/common': 1.3.23
+      execa: 7.1.1
       source-map-support: 0.5.21
       tslib: 2.6.0
     optionalDependencies:
       '@gongt/kexec': 3.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@isaacs/cliui@8.0.2:
@@ -1921,6 +1912,17 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
 
+  /@rushstack/heft-config-file@0.13.2(@types/node@20.4.2):
+    resolution: {integrity: sha512-eJCuVnKR+uSG7qyeyICA57IOBD3OoOlNTpsJgNjcZZiTj+ZlKPaGmJ8/mzXwNiEpTIlRsVvoQURYFz9QY9sfnQ==}
+    engines: {node: '>=10.13.0'}
+    dependencies:
+      '@rushstack/node-core-library': 3.59.6(@types/node@20.4.2)
+      '@rushstack/rig-package': 0.4.0
+      jsonpath-plus: 4.0.0
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: true
+
   /@rushstack/heft-lint-plugin@0.1.17:
     resolution: {integrity: sha512-UWfsSp89dkZCI0Sck+kXQ78dzWvhutKekTGQIbAzIjIK3CQfPzbbrGtddUazo8GkNdiprIaPmI/LRCL8dWNgeA==}
     dependencies:
@@ -1941,35 +1943,13 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
 
-  /@rushstack/heft@0.56.3(@types/node@20.4.2):
-    resolution: {integrity: sha512-xRDJ14XodbkjUIZ716Glx6ia24e5SZw+09t88hKeWrBeYsl7hsyj3AcaX9tS8BQObjSkHJ5Kw0MdqDnx2IhkbQ==}
+  /@rushstack/heft@0.57.1(@types/node@20.4.2):
+    resolution: {integrity: sha512-fmlArc2t2j6qzN9AM9CCTBngKIMT6QunZ19vy3CSMjZ7Za/tLwtNRNqdutRtQ+MFgVjZzf/vufsk7GekmGQufQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dependencies:
-      '@rushstack/heft-config-file': 0.13.1(@types/node@20.4.2)
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.2)
-      '@rushstack/rig-package': 0.4.0
-      '@rushstack/ts-command-line': 4.15.1
-      '@types/tapable': 1.0.6
-      argparse: 1.0.10
-      chokidar: 3.4.3
-      fast-glob: 3.2.12
-      git-repo-info: 2.1.1
-      ignore: 5.1.9
-      tapable: 1.1.3
-      true-case-path: 2.2.1
-      watchpack: 2.4.0
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: true
-
-  /@rushstack/heft@0.57.0(@types/node@20.4.2):
-    resolution: {integrity: sha512-AAf9mSmjErfFhZjpnFGoT4OhsYoSIUEcr/p7Hr2mlmIt9qKAHiY1oD+NwX7VmsiHkC69dfKAH1acR2pNO3rMnw==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-    dependencies:
-      '@rushstack/heft-config-file': 0.13.1(@types/node@20.4.2)
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.2)
+      '@rushstack/heft-config-file': 0.13.2(@types/node@20.4.2)
+      '@rushstack/node-core-library': 3.59.6(@types/node@20.4.2)
       '@rushstack/rig-package': 0.4.0
       '@rushstack/ts-command-line': 4.15.1
       '@types/tapable': 1.0.6
@@ -2018,6 +1998,23 @@ packages:
       jju: 1.4.0
       resolve: 1.22.2
       semver: 7.3.8
+      z-schema: 5.0.5
+
+  /@rushstack/node-core-library@3.59.6(@types/node@20.4.2):
+    resolution: {integrity: sha512-bMYJwNFfWXRNUuHnsE9wMlW/mOB4jIwSUkRKtu02CwZhQdmzMsUbxE0s1xOLwTpNIwlzfW/YT7OnOHgDffLgYg==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@types/node': 20.4.2
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.2
+      semver: 7.5.4
       z-schema: 5.0.5
 
   /@rushstack/package-deps-hash@4.0.30(@types/node@20.4.2):
@@ -2344,7 +2341,7 @@ packages:
 
   /@types/prettier@2.7.3:
     resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
-    dev: true
+    dev: false
 
   /@types/qs@6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
@@ -3869,21 +3866,6 @@ packages:
       strip-final-newline: 2.0.0
     dev: false
 
-  /execa@6.1.0:
-    resolution: {integrity: sha512-QVWlX2e50heYJcCPG0iWtf8r0xjEYfz/OYLGDYH+IyjWezzPNxz63qNFOu0l4YftGWuizFVZHHs8PrLU5p2IDA==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      cross-spawn: 7.0.3
-      get-stream: 6.0.1
-      human-signals: 3.0.1
-      is-stream: 3.0.0
-      merge-stream: 2.0.0
-      npm-run-path: 5.1.0
-      onetime: 6.0.0
-      signal-exit: 3.0.7
-      strip-final-newline: 3.0.0
-    dev: false
-
   /execa@7.1.1:
     resolution: {integrity: sha512-wH0eMf/UXckdUYnO21+HDztteVv05rq2GXksxT4fCGeHkBhw1DROXh40wcjMcRqDOWE7iPJ4n3M7e2+YFP+76Q==}
     engines: {node: ^14.18.0 || ^16.14.0 || >=18.0.0}
@@ -4545,11 +4527,6 @@ packages:
   /human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
-    dev: false
-
-  /human-signals@3.0.1:
-    resolution: {integrity: sha512-rQLskxnM/5OCldHo+wNXbpVgDn5A17CUoKX+7Sokwaknlq7CdSnphy0W39GU8dw59XiCXmFXDg4fRuckQRKewQ==}
-    engines: {node: '>=12.20.0'}
     dev: false
 
   /human-signals@4.3.1:
@@ -6790,7 +6767,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: false
 
   /send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}

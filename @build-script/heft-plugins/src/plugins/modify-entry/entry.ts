@@ -1,2 +1,2 @@
-require('@gongt/fix-esm').register();
+Error.stackTraceLimit = Infinity;
 module.exports = require('./plugin.js');

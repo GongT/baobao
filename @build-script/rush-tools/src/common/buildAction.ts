@@ -2,12 +2,13 @@ import { createWriteStream } from 'fs';
 import { resolve } from 'path';
 import { checkChildProcessResult, streamPromise } from '@idlebox/node';
 import { execa } from 'execa';
-import ora from 'ora';
 import { gte } from 'semver';
 import split2 from 'split2';
 import { findRushRootPath, loadConfig } from '../api/load';
 import { NormalError } from './error';
 import { spinner } from './temp-spin';
+
+const oraP = import('ora').then((e) => e.default);
 
 const REGTMPL = /^([0-9]+) of =projectCount=: \[([^\]]+)\] (.+)$/;
 const startReg = /^\[([^\]]+)\] started$/;
@@ -44,9 +45,6 @@ export async function buildAction(action: string, argv: string[]) {
 	const log = createWriteStream(logFile);
 	console.error('Complete log file is at: %s', logFile);
 
-	// delete ps.stdout;
-	// delete ps.stderr;
-
 	stdout.on('data', (line) => {
 		log.write(removeEmpty(line) + '\n');
 		handleLine(line);
@@ -60,6 +58,8 @@ export async function buildAction(action: string, argv: string[]) {
 	const workingSet = new Set<string>();
 	const failedSet = new Set<string>();
 	const PREFIX = 'Building [';
+
+	const ora = await oraP;
 	const anime = ora({
 		spinner,
 		color: 'magenta',

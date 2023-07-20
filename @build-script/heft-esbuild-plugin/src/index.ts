@@ -15,17 +15,13 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 	static readonly PLUGIN_NAME = PLUGIN_NAME;
 	readonly PLUGIN_NAME = PLUGIN_NAME;
 
-	apply(session: IHeftTaskSession, configuration: HeftConfiguration): void {
+	apply(session: IHeftTaskSession, configuration: HeftConfiguration, userInput: any): void {
 		this.rootDir = normalizePath(configuration.buildFolderPath);
 
-		const contextsPromise = this.getContext(session, configuration);
-
 		session.hooks.run.tapPromise(PLUGIN_NAME, async () => {
-			const contexts = await contextsPromise;
+			const contexts = await this.getContext(session, configuration, userInput ?? {});
 
-			for (const context of contexts) {
-				await context.rebuild();
-			}
+			await Promise.all(contexts.map((e) => e.rebuild()));
 
 			session.logger.terminal.writeLine('complete build without errors.');
 
@@ -33,20 +29,18 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 		});
 
 		session.hooks.runIncremental.tapPromise(PLUGIN_NAME, async () => {
-			const contexts = await contextsPromise;
+			const contexts = await this.getContext(session, configuration, userInput ?? {});
 
-			for (const context of contexts) {
-				await context.rebuild();
-			}
+			await Promise.all(contexts.map((e) => e.rebuild()));
 
 			session.logger.terminal.writeLine('complete build without errors.');
 		});
 	}
 
 	private _tsnodeinited = false;
-	private async _initOptions(session: IHeftTaskSession, configuration: HeftConfiguration) {
+	private async _initOptions(session: IHeftTaskSession, configuration: HeftConfiguration, userInput: any) {
 		let configFile;
-		for (const ext of ['.ts', '.cjs', '.mjs', '.json']) {
+		for (const ext of ['.cts', '.mts', '.ts', '.cjs', '.mjs', '.json']) {
 			configFile = configuration.rigConfig.tryResolveConfigFilePath('config/esbuild' + ext);
 			if (configFile) break;
 		}
@@ -56,34 +50,71 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 			);
 		}
 
+		Object.assign(globalThis, {
+			session: {
+				logger: session.logger,
+				taskName: session.taskName,
+				rootDir: this.rootDir,
+				options: userInput,
+				tempFolderPath: session.tempFolderPath,
+				watchFiles(_files: string[]) {
+					//TODO
+				},
+			},
+		});
+
 		session.logger.terminal.writeDebugLine('(re-)load config file: ' + configFile);
 		let options_in: BuildOptions | BuildOptions[];
-		if (configFile.endsWith('.ts')) {
-			if (!this._tsnodeinited) {
-				session.logger.terminal.writeDebug('loading ts-node: ');
-				const tsnodePath = await configuration.rigPackageResolver.resolvePackageAsync(
-					'ts-node',
-					session.logger.terminal
-				);
-				session.logger.terminal.writeDebugLine(tsnodePath);
-				require(tsnodePath + '/register');
-				this._tsnodeinited = true;
-			}
 
-			options_in = require(configFile).options;
-		} else if (configFile.endsWith('.cjs')) {
-			const req = require(configFile);
-			options_in = req.default?.options ?? req.options;
-		} else if (configFile.endsWith('.mjs')) {
-			const req = await import(configFile);
-			options_in = req.options;
-		} else if (configFile.endsWith('.json')) {
-			const text = await readFile(configFile, 'utf-8');
-			options_in = commentJson.parse(text, undefined, true) as any;
-		} else {
-			throw new Error('this is impossible');
+		try {
+			if (configFile.endsWith('ts')) {
+				if (!this._tsnodeinited) {
+					session.logger.terminal.writeDebug('loading ts-node: ');
+					const tsnodePath = await configuration.rigPackageResolver.resolvePackageAsync(
+						'ts-node',
+						session.logger.terminal
+					);
+					session.logger.terminal.writeDebugLine(tsnodePath);
+					const tsnode: typeof import('ts-node') = require(tsnodePath);
+					tsnode.register({
+						compiler: await configuration.rigPackageResolver.resolvePackageAsync(
+							'typescript',
+							session.logger.terminal
+						),
+						compilerOptions: {
+							module: 'commonjs',
+						},
+						moduleTypes: {},
+					});
+					this._tsnodeinited = true;
+				}
+				options_in = require(configFile).options;
+			} else if (configFile.endsWith('.cjs')) {
+				const req = require(configFile);
+				options_in = req.default?.options ?? req.options;
+			} else if (configFile.endsWith('.mjs')) {
+				const req = await import(configFile);
+				options_in = req.options;
+			} else if (configFile.endsWith('.json')) {
+				const text = await readFile(configFile, 'utf-8');
+				options_in = commentJson.parse(text, undefined, true) as any;
+			} else {
+				throw new Error('this is impossible');
+			}
+		} catch (e: any) {
+			session.logger.terminal.writeWarningLine('failed load esbuild config file (', configFile, ')');
+			if (e.constructor.name === 'TSError') {
+				e = new Error(e.message);
+				delete e.stack;
+			}
+			throw e;
 		}
+
 		if (typeof options_in !== 'object') throw new Error('invalid config file: ' + configFile);
+
+		Object.assign(globalThis, {
+			session: undefined,
+		});
 
 		const optionsArray = Array.isArray(options_in) ? options_in : [options_in];
 
@@ -105,19 +136,22 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 		return this._esbuild;
 	}
 
-	private _contexts?: BuildContext[];
-	async getContext(session: IHeftTaskSession, configuration: HeftConfiguration, force = false) {
-		if (this._contexts && !force) return this._contexts;
-
+	private _contexts?: Promise<BuildContext[]>;
+	getContext(session: IHeftTaskSession, configuration: HeftConfiguration, userInput: object) {
+		if (!this._contexts) {
+			this._contexts = this._getContext(session, configuration, userInput);
+		}
+		return this._contexts;
+	}
+	async _getContext(session: IHeftTaskSession, configuration: HeftConfiguration, userInput: object) {
 		const esbuild = await this.getEsbuild(session, configuration);
-		const optionsArray = await this._initOptions(session, configuration);
+		const optionsArray = await this._initOptions(session, configuration, userInput);
 
 		const contexts = [];
 		for (const options of optionsArray) {
 			contexts.push(await esbuild.context<BuildOptions>(options));
 		}
 
-		this._contexts = contexts;
 		return contexts;
 	}
 }

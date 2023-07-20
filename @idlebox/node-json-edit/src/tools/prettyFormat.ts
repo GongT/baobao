@@ -1,6 +1,6 @@
 import { readFile as readFileAsync } from 'fs';
 import { promisify } from 'util';
-import prettier from 'prettier';
+import { format, Options, resolveConfig } from 'prettier';
 import { IFileFormatConfig } from '../';
 import { pathExists } from './filesystem.js';
 
@@ -13,7 +13,7 @@ enum LineFeed {
 
 type PassedFormats = 'trailingComma' | 'parser' | 'filepath' | 'quoteProps';
 
-export interface IInternalFormat extends IFileFormatConfig, Pick<prettier.Options, PassedFormats> {}
+export interface IInternalFormat extends IFileFormatConfig, Pick<Options, PassedFormats> {}
 
 const defaultFormat: IInternalFormat = {
 	parser: 'json',
@@ -36,7 +36,7 @@ export class PrettyFormat {
 	}
 
 	async format(text: string) {
-		const result = await prettier.format(text, {
+		const result = await format(text, {
 			...this.current,
 			parser: 'json',
 			singleQuote: false,
@@ -52,7 +52,7 @@ export class PrettyFormat {
 	}
 
 	async learnFromFile(file: string, content?: string) {
-		const f = await prettier.resolveConfig(file, { editorconfig: true });
+		const f = await resolveConfig(file, { editorconfig: true });
 		if (f) {
 			this.setFormat({ ...f, lastNewLine: true });
 		} else if (await pathExists(file)) {

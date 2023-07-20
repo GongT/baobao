@@ -2,7 +2,7 @@ import { spawnSync } from 'child_process';
 import { createRequire } from 'module';
 import { platform } from 'os';
 import { findBinary } from '../environment/findBinary';
-import { spawnGetOutput } from './execa';
+import { spawnGetOutputSync } from './execa';
 
 const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagation=slave'];
 
@@ -70,9 +70,8 @@ function supportScope() {
 		}
 
 		try {
-			const supported = spawnGetOutput({
+			const supported = spawnGetOutputSync({
 				exec: [unshare, ...unshareArgs, 'echo', 'yes'],
-				sync: true,
 			});
 			if (supported !== 'yes') {
 				return false;

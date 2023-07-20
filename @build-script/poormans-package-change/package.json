@@ -30,9 +30,9 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.0",
+		"@rushstack/heft": "^0.57.1",
 		"@types/cacache": "^15.0.1",
-		"@types/node": "^20.3.1",
+		"@types/node": "^20.4.2",
 		"@types/request": "^2.48.8",
 		"@types/semver": "^7.5.0",
 		"@types/targz": "^1.0.1"

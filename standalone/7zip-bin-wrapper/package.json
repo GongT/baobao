@@ -34,8 +34,8 @@
 		"7zip-bin": "^5.2.0",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.0",
-		"@types/node": "^20.3.1",
+		"@rushstack/heft": "^0.57.1",
+		"@types/node": "^20.4.2",
 		"@types/split2": "^4.2.0"
 	},
 	"peerDependencies": {

@@ -1,5 +1,3 @@
-require('@gongt/fix-esm').register();
-
 try {
 	Error.stackTraceLimit = Infinity;
 	module.exports = require('./lib/api.js');

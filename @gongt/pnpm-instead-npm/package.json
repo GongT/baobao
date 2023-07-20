@@ -12,7 +12,7 @@
 	},
 	"preferGlobal": true,
 	"devDependencies": {
-		"@types/node": "^20.3.1"
+		"@types/node": "^20.4.2"
 	},
 	"optionalDependencies": {
 		"@gongt/kexec": "latest"

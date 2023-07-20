@@ -28,7 +28,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.0"
+		"@rushstack/heft": "^0.57.1"
 	},
 	"monorepo": "rush"
 }
