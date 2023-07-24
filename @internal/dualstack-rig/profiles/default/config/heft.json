@@ -24,19 +24,35 @@
 			}
 		},
 		"compile": {
-			// "phaseDescription": "run build process",
-			"phaseDependencies": ["pre-compile"],
-			"cleanFiles": [
-				{ "sourcePath": "temp" },
-				{ "sourcePath": "lib" },
-				{ "sourcePath": ".", "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
-				{ "sourcePath": ".", "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
-			],
+			"cleanFiles": [{ "sourcePath": "temp" }, { "sourcePath": "lib" }],
 			"tasksByName": {
 				"typescript": {
 					"taskPlugin": {
-						"pluginPackage": "@rushstack/heft-typescript-plugin",
-						"options": {}
+						"pluginName": "typescript",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"extension": ".mjs",
+							"compilerOptions": {
+								"module": "esnext",
+								"outDir": "../lib/esm",
+								"tsBuildInfoFile": "../temp/tsbuildinfo.mjs.json"
+							}
+						}
+					}
+				},
+				"typescript-cjs": {
+					"taskPlugin": {
+						"pluginName": "typescript",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"fast": true,
+							"extension": ".cjs",
+							"compilerOptions": {
+								"module": "commonjs",
+								"outDir": "../lib/cjs",
+								"tsBuildInfoFile": "../temp/tsbuildinfo.cjs.json"
+							}
+						}
 					}
 				}
 			}
@@ -51,18 +67,30 @@
 			],
 			"phaseDependencies": ["post-compile"],
 			"tasksByName": {
+				"copy-dts": {
+					"taskPlugin": {
+						"pluginName": "copy-files-plugin",
+						"pluginPackage": "@rushstack/heft",
+						"options": {
+							"copyOperations": [
+								{
+									"sourcePath": "lib/esm",
+									"destinationFolders": ["lib/cjs"],
+									"fileExtensions": [".d.ts", ".d.ts.map"],
+									"hardlink": true
+								}
+							]
+						}
+					}
+				},
+
 				"import-test": {
+					"taskDependencies": ["copy-dts"],
 					"taskPlugin": {
 						"pluginName": "import-test",
 						"pluginPackage": "@build-script/heft-plugins"
 					}
-				}
-
-				// "lint": {
-				// 	"taskPlugin": {
-				// 		"pluginPackage": "@rushstack/heft-lint-plugin"
-				// 	}
-				// }
+				},
 			}
 		}
 	},

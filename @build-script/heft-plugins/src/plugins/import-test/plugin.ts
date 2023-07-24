@@ -11,7 +11,7 @@ export default class ImportTestPlugin implements IHeftTaskPlugin {
 		session.hooks.run.tapPromise(PLUGIN_NAME, async (_opt) => {
 			const temp = getRushTempFolder(heftConfiguration.buildFolderPath);
 
-			const ret = run(heftConfiguration.buildFolderPath, createHeftLogger(session), temp);
+			const ret = await run(heftConfiguration.buildFolderPath, createHeftLogger(session), temp);
 			if (ret) {
 				const err = new Error(ret.trim());
 				err.stack = err.message;

@@ -29,6 +29,4 @@ export interface IRushConfig {
 	};
 }
 
-export interface ICRushConfig extends DeepReadonly<IRushConfig> {
-	projects: IProjectConfig[];
-}
+export interface ICRushConfig extends DeepReadonly<IRushConfig> {}

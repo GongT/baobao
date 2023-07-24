@@ -1,8 +1,6 @@
 import { access } from 'fs/promises';
 import { dirname, relative, resolve } from 'path';
 import { exists } from '@idlebox/node';
-import { writeJsonFileBack } from '@idlebox/node-json-edit';
-import { IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 
 export async function registerProjectToRush(projectPath: string, log = console.log) {
@@ -32,8 +30,7 @@ export async function registerProjectToRush(projectPath: string, log = console.l
 	}
 	pathToRegister = pathToRegister.replace(/^\.\//, '').replace(/\\/g, '/');
 
-	const config = { ...rush.config } as IRushConfig;
-
+	const config = await rush.openConfigFileForEdit();
 	const nameConflict = config.projects.find(({ packageName }) => {
 		return packageName === name;
 	});
@@ -66,7 +63,7 @@ export async function registerProjectToRush(projectPath: string, log = console.l
 		});
 	}
 
-	const changed = await writeJsonFileBack(config);
+	const changed = await rush.writeConfigFile();
 	if (changed) {
 		log('register success: %s', msg);
 	} else {

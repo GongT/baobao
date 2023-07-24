@@ -1,9 +1,8 @@
-import { spawnSync } from 'child_process';
 import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'fs';
+import { mkdir, writeFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { dirname, resolve } from 'path';
 import { IPackageJson } from '@rushstack/node-core-library';
-import { execaSync } from 'execa';
 import ts from 'typescript';
 import { IOutputShim } from '../../misc/scopedLogger';
 
@@ -16,11 +15,11 @@ function tester(exports: any) {
 		hasDefault: Object.hasOwn(exports, 'default'),
 		symbolList: Object.keys(imports),
 	};
-	process.stdout.write('\n\n\n' + signal + JSON.stringify(info));
+	process.stdout.write('' + signal + JSON.stringify(info));
 	process.exit(0);
 }
 
-export function run(projectInput: string, logger: IOutputShim, tempdir: string = tmpdir()): string {
+export async function run(projectInput: string, logger: IOutputShim, tempdir: string = tmpdir()): Promise<string> {
 	const pkgJsonPath = projectInput.endsWith('package.json')
 		? resolve(process.cwd(), projectInput)
 		: resolve(process.cwd(), projectInput, 'package.json');
@@ -32,7 +31,9 @@ export function run(projectInput: string, logger: IOutputShim, tempdir: string =
 
 	try {
 		const pkgJson = JSON.parse(readFileSync(pkgJsonPath, 'utf-8'));
-		const errorMessage = runInner(projectRoot, pkgJson, logger, tempdirPrivate);
+		const errorMessages = await Promise.all(runInner(projectRoot, pkgJson, logger, tempdirPrivate));
+
+		const errorMessage = errorMessages.filter((e) => e).join('');
 		if (!errorMessage) return '';
 
 		return errorMessage.replaceAll(tempdirPrivate, projectRoot).replace(`/node_modules/${pkgJson.name}`, '');
@@ -47,7 +48,7 @@ function runInner(
 	pkgJson: IPackageJson & Record<string, any>,
 	logger: IOutputShim,
 	tempdir: string
-) {
+): Promise<string | void>[] {
 	const {
 		name: pkgName,
 		main: pkgMain,
@@ -65,31 +66,31 @@ function runInner(
 		logger.debug('test file: ' + types);
 		const dts = resolve(projectRoot, types);
 		if (existsSync(dts)) {
-			logger.debug('  - exists.\n');
+			logger.debug('  - exists.');
 		} else {
-			logger.debug('  - file not found\n');
-			return `missing .d.ts file (should at ${dts})`;
+			logger.debug('  - file not found');
+			return [Promise.resolve(`missing .d.ts file (should at ${dts})`)];
 		}
 	}
 
 	if (pkgMain === undefined && pkgModule === undefined) {
 		if (!pkgExports) {
-			logger.debug('no "exports" or "main" in package.json\n');
-			return undefined;
+			logger.debug('no "exports" or "main" in package.json');
+			return [Promise.resolve()];
 		}
 		if (typeof pkgExports === 'object' && !pkgExports['.']) {
-			logger.warn('no default exports in package.json, current not support\n');
-			return undefined;
+			logger.warn('no default exports in package.json, current not support');
+			return [Promise.resolve()];
 		}
 	}
 
-	if (!existsSync(tempdir)) mkdirSync(tempdir, { recursive: true });
-	logger.debug(`using temp dir: ${tempdir}\n`);
+	mkdirSync(tempdir, { recursive: true });
+	logger.debug(`using temp dir: ${tempdir}`);
 	process.on('exit', () => {
 		if (process.env['NO_DELETE_TEMP']) {
-			logger.log(`not deleting temp dir: ${tempdir} (reason: NO_DELETE_TEMP)\n`);
+			logger.log(`not deleting temp dir: ${tempdir} (reason: NO_DELETE_TEMP)`);
 		} else {
-			logger.debug(`deleting temp dir: ${tempdir} (set $env:NO_DELETE_TEMP=yes to skip)\n`);
+			logger.debug(`deleting temp dir: ${tempdir} (set $env:NO_DELETE_TEMP=yes to skip)`);
 			rmSync(tempdir, { recursive: true });
 		}
 	});
@@ -97,9 +98,9 @@ function runInner(
 	const spec = JSON.stringify(pkgName);
 
 	const script1 = resolve(tempdir, 'import.js');
-	writeFileSync(script1, `${tester.toString()}\nimport ${spec}\nimport * as items from ${spec};tester(items);`);
+	writeFileSync(script1, `${tester.toString()}import ${spec};import * as items from ${spec};tester(items);`);
 	const script2 = resolve(tempdir, 'require.cjs');
-	writeFileSync(script2, `${tester.toString()}\n require(${spec});\ntester(require(${spec}));`);
+	writeFileSync(script2, `${tester.toString()} require(${spec});tester(require(${spec}));`);
 	writeFileSync(
 		resolve(tempdir, 'package.json'),
 		JSON.stringify(
@@ -119,45 +120,8 @@ function runInner(
 	mkdirSync(dirname(slink), { recursive: true });
 	symlinkSync(projectRoot, slink, 'dir');
 
-	for (const [src, title] of [
-		[script1, 'import'],
-		[script2, 'require'],
-	] as const) {
-		logger.debug('try ' + title + ':');
-		const r = spawnSync(process.execPath, [src], {
-			stdio: ['ignore', 'pipe', 'pipe'],
-			shell: true,
-			encoding: 'utf8',
-			cwd: tempdir,
-		});
-		let output = r.stdout.trim();
-		if (r.status !== 0 || !output.endsWith('}')) {
-			logger.debug('  - fail\n');
-			return `<${title}> test failed: ${r.stderr}`;
-		}
-		if (output.startsWith(signal)) {
-			output = output.slice(signal.length);
-		} else {
-			const pos = output.lastIndexOf(signal);
-			logger.warn('%s has unexpect output: %s', title, output.slice(0, pos).trim());
-			output = output.slice(pos + 1);
-		}
-		if (r.stderr.trim()) {
-			logger.warn('%s has unexpect stderr output: %s', title, r.stderr);
-		}
-
-		const data = JSON.parse(output);
-		const oDef = `default=${data.hasDefault ? 'yes' : 'no'}`;
-		let oSymSz = `symbols=${data.symbolList.length} [`;
-		oSymSz += data.symbolList.slice(0, 5).join(', ');
-		if (data.symbolList.length > 5) {
-			oSymSz += ', ...';
-		}
-		oSymSz += ']';
-
-		logger.debug(`  - ok\n`);
-		logger.log(`  ${oDef}, ${oSymSz}`);
-	}
+	const pnt1 = checkNode('import', script1, tempdir, logger);
+	const pnt2 = checkNode('require', script2, tempdir, logger);
 
 	const tsCompileOption: ts.CompilerOptions = {
 		lib: ['DOM', 'ESNext'],
@@ -168,53 +132,91 @@ function runInner(
 		tsCompileOption.types!.push('node');
 	}
 
-	try {
-		logger.debug('test node16 (esm) loader:');
-		checkTs(resolve(tempdir, 'node-16-esm'), pkgName, {
-			moduleResolution: ts.ModuleResolutionKind[ts.ModuleResolutionKind.NodeNext],
-			resolvePackageJsonImports: true,
-			resolvePackageJsonExports: true,
-			module: ts.ModuleKind[ts.ModuleKind.NodeNext],
-			...tsCompileOption,
-		});
-		logger.debug(`  - ok\n`);
-	} catch (e: any) {
-		return 'node16 (esm) resolution failed: ' + e?.message;
-	}
+	const pct1 = checkTs(resolve(tempdir, 'node-16-esm'), pkgName, {
+		moduleResolution: ts.ModuleResolutionKind[ts.ModuleResolutionKind.NodeNext],
+		resolvePackageJsonImports: true,
+		resolvePackageJsonExports: true,
+		module: ts.ModuleKind[ts.ModuleKind.NodeNext],
+		...tsCompileOption,
+	}).then(
+		() => logger.debug(`test node16 (esm) loader: ok`),
+		(e) => 'node16 (esm) resolution failed: ' + e?.message
+	);
 
-	try {
-		logger.debug('test node16 (cjs) loader:');
-		checkTs(resolve(tempdir, 'node-16-cjs'), pkgName, {
-			moduleResolution: ts.ModuleResolutionKind[ts.ModuleResolutionKind.NodeNext],
-			resolvePackageJsonImports: true,
-			resolvePackageJsonExports: true,
-			module: ts.ModuleKind[ts.ModuleKind.CommonJS],
-			...tsCompileOption,
-		});
-		logger.debug(`  - ok\n`);
-	} catch (e: any) {
-		return 'node16 (cjs) resolution failed: ' + e?.message;
-	}
+	const pct2 = checkTs(resolve(tempdir, 'node-16-cjs'), pkgName, {
+		moduleResolution: ts.ModuleResolutionKind[ts.ModuleResolutionKind.NodeNext],
+		resolvePackageJsonImports: true,
+		resolvePackageJsonExports: true,
+		module: ts.ModuleKind[ts.ModuleKind.CommonJS],
+		...tsCompileOption,
+	}).then(
+		() => logger.debug(`test node16 (cjs) loader: ok`),
+		(e) => 'node16 (cjs) resolution failed: ' + e?.message
+	);
 
-	try {
-		logger.debug('test node module loader:');
-		checkTs(resolve(tempdir, 'node'), pkgName, {
-			moduleResolution: ts.ModuleResolutionKind[ts.ModuleResolutionKind.Node10],
-			module: ts.ModuleKind[ts.ModuleKind.ESNext],
-			...tsCompileOption,
-		});
-		logger.debug(`  - ok\n`);
-	} catch (e: any) {
-		return 'node module resolution failed: ' + e?.message;
-	}
+	const pct3 = checkTs(resolve(tempdir, 'node'), pkgName, {
+		moduleResolution: ts.ModuleResolutionKind[ts.ModuleResolutionKind.Node10],
+		module: ts.ModuleKind[ts.ModuleKind.ESNext],
+		...tsCompileOption,
+	}).then(
+		() => logger.debug(`test node module loader: ok`),
+		(e) => 'node module resolution failed: ' + e?.message
+	);
 
-	return undefined;
+	return [pnt1, pnt2, pct1, pct2, pct3];
 }
 
-function checkTs(path: string, pkgName: string, options: Record<keyof ts.CompilerOptions, any>) {
-	mkdirSync(path);
-	writeFileSync(resolve(path, 'index.ts'), `import * as __lib from '${pkgName}';`);
-	writeFileSync(
+async function requireExeca(): Promise<typeof import('execa')> {
+	return eval('import("execa")');
+}
+
+async function checkNode(title: string, src: string, tempdir: string, logger: IOutputShim): Promise<string | void> {
+	const execa = (await requireExeca()).execa;
+	const r = await execa(process.execPath, [src], {
+		stderr: 'pipe',
+		stdout: 'pipe',
+		stdin: 'ignore',
+		all: true,
+		encoding: 'utf8',
+		shell: true,
+		cwd: tempdir,
+	});
+	let output = r.all!.trim();
+	if (r.exitCode !== 0 || !output.endsWith('}')) {
+		logger.debug('try %s - fail', title);
+		return `<${title}> test failed: ${r.stderr}`;
+	}
+	if (output.startsWith(signal)) {
+		output = output.slice(signal.length);
+	} else {
+		const pos = output.lastIndexOf(signal);
+		logger.warn('%s has unexpect output: %s', title, output.slice(0, pos).trim());
+		output = output.slice(pos + 1);
+	}
+	if (r.stderr.trim()) {
+		logger.warn('%s has unexpect stderr output: %s', title, r.stderr);
+	}
+
+	const data = JSON.parse(output);
+	const oDef = `default=${data.hasDefault ? 'yes' : 'no'}`;
+	let oSymSz = `symbols=${data.symbolList.length} [`;
+	oSymSz += data.symbolList.slice(0, 5).join(', ');
+	if (data.symbolList.length > 5) {
+		oSymSz += ', ...';
+	}
+	oSymSz += ']';
+
+	logger.debug('try %s - ok\n\t%s, %s', title, oDef, oSymSz);
+}
+
+async function checkTs(
+	path: string,
+	pkgName: string,
+	options: Record<keyof ts.CompilerOptions, any>
+): Promise<string | void> {
+	await mkdir(path);
+	await writeFile(resolve(path, 'index.ts'), `import * as __lib from '${pkgName}';`);
+	await writeFile(
 		resolve(path, 'tsconfig.json'),
 		JSON.stringify(
 			{
@@ -230,7 +232,8 @@ function checkTs(path: string, pkgName: string, options: Record<keyof ts.Compile
 		)
 	);
 
-	const r = execaSync('tsc', ['-p', path], { stderr: 'pipe', stdin: 'ignore', encoding: 'utf8' });
+	const execa = (await requireExeca()).execa;
+	const r = execa('tsc', ['-p', path], { stderr: 'pipe', stdin: 'ignore', encoding: 'utf8' });
 
-	if (r.exitCode !== 0) throw new Error('failed compile: ' + r.stderr);
+	if (r.exitCode !== 0) return 'failed compile: ' + r.stderr;
 }

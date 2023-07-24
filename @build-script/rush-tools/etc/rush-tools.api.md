@@ -130,8 +130,6 @@ export type ICProjectConfig = DeepReadonly<Omit<IProjectConfig, 'cyclicDependenc
 //
 // @public (undocumented)
 export interface ICRushConfig extends DeepReadonly<IRushConfig> {
-    // (undocumented)
-    projects: IProjectConfig[];
 }
 
 // Warning: (ae-missing-release-tag) "IGraphAttachedData" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -312,7 +310,7 @@ export class RushProject {
     // (undocumented)
     readonly autoinstallers: readonly ICProjectConfig[];
     // (undocumented)
-    readonly config: ICRushConfig;
+    get config(): ICRushConfig;
     // (undocumented)
     readonly configFile: string;
     // (undocumented)
@@ -349,6 +347,8 @@ export class RushProject {
     isProjectPublic(project: ICProjectConfig): boolean;
     // (undocumented)
     isWorkspaceEnabled(): boolean | undefined;
+    // (undocumented)
+    openConfigFileForEdit(): Promise<IRushConfig>;
     // Warning: (ae-forgotten-export) The symbol "IProjectDependencyOptions" needs to be exported by the entry point __create_index.generated.d.ts
     //
     // (undocumented)
@@ -371,6 +371,8 @@ export class RushProject {
     tempFile(name?: string): string;
     // (undocumented)
     get tempRoot(): string;
+    // (undocumented)
+    writeConfigFile(): Promise<boolean>;
 }
 
 // Warning: (ae-missing-release-tag) "shiftArgumentFlag" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)

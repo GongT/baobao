@@ -18,40 +18,6 @@
 				}
 			}
 		},
-		"compile": {
-			"cleanFiles": [{ "sourcePath": "temp" }, { "sourcePath": "lib" }],
-			"tasksByName": {
-				"typescript": {
-					"taskPlugin": {
-						"pluginName": "typescript",
-						"pluginPackage": "@build-script/heft-plugins",
-						"options": {
-							"extension": ".mjs",
-							"compilerOptions": {
-								"module": "esnext",
-								"outDir": "../lib/esm",
-								"tsBuildInfoFile": "../temp/tsbuildinfo.mjs.json"
-							}
-						}
-					}
-				},
-				"typescript-cjs": {
-					"taskPlugin": {
-						"pluginName": "typescript",
-						"pluginPackage": "@build-script/heft-plugins",
-						"options": {
-							"fast": true,
-							"extension": ".cjs",
-							"compilerOptions": {
-								"module": "commonjs",
-								"outDir": "../lib/cjs",
-								"tsBuildInfoFile": "../temp/tsbuildinfo.cjs.json"
-							}
-						}
-					}
-				}
-			}
-		},
 		"post-compile": {
 			"tasksByName": {
 				"api-extractor": {

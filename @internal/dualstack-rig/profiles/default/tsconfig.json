@@ -7,7 +7,7 @@
 
 		/*
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"outDir": "../lib",
+		"outDir": "../lib/esm",
 		"rootDir": "./",
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		// "types": ["node"],

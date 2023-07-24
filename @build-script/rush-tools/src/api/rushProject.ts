@@ -5,7 +5,7 @@ import { dirname, resolve } from 'path';
 import { DeepReadonly, IPackageJson, isWindows } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { exists, relativePath, writeFileIfChange } from '@idlebox/node';
-import { loadJsonFile, readCommentJsonFileSync } from '@idlebox/node-json-edit';
+import { loadJsonFile, readCommentJsonFileSync, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { requireRushPathSync } from '../common/loadRushJson';
 import { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson';
 
@@ -17,7 +17,7 @@ interface IProjectDependencyOptions {
 export class RushProject {
 	public readonly configFile: string;
 	public readonly projectRoot: string;
-	public readonly config: ICRushConfig;
+	private _config: ICRushConfig;
 	public readonly autoinstallers: readonly ICProjectConfig[];
 	private declare _preferredVersions: { [id: string]: string };
 
@@ -47,7 +47,7 @@ export class RushProject {
 			};
 		}
 
-		this.config = config;
+		this._config = config;
 		Object.freeze(config);
 		Object.freeze(config.pnpmOptions);
 		config.projects.forEach(Object.freeze);
@@ -55,6 +55,24 @@ export class RushProject {
 
 		this.autoinstallers = [];
 		this.autoinstallers = this.listAutoInstallers();
+	}
+
+	get config() {
+		return this._config;
+	}
+
+	private _configToEdit?: Promise<IRushConfig>;
+	async openConfigFileForEdit() {
+		if (!this._configToEdit) {
+			this._configToEdit = loadJsonFile(this.configFile).then((data) => {
+				this._config = data;
+				return data;
+			});
+		}
+		return this._configToEdit;
+	}
+	writeConfigFile() {
+		return writeJsonFileBack(this._config);
 	}
 
 	private listAutoInstallers() {
@@ -115,7 +133,7 @@ export class RushProject {
 	}
 
 	public get projects(): readonly ICProjectConfig[] {
-		return this.config.projects;
+		return this._config.projects;
 	}
 
 	public absolute(project: ICProjectConfig | string, ...segments: string[]): string {
@@ -262,21 +280,21 @@ export class RushProject {
 	}
 
 	isWorkspaceEnabled() {
-		return this.config.pnpmOptions?.useWorkspaces; // TODO: how to get default?
+		return this._config.pnpmOptions?.useWorkspaces; // TODO: how to get default?
 	}
 
 	getPackageManager(): { type: 'npm' | 'yarn' | 'pnpm'; bin: string; binAbsolute: string; version: string } {
 		let type: 'npm' | 'yarn' | 'pnpm';
 		let version: string;
-		if (this.config.npmVersion) {
+		if (this._config.npmVersion) {
 			type = 'npm';
-			version = this.config.npmVersion;
-		} else if (this.config.pnpmVersion) {
+			version = this._config.npmVersion;
+		} else if (this._config.pnpmVersion) {
 			type = 'pnpm';
-			version = this.config.pnpmVersion;
-		} else if (this.config.yarnVersion) {
+			version = this._config.pnpmVersion;
+		} else if (this._config.yarnVersion) {
 			type = 'yarn';
-			version = this.config.yarnVersion;
+			version = this._config.yarnVersion;
 		} else {
 			throw new Error('no package manager in rush.json');
 		}
