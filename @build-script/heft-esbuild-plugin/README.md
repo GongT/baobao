@@ -53,15 +53,30 @@ This object will delete after script load, you must save a copy if you want to u
 This is correct:
 
 ```ts
-const session = globalThis.session;
+const session = globalThis.session; // save local copy for use
 createEsbuildPlugin(session);
+function after() {
+	console.log(session.rootDir);
+}
 ```
 
 This is wrong:
 
 ```ts
 function after() {
-	console.log(session.rootDir); // Oops! session is undefined
+	console.log(session.rootDir); // Oops! session is gone
+}
+```
+
+## Write file hook
+
+see: [IOutputModifier](./src/common/type.ts)
+
+```ts
+const session = globalThis.session; // save local copy for use
+export function onEmit(files, options, lastReturn) {
+	files[0].text = '/** xxx */' + files[0].text;
+	files.push({ path: '/absolute/path.js', text: 'xxxxx' });
 }
 ```
 
@@ -90,6 +105,11 @@ Deleted options: (throw if set)
 
 -   outfile
 -   absWorkingDir
+
+Ignored options:
+
+-   write: handle by library
+-   metafile: force to true
 
 ### ts-node
 

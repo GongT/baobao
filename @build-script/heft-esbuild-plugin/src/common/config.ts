@@ -2,9 +2,11 @@ import { resolve } from 'path';
 import { normalizePath } from '@idlebox/common';
 import { BuildOptions } from 'esbuild';
 
-interface FilterdBuildOptions extends BuildOptions {
+export interface FilterdBuildOptions extends BuildOptions {
 	outfile: never;
 	outdir: string;
+	write: false;
+	metafile: true;
 }
 
 function required(options: BuildOptions, key: keyof BuildOptions) {
@@ -40,6 +42,9 @@ export function filterOptions(rootDir: string, options: BuildOptions): FilterdBu
 	options.outdir = outputDir;
 	options.absWorkingDir = rootDir;
 
+	options.write = false;
+	options.metafile = true;
+
 	return options as any;
 }
 
@@ -71,12 +76,8 @@ const defaultOptions: BuildOptions = {
 		'.sfnt': 'file',
 	},
 	sourcemap: 'linked',
-	sourceRoot: 'app://debug/',
 	sourcesContent: false,
-	write: true,
-	metafile: true,
 	keepNames: true,
-	format: 'cjs',
 	charset: 'utf8',
 	target: 'esnext',
 	// plugins: [

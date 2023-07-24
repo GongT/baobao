@@ -1,13 +1,51 @@
-import { readFile } from 'fs/promises';
 import { normalizePath } from '@idlebox/common';
 import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
 import { IHeftTaskPlugin } from '@rushstack/heft';
-import commentJson from 'comment-json';
-import type { BuildContext, BuildOptions } from 'esbuild';
-import { filterOptions } from './common/config';
-import { ESBuildPublicApi } from './common/type';
+import { FileError } from '@rushstack/node-core-library';
+import type { BuildContext, BuildOptions, BuildResult, Message, Note } from 'esbuild';
+import { FilterdBuildOptions, filterOptions } from './common/config';
+import { executeConfigFile } from './common/execute-config';
+import { s } from './common/misc';
+import { ESBuildPublicApi, IGlobalSession } from './common/type';
+import { createEmitter, IProjectEmitter } from './common/write';
 
 export const PLUGIN_NAME = 'esbuild';
+
+function emitResultErrors(result: BuildResult, session: IHeftTaskSession, rootDir: string) {
+	const createError = (item: Message | Note) => {
+		let e: Error;
+		let msg: string;
+		if ('id' in item) {
+			msg = `${item.pluginName} [${item.id}] ${item.text}`;
+		} else {
+			msg = '[Note] ' + item.text;
+		}
+		if (item.location) {
+			e = new FileError(msg, {
+				projectFolder: rootDir,
+				absolutePath: item.location.file,
+				line: item.location.line,
+				column: item.location.column + 1,
+			});
+		} else {
+			e = new Error(msg);
+		}
+		e.stack = e.message;
+		return e;
+	};
+	for (const error of result.errors) {
+		session.logger.emitError(createError(error));
+		for (const note of error.notes) {
+			session.logger.emitWarning(createError(note));
+		}
+	}
+	for (const warn of result.warnings) {
+		session.logger.emitWarning(createError(warn));
+		for (const note of warn.notes) {
+			session.logger.emitWarning(createError(note));
+		}
+	}
+}
 
 export default class ESBuildPlugin implements IHeftTaskPlugin {
 	private declare rootDir: string;
@@ -21,24 +59,74 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 		session.hooks.run.tapPromise(PLUGIN_NAME, async () => {
 			const contexts = await this.getContext(session, configuration, userInput ?? {});
 
-			await Promise.all(contexts.map((e) => e.rebuild()));
+			let writtenFiles = 0;
+			const allMeta = await Promise.all(
+				contexts.map(async ({ context, options, emitter }) => {
+					const result = await context.rebuild();
+					emitResultErrors(result, session, this.rootDir);
+					const ret = await emitter({
+						metafile: result.metafile,
+						outputFiles: result.outputFiles,
+						options,
+						session,
+					});
 
-			session.logger.terminal.writeLine('complete build without errors.');
+					writtenFiles += ret.writtenFiles;
 
-			await Promise.all(contexts.map((e) => e.dispose()));
+					return result.metafile;
+				})
+			);
+
+			allMeta.forEach((e) => {
+				session.logger.terminal.writeLine(this._esbuild.analyzeMetafileSync(e));
+			});
+
+			showTip(contexts, writtenFiles);
+
+			await Promise.all(contexts.map(({ context }) => context.dispose()));
 		});
 
 		session.hooks.runIncremental.tapPromise(PLUGIN_NAME, async () => {
 			const contexts = await this.getContext(session, configuration, userInput ?? {});
 
-			await Promise.all(contexts.map((e) => e.rebuild()));
+			let writtenFiles = 0;
+			const allMeta = await Promise.all(
+				contexts.map(async ({ context, options, emitter }) => {
+					const result = await context.rebuild();
+					emitResultErrors(result, session, this.rootDir);
+					const ret = await emitter({
+						metafile: result.metafile,
+						outputFiles: result.outputFiles,
+						options,
+						session,
+					});
 
-			session.logger.terminal.writeLine('complete build without errors.');
+					writtenFiles += ret.writtenFiles;
+
+					return result.metafile;
+				})
+			);
+
+			allMeta.forEach((e) => {
+				session.logger.terminal.writeVerboseLine(this._esbuild.analyzeMetafileSync(e));
+			});
+
+			showTip(contexts, writtenFiles);
 		});
+
+		function showTip(contexts: IContext[], writtenFiles: number) {
+			const t1 = s(contexts.length, 'project');
+			const t2 = s(writtenFiles, 'file');
+			session.logger.terminal.writeLine(`complete build ${t1}, ${t2}.`);
+		}
 	}
 
-	private _tsnodeinited = false;
-	private async _initOptions(session: IHeftTaskSession, configuration: HeftConfiguration, userInput: any) {
+	private async _initOptions(
+		esbuild: ESBuildPublicApi,
+		session: IHeftTaskSession,
+		configuration: HeftConfiguration,
+		userInput: any
+	) {
 		let configFile;
 		for (const ext of ['.cts', '.mts', '.ts', '.cjs', '.mjs', '.json']) {
 			configFile = configuration.rigConfig.tryResolveConfigFilePath('config/esbuild' + ext);
@@ -50,83 +138,33 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 			);
 		}
 
-		Object.assign(globalThis, {
-			session: {
-				logger: session.logger,
-				taskName: session.taskName,
-				rootDir: this.rootDir,
-				options: userInput,
-				tempFolderPath: session.tempFolderPath,
-				resolve(packageName: string) {
-					return configuration.rigPackageResolver.resolvePackageAsync(packageName, session.logger.terminal);
-				},
-				rigConfig: configuration.rigConfig,
-				watchFiles(_files: string[]) {
-					//TODO
-				},
+		const configSession: IGlobalSession = {
+			esbuild,
+			logger: session.logger,
+			taskName: session.taskName,
+			rootDir: this.rootDir,
+			options: userInput,
+			tempFolderPath: session.tempFolderPath,
+			resolve(packageName: string) {
+				return configuration.rigPackageResolver.resolvePackageAsync(packageName, session.logger.terminal);
 			},
-		});
+			rigConfig: configuration.rigConfig,
+			watchFiles(_files: string[]) {
+				//TODO
+			},
+		};
+		Object.assign(globalThis, { session: configSession });
+		const { onEmit, options } = await executeConfigFile(configFile, session, configuration);
+		Object.assign(globalThis, { session: undefined });
 
-		session.logger.terminal.writeDebugLine('(re-)load config file: ' + configFile);
-		let options_in: BuildOptions | BuildOptions[];
-
-		try {
-			if (configFile.endsWith('ts')) {
-				if (!this._tsnodeinited) {
-					session.logger.terminal.writeDebug('loading ts-node: ');
-					const tsnodePath = await configuration.rigPackageResolver.resolvePackageAsync(
-						'ts-node',
-						session.logger.terminal
-					);
-					session.logger.terminal.writeDebugLine(tsnodePath);
-					const tsnode: typeof import('ts-node') = require(tsnodePath);
-					tsnode.register({
-						compiler: await configuration.rigPackageResolver.resolvePackageAsync(
-							'typescript',
-							session.logger.terminal
-						),
-						compilerOptions: {
-							module: 'commonjs',
-						},
-						moduleTypes: {},
-					});
-					this._tsnodeinited = true;
-				}
-				options_in = require(configFile).options;
-			} else if (configFile.endsWith('.cjs')) {
-				const req = require(configFile);
-				options_in = req.default?.options ?? req.options;
-			} else if (configFile.endsWith('.mjs')) {
-				const req = await import(configFile);
-				options_in = req.options;
-			} else if (configFile.endsWith('.json')) {
-				const text = await readFile(configFile, 'utf-8');
-				options_in = commentJson.parse(text, undefined, true) as any;
-			} else {
-				throw new Error('this is impossible');
-			}
-		} catch (e: any) {
-			session.logger.terminal.writeWarningLine('failed load esbuild config file (', configFile, ')');
-			if (e.constructor.name === 'TSError') {
-				e = new Error(e.message);
-				delete e.stack;
-			}
-			throw e;
-		}
-
-		if (typeof options_in !== 'object') throw new Error('invalid config file: ' + configFile);
-
-		Object.assign(globalThis, {
-			session: undefined,
-		});
-
-		const optionsArray = Array.isArray(options_in) ? options_in : [options_in];
-
-		session.logger.terminal.writeVerbose(JSON.stringify(optionsArray, null, 4));
-		return optionsArray.map((options) => filterOptions(this.rootDir, options));
+		session.logger.terminal.writeVerboseLine(JSON.stringify(options, null, 4));
+		return {
+			optionsArray: options.map((e) => filterOptions(this.rootDir, e)),
+			onEmit,
+		};
 	}
 
-	private declare _esbuild;
+	private declare _esbuild: ESBuildPublicApi;
 	private async getEsbuild(session: IHeftTaskSession, configuration: HeftConfiguration): Promise<ESBuildPublicApi> {
 		if (!this._esbuild) {
 			session.logger.terminal.writeDebug('loading esbuild: ');
@@ -140,22 +178,33 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 		return this._esbuild;
 	}
 
-	private _contexts?: Promise<BuildContext[]>;
+	private _contexts?: Promise<IContext[]>;
 	getContext(session: IHeftTaskSession, configuration: HeftConfiguration, userInput: object) {
 		if (!this._contexts) {
 			this._contexts = this._getContext(session, configuration, userInput);
 		}
 		return this._contexts;
 	}
+
 	async _getContext(session: IHeftTaskSession, configuration: HeftConfiguration, userInput: object) {
 		const esbuild = await this.getEsbuild(session, configuration);
-		const optionsArray = await this._initOptions(session, configuration, userInput);
+		const { optionsArray, onEmit } = await this._initOptions(esbuild, session, configuration, userInput);
 
-		const contexts = [];
+		const contexts: IContext[] = [];
 		for (const options of optionsArray) {
-			contexts.push(await esbuild.context<BuildOptions>(options));
+			contexts.push({
+				context: await esbuild.context<BuildOptions>(options),
+				options,
+				emitter: createEmitter(onEmit),
+			});
 		}
 
 		return contexts;
 	}
+}
+
+interface IContext {
+	readonly context: BuildContext<FilterdBuildOptions>;
+	readonly options: Readonly<FilterdBuildOptions>;
+	readonly emitter: IProjectEmitter;
 }

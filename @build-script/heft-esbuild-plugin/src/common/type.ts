@@ -1,23 +1,39 @@
+import type * as ESBuild from 'esbuild';
 import type { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
-import type ESBuild from 'esbuild';
+import { FilterdBuildOptions } from './config';
 
 export type ESBuildPublicApi = typeof ESBuild;
 
 export interface IGlobalSession {
 	/** see type define */
-	logger: IScopedLogger;
+	readonly logger: IScopedLogger;
 	/** name in heft.json */
-	taskName: string;
+	readonly taskName: string;
 	/** directory contains project package.json */
-	rootDir: string;
+	readonly rootDir: string;
 	/** options in heft.json task define */
-	options: string;
+	readonly options: string;
 	/** a temp dir, will delete when --clean */
-	tempFolderPath: string;
+	readonly tempFolderPath: string;
 	/** @see @rushstack/rig-package */
-	rigConfig: HeftConfiguration['rigConfig'];
+	readonly rigConfig: HeftConfiguration['rigConfig'];
 	/** resolve dependency package from project and rig, return absolute path */
-	resolve(packageName: string): Promise<string>;
+	resolve(packageName: string): PromiseLike<string>;
 	/** define globs to watch, relative to rootDir */
 	watchFiles(files: string[]): void;
+	/** require('esbuild') */
+	readonly esbuild: ESBuildPublicApi;
+}
+
+/**
+ * you can `export function onEmit() {}` to modify file content before write disk
+ *
+ * don't write file by your self in this function.
+ *
+ * @param files all files will be write to disk, this array can be add, remove, or modify.
+ * @param options is what you defined in options.
+ * @return value will be passed to next onEmit (undefined on first run), only have meaning in watch mode
+ **/
+export interface IOutputModifier<T = any> {
+	(files: import('esbuild').OutputFile[], options: FilterdBuildOptions, lastReturn?: T): T | PromiseLike<T>;
 }
