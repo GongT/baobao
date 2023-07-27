@@ -1,7 +1,6 @@
-import type TypeScriptApi from 'typescript';
-
 import { basename, dirname, resolve } from 'path';
 import { ExportKind, TypescriptProject } from '@idlebox/typescript-surface-analyzer';
+import type TypeScriptApi from 'typescript';
 import { IIdentifierResult } from '@idlebox/typescript-surface-analyzer/lib/cjs/inc/TokenCollector';
 import { camelCase, relativePath, ucfirst, writeFileIfChange } from '../../../misc/functions';
 import { IOutputShim } from '../../../misc/scopedLogger';
@@ -19,6 +18,8 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 	logger.debug('index file: %s', indexFileAbs);
 
 	p.additionalIgnores.add((f) => f === indexFileAbs);
+	p.additionalIgnores.add('**/*.test.ts');
+	p.additionalIgnores.add('**/*.test.tsx');
 
 	const list = p.execute();
 

@@ -14,61 +14,10 @@ interface ICache {
 
 const cache: Partial<ICache> = {};
 
-// interface ICachedCompilerHost extends TypeScriptApi.CompilerHost {
-// 	getSourceFile: TypeScriptApi.CompilerHost['getSourceFile'] & { cache?: Map<string, TypeScriptApi.SourceFile> };
-// }
-
-// function _changeCompilerHostToUseCache(compilerHost: ICachedCompilerHost) {
-// 	if (!cache.sourceFile) cache.sourceFile = new Map();
-
-// 	const { getSourceFile: innerGetSourceFile } = compilerHost;
-// 	if (innerGetSourceFile.cache === cache.sourceFile) {
-// 		return;
-// 	}
-// 	// Enable source file persistence
-// 	const getSourceFile = (
-// 		fileName: string,
-// 		languageVersionOrOptions: TypeScriptApi.ScriptTarget,
-// 		onError?: (message: string) => void,
-// 		shouldCreateNewSourceFile?: boolean
-// 	) => {
-// 		if (!shouldCreateNewSourceFile) {
-// 			const cachedSourceFile = cache.sourceFile!.get(fileName);
-// 			if (cachedSourceFile) {
-// 				return cachedSourceFile;
-// 			}
-// 		}
-// 		const result = innerGetSourceFile(fileName, languageVersionOrOptions, onError, shouldCreateNewSourceFile);
-// 		if (result) {
-// 			cache.sourceFile!.set(fileName, result);
-// 		} else {
-// 			cache.sourceFile!.delete(fileName);
-// 		}
-// 		return result;
-// 	};
-// 	getSourceFile.cache = cache.sourceFile;
-// 	compilerHost.getSourceFile = getSourceFile;
-// }
-
-export function createCompilerHost(
-	ts: typeof TypeScriptApi,
-	compilerOptions: TypeScriptApi.CompilerOptions
-	// cancellationToken: CancellationToken
-) {
+export function createCompilerHost(ts: typeof TypeScriptApi, compilerOptions: TypeScriptApi.CompilerOptions) {
 	const host = (compilerOptions.incremental ? ts.createCompilerHost : ts.createIncrementalCompilerHost)(
 		compilerOptions
 	);
-
-	// host.getCancellationToken = (): TypeScriptApi.CancellationToken => {
-	// 	return {
-	// 		isCancellationRequested() {
-	// 			return cancellationToken.isCancelled;
-	// 		},
-	// 		throwIfCancellationRequested() {
-	// 			console.error('what is this?');
-	// 		},
-	// 	};
-	// };
 
 	if (!cache.moduleResolve) {
 		cache.moduleResolve = ts.createModuleResolutionCache(
@@ -86,10 +35,6 @@ export function createCompilerHost(
 	host.resolveModuleNameLiterals = resolveModuleNames(ts, compilerOptions, cache.moduleResolve);
 	host.resolveTypeReferenceDirectiveReferences;
 	host.getEnvironmentVariable = (name: string) => process.env[name];
-	// host.hasInvalidatedResolutions
-	// host.getParsedCommandLine;
-
-	// _changeCompilerHostToUseCache(host);
 
 	return host;
 }
@@ -140,8 +85,10 @@ export function executeCompile(
 	const compilerHost = createCompilerHost(ts, command.options);
 	// const isolatedModules = !!options.fast && !!command.options.isolatedModules;
 
+	const fileNames = options.fast ? command.fileNames : filterOutTests(command.fileNames);
+
 	const program = ts.createProgram({
-		rootNames: command.fileNames,
+		rootNames: fileNames,
 		configFileParsingDiagnostics: ts.getConfigFileParsingDiagnostics(command),
 		options: command.options,
 		projectReferences: command.projectReferences,
@@ -198,4 +145,10 @@ export function executeCompile(
 			ts.ModuleKind[command.options.module!]
 		}: ${command.options.outDir}`
 	);
+}
+function filterOutTests(fileNames: string[]) {
+	const isTestFile = /\.test\.(mjs|cjs|js|tsx?)$/i;
+	return fileNames.filter((e) => {
+		return !isTestFile.test(e);
+	});
 }
