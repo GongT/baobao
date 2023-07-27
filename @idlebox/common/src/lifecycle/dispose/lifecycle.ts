@@ -3,7 +3,7 @@ import { EventRegister } from '../event/event';
 /**
  * @private
  */
-export interface IDisposableBaseInternal {
+export interface IDisposableEvents {
 	onDisposeError: EventRegister<Error>;
 	onBeforeDispose: EventRegister<void>;
 	readonly hasDisposed: boolean;

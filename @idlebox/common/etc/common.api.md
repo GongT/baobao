@@ -66,7 +66,7 @@ export class AsyncCallbackList<Argument extends unknown[]> {
 }
 
 // @public
-export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInternal {
+export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
     // (undocumented)
     assertNotDisposed(): void;
     // (undocumented)
@@ -82,6 +82,10 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInterna
     // (undocumented)
     protected readonly _onDisposeError: Emitter<Error>;
     _register<T extends IAsyncDisposable>(d: T): T;
+    // (undocumented)
+    _register<T extends IAsyncDisposable & IDisposableEvents>(d: T, autoDereference?: boolean): T;
+    // (undocumented)
+    _unregister(d: IAsyncDisposable): boolean;
 }
 
 // Warning: (ae-missing-release-tag) "awaitIterator" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -368,7 +372,7 @@ export function deleteSymbol(category: string, name: string): void;
 // Warning: (ae-missing-release-tag) "Disposable" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export class Disposable implements IDisposable, IDisposableBaseInternal {
+export class Disposable implements IDisposable, IDisposableEvents {
     // (undocumented)
     assertNotDisposed(): void;
     // (undocumented)
@@ -383,8 +387,11 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
     readonly onDisposeError: EventRegister<Error>;
     // (undocumented)
     protected readonly _onDisposeError: Emitter<Error>;
-    // (undocumented)
     _register<T extends IDisposable>(d: T): T;
+    // (undocumented)
+    _register<T extends IDisposable & IDisposableEvents>(d: T, autoDereference?: boolean): T;
+    // (undocumented)
+    _unregister(d: IDisposable): boolean;
 }
 
 // Warning: (ae-missing-release-tag) "DisposableOnce" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -613,10 +620,10 @@ export interface IDisposable {
     dispose(): void;
 }
 
-// Warning: (ae-missing-release-tag) "IDisposableBaseInternal" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "IDisposableEvents" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface IDisposableBaseInternal {
+export interface IDisposableEvents {
     // (undocumented)
     readonly hasDisposed: boolean;
     // (undocumented)
@@ -656,6 +663,12 @@ export interface IEventListenerOptions {
     // (undocumented)
     passive?: boolean;
 }
+
+// Warning: (ae-forgotten-export) The symbol "MapLike_2" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-missing-release-tag) "IFsmRuleMap" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export type IFsmRuleMap<StateType, EventType> = MapLike_2<StateType, MapLike_2<EventType, StateType>>;
 
 // Warning: (ae-missing-release-tag) "init" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -869,6 +882,18 @@ export function isScalar(value: any): value is ScalarTypes;
 //
 // @public (undocumented)
 export function isSerializable(value: any): SerializableKind;
+
+// Warning: (ae-missing-release-tag) "IStateChangeEvent" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface IStateChangeEvent<StateType, EventType> {
+    // (undocumented)
+    from: StateType;
+    // (undocumented)
+    reason: EventType;
+    // (undocumented)
+    to: StateType;
+}
 
 // @public (undocumented)
 export function isTimeoutError(error: Error): error is TimeoutError;
@@ -1188,6 +1213,25 @@ export enum SerializableKind {
     Other = 3,
     // (undocumented)
     Primitive = 1
+}
+
+// Warning: (ae-missing-release-tag) "SimpleStateMachine" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export class SimpleStateMachine<StateType, EventType> {
+    constructor(rules: IFsmRuleMap<StateType, EventType>, init_state: StateType);
+    // (undocumented)
+    change(event: EventType): void;
+    // (undocumented)
+    protected currentState: StateType;
+    // (undocumented)
+    getName(): StateType;
+    // (undocumented)
+    protected moveTo(state: StateType): void;
+    // (undocumented)
+    readonly onStateChange: EventRegister<IStateChangeEvent<StateType, EventType>>;
+    // (undocumented)
+    protected readonly rules: IFsmRuleMap<StateType, EventType>;
 }
 
 // Warning: (ae-missing-release-tag) "singleton" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)

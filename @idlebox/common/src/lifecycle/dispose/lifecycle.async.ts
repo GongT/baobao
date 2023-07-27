@@ -1,13 +1,13 @@
 import { convertCatchedError } from '../../error/convertUnknown';
 import { Emitter, EventRegister } from '../event/event';
 import { DisposedError } from './disposedError';
-import { IAsyncDisposable, IDisposableBaseInternal } from './lifecycle';
+import { IAsyncDisposable, IDisposableEvents } from './lifecycle';
 
 /**
  * Async version of Disposable
  * @public
  */
-export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInternal {
+export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
 	private readonly _disposables: IAsyncDisposable[] = [];
 
 	protected readonly _onDisposeError = new Emitter<Error>();
@@ -34,10 +34,21 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableBaseInterna
 	/**
 	 * register a disposable object
 	 */
-	public _register<T extends IAsyncDisposable>(d: T): T {
+	public _register<T extends IAsyncDisposable>(d: T): T;
+	public _register<T extends IAsyncDisposable & IDisposableEvents>(d: T, autoDereference?: boolean): T;
+	public _register<T extends IAsyncDisposable | (IAsyncDisposable & IDisposableEvents)>(d: T, deref?: boolean): T {
 		this.assertNotDisposed();
 		this._disposables.unshift(d);
+		if (deref) {
+			(d as IDisposableEvents).onBeforeDispose(() => {
+				this._unregister(d);
+			});
+		}
 		return d;
+	}
+
+	public _unregister(d: IAsyncDisposable) {
+		return this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
 	}
 
 	public async dispose(): Promise<void> {

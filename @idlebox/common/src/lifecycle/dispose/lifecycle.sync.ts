@@ -1,6 +1,6 @@
-import { DisposedError } from './disposedError';
 import { Emitter, EventRegister } from '../event/event';
-import { IDisposable, IDisposableBaseInternal } from './lifecycle';
+import { DisposedError } from './disposedError';
+import { IDisposable, IDisposableEvents } from './lifecycle';
 
 export abstract class DisposableOnce implements IDisposable {
 	private _disposed?: Error;
@@ -23,7 +23,7 @@ export abstract class DisposableOnce implements IDisposable {
 /**
  * Standalone disposable class, can use as instance or base class.
  */
-export class Disposable implements IDisposable, IDisposableBaseInternal {
+export class Disposable implements IDisposable, IDisposableEvents {
 	private readonly _disposables: IDisposable[] = [];
 
 	protected readonly _onDisposeError = new Emitter<Error>();
@@ -47,10 +47,24 @@ export class Disposable implements IDisposable, IDisposableBaseInternal {
 		}
 	}
 
-	public _register<T extends IDisposable>(d: T): T {
+	/**
+	 * register a disposable object
+	 */
+	public _register<T extends IDisposable>(d: T): T;
+	public _register<T extends IDisposable & IDisposableEvents>(d: T, autoDereference?: boolean): T;
+	public _register<T extends IDisposable | (IDisposable & IDisposableEvents)>(d: T, autoDereference?: boolean): T {
 		this.assertNotDisposed();
 		this._disposables.unshift(d);
+		if (autoDereference) {
+			(d as IDisposableEvents).onBeforeDispose(() => {
+				this._unregister(d);
+			});
+		}
 		return d;
+	}
+
+	public _unregister(d: IDisposable) {
+		return this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
 	}
 
 	public dispose(): void {
