@@ -24,9 +24,7 @@
 	},
 	"eventHooks": {
 		"preRushInstall": [],
-		"postRushInstall": [
-			"common/scripts/postRushInstall.cjs"
-		],
+		"postRushInstall": ["common/scripts/postRushInstall.cjs"],
 		"preRushBuild": [],
 		"postRushBuild": []
 	},
@@ -163,6 +161,10 @@
 			"packageName": "@build-script/heft-esbuild-plugin",
 			"projectFolder": "@build-script/heft-esbuild-plugin",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/section-buffer",
+			"projectFolder": "@idlebox/section-buffer"
 		}
 	]
 }
