@@ -24,6 +24,7 @@
 			}
 		},
 		"compile": {
+			"phaseDependencies": ["pre-compile"],
 			"cleanFiles": [{ "sourcePath": "temp" }, { "sourcePath": "lib" }],
 			"tasksByName": {
 				"typescript": {
@@ -58,7 +59,14 @@
 			}
 		},
 		"post-compile": {
-			"phaseDependencies": ["compile"]
+			"phaseDependencies": ["compile"],
+			"tasksByName": {
+				"jest": {
+					"taskPlugin": {
+						"pluginPackage": "@rushstack/heft-jest-plugin"
+					}
+				}
+			}
 		},
 		"build": {
 			"cleanFiles": [
@@ -90,7 +98,7 @@
 						"pluginName": "import-test",
 						"pluginPackage": "@build-script/heft-plugins"
 					}
-				},
+				}
 			}
 		}
 	},

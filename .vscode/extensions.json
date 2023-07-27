@@ -4,8 +4,7 @@
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
 		"editorconfig.editorconfig",
-		"esbenp.prettier-vscode",
-		"mike-co.import-sorter"
+		"esbenp.prettier-vscode"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": ["hookyqr.beautify", "ms-mssql.mssql", "firefox-devtools.vscode-firefox-debug"]

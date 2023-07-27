@@ -27,7 +27,13 @@
 		},
 		"post-compile": {
 			"phaseDependencies": ["compile"],
-			"tasksByName": {}
+			"tasksByName": {
+				"jest": {
+					"taskPlugin": {
+						"pluginPackage": "@rushstack/heft-jest-plugin"
+					}
+				}
+			}
 		},
 		"build": {
 			"phaseDependencies": ["post-compile"],
