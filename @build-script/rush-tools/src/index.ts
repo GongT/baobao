@@ -1,11 +1,13 @@
 import { readdir } from 'fs/promises';
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
 import { exists } from '@idlebox/node';
 import { description } from './common/description';
 import { NormalError } from './common/error';
 import { extname } from 'path';
+import { fileURLToPath } from 'url';
 
 const __extname = extname(import.meta.url);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default async function main() {
 	let argv = process.argv.slice(2);
