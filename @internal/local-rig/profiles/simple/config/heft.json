@@ -27,13 +27,7 @@
 		},
 		"post-compile": {
 			"phaseDependencies": ["compile"],
-			"tasksByName": {
-				"jest": {
-					"taskPlugin": {
-						"pluginPackage": "@rushstack/heft-jest-plugin"
-					}
-				}
-			}
+			"tasksByName": {}
 		},
 		"build": {
 			"phaseDependencies": ["post-compile"],
@@ -47,9 +41,14 @@
 		"test": {
 			"phaseDependencies": ["build"],
 			"tasksByName": {
-				"lint": {
+				// "lint": {
+				// 	"taskPlugin": {
+				// 		"pluginPackage": "@rushstack/heft-lint-plugin"
+				// 	}
+				// },
+				"jest": {
 					"taskPlugin": {
-						"pluginPackage": "@rushstack/heft-lint-plugin"
+						"pluginPackage": "@rushstack/heft-jest-plugin"
 					}
 				}
 			}

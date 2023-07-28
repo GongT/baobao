@@ -34,7 +34,7 @@
 							"sourceFile": "temp/api-extractor/public.d.ts"
 						}
 					}
-				},
+				}
 			}
 		}
 	},

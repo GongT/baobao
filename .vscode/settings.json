@@ -1,6 +1,6 @@
 {
 	"files.associations": {
-		"*.json": "jsonc",
+		"*.json": "jsonc"
 	},
 	"search.exclude": {
 		"**/pnpm-lock.yaml": true,
@@ -12,20 +12,20 @@
 		"*/*/.rush": true,
 		"**/*.api.json": true,
 		"**/*.api.md": true,
-		"**/package-public.d.ts": true,
+		"**/package-public.d.ts": true
 	},
 	"prettier.prettierPath": "common/temp/node_modules/prettier",
 	"typescript.tsdk": "./common/temp/node_modules/.pnpm/node_modules/typescript/lib",
 	"[json]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[json5]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[jsonc]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[markdown]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
-	},
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }

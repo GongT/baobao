@@ -8,7 +8,7 @@
 		"hookyqr.beautify",
 		"ms-mssql.mssql",
 		"firefox-devtools.vscode-firefox-debug",
-		"dbaeumer.vscode-eslint",
+		"dbaeumer.vscode-eslint"
 	],
-	"a.b": 1,
+	"a.b": 1
 }

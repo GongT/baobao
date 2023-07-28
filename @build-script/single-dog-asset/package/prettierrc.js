@@ -1,12 +1,11 @@
+/** @type {import("prettier").Config} */
 module.exports = {
 	printWidth: 120,
-	useTabs: true,
-	tabWidth: 4,
 	semi: true,
 	singleQuote: true,
 	quoteProps: 'as-needed',
 	jsxSingleQuote: false,
-	trailingComma: 'es5',
+	trailingComma: 'all',
 	bracketSpacing: true,
 	bracketSameLine: false,
 	arrowParens: 'always',
@@ -22,9 +21,18 @@ module.exports = {
 			},
 		},
 		{
-			files: ['package.json'],
+			files: ['*.js', '*.mjs', '*.cjs'],
+			options: {
+				parser: 'typescript',
+			},
+		},
+		{
+			files: ['*.json'],
+			excludeFiles: ['package.json'],
 			options: {
 				parser: 'json',
+				quoteProps: 'consistent',
+				singleQuote: false,
 			},
 		},
 	],

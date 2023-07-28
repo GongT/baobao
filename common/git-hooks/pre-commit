@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 
-echo --------------------------------------------
-echo "Starting Git hook: pre-commit"
+set -Eeuo pipefail
 
-if ! command -v node &>/dev/null; then
-	export PATH+=":/usr/nodejs/bin:/usr/local/bin:./common/temp/node_modules/.bin"
-fi
+die() {
+	echo -e "\e[38;5;9m$*\e[0m"
+	exit 1
+}
+
+echo -e "\e[2m ======== pre-commit ========\e[0m"
 
 node common/scripts/install-run-rush.js pretty --staged
-RET=$?
-
-echo "Finished Git hook: pre-commit ($RET)"
-echo --------------------------------------------
-
-exit $RET

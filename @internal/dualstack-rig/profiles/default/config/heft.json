@@ -60,13 +60,7 @@
 		},
 		"post-compile": {
 			"phaseDependencies": ["compile"],
-			"tasksByName": {
-				"jest": {
-					"taskPlugin": {
-						"pluginPackage": "@rushstack/heft-jest-plugin"
-					}
-				}
-			}
+			"tasksByName": {}
 		},
 		"build": {
 			"cleanFiles": [
@@ -90,8 +84,17 @@
 							]
 						}
 					}
+				}
+			}
+		},
+		"test": {
+			"phaseDependencies": ["build"],
+			"tasksByName": {
+				"jest": {
+					"taskPlugin": {
+						"pluginPackage": "@rushstack/heft-jest-plugin"
+					}
 				},
-
 				"import-test": {
 					"taskDependencies": ["copy-dts"],
 					"taskPlugin": {

@@ -20,6 +20,7 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 	p.additionalIgnores.add((f) => f === indexFileAbs);
 	p.additionalIgnores.add('**/*.test.ts');
 	p.additionalIgnores.add('**/*.test.tsx');
+	p.additionalIgnores.add('**/*.test.d/**');
 
 	const list = p.execute();
 
@@ -27,7 +28,7 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 		'./' +
 		relativePath(
 			project.options.rootDir || dirname(project.options.configFilePath as string),
-			dirname(indexFileAbs)
+			dirname(indexFileAbs),
 		)
 			.split('/')
 			.filter((e) => e && e !== '.')
@@ -41,7 +42,7 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 	for (const file of list) {
 		if (file.absolutePath === indexFileAbs) {
 			throw new Error(
-				`override output file: ${indexFileAbs} (are you import xxx from ${basename(indexFileAbs)}?)`
+				`override output file: ${indexFileAbs} (are you import xxx from ${basename(indexFileAbs)}?)`,
 			);
 		}
 
@@ -63,8 +64,8 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 				content.push(
 					`\texport * from "${importSpec(
 						indexDir,
-						reference.type === 'file' ? reference.relativeFromRoot : reference.name
-					)}";`
+						reference.type === 'file' ? reference.relativeFromRoot : reference.name,
+					)}";`,
 				);
 			}
 		}

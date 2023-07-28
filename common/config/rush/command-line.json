@@ -15,7 +15,7 @@
 			"summary": "运行“pretty-quick”命令，格式化所有文件",
 			"autoinstallerName": "rush-prettier",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "echo" // TODO
+			"shellCommand": "node common/autoinstallers/rush-prettier/lib/index.js"
 		},
 		{
 			"name": "build:watch",
@@ -78,7 +78,13 @@
 			"parameterKind": "flag",
 			"longName": "--verbose",
 			"description": "显示详细输出",
-			"associatedCommands": ["poor-change", "ypublish"]
+			"associatedCommands": ["poor-change", "ypublish", "pretty"]
+		},
+		{
+			"parameterKind": "flag",
+			"longName": "--all",
+			"description": "格式化所有文件（默认只格改变的）",
+			"associatedCommands": ["pretty"]
 		},
 		{
 			"parameterKind": "flag",

@@ -2,6 +2,9 @@
 !README.md
 /common/scripts/
 /common/project-scripts/output/
+/common/changes/
 jspm_packages
 lib/
+pnpm-lock.yaml
+*.api.md
 pnpm-lock.yaml

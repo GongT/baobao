@@ -29,5 +29,5 @@ const cmdList = {
 	(e) => {
 		prettyPrintError('main', e);
 		process.exit(1);
-	}
+	},
 );

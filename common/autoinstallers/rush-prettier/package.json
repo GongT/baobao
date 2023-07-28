@@ -1,10 +1,20 @@
 {
 	"name": "rush-prettier",
+	"type": "module",
 	"version": "1.0.0",
 	"private": true,
+	"bin": {
+		"pretty": "./index.js"
+	},
+	"scripts": {
+		"postinstall": "tsc -p src"
+	},
 	"dependencies": {
+		"@supercharge/promise-pool": "^3.0.0",
+		"@types/node": "^20.4.4",
+		"execa": "^7.2.0",
 		"prettier": "^3.0.0",
-		"pretty-quick": "^3.1.3",
-		"tslib": "^2.6.0"
+		"tslib": "^2.6.0",
+		"typescript": "^5.1.6"
 	}
 }

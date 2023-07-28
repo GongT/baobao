@@ -43,7 +43,7 @@ function main() {
 		}
 		// console.error('corepack run PNPM', );
 		const env = { EXEC_BY_PNPM: 'yes' };
-		r = runPm(env,  resolve(p, '..', bins.pnpm), ...argv);
+		r = runPm(env, resolve(p, '..', bins.pnpm), ...argv);
 	}
 
 	if (r.error) {

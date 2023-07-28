@@ -23,7 +23,7 @@ stdoutHandle(p.stdout);
 p.on('error', (e) =>
 	setImmediate(() => {
 		throw e;
-	})
+	}),
 );
 p.on('exit', (code, signal) => {
 	console.error('process quit with code %s, signal %s', code, signal);
