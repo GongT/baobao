@@ -31,7 +31,9 @@ export function tryInspect(object: any) {
 		return object[Symbol.toStringTag]();
 	} else if (object.toJSON) {
 		return object.toJSON();
+	} else if (object.constructor?.name) {
+		return `unknown: ${object.constructor.name}`;
 	} else {
-		return '' + object;
+		return 'unknown: ' + object;
 	}
 }

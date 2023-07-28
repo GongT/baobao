@@ -8,5 +8,5 @@
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"types": ["node"]
 	},
-	"exclude": ["__create_index.generated.ts", "*.test.d/**"]
+	"exclude": ["__create_index.generated.ts"]
 }

@@ -1,11 +1,10 @@
-import { statSync } from 'fs';
-import fs from 'fs/promises';
 import { AsyncDisposable } from '@idlebox/common';
+import fs, { stat } from 'fs/promises';
 import { AsyncLock } from './AsyncLock';
+import { IMemCachePart } from './MemoryCacheController';
 import { openCacheFileForRead } from './cacheFileReader';
 import { ICacheFileStreamer, openCacheFileForStream } from './cacheFileStreamer';
 import { ICacheFileWriter, openCacheFileForWrite } from './cacheFileWriter';
-import { IMemCachePart } from './MemoryCacheController';
 import { erasedMark, hexNumber } from './types';
 
 /**
@@ -47,7 +46,7 @@ export class FileStructureError extends Error {
 
 	constructor(
 		e: Error,
-		public readonly file: string
+		public readonly file: string,
 	) {
 		super('corrupted state file: ' + e.message);
 		this.stack = e.stack!;
@@ -59,7 +58,7 @@ export class FileDataError extends Error {
 
 	constructor(
 		e: Error,
-		public readonly file: string
+		public readonly file: string,
 	) {
 		super('incomplete state file: ' + e.message);
 		this.stack = e.stack!;
@@ -69,6 +68,7 @@ export class FileDataError extends Error {
 export class CacheFile extends AsyncDisposable {
 	private metadata?: Buffer;
 	private sections: ICachePartMeta[] = [];
+	private totalSize: number = 0;
 
 	constructor(protected readonly location: string) {
 		super();
@@ -132,6 +132,8 @@ export class CacheFile extends AsyncDisposable {
 		} finally {
 			await reader.dispose();
 
+			this.totalSize = this.sections.reduce((l, e) => l + e.length, 0);
+
 			if (truncateAt !== -1) {
 				// console.error('truncate file to:', shouldTruncate);
 				await fs.truncate(this.location, truncateAt).catch((e) => {
@@ -153,12 +155,13 @@ export class CacheFile extends AsyncDisposable {
 		return this.sections;
 	}
 
-	calcSize() {
-		const stat = statSync(this.location);
-		return {
-			data: this.sections.reduce((l, e) => l + e.length, 0),
-			usage: stat.size,
-		};
+	get dataUsage() {
+		return this.totalSize;
+	}
+
+	async diskUsage() {
+		const ss = await stat(this.location);
+		return ss.size;
 	}
 
 	private declare _writer?: ICacheFileWriter;
@@ -218,6 +221,8 @@ export class CacheFile extends AsyncDisposable {
 			length: dataLength,
 			hash: dataHash,
 		});
+
+		this.totalSize += dataLength;
 	}
 
 	async commitBadBlock() {
@@ -250,7 +255,7 @@ export class CacheFile extends AsyncDisposable {
 	async startEmitting() {
 		await this.closeWriter();
 
-		AsyncLock.get(this).aquire('emit');
+		AsyncLock.get(this).acquire('emit');
 
 		const reader: ICacheFileStreamer = await openCacheFileForStream(this.location);
 		// const helper = new EmitHelper(reader);
@@ -269,8 +274,15 @@ export class CacheFile extends AsyncDisposable {
 	markBad(part: ICachePartMeta) {
 		const index = this.sections.findIndex((e) => e.fileOffset === part.fileOffset);
 		if (index === -1) throw new Error('not found part');
-		this.sections.splice(index, 1);
+		const [{ length }] = this.sections.splice(index, 1);
+
+		this.totalSize -= length;
 		this.badSections.push(part.fileOffset);
+	}
+
+	async destroy() {
+		await this.dispose();
+		await fs.unlink(this.location);
 	}
 }
 
@@ -278,7 +290,7 @@ export class HashError extends Error {
 	constructor(
 		public readonly offset: string,
 		public readonly want: string,
-		public readonly got: string
+		public readonly got: string,
 	) {
 		super(`hash mismatch @${offset}\n\twant ${want}\n\tgot  ${got}`);
 	}

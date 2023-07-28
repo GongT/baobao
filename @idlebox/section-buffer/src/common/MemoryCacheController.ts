@@ -26,8 +26,13 @@ export interface IView {
 
 export class MemoryCacheController {
 	private readonly list: IMemCacheDefrag[] = [];
+	private _size: number = 0;
+	private _memoryUsage: number = 0;
+	private _viewState: readonly IView[] = [];
 
-	constructor(private readonly maxSize?: number) {}
+	constructor(private readonly maxSize: number) {
+		this._calculateUsage();
+	}
 
 	push({ length, start: starting, buffer }: IMemCachePart) {
 		const ending = starting + length;
@@ -36,8 +41,7 @@ export class MemoryCacheController {
 		if (starting < 0) throw new Error(`invalid buffer at ${starting} < 0`);
 		if (buffer && length !== buffer.byteLength) throw new Error('invalid buffer state: length not equal');
 
-		if (this.maxSize && ending > this.maxSize)
-			throw new Error(`invalid buffer at 0x${starting.toString(16)}: overflow`);
+		if (ending > this.maxSize) throw new Error(`invalid buffer at 0x${starting.toString(16)}: overflow`);
 
 		const newItem = {
 			start: starting,
@@ -50,6 +54,8 @@ export class MemoryCacheController {
 			// before first
 			this.list.unshift(newItem);
 			this.merge(0);
+
+			this._calculateUsage();
 			return;
 		}
 
@@ -63,12 +69,14 @@ export class MemoryCacheController {
 			if (next && ending > next.start)
 				throw new Error(
 					`invalid buffer at ${hexNumber(starting)} with size ${length}:` +
-						` overlap with next at ${hexNumber(next.start)}`
+						` overlap with next at ${hexNumber(next.start)}`,
 				);
 
 			this.list.splice(index + 1, 0, newItem);
 			this.merge(index + 1);
 			this.merge(index);
+
+			this._calculateUsage();
 			return;
 		}
 
@@ -88,6 +96,8 @@ export class MemoryCacheController {
 				curr.buffers.push(...next.buffers!);
 			}
 			this.list.splice(left + 1, 1);
+
+			this._calculateUsage();
 			return true;
 		} else {
 			return false;
@@ -112,7 +122,7 @@ export class MemoryCacheController {
 					throw new Error(
 						`invalid buffer at 0x${item.start.toString(16)}: length mismatch (${totalSize} != ${
 							item.length
-						})`
+						})`,
 					);
 				}
 			}
@@ -122,36 +132,24 @@ export class MemoryCacheController {
 				if (item.start >= next.start) {
 					throw new Error(
 						`invalid buffer at 0x${item.start.toString(16)}: wrong order, next is 0x${next.start.toString(
-							16
-						)}`
+							16,
+						)}`,
 					);
 				}
 				if (thisEnding > next.start) {
 					throw new Error(
-						`invalid buffer at 0x${item.start.toString(16)}: overlap with next 0x${next.start.toString(16)}`
+						`invalid buffer at 0x${item.start.toString(16)}: overlap with next 0x${next.start.toString(
+							16,
+						)}`,
 					);
 				}
-			} else if (this.maxSize) {
-				if (thisEnding > this.maxSize) {
-					throw new Error(`invalid buffer at 0x${item.start.toString(16)}: ending after end of file`);
-				}
+			} else if (thisEnding > this.maxSize) {
+				throw new Error(`invalid buffer at 0x${item.start.toString(16)}: ending after end of file`);
 			}
 		}
 	}
 
-	viewState(): IView[] {
-		return this.list.map((item) => {
-			return {
-				start: item.start,
-				length: item.length,
-				written: !item.buffers,
-			};
-		});
-	}
-
 	isFullfilled() {
-		if (!this.maxSize) throw new Error('file is indeterminate');
-
 		let curr = 0;
 		for (const { start, length } of this.list) {
 			if (start !== curr) return false;
@@ -162,23 +160,37 @@ export class MemoryCacheController {
 		return true;
 	}
 
-	size() {
+	get size() {
+		return this._size;
+	}
+	get memoryUsage() {
+		return this._memoryUsage;
+	}
+	get viewState() {
+		return this._viewState;
+	}
+	private _calculateUsage() {
+		let memoryUsage = 0;
 		let size = 0;
 		for (const item of this.list) {
 			size += item.length;
-		}
-		return size;
-	}
 
-	memoryUsage() {
-		let size = 0;
-		for (const item of this.list) {
 			if (!item.buffers) continue;
 			for (const buffer of item.buffers) {
-				size += buffer.byteLength;
+				memoryUsage += buffer.byteLength;
 			}
 		}
-		return size;
+		const viewState = this.list.map((item) => {
+			return {
+				start: item.start,
+				length: item.length,
+				written: !item.buffers,
+			};
+		});
+
+		this._viewState = viewState;
+		this._memoryUsage = memoryUsage;
+		this._size = size;
 	}
 
 	shift(): IMemCacheEmit | undefined {
@@ -198,6 +210,7 @@ export class MemoryCacheController {
 
 			// console.trace('[memcache] shift: %s chunk id=%s @%s', ret.buffers.length, index, hexNumber(item.start));
 
+			this._calculateUsage();
 			return ret;
 		}
 
@@ -205,7 +218,35 @@ export class MemoryCacheController {
 		return undefined;
 	}
 
-	punchHole(_part: IMemCachePart) {
-		throw new Error('Method not implemented.');
+	punchHole({ length, start }: IMemCachePart) {
+		const end = start + length;
+
+		for (let index = this.list.length - 1; index >= 0; index--) {
+			const item = this.list[index];
+			if (item.start >= end || item.end <= start) continue;
+			if (item.buffers)
+				throw new Error(`punch on data: [${index}] ${hexNumber(item.start)}-${hexNumber(item.end)}`);
+
+			if (start <= item.start && end >= item.end) {
+				this.list.splice(index, 1);
+			} else if (start <= item.start) {
+				item.length -= end - item.start;
+				item.start = end;
+			} else if (end >= item.end) {
+				item.length -= item.end - start;
+				item.end = start;
+			} else if (item.start < start && item.end > end) {
+				const newItem = {
+					start: item.start,
+					length: start - item.start,
+					end: start,
+				};
+				item.length -= end - item.start;
+				item.start = end;
+				this.list.splice(index, 0, newItem);
+			}
+		}
+
+		this._calculateUsage();
 	}
 }

@@ -1,13 +1,14 @@
-import { open } from 'fs/promises';
+import { AsyncDisposable, MemorizedEmitter, toDisposable } from '@idlebox/common';
+import { open, rename } from 'fs/promises';
+import { basename, dirname } from 'path';
 import { pipeline } from 'stream/promises';
-import { AsyncDisposable, toDisposable } from '@idlebox/common';
 import { AsyncLock } from './common/AsyncLock';
 import { LossyAsyncQueue } from './common/AsyncQueue';
 import { CacheFile } from './common/CacheFile';
-import { Md5Hasher } from './common/cacheFileStreamer';
-import { makeEmptyFile } from './common/makeEmptyFile';
 import { MemoryCacheController } from './common/MemoryCacheController';
 import { StreamReceiver } from './common/StreamReceiver';
+import { Md5Hasher } from './common/cacheFileStreamer';
+import { makeEmptyFile } from './common/makeEmptyFile';
 import { ISectionData } from './common/types';
 
 interface ILive {
@@ -46,6 +47,9 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	public readonly onBusy;
 	public readonly onError;
 
+	private readonly _onComplete = new MemorizedEmitter<boolean>();
+	public readonly onComplete = this._onComplete.register;
+
 	protected readonly options: Required<ISectionBufferOptions<MetaType>>;
 
 	protected readonly mem;
@@ -62,7 +66,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 		this.options = { ...defaults, ...options };
 
 		this.mem = new MemoryCacheController(this.options.fileSize);
-		this.file = this._register(new CacheFile(this.options.cacheFile));
+		this.file = this._register(new CacheFile(this.options.cacheFile), true);
 		this.queue = this._register(new LossyAsyncQueue<TriggerKind>((kind) => this.trigger(kind)));
 		this.onBusy = this.queue.onBusy;
 		this.onError = this.queue.onError;
@@ -105,6 +109,14 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 			clearInterval(this._timer);
 			delete this._timer;
 		}
+	}
+
+	get progress() {
+		return {
+			fullfilled: this.mem.size,
+			view: this.mem.viewState,
+			total: this.options.fileSize,
+		};
 	}
 
 	push(section: ISectionData) {
@@ -173,7 +185,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	}
 
 	private __flushCache(force: boolean) {
-		if (!force && this.mem.memoryUsage() < this.options.syncSize) {
+		if (!force && this.mem.memoryUsage < this.options.syncSize) {
 			// console.log('flush cache file: skip.');
 			return Promise.resolve();
 		}
@@ -206,7 +218,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	private async __rebuildFinalFile() {
 		this._rebuilding = true;
 
-		const target = this.options.targetFile;
+		const target = dirname(this.options.targetFile) + '/.' + basename(this.options.targetFile);
 		let hasError = false;
 
 		// console.log('rebuild output file! (to %s)', target);
@@ -269,8 +281,14 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 				return;
 			}
 
+			await rename(target, this.options.targetFile);
+			await this.file.destroy();
+			Object.assign(this, { file: null });
+
 			this._complete = true;
 			this.killTimer();
+
+			this._onComplete.fire(true);
 		} finally {
 			this._rebuilding = false;
 			await emitter.dispose();

@@ -3,7 +3,7 @@ const fss = require('fs');
 const path = require('path');
 
 exports.ensureLinkTarget = async (target, symlink) => {
-	const stat = await fsa.lstat(symlink).catch(e => {
+	const stat = await fsa.lstat(symlink).catch((e) => {
 		if (e.code === 'ENOENT') {
 			return false;
 		} else {

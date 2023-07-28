@@ -11,14 +11,14 @@ function getLock(obj: any): AsyncLock {
 export class AsyncLock {
 	protected current?: string;
 
-	aquire(title: string, weak = false) {
+	acquire(title: string, weak = false) {
 		if (this.current !== undefined) {
 			if (weak && this.current === title) {
-				// console.log('[AsyncLock] aquire weak: %s', title);
+				// console.log('[AsyncLock] acquire weak: %s', title);
 				return false;
 			}
-			// console.log('[AsyncLock] aquire fail: %s | current=%s', title, this.current);
-			throw new Error(`[AsyncLock] is running: ${this.current}, can not aquire ${title}`);
+			// console.log('[AsyncLock] acquire fail: %s | current=%s', title, this.current);
+			throw new Error(`[AsyncLock] is running: ${this.current}, can not acquire ${title}`);
 		}
 		this.current = title;
 		// console.log('[AsyncLock] aquire ok: %s %s', title, weak ? '(weak)' : '');
@@ -50,7 +50,7 @@ export class AsyncLock {
 			const original = desc.value;
 			desc.value = async function (this: any, ...args: any) {
 				const lock = getLock(this);
-				const ok = lock.aquire(title, weak);
+				const ok = lock.acquire(title, weak);
 				if (!ok) return;
 				return original.apply(this, args).finally(() => {
 					lock.release(title);
@@ -66,7 +66,7 @@ export class AsyncLock {
 			const original = desc.value;
 			desc.value = async function (this: any, ...args: any) {
 				const lock = getLock(this);
-				lock.aquire(title);
+				lock.acquire(title);
 				return original.apply(this, args).catch((e: Error) => {
 					lock.release(title);
 					throw e;

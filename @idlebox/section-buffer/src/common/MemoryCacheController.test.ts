@@ -15,16 +15,16 @@ function slice(start: number, length: number): IMemCachePart {
 	};
 }
 
-describe('MemoryCacheController', () => {
+describe('MemoryCacheController',  () => {
 	it('works normally', () => {
 		const mm = new MemoryCacheController(100 * mb);
 		mm.push(slice(50 * mb, 50 * mb));
 		mm.push(slice(49 * mb + 1 * kb, mb - 1 * kb));
 		mm.push(slice(0, 49 * mb));
-		expect(mm.viewState().length).toBe(2);
+		expect(mm.viewState.length).toBe(2);
 
 		expect(mm.isFullfilled()).toBe(false);
-		expect(mm.memoryUsage()).toBe(100 * mb - 1 * kb);
+		expect(mm.memoryUsage).toBe(100 * mb - 1 * kb);
 
 		mm.push(slice(49 * mb, 1 * kb));
 
@@ -49,22 +49,22 @@ describe('MemoryCacheController', () => {
 		const mm = new MemoryCacheController(100 * mb);
 		mm.push({ start: 0, length: 10 });
 		mm.push(slice(10, 10));
-		expect(mm.viewState().length).toBe(2);
+		expect(mm.viewState.length).toBe(2);
 
 		mm.push({ start: 100, length: 10 });
 		mm.push(slice(110, 10));
 		mm.push({ start: 120, length: 10 });
-		expect(mm.viewState().length).toBe(5);
+		expect(mm.viewState.length).toBe(5);
 
-		expect(mm.memoryUsage()).toBe(20);
+		expect(mm.memoryUsage).toBe(20);
 
 		expect(mm.shift()?.start).toBe(10);
-		expect(mm.memoryUsage()).toBe(10);
-		expect(mm.viewState().length).toBe(4);
+		expect(mm.memoryUsage).toBe(10);
+		expect(mm.viewState.length).toBe(4);
 
 		expect(mm.shift()?.start).toBe(110);
-		expect(mm.memoryUsage()).toBe(0);
-		expect(mm.viewState().length).toBe(2);
+		expect(mm.memoryUsage).toBe(0);
+		expect(mm.viewState.length).toBe(2);
 
 		expect(mm.shift()).toBeFalsy();
 	});
@@ -92,47 +92,49 @@ describe('MemoryCacheController', () => {
 	});
 
 	describe('puch holes', () => {
-		it.todo('works', () => {
+		it('works', () => {
 			const mm = new MemoryCacheController(100);
 			mm.push({ start: 0, length: 40 });
 			mm.push({ start: 60, length: 40 });
 
 			mm.punchHole({ start: 30, length: 40 });
-			expect(mm.viewState()).toEqual([
-				{ start: 0, length: 30 },
-				{ start: 70, length: 30 },
+			expect(mm.viewState).toEqual([
+				{ start: 0, length: 30, written: true },
+				{ start: 70, length: 30, written: true },
 			]);
 
 			mm.punchHole({ start: 40, length: 10 });
-			expect(mm.viewState()).toEqual([
-				{ start: 0, length: 30 },
-				{ start: 70, length: 30 },
+			expect(mm.viewState).toEqual([
+				{ start: 0, length: 30, written: true },
+				{ start: 70, length: 30, written: true },
 			]);
 
 			mm.punchHole({ start: 30, length: 40 });
-			expect(mm.viewState()).toEqual([
-				{ start: 0, length: 30 },
-				{ start: 70, length: 30 },
+			expect(mm.viewState).toEqual([
+				{ start: 0, length: 30, written: true },
+				{ start: 70, length: 30, written: true },
 			]);
 
 			mm.punchHole({ start: 5, length: 1 });
-			expect(mm.viewState()).toEqual([
-				{ start: 0, length: 5 },
-				{ start: 6, length: 24 },
-				{ start: 70, length: 30 },
+			expect(mm.viewState).toEqual([
+				{ start: 0, length: 5, written: true },
+				{ start: 6, length: 24, written: true },
+				{ start: 70, length: 30, written: true },
 			]);
 
 			mm.punchHole({ start: 0, length: 20 });
-			expect(mm.viewState()).toEqual([
-				{ start: 20, length: 10 },
-				{ start: 70, length: 30 },
+			expect(mm.viewState).toEqual([
+				{ start: 20, length: 10, written: true },
+				{ start: 70, length: 30, written: true },
 			]);
 
 			mm.punchHole({ start: 0, length: 60 });
-			expect(mm.viewState()).toEqual([{ start: 70, length: 30 }]);
+			expect(mm.viewState).toEqual([{ start: 70, length: 30, written: true }]);
+
+			expect(() => mm.check()).not.toThrow();
 		});
 
-		it.todo('not allow punch on data', () => {
+		it('not allow punch on data', () => {
 			const mm = new MemoryCacheController(100);
 			mm.push({ start: 50, length: 40, buffer: Buffer.allocUnsafe(40) });
 
@@ -140,6 +142,8 @@ describe('MemoryCacheController', () => {
 			expect(() => mm.punchHole({ start: 89, length: 95 })).toThrowError('on data');
 			expect(() => mm.punchHole({ start: 0, length: 100 })).toThrowError('on data');
 			expect(() => mm.punchHole({ start: 60, length: 10 })).toThrowError('on data');
+
+			expect(() => mm.check()).not.toThrow();
 		});
 	});
 });
