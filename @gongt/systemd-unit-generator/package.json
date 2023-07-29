@@ -1,0 +1,37 @@
+{
+	"name": "@gongt/systemd-unit-generator",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "generate systemd unit file with type checking",
+	"keywords": [
+		"generater",
+		"systemd"
+	],
+	"license": "MIT",
+	"main": "./lib/index.js",
+	"exports": {
+		".": "./lib/index.js",
+		"./tools": "./lib/tools/index.js",
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepack": "heft --unmanaged build --production --clean",
+		"build": "heft --unmanaged build",
+		"_phase:build": "heft --unmanaged build",
+		"watch": "heft --unmanaged build-watch",
+		"clean": "heft clean"
+	},
+	"repository": "https://github.com/GongT/baobao",
+	"dependencies": {
+		"execa": "^7.2.0",
+		"tslib": "^2.6.0"
+	},
+	"devDependencies": {
+		"@idlebox/common": "latest",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@rushstack/heft": "^0.57.1",
+		"@types/node": "^20.4.5"
+	}
+}

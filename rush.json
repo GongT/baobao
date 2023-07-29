@@ -165,6 +165,10 @@
 		{
 			"packageName": "@idlebox/section-buffer",
 			"projectFolder": "@idlebox/section-buffer"
+		},
+		{
+			"packageName": "@gongt/systemd-unit-generator",
+			"projectFolder": "@gongt/systemd-unit-generator"
 		}
 	]
 }
