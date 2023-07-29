@@ -7,7 +7,7 @@
 			"name": "fix",
 			"summary": "同步各个项目的版本号",
 			"safeForSimultaneousRushProcesses": true,
-			"shellCommand": "node @build-script/rush-tools/bin.cjs autofix"
+			"shellCommand": "node @build-script/rush-tools/bin.mjs fix"
 		},
 		{
 			"commandKind": "global",
@@ -54,7 +54,7 @@
 			"commandKind": "global",
 			"name": "upgrade",
 			"summary": "更新所有项目的依赖版本到最新，注意观察日志：执行后可能需要手动运行rush update -p",
-			"shellCommand": "node @build-script/rush-tools/bin.cjs check-update",
+			"shellCommand": "node @build-script/rush-tools/bin.mjs check-update",
 			"safeForSimultaneousRushProcesses": true
 		},
 		{

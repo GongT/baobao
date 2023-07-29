@@ -35,6 +35,6 @@
 		"@rushstack/heft": "^0.57.1",
 		"@types/express": "^4.17.17",
 		"@types/morgan": "^1.9.4",
-		"@types/node": "^20.4.2"
+		"@types/node": "^20.4.5"
 	}
 }

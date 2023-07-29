@@ -25,7 +25,7 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.1",
-		"@types/node": "^20.4.2",
+		"@types/node": "^20.4.5",
 		"typescript": "^5.1.6"
 	},
 	"peerDependencies": {

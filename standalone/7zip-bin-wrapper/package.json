@@ -35,7 +35,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.1",
-		"@types/node": "^20.4.2",
+		"@types/node": "^20.4.5",
 		"@types/split2": "^4.2.0"
 	},
 	"peerDependencies": {

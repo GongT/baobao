@@ -29,6 +29,6 @@
 		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.1",
 		"@types/heft-jest": "^1.0.3",
-		"@types/node": "^20.4.2"
+		"@types/node": "^20.4.5"
 	}
 }

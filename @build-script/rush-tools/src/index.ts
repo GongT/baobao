@@ -1,10 +1,9 @@
-import { readdir } from 'fs/promises';
-import { dirname, resolve } from 'path';
 import { exists } from '@idlebox/node';
+import { readdir } from 'fs/promises';
+import { dirname, extname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { description } from './common/description';
 import { NormalError } from './common/error';
-import { extname } from 'path';
-import { fileURLToPath } from 'url';
 
 const __extname = extname(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -20,7 +19,7 @@ export default async function main() {
 	const command = argv.splice(commandPos, 1)[0]!;
 	const rcommand = compCommandName(command);
 
-	const fpath = resolve(__dirname, 'commands', rcommand + '.cjs');
+	const fpath = resolve(__dirname, 'commands', rcommand + '.mjs');
 	if (await exists(fpath)) {
 		try {
 			process.env.__running_command = rcommand;
