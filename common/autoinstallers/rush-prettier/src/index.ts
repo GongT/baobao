@@ -3,9 +3,10 @@ import { execa } from 'execa';
 import { readFile, writeFile } from 'fs/promises';
 import { platform } from 'os';
 import { resolve } from 'path';
-import { Options, format, resolveConfig } from 'prettier';
+import { format, getFileInfo, resolveConfig } from 'prettier';
 
-const cache = new Map<string, Options | null>();
+console.log(process.argv);
+
 let files: string[] = [];
 
 if (process.argv.includes('--staged')) {
@@ -50,16 +51,32 @@ const arrSep = platform() === 'win32' ? ';' : ':';
 process.env.Path =
 	resolve(process.cwd(), 'node_modules/.bin') + arrSep + resolve(process.argv0, '..') + arrSep + process.env.Path;
 
+enum Action {
+	ignore,
+	unknown,
+	modify,
+	unchange,
+}
+interface IResult {
+	action: Action;
+	file: string;
+}
+
 const result = await new PromisePool(files)
 	.withConcurrency(4)
 	.handleError((e, file) => {
 		console.error('failed format %s', file);
 		console.error('    %s', e.stack);
 	})
-	.process(async (file) => {
-		const config = await resolvePrettier(file);
-		// console.log('[parser=%s] %s', config?.parser ?? 'n/a', file);
-		if (!config?.parser) return false;
+	.process(async (file): Promise<IResult> => {
+		const finfo = await getFileInfo(file, { ignorePath: ['.prettierignore', '.gitignore'], resolveConfig: true });
+		// console.log('[finfo=%s] %s', finfo, file);
+		if (finfo.ignored) return { action: Action.ignore, file };
+
+		const config = await resolveConfig(file, { editorconfig: true, config: '.prettierrc.js' });
+		// console.log('[parser=%s] %s', finfo.inferredParser, file);
+		if (!finfo.inferredParser) return { action: Action.unknown, file };
+		if (!config.parser) config.parser = finfo.inferredParser;
 
 		const input = await readFile(file, 'utf-8');
 
@@ -67,19 +84,27 @@ const result = await new PromisePool(files)
 
 		if (formatted === input) {
 			console.log('✅ formatted: %s', file);
+			return { action: Action.unchange, file };
 		} else {
 			await writeFile(file, formatted);
 			console.log('✍️ formatted: %s', file);
+			return { action: Action.modify, file };
 		}
-		return true;
 	});
+
+const modifiedFiles = result.results.filter((e) => e.action === Action.modify).map((e) => e.file);
 
 console.log(
 	'%s jobs done, %s skip, %s fail.',
-	result.results.filter((e) => e).length,
-	result.results.filter((e) => !e).length,
+	modifiedFiles.length,
+	result.results.filter((e) => e.action !== Action.modify).length,
 	result.errors.length,
 );
+
+if (process.argv.includes('--staged') && modifiedFiles.length) {
+	console.log((await collect(['add', ...modifiedFiles])).join('\n'));
+}
+
 process.exit(0);
 
 function getDiffChange(lines: string[]) {
@@ -123,13 +148,6 @@ async function collect(cmd: readonly string[]) {
 	}
 
 	return result.all.split('\n').filter((e) => e);
-}
-
-async function resolvePrettier(file: string) {
-	if (cache.has(file)) return cache.get(file);
-	const config = await resolveConfig(file, { editorconfig: true });
-	cache.set(file, config);
-	return config;
 }
 
 // git diff --cached --name-status
