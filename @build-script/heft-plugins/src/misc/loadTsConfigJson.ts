@@ -1,6 +1,6 @@
-import { normalize, resolve } from 'path';
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
 import { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
+import { normalize, resolve } from 'path';
 import { parseConfigFileTextToJson } from 'typescript';
 
 import type TypeScriptApi from 'typescript';
@@ -14,11 +14,11 @@ export interface ILoadConfigOverride {
 	compilerOptions?: TypeScriptApi.CompilerOptions;
 }
 
-export function parseTsConfigJson(
+export function parseSingleTsConfigJson(
 	logger: IScopedLogger,
 	ts: typeof TypeScriptApi,
 	rig: HeftConfiguration['rigConfig'],
-	options: ILoadConfigOverride
+	options: ILoadConfigOverride,
 ) {
 	let project = options.project;
 	if (!project) {
@@ -74,6 +74,10 @@ export function parseTsConfigJson(
 		throw new Error('fatal error, can not continue');
 	}
 
+	if (!command.options.rootDir) {
+		command.options.rootDir = resolve(project, '..');
+	}
+
 	return command;
 }
 
@@ -81,7 +85,7 @@ export function loadTsConfigJson(
 	logger: IScopedLogger,
 	ts: typeof TypeScriptApi,
 	rig: HeftConfiguration['rigConfig'],
-	options: ILoadConfigOverride
+	options: ILoadConfigOverride,
 ) {
 	let project = options.project;
 	const readFiles: string[] = [];
@@ -149,6 +153,10 @@ export function loadTsConfigJson(
 
 	if (!command) {
 		throw new Error('fatal error, can not continue');
+	}
+
+	if (!command.options.rootDir) {
+		command.options.rootDir = resolve(project, '..');
 	}
 
 	return { command, files: readFiles };

@@ -31,5 +31,15 @@
 			"entryPoint": "./lib/plugins/modify-entry/entry.js",
 			"optionsSchema": "./schemas/modify-entry.schema.json"
 		}
+	],
+	"lifecyclePlugins": [
+		{
+			"pluginName": "source-map-support",
+			"entryPoint": "./lib/lifecycles/source-map-support/entry.js"
+		},
+		{
+			"pluginName": "clear-screen",
+			"entryPoint": "./lib/lifecycles/clear-screen/entry.js"
+		}
 	]
 }

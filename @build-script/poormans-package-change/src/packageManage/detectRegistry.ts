@@ -1,9 +1,9 @@
+import { convertCatchedError } from '@idlebox/common';
+import { PathEnvironment, commandInPath } from '@idlebox/node';
+import { execaCommand } from 'execa';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 import { parse } from 'url';
-import { convertCatchedError } from '@idlebox/common';
-import { commandInPath } from '@idlebox/node';
-import { execaCommand } from 'execa';
 import { errorLog, log } from '../inc/log';
 
 let foundPm: string;
@@ -17,6 +17,9 @@ export async function getPackageManager() {
 			return (foundPm = name);
 		}
 	}
+
+	const pathVar = new PathEnvironment();
+	console.log('current PATH: (' + process.env.PATH + ')\n  - ' + [...pathVar.values()].join('\n  - '));
 	throw new Error('Failed to detect any package manager, please install npm/yarn/pnpm in PATH');
 }
 

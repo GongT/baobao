@@ -105,5 +105,10 @@
 			}
 		}
 	},
-	"heftPlugins": []
+	"heftPlugins": [
+		{
+			"pluginName": "source-map-support",
+			"pluginPackage": "@build-script/heft-plugins"
+		}
+	]
 }

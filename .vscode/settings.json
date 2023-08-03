@@ -27,5 +27,6 @@
 	},
 	"[markdown]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+	},
+	"json.schemaDownload.enable": true
 }

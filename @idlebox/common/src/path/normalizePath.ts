@@ -10,15 +10,17 @@ export enum PathKind {
 	win,
 	cifs,
 	unix,
+	relative,
 }
 export interface IPathInfo {
 	kind: PathKind;
-	prefix: string;
+	prefix?: string;
 	path: string;
 	url?: URL;
 }
 
 export function analyzePath(p: string) {
+	const inp = p;
 	let r: IPathInfo;
 	if (schema.test(p)) {
 		const u = new URL(p);
@@ -31,7 +33,7 @@ export function analyzePath(p: string) {
 	} else if (unc.test(p)) {
 		p = p.replace(unc, '').replace(/^[\/\\]+/, '');
 		const i = /[\///]/.exec(p)?.index ?? -1;
-		if (i <= 0) throw new Error('invalid unc path: ' + p);
+		if (i <= 0) throw new Error('invalid unc path: ' + inp);
 
 		r = {
 			kind: PathKind.unc,
@@ -49,7 +51,7 @@ export function analyzePath(p: string) {
 	} else if (doubleSlash.test(p)) {
 		p = p.replace(/^[\/\\]+/, '');
 		const i = /[\///]/.exec(p)?.index ?? -1;
-		if (i <= 0) throw new Error('invalid cifs url: ' + p);
+		if (i <= 0) throw new Error('invalid cifs url: ' + inp);
 
 		r = {
 			kind: PathKind.cifs,
@@ -60,10 +62,15 @@ export function analyzePath(p: string) {
 		r = {
 			kind: PathKind.unix,
 			prefix: '',
-			path: p.slice(1),
+			path: p,
 		};
 	} else {
-		throw new Error('invalid path: ' + p);
+		const st = p.startsWith('..') ? '..' : '.';
+		r = {
+			kind: PathKind.relative,
+			prefix: st,
+			path: p,
+		};
 	}
 
 	const path = r.path.replace(/\\/g, '/');
@@ -89,7 +96,11 @@ export function analyzePath(p: string) {
 export function normalizePath(p: string) {
 	const r = analyzePath(p);
 
-	return `${r.prefix}/${r.path}`;
+	if (r.prefix === undefined) {
+		return r.path;
+	} else {
+		return `${r.prefix}/${r.path}`;
+	}
 }
 
 export function relativePath(from: string, to: string) {

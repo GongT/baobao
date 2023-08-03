@@ -1,7 +1,7 @@
 import { TimeoutError } from '../lifecycle/timeout/timeoutError';
-import { PromisePool } from './promisePool';
+import { PromiseCollection } from './promiseCollection';
 
-export class TimeoutPromisePool extends PromisePool {
+export class TimeoutPromiseCollection extends PromiseCollection {
 	constructor(private readonly defaultTimeoutMs = 50000) {
 		super();
 	}

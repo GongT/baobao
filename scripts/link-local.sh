@@ -10,7 +10,7 @@ mkdir -p bin
 
 if ! [[ -e bin/rush-tools ]]; then
 	rm -f bin/rush-tools
-	ln -sv ../../../@build-script/rush-tools/bin.cjs bin/rush-tools
+	ln -sv ../../../@build-script/rush-tools/bin.mjs bin/rush-tools
 fi
 
 if ! [[ -e install-run/pnpm-workspace.yaml ]]; then

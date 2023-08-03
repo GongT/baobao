@@ -8,18 +8,34 @@ export interface IOutputShim {
 	warn(msg: string, ...args: any[]): void;
 }
 
+export function wrapLogger(logger: IOutputShim, prefix: string): IOutputShim {
+	return {
+		log: (msg: string, ...args: any[]) => {
+			logger.log(format(prefix + msg, ...args));
+		},
+		error: (msg: string, ...args: any[]) => {
+			logger.error(format(prefix + msg, ...args));
+		},
+		warn: (msg: string, ...args: any[]) => {
+			logger.warn(format(prefix + msg, ...args));
+		},
+		debug: (msg: string, ...args: any[]) => {
+			logger.debug(format(prefix + msg, ...args));
+		},
+	};
+}
 export function createHeftLogger(session: IHeftTaskSession): IOutputShim {
 	return {
-		log: function (msg: string, ...args: any[]): void {
+		log: (msg: string, ...args: any[]): void => {
 			session.logger.terminal.writeLine(format(msg, ...args));
 		},
-		error: function (msg: string, ...args: any[]): void {
+		error: (msg: string, ...args: any[]): void => {
 			session.logger.terminal.writeErrorLine(format(msg, ...args));
 		},
-		warn: function (msg: string, ...args: any[]): void {
+		warn: (msg: string, ...args: any[]): void => {
 			session.logger.terminal.writeWarningLine(format(msg, ...args));
 		},
-		debug: function (msg: string, ...args: any[]): void {
+		debug: (msg: string, ...args: any[]): void => {
 			session.logger.terminal.writeVerboseLine(format(msg, ...args));
 		},
 	};

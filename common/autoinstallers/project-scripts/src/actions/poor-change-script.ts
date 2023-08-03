@@ -44,7 +44,7 @@ async function main() {
 	const projects = overallOrder(rushProject); //.reverse();
 
 	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
-	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.cjs');
+	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.mjs');
 
 	for (const [index, item] of projects.entries()) {
 		let start: number = Date.now();
@@ -109,5 +109,5 @@ main().then(
 	(e) => {
 		console.error(e.stack);
 		process.exit(1);
-	}
+	},
 );

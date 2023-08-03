@@ -1,7 +1,7 @@
 import { CanceledError } from '../lifecycle/promise/cancel';
 import { DeferredPromise } from '../lifecycle/promise/deferredPromise';
 
-export class PromisePool {
+export class PromiseCollection {
 	protected readonly promiseList: Record<string, DeferredPromise<any>> = {};
 
 	size() {

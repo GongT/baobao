@@ -806,7 +806,7 @@ export interface IPathInfo {
     // (undocumented)
     path: string;
     // (undocumented)
-    prefix: string;
+    prefix?: string;
     // (undocumented)
     url?: URL;
 }
@@ -1166,6 +1166,8 @@ export enum PathKind {
     // (undocumented)
     cifs = 3,
     // (undocumented)
+    relative = 5,
+    // (undocumented)
     unc = 1,
     // (undocumented)
     unix = 4,
@@ -1200,10 +1202,10 @@ export type ProgressCallback<T = any> = (value: T) => void;
 // @public
 export function promiseBool(p: Promise<any>): Promise<boolean>;
 
-// Warning: (ae-missing-release-tag) "PromisePool" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "PromiseCollection" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export class PromisePool {
+export class PromiseCollection {
     // (undocumented)
     create(id: string): Promise<any> & IProgressHolder<any, any>;
     // (undocumented)
@@ -1353,10 +1355,10 @@ export function timeoutPromise<T, PT = any>(ms: number, p: DeferredPromise<T, PT
 // @public (undocumented)
 export function timeoutPromise<T, PT = any>(ms: number, message: string, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
 
-// Warning: (ae-missing-release-tag) "TimeoutPromisePool" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "TimeoutPromiseCollection" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export class TimeoutPromisePool extends PromisePool {
+export class TimeoutPromiseCollection extends PromiseCollection {
     constructor(defaultTimeoutMs?: number);
     // (undocumented)
     create(id: string, timeoutMs?: number, timeoutMsg?: string): Promise<any> & IProgressHolder<any, any>;

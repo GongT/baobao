@@ -1,9 +1,10 @@
 {
 	"name": "@build-script/heft-plugins",
 	"type": "commonjs",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"main": "./tests/a.cjs",
 	"module": "./tests/a.mjs",
+	"types": "./lib/type-entry.d.ts",
 	"bin": {
 		"codegen": "bin/codegen.js",
 		"node-import-test": "bin/node-import-test.js"
@@ -21,14 +22,19 @@
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
 		"@rushstack/heft-typescript-plugin": "^0.1.17",
 		"@rushstack/node-core-library": "^3.59.6",
+		"@supercharge/promise-pool": "^3.0.0",
+		"decache": "^4.6.2",
 		"execa": "^7.2.0",
 		"glob": "^10.3.3",
+		"import": "^0.0.6",
+		"source-map-support": "^0.5.21",
 		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.1",
 		"@types/node": "^20.4.5",
+		"@types/source-map-support": "^0.5.6",
 		"typescript": "^5.1.6"
 	}
 }

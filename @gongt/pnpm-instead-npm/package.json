@@ -1,8 +1,12 @@
 {
 	"name": "@gongt/pnpm-instead-npm",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "symlink npm to pnpm, always install with pnpm",
-	"keywords": ["package manager", "pnpm", "npm"],
+	"keywords": [
+		"package manager",
+		"pnpm",
+		"npm"
+	],
 	"bin": {
 		"npm": "bin/npm.js",
 		"npx": "bin/npx.js"

@@ -1,9 +1,12 @@
 {
 	"name": "@idlebox/node-ignore-edit",
 	"type": "module",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "api for modify .*ignore files",
-	"keywords": ["gitignore", "ignorefile"],
+	"keywords": [
+		"gitignore",
+		"ignorefile"
+	],
 	"license": "MIT",
 	"author": "GongT",
 	"main": "./lib/cjs/api.js",
