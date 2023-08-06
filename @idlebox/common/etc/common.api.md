@@ -941,6 +941,12 @@ export interface IUniqueIdFactory<T> {
     (item: T): string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "KnownErrorNode" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-missing-release-tag) "KnownError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const KnownError: typeof KnownErrorNode;
+
 // @public
 export function lcfirst<T extends string>(str: T): Uncapitalize<T>;
 

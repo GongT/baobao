@@ -56,8 +56,12 @@ interface IInternalData {
 
 let notify_printed = false;
 export function prettyPrintError(type: string, e: Error) {
+	if (!e.stack || e.stack === e.message) {
+		return console.error(e.message);
+	}
+
 	if (globalObject.process?.env?.DISABLE_PRETTY_ERROR) {
-		console.error('[${type}] %s', e.stack || e.message);
+		console.error('[%s] %s', type, e.stack || e.message);
 		return;
 	}
 	console.error(`------------------------------------------
@@ -70,7 +74,7 @@ export function prettyPrintError(type: string, e: Error) {
 }
 
 function red(s: string) {
-	return isNative ? `\x1B[38;5;9m${s}\x1B[0m` : '';
+	return isNative ? `\x1B[38;5;9m${s}\x1B[0m` : s;
 }
 
 export function prettyFormatError(e: Error, withMessage = true) {
@@ -79,7 +83,7 @@ export function prettyFormatError(e: Error, withMessage = true) {
 		return red('Unknown Error') + '\n' + new Error().stack?.split('\n').slice(3).join('\n');
 	}
 	if (!e.stack) {
-		return red(e.message + '\nNo stack trace');
+		return red(e.message + '\n  No stack trace');
 	}
 	const stackStr = e.stack.replace(/file:\/\//, '').split(/\n/g);
 

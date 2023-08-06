@@ -12,6 +12,7 @@ import { IDisposable } from '@idlebox/common';
 import { Options } from 'execa';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
+import { readFile } from 'fs/promises';
 import { Transform } from 'stream';
 import { WrappedConsole } from '@idlebox/common';
 import { WrappedConsoleOptions } from '@idlebox/common';
@@ -352,11 +353,6 @@ export function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<O
 // @public (undocumented)
 export function exists(path: string): Promise<boolean>;
 
-// Warning: (ae-missing-release-tag) "existsSync" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function existsSync(path: string): boolean;
-
 // Warning: (ae-missing-release-tag) "ExitError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -436,6 +432,16 @@ export interface IEnvironmentResult {
     value: string | undefined;
 }
 
+// Warning: (ae-missing-release-tag) "isExistsError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function isExistsError(e: any): boolean;
+
+// Warning: (ae-missing-release-tag) "isNotExistsError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function isNotExistsError(e: any): boolean;
+
 // Warning: (ae-missing-release-tag) "ISpawnAdditionOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -443,6 +449,11 @@ export interface ISpawnAdditionOptions {
     // (undocumented)
     verbose?: boolean;
 }
+
+// Warning: (ae-missing-release-tag) "isTypeError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function isTypeError(e: any): boolean;
 
 // Warning: (ae-missing-release-tag) "JoinPathFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -519,16 +530,6 @@ export class PathEnvironment extends PathArray {
     save(): void;
 }
 
-// Warning: (ae-missing-release-tag) "prettyFormatError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function prettyFormatError(e: Error): string;
-
-// Warning: (ae-missing-release-tag) "prettyPrintError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function prettyPrintError(type: string, e: Error): void;
-
 // Warning: (ae-missing-release-tag) "printLine" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
@@ -546,6 +547,11 @@ export class RawCollectingStream extends Writable {
     // (undocumented)
     _write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void;
 }
+
+// Warning: (ae-missing-release-tag) "readFileIfExists" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export const readFileIfExists: typeof readFile;
 
 // Warning: (ae-missing-release-tag) "relativePath" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -574,11 +580,6 @@ export function respawnInScope(mainFunc: Function): unknown | never;
 //
 // @public
 export function runMain(main: AsyncMainFunction): void;
-
-// Warning: (ae-missing-release-tag) "setErrorLogRoot" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
-//
-// @public (undocumented)
-export function setErrorLogRoot(_root: string): void;
 
 // Warning: (ae-missing-release-tag) "sha256" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

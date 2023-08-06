@@ -1,9 +1,12 @@
-import { prettyPrintError } from './error/pretty';
+import { prettyPrintError } from '@idlebox/common';
 
 export type AsyncMainFunction = () => Promise<void | number>;
 
 export class ExitError extends Error {
-	constructor(message: string, public readonly code: number = 1) {
+	constructor(
+		message: string,
+		public readonly code: number = 1,
+	) {
 		super(message);
 	}
 }

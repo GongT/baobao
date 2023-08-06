@@ -1,17 +1,42 @@
-import { access, accessSync } from 'fs';
+import { ObjectEncodingOptions } from 'fs';
+import { access, readFile } from 'fs/promises';
+export { existsSync } from 'fs';
 
-export function existsSync(path: string): boolean {
+export async function exists(path: string) {
 	try {
-		accessSync(path);
+		access(path);
 		return true;
-	} catch (e) {
-		return false;
+	} catch (e: any) {
+		if (isNotExistsError(e)) return false;
+		throw e;
 	}
 }
 
-export function exists(path: string): Promise<boolean> {
-	return new Promise((resolve) => {
-		const wrappedCallback = (err: Error | null) => (err ? resolve(false) : resolve(true));
-		access(path, wrappedCallback);
-	});
+export const readFileIfExists: typeof readFile = _readFileIfExists as any;
+
+async function _readFileIfExists(file: string, encoding?: NodeJS.BufferEncoding | ObjectEncodingOptions) {
+	try {
+		return await readFile(file, encoding);
+	} catch (e: any) {
+		if (isNotExistsError(e)) {
+			if (typeof encoding === 'string' || typeof encoding?.encoding === 'string') {
+				return '';
+			} else {
+				return Buffer.allocUnsafe(0);
+			}
+		}
+		throw e;
+	}
+}
+
+export function isNotExistsError(e: any) {
+	return e.code === 'ENOENT';
+}
+
+export function isExistsError(e: any) {
+	return e.code === 'EEXIST';
+}
+
+export function isTypeError(e: any) {
+	return e.code === 'EISDIR' || e.code === 'ENOTDIR';
 }
