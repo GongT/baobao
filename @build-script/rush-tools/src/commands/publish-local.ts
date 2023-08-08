@@ -1,6 +1,7 @@
-import { resolve } from 'path';
 import { exists } from '@idlebox/node';
 import { execa } from 'execa';
+import { readFile } from 'fs/promises';
+import { resolve } from 'path';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
 
@@ -11,7 +12,7 @@ export default async function publishLocal(argv: string[]) {
 		console.error('Must run inside project');
 		process.exit(1);
 	}
-	const pkgJson = require(resolve(process.cwd(), 'package.json'));
+	const pkgJson = JSON.parse(await readFile(resolve(process.cwd(), 'package.json'), 'utf-8'));
 
 	const rush = new RushProject();
 	const project = rush.getProjectByName(pkgJson.name);

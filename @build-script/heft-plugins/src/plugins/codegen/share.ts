@@ -26,16 +26,20 @@ export interface IResult {
 	errors: Error[];
 	watchFiles: Record<string, string[]>;
 }
+export interface IOptions {
+	logger: IOutputShim;
+	root: string;
+}
 
-export async function run(files: string[], mainLog: IOutputShim) {
+export async function run(files: string[], options: IOptions) {
 	isDebug = process.argv.includes('--debug');
 	const result: IResult = { success: 0, skip: 0, errors: [], watchFiles: {} };
 	await new PromisePool()
 		.withConcurrency(4)
 		.for(files)
 		.process(async (f) => {
-			const childLog = wrapLogger(mainLog, `[${basename(f, '.generator.ts')}] `);
-			const builder = new FileBuilder(f, childLog);
+			const childLog = wrapLogger(options.logger, `[${basename(f, '.generator.ts')}] `);
+			const builder = new FileBuilder(f, { ...options, logger: childLog });
 			try {
 				const change = await runOne(builder, childLog);
 				if (change) result.success++;

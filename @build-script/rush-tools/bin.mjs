@@ -13,11 +13,11 @@ const modulePath = fileURLToPath(import.meta.url);
 const arg1 = realpathSync(argv[1]);
 
 if (modulePath.startsWith(arg1)) {
-	if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
-		const { install } = await import('source-map-support');
-		install();
-	}
-	const { prettyPrintError } = await import('@idlebox/node');
+	// if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
+	const { install } = await import('source-map-support');
+	install();
+	// }
+	const { prettyPrintError } = await import('@idlebox/common');
 
 	Error.stackTraceLimit = Infinity;
 	run().catch((e) => {

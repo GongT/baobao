@@ -7,6 +7,7 @@ import { IResult, run } from './share';
 
 interface IState extends ITypeScriptState {
 	logger: IOutputShim;
+	root: string;
 }
 export default class CodeGenPlugin extends HeftTypescriptPlugin<IState, {}> {
 	override PLUGIN_NAME = 'codegen';
@@ -41,7 +42,7 @@ export default class CodeGenPlugin extends HeftTypescriptPlugin<IState, {}> {
 			return;
 		}
 
-		const result = await run(command.fileNames, this.state.logger);
+		const result = await run(command.fileNames, this.state);
 
 		this.handle(session, result);
 	}
@@ -85,7 +86,7 @@ export default class CodeGenPlugin extends HeftTypescriptPlugin<IState, {}> {
 			return;
 		}
 
-		const result = await run([...files.values()], this.state.logger);
+		const result = await run([...files.values()], this.state);
 
 		this.reverseChangeMap = {};
 		for (const [inFile, deps] of Object.entries(result.watchFiles)) {
@@ -98,8 +99,13 @@ export default class CodeGenPlugin extends HeftTypescriptPlugin<IState, {}> {
 		this.handle(session, result);
 	}
 
-	protected override async loadExtraState(state: IState & { options: {} }, session: IHeftTaskSession): Promise<void> {
+	protected override async loadExtraState(
+		state: IState & { options: {} },
+		session: IHeftTaskSession,
+		configuration: HeftConfiguration,
+	): Promise<void> {
 		if (!state.logger) state.logger = createHeftLogger(session);
+		if (!state.root) state.root = configuration.buildFolderPath;
 	}
 
 	private async listGenFiles(session: IHeftTaskSession, configuration: HeftConfiguration) {

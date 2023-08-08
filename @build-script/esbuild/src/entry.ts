@@ -1,5 +1,6 @@
 import { resolve } from 'path';
-import { runMain, setErrorLogRoot } from '@idlebox/node';
+import { runMain } from '@idlebox/node';
+import { setErrorLogRoot } from '@idlebox/common';
 import { startServe } from './actions/serve';
 import { execute } from './build/index';
 import { emitComplete } from './library/wait';

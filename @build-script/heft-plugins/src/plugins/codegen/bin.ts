@@ -1,5 +1,6 @@
 import { globSync } from 'glob';
 import { resolve } from 'path';
+import { findUpUntilSync } from '../../misc/functions';
 import { createTerminalLogger } from '../../misc/scopedLogger';
 import { run } from './share';
 
@@ -13,9 +14,23 @@ const root = resolve(process.cwd(), p);
 
 const files = globSync('**/*.generator.{ts,js}', { ignore: ['node_modules/**'], cwd: root, absolute: true });
 
+class Opt {
+	public readonly logger = createTerminalLogger();
+	private _root: string | null = null;
+	get root() {
+		if (!this._root) {
+			this._root = findUpUntilSync(root, 'package.json');
+			if (!this._root) {
+				throw new Error('failed find package.json from ' + root);
+			}
+		}
+		return this._root;
+	}
+}
+
 (async () => {
 	try {
-		const result = await run(files, createTerminalLogger());
+		const result = await run(files, new Opt());
 		if (result.errors.length > 0) {
 			console.error('\x1B[48;5;9m\x1B[K⚠️  Generate Fail: %s errors\x1B[0m', result.errors.length);
 			for (const item of result.errors) {

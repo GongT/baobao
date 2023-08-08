@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-plugins",
 	"type": "commonjs",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"main": "./tests/a.cjs",
 	"module": "./tests/a.mjs",
 	"types": "./lib/type-entry.d.ts",

@@ -1,6 +1,6 @@
-import { access } from 'fs/promises';
-import { dirname, relative, resolve } from 'path';
 import { exists } from '@idlebox/node';
+import { access, readFile } from 'fs/promises';
+import { dirname, relative, resolve } from 'path';
 import { RushProject } from '../api/rushProject';
 
 export async function registerProjectToRush(projectPath: string, log = console.log) {
@@ -9,13 +9,13 @@ export async function registerProjectToRush(projectPath: string, log = console.l
 	if (
 		!(await access(projectPath + '/package.json').then(
 			() => true,
-			() => false
+			() => false,
 		))
 	) {
 		throw new Error('Can not find package.json at ' + projectPath + '.');
 	}
 
-	const name = require(projectPath + '/package.json').name;
+	const name = JSON.parse(await readFile(projectPath + '/package.json', 'utf-8')).name;
 	if (!name) {
 		throw new Error('No "name" in package.json.');
 	}

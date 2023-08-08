@@ -1,6 +1,6 @@
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
 import { readFileSync } from 'fs';
-import { IOutputShim } from '../../../misc/scopedLogger';
+import { IOptions } from '../share';
 
 function escapeRegExp(str: string) {
 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
@@ -10,11 +10,15 @@ export class FileBuilder {
 	protected referData: string[];
 	protected result: string[] = [];
 	private readonly _watchFiles: Set<string> = new Set<string>();
+	public readonly logger;
+	public readonly projectRoot;
 
 	constructor(
 		public readonly filePath: string,
-		public readonly logger: IOutputShim,
+		options: IOptions,
 	) {
+		this.logger = options.logger;
+		this.projectRoot = options.root;
 		this.referData = readFileSync(filePath, 'utf-8')
 			.split('\n')
 			.filter((l) => l.length > 0);
