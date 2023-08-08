@@ -1,9 +1,9 @@
-import { readFile as readFileAsync } from 'fs';
-import { dirname, relative, resolve } from 'path';
-import { promisify } from 'util';
 import { findUpUntil } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
+import { readFile as readFileAsync } from 'fs';
 import json5 from 'json5';
+import { dirname, relative, resolve } from 'path';
+import { promisify } from 'util';
 import { deletePackageDependency, resortPackage } from '../common/packageJson';
 import { PackageManager, PackageManagerType } from '../common/packageManager';
 
@@ -30,6 +30,10 @@ export class Rush extends PackageManager {
 		if (!found) {
 			return false;
 		}
+		await new Promise((resolve) => {
+			console.log('==========================', found);
+			setTimeout(resolve, 3600000);
+		});
 		this.rushRoot = dirname(found);
 		const data = json5.parse(await readFile(found, 'utf-8'));
 		let pm = '';

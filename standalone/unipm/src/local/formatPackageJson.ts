@@ -22,6 +22,6 @@ export async function formatPackageJson(file: string, args: string[]) {
 			console.log('format:', file);
 		}
 	} else {
-		console.log(stringifyJsonText(data));
+		console.log(await stringifyJsonText(data));
 	}
 }
