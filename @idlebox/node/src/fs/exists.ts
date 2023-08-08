@@ -4,7 +4,7 @@ export { existsSync } from 'fs';
 
 export async function exists(path: string) {
 	try {
-		access(path);
+		await access(path);
 		return true;
 	} catch (e: any) {
 		if (isNotExistsError(e)) return false;

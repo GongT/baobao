@@ -108,9 +108,9 @@ export function relativePath(from: string, to: string) {
 	const r2 = analyzePath(to);
 	if (r1.kind !== r2.kind)
 		throw new Error(
-			`cannot relative path between different kind: "${PathKind[r1.kind]}::${r1.prefix}" * "${
+			`cannot relative path between different kind: "${PathKind[r1.kind]}::${from}" * "${
 				PathKind[r2.kind]
-			}::${r2.prefix}"`,
+			}::${to}"`,
 		);
 
 	if (r1.prefix !== r2.prefix) return to;

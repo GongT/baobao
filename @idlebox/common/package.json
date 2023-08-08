@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.3.27",
+	"version": "1.3.28",
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
 	"module": "./lib/esm/__create_index.generated.mjs",

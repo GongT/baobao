@@ -85,7 +85,7 @@ export function prettyFormatError(e: Error, withMessage = true) {
 	if (!e.stack) {
 		return red(e.message + '\n  No stack trace');
 	}
-	const stackStr = e.stack.replace(/file:\/\//, '').split(/\n/g);
+	const stackStr = e.stack.replace(/(file|http|https):\/\//gi, '').split(/\n/g);
 
 	let first = stackStr.shift()!;
 	const stack: IInternalData[] = stackStr.map((line) => {
@@ -166,7 +166,8 @@ export function prettyFormatError(e: Error, withMessage = true) {
 				if (fn) {
 					ret += fn;
 				}
-				if (file) {
+				if (file === '<anonymous>') {
+				} else if (file) {
 					if (fn) {
 						ret += ' (';
 					}
@@ -193,15 +194,30 @@ export function prettyFormatError(e: Error, withMessage = true) {
 	}
 }
 
+let alert = false;
 function formatFileLine(schema: string | undefined, file: string, row?: number, col?: number) {
 	let rel = file;
 
 	if (schema !== 'node:') {
-		rel = relativePath(root, file);
-		if (rel.startsWith('..')) {
+		try {
+			rel = relativePath(root, file);
+			if (rel.startsWith('..')) {
+				rel = file;
+			} else if (!rel.startsWith('.')) {
+				rel = './' + rel;
+			}
+		} catch (e: any) {
+			if (!alert) {
+				debugger;
+				alert = true;
+				console.error(
+					'pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m',
+					root,
+					file,
+					e.stack,
+				);
+			}
 			rel = file;
-		} else if (!rel.startsWith('.')) {
-			rel = './' + rel;
 		}
 	}
 

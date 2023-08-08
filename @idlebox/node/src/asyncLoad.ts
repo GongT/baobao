@@ -26,7 +26,7 @@ export function runMain(main: AsyncMainFunction) {
 				process.exit(1);
 			}
 
-			prettyPrintError('build-script', e);
+			prettyPrintError('main', e);
 			return e.code || 1;
 		})
 		.then((code) => {

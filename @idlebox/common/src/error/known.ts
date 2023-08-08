@@ -1,5 +1,9 @@
 import { isNative } from '../platform/os';
 
+interface ErrorOptions {
+	cause?: unknown;
+}
+
 class KnownErrorNode extends Error {
 	constructor(message: string, consopt?: ErrorOptions) {
 		const limit = (Error as any).stackTraceLimit;
