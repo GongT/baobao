@@ -576,10 +576,11 @@ export interface ResolvePathFunction {
 // @public
 export function respawnInScope(mainFunc: Function): unknown | never;
 
+// Warning: (ae-forgotten-export) The symbol "OnExit" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "runMain" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export function runMain(main: AsyncMainFunction): void;
+export function runMain(main: AsyncMainFunction, onExit?: OnExit): void;
 
 // Warning: (ae-missing-release-tag) "sha256" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

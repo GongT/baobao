@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-esbuild-plugin",
 	"type": "commonjs",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"license": "WTFPL",
 	"description": "lowlevel esbuild plugin for [heft]",
 	"keywords": [

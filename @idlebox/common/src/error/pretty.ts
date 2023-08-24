@@ -67,7 +67,8 @@ export function prettyPrintError(type: string, e: Error) {
 	console.error(`------------------------------------------
 [${type}] ${prettyFormatError(e)}`);
 
-	if (!notify_printed) {
+	if (!notify_printed && e.stack && e.message !== e.stack) {
+		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
 		console.error('\x1B[2muse env.DISABLE_PRETTY_ERROR=yes to see original error stack\x1B[0m');
 	}

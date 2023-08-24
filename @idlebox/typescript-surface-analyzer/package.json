@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/typescript-surface-analyzer",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "Api and CLI tool for collect export information in typescript project",
 	"keywords": [],
 	"license": "MIT",
@@ -23,8 +23,8 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "^1.3.24",
-		"@idlebox/node": "^1.3.1",
+		"@idlebox/common": "^1.3.28",
+		"@idlebox/node": "^1.3.4",
 		"@idlebox/node-ignore-edit": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",

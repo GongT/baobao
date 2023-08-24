@@ -11,25 +11,39 @@ export class ExitError extends Error {
 	}
 }
 
+type OnExit = (error?: Error) => Promise<any>;
+
 /**
  * should do this before:
  * ```
  * setErrorLogRoot(require('path').dirname(__dirname));
  * ```
  **/
-export function runMain(main: AsyncMainFunction) {
+export function runMain(main: AsyncMainFunction, onExit?: OnExit) {
 	Promise.resolve()
-		.then(main)
+		.then(async () => {
+			try {
+				await main();
+				await onExit?.();
+			} catch (e: any) {
+				await onExit?.(e);
+				throw e;
+			}
+		})
 		.catch((e) => {
 			if (e instanceof ExitError) {
-				console.error(e.message);
-				process.exit(1);
+				if (e.code) {
+					console.error('[exit] %s', e.message);
+					process.exitCode = e.code;
+				} else {
+					process.exitCode = 0;
+				}
+			} else {
+				prettyPrintError('main', e);
 			}
-
-			prettyPrintError('main', e);
-			return e.code || 1;
+			if (!process.exitCode) process.exitCode = 1;
 		})
-		.then((code) => {
-			process.exit(code || 0);
+		.finally(() => {
+			process.exit();
 		});
 }
