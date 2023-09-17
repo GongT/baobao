@@ -29,14 +29,15 @@ async function _readFileIfExists(file: string, encoding?: NodeJS.BufferEncoding 
 	}
 }
 
-export function isNotExistsError(e: any) {
+type NodeError<T> = { code: T } & Error;
+export function isNotExistsError(e: any): e is NodeError<'ENOENT'> {
 	return e.code === 'ENOENT';
 }
 
-export function isExistsError(e: any) {
+export function isExistsError(e: any): e is NodeError<'EEXIST'> {
 	return e.code === 'EEXIST';
 }
 
-export function isTypeError(e: any) {
+export function isTypeError(e: any): e is NodeError<'ENOTDIR' | 'ENOTDIR'> {
 	return e.code === 'EISDIR' || e.code === 'ENOTDIR';
 }

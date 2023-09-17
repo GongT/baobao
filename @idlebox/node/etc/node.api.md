@@ -432,15 +432,22 @@ export interface IEnvironmentResult {
     value: string | undefined;
 }
 
+// Warning: (ae-forgotten-export) The symbol "NodeError" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "isExistsError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function isExistsError(e: any): boolean;
+export function isExistsError(e: any): e is NodeError<'EEXIST'>;
+
+// Warning: (ae-forgotten-export) The symbol "NodeError_2" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-missing-release-tag) "isModuleResolutionError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export function isModuleResolutionError(ex: any): ex is NodeError_2<'MODULE_NOT_FOUND' | 'ERR_MODULE_NOT_FOUND'>;
 
 // Warning: (ae-missing-release-tag) "isNotExistsError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function isNotExistsError(e: any): boolean;
+export function isNotExistsError(e: any): e is NodeError<'ENOENT'>;
 
 // Warning: (ae-missing-release-tag) "ISpawnAdditionOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -453,7 +460,7 @@ export interface ISpawnAdditionOptions {
 // Warning: (ae-missing-release-tag) "isTypeError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function isTypeError(e: any): boolean;
+export function isTypeError(e: any): e is NodeError<'ENOTDIR' | 'ENOTDIR'>;
 
 // Warning: (ae-missing-release-tag) "JoinPathFunction" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
