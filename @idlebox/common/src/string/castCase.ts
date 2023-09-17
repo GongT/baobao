@@ -1,8 +1,10 @@
 /** @public */
 export function camelCase(str: string) {
-	return str.replace(/[-.\/_][a-z]/g, (s) => {
-		return s[1]!.toUpperCase();
-	});
+	return str
+		.replace(/[-.\/_]+[a-z]/g, (s) => {
+			return s[1]!.toUpperCase();
+		})
+		.replace(/[-.\/_]+/g, '');
 }
 
 /**
@@ -24,12 +26,13 @@ export function lcfirst<T extends string>(str: T): Uncapitalize<T> {
 /** @public */
 export function linux_case(str: string) {
 	return str
-		.replace(/^[A-Z]/, (s) => {
+		.replace(/^[A-Z]+/, (s) => {
 			return s.toLowerCase();
 		})
-		.replace(/[A-Z]/g, (s) => {
+		.replace(/[A-Z]+/g, (s) => {
 			return '_' + s.toLowerCase();
-		});
+		})
+		.replace(/[-.\/_]+/g, '_');
 }
 
 /** @public */
@@ -38,7 +41,8 @@ export function linux_case_hyphen(str: string) {
 		.replace(/^[A-Z]/, (s) => {
 			return s.toLowerCase();
 		})
-		.replace(/[A-Z]/g, (s) => {
+		.replace(/[A-Z]+/g, (s) => {
 			return '-' + s.toLowerCase();
-		});
+		})
+		.replace(/[-.\/_]+/g, '-');
 }
