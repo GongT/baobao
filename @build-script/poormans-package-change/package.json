@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/poormans-package-change",
 	"type": "commonjs",
-	"version": "1.0.33",
+	"version": "1.0.34",
 	"license": "MIT",
 	"bin": {
 		"poormans-package-change": "./bin/load.js"
