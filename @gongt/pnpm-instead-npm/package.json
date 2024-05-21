@@ -1,6 +1,6 @@
 {
 	"name": "@gongt/pnpm-instead-npm",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "symlink npm to pnpm, always install with pnpm",
 	"keywords": [
 		"package manager",
@@ -8,8 +8,8 @@
 		"npm"
 	],
 	"bin": {
-		"npm": "bin/npm.js",
-		"npx": "bin/npx.js"
+		"npm": "bin/npm.mjs",
+		"npx": "bin/npx.mjs"
 	},
 	"scripts": {
 		"build": "",
@@ -17,10 +17,12 @@
 		"clean": ""
 	},
 	"preferGlobal": true,
+	"dependencies": {
+		"execa": "^7.2.0",
+		"npm": "latest",
+		"which": "^3.0.1"
+	},
 	"devDependencies": {
 		"@types/node": "^20.4.5"
-	},
-	"optionalDependencies": {
-		"@gongt/kexec": "latest"
 	}
 }

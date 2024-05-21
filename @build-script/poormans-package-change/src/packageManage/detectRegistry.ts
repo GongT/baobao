@@ -3,7 +3,6 @@ import { PathEnvironment, commandInPath } from '@idlebox/node';
 import { execaCommand } from 'execa';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
-import { parse } from 'url';
 import { errorLog, log } from '../inc/log';
 
 let foundPm: string;
@@ -41,15 +40,19 @@ export async function detectRegistry(url: string, currentProjectPath: string): P
 		log('    [!!] error run config get: %s', convertCatchedError(e).message);
 	}
 	if (url) {
-		const u = parse(url);
+		const u = new URL(url);
 		if (!u.protocol || !u.host) {
 			errorLog('[!!] invalid config (registry=%s): url is invalid', url);
 			process.exit(1);
 		}
 
-		return url.replace(/\/+$/, '');
+		url = url.replace(/\/+$/, '');
+		log('using registry url from config file (%s)', url);
+		return url;
 	} else {
-		return 'https://registry.npmjs.org';
+		url = 'https://registry.npmjs.org';
+		log('using default registry url (%s)', url);
+		return url;
 	}
 }
 

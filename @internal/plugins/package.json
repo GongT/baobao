@@ -5,6 +5,7 @@
 	"keywords": [],
 	"license": "WTFPL",
 	"author": "",
+	"private": true,
 	"scripts": {
 		"build": "tsc -p src #",
 		"build:watch": "tsc -p src #",

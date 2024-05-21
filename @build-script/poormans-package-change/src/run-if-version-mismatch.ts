@@ -1,10 +1,12 @@
-import { resolve } from 'path';
 import { exists } from '@idlebox/node';
 import { execa } from 'execa';
+import { resolve } from 'path';
 import { getNewNpmCache } from './cache/native.npm';
 import { getArg } from './inc/getArg';
 import { errorLog, log } from './inc/log';
 import { detectRegistry } from './packageManage/detectRegistry';
+
+process.env.COREPACK_ENABLE_STRICT = '0';
 
 export async function main(argv: string[]) {
 	process.on('unhandledRejection', (reason, promise) => {
@@ -17,7 +19,7 @@ export async function main(argv: string[]) {
 	const cmd = argv.splice(startExtraArgs + 1, Infinity);
 	if (startExtraArgs === -1 || cmd.length === 0) {
 		errorLog(
-			'must have "--" in arguments, and follow command to run.\n  eg: run-if-version-mismatch --quiet -- pnpm publish'
+			'must have "--" in arguments, and follow command to run.\n  eg: run-if-version-mismatch --quiet -- pnpm publish',
 		);
 		return 22;
 	}

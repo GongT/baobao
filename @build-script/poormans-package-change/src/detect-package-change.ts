@@ -1,5 +1,5 @@
+import { PathEnvironment, exists, printLine } from '@idlebox/node';
 import { basename, resolve } from 'path';
-import { exists, PathEnvironment, printLine } from '@idlebox/node';
 import { gt } from 'semver';
 import { getTarballCached, getVersionCached } from './cache/tarball';
 import { getArg } from './inc/getArg';
@@ -13,6 +13,8 @@ import { downloadIfNot } from './packageManage/downloadIfNot';
 import { increaseVersion } from './packageManage/increaseVersion';
 import { packCurrentVersion } from './packageManage/package';
 import { rewritePackage } from './packageManage/rewritePackage';
+
+process.env.COREPACK_ENABLE_STRICT = '0';
 
 function help() {
 	console.error(`Usage: detect-package-change --registry ??? --dist-tag ??? --package ??? --bump --quiet
@@ -54,7 +56,7 @@ export async function main(argv: string[]) {
 	}
 	const packageJson = require(packageFile);
 	log('package.name = %s', packageJson.name);
-	log('====');
+	log('=======================================');
 
 	if (packageJson.private) {
 		log('Private package detected, deny run.');
