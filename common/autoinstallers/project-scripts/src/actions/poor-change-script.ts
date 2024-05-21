@@ -1,12 +1,12 @@
-import '../include/prefix';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { humanDate } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { exists } from '@idlebox/node';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
+import '../include/prefix';
 
 async function getNpmRc(rushProject: RushProject) {
 	let npmrc = resolve(rushProject.configRoot, '.npmrc-publish');

@@ -1,6 +1,6 @@
-import { resolve } from 'path';
 import { commandInPath, emptyDir, execLazyError, exists } from '@idlebox/node';
 import { execaCommand } from 'execa';
+import { resolve } from 'path';
 import { debug, log } from './log';
 
 export async function gitInit(cwd: string) {
@@ -31,6 +31,7 @@ export async function gitChange(cwd: string) {
 		return [];
 	} else {
 		log('    git say: modified');
+		// await execaCommand('git diff', { cwd, stdout: 'pipe', stderr: 'pipe' });
 	}
 
 	debug(' + git add .');
