@@ -24,19 +24,21 @@ export class AsyncLock {
     // (undocumented)
     protected current?: string;
     // (undocumented)
-    static finish(title: string): MethodDecorator;
+    static finish(title: string): <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>) => AsyncFun<T, A, R | undefined>;
     // (undocumented)
     static get(obj: any): AsyncLock;
+    // Warning: (ae-forgotten-export) The symbol "AsyncFun" needs to be exported by the entry point __create_index.generated.d.ts
+    //
     // (undocumented)
-    static protect(title: string, weak?: boolean): MethodDecorator;
+    static protect(title: string, weak?: boolean): <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>) => AsyncFun<T, A, R | undefined>;
     // (undocumented)
     release(title: string): void;
     // (undocumented)
     require(title: string): void;
     // (undocumented)
-    static require(title: string): MethodDecorator;
+    static require(title: string): <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>) => AsyncFun<T, A, R | undefined>;
     // (undocumented)
-    static start(title: string): MethodDecorator;
+    static start(title: string): <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>) => AsyncFun<T, A, R | undefined>;
 }
 
 // Warning: (ae-missing-release-tag) "CacheFile" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -348,7 +350,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
     // (undocumented)
     protected readonly receivers: ILive[];
     // (undocumented)
-    start(): Promise<boolean>;
+    start(): Promise<boolean | undefined>;
     // (undocumented)
     sync(): Promise<void>;
     // (undocumented)

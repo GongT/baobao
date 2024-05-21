@@ -4,7 +4,7 @@ import { sleep } from '@idlebox/common';
 import { AsyncLock } from './AsyncLock';
 
 function sleepJob(title: string) {
-	return jest.fn(async (ms: number) => {
+	return jest.fn(async (ms: number): Promise<number | undefined> => {
 		console.log('[sleep] %s start', title);
 		await sleep(ms);
 		console.log('[sleep] %s stop', title);
@@ -39,7 +39,7 @@ class Test {
 		return C2(ms);
 	}
 	@AsyncLock.protect('this')
-	async testThis() {
+	async testThis(): Promise<this | undefined> {
 		return this;
 	}
 }

@@ -8,6 +8,8 @@ function getLock(obj: any): AsyncLock {
 	return obj[symbol];
 }
 
+type AsyncFun<T, A extends any[], R> = (this: T, ...args: A) => Promise<R>;
+
 export class AsyncLock {
 	protected current?: string;
 
@@ -45,57 +47,68 @@ export class AsyncLock {
 		return getLock(obj);
 	}
 
-	static protect(title: string, weak = false): MethodDecorator {
-		return (_proto: any, _key, desc: TypedPropertyDescriptor<any>) => {
-			const original = desc.value;
-			desc.value = async function (this: any, ...args: any) {
+	static protect(title: string, weak = false) {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
+			async function asyncLock__Protect(this: any, ...args: any) {
 				const lock = getLock(this);
 				const ok = lock.acquire(title, weak);
 				if (!ok) return;
 				return original.apply(this, args).finally(() => {
 					lock.release(title);
 				});
-			};
+			}
 
-			return desc;
+			return asyncLock__Protect;
 		};
 	}
 
-	static start(title: string): MethodDecorator {
-		return (_proto: any, _key, desc: TypedPropertyDescriptor<any>) => {
-			const original = desc.value;
-			desc.value = async function (this: any, ...args: any) {
+	static start(title: string) {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
+			async function asyncLock__Start(this: any, ...args: any) {
 				const lock = getLock(this);
 				lock.acquire(title);
 				return original.apply(this, args).catch((e: Error) => {
 					lock.release(title);
 					throw e;
 				});
-			};
+			}
+			return asyncLock__Start;
 		};
 	}
 
-	static finish(title: string): MethodDecorator {
-		return (_proto: any, _key, desc: TypedPropertyDescriptor<any>) => {
-			const original = desc.value;
-			desc.value = async function (this: any, ...args: any) {
+	static finish(title: string) {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
+			async function asyncLock__Finish(this: any, ...args: any) {
 				const lock = getLock(this);
 				lock.require(title);
 				return original.apply(this, args).finally(() => {
 					lock.release(title);
 				});
-			};
+			}
+			return asyncLock__Finish;
 		};
 	}
 
-	static require(title: string): MethodDecorator {
-		return (_proto: any, _key, desc: TypedPropertyDescriptor<any>) => {
-			const original = desc.value;
-			desc.value = async function (this: any, ...args: any) {
+	static require(title: string) {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
+			async function asyncLock__Require(this: any, ...args: any) {
 				const lock = getLock(this);
 				lock.require(title);
 				return original.apply(this, args);
-			};
+			}
+			return asyncLock__Require;
 		};
 	}
 }

@@ -3,7 +3,7 @@
 require('source-map-support/register');
 process.env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
 require('global-agent/bootstrap');
-const { prettyPrintError } = require('@idlebox/node');
+const { prettyPrintError } = require('@idlebox/common');
 
 const cmdList = {
 	'detect-package-change': '../lib/detect-package-change.js',

@@ -1,7 +1,7 @@
-import '../include/prefix';
-import { existsSync } from 'fs';
 import { RushProject } from '@build-script/rush-tools';
-import { loadJsonFileSync, writeJsonFileBackSync } from '@idlebox/node-json-edit';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { existsSync } from 'fs';
+import '../include/prefix';
 import { getopts, handleShort } from '../include/rushArguments';
 
 interface IOptions {
@@ -64,32 +64,35 @@ let success = 0,
 	fail = 0;
 
 const rush = new RushProject();
-for (const { projectFolder, packageName } of rush.projects) {
-	const path = rush.absolute(projectFolder, file);
+main();
+async function main() {
+	for (const { projectFolder, packageName } of rush.projects) {
+		const path = rush.absolute(projectFolder, file);
 
-	if (!existsSync(path)) {
-		continue;
-	}
-
-	try {
-		console.error('modify: %s', packageName, key, parsedValue);
-
-		const json = loadJsonFileSync(path);
-		const changed = actionCallback(json, key, parsedValue);
-		if (changed) {
-			writeJsonFileBackSync(json);
+		if (!existsSync(path)) {
+			continue;
 		}
 
-		console.error('\x1B[A\x1B[K\x1B[38;5;10m✔\x1B[0m - %s', packageName);
-		success++;
-	} catch (e) {
-		console.error(' > \x1B[38;5;9m%s\x1B[0m\x1B[K', e.message);
-		console.error(' > %s', path);
-		fail++;
+		try {
+			console.error('modify: %s', packageName, key, parsedValue);
+
+			const json = await loadJsonFile(path);
+			const changed = actionCallback(json, key, parsedValue);
+			if (changed) {
+				await writeJsonFileBack(json);
+			}
+
+			console.error('\x1B[A\x1B[K\x1B[38;5;10m✔\x1B[0m - %s', packageName);
+			success++;
+		} catch (e) {
+			console.error(' > \x1B[38;5;9m%s\x1B[0m\x1B[K', e.message);
+			console.error(' > %s', path);
+			fail++;
+		}
 	}
+	console.error('success: %s, fail: %s\x1B[K', success, fail);
+	process.exit(fail);
 }
-console.error('success: %s, fail: %s\x1B[K', success, fail);
-process.exit(fail);
 
 function pathInfo(obj, path) {
 	const ps = path.split('.');

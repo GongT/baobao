@@ -44,12 +44,6 @@ export function overallOrder(rushProject = new RushProject()): DeepReadonly<IPro
 	});
 }
 
-function filterBuildscript(list: IGraphAttachedData[]) {
-	return list.filter((e) => {
-		return e.hasBuildScript;
-	});
-}
-
 function mapData(deps: DepGraph<IGraphAttachedData>, list: string[] = deps.overallOrder()) {
 	return list.map((e) => {
 		return deps.getNodeData(e);
@@ -64,7 +58,7 @@ export async function buildProjects(builder: IProjectCallback): Promise<void>;
 export async function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 export async function buildProjects(
 	opts_: IBuildProjectOptions | IProjectCallback,
-	builder_?: IProjectCallback
+	builder_?: IProjectCallback,
 ): Promise<void> {
 	const { opts, builder } = ((): { opts: IBuildProjectOptions; builder: IProjectCallback } => {
 		if (builder_) {
@@ -77,15 +71,15 @@ export async function buildProjects(
 	const { rushProject = new RushProject(), concurrent = 4 } = opts;
 
 	const dep = createDeps(rushProject);
-	const overall = filterBuildscript(mapData(dep));
+	const overall = mapData(dep);
 
 	const q = new RunQueue(builder, concurrent);
 	for (const { project } of overall) {
-		const sub = filterBuildscript(mapData(dep, dep.dependenciesOf(project.packageName)));
+		const sub = mapData(dep, dep.dependenciesOf(project.packageName));
 		q.register(
 			project.packageName,
 			project,
-			sub.map((e) => e.project.packageName)
+			sub.map((e) => e.project.packageName),
 		);
 	}
 

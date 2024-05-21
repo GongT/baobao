@@ -1,15 +1,16 @@
-import { get } from 'cacache';
-import { execa, ExecaError, execaSync } from 'execa';
-import { debug, errorLog, log } from '../inc/log';
+import { execaSync } from 'execa';
+import { json as npmFetchJson } from 'npm-registry-fetch';
+import { resolve } from 'path';
+import { errorLog } from '../inc/log';
 import { ifExists, spawnOpts } from './helper';
 
 let cachePathFound = false;
 let npmCachePath = '';
-const npmCacheIdPrefix = 'make-fetch-happen:request-cache:';
 
 function findCachePath() {
 	cachePathFound = true;
 	npmCachePath = ifExists(execaSync('npm', ['config', 'get', 'cache'], spawnOpts).stdout);
+	npmCachePath = resolve(npmCachePath, '_cacache');
 }
 
 export function findNpmCachePath() {
@@ -35,65 +36,13 @@ function getByDistTag(json: any, distTag: string): IPackageJson | null {
 	return json.versions[v];
 }
 
-async function getNpmCacheData(packageName: string, registry: string): Promise<Buffer | null> {
-	if (!cachePathFound) {
-		findCachePath();
-	}
-	if (!npmCachePath) {
-		return null;
-	}
-	const cacheId = `${npmCacheIdPrefix}${registry}/${packageName.replace(/\//g, '%2f')}`;
-	try {
-		const cache = await get(npmCachePath + '/_cacache', cacheId);
-		debug('[cache]     cache hit : %s/_cacache :: %s', npmCachePath, cacheId);
-		return cache.data;
-	} catch {
-		debug('[cache]     cache miss: %s/_cacache :: %s', npmCachePath, cacheId);
-		return null;
-	}
-}
-async function getNpmCacheJson(packageName: string, registry: string): Promise<any | null> {
-	const cache = await getNpmCacheData(packageName, registry);
-	if (!cache) {
-		return null;
-	}
-	try {
-		const data = cache.toString('utf-8');
-		return JSON.parse(data);
-	} catch {
-		return null;
-	}
-}
-
 export async function getNewNpmCache(name: string, distTag: string, registry: string) {
-	console.error(`     * npm show --registry=${registry} ${name}@${distTag}`);
-	try {
-		await execa('npm', ['show', `--registry=${registry}`, `${name}@${distTag}`], spawnOpts);
-	} catch (err: any) {
-		const e = err as ExecaError<string>;
-		if (e.stderr.includes('not in this registry')) {
-			return undefined;
-		}
-	}
-	const json = await getNpmCacheJson(name, registry);
+	console.error(`     * npm-registry-fetch: ${registry} :: ${name} @ ${distTag}`);
+	const json = await npmFetchJson(name, { cache: findNpmCachePath(), registry: registry, preferOnline: true });
 	if (!json) {
 		errorLog('[!!] NPM cache structure changed!');
 		process.exit(1);
 	}
 
 	return getByDistTag(json, distTag);
-}
-
-export async function getNpmCache(packageName: string, distTag: string, registry: string): Promise<string[]> {
-	const json = await getNpmCacheJson(packageName, registry);
-	if (!json) {
-		return [];
-	}
-	const obj = getByDistTag(json, distTag);
-	if (obj) {
-		log('[cache]     NPM: %s', obj.version);
-		return [obj.version];
-	} else {
-		return [];
-	}
 }

@@ -13,7 +13,7 @@ export function ifExists(s: string): string {
 export const spawnOpts: SyncOptions = {
 	encoding: 'utf8',
 	reject: true,
-	stdio: ['ignore', 'pipe', 'pipe'],
+	stdio: ['pipe', 'pipe', 'pipe'],
 	stripFinalNewline: true,
 	env: { LANG: 'C.UTF-8', npm_config_perfer_offline: 'false', npm_config_perfer_online: 'true' },
 	extendEnv: true,

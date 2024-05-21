@@ -38,7 +38,7 @@ async function main(argv: string[]) {
 
 	const count = rushProject.projects.length;
 	let current = 0;
-	buildProjects({ rushProject, concurrent: 1 }, async (item) => {
+	return buildProjects({ rushProject, concurrent: 1 }, async (item) => {
 		current++;
 		console.error('📦 \x1B[38;5;14mPublishing package (%s of %s):\x1B[0m %s ...', current, count, item.packageName);
 
@@ -65,7 +65,7 @@ async function main(argv: string[]) {
 		}
 
 		const stateFile = rushProject.tempFile(
-			'proj_status/last-publish.' + item.packageName.replace('/', '__') + '.version.txt'
+			'proj_status/last-publish.' + item.packageName.replace('/', '__') + '.version.txt',
 		);
 
 		const lastPubVersion = existsSync(stateFile) ? await readFile(stateFile, 'utf-8') : '-';
@@ -108,5 +108,5 @@ main(process.argv.slice(2)).then(
 	(e) => {
 		console.error(e.stack);
 		process.exit(1);
-	}
+	},
 );

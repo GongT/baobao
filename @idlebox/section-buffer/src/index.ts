@@ -77,7 +77,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	}
 
 	@AsyncLock.protect('starting')
-	async start() {
+	async start(): Promise<boolean | undefined> {
 		if (this._timer || this._complete || this._rebuilding || this.hasDisposed) throw new Error('already started');
 
 		await this.file.openRead();

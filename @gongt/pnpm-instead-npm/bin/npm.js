@@ -10,7 +10,7 @@ const { resolve } = require('path');
 main();
 
 function runPm(env, path, ...argv) {
-	console.error('\x1B[2mexecute:', process.execPath, ...process.execArgv, path, ...argv, '\x1B[0m');
+	// console.error('\x1B[2mexecute:', process.execPath, ...process.execArgv, path, ...argv, '\x1B[0m');
 	return spawnSync(process.execPath, [...process.execArgv, path, ...argv], {
 		stdio: 'inherit',
 		shell: false,
