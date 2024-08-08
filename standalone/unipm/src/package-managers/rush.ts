@@ -30,10 +30,6 @@ export class Rush extends PackageManager {
 		if (!found) {
 			return false;
 		}
-		await new Promise((resolve) => {
-			console.log('==========================', found);
-			setTimeout(resolve, 3600000);
-		});
 		this.rushRoot = dirname(found);
 		const data = json5.parse(await readFile(found, 'utf-8'));
 		let pm = '';

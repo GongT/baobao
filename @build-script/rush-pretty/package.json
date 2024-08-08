@@ -1,0 +1,23 @@
+{
+	"name": "@build-script/rush-pretty",
+	"type": "module",
+	"version": "0.0.2",
+	"bin": {
+		"rush-pretty": "./bin.js"
+	},
+	"scripts": {
+		"build": "tsc -p src"
+	},
+	"dependencies": {
+		"@idlebox/node-json-edit": "workspace:^",
+		"@supercharge/promise-pool": "^3.0.0",
+		"@types/node": "^20.4.4",
+		"execa": "^7.2.0",
+		"prettier": "^3.0.0",
+		"source-map-support": "^0.5.21",
+		"tslib": "^2.6.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.1.6"
+	}
+}

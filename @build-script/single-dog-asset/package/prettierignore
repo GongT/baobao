@@ -1,5 +1,19 @@
-docs/
-/common/scripts/
-jspm_packages
-lib/
+# Rush files
+common/changes/
+common/scripts/
+CHANGELOG.*
+
+# Package manager files
 pnpm-lock.yaml
+yarn.lock
+package-lock.json
+shrinkwrap.json
+jspm_packages
+
+# Build outputs
+dist/
+docs/
+lib/
+
+# Prettier reformats code blocks inside Markdown, which affects rendered output
+*.md

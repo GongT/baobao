@@ -10,6 +10,7 @@ common/temp
 common/deploy
 *.tsbuildinfo
 .rpt2_cache/
+/.vscode/local-history
 
 ### Temp Files
 *.lock

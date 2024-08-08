@@ -16,6 +16,7 @@ common/deploy
 .lock
 temp/
 *.bak
+/.vscode/local-history
 
 ### Build Result
 dist/

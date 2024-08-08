@@ -1,0 +1,223 @@
+globalExcludedGlobs:
+  - common/autoinstallers/**
+projects:
+  '@build-script/esbuild':
+    includedGlobs:
+      - '@build-script/esbuild/**'
+    dependentProjects:
+      - '@build-script/esbuild'
+  '@build-script/heft-esbuild-plugin':
+    includedGlobs:
+      - '@build-script/heft-esbuild-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-esbuild-plugin'
+  '@build-script/heft-plugins':
+    includedGlobs:
+      - '@build-script/heft-plugins/**'
+    dependentProjects:
+      - '@build-script/heft-esbuild-plugin'
+      - '@build-script/heft-plugins'
+      - '@internal/dualstack-rig'
+  '@build-script/poormans-package-change':
+    includedGlobs:
+      - '@build-script/poormans-package-change/**'
+    dependentProjects:
+      - '@build-script/poormans-package-change'
+  '@build-script/rush-pretty':
+    includedGlobs:
+      - '@build-script/rush-pretty/**'
+    dependentProjects:
+      - '@build-script/rush-pretty'
+  '@build-script/rush-tools':
+    includedGlobs:
+      - '@build-script/rush-tools/**'
+    dependentProjects:
+      - '@build-script/esbuild'
+      - '@build-script/rush-tools'
+  '@build-script/rushstack-config-loader':
+    includedGlobs:
+      - '@build-script/rushstack-config-loader/**'
+    dependentProjects:
+      - '@build-script/rushstack-config-loader'
+  '@build-script/single-dog-asset':
+    includedGlobs:
+      - '@build-script/single-dog-asset/**'
+    dependentProjects:
+      - 7zip-bin-wrapper
+      - '@build-script/poormans-package-change'
+      - '@build-script/rush-tools'
+      - '@build-script/rushstack-config-loader'
+      - '@build-script/single-dog-asset'
+      - '@gongt/fix-esm'
+      - '@gongt/systemd-unit-generator'
+      - '@idlebox/browser'
+      - '@idlebox/chokidar'
+      - '@idlebox/common'
+      - '@idlebox/json-extends-loader'
+      - '@idlebox/node'
+      - '@idlebox/node-ignore-edit'
+      - '@idlebox/node-json-edit'
+      - '@idlebox/section-buffer'
+      - '@internal/dualstack-rig'
+      - '@internal/local-rig'
+      - '@internal/plugins'
+      - cjke-strings
+      - unipm
+  '@gongt/fix-esm':
+    includedGlobs:
+      - '@gongt/fix-esm/**'
+    dependentProjects:
+      - '@gongt/fix-esm'
+      - '@idlebox/node'
+      - cjke-strings
+  '@gongt/pnpm-instead-npm':
+    includedGlobs:
+      - '@gongt/pnpm-instead-npm/**'
+    dependentProjects:
+      - '@gongt/pnpm-instead-npm'
+  '@gongt/systemd-unit-generator':
+    includedGlobs:
+      - '@gongt/systemd-unit-generator/**'
+    dependentProjects:
+      - '@gongt/systemd-unit-generator'
+  '@idlebox/browser':
+    includedGlobs:
+      - '@idlebox/browser/**'
+    dependentProjects:
+      - '@idlebox/browser'
+  '@idlebox/chokidar':
+    includedGlobs:
+      - '@idlebox/chokidar/**'
+    dependentProjects:
+      - '@idlebox/chokidar'
+  '@idlebox/common':
+    includedGlobs:
+      - '@idlebox/common/**'
+    dependentProjects:
+      - '@build-script/esbuild'
+      - '@build-script/heft-esbuild-plugin'
+      - '@build-script/poormans-package-change'
+      - '@build-script/rush-tools'
+      - '@gongt/systemd-unit-generator'
+      - '@idlebox/browser'
+      - '@idlebox/chokidar'
+      - '@idlebox/common'
+      - '@idlebox/node'
+      - '@idlebox/section-buffer'
+      - unipm
+  '@idlebox/ensure-symlink':
+    includedGlobs:
+      - '@idlebox/ensure-symlink/**'
+    dependentProjects:
+      - '@build-script/rush-tools'
+      - '@idlebox/ensure-symlink'
+  '@idlebox/itypes':
+    includedGlobs:
+      - '@idlebox/itypes/**'
+    dependentProjects:
+      - '@idlebox/common'
+      - '@idlebox/itypes'
+  '@idlebox/json-extends-loader':
+    includedGlobs:
+      - '@idlebox/json-extends-loader/**'
+    dependentProjects:
+      - '@build-script/heft-plugins'
+      - '@build-script/rushstack-config-loader'
+      - '@idlebox/json-extends-loader'
+  '@idlebox/node':
+    includedGlobs:
+      - '@idlebox/node/**'
+    dependentProjects:
+      - '@build-script/esbuild'
+      - '@build-script/heft-esbuild-plugin'
+      - '@build-script/poormans-package-change'
+      - '@build-script/rush-tools'
+      - '@idlebox/node'
+      - unipm
+  '@idlebox/node-ignore-edit':
+    includedGlobs:
+      - '@idlebox/node-ignore-edit/**'
+    dependentProjects:
+      - '@idlebox/node-ignore-edit'
+      - '@idlebox/typescript-surface-analyzer'
+  '@idlebox/node-json-edit':
+    includedGlobs:
+      - '@idlebox/node-json-edit/**'
+    dependentProjects:
+      - '@build-script/poormans-package-change'
+      - '@build-script/rush-pretty'
+      - '@build-script/rush-tools'
+      - '@idlebox/node-json-edit'
+      - '@idlebox/typescript-surface-analyzer'
+      - unipm
+  '@idlebox/section-buffer':
+    includedGlobs:
+      - '@idlebox/section-buffer/**'
+    dependentProjects:
+      - '@idlebox/section-buffer'
+  '@idlebox/tsconfig-loader':
+    includedGlobs:
+      - '@idlebox/tsconfig-loader/**'
+    dependentProjects:
+      - '@build-script/rushstack-config-loader'
+      - '@idlebox/tsconfig-loader'
+      - '@idlebox/typescript-surface-analyzer'
+  '@idlebox/typescript-surface-analyzer':
+    includedGlobs:
+      - '@idlebox/typescript-surface-analyzer/**'
+    dependentProjects:
+      - '@build-script/heft-plugins'
+      - '@idlebox/typescript-surface-analyzer'
+  '@internal/dualstack-rig':
+    includedGlobs:
+      - '@internal/dualstack-rig/**'
+    dependentProjects:
+      - 7zip-bin-wrapper
+      - '@build-script/rush-tools'
+      - '@idlebox/browser'
+      - '@idlebox/chokidar'
+      - '@idlebox/common'
+      - '@idlebox/node'
+      - '@idlebox/section-buffer'
+      - '@internal/dualstack-rig'
+      - cjke-strings
+      - unipm
+  '@internal/local-rig':
+    includedGlobs:
+      - '@internal/local-rig/**'
+    dependentProjects:
+      - '@build-script/esbuild'
+      - '@build-script/heft-esbuild-plugin'
+      - '@build-script/heft-plugins'
+      - '@build-script/poormans-package-change'
+      - '@build-script/rushstack-config-loader'
+      - '@gongt/fix-esm'
+      - '@gongt/systemd-unit-generator'
+      - '@idlebox/json-extends-loader'
+      - '@idlebox/node-ignore-edit'
+      - '@idlebox/node-json-edit'
+      - '@idlebox/tsconfig-loader'
+      - '@idlebox/typescript-surface-analyzer'
+      - '@internal/local-rig'
+  '@internal/plugins':
+    includedGlobs:
+      - '@internal/plugins/**'
+    dependentProjects:
+      - '@internal/dualstack-rig'
+      - '@internal/local-rig'
+      - '@internal/plugins'
+  7zip-bin-wrapper:
+    includedGlobs:
+      - standalone/7zip-bin-wrapper/**
+    dependentProjects:
+      - 7zip-bin-wrapper
+  cjke-strings:
+    includedGlobs:
+      - standalone/cjke/**
+    dependentProjects:
+      - cjke-strings
+  unipm:
+    includedGlobs:
+      - standalone/unipm/**
+    dependentProjects:
+      - unipm
