@@ -58,7 +58,7 @@
 		"types": [],
 		"removeComments": false,
 		"sourceMap": true,
-		"stripInternal": true,
+		"stripInternal": false,
 		"strictBindCallApply": true,
 		"strict": true,
 		"strictFunctionTypes": true,

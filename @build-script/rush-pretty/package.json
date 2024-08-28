@@ -6,18 +6,23 @@
 		"rush-pretty": "./bin.js"
 	},
 	"scripts": {
-		"build": "tsc -p src"
+		"build": "tsc -p src",
+		"build:watch": "tsc -p src",
+		"clean": "rimraf lib",
+		"watch": "tsc -p src -w"
 	},
 	"dependencies": {
 		"@idlebox/node-json-edit": "workspace:^",
 		"@supercharge/promise-pool": "^3.0.0",
-		"@types/node": "^20.4.4",
+		"@types/node": "^22.5.0",
 		"execa": "^7.2.0",
 		"prettier": "^3.0.0",
 		"source-map-support": "^0.5.21",
 		"tslib": "^2.6.0"
 	},
 	"devDependencies": {
+		"@internal/local-rig": "workspace:^",
+		"rimraf": "^5.0.1",
 		"typescript": "^5.1.6"
 	}
 }

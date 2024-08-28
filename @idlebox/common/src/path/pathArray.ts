@@ -10,7 +10,7 @@ const isAbsolute = /^[a-z]:[/\\]/i;
 abstract class PathArrayAbstract extends Set<string> {
 	constructor(
 		init: string,
-		private readonly sep: ':' | ';' = isWindows ? ';' : ':'
+		private readonly sep: ':' | ';' = isWindows ? ';' : ':',
 	) {
 		super();
 		if (init) this.add(init);
@@ -51,7 +51,7 @@ abstract class PathArrayAbstract extends Set<string> {
 export class PathArrayWindows extends PathArrayAbstract {
 	private readonly caseMap = new Map<string, string>();
 
-	normalize(path: string) {
+	override normalize(path: string) {
 		path = normalizePath(path);
 		if (isAbsolute.test(path)) {
 			path = ucfirst(path);
@@ -94,7 +94,7 @@ export class PathArrayWindows extends PathArrayAbstract {
 	}
 }
 export class PathArrayPosix extends PathArrayAbstract {
-	normalize(path: string) {
+	override normalize(path: string) {
 		return normalizePath(path);
 	}
 
@@ -118,13 +118,6 @@ export class PathArrayPosix extends PathArrayAbstract {
 	}
 }
 
-/**
- * @internal
- */
-// @ts-ignore
-export const PathArray = isWindows ? PathArrayWindows : PathArrayPosix;
+const TypePathArrayAbstract = isWindows ? PathArrayWindows : PathArrayPosix;
 
-// @ts-ignore
-export declare class PathArray extends PathArrayAbstract {
-	override normalize(path: string): string;
-}
+export class PathArray extends TypePathArrayAbstract {}

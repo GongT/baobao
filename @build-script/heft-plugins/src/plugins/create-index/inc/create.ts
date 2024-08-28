@@ -1,7 +1,7 @@
 import { basename, dirname, resolve } from 'path';
 import { ExportKind, TypescriptProject } from '@idlebox/typescript-surface-analyzer';
 import type TypeScriptApi from 'typescript';
-import { IIdentifierResult } from '@idlebox/typescript-surface-analyzer/lib/cjs/inc/TokenCollector';
+import type { IIdentifierResult } from '@idlebox/typescript-surface-analyzer/lib/cjs/inc/TokenCollector';
 import { camelCase, relativePath, ucfirst, writeFileIfChange } from '../../../misc/functions';
 import { IOutputShim } from '../../../misc/scopedLogger';
 import { idToString } from '../../typescript/transform/library/util';

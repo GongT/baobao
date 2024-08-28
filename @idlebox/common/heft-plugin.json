@@ -3,7 +3,7 @@
 	"taskPlugins": [
 		{
 			"pluginName": "filter-dts",
-			"entryPoint": "./scripts/filter-dts.cjs"
+			"entryPoint": "./config/filter-dts.cjs"
 		}
 	]
 }

@@ -56,7 +56,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	protected readonly file;
 	protected readonly queue;
 	protected readonly receivers: ILive[] = [];
-	protected _timer?: NodeJS.Timer;
+	protected _timer?: NodeJS.Timeout;
 	protected _complete = false;
 	protected _isManual = false;
 

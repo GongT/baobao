@@ -402,28 +402,28 @@ export const updateAllInstallers: typeof update;
 // Warnings were encountered during analysis:
 //
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:748:11 - (TS2304) Cannot find name 'URL'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1189:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1190:10 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1191:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1192:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1190:11 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1191:10 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1192:14 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1193:12 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1194:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1195:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1196:13 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1197:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1198:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1195:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1196:11 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1197:13 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1198:11 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1199:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1200:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1201:17 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1202:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1203:21 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1204:15 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1205:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1206:10 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1207:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1209:32 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1212:41 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1225:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1200:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1201:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1202:17 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1203:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1204:21 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1205:15 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1206:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1207:10 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1208:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1210:32 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1213:41 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1226:14 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:1:27 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
 // /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:2:33 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
 // /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:3:93 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.

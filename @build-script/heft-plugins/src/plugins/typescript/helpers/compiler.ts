@@ -16,14 +16,14 @@ const cache: Partial<ICache> = {};
 
 export function createCompilerHost(ts: typeof TypeScriptApi, compilerOptions: TypeScriptApi.CompilerOptions) {
 	const host = (compilerOptions.incremental ? ts.createCompilerHost : ts.createIncrementalCompilerHost)(
-		compilerOptions
+		compilerOptions,
 	);
 
 	if (!cache.moduleResolve) {
 		cache.moduleResolve = ts.createModuleResolutionCache(
 			host.getCurrentDirectory(),
 			host.getCanonicalFileName,
-			compilerOptions
+			compilerOptions,
 		);
 	}
 
@@ -42,7 +42,7 @@ export function createCompilerHost(ts: typeof TypeScriptApi, compilerOptions: Ty
 function resolveModuleNames(
 	ts: typeof TypeScriptApi,
 	options: TypeScriptApi.CompilerOptions,
-	cache: TypeScriptApi.ModuleResolutionCache
+	cache: TypeScriptApi.ModuleResolutionCache,
 ) {
 	return (moduleNames: readonly TypeScriptApi.StringLiteralLike[], containingFile: string) => {
 		return moduleNames.map((moduleName) => {
@@ -54,7 +54,7 @@ function resolveModuleNames(
 					fileExists: ts.sys.fileExists,
 					readFile: ts.sys.readFile,
 				},
-				cache
+				cache,
 			);
 			return result;
 		});
@@ -65,7 +65,7 @@ export function executeCompile(
 	{ ts, createTransformers, options }: IProgramState,
 	session: IHeftTaskSession,
 	configuration: HeftConfiguration,
-	files?: string[]
+	files?: string[],
 ) {
 	session.logger.terminal.writeVerboseLine('tsconfig file loaded');
 
@@ -75,7 +75,7 @@ export function executeCompile(
 		throw new Error(
 			`unsupported module type: ${
 				ts.ModuleKind[command.options.module!]
-			} (current only support commonjs and esnext)`
+			} (current only support commonjs and esnext)`,
 		);
 	}
 
@@ -110,7 +110,14 @@ export function executeCompile(
 	const sortedDiagnostics = ts.sortAndDeduplicateDiagnostics(diagnostics || []);
 	// console.log('sortedDiagnostics', sortedDiagnostics.length);
 
-	printCompileDiagnostic(ts, !!options.fast, configuration.buildFolderPath, session.logger, sortedDiagnostics);
+	const ok = printCompileDiagnostic(
+		ts,
+		!!options.fast,
+		configuration.buildFolderPath,
+		session.logger,
+		sortedDiagnostics,
+	);
+	if (!ok) return;
 	session.logger.terminal.writeVerboseLine('program created');
 
 	if (!options.extension) options.extension = getExtension(ts, command.options);
@@ -118,6 +125,7 @@ export function executeCompile(
 	const writeCtx = createFileWriter(ts, session, options);
 	const customTransformers = createTransformers(program, compilerHost);
 
+	let someskip = false;
 	if (files) {
 		const diagnostics = [];
 		for (const item of files) {
@@ -127,24 +135,46 @@ export function executeCompile(
 				const result = program.emit(file, writeCtx.writeFile, undefined, undefined, customTransformers);
 				diagnostics.push(...result.diagnostics);
 				// console.log(result);
+				if (result.emitSkipped) someskip = true;
 			} else {
 				session.logger.emitWarning(new Error('file not include in program: ' + item));
 			}
 		}
-		printCompileDiagnostic(ts, !!options.fast, configuration.buildFolderPath, session.logger, diagnostics);
+		const ok = printCompileDiagnostic(
+			ts,
+			!!options.fast,
+			configuration.buildFolderPath,
+			session.logger,
+			diagnostics,
+		);
+		if (!ok) return;
 	} else {
 		const result = program.emit(undefined, writeCtx.writeFile, undefined, undefined, customTransformers);
-		printCompileDiagnostic(ts, !!options.fast, configuration.buildFolderPath, session.logger, result.diagnostics);
+		if (result.emitSkipped) someskip = true;
+
+		const ok = printCompileDiagnostic(
+			ts,
+			!!options.fast,
+			configuration.buildFolderPath,
+			session.logger,
+			result.diagnostics,
+		);
+		if (!ok) return;
+	}
+
+	if (someskip) {
+		session.logger.emitError(new Error('emit failed'));
+		return;
 	}
 
 	session.logger.terminal.writeVerboseLine('emit complete');
 
 	if (options.fast) session.logger.terminal.write('[FAST] ');
 	session.logger.terminal.writeLine(
-		`typescript compiled, ${writeCtx.files} file${writeCtx.files > 1 ? 's' : ''} emitted. ${
-			ts.ModuleKind[command.options.module!]
-		}: ${command.options.outDir}`
+		`typescript compiled, ${writeCtx.files} file${writeCtx.files > 1 ? 's' : ''} emitted, no errors.`,
 	);
+	session.logger.terminal.writeDebugLine(`Module: ${ts.ModuleKind[command.options.module!]}`);
+	session.logger.terminal.writeDebugLine(`OutDir: ${command.options.outDir}`);
 }
 function filterOutTests(fileNames: string[]) {
 	const isTestFile = /\.test\.(mjs|cjs|js|tsx?)$/i;

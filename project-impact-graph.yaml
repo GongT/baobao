@@ -190,6 +190,7 @@ projects:
       - '@build-script/heft-esbuild-plugin'
       - '@build-script/heft-plugins'
       - '@build-script/poormans-package-change'
+      - '@build-script/rush-pretty'
       - '@build-script/rushstack-config-loader'
       - '@gongt/fix-esm'
       - '@gongt/systemd-unit-generator'

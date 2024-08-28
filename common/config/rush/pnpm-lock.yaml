@@ -22,8 +22,8 @@ importers:
         specifier: workspace:^
         version: link:../../@idlebox/node
       chokidar:
-        specifier: ^3.5.3
-        version: 3.5.3
+        specifier: ^3.6.0
+        version: 3.6.0
       crc:
         specifier: ^4.3.2
         version: 4.3.2
@@ -63,7 +63,7 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.17
@@ -71,8 +71,8 @@ importers:
         specifier: ^1.9.4
         version: 1.9.4
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@build-script/heft-esbuild-plugin:
     dependencies:
@@ -84,7 +84,7 @@ importers:
         version: link:../../@idlebox/node
       '@rushstack/node-core-library':
         specifier: ^3.59.6
-        version: 3.59.6(@types/node@20.4.5)
+        version: 3.59.6(@types/node@22.5.0)
       comment-json:
         specifier: ^4.2.3
         version: 4.2.3
@@ -100,10 +100,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       esbuild:
         specifier: ^0.18.14
         version: 0.18.14
@@ -124,10 +124,10 @@ importers:
         version: link:../../@idlebox/typescript-surface-analyzer
       '@rushstack/heft-typescript-plugin':
         specifier: ^0.1.17
-        version: 0.1.17(@types/node@20.4.5)
+        version: 0.1.17(@types/node@22.5.0)
       '@rushstack/node-core-library':
         specifier: ^3.59.6
-        version: 3.59.6(@types/node@20.4.5)
+        version: 3.59.6(@types/node@22.5.0)
       '@supercharge/promise-pool':
         specifier: ^3.0.0
         version: 3.0.0
@@ -138,8 +138,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       glob:
-        specifier: ^10.3.3
-        version: 10.3.3
+        specifier: ^11.0.0
+        version: 11.0.0
       import:
         specifier: ^0.0.6
         version: 0.0.6
@@ -155,10 +155,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       '@types/source-map-support':
         specifier: ^0.5.6
         version: 0.5.6
@@ -210,10 +210,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       '@types/npm-registry-fetch':
         specifier: ^8.0.7
         version: 8.0.7
@@ -236,8 +236,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       '@types/node':
-        specifier: ^20.4.4
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       execa:
         specifier: ^7.2.0
         version: 7.2.0
@@ -251,6 +251,12 @@ importers:
         specifier: ^2.6.0
         version: 2.6.0
     devDependencies:
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
@@ -271,7 +277,7 @@ importers:
         version: link:../../@idlebox/node-json-edit
       '@microsoft/rush-lib':
         specifier: ^5.100.1
-        version: 5.100.1(@types/node@20.4.5)
+        version: 5.100.1(@types/node@22.5.0)
       cli-spinners:
         specifier: ^2.9.0
         version: 2.9.0
@@ -314,10 +320,10 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       '@types/pacote':
         specifier: ^11.1.5
         version: 11.1.5
@@ -354,16 +360,16 @@ importers:
         version: link:../../@internal/local-rig
       '@microsoft/api-extractor':
         specifier: ^7.36.2
-        version: 7.36.2(@types/node@20.4.5)
+        version: 7.36.2(@types/node@22.5.0)
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@rushstack/heft-typescript-plugin':
         specifier: ^0.1.17
-        version: 0.1.17(@types/node@20.4.5)
+        version: 0.1.17(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@build-script/single-dog-asset:
     dependencies:
@@ -389,10 +395,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@gongt/pnpm-instead-npm:
     dependencies:
@@ -407,8 +413,8 @@ importers:
         version: 3.0.1
     devDependencies:
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@gongt/systemd-unit-generator:
     dependencies:
@@ -430,10 +436,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@idlebox/browser:
     dependencies:
@@ -455,7 +461,7 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
 
   ../../@idlebox/chokidar:
     dependencies:
@@ -463,8 +469,8 @@ importers:
         specifier: workspace:^
         version: link:../common
       chokidar:
-        specifier: ^3.5.3
-        version: 3.5.3
+        specifier: ^3.6.0
+        version: 3.6.0
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@8.1.1)
@@ -480,13 +486,13 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.8
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@idlebox/common:
     dependencies:
@@ -505,7 +511,7 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -517,8 +523,8 @@ importers:
         version: 2.6.0
     devDependencies:
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@idlebox/itypes:
     dependencies:
@@ -549,10 +555,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       '@types/object-path':
         specifier: ^0.11.1
         version: 0.11.1
@@ -587,10 +593,10 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       chai:
         specifier: ^4.3.7
         version: 4.3.7
@@ -618,10 +624,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@idlebox/node-json-edit:
     dependencies:
@@ -646,10 +652,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -671,13 +677,13 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/heft-jest':
         specifier: ^1.0.3
         version: 1.0.3
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
 
   ../../@idlebox/tsconfig-loader:
     dependencies:
@@ -690,10 +696,10 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
@@ -727,13 +733,13 @@ importers:
         version: link:../../@internal/local-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/minimatch':
         specifier: ^5.1.2
         version: 5.1.2
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
@@ -748,7 +754,7 @@ importers:
         version: link:../../@build-script/single-dog-asset
       '@microsoft/api-extractor':
         specifier: ^7.36.2
-        version: 7.36.2(@types/node@20.4.5)
+        version: 7.36.2(@types/node@22.5.0)
       '@rushstack/heft-jest-plugin':
         specifier: ^0.7.17
         version: 0.7.17
@@ -767,7 +773,7 @@ importers:
         version: 0.1.17
       '@rushstack/heft-typescript-plugin':
         specifier: ^0.1.17
-        version: 0.1.17(@types/node@20.4.5)
+        version: 0.1.17(@types/node@22.5.0)
       eslint:
         specifier: ^8.44.0
         version: 8.44.0
@@ -782,7 +788,7 @@ importers:
         version: link:../../@build-script/single-dog-asset
       '@microsoft/api-extractor':
         specifier: ^7.36.2
-        version: 7.36.2(@types/node@20.4.5)
+        version: 7.36.2(@types/node@22.5.0)
       '@rushstack/heft-jest-plugin':
         specifier: ^0.7.17
         version: 0.7.17
@@ -801,7 +807,7 @@ importers:
         version: 0.1.17
       '@rushstack/heft-typescript-plugin':
         specifier: ^0.1.17
-        version: 0.1.17(@types/node@20.4.5)
+        version: 0.1.17(@types/node@22.5.0)
       eslint:
         specifier: ^8.44.0
         version: 8.44.0
@@ -816,10 +822,10 @@ importers:
         version: link:../../@build-script/single-dog-asset
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       comment-json:
         specifier: ^4.2.3
         version: 4.2.3
@@ -856,10 +862,10 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       '@types/split2':
         specifier: ^4.2.0
         version: 4.2.0
@@ -893,7 +899,7 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/chai':
         specifier: ^4.3.5
         version: 4.3.5
@@ -942,10 +948,10 @@ importers:
         version: link:../../@internal/dualstack-rig
       '@rushstack/heft':
         specifier: ^0.57.1
-        version: 0.57.1(@types/node@20.4.5)
+        version: 0.57.1(@types/node@22.5.0)
       '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
+        specifier: ^22.5.0
+        version: 22.5.0
       '@types/pacote':
         specifier: ^11.1.5
         version: 11.1.5
@@ -1963,8 +1969,8 @@ packages:
   '@types/node-fetch@2.6.4':
     resolution: {integrity: sha512-1ZX9fcN4Rvkvgv4E6PAY5WXUFWFcRWxZa3EW83UjycOB9ljJCedb2CupIP4RZMEwF/M3eTcCihbBRgwtGbg5Rg==}
 
-  '@types/node@20.4.5':
-    resolution: {integrity: sha512-rt40Nk13II9JwQBdeYqmbn2Q6IVTA5uPhvSO+JVqdXw/6/4glI6oR9ezty/A9Hg5u7JH4OmYmuQ+XvjKm0Datg==}
+  '@types/node@22.5.0':
+    resolution: {integrity: sha512-DkFrJOe+rfdHTqqMg0bSNlGlQ85hSoh2TPzZyhHsXnMtligRWpxUySiyw8FY14ITt24HVCiQPWxS3KO/QlGmWg==}
 
   '@types/normalize-package-data@2.4.1':
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -2415,6 +2421,10 @@ packages:
 
   chokidar@3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
+    engines: {node: '>= 8.10.0'}
+
+  chokidar@3.6.0:
+    resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
   chownr@1.1.4:
@@ -3119,14 +3129,22 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
+  glob@11.0.0:
+    resolution: {integrity: sha512-9UiX/Bl6J2yaBbxKoEBRm4Cipxgok8kQYcOPEhScPwebu2I0HoQOuYdIO6S3hLuWoZgpDpwQZMzTFxgpkyT76g==}
+    engines: {node: 20 || >=22}
+    hasBin: true
+
   glob@7.0.6:
     resolution: {integrity: sha512-f8c0rE8JiCxpa52kWPAOa3ZaYEnzofDzCQLCn3Vdk0Z5OVLq3BsRFJI4S4ykpeVW6QMGBUkMeUpoEgWnMTnw5Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@7.2.0:
     resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-agent@3.0.0:
     resolution: {integrity: sha512-PT6XReJ+D07JvGoxQMkT6qji/jVNfX/h364XHZOWeRzy64sSFr+xJ5OX7LI3b4MPQzdL4H8Y8M0xzPpsVMwA8Q==}
@@ -3568,6 +3586,10 @@ packages:
     resolution: {integrity: sha512-MXbxovZ/Pm42f6cDIDkl3xpwv1AGwObKwfmjs2nQePiy85tP3fatofl3FC1aBsOtP/6fq5SbtgHwWcMsLP+bDw==}
     engines: {node: '>=14'}
 
+  jackspeak@4.0.1:
+    resolution: {integrity: sha512-cub8rahkh0Q/bw1+GxP7aeSe29hHHn2V4m29nnDlvCdlgU+3UGxkZp7Z53jLUdpX3jdTO0nJZUDl3xvbWc2Xog==}
+    engines: {node: 20 || >=22}
+
   jest-changed-files@29.5.0:
     resolution: {integrity: sha512-IFG34IUMUaNBIxjQXF/iu7g6EcdMrGRRxaUSw92I/2g2YC6vCdTltl4nHvt7Ci5nSJwXIkCu8Ka1DKF+X7Z1Ag==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -3852,13 +3874,13 @@ packages:
     resolution: {integrity: sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==}
     engines: {node: '>=8'}
 
-  lru-cache@10.0.0:
-    resolution: {integrity: sha512-svTf/fzsKHffP42sujkO/Rjs37BCIsQVRCeNYIm9WN8rgT7ffoUnRtZCqU+6BqcSBdv8gwJeTz8knJpgACeQMw==}
-    engines: {node: 14 || >=16.14}
-
   lru-cache@10.2.2:
     resolution: {integrity: sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==}
     engines: {node: 14 || >=16.14}
+
+  lru-cache@11.0.0:
+    resolution: {integrity: sha512-Qv32eSV1RSCfhY3fpPE2GNZ8jgM9X7rdAfemLWqTUxwiyIC4jJ6Sy0fZ8H+oLWevO6i4/bizg7c8d8i6bxrzbA==}
+    engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -3972,6 +3994,10 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
+  minimatch@10.0.1:
+    resolution: {integrity: sha512-ethXTt3SGGR+95gudmqJ1eNhRO7eGEGIgYA9vnPatK4/etz2MEVDno5GMCibdMTuBMyElzIlgxMna3K94XDIDQ==}
+    engines: {node: 20 || >=22}
+
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
@@ -4031,6 +4057,10 @@ packages:
 
   minipass@7.1.1:
     resolution: {integrity: sha512-UZ7eQ+h8ywIRAW1hIEl2AqdwzJucU/Kp59+8kkZeSvafXhZjul247BvIJjEVFVeON6d7lM46XX1HXCduKAS8VA==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
+  minipass@7.1.2:
+    resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
 
   minizlib@2.1.2:
@@ -4406,6 +4436,9 @@ packages:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
 
+  package-json-from-dist@1.0.0:
+    resolution: {integrity: sha512-dATvCeZN/8wQsGywez1mzHtTlP22H8OEfPrVMLNr4/eGa+ijtLn/6M5f0dY8UKNrC2O9UCU6SSoG3qRKnt7STw==}
+
   package-json@6.5.0:
     resolution: {integrity: sha512-k3bdm2n25tkyxcjSKzB5x8kfVxlMdgsbPr0GkZcwHsLpba6cBjqCt1KlcChKEvxHIcTB1FVMuwoijZ26xex5MQ==}
     engines: {node: '>=8'}
@@ -4456,6 +4489,10 @@ packages:
   path-scurry@1.10.1:
     resolution: {integrity: sha512-MkhCqzzBEpPvxxQ71Md0b1Kk51W01lrYvlMzSUaIzNsODdd7mqhiimSZlr+VegAz5Z6Vzt9Xg2ttE//XBhH3EQ==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  path-scurry@2.0.0:
+    resolution: {integrity: sha512-ypGJsmGtdXUOeM5u93TyeIEfEhM6s+ljAhrk5vAvSx8uyY/02OvrZnA0YNGUrPXfpJMgI1ODd3nwz8Npx4O4cg==}
+    engines: {node: 20 || >=22}
 
   path-temp@2.0.0:
     resolution: {integrity: sha512-92olbatybjsHTGB2CUnAM7s0mU/27gcMfLNA7t09UftndUdxywlQKur3fzXEPpfLrgZD3I2Bt8+UmiL7YDEgXQ==}
@@ -4770,6 +4807,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rimraf@5.0.1:
@@ -5264,6 +5302,9 @@ packages:
 
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
+
+  undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
   unique-filename@3.0.0:
     resolution: {integrity: sha512-afXhuC55wkAmZ0P18QsVE6kp8JaxrEokN2HGIoIVv2ijHQd419H0+6EigAFcIzXeMIkcIkNBpB3L/DXB3cTS/g==}
@@ -6030,7 +6071,7 @@ snapshots:
   '@jest/console@29.6.1':
     dependencies:
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       chalk: 4.1.2
       jest-message-util: 29.6.1
       jest-util: 29.6.1
@@ -6043,14 +6084,14 @@ snapshots:
       '@jest/test-result': 29.6.1
       '@jest/transform': 29.5.0
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.8.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.5.0
-      jest-config: 29.5.0(@types/node@20.4.5)
+      jest-config: 29.5.0(@types/node@22.5.0)
       jest-haste-map: 29.6.1
       jest-message-util: 29.6.1
       jest-regex-util: 29.4.3
@@ -6074,7 +6115,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       jest-mock: 29.6.1
 
   '@jest/expect-utils@29.6.1':
@@ -6092,7 +6133,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.1
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       jest-message-util: 29.6.1
       jest-mock: 29.6.1
       jest-util: 29.6.1
@@ -6114,7 +6155,7 @@ snapshots:
       '@jest/transform': 29.5.0
       '@jest/types': 29.6.1
       '@jridgewell/trace-mapping': 0.3.18
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       chalk: 4.1.2
       collect-v8-coverage: 1.0.2
       exit: 0.1.2
@@ -6204,7 +6245,7 @@ snapshots:
       '@jest/schemas': 29.6.0
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       '@types/yargs': 17.0.24
       chalk: 4.1.2
 
@@ -6234,20 +6275,20 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@microsoft/api-extractor-model@7.27.4(@types/node@20.4.5)':
+  '@microsoft/api-extractor-model@7.27.4(@types/node@22.5.0)':
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.5(@types/node@22.5.0)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.36.2(@types/node@20.4.5)':
+  '@microsoft/api-extractor@7.36.2(@types/node@22.5.0)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.27.4(@types/node@20.4.5)
+      '@microsoft/api-extractor-model': 7.27.4(@types/node@22.5.0)
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.5(@types/node@22.5.0)
       '@rushstack/rig-package': 0.4.0
       '@rushstack/ts-command-line': 4.15.1
       colors: 1.2.5
@@ -6259,19 +6300,19 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/rush-lib@5.100.1(@types/node@20.4.5)':
+  '@microsoft/rush-lib@5.100.1(@types/node@22.5.0)':
     dependencies:
       '@pnpm/dependency-path': 2.1.3
       '@pnpm/link-bins': 5.3.25
-      '@rushstack/heft-config-file': 0.12.4(@types/node@20.4.5)
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
-      '@rushstack/package-deps-hash': 4.0.30(@types/node@20.4.5)
-      '@rushstack/package-extractor': 0.2.17(@types/node@20.4.5)
+      '@rushstack/heft-config-file': 0.12.4(@types/node@22.5.0)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
+      '@rushstack/package-deps-hash': 4.0.30(@types/node@22.5.0)
+      '@rushstack/package-extractor': 0.2.17(@types/node@22.5.0)
       '@rushstack/rig-package': 0.3.20
-      '@rushstack/rush-amazon-s3-build-cache-plugin': 5.100.1(@types/node@20.4.5)
-      '@rushstack/rush-azure-storage-build-cache-plugin': 5.100.1(@types/node@20.4.5)
-      '@rushstack/stream-collator': 4.0.248(@types/node@20.4.5)
-      '@rushstack/terminal': 0.5.23(@types/node@20.4.5)
+      '@rushstack/rush-amazon-s3-build-cache-plugin': 5.100.1(@types/node@22.5.0)
+      '@rushstack/rush-azure-storage-build-cache-plugin': 5.100.1(@types/node@22.5.0)
+      '@rushstack/stream-collator': 4.0.248(@types/node@22.5.0)
+      '@rushstack/terminal': 0.5.23(@types/node@22.5.0)
       '@rushstack/ts-command-line': 4.15.0
       '@types/node-fetch': 2.6.2
       '@yarnpkg/lockfile': 1.0.2
@@ -6467,31 +6508,31 @@ snapshots:
 
   '@rushstack/heft-api-extractor-plugin@0.1.14':
     dependencies:
-      '@rushstack/heft-config-file': 0.13.1(@types/node@20.4.5)
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.5)
+      '@rushstack/heft-config-file': 0.13.1(@types/node@22.5.0)
+      '@rushstack/node-core-library': 3.59.5(@types/node@22.5.0)
       semver: 7.3.8
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/heft-config-file@0.12.4(@types/node@20.4.5)':
+  '@rushstack/heft-config-file@0.12.4(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
       '@rushstack/rig-package': 0.3.20
       jsonpath-plus: 4.0.0
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/heft-config-file@0.13.1(@types/node@20.4.5)':
+  '@rushstack/heft-config-file@0.13.1(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.5(@types/node@22.5.0)
       '@rushstack/rig-package': 0.4.0
       jsonpath-plus: 4.0.0
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/heft-config-file@0.13.2(@types/node@20.4.5)':
+  '@rushstack/heft-config-file@0.13.2(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.6(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.6(@types/node@22.5.0)
       '@rushstack/rig-package': 0.4.0
       jsonpath-plus: 4.0.0
     transitivePeerDependencies:
@@ -6502,9 +6543,9 @@ snapshots:
       '@jest/core': 29.5.0
       '@jest/reporters': 29.5.0
       '@jest/transform': 29.5.0
-      '@rushstack/heft-config-file': 0.13.2(@types/node@20.4.5)
-      '@rushstack/node-core-library': 3.59.6(@types/node@20.4.5)
-      jest-config: 29.5.0(@types/node@20.4.5)
+      '@rushstack/heft-config-file': 0.13.2(@types/node@22.5.0)
+      '@rushstack/node-core-library': 3.59.6(@types/node@22.5.0)
+      jest-config: 29.5.0(@types/node@22.5.0)
       jest-resolve: 29.5.0
       jest-snapshot: 29.5.0
       lodash: 4.17.21
@@ -6516,25 +6557,25 @@ snapshots:
 
   '@rushstack/heft-lint-plugin@0.1.17':
     dependencies:
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.5(@types/node@22.5.0)
       semver: 7.3.8
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/heft-typescript-plugin@0.1.17(@types/node@20.4.5)':
+  '@rushstack/heft-typescript-plugin@0.1.17(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/heft-config-file': 0.13.1(@types/node@20.4.5)
-      '@rushstack/node-core-library': 3.59.5(@types/node@20.4.5)
+      '@rushstack/heft-config-file': 0.13.1(@types/node@22.5.0)
+      '@rushstack/node-core-library': 3.59.5(@types/node@22.5.0)
       '@types/tapable': 1.0.6
       semver: 7.3.8
       tapable: 1.1.3
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/heft@0.57.1(@types/node@20.4.5)':
+  '@rushstack/heft@0.57.1(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/heft-config-file': 0.13.2(@types/node@20.4.5)
-      '@rushstack/node-core-library': 3.59.6(@types/node@20.4.5)
+      '@rushstack/heft-config-file': 0.13.2(@types/node@22.5.0)
+      '@rushstack/node-core-library': 3.59.6(@types/node@22.5.0)
       '@rushstack/rig-package': 0.4.0
       '@rushstack/ts-command-line': 4.15.1
       '@types/tapable': 1.0.6
@@ -6549,7 +6590,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/node-core-library@3.59.3(@types/node@20.4.5)':
+  '@rushstack/node-core-library@3.59.3(@types/node@22.5.0)':
     dependencies:
       colors: 1.2.5
       fs-extra: 7.0.1
@@ -6559,9 +6600,9 @@ snapshots:
       semver: 7.3.8
       z-schema: 5.0.5
     optionalDependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
-  '@rushstack/node-core-library@3.59.5(@types/node@20.4.5)':
+  '@rushstack/node-core-library@3.59.5(@types/node@22.5.0)':
     dependencies:
       colors: 1.2.5
       fs-extra: 7.0.1
@@ -6571,9 +6612,9 @@ snapshots:
       semver: 7.3.8
       z-schema: 5.0.5
     optionalDependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
-  '@rushstack/node-core-library@3.59.6(@types/node@20.4.5)':
+  '@rushstack/node-core-library@3.59.6(@types/node@22.5.0)':
     dependencies:
       colors: 1.2.5
       fs-extra: 7.0.1
@@ -6583,19 +6624,19 @@ snapshots:
       semver: 7.5.4
       z-schema: 5.0.5
     optionalDependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
-  '@rushstack/package-deps-hash@4.0.30(@types/node@20.4.5)':
+  '@rushstack/package-deps-hash@4.0.30(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/package-extractor@0.2.17(@types/node@20.4.5)':
+  '@rushstack/package-extractor@0.2.17(@types/node@22.5.0)':
     dependencies:
       '@pnpm/link-bins': 5.3.25
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
-      '@rushstack/terminal': 0.5.23(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
+      '@rushstack/terminal': 0.5.23(@types/node@22.5.0)
       ignore: 5.1.9
       jszip: 3.8.0
       npm-packlist: 2.1.5
@@ -6612,10 +6653,10 @@ snapshots:
       resolve: 1.22.2
       strip-json-comments: 3.1.1
 
-  '@rushstack/rush-amazon-s3-build-cache-plugin@5.100.1(@types/node@20.4.5)':
+  '@rushstack/rush-amazon-s3-build-cache-plugin@5.100.1(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
-      '@rushstack/rush-sdk': 5.100.1(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
+      '@rushstack/rush-sdk': 5.100.1(@types/node@22.5.0)
       https-proxy-agent: 5.0.1
       node-fetch: 2.6.7
     transitivePeerDependencies:
@@ -6623,39 +6664,39 @@ snapshots:
       - encoding
       - supports-color
 
-  '@rushstack/rush-azure-storage-build-cache-plugin@5.100.1(@types/node@20.4.5)':
+  '@rushstack/rush-azure-storage-build-cache-plugin@5.100.1(@types/node@22.5.0)':
     dependencies:
       '@azure/identity': 2.1.0
       '@azure/storage-blob': 12.11.0
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
-      '@rushstack/rush-sdk': 5.100.1(@types/node@20.4.5)
-      '@rushstack/terminal': 0.5.23(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
+      '@rushstack/rush-sdk': 5.100.1(@types/node@22.5.0)
+      '@rushstack/terminal': 0.5.23(@types/node@22.5.0)
     transitivePeerDependencies:
       - '@types/node'
       - encoding
       - supports-color
 
-  '@rushstack/rush-sdk@5.100.1(@types/node@20.4.5)':
+  '@rushstack/rush-sdk@5.100.1(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
       '@types/node-fetch': 2.6.2
       tapable: 2.2.1
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/stream-collator@4.0.248(@types/node@20.4.5)':
+  '@rushstack/stream-collator@4.0.248(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
-      '@rushstack/terminal': 0.5.23(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
+      '@rushstack/terminal': 0.5.23(@types/node@22.5.0)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/terminal@0.5.23(@types/node@20.4.5)':
+  '@rushstack/terminal@0.5.23(@types/node@22.5.0)':
     dependencies:
-      '@rushstack/node-core-library': 3.59.3(@types/node@20.4.5)
+      '@rushstack/node-core-library': 3.59.3(@types/node@22.5.0)
       wordwrap: 1.0.0
     optionalDependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@rushstack/ts-command-line@4.15.0':
     dependencies:
@@ -6745,7 +6786,7 @@ snapshots:
   '@types/body-parser@1.19.2':
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/caseless@0.12.2': {}
 
@@ -6753,7 +6794,7 @@ snapshots:
 
   '@types/connect@3.4.35':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/debug@4.1.8':
     dependencies:
@@ -6761,7 +6802,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.17.35':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
       '@types/send': 0.17.1
@@ -6775,7 +6816,7 @@ snapshots:
 
   '@types/graceful-fs@4.1.6':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/heft-jest@1.0.3':
     dependencies:
@@ -6814,21 +6855,23 @@ snapshots:
 
   '@types/morgan@1.9.4':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/ms@0.7.31': {}
 
   '@types/node-fetch@2.6.2':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       form-data: 3.0.1
 
   '@types/node-fetch@2.6.4':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       form-data: 3.0.1
 
-  '@types/node@20.4.5': {}
+  '@types/node@22.5.0':
+    dependencies:
+      undici-types: 6.19.8
 
   '@types/normalize-package-data@2.4.1': {}
 
@@ -6836,7 +6879,7 @@ snapshots:
 
   '@types/npm-registry-fetch@8.0.7':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       '@types/node-fetch': 2.6.4
       '@types/npm-package-arg': 6.1.1
       '@types/npmlog': 4.1.4
@@ -6848,7 +6891,7 @@ snapshots:
 
   '@types/pacote@11.1.5':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       '@types/npm-registry-fetch': 8.0.7
       '@types/npmlog': 4.1.4
       '@types/ssri': 7.1.1
@@ -6864,7 +6907,7 @@ snapshots:
   '@types/request@2.48.8':
     dependencies:
       '@types/caseless': 0.12.2
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       '@types/tough-cookie': 4.0.2
       form-data: 2.5.1
 
@@ -6873,13 +6916,13 @@ snapshots:
   '@types/send@0.17.1':
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/serve-static@1.15.2':
     dependencies:
       '@types/http-errors': 2.0.1
       '@types/mime': 3.0.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/source-map-support@0.5.6':
     dependencies:
@@ -6887,11 +6930,11 @@ snapshots:
 
   '@types/split2@4.2.0':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/ssri@7.1.1':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/stack-utils@2.0.1': {}
 
@@ -6899,12 +6942,12 @@ snapshots:
 
   '@types/tar-fs@2.0.1':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       '@types/tar-stream': 2.2.2
 
   '@types/tar-stream@2.2.2':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/targz@1.0.1':
     dependencies:
@@ -6916,7 +6959,7 @@ snapshots:
 
   '@types/tunnel@0.0.3':
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
 
   '@types/yargs-parser@21.0.0': {}
 
@@ -7407,6 +7450,18 @@ snapshots:
       fsevents: 2.1.3
 
   chokidar@3.5.3:
+    dependencies:
+      anymatch: 3.1.3
+      braces: 3.0.2
+      glob-parent: 5.1.2
+      is-binary-path: 2.1.0
+      is-glob: 4.0.3
+      normalize-path: 3.0.0
+      readdirp: 3.6.0
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  chokidar@3.6.0:
     dependencies:
       anymatch: 3.1.3
       braces: 3.0.2
@@ -7996,7 +8051,7 @@ snapshots:
   expect@29.6.1:
     dependencies:
       '@jest/expect-utils': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       jest-get-type: 29.4.3
       jest-matcher-utils: 29.6.1
       jest-message-util: 29.6.1
@@ -8252,8 +8307,17 @@ snapshots:
       foreground-child: 3.1.1
       jackspeak: 2.2.1
       minimatch: 9.0.3
-      minipass: 7.0.2
+      minipass: 7.1.1
       path-scurry: 1.10.1
+
+  glob@11.0.0:
+    dependencies:
+      foreground-child: 3.1.1
+      jackspeak: 4.0.1
+      minimatch: 10.0.1
+      minipass: 7.1.2
+      package-json-from-dist: 1.0.0
+      path-scurry: 2.0.0
 
   glob@7.0.6:
     dependencies:
@@ -8705,6 +8769,12 @@ snapshots:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
+  jackspeak@4.0.1:
+    dependencies:
+      '@isaacs/cliui': 8.0.2
+    optionalDependencies:
+      '@pkgjs/parseargs': 0.11.0
+
   jest-changed-files@29.5.0:
     dependencies:
       execa: 5.1.1
@@ -8716,7 +8786,7 @@ snapshots:
       '@jest/expect': 29.6.1
       '@jest/test-result': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
@@ -8735,7 +8805,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jest-config@29.5.0(@types/node@20.4.5):
+  jest-config@29.5.0(@types/node@22.5.0):
     dependencies:
       '@babel/core': 7.22.9
       '@jest/test-sequencer': 29.6.1
@@ -8760,7 +8830,7 @@ snapshots:
       slash: 3.0.0
       strip-json-comments: 3.1.1
     optionalDependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
     transitivePeerDependencies:
       - supports-color
 
@@ -8788,7 +8858,7 @@ snapshots:
       '@jest/environment': 29.6.1
       '@jest/fake-timers': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       jest-mock: 29.6.1
       jest-util: 29.6.1
 
@@ -8798,7 +8868,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.1
       '@types/graceful-fs': 4.1.6
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -8837,7 +8907,7 @@ snapshots:
   jest-mock@29.6.1:
     dependencies:
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       jest-util: 29.6.1
 
   jest-pnp-resolver@1.2.3(jest-resolve@29.5.0):
@@ -8888,7 +8958,7 @@ snapshots:
       '@jest/test-result': 29.6.1
       '@jest/transform': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       chalk: 4.1.2
       emittery: 0.13.1
       graceful-fs: 4.2.11
@@ -8916,7 +8986,7 @@ snapshots:
       '@jest/test-result': 29.6.1
       '@jest/transform': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       chalk: 4.1.2
       cjs-module-lexer: 1.2.3
       collect-v8-coverage: 1.0.2
@@ -8991,7 +9061,7 @@ snapshots:
   jest-util@29.6.1:
     dependencies:
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
@@ -9010,7 +9080,7 @@ snapshots:
     dependencies:
       '@jest/test-result': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
@@ -9019,7 +9089,7 @@ snapshots:
 
   jest-worker@29.6.1:
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 22.5.0
       jest-util: 29.6.1
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -9187,9 +9257,9 @@ snapshots:
 
   lowercase-keys@2.0.0: {}
 
-  lru-cache@10.0.0: {}
-
   lru-cache@10.2.2: {}
+
+  lru-cache@11.0.0: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -9317,6 +9387,10 @@ snapshots:
 
   min-indent@1.0.1: {}
 
+  minimatch@10.0.1:
+    dependencies:
+      brace-expansion: 2.0.1
+
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.11
@@ -9379,6 +9453,8 @@ snapshots:
   minipass@7.0.2: {}
 
   minipass@7.1.1: {}
+
+  minipass@7.1.2: {}
 
   minizlib@2.1.2:
     dependencies:
@@ -9776,6 +9852,8 @@ snapshots:
 
   p-try@2.2.0: {}
 
+  package-json-from-dist@1.0.0: {}
+
   package-json@6.5.0:
     dependencies:
       got: 9.6.0
@@ -9835,8 +9913,13 @@ snapshots:
 
   path-scurry@1.10.1:
     dependencies:
-      lru-cache: 10.0.0
-      minipass: 7.0.2
+      lru-cache: 10.2.2
+      minipass: 7.1.1
+
+  path-scurry@2.0.0:
+    dependencies:
+      lru-cache: 11.0.0
+      minipass: 7.1.2
 
   path-temp@2.0.0:
     dependencies:
@@ -10221,13 +10304,13 @@ snapshots:
 
   sass@1.63.6:
     dependencies:
-      chokidar: 3.5.3
+      chokidar: 3.6.0
       immutable: 4.3.1
       source-map-js: 1.0.2
 
   sass@1.64.0:
     dependencies:
-      chokidar: 3.5.3
+      chokidar: 3.6.0
       immutable: 4.3.1
       source-map-js: 1.0.2
 
@@ -10682,6 +10765,8 @@ snapshots:
       has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
+
+  undici-types@6.19.8: {}
 
   unique-filename@3.0.0:
     dependencies:

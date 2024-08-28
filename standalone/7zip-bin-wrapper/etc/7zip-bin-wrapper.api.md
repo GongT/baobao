@@ -32,6 +32,8 @@ export function handleProgress(stream: NodeJS.ReadableStream, message: boolean):
 //
 // @public (undocumented)
 export class I7zHandler extends EventEmitter {
+    // @internal
+    constructor(toRun: IToRun);
     // (undocumented)
     cancel(): Promise<void>;
     // (undocumented)

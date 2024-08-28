@@ -6,7 +6,7 @@
 
 /// <reference types="node" />
 
-import { AsyncDisposable } from '@idlebox/common';
+import { AsyncDisposable as AsyncDisposable_2 } from '@idlebox/common';
 import { EventRegister } from '@idlebox/common';
 import fs from 'fs/promises';
 import { ReadStream } from 'fs';
@@ -44,7 +44,7 @@ export class AsyncLock {
 // Warning: (ae-missing-release-tag) "CacheFile" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export class CacheFile extends AsyncDisposable {
+export class CacheFile extends AsyncDisposable_2 {
     constructor(location: string);
     // (undocumented)
     closeWriter(): Promise<void>;
@@ -309,7 +309,7 @@ export function openCacheFileForWrite(file: string, create: boolean): Promise<Ca
 // Warning: (ae-missing-release-tag) "SectionBuffer" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export class SectionBuffer<MetaType> extends AsyncDisposable {
+export class SectionBuffer<MetaType> extends AsyncDisposable_2 {
     constructor(options: ISectionBufferOptions<MetaType>);
     // (undocumented)
     protected _complete: boolean;
@@ -354,7 +354,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
     // (undocumented)
     sync(): Promise<void>;
     // (undocumented)
-    protected _timer?: NodeJS.Timer;
+    protected _timer?: NodeJS.Timeout;
 }
 
 // Warning: (ae-missing-release-tag) "SignatureError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)

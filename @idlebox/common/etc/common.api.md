@@ -1124,15 +1124,14 @@ export const oneWeek = 604800000;
 // @public
 export function pad2(s: number): string;
 
-// Warning: (ae-forgotten-export) The symbol "PathArrayAbstract" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "TypePathArrayAbstract" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "PathArray" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export class PathArray extends PathArrayAbstract {
-    // (undocumented)
-    normalize(path: string): string;
+export class PathArray extends TypePathArrayAbstract {
 }
 
+// Warning: (ae-forgotten-export) The symbol "PathArrayAbstract" needs to be exported by the entry point __create_index.generated.d.ts
 // Warning: (ae-missing-release-tag) "PathArrayPosix" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)

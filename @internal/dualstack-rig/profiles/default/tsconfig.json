@@ -12,5 +12,6 @@
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		// "types": ["node"],
 		*/
-	}
+	},
+	"exclude": ["**/*.generator.ts"]
 }

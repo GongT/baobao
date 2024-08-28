@@ -38,7 +38,12 @@ function getByDistTag(json: any, distTag: string): IPackageJson | null {
 
 export async function getNewNpmCache(name: string, distTag: string, registry: string) {
 	console.error(`     * npm-registry-fetch: ${registry} :: ${name} @ ${distTag}`);
-	const json = await npmFetchJson(name, { cache: findNpmCachePath(), registry: registry, preferOnline: true });
+	const json = await npmFetchJson(name, {
+		cache: findNpmCachePath(),
+		registry: registry,
+		preferOnline: true,
+		fetchRetries: 5,
+	});
 	if (!json) {
 		errorLog('[!!] NPM cache structure changed!');
 		process.exit(1);

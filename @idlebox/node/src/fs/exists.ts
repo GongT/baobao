@@ -1,5 +1,6 @@
 import { ObjectEncodingOptions } from 'fs';
 import { access, readFile } from 'fs/promises';
+import { isNotExistsError } from '../error/types';
 export { existsSync } from 'fs';
 
 export async function exists(path: string) {
@@ -27,17 +28,4 @@ async function _readFileIfExists(file: string, encoding?: NodeJS.BufferEncoding 
 		}
 		throw e;
 	}
-}
-
-type NodeError<T> = { code: T } & Error;
-export function isNotExistsError(e: any): e is NodeError<'ENOENT'> {
-	return e.code === 'ENOENT';
-}
-
-export function isExistsError(e: any): e is NodeError<'EEXIST'> {
-	return e.code === 'EEXIST';
-}
-
-export function isTypeError(e: any): e is NodeError<'ENOTDIR' | 'ENOTDIR'> {
-	return e.code === 'EISDIR' || e.code === 'ENOTDIR';
 }

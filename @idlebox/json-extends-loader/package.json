@@ -29,7 +29,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.57.1",
-		"@types/node": "^20.4.5",
+		"@types/node": "^22.5.0",
 		"@types/object-path": "^0.11.1"
 	}
 }

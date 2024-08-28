@@ -17,7 +17,7 @@
 		"@build-script/rush-tools": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"chokidar": "^3.5.3",
+		"chokidar": "^3.6.0",
 		"crc": "^4.3.2",
 		"esbuild": "^0.18.14",
 		"esbuild-sass-plugin": "^2.10.0",
@@ -35,6 +35,6 @@
 		"@rushstack/heft": "^0.57.1",
 		"@types/express": "^4.17.17",
 		"@types/morgan": "^1.9.4",
-		"@types/node": "^20.4.5"
+		"@types/node": "^22.5.0"
 	}
 }
