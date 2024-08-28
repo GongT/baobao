@@ -1,6 +1,10 @@
-export class OutputFile {
+import { md5 } from '@idlebox/node';
+import type { OutputFile as IOutputFile } from 'esbuild';
+
+export class OutputFile implements IOutputFile {
 	private _contents?: Buffer;
 	private _text?: string;
+	private _hash: string;
 
 	get contents(): Buffer {
 		if (typeof this._contents === 'undefined') {
@@ -24,11 +28,32 @@ export class OutputFile {
 		this._text = text;
 	}
 
+	asString() {
+		return this._text ?? this._contents!.toString('utf-8');
+	}
+	asBinary() {
+		return this._contents ?? Buffer.from(this._text!, 'utf-8');
+	}
+	asAny() {
+		return this._contents ?? this._text ?? '';
+	}
+
+	get hash() {
+		return this._hash;
+	}
+
+	set hash(_: any) {
+		throw new Error('can not set hash');
+	}
+
 	constructor(
 		public path: string,
-		init: Buffer | string
+		init: Buffer | string,
+		hash = md5(init),
 	) {
-		if (typeof init === 'string') this.text = init;
-		else this.contents = init;
+		if (typeof init === 'string') this._text = init;
+		else this._contents = init;
+
+		this._hash = hash;
 	}
 }

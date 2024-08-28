@@ -1,0 +1,18 @@
+{
+	"name": "@internal/codegen-rig",
+	"version": "1.0.0",
+	"description": "",
+	"license": "WTFPL",
+	"scripts": {
+		"build": "",
+		"build:watch": "",
+		"clean": "",
+		"watch": ""
+	},
+	"private": true,
+	"dependencies": {
+		"@internal/local-rig": "workspace:^",
+		"@build-script/heft-plugins": "workspace:^",
+		"typescript": "^5.5.4"
+	}
+}

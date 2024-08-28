@@ -1,5 +1,5 @@
 {
-	"extends": "@internal/local-rig/profiles/simple/tsconfig.json",
+	"extends": "@internal/codegen-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",

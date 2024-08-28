@@ -1,22 +1,21 @@
-# poormans-package-change
-
--   Do you manage more than 10 package at same time?
--   Did you forgot/lazy to tag previous version with git?
--   Did you remember which package changed since last publish?
--   Should you increase version and publish it again?
-
-Run this now! It's FREE! Pickup your phone (BEEEEEP)
+# node-package-tools
 
 # Usage
 
 ```
-poormans-package-change <command> [--args]
+node-package-tools <command> [--args]
+```
+
+or
+
+```
+njspkg <command> [--args]
 ```
 
 ## command: detect-package-change
 
 ```
-Usage: poormans-package-change detect-package-change --registry ??? --dist-tag ??? --package ??? --bump --json --quiet
+Usage: njspkg detect-package-change --registry ??? --dist-tag ??? --package ??? --bump --json --quiet
          registry: default to use system .npmrc
          dist-tag: default to "latest"
          package: this folder contains package.json (default to ./)
@@ -50,8 +49,8 @@ The return code always 0 if no error. no matter changed or not.
 ## command: run-if-version-mismatch
 
 ```
-Usage: poormans-package-change run-if-version-mismatch [--quiet] -- <command to run>
-	Eg: poormans-package-change run-if-version-mismatch -- pnpm publish --no-git-checks
+Usage: njspkg run-if-version-mismatch [--quiet] -- <command to run>
+	Eg: njspkg run-if-version-mismatch -- pnpm publish --no-git-checks
 ```
 
 Run a command, if local `version` in `package.json` is NOT same with npm registry.  
@@ -61,9 +60,9 @@ Run a command, if local `version` in `package.json` is NOT same with npm registr
 
 ```bash
 # update package.json if something changed
-poormans-package-change detect-package-change --bump --quiet
+njspkg detect-package-change --bump
 # run pnpm publish if version is not same with npm
 #    maybe modified by above command
 #    maybe by hand
-poormans-package-change run-if-version-mismatch --quiet -- pnpm publish --no-git-checks
+njspkg run-if-version-mismatch --quiet -- pnpm publish --no-git-checks
 ```

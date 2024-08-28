@@ -1,0 +1,20 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+	"extends": "@internal/local-rig/profiles/simple/config/heft.json",
+	"phasesByName": {
+		"pre-compile": {
+			"cleanFiles": [{ "sourcePath": "src", "includeGlobs": ["**/*.generated.ts"] }],
+			"tasksByName": {
+				"codegen": {
+					"taskPlugin": {
+						"pluginName": "codegen",
+						"pluginPackage": "@build-script/heft-plugins",
+						"options": {
+							"project": "src/tsconfig.json"
+						}
+					}
+				}
+			}
+		}
+	}
+}

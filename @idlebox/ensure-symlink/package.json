@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/ensure-symlink",
-	"version": "1.0.27",
+	"version": "1.0.28",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
 	"license": "MIT",
 	"main": "index.js",
@@ -12,10 +12,10 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"tslib": "^2.6.0"
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
-		"@types/node": "^22.5.0"
+		"@types/node": "^22.5.1"
 	},
 	"monorepo": true
 }

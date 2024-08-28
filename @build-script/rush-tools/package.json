@@ -35,27 +35,27 @@
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
-		"@microsoft/rush-lib": "^5.100.1",
-		"cli-spinners": "^2.9.0",
-		"comment-json": "^4.2.3",
-		"dependency-graph": "^0.11.0",
-		"execa": "^7.2.0",
-		"ora": "^6.3.1",
-		"pacote": "^15.2.0",
-		"semver": "^7.5.4",
+		"@microsoft/rush-lib": "^5.133.0",
+		"cli-spinners": "^3.1.0",
+		"comment-json": "^4.2.5",
+		"dependency-graph": "^1.0.0",
+		"execa": "^9.3.1",
+		"ora": "^8.1.0",
+		"pacote": "^18.0.6",
+		"semver": "^7.6.3",
 		"source-map-support": "^0.5.21",
 		"split2": "^4.2.0",
 		"tiny-async-pool": "^2.1.0",
-		"tslib": "^2.6.0"
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.1",
-		"@types/node": "^22.5.0",
-		"@types/pacote": "^11.1.5",
-		"@types/semver": "^7.5.0",
-		"@types/split2": "^4.2.0",
-		"@types/tiny-async-pool": "^2.0.0"
+		"@rushstack/heft": "^0.67.0",
+		"@types/node": "^22.5.1",
+		"@types/pacote": "^11.1.8",
+		"@types/semver": "^7.5.8",
+		"@types/split2": "^4.2.3",
+		"@types/tiny-async-pool": "^2.0.3"
 	}
 }

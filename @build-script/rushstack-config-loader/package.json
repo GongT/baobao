@@ -17,15 +17,15 @@
 	"dependencies": {
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
-		"@rushstack/rig-package": "^0.4.0",
-		"tslib": "^2.6.0"
+		"@rushstack/rig-package": "^0.5.3",
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@microsoft/api-extractor": "^7.36.2",
-		"@rushstack/heft": "^0.57.1",
-		"@rushstack/heft-typescript-plugin": "^0.1.17",
-		"@types/node": "^22.5.0"
+		"@microsoft/api-extractor": "^7.47.7",
+		"@rushstack/heft": "^0.67.0",
+		"@rushstack/heft-typescript-plugin": "^0.5.25",
+		"@types/node": "^22.5.1"
 	}
 }

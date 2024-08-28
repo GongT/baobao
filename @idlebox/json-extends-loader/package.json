@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/json-extends-loader",
 	"type": "commonjs",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",
@@ -20,16 +20,16 @@
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"comment-json": "^4.2.3",
+		"comment-json": "^4.2.5",
 		"deepmerge": "^4.3.1",
 		"object-path": "^0.11.8",
-		"tslib": "^2.6.0"
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.1",
-		"@types/node": "^22.5.0",
-		"@types/object-path": "^0.11.1"
+		"@rushstack/heft": "^0.67.0",
+		"@types/node": "^22.5.1",
+		"@types/object-path": "^0.11.4"
 	}
 }

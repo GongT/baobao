@@ -4,15 +4,13 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { EventEmitter } from 'events';
-import { ExecaReturnValue } from 'execa';
 import { IDisposable } from '@idlebox/common';
 import { Options } from 'execa';
 import { PathArray } from '@idlebox/common';
 import { Readable } from 'stream';
 import { readFile } from 'fs/promises';
+import { Result } from 'execa';
 import { Transform } from 'stream';
 import { WrappedConsole } from '@idlebox/common';
 import { WrappedConsoleOptions } from '@idlebox/common';
@@ -93,10 +91,17 @@ export function dumpEventEmitterEmit(ev: EventEmitter): void;
 // @public
 export function emptyDir(path: string, create_if_nexists?: boolean): Promise<void>;
 
-// Warning: (ae-missing-release-tag) "execLazyError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-forgotten-export) The symbol "ConvStdout" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-forgotten-export) The symbol "ISpawnConst" needs to be exported by the entry point __create_index.generated.d.ts
+// Warning: (ae-missing-release-tag) "ExecaReturnValue" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function execLazyError(cmd: string, args: string[], spawnOptions?: Omit<Options, 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr'> & ISpawnAdditionOptions): Promise<ExecaReturnValue<string>>;
+export type ExecaReturnValue<options extends ISpawnOptions> = Result<ConvStdout<Omit<options, 'verbose'>> & ISpawnConst>;
+
+// Warning: (ae-missing-release-tag) "execLazyError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public
+export function execLazyError<T extends ISpawnOptions = ISpawnOptions>(cmd: string, args: string[], spawnOptions: T): Promise<ExecaReturnValue<T>>;
 
 // Warning: (ae-missing-release-tag) "exists" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -208,13 +213,12 @@ export function isNodeError(e: unknown): e is NodeException;
 // @public (undocumented)
 export function isNotExistsError(e: unknown): e is NodeException<LinuxError.ENOENT>;
 
-// Warning: (ae-missing-release-tag) "ISpawnAdditionOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+// Warning: (ae-missing-release-tag) "ISpawnOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export interface ISpawnAdditionOptions {
-    // (undocumented)
+export type ISpawnOptions = Omit<Options, 'lines' | 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr' | 'verbose'> & {
     verbose?: boolean;
-}
+};
 
 // Warning: (ae-missing-release-tag) "isTypeError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -501,7 +505,7 @@ export function lrelative(from: string, to: string): string;
 // Warning: (ae-missing-release-tag) "md5" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function md5(data: Buffer): string;
+export function md5(data: Buffer | string): string;
 
 // Warning: (ae-missing-release-tag) "NodeError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -1175,7 +1179,7 @@ export function sha256(data: Buffer): string;
 // Warning: (ae-missing-release-tag) "spawnGetEverything" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<string | undefined>;
+export function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<string>;
 
 // Warning: (ae-missing-release-tag) "spawnGetOutput" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //

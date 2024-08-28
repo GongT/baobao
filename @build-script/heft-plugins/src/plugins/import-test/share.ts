@@ -1,8 +1,8 @@
+import type { IPackageJson, IPackageJsonExports } from '@rushstack/node-core-library';
 import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'fs';
 import { mkdir, writeFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { dirname, resolve } from 'path';
-import { IPackageJson } from '@rushstack/node-core-library';
 import ts from 'typescript';
 import { IOutputShim } from '../../misc/scopedLogger';
 
@@ -43,11 +43,18 @@ export async function run(projectInput: string, logger: IOutputShim, tempdir: st
 	}
 }
 
+function isExportMap(exports: IPackageJson['exports']): exports is Record<string, null | string | IPackageJsonExports> {
+	return !!exports && typeof exports === 'object' && !Array.isArray(exports);
+}
+function isObject(obj: any): obj is object {
+	return !!obj && typeof obj === 'object';
+}
+
 function runInner(
 	projectRoot: string,
 	pkgJson: IPackageJson & Record<string, any>,
 	logger: IOutputShim,
-	tempdir: string
+	tempdir: string,
 ): Promise<string | void>[] {
 	const {
 		name: pkgName,
@@ -58,7 +65,11 @@ function runInner(
 		dependencies,
 		devDependencies,
 	} = pkgJson;
-	const innerTypes = pkgExports?.['.']?.['types'];
+
+	let innerTypes;
+	if (isExportMap(pkgExports) && isObject(pkgExports['.'])) {
+		innerTypes = pkgExports['.']['types'];
+	}
 
 	for (const types of [innerTypes, pkgTypes]) {
 		if (typeof types !== 'string') continue;
@@ -78,7 +89,7 @@ function runInner(
 			logger.debug('no "exports" or "main" in package.json');
 			return [Promise.resolve()];
 		}
-		if (typeof pkgExports === 'object' && !pkgExports['.']) {
+		if (isExportMap(pkgExports) && !pkgExports['.']) {
 			logger.warn('no default exports in package.json, current not support');
 			return [Promise.resolve()];
 		}
@@ -112,8 +123,8 @@ function runInner(
 				},
 			},
 			null,
-			4
-		)
+			4,
+		),
 	);
 
 	const slink = resolve(tempdir, 'node_modules', pkgName);
@@ -140,7 +151,7 @@ function runInner(
 		...tsCompileOption,
 	}).then(
 		() => logger.debug(`test node16 (esm) loader: ok`),
-		(e) => 'node16 (esm) resolution failed: ' + e?.message
+		(e) => 'node16 (esm) resolution failed: ' + e?.message,
 	);
 
 	const pct2 = checkTs(resolve(tempdir, 'node-16-cjs'), pkgName, {
@@ -151,7 +162,7 @@ function runInner(
 		...tsCompileOption,
 	}).then(
 		() => logger.debug(`test node16 (cjs) loader: ok`),
-		(e) => 'node16 (cjs) resolution failed: ' + e?.message
+		(e) => 'node16 (cjs) resolution failed: ' + e?.message,
 	);
 
 	const pct3 = checkTs(resolve(tempdir, 'node'), pkgName, {
@@ -160,7 +171,7 @@ function runInner(
 		...tsCompileOption,
 	}).then(
 		() => logger.debug(`test node module loader: ok`),
-		(e) => 'node module resolution failed: ' + e?.message
+		(e) => 'node module resolution failed: ' + e?.message,
 	);
 
 	return [pnt1, pnt2, pct1, pct2, pct3];
@@ -212,7 +223,7 @@ async function checkNode(title: string, src: string, tempdir: string, logger: IO
 async function checkTs(
 	path: string,
 	pkgName: string,
-	options: Record<keyof ts.CompilerOptions, any>
+	options: Record<keyof ts.CompilerOptions, any>,
 ): Promise<string | void> {
 	await mkdir(path);
 	await writeFile(resolve(path, 'index.ts'), `import * as __lib from '${pkgName}';`);
@@ -228,8 +239,8 @@ async function checkTs(
 				files: ['index.ts'],
 			},
 			null,
-			4
-		)
+			4,
+		),
 	);
 
 	const execa = (await requireExeca()).execa;

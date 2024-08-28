@@ -25,18 +25,18 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:",
 		"@gongt/fix-esm": "workspace:^",
-		"execa": "^7.2.0",
+		"execa": "^9.3.1",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.6.0"
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@gongt/kexec": "^3.0.0",
 		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.1",
-		"@types/node": "^22.5.0",
-		"chai": "^4.3.7",
-		"mocha": "^10.2.0"
+		"@rushstack/heft": "^0.67.0",
+		"@types/node": "^22.5.1",
+		"chai": "^5.1.1",
+		"mocha": "^10.7.3"
 	},
 	"peerDependencies": {
 		"fix-esm": "^1.0.1"

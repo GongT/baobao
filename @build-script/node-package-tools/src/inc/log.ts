@@ -1,5 +1,5 @@
 export const logEnable = !process.argv.includes('--quiet');
-
+const isTTY = process.stderr.isTTY;
 export const logExecStream = logEnable ? process.stderr : 'ignore';
 
 function _log(msg: string, ...args: any[]) {
@@ -8,7 +8,11 @@ function _log(msg: string, ...args: any[]) {
 export const log = logEnable ? _log : noop;
 
 export function debug(msg: string, ...args: any[]) {
-	log('\x1B[2m' + msg + '\x1B[0m', ...args);
+	if (isTTY) {
+		log('\x1B[0;2m' + msg + '\x1B[0m', ...args);
+	} else {
+		log(msg, ...args);
+	}
 }
 
 function _logStream(source: NodeJS.ReadableStream) {
@@ -21,9 +25,19 @@ export function errorLog(msg: string, ...args: any[]) {
 }
 
 function _line(char = '-') {
-	console.error(char.repeat(process.stderr.columns || 80));
+	console.error(char.repeat(process.stderr.columns || 40));
 }
 
 export const line: typeof _line = logEnable ? _line : noop;
 
 function noop(..._: any[]) {}
+
+process.on('log', (level: string, ...args: any[]) => {
+	if (level === 'pause' || level === 'resume') {
+		return;
+	} else if (level === 'error' || level === 'notice' || level === 'warn') {
+		errorLog(`[npm][${level}]`, ...args);
+	} else {
+		debug(`[npm][${level}]`, ...args);
+	}
+});

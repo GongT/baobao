@@ -11,5 +11,13 @@ export async function getNpmConfigValue(field: string): Promise<string> {
 	return await spawnGetOutput({
 		exec: ['npm', 'config', 'get', field],
 		addonPath: [dirname(process.argv0)],
-	}).catch(() => '');
+	})
+		.catch(() => '')
+		.then((e) => {
+			if (e === 'undefined') {
+				return '';
+			} else {
+				return '';
+			}
+		});
 }

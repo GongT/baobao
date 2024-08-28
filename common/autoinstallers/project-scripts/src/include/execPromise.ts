@@ -1,7 +1,7 @@
-import { createWriteStream, existsSync, mkdirSync, truncateSync } from 'fs';
-import { dirname } from 'path';
 import { CollectingStream, streamPromise } from '@idlebox/node';
 import { execa, Options as SpawnOptions } from 'execa';
+import { createWriteStream, existsSync, mkdirSync, truncateSync } from 'fs';
+import { dirname } from 'path';
 import split2 from 'split2';
 import { TEMP_DIR } from './paths';
 
@@ -26,6 +26,7 @@ export function execPromise({
 		...opts,
 		stdio: ['ignore', 'pipe', 'pipe'],
 		shell: false,
+		lines: true,
 		cwd: cwd,
 	});
 
@@ -78,7 +79,7 @@ export function execPromise({
 							full: full,
 						});
 					},
-					reject
+					reject,
 				);
 			}
 		});

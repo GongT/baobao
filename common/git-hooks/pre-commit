@@ -3,10 +3,15 @@
 set -Eeuo pipefail
 
 die() {
-	echo -e "\e[38;5;9m$*\e[0m"
+	echo -e "\e[38;5;9m$*\e[0m" >&2
 	exit 1
 }
+x(){
+	echo -e "\e[2m >> $*\e[0m" >&2
+	"$@"
+}
 
-echo -e "\e[2m ======== pre-commit ========\e[0m"
+echo -e "\e[2m ======== pre-commit ========\e[0m" >&2
 
-node common/scripts/install-run-rush.js pretty --staged
+export "npm_config_prefer_offline=false"
+x node common/scripts/install-run-rush.js pretty --staged

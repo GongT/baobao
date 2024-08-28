@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="@idlebox/itypes" />
-
 // Warning: (ae-missing-release-tag) "addDisposableEventListener" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 // Warning: (ae-missing-release-tag) "addDisposableEventListener" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -71,7 +69,7 @@ export class AsyncCallbackList<Argument extends unknown[]> {
 }
 
 // @public
-export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
+class AsyncDisposable_2 implements IAsyncDisposable, IDisposableEvents {
     // (undocumented)
     assertNotDisposed(): void;
     // (undocumented)
@@ -92,6 +90,7 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
     // (undocumented)
     _unregister(d: IAsyncDisposable): boolean;
 }
+export { AsyncDisposable_2 as AsyncDisposable }
 
 // Warning: (ae-missing-release-tag) "awaitIterator" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -377,7 +376,7 @@ export function deleteSymbol(category: string, name: string): void;
 // Warning: (ae-missing-release-tag) "Disposable" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public
-export class Disposable implements IDisposable, IDisposableEvents {
+class Disposable_2 implements IDisposable, IDisposableEvents {
     // (undocumented)
     assertNotDisposed(): void;
     // (undocumented)
@@ -398,6 +397,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
     // (undocumented)
     _unregister(d: IDisposable): boolean;
 }
+export { Disposable_2 as Disposable }
 
 // Warning: (ae-missing-release-tag) "DisposableOnce" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -520,7 +520,7 @@ export function getTimeStamp(date: Date): number;
 // Warning: (ae-missing-release-tag) "getTypeOf" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function getTypeOf(value: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "function" | "unknown" | "null" | "Promise" | "Error" | "DOM" | "EventTarget" | "datetime" | "regexp";
+export function getTypeOf(value: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "function" | "null" | "Promise" | "Error" | "DOM" | "EventTarget" | "datetime" | "regexp" | "unknown";
 
 // @public
 export const globalObject: any;
@@ -951,7 +951,7 @@ export const KnownError: typeof KnownErrorNode;
 export function lcfirst<T extends string>(str: T): Uncapitalize<T>;
 
 // @alpha
-export abstract class LifecycleObject extends AsyncDisposable {
+export abstract class LifecycleObject extends AsyncDisposable_2 {
     // (undocumented)
     dispose(): Promise<void>;
     protected abstract done(): void;

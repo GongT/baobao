@@ -6,8 +6,8 @@
 
 import { DeepReadonly } from '@idlebox/common';
 import { DepGraph } from 'dependency-graph';
-import { ExecaReturnValue } from 'execa';
 import { IPackageJson } from '@idlebox/common';
+import { Result } from 'execa';
 
 // Warning: (ae-missing-release-tag) "argumentError" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -383,7 +383,11 @@ export function shiftArgumentFlag(argv: string[], flag: string): boolean;
 // Warning: (ae-missing-release-tag) "spawnRushPassthrough" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
-export function spawnRushPassthrough(action: string, argv: string[], env?: Record<string, string>): Promise<ExecaReturnValue<string>>;
+export function spawnRushPassthrough(action: string, argv: string[], env?: Record<string, string>): Promise<Result<    {
+stdio: "inherit";
+cwd: string;
+env: Record<string, string>;
+}>>;
 
 // Warning: (ae-missing-release-tag) "spinner" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -401,36 +405,62 @@ export const updateAllInstallers: typeof update;
 
 // Warnings were encountered during analysis:
 //
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:748:11 - (TS2304) Cannot find name 'URL'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1190:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1191:10 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1192:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1193:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1194:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:750:11 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1192:11 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1193:10 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1194:14 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1195:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1196:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1197:13 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1196:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1197:12 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1198:11 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1199:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1200:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1201:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1202:17 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1199:13 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1200:11 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1201:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1202:14 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1203:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1204:21 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1205:15 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1206:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1207:10 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1204:17 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1205:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1206:21 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1207:15 - (TS2304) Cannot find name 'Console'.
 // /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1208:12 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1210:32 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1213:41 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1226:14 - (TS2304) Cannot find name 'Console'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:1:27 - (TS2307) Cannot find module 'node:buffer' or its corresponding type declarations.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:2:33 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:3:93 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:39:31 - (TS2304) Cannot find name 'URL'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:117:26 - (TS2304) Cannot find name 'URL'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:124:17 - (TS2503) Cannot find namespace 'NodeJS'.
-// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@7.2.0/node_modules/execa/index.d.ts:232:20 - (TS2304) Cannot find name 'AbortSignal'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1209:10 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1210:12 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1212:32 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1215:41 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/@idlebox/common/lib/cjs/__create_index.generated.d.cts:1228:14 - (TS2304) Cannot find name 'Console'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:1:36 - (TS2307) Cannot find module 'node:os' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:2:29 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:23:31 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:50:31 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:61:38 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:70:26 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:101:32 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/arguments/options.d.ts:282:41 - (TS2304) Cannot find name 'AbortSignal'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/ipc.d.ts:99:44 - (TS2304) Cannot find name 'AbortSignal'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/main-async.d.ts:373:55 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/main-async.d.ts:378:55 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/main-sync.d.ts:53:59 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/main-sync.d.ts:58:59 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/node.d.ts:56:61 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/node.d.ts:61:61 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/script.d.ts:78:55 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/script.d.ts:83:55 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/script.d.ts:109:59 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/methods/script.d.ts:114:59 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/pipe.d.ts:24:26 - (TS2304) Cannot find name 'AbortSignal'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/pipe.d.ts:35:18 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/pipe.d.ts:40:18 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/return/result.d.ts:1:36 - (TS2307) Cannot find module 'node:os' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/stdio/type.d.ts:1:39 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/stdio/type.d.ts:2:68 - (TS2307) Cannot find module 'node:stream/web' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/stdio/type.d.ts:51:4 - (TS2304) Cannot find name 'URL'.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/subprocess/all.d.ts:1:29 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/subprocess/stdout.d.ts:1:39 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/subprocess/subprocess.d.ts:1:33 - (TS2307) Cannot find module 'node:child_process' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/subprocess/subprocess.d.ts:2:36 - (TS2307) Cannot find module 'node:os' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/subprocess/subprocess.d.ts:3:47 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/transform/normalize.d.ts:1:36 - (TS2307) Cannot find module 'node:stream/web' or its corresponding type declarations.
+// /data/DevelopmentRoot/github.com/gongt/baobao/common/temp/node_modules/.pnpm/execa@9.3.1/node_modules/execa/types/transform/normalize.d.ts:2:27 - (TS2307) Cannot find module 'node:stream' or its corresponding type declarations.
 
 // (No @packageDocumentation comment for this package)
 

@@ -17,12 +17,13 @@ projects:
     dependentProjects:
       - '@build-script/heft-esbuild-plugin'
       - '@build-script/heft-plugins'
+      - '@internal/codegen-rig'
       - '@internal/dualstack-rig'
-  '@build-script/poormans-package-change':
+  '@build-script/node-package-tools':
     includedGlobs:
-      - '@build-script/poormans-package-change/**'
+      - '@build-script/node-package-tools/**'
     dependentProjects:
-      - '@build-script/poormans-package-change'
+      - '@build-script/node-package-tools'
   '@build-script/rush-pretty':
     includedGlobs:
       - '@build-script/rush-pretty/**'
@@ -44,7 +45,7 @@ projects:
       - '@build-script/single-dog-asset/**'
     dependentProjects:
       - 7zip-bin-wrapper
-      - '@build-script/poormans-package-change'
+      - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
       - '@build-script/rushstack-config-loader'
       - '@build-script/single-dog-asset'
@@ -96,9 +97,8 @@ projects:
     dependentProjects:
       - '@build-script/esbuild'
       - '@build-script/heft-esbuild-plugin'
-      - '@build-script/poormans-package-change'
+      - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
-      - '@gongt/systemd-unit-generator'
       - '@idlebox/browser'
       - '@idlebox/chokidar'
       - '@idlebox/common'
@@ -130,7 +130,7 @@ projects:
     dependentProjects:
       - '@build-script/esbuild'
       - '@build-script/heft-esbuild-plugin'
-      - '@build-script/poormans-package-change'
+      - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
       - '@idlebox/node'
       - unipm
@@ -144,7 +144,7 @@ projects:
     includedGlobs:
       - '@idlebox/node-json-edit/**'
     dependentProjects:
-      - '@build-script/poormans-package-change'
+      - '@build-script/node-package-tools'
       - '@build-script/rush-pretty'
       - '@build-script/rush-tools'
       - '@idlebox/node-json-edit'
@@ -168,6 +168,12 @@ projects:
     dependentProjects:
       - '@build-script/heft-plugins'
       - '@idlebox/typescript-surface-analyzer'
+  '@internal/codegen-rig':
+    includedGlobs:
+      - '@internal/codegen-rig/**'
+    dependentProjects:
+      - '@build-script/node-package-tools'
+      - '@internal/codegen-rig'
   '@internal/dualstack-rig':
     includedGlobs:
       - '@internal/dualstack-rig/**'
@@ -189,7 +195,6 @@ projects:
       - '@build-script/esbuild'
       - '@build-script/heft-esbuild-plugin'
       - '@build-script/heft-plugins'
-      - '@build-script/poormans-package-change'
       - '@build-script/rush-pretty'
       - '@build-script/rushstack-config-loader'
       - '@gongt/fix-esm'
@@ -199,6 +204,7 @@ projects:
       - '@idlebox/node-json-edit'
       - '@idlebox/tsconfig-loader'
       - '@idlebox/typescript-surface-analyzer'
+      - '@internal/codegen-rig'
       - '@internal/local-rig'
   '@internal/plugins':
     includedGlobs:

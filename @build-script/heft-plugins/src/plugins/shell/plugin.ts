@@ -1,6 +1,6 @@
 import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
-import { resolve } from 'path';
 import { execa } from 'execa';
+import { resolve } from 'path';
 
 interface IMyOptions {
 	interpreter?: string;
@@ -47,12 +47,13 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 			cwd = resolve(cwd, options.workingDirectory);
 		}
 
-		const dbg = [];
-		dbg.push({ foregroundColor: 8, text: `$ ${exe} ${args.join(' ')}` });
+		let dbg = '';
+		dbg += `\x1B[2m$ ${exe} ${args.join(' ')}`;
 		if (cwd) {
-			dbg.push({ foregroundColor: 8, text: ` (wd: ${cwd})` });
+			dbg += ` (wd: ${cwd})`;
 		}
-		session.logger.terminal.writeLine(...dbg);
+		dbg += `\x1B[0m`;
+		session.logger.terminal.writeLine(dbg);
 
 		const result = await execa(exe, args, {
 			cwd: cwd,

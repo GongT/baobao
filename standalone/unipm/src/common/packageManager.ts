@@ -1,6 +1,6 @@
-import { stat, Stats } from 'fs';
 import { checkChildProcessResult, commandInPath } from '@idlebox/node';
 import { execa, Options as ExecaOptions } from 'execa';
+import { stat, Stats } from 'fs';
 
 export interface PackageManagerConstructor {
 	new (cwd: string): PackageManager;
@@ -38,7 +38,7 @@ export abstract class PackageManager {
 			(e) => {
 				console.error('Exception of detect() package manager %s\n%s', this.friendlyName, e.stack);
 				return undefined;
-			}
+			},
 		);
 	}
 
@@ -63,7 +63,7 @@ export abstract class PackageManager {
 	protected async _invokeErrorLater(
 		cmd: string,
 		args: string[],
-		spawnOptions: Omit<ExecaOptions, 'stdio' | 'encoding'> = {}
+		spawnOptions: Omit<ExecaOptions, 'stdio' | 'encoding'> = {},
 	): Promise<void> {
 		const p = this.__invoke(cmd, args, {
 			...spawnOptions,
@@ -86,7 +86,7 @@ export abstract class PackageManager {
 		await this.__invoke(cmd, args, spawnOptions);
 	}
 
-	protected __invoke(cmd: string, args: string[], spawnOptions: ExecaOptions) {
+	private __invoke(cmd: string, args: string[], spawnOptions: ExecaOptions) {
 		this.displayBeforeCommandRun && console.error('\x1B[38;5;14m%s %s\x1B[0m', cmd, args.join(' '));
 		return execa(cmd, args, {
 			stdio: 'inherit',

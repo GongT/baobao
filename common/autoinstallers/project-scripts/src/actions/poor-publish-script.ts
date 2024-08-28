@@ -1,20 +1,23 @@
-import '../include/prefix';
-import { existsSync, readFileSync } from 'fs';
-import { mkdir, readFile } from 'fs/promises';
-import { dirname, resolve } from 'path';
 import { buildProjects, RushProject } from '@build-script/rush-tools';
+import { humanDate } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { writeFileIfChange } from '@idlebox/node';
+import { emptyDir } from '@idlebox/node';
+import { readFileSync } from 'fs';
+import { readFile } from 'fs/promises';
+import { resolve } from 'path';
 import { execPromise } from '../include/execPromise';
+import { normalizePackageName } from '../include/paths';
+import '../include/prefix';
+import { ProjectStateCache } from '../include/projectState';
 
 const yarnSuccessLine = /^success Published\.$/m;
 
 function checkPnpmUploadLog(name: string, version: string, log: string) {
-	console.error('------------------------------------------------------');
-	console.error(log);
-	console.error('------------------------------------------------------');
-	console.error(`+ ${name}@${version}`);
-	console.error('------------------------------------------------------');
+	// console.error('------------------------------------------------------');
+	// console.error(log);
+	// console.error('------------------------------------------------------');
+	// console.error(`+ ${name}@${version}`);
+	// console.error('------------------------------------------------------');
 	return log.includes(`+ ${name}@${version}`);
 }
 
@@ -33,8 +36,11 @@ async function main(argv: string[]) {
 		}
 	}
 
-	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
+	const checkBin = rushProject.absolute('@build-script/node-package-tools', 'bin/load.js');
 	const pnpmBin = rushProject.getPackageManager().binAbsolute;
+	await emptyDir(rushProject.tempFile('logs/do-publish/'));
+
+	const stateManager = new ProjectStateCache(rushProject);
 
 	const count = rushProject.projects.length;
 	let current = 0;
@@ -64,18 +70,18 @@ async function main(argv: string[]) {
 			return;
 		}
 
-		const stateFile = rushProject.tempFile(
-			'proj_status/last-publish.' + item.packageName.replace('/', '__') + '.version.txt',
-		);
-
-		const lastPubVersion = existsSync(stateFile) ? await readFile(stateFile, 'utf-8') : '-';
-		if (lastPubVersion === pkgJson.version) {
-			console.error('    🤔 no change: %s', lastPubVersion);
+		const state = await stateManager.project(item.packageName);
+		if (state.lastPublishVersion === pkgJson.version) {
+			console.error(
+				'    🤔 already published: %s at %s',
+				state.lastPublishVersion,
+				humanDate.datetime(state.lastPublishTime),
+			);
 			return;
 		}
 		// console.error('    check...');
 
-		const logFile = rushProject.tempFile('logs/do-publish/' + item.packageName.replace('/', '__') + '.log');
+		const logFile = rushProject.tempFile('logs/do-publish/' + normalizePackageName(item.packageName) + '.log');
 		const pkgPath = rushProject.absolute(item);
 
 		const localNpmrc = resolve(pkgPath, '.npmrc');
@@ -92,12 +98,17 @@ async function main(argv: string[]) {
 		const log = await readFile(logFile, 'utf-8');
 		if (yarnSuccessLine.test(log) || checkPnpmUploadLog(pkgJson.name, pkgJson.version, log)) {
 			console.error('    👍 success.');
+			state.lastPublishVersion = pkgJson.version;
+			state.lastPublishTime = new Date();
 		} else {
-			console.error('    🤔 no update.', lastPubVersion, pkgJson.version);
+			console.error('    🤔 no update. (local: %s, remote: %s)', state.lastPublishVersion, pkgJson.version);
+			if (!state.lastPublishVersion) {
+				state.lastPublishVersion = pkgJson.version;
+				state.lastPublishTime = new Date();
+			}
 		}
 
-		await mkdir(dirname(stateFile), { recursive: true });
-		await writeFileIfChange(stateFile, pkgJson.version);
+		await state.save();
 	});
 }
 

@@ -1,8 +1,8 @@
 import { PathEnvironment, exists, printLine } from '@idlebox/node';
-import { basename, resolve } from 'path';
+import { resolve } from 'path';
 import { gt } from 'semver';
 import { getTarballCached, getVersionCached } from './cache/tarball';
-import { getArg } from './inc/getArg';
+import { formatOptions, getArg, pArgS, pCmd } from './inc/getArg';
 import { gitChange, gitInit } from './inc/git';
 import { errorLog, log, logEnable } from './inc/log';
 import { prepareWorkingFolder } from './inc/prepareWorkingFolder';
@@ -16,23 +16,20 @@ import { rewritePackage } from './packageManage/rewritePackage';
 
 process.env.COREPACK_ENABLE_STRICT = '0';
 
-function help() {
-	console.error(`Usage: detect-package-change --registry ??? --dist-tag ??? --package ??? --bump --quiet
-	registry: default to use system .npmrc (https:// should include)
-	dist-tag: default to "latest"
-	package: default to ./ (this folder contains package.json)
-	bump: increase patch version in package.json if change detected
-	quiet: don't print verbose message
-`);
+export function usageString() {
+	return `${pCmd('detect-package-change')} ${pArgS('--bump')} ${pArgS('--json')}`;
+}
+const args = {
+	'--bump': 'if changes detected, increase patch version in package.json file',
+	'--json': 'print result as json',
+};
+export function helpString() {
+	return formatOptions(args);
 }
 
 export async function main(argv: string[]) {
-	if (argv.includes('-h') || argv.includes('--help')) {
-		help();
-		return 22;
-	}
-
-	process.env.LANG = 'C.utf8';
+	process.env.LANG = 'C.UTF-8';
+	process.env.LANGUAGE = 'C.UTF-8';
 
 	const autoInc = argv.includes('--bump');
 	const packagePath = resolve(process.cwd(), getArg('--package', './'));
@@ -41,8 +38,6 @@ export async function main(argv: string[]) {
 	const p = new PathEnvironment();
 	p.add(resolve(packagePath, 'node_modules/.bin'));
 	p.add(resolve(process.argv0, '..'));
-	process.env.LANG = 'C.UTF-8';
-	process.env.LANGUAGE = 'C.UTF-8';
 	for (const l in process.env) {
 		if (l.startsWith('LC_')) {
 			delete process.env[l];
@@ -79,9 +74,10 @@ export async function main(argv: string[]) {
 		log('local (%s) <= remote (%s), try detect change...', packageJson.version, remoteVersion);
 	}
 
-	const workingRoot = resolve(getTempFolder(packagePath), 'package-change/working');
+	const tempRoot = getTempFolder(packagePath);
+	const workingRoot = resolve(tempRoot, 'package-change/working');
 	const tempFolder = await prepareWorkingFolder(workingRoot, packageJson.name, packageJson.version);
-	const tempFile = tempFolder + `${basename(packageJson.name)}.${packageJson.version}.tgz`;
+	const tempFile = resolve(workingRoot, `${normalizeName(packageJson.name)}-${packageJson.version}.tgz`);
 
 	const tarball = await getTarballCached(packageJson.name, distTag, registry);
 	if (!tarball) {
@@ -119,7 +115,6 @@ function printResult(forceJson: boolean, changedFiles: string[], changed?: boole
 		} else {
 			if (logEnable) printLine();
 			log('%s', changedFiles.join('\n'));
-			log('%s lines of change', changedFiles.length);
 			if (logEnable) printLine();
 			console.log('changed: yes.');
 		}
@@ -129,4 +124,8 @@ function printResult(forceJson: boolean, changedFiles: string[], changed?: boole
 		}
 		console.log(JSON.stringify({ changedFiles, changed }));
 	}
+}
+
+function normalizeName(name: string) {
+	return name.replace(/^@/, '').replaceAll('/', '-');
 }

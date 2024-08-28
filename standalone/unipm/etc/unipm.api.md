@@ -4,7 +4,6 @@
 
 ```ts
 
-import { ExecaChildProcess } from 'execa';
 import { Options } from 'execa';
 
 // Warning: (ae-missing-release-tag) "deletePackageDependency" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -56,8 +55,6 @@ export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[];
 // @public (undocumented)
 export abstract class PackageManager {
     constructor(cwd: string);
-    // (undocumented)
-    protected __invoke(cmd: string, args: string[], spawnOptions: Options): ExecaChildProcess<string>;
     // (undocumented)
     protected abstract readonly cliName: string;
     // (undocumented)

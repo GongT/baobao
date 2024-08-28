@@ -34,18 +34,18 @@
 	"dependencies": {
 		"@gongt/fix-esm": "workspace:^",
 		"ansi-regex": "^6.0.1",
-		"emoji-regex": "^10.2.1",
-		"is-fullwidth-code-point": "^4.0.0",
+		"emoji-regex": "^10.4.0",
+		"is-fullwidth-code-point": "^5.0.0",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.6.0"
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.1",
-		"@types/chai": "^4.3.5",
-		"@types/mocha": "^10.0.1",
-		"chai": "^4.3.7",
-		"mocha": "^10.2.0"
+		"@rushstack/heft": "^0.67.0",
+		"@types/chai": "^4.3.19",
+		"@types/mocha": "^10.0.7",
+		"chai": "^5.1.1",
+		"mocha": "^10.7.3"
 	}
 }

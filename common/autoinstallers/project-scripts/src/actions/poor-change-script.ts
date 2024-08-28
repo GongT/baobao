@@ -1,11 +1,12 @@
 import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { humanDate } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { exists } from '@idlebox/node';
+import { emptyDir, exists } from '@idlebox/node';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { execPromise } from '../include/execPromise';
 import { increaseVersion } from '../include/increaseVersion';
+import { normalizePackageName } from '../include/paths';
 import '../include/prefix';
 
 async function getNpmRc(rushProject: RushProject) {
@@ -43,14 +44,17 @@ async function main() {
 
 	const projects = overallOrder(rushProject); //.reverse();
 
-	const checkBin = rushProject.absolute('@build-script/poormans-package-change', 'bin/load.js');
+	const checkBin = rushProject.absolute('@build-script/node-package-tools', 'bin/load.js');
 	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.mjs');
+
+	await emptyDir(rushProject.tempFile('logs/update-version/'));
 
 	for (const [index, item] of projects.entries()) {
 		let start: number = Date.now();
 
 		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s (%s/%s)', item.packageName, index, projects.length);
-		const logFile = rushProject.tempFile('logs/update-version/' + item.packageName.replace('/', '__') + '.log');
+		const logFile = rushProject.tempFile('logs/update-version/' + normalizePackageName(item.packageName) + '.log');
+		if (verbose) console.log('\x1B[logging to file: %s\x1B[0m', logFile);
 
 		const path = rushProject.absolute(item.projectFolder);
 		if (npmrc) await ensureLinkTarget(npmrc, resolve(path, '.npmrc'));

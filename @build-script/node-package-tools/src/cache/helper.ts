@@ -1,5 +1,5 @@
+import { Options, SyncOptions } from 'execa';
 import { existsSync } from 'fs';
-import { SyncOptions } from 'execa';
 
 export function ifExists(s: string): string {
 	if (typeof s !== 'string') return '';
@@ -10,11 +10,11 @@ export function ifExists(s: string): string {
 	}
 }
 
-export const spawnOpts: SyncOptions = {
+export const spawnOpts = {
 	encoding: 'utf8',
 	reject: true,
 	stdio: ['pipe', 'pipe', 'pipe'],
 	stripFinalNewline: true,
 	env: { LANG: 'C.UTF-8', npm_config_perfer_offline: 'false', npm_config_perfer_online: 'true' },
 	extendEnv: true,
-};
+} satisfies SyncOptions | Options;

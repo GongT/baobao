@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AsyncDisposable as AsyncDisposable_2 } from '@idlebox/common';
 import { EventRegister } from '@idlebox/common';
 import fs from 'fs/promises';

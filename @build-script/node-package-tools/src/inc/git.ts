@@ -36,7 +36,7 @@ export async function gitChange(cwd: string) {
 
 	debug(' + git add .');
 	await execaCommand('git add .', { cwd, stdout: process.stderr, stderr: 'inherit' });
-	await execLazyError('git', ['commit', '-m', 'DetectChangedFiles'], { cwd, verbose: true });
+	await execLazyError('git', ['commit', '-m', 'DetectChangedFiles'], { cwd, stdout: 'ignore', verbose: true });
 
 	debug(' + git log --name-only -1');
 	const { stdout } = await execaCommand('git log --name-only -1', { cwd, stdout: 'pipe', stderr: 'inherit' });

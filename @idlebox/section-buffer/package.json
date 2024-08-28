@@ -23,13 +23,13 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"tslib": "^2.6.0"
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.1",
-		"@types/heft-jest": "^1.0.3",
-		"@types/node": "^22.5.0"
+		"@rushstack/heft": "^0.67.0",
+		"@types/heft-jest": "^1.0.6",
+		"@types/node": "^22.5.1"
 	}
 }

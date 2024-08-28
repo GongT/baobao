@@ -19,22 +19,22 @@
 		"@idlebox/node": "workspace:^",
 		"chokidar": "^3.6.0",
 		"crc": "^4.3.2",
-		"esbuild": "^0.18.14",
-		"esbuild-sass-plugin": "^2.10.0",
-		"express": "^4.18.2",
+		"esbuild": "^0.23.1",
+		"esbuild-sass-plugin": "^3.3.1",
+		"express": "^4.19.2",
 		"morgan": "^1.10.0",
-		"postcss": "^8.4.26",
+		"postcss": "^8.4.41",
 		"postcss-modules": "^6.0.0",
-		"sass": "^1.63.6",
+		"sass": "^1.77.8",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.6.0",
-		"typescript": "^5.1.6"
+		"tslib": "^2.7.0",
+		"typescript": "^5.5.4"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.1",
-		"@types/express": "^4.17.17",
-		"@types/morgan": "^1.9.4",
-		"@types/node": "^22.5.0"
+		"@rushstack/heft": "^0.67.0",
+		"@types/express": "^4.17.21",
+		"@types/morgan": "^1.9.9",
+		"@types/node": "^22.5.1"
 	}
 }

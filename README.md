@@ -40,7 +40,7 @@ _Some tool can use as library too | 有些命令行工具也可以当库用_
 -   [@build-script/rush-tools]
     A tool enhancing `@microsoft/rush`
     一个增强`@microsoft/rush`功能的工具
--   [@build-script/poormans-package-change]
+-   [@build-script/node-package-tools]
     A tool for (large number of) packages publishing workflow, check if local files is different with npm registry or not
     一个用于发布（大量）包的工具，可以检查本地文件是否与 NPM 上的不同（进而需要发布新版本）
 -   _[@build-script/single-dog]_

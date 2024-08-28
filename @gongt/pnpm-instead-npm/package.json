@@ -18,11 +18,11 @@
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"execa": "^7.2.0",
-		"npm": "^10.8.0",
-		"which": "^3.0.1"
+		"execa": "^9.3.1",
+		"npm": "^10.8.2",
+		"which": "^4.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^22.5.0"
+		"@types/node": "^22.5.1"
 	}
 }

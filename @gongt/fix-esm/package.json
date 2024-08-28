@@ -1,7 +1,7 @@
 {
 	"name": "@gongt/fix-esm",
 	"type": "commonjs",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "wrapper of fix-esm, only register once.",
 	"license": "WTFPL",
 	"main": "./lib/index.js",
@@ -22,12 +22,12 @@
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"esbuild": "^0.18.14"
+		"esbuild": "^0.23.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.57.1",
-		"@types/node": "^22.5.0"
+		"@rushstack/heft": "^0.67.0",
+		"@types/node": "^22.5.1"
 	}
 }

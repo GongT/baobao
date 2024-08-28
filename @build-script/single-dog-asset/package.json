@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/single-dog-asset",
-	"version": "1.0.30",
+	"version": "1.0.31",
 	"license": "MIT",
 	"scripts": {
 		"build": "",
@@ -9,9 +9,9 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"tslib": "^2.6.0"
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
-		"@types/prettier": "^2.7.3"
+		"prettier": "^3.3.3"
 	}
 }

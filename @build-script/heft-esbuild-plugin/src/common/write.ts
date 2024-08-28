@@ -1,8 +1,7 @@
-import { mkdir, rm, writeFile } from 'fs/promises';
-import { dirname, resolve } from 'path';
-import { md5 } from '@idlebox/node';
 import { IHeftTaskSession } from '@rushstack/heft';
 import { Metafile } from 'esbuild';
+import { mkdir, rm, writeFile } from 'fs/promises';
+import { dirname, resolve } from 'path';
 import { FilterdBuildOptions } from './config';
 import { IOutputModifier } from './type';
 import { OutputFile } from './write.helper';
@@ -38,7 +37,7 @@ export function createEmitter(onEmit?: IOutputModifier): IProjectEmitter {
 		files.push(new OutputFile(metaOut, JSON.stringify(metafile, null, 4)));
 
 		for (const file of outputFiles) {
-			files.push(new OutputFile(file.path, Buffer.from(file.contents)));
+			files.push(new OutputFile(file.path, Buffer.from(file.contents), file.hash));
 		}
 
 		if (onEmit) {
@@ -49,11 +48,11 @@ export function createEmitter(onEmit?: IOutputModifier): IProjectEmitter {
 		cache.writeFile = new Map();
 
 		for (const item of files) {
-			if (!item.path || !(item.contents || item.text)) {
+			if (!item.path || !item.contents) {
 				throw new Error('invalid file: ' + JSON.stringify(item));
 			}
 			const content = item.contents || Buffer.from(item.text, 'utf-8');
-			cache.writeFile.set(item.path, md5(content));
+			cache.writeFile.set(item.path, item.hash);
 
 			if (lastCache.get(item.path) === cache.writeFile.get(item.path)) {
 				session.logger.terminal.writeDebugLine('write file: ', item.path, ' - unchange');

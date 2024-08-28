@@ -36,7 +36,7 @@
 		},
 		{
 			"commandKind": "global",
-			"name": "poor-change",
+			"name": "detect-change",
 			"summary": "检查本地有没有修改，如果有，version自增0.0.1",
 			"safeForSimultaneousRushProcesses": true,
 			"autoinstallerName": "project-scripts",
@@ -45,7 +45,7 @@
 		{
 			"commandKind": "global",
 			"name": "ypublish",
-			"summary": "把所有项目更新到npm (需要先运行rush upgrade)",
+			"summary": "把所有项目更新到npm (需要先运行 rush upgrade)",
 			"safeForSimultaneousRushProcesses": false,
 			"autoinstallerName": "project-scripts",
 			"shellCommand": "poor-publish"
@@ -78,7 +78,7 @@
 			"parameterKind": "flag",
 			"longName": "--verbose",
 			"description": "显示详细输出",
-			"associatedCommands": ["poor-change", "ypublish", "pretty"]
+			"associatedCommands": ["detect-change", "ypublish", "pretty"]
 		},
 		{
 			"parameterKind": "flag",

@@ -1,7 +1,7 @@
 import '@gongt/fix-esm';
 import { isWindows, sepList } from '@idlebox/common';
-import type { ExecaReturnBase, SyncOptions } from 'execa';
-import { execaSync } from 'execa';
+import type { Options as AsyncOptions, Result as AsyncResult, SyncOptions, SyncResult } from 'execa';
+import { execa, execaSync } from 'execa';
 import { checkChildProcessResult } from './error';
 
 type ProcessEnv = Record<string, string> & {
@@ -28,7 +28,7 @@ function sanitizeEnv(env?: ProcessEnv, addonPath?: string[]) {
 	return env;
 }
 
-function handleError<T extends ExecaReturnBase<string>>(result: T): T {
+function handleError<T extends SyncResult<SyncOptions> | AsyncResult<AsyncOptions>>(result: T): T {
 	if (result.exitCode !== 0) {
 		throw new Error('command exit with code ' + result.exitCode);
 	} else if (result.signal) {
@@ -51,14 +51,13 @@ export function spawnWithoutOutputSync({ exec, cwd, env, addonPath }: ICommand):
 
 export async function spawnWithoutOutput({ exec, cwd, env, addonPath }: ICommand) {
 	const [cmd, ...args] = exec;
-	const opts: SyncOptions = {
+	const opts: AsyncOptions = {
 		stdio: ['ignore', process.stderr, process.stderr],
 		cwd,
 		reject: false,
 		env: sanitizeEnv(env, addonPath),
 	};
 
-	const { execa } = await import('execa');
 	const e = await execa(cmd, args, opts);
 	handleError(e);
 }
@@ -75,12 +74,12 @@ export function spawnGetOutputSync({ exec, cwd, env, addonPath }: ICommand) {
 	};
 
 	const result = handleError(execaSync(cmd, args, opts));
-	return result.stdout;
+	return result.stdout as string;
 }
 
 export async function spawnGetOutput({ exec, cwd, env, addonPath }: ICommand) {
 	const [cmd, ...args] = exec;
-	const opts: SyncOptions = {
+	const opts: AsyncOptions = {
 		stdio: ['ignore', 'pipe', process.stderr],
 		cwd,
 		reject: false,
@@ -89,15 +88,14 @@ export async function spawnGetOutput({ exec, cwd, env, addonPath }: ICommand) {
 		env: sanitizeEnv(env, addonPath),
 	};
 
-	const { execa } = await import('execa');
 	const e = await execa(cmd, args, opts);
 	const result = handleError(e);
-	return result.stdout;
+	return result.stdout as string;
 }
 
 export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand) {
 	const [cmd, ...args] = exec;
-	const opts: SyncOptions = {
+	const opts: AsyncOptions = {
 		stdio: ['ignore', 'pipe', 'pipe'],
 		cwd,
 		reject: false,
@@ -107,8 +105,7 @@ export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand
 		env: sanitizeEnv(env, addonPath),
 	};
 
-	const { execa } = await import('execa');
 	const result = await execa(cmd, args, opts);
 	handleError(result);
-	return result.all;
+	return result.all as string;
 }

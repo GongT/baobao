@@ -28,7 +28,9 @@ function usage(rush: RushProject) {
 	console.error('rush-tools ai <command> [...args]');
 	console.error('\tupdate: run `%s install xxx` in each auto-installer', pm);
 	console.error('\tupgrade: run `%s upgrade xxx` in each auto-installer', pm);
-	console.error('\tlink-local: create symlink of all auto-installers binary to common/temp/bin', pm);
+	console.error(
+		'\tlink-local: create symlink of all auto-installers binary to common/temp/bin (you may add this directory to PATH)',
+	);
 	process.exit(1);
 }
 

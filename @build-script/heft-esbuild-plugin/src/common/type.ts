@@ -1,5 +1,5 @@
-import type * as ESBuild from 'esbuild';
 import type { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
+import type * as ESBuild from 'esbuild';
 import { FilterdBuildOptions } from './config';
 
 export type ESBuildPublicApi = typeof ESBuild;
@@ -35,5 +35,5 @@ export interface IGlobalSession {
  * @return value will be passed to next onEmit (undefined on first run), only have meaning in watch mode
  **/
 export interface IOutputModifier<T = any> {
-	(files: import('esbuild').OutputFile[], options: FilterdBuildOptions, lastReturn?: T): T | PromiseLike<T>;
+	(files: ESBuild.OutputFile[], options: FilterdBuildOptions, lastReturn?: T): T | PromiseLike<T>;
 }

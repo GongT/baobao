@@ -27,7 +27,7 @@ export async function packCurrentVersion(cwd: string) {
 				stdout: 'inherit',
 				verbose: true,
 				env: { LANG: 'C.UTF-8' },
-			}
+			},
 		);
 		const resultLine = /^{.*"type":"success".*}$/m.exec(chProcess.stdout);
 		if (!resultLine) {

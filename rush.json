@@ -1,7 +1,7 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.131.0",
-	"pnpmVersion": "9.7.0",
+	"rushVersion": "5.133.0",
+	"pnpmVersion": "9.9.0",
 	"hotfixChangeEnabled": true,
 	"nodeSupportedVersionRange": ">=20",
 	"suppressNodeLtsWarning": true,
@@ -92,8 +92,8 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@build-script/poormans-package-change",
-			"projectFolder": "@build-script/poormans-package-change",
+			"packageName": "@build-script/node-package-tools",
+			"projectFolder": "@build-script/node-package-tools",
 			"shouldPublish": true
 		},
 		{
@@ -164,15 +164,23 @@
 		},
 		{
 			"packageName": "@idlebox/section-buffer",
-			"projectFolder": "@idlebox/section-buffer"
+			"projectFolder": "@idlebox/section-buffer",
+			"shouldPublish": false
 		},
 		{
 			"packageName": "@gongt/systemd-unit-generator",
-			"projectFolder": "@gongt/systemd-unit-generator"
+			"projectFolder": "@gongt/systemd-unit-generator",
+			"decoupledLocalDependencies": ["@idlebox/common"],
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/rush-pretty",
-			"projectFolder": "@build-script/rush-pretty"
+			"projectFolder": "@build-script/rush-pretty",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@internal/codegen-rig",
+			"projectFolder": "@internal/codegen-rig"
 		}
 	]
 }

@@ -2,12 +2,21 @@ import { exists } from '@idlebox/node';
 import { execa } from 'execa';
 import { resolve } from 'path';
 import { getNewNpmCache } from './cache/native.npm';
-import { getArg } from './inc/getArg';
-import { errorLog, log } from './inc/log';
+import { getArg, pCmd } from './inc/getArg';
+import { debug, errorLog, log } from './inc/log';
+import { getNoProxyValue, getProxyValue } from './inc/proxy';
 import { detectRegistry } from './packageManage/detectRegistry';
 
 process.env.COREPACK_ENABLE_STRICT = '0';
 
+export function usageString() {
+	return `${pCmd('run-if-version-mismatch')} \x1B[38;5;9m--\x1B[0m command to run`;
+}
+export function helpString() {
+	return `
+  Note: the "--" is required
+`;
+}
 export async function main(argv: string[]) {
 	process.on('unhandledRejection', (reason, promise) => {
 		debugger;
@@ -46,9 +55,20 @@ export async function main(argv: string[]) {
 
 	if (!version || packageJson.version !== version) {
 		log('local (%s) !== remote (%s), run command!', packageJson.version, version);
-		await execa(cmd[0]!, cmd.slice(1), { cwd: packagePath, stdout: 'inherit', stderr: 'inherit' });
+		debug('command: ' + cmd.join(' '));
+		await execa(cmd[0]!, cmd.slice(1), {
+			cwd: packagePath,
+			stdout: 'inherit',
+			stderr: 'inherit',
+			env: {
+				HTTP_PROXY: getProxyValue(),
+				HTTPS_PROXY: getProxyValue(),
+				NO_PROXY: getNoProxyValue(),
+			},
+		});
 
-		await getNewNpmCache(packageJson.name, distTag, registry);
+		debug('reveal npm cache...');
+		await getNewNpmCache(packageJson.name, distTag, registry); // TODO: should no-cache
 	} else {
 		log('local (%s) === remote (%s), do nothing and exit.', packageJson.version, version);
 	}
