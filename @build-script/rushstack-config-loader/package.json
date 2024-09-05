@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rushstack-config-loader",
 	"type": "commonjs",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"description": "",
 	"keywords": [],
 	"license": "MIT",
@@ -17,8 +17,7 @@
 	"dependencies": {
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
-		"@rushstack/rig-package": "^0.5.3",
-		"tslib": "^2.7.0"
+		"@rushstack/rig-package": "^0.5.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -26,6 +25,6 @@
 		"@microsoft/api-extractor": "^7.47.7",
 		"@rushstack/heft": "^0.67.0",
 		"@rushstack/heft-typescript-plugin": "^0.5.25",
-		"@types/node": "^22.5.1"
+		"@types/node": "^22.5.3"
 	}
 }

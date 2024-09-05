@@ -22,14 +22,13 @@
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"tslib": "^2.7.0"
+		"@idlebox/common": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.67.0",
 		"@types/heft-jest": "^1.0.6",
-		"@types/node": "^22.5.1"
+		"@types/node": "^22.5.3"
 	}
 }

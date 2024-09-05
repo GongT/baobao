@@ -44,7 +44,7 @@ async function main() {
 
 	const projects = overallOrder(rushProject); //.reverse();
 
-	const checkBin = rushProject.absolute('@build-script/node-package-tools', 'bin/load.js');
+	const checkBin = rushProject.absolute('@build-script/node-package-tools', 'load.mjs');
 	const syncBin = rushProject.absolute('@build-script/rush-tools', 'bin.mjs');
 
 	await emptyDir(rushProject.tempFile('logs/update-version/'));
@@ -85,7 +85,7 @@ async function main() {
 		const { changed, changedFiles } = data;
 		if (changed) {
 			console.log('🎯     Change detected');
-			console.log('         * %s', changedFiles.join(', '));
+			console.log('         * %s files change', changedFiles.length);
 
 			console.log('✍️     Updating version...');
 			await increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));

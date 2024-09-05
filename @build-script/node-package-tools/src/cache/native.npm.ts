@@ -45,11 +45,14 @@ export async function getNewNpmCache(name: string, distTag: string, registry: st
 	log(`     * npm-registry-fetch: ${registry} :: ${name} @ ${distTag}`);
 	log(`       http proxy: %s`, getProxyValue() || 'not use');
 
-	let try_cnt = 0;
+	let try_cnt = 0,
+		retry = 3,
+		retry_timeout = 500;
 	let json;
 
 	while (true) {
 		try_cnt++;
+		retry--;
 		try {
 			json = await npmFetchJson(name, {
 				cache: findNpmCachePath(),
@@ -72,11 +75,16 @@ export async function getNewNpmCache(name: string, distTag: string, registry: st
 				log(`registry say 404, return mock version.`);
 				return { name, version: '0.0.0-alpha', dist: { tarball: '' } } as IPackageJson;
 			}
+			if (e.code === 'ECONNRESET') retry++;
 
-			if (try_cnt >= 3) throw e;
+			if (retry <= 0) throw e;
 
-			errorLog(`failed fetch npm registry: ${e.message}, retry in ${try_cnt} seconds...`);
-			await sleep(try_cnt * 1000);
+			retry_timeout = (retry_timeout / 1000) * 1.2;
+			if (retry_timeout > 15000) retry_timeout = 15000;
+			errorLog(
+				`failed fetch npm registry: ${e.message}, retry in ${(retry_timeout / 1000).toFixed(1)} seconds...`,
+			);
+			await sleep(retry_timeout);
 		}
 	}
 

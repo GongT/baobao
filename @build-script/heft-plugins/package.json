@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-plugins",
 	"type": "commonjs",
-	"version": "0.0.12",
+	"version": "0.0.14",
 	"main": "./tests/a.cjs",
 	"module": "./tests/a.mjs",
 	"types": "./lib/type-entry.d.ts",
@@ -20,20 +20,20 @@
 	"dependencies": {
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
-		"@rushstack/heft-typescript-plugin": "^0.5.25",
 		"@rushstack/node-core-library": "^5.7.0",
 		"@supercharge/promise-pool": "^3.2.0",
+		"@gongt/register-tslib": "workspace:^",
 		"decache": "^4.6.2",
 		"execa": "^9.3.1",
 		"glob": "^11.0.0",
 		"import": "^0.0.6",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.7.0"
+		"tslib": "*"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.1",
+		"@types/node": "^22.5.3",
 		"@types/source-map-support": "^0.5.10",
 		"typescript": "^5.5.4"
 	}

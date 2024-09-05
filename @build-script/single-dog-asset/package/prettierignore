@@ -1,6 +1,6 @@
 # Rush files
 common/changes/
-common/scripts/
+common/scripts/install-run*
 CHANGELOG.*
 
 # Package manager files

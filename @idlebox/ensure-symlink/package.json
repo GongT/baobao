@@ -11,11 +11,8 @@
 		"clean": ""
 	},
 	"repository": "https://github.com/GongT/baobao",
-	"dependencies": {
-		"tslib": "^2.7.0"
-	},
 	"devDependencies": {
-		"@types/node": "^22.5.1"
+		"@types/node": "^22.5.3"
 	},
 	"monorepo": true
 }

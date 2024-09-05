@@ -6,17 +6,21 @@ async function resolveNpmVersion([packageName, currentVersion]: [string, string]
 	const d = new Date();
 	d.setMinutes(d.getMinutes() - 1);
 
-	const maxCnt = 5;
 	let lastError;
-	let retryCnt = maxCnt;
-	while (--retryCnt) {
+	let retryCnt = 5;
+	let currentTry = 0;
+	let maxRetry = 100;
+	while (--retryCnt && --maxRetry && ++currentTry) {
 		try {
 			const pkgjson = await manifest(packageName + '@latest', { before: d });
 			const newVersion = '^' + pkgjson.version;
 			return [packageName, newVersion, currentVersion];
 		} catch (e: any) {
-			console.error('[try %s] failed fetch package %s: %s', maxCnt - retryCnt, packageName, e.message);
+			console.error('[try %s] failed fetch package %s: [%s] %s', currentTry, packageName, e.code, e.message);
 			lastError = e;
+			if (e.code === 'ECONNRESET') {
+				retryCnt++;
+			}
 		}
 	}
 	throw lastError;
@@ -35,7 +39,7 @@ export async function resolveNpm(versions: Map<string, string>) {
 	for await (const [packName, newVersion, currentVersion] of asyncPool(
 		nc,
 		[...versions.entries()],
-		resolveNpmVersion
+		resolveNpmVersion,
 	)) {
 		versions.set(packName, newVersion);
 

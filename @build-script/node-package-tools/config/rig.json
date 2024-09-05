@@ -2,5 +2,6 @@
 // Documentation for this system: https://www.npmjs.com/package/@rushstack/rig-package
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rig-package/rig.schema.json",
-	"rigPackageName": "@internal/codegen-rig"
+	"rigPackageName": "@internal/dualstack-rig",
+	"rigProfile": "simple"
 }

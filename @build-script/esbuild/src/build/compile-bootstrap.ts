@@ -1,8 +1,9 @@
-import * as ts from 'typescript';
-import { readFile, writeFile } from 'fs/promises';
-import { resolve } from 'path';
+import ts from 'typescript';
+
 import { Emitter } from '@idlebox/common';
 import { FSWatcher } from 'chokidar';
+import { readFile, writeFile } from 'fs/promises';
+import { resolve } from 'path';
 import { hash } from './esbuild/library';
 import { entrySourceRoot, outputDir } from './library/constants';
 

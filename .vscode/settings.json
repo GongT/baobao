@@ -3,9 +3,9 @@
 		"*.json": "jsonc"
 	},
 	"search.exclude": {
+		"**/node_modules/**/*": true,
 		"**/pnpm-lock.yaml": true,
 		"**/temp/**": true,
-		"**/node_modules/**/*": true,
 		"*/*/lib": true,
 		"*/*/.npmrc": true,
 		"common/autoinstallers/*/lib": true,

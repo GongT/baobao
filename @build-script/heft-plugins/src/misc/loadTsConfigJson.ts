@@ -4,6 +4,7 @@ import { normalize, resolve } from 'path';
 import { parseConfigFileTextToJson } from 'typescript';
 
 import type TypeScriptApi from 'typescript';
+import { DeepReadonly } from './functions';
 export interface ILoadConfigOverride {
 	project?: string;
 
@@ -18,7 +19,7 @@ export function parseSingleTsConfigJson(
 	logger: IScopedLogger,
 	ts: typeof TypeScriptApi,
 	rig: HeftConfiguration['rigConfig'],
-	options: ILoadConfigOverride,
+	options: DeepReadonly<ILoadConfigOverride>,
 ) {
 	let project = options.project;
 	if (!project) {
@@ -85,7 +86,7 @@ export function loadTsConfigJson(
 	logger: IScopedLogger,
 	ts: typeof TypeScriptApi,
 	rig: HeftConfiguration['rigConfig'],
-	options: ILoadConfigOverride,
+	options: DeepReadonly<ILoadConfigOverride>,
 ) {
 	let project = options.project;
 	const readFiles: string[] = [];
@@ -160,4 +161,22 @@ export function loadTsConfigJson(
 	}
 
 	return { command, files: readFiles };
+}
+
+export function dumpTsConfig(ts: typeof TypeScriptApi, options: TypeScriptApi.CompilerOptions): any {
+	const map = [
+		['target', ts.ScriptTarget],
+		['module', ts.ModuleKind],
+		['moduleResolution', ts.ModuleResolutionKind],
+		['moduleDetection', ts.ModuleDetectionKind],
+		['newLine', ts.NewLineKind],
+		['jsx', ts.JsxEmit],
+	] as const;
+
+	const ret: any = { ...options };
+	for (const [key, enumCls] of map) {
+		ret[key] = enumCls[ret[key]];
+	}
+
+	return ret;
 }

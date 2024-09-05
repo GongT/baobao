@@ -1,3 +1,0 @@
-{
-	"extends": "@internal/local-rig/profiles/simple/config/jest.config.json"
-}

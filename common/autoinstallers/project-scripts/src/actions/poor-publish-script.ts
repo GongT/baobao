@@ -36,7 +36,7 @@ async function main(argv: string[]) {
 		}
 	}
 
-	const checkBin = rushProject.absolute('@build-script/node-package-tools', 'bin/load.js');
+	const checkBin = rushProject.absolute('@build-script/node-package-tools', 'load.mjs');
 	const pnpmBin = rushProject.getPackageManager().binAbsolute;
 	await emptyDir(rushProject.tempFile('logs/do-publish/'));
 

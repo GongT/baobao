@@ -1,0 +1,9 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Node10",
+		"resolvePackageJsonExports": false,
+		"resolvePackageJsonImports": false
+	}
+}

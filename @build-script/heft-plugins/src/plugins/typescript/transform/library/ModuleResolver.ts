@@ -55,7 +55,7 @@ class ResolveResult {
 		private readonly options: TypeScriptApi.CompilerOptions,
 		resolved: TypeScriptApi.ResolvedModuleWithFailedLookupLocations,
 		private readonly requireResolved: IRequireResolved,
-		private readonly logger: IScopedLogger
+		private readonly logger: IScopedLogger,
 	) {
 		+this.requireResolved;
 
@@ -160,7 +160,7 @@ export class ModuleResolver {
 		private readonly ts: typeof TypeScriptApi,
 		private readonly host: TypeScriptApi.CompilerHost,
 		private readonly options: TypeScriptApi.CompilerOptions,
-		private readonly logger: IScopedLogger
+		private readonly logger: IScopedLogger,
 	) {}
 
 	resolve(source: string, target: string, resolveWhat: WantModuleKind = WantModuleKind.ANY) {
@@ -172,9 +172,9 @@ export class ModuleResolver {
 				source,
 				this.options,
 				this.host,
-				this.host.getModuleResolutionCache!(),
+				this.host.getModuleResolutionCache?.(),
 				undefined,
-				type
+				type,
 			);
 			return !!found.resolvedModule;
 		};

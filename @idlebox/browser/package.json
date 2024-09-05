@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/browser",
 	"type": "module",
-	"version": "0.0.34",
+	"version": "0.0.35",
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
 	"module": "./lib/esm/__create_index.generated.mjs",
@@ -22,8 +22,7 @@
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"source-map-support": "^0.5.21",
-		"tslib": "^2.7.0"
+		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

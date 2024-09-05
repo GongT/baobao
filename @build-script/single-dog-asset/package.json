@@ -8,9 +8,6 @@
 		"clean": ""
 	},
 	"repository": "https://github.com/GongT/baobao",
-	"dependencies": {
-		"tslib": "^2.7.0"
-	},
 	"devDependencies": {
 		"prettier": "^3.3.3"
 	}

@@ -4,6 +4,7 @@
 	"aliasesByName": {},
 	"phasesByName": {
 		"post-compile": {
+			"phaseDependencies": ["compile"],
 			// "phaseDescription": "run build process",
 			"tasksByName": {
 				"finalize-package": {

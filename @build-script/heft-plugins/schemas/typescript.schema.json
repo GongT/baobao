@@ -38,9 +38,44 @@
 			"pattern": "^\\..+"
 		},
 		"fast": {
-			"title": "Skip most check, fast compile",
+			"title": "Skip most check, use transform mode (not recommend)",
 			"description": "ts simple transform mode",
-			"type": "boolean"
+			"type": "boolean",
+			"default": false
+		},
+		"warningAsError": {
+			"title": "treat warnings as error",
+			"description": "fail when any warning occur, defaults to true",
+			"type": "boolean",
+			"default": true
+		},
+		"skipNodeModules": {
+			"title": "skip any error/warning inside \"node_modules\" folder",
+			"description": "don't print any message from node_modules, and don't fail when these error",
+			"type": "boolean",
+			"default": false
+		},
+		"errorLevels": {
+			"title": "map TS error code to other level",
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"error": {
+					"description": "treat these codes as error",
+					"type": "array",
+					"items": { "type": "number" }
+				},
+				"warning": {
+					"description": "treat these codes as warning",
+					"type": "array",
+					"items": { "type": "number" }
+				},
+				"notice": {
+					"description": "ignore these codes",
+					"type": "array",
+					"items": { "type": "number" }
+				}
+			}
 		},
 		"compilerOptions": {
 			"type": "object",
@@ -48,9 +83,9 @@
 			"properties": {
 				"module": {
 					"title": "Override \"module\" field in tsconfig.json",
-					"description": "Support CommongJS and ESNext.",
+					"description": "Support CommongJS / ESNext / NodeNext.",
 					"type": "string",
-					"pattern": "^([cC][oO][mM][mM][oO][nN][jJ][sS]|[eE][sS][nN][eE][xX][tT])$"
+					"pattern": "^(commonjs|CommonJS|CommonJs|esnext|ESNext|nodenext|NodeNext|node10|Node10)$"
 				},
 				"outDir": {
 					"title": "Override \"outDir\" field in tsconfig.json",

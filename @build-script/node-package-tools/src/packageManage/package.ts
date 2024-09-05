@@ -1,7 +1,8 @@
+import { execLazyError } from '@idlebox/node';
 import { existsSync } from 'fs';
 import { mkdir } from 'fs/promises';
 import { resolve } from 'path';
-import { execLazyError } from '@idlebox/node';
+import { readJsonSync } from '../inc/fs';
 import { log } from '../inc/log';
 import { getTempFolder } from '../inc/rush';
 import { getPackageManager } from './detectRegistry';
@@ -17,7 +18,7 @@ export async function packCurrentVersion(cwd: string) {
 	await mkdir(tmpdir, { recursive: true });
 
 	if (pm === 'yarn') {
-		let { name, version } = require(cwd + '/package.json');
+		let { name, version } = readJsonSync(cwd + '/package.json');
 		name = name.replace(/^@/, '').replaceAll('/', '-');
 		const chProcess = await execLazyError(
 			pm,

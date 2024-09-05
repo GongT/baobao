@@ -1,7 +1,6 @@
 {
 	"extends": "@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
-		"module": "ESNext",
 		"composite": true,
 		"incremental": true
 

@@ -1,5 +1,5 @@
 import type TypeScriptApi from 'typescript';
-import { ILoadConfigOverride } from '../../../misc/loadTsConfigJson';
+import { DeepPartial, DeepReadonly } from '../../../misc/functions';
 import { ITypeScriptState } from '../../../misc/pluginBase';
 import { IPluginInit } from './transform-load';
 
@@ -11,15 +11,26 @@ export interface IMyPluginConfig {
 	readonly options?: Record<string, string | number | boolean>;
 }
 
-export interface IMyOptions extends ILoadConfigOverride {
-	extension?: string;
-	fast?: boolean;
-
+interface IOptionalOptions {
 	compilerOptions?: TypeScriptApi.CompilerOptions & {
 		module?: string;
 		plugins?: IMyPluginConfig[];
 	};
 }
+interface IFilledOptions {
+	extension: string;
+	fast: boolean;
+	warningAsError: boolean;
+	skipNodeModules: boolean;
+	errorLevels: {
+		error: number[];
+		warning: number[];
+		notice: number[];
+	};
+}
+
+export interface IMyOptionsInput extends IOptionalOptions, DeepPartial<IFilledOptions> {}
+export interface IMyOptions extends IOptionalOptions, DeepReadonly<IFilledOptions> {}
 
 export const isModuleResolutionError = (ex: any) =>
 	typeof ex === 'object' &&
@@ -29,5 +40,5 @@ export const isModuleResolutionError = (ex: any) =>
 
 export interface IProgramState extends ITypeScriptState {
 	createTransformers: IPluginInit;
-	options: IMyOptions;
+	readonly options: IMyOptionsInput;
 }

@@ -1,3 +1,4 @@
+import '@gongt/register-tslib';
 import type { IHeftLifecyclePlugin } from '@rushstack/heft';
 import { install } from 'source-map-support';
 

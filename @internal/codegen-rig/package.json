@@ -1,5 +1,5 @@
 {
-	"name": "@internal/codegen-rig",
+	"name": " ",
 	"version": "1.0.0",
 	"description": "",
 	"license": "WTFPL",
@@ -11,8 +11,11 @@
 	},
 	"private": true,
 	"dependencies": {
-		"@internal/local-rig": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/heft-plugins": "workspace:^",
 		"typescript": "^5.5.4"
+	},
+	"devDependencies": {
+		"@internal/local-rig": "workspace:^"
 	}
 }

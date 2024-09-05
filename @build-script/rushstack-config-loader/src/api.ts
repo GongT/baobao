@@ -4,7 +4,7 @@ import { createDynamicReader, loadInheritedJson } from '@idlebox/json-extends-lo
 import { IFilledOptions, loadTsConfigJsonFile } from '@idlebox/tsconfig-loader';
 import { IRigConfig, RigConfig } from '@rushstack/rig-package';
 
-import type * as TApiExtractor from '@microsoft/api-extractor';
+import type TApiExtractor from '@microsoft/api-extractor';
 import type { HeftConfiguration } from '@rushstack/heft';
 import type { ITypeScriptConfigurationJson } from '@rushstack/heft-typescript-plugin';
 const cache = new WeakMap<HeftConfiguration, RushStackConfig>();
@@ -19,7 +19,7 @@ export function loadHeftConfig(heftConfiguration: HeftConfiguration): RushStackC
 	if (!cache.has(heftConfiguration)) {
 		cache.set(
 			heftConfiguration,
-			new RushStackConfig(heftConfiguration.buildFolderPath, heftConfiguration.rigConfig)
+			new RushStackConfig(heftConfiguration.buildFolderPath, heftConfiguration.rigConfig),
 		);
 	}
 	return cache.get(heftConfiguration)!;
@@ -44,7 +44,11 @@ export class RushStackConfig {
 	 *
 	 * @param projectFolder absolute path of directory where the package.json is in
 	 */
-	constructor(projectFolder: string, rigConfig?: IRigConfig, private readonly warning: IWarning = console.warn) {
+	constructor(
+		projectFolder: string,
+		rigConfig?: IRigConfig,
+		private readonly warning: IWarning = console.warn,
+	) {
 		this.rigConfig = rigConfig || RigConfig.loadForProjectFolder({ projectFolderPath: projectFolder });
 		if (this.rigConfig.rigFound) {
 			this.rigRequirePath = resolve(this.rigConfig.getResolvedProfileFolder(), '../..');
@@ -99,7 +103,7 @@ export class RushStackConfig {
 				const apiExtractor: typeof TApiExtractor = this.require('@microsoft/api-extractor');
 				this.apiExtractorConfig = wrapApiExtractorConfig(
 					this.projectFolder,
-					apiExtractor.ExtractorConfig.loadFile(file)
+					apiExtractor.ExtractorConfig.loadFile(file),
 				);
 			}
 		}
@@ -169,7 +173,7 @@ export class RushStackConfig {
 			} else {
 				this.tsconfigConfig = loadTsConfigJsonFile(
 					resolve(this.projectFolder, 'tsconfig.json'),
-					this.require('typescript')
+					this.require('typescript'),
 				).options;
 			}
 		}

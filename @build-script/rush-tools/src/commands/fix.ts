@@ -56,6 +56,8 @@ async function fix(_argv: string[]) {
 		const data = rush.packageJsonContent(project.projectFolder);
 		const deps: { [id: string]: string } = Object.assign({}, data.dependencies, data.devDependencies);
 		for (const [name, version] of Object.entries(deps)) {
+			if (name === 'tslib') continue;
+
 			if (localHardVersions.has(name) || conflictingVersions.has(name)) {
 				continue;
 			}
@@ -82,7 +84,7 @@ async function fix(_argv: string[]) {
 	}
 	knownVersion.clear();
 
-	console.log('Resolving conflict dependencies from NPM:');
+	console.log('Resolving %s conflict dependencies from NPM:', conflictingVersions.size);
 	await resolveNpm(conflictingVersions);
 
 	console.log('Fixing versions:');
@@ -95,7 +97,9 @@ async function fix(_argv: string[]) {
 		for (const [depName, lastValue] of Object.entries(deps)) {
 			let fix: string | undefined;
 
-			if (lastValue.startsWith('workspace:')) {
+			if (depName === 'tslib') {
+				if (lastValue !== '*') fix = '*';
+			} else if (lastValue.startsWith('workspace:')) {
 				// as is
 			} else if (localHardVersions.has(depName)) {
 				// depend on other package

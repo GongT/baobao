@@ -6,7 +6,6 @@
 		"rootDir": "./",
 		"declarationDir": "../temp/dts-out",
 		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
-		"resolveJsonModule": true,
 		"types": ["node"]
 	},
 	"files": ["preload.ts"],

@@ -1,5 +1,5 @@
 import type { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
-import type * as ESBuild from 'esbuild';
+import type ESBuild from 'esbuild';
 import { FilterdBuildOptions } from './config';
 
 export type ESBuildPublicApi = typeof ESBuild;

@@ -43,3 +43,35 @@ export function findUpUntilSync(from: string, file: string): string | null {
 
 	return null;
 }
+
+type Primitive = undefined | null | boolean | string | number | Function | bigint;
+
+export type DeepReadonly<T> = T extends Primitive
+	? T
+	: T extends Array<infer U>
+		? DeepReadonlyArray<U>
+		: T extends Map<infer K, infer V>
+			? DeepReadonlyMap<K, V>
+			: T extends Set<infer M>
+				? DeepReadonlySet<M>
+				: DeepReadonlyObject<T>;
+
+type DeepReadonlyArray<T> = ReadonlyArray<DeepReadonly<T>>;
+type DeepReadonlyMap<K, V> = ReadonlyMap<DeepReadonly<K>, DeepReadonly<V>>;
+type DeepReadonlySet<T> = ReadonlySet<DeepReadonly<T>>;
+type DeepReadonlyObject<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> };
+
+export type DeepPartial<T> = T extends Primitive
+	? T
+	: T extends ReadonlyArray<infer U>
+		? DeepPartialArray<U>
+		: T extends ReadonlyMap<infer K, infer V>
+			? DeepPartialMap<K, V>
+			: T extends ReadonlySet<infer M>
+				? DeepPartialSet<M>
+				: DeepPartialObject<T>;
+
+type DeepPartialArray<T> = Array<DeepPartial<T>>;
+type DeepPartialMap<K, V> = Map<DeepPartial<K>, DeepPartial<V>>;
+type DeepPartialSet<T> = Set<DeepPartial<T>>;
+type DeepPartialObject<T> = { [K in keyof T]?: DeepPartial<T[K]> };

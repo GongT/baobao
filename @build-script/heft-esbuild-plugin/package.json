@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-esbuild-plugin",
 	"type": "commonjs",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"license": "WTFPL",
 	"description": "lowlevel esbuild plugin for [heft]",
 	"keywords": [
@@ -35,14 +35,13 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"comment-json": "^4.2.5",
-		"tslib": "^2.7.0",
 		"@rushstack/node-core-library": "^5.7.0"
 	},
 	"devDependencies": {
 		"@build-script/heft-plugins": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.1",
+		"@types/node": "^22.5.3",
 		"esbuild": "^0.23.1",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.5.4"

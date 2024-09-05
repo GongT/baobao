@@ -1,6 +1,7 @@
+import { emptyDir, exists } from '@idlebox/node';
 import { mkdir, writeFile } from 'fs/promises';
 import { resolve } from 'path';
-import { emptyDir, exists } from '@idlebox/node';
+import { readJsonSync } from './fs';
 import { log } from './log';
 
 export async function prepareWorkingFolder(workingRoot: string, name: string, version: string) {
@@ -15,7 +16,7 @@ export async function prepareWorkingFolder(workingRoot: string, name: string, ve
 		dependencies: {} as any,
 	};
 	if (await exists(workingFile)) {
-		workingJson.dependencies = require(workingFile).dependencies || {};
+		workingJson.dependencies = readJsonSync(workingFile).dependencies || {};
 	}
 
 	workingJson.dependencies[name] = '=' + version;

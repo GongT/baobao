@@ -1,6 +1,6 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.133.0",
+	"rushVersion": "5.133.3",
 	"pnpmVersion": "9.9.0",
 	"hotfixChangeEnabled": true,
 	"nodeSupportedVersionRange": ">=20",
@@ -24,7 +24,7 @@
 	},
 	"eventHooks": {
 		"preRushInstall": [],
-		"postRushInstall": ["common/scripts/postRushInstall.cjs"],
+		"postRushInstall": ["common/scripts/postRushInstall.mjs"],
 		"preRushBuild": [],
 		"postRushBuild": []
 	},
@@ -179,8 +179,8 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@internal/codegen-rig",
-			"projectFolder": "@internal/codegen-rig"
+			"packageName": "@gongt/register-tslib",
+			"projectFolder": "@gongt/register-tslib"
 		}
 	]
 }

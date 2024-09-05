@@ -1,11 +1,11 @@
 {
 	"name": "@build-script/node-package-tools",
-	"type": "commonjs",
-	"version": "1.0.34",
+	"type": "module",
+	"version": "1.0.36",
 	"license": "MIT",
 	"bin": {
-		"node-package-tools": "./bin/load.js",
-		"njspkg": "./bin/load.js"
+		"node-package-tools": "./load.mjs",
+		"njspkg": "./load.mjs"
 	},
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
@@ -25,14 +25,15 @@
 		"npm-registry-fetch": "^17.1.0",
 		"semver": "^7.6.3",
 		"source-map-support": "^0.5.21",
-		"targz": "^1.0.1",
-		"tslib": "^2.7.0"
+		"targz": "^1.0.1"
 	},
 	"devDependencies": {
+		"@internal/plugins": "workspace:^",
+		"@build-script/heft-plugins": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
-		"@internal/codegen-rig": "workspace:^",
+		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.1",
+		"@types/node": "^22.5.3",
 		"@types/npm-registry-fetch": "^8.0.7",
 		"@types/request": "^2.48.12",
 		"@types/semver": "^7.5.8",

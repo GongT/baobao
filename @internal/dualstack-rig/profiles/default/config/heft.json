@@ -1,31 +1,10 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+	"extends": "../../../build/heft.json",
 	"aliasesByName": {},
 	"phasesByName": {
-		"pre-compile": {
-			"cleanFiles": [{ "sourcePath": "src", "includeGlobs": ["**/*.generated.ts"] }],
-			"tasksByName": {
-				"check-project": {
-					"taskPlugin": {
-						"pluginName": "check-project",
-						"pluginPackage": "@internal/plugins",
-						"options": {}
-					}
-				},
-				"codegen": {
-					"taskPlugin": {
-						"pluginName": "codegen",
-						"pluginPackage": "@build-script/heft-plugins",
-						"options": {
-							"project": "src/tsconfig.json"
-						}
-					}
-				}
-			}
-		},
 		"compile": {
 			"phaseDependencies": ["pre-compile"],
-			"cleanFiles": [{ "sourcePath": "temp" }, { "sourcePath": "lib" }],
 			"tasksByName": {
 				"typescript": {
 					"taskPlugin": {
@@ -35,6 +14,7 @@
 							"extension": ".mjs",
 							"compilerOptions": {
 								"module": "esnext",
+								"moduleResolution": "bundler",
 								"outDir": "../lib/esm",
 								"tsBuildInfoFile": "../temp/tsbuildinfo.mjs.json"
 							}
@@ -50,6 +30,9 @@
 							"extension": ".cjs",
 							"compilerOptions": {
 								"module": "commonjs",
+								"moduleResolution": "node10",
+								"resolvePackageJsonImports": false,
+								"resolvePackageJsonExports": false,
 								"outDir": "../lib/cjs",
 								"tsBuildInfoFile": "../temp/tsbuildinfo.cjs.json"
 							}
@@ -58,15 +41,7 @@
 				}
 			}
 		},
-		"post-compile": {
-			"phaseDependencies": ["compile"],
-			"tasksByName": {}
-		},
 		"build": {
-			"cleanFiles": [
-				{ "sourcePath": ".", "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
-				{ "sourcePath": ".", "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
-			],
 			"phaseDependencies": ["post-compile"],
 			"tasksByName": {
 				"copy-dts": {
@@ -86,29 +61,6 @@
 					}
 				}
 			}
-		},
-		"test": {
-			"phaseDependencies": ["build"],
-			"tasksByName": {
-				"jest": {
-					"taskPlugin": {
-						"pluginPackage": "@rushstack/heft-jest-plugin"
-					}
-				},
-				"import-test": {
-					"taskDependencies": ["copy-dts"],
-					"taskPlugin": {
-						"pluginName": "import-test",
-						"pluginPackage": "@build-script/heft-plugins"
-					}
-				}
-			}
 		}
-	},
-	"heftPlugins": [
-		{
-			"pluginName": "source-map-support",
-			"pluginPackage": "@build-script/heft-plugins"
-		}
-	]
+	}
 }

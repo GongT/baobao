@@ -1,0 +1,20 @@
+{
+	"name": "@gongt/register-tslib",
+	"type": "commonjs",
+	"version": "0.0.1",
+	"main": "./register.cjs",
+	"module": "./error.mjs",
+	"types": "./lib/type-entry.d.ts",
+	"scripts": {
+		"prepack": "",
+		"test": "",
+		"build": "",
+		"_phase:build": "",
+		"watch": "",
+		"clean": ""
+	},
+	"dependencies": {
+		"tslib": "*"
+	},
+	"devDependencies": {}
+}

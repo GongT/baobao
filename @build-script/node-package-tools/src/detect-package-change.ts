@@ -2,6 +2,7 @@ import { PathEnvironment, exists, printLine } from '@idlebox/node';
 import { resolve } from 'path';
 import { gt } from 'semver';
 import { getTarballCached, getVersionCached } from './cache/tarball';
+import { readJsonSync } from './inc/fs';
 import { formatOptions, getArg, pArgS, pCmd } from './inc/getArg';
 import { gitChange, gitInit } from './inc/git';
 import { errorLog, log, logEnable } from './inc/log';
@@ -49,7 +50,7 @@ export async function main(argv: string[]) {
 	if (!(await exists(packageFile))) {
 		throw new Error('No package.json found');
 	}
-	const packageJson = require(packageFile);
+	const packageJson = readJsonSync(packageFile);
 	log('package.name = %s', packageJson.name);
 	log('=======================================');
 

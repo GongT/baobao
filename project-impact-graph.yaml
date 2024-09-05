@@ -17,7 +17,7 @@ projects:
     dependentProjects:
       - '@build-script/heft-esbuild-plugin'
       - '@build-script/heft-plugins'
-      - '@internal/codegen-rig'
+      - '@build-script/node-package-tools'
       - '@internal/dualstack-rig'
   '@build-script/node-package-tools':
     includedGlobs:
@@ -76,6 +76,12 @@ projects:
       - '@gongt/pnpm-instead-npm/**'
     dependentProjects:
       - '@gongt/pnpm-instead-npm'
+  '@gongt/register-tslib':
+    includedGlobs:
+      - '@gongt/register-tslib/**'
+    dependentProjects:
+      - '@build-script/heft-plugins'
+      - '@gongt/register-tslib'
   '@gongt/systemd-unit-generator':
     includedGlobs:
       - '@gongt/systemd-unit-generator/**'
@@ -168,17 +174,12 @@ projects:
     dependentProjects:
       - '@build-script/heft-plugins'
       - '@idlebox/typescript-surface-analyzer'
-  '@internal/codegen-rig':
-    includedGlobs:
-      - '@internal/codegen-rig/**'
-    dependentProjects:
-      - '@build-script/node-package-tools'
-      - '@internal/codegen-rig'
   '@internal/dualstack-rig':
     includedGlobs:
       - '@internal/dualstack-rig/**'
     dependentProjects:
       - 7zip-bin-wrapper
+      - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
       - '@idlebox/browser'
       - '@idlebox/chokidar'
@@ -204,12 +205,12 @@ projects:
       - '@idlebox/node-json-edit'
       - '@idlebox/tsconfig-loader'
       - '@idlebox/typescript-surface-analyzer'
-      - '@internal/codegen-rig'
       - '@internal/local-rig'
   '@internal/plugins':
     includedGlobs:
       - '@internal/plugins/**'
     dependentProjects:
+      - '@build-script/node-package-tools'
       - '@internal/dualstack-rig'
       - '@internal/local-rig'
       - '@internal/plugins'

@@ -5,8 +5,12 @@ import { fileURLToPath } from 'url';
 import { description } from './common/description';
 import { NormalError } from './common/error';
 
-const __extname = extname(import.meta.url);
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(
+	// @ts-ignore
+	import.meta.url,
+);
+const __extname = extname(__filename);
+const __dirname = dirname(__filename);
 
 export default async function main() {
 	let argv = process.argv.slice(2);

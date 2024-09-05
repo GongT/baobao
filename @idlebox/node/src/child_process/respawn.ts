@@ -109,7 +109,10 @@ function execLinux(cmds: string[]): never {
 
 	try {
 		process.env.NEVER_UNSHARE = 'true';
-		const require = createRequire(import.meta.url);
+		const require = createRequire(
+			// @ts-ignore
+			import.meta.url,
+		);
 		const kexec = require('@gongt/kexec');
 
 		process.removeAllListeners('SIGINT');

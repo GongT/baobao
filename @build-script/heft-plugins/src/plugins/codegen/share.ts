@@ -54,7 +54,7 @@ export async function run(files: string[], options: IOptions) {
 }
 
 async function runOne(builder: FileBuilder, logger: IOutputShim) {
-	logger.debug('process: ' + builder.filePath);
+	logger.verbose('process: ' + builder.filePath);
 
 	const execute = isDebug ? executeDebug : executeNormal;
 	let content = await execute(builder.filePath, logger, builder);
@@ -71,7 +71,7 @@ async function runOne(builder: FileBuilder, logger: IOutputShim) {
 
 	content = header + '\n\n' + content;
 	const change = writeFileIfChange(builder.filePath.replace(/\.generator\.[jt]s$/, '.generated.ts'), content);
-	if (change) logger.debug('  - change.');
+	if (change) logger.verbose('  - change.');
 
 	return change;
 }
@@ -101,7 +101,7 @@ async function compileModule(filePath: string, logger: IOutputShim) {
 		});
 		throw new Error('typescript transpile errors: ' + f);
 	} else {
-		logger.debug('compiled generater code success.');
+		logger.verbose('compiled generater code success.');
 	}
 
 	return code.outputText;
@@ -119,8 +119,8 @@ async function executeNormal(
 
 		const mdl = new Module(filePath);
 		mdl.require = require;
-		const fn = new Function('exports', 'require', 'module', '__filename', '__dirname', code);
-		fn.call(undefined, mdl.exports, mdl.require, mdl, filePath, dirname(filePath));
+		const fn = new Function('exports', 'require', 'module', '__filename', '__dirname', 'logger', code);
+		fn.call(undefined, mdl.exports, mdl.require, mdl, filePath, dirname(filePath), logger);
 		const generate = mdl.exports.generate;
 
 		stage = 'generate';
@@ -129,7 +129,7 @@ async function executeNormal(
 			throw new Error('generator did not exporting {generate} function: ' + filePath);
 		}
 
-		return await generate(builder);
+		return await generate(builder, logger);
 	} catch (e: any) {
 		const ne = new Error(`failed ${stage} "${basename(filePath)}": ${e.message}`);
 		ne.stack = ne.message;
@@ -147,27 +147,30 @@ async function executeDebug(
 	const tmpFile = filePath + '.generated.cjs';
 
 	Object.assign(globalThis, { _1diRName: dirname(filePath), _1filEName: filePath });
-	code = code.replace(/\b__dirname\b/g, '_1diRName');
-	code = code.replace(/\b__filename\b/g, '_1filEName');
+	code = `__dirname="${dirname(filePath)}";__filename="${filePath}";let logger=globalThis.__codegen_logger;` + code;
 
 	await writeFile(tmpFile, code);
 
 	try {
 		const require = createRequire(filePath);
+
+		Object.assign(globalThis, { __codegen_logger: logger });
 		const generate = require(tmpFile).generate;
+		Object.assign(globalThis, { __codegen_logger: undefined });
 
 		if (typeof generate !== 'function') {
 			throw new Error('generator did not exporting {generate} function: ' + filePath);
 		}
 
-		return await generate(builder);
+		const r = await generate(builder, logger);
+
+		decache(tmpFile);
+		logger.verbose('delete temp file: %s', tmpFile);
+		rmSync(tmpFile, { force: true });
+
+		return r;
 	} catch (e: any) {
 		+e.stack;
 		throw e;
-	} finally {
-		decache(tmpFile);
-		logger.debug('delete temp file: %s', tmpFile);
-		rmSync(tmpFile, { force: true });
-		Object.assign(globalThis, { _1diRName: undefined, _1filEName: undefined });
 	}
 }

@@ -1,6 +1,7 @@
-import { unlink } from 'fs/promises';
-import { resolve } from 'path';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { unlink } from 'fs/promises';
+import { isAbsolute as isAbsoluteWin32 } from 'node:path/win32';
+import { resolve } from 'path';
 import { ICProjectConfig, IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
@@ -8,9 +9,13 @@ import { resolveNpm } from '../common/npm';
 import { info } from '../common/output';
 import runUpdate from './update';
 
+let fixLocal = false;
+
 /** @internal */
 export default async function runUpgrade(argv: string[]) {
 	const rush = new RushProject();
+
+	fixLocal = argv.includes('--publish') || argv.includes('-P');
 
 	info('Collecting local project versions:');
 	const alldeps: Record<string, string> = {};
@@ -22,7 +27,10 @@ export default async function runUpgrade(argv: string[]) {
 
 		if (project.decoupledLocalDependencies) {
 			for (const item of project.decoupledLocalDependencies) {
-				decoupled[item] = '';
+				const project = rush.getProject(item);
+				if (project.shouldPublish) {
+					decoupled[project.packageName] = '^' + rush.packageJsonContent(project).version;
+				}
 			}
 		}
 
@@ -32,19 +40,15 @@ export default async function runUpgrade(argv: string[]) {
 			project.isAutoInstaller ? '[auto-installer] ' : '',
 			project.packageName,
 			size,
-			size > 1 ? 's' : ''
+			size > 1 ? 's' : '',
 		);
 	}
 
 	for (const project of rush.projects) {
-		if (project.shouldPublish) {
-			if (Object.hasOwn(decoupled, project.packageName)) {
-				decoupled[project.packageName] = '^' + rush.packageJsonContent(project).version;
-			}
-		} else {
-			delete decoupled[project.packageName];
+		if (Object.hasOwn(alldeps, project.packageName)) {
+			decoupled[project.packageName] = alldeps[project.packageName];
+			delete alldeps[project.packageName];
 		}
-		delete alldeps[project.packageName];
 	}
 
 	for (const depLock of Object.keys(rush.preferredVersions)) {
@@ -55,6 +59,7 @@ export default async function runUpgrade(argv: string[]) {
 
 	info('Resolving npm registry:');
 	const map = await resolveNpm(new Map(Object.entries(alldeps)));
+	info('Resolving decoupled local dependencies:');
 	const dMap = await resolveNpm(new Map(Object.entries(decoupled)));
 
 	for (const [name, version] of Object.entries(rush.preferredVersions)) {
@@ -67,9 +72,14 @@ export default async function runUpgrade(argv: string[]) {
 		const packageJson = await rush.packageJsonForEdit(project);
 
 		let numChange = 0;
-		numChange += update(packageJson.dependencies, map);
-		numChange += update(packageJson.devDependencies, map);
-		numChange += await resolveLocalDependency(rush, project, dMap);
+		numChange += update(project, packageJson.dependencies, map);
+		numChange += update(project, packageJson.devDependencies, map);
+		if (project.isAutoInstaller) {
+			numChange += update(project, packageJson.dependencies, dMap);
+			numChange += update(project, packageJson.devDependencies, dMap);
+		} else {
+			numChange += await updateLocalDependency(rush, project, dMap);
+		}
 
 		const changed = await writeJsonFileBack(packageJson);
 
@@ -79,7 +89,7 @@ export default async function runUpgrade(argv: string[]) {
 				project.isAutoInstaller ? '[auto-installer] ' : '',
 				packageJson.name,
 				numChange,
-				numChange > 1 ? 's' : ''
+				numChange > 1 ? 's' : '',
 			);
 		}
 		hasSomeChange += numChange;
@@ -115,16 +125,51 @@ export default async function runUpgrade(argv: string[]) {
 	await runUpdate([]);
 }
 
-function update(target: Record<string, string>, map: Map<string, string>) {
+function isLocalVersion(version: string) {
+	return (
+		version.startsWith('link:') ||
+		version.startsWith('file:') ||
+		version.startsWith('/') ||
+		version.startsWith('.') ||
+		isAbsoluteWin32(version)
+	);
+}
+
+/**
+ *
+ * @param target 被更新的dependencies对象
+ * @param map 解析后的版本号表
+ */
+function update(project: ICProjectConfig, target: Record<string, string>, map: Map<string, string>) {
 	let changed = 0;
 	if (!target) return changed;
 	for (const item of Object.keys(target)) {
-		const nver = map.get(item);
-		if (!nver) continue;
+		let nver = map.get(item);
+		const curr = target[item];
+		if (curr === nver) continue;
 
-		if (target[item] === nver) continue;
-		// console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
-		target[item] = nver;
+		if (curr.startsWith('npm:')) {
+			// package alias
+			const [alias] = splitPackageSpecSimple(curr.substring(4));
+			nver = map.get(alias);
+		}
+
+		if (nver) {
+			if (!fixLocal && isLocalVersion(curr) && project.shouldPublish) {
+				console.error(
+					'[Alert] project "%s" dependency "%s" on filesystem, replace it before publish!',
+					project.packageName,
+					item,
+				);
+				console.error('        add --publish/-P to automatic replace it.');
+				continue;
+			}
+
+			// console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
+			target[item] = nver;
+		} else {
+			// console.log('  - no version [%s] current [%s]', item, target[item]);
+		}
 
 		changed++;
 	}
@@ -175,23 +220,43 @@ function collectRush(alldeps: any, rush: RushProject) {
 
 function filter(map: Record<string, string>): Record<string, string> {
 	for (const [name, value] of Object.entries(map)) {
+		if (value === '*' || value === '') {
+			delete map[name];
+		}
 		if (
-			value.startsWith('.') ||
-			value.startsWith('http') ||
-			value.startsWith('ssh') ||
-			value.startsWith('git') ||
-			value.startsWith('/')
+			isLocalVersion(value) ||
+			value.includes('/') || // unix path, url, github user/repo, @package/scope
+			value.includes('\\') || // win32 path
+			value.startsWith('link:') // not standard
 		) {
-			console.log('\x1B[2mnot supported protocol: %s: %s\x1B[0m', name, value);
+			// console.log('\x1B[2mnot supported protocol: %s: %s\x1B[0m', name, value);
 			delete map[name];
 		}
 		if (value.startsWith('workspace:')) {
+			// pnpm specific
 			delete map[name];
+		}
+		if (value.startsWith('npm:')) {
+			// package alias
+			const [alias, version] = splitPackageSpecSimple(value.substring(4));
+			delete map[name];
+			map[alias] = version;
 		}
 	}
 	return map;
 }
-async function resolveLocalDependency(rush: RushProject, project: ICProjectConfig, dMap: Map<string, string>) {
+
+function splitPackageSpecSimple(value: string) {
+	const at = value.indexOf('@', 1);
+	if (at === -1) return [value, '']; // @x/y
+	return [value.substring(0, at), value.substring(at + 1)]; // @x/y@ver
+}
+
+/**
+ * 更新本地项目间decoupled依赖
+ * @param dMap 所有存在被循环依赖的项目，对应解析后的版本号
+ */
+async function updateLocalDependency(rush: RushProject, project: ICProjectConfig, dMap: Map<string, string>) {
 	let change = 0;
 	if (!project.decoupledLocalDependencies) return change;
 
@@ -204,8 +269,8 @@ async function resolveLocalDependency(rush: RushProject, project: ICProjectConfi
 	}
 
 	const packageJson = await rush.packageJsonForEdit(project);
-	change += update(packageJson.dependencies, localMap);
-	change += update(packageJson.devDependencies, localMap);
+	change += update(project, packageJson.dependencies, localMap);
+	change += update(project, packageJson.devDependencies, localMap);
 
 	return change;
 }

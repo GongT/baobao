@@ -74,19 +74,19 @@ function runInner(
 	for (const types of [innerTypes, pkgTypes]) {
 		if (typeof types !== 'string') continue;
 
-		logger.debug('test file: ' + types);
+		logger.verbose('test file: ' + types);
 		const dts = resolve(projectRoot, types);
 		if (existsSync(dts)) {
-			logger.debug('  - exists.');
+			logger.verbose('  - exists.');
 		} else {
-			logger.debug('  - file not found');
+			logger.verbose('  - file not found');
 			return [Promise.resolve(`missing .d.ts file (should at ${dts})`)];
 		}
 	}
 
 	if (pkgMain === undefined && pkgModule === undefined) {
 		if (!pkgExports) {
-			logger.debug('no "exports" or "main" in package.json');
+			logger.verbose('no "exports" or "main" in package.json');
 			return [Promise.resolve()];
 		}
 		if (isExportMap(pkgExports) && !pkgExports['.']) {
@@ -96,12 +96,12 @@ function runInner(
 	}
 
 	mkdirSync(tempdir, { recursive: true });
-	logger.debug(`using temp dir: ${tempdir}`);
+	logger.verbose(`using temp dir: ${tempdir}`);
 	process.on('exit', () => {
 		if (process.env['NO_DELETE_TEMP']) {
 			logger.log(`not deleting temp dir: ${tempdir} (reason: NO_DELETE_TEMP)`);
 		} else {
-			logger.debug(`deleting temp dir: ${tempdir} (set $env:NO_DELETE_TEMP=yes to skip)`);
+			logger.verbose(`deleting temp dir: ${tempdir} (set $env:NO_DELETE_TEMP=yes to skip)`);
 			rmSync(tempdir, { recursive: true });
 		}
 	});
@@ -150,7 +150,7 @@ function runInner(
 		module: ts.ModuleKind[ts.ModuleKind.NodeNext],
 		...tsCompileOption,
 	}).then(
-		() => logger.debug(`test node16 (esm) loader: ok`),
+		() => logger.verbose(`test node16 (esm) loader: ok`),
 		(e) => 'node16 (esm) resolution failed: ' + e?.message,
 	);
 
@@ -161,7 +161,7 @@ function runInner(
 		module: ts.ModuleKind[ts.ModuleKind.CommonJS],
 		...tsCompileOption,
 	}).then(
-		() => logger.debug(`test node16 (cjs) loader: ok`),
+		() => logger.verbose(`test node16 (cjs) loader: ok`),
 		(e) => 'node16 (cjs) resolution failed: ' + e?.message,
 	);
 
@@ -170,7 +170,7 @@ function runInner(
 		module: ts.ModuleKind[ts.ModuleKind.ESNext],
 		...tsCompileOption,
 	}).then(
-		() => logger.debug(`test node module loader: ok`),
+		() => logger.verbose(`test node module loader: ok`),
 		(e) => 'node module resolution failed: ' + e?.message,
 	);
 
@@ -194,7 +194,7 @@ async function checkNode(title: string, src: string, tempdir: string, logger: IO
 	});
 	let output = r.all!.trim();
 	if (r.exitCode !== 0 || !output.endsWith('}')) {
-		logger.debug('try %s - fail', title);
+		logger.verbose('try %s - fail', title);
 		return `<${title}> test failed: ${r.stderr}`;
 	}
 	if (output.startsWith(signal)) {
@@ -217,7 +217,7 @@ async function checkNode(title: string, src: string, tempdir: string, logger: IO
 	}
 	oSymSz += ']';
 
-	logger.debug('try %s - ok\n\t%s, %s', title, oDef, oSymSz);
+	logger.verbose('try %s - ok\n\t%s, %s', title, oDef, oSymSz);
 }
 
 async function checkTs(

@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/tsconfig-loader",
 	"type": "commonjs",
-	"version": "1.0.9",
+	"version": "1.0.11",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"license": "MIT",
@@ -19,13 +19,10 @@
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
-	"dependencies": {
-		"tslib": "^2.7.0"
-	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.1",
+		"@types/node": "^22.5.3",
 		"typescript": "^5.5.4"
 	},
 	"peerDependencies": {

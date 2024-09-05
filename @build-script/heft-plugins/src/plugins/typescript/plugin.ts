@@ -3,11 +3,11 @@ import type TypeScriptApi from 'typescript';
 import { HeftTypescriptPlugin } from '../../misc/pluginBase';
 import { executeCompile } from './helpers/compiler';
 import { loadTransformers } from './helpers/transform-load';
-import { IMyOptions, IProgramState } from './helpers/type';
+import { IMyOptionsInput, IProgramState } from './helpers/type';
 
 export const PLUGIN_NAME = 'typescript';
 
-export default class TypeScriptPlugin extends HeftTypescriptPlugin<IProgramState, IMyOptions> {
+export default class TypeScriptPlugin extends HeftTypescriptPlugin<IProgramState, IMyOptionsInput> {
 	override PLUGIN_NAME: string = PLUGIN_NAME;
 
 	override async run(session: IHeftTaskSession, configuration: HeftConfiguration) {
@@ -18,7 +18,7 @@ export default class TypeScriptPlugin extends HeftTypescriptPlugin<IProgramState
 	override async runWatch(
 		session: IHeftTaskSession,
 		configuration: HeftConfiguration,
-		watchOptions: IHeftTaskRunIncrementalHookOptions
+		watchOptions: IHeftTaskRunIncrementalHookOptions,
 	): Promise<void> {
 		const { files } = await this.loadConfigWatch(session, configuration, watchOptions);
 
@@ -32,9 +32,9 @@ export default class TypeScriptPlugin extends HeftTypescriptPlugin<IProgramState
 	}
 
 	override async loadExtraState(
-		state: IProgramState & { options: IMyOptions },
+		state: IProgramState & { options: IMyOptionsInput },
 		session: IHeftTaskSession,
-		configuration: HeftConfiguration
+		configuration: HeftConfiguration,
 	) {
 		const compilerOptions = Object.assign({}, state.options.compilerOptions);
 		if (state.options.fast) {

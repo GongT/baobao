@@ -1,75 +1,109 @@
-import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
+import type { HeftConfiguration, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
+import { realpathSync } from 'fs';
 import type TypeScriptApi from 'typescript';
-
 import { loadTsConfigJson } from '../../../misc/loadTsConfigJson';
-import { getExtension } from './misc';
-import { printCompileDiagnostic } from './printDiagnostic';
+import { CustomDiagnosticPrinter } from './diagnostic';
+import { findTslib } from './tslib';
 import { IProgramState } from './type';
+import { normalizeOptions } from './type.options';
 import { createFileWriter } from './writeFile';
 
 interface ICache {
 	moduleResolve: TypeScriptApi.ModuleResolutionCache;
 	sourceFile: Map<string, TypeScriptApi.SourceFile>;
+	realpath: Map<string, string>;
 }
 
 const cache: Partial<ICache> = {};
 
-export function createCompilerHost(ts: typeof TypeScriptApi, compilerOptions: TypeScriptApi.CompilerOptions) {
+function cached_realpath(path: string) {
+	let real = cache.realpath!.get(path);
+	if (real) return real;
+
+	try {
+		real = realpathSync(path);
+	} catch {
+		real = '';
+	}
+
+	// console.log('realpath(%s) -> %s', path, real);
+	cache.realpath!.set(path, real);
+
+	return real;
+}
+
+function createCompilerHost(
+	logger: IScopedLogger,
+	ts: typeof TypeScriptApi,
+	compilerOptions: TypeScriptApi.CompilerOptions,
+) {
+	logger.terminal.writeVerboseLine(`compilerOptions.incremental = ${compilerOptions.incremental}`);
 	const host = (compilerOptions.incremental ? ts.createCompilerHost : ts.createIncrementalCompilerHost)(
 		compilerOptions,
 	);
 
-	if (!cache.moduleResolve) {
-		cache.moduleResolve = ts.createModuleResolutionCache(
-			host.getCurrentDirectory(),
-			host.getCanonicalFileName,
-			compilerOptions,
-		);
-	}
+	// if (!cache.moduleResolve) {
+	// 	logger.terminal.writeVerboseLine(`create moduleResolve cache.`);
+	// 	cache.moduleResolve = ts.createModuleResolutionCache(
+	// 		host.getCurrentDirectory(),
+	// 		host.getCanonicalFileName,
+	// 		compilerOptions,
+	// 	);
+	// }
+	// host.getModuleResolutionCache = () => cache.moduleResolve;
 
-	host.directoryExists = ts.sys.directoryExists;
-	host.realpath = ts.sys.realpath;
-	host.getDirectories = ts.sys.getDirectories;
-	host.readDirectory = ts.sys.readDirectory;
-	host.getModuleResolutionCache = () => cache.moduleResolve;
-	host.resolveModuleNameLiterals = resolveModuleNames(ts, compilerOptions, cache.moduleResolve);
+	// host.resolveModuleNameLiterals = resolveModuleNames(ts, compilerOptions, cache.moduleResolve);
+	// host.resolveTypeReferenceDirectiveReferences
 	host.resolveTypeReferenceDirectiveReferences;
 	host.getEnvironmentVariable = (name: string) => process.env[name];
+
+	cache.realpath = new Map();
+	host.realpath = cached_realpath;
 
 	return host;
 }
 
-function resolveModuleNames(
-	ts: typeof TypeScriptApi,
-	options: TypeScriptApi.CompilerOptions,
-	cache: TypeScriptApi.ModuleResolutionCache,
-) {
-	return (moduleNames: readonly TypeScriptApi.StringLiteralLike[], containingFile: string) => {
-		return moduleNames.map((moduleName) => {
-			const result = ts.resolveModuleName(
-				moduleName.text,
-				containingFile,
-				options,
-				{
-					fileExists: ts.sys.fileExists,
-					readFile: ts.sys.readFile,
-				},
-				cache,
-			);
-			return result;
-		});
-	};
-}
+// function resolveModuleNames(
+// 	ts: typeof TypeScriptApi,
+// 	options: TypeScriptApi.CompilerOptions,
+// 	cache: TypeScriptApi.ModuleResolutionCache,
+// ) {
+// 	return (moduleNames: readonly TypeScriptApi.StringLiteralLike[], containingFile: string) => {
+// 		const r = moduleNames.map((moduleName) => {
+// 			const result = ts.resolveModuleName(
+// 				moduleName.text,
+// 				containingFile,
+// 				options,
+// 				{
+// 					fileExists: ts.sys.fileExists,
+// 					readFile: ts.sys.readFile,
+// 				},
+// 				cache,
+// 			);
+// 			return result;
+// 		});
+
+// 		console.log('?????? resolve: %s', containingFile);
+// 		r.forEach((r, i) => {
+// 			console.log('       * %s => %s', moduleNames[i].text, r.resolvedModule?.resolvedFileName);
+// 		});
+// 		return r;
+// 	};
+// }
 
 export function executeCompile(
-	{ ts, createTransformers, options }: IProgramState,
+	{ ts, createTransformers, options: inOptions }: IProgramState,
 	session: IHeftTaskSession,
 	configuration: HeftConfiguration,
 	files?: string[],
 ) {
 	session.logger.terminal.writeVerboseLine('tsconfig file loaded');
 
-	const { command } = loadTsConfigJson(session.logger, ts, configuration.rigConfig, options);
+	const { command } = loadTsConfigJson(session.logger, ts, configuration.rigConfig, inOptions);
+	command.options.inlineSourceMap = false;
+	if (!command.options.paths) command.options.paths = {};
+	if (!command.options.paths.tslib) command.options.paths.tslib = findTslib();
+	const options = normalizeOptions(ts, inOptions, command);
 
 	if (command.options.module !== ts.ModuleKind.CommonJS && command.options.module! < ts.ModuleKind.ES2015) {
 		throw new Error(
@@ -78,11 +112,11 @@ export function executeCompile(
 			} (current only support commonjs and esnext)`,
 		);
 	}
+	// console.log(`command.options: !!! `, dumpTsConfig(ts, command.options));
 
-	command.options.inlineSourceMap = false;
-	// console.log(`command.options: !!! `, command.options);
+	const diagHost = new CustomDiagnosticPrinter(ts, configuration.buildFolderPath, options, session.logger);
 
-	const compilerHost = createCompilerHost(ts, command.options);
+	const compilerHost = createCompilerHost(session.logger, ts, command.options);
 	// const isolatedModules = !!options.fast && !!command.options.isolatedModules;
 
 	const fileNames = options.fast ? command.fileNames : filterOutTests(command.fileNames);
@@ -96,74 +130,58 @@ export function executeCompile(
 		// oldProgram: build.program,
 	});
 
-	const diagnostics = [];
-	diagnostics.push(...program.getConfigFileParsingDiagnostics());
-	diagnostics.push(...program.getOptionsDiagnostics());
-	if (!!options.fast) {
-		diagnostics.push(...program.getSyntacticDiagnostics());
-		diagnostics.push(...program.getGlobalDiagnostics());
-		diagnostics.push(...program.getSemanticDiagnostics());
-		if (!!(command.options.declaration || command.options.composite)) {
-			diagnostics.push(...program.getDeclarationDiagnostics());
-		}
+	const privateApi = (program as any).getModuleResolutionCache;
+	if (!privateApi) {
+		throw new Error('fix me: TypeScript private object change.');
 	}
-	const sortedDiagnostics = ts.sortAndDeduplicateDiagnostics(diagnostics || []);
-	// console.log('sortedDiagnostics', sortedDiagnostics.length);
+	compilerHost.getModuleResolutionCache = privateApi.bind(program);
 
-	const ok = printCompileDiagnostic(
-		ts,
-		!!options.fast,
-		configuration.buildFolderPath,
-		session.logger,
-		sortedDiagnostics,
-	);
-	if (!ok) return;
+	diagHost.add(ts.getPreEmitDiagnostics(program));
+
+	if (diagHost.print().shouldFail) {
+		session.logger.terminal.writeVerboseLine('program create failed.');
+		return;
+	}
 	session.logger.terminal.writeVerboseLine('program created');
-
-	if (!options.extension) options.extension = getExtension(ts, command.options);
 
 	const writeCtx = createFileWriter(ts, session, options);
 	const customTransformers = createTransformers(program, compilerHost);
 
-	let someskip = false;
+	let someskip = false,
+		emittedFileCnt = 0;
 	if (files) {
-		const diagnostics = [];
+		session.logger.terminal.writeVerboseLine(
+			`partial compile: ${files.length} of ${program.getRootFileNames().length} files`,
+		);
 		for (const item of files) {
 			const file = program.getSourceFile(item);
 			if (file) {
-				// console.log('compile file: ', item);
 				const result = program.emit(file, writeCtx.writeFile, undefined, undefined, customTransformers);
-				diagnostics.push(...result.diagnostics);
+				diagHost.add(result.diagnostics);
 				// console.log(result);
 				if (result.emitSkipped) someskip = true;
+				emittedFileCnt += result.emittedFiles?.length ?? 0;
 			} else {
 				session.logger.emitWarning(new Error('file not include in program: ' + item));
 			}
 		}
-		const ok = printCompileDiagnostic(
-			ts,
-			!!options.fast,
-			configuration.buildFolderPath,
-			session.logger,
-			diagnostics,
-		);
-		if (!ok) return;
 	} else {
+		session.logger.terminal.writeVerboseLine(`full project compile: ${program.getRootFileNames().length} files`);
 		const result = program.emit(undefined, writeCtx.writeFile, undefined, undefined, customTransformers);
 		if (result.emitSkipped) someskip = true;
+		emittedFileCnt += result.emittedFiles?.length ?? 0;
 
-		const ok = printCompileDiagnostic(
-			ts,
-			!!options.fast,
-			configuration.buildFolderPath,
-			session.logger,
-			result.diagnostics,
-		);
-		if (!ok) return;
+		diagHost.add(result.diagnostics);
+	}
+
+	diagHost.print();
+	if (diagHost.shouldFail) {
+		session.logger.terminal.writeVerboseLine(`compile error (emitSkipped=${someskip})`);
+		return;
 	}
 
 	if (someskip) {
-		session.logger.emitError(new Error('emit failed'));
+		session.logger.emitError(new Error(`emit skip, ${emittedFileCnt} files emitted`));
 		return;
 	}
 

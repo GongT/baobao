@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/chokidar",
 	"type": "module",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"main": "./lib/cjs/__create_index.generated.cjs",
@@ -23,14 +23,13 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"chokidar": "^3.6.0",
-		"debug": "^4.3.6",
-		"tslib": "^2.7.0"
+		"debug": "^4.3.6"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/dualstack-rig": "workspace:^",
 		"@rushstack/heft": "^0.67.0",
 		"@types/debug": "^4.1.12",
-		"@types/node": "^22.5.1"
+		"@types/node": "^22.5.3"
 	}
 }

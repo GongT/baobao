@@ -19,6 +19,7 @@
 			}
 		},
 		"post-compile": {
+			"phaseDependencies": ["compile"],
 			"tasksByName": {
 				"api-extractor": {
 					"taskPlugin": {

@@ -1,6 +1,7 @@
+import { exists, streamToBuffer } from '@idlebox/node';
 import { mkdir, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
-import { exists, streamToBuffer } from '@idlebox/node';
+import { readJsonSync } from '../inc/fs';
 import { downloadFile, HttpError, INormalizedResponse } from '../inc/http';
 import { errorLog, log } from '../inc/log';
 import { cachedir } from './location';
@@ -53,7 +54,7 @@ async function _getCustomCache(name: string, distTag: string, registry: string):
 		json: any;
 	if (await exists(cache)) {
 		log('    cache file exists:\n      %s', cache);
-		const data = require(cache);
+		const data = readJsonSync(cache);
 		etag = data.etag;
 		json = data.json;
 	}

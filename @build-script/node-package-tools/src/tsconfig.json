@@ -1,9 +1,10 @@
 {
-	"extends": "@internal/codegen-rig/profiles/default/tsconfig.json",
+	"extends": "@internal/dualstack-rig/profiles/simple/tsconfig.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
 		"types": ["node"]
-	}
+	},
+	"exclude": ["**/*.generator.ts"]
 }

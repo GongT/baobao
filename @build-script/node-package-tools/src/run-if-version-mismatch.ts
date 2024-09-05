@@ -2,6 +2,7 @@ import { exists } from '@idlebox/node';
 import { execa } from 'execa';
 import { resolve } from 'path';
 import { getNewNpmCache } from './cache/native.npm';
+import { readJsonSync } from './inc/fs';
 import { getArg, pCmd } from './inc/getArg';
 import { debug, errorLog, log } from './inc/log';
 import { getNoProxyValue, getProxyValue } from './inc/proxy';
@@ -43,7 +44,7 @@ export async function main(argv: string[]) {
 		errorLog('No package.json found');
 		return 1;
 	}
-	const packageJson = require(packageFile);
+	const packageJson = readJsonSync(packageFile);
 	log('package.name = %s', packageJson.name);
 
 	const distTag = getArg('--dist-tag', 'latest');
