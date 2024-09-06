@@ -61,7 +61,7 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 <details>
 <summary>示例</summary>
 
-```json
+```jsonc
 {
 	"do-compile": {
 		"taskPlugin": {
@@ -74,10 +74,10 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 				"compilerOptions": {
 					"module": "esnext",
 					"outDir": "../lib/mjs",
-					"plugins": [{ "transform": "xxx" }]
-				}
-			}
-		}
+					"plugins": [{ "transform": "xxx" }],
+				},
+			},
+		},
 	},
 	"compile-again": {
 		"taskDependencies": ["typescript"],
@@ -92,11 +92,11 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 				"compilerOptions": {
 					"module": "commonjs",
 					"outDir": "../lib/cjs",
-					"plugins": [{ "transform": "yyy" }]
-				}
-			}
-		}
-	}
+					"plugins": [{ "transform": "yyy" }],
+				},
+			},
+		},
+	},
 }
 ```
 
@@ -108,21 +108,21 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 
 -   “整个项目”是指通过TypeScript api，获取到“运行tsc -p时会读取的文件”列表
 
-```json
+```jsonc
 {
 	"collec": {
 		"taskPlugin": {
 			"pluginName": "create-index",
 			"pluginPackage": "@build-script/heft-plugins",
 			"options": {
-				"project": "src/tsconfig.json"
+				"project": "src/tsconfig.json",
 				// 或者: (不建议，最好使用tsconfig)
 				// "include": [],
 				// "exclude": [],
 				// "files": []
-			}
-		}
-	}
+			},
+		},
+	},
 }
 ```
 
@@ -130,7 +130,7 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 
 对入口（bin、main、module）文件添加头尾内容，或者设置可执行。
 
-```json
+```jsonc
 {
 	"post-build": {
 		"taskPlugin": {
@@ -143,11 +143,11 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 					"chmod": true, // chmod 0755 (不支持别的模式)
 					"prefix": "#!/usr/bin/env node", // 直接字符串
 					"suffix": "< docs/suffix-content.js", // 从文件读取（以<开头），搜索顺序: 根目录、rig配置目录、rig根目录
-					"missing": true // 允许 docs/suffix-content.js 不存在（始终允许package.json中的bin不存在）
-				}
-			}
-		}
-	}
+					"missing": true, // 允许 docs/suffix-content.js 不存在（始终允许package.json中的bin不存在）
+				},
+			},
+		},
+	},
 }
 ```
 
@@ -168,7 +168,7 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 <details>
 <summary>示例</summary>
 
-```json
+```jsonc
 {
 	"hello": {
 		"taskDependencies": ["typescript"],
@@ -182,9 +182,9 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 				"script": "hello.py",
 				"args": ["aaa"],
 				"env": { "PYTHONUTF8": "1" },
-				"inheritEnv": true
-			}
-		}
+				"inheritEnv": true,
+			},
+		},
 	},
 	"bash": {
 		"taskDependencies": ["typescript"],
@@ -195,10 +195,10 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 				// 将会运行: bash -c 'echo hello'
 				"interpreter": "bash",
 				"interpreterArgs": ["-c"],
-				"script": "echo hello"
-			}
-		}
-	}
+				"script": "echo hello",
+			},
+		},
+	},
 }
 ```
 
@@ -212,14 +212,14 @@ interface IMyTransformCallback<T = ts.SourceFile | ts.Bundle> {
 
 用法:
 
-```json
+```jsonc
 {
 	"task-test": {
 		"taskDependencies": ["typescript"],
 		"taskPlugin": {
 			"pluginName": "import-test",
-			"pluginPackage": "@build-script/heft-plugins"
-		}
-	}
+			"pluginPackage": "@build-script/heft-plugins",
+		},
+	},
 }
 ```
