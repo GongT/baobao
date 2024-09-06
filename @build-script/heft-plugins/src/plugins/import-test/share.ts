@@ -170,8 +170,8 @@ function runInner(
 		module: ts.ModuleKind[ts.ModuleKind.ESNext],
 		...tsCompileOption,
 	}).then(
-		() => logger.verbose(`test node module loader: ok`),
-		(e) => 'node module resolution failed: ' + e?.message,
+		() => logger.verbose(`test node10 module loader: ok`),
+		(e) => 'node10 module resolution failed: ' + e?.message,
 	);
 
 	return [pnt1, pnt2, pct1, pct2, pct3];

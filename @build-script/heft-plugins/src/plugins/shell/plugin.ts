@@ -53,7 +53,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 			dbg += ` (wd: ${cwd})`;
 		}
 		dbg += `\x1B[0m`;
-		session.logger.terminal.writeLine(dbg);
+		session.logger.terminal.writeVerboseLine(dbg);
 
 		const result = await execa(exe, args, {
 			cwd: cwd,

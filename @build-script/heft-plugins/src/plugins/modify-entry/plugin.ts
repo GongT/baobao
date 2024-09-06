@@ -15,7 +15,7 @@ interface IMyOptions {
 	module?: IAction;
 }
 
-const PLUGIN_NAME = 'shell';
+const PLUGIN_NAME = 'modify-entry';
 
 export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 	apply(session: IHeftTaskSession, configuration: HeftConfiguration, options?: IMyOptions): void {
@@ -23,7 +23,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 			const pkg = require(resolve(configuration.buildFolderPath, 'package.json'));
 
 			const ps = [];
-			if (options?.bin) {
+			if (options?.bin && pkg.bin) {
 				if (typeof pkg.bin === 'object') {
 					for (const file of Object.values(pkg.bin)) {
 						if (typeof file !== 'string') continue;
@@ -34,10 +34,10 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 					ps.push(this.fix(configuration.rigConfig, pkg.bin, options.bin, session.logger));
 				}
 			}
-			if (options?.main) {
+			if (options?.main && pkg.main) {
 				ps.push(this.fix(configuration.rigConfig, pkg.main, options.main, session.logger));
 			}
-			if (options?.module) {
+			if (options?.module && pkg.module) {
 				ps.push(this.fix(configuration.rigConfig, pkg.module, options.module, session.logger));
 			}
 
@@ -58,7 +58,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 		}
 		if (act.prefix) {
 			const prefix = await parse(rig, act.prefix, !!act.missing, logger);
-			if (prefix && !data.trimEnd().startsWith(prefix)) {
+			if (prefix && !data.trimStart().startsWith(prefix)) {
 				logger.terminal.writeVerboseLine(' * prepend string');
 				data = prefix + '\n' + data.trimStart();
 				change = true;

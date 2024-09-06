@@ -50,6 +50,11 @@ export default class TypeScriptPlugin extends HeftTypescriptPlugin<IProgramState
 				tsBuildInfoFile: null as any,
 				declarationDir: null as any,
 			} as TypeScriptApi.CompilerOptions);
+
+			const [maj, min] = state.ts.versionMajorMinor.split('.').map((v) => parseInt(v));
+			if (maj > 5 || (maj === 5 && min >= 6)) {
+				compilerOptions.noCheck = true;
+			}
 		}
 		state.options.compilerOptions = compilerOptions;
 		if (!state.createTransformers)
