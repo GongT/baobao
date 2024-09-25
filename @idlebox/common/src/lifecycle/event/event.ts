@@ -13,7 +13,7 @@ export interface EventRegister<T> {
  * @public
  */
 export class Emitter<T> implements IDisposable {
-	private readonly _callbacks: EventHandler<T>[] = [];
+	protected readonly _callbacks: EventHandler<T>[] = [];
 
 	constructor() {
 		this.handle = this.handle.bind(this);
@@ -74,8 +74,11 @@ export class Emitter<T> implements IDisposable {
 
 	dispose() {
 		this._callbacks.length = 0;
-		this.fire = this.handle = () => {
-			throw new Error('Event is disposed');
-		};
+		this.fireNoError =
+			this.fire =
+			this.handle =
+				() => {
+					throw new Error('Event is disposed');
+				};
 	}
 }

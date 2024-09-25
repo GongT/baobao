@@ -37,7 +37,7 @@ const enum regSimpleFrameMatch {
 	fn = 1,
 }
 
-let root = process?.cwd() ?? window?.location?.domain ?? '/';
+let root = process?.cwd?.() ?? window?.location?.domain ?? '/';
 
 export function setErrorLogRoot(_root: string) {
 	root = _root;
@@ -60,17 +60,20 @@ export function prettyPrintError(type: string, e: Error) {
 		return console.error(e.message);
 	}
 
-	if (globalObject.process?.env?.DISABLE_PRETTY_ERROR) {
+	if (globalObject.DISABLE_PRETTY_ERROR || process?.env?.DISABLE_PRETTY_ERROR) {
 		console.error('[%s] %s', type, e.stack || e.message);
 		return;
 	}
-	console.error(`------------------------------------------
-[${type}] ${prettyFormatError(e)}`);
+
+	const columns = process?.stderr?.columns || 80;
+	console.error(`${'-'.repeat(columns)}\n[${type}] ${prettyFormatError(e)}\n${'-'.repeat(columns)}`);
 
 	if (!notify_printed && e.stack && e.message !== e.stack) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
-		console.error('\x1B[2muse env.DISABLE_PRETTY_ERROR=yes to see original error stack\x1B[0m');
+		console.error(
+			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m',
+		);
 	}
 }
 

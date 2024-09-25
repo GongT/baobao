@@ -433,6 +433,8 @@ export function disposeGlobal(): Promise<void>;
 export class Emitter<T> implements IDisposable {
     constructor();
     // (undocumented)
+    protected readonly _callbacks: EventHandler<T>[];
+    // (undocumented)
     dispose(): void;
     // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
     fire(data: T): void;

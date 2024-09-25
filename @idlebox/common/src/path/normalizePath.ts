@@ -1,7 +1,12 @@
+// network full url: schema://xxxxx
 const schema = /^[a-z]{2,}:\/\//i;
+// unc: \?\UNC\
 const unc = /^[\/\\]{1,2}\?[\/\\]UNC[\/\\]/i;
+// win32 special: \?\c:\
 const winSp = /^[\/\\]{1,2}\?[\/\\]([a-z]:[\/\\])/i;
-const winLetter = /^[a-z]:\//i;
+// basic win: d:\path
+const winLetter = /^[a-z]:[\/\\]/i;
+// samba: \\xxx\yyy
 const doubleSlash = /^[\/\\]{2}[^\/\\]/i;
 
 export enum PathKind {
@@ -46,7 +51,7 @@ export function analyzePath(p: string) {
 		r = {
 			kind: PathKind.win,
 			prefix: p.slice(0, 2),
-			path: p.slice(4),
+			path: p.slice(3),
 		};
 	} else if (doubleSlash.test(p)) {
 		p = p.replace(/^[\/\\]+/, '');

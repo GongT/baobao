@@ -22,22 +22,8 @@ abstract class PathArrayAbstract extends Set<string> {
 		return pathArrStr.split(this.sep);
 	}
 
-	override toString() {
+	override toString(): string {
 		return [...this.values()].join(this.sep);
-	}
-
-	/** @deprecated @use values() */
-	override keys(): IterableIterator<string> {
-		throw new Error('not impl');
-	}
-
-	/** @deprecated @use values() */
-	override entries(): IterableIterator<[string, string]> {
-		throw new Error('not impl');
-	}
-
-	[Symbol.iterator]() {
-		return this.values();
 	}
 
 	/**
