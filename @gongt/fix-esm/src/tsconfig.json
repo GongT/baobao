@@ -1,5 +1,5 @@
 {
-	"extends": "@internal/local-rig/profiles/simple/tsconfig.json",
+	"extends": "@build-script/single-dog-asset/package/tsconfig.legacy.json",
 	"compilerOptions": {
 		"module": "commonjs",
 		"typeRoots": ["../node_modules/@types", "../node_modules"],

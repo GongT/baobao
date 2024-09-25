@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from 'fs';
 import esbuild from 'esbuild';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 const sym = Symbol.for('fix-esm');
 const Module = require('module') as any;
@@ -24,6 +24,10 @@ function executeBuild(filename: string) {
 
 let originalLoader: typeof wrappedLoader;
 
+function isNodeError(e: unknown): e is NodeJS.ErrnoException {
+	return 'code' in (e as any);
+}
+
 function wrappedLoader(mod: any, filename: string) {
 	if (filename.endsWith('.mjs')) return buildLoader(mod, filename);
 
@@ -32,18 +36,86 @@ function wrappedLoader(mod: any, filename: string) {
 		return originalLoader(mod, filename);
 	} catch (error: any) {
 		// console.log('[fix-esm] error!', error.message);
+		if (!(error instanceof Error)) {
+			throw new Error(`[fix-esm] unknown type of error catched: ${typeof error} - ${'' + error}.`);
+		}
+		if (!isNodeError(error)) {
+			throw error;
+		}
 		if (
-			error &&
-			(error.code === 'ERR_REQUIRE_ESM' ||
-				/^Cannot use (import|export) statement outside a module/.test(error.message))
+			error.code === 'ERR_REQUIRE_ESM' ||
+			/^Cannot use (import|export) statement outside a module/.test(error.message)
 		) {
 			if (existsSync(filename + 'c')) {
-				return originalLoader(mod, filename + 'c');
+				return wrappedLoader(mod, filename + 'c');
 			}
 			return buildLoader(mod, filename);
+		} else if (error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED') {
+			const match = /No "exports" main defined in (.+)$/.exec(error.message);
+			if (match) {
+				modify_package_json(match[1]);
+			} else {
+				console.error('[fix-esm] ERR_PACKAGE_PATH_NOT_EXPORTED!', error.message);
+			}
 		}
 		throw error;
 	}
+}
+
+function fillPath(v: string | any) {
+	if (typeof v === 'string') {
+		if (v.endsWith('.d.ts')) {
+			return v;
+		}
+		return {
+			require: v + 'c',
+			default: v,
+		};
+	} else {
+		if (!v.require) {
+			const rvalue = v.node ?? v.import ?? v.default;
+			if (typeof rvalue === 'string') {
+				v.require = rvalue + 'c';
+			} else {
+				throw new Error('[fix-esm] can not find any exports field in ' + Object.keys(v).join(', '));
+			}
+		}
+		return v;
+	}
+}
+
+function modify_package_json(file: string) {
+	const original = readFileSync(file, 'utf-8');
+	const pkgJson = JSON.parse(original);
+	if (pkgJson['esm-fixed']) {
+		return;
+	}
+
+	console.error('[fix-esm] realtime modify: %s', file);
+
+	if (pkgJson.exports) {
+		for (const [key, data] of Object.entries(pkgJson.exports) as any) {
+			if (key.startsWith('.')) {
+				// -> ./some/file.js -> node/browser/default -> [types/import/require|string]
+				for (const [cls, pathOrDef] of Object.entries(data)) {
+					data[cls] = fillPath(pathOrDef);
+				}
+			} else {
+				// -> node/browser/default -> [types/import/require|string]
+				pkgJson.exports[key] = fillPath(data);
+			}
+		}
+	} else if (pkgJson.module) {
+		pkgJson.main = pkgJson.module + 'c';
+	} else {
+		throw new Error('[fix-esm] not know how to modify this json');
+	}
+
+	const indent = /^\s+/m.exec(original)?.[0] || '  ';
+	const indentValue = indent[0] == '\t' ? '\t' : indent.length;
+
+	const newContent = JSON.stringify(pkgJson, null, indentValue);
+	writeFileSync(file, newContent);
 }
 
 function buildLoader(mod: any, filename: string) {
@@ -57,6 +129,22 @@ function buildLoader(mod: any, filename: string) {
 
 if (!Module[sym]) {
 	originalLoader = Module._extensions['.js'];
+
+	const _resolve = Module._resolveFilename;
+	Module._resolveFilename = function (request: string, parent: string, isMain: boolean) {
+		// console.error('[fix-esm] resolve: %s', request);
+		try {
+			return _resolve(request, parent, isMain);
+		} catch (e: any) {
+			if (e?.code === 'MODULE_NOT_FOUND') {
+				const matches = /Cannot find module '(.+)c'/.exec(e.message);
+				if (matches?.[1]) {
+					return matches?.[1];
+				}
+			}
+			throw e;
+		}
+	};
 	Module._extensions['.js'] = wrappedLoader;
 	Module._extensions['.mjs'] = wrappedLoader;
 	Module[sym] = originalLoader;
