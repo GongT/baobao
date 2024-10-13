@@ -54,7 +54,7 @@
 			"commandKind": "global",
 			"name": "upgrade",
 			"summary": "更新所有项目的依赖版本到最新，注意观察日志：执行后可能需要手动运行rush update -p",
-			"shellCommand": "node @build-script/rush-tools/bin.mjs check-update",
+			"shellCommand": "node @build-script/rush-tools/bin.mjs upgrade",
 			"safeForSimultaneousRushProcesses": true
 		},
 		{

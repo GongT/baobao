@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@supercharge/promise-pool": "^3.2.0",
-		"@types/node": "^22.7.4",
+		"@types/node": "^22.7.5",
 		"execa": "^9.4.0",
 		"prettier": "^3.3.3",
 		"tslib": "^2.7.0",

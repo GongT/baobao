@@ -3,7 +3,7 @@ import { writeJsonFileBack } from '@idlebox/node-json-edit';
 import { ICProjectConfig } from '../api';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
-import { resolveNpm } from '../common/npm';
+import { resolveNpm, blacklistDependency } from '../common/npm';
 
 /** @internal */
 export default async function runFix(argv: string[]) {
@@ -12,7 +12,8 @@ export default async function runFix(argv: string[]) {
 	});
 }
 
-async function fix(_argv: string[]) {
+async function fix(argv: string[]) {
+	const dryRun = argv.includes('--dry-run');
 	const localHardVersions = new Map<string, string>(); // 本地硬性依赖，不允许指定其他值
 	const conflictingVersions = new Map<string, string>(); // 有冲突，需要处理的依赖
 	const locallist = new Set<string>();
@@ -56,7 +57,7 @@ async function fix(_argv: string[]) {
 		const data = rush.packageJsonContent(project.projectFolder);
 		const deps: { [id: string]: string } = Object.assign({}, data.dependencies, data.devDependencies);
 		for (const [name, version] of Object.entries(deps)) {
-			if (name === 'tslib') continue;
+			if (blacklistDependency(name, version)) continue;
 
 			if (localHardVersions.has(name) || conflictingVersions.has(name)) {
 				continue;
@@ -95,6 +96,8 @@ async function fix(_argv: string[]) {
 		}
 		let flShow = false;
 		for (const [depName, lastValue] of Object.entries(deps)) {
+			if (blacklistDependency(depName, lastValue)) continue;
+
 			let fix: string | undefined;
 
 			if (depName === 'tslib') {
@@ -131,6 +134,9 @@ async function fix(_argv: string[]) {
 		fix(project, packageJson.dependencies, false);
 		fix(project, packageJson.devDependencies, true);
 
+		if (dryRun) {
+			continue;
+		}
 		if (await writeJsonFileBack(packageJson)) {
 			console.log('    ~ updated.');
 		}

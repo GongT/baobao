@@ -45,7 +45,7 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 
 	override async run() {
 		const { command } = this.loadTsConfig();
-		this.executeCompile(command);
+		await this.executeCompile(command);
 	}
 
 	private first = true;
@@ -54,16 +54,16 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 		// console.log('changed: ', files);
 		if (this.first) {
 			this.first = false;
-			this.executeCompile(command);
+			await this.executeCompile(command);
 		} else {
-			this.executeCompile(command, files);
+			await this.executeCompile(command, files);
 		}
 	}
 
-	private executeCompile(command: TypeScriptApi.ParsedCommandLine, subsetFiles?: string[]) {
+	private async executeCompile(command: TypeScriptApi.ParsedCommandLine, subsetFiles?: string[]) {
 		const pluginOptions = normalizeOptions(this.ts, this.pluginOptions, command);
 		const compilerHost = this.hostCreator.createCompilerHost(command.options);
-		this.pluginSystem.loadAll(command.options);
+		await this.pluginSystem.loadAll(command.options);
 
 		// console.log(`command.options: !!! `, dumpTsConfig(ts, command.options));
 

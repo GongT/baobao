@@ -23,7 +23,7 @@ export default async function main() {
 	const command = argv.splice(commandPos, 1)[0]!;
 	const rcommand = compCommandName(command);
 
-	const fpath = resolve(__dirname, 'commands', rcommand + '.mjs');
+	const fpath = resolve(__dirname, 'commands', rcommand + '.js');
 	if (await exists(fpath)) {
 		try {
 			process.env.__running_command = rcommand;
@@ -37,7 +37,7 @@ export default async function main() {
 			throw e;
 		}
 	} else {
-		console.error('No such command: ' + command);
+		console.error('[rush-tools] No such command: ' + command);
 		process.exit(1);
 	}
 }

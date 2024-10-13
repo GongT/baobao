@@ -9,7 +9,7 @@ const { prettyPrintError } = await import('@idlebox/common');
 
 Error.stackTraceLimit = Infinity;
 try {
-	const { default: main } = await import('./lib/esm/index.mjs');
+	const { default: main } = await import('./lib/esm/index.js');
 	await main();
 } catch (e) {
 	prettyPrintError('rush-tools', e);

@@ -15,10 +15,10 @@
 	"preferGlobal": true,
 	"dependencies": {
 		"execa": "^9.4.0",
-		"npm": "^10.8.3",
-		"which": "^4.0.0"
+		"npm": "^10.9.0",
+		"which": "^5.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^22.7.4"
+		"@types/node": "^22.7.5"
 	}
 }

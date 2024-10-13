@@ -5,7 +5,7 @@ import { resolve } from 'path';
 import { ICProjectConfig, IRushConfig } from '../api/limitedJson';
 import { RushProject } from '../api/rushProject';
 import { description } from '../common/description';
-import { resolveNpm } from '../common/npm';
+import { blacklistDependency, resolveNpm, splitPackageSpecSimple } from '../common/npm';
 import { info } from '../common/output';
 import runUpdate from './update';
 
@@ -13,6 +13,7 @@ let fixLocal = false;
 
 /** @internal */
 export default async function runUpgrade(argv: string[]) {
+	const dryRun = argv.includes('--dry-run');
 	const rush = new RushProject();
 
 	fixLocal = argv.includes('--publish') || argv.includes('-P');
@@ -81,6 +82,17 @@ export default async function runUpgrade(argv: string[]) {
 			numChange += await updateLocalDependency(rush, project, dMap);
 		}
 
+		if (dryRun) {
+			console.log(
+				'  * %s%s - %s change%s',
+				project.isAutoInstaller ? '[auto-installer] ' : '',
+				packageJson.name,
+				numChange,
+				numChange > 1 ? 's' : '',
+			);
+			continue;
+		}
+
 		const changed = await writeJsonFileBack(packageJson);
 
 		if (changed) {
@@ -93,6 +105,11 @@ export default async function runUpgrade(argv: string[]) {
 			);
 		}
 		hasSomeChange += numChange;
+	}
+
+	if (dryRun) {
+		info('dry-run: quit now.');
+		return;
 	}
 
 	info('Update rush and package manager:');
@@ -142,33 +159,42 @@ function isLocalVersion(version: string) {
  */
 function update(project: ICProjectConfig, target: Record<string, string>, map: Map<string, string>) {
 	let changed = 0;
+	info('updating: %s', project.packageName);
 	if (!target) return changed;
-	for (const item of Object.keys(target)) {
-		let nver = map.get(item);
-		const curr = target[item];
-		if (curr === nver) continue;
+	for (const [name, currVer] of Object.entries(target)) {
+		if (currVer.startsWith('workspace:')) continue;
 
-		if (curr.startsWith('npm:')) {
+		let newVer = map.get(name);
+
+		if (currVer.startsWith('npm:')) {
 			// package alias
-			const [alias] = splitPackageSpecSimple(curr.substring(4));
-			nver = map.get(alias);
+			const [alias] = splitPackageSpecSimple(currVer.substring(4));
+			newVer = map.get(alias);
+			if (!newVer) {
+				// console.log('  - no version [%s] current [%s]', item, target[item]);
+				continue;
+			}
+			newVer = `npm:${alias}@${newVer}`;
 		}
 
-		if (nver) {
-			if (!fixLocal && isLocalVersion(curr) && project.shouldPublish) {
+		if (currVer === newVer) continue;
+
+		if (newVer) {
+			if (!fixLocal && isLocalVersion(currVer) && project.shouldPublish) {
 				console.error(
 					'[Alert] project "%s" dependency "%s" on filesystem, replace it before publish!',
 					project.packageName,
-					item,
+					name,
 				);
 				console.error('        add --publish/-P to automatic replace it.');
 				continue;
 			}
 
-			// console.log('  - update package [%s] from [%s] to [%s]', item, target[item], nver);
-			target[item] = nver;
+			console.log('  - update package [%s] from [%s] to [%s]', name, currVer, newVer);
+			target[name] = newVer;
 		} else {
 			// console.log('  - no version [%s] current [%s]', item, target[item]);
+			continue;
 		}
 
 		changed++;
@@ -220,14 +246,17 @@ function collectRush(alldeps: any, rush: RushProject) {
 
 function filter(map: Record<string, string>): Record<string, string> {
 	for (const [name, value] of Object.entries(map)) {
+		if (blacklistDependency(name, value)) {
+			delete map[name];
+		}
+
 		if (value === '*' || value === '') {
 			delete map[name];
 		}
 		if (
-			isLocalVersion(value) ||
-			value.includes('/') || // unix path, url, github user/repo, @package/scope
-			value.includes('\\') || // win32 path
-			value.startsWith('link:') // not standard
+			isLocalVersion(value) || // standard unix/win32 path
+			value.includes('/') || // unix path, url, github user/repo, @package/scope, http://
+			value.includes('\\') // win32 path
 		) {
 			// console.log('\x1B[2mnot supported protocol: %s: %s\x1B[0m', name, value);
 			delete map[name];
@@ -244,12 +273,6 @@ function filter(map: Record<string, string>): Record<string, string> {
 		}
 	}
 	return map;
-}
-
-function splitPackageSpecSimple(value: string) {
-	const at = value.indexOf('@', 1);
-	if (at === -1) return [value, '']; // @x/y
-	return [value.substring(0, at), value.substring(at + 1)]; // @x/y@ver
 }
 
 /**

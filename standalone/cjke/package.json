@@ -3,15 +3,7 @@
 	"type": "module",
 	"version": "1.0.31",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
-	"keywords": [
-		"CJK",
-		"chinese",
-		"display width",
-		"emoji",
-		"string",
-		"string width",
-		"unicode"
-	],
+	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
 	"module": "./lib/esm/__create_index.generated.js",
@@ -44,9 +36,9 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.2",
+		"@rushstack/heft": "^0.68.2",
 		"@types/chai": "^5.0.0",
-		"@types/mocha": "^10.0.8",
+		"@types/mocha": "^10.0.9",
 		"chai": "^5.1.1",
 		"mocha": "^10.7.3"
 	}

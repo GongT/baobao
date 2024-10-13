@@ -28,6 +28,6 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.2"
+		"@rushstack/heft": "^0.68.2"
 	}
 }

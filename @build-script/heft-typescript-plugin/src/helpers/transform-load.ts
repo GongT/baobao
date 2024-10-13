@@ -152,6 +152,7 @@ export class TsPluginSystem {
 	}
 
 	create(program: TypeScriptApi.Program, host: TypeScriptApi.CompilerHost) {
+		this.session.logger.terminal.writeDebugLine(`create transformers (${this.loaded.size})`);
 		const transformers: TypeScriptApi.CustomTransformers = {};
 		for (const create of this.loaded.values()) {
 			create(transformers, program, host);

@@ -12,7 +12,7 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {
-		"@types/node": "^22.7.4"
+		"@types/node": "^22.7.5"
 	},
 	"monorepo": true
 }

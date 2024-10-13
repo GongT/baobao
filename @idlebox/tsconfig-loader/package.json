@@ -29,8 +29,8 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.2",
-		"@types/node": "^22.7.4",
+		"@rushstack/heft": "^0.68.2",
+		"@types/node": "^22.7.5",
 		"typescript": "^5.6.3"
 	},
 	"peerDependencies": {
