@@ -26,6 +26,20 @@ abstract class PathArrayAbstract extends Set<string> {
 		return [...this.values()].join(this.sep);
 	}
 
+	// /** @deprecated @use values() */
+	// override keys() {
+	// 	return super.keys();
+	// }
+
+	// /** @deprecated @use values() */
+	// override entries() {
+	// 	return super.entries();
+	// }
+
+	// override [Symbol.iterator]() {
+	// 	return this.values();
+	// }
+
 	/**
 	 * @returns an array with `part` append to every element
 	 */

@@ -1,0 +1,15 @@
+{
+	"name": "@build-script/heft-source-map-plugin",
+	"type": "commonjs",
+	"version": "0.0.1",
+	"license": "MIT",
+	"scripts": {
+		"build": "",
+		"build:watch": "",
+		"clean": "",
+		"watch": ""
+	},
+	"dependencies": {
+		"source-map-support": "^0.5.21"
+	}
+}

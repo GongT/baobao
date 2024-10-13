@@ -1,0 +1,22 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Heft copy-dts-tree Plugin Options Configuration",
+	"description": "This schema describes the \"options\" field that can be specified in heft.json when loading \"copy-dts-tree\" of \"@build-script/heft-plugins\".",
+	"type": "object",
+
+	"additionalProperties": false,
+	"required": ["from", "to"],
+
+	"properties": {
+		"from": {
+			"title": "tsc declare (.d.ts) output folder",
+			"description": "relative to project root",
+			"type": "string"
+		},
+		"to": {
+			"title": "copy .d.ts files to",
+			"description": "relative to project root",
+			"type": "string"
+		}
+	}
+}

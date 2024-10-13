@@ -1,5 +1,5 @@
 {
-	"extends": "@internal/local-rig/profiles/simple/tsconfig.json",
+	"extends": "@internal/local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
 		"outDir": "../lib/testing",

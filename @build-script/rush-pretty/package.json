@@ -14,14 +14,14 @@
 	"dependencies": {
 		"@idlebox/node-json-edit": "workspace:^",
 		"@supercharge/promise-pool": "^3.2.0",
-		"@types/node": "^22.5.3",
-		"execa": "^9.3.1",
+		"@types/node": "^22.7.4",
+		"execa": "^9.4.0",
 		"prettier": "^3.3.3",
 		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"rimraf": "^6.0.1",
-		"typescript": "^5.5.4"
+		"typescript": "^5.6.3"
 	}
 }

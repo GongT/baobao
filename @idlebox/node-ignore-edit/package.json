@@ -9,12 +9,14 @@
 	],
 	"license": "MIT",
 	"author": "GongT",
-	"main": "./lib/cjs/api.js",
+	"main": "./lib/cjs/api.cjs",
 	"module": "./lib/esm/api.js",
+	"types": "./lib/esm/api.d.ts",
 	"exports": {
 		".": {
+			"types": "./lib/esm/api.d.ts",
 			"import": "./lib/esm/api.js",
-			"require": "./lib/cjs/api.js"
+			"require": "./lib/cjs/api.cjs"
 		},
 		"./package.json": "./package.json"
 	},
@@ -28,13 +30,13 @@
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@idlebox/common": "^1.3.33",
+		"@idlebox/common": "workspace:^",
 		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.3"
+		"@rushstack/heft": "^0.67.2",
+		"@types/node": "^22.7.4"
 	}
 }

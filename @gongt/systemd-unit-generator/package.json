@@ -8,9 +8,15 @@
 		"systemd"
 	],
 	"license": "MIT",
-	"main": "./lib/index.js",
+	"main": "./lib/cjs/index.cjs",
+	"module": "./lib/esm/index.js",
+	"types": "./lib/esm/index.d.ts",
 	"exports": {
-		".": "./lib/index.js",
+		".": {
+			"types": "./lib/esm/index.d.ts",
+			"require": "./lib/cjs/index.cjs",
+			"import": "./lib/esm/index.js"
+		},
 		"./tools": "./lib/tools/index.js",
 		"./package.json": "./package.json"
 	},
@@ -24,13 +30,13 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "^1.3.33",
-		"execa": "^9.3.1"
+		"@idlebox/common": "workspace:^",
+		"execa": "^9.4.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.3"
+		"@rushstack/heft": "^0.67.2",
+		"@types/node": "^22.7.4"
 	}
 }

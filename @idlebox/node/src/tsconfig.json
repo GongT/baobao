@@ -1,14 +1,12 @@
 {
-	"extends": "@internal/dualstack-rig/profiles/all-in-one/tsconfig.json",
+	"extends": "@internal/local-rig/profiles/dualstack/tsconfig.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"outDir": "../lib",
+		"outDir": "../lib/esm",
 		"rootDir": "./",
-		"declarationDir": "../temp/dts-out",
-		"tsBuildInfoFile": "../temp/tsbuildinfo.json",
 		"types": ["node"]
 	},
-	"files": ["preload.ts"],
-	"include": ["**/*.ts"],
+	// "files": ["preload.ts"],
+	// "include": ["**/*.ts"],
 	"exclude": ["**/*.generator.ts"]
 }

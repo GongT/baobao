@@ -1,5 +1,5 @@
 {
-	"extends": "@build-script/single-dog-asset/package/tsconfig.cjs.json",
+	"extends": "@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules"],
 		"rootDir": "./",

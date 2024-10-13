@@ -7,7 +7,7 @@ import { ApiHost } from './tsapi.helpers';
 import type { inspect as utilsInspect } from 'util';
 
 export interface WithOriginal {
-	id?: TypeScriptApi.Identifier;
+	id?: TypeScriptApi.ModuleExportName;
 }
 
 export interface IResolveResultWithNode {
@@ -23,7 +23,7 @@ export interface IDefaultResult {
 
 export interface IIdentifierResult {
 	node: TypeScriptApi.Node;
-	id: TypeScriptApi.Identifier;
+	id: TypeScriptApi.ModuleExportName;
 	kind: ExportKind;
 	reference?: IResolveResult & WithOriginal;
 }
@@ -68,7 +68,7 @@ export class TokenCollector implements ITypescriptFile {
 	}
 
 	addRef(
-		id: TypeScriptApi.Identifier,
+		id: TypeScriptApi.ModuleExportName,
 		node: TypeScriptApi.Node,
 		reference: IResolveResult & WithOriginal,
 		kind = ExportKind.Unknown

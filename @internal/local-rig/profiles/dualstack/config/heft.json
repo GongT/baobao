@@ -1,37 +1,28 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
-	"extends": "../../simple/config/heft.json",
-	"aliasesByName": {},
+	"extends": "../../default/config/heft.json",
+
 	"phasesByName": {
-		"post-compile": {
-			"phaseDependencies": ["compile"],
-			// "phaseDescription": "run build process",
+		"compile": {
 			"tasksByName": {
-				"finalize-package": {
+				"commonjs": {
 					"taskPlugin": {
-						"pluginName": "make-dualstack-package",
-						"pluginPackage": "@internal/plugins",
-						"options": {}
-					}
-				},
-				"duplicate-typings": {
-					"taskPlugin": {
-						"pluginName": "copy-files-plugin",
-						"pluginPackage": "@rushstack/heft",
+						"pluginPackage": "@build-script/heft-typescript-plugin",
 						"options": {
-							"copyOperations": [
-								{
-									"sourcePath": "lib/esm",
-									"destinationFolders": ["lib/cjs"],
-									"fileExtensions": [".d.ts", ".d.ts.map"],
-									"hardlink": true
-								}
-							]
+							"project": "src/tsconfig.json",
+							"extension": ".cjs",
+							"fast": true,
+							"compilerOptions": {
+								"module": "CommonJS",
+								"outDir": "../lib/cjs",
+								"moduleResolution": "Node10",
+								"resolvePackageJsonExports": false,
+								"resolvePackageJsonImports": false
+							}
 						}
 					}
 				}
 			}
 		}
-	},
-	"heftPlugins": []
+	}
 }

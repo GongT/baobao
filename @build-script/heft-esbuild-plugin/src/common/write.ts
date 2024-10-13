@@ -37,7 +37,7 @@ export function createEmitter(onEmit?: IOutputModifier): IProjectEmitter {
 		files.push(new OutputFile(metaOut, JSON.stringify(metafile, null, 4)));
 
 		for (const file of outputFiles) {
-			files.push(new OutputFile(file.path, Buffer.from(file.contents), file.hash));
+			files.push(new OutputFile(file.path, file.contents, file.hash));
 		}
 
 		if (onEmit) {

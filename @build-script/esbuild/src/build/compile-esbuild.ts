@@ -1,10 +1,10 @@
-import type { RawSourceMap } from 'source-map-js';
-import { mkdir } from 'fs/promises';
-import { dirname, resolve } from 'path';
 import { Emitter } from '@idlebox/common';
 import { relativePath, writeFileIfChange } from '@idlebox/node';
 import { watch as chokidar } from 'chokidar';
 import { BuildOptions, BuildResult, context } from 'esbuild';
+import { mkdir } from 'fs/promises';
+import { dirname, resolve } from 'path';
+import type { RawSourceMap } from 'source-map-js';
 import { createEntrypoints } from './esbuild/chunker';
 import { resolveStylesPlugin } from './esbuild/css-resolver';
 import { hackedScssBuildPlugin } from './esbuild/scss-hack';
@@ -69,7 +69,7 @@ export async function runESBuild(watch: boolean) {
 
 		const inputs = Object.keys(result.metafile!.inputs);
 
-		const watcher = chokidar(inputs, { ignoreInitial: true, disableGlobbing: true, atomic: true });
+		const watcher = chokidar(inputs, { ignoreInitial: true, atomic: true });
 		watcher.on('all', async () => {
 			try {
 				const result = await ctx.rebuild();

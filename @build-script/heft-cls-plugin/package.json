@@ -1,0 +1,12 @@
+{
+	"name": "@build-script/heft-cls-plugin",
+	"type": "commonjs",
+	"version": "0.0.1",
+	"license": "MIT",
+	"scripts": {
+		"build": "",
+		"build:watch": "",
+		"clean": "",
+		"watch": ""
+	}
+}

@@ -4,8 +4,8 @@
 	"taskPlugins": [
 		{
 			"pluginName": "heft-esbuild-plugin",
-			"entryPoint": "./lib/index.js",
-			"optionsSchema": "./src/schema.json"
+			"entryPoint": ".",
+			"optionsSchema": "./src/esbuild.schema.json"
 		}
 	]
 }

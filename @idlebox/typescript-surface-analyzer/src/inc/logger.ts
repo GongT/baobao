@@ -5,6 +5,7 @@ export interface ILogger {
 	log(msg: string, ...args: any[]): void;
 	error(msg: string, ...args: any[]): void;
 	debug(msg: string, ...args: any[]): void;
+	verbose(msg: string, ...args: any[]): void;
 }
 
 export const isDebug = /\bEXPORT\b/.test('' + process.env.NODE_DEBUG);
@@ -17,6 +18,7 @@ export const consoleLogger: ILogger = {
 	log: console.log,
 	error: console.error,
 	debug: isDebug ? console.error : () => {},
+	verbose: isDebug ? console.error : () => {},
 };
 
 export function showFile(node: TypeScriptApi.Node) {

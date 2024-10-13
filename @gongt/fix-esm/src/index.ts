@@ -90,6 +90,7 @@ function modify_package_json(file: string) {
 	if (pkgJson['esm-fixed']) {
 		return;
 	}
+	pkgJson['esm-fixed'] = true;
 
 	console.error('[fix-esm] realtime modify: %s', file);
 

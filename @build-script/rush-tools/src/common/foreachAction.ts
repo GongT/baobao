@@ -71,7 +71,7 @@ export async function runCustomCommand(rush: RushProject, project: string | ICPr
 	stdout.pipe(process.stdout);
 	stderr.pipe(process.stderr);
 
-	const logPath = resolve(absPath, 'rush-logs');
+	const logPath = resolve(absPath, '.rush/logs');
 	mkdirSync(logPath, { recursive: true });
 	const logger = createWriteStream(logPath + '/rush-tools.run.log');
 	stdout.pipe(logger, { end: false });

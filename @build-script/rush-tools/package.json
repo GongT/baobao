@@ -9,12 +9,14 @@
 		"tools"
 	],
 	"license": "MIT",
-	"main": "./lib/cjs/__create_index.generated.cjs",
-	"module": "./lib/esm/__create_index.generated.mjs",
+	"main": "./lib/cjs/api.cjs",
+	"module": "./lib/esm/api.js",
+	"types": "./lib/esm/api.d.ts",
 	"exports": {
 		".": {
-			"import": "./lib/esm/__create_index.generated.mjs",
-			"require": "./lib/cjs/__create_index.generated.cjs"
+			"types": "./lib/esm/api.d.ts",
+			"import": "./lib/esm/api.js",
+			"require": "./lib/cjs/api.cjs"
 		},
 		"./package.json": "./package.json"
 	},
@@ -35,11 +37,11 @@
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
-		"@microsoft/rush-lib": "^5.133.3",
-		"cli-spinners": "^3.1.0",
+		"@microsoft/rush-lib": "^5.135.0",
+		"cli-spinners": "^3.2.0",
 		"comment-json": "^4.2.5",
 		"dependency-graph": "^1.0.0",
-		"execa": "^9.3.1",
+		"execa": "^9.4.0",
 		"ora": "^8.1.0",
 		"pacote": "^18.0.6",
 		"semver": "^7.6.3",
@@ -49,9 +51,9 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.3",
+		"@internal/local-rig": "workspace:^",
+		"@rushstack/heft": "^0.67.2",
+		"@types/node": "^22.7.4",
 		"@types/pacote": "^11.1.8",
 		"@types/semver": "^7.5.8",
 		"@types/split2": "^4.2.3",

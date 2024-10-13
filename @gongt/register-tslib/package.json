@@ -14,7 +14,6 @@
 		"clean": ""
 	},
 	"dependencies": {
-		"tslib": "*"
-	},
-	"devDependencies": {}
+		"tslib": "^2.7.0"
+	}
 }

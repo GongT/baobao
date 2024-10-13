@@ -1,6 +1,6 @@
-import type TypeScriptApi from 'typescript';
-import { relativePath } from '@idlebox/node';
 import { getSourceRoot } from '@idlebox/tsconfig-loader';
+import { relative } from 'path';
+import type TypeScriptApi from 'typescript';
 import { ILogger, showFile } from './logger';
 import { IResolveResult, MapResolver } from './MapResolver';
 import { ExportKind, ITypescriptFile, TokenCollector } from './TokenCollector';
@@ -15,7 +15,7 @@ export class FileCollector {
 	constructor(
 		private readonly api: ApiHost,
 		options: TypeScriptApi.CompilerOptions,
-		private readonly logger: ILogger
+		private readonly logger: ILogger,
 	) {
 		this.ts = api.ts;
 		this.sourceRoot = getSourceRoot(options);
@@ -43,7 +43,7 @@ export class FileCollector {
 	}
 
 	private relativeToRoot(abs: string) {
-		return relativePath(this.sourceRoot, abs).replace(/^\/+|^[a-z]:[/\\]+/gi, '');
+		return relative(this.sourceRoot, abs).replace(/^\/+|^[a-z]:[/\\]+/gi, '');
 	}
 
 	private tokenWalk(collect: TokenCollector, node: TypeScriptApi.Node, logger: ILogger) {
@@ -51,12 +51,12 @@ export class FileCollector {
 			return;
 		}
 		if (!this.api.isTagInternal(node)) {
-			logger.debug(' * tsdoc @internal node: %s', this.ts.SyntaxKind[node.kind]);
+			logger.verbose(' * tsdoc @internal node: %s', this.ts.SyntaxKind[node.kind]);
 			return;
 		}
 
 		if (this.ts.isExportDeclaration(node)) {
-			// logger.debug(' * found ExportDeclaration');
+			// logger.verbose(' * found ExportDeclaration');
 			let reference: IResolveResult;
 			try {
 				if (node.moduleSpecifier) {
@@ -78,7 +78,7 @@ export class FileCollector {
 					'===================\n%s\nLINE: %s\n%s\n===================',
 					e,
 					node.getText(),
-					showFile(node)
+					showFile(node),
 				);
 				return;
 			}
@@ -129,7 +129,7 @@ export class FileCollector {
 			if (this.ts.isStringLiteral(node.name)) {
 				this.logger.error(
 					'only .d.ts can use <export namespace|module "name">, and analyzer do not support this.',
-					showFile(node)
+					showFile(node),
 				);
 			} else {
 				collect.add(node.name, node, ExportKind.Variable);
@@ -150,7 +150,7 @@ export class FileCollector {
 			(_isFunctionDeclaration = this.ts.isFunctionDeclaration(node)) || // export function XXX {}
 			(_isTypeAliasDeclaration = this.ts.isTypeAliasDeclaration(node)) // export type x = ...
 		) {
-			logger.debug(' * found %s', this.ts.SyntaxKind[node.kind]);
+			logger.verbose(' * found %s', this.ts.SyntaxKind[node.kind]);
 
 			let type = ExportKind.Unknown;
 
@@ -183,7 +183,7 @@ export class FileCollector {
 						continue;
 					}
 
-					logger.debug(' * found variable %s', this.api.idToString(id));
+					logger.verbose(' * found variable %s', this.api.idToString(id));
 					collect.add(id, node, ExportKind.Variable);
 				}
 			}

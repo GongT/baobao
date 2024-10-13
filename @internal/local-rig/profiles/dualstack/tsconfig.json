@@ -1,10 +1,6 @@
 {
-	"extends": "../simple/tsconfig.json",
+	"extends": "@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
-		"module": "ESNext",
-		"composite": true,
-		"incremental": true
-
 		/*
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib/esm",

@@ -10,7 +10,9 @@
 	 * it can be any SemVer range specifier (e.g. "~1.2.3"), and it will narrow any (compatible)
 	 * SemVer range specifier.  See the Rush documentation for details about this feature.
 	 */
-	"preferredVersions": {},
+	"preferredVersions": {
+		// "typescript": "5.5.4"
+	},
 	/**
 	 * The "rush check" command can be used to enforce that every project in the repo must specify
 	 * the same SemVer range for a given dependency.  However, sometimes exceptions are needed.

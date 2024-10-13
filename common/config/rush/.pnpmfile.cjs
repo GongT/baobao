@@ -1,4 +1,4 @@
-const { resolve } = require('path');
+const { resolve, relative } = require('path');
 const { readFileSync } = require('fs');
 
 const PROJECT_ROOT = resolve(__dirname, '../../..');
@@ -30,6 +30,13 @@ function init() {
 
 function readPackage(packageJson, context) {
 	if (myProjects.size === 0) init();
+
+	const v = packageJson.dependencies?.['@gongt/fix-esm'];
+	if (v && !v.startsWith('workspace:')) {
+		console.error('replace fix-esm version from %s to local file', v);
+		packageJson.dependencies['@gongt/fix-esm'] = resolve(PROJECT_ROOT, '@gongt/fix-esm');
+	}
+
 	if (myProjects.has(packageJson.name)) return packageJson;
 
 	if (packageJson.dependencies) lockDep(packageJson.dependencies, context);

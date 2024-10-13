@@ -13,7 +13,7 @@ export function transpileBootstrap(watchMode: boolean) {
 	const bsFile = resolve(entrySourceRoot, 'bootstrap.ts');
 
 	if (watchMode) {
-		const watchers = new FSWatcher({ cwd: entrySourceRoot, disableGlobbing: true });
+		const watchers = new FSWatcher({ cwd: entrySourceRoot });
 
 		watchers.add(bsFile);
 

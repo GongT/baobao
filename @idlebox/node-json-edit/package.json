@@ -10,12 +10,15 @@
 		"jsonc"
 	],
 	"license": "MIT",
-	"main": "./lib/cjs/index.js",
+	"main": "./lib/cjs/index.cjs",
 	"module": "./lib/esm/index.js",
+	"types": "./lib/esm/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./lib/esm/index.js",
-			"require": "./lib/cjs/index.js"
+			"typescript": "./src/index.ts",
+			"types": "./lib/esm/index.d.ts",
+			"require": "./lib/cjs/index.cjs",
+			"import": "./lib/esm/index.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -35,9 +38,9 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.3",
+		"@rushstack/heft": "^0.67.2",
+		"@types/node": "^22.7.4",
 		"source-map-support": "^0.5.21",
-		"tslib": "*"
+		"tslib": "^2.7.0"
 	}
 }

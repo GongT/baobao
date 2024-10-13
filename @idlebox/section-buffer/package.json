@@ -5,15 +5,18 @@
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"main": "./lib/cjs/__create_index.generated.cjs",
-	"module": "./lib/esm/__create_index.generated.mjs",
+	"module": "./lib/esm/__create_index.generated.js",
+	"types": "./lib/esm/__create_index.generated.d.ts",
 	"private": true,
 	"exports": {
 		".": {
-			"import": "./lib/esm/__create_index.generated.mjs",
+			"types": "./lib/esm/__create_index.generated.d.ts",
+			"import": "./lib/esm/__create_index.generated.js",
 			"require": "./lib/cjs/__create_index.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
+	"sideEffects": false,
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
 		"build": "heft --unmanaged build",
@@ -26,9 +29,9 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.0",
+		"@internal/local-rig": "workspace:^",
+		"@rushstack/heft": "^0.67.2",
 		"@types/heft-jest": "^1.0.6",
-		"@types/node": "^22.5.3"
+		"@types/node": "^22.7.4"
 	}
 }

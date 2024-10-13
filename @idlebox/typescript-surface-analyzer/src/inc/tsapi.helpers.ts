@@ -1,5 +1,5 @@
-import type TypeScriptApi from 'typescript';
 import { relative } from 'path';
+import type TypeScriptApi from 'typescript';
 
 export class ApiHost {
 	constructor(public readonly ts: typeof TypeScriptApi) {}
@@ -20,19 +20,20 @@ export class ApiHost {
 		return true;
 	}
 
-	static idToString(id: TypeScriptApi.Identifier) {
-		return id.escapedText.toString();
+	static idToString(id: TypeScriptApi.Identifier | TypeScriptApi.ModuleExportName) {
+		const i = id as any;
+		return i.escapedText?.toString() ?? id.text;
 	}
 
 	idToString(id: TypeScriptApi.Identifier) {
 		return id.escapedText.toString();
 	}
 
-	nameToString(name: TypeScriptApi.Identifier | TypeScriptApi.StringLiteral) {
-		if (this.ts.isStringLiteral(name)) {
-			return name.text;
-		} else {
+	nameToString(name: TypeScriptApi.Identifier | TypeScriptApi.StringLiteral | TypeScriptApi.ModuleExportName) {
+		if (this.ts.isIdentifier(name)) {
 			return name.escapedText.toString();
+		} else {
+			return name.text;
 		}
 	}
 

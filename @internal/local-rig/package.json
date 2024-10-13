@@ -3,9 +3,6 @@
 	"version": "1.0.1",
 	"description": "",
 	"license": "WTFPL",
-	"bin": {
-		"api-extractor-local": "./scripts/api-extractor-local.sh"
-	},
 	"scripts": {
 		"build": "",
 		"build:watch": "",
@@ -15,16 +12,17 @@
 	"private": true,
 	"dependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@microsoft/api-extractor": "^7.47.7",
-		"@rushstack/heft-jest-plugin": "^0.12.9",
-		"typescript": "^5.5.4"
-	},
-	"devDependencies": {
+		"@build-script/heft-plugin-base": "workspace:^",
+		"@build-script/heft-autoindex-plugin": "workspace:^",
+		"@build-script/heft-typescript-plugin": "workspace:^",
+		"@build-script/heft-codegen-plugin": "workspace:^",
+		"@build-script/heft-source-map-plugin": "workspace:^",
+		"@build-script/heft-cls-plugin": "workspace:^",
+		"@rushstack/heft-jest-plugin": "^0.12.11",
+		"typescript": "^5.6.3",
 		"@internal/plugins": "workspace:^",
-		"@rushstack/heft-api-extractor-plugin": "^0.3.47",
-		"@rushstack/heft-lint-plugin": "^0.4.1",
-		"@rushstack/heft-typescript-plugin": "^0.5.25",
-		"eslint": "^9.9.1",
+		"@rushstack/heft-lint-plugin": "^0.4.3",
+		"eslint": "^9.11.1",
 		"eslint-plugin-import": "^2.30.0"
 	}
 }

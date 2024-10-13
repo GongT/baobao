@@ -7,6 +7,5 @@ jq -r '.projects[].projectFolder' <common/temp/rush.json | xargs -IF bash -c "
 declare -rx PROJECT='F'
 cd \"\$PROJECT\"
 pwd
-set -x
-$*
+exec $(printf '%q ' "$@")
 "

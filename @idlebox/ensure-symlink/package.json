@@ -3,7 +3,7 @@
 	"version": "1.0.28",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
 	"license": "MIT",
-	"main": "index.js",
+	"main": "./index.js",
 	"typings": "index.d.ts",
 	"scripts": {
 		"build": "",
@@ -12,7 +12,7 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {
-		"@types/node": "^22.5.3"
+		"@types/node": "^22.7.4"
 	},
 	"monorepo": true
 }

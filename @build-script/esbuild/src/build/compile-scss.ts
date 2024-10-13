@@ -1,7 +1,7 @@
-import { basename, resolve } from 'path';
 import { Emitter } from '@idlebox/common';
 import { FSWatcher } from 'chokidar';
 import { writeFile } from 'fs/promises';
+import { basename, resolve } from 'path';
 import { compileAsync } from 'sass';
 import { hash } from './esbuild/library';
 import { entrySourceRoot, isTTY, outputDir } from './library/constants';
@@ -38,7 +38,7 @@ function build(file: string) {
 		},
 		(e) => {
 			event.fireNoError(e);
-		}
+		},
 	);
 }
 
@@ -60,7 +60,7 @@ export function compileScss(watchMode: boolean) {
 	const preloadScss = resolve(entrySourceRoot, 'preload.scss');
 
 	if (watchMode) {
-		const watchers = new FSWatcher({ disableGlobbing: true });
+		const watchers = new FSWatcher({});
 
 		watchers.add(mainScss);
 		watchers.add(preloadScss);

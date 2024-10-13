@@ -1,12 +1,19 @@
 {
 	"name": "@build-script/rushstack-config-loader",
-	"type": "commonjs",
+	"type": "module",
 	"version": "0.0.15",
-	"description": "",
-	"keywords": [],
 	"license": "MIT",
-	"author": "",
-	"main": "lib/api.js",
+	"main": "./lib/cjs/api.cjs",
+	"module": "./lib/esm/api.js",
+	"types": "./lib/esm/api.d.ts",
+	"exports": {
+		".": {
+			"types": "./lib/esm/api.d.ts",
+			"require": "./lib/cjs/api.cjs",
+			"import": "./lib/esm/api.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
 		"build": "heft --unmanaged build",
@@ -22,9 +29,9 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@microsoft/api-extractor": "^7.47.7",
-		"@rushstack/heft": "^0.67.0",
-		"@rushstack/heft-typescript-plugin": "^0.5.25",
-		"@types/node": "^22.5.3"
+		"@microsoft/api-extractor": "^7.47.9",
+		"@rushstack/heft": "^0.67.2",
+		"@rushstack/heft-typescript-plugin": "^0.5.30",
+		"@types/node": "^22.7.4"
 	}
 }

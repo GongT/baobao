@@ -5,7 +5,7 @@ module.exports.exec = function exec(target, argv) {
 
 	let kexec;
 	try {
-		kexec = require('@gongt/kexec');
+		kexec = require('node-kexec');
 	} catch {}
 
 	if (kexec) {

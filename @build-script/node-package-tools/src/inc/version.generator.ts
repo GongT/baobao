@@ -1,4 +1,4 @@
-import type { FileBuilder, IOutputShim } from '@build-script/heft-plugins';
+import type { FileBuilder, IOutputShim } from '@build-script/heft-plugin-base';
 import * as fs from 'fs';
 import * as path from 'path';
 

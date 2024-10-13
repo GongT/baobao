@@ -16,7 +16,7 @@
 	 * Use "incrementalBuildIgnoredGlobs" to ignore specific files, specified as globs relative to
 	 * the project folder.  The glob syntax is based on the .gitignore file format.
 	 */
-	"incrementalBuildIgnoredGlobs": ["etc"],
+	"incrementalBuildIgnoredGlobs": [],
 
 	/**
 	 * Disable caching for this project. The project will never be restored from cache. This may be useful
@@ -42,7 +42,7 @@
 			 * will restore these folders from the cache.  The strings are folder names under the project root folder.
 			 * These folders should not be tracked by Git.  They must not contain symlinks.
 			 */
-			"outputFolderNames": ["lib"]
+			"outputFolderNames": ["lib", "temp"]
 
 			/**
 			 * Disable caching for this operation.  The operation will never be restored from cache.

@@ -1,14 +1,21 @@
 {
 	"name": "@idlebox/tsconfig-loader",
-	"type": "commonjs",
+	"type": "module",
 	"version": "1.0.11",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "./lib/index.js",
+	"main": "./lib/cjs/index.cjs",
+	"module": "./lib/esm/index.js",
+	"types": "./lib/esm/index.d.ts",
 	"exports": {
-		".": "./lib/index.js",
+		".": {
+			"typescript": "./src/index.ts",
+			"types": "./lib/esm/index.d.ts",
+			"require": "./lib/cjs/index.cjs",
+			"import": "./lib/esm/index.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"scripts": {
@@ -20,12 +27,13 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.3",
-		"typescript": "^5.5.4"
+		"@rushstack/heft": "^0.67.2",
+		"@types/node": "^22.7.4",
+		"typescript": "^5.6.3"
 	},
 	"peerDependencies": {
-		"typescript": "*"
+		"typescript": "^5.6.3"
 	}
 }

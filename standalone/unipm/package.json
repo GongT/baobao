@@ -4,10 +4,12 @@
 	"version": "1.1.27",
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
-	"module": "./lib/esm/__create_index.generated.mjs",
+	"module": "./lib/esm/__create_index.generated.js",
+	"types": "./lib/esm/__create_index.generated.d.ts",
 	"exports": {
 		".": {
-			"import": "./lib/esm/__create_index.generated.mjs",
+			"types": "./lib/esm/__create_index.generated.d.ts",
+			"import": "./lib/esm/__create_index.generated.js",
 			"require": "./lib/cjs/__create_index.generated.cjs"
 		},
 		"./package.json": "./package.json"
@@ -29,16 +31,16 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/node-json-edit": "workspace:^",
-		"execa": "^9.3.1",
+		"execa": "^9.4.0",
 		"json5": "^2.2.3",
 		"pacote": "^18.0.6",
 		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@internal/dualstack-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.0",
-		"@types/node": "^22.5.3",
+		"@internal/local-rig": "workspace:^",
+		"@rushstack/heft": "^0.67.2",
+		"@types/node": "^22.7.4",
 		"@types/pacote": "^11.1.8"
 	},
 	"monorepo": true

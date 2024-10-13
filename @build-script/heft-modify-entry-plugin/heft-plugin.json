@@ -1,0 +1,11 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft-plugin.schema.json",
+
+	"taskPlugins": [
+		{
+			"pluginName": "modify-entry",
+			"entryPoint": ".",
+			"optionsSchema": "./src/modify-entry.schema.json"
+		}
+	]
+}

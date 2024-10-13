@@ -2,5 +2,7 @@
 
 set -Eeuo pipefail
 
-find . -maxdepth 3 -mindepth 3 -name '*.log' | xargs --no-run-if-empty rm -f
-find . -maxdepth 3 -mindepth 3 -name '*.tgz' | xargs --no-run-if-empty rm -f
+set -- git clean -fdX
+source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/simple-each.sh"
+
+rush install

@@ -3,17 +3,20 @@
 
 	"taskPlugins": [
 		{
-			"pluginName": "make-dualstack-package",
-			"entryPoint": "./lib/make-dualstack-package.js"
-		},
-		{
 			"pluginName": "check-project",
-			"entryPoint": "./lib/check-project.js"
+			"entryPoint": "./lib/plugins/check-project.js"
 		},
 		{
-			"pluginName": "copy-dts-index",
-			"entryPoint": "./lib/copy-dts-index.js",
-			"optionsSchema": "./schemas/copy-dts-index.schema.json"
+			"pluginName": "track",
+			"entryPoint": "./lib/plugins/track.js"
+		},
+		{
+			"pluginName": "tsc",
+			"entryPoint": "./lib/plugins/tsc.js"
+		},
+		{
+			"pluginName": "esbuild",
+			"entryPoint": "./lib/plugins/esbuild.js"
 		}
 	]
 }

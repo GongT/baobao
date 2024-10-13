@@ -2,11 +2,11 @@ import { md5 } from '@idlebox/node';
 import type { OutputFile as IOutputFile } from 'esbuild';
 
 export class OutputFile implements IOutputFile {
-	private _contents?: Buffer;
+	private _contents?: Uint8Array;
 	private _text?: string;
 	private _hash: string;
 
-	get contents(): Buffer {
+	get contents(): Uint8Array {
 		if (typeof this._contents === 'undefined') {
 			this.contents = Buffer.from(this._text!, 'utf-8');
 		}
@@ -19,7 +19,7 @@ export class OutputFile implements IOutputFile {
 
 	get text(): string {
 		if (typeof this._text === 'undefined') {
-			this.text = this._contents!.toString('utf-8');
+			this.text = this._contents!.toString();
 		}
 		return this._text!;
 	}
@@ -29,9 +29,9 @@ export class OutputFile implements IOutputFile {
 	}
 
 	asString() {
-		return this._text ?? this._contents!.toString('utf-8');
+		return this._text ?? this._contents!.toString();
 	}
-	asBinary() {
+	asBinary(): Uint8Array {
 		return this._contents ?? Buffer.from(this._text!, 'utf-8');
 	}
 	asAny() {
@@ -48,7 +48,7 @@ export class OutputFile implements IOutputFile {
 
 	constructor(
 		public path: string,
-		init: Buffer | string,
+		init: Uint8Array | string,
 		hash = md5(init),
 	) {
 		if (typeof init === 'string') this._text = init;

@@ -31,6 +31,9 @@ lib/**/*.test.*
 lib/**/test.*
 
 ### Temp Files
+*.jsc
+*.realtime-compile.cjs
+*.realtime-compile.cjs.map
 
 ### Examples
 /example

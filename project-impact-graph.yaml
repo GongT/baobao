@@ -6,19 +6,60 @@ projects:
       - '@build-script/esbuild/**'
     dependentProjects:
       - '@build-script/esbuild'
+  '@build-script/heft-autoindex-plugin':
+    includedGlobs:
+      - '@build-script/heft-autoindex-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-autoindex-plugin'
+  '@build-script/heft-cls-plugin':
+    includedGlobs:
+      - '@build-script/heft-cls-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-cls-plugin'
+      - '@internal/local-rig'
+  '@build-script/heft-codegen-plugin':
+    includedGlobs:
+      - '@build-script/heft-codegen-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-codegen-plugin'
   '@build-script/heft-esbuild-plugin':
     includedGlobs:
       - '@build-script/heft-esbuild-plugin/**'
     dependentProjects:
       - '@build-script/heft-esbuild-plugin'
-  '@build-script/heft-plugins':
+  '@build-script/heft-import-test-plugin':
     includedGlobs:
-      - '@build-script/heft-plugins/**'
+      - '@build-script/heft-import-test-plugin/**'
     dependentProjects:
+      - '@build-script/heft-import-test-plugin'
+  '@build-script/heft-modify-entry-plugin':
+    includedGlobs:
+      - '@build-script/heft-modify-entry-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-modify-entry-plugin'
+  '@build-script/heft-plugin-base':
+    includedGlobs:
+      - '@build-script/heft-plugin-base/**'
+    dependentProjects:
+      - '@build-script/heft-autoindex-plugin'
+      - '@build-script/heft-codegen-plugin'
       - '@build-script/heft-esbuild-plugin'
-      - '@build-script/heft-plugins'
+      - '@build-script/heft-import-test-plugin'
+      - '@build-script/heft-modify-entry-plugin'
+      - '@build-script/heft-plugin-base'
+      - '@build-script/heft-typescript-plugin'
       - '@build-script/node-package-tools'
-      - '@internal/dualstack-rig'
+  '@build-script/heft-source-map-plugin':
+    includedGlobs:
+      - '@build-script/heft-source-map-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-source-map-plugin'
+      - '@internal/local-rig'
+  '@build-script/heft-typescript-plugin':
+    includedGlobs:
+      - '@build-script/heft-typescript-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-typescript-plugin'
   '@build-script/node-package-tools':
     includedGlobs:
       - '@build-script/node-package-tools/**'
@@ -45,10 +86,19 @@ projects:
       - '@build-script/single-dog-asset/**'
     dependentProjects:
       - 7zip-bin-wrapper
+      - '@build-script/esbuild'
+      - '@build-script/heft-autoindex-plugin'
+      - '@build-script/heft-codegen-plugin'
+      - '@build-script/heft-esbuild-plugin'
+      - '@build-script/heft-import-test-plugin'
+      - '@build-script/heft-modify-entry-plugin'
+      - '@build-script/heft-plugin-base'
+      - '@build-script/heft-typescript-plugin'
       - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
       - '@build-script/rushstack-config-loader'
       - '@build-script/single-dog-asset'
+      - '@gongt/esbuild-html-entry'
       - '@gongt/fix-esm'
       - '@gongt/systemd-unit-generator'
       - '@idlebox/browser'
@@ -59,11 +109,18 @@ projects:
       - '@idlebox/node-ignore-edit'
       - '@idlebox/node-json-edit'
       - '@idlebox/section-buffer'
-      - '@internal/dualstack-rig'
+      - '@idlebox/tsconfig-loader'
+      - '@idlebox/typescript-surface-analyzer'
+      - '@internal/local-esbuild'
       - '@internal/local-rig'
       - '@internal/plugins'
       - cjke-strings
       - unipm
+  '@gongt/esbuild-html-entry':
+    includedGlobs:
+      - '@build-script/esbuild-html-entry/**'
+    dependentProjects:
+      - '@gongt/esbuild-html-entry'
   '@gongt/fix-esm':
     includedGlobs:
       - '@gongt/fix-esm/**'
@@ -80,7 +137,6 @@ projects:
     includedGlobs:
       - '@gongt/register-tslib/**'
     dependentProjects:
-      - '@build-script/heft-plugins'
       - '@gongt/register-tslib'
   '@gongt/systemd-unit-generator':
     includedGlobs:
@@ -105,10 +161,12 @@ projects:
       - '@build-script/heft-esbuild-plugin'
       - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
+      - '@gongt/systemd-unit-generator'
       - '@idlebox/browser'
       - '@idlebox/chokidar'
       - '@idlebox/common'
       - '@idlebox/node'
+      - '@idlebox/node-ignore-edit'
       - '@idlebox/section-buffer'
       - unipm
   '@idlebox/ensure-symlink':
@@ -123,11 +181,12 @@ projects:
     dependentProjects:
       - '@idlebox/common'
       - '@idlebox/itypes'
+      - cjke-strings
   '@idlebox/json-extends-loader':
     includedGlobs:
       - '@idlebox/json-extends-loader/**'
     dependentProjects:
-      - '@build-script/heft-plugins'
+      - '@build-script/heft-codegen-plugin'
       - '@build-script/rushstack-config-loader'
       - '@idlebox/json-extends-loader'
   '@idlebox/node':
@@ -138,6 +197,7 @@ projects:
       - '@build-script/heft-esbuild-plugin'
       - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
+      - '@gongt/esbuild-html-entry'
       - '@idlebox/node'
       - unipm
   '@idlebox/node-ignore-edit':
@@ -145,7 +205,6 @@ projects:
       - '@idlebox/node-ignore-edit/**'
     dependentProjects:
       - '@idlebox/node-ignore-edit'
-      - '@idlebox/typescript-surface-analyzer'
   '@idlebox/node-json-edit':
     includedGlobs:
       - '@idlebox/node-json-edit/**'
@@ -154,7 +213,6 @@ projects:
       - '@build-script/rush-pretty'
       - '@build-script/rush-tools'
       - '@idlebox/node-json-edit'
-      - '@idlebox/typescript-surface-analyzer'
       - unipm
   '@idlebox/section-buffer':
     includedGlobs:
@@ -172,46 +230,52 @@ projects:
     includedGlobs:
       - '@idlebox/typescript-surface-analyzer/**'
     dependentProjects:
-      - '@build-script/heft-plugins'
+      - '@build-script/heft-autoindex-plugin'
       - '@idlebox/typescript-surface-analyzer'
-  '@internal/dualstack-rig':
+  '@internal/local-esbuild':
     includedGlobs:
-      - '@internal/dualstack-rig/**'
+      - '@internal/local-esbuild/**'
     dependentProjects:
-      - 7zip-bin-wrapper
-      - '@build-script/node-package-tools'
-      - '@build-script/rush-tools'
-      - '@idlebox/browser'
-      - '@idlebox/chokidar'
-      - '@idlebox/common'
-      - '@idlebox/node'
-      - '@idlebox/section-buffer'
-      - '@internal/dualstack-rig'
-      - cjke-strings
-      - unipm
+      - '@internal/local-esbuild'
+      - '@internal/plugins'
   '@internal/local-rig':
     includedGlobs:
       - '@internal/local-rig/**'
     dependentProjects:
+      - 7zip-bin-wrapper
       - '@build-script/esbuild'
+      - '@build-script/heft-autoindex-plugin'
+      - '@build-script/heft-codegen-plugin'
       - '@build-script/heft-esbuild-plugin'
-      - '@build-script/heft-plugins'
+      - '@build-script/heft-import-test-plugin'
+      - '@build-script/heft-modify-entry-plugin'
+      - '@build-script/heft-plugin-base'
+      - '@build-script/heft-typescript-plugin'
+      - '@build-script/node-package-tools'
       - '@build-script/rush-pretty'
+      - '@build-script/rush-tools'
       - '@build-script/rushstack-config-loader'
+      - '@gongt/esbuild-html-entry'
       - '@gongt/fix-esm'
       - '@gongt/systemd-unit-generator'
+      - '@idlebox/browser'
+      - '@idlebox/chokidar'
+      - '@idlebox/common'
       - '@idlebox/json-extends-loader'
+      - '@idlebox/node'
       - '@idlebox/node-ignore-edit'
       - '@idlebox/node-json-edit'
+      - '@idlebox/section-buffer'
       - '@idlebox/tsconfig-loader'
       - '@idlebox/typescript-surface-analyzer'
       - '@internal/local-rig'
+      - cjke-strings
+      - unipm
   '@internal/plugins':
     includedGlobs:
       - '@internal/plugins/**'
     dependentProjects:
       - '@build-script/node-package-tools'
-      - '@internal/dualstack-rig'
       - '@internal/local-rig'
       - '@internal/plugins'
   7zip-bin-wrapper:
