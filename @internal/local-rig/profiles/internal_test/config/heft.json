@@ -1,0 +1,27 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
+
+	"phasesByName": {
+		"build": {
+			"phaseDescription": "测试",
+			"tasksByName": {
+				"track": {
+					"taskPlugin": {
+						"pluginName": "track",
+						"pluginPackage": "@internal/plugins",
+						"options": {}
+					}
+				},
+				"codegen": {
+					"taskPlugin": {
+						"pluginPackage": "@build-script/heft-codegen-plugin"
+					}
+				}
+			}
+		}
+	},
+	"heftPlugins": [
+		{ "pluginPackage": "@build-script/heft-cls-plugin" },
+		{ "pluginPackage": "@build-script/heft-source-map-plugin" }
+	]
+}

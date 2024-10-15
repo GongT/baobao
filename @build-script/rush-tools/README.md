@@ -40,7 +40,7 @@ extra (fixed) arguments allowed for script
 
 Check each (dev-)depenencies version of each project, upgrade them to latest stable version on NPM.
 
-Need manualy run `rush update` (or `rush-tools update`) after success.
+Auto run `rush update` after success, set `--skip-update` to disable this.
 
 ### list <name|path|relpath>
 

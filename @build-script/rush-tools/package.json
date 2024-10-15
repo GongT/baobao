@@ -45,6 +45,7 @@
 		"tiny-async-pool": "^2.1.0"
 	},
 	"devDependencies": {
+		"@build-script/heft-codegen-plugin": "workspace:*",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",

@@ -4,6 +4,7 @@ import { dirname, extname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { description } from './common/description';
 import { NormalError } from './common/error';
+import commands from './commands.generated.js'
 
 const __filename = fileURLToPath(
 	// @ts-ignore

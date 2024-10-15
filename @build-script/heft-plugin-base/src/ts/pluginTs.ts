@@ -47,6 +47,9 @@ export abstract class TsPluginInstance<OptionsT> extends PluginInstance<OptionsT
 		return false;
 	}
 
+	/**
+	 * should not here
+	 */
 	protected async loadTsConfigWatch({
 		watchGlobAsync,
 	}: IHeftTaskRunIncrementalHookOptions): Promise<ILoadedConfigFile & { files: string[] }> {

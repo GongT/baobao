@@ -1,5 +1,9 @@
 import type { IHeftTaskSession } from '@rushstack/heft';
-import { format } from 'util';
+import { format } from 'node:util';
+
+export const isDebug = process.argv.includes('--debug');
+
+export const knownLevels = ['log', 'error', 'warn', 'verbose', 'debug'] as const;
 
 export interface IOutputShim {
 	log(msg: string, ...args: any[]): void;

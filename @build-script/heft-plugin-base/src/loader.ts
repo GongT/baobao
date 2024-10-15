@@ -15,6 +15,7 @@ interface ILoaderOptions {
 	readonly src: string;
 	readonly check?: boolean;
 	readonly force: boolean;
+	readonly external?: string[];
 
 	debug: boolean;
 	distAbs: string;
@@ -110,9 +111,17 @@ function load_compile(module: Module, options: ILoaderOptions) {
 				options.force ? '(forced)' : '',
 			);
 		}
-		realtime_compule(sourceFile, distFile, module.path);
+		realtime_compule(sourceFile, distFile, module.path, options);
 	}
-	module.exports = module.require(distFile);
+
+	try {
+		module.exports = module.require(distFile);
+	} catch (e) {
+		if (options.debug) {
+			console.log(`[heft-plugin-base/loader] failed require: ${distFile}`);
+		}
+		throw e;
+	}
 }
 
 function is_too_young(file: string) {
@@ -125,40 +134,51 @@ function is_too_young(file: string) {
 	return false;
 }
 
-function realtime_compule(sourceFile: string, distFile: string, buildRoot: string) {
+function realtime_compule(sourceFile: string, distFile: string, buildRoot: string, options: ILoaderOptions) {
 	const esb: typeof esbuild = getEsbuild(buildRoot);
-	const result = esb.buildSync({
-		entryPoints: [sourceFile],
-		platform: 'node',
-		bundle: true,
-		format: 'cjs',
-		minify: false,
-		sourcemap: true,
-		assetNames: '[name]',
-		define: {
-			'process.env.IS_REALTIME_BUILD': 'true',
-		},
-		external: ['typescript', 'tslib', '@rushstack/*'],
-		treeShaking: true,
-		outfile: distFile,
-		mainFields: ['typescript', 'module', 'main'],
-		conditions: ['typescript'],
-		// write: false,
-	});
-	for (const { text, location } of result.errors) {
-		console.error(`✘ [ERROR] ${text}`);
-		if (location) {
-			console.error(`    ${location.file}:${location.line}:${location.column}:`);
+	try {
+		const result = esb.buildSync({
+			entryPoints: [sourceFile],
+			platform: 'node',
+			bundle: true,
+			format: 'cjs',
+			minify: false,
+			sourcemap: true,
+			assetNames: '[name]',
+			define: {
+				'process.env.IS_REALTIME_BUILD': 'true',
+			},
+			external: ['typescript', 'esbuild', 'tslib', ...(options.external ?? [])],
+			treeShaking: true,
+			outfile: distFile,
+			mainFields: ['typescript', 'module', 'main'],
+			conditions: ['typescript'],
+			// write: false,
+		});
+
+		if (result.errors.length || result.warnings.length) {
+			const entry = Object.values(result.metafile!.outputs).find((e) => e.entryPoint)?.entryPoint;
+			console.error(`esbuild compile with errors (while bundle ${entry}):`);
 		}
-	}
-	for (const { text, location } of result.warnings) {
-		console.error(`✘ [WARN] ${text}`);
-		if (location) {
-			console.error(`    ${location.file}:${location.line}:${location.column}:`);
+
+		for (const { text, location } of result.errors) {
+			console.error(`✘ [ERROR] ${text}`);
+			if (location) {
+				console.error(`    ${location.file}:${location.line}:${location.column}:`);
+			}
 		}
-	}
-	if (result.errors.length) {
-		throw new Error('can not compile source file');
+		for (const { text, location } of result.warnings) {
+			console.error(`✘ [WARN] ${text}`);
+			if (location) {
+				console.error(`    ${location.file}:${location.line}:${location.column}:`);
+			}
+		}
+		if (result.errors.length) {
+			throw new Error('can not compile source file');
+		}
+	} catch (e) {
+		console.error(`esbuild failed to execute compile (entry: ${sourceFile})`);
+		throw e;
 	}
 }
 

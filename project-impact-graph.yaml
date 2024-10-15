@@ -22,6 +22,7 @@ projects:
       - '@build-script/heft-codegen-plugin/**'
     dependentProjects:
       - '@build-script/heft-codegen-plugin'
+      - '@build-script/rush-tools'
   '@build-script/heft-esbuild-plugin':
     includedGlobs:
       - '@build-script/heft-esbuild-plugin/**'

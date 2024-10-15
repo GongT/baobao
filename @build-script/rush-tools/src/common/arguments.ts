@@ -9,13 +9,7 @@ function parseArguments() {
 		const eqSign = item.indexOf('=');
 		if (eqSign === -1) {
 			const name = item.slice(2);
-			const next = args[0];
-			if (next && !next.startsWith('--')) {
-				ret[name] = next;
-				args.shift();
-			} else {
-				ret[name] = true;
-			}
+			ret[name] = true;
 		} else {
 			const name = item.slice(2, eqSign);
 			const value = item.slice(eqSign + 1);
@@ -25,29 +19,35 @@ function parseArguments() {
 	return ret;
 }
 
+const used = new Set<string>();
+
 let options: any;
-function parseArguments1(): Record<string, string> {
+function parseArgumentsOnce(): Record<string, string> {
 	if (!options) options = parseArguments();
 	return options;
 }
+export function requirePositionalArguments(count: number, noMore = true): string[] {}
 
-export function requireArgument(name: string): string {
-	const options = parseArguments1();
-	if (typeof options[name] === 'string' && options[name]) {
-		return options[name];
+export function requireArgumentInteger(name: string, errorMsg: string): number {
+	const options = requireArgument(name);
+}
+export function requireArgument(name: string, errorMsg: string): string {
+	const value = optionalArgument(name);
+	if (value === undefined) {
+		throw new Error(`missing argument: [--${name}=%s] ${errorMsg}`);
 	} else {
-		console.log(options);
-		throw new Error(`missing argument: --${name}`);
+		return value;
 	}
 }
 
 export function optionalArgument(name: string): string | undefined {
-	const options = parseArguments1();
-	if (typeof options[name] === 'string' && options[name]) {
+	const options = parseArgumentsOnce();
+	if ( options[name]===undefined) {
+		return undefined;
+	}else if(typeof options[name] === 'string'){
 		return options[name];
 	} else {
-		console.log(options);
-		throw new Error(`missing argument: --${name}`);
+		throw new Error(`invalid argument: [--${name}=] require a value`);
 	}
 }
 
@@ -81,7 +81,7 @@ export function argumentError(message: string, argMap: IArgumentsDefine[]): neve
 			name,
 			optional ? '[' : '',
 			Buffer.alloc(maxLen - name.length, ' ').toString(),
-			description
+			description,
 		);
 	}
 

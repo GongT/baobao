@@ -1,6 +1,5 @@
 import { existsSync } from 'fs';
 import { dirname, normalize, resolve } from 'path';
-import localTypescript from 'typescript';
 import type TypeScriptApi from 'typescript';
 
 export interface IFilledOptions extends TypeScriptApi.CompilerOptions {
@@ -18,7 +17,7 @@ export interface IExtendParsedCommandLine extends TypeScriptApi.ParsedCommandLin
  */
 export function loadTsConfigJsonFile(
 	project: string,
-	ts: typeof TypeScriptApi = localTypescript
+	ts: typeof TypeScriptApi,
 ): IExtendParsedCommandLine {
 	let path = resolve(process.cwd(), project);
 

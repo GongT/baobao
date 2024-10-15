@@ -1,0 +1,11 @@
+{
+	"extends": "@build-script/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		/*
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
+		"outDir": "../lib/esm",
+		"rootDir": "./",
+		// "types": ["node"],
+		*/
+	}
+}

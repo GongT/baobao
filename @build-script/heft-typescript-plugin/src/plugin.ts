@@ -48,6 +48,7 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 		await this.executeCompile(command);
 	}
 
+	// why not execute transformer in watch mode?
 	private first = true;
 	override async watch(watchOptions: IHeftTaskRunIncrementalHookOptions): Promise<void> {
 		const { files, command } = await this.loadTsConfigWatch(watchOptions);

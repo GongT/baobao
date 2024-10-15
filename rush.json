@@ -159,7 +159,6 @@
 			"packageName": "@build-script/heft-plugin-base",
 			"projectFolder": "@build-script/heft-plugin-base",
 			"shouldPublish": true,
-			"decoupledLocalDependencies": ["@idlebox/json-extends-loader"]
 		},
 		{
 			"packageName": "@build-script/heft-autoindex-plugin",

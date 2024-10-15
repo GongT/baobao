@@ -117,9 +117,6 @@ importers:
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
 
   ../../@build-script/heft-autoindex-plugin:
     dependencies:
@@ -162,12 +159,18 @@ importers:
       '@supercharge/promise-pool':
         specifier: ^3.2.0
         version: 3.2.0
-      decache:
-        specifier: ^4.6.2
-        version: 4.6.2
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.0
+      execa:
+        specifier: ^9.4.0
+        version: 9.4.0
       glob:
         specifier: ^11.0.0
         version: 11.0.0
+      source-map-support:
+        specifier: ^0.5.21
+        version: 0.5.21
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -221,9 +224,6 @@ importers:
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
 
   ../../@build-script/heft-import-test-plugin:
     dependencies:
@@ -233,6 +233,9 @@ importers:
       execa:
         specifier: ^9.4.0
         version: 9.4.0
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -249,9 +252,6 @@ importers:
       '@types/node':
         specifier: ^22.7.5
         version: 22.7.5
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
 
   ../../@build-script/heft-modify-entry-plugin:
     dependencies:
@@ -271,9 +271,6 @@ importers:
       '@types/node':
         specifier: ^22.7.5
         version: 22.7.5
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
 
   ../../@build-script/heft-plugin-base:
     dependencies:
@@ -492,6 +489,9 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
     devDependencies:
+      '@build-script/heft-codegen-plugin':
+        specifier: workspace:*
+        version: link:../heft-codegen-plugin
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../single-dog-asset
@@ -733,9 +733,9 @@ importers:
         specifier: ^0.5.21
         version: 0.5.21
     optionalDependencies:
-      node-kexec:
-        specifier: github:StorytellerCZ/node-kexec
-        version: kexec@https://codeload.github.com/StorytellerCZ/node-kexec/tar.gz/c0dd95c13c46084be22a32a6b120e1b84945331e
+      kexec:
+        specifier: npm:@gongt/kexec@latest
+        version: '@gongt/kexec@4.0.0'
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -882,6 +882,9 @@ importers:
       split2:
         specifier: ^4.2.0
         version: 4.2.0
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -895,9 +898,6 @@ importers:
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
 
   ../../@internal/local-rig:
     dependencies:
@@ -1488,6 +1488,10 @@ packages:
   '@eslint/plugin-kit@0.2.0':
     resolution: {integrity: sha512-vH9PiIMMwvhCx31Af3HiGzsVNULDbyVkHXwlemn/B0TFj/00ho3y55efXrUZTfQipxoHC5u4xq6zblww1zm1Ig==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@gongt/kexec@4.0.0':
+    resolution: {integrity: sha512-/ihyEw7ht/J9Q+8sKSXpNB9C88WETFAhwCwWf2ZE5bFb6EzAU6pACAae9/DeuS0uDPM1Aon6IGcguDrIJ97TQQ==}
+    engines: {node: '>=10'}
 
   '@humanfs/core@0.19.0':
     resolution: {integrity: sha512-2cbWIHbZVEweE853g8jymffCA+NCMiuqeECeBBLm8dg2oFdjuGJhgN4UAbI+6v0CKbbhvtXA4qV8YR5Ji86nmw==}
@@ -2768,9 +2772,6 @@ packages:
     resolution: {integrity: sha512-syBZ+rnAK3EgMsH2aYEOLUW7mZSY9Gb+0wUMCFsZvcmiz+HigA0LOcq/HoQqVuGG+EKykunc7QG2bzrponfaSw==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
-  decache@4.6.2:
-    resolution: {integrity: sha512-2LPqkLeu8XWHU8qNCS3kcF6sCcb5zIzvWaAHYSvPfwhdd7mHuah29NssMzrTYyHN4F5oFy2ko9OBYxegtU0FEw==}
-
   decamelize-keys@1.1.1:
     resolution: {integrity: sha512-WiPxgEirIV0/eIOMcnFBA3/IJZAZqKnwAwWyvvdi4lsr1WCN22nhdf/3db3DoZcUjTV2SqfzIwNyp6y2xs3nmg==}
     engines: {node: '>=0.10.0'}
@@ -4030,11 +4031,6 @@ packages:
 
   jws@4.0.0:
     resolution: {integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==}
-
-  kexec@https://codeload.github.com/StorytellerCZ/node-kexec/tar.gz/c0dd95c13c46084be22a32a6b120e1b84945331e:
-    resolution: {tarball: https://codeload.github.com/StorytellerCZ/node-kexec/tar.gz/c0dd95c13c46084be22a32a6b120e1b84945331e}
-    version: 4.0.0
-    engines: {node: '>=10'}
 
   keyv@3.1.0:
     resolution: {integrity: sha512-9ykJ/46SN/9KPM/sichzQ7OvXyGDYKGTaDlKMGCAlg2UK8KRy4jb0d8sFc+0Tt0YYnThq8X2RZgCg74RPxgcVA==}
@@ -6402,6 +6398,12 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
+  '@gongt/kexec@4.0.0':
+    dependencies:
+      bindings: 1.5.0
+      node-addon-api: 3.2.1
+    optional: true
+
   '@humanfs/core@0.19.0': {}
 
   '@humanfs/node@0.16.5':
@@ -8120,10 +8122,6 @@ snapshots:
 
   debuglog@1.0.1: {}
 
-  decache@4.6.2:
-    dependencies:
-      callsite: 1.0.0
-
   decamelize-keys@1.1.1:
     dependencies:
       decamelize: 1.2.0
@@ -9723,12 +9721,6 @@ snapshots:
     dependencies:
       jwa: 2.0.0
       safe-buffer: 5.2.1
-
-  kexec@https://codeload.github.com/StorytellerCZ/node-kexec/tar.gz/c0dd95c13c46084be22a32a6b120e1b84945331e:
-    dependencies:
-      bindings: 1.5.0
-      node-addon-api: 3.2.1
-    optional: true
 
   keyv@3.1.0:
     dependencies:

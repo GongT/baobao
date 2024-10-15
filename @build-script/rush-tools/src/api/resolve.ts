@@ -13,6 +13,7 @@ export interface IGraphAttachedData {
 	readonly hasBuildScript: boolean;
 	readonly shouldPublish: boolean;
 	readonly project: ICProjectConfig;
+	readonly dedupProjects: readonly string[];
 }
 
 export function createDeps(rushProject: RushProject) {
@@ -25,6 +26,7 @@ export function createDeps(rushProject: RushProject) {
 			packageJson,
 			shouldPublish: rushProject.isProjectPublic(project),
 			hasBuildScript: !!packageJson.scripts?.build,
+			dedupProjects: project.decoupledLocalDependencies ?? [],
 		});
 	}
 

@@ -2,7 +2,6 @@ import { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
 import { ConfigurationFile } from '@rushstack/heft-config-file';
 import { existsSync } from 'fs';
 import { normalize, resolve } from 'path';
-import { parseConfigFileTextToJson } from 'typescript';
 
 import type TypeScriptApi from 'typescript';
 
@@ -156,7 +155,7 @@ export function loadTsConfigJson(
 	function readFile(file: string, encoding?: string) {
 		readFiles.push(file);
 		const text = ts.sys.readFile(file, encoding)!;
-		const json = parseConfigFileTextToJson(file, text);
+		const json = ts.parseConfigFileTextToJson(file, text);
 		if (json.error) {
 			return text;
 		}

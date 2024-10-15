@@ -113,7 +113,7 @@ function execLinux(cmds: string[]): never {
 			// @ts-ignore
 			import.meta.url,
 		);
-		const kexec = require('node-kexec');
+		const kexec = require('kexec');
 
 		process.removeAllListeners('SIGINT');
 		process.removeAllListeners('SIGTERM');

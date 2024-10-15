@@ -15,7 +15,9 @@ type PluginConstructor<T> = new (
 	pluginOptions: T,
 ) => PluginInstance<T>;
 
-export function createTaskPlugin(name: string, Cls: PluginConstructor<any>): IHeftPlugin {
+export type TaskPlugin = IHeftPlugin<IHeftTaskSession>;
+
+export function createTaskPlugin(name: string, Cls: PluginConstructor<any>): TaskPlugin {
 	return class {
 		constructor() {
 			let plugin: PluginInstance<any>;
@@ -43,8 +45,13 @@ export function createTaskPlugin(name: string, Cls: PluginConstructor<any>): IHe
 
 					if (plugin.run || plugin.watch) {
 						session.hooks.registerFileOperations.tapPromise(name, async (r) => {
-							await plugin.init();
-							return r;
+							try {
+								await plugin.init();
+								return r;
+							} catch (e: any) {
+								session.logger.terminal.writeErrorLine(`plugin ${name} init error: ${e.stack}`);
+								throw e;
+							}
 						});
 					}
 					if (plugin.run) {
@@ -55,14 +62,20 @@ export function createTaskPlugin(name: string, Cls: PluginConstructor<any>): IHe
 					}
 					if (plugin.watch) {
 						// session.logger.terminal.writeDebugLine(`tap runIncremental`);
+						let firstTime = true;
 						session.hooks.runIncremental.tapPromise(name, async (opt) => {
-							await plugin.watch!(opt);
+							await plugin.watch!(Object.assign(opt, { firstTime }));
+							firstTime = false;
 						});
 					}
 				},
 			};
 		}
 	};
+}
+
+export interface IWatchOptions extends IHeftTaskRunIncrementalHookOptions {
+	readonly firstTime: boolean;
 }
 
 export abstract class PluginInstance<OptionsT = {}> {
@@ -87,7 +100,7 @@ export abstract class PluginInstance<OptionsT = {}> {
 	}
 
 	public abstract run?(): Promise<void>;
-	public abstract watch?(watchOptions: IHeftTaskRunIncrementalHookOptions): Promise<void>;
+	public abstract watch?(watchOptions: IWatchOptions): Promise<void>;
 
 	/**
 	 * only callable inside subclass constructor

@@ -57,10 +57,10 @@ export class TsPluginSystem {
 			transforms.unshift(...(copts.plugins as any));
 		}
 		for (const def of transforms) {
-			if (this.loaded.has(def.transform)) continue;
 			if (used.has(def.transform)) throw new Error(`plugin "${def.transform}" is duplicated`);
-
 			used.add(def.transform);
+
+			if (this.loaded.has(def.transform)) continue;
 
 			const plugin = await this.loadPlugin(def);
 			if (plugin) {
@@ -71,6 +71,8 @@ export class TsPluginSystem {
 		for (const item of this.loaded.keys()) {
 			if (!used.has(item)) this.loaded.delete(item);
 		}
+
+		this.session.logger.terminal.writeLine(`loaded ${this.loaded.size} plugins`);
 	}
 
 	private async loadPlugin(item: ITypescriptPluginDefine) {
