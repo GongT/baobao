@@ -7,6 +7,7 @@
 	"author": "",
 	"private": true,
 	"main": "./lib/export.js",
+	"exports": "./lib/export.js",
 	"bin": {
 		"local-esbuild": "bin.js"
 	},

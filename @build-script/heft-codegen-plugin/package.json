@@ -1,18 +1,23 @@
 {
 	"name": "@build-script/heft-codegen-plugin",
 	"type": "commonjs",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"bin": {
 		"codegen": "loader/bin.js"
 	},
 	"main": "./loader/plugin.js",
+	"types": "./src/plugin.ts",
 	"exports": {
-		".": "./loader/plugin.js",
+		".": {
+			"types": "./src/plugin.ts",
+			"default": "./loader/plugin.js"
+		},
 		"./executer-thread": "./loader/executer-thread.js",
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
 		"main": "./lib/plugin.js",
+		"types": "./lib/plugin.d.ts",
 		"exports": {
 			".": "./lib/plugin.js",
 			"./executer-thread": "./lib/executer-thread.js",
@@ -31,10 +36,11 @@
 		"@build-script/heft-plugin-base": "workspace:^",
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@supercharge/promise-pool": "^3.2.0",
-		"source-map-support": "^0.5.21",
 		"esbuild": "^0.24.0",
 		"execa": "^9.4.0",
-		"glob": "^11.0.0"
+		"glob": "^11.0.0",
+		"source-map-support": "^0.5.21",
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

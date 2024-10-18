@@ -12,6 +12,50 @@ interface IOverridesObject {
 
 type IOverrides = Record<string, string | IOverridesObject>;
 
+export interface IExportCondition {
+	node?: string | IExportCondition;
+	'node-addons'?: string | IExportCondition;
+	browser?: string | IExportCondition;
+	require?: string;
+	import?: string;
+	types?: string;
+	default?: string;
+	[platform: string]: undefined | string | IExportCondition;
+}
+
+export interface IExportMap {
+	[exportPath: string]: string | IExportCondition;
+}
+export interface IFullExportsField {
+	[exportPath: string]: IExportCondition;
+}
+
+export type IExportsField = string | IExportCondition | IExportMap;
+
+function isPathMap(exportsField: IExportCondition | IExportMap): exportsField is IExportMap {
+	return Object.keys(exportsField).some((e) => e.startsWith('.'));
+}
+export function parseExportsField(exports: IExportsField): IFullExportsField {
+	if (typeof exports === 'string') {
+		return { '.': { default: exports } };
+	}
+	if (!isPathMap(exports)) {
+		return { '.': exports };
+	}
+	let ret: IFullExportsField = {};
+	for (const [path, def] of Object.entries(exports)) {
+		if (typeof def === 'string') {
+			ret[path] = { default: def };
+		} else {
+			ret[path] = def;
+		}
+	}
+	return ret;
+}
+
+// export function resolveImport(exports:IFullExportsField, file:string,platform:string, condition: string){
+// }
+
 export interface IPackageJson {
 	name: string;
 	version: string;
@@ -48,7 +92,7 @@ export interface IPackageJson {
 	private: boolean;
 	publishConfig: Record<string, any>;
 	workspaces: string[];
-	exports: string | Record<string, string | Record<string, string>>;
+	exports: IExportsField;
 	dependencies: Record<string, string>;
 	devDependencies: Record<string, string>;
 	optionalDependencies: Record<string, string>;

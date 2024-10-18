@@ -4,7 +4,11 @@
 	"description": "ensure symbol link exists, and content (target) is what you want.",
 	"license": "MIT",
 	"main": "./index.js",
-	"typings": "index.d.ts",
+	"types": "./index.d.ts",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
 	"scripts": {
 		"build": "",
 		"build:watch": "",

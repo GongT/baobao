@@ -1,10 +1,16 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/heft.schema.json",
-
 	"phasesByName": {
 		"generate": {
 			"phaseDescription": "生成用于编译的文件和数据",
-			"cleanFiles": [{ "sourcePath": "src", "includeGlobs": ["**/*.generated.ts"] }],
+			"cleanFiles": [
+				{
+					"sourcePath": "src",
+					"includeGlobs": [
+						"**/*.generated.ts"
+					]
+				}
+			],
 			"tasksByName": {
 				"track": {
 					"taskPlugin": {
@@ -26,7 +32,9 @@
 					}
 				},
 				"autoindex": {
-					"taskDependencies": ["codegen"],
+					"taskDependencies": [
+						"codegen"
+					],
 					"taskPlugin": {
 						"pluginPackage": "@build-script/heft-autoindex-plugin"
 					}
@@ -35,8 +43,17 @@
 		},
 		"compile": {
 			"phaseDescription": "编译",
-			"phaseDependencies": ["generate"],
-			"cleanFiles": [{ "sourcePath": "temp" }, { "sourcePath": "lib" }],
+			"phaseDependencies": [
+				"generate"
+			],
+			"cleanFiles": [
+				{
+					"sourcePath": "temp"
+				},
+				{
+					"sourcePath": "lib"
+				}
+			],
 			"tasksByName": {
 				"track": {
 					"taskPlugin": {
@@ -58,7 +75,9 @@
 		},
 		"postprocess": {
 			"phaseDescription": "对编译结果进行后处理、正规化",
-			"phaseDependencies": ["compile"],
+			"phaseDependencies": [
+				"compile"
+			],
 			"tasksByName": {
 				"track": {
 					"taskPlugin": {
@@ -67,38 +86,34 @@
 						"options": {}
 					}
 				}
-				// "finalize-package": {
-				// 	"taskPlugin": {
-				// 		"pluginName": "make-dualstack-package",
-				// 		"pluginPackage": "@internal/plugins",
-				// 		"options": {}
-				// 	}
-				// },
-				// "duplicate-typings": {
-				// 	"taskPlugin": {
-				// 		"pluginName": "copy-files-plugin",
-				// 		"pluginPackage": "@rushstack/heft",
-				// 		"options": {
-				// 			"copyOperations": [
-				// 				{
-				// 					"sourcePath": "lib/esm",
-				// 					"destinationFolders": ["lib/cjs"],
-				// 					"fileExtensions": [".d.ts", ".d.ts.map"],
-				// 					"hardlink": true
-				// 				}
-				// 			]
-				// 		}
-				// 	}
-				// }
 			}
 		},
 		"build": {
 			"phaseDescription": "生成不可变的发布文件（例如打包）",
-			"phaseDependencies": ["postprocess"],
+			"phaseDependencies": [
+				"postprocess"
+			],
 			// "phaseDescription": "run build process",
 			"cleanFiles": [
-				{ "sourcePath": ".", "fileExtensions": [".tgz", ".log"], "excludeGlobs": ["node_modules"] },
-				{ "sourcePath": ".", "includeGlobs": ["*-logs"], "excludeGlobs": ["node_modules"] }
+				{
+					"sourcePath": ".",
+					"fileExtensions": [
+						".tgz",
+						".log"
+					],
+					"excludeGlobs": [
+						"node_modules"
+					]
+				},
+				{
+					"sourcePath": ".",
+					"includeGlobs": [
+						"*-logs"
+					],
+					"excludeGlobs": [
+						"node_modules"
+					]
+				}
 			],
 			"tasksByName": {
 				"track": {
@@ -112,7 +127,9 @@
 		},
 		"test": {
 			"phaseDescription": "执行测试（如有）",
-			"phaseDependencies": ["postprocess"],
+			"phaseDependencies": [
+				"postprocess"
+			],
 			"tasksByName": {
 				// "depcheck": {
 				// 	"taskPlugin": {
@@ -125,7 +142,11 @@
 		}
 	},
 	"heftPlugins": [
-		{ "pluginPackage": "@build-script/heft-cls-plugin" },
-		{ "pluginPackage": "@build-script/heft-source-map-plugin" }
+		{
+			"pluginPackage": "@build-script/heft-cls-plugin"
+		},
+		{
+			"pluginPackage": "@build-script/heft-source-map-plugin"
+		}
 	]
 }

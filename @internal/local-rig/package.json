@@ -1,5 +1,6 @@
 {
 	"name": "@internal/local-rig",
+	"type": "module",
 	"version": "1.0.1",
 	"description": "",
 	"license": "WTFPL",
@@ -11,18 +12,24 @@
 	},
 	"private": true,
 	"dependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
-		"@build-script/heft-plugin-base": "workspace:^",
 		"@build-script/heft-autoindex-plugin": "workspace:^",
-		"@build-script/heft-typescript-plugin": "workspace:^",
-		"@build-script/heft-codegen-plugin": "workspace:^",
-		"@build-script/heft-source-map-plugin": "workspace:^",
 		"@build-script/heft-cls-plugin": "workspace:^",
-		"@rushstack/heft-jest-plugin": "^0.12.14",
-		"typescript": "^5.6.3",
+		"@build-script/heft-codegen-plugin": "workspace:^",
+		"@build-script/heft-plugin-base": "workspace:^",
+		"@build-script/heft-source-map-plugin": "workspace:^",
+		"@build-script/heft-typescript-plugin": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/plugins": "workspace:^",
-		"@rushstack/heft-lint-plugin": "^0.5.0",
+		"@rushstack/heft-jest-plugin": "^0.12.14",
+		"@rushstack/heft-lint-plugin": "^0.5.3",
 		"eslint": "^9.12.0",
-		"eslint-plugin-import": "^2.31.0"
+		"typescript": "^5.6.3"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.12.0",
+		"@types/eslint__js": "^8.42.3",
+		"eslint": "^9.12.0",
+		"typescript": "^5.6.3",
+		"typescript-eslint": "^8.10.0"
 	}
 }

@@ -103,15 +103,21 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 					kind = 'module';
 				}
 			}
-			check_export_field(session.logger, pkg, 'main', 'require', main);
-			check_export_field(session.logger, pkg, 'module', 'import', module);
-			if (typings) check_export_field(session.logger, pkg, 'types', 'types', typings);
+			check_export_field(session.logger, pkg, 'require', main);
+			check_export_field(session.logger, pkg, 'import', module);
+			if (typings) check_export_field(session.logger, pkg, 'types', typings);
 
 			session.logger.terminal.writeDebugLine(`  - type = ${pkg.type}`);
 			assert(pkg.type === kind, `"type" field must be "${kind}", got ${JSON.stringify(pkg.type)}`);
 
 			requireFieldEquals(session.logger, pkg, ['exports', '.', 'main'], undefined);
 			requireFieldEquals(session.logger, pkg, ['exports', '.', 'module'], undefined);
+			requireFieldEquals(session.logger, pkg, ['exports', '.', 'typings'], undefined);
+
+			requireFieldEquals(session.logger, pkg, ['main'], undefined);
+			requireFieldEquals(session.logger, pkg, ['module'], undefined);
+			requireFieldEquals(session.logger, pkg, ['types'], undefined);
+			requireFieldEquals(session.logger, pkg, ['typings'], undefined);
 		} catch (e: any) {
 			CheckFail.th(`file content verify failed:\n    File: ${pkgPath}\n${e.message}\n`);
 		}
@@ -225,11 +231,9 @@ function checkJsonConfig(data: any, template: Record<string, any>, exValue: stri
 function check_export_field(
 	logger: IScopedLogger,
 	pkg: any,
-	oldField: 'main' | 'module' | 'types',
 	exportType: 'require' | 'import' | 'types',
 	want: string | undefined,
 ) {
-	requireFieldEquals(logger, pkg, [oldField], want);
 	requireFieldEquals(logger, pkg, ['exports', '.', exportType], want);
 }
 

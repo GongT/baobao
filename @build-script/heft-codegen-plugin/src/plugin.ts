@@ -6,6 +6,7 @@ import {
 } from '@build-script/heft-plugin-base';
 import type TypeScriptApi from 'typescript';
 import { GeneratorHolder, type IResult } from './library/code-generator-holder.js';
+export * from './api.js';
 
 export class CodeGenPlugin extends PluginInstance<{}> {
 	private declare readonly generaters: GeneratorHolder;

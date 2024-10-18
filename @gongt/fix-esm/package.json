@@ -2,14 +2,16 @@
 	"name": "@gongt/fix-esm",
 	"type": "commonjs",
 	"version": "1.1.0",
-	"description": "wrapper of fix-esm, only register once.",
-	"license": "WTFPL",
+	"description": "auto fix ERR_REQUIRE_ESM by esbuild",
+	"license": "MIT",
 	"main": "./lib/index.js",
 	"module": "./empty.mjs",
-	"sideEffects": false,
+	"sideEffects": true,
 	"exports": {
 		".": {
-			"require": "./lib/index.js",
+			"node": {
+				"require": "./lib/index.js"
+			},
 			"default": "./empty.mjs"
 		},
 		"./package.json": "./package.json"
@@ -22,6 +24,7 @@
 		"clean": "rimraf lib"
 	},
 	"dependencies": {
+		"@idlebox/common": "workspace:^",
 		"esbuild": "^0.24.0",
 		"rimraf": "^6.0.1"
 	},

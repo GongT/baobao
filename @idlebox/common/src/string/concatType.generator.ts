@@ -1,13 +1,8 @@
-import { readFileSync } from 'fs';
-
-/* copy */
 export function concatStringType(a: string[]): string {
 	return a.join('');
 }
-/* copy end */
 
-export function generate() {
-	let content = '';
+export function generate(builder: any) {
 	const typeList = [];
 	const argList = [];
 	const returnList = [];
@@ -19,13 +14,8 @@ export function generate() {
 		const type = typeList.join(', ');
 		const arg = argList.join(', ');
 		const ret = returnList.join('');
-		content += `export function concatStringType\n\t<${type}>\n\t\t(${arg}):\n\t\`${ret}\`;\n`;
+		builder.append(`export function concatStringType\n\t<${type}>\n\t\t(${arg}):\n\t\`${ret}\`;`);
 	}
 
-	const full: string = readFileSync(__filename, 'utf-8');
-	const lines = full.split('\n');
-	content += '\n';
-	content += lines.slice(lines.indexOf('/* copy */'), lines.indexOf('/* copy end */')).join('\n');
-
-	return content;
+	builder.copyFunctionDeclare('concatStringType');
 }

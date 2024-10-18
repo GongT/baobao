@@ -6,7 +6,7 @@
 	"keywords": [],
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "./lib/cjs/index.cjs",
+	"main": "./lib/cjs/index.js",
 	"module": "./lib/esm/index.js",
 	"types": "./lib/esm/index.d.ts",
 	"exports": {

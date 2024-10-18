@@ -234,6 +234,7 @@
 	"unsupportedPackageJsonSettings": {
 		"dependencies": {
 			"prettier": "latest",
+			"eslint": "latest",
 			"typescript": "latest"
 		}
 		// "scripts": {

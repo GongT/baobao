@@ -1,8 +1,0 @@
-{
-  "version": 3,
-  "sources": ["commands.generator.ts"],
-  "sourceRoot": "/data/DevelopmentRoot/github.com/gongt/baobao/@build-script/rush-tools/src",
-  "sourcesContent": ["import type { FileBuilder, IOutputShim } from '@build-script/heft-codegen-plugin';\nimport { readdir } from 'fs/promises';\n\nexport async function generate(build: FileBuilder, logger: IOutputShim) {\n\treaddir(path)\n}\n"],
-  "mappings": ";AACA,SAAS,eAAe;AAExB,eAAsB,SAAS,OAAoB,QAAqB;AACvE,UAAQ,IAAI;AACb;",
-  "names": []
-}

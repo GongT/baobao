@@ -17,17 +17,11 @@
 	},
 	"prettier.prettierPath": "common/temp/node_modules/prettier",
 	"typescript.tsdk": "./common/temp/node_modules/typescript/lib",
-	"[json]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[json5]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[jsonc]": {
+	"[json][json5][jsonc]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[markdown]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		// "editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"json.schemaDownload.enable": true,
 	"typescript.preferences.preferTypeOnlyAutoImports": true,

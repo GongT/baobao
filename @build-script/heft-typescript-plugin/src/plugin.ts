@@ -77,7 +77,7 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 
 		// const isolatedModules = !!options.fast && !!command.options.isolatedModules;
 
-		const rootNames = pluginOptions.fast ? command.fileNames : this.filterOutTests(command.fileNames);
+		const rootNames = pluginOptions.fast ? this.filterOutTests(command.fileNames) : command.fileNames;
 
 		const program = this.ts.createProgram({
 			rootNames: rootNames,

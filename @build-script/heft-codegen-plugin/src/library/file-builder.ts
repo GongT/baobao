@@ -46,7 +46,7 @@ export class FileBuilder {
 	}
 
 	append(text: string) {
-		this.result.push(text + '\n');
+		this.result.push(text);
 		return text;
 	}
 	toString() {
@@ -64,7 +64,7 @@ export class FileBuilder {
 	 * @param starting starting markup
 	 * @param ending ending markup
 	 * @param includeHeaders if true, include the starting and ending line
-	 * @returns the string, will not modify result
+	 * @returns the string appended
 	 */
 	copySection(starting: string | RegExp, ending: string | RegExp, includeHeaders = false) {
 		if (typeof starting === 'string') {

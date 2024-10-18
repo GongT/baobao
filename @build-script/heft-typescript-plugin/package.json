@@ -3,10 +3,6 @@
 	"type": "commonjs",
 	"version": "0.0.16",
 	"main": "./loader/plugin.js",
-	"exports": {
-		".": "./loader/plugin.js",
-		"./package.json": "./package.json"
-	},
 	"publishConfig": {
 		"main": "./lib/plugin.js",
 		"exports": {

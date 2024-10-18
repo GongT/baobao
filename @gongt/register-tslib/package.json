@@ -4,6 +4,10 @@
 	"version": "0.0.1",
 	"main": "./register.cjs",
 	"module": "./error.mjs",
+	"exports": {
+		"import": "./error.mjs",
+		"require": "./register.cjs"
+	},
 	"types": "./lib/type-entry.d.ts",
 	"scripts": {
 		"prepack": "",

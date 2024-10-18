@@ -6,8 +6,10 @@
 	"author": "GongT <gongteng524702837@gmail.com>",
 	"main": "./lib/cjs/__create_index.generated.cjs",
 	"module": "./lib/esm/__create_index.generated.js",
+	"types": "./lib/esm/__create_index.generated.d.ts",
 	"exports": {
 		".": {
+			"types": "./lib/esm/__create_index.generated.d.ts",
 			"import": "./lib/esm/__create_index.generated.js",
 			"require": "./lib/cjs/__create_index.generated.cjs"
 		},

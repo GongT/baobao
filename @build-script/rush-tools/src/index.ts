@@ -1,10 +1,12 @@
 import { exists } from '@idlebox/node';
+import { command, flag, option, string, subcommands } from 'cmd-ts';
 import { readdir } from 'fs/promises';
 import { dirname, extname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import * as SubCmds from './commands.generated.js';
 import { description } from './common/description';
 import { NormalError } from './common/error';
-import commands from './commands.generated.js'
+import { parseArgs } from 'util';
 
 const __filename = fileURLToPath(
 	// @ts-ignore
@@ -16,13 +18,18 @@ const __dirname = dirname(__filename);
 export default async function main() {
 	let argv = process.argv.slice(2);
 
-	const commandPos = argv.findIndex((item) => !item.startsWith('-'));
-	if (commandPos === -1) {
-		await showHelp();
-		return;
+	const output = parseArgs({
+		options:{
+			debug: {
+				type:'boolean',
+			},
+		},
+		args:[],
+		
+	})
+
+	for (const [v] of Object.entries(SubCmds)) {
 	}
-	const command = argv.splice(commandPos, 1)[0]!;
-	const rcommand = compCommandName(command);
 
 	const fpath = resolve(__dirname, 'commands', rcommand + '.js');
 	if (await exists(fpath)) {

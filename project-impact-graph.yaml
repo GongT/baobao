@@ -102,6 +102,7 @@ projects:
       - '@gongt/esbuild-html-entry'
       - '@gongt/fix-esm'
       - '@gongt/systemd-unit-generator'
+      - '@idlebox/args'
       - '@idlebox/browser'
       - '@idlebox/chokidar'
       - '@idlebox/common'
@@ -144,6 +145,11 @@ projects:
       - '@gongt/systemd-unit-generator/**'
     dependentProjects:
       - '@gongt/systemd-unit-generator'
+  '@idlebox/args':
+    includedGlobs:
+      - '@idlebox/args/**'
+    dependentProjects:
+      - '@idlebox/args'
   '@idlebox/browser':
     includedGlobs:
       - '@idlebox/browser/**'
@@ -162,7 +168,9 @@ projects:
       - '@build-script/heft-esbuild-plugin'
       - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
+      - '@gongt/fix-esm'
       - '@gongt/systemd-unit-generator'
+      - '@idlebox/args'
       - '@idlebox/browser'
       - '@idlebox/chokidar'
       - '@idlebox/common'
@@ -259,6 +267,7 @@ projects:
       - '@gongt/esbuild-html-entry'
       - '@gongt/fix-esm'
       - '@gongt/systemd-unit-generator'
+      - '@idlebox/args'
       - '@idlebox/browser'
       - '@idlebox/chokidar'
       - '@idlebox/common'

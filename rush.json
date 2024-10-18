@@ -158,7 +158,7 @@
 		{
 			"packageName": "@build-script/heft-plugin-base",
 			"projectFolder": "@build-script/heft-plugin-base",
-			"shouldPublish": true,
+			"shouldPublish": true
 		},
 		{
 			"packageName": "@build-script/heft-autoindex-plugin",
@@ -199,6 +199,11 @@
 			"packageName": "@build-script/heft-typescript-plugin",
 			"projectFolder": "@build-script/heft-typescript-plugin",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@idlebox/args",
+			"projectFolder": "@idlebox/args",
+			"shouldPublish": false
 		},
 		{
 			"packageName": "@idlebox/section-buffer",

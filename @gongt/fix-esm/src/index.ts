@@ -1,3 +1,4 @@
+import { parseExportsField, type IExportCondition } from '@idlebox/common';
 import esbuild from 'esbuild';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 
@@ -62,26 +63,22 @@ function wrappedLoader(mod: any, filename: string) {
 	}
 }
 
-function fillPath(v: string | any) {
-	if (typeof v === 'string') {
-		if (v.endsWith('.d.ts')) {
-			return v;
-		}
-		return {
-			require: v + 'c',
-			default: v,
+function fillCond(v: IExportCondition) {
+	if (v.node) {
+		v.node = {
+			require: v,
+			default: v.node,
 		};
-	} else {
-		if (!v.require) {
-			const rvalue = v.node ?? v.import ?? v.default;
-			if (typeof rvalue === 'string') {
-				v.require = rvalue + 'c';
-			} else {
-				throw new Error('[fix-esm] can not find any exports field in ' + Object.keys(v).join(', '));
-			}
-		}
-		return v;
 	}
+	if (!v.require) {
+		const rvalue = v.import ?? v.default;
+		if (typeof rvalue === 'string') {
+			v.require = rvalue + 'c';
+		} else {
+			throw new Error('[fix-esm] can not find any exports field in ' + Object.keys(v).join(', '));
+		}
+	}
+	return v;
 }
 
 function modify_package_json(file: string) {
@@ -95,18 +92,12 @@ function modify_package_json(file: string) {
 	console.error('[fix-esm] realtime modify: %s', file);
 
 	if (pkgJson.exports) {
-		for (const [key, data] of Object.entries(pkgJson.exports) as any) {
-			if (key.startsWith('.')) {
-				// -> ./some/file.js -> node/browser/default -> [types/import/require|string]
-				for (const [cls, pathOrDef] of Object.entries(data)) {
-					data[cls] = fillPath(pathOrDef);
-				}
-			} else {
-				// -> node/browser/default -> [types/import/require|string]
-				pkgJson.exports[key] = fillPath(data);
-			}
+		const exports = parseExportsField(pkgJson.exports);
+		pkgJson.exports = exports;
+		for (const [key, data] of Object.entries(exports)) {
+			pkgJson.exports[key] = fillCond(data);
 		}
-	} else if (pkgJson.module) {
+	} else if (pkgJson.module && !pkgJson.main) {
 		pkgJson.main = pkgJson.module + 'c';
 	} else {
 		throw new Error('[fix-esm] not know how to modify this json');
