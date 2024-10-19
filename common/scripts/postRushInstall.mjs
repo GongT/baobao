@@ -3,10 +3,15 @@
 console.log('[script] post rush install');
 
 import { existsSync, mkdirSync, readdirSync, symlinkSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
-import { lstat_catch, projects, readJson, tempDir } from './pre-post-inc.mjs';
+import { relative, resolve } from 'path';
+import { ensureSymLinkSync, lstat_catch, projects, readJson, tempDir } from './pre-post-inc.mjs';
 
 console.log('[script] %s', tempDir);
+const tools = {
+	tsc: 'typescript/bin/tsc',
+	eslint: 'eslint/bin/eslint.js',
+	prettier: 'prettier/bin/prettier.cjs',
+};
 
 const installRun = resolve(tempDir, 'install-run');
 mkdirSync(installRun, { recursive: true });
@@ -20,6 +25,7 @@ if (!existsSync(fakefile)) {
 const globalNodeModules = resolve(tempDir, 'node_modules');
 
 for (const path of projects()) {
+	linkTools(path);
 	// hoistTypesInstall(path);
 }
 
@@ -50,4 +56,13 @@ function installPackage(name, target) {
 	}
 
 	symlinkSync(source, targetLink, 'junction');
+}
+
+function linkTools(path) {
+	const localBinDir = resolve(path, 'node_modules/.bin');
+	for (const [tool, path] of Object.entries(tools)) {
+		const targetFile = relative(localBinDir, resolve(tempDir, 'node_modules', path));
+		const linkFile = resolve(localBinDir, tool);
+		ensureSymLinkSync(linkFile, targetFile);
+	}
 }

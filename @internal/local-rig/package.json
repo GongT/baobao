@@ -15,6 +15,7 @@
 		"@build-script/heft-autoindex-plugin": "workspace:^",
 		"@build-script/heft-cls-plugin": "workspace:^",
 		"@build-script/heft-codegen-plugin": "workspace:^",
+		"@build-script/heft-shell-plugin": "workspace:^",
 		"@build-script/heft-plugin-base": "workspace:^",
 		"@build-script/heft-source-map-plugin": "workspace:^",
 		"@build-script/heft-typescript-plugin": "workspace:^",

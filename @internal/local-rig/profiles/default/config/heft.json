@@ -122,7 +122,7 @@
 						"pluginPackage": "@internal/plugins",
 						"options": {}
 					}
-				}
+				},
 			}
 		},
 		"test": {
@@ -133,11 +133,20 @@
 			"tasksByName": {
 				// "depcheck": {
 				// 	"taskPlugin": {
-				// 		"pluginName": "depcheck",
 				// 		"pluginPackage": "@build-script/heft-shell-plugin",
 				// 		"options": {}
 				// 	}
-				// }
+				// },
+				"eslint": {
+					"taskPlugin": {
+						"pluginPackage": "@build-script/heft-shell-plugin",
+						"options": {
+							"interpreter": "bash",
+							"interpreterArgs": ["-c"],
+							"script": "if [[ -e eslint.config.js ]]; then eslint ; fi"
+						}
+					}
+				}
 			}
 		}
 	},

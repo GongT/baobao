@@ -201,6 +201,11 @@
 			"shouldPublish": true
 		},
 		{
+			"packageName": "@build-script/heft-shell-plugin",
+			"projectFolder": "@build-script/heft-shell-plugin",
+			"shouldPublish": true
+		},
+		{
 			"packageName": "@idlebox/args",
 			"projectFolder": "@idlebox/args",
 			"shouldPublish": false

@@ -1,4 +1,4 @@
-import { allSupport, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, SupportInfo } from './base';
+import { everything, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, SupportInfo } from './base';
 import { combiningCharactersRegexStarting, isCombiningCharacters } from './combiningCharacters';
 import { isFullwidthCodePointLibrary } from './shim.lib';
 
@@ -9,7 +9,7 @@ export interface CodePointInfo {
 	visible: boolean; // some char visible on win console
 }
 
-export function readFirstCompleteChar(str: string, supports: SupportInfo = allSupport): CodePointInfo {
+export function readFirstCompleteChar(str: string, supports: SupportInfo = everything): CodePointInfo {
 	if (!str) {
 		return { data: '', width: 0, length: 0, visible: false };
 	}

@@ -1,8 +1,19 @@
-import { lstatSync, readdirSync, readFileSync, rmdirSync, unlinkSync } from 'fs';
-import { resolve } from 'path';
+import {
+	lstatSync,
+	mkdirSync,
+	readdirSync,
+	readFileSync,
+	readlinkSync,
+	rmdirSync,
+	rmSync,
+	symlinkSync,
+	unlinkSync,
+} from 'fs';
+import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 export const tempDir = resolve(fileURLToPath(import.meta.url), '../../temp');
+export const rootDir = resolve(tempDir, '../../');
 
 export function readJson(file) {
 	return JSON.parse(readFileSync(file, 'utf-8'));
@@ -39,6 +50,33 @@ export function lstat_catch(f) {
 		}
 		throw e;
 	}
+}
+
+export function ensureSymLinkSync(linkFile, targetFile, force = false) {
+	try {
+		const exists = readlinkSync(linkFile);
+		if (exists === targetFile) {
+			return;
+		}
+		console.log('update link: %s -> %s', exists, targetFile);
+		unlinkSync(linkFile);
+	} catch (e) {
+		if (e.code === 'ENOENT') {
+			console.log('create link: %s -> %s', linkFile, targetFile);
+			mkdirSync(dirname(linkFile), { recursive: true });
+		} else if (e.code === 'EINVAL') {
+			if (force) {
+				console.log('update link: file -> %s', targetFile);
+				rmSync(linkFile);
+			} else {
+				return;
+			}
+		} else {
+			throw e;
+		}
+	}
+
+	symlinkSync(targetFile, linkFile, 'file');
 }
 
 export function* projects() {

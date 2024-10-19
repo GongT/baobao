@@ -2,9 +2,8 @@ import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit
 import { resolve } from 'path';
 import { findRushRootPath } from '../../api/load';
 import { RushProject } from '../../api/rushProject';
-import { description } from '../../common/description';
 
-export default async function createYarn() {
+export async function runCreateYarn(_argv: any) {
 	const root = await findRushRootPath(process.cwd());
 	if (!root) {
 		throw new Error('invalid file struct (no rush.json)');
@@ -17,5 +16,3 @@ export default async function createYarn() {
 	pkg.workspaces.packages = rush.config.projects.map(({ projectFolder }) => projectFolder);
 	await writeJsonFileBack(pkg);
 }
-
-description(createYarn, 'Create yarn workspace file by rush.json.');

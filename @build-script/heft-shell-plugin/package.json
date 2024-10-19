@@ -2,24 +2,25 @@
 	"name": "@build-script/heft-shell-plugin",
 	"type": "commonjs",
 	"version": "0.0.1",
-	"main": "./loader/index.js",
+	"main": "./loader/plugin.js",
 	"publishConfig": {
-		"main": "./lib/index.js",
+		"main": "./lib/plugin.js",
 		"exports": {
-			".": "./lib/index.js",
+			".": "./lib/plugin.js",
 			"./package.json": "./package.json"
 		}
 	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
+		"prepack": "heft build --clean",
 		"test": "heft test --clean",
-		"build": "heft build",
-		"_phase:build": "heft build",
-		"watch": "heft build-watch",
+		"build": "heft compile",
+		"_phase:build": "heft compile",
+		"watch": "heft compile-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@build-script/heft-plugin-base": "workspace:^"
+		"@build-script/heft-plugin-base": "workspace:^",
+		"execa": "^9.4.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

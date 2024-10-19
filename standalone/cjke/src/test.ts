@@ -1,19 +1,18 @@
-///<reference types="mocha"/>
-
+import 'mocha'
 import { expect } from 'chai';
 import { CodePointInfo, readFirstCompleteChar } from './firstCompleteChar';
-import 'source-map-support/register';
+import 'source-map-support/register.js';
 import { unicodeEscape } from './escapeUnicode';
 import { stringWidth } from './stringWidth';
 import { limitWidth } from './limitWidth';
-import { allSupport, windowsConsole } from './base';
+import { everything, nothing } from './base';
 
 function create(char: string, width: number, winCmd = false) {
 	let r: CodePointInfo;
 	before(() => {
 		r = readFirstCompleteChar(
 			`${char}👌~ working ${char}[${unicodeEscape(char)}]`,
-			winCmd ? windowsConsole : allSupport
+			winCmd ? nothing : everything
 		);
 	});
 	it(`should catch output of ${JSON.stringify(char)}`, function () {
@@ -113,7 +112,7 @@ describe('#stringWidth', () => {
 	});
 	describe('Width of D834 DD1E (cmd)', () => {
 		it('should be 2', function () {
-			expect(stringWidth('\uD834\uDD1E', windowsConsole)).to.equal(2);
+			expect(stringWidth('\uD834\uDD1E', nothing)).to.equal(2);
 		});
 	});
 	describe('Width of 𠮟👍🏽', () => {
@@ -133,7 +132,7 @@ describe('#stringWidth', () => {
 	});
 	describe('Width of A\u0300 (on cmd)', () => {
 		it('should be 2', function () {
-			expect(stringWidth('A\u0300', windowsConsole)).to.equal(2);
+			expect(stringWidth('A\u0300', nothing)).to.equal(2);
 		});
 	});
 	describe('Width of 😂\u0300', () => {
@@ -143,7 +142,7 @@ describe('#stringWidth', () => {
 	});
 	describe('Width of 😂\u0300 (on cmd)', () => {
 		it('should be 3', function () {
-			expect(stringWidth('😂\u0300', windowsConsole)).to.equal(3);
+			expect(stringWidth('😂\u0300', nothing)).to.equal(3);
 		});
 	});
 });

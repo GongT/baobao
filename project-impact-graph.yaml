@@ -48,8 +48,15 @@ projects:
       - '@build-script/heft-import-test-plugin'
       - '@build-script/heft-modify-entry-plugin'
       - '@build-script/heft-plugin-base'
+      - '@build-script/heft-shell-plugin'
       - '@build-script/heft-typescript-plugin'
       - '@build-script/node-package-tools'
+  '@build-script/heft-shell-plugin':
+    includedGlobs:
+      - '@build-script/heft-shell-plugin/**'
+    dependentProjects:
+      - '@build-script/heft-shell-plugin'
+      - '@internal/local-rig'
   '@build-script/heft-source-map-plugin':
     includedGlobs:
       - '@build-script/heft-source-map-plugin/**'
@@ -94,6 +101,7 @@ projects:
       - '@build-script/heft-import-test-plugin'
       - '@build-script/heft-modify-entry-plugin'
       - '@build-script/heft-plugin-base'
+      - '@build-script/heft-shell-plugin'
       - '@build-script/heft-typescript-plugin'
       - '@build-script/node-package-tools'
       - '@build-script/rush-tools'
@@ -149,6 +157,7 @@ projects:
     includedGlobs:
       - '@idlebox/args/**'
     dependentProjects:
+      - '@build-script/rush-tools'
       - '@idlebox/args'
   '@idlebox/browser':
     includedGlobs:
@@ -259,6 +268,7 @@ projects:
       - '@build-script/heft-import-test-plugin'
       - '@build-script/heft-modify-entry-plugin'
       - '@build-script/heft-plugin-base'
+      - '@build-script/heft-shell-plugin'
       - '@build-script/heft-typescript-plugin'
       - '@build-script/node-package-tools'
       - '@build-script/rush-pretty'
@@ -297,6 +307,7 @@ projects:
     includedGlobs:
       - standalone/cjke/**
     dependentProjects:
+      - '@idlebox/args'
       - cjke-strings
   unipm:
     includedGlobs:

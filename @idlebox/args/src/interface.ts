@@ -1,6 +1,17 @@
 export type NameKind = string | readonly string[];
-export type PositionKind = readonly [number, number];
-export type { createArgsReader } from './index.js';
+import { type IParams, ArgsReader } from './library/args-reader.js';
+export { printTwoColumn } from './tools/table.js';
+
+export function createArgsReader(argv: IParams): IArgsReaderApi {
+	return new ArgsReader(argv);
+}
+
+export {
+	ArgumentError,
+	ConflictArgument,
+	UncontinuousPositionalArgument,
+	UnexpectedArgument,
+} from './library/errors.js';
 
 export interface IArgsReaderApiCreaterFunction {
 	/**
@@ -9,6 +20,10 @@ export interface IArgsReaderApiCreaterFunction {
 	 */
 	(argv: readonly string[]): IArgsReaderApi;
 }
+
+export type ISubArgsReaderApi<T extends string = string> = IArgsReaderApi & {
+	readonly value: T;
+};
 
 export interface IArgsReaderApi {
 	/**
@@ -52,15 +67,11 @@ export interface IArgsReaderApi {
 	/**
 	 * 创建子命令分析器
 	 */
-	command(commands: string[]): (IArgsReaderApi & WithValue) | undefined;
+	command<T extends string>(commands: readonly T[]): ISubArgsReaderApi<T> | undefined;
 
 	/**
 	 * 读取原始数据
 	 * @param index
 	 */
 	raw(index: number): string | undefined;
-}
-
-interface WithValue {
-	value: string;
 }

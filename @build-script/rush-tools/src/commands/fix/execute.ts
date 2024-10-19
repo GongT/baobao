@@ -2,11 +2,10 @@ import { convertCatchedError } from '@idlebox/common';
 import { writeJsonFileBack } from '@idlebox/node-json-edit';
 import { ICProjectConfig } from '../../api';
 import { RushProject } from '../../api/rushProject';
-import { description } from '../../common/description';
-import { resolveNpm, blacklistDependency } from '../../common/npm';
+import { blacklistDependency, resolveNpm } from '../../common/npm';
 
 /** @internal */
-export default async function runFix(argv: string[]) {
+export async function runFix(argv: string[]) {
 	return fix(argv).catch((e) => {
 		throw convertCatchedError(e);
 	});
@@ -148,5 +147,3 @@ async function fix(argv: string[]) {
 function warn(msg: string, ...args: any[]) {
 	console.log(`\x1B[38;5;3m${msg}\x1B[0m`, ...args);
 }
-
-description(runFix, 'Auto fix any mismatch dependency versions, use newest one inside workspace.');

@@ -1,83 +1,68 @@
-import { exists } from '@idlebox/node';
-import { command, flag, option, string, subcommands } from 'cmd-ts';
-import { readdir } from 'fs/promises';
-import { dirname, extname, resolve } from 'path';
-import { fileURLToPath } from 'url';
-import * as SubCmds from './commands.generated.js';
-import { description } from './common/description';
-import { NormalError } from './common/error';
-import { parseArgs } from 'util';
-
-const __filename = fileURLToPath(
-	// @ts-ignore
-	import.meta.url,
-);
-const __extname = extname(__filename);
-const __dirname = dirname(__filename);
+import { ArgumentError, createArgsReader, ISubArgsReaderApi, printTwoColumn } from '@idlebox/args';
+import { commands_define, known_sub_commands, type CommandKind } from './commands/all.generated.js';
 
 export default async function main() {
-	let argv = process.argv.slice(2);
+	let sub: ISubArgsReaderApi<CommandKind> | undefined;
+	try {
+		const command = createArgsReader(process.argv.slice(2));
+		sub = command.command(known_sub_commands);
+		const help = command.flag(['--help', '-h']) > 0;
+		if (help) {
+			await printUsage(sub?.value);
+			// console.log('Usage: rush-tools <command> [options]');
 
-	const output = parseArgs({
-		options:{
-			debug: {
-				type:'boolean',
-			},
-		},
-		args:[],
-		
-	})
+			// // TODO
+			// console.log('Commands:');
+			// for (const key of known_sub_commands) {
+			// 	console.log(`  ${key}`);
+			// }
+			return 0;
+		}
 
-	for (const [v] of Object.entries(SubCmds)) {
-	}
-
-	const fpath = resolve(__dirname, 'commands', rcommand + '.js');
-	if (await exists(fpath)) {
-		try {
-			process.env.__running_command = rcommand;
-			const { default: fn } = await import(fpath);
-			await fn(argv);
-		} catch (e) {
-			if (e instanceof NormalError) {
-				console.error(e.message);
-				process.exit(1);
+		if (!sub) {
+			const got = command.at(0);
+			if (got) {
+				throw new ArgumentError(`invalid command: ${got}`);
 			}
-			throw e;
+			throw new ArgumentError(`missing command`);
 		}
+
+		const { parse, execute } = await commands_define[sub.value].loadCmd();
+		const options = await parse(sub);
+
+		const unused = command.unused();
+		if (unused.length > 0) {
+			throw new ArgumentError(`unknown arguments: ${unused.join(' ')}`);
+		}
+
+		await execute(options);
+
+		return 0;
+	} catch (e: unknown) {
+		if (e instanceof ArgumentError) {
+			console.error(`\n\t\x1B[38;5;9m%s\x1B[0m\n`, e.message);
+			await printUsage(sub?.value);
+			return 1;
+		}
+		throw e;
+	}
+}
+async function printUsage(subcmd: CommandKind | undefined) {
+	if (subcmd) {
+		const { description, help, usage } = await commands_define[subcmd].loadArgs();
+		console.log(`Usage: rush-tools ${subcmd} \x1b[38;5;14m${usage}\x1b[0m
+    ${description}
+
+${help.replace(/^\S/gm, '  $&').replace(/^\t/gm, '      ')}`);
 	} else {
-		console.error('[rush-tools] No such command: ' + command);
-		process.exit(1);
-	}
-}
+		console.log('Usage: rush-tools <command> [options]');
+		const table: [string, string][] = [];
+		for (const [command, { loadArgs }] of Object.entries(commands_define)) {
+			const { title } = await loadArgs();
 
-function compCommandName(n: string) {
-	if (n === 'autofix') {
-		return 'fix';
-	} else if (n === 'check-update') {
-		return 'upgrade';
-	}
-	return n;
-}
-
-async function showHelp() {
-	const list: [string, string][] = [];
-	const fdir = resolve(__dirname, 'commands');
-	for (const fname of await readdir(fdir)) {
-		if (fname.endsWith(__extname)) {
-			const command = fname.substring(0, fname.length - __extname.length);
-			const { default: fn } = await import(resolve(fdir, fname));
-			const desc = description(fn);
-
-			list.push([command, desc]);
+			table.push([`    ${command}:`, title]);
 		}
+
+		printTwoColumn(table);
 	}
-
-	const maxLen = list.reduce((p, [cmd]) => Math.max(p, cmd.length), 0);
-
-	console.error('Available commands: ');
-	for (const [cmd, desc] of list) {
-		console.error('  %s%s  %s', cmd, Buffer.alloc(maxLen - cmd.length, ' ').toString(), desc);
-	}
-
-	process.exit(1);
 }

@@ -3,14 +3,14 @@
 	"type": "module",
 	"version": "0.0.1",
 	"license": "MIT",
-	"main": "./lib/cjs/index.cjs",
-	"module": "./lib/esm/index.js",
+	"main": "./lib/cjs/interface.cjs",
+	"module": "./lib/esm/interface.js",
 	"types": "./lib/esm/interface.d.ts",
 	"exports": {
 		".": {
 			"types": "./lib/esm/interface.d.ts",
-			"require": "./lib/cjs/index.cjs",
-			"import": "./lib/esm/index.js"
+			"require": "./lib/cjs/interface.cjs",
+			"import": "./lib/esm/interface.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -35,6 +35,7 @@
 		"@types/mocha": "^10.0.9",
 		"@types/node": "^22.7.5",
 		"chai": "^5.1.1",
+		"cjke-strings": "workspace:^",
 		"mocha": "^10.7.3",
 		"source-map-support": "^0.5.21"
 	}

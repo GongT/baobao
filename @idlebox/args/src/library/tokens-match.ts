@@ -1,8 +1,10 @@
 import type { InspectOptions } from 'node:util';
-import type { IArgsReaderApi, NameKind, PositionKind } from '../interface.js';
+import type { IArgsReaderApi, NameKind } from '../interface.js';
 import { bindArgType, ConflictArgument, StackTrace, UnexpectedArgument } from './errors.js';
 import { customInspectSymbol, wrapStyle, writable } from './functions.js';
 import { flag_match, tokenize, TokenKind, tokenToString, type IValue, type Token } from './tokens.js';
+
+export type PositionKind = readonly [number, number];
 
 export enum ArgKind {
 	unkown = 0, // must 0

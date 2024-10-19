@@ -1,7 +1,7 @@
 import type { ISubArgsReaderApi } from '@idlebox/args';
 
-export const description = '`rush update` + `update-autoinstaller`';
-export const title = 'install projects and autoinstallers';
+export const description = 'run pnpm/npm/yarn publish in current project';
+export const title = 'publish to nm';
 export const usage = '';
 export const help = '';
 

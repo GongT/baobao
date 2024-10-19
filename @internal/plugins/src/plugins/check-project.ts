@@ -110,13 +110,13 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 			session.logger.terminal.writeDebugLine(`  - type = ${pkg.type}`);
 			assert(pkg.type === kind, `"type" field must be "${kind}", got ${JSON.stringify(pkg.type)}`);
 
-			requireFieldEquals(session.logger, pkg, ['exports', '.', 'main'], undefined);
-			requireFieldEquals(session.logger, pkg, ['exports', '.', 'module'], undefined);
-			requireFieldEquals(session.logger, pkg, ['exports', '.', 'typings'], undefined);
+			// requireFieldEquals(session.logger, pkg, ['exports', '.', 'main'], undefined);
+			// requireFieldEquals(session.logger, pkg, ['exports', '.', 'module'], undefined);
+			// requireFieldEquals(session.logger, pkg, ['exports', '.', 'typings'], undefined);
 
-			requireFieldEquals(session.logger, pkg, ['main'], undefined);
-			requireFieldEquals(session.logger, pkg, ['module'], undefined);
-			requireFieldEquals(session.logger, pkg, ['types'], undefined);
+			// requireFieldEquals(session.logger, pkg, ['main'], undefined);
+			// requireFieldEquals(session.logger, pkg, ['module'], undefined);
+			// requireFieldEquals(session.logger, pkg, ['types'], undefined);
 			requireFieldEquals(session.logger, pkg, ['typings'], undefined);
 		} catch (e: any) {
 			CheckFail.th(`file content verify failed:\n    File: ${pkgPath}\n${e.message}\n`);

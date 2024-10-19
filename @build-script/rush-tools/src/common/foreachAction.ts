@@ -1,49 +1,15 @@
-import { createWriteStream, mkdirSync } from 'fs';
-import { resolve } from 'path';
-import { PassThrough } from 'stream';
 import { sleep } from '@idlebox/common';
 import { streamPromise } from '@idlebox/node';
 import { execa } from 'execa';
+import { createWriteStream, mkdirSync } from 'fs';
+import { resolve } from 'path';
+import { PassThrough } from 'stream';
 import { ICProjectConfig, RushProject } from '../api';
-import { shiftArgumentFlag } from './arguments';
 
 interface IRunArgs {
 	quiet: boolean;
-	errcontinue: boolean;
+	onErrorContinue: boolean;
 	argv: readonly string[];
-}
-
-export function parseForeachCommand(argv: string[], extraFlags: string[] = []): IRunArgs {
-	const quiet = shiftArgumentFlag(argv, 'quiet');
-	const errcontinue = shiftArgumentFlag(argv, 'continue');
-
-	if (argv.length === 0) {
-		throw new Error('Must specific some command or js file to run');
-	}
-
-	if (argv[0] === '--help' || argv[0] === '-h') {
-		console.error(
-			'Usage: $0 foreach [--quiet] [--continue]%s <command>',
-			extraFlags.map((e) => ` [--${e}]`).join('')
-		);
-		console.error('                  -c "bash script"');
-		console.error('                  -C "powershell script"');
-		console.error('                  script.js ...args');
-		console.error('                  script.ts ...args');
-		process.exit(0);
-	}
-
-	if (argv[0] === '-c') {
-		argv.unshift('bash');
-	} else if (argv[0].endsWith('.js') || argv[0].endsWith('.cjs') || argv[0].endsWith('.mjs')) {
-		argv[0] = resolve(process.cwd(), argv[0]);
-		argv.unshift('node');
-	} else if (argv[0].endsWith('.ts')) {
-		argv[0] = resolve(process.cwd(), argv[0]);
-		argv.unshift('ts-node');
-	}
-
-	return { quiet, errcontinue, argv };
 }
 
 export async function runCustomCommand(rush: RushProject, project: string | ICProjectConfig, options: IRunArgs) {
@@ -57,7 +23,7 @@ export async function runCustomCommand(rush: RushProject, project: string | ICPr
 		console.error(
 			'[rush-tool] export PROJECT_NAME=%s PROJECT_PATH=%s',
 			process.env.PROJECT_NAME,
-			process.env.PROJECT_PATH
+			process.env.PROJECT_PATH,
 		);
 	}
 	const p = execa(options.argv[0], options.argv.slice(1), {
@@ -80,13 +46,13 @@ export async function runCustomCommand(rush: RushProject, project: string | ICPr
 	try {
 		await p;
 	} catch (e: any) {
-		if (options.errcontinue) {
+		if (options.onErrorContinue) {
 			if (options.quiet) {
 				console.error('[rush-tool] +++ %s', options.argv.join(' '));
 				console.error(
 					'[rush-tool] export PROJECT_NAME=%s PROJECT_PATH=%s',
 					process.env.PROJECT_NAME,
-					process.env.PROJECT_PATH
+					process.env.PROJECT_PATH,
 				);
 			}
 			console.error('[rush-tool] [command fail]', e.message);

@@ -13,7 +13,7 @@
 		"**/*.api.json": true,
 		"**/*.api.md": true,
 		"**/package-public.d.ts": true,
-		"project-impact-graph.yaml": true
+		"project-impact-graph.yaml": true,
 	},
 	"prettier.prettierPath": "common/temp/node_modules/prettier",
 	"typescript.tsdk": "./common/temp/node_modules/typescript/lib",

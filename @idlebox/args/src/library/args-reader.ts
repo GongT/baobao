@@ -7,7 +7,7 @@ import { tokenize, TokenKind, tokenToString, type IValue, type Tokens } from './
 
 export type IParams = readonly string[];
 
-export class ArgsReader implements IArgsReaderApi {
+export class ArgsReader<T extends string = string> implements IArgsReaderApi {
 	readonly tokens: Tokens;
 	readonly match: TokenMatch;
 	private readonly commands: IArgument<IValue>[] = [];
@@ -33,11 +33,11 @@ export class ArgsReader implements IArgsReaderApi {
 		}
 	}
 
-	get value(): string {
+	get value(): T {
 		if (this.level === -1) {
 			throw new RangeError('can not use .value on root level');
 		}
-		return this.commands[this.level].tokens[0].value;
+		return this.commands[this.level].tokens[0].value as any;
 	}
 
 	raw(index: number): string | undefined {
@@ -63,12 +63,12 @@ export class ArgsReader implements IArgsReaderApi {
 		return ret;
 	}
 
-	command(commands: string[]): ArgsReader | undefined {
+	command<T extends string>(commands: readonly T[]): ArgsReader<T> | undefined {
 		const arg = this.match.getPositionArgument(this.level + 1, 1);
 
 		if (arg.tokens.length === 0) return;
 
-		const cmd = arg.tokens[0]?.value;
+		const cmd = arg.tokens[0]?.value as T;
 
 		if (commands.includes(cmd)) {
 			if (arg.kind === ArgKind.sub_command) return new ArgsReader(this.params, this);

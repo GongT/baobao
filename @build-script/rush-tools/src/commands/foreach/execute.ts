@@ -1,15 +1,10 @@
 import { RushProject } from '../../api/rushProject';
-import { description } from '../../common/description';
-import { parseForeachCommand, runCustomCommand } from '../../common/foreachAction';
+import type { ArgOf } from '../../common/args.js';
+import { runCustomCommand } from '../../common/foreachAction';
 
-/** @internal */
-export default async function runForEach(input: string[]) {
-	const options = parseForeachCommand(input);
-
+export async function runForeach(options: ArgOf<typeof import('./arguments')>) {
 	const rush = new RushProject();
 	for (const project of rush.projects) {
 		await runCustomCommand(rush, project, options);
 	}
 }
-
-description(runForEach, 'Run a command in every project directory.');

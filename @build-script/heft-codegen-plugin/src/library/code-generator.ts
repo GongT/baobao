@@ -60,7 +60,7 @@ export class CodeGenerator {
 		const base = basename(this.entryFileAbs, '.ts');
 
 		this.createTempFilePath = (hash = randomBytes(6).toString('hex'), ext = 'mjs') => {
-			return dir + '/.' + base + '.' + hash + '.' + ext;
+			return dir + '/.' + base + '.' + hash.replace(/[\\\/=:;]/g, '') + '.' + ext;
 		};
 
 		const resultFile = entryFileAbs.replace(/\.generator\.ts$/, '.generated.ts');

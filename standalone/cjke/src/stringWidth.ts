@@ -1,7 +1,7 @@
 import { readFirstCompleteChar } from './firstCompleteChar';
-import { allSupport, SupportInfo } from './base';
+import { everything, SupportInfo } from './base';
 
-export function stringWidth(str: string, supports: SupportInfo = allSupport) {
+export function stringWidth(str: string, supports: SupportInfo = everything) {
 	let width = 0;
 	while (str.length > 0) {
 		const item = readFirstCompleteChar(str, supports);

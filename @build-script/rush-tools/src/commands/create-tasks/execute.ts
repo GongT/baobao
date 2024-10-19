@@ -4,7 +4,6 @@ import { parse } from 'comment-json';
 import { resolve } from 'path';
 import { findRushRootPath } from '../../api/load';
 import { RushProject } from '../../api/rushProject';
-import { description } from '../../common/description';
 
 const template = {
 	label: '',
@@ -38,7 +37,7 @@ const defaultTasks = {
 	tasks: [],
 };
 
-export default async function createTasks() {
+export async function runCreateTasks() {
 	const root = await findRushRootPath(process.cwd());
 	if (!root) {
 		throw new Error('invalid file struct (no rush.json)');
@@ -108,7 +107,7 @@ export default async function createTasks() {
 function createConfig(index: number, title: string, path: string) {
 	const json = JSON.stringify(template, null, 4).replace(
 		/^{/,
-		`{\n\t// This task is created by @build-script/rush-tools`
+		`{\n\t// This task is created by @build-script/rush-tools`,
 	);
 
 	const task: VSCodeTask = parse(json) as any;
@@ -141,5 +140,3 @@ function merge(into: VSCodeTask, source: VSCodeTask) {
 function createTitle(index: number, title: string) {
 	return `监视（${index}） - ${title}`;
 }
-
-description(createTasks, 'Create watch all tasks define by rush.json.');

@@ -4,19 +4,17 @@ import { isAbsolute as isAbsoluteWin32 } from 'node:path/win32';
 import { resolve } from 'path';
 import { ICProjectConfig, IRushConfig } from '../../api/limitedJson';
 import { RushProject } from '../../api/rushProject';
-import { description } from '../../common/description';
+import type { ArgOf } from '../../common/args.js';
 import { blacklistDependency, resolveNpm, splitPackageSpecSimple } from '../../common/npm';
 import { info } from '../../common/output';
-import runUpdate from './update';
+import { runUpdate } from '../update/execute.js';
 
-let fixLocal = false;
+let _fixLocal = false;
 
-/** @internal */
-export default async function runUpgrade(argv: string[]) {
-	const dryRun = argv.includes('--dry-run');
+export async function runUpgrade({ dryRun, fixLocal, skipUpdate }: ArgOf<typeof import('./arguments')>) {
+	_fixLocal = fixLocal;
+
 	const rush = new RushProject();
-
-	fixLocal = argv.includes('--publish') || argv.includes('-P');
 
 	info('Collecting local project versions:');
 	const alldeps: Record<string, string> = {};
@@ -134,12 +132,12 @@ export default async function runUpgrade(argv: string[]) {
 		}
 	}
 
-	if (argv.includes('--skip-update')) {
+	if (skipUpdate) {
 		console.error(`You should run "rush update" now`);
 		return;
 	}
 
-	await runUpdate([]);
+	await runUpdate({ extra: [] });
 }
 
 function isLocalVersion(version: string) {
@@ -180,7 +178,7 @@ function update(project: ICProjectConfig, target: Record<string, string>, map: M
 		if (currVer === newVer) continue;
 
 		if (newVer) {
-			if (!fixLocal && isLocalVersion(currVer) && project.shouldPublish) {
+			if (!_fixLocal && isLocalVersion(currVer) && project.shouldPublish) {
 				console.error(
 					'[Alert] project "%s" dependency "%s" on filesystem, replace it before publish!',
 					project.packageName,
@@ -297,5 +295,3 @@ async function updateLocalDependency(rush: RushProject, project: ICProjectConfig
 
 	return change;
 }
-
-description(runUpgrade, 'Upgrade all dependencies of every project.');

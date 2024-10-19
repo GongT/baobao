@@ -58,8 +58,13 @@ export function flag_match(flag: IFlag, token: Token): boolean {
 
 export function tokenize(params: IParams): Tokens {
 	const tokens: Token[] = [];
+	let valueMode;
 	for (const [index, param] of params.entries()) {
-		if (isFlag.test(param)) {
+		if (valueMode) {
+			tokens.push({ index, kind: TokenKind.Value, value: param });
+		} else if (param === '--') {
+			valueMode = true;
+		} else if (!valueMode && isFlag.test(param)) {
 			let [name, value] = param.replace(isFlag, '').split('=', 2);
 			const short = param[1] !== '-';
 

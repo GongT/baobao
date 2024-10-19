@@ -1,22 +1,17 @@
 import { createDeps, RushProject } from '../../api';
-import { shiftArgumentFlag } from '../../common/arguments';
-import { description } from '../../common/description';
-import { parseForeachCommand, runCustomCommand } from '../../common/foreachAction';
+import type { ArgOf } from '../../common/args.js';
+import { runCustomCommand } from '../../common/foreachAction';
 
-/** @internal */
-export default async function runForEach(input: string[]) {
-	const buildOnly = shiftArgumentFlag(input, 'build');
-	const publicOnly = shiftArgumentFlag(input, 'public');
-	const options = parseForeachCommand(input, ['build', 'public']);
+export async function runForeachDep(options: ArgOf<typeof import('./arguments')>) {
 	const rush = new RushProject();
 	const deps = createDeps(rush);
 
 	let r = deps.overallOrder().map((e) => deps.getNodeData(e));
 
-	if (buildOnly) {
+	if (options.buildOnly) {
 		r = r.filter((e) => e.hasBuildScript);
 	}
-	if (publicOnly) {
+	if (options.publicOnly) {
 		r = r.filter((e) => {
 			if (!e.project.shouldPublish) return false;
 			return !e.packageJson.private;
@@ -27,5 +22,3 @@ export default async function runForEach(input: string[]) {
 		await runCustomCommand(rush, project, options);
 	}
 }
-
-description(runForEach, 'Run a command in every project directory, with dependency order.');

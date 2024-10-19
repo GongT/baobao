@@ -1,15 +1,12 @@
-import { mkdir, readdir } from 'fs/promises';
-import { basename, resolve } from 'path';
 import { exists } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
+import { mkdir, readdir } from 'fs/promises';
+import { basename, resolve } from 'path';
 import { RushProject } from '../../api/rushProject';
-import { description } from '../../common/description';
 import { createExecuteWrapper } from '../../common/link';
-import { updateAllInstallers } from './ai';
+import { updateAllInstallers } from '../ai/execute.js';
 
-description(linkLocalBins, 'Link "bin"s from each project to common/temp/bin');
-
-export default async function linkLocalBins() {
+export async function runLinkLocal(_arg: any) {
 	const rush = new RushProject();
 
 	const binTempDir = resolve(rush.tempRoot, 'bin');

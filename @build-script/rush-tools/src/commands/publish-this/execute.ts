@@ -3,11 +3,9 @@ import { execa } from 'execa';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 import { RushProject } from '../../api/rushProject';
-import { description } from '../../common/description';
+import type { ArgOf } from '../../common/args.js';
 
-description(publishLocal, 'run pnpm/npm/yarn publish in single project');
-
-export default async function publishLocal(argv: string[]) {
+export async function runPublishThis({ extra }: ArgOf<typeof import('./arguments')>) {
 	if (!(await exists('package.json'))) {
 		console.error('Must run inside project');
 		process.exit(1);
@@ -30,8 +28,8 @@ export default async function publishLocal(argv: string[]) {
 	await rush.copyNpmrc(project);
 
 	const bin = rush.getPackageManager().binAbsolute;
-	console.log('\x1B[2m + %s publish %s\x1B[0m', bin, argv.join(' '));
-	const p = await execa(bin, ['publish', ...argv], { stdio: 'inherit' });
+	console.log('\x1B[2m + %s publish %s\x1B[0m', bin, extra.join(' '));
+	const p = await execa(bin, ['publish', ...extra], { stdio: 'inherit' });
 
 	process.exit(p.exitCode);
 }

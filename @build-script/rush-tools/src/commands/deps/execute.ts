@@ -1,16 +1,14 @@
 import { DepGraph } from 'dependency-graph';
 import { createDeps, IGraphAttachedData, RushProject } from '../../api';
-import { optionalArgument } from '../../common/arguments.js';
-import { description } from '../../common/description';
+import type { ArgOf } from '../../common/args.js';
 
-/** @internal */
-export default async function depGraph(argv: string[]) {
+export async function runDeps({}: ArgOf<typeof import('./arguments')>) {
 	const rush = new RushProject();
 	const graph = createDeps(rush);
 
-	const maxDepth = parseInt(optionalArgument('depth') ?? '0') || Infinity;
+	// const maxDepth = parseInt(optionalArgument('depth') ?? '0') || Infinity;
 
-	const projects = argv.length ? argv.map((name) => rush.getProjectByName(name, true)) : rush.projects;
+	const projects = rush.projects;
 
 	const max = projects.length.toFixed(0);
 	for (const [index, project] of projects.entries()) {
@@ -48,5 +46,3 @@ function printOne(name: string, graph: DepGraph<IGraphAttachedData>, indent: str
 		}
 	}
 }
-
-description(depGraph, 'Print dependency relations');

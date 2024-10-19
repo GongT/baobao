@@ -14,7 +14,9 @@ function matchPos(index: number, token?: Token, arg?: IArgument) {
 	return false;
 }
 
-export abstract class ArgumentError extends Error {
+export class ArgumentError extends Error {}
+
+export abstract class AbstractArgumentError extends ArgumentError {
 	public override readonly name: string;
 	public readonly _stackObject: { readonly stack: string };
 	public readonly arg?: IArgument;
@@ -89,7 +91,7 @@ export abstract class ArgumentError extends Error {
  *   - 位置参数不连续
  *   - 位置参数和子命令冲突
  */
-export class UnexpectedArgument extends ArgumentError {
+export class UnexpectedArgument extends AbstractArgumentError {
 	constructor(
 		token: Token,
 		private readonly extra: string,
@@ -121,7 +123,7 @@ export interface IUsedBy {
  *    之前是--option >>value<<，现在是位置参数
  *    之前是[--flag]，现在是[--flag=value]
  */
-export class ConflictArgument extends ArgumentError {
+export class ConflictArgument extends AbstractArgumentError {
 	public declare readonly arg: IArgument;
 
 	constructor(

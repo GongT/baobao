@@ -14,11 +14,11 @@
 		}
 	},
 	"scripts": {
-		"prepack": "heft build --production --clean",
+		"prepack": "heft build --clean",
 		"test": "heft test --clean",
-		"build": "heft build",
-		"_phase:build": "heft build",
-		"watch": "heft build-watch",
+		"build": "heft compile",
+		"_phase:build": "heft compile",
+		"watch": "heft compile-watch",
 		"clean": "heft clean"
 	},
 	"dependencies": {

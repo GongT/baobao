@@ -67,6 +67,9 @@ export class FileBuilder {
 	 * @returns the string appended
 	 */
 	copySection(starting: string | RegExp, ending: string | RegExp, includeHeaders = false) {
+		this.append(this.readSection(starting, ending, includeHeaders));
+	}
+	readSection(starting: string | RegExp, ending: string | RegExp, includeHeaders = false) {
 		if (typeof starting === 'string') {
 			starting = new RegExp('^' + escapeRegExp(starting) + '$');
 		}
@@ -79,7 +82,7 @@ export class FileBuilder {
 			if (sw) {
 				if (ending.test(line)) {
 					if (includeHeaders) r.push(line);
-					return this.append(r.join('\n'));
+					return r.join('\n');
 				}
 				r.push(line);
 			} else {
@@ -94,10 +97,33 @@ export class FileBuilder {
 	}
 
 	/**
-	 * Copy a function definition from current file, the function must "export function fnname("
+	 * Copy a function definition from current file, the function must "[export ]function fnname("
 	 */
-	copyFunctionDeclare(fnname: string) {
-		return this.copySection(new RegExp('^' + escapeRegExp('export function ' + fnname + '(')), /^}/, true);
+	copyFunctionDeclare(fnname: string, head = true) {
+		this.append(this.readFunctionDeclare(fnname, head));
+	}
+	readFunctionDeclare(fnname: string, head = true) {
+		return this.readSection(new RegExp(`^(?:export )?function ${escapeRegExp(fnname)}\\b`), /^}/, head);
+	}
+
+	/**
+	 * Copy a interface definition from current file, the interface must "[export ]interface ifname {"
+	 */
+	copyInterfaceDeclare(ifname: string, head = true) {
+		this.append(this.readInterfaceDeclare(ifname, head));
+	}
+	readInterfaceDeclare(ifname: string, head = true) {
+		return this.readSection(new RegExp(`^(?:export )?interface ${escapeRegExp(ifname)}\\b`), /^}/, head);
+	}
+
+	/**
+	 * Copy a enum definition from current file, the enum must "[export ][const ]enum ename {"
+	 */
+	copyEnumDeclare(ename: string, head = true) {
+		this.append(this.readInterfaceDeclare(ename, head));
+	}
+	readEnumDeclare(ename: string, head = true) {
+		return this.readSection(new RegExp(`^(?:export )?(?:const )?enum ${escapeRegExp(ename)} {`), /^}/, head);
 	}
 
 	seq(from: number, to: number) {
