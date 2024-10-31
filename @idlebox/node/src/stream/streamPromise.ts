@@ -7,10 +7,11 @@ export function streamPromise(stream: NodeJS.ReadableStream | NodeJS.WritableStr
 		return Promise.resolve();
 	} else {
 		return new Promise((resolve, reject) => {
-			stream.once('end', () => resolve());
-			stream.once('finish', () => resolve());
-			stream.once('close', () => resolve());
-			stream.once('error', reject);
+			const r = stream as NodeJS.EventEmitter;
+			r.once('end', () => resolve());
+			r.once('finish', () => resolve());
+			r.once('close', () => resolve());
+			r.once('error', reject);
 		});
 	}
 }

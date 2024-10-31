@@ -3,9 +3,10 @@
 	"version": "1.0.31",
 	"license": "MIT",
 	"scripts": {
-		"build": "",
-		"build:watch": "",
-		"clean": ""
+		"build": "true",
+		"clean": "true",
+		"test": "true",
+		"watch": "true"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {

@@ -40,7 +40,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
 		"@types/esbuild": "npm:esbuild@^0.24.0",
-		"@types/node": "^22.7.5",
+		"@types/node": "^22.8.6",
 		"@types/proper-lockfile": "^4.1.4",
 		"@types/source-map-support": "^0.5.10",
 		"typescript": "^5.6.3"

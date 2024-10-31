@@ -1,1 +1,0 @@
-../../../@idlebox/browser/docs/browser.api.md

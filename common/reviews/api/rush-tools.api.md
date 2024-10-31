@@ -1,1 +1,0 @@
-../../../@build-script/rush-tools/docs/rush-tools.api.md

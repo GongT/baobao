@@ -1,0 +1,25 @@
+diff --git a/index.d.ts b/index.d.ts
+index a739852799e0b686c76b1c24b3c982af321b643d..289c41853753ac41091ee839ad5028d87c50fa9e 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -41,12 +41,10 @@ export interface Pack extends stream.Readable {
+     entry(headers: Headers, callback?: Callback): stream.Writable;
+     entry(headers: Headers, buffer?: string | Buffer, callback?: Callback): stream.Writable;
+     finalize(): void;
+-    [Symbol.asyncIterator](): AsyncIterableIterator<Buffer>;
+ }
+ 
+ export interface Entry extends stream.Readable {
+     header: Headers;
+-    [Symbol.asyncIterator](): AsyncIterableIterator<Buffer>;
+ }
+ 
+ export interface Extract extends stream.Writable {
+@@ -55,7 +53,6 @@ export interface Extract extends stream.Writable {
+         event: "entry",
+         listener: (headers: Headers, stream: stream.PassThrough, next: (error?: unknown) => void) => void,
+     ): this;
+-    [Symbol.asyncIterator](): AsyncIterator<Entry>;
+ }
+ 
+ export interface ExtractOptions extends stream.WritableOptions {

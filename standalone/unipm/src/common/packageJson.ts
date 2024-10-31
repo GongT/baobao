@@ -1,7 +1,7 @@
+import { arrayDiff, sortByString } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { sortByString } from '@idlebox/common';
 
-const dependenciesFields = [
+const dependenciesFields: readonly string[] = [
 	'dependencies',
 	'devDependencies',
 	'optionalDependencies',
@@ -13,8 +13,8 @@ const dependenciesFields = [
 	'resolutions', // yarn v1
 ];
 
-const nosortFields = ['licenses', 'funding', 'maintainers', 'contributors', 'scripts'];
-const scriptFields = [
+const noDeepFields: readonly string[] = ['licenses', 'funding', 'maintainers', 'contributors'];
+const scriptFields: readonly string[] = [
 	'prepare',
 	'pack',
 	'publish',
@@ -32,7 +32,7 @@ const scriptFields = [
 	'lint',
 ];
 
-const packageJsonSort = [
+const packageJsonSort: readonly string[] = [
 	// pnpm
 	'workspaces',
 
@@ -118,10 +118,13 @@ const packageJsonSort = [
 	'ava',
 	'release',
 	'jscpd',
+
+	// pnpm overrides
+	'pnpm',
 ];
 
 function sortSimpleDeep(obj: any): any {
-	if (typeof obj !== 'object') return obj;
+	if (!obj || typeof obj !== 'object') return obj;
 
 	if (Array.isArray(obj)) {
 		return obj
@@ -155,7 +158,7 @@ function sortNative(obj: any): any {
 	return ret;
 }
 
-function sortRegular(obj: any, knowns: string[]) {
+function sortRegular(obj: any, knowns: readonly string[]) {
 	const keys = new Set(Object.keys(obj));
 	const ret: any = {};
 	for (const key of knowns) {
@@ -204,6 +207,31 @@ function sortScripts({ ...scripts }: any): any {
 	return ret;
 }
 
+function sortExports(exports: any) {
+	if (!exports || typeof exports !== 'object') return exports;
+	const isPathMapping = Object.keys(exports)[0]?.startsWith('.');
+	if (isPathMapping) {
+		const ret: any = {};
+		const sortedKey = Object.keys(exports).sort(sortByString);
+		for (const k of sortedKey) {
+			ret[k] = sortExports(exports[k]);
+		}
+		return ret;
+	} else {
+		const { default: defaultVal, node, import: importVal, require, types, typings, typescript, ...other } = exports;
+		return {
+			typescript,
+			types,
+			typings,
+			...other,
+			node,
+			require,
+			import: importVal,
+			default: defaultVal,
+		};
+	}
+}
+
 export async function deletePackageDependency(file: string, ...deps: string[]) {
 	const original: any = await loadJsonFile(file);
 	for (const k of ['devDependencies', 'dependencies']) {
@@ -225,18 +253,29 @@ export async function deletePackageDependency(file: string, ...deps: string[]) {
 	await writeJsonFileBack(original);
 }
 
-export function reformatPackageJson({ ...packageJson }: any): typeof packageJson {
-	const toSort = new Set(packageJsonSort);
-	nosortFields.forEach(toSort.delete, toSort);
+export function reformatPackageJson(packageJson: any): typeof packageJson {
+	const output: any = {};
+	const existsKeys = Object.keys(packageJson);
 
-	for (const key of toSort) {
-		if (key in packageJson) {
-			packageJson[key] = sortSimpleDeep(packageJson[key]);
+	const unknownKeys = arrayDiff(packageJsonSort, existsKeys).add;
+	if (process.stderr.isTTY) console.error('Unknown keys in package.json: %s ...', unknownKeys.slice(0, 3).join(', '));
+
+	for (const key of packageJsonSort) {
+		if (!(key in packageJson)) continue;
+
+		let value = packageJson[key];
+		if (key === 'scripts') {
+			value = sortScripts(value);
+		} else if (key === 'exports') {
+			value = sortExports(value);
+		} else if (key === 'publishConfig') {
+			value = reformatPackageJson(value);
+		} else if (noDeepFields.includes(value)) {
+			// no action
+		} else {
+			value = sortSimpleDeep(packageJson[key]);
 		}
-	}
-
-	if (packageJson.scripts) {
-		packageJson.scripts = sortScripts(packageJson.scripts);
+		output[key] = value;
 	}
 
 	packageJson = sortRegular(packageJson, packageJsonSort);

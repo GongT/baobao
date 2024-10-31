@@ -13,13 +13,12 @@
 	},
 	"scripts": {
 		"build": "tsc -p src",
-		"build:watch": "tsc -p src",
 		"clean": "rimraf temp lib",
 		"watch": "tsc -p src --watch"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@types/node": "^22.7.5",
+		"@types/node": "^22.8.6",
 		"@types/split2": "^4.2.3",
 		"rimraf": "^6.0.1"
 	},

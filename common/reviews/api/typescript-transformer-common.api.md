@@ -1,1 +1,0 @@
-../../../@build-script/typescript-transformer-common/docs/typescript-transformer-common.api.md

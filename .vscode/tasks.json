@@ -2,8 +2,8 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Fast Update",
-			"detail": "npm_config_prefer_offline=yes rush update",
+			"label": "Fast Install",
+			"detail": "npm_config_prefer_offline=yes pnpm i",
 			"type": "shell",
 			"icon": {
 				"id": "package",
@@ -12,27 +12,34 @@
 			"options": {
 				"env": {
 					"EXEC_BY_PNPM": "yes",
-					"npm_config_prefer_offline": "true"
+					"npm_config_prefer_offline": "true",
+					"npm_config_prefer_frozen_lockfile": "true",
 				}
 			},
-			"command": "node",
-			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "update"],
+			"command": "pnpm",
+			"args": [
+				"i"
+			],
 			"problemMatcher": []
 		},
 		{
 			"label": "Install Dependencies",
-			"detail": "rush update --full",
+			"detail": "pnpm i",
 			"type": "shell",
 			"icon": {
 				"id": "package"
 			},
 			"options": {
 				"env": {
-					"EXEC_BY_PNPM": "yes"
+					"EXEC_BY_PNPM": "yes",
+					"npm_config_prefer_offline": "true",
+					"npm_config_prefer_frozen_lockfile": "false",
 				}
 			},
-			"command": "node",
-			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "update", "--full"],
+			"command": "pnpm",
+			"args": [
+				"i"
+			],
 			"problemMatcher": []
 		},
 		{
@@ -42,34 +49,39 @@
 				"id": "code"
 			},
 			"type": "shell",
-			"command": "node",
-			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "pretty"],
+			"command": "pnpm",
+			"args": [
+				"run",
+				"pretty"
+			],
 			"problemMatcher": []
 		},
 		{
 			"label": "Watch All",
-			"detail": "rush build:watch",
+			"detail": "lerna run watch",
 			"icon": {
 				"id": "eye-watch"
 			},
 			"type": "shell",
-			"command": "rush build:watch",
+			"command": "lerna run watch",
 			"problemMatcher": "$tsc-watch"
 		},
 		{
 			"label": "Build",
-			"detail": "rush build",
+			"detail": "lerna run build",
 			"icon": {
 				"id": "wrench"
 			},
 			"type": "shell",
-			"command": "rush build",
+			"command": "lerna run build",
 			"problemMatcher": "$tsc",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
-			"dependsOn": ["Fast Update"]
+			"dependsOn": [
+				"Fast Update"
+			]
 		},
 		{
 			"label": "Cleanup Everything",
@@ -78,8 +90,11 @@
 				"id": "repo-delete"
 			},
 			"type": "shell",
-			"command": "node",
-			"args": ["${workspaceFolder}/common/scripts/install-run-rush.js", "distclean"],
+			"command": "pnpm",
+			"args": [
+				"run",
+				"distclean"
+			],
 			"problemMatcher": []
 		}
 	]

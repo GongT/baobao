@@ -31,7 +31,6 @@ node_modules
 jspm_packages
 bower_components
 package-deps.json
-/package.json
 !common/config/rush/.npmrc
 !.npmignore
 
@@ -55,3 +54,8 @@ yarn-error.log*
 c_cpp_properties.json
 vcpkg_installed
 _*.ts
+
+
+
+.nx/cache
+.nx/workspace-data

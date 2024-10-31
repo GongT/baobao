@@ -33,7 +33,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.7.5",
+		"@types/node": "^22.8.6",
 		"@types/npm-registry-fetch": "^8.0.7",
 		"@types/request": "^2.48.12",
 		"@types/semver": "^7.5.8",

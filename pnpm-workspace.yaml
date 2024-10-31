@@ -1,0 +1,6 @@
+packages:
+  - '@build-script/*'
+  - '@gongt/*'
+  - '@idlebox/*'
+  - '@internal/*'
+  - 'standalone/*'

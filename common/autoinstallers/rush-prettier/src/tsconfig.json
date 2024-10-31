@@ -1,9 +1,0 @@
-{
-	"compilerOptions": {
-		"outDir": "../lib",
-		"types": ["node"],
-		"moduleResolution": "Node",
-		"module": "ESNext",
-		"target": "ESNext"
-	}
-}

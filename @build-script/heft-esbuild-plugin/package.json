@@ -43,7 +43,7 @@
 		"@build-script/heft-plugin-base": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.7.5",
+		"@types/node": "^22.8.6",
 		"esbuild": "^0.24.0",
 		"ts-node": "^10.9.2"
 	}

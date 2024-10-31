@@ -10,12 +10,10 @@
 	},
 	"types": "./lib/type-entry.d.ts",
 	"scripts": {
-		"prepack": "",
-		"test": "",
-		"build": "",
-		"_phase:build": "",
-		"watch": "",
-		"clean": ""
+		"build": "true",
+		"clean": "true",
+		"test": "true",
+		"watch": "true"
 	},
 	"dependencies": {
 		"tslib": "^2.7.0"

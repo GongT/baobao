@@ -8,9 +8,10 @@
 		"npx": "bin/npx.mjs"
 	},
 	"scripts": {
-		"build": "",
-		"build:watch": "",
-		"clean": ""
+		"build": "true",
+		"clean": "true",
+		"test": "true",
+		"watch": "true"
 	},
 	"preferGlobal": true,
 	"dependencies": {
@@ -19,6 +20,6 @@
 		"which": "^5.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^22.7.5"
+		"@types/node": "^22.8.6"
 	}
 }

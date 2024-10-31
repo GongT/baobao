@@ -66,8 +66,8 @@ function wrappedLoader(mod: any, filename: string) {
 function fillCond(v: IExportCondition) {
 	if (v.node) {
 		v.node = {
-			require: v,
-			default: v.node,
+			require: v as any, // TODO: inspect this
+			default: v.node as any, // TODO: inspect this
 		};
 	}
 	if (!v.require) {

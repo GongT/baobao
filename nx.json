@@ -1,0 +1,37 @@
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"defaultBase": "master",
+	"namedInputs": {
+		"default": [
+			"{projectRoot}/src/**/*",
+			"{projectRoot}/config/**/*",
+			"{projectRoot}/package.json"
+		]
+	},
+	"targetDefaults": {
+		"build": {
+			"dependsOn": [
+				"^build"
+			],
+			"outputs": [
+				"{projectRoot}/lib",
+				"{projectRoot}/temp"
+			],
+			"cache": true
+		},
+		"watch": {
+			"dependsOn": [
+				"^watch"
+			],
+			"outputs": [
+				"{projectRoot}/lib",
+				"{projectRoot}/temp"
+			],
+			"cache": true
+		},
+		"test": {
+			"cache": true
+		}
+	},
+	"nxCloudId": "6723ae87694eac316468d7d6"
+}

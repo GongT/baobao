@@ -1,0 +1,32 @@
+{
+	"name": "@gongt/esbuild-custom-writer",
+	"version": "0.0.1",
+	"type": "module",
+	"license": "MIT",
+	"repository": "https://github.com/GongT/baobao",
+	"keywords": [
+		"esbuild"
+	],
+	"exports": {
+		".": "./lib/main.js",
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"prepack": "rimraf lib && tsc -p src",
+		"build": "tsc -p src",
+		"_phase:build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib",
+		"test": "node test/esbuild.js"
+	},
+	"dependencies": {
+		"@idlebox/node": "workspace:^"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^22.8.6",
+		"esbuild": "^0.24.0",
+		"rimraf": "^6.0.1"
+	}
+}

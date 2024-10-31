@@ -8,7 +8,6 @@
 	"private": true,
 	"scripts": {
 		"build": "local-esbuild src/plugins/*.ts:lib/plugins",
-		"build:watch": "local-esbuild src/plugins/*.ts:lib/plugins --fast",
 		"typecheck": "tsc -p src -noEmit",
 		"clean": "rimraf temp lib",
 		"watch": "local-esbuild src/plugins/*.ts:lib/plugins --watch"
@@ -16,7 +15,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.7.5",
+		"@types/node": "^22.8.6",
 		"@types/split2": "^4.2.3",
 		"comment-json": "^4.2.5",
 		"rimraf": "^6.0.1",

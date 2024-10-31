@@ -4,10 +4,10 @@
 	"version": "0.0.1",
 	"license": "MIT",
 	"scripts": {
-		"build": "",
-		"build:watch": "",
-		"clean": "",
-		"watch": ""
+		"build": "true",
+		"clean": "true",
+		"test": "true",
+		"watch": "true"
 	},
 	"dependencies": {
 		"source-map-support": "^0.5.21"
