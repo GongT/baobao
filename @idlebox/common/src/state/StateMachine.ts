@@ -1,4 +1,4 @@
-import { Emitter } from '../lifecycle/event/event';
+import { Emitter } from '../lifecycle/event/event.js';
 
 // type StateType = string | number;
 // type EventType = string | number;

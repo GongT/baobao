@@ -1,6 +1,6 @@
 import { isWindows } from '@idlebox/common';
 import { access, constants, accessSync } from 'fs';
-import { PathEnvironment } from '../environment/pathEnvironment';
+import { PathEnvironment } from '../environment/pathEnvironment.js';
 
 const windowsExecExtensions = ['.exe', '.bat', '.cmd', '.com', '.ps1'];
 

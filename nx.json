@@ -30,8 +30,33 @@
 			"cache": true
 		},
 		"test": {
-			"cache": true
+			"cache": true,
+			"dependsOn": [
+				"^test"
+			],
+			"outputs": [
+				"{projectRoot}/lib",
+				"{projectRoot}/temp"
+			]
+		},
+		"prepack": {
+			"dependsOn": [
+				"^prepack"
+			]
+		},
+		"_phase:build": {
+			"dependsOn": []
+		},
+		"clean": {
+			"dependsOn": []
+		},
+		"postpack": {
+			"dependsOn": []
+		},
+		"typecheck": {
+			"dependsOn": [
+				"^typecheck"
+			]
 		}
-	},
-	"nxCloudId": "6723ae87694eac316468d7d6"
+	}
 }

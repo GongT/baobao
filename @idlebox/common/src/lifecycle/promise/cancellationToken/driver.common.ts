@@ -1,7 +1,7 @@
-import { IDisposable } from '../../dispose/lifecycle';
-import { Emitter, EventHandler } from '../../event/event';
+import { IDisposable } from '../../dispose/lifecycle.js';
+import { Emitter, EventHandler } from '../../event/event.js';
 
-import type { CancellationDriver, __CancellationToken } from './source';
+import type { CancellationDriver, __CancellationToken } from './source.js';
 
 /** @internal */
 export class CancellationDriverCommon implements CancellationDriver {

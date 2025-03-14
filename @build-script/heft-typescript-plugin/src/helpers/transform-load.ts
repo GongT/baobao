@@ -32,7 +32,7 @@ interface IPluginApply {
 	): void;
 }
 
-const selfPlugin = process.env.IS_REALTIME_BUILD
+const selfSrcPlugin = process.env.IS_REALTIME_BUILD
 	? resolve(__dirname, '../loader/main.js')
 	: resolve(__dirname, '../transform/main.js');
 
@@ -52,7 +52,7 @@ export class TsPluginSystem {
 
 	async loadAll(copts: TypeScriptApi.CompilerOptions) {
 		const used = new Set<string>();
-		const transforms = [{ transform: selfPlugin }];
+		const transforms: ITypescriptPluginDefine[] = [{ transform: selfSrcPlugin }];
 		if (Array.isArray(copts.plugins)) {
 			transforms.unshift(...(copts.plugins as any));
 		}

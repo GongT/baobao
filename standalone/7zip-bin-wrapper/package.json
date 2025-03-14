@@ -38,8 +38,5 @@
 		"@rushstack/heft": "^0.68.2",
 		"@types/node": "^22.8.6",
 		"@types/split2": "^4.2.3"
-	},
-	"peerDependencies": {
-		"7zip-bin": "latest"
 	}
 }

@@ -1,7 +1,7 @@
-import { convertCatchedError } from '../../error/convertUnknown';
-import { Emitter, EventRegister } from '../event/event';
-import { DisposedError } from './disposedError';
-import { IAsyncDisposable, IDisposableEvents } from './lifecycle';
+import { convertCatchedError } from '../../error/convertUnknown.js';
+import { Emitter, EventRegister } from '../event/event.js';
+import { DisposedError } from './disposedError.js';
+import { IAsyncDisposable, IDisposableEvents } from './lifecycle.js';
 
 /**
  * Async version of Disposable

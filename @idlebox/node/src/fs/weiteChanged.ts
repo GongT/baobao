@@ -1,6 +1,6 @@
 import { readFile as readFileAsync, readFileSync, writeFile as writeFileAsync, writeFileSync } from 'fs';
 import { promisify } from 'util';
-import { exists, existsSync } from './exists';
+import { exists, existsSync } from './exists.js';
 
 const readFile = promisify(readFileAsync);
 const writeFile = promisify(writeFileAsync);

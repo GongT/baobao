@@ -1,7 +1,10 @@
-import { resolve } from 'path';
 import { normalizePath } from '@idlebox/node';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
-export const entryRoot = normalizePath(resolve(__dirname, '../../..'));
+const __dirname = import.meta.dirname || dirname(fileURLToPath(import.meta.url))
+
+export const entryRoot = normalizePath(resolve(__dirname, '../..'));
 export const projectRoot = normalizePath(resolve(entryRoot, '../..'));
 export const componentsRoot = normalizePath(resolve(projectRoot, 'components'));
 export const tempDir = resolve(entryRoot, 'temp');

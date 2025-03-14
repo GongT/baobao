@@ -1,4 +1,4 @@
-import { EventRegister } from '../event/event';
+import { EventRegister } from '../event/event.js';
 
 /**
  * @private

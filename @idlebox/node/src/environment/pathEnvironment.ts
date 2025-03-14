@@ -1,6 +1,6 @@
 import { platform } from 'os';
 import { PathArray } from '@idlebox/common';
-import { cleanupEnvironment, getEnvironment } from './getEnvironment';
+import { cleanupEnvironment, getEnvironment } from './getEnvironment.js';
 
 export const PATH_SEPARATOR = platform() === 'win32' ? ';' : ':';
 export class PathEnvironment extends PathArray {

@@ -1,5 +1,5 @@
-import { functionName } from '../function/functionName';
-import { ensureGlobalObject } from './globalObject';
+import { functionName } from '../function/functionName.js';
+import { ensureGlobalObject } from './globalObject.js';
 
 const singletonRegistry = ensureGlobalObject(`@@idlebox/global-singleton`, () => {
 	return new Map<string | symbol, any>();

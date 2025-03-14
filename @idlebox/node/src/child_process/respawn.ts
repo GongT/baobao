@@ -1,8 +1,8 @@
 import { spawnSync } from 'child_process';
 import { createRequire } from 'module';
 import { platform } from 'os';
-import { findBinary } from '../environment/findBinary';
-import { spawnGetOutputSync } from './execa';
+import { findBinary } from '../environment/findBinary.js';
+import { spawnGetOutputSync } from './execa.js';
 
 const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagation=slave'];
 

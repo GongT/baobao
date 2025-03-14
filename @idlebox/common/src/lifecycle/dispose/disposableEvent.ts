@@ -1,4 +1,4 @@
-import { IDisposable } from './lifecycle';
+import { IDisposable } from './lifecycle.js';
 
 declare const AbortController: new () => any;
 

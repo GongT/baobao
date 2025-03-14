@@ -1,4 +1,4 @@
-import { hookClass } from './hookClass';
+import { hookClass } from './hookClass.js';
 
 export const singletonSymbol = Symbol('@gongt/singleton');
 

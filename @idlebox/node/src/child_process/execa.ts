@@ -2,7 +2,7 @@ import '@gongt/fix-esm';
 import { isWindows, sepList } from '@idlebox/common';
 import type { Options as AsyncOptions, Result as AsyncResult, SyncOptions, SyncResult } from 'execa';
 import { execa, execaSync } from 'execa';
-import { checkChildProcessResult } from './error';
+import { checkChildProcessResult } from './error.js';
 
 type ProcessEnv = Record<string, string> & {
 	Path?: never;

@@ -21,7 +21,7 @@
 	"dependencies": {
 		"@build-script/heft-plugin-base": "workspace:^",
 		"execa": "^9.4.0",
-		"typescript": "^5.6.3"
+		"typescript": "^5.8.2"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

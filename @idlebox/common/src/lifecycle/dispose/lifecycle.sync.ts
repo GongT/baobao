@@ -1,6 +1,6 @@
-import { Emitter, EventRegister } from '../event/event';
-import { DisposedError } from './disposedError';
-import { IDisposable, IDisposableEvents } from './lifecycle';
+import { Emitter, EventRegister } from '../event/event.js';
+import { DisposedError } from './disposedError.js';
+import { IDisposable, IDisposableEvents } from './lifecycle.js';
 
 export abstract class DisposableOnce implements IDisposable {
 	private _disposed?: Error;

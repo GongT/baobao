@@ -1,4 +1,4 @@
-import { Primitive } from './literal';
+import { Primitive } from './literal.js';
 
 export type DeepPartial<T> = T extends Primitive
 	? T

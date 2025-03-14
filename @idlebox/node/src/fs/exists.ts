@@ -1,6 +1,6 @@
 import { ObjectEncodingOptions } from 'fs';
 import { access, readFile } from 'fs/promises';
-import { isNotExistsError } from '../error/types';
+import { isNotExistsError } from '../error/types.js';
 export { existsSync } from 'fs';
 
 export async function exists(path: string) {

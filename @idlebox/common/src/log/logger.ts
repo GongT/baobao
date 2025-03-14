@@ -1,5 +1,5 @@
-import { nameFunction } from '../function/functionName';
-import { isWeb } from '../platform/os';
+import { nameFunction } from '../function/functionName.js';
+import { isWeb } from '../platform/os.js';
 
 export enum ColorKind {
 	DISABLE,

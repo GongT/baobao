@@ -1,5 +1,5 @@
-import { IDisposable } from '../dispose/lifecycle';
-import { Emitter, EventHandler } from './event';
+import { IDisposable } from '../dispose/lifecycle.js';
+import { Emitter, EventHandler } from './event.js';
 
 /**
  * 会记住上次fire的内容，并在每个新的handler注册时立即调用一次的Emitter

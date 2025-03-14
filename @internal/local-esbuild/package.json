@@ -27,6 +27,6 @@
 		"execa": "^9.4.0",
 		"minimatch": "^10.0.1",
 		"split2": "^4.2.0",
-		"typescript": "^5.6.3"
+		"typescript": "^5.8.2"
 	}
 }

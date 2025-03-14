@@ -1,6 +1,8 @@
-const { existsSync, mkdirSync, writeFileSync } = require('fs');
-const { resolve } = require('path');
-const dir = resolve(__dirname, '../temp');
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+const dir = resolve(import.meta.filename || fileURLToPath(import.meta.url), 'temp');
 if (!existsSync(dir)) {
 	mkdirSync(dir);
 }

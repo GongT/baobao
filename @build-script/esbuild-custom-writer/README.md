@@ -11,23 +11,31 @@ esbuild本身的文件写入过程过于简易（实际上是用go实现的，�
 ```ts
 import { CustomFileWriter } from '@build-script/esbuild-custom-writer';
 
+const writePipeline = new CustomFileWriter(/* options */);
+
+writePipeline.onEmitFile((file: IFile) => {
+	return file;
+});
+
 const ctx = await esbuild.context({
 	/// ...blabla
-	plugins: [new CustomFileWriter(/* options */)],
+	plugins: [writePipeline],
 });
 ```
 
-参数：
+### 参数：
 
 ```ts
 interface options {
-// 这个插件顺便实现了[这个插件](https://marketplace.visualstudio.com/items?itemName=connor4312.esbuild-problem-matchers)要求的输出样式，默认为true
+	// 这个插件顺便输出了错误信息，默认为true
 	quiet?: boolean;
-	emit?: (file: string, content: Buffer, hash: string) => Promise<void>;
+	// 如果hash不变，则不写入文件，默认为true（这个判断在回调之后，可以修改hash）
 	cache?: boolean;
+	// 是否删除上次输出的文件，默认为true。注意这只对修改同一文件生效，源文件删除的情况不会处理。
 	delete?: boolean;
 }
 ```
 
-每个文件调用一次，需要在此回调中实际执行`fs.writeFile()`
-这个插件实现了一个缓存功能，如果文件的hash没有变，则会跳过`emit`回调，设为`false`禁用此功能
+### onEmitFile:
+
+每个文件调用一次。此时可以修改文件路径、内容、hash。参数参考 [这个文件](./src/include/file.ts)

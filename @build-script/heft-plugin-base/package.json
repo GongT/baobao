@@ -43,6 +43,6 @@
 		"@types/node": "^22.8.6",
 		"@types/proper-lockfile": "^4.1.4",
 		"@types/source-map-support": "^0.5.10",
-		"typescript": "^5.6.3"
+		"typescript": "^5.8.2"
 	}
 }

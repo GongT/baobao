@@ -1,5 +1,5 @@
-import { LinuxError } from './linux';
-import { NodeError } from './nodejs-error-code.generated';
+import { LinuxError } from './linux.js';
+import { NodeError } from './nodejs-error-code.generated.js';
 
 type NodeException<T extends string = any> = NodeJS.ErrnoException & { code: T };
 

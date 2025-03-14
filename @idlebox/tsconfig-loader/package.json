@@ -31,9 +31,9 @@
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
 		"@types/node": "^22.8.6",
-		"typescript": "^5.6.3"
+		"typescript": "^5.8.2"
 	},
 	"peerDependencies": {
-		"typescript": "^5.6.3"
+		"typescript": "^5.8.2"
 	}
 }

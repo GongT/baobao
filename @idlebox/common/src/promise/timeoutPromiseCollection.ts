@@ -1,5 +1,5 @@
-import { TimeoutError } from '../lifecycle/timeout/timeoutError';
-import { PromiseCollection } from './promiseCollection';
+import { TimeoutError } from '../lifecycle/timeout/timeoutError.js';
+import { PromiseCollection } from './promiseCollection.js';
 
 export class TimeoutPromiseCollection extends PromiseCollection {
 	constructor(private readonly defaultTimeoutMs = 50000) {

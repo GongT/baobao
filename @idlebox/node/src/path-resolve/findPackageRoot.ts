@@ -1,6 +1,6 @@
 import { createRequire } from 'module';
 import { dirname } from 'path';
-import { findUpUntilSync } from './findUp';
+import { findUpUntilSync } from './findUp.js';
 
 export function findPackageRoot(packageName: string, require = createRequire(process.cwd())) {
 	try {

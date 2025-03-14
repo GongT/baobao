@@ -1,6 +1,6 @@
 {
 	"files.associations": {
-		"*.json": "jsonc"
+		".vscode/*.json": "jsonc"
 	},
 	"search.exclude": {
 		"common/temp": true,
@@ -9,7 +9,8 @@
 		"*/*/.rush": true,
 		"**/*.api.json": true,
 		"**/*.api.md": true,
-		"**/package-public.d.ts": true
+		"**/package-public.d.ts": true,
+		"pnpm-lock.yaml": true,
 	},
 	"prettier.prettierPath": "common/autoinstallers/rush-prettier/node_modules/prettier",
 	"prettier.requireConfig": true,

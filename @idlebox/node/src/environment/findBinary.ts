@@ -1,6 +1,6 @@
 import { resolve } from 'path';
-import { existsSync } from '../fs/exists';
-import { PathEnvironment } from './pathEnvironment';
+import { existsSync } from '../fs/exists.js';
+import { PathEnvironment } from './pathEnvironment.js';
 
 export function findBinary(
 	what: string,

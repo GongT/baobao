@@ -1,7 +1,7 @@
-import { isAbsolute } from '../path/isAbsolute';
-import { relativePath } from '../path/normalizePath';
-import { globalObject } from '../platform/globalObject';
-import { isNative } from '../platform/os';
+import { isAbsolute } from '../path/isAbsolute.js';
+import { relativePath } from '../path/normalizePath.js';
+import { globalObject } from '../platform/globalObject.js';
+import { isNative } from '../platform/os.js';
 
 const process = globalObject.process;
 const window = globalObject.window;

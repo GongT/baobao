@@ -1,4 +1,4 @@
-import { ensureGlobalObject } from './globalObject';
+import { ensureGlobalObject } from './globalObject.js';
 
 const symbolRegistry = ensureGlobalObject(`@@idlebox/global-symbol`, () => {
 	return {} as Record<string, Record<string, symbol>>;

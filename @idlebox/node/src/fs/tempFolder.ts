@@ -1,7 +1,7 @@
 import { mkdirSync, readdirSync, rmdirSync, statSync, unlinkSync } from 'fs';
 import { resolve } from 'path';
 import { IDisposable } from '@idlebox/common';
-import { existsSync } from './exists';
+import { existsSync } from './exists.js';
 
 let registered = false;
 const tempFolders = new Set<string>();

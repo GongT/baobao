@@ -1,5 +1,5 @@
-import { CanceledError } from '../lifecycle/promise/cancel';
-import { DeferredPromise } from '../lifecycle/promise/deferredPromise';
+import { CanceledError } from '../lifecycle/promise/cancel.js';
+import { DeferredPromise } from '../lifecycle/promise/deferredPromise.js';
 
 export class PromiseCollection {
 	protected readonly promiseList: Record<string, DeferredPromise<any>> = {};

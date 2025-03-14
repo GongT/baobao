@@ -1,4 +1,4 @@
-import { InitFunc, initOnRead } from '../../object/initOnRead';
+import { InitFunc, initOnRead } from '../../object/initOnRead.js';
 
 /**
  * Decorater version of `initOnRead`

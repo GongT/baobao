@@ -1,6 +1,6 @@
-import { tryInspect } from '../../debugging/tryInspect';
-import { getErrorFrame } from '../../error/getFrame';
-import { prettyFormatError } from '../../error/pretty';
+import { tryInspect } from '../../debugging/tryInspect.js';
+import { getErrorFrame } from '../../error/getFrame.js';
+import { prettyFormatError } from '../../error/pretty.js';
 
 /**
  * Error when call dispose() twice

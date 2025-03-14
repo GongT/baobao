@@ -44,12 +44,19 @@ copy vscode/extensions.json .vscode/extensions.json
 copy vscode/settings.json .vscode/settings.json
 link editorconfig .editorconfig
 copy gitattributes .gitattributes
-copy gitignore .gitignore
 copy LICENSE LICENSE
-copy npmignore common/config/rush/.npmignore
 link prettierignore .prettierignore
 link prettierrc.js .prettierrc.js
-link rush-pretty-package.json common/autoinstallers/rush-prettier/package.json
-link rush-pretty-pre-commit common/git-hooks/pre-commit
+
+if [[ -f "$TARGET/rush.json" ]]; then
+	copy rush/gitignore .gitignore
+	copy rush/npmignore common/config/rush/.npmignore
+	link rush/rush-pretty-package.json common/autoinstallers/rush-prettier/package.json
+	link rush/rush-pretty-pre-commit common/git-hooks/pre-commit
+else
+	copy standalone/gitignore .gitignore
+	copy standalone/bin.mjs bin.mjs
+	copy standalone/tsconfig-template.json src/tsconfig.json
+fi
 
 echo ":: done"

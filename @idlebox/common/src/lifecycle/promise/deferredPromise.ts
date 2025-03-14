@@ -1,4 +1,4 @@
-import { CanceledError } from './cancel';
+import { CanceledError } from './cancel.js';
 
 export type ValueCallback<T = any> = (value: T | Promise<T>) => void;
 export type ProgressCallback<T = any> = (value: T) => void;

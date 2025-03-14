@@ -1,9 +1,9 @@
-import { globalObject } from '../../../platform/globalObject';
-import { IDisposable } from '../../dispose/lifecycle';
-import { DisposableOnce } from '../../dispose/lifecycle.sync';
-import { EventHandler } from '../../event/event';
-import { CancellationDriverBrowser } from './driver.browser';
-import { CancellationDriverCommon } from './driver.common';
+import { globalObject } from '../../../platform/globalObject.js';
+import { IDisposable } from '../../dispose/lifecycle.js';
+import { DisposableOnce } from '../../dispose/lifecycle.sync.js';
+import { EventHandler } from '../../event/event.js';
+import { CancellationDriverBrowser } from './driver.browser.js';
+import { CancellationDriverCommon } from './driver.common.js';
 
 /** @public */
 export interface CancellationToken {

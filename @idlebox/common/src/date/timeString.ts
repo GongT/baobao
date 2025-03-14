@@ -1,4 +1,4 @@
-import { pad2 } from '../string/pad2';
+import { pad2 } from '../string/pad2.js';
 
 export namespace humanDate {
 	/**

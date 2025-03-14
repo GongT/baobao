@@ -1,4 +1,4 @@
-import { nameFunction } from './functionName';
+import { nameFunction } from './functionName.js';
 
 export interface MyCallback<Argument extends unknown[]> {
 	displayName?: string;

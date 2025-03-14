@@ -1,5 +1,5 @@
 import { dirname, resolve } from 'path';
-import { exists, existsSync } from '../fs/exists';
+import { exists, existsSync } from '../fs/exists.js';
 
 export async function findUpUntil(from: string, file: string): Promise<string | null> {
 	for (let _from = resolve(from); _from !== '/'; _from = dirname(_from)) {

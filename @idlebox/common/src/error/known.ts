@@ -1,4 +1,4 @@
-import { isNative } from '../platform/os';
+import { isNative } from '../platform/os.js';
 
 interface ErrorOptions {
 	cause?: unknown;

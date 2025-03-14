@@ -1,5 +1,5 @@
-import { TimeoutError } from './timeoutError';
-import { DeferredPromise } from '../promise/deferredPromise';
+import { TimeoutError } from './timeoutError.js';
+import { DeferredPromise } from '../promise/deferredPromise.js';
 
 /**
  * @returns promise reject with TimeoutError after specific time

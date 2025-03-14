@@ -1,4 +1,4 @@
-import { humanDate } from '../../date/timeString';
+import { humanDate } from '../../date/timeString.js';
 
 /**
  * Error when timeout() done

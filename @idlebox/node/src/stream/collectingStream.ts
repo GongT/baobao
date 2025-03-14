@@ -1,5 +1,5 @@
 import { Writable } from 'stream';
-import { streamPromise } from './streamPromise';
+import { streamPromise } from './streamPromise.js';
 
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: false): Promise<string>;
 export function streamToBuffer(stream: NodeJS.ReadableStream, raw: true): Promise<Buffer>;

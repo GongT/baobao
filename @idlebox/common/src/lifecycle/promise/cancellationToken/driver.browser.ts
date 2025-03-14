@@ -1,6 +1,6 @@
-import { EventHandler } from '../../event/event';
+import { EventHandler } from '../../event/event.js';
 
-import type { CancellationDriver, __CancellationToken } from './source';
+import type { CancellationDriver, __CancellationToken } from './source.js';
 
 declare const AbortController: any; // TODO
 declare type AbortController = any; // TODO

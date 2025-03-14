@@ -1,6 +1,6 @@
 import { execa, Options as ExecaOptions, Result } from 'execa';
-import { printLine } from '../cli-io/output';
-import { checkChildProcessResult } from './error';
+import { printLine } from '../cli-io/output.js';
+import { checkChildProcessResult } from './error.js';
 
 export type ISpawnOptions = Omit<
 	ExecaOptions,

@@ -1,7 +1,7 @@
-import { globalSingletonStrong } from '../../platform/globalSingleton';
-import { createSymbol } from '../../platform/globalSymbol';
-import { IDisposable } from './lifecycle';
-import { AsyncDisposable } from './lifecycle.async';
+import { globalSingletonStrong } from '../../platform/globalSingleton.js';
+import { createSymbol } from '../../platform/globalSymbol.js';
+import { IDisposable } from './lifecycle.js';
+import { AsyncDisposable } from './lifecycle.async.js';
 
 const symbol = createSymbol('lifecycle', 'application');
 

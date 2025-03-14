@@ -1,4 +1,4 @@
-import { getErrorFrame } from './getFrame';
+import { getErrorFrame } from './getFrame.js';
 
 export function convertCatchedError(e: unknown): Error {
 	if (e instanceof Error) {
