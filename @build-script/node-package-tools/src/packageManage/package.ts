@@ -4,17 +4,17 @@ import { mkdir } from 'fs/promises';
 import { resolve } from 'path';
 import { readJsonSync } from '../inc/fs';
 import { log } from '../inc/log';
-import { getTempFolder } from '../inc/rush';
+import { getTempFolder } from '../inc/mono-tools';
 import { getPackageManager } from './detectRegistry';
 
 export async function packCurrentVersion(cwd: string) {
 	let result: string;
-	log('Build local package...');
+	log('开始构建本地包...');
 	const pm = await getPackageManager();
-	log('  use package manager: %s', pm);
+	log('  使用的包管理器: %s', pm);
 
-	const tmpdir = getTempFolder(cwd);
-	log('  use temp folder: %s', tmpdir);
+	const tmpdir = await getTempFolder(cwd);
+	log('  使用的临时文件夹: %s', tmpdir);
 	await mkdir(tmpdir, { recursive: true });
 
 	if (pm === 'yarn') {
@@ -28,12 +28,12 @@ export async function packCurrentVersion(cwd: string) {
 				stdout: 'inherit',
 				verbose: true,
 				env: { LANG: 'C.UTF-8' },
-			},
+			}
 		);
 		const resultLine = /^{.*"type":"success".*}$/m.exec(chProcess.stdout);
 		if (!resultLine) {
-			console.error('[Error] yarn pack output: %s', chProcess.stdout);
-			throw new Error('Failed to run yarn pack.');
+			console.error('[错误] yarn 打包输出: %s', chProcess.stdout);
+			throw new Error('运行 yarn 打包失败');
 		}
 		const ret = JSON.parse(resultLine[0]);
 		result = ret.data.replace(/^Wrote tarball to "/, '').replace(/"\.$/, '');
@@ -43,12 +43,12 @@ export async function packCurrentVersion(cwd: string) {
 			verbose: true,
 			env: { LANG: 'C.UTF-8' },
 		});
-		const lastLine = chProcess.stdout.trim().split('\n').pop()!;
+		const lastLine = chProcess.stdout.trim().split('\n').pop() ?? 'empty-output-error';
 		result = resolve(cwd, lastLine);
 	}
 
 	if (!existsSync(result)) {
-		throw new Error('File [' + result + '] must exists after pack.');
+		throw new Error(`文件 [${result}] 在打包后必须存在`);
 	}
 
 	return result;

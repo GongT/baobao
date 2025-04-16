@@ -1,0 +1,8 @@
+{
+	"extends": "./@build-script/single-dog-asset/package/tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"@tests/lib1": ["@tests/lib1/src/index.ts"]
+		}
+	}
+}

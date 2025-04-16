@@ -18,40 +18,40 @@ export async function getPackageManager() {
 	}
 
 	const pathVar = new PathEnvironment();
-	console.log('current PATH: (' + process.env.PATH + ')\n  - ' + [...pathVar.values()].join('\n  - '));
-	throw new Error('Failed to detect any package manager, please install npm/yarn/pnpm in PATH');
+	console.log('当前PATH: (' + process.env.PATH + ')\n  - ' + [...pathVar.values()].join('\n  - '));
+	throw new Error('未检测到任何包管理器，请在PATH中安装npm/yarn/pnpm');
 }
 
 export async function detectRegistry(url: string, currentProjectPath: string): Promise<string> {
 	if (url !== 'detect') {
-		log('using registry url from commandline (%s)', url);
+		log('使用命令行提供的registry地址 (%s)', url);
 
 		if (url.startsWith('http://') || url.startsWith('https://')) {
 			return url.replace(/\/+$/, '');
 		}
 
-		errorLog('[!!] invalid argument: --registry: http: or https: is required');
+		errorLog('[!!] 参数无效: --registry: 必须以http:或https:开头');
 		process.exit(1);
 	}
 
 	try {
 		url = await resolveRegistry(currentProjectPath);
 	} catch (e) {
-		log('    [!!] error run config get: %s', convertCatchedError(e).message);
+		log('    [!!] 执行config get时出错: %s', convertCatchedError(e).message);
 	}
 	if (url) {
 		const u = new URL(url);
 		if (!u.protocol || !u.host) {
-			errorLog('[!!] invalid config (registry=%s): url is invalid', url);
+			errorLog('[!!] 配置无效 (registry=%s): url格式不正确', url);
 			process.exit(1);
 		}
 
 		url = url.replace(/\/+$/, '');
-		log('using registry url from config file (%s)', url);
+		log('使用配置文件中的registry地址 (%s)', url);
 		return url;
 	} else {
 		url = 'https://registry.npmjs.org';
-		log('using default registry url (%s)', url);
+		log('使用默认的registry地址 (%s)', url);
 		return url;
 	}
 }
@@ -59,21 +59,21 @@ export async function detectRegistry(url: string, currentProjectPath: string): P
 async function resolveRegistry(path: string) {
 	let url: string;
 	const pm = await getPackageManager();
-	log('Using package manager: %s', pm);
+	log('使用的包管理器: %s', pm);
 
 	const pkgJson = JSON.parse(await readFile(resolve(path, 'package.json'), 'utf-8'));
 	const scope = pkgJson.name.startsWith('@') ? pkgJson.name.replace(/\/.+$/, '') : '';
 	log('    package scope: %s', scope);
 	if (scope) {
 		url = (await execaCommand(pm + ' config get ' + scope + ':registry', { stderr: 'ignore', cwd: path })).stdout;
-		log('    config get registry (scope): %s', url);
+		log('    获取配置的registry (scope): %s', url);
 		if (url !== 'undefined') {
 			return url.trim();
 		}
 	}
 
 	url = (await execaCommand(pm + ' config get registry', { stderr: 'ignore', cwd: path })).stdout;
-	log('    config get registry: %s', url);
+	log('    获取配置的registry: %s', url);
 
 	return url.trim();
 }

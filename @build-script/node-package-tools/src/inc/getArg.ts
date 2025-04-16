@@ -1,33 +1,35 @@
-export function getArg(name: string, def: string) {
-	const found = process.argv.indexOf(name);
-	if (found === -1) {
-		return def;
-	}
+import { createArgsReader } from '@idlebox/args';
 
-	const ret = process.argv[found + 1];
-	if (ret === undefined || ret.startsWith('-')) {
-		throw new Error(`Argument ${name} should have value.`);
-	}
-	return ret;
-}
+export const argv = createArgsReader(process.argv.slice(2));
 
 const common_args = {
-	'--quiet': "don't print verbose message",
-	'--registry <xxx>': 'default to use system .npmrc (must have schema)',
-	'--dist-tag <xxx>': 'default to "latest"',
-	'--package <xxx>': 'default to ./ (folder should contains package.json)',
+	'--quiet': '减少输出',
+	'--registry <xxx>': 'npm服务器，默认从.npmrc读取(必须有schema://)',
+	'--dist-tag <xxx>': '需要从服务器读取时使用的tag，默认为"latest"',
+	'--package <xxx>': '启动前更改当前目录（文件夹应包含package.json）',
+	'--json': '输出json格式（部分命令支持）',
+	'--help': '显示帮助信息',
 };
+
+export const isQuiet = argv.flag('--quiet') > 0;
+export const isJsonOutput = argv.flag('--json') > 0;
+export const isHelp = argv.flag(['--help', '-h']) > 0;
+export const distTagInput = argv.single('--dist-tag') || 'latest';
+export const registryInput = argv.single('--registry') || 'detect';
 
 export function pArgS(s: string) {
 	return `\x1B[3;38;5;14m${s}\x1B[0m`;
+}
+export function pDesc(s: string) {
+	return `\x1B[3;2m${s}\x1B[0m`;
 }
 export function pCmd(s: string) {
 	return `\x1B[38;5;10m${s}\x1B[0m`;
 }
 
 export function printCommonOptions() {
-	process.stderr.write(`\x1B[2mCommon Options\x1B[0m:\n`);
-	process.stderr.write(formatOptions(common_args, { color: 11, indent: '  ' }));
+	process.stderr.write(`\x1B[2m通用参数\x1B[0m:\n`);
+	process.stderr.write(formatOptions(common_args, { color: 3, indent: '  ' }));
 }
 
 interface IFormatOptions {

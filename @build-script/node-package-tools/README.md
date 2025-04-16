@@ -4,8 +4,6 @@
 
 # 使用方式
 
-二选一：
-
 -   `node-package-tools [--common opts] <command> [--params]`
 -   `njspkg [--common opts] <command> [--params]`
 

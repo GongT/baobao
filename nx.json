@@ -3,6 +3,7 @@
 	"defaultBase": "master",
 	"namedInputs": {
 		"default": [
+			"{projectRoot}/src/**/*.generaeted.ts",
 			"{projectRoot}/src/**/*",
 			"{projectRoot}/config/**/*",
 			"{projectRoot}/package.json"
@@ -10,42 +11,22 @@
 	},
 	"targetDefaults": {
 		"build": {
-			"dependsOn": [
-				"^build"
-			],
-			"outputs": [
-				"{projectRoot}/lib",
-				"{projectRoot}/temp"
-			],
+			"dependsOn": ["^build"],
+			"outputs": ["{projectRoot}/lib", "{projectRoot}/temp"],
 			"cache": true
 		},
 		"watch": {
-			"dependsOn": [
-				"^watch"
-			],
-			"outputs": [
-				"{projectRoot}/lib",
-				"{projectRoot}/temp"
-			],
+			"dependsOn": ["^watch"],
+			"outputs": ["{projectRoot}/lib", "{projectRoot}/temp"],
 			"cache": true
 		},
 		"test": {
 			"cache": true,
-			"dependsOn": [
-				"^test"
-			],
-			"outputs": [
-				"{projectRoot}/lib",
-				"{projectRoot}/temp"
-			]
+			"dependsOn": ["^test"],
+			"outputs": ["{projectRoot}/lib", "{projectRoot}/temp"]
 		},
 		"prepack": {
-			"dependsOn": [
-				"^prepack"
-			]
-		},
-		"_phase:build": {
-			"dependsOn": []
+			"dependsOn": ["^prepack"]
 		},
 		"clean": {
 			"dependsOn": []
@@ -54,9 +35,21 @@
 			"dependsOn": []
 		},
 		"typecheck": {
-			"dependsOn": [
-				"^typecheck"
-			]
+			"dependsOn": ["^typecheck"]
 		}
-	}
+	},
+	"plugins": [
+		{
+			"plugin": "@nx/js/typescript",
+			"options": {
+				"typecheck": {
+					"targetName": "typecheck"
+				},
+				"build": {
+					"targetName": "build",
+					"configName": "src/tsconfig.json"
+				}
+			}
+		}
+	]
 }

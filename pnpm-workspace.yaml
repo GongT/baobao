@@ -3,4 +3,6 @@ packages:
   - '@gongt/*'
   - '@idlebox/*'
   - '@internal/*'
-  - 'standalone/*'
+  - standalone/*
+onlyBuiltDependencies:
+  - '@biomejs/biome'

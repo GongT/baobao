@@ -22,7 +22,8 @@ export const esbuildProblemMatcherPlugin: Plugin = {
 					console.error(`    ${location.file}:${location.line}:${location.column}:`);
 				}
 			});
-			console.log('[esbuild] build finished');
+			const type = result.errors.length > 0 ? 'fail' : 'success';
+			console.log('[esbuild] build finished: %s', type);
 		});
 	},
 };

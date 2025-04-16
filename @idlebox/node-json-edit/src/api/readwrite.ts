@@ -4,9 +4,10 @@
  *   * false: data did not change, no write happen
  */
 
-import { readFileSync } from 'fs';
-import { isAbsolute, resolve } from 'path';
 import { parse } from 'comment-json';
+import { readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { isAbsolute, resolve } from 'node:path';
 import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormat } from '../tools/attachData.js';
 import { checkChange, loadFile, pathExists, saveFile } from '../tools/filesystem.js';
 import { PrettyFormat } from '../tools/prettyFormat.js';
@@ -110,6 +111,12 @@ function abs(p: string) {
 		return p;
 	}
 	return resolve(process.cwd(), p);
+}
+
+export async function readCommentJsonFile(file: string, charset: BufferEncoding = DEFAULT_ENCODING): Promise<any> {
+	file = abs(file);
+	const data = await readFile(file, charset);
+	return parse(data, undefined, true);
 }
 
 export function readCommentJsonFileSync(file: string, charset: BufferEncoding = DEFAULT_ENCODING): any {

@@ -47,13 +47,13 @@ async function getWithCache(name: string, distTag: string, registry: string): Pr
 	return ret;
 }
 async function _getCustomCache(name: string, distTag: string, registry: string): Promise<null | IResult> {
-	log('Fetching npm registry: %s', `${registry}/${name}`);
+	log('从头npm获取包信息: %s', `${registry}/${name}`);
 
 	const cache = resolve(cachedir(), name.replace(/[@\/]/g, '_') + '.package.cache.json');
 	let etag: string = '',
 		json: any;
 	if (await exists(cache)) {
-		log('    cache file exists:\n      %s', cache);
+		log('    缓存文件存在:\n      %s', cache);
 		const data = readJsonSync(cache);
 		etag = data.etag;
 		json = data.json;
@@ -71,27 +71,27 @@ async function _getCustomCache(name: string, distTag: string, registry: string):
 		response = await downloadFile(`${registry}/${name}`, headers);
 	} catch (e: any) {
 		if (HttpError.is(e)) {
-			log('    response HTTP %s (error)', e.code);
+			log('    响应HTTP %s(错误)', e.code);
 			if (e.code === 404) {
 				return null;
 			} else if (e.code === 304) {
 				return resultOf(json, distTag);
 			} else {
-				errorLog(`failed request npm registry: ${registry}/${name}: ${e.message}`);
+				errorLog(`请求npm注册表失败: ${registry}/${name}: ${e.message}`);
 				throw e;
 			}
 		} else {
-			errorLog(`failed request npm registry: ${registry}/${name}: ${e.message}`);
+			errorLog(`请求npm注册表失败: ${registry}/${name}: ${e.message}`);
 			throw e;
 		}
 	}
 
-	log('    response HTTP %s', response.statusCode);
+	log('    响应 HTTP %s', response.statusCode);
 
 	try {
 		json = JSON.parse(await streamToBuffer(response.stream, false));
 	} catch (e: any) {
-		errorLog(`failed parse npm registry response: ${registry}/${name}: ${e.message}`);
+		errorLog(`解析npm注册表响应失败: ${registry}/${name}: ${e.message}`);
 	}
 	log('        dist-tags: %s', json['dist-tags']);
 	log('        etag: %s', response.headers['etag']);
@@ -99,12 +99,12 @@ async function _getCustomCache(name: string, distTag: string, registry: string):
 	if (response.headers['etag']) {
 		etag = response.headers['etag'];
 
-		log('write cache file -> ', cache);
+		log('写入缓存文件 -> ', cache);
 
 		await mkdir(dirname(cache), { recursive: true });
 		await writeFile(cache, JSON.stringify({ etag, json }), 'utf-8');
 	} else {
-		errorLog(`npm registry response without etag header: ${registry}/${name}`);
+		errorLog(`npm注册表响应中缺少etag头: ${registry}/${name}`);
 	}
 
 	return resultOf(json, distTag);
@@ -118,7 +118,7 @@ function resultOf(json: any, tag: string): null | IResult {
 
 	const current = json.versions[version];
 	if (!current || !current.dist.tarball) {
-		throw new Error('Json seems invalid: no version: ' + version);
+		throw new Error('JSON似乎无效: 缺少version: ' + version);
 	}
 	return { version, tarball: current.dist.tarball };
 }

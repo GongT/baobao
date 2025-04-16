@@ -3,8 +3,8 @@
 console.log('[script] post rush install');
 
 import { existsSync, readdirSync, symlinkSync } from 'fs';
-import { relative, resolve } from 'path';
-import { ensureSymLinkSync, globalNodeModules, lstat_catch, projects, readJson } from './pre-post-inc.mjs';
+import { join, relative, resolve } from 'path';
+import { ensureSymLinkSync, globalNodeModules, lstat_catch, projects, readJson, rootDir } from './pre-post-inc.mjs';
 
 console.log('[script] %s', globalNodeModules);
 const tools = {
@@ -49,10 +49,13 @@ function installPackage(name, target) {
 	symlinkSync(source, targetLink, 'junction');
 }
 
-function linkTools(path) {
-	const localBinDir = resolve(path, 'node_modules/.bin');
+function linkTools(projRoot) {
+	const localBinDir = resolve(projRoot, 'node_modules/.bin');
+	if (rootDir === projRoot) {
+		return;
+	}
 	for (const [tool, path] of Object.entries(tools)) {
-		const targetFile = relative(localBinDir, resolve(globalNodeModules, path));
+		const targetFile = relative(localBinDir, join(globalNodeModules, path));
 		const linkFile = resolve(localBinDir, tool);
 		ensureSymLinkSync(linkFile, targetFile);
 	}

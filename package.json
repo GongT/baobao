@@ -5,14 +5,17 @@
 		"postinstall": "node scripts/post-install.mjs"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@nx/js": "20.0.6",
 		"lerna": "^8.1.9",
 		"nx": "^20.0.6",
-		"prettier": "latest",
-		"typescript": "latest"
+		"tslib": "^2.3.0",
+		"typescript": "^5.8.2"
 	},
 	"pnpm": {
 		"patchedDependencies": {
 			"@types/tar-stream": "patches/@types__tar-stream.patch"
 		}
-	}
+	},
+	"dependencies": {}
 }

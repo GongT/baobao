@@ -42,7 +42,7 @@ export class GeneratorHolder {
 
 	constructor(
 		private readonly logger: IOutputShim,
-		private readonly root: string,
+		private readonly root: string
 	) {}
 
 	async makeGenerators(files: string[], standalone: boolean) {
@@ -120,7 +120,7 @@ export class GeneratorHolder {
 			});
 
 		this.logger.log(
-			`  code generate complete:\n    ${result.success} success, ${result.skip} unchange/skip, ${result.errors.length} error.`,
+			`  code generate complete:\n    ${result.success} success, ${result.skip} unchange/skip, ${result.errors.length} error.`
 		);
 
 		for (const gen of this.generators.values()) {

@@ -1,4 +1,4 @@
-import { findUpUntilSync, type IOutputShim } from '@build-script/heft-plugin-base';
+import { findUpUntilSync, isDebug, type IOutputShim } from '@build-script/heft-plugin-base';
 import type { BuildContext, BuildOptions, BuildResult, Plugin } from 'esbuild';
 import { context } from 'esbuild';
 import { randomBytes } from 'node:crypto';
@@ -48,7 +48,7 @@ export class CodeGenerator {
 		private readonly buildFoder: string, // path to nearest package.json folder
 		private readonly entryFileAbs: string, // absolute path of *.generator.ts
 		standalone: boolean, // true if run by binary, false if by heft
-		public readonly logger: IOutputShim,
+		public readonly logger: IOutputShim
 	) {
 		const packageFile = findUpUntilSync(buildFoder, 'package.json');
 		if (!packageFile) {
@@ -59,16 +59,22 @@ export class CodeGenerator {
 		const dir = dirname(this.entryFileAbs);
 		const base = basename(this.entryFileAbs, '.ts');
 
-		this.createTempFilePath = (hash = randomBytes(6).toString('hex'), ext = 'mjs') => {
-			return dir + '/.' + base + '.' + hash.replace(/[\\\/=:;]/g, '') + '.' + ext;
-		};
+		if (isDebug) {
+			this.createTempFilePath = (_hash = '', ext = 'mjs') => {
+				return `${dir}/.${base}.${ext}`;
+			};
+		} else {
+			this.createTempFilePath = (hash = randomBytes(6).toString('hex'), ext = 'mjs') => {
+				return `${dir}/.${base}.${hash.replace(/[\\\/=:;]/g, '')}.${ext}`;
+			};
+		}
 
 		const resultFile = entryFileAbs.replace(/\.generator\.ts$/, '.generated.ts');
 		this.executer = new (standalone ? ImportExecuter : ThreadExecuter)(
 			buildFoder,
 			entryFileAbs,
 			resultFile,
-			this.logger,
+			this.logger
 		);
 	}
 
@@ -83,7 +89,7 @@ export class CodeGenerator {
 				sourcemap: 'linked',
 				sourceRoot: '@@@@@/',
 				entryPoints: [this.entryFileAbs],
-				external: [],
+				external: [], // TODO: 需要参数传入
 				absWorkingDir: this.buildFoder,
 				format: 'esm',
 				platform: 'node',
@@ -167,7 +173,7 @@ export class CodeGenerator {
 				'compiled outputs:\n' +
 					Object.values(outputs)
 						.map((e) => `  - ${e.path}`)
-						.join('\n'),
+						.join('\n')
 			);
 			throw new Error('compile output invalid (must be map and src)');
 		}
@@ -183,20 +189,23 @@ export class CodeGenerator {
 		try {
 			return await this.executer.execute(scriptFile);
 		} finally {
-			this.logger.verbose('delete temp compile output.');
-			unlink(scriptFile);
-			unlink(mapFile);
+			if (isDebug) {
+				this.logger.warn('debug mode enabled, keep compile output.');
+			} else {
+				this.logger.verbose('delete temp compile output.');
+				unlink(scriptFile);
+				unlink(mapFile);
+			}
 		}
 	}
 
 	get relatedFiles() {
 		const files = [];
+		files.push(this.entryFileAbs);
 		if (this.compileResult) {
 			for (const rel of Object.keys(this.compileResult.metafile.inputs)) {
 				files.push(resolve(this.buildFoder, rel));
 			}
-		} else {
-			files.push(this.entryFileAbs);
 		}
 		return [...files, this.packageFile];
 	}

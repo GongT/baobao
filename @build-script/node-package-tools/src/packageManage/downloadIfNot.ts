@@ -5,9 +5,9 @@ import { downloadFile } from '../inc/http';
 import { log } from '../inc/log';
 
 export async function downloadIfNot(url: string, file: string) {
-	log('Download tarball:\n    url: %s\n    save: %s', url, file);
+	log('下载压缩包:\n    地址: %s\n    保存到: %s', url, file);
 	if (await exists(file)) {
-		log('     -> already downloaded');
+		log('     -> 已经下载');
 		return;
 	}
 	const response = await downloadFile(url);
@@ -16,5 +16,5 @@ export async function downloadIfNot(url: string, file: string) {
 	await streamPromise(response.stream.pipe(writeOut));
 
 	await rename(file + '.downloading', file);
-	log('     -> download complete');
+	log('     -> 下载完成');
 }

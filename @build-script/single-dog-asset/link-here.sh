@@ -45,8 +45,7 @@ copy vscode/settings.json .vscode/settings.json
 link editorconfig .editorconfig
 copy gitattributes .gitattributes
 copy LICENSE LICENSE
-link prettierignore .prettierignore
-link prettierrc.js .prettierrc.js
+copy biome.jsonc.template biome.jsonc
 
 if [[ -f "$TARGET/rush.json" ]]; then
 	copy rush/gitignore .gitignore

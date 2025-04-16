@@ -12,7 +12,8 @@
 		"isolatedModules": true,
 		"incremental": false,
 		"esModuleInterop": true,
-		"downlevelIteration": true
+		"downlevelIteration": true,
+		"skipLibCheck": true
 	},
 	"include": ["./**/*.ts"]
 }

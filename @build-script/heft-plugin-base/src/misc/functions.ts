@@ -43,3 +43,16 @@ export function findUpUntilSync(from: string, file: string): string | null {
 
 	return null;
 }
+
+export function pickFlag(argv: string[], flags: string[]) {
+	let found = 0;
+	for (const flag of flags.toReversed()) {
+		const index = argv.indexOf(flag);
+		if (index === -1) {
+			continue;
+		}
+		argv.splice(index, 1);
+		found++;
+	}
+	return found;
+}

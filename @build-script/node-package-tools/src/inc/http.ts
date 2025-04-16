@@ -47,31 +47,31 @@ export async function downloadFile(url: string, headers?: OutgoingHttpHeaders): 
 			if (RedirectError.is(e)) {
 				redirect_cnt++;
 				if (redirect_cnt > 8) {
-					throw new HttpError(url, 0, 'too many redirects');
+					throw new HttpError(url, 0, '重定向次数过多');
 				}
 
-				debug(`[http] redirect to ${e.location}`);
+				debug(`[http] 重定向到 ${e.location}`);
 				url = e.location;
 				try_remain++;
 				continue;
 			}
 
-			errorLog('Failed to fetch %s [remain %s]', url, try_remain);
+			errorLog('获取 %s 失败 [剩余尝试次数 %s]', url, try_remain);
 			if (try_remain === 0) throw e;
 
 			await sleep(2000);
 		}
 	}
-	throw new Error('impossible');
+	throw new Error('不可能的错误');
 }
 
 function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 	headers['Accept-Encoding'] = 'br,gzip,deflate';
 	return new Promise<any>((resolve, reject) => {
-		debug(`[http] request ${url} (proxy: ${getProxyValue()})`);
+		debug(`[http] 请求 ${url} (代理: ${getProxyValue()})`);
 
 		const request = get(url, { headers }, (response) => {
-			debug(`[http] response ${response.statusCode} [encoding: ${response.headers['content-encoding']}]`);
+			debug(`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}]`);
 			if (response.statusCode === 200) {
 				let stream: Readable;
 				switch (response.headers['content-encoding']) {

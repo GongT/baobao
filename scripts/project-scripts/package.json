@@ -9,6 +9,12 @@
 		"build": "tsc -p src",
 		"watch": "tsc -w -p src"
 	},
+	"bin": {
+		"increase-semver": "./lib/increase-semver.js",
+		"poor-change": "./lib/poor-change.js",
+		"poor-publish": "./lib/poor-publish.js",
+		"watch-all": "./lib/watch-alljss"
+	},
 	"private": true,
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

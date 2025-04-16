@@ -55,7 +55,4 @@ c_cpp_properties.json
 vcpkg_installed
 _*.ts
 
-
-
-.nx/cache
-.nx/workspace-data
+.nx

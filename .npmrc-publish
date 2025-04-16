@@ -26,4 +26,4 @@ prefer-offline=false
 prefer-frozen-lockfile=false
 git-checks=false
 
-registry=https://registry.npmjs.org
+#registry=https://registry.npmjs.org

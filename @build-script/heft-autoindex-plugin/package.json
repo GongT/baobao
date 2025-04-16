@@ -24,6 +24,8 @@
 	"dependencies": {
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
 		"@build-script/heft-plugin-base": "workspace:^",
+		"@idlebox/tsconfig-loader": "workspace:^",
+		"source-map-support": "^0.5.21",
 		"tslib": "^2.7.0"
 	},
 	"devDependencies": {

@@ -1,6 +1,6 @@
 {
 	"files.associations": {
-		"*.json": "jsonc"
+		"*.json": "jsonc",
 	},
 	"search.exclude": {
 		"**/node_modules/**/*": true,
@@ -15,15 +15,15 @@
 		"**/package-public.d.ts": true,
 		"project-impact-graph.yaml": true,
 	},
-	"prettier.prettierPath": "./node_modules/prettier",
+	"biome.lspBin": "node_modules/.bin/biome",
 	"typescript.tsdk": "./node_modules/typescript/lib",
-	"[json][json5][jsonc]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	"[json][json5][jsonc][typescript][javascript]": {
+		"editor.defaultFormatter": "biomejs.biome",
 	},
 	"[markdown]": {
-		// "editor.defaultFormatter": "esbenp.prettier-vscode"
+		// "editor.defaultFormatter": ""
 	},
 	"json.schemaDownload.enable": true,
 	"typescript.preferences.preferTypeOnlyAutoImports": true,
-	"typescript.preferences.importModuleSpecifierEnding": "js"
+	"typescript.preferences.importModuleSpecifierEnding": "js",
 }

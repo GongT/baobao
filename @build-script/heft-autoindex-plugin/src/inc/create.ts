@@ -31,10 +31,7 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 
 	const indexDir =
 		'./' +
-		relativePath(
-			project.options.rootDir || dirname(project.options.configFilePath as string),
-			dirname(indexFileAbs),
-		)
+		relativePath(project.options.rootDir || dirname(project.options.configFilePath as string), dirname(indexFileAbs))
 			.split('/')
 			.filter((e) => e && e !== '.')
 			.map(() => '..')
@@ -46,9 +43,7 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 	const content = [];
 	for (const file of list) {
 		if (file.absolutePath === indexFileAbs) {
-			throw new Error(
-				`override output file: ${indexFileAbs} (are you import xxx from ${basename(indexFileAbs)}?)`,
-			);
+			throw new Error(`override output file: ${indexFileAbs} (are you import xxx from ${basename(indexFileAbs)}?)`);
 		}
 
 		const path = importSpec(indexDir, file.relativePath);
@@ -57,8 +52,11 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 		if (file.identifiers) {
 			content.push('\t// Identifiers');
 			for (const def of file.identifiers.values()) {
-				if (def.reference && !def.reference.id) {
-					continue;
+				if (def.reference) {
+					if (!def.reference.id && def.reference.type === 'file') {
+						// 从本包另一个文件export，并且没有改名（x as y）
+						continue;
+					}
 				}
 				content.push(`\texport {${typeTag(def)}${idToString(ts, def.id)}} from "${path}";`);
 			}
@@ -69,8 +67,8 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 				content.push(
 					`\texport * from "${importSpec(
 						indexDir,
-						reference.type === 'file' ? reference.relativeFromRoot : reference.name,
-					)}";`,
+						reference.type === 'file' ? reference.relativeFromRoot : reference.name
+					)}";`
 				);
 			}
 		}

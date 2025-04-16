@@ -56,7 +56,7 @@ export class FileCollector {
 		}
 
 		if (this.ts.isExportDeclaration(node)) {
-			// logger.verbose(' * found ExportDeclaration');
+			logger.verbose(' * found ExportDeclaration');
 			let reference: IResolveResult;
 			try {
 				if (node.moduleSpecifier) {
@@ -108,7 +108,7 @@ export class FileCollector {
 
 		if (this.ts.isExportAssignment(node)) {
 			// export default VALUE
-			// logger.debug(' * found ExportAssignment');
+			logger.debug(' * found ExportAssignment');
 			const id: TypeScriptApi.Identifier | undefined = this.ts.isIdentifier(node.expression)
 				? node.expression
 				: undefined;
@@ -124,7 +124,7 @@ export class FileCollector {
 		}
 
 		if (this.ts.isModuleDeclaration(node)) {
-			// logger.debug(' * found ModuleDeclaration');
+			logger.debug(' * found ModuleDeclaration');
 			// export namespace|module
 			if (this.ts.isStringLiteral(node.name)) {
 				this.logger.error(

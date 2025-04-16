@@ -4,8 +4,8 @@ import { decompress } from 'targz';
 import { debug, log } from '../inc/log';
 
 export async function decompressTargz(src: string, dest: string) {
-	log(`Decompress files:`);
-	debug(`    file: ${src}\n    dir: ${dest}`);
+	log(`解压文件:`);
+	debug(`    文件: ${src}\n    目录: ${dest}`);
 	await new Promise<void>((resolve, reject) => {
 		decompress(
 			{
@@ -36,5 +36,5 @@ export async function decompressTargz(src: string, dest: string) {
 			},
 		);
 	});
-	log('ok.');
+	log('解压完成。');
 }

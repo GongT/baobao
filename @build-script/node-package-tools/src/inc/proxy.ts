@@ -60,7 +60,7 @@ async function setNoProxy() {
 
 	const envVar = getEnvironment('NO_PROXY');
 	if (envVar.value) {
-		debug(`using env.NO_PROXY = ${envVar}`);
+		debug(`using env.NO_PROXY = ${envVar.value}`);
 		opts.NO_PROXY = envVar.value;
 		return;
 	}

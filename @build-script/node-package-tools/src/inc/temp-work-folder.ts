@@ -26,6 +26,6 @@ export async function prepareWorkingFolder(workingRoot: string, name: string, ve
 	const tempDir = resolve(workingRoot, 'node_modules', name);
 	await emptyDir(tempDir);
 
-	log('Working at temp dir %s', tempDir);
+	log('临时工作目录: %s', tempDir);
 	return tempDir;
 }
