@@ -1,8 +1,8 @@
 import { emptyDir, exists } from '@idlebox/node';
 import { mkdir, writeFile } from 'fs/promises';
 import { resolve } from 'path';
-import { readJsonSync } from './fs';
-import { log } from './log';
+import { readJsonSync } from './fs.js';
+import { logger } from './log.js';
 
 export async function prepareWorkingFolder(workingRoot: string, name: string, version: string) {
 	await mkdir(workingRoot, { recursive: true });
@@ -26,6 +26,6 @@ export async function prepareWorkingFolder(workingRoot: string, name: string, ve
 	const tempDir = resolve(workingRoot, 'node_modules', name);
 	await emptyDir(tempDir);
 
-	log('临时工作目录: %s', tempDir);
+	logger.log('临时工作目录: %s', tempDir);
 	return tempDir;
 }

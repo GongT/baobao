@@ -1,4 +1,4 @@
-import { hexNumber } from './types';
+import { hexNumber } from './types.js';
 
 export interface IMemCachePart {
 	readonly buffer?: Uint8Array;

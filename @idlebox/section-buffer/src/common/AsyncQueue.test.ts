@@ -1,7 +1,7 @@
 /// <reference types="@types/heft-jest" />
 
 import { sleep } from '@idlebox/common';
-import { LossyAsyncQueue } from './AsyncQueue';
+import { LossyAsyncQueue } from './AsyncQueue.js';
 
 function Work(success: boolean) {
 	return jest.fn(() => {

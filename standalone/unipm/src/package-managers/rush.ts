@@ -4,8 +4,8 @@ import { readFile as readFileAsync } from 'fs';
 import json5 from 'json5';
 import { dirname, relative, resolve } from 'path';
 import { promisify } from 'util';
-import { deletePackageDependency, resortPackage } from '../common/packageJson';
-import { PackageManager, PackageManagerType } from '../common/packageManager';
+import { deletePackageDependency, resortPackage } from '../common/packageJson.js';
+import { PackageManager, PackageManagerType } from '../common/packageManager.js';
 
 const readFile = promisify(readFileAsync);
 const subCommands = ['run', 'init', 'show', 'view'];

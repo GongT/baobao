@@ -1,4 +1,4 @@
-import { PackageManager, PackageManagerType } from '../common/packageManager';
+import { PackageManager, PackageManagerType } from '../common/packageManager.js';
 
 /** @internal */
 export class Yarn extends PackageManager {

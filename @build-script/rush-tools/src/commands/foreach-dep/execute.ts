@@ -1,6 +1,6 @@
-import { createDeps, RushProject } from '../../api';
+import { createDeps, RushProject } from '../../api.js';
 import type { ArgOf } from '../../common/args.js';
-import { runCustomCommand } from '../../common/foreachAction';
+import { runCustomCommand } from '../../common/foreachAction.js';
 
 export async function runForeachDep(options: ArgOf<typeof import('./arguments')>) {
 	const rush = new RushProject();

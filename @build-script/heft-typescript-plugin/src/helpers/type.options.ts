@@ -1,6 +1,6 @@
 import type TypeScriptApi from 'typescript';
 import { findTslib } from './tslib.js';
-import { IHeftJsonOptions } from './type';
+import { IHeftJsonOptions } from './type.js';
 
 export function normalizeOptions(
 	ts: typeof TypeScriptApi,

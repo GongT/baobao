@@ -1,5 +1,5 @@
 import { DepGraph } from 'dependency-graph';
-import { createDeps, IGraphAttachedData, RushProject } from '../../api';
+import { createDeps, IGraphAttachedData, RushProject } from '../../api.js';
 import type { ArgOf } from '../../common/args.js';
 
 export async function runDeps({}: ArgOf<typeof import('./arguments')>) {

@@ -1,5 +1,5 @@
 import crc16 from 'crc/crc16';
-import { hash_salt } from '../library/constants';
+import { hash_salt } from '../library/constants.js';
 
 export function normalizePackageName(name: string) {
 	return name

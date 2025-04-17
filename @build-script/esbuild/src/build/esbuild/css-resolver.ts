@@ -1,8 +1,8 @@
 import { dirname, resolve } from 'path';
 import { resolvePath } from '@idlebox/node';
 import { Plugin } from 'esbuild';
-import { isVerbose } from '../library/constants';
-import { rush } from '../library/rush';
+import { isVerbose } from '../library/constants.js';
+import { rush } from '../library/rush.js';
 
 const mapper: [string, string][] = [];
 for (const project of rush.projects) {

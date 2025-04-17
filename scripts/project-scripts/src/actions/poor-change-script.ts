@@ -4,9 +4,9 @@ import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { emptyDir, exists } from '@idlebox/node';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import { execPromise } from '../include/execPromise';
-import { increaseVersion } from '../include/increaseVersion';
-import { normalizePackageName } from '../include/paths';
+import { execPromise } from '../include/execPromise.js';
+import { increaseVersion } from '../include/increaseVersion.js';
+import { normalizePackageName } from '../include/paths.js';
 import '../include/prefix';
 
 async function getNpmRc(rushProject: RushProject) {

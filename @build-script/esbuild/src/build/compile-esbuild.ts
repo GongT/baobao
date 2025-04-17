@@ -5,10 +5,10 @@ import { BuildOptions, BuildResult, context } from 'esbuild';
 import { mkdir } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import type { RawSourceMap } from 'source-map-js';
-import { createEntrypoints } from './esbuild/chunker';
-import { resolveStylesPlugin } from './esbuild/css-resolver';
-import { hackedScssBuildPlugin } from './esbuild/scss-hack';
-import { entrySourceRoot, isProd, isVerbose, outputDir, projectRoot } from './library/constants';
+import { createEntrypoints } from './esbuild/chunker.js';
+import { resolveStylesPlugin } from './esbuild/css-resolver.js';
+import { hackedScssBuildPlugin } from './esbuild/scss-hack.js';
+import { entrySourceRoot, isProd, isVerbose, outputDir, projectRoot } from './library/constants.js';
 
 const events = new Emitter<string | Error>();
 

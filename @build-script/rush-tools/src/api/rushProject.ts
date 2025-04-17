@@ -6,8 +6,8 @@ import { DeepReadonly, IPackageJson, isWindows } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { exists, relativePath, writeFileIfChange } from '@idlebox/node';
 import { loadJsonFile, readCommentJsonFileSync, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { requireRushPathSync } from '../common/loadRushJson';
-import { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson';
+import { requireRushPathSync } from '../common/loadRushJson.js';
+import { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson.js';
 
 interface IProjectDependencyOptions {
 	removeCyclic?: boolean;

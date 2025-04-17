@@ -1,21 +1,34 @@
 import { DepGraph, DepGraphCycleError } from 'dependency-graph';
-import { debug } from './log.js';
+import { logger } from './log.js';
+import type { IPackageInfo } from './mono-tools.js';
 
 interface IGraphData {
 	readonly name: string;
 	readonly dependencies: readonly string[];
 	completed: boolean;
+	readonly reference: Readonly<IPackageInfo>;
+}
+
+export async function prepareMonorepoDeps(list: readonly IPackageInfo[]) {
+	const deps = new DependEmitter();
+
+	for (const item of list) {
+		deps.addNode(item.name, item.dependencies, item);
+	}
+
+	deps.detectLoop();
+	return deps;
 }
 
 export class DependEmitter {
 	private readonly deps = new DepGraph<IGraphData>();
 
-	public addNode(name: string, dependencies: readonly string[]) {
-		this.deps.addNode(name, { name, dependencies, completed: false });
+	public addNode(name: string, dependencies: readonly string[], itemRef: IPackageInfo) {
+		this.deps.addNode(name, { name, dependencies, completed: false, reference: itemRef });
 	}
 
 	public setComplated(name: string) {
-		debug('✅ %s complete', name);
+		logger.debug('✅ %s complete', name);
 		this.deps.getNodeData(name).completed = true;
 	}
 
@@ -57,8 +70,12 @@ export class DependEmitter {
 		const ret = incompleteList.filter((name) => {
 			return !this.hasIncompleteDependency(name);
 		});
-		debug('[deps] !complete=%s / all=%s / leaf=%s', incompleteList.length, this.deps.size(), ret.length);
+		logger.debug('[deps] !complete=%s / all=%s / leaf=%s', incompleteList.length, this.deps.size(), ret.length);
 		return ret;
+	}
+
+	getIncompleteWithOrder() {
+		return this.filterIncomplete(this.deps.overallOrder()).map((e) => this.deps.getNodeData(e));
 	}
 
 	private isNodeComplete(name: string) {

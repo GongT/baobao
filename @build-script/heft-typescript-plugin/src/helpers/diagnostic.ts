@@ -1,7 +1,7 @@
 import type { IScopedLogger } from '@rushstack/heft';
 import { FileError } from '@rushstack/node-core-library';
 import type TypeScriptApi from 'typescript';
-import { IHeftJsonOptions } from './type';
+import { IHeftJsonOptions } from './type.js';
 
 export class CustomDiagnosticPrinter {
 	private readonly diagnostics: TypeScriptApi.Diagnostic[] = [];

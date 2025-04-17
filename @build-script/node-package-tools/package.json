@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/node-package-tools",
 	"type": "module",
-	"version": "1.0.36",
+	"version": "1.0.38",
 	"license": "MIT",
 	"bin": {
 		"node-package-tools": "./load.mjs",

@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 import { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
 import { parse } from 'comment-json';
 import { BuildOptions } from 'esbuild';
-import { IOutputModifier } from './type';
+import { IOutputModifier } from './type.js';
 
 interface IUserInput {
 	readonly options: BuildOptions | BuildOptions[];

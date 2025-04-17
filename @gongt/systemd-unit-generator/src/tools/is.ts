@@ -8,7 +8,7 @@ import {
 	ISystemdSwapUnit,
 	ISystemdTimerUnit,
 	ISystemdUnit,
-} from '../types/index';
+} from '../types/index.js';
 
 export function isInstallableUnit(u: ISystemdUnit): u is ISystemdUnit & Required<Pick<ISystemdUnit, 'Install'>> {
 	return !!u.Install;

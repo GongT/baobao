@@ -1,9 +1,9 @@
 import { setErrorLogRoot } from '@idlebox/common';
 import { runMain } from '@idlebox/node';
 import { fileURLToPath } from 'url';
-import { startServe } from './actions/serve';
-import { execute } from './build/index';
-import { emitComplete } from './library/wait';
+import { startServe } from './actions/serve.js';
+import { execute } from './build/index.js';
+import { emitComplete } from './library/wait.js';
 
 const argv = process.argv.slice(2);
 

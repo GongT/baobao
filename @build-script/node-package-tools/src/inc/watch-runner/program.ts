@@ -1,7 +1,7 @@
 import { DeferredPromise, Emitter, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { relativePath } from '@idlebox/node';
 import { execa, Options, ResultPromise } from 'execa';
-import { debug } from '../log.js';
+import { logger } from '../log.js';
 import { ClearScreenHandler } from './buffer.js';
 
 interface IWatchProgramOptions {
@@ -38,7 +38,7 @@ const basicOptions = {
 const runningProcess = new Set<WatchProgramRunner>();
 registerGlobalLifecycle(
 	toDisposable(() => {
-		debug('等待%s个进程结束', runningProcess.size);
+		logger.debug('等待%s个进程结束', runningProcess.size);
 		return Promise.allSettled(
 			runningProcess.values().map((e) => {
 				return e.dispose();
@@ -75,7 +75,7 @@ export class WatchProgramRunner {
 
 	start() {
 		if (!!this.process) throw new Error('Process already started');
-		debug('$ %s (wd: %s)', this.options.commands.join(' '), relativePath(process.cwd(), this.options.cwd));
+		logger.debug('$ %s (wd: %s)', this.options.commands.join(' '), relativePath(process.cwd(), this.options.cwd));
 
 		const p = execa(this.options.commands[0], this.options.commands.slice(1), {
 			...basicOptions,
@@ -90,7 +90,7 @@ export class WatchProgramRunner {
 			console.error('[%s] 进程无法启动:', this.options.title, e.message);
 		});
 		p.on('exit', (code, signal) => {
-			debug('[%s] 进程退出: code=%s, signal=%s', this.options.title, code, signal);
+			logger.debug('[%s] 进程退出: code=%s, signal=%s', this.options.title, code, signal);
 			runningProcess.delete(this);
 
 			const isSuccess = code === 0 && !signal;
@@ -102,7 +102,7 @@ export class WatchProgramRunner {
 			} catch {}
 		});
 		p.on('spawn', () => {
-			debug('[%s] 进程开始运行: %s', this.options.title, p.pid);
+			logger.debug('[%s] 进程开始运行: %s', this.options.title, p.pid);
 		});
 
 		this.process = p;

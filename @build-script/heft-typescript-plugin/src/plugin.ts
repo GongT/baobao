@@ -3,8 +3,8 @@ import type { IHeftTaskRunIncrementalHookOptions } from '@rushstack/heft';
 import type TypeScriptApi from 'typescript';
 import { HostCreator } from './helpers/compiler.js';
 import { CustomDiagnosticPrinter } from './helpers/diagnostic.js';
-import { TsPluginSystem } from './helpers/transform-load';
-import { IHeftJsonOptions } from './helpers/type';
+import { TsPluginSystem } from './helpers/transform-load.js';
+import { IHeftJsonOptions } from './helpers/type.js';
 import { normalizeOptions } from './helpers/type.options.js';
 import { createFileWriter } from './helpers/writeFile.js';
 

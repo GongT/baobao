@@ -2,7 +2,7 @@ import { prettyPrintError } from '@idlebox/common';
 import { bootstrap } from 'global-agent';
 import { resolve } from 'path';
 import cmdList from './commands/index.generated.js';
-import { argv, isHelp, pCmd, printCommonOptions } from './inc/getArg.js';
+import { argv, DieError, isHelp, pCmd, printCommonOptions } from './inc/getArg.js';
 import { registerSignal } from './inc/global-lifecycle.js';
 import { configureProxy } from './inc/proxy.js';
 
@@ -15,7 +15,11 @@ try {
 	}
 	process.exit();
 } catch (e: any) {
-	prettyPrintError('main', e);
+	if (e instanceof DieError) {
+		console.error('错误: %s', e.message);
+	} else {
+		prettyPrintError('main', e);
+	}
 	process.exit(1);
 }
 

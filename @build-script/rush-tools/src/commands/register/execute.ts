@@ -1,4 +1,4 @@
-import { registerProjectToRush } from '../../api/register';
+import { registerProjectToRush } from '../../api/register.js';
 import type { ArgOf } from '../../common/args.js';
 
 /** @internal */

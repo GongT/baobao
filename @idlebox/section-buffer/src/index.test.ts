@@ -3,8 +3,8 @@
 import { readFileSync, rmSync } from 'fs';
 import { resolve } from 'path';
 import { sleep } from '@idlebox/common';
-import { mb, md5, randomTestFile, tmpdir } from './helper.test.d/testlib';
-import { SectionBuffer } from './index';
+import { mb, md5, randomTestFile, tmpdir } from './helper.test.d/testlib.js';
+import { SectionBuffer } from './index.js';
 
 const testFile = resolve(tmpdir, 'index-cache.bin');
 const targetFile = resolve(tmpdir, 'index-output.bin');

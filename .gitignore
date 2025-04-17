@@ -17,6 +17,7 @@ common/deploy
 temp/
 *.bak
 /.vscode/local-history
+.node-package-tools
 
 ### Build Result
 dist/

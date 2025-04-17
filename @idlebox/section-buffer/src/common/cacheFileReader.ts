@@ -1,7 +1,7 @@
 import { Stats } from 'fs';
 import fs from 'fs/promises';
 import { AsyncDisposable, toDisposable } from '@idlebox/common';
-import { hexNumber } from './types';
+import { hexNumber } from './types.js';
 
 export async function openCacheFileForRead(file: string): Promise<ICacheFileReader | undefined> {
 	let fd: null | fs.FileHandle = null,

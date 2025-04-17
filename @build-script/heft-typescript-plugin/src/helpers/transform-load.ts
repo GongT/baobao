@@ -1,7 +1,7 @@
 import type { HeftConfiguration, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
 import { isAbsolute, resolve } from 'path';
 import type TypeScriptApi from 'typescript';
-import { ITypescriptPluginDefine, isModuleResolutionError, type IHeftJsonOptions } from './type';
+import { ITypescriptPluginDefine, isModuleResolutionError, type IHeftJsonOptions } from './type.js';
 
 export interface IMyTransformTool extends IStaticTool {
 	readonly program: TypeScriptApi.Program;

@@ -1,11 +1,11 @@
 import { exists, streamToBuffer } from '@idlebox/node';
 import { mkdir, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
-import { readJsonSync } from '../inc/fs';
-import { downloadFile, HttpError, INormalizedResponse } from '../inc/http';
-import { errorLog, log } from '../inc/log';
-import { cachedir } from './location';
-import { getNewNpmCache } from './native.npm';
+import { readJsonSync } from '../inc/fs.js';
+import { downloadFile, HttpError, INormalizedResponse } from '../inc/http.js';
+import { logger } from '../inc/log.js';
+import { cachedir } from './location.js';
+import { getNewNpmCache } from './native.npm.js';
 
 type IResult = {
 	version: string;
@@ -14,20 +14,27 @@ type IResult = {
 
 const memCache = new Map<string, IResult>();
 
-export async function getVersionCached(name: string, distTag: string, registry: string): Promise<string | null> {
-	const r = await getWithCache(name, distTag, registry);
-	return r?.version ?? null;
+export async function getWithoutCache(name: string, distTag: string, registry: string): Promise<string | undefined> {
+	const cid = name + '@' + distTag;
+	memCache.delete(cid);
+	const r = await getNewNpmCache(name, distTag, registry);
+	return r?.version;
 }
 
-export async function getTarballCached(name: string, distTag: string, registry: string): Promise<string | null> {
+export async function getVersionCached(name: string, distTag: string, registry: string): Promise<string | undefined> {
 	const r = await getWithCache(name, distTag, registry);
-	return r?.tarball ?? null;
+	return r?.version;
 }
 
-async function getWithCache(name: string, distTag: string, registry: string): Promise<IResult | null> {
+export async function getTarballCached(name: string, distTag: string, registry: string): Promise<string | undefined> {
+	const r = await getWithCache(name, distTag, registry);
+	return r?.tarball;
+}
+
+async function getWithCache(name: string, distTag: string, registry: string): Promise<IResult | undefined> {
 	const cid = name + '@' + distTag;
 	if (memCache.has(cid)) {
-		return memCache.get(cid)!;
+		return memCache.get(cid);
 	}
 
 	const data = await getNewNpmCache(name, distTag, registry);
@@ -44,16 +51,16 @@ async function getWithCache(name: string, distTag: string, registry: string): Pr
 	if (ret) {
 		memCache.set(cid, ret);
 	}
-	return ret;
+	return ret || undefined;
 }
 async function _getCustomCache(name: string, distTag: string, registry: string): Promise<null | IResult> {
-	log('从头npm获取包信息: %s', `${registry}/${name}`);
+	logger.log('从头npm获取包信息: %s', `${registry}/${name}`);
 
 	const cache = resolve(cachedir(), name.replace(/[@\/]/g, '_') + '.package.cache.json');
 	let etag: string = '',
 		json: any;
 	if (await exists(cache)) {
-		log('    缓存文件存在:\n      %s', cache);
+		logger.log('    缓存文件存在:\n      %s', cache);
 		const data = readJsonSync(cache);
 		etag = data.etag;
 		json = data.json;
@@ -63,7 +70,7 @@ async function _getCustomCache(name: string, distTag: string, registry: string):
 	};
 	if (etag) {
 		headers['If-None-Match'] = etag;
-		log('    etag = %s', etag);
+		logger.log('    etag = %s', etag);
 	}
 
 	let response: INormalizedResponse;
@@ -71,40 +78,40 @@ async function _getCustomCache(name: string, distTag: string, registry: string):
 		response = await downloadFile(`${registry}/${name}`, headers);
 	} catch (e: any) {
 		if (HttpError.is(e)) {
-			log('    响应HTTP %s(错误)', e.code);
+			logger.log('    响应HTTP %s(错误)', e.code);
 			if (e.code === 404) {
 				return null;
 			} else if (e.code === 304) {
 				return resultOf(json, distTag);
 			} else {
-				errorLog(`请求npm注册表失败: ${registry}/${name}: ${e.message}`);
+				logger.error(`请求npm注册表失败: ${registry}/${name}: ${e.message}`);
 				throw e;
 			}
 		} else {
-			errorLog(`请求npm注册表失败: ${registry}/${name}: ${e.message}`);
+			logger.error(`请求npm注册表失败: ${registry}/${name}: ${e.message}`);
 			throw e;
 		}
 	}
 
-	log('    响应 HTTP %s', response.statusCode);
+	logger.log('    响应 HTTP %s', response.statusCode);
 
 	try {
 		json = JSON.parse(await streamToBuffer(response.stream, false));
 	} catch (e: any) {
-		errorLog(`解析npm注册表响应失败: ${registry}/${name}: ${e.message}`);
+		logger.error(`解析npm注册表响应失败: ${registry}/${name}: ${e.message}`);
 	}
-	log('        dist-tags: %s', json['dist-tags']);
-	log('        etag: %s', response.headers['etag']);
+	logger.log('        dist-tags: %s', json['dist-tags']);
+	logger.log('        etag: %s', response.headers['etag']);
 
 	if (response.headers['etag']) {
 		etag = response.headers['etag'];
 
-		log('写入缓存文件 -> ', cache);
+		logger.log('写入缓存文件 -> ', cache);
 
 		await mkdir(dirname(cache), { recursive: true });
 		await writeFile(cache, JSON.stringify({ etag, json }), 'utf-8');
 	} else {
-		errorLog(`npm注册表响应中缺少etag头: ${registry}/${name}`);
+		logger.error(`npm注册表响应中缺少etag头: ${registry}/${name}`);
 	}
 
 	return resultOf(json, distTag);

@@ -1,6 +1,6 @@
 import { findUpUntil } from '@idlebox/node';
-import { getPackageManager } from './common/getPackageManager';
-import { formatPackageJson } from './local/formatPackageJson';
+import { getPackageManager } from './common/getPackageManager.js';
+import { formatPackageJson } from './local/formatPackageJson.js';
 
 function getArgs() {
 	const args = process.argv.slice(2);

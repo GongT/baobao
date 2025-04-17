@@ -1,3 +1,3 @@
 export function printLine(char = '-') {
-	console.error(char.repeat(process.stderr.columns || 80));
+	process.stderr.write(char.repeat(process.stderr.columns || 10) + '\r\n');
 }

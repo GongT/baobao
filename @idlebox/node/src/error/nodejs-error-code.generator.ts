@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
-import type API_JSON from './cache.generated.json.js';
+import type API_JSON from './cache.generated.json';
 
 const temp = resolve(__dirname, 'cache.generated.json');
 const API_SOURCE = 'https://nodejs.org/api/errors.json';

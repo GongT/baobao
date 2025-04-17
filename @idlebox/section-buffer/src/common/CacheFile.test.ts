@@ -5,8 +5,8 @@ import { appendFile } from 'fs/promises';
 import { resolve } from 'path';
 import { Writable } from 'stream';
 import { pipeline } from 'stream/promises';
-import { md5buff } from '../helper.test.d/testlib';
-import { CacheFile, FileDataError, FileStructureError } from './CacheFile';
+import { md5buff } from '../helper.test.d/testlib.js';
+import { CacheFile, FileDataError, FileStructureError } from './CacheFile.js';
 
 const tmpdir = resolve(process.cwd(), 'temp/my-test');
 mkdirSync(tmpdir, { recursive: true });

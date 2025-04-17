@@ -1,11 +1,11 @@
 import { AsyncDisposable } from '@idlebox/common';
 import fs, { stat } from 'fs/promises';
-import { AsyncLock } from './AsyncLock';
-import { IMemCachePart } from './MemoryCacheController';
-import { openCacheFileForRead } from './cacheFileReader';
-import { ICacheFileStreamer, openCacheFileForStream } from './cacheFileStreamer';
-import { ICacheFileWriter, openCacheFileForWrite } from './cacheFileWriter';
-import { erasedMark, hexNumber } from './types';
+import { AsyncLock } from './AsyncLock.js';
+import { IMemCachePart } from './MemoryCacheController.js';
+import { openCacheFileForRead } from './cacheFileReader.js';
+import { ICacheFileStreamer, openCacheFileForStream } from './cacheFileStreamer.js';
+import { ICacheFileWriter, openCacheFileForWrite } from './cacheFileWriter.js';
+import { erasedMark, hexNumber } from './types.js';
 
 /**
  * [bytes] magic1

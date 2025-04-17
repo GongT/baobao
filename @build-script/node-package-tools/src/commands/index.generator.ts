@@ -15,5 +15,5 @@ export async function generate(b) {
 		const cmdName = parts[0];
 		map[cmdName] = file;
 	}
-	return 'export default ' + JSON.stringify(map, null, '\t') + ' as const;';
+	return 'export default ' + JSON.stringify(map, null, '\t') + ' as const;\n';
 }

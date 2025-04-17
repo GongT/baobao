@@ -1,5 +1,5 @@
-import { everything, SupportInfo } from './base';
-import { readFirstCompleteChar } from './firstCompleteChar';
+import { everything, SupportInfo } from './base.js';
+import { readFirstCompleteChar } from './firstCompleteChar.js';
 
 export interface LimitResult {
 	toString(): string;

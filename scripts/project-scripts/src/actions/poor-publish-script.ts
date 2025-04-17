@@ -5,10 +5,10 @@ import { emptyDir } from '@idlebox/node';
 import { readFileSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
-import { execPromise } from '../include/execPromise';
-import { normalizePackageName } from '../include/paths';
+import { execPromise } from '../include/execPromise.js';
+import { normalizePackageName } from '../include/paths.js';
 import '../include/prefix';
-import { ProjectStateCache } from '../include/projectState';
+import { ProjectStateCache } from '../include/projectState.js';
 
 const yarnSuccessLine = /^success Published\.$/m;
 

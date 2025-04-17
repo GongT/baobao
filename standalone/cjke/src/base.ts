@@ -1,5 +1,5 @@
-import { emojiRegexConstructor } from './rollup';
-import { ansiRegexConstructorLibrary } from './shim.lib';
+import { emojiRegexConstructor } from './rollup.js';
+import { ansiRegexConstructorLibrary } from './shim.lib.js';
 
 function modifyRegexp(reg: RegExp): RegExp {
 	const str = reg.toString().slice(1);

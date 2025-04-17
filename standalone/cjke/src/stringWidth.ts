@@ -1,5 +1,5 @@
-import { readFirstCompleteChar } from './firstCompleteChar';
-import { everything, SupportInfo } from './base';
+import { readFirstCompleteChar } from './firstCompleteChar.js';
+import { everything, SupportInfo } from './base.js';
 
 export function stringWidth(str: string, supports: SupportInfo = everything) {
 	let width = 0;

@@ -1,8 +1,8 @@
 import type TypeScriptApi from 'typescript';
 import { inspect, InspectOptions } from 'util';
-import { createColor, createInspectTab, ILogger } from './logger';
-import { IResolveResult } from './MapResolver';
-import { ApiHost } from './tsapi.helpers';
+import { createColor, createInspectTab, ILogger } from './logger.js';
+import { IResolveResult } from './MapResolver.js';
+import { ApiHost } from './tsapi.helpers.js';
 
 import type { inspect as utilsInspect } from 'util';
 

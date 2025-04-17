@@ -1,7 +1,7 @@
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { resolve } from 'path';
-import { findRushRootPath } from '../../api/load';
-import { RushProject } from '../../api/rushProject';
+import { findRushRootPath } from '../../api/load.js';
+import { RushProject } from '../../api/rushProject.js';
 
 export async function runCreateYarn(_argv: any) {
 	const root = await findRushRootPath(process.cwd());

@@ -2,8 +2,8 @@ import { exists } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
 import { mkdir, readdir } from 'fs/promises';
 import { basename, resolve } from 'path';
-import { RushProject } from '../../api/rushProject';
-import { createExecuteWrapper } from '../../common/link';
+import { RushProject } from '../../api/rushProject.js';
+import { createExecuteWrapper } from '../../common/link.js';
 import { updateAllInstallers } from '../ai/execute.js';
 
 export async function runLinkLocal(_arg: any) {

@@ -1,7 +1,7 @@
 import { RushProject } from '@build-script/rush-tools';
 import { fromTimeStamp, getTimeStamp } from '@idlebox/common';
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { normalizePackageName } from './paths';
+import { normalizePackageName } from './paths.js';
 
 export class ProjectStateCache {
 	constructor(private readonly rushProject: RushProject) {}

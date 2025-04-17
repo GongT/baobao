@@ -44,8 +44,8 @@ export function checkChildProcessResult(result: IChildProcessStatus): void {
 	if (result.killed && !signal) {
 		throw new Error(title + 'killed by unknown reason');
 	}
-	if (result.failed) {
-		throw new Error(title + 'failed to execute');
+	if (result.timedOut) {
+		throw new Error(title + 'execution timed out');
 	}
 
 	if (signal) {
@@ -55,8 +55,12 @@ export function checkChildProcessResult(result: IChildProcessStatus): void {
 		throw new Error(title + 'killed by signal ' + signal);
 	}
 
-	if (code! > 0) {
+	if (code !== undefined && code > 0) {
 		throw new Error(title + 'exit with code ' + code);
+	}
+
+	if (result.failed) {
+		throw new Error(title + 'process failed to spawn');
 	}
 
 	throw new Error(title + 'status unknown');

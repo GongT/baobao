@@ -1,8 +1,8 @@
 /// <reference types="@types/heft-jest" />
 
 import { resolve } from 'path';
-import { kb, mb, randomTestFile, tmpdir } from '../helper.test.d/testlib';
-import { IMemCachePart, MemoryCacheController } from './MemoryCacheController';
+import { kb, mb, randomTestFile, tmpdir } from '../helper.test.d/testlib.js';
+import { IMemCachePart, MemoryCacheController } from './MemoryCacheController.js';
 
 const exampleFile = resolve(tmpdir, 'index-example.bin');
 const test100 = randomTestFile(exampleFile, 100 * mb);

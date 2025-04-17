@@ -1,5 +1,5 @@
 import { execa } from 'execa';
-import { findRushRootPath } from '../api/load';
+import { findRushRootPath } from '../api/load.js';
 
 export async function spawnRushPassthrough(action: string, argv: string[], env: Record<string, string> = {}) {
 	const rushRoot = await findRushRootPath();

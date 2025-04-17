@@ -4,7 +4,7 @@ import { execa } from 'execa';
 import { createWriteStream, mkdirSync } from 'fs';
 import { resolve } from 'path';
 import { PassThrough } from 'stream';
-import { ICProjectConfig, RushProject } from '../api';
+import { ICProjectConfig, RushProject } from '../api.js';
 
 interface IRunArgs {
 	quiet: boolean;

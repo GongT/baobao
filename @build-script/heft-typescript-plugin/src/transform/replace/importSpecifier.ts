@@ -1,6 +1,6 @@
 import type { IScopedLogger } from '@rushstack/heft';
-import { NodeReplacer } from '../library/NodeReplacer';
-import { isImportExportFrom, linkParentNode, ValidImportOrExportFromDeclaration } from '../library/util';
+import { NodeReplacer } from '../library/NodeReplacer.js';
+import { isImportExportFrom, linkParentNode, ValidImportOrExportFromDeclaration } from '../library/util.js';
 
 import type TypeScriptApi from 'typescript';
 type IReplacer = (

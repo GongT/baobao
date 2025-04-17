@@ -1,6 +1,6 @@
 import { platform, tmpdir } from 'os';
 import { resolve } from 'path';
-import { findNpmCachePath } from './native.npm';
+import { findNpmCachePath } from './native.npm.js';
 
 const privateCacheFolderName = 'poorcache';
 

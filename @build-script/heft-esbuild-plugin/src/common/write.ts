@@ -2,9 +2,9 @@ import { IHeftTaskSession } from '@rushstack/heft';
 import { Metafile } from 'esbuild';
 import { mkdir, rm, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
-import { FilterdBuildOptions } from './config';
-import { IOutputModifier } from './type';
-import { OutputFile } from './write.helper';
+import { FilterdBuildOptions } from './config.js';
+import { IOutputModifier } from './type.js';
+import { OutputFile } from './write.helper.js';
 
 export interface IProjectEmitterProps {
 	readonly metafile: Metafile;

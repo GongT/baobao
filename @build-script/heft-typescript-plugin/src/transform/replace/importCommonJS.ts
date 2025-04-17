@@ -1,8 +1,8 @@
 import type TypeScriptApi from 'typescript';
 
-import { ModuleResolver, WantModuleKind } from '../library/ModuleResolver';
-import { NodeReplacer } from '../library/NodeReplacer';
-import { createObjectAccess, isImportExportFrom, ValidImportOrExportFromDeclaration } from '../library/util';
+import { ModuleResolver, WantModuleKind } from '../library/ModuleResolver.js';
+import { NodeReplacer } from '../library/NodeReplacer.js';
+import { createObjectAccess, isImportExportFrom, ValidImportOrExportFromDeclaration } from '../library/util.js';
 
 /**
  * 输入类似：

@@ -12,7 +12,6 @@
 	},
 	"scripts": {
 		"prepack": "heft build --clean",
-		"postpack": "node loader/release.mjs --undo",
 		"test": "heft test --clean",
 		"build": "heft compile",
 		"_phase:build": "heft compile",

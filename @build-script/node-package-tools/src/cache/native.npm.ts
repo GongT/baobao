@@ -2,10 +2,10 @@ import { sleep } from '@idlebox/common';
 import { execaSync } from 'execa';
 import { json as npmFetchJson } from 'npm-registry-fetch';
 import { resolve } from 'path';
-import { errorLog, log } from '../inc/log';
-import { getProxyValue } from '../inc/proxy';
-import { self_package_name, self_package_repository, self_package_version } from '../inc/version.generated';
-import { ifExists, spawnOpts } from './helper';
+import { logger } from '../inc/log.js';
+import { getProxyValue } from '../inc/proxy.js';
+import { self_package_name, self_package_repository, self_package_version } from '../inc/version.generated.js';
+import { ifExists, spawnOpts } from './helper.js';
 
 let cachePathFound = false;
 let npmCachePath = '';
@@ -42,8 +42,8 @@ function getByDistTag(json: any, distTag: string): IPackageJson | null {
 // type NpmLog = Exclude<FetchOptions['log'], undefined>;
 
 export async function getNewNpmCache(name: string, distTag: string, registry: string) {
-	log(`     * npm-registry-fetch: ${registry} :: ${name} @ ${distTag}`);
-	log(`       http proxy: %s`, getProxyValue() || 'not use');
+	logger.debug(`     * npm-registry-fetch: ${registry} :: ${name} @ ${distTag}`);
+	logger.debug(`       http proxy: %s`, getProxyValue() || 'not use');
 
 	let try_cnt = 0,
 		retry = 3,
@@ -72,7 +72,7 @@ export async function getNewNpmCache(name: string, distTag: string, registry: st
 				throw new Error('npm fetch throw unexpected thing');
 			}
 			if (e.statusCode === 404) {
-				log(`registry say 404, return mock version.`);
+				logger.log(`registry say 404, return mock version.`);
 				return { name, version: '0.0.0-alpha', dist: { tarball: '' } } as IPackageJson;
 			}
 			if (e.code === 'ECONNRESET') retry++;
@@ -81,7 +81,7 @@ export async function getNewNpmCache(name: string, distTag: string, registry: st
 
 			retry_timeout = (retry_timeout / 1000) * 1.2;
 			if (retry_timeout > 15000) retry_timeout = 15000;
-			errorLog(
+			logger.error(
 				`failed fetch npm registry: ${e.message}, retry in ${(retry_timeout / 1000).toFixed(1)} seconds...`,
 			);
 			await sleep(retry_timeout);
@@ -89,7 +89,7 @@ export async function getNewNpmCache(name: string, distTag: string, registry: st
 	}
 
 	if (!json) {
-		errorLog('[!!] NPM cache structure changed!');
+		logger.error('[!!] NPM cache structure changed!');
 		process.exit(1);
 	}
 

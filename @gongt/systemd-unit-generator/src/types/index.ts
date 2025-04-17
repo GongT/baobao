@@ -12,9 +12,9 @@ import {
 	IUnitInstallSection,
 	IUnitUnitSection,
 	__IExecAll,
-} from './all';
+} from './all.js';
 
-export type * from './all';
+export type * from './all.js';
 
 export interface ISystemdUnit {
 	Unit: IUnitUnitSection & UnknownFields;

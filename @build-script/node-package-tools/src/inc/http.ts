@@ -3,14 +3,14 @@ import { IncomingMessage, OutgoingHttpHeaders } from 'http';
 import { get } from 'https';
 import { Readable } from 'stream';
 import { createBrotliDecompress, createGunzip, createInflate } from 'zlib';
-import { debug, errorLog } from './log';
-import { getProxyValue } from './proxy';
+import { logger } from './log.js';
+import { getProxyValue } from './proxy.js';
 
 class RedirectError extends Error {
 	constructor(
 		url: string,
 		public readonly location: string,
-		public readonly code: number,
+		public readonly code: number
 	) {
 		super(`Request ${url} - Redirect to "${location}" with code ${code}`);
 	}
@@ -24,7 +24,7 @@ export class HttpError extends Error {
 	constructor(
 		public readonly url: string,
 		public readonly code: number,
-		msg: string,
+		msg: string
 	) {
 		super(`Request ${url} - Server responded with ${code}: ${msg}`);
 	}
@@ -50,13 +50,13 @@ export async function downloadFile(url: string, headers?: OutgoingHttpHeaders): 
 					throw new HttpError(url, 0, '重定向次数过多');
 				}
 
-				debug(`[http] 重定向到 ${e.location}`);
+				logger.debug(`[http] 重定向到 ${e.location}`);
 				url = e.location;
 				try_remain++;
 				continue;
 			}
 
-			errorLog('获取 %s 失败 [剩余尝试次数 %s]', url, try_remain);
+			logger.error('获取 %s 失败 [剩余尝试次数 %s]', url, try_remain);
 			if (try_remain === 0) throw e;
 
 			await sleep(2000);
@@ -68,10 +68,10 @@ export async function downloadFile(url: string, headers?: OutgoingHttpHeaders): 
 function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 	headers['Accept-Encoding'] = 'br,gzip,deflate';
 	return new Promise<any>((resolve, reject) => {
-		debug(`[http] 请求 ${url} (代理: ${getProxyValue()})`);
+		logger.debug(`[http] 请求 ${url} (代理: ${getProxyValue()})`);
 
 		const request = get(url, { headers }, (response) => {
-			debug(`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}]`);
+			logger.debug(`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}]`);
 			if (response.statusCode === 200) {
 				let stream: Readable;
 				switch (response.headers['content-encoding']) {

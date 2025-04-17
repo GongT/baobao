@@ -2,8 +2,8 @@ import { sortByString } from '@idlebox/common';
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { parse } from 'comment-json';
 import { resolve } from 'path';
-import { findRushRootPath } from '../../api/load';
-import { RushProject } from '../../api/rushProject';
+import { findRushRootPath } from '../../api/load.js';
+import { RushProject } from '../../api/rushProject.js';
 
 const template = {
 	label: '',

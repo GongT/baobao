@@ -3,8 +3,8 @@ import {
 	getPackageManagerByName,
 	KNOWN_PACKAGE_MANAGER_NAMES,
 	KNOWN_PACKAGE_MANAGERS,
-} from './getPackageManagerByName';
-import { PackageManager } from './packageManager';
+} from './getPackageManagerByName.js';
+import { PackageManager } from './packageManager.js';
 
 export interface IGetPackageManagerOptions {
 	cwd: string;

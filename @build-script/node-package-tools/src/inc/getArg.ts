@@ -1,5 +1,15 @@
 import { createArgsReader } from '@idlebox/args';
 
+export class DieError extends Error {
+	constructor(msg: string) {
+		super(msg);
+		this.stack = this.message;
+	}
+}
+function die(msg: string) {
+	throw new DieError(msg);
+}
+
 export const argv = createArgsReader(process.argv.slice(2));
 
 const common_args = {
@@ -11,11 +21,17 @@ const common_args = {
 	'--help': '显示帮助信息',
 };
 
-export const isQuiet = argv.flag('--quiet') > 0;
+export const isVerbose = argv.flag('--verbose') > 0;
+export const isQuiet = argv.flag(['--silent', '-s', '--quiet']) > 0;
 export const isJsonOutput = argv.flag('--json') > 0;
 export const isHelp = argv.flag(['--help', '-h']) > 0;
 export const distTagInput = argv.single('--dist-tag') || 'latest';
 export const registryInput = argv.single('--registry') || 'detect';
+export const isDebugMode = argv.flag('--debug') > 0;
+
+if (isVerbose && isQuiet) {
+	die('不能同时使用 --verbose 和 --quiet');
+}
 
 export function pArgS(s: string) {
 	return `\x1B[3;38;5;14m${s}\x1B[0m`;

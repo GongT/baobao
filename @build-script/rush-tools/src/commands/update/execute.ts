@@ -1,6 +1,6 @@
-import { RushProject } from '../../api/rushProject';
+import { RushProject } from '../../api/rushProject.js';
 import type { ArgOf } from '../../common/args.js';
-import { spawnRushPassthrough } from '../../common/spawnRush';
+import { spawnRushPassthrough } from '../../common/spawnRush.js';
 
 export async function runUpdate({ extra }: ArgOf<typeof import('./arguments')>) {
 	const rush = new RushProject();

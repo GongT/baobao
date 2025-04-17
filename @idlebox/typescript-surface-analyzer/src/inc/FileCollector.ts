@@ -1,10 +1,10 @@
 import { getSourceRoot } from '@idlebox/tsconfig-loader';
 import { relative } from 'path';
 import type TypeScriptApi from 'typescript';
-import { ILogger, showFile } from './logger';
-import { IResolveResult, MapResolver } from './MapResolver';
-import { ExportKind, ITypescriptFile, TokenCollector } from './TokenCollector';
-import { ApiHost } from './tsapi.helpers';
+import { ILogger, showFile } from './logger.js';
+import { IResolveResult, MapResolver } from './MapResolver.js';
+import { ExportKind, ITypescriptFile, TokenCollector } from './TokenCollector.js';
+import { ApiHost } from './tsapi.helpers.js';
 
 export class FileCollector {
 	private readonly sourceRoot: string;

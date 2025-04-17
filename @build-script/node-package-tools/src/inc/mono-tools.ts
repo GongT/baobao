@@ -1,110 +1,141 @@
-import { execLazyError, findUpUntil, osTempDir, relativePath } from '@idlebox/node';
+import type { IPackageJson } from '@idlebox/common';
+import { execLazyError, exists, findUpUntil, relativePath } from '@idlebox/node';
 import { readCommentJsonFile } from '@idlebox/node-json-edit';
-import { existsSync, readFileSync } from 'fs';
-import { basename, dirname, resolve } from 'path';
-import { debug } from './log.js';
+import { existsSync } from 'fs';
+import { dirname, resolve } from 'path';
+import { readPackageJson } from './fs.js';
+import { logger } from './log.js';
 
-export enum PackageManager {
+export enum PackageManagerKind {
 	PNPM = 'pnpm',
 	YARN = 'yarn',
 	NPM = 'npm',
 }
 
-export enum ToolKind {
-	None,
-	Rush,
-	NxJs,
-	Lerna,
+export enum ProjectManagerKind {
+	None = 'none',
+	Rush = 'rush',
+	NxJs = 'nx',
+	Lerna = 'lerna',
+}
+
+export enum WorkspaceKind {
+	SimplePackage = 0,
+	PnpmWorkspace,
+	// YarnWorkspace
+	// NpmWorkspace
+	RushStack,
 }
 
 interface IToolsDef {
-	name: ToolKind;
+	name: ProjectManagerKind;
 	find: string;
-	temp: string;
+	temp?: string;
 }
 
 const tools: IToolsDef[] = [
 	{
 		find: 'rush.json',
-		name: ToolKind.Rush,
+		name: ProjectManagerKind.Rush,
 		temp: 'common/temp/pack',
 	},
 	{
 		find: 'lerna.json',
-		name: ToolKind.Lerna,
-		temp: '.nx/node-package-tools',
+		name: ProjectManagerKind.Lerna,
 	},
 	{
 		find: 'nx.json',
-		name: ToolKind.NxJs,
-		temp: '.nx/node-package-tools',
+		name: ProjectManagerKind.NxJs,
 	},
 	{
 		find: '.git',
-		name: ToolKind.None,
-		temp: osTempDir('node-package-tools'),
+		name: ProjectManagerKind.None,
 	},
 ];
 
-interface IPaths {
-	tool: IToolsDef;
-	projectRoot: string;
-	packageRoot: string;
-	tempFolder: string;
-	packageManager: PackageManager;
-}
+class MonoRepo {
+	private root?: string;
+	private packageManagerKind?: PackageManagerKind;
+	private workspaceKind?: WorkspaceKind;
+	private projectManagerKind?: ProjectManagerKind;
+	private nearestPackage?: string;
+	private temp?: string;
 
-let findCache = new Map<string, IPaths>();
-async function getTool(dir: string) {
-	let data = findCache.get(dir);
-	if (data !== undefined) {
-		return data;
+	private analyzePromise?: Promise<void>;
+
+	constructor(private cwd = process.cwd()) {}
+
+	chdir(newCwd: string) {
+		this.cwd = newCwd;
+		if (this.root && !newCwd.startsWith(this.root)) {
+			delete this.analyzePromise;
+		}
 	}
 
-	const files = tools.map((tool) => tool.find);
-	debug("从'%s'查找文件: %s", dir, files);
-	const found = await findUpUntil({ from: dir, file: files });
-	if (!found) {
-		throw new Error('未找到工作空间根目录，应有.git相关文件: ' + dir);
+	private analyze() {
+		if (!this.analyzePromise) {
+			this.analyzePromise = this._analyze();
+		}
+		return this.analyzePromise;
 	}
 
-	debug('找到文件: %s', found);
+	private async _analyze() {
+		const dir = this.cwd;
 
-	const projectRoot = dirname(found);
-	const ffile = basename(found);
-	const tindex = tools.findIndex((def) => def.find === ffile);
+		const files = tools.map((tool) => tool.find);
+		logger.debug("从'%s'查找文件: %s", dir, files);
+		const found = await findUpUntil({ from: dir, file: files });
+		if (!found) {
+			throw new Error('未找到工作空间根目录，应有.git相关文件: ' + dir);
+		}
 
-	if (tindex < 0) {
-		throw new Error('不可能的错误');
+		logger.debug('找到文件: %s', found);
+		const projectRoot = dirname(found);
+		this.root = projectRoot;
+
+		const tool = tools.find((def) => found.endsWith(def.find));
+		this.projectManagerKind = tool?.name ?? ProjectManagerKind.None;
+
+		this.temp = resolve(projectRoot, tool?.temp ?? '.node-package-tools');
+		this.packageManagerKind = await detectPackageManager(this.projectManagerKind, projectRoot);
+
+		this.workspaceKind = await detectRepoType(this.projectManagerKind, projectRoot);
+
+		const pkgJsonFile = await findUpUntil({ from: dir, file: 'package.json' });
+		if (!pkgJsonFile) {
+			throw new Error('缺少package.json文件: ' + dir);
+		}
+		this.nearestPackage = dirname(pkgJsonFile);
 	}
 
-	const pkgJsonFile = await findUpUntil({ from: dir, file: 'package.json' });
-	if (!pkgJsonFile) {
-		throw new Error('缺少package.json文件: ' + dir);
+	async getWorkspaceKind() {
+		await this.analyze();
+		return this.workspaceKind;
 	}
 
-	data = {
-		tool: tools[tindex],
-		projectRoot: projectRoot,
-		packageRoot: dirname(pkgJsonFile),
-		tempFolder: resolve(projectRoot, tools[tindex].temp),
-		packageManager: await detectPackageManager(tools[tindex].name, projectRoot),
-	};
-
-	findCache.set(dir, data);
-
-	return data;
+	async getRoot() {
+		await this.analyze();
+		return this.root!;
+	}
+	async getPackageManager() {
+		await this.analyze();
+		return this.packageManagerKind!;
+	}
+	async getRepoManager() {
+		await this.analyze();
+		return this.projectManagerKind!;
+	}
+	async getNearestPackage() {
+		await this.analyze();
+		return this.nearestPackage!;
+	}
+	async getTempFolder() {
+		await this.analyze();
+		return this.temp!;
+	}
 }
 
-export async function getTempFolder(from: string = process.cwd()) {
-	const info = await getTool(from);
-	return info.tempFolder;
-}
-
-export async function getProjectRoot(from: string = process.cwd()) {
-	const info = await getTool(from);
-	return info.projectRoot;
-}
+export const monorepo = new MonoRepo();
 
 async function execJson(cmds: string[], cwd: string) {
 	const p = await execLazyError(cmds[0], cmds.slice(1), { cwd });
@@ -116,27 +147,32 @@ export interface IPackageInfo {
 	absolute: string;
 	relative: string;
 	dependencies: string[];
-	devDependencies: string[];
+	packageJson: IPackageJson;
 }
 export async function listMonoRepoPackages(from: string = process.cwd()) {
-	const info = await getTool(from);
-
-	switch (info.tool.name) {
-		case ToolKind.Rush:
-			return listRush(info);
-		case ToolKind.Lerna:
-			if (info.packageManager === PackageManager.PNPM) {
-				return listPnpm(info);
-			}
-			return listLerna(info);
-		// case ToolKind.NxJs:
-		// 	return listNx(info);
-		default:
-			if (info.packageManager === PackageManager.PNPM) {
-				return listPnpm(info);
-			}
-			throw new Error(`不支持的工具和包管理器: ${info.tool.name} | ${info.packageManager}`);
+	monorepo.chdir(from);
+	const projRoot = await monorepo.getRoot();
+	const wokspaceKind = await monorepo.getWorkspaceKind();
+	if (wokspaceKind === WorkspaceKind.SimplePackage) {
+		const packageJson = await readPackageJson(resolve(projRoot, 'package.json'));
+		return [
+			{
+				name: packageJson.name,
+				absolute: projRoot,
+				relative: '.',
+				dependencies: [],
+				packageJson,
+			},
+		];
 	}
+	if (wokspaceKind === WorkspaceKind.RushStack) {
+		return listRush(projRoot);
+	}
+	if (wokspaceKind === WorkspaceKind.PnpmWorkspace) {
+		return listPnpm(projRoot);
+	}
+
+	throw new Error(`不支持的工作空间类型`);
 }
 
 function filter(localNames: string[], depMap: Record<string, string>) {
@@ -151,89 +187,45 @@ function filter(localNames: string[], depMap: Record<string, string>) {
 	}
 	return ret;
 }
-function listRush(_info: IPaths): never {
+function listRush(_projectRoot: string): never {
 	throw new Error('Function not implemented.');
 }
 
-async function listPnpm(info: IPaths, location: string = info.projectRoot) {
-	debug('使用pnpm命令列出项目');
+async function listPnpm(projectRoot: string) {
+	logger.debug('使用pnpm命令列出项目');
 	const ret: IPackageInfo[] = [];
-	const defs = await execJson(['pnpm', 'recursive', 'ls', '--depth=-1', '--json'], location);
+	const defs = await execJson(['pnpm', 'recursive', 'ls', '--depth=-1', '--json'], projectRoot);
 	const allNames = defs.map((d: any) => d.name);
 	for (const { name, path } of defs) {
 		const pkgFile = resolve(path, 'package.json');
-		const pkg = JSON.parse(readFileSync(pkgFile, 'utf-8'));
+		const pkg = await readPackageJson(pkgFile);
 		ret.push({
 			absolute: path,
-			relative: relativePath(info.projectRoot, path),
+			relative: relativePath(projectRoot, path),
 			name: name,
 			dependencies: filter(allNames, pkg.dependencies || {}),
-			devDependencies: filter(allNames, pkg.devDependencies || {}),
+			packageJson: pkg,
 		});
 	}
 	return ret;
 }
 
-async function listLerna(info: IPaths) {
-	debug('使用lerna命令列出项目');
-	const ret: IPackageInfo[] = [];
-	const p = await execLazyError('lerna', ['list', '--json'], { cwd: info.projectRoot });
-	const defs = JSON.parse(p.stdout);
-	const allNames = defs.map((d: any) => d.name);
-	for (const { name, location } of defs) {
-		const pkgFile = resolve(location, 'package.json');
-		const pkg = JSON.parse(readFileSync(pkgFile, 'utf-8'));
-		ret.push({
-			absolute: location,
-			relative: relativePath(info.projectRoot, location),
-			name: name,
-			dependencies: filter(allNames, pkg.dependencies || {}),
-			devDependencies: filter(allNames, pkg.devDependencies || {}),
-		});
-	}
-	return ret;
-}
-
-// function listNx(info: IPaths) {
-// 	debug('使用nx命令列出项目');
-// 	const names: string[] = JSON.parse(
-// 		execaSync('nx', ['show', 'projects', '--json'], { stdio: 'pipe', cwd: info.projectRoot }).stdout
-// 	);
-// 	const ret: IPackageInfo[] = [];
-// 	for (const name of names) {
-// 		const data = JSON.parse(
-// 			execaSync('nx', ['show', 'project', name, '--json'], { stdio: 'pipe', cwd: info.projectRoot }).stdout
-// 		);
-// 		const location = resolve(info.projectRoot, data.root);
-// 		const pkgFile = resolve(location, 'package.json');
-// 		const pkg = JSON.parse(readFileSync(pkgFile, 'utf-8'));
-// 		ret.push({
-// 			absolute: location,
-// 			relative: data.root,
-// 			name,
-// 			dependencies: filter(names, pkg.dependencies || {}),
-// 			devDependencies: filter(names, pkg.devDependencies || {}),
-// 		});
-// 	}
-// 	return ret;
-// }
-
-async function detectPackageManager(name: ToolKind, projectRoot: string) {
-	switch (name) {
-		case ToolKind.Rush: {
+async function detectPackageManager(rm: ProjectManagerKind, projectRoot: string) {
+	switch (rm) {
+		case ProjectManagerKind.Rush: {
 			const settings = await readCommentJsonFile(resolve(projectRoot, 'rush.json'));
 			if (settings.pnpmVersion) {
-				return PackageManager.PNPM;
+				return PackageManagerKind.PNPM;
 			}
 			if (settings.yarnVersion) {
-				return PackageManager.YARN;
+				return PackageManagerKind.YARN;
 			}
 			if (settings.npmVersion) {
-				return PackageManager.NPM;
+				return PackageManagerKind.NPM;
 			}
 			throw new Error('rush设置不正常，缺少包管理器版本信息');
 		}
-		case ToolKind.Lerna: {
+		case ProjectManagerKind.Lerna: {
 			const settings = await readCommentJsonFile(resolve(projectRoot, 'lerna.json'));
 			if (settings.npmClient) {
 				return settings.npmClient;
@@ -243,10 +235,22 @@ async function detectPackageManager(name: ToolKind, projectRoot: string) {
 	}
 
 	if (existsSync(resolve(projectRoot, 'pnpm-workspace.yaml'))) {
-		return PackageManager.PNPM;
+		return PackageManagerKind.PNPM;
 	}
 	if (existsSync(resolve(projectRoot, 'yarn.lock'))) {
 		throw new Error('yarn not implemented');
 	}
-	return PackageManager.NPM;
+	return PackageManagerKind.NPM;
+}
+
+async function detectRepoType(rm: ProjectManagerKind, projectRoot: string) {
+	if (rm === ProjectManagerKind.Rush) {
+		return WorkspaceKind.RushStack;
+	}
+
+	if (await exists(resolve(projectRoot, 'pnpm-workspace.yaml'))) {
+		return WorkspaceKind.PnpmWorkspace;
+	}
+
+	return WorkspaceKind.SimplePackage;
 }

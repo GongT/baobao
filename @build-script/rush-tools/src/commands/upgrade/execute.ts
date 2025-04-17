@@ -2,11 +2,11 @@ import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { unlink } from 'fs/promises';
 import { isAbsolute as isAbsoluteWin32 } from 'node:path/win32';
 import { resolve } from 'path';
-import { ICProjectConfig, IRushConfig } from '../../api/limitedJson';
-import { RushProject } from '../../api/rushProject';
+import { ICProjectConfig, IRushConfig } from '../../api/limitedJson.js';
+import { RushProject } from '../../api/rushProject.js';
 import type { ArgOf } from '../../common/args.js';
-import { blacklistDependency, resolveNpm, splitPackageSpecSimple } from '../../common/npm';
-import { info } from '../../common/output';
+import { blacklistDependency, resolveNpm, splitPackageSpecSimple } from '../../common/npm.js';
+import { info } from '../../common/output.js';
 import { runUpdate } from '../update/execute.js';
 
 let _fixLocal = false;

@@ -1,5 +1,5 @@
 import { getFormatInfo, loadJsonFile, reformatJson, stringifyJsonText, writeJsonFile } from '@idlebox/node-json-edit';
-import { reformatPackageJson } from '../common/packageJson';
+import { reformatPackageJson } from '../common/packageJson.js';
 
 export async function formatPackageJson(file: string, args: string[]) {
 	const pkg = await loadJsonFile(file);

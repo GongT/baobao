@@ -1,5 +1,5 @@
 import { Disposable, registerGlobalLifecycle } from '@idlebox/common';
-import { debug } from '../log.js';
+import { logger } from '../log.js';
 import type { TerminalController } from '../terminal-controller.js';
 import { WatchProgramRunner } from './program.js';
 
@@ -18,6 +18,7 @@ export class StateCollection extends Disposable {
 	constructor(protected readonly terminal: TerminalController) {
 		super();
 		registerGlobalLifecycle(this);
+		logger.debug('初始化StateCollection');
 	}
 
 	public addDummy(title: string) {
@@ -36,7 +37,7 @@ export class StateCollection extends Disposable {
 		);
 		this._register(
 			process.onBuildStop((success) => {
-				debug('编译结果: %s (%s)', title, success ? 'success' : 'failed');
+				logger.debug('编译结果: %s (%s)', title, success ? 'success' : 'failed');
 
 				if (success) {
 					this.processes.set(process, RunState.Success);

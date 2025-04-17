@@ -106,7 +106,7 @@ ${all}
 
 await writeFile(
 	resolve(outDir, '../all.ts'),
-	types.map((x) => `export type * from './created/${x}';`).join('\n') + '\n',
+	types.map((x) => `export type * from './created/${x}.js';`).join('\n') + '\n',
 );
 
 interface IVar {

@@ -1,7 +1,7 @@
 import { ChildProcess } from 'child_process';
 import { EventEmitter } from 'events';
-import { IToRun, processPromise, processQuitPromise } from './fork';
-import { IStatusReport } from './outputStreams';
+import { IToRun, processPromise, processQuitPromise } from './fork.js';
+import { IStatusReport } from './outputStreams.js';
 
 /** @extern */
 export class I7zHandler extends EventEmitter {

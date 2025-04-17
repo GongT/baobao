@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { createRequire } from 'module';
-import { MyError } from './logger';
-import { ITypescriptFile } from './TokenCollector';
+import { MyError } from './logger.js';
+import { ITypescriptFile } from './TokenCollector.js';
 
 export interface IFilterFunction {
 	(list: ITypescriptFile[]): void;

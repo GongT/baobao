@@ -2,11 +2,11 @@
 
 import { DeferredPromise, EventRegister } from '@idlebox/common';
 import { emptyDir } from '@idlebox/node';
-import { transpileBootstrap } from './compile-bootstrap';
-import { runESBuild } from './compile-esbuild';
-import { generateIndexHtml } from './compile-html';
-import { compileScss } from './compile-scss';
-import { isProd, outputDir } from './library/constants';
+import { transpileBootstrap } from './compile-bootstrap.js';
+import { runESBuild } from './compile-esbuild.js';
+import { generateIndexHtml } from './compile-html.js';
+import { compileScss } from './compile-scss.js';
+import { isProd, outputDir } from './library/constants.js';
 
 let timer: NodeJS.Timeout | undefined;
 let firstBuild = new DeferredPromise<void>();

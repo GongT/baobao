@@ -3,7 +3,7 @@ import { execa, Options as SpawnOptions } from 'execa';
 import { createWriteStream, existsSync, mkdirSync, truncateSync } from 'fs';
 import { dirname } from 'path';
 import split2 from 'split2';
-import { TEMP_DIR } from './paths';
+import { TEMP_DIR } from './paths.js';
 
 export interface IOptions extends SpawnOptions {
 	cmd?: string;

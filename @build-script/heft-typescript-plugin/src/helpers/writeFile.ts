@@ -1,7 +1,7 @@
 import type { IHeftTaskSession } from '@rushstack/heft';
 import { basename, dirname } from 'path';
 import type TypeScriptApi from 'typescript';
-import type { IHeftJsonOptions } from './type';
+import type { IHeftJsonOptions } from './type.js';
 
 interface IFileWriter {
 	files: number;

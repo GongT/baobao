@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import { RushStackConfig } from './api';
+import { RushStackConfig } from './api.js';
 
 const c = new RushStackConfig(dirname(__dirname));
 c.typescriptSearchSrcFolder = true;

@@ -1,7 +1,7 @@
 import { readFile as readFileAsync } from 'fs';
-import { promisify } from 'util';
 import { format, Options, resolveConfig } from 'prettier';
-import { IFileFormatConfig } from '../';
+import { promisify } from 'util';
+import type { IFileFormatConfig } from '../index.js';
 import { pathExists } from './filesystem.js';
 
 const readFile = promisify(readFileAsync);

@@ -1,7 +1,7 @@
 import { exists } from '@idlebox/node';
 import { access, readFile } from 'fs/promises';
 import { dirname, relative, resolve } from 'path';
-import { RushProject } from '../api/rushProject';
+import { RushProject } from '../api/rushProject.js';
 
 export async function registerProjectToRush(projectPath: string, log = console.log) {
 	projectPath = resolve(process.cwd(), projectPath);

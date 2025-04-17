@@ -1,4 +1,4 @@
-import { loadConfig } from './load';
+import { loadConfig } from './load.js';
 
 export async function eachProject(fromPath = process.cwd()) {
 	const cfg = await loadConfig(fromPath);

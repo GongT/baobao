@@ -2,8 +2,8 @@ import type { IScopedLogger } from '@rushstack/heft';
 import type TypeScriptApi from 'typescript';
 
 import { inspect } from 'util';
-import { ModuleResolver, WantModuleKind } from './library/ModuleResolver';
-import { tryGetSourceFile } from './library/util';
+import { ModuleResolver, WantModuleKind } from './library/ModuleResolver.js';
+import { tryGetSourceFile } from './library/util.js';
 
 export function appendCallback(
 	ts: typeof TypeScriptApi,

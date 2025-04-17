@@ -3,11 +3,11 @@ import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
 import { IHeftTaskPlugin } from '@rushstack/heft';
 import { FileError } from '@rushstack/node-core-library';
 import type { BuildContext, BuildOptions, BuildResult, Message, Note } from 'esbuild';
-import { FilterdBuildOptions, filterOptions } from './common/config';
-import { executeConfigFile } from './common/execute-config';
-import { s } from './common/misc';
-import { ESBuildPublicApi, IGlobalSession } from './common/type';
-import { createEmitter, IProjectEmitter } from './common/write';
+import { FilterdBuildOptions, filterOptions } from './common/config.js';
+import { executeConfigFile } from './common/execute-config.js';
+import { s } from './common/misc.js';
+import { ESBuildPublicApi, IGlobalSession } from './common/type.js';
+import { createEmitter, IProjectEmitter } from './common/write.js';
 
 export const PLUGIN_NAME = 'esbuild';
 

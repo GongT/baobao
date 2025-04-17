@@ -3,9 +3,9 @@ import { FSWatcher } from 'chokidar';
 import { writeFile } from 'fs/promises';
 import { basename, resolve } from 'path';
 import { compileAsync } from 'sass';
-import { hash } from './esbuild/library';
-import { entrySourceRoot, isTTY, outputDir } from './library/constants';
-import { rush } from './library/rush';
+import { hash } from './esbuild/library.js';
+import { entrySourceRoot, isTTY, outputDir } from './library/constants.js';
+import { rush } from './library/rush.js';
 
 async function compile(f: string) {
 	try {

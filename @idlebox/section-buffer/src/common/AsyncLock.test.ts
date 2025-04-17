@@ -1,7 +1,7 @@
 /// <reference types="@types/heft-jest" />
 
 import { sleep } from '@idlebox/common';
-import { AsyncLock } from './AsyncLock';
+import { AsyncLock } from './AsyncLock.js';
 
 function sleepJob(title: string) {
 	return jest.fn(async (ms: number): Promise<number | undefined> => {

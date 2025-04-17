@@ -1,5 +1,5 @@
 import { wrapConsoleLogger } from '@build-script/heft-plugin-base';
-import { run } from './share';
+import { run } from './share.js';
 
 const p = process.argv[2];
 if (!p) {

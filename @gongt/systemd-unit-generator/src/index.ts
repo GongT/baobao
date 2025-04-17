@@ -1,6 +1,6 @@
-import { ISystemdUnit, IUnknownSection } from './types/index';
+import { ISystemdUnit, IUnknownSection } from './types/index.js';
 
-export type * from './types/index';
+export type * from './types/index.js';
 
 class SystemdUnit implements ISystemdUnit {
 	declare Unit: any;

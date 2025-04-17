@@ -24,6 +24,18 @@ function requireFile(data: any) {
 }
 
 /**
+ * attach file save path to "data" object
+ */
+export function createJsonFile(data: any, saveAs: string, charset: BufferEncoding = DEFAULT_ENCODING) {
+	const newData = Object.assign({}, data);
+	setAttachedFile(newData, { originalPath: saveAs, encoding: charset, exists: false });
+	const format = new PrettyFormat();
+	format.learnFromFile(saveAs);
+	setAttachedFormat(data, format);
+	return data;
+}
+
+/**
  * Unconditional write `data` back into it's source file
  */
 export async function writeJsonFileBackForce(data: any): Promise<void> {

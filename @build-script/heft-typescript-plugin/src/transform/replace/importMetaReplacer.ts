@@ -1,6 +1,6 @@
 import type TypeScriptApi from 'typescript';
 import type { IScopedLogger } from '@rushstack/heft';
-import { NodeReplacer } from '../library/NodeReplacer';
+import { NodeReplacer } from '../library/NodeReplacer.js';
 
 type IReplacer = (
 	this: typeof TypeScriptApi,

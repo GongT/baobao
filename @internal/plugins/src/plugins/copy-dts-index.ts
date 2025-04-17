@@ -3,7 +3,7 @@ import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 import { IHeftTaskPlugin } from '@rushstack/heft';
-import { writeFileIfChange } from '../inc/fs';
+import { writeFileIfChange } from '../inc/fs.js';
 
 export const PLUGIN_NAME = 'copy-dts-index';
 

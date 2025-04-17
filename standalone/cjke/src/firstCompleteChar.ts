@@ -1,6 +1,6 @@
-import { everything, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, SupportInfo } from './base';
-import { combiningCharactersRegexStarting, isCombiningCharacters } from './combiningCharacters';
-import { isFullwidthCodePointLibrary } from './shim.lib';
+import { everything, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, SupportInfo } from './base.js';
+import { combiningCharactersRegexStarting, isCombiningCharacters } from './combiningCharacters.js';
+import { isFullwidthCodePointLibrary } from './shim.lib.js';
 
 export interface CodePointInfo {
 	data: string;

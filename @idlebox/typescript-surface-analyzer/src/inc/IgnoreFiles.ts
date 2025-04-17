@@ -1,5 +1,5 @@
 import { Minimatch } from 'minimatch';
-import { ILogger } from './logger';
+import { ILogger } from './logger.js';
 export type IIgnore = RegExp | string | MatchFn;
 type MatchFn = (file: string) => boolean;
 

@@ -2,7 +2,7 @@ import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { checkChildProcessResult, commandInPathSync } from '@idlebox/node';
 import { execa } from 'execa';
-import { TEMP_DIR } from './paths';
+import { TEMP_DIR } from './paths.js';
 
 export const doSpawn: (file: string, args?: string[]) => void =
 	commandInPathSync('unshare') && !process.env.NEVER_UNSHARE ? spawnUnshare : spawnNormal;

@@ -1,7 +1,7 @@
 import type TypeScriptApi from 'typescript';
 import type { IScopedLogger } from '@rushstack/heft';
 import { inspect } from 'util';
-import { isAstNode, linkParentNode } from './util';
+import { isAstNode, linkParentNode } from './util.js';
 
 export interface IReplacerContext {
 	readonly host: TypeScriptApi.CompilerHost;

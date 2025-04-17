@@ -3,7 +3,7 @@ import { relativePath, writeFileIfChange } from '@idlebox/node';
 import { access, chmod } from 'fs/promises';
 import { F_OK } from 'constants';
 import { dirname, resolve } from 'path';
-import { RushProject } from '../api/rushProject';
+import { RushProject } from '../api/rushProject.js';
 
 export async function createLink(rush: RushProject, name: string, path: string) {
 	const binTempDir = resolve(rush.tempRoot, 'bin');

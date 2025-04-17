@@ -1,13 +1,13 @@
 import type TypeScriptApi from 'typescript';
-import { IMyTransformCallback } from '../helpers/transform-load';
-import { appendCallback } from './appender';
-import { ModuleResolver } from './library/ModuleResolver';
-import { ReplacementSet } from './library/NodeReplacer';
-import { isEsModule } from './library/util';
-import { EmptyWalker, TopLevelWalker } from './library/walk';
-import { ImportCommonJS } from './replace/importCommonJS';
-import { ImportMetaReplacer } from './replace/importMetaReplacer';
-import { ImportExportSpecifierReplacer } from './replace/importSpecifier';
+import { IMyTransformCallback } from '../helpers/transform-load.js';
+import { appendCallback } from './appender.js';
+import { ModuleResolver } from './library/ModuleResolver.js';
+import { ReplacementSet } from './library/NodeReplacer.js';
+import { isEsModule } from './library/util.js';
+import { EmptyWalker, TopLevelWalker } from './library/walk.js';
+import { ImportCommonJS } from './replace/importCommonJS.js';
+import { ImportMetaReplacer } from './replace/importMetaReplacer.js';
+import { ImportExportSpecifierReplacer } from './replace/importSpecifier.js';
 
 // interface IMyOptions {}
 

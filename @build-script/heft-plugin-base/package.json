@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-plugin-base",
 	"type": "commonjs",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"types": "./src/index.ts",
 	"main": "./lib/index.js",
 	"exports": {

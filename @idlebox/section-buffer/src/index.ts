@@ -2,14 +2,14 @@ import { AsyncDisposable, MemorizedEmitter, toDisposable } from '@idlebox/common
 import { open, rename } from 'fs/promises';
 import { basename, dirname } from 'path';
 import { pipeline } from 'stream/promises';
-import { AsyncLock } from './common/AsyncLock';
-import { LossyAsyncQueue } from './common/AsyncQueue';
-import { CacheFile } from './common/CacheFile';
-import { MemoryCacheController } from './common/MemoryCacheController';
-import { StreamReceiver } from './common/StreamReceiver';
-import { Md5Hasher } from './common/cacheFileStreamer';
-import { makeEmptyFile } from './common/makeEmptyFile';
-import { ISectionData } from './common/types';
+import { AsyncLock } from './common/AsyncLock.js';
+import { LossyAsyncQueue } from './common/AsyncQueue.js';
+import { CacheFile } from './common/CacheFile.js';
+import { MemoryCacheController } from './common/MemoryCacheController.js';
+import { StreamReceiver } from './common/StreamReceiver.js';
+import { Md5Hasher } from './common/cacheFileStreamer.js';
+import { makeEmptyFile } from './common/makeEmptyFile.js';
+import { ISectionData } from './common/types.js';
 
 interface ILive {
 	readonly start: number;

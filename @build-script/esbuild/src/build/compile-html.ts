@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
-import { entrySourceRoot, outputDir } from './library/constants';
+import { entrySourceRoot, outputDir } from './library/constants.js';
 
 export async function generateIndexHtml(params: Record<string, string>) {
 	const src = resolve(entrySourceRoot, 'index.html');

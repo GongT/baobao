@@ -1,4 +1,4 @@
-import { findRushJson, findRushJsonSync } from '../api/load';
+import { findRushJson, findRushJsonSync } from '../api/load.js';
 
 export async function requireRushPath(path: string = process.cwd()): Promise<string> {
 	const rushFile = await findRushJson(path);

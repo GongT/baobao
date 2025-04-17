@@ -2,9 +2,9 @@ import { relativePath } from '@idlebox/node';
 import { OnLoadResult, Plugin } from 'esbuild';
 import sassPlugin from 'esbuild-sass-plugin';
 import scopeCss from 'scope-css';
-import { projectRoot } from '../library/constants';
-import { rush } from '../library/rush';
-import { hash, normalizePackageName } from './library';
+import { projectRoot } from '../library/constants.js';
+import { rush } from '../library/rush.js';
+import { hash, normalizePackageName } from './library.js';
 
 console.error('postcss.config.js loaded');
 

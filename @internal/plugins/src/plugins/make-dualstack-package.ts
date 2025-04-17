@@ -1,8 +1,8 @@
 import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
 import { existsSync } from 'fs';
 import { dirname, relative, resolve } from 'path';
-import { overwriteSafeMark, writeFileIfChangeSafeSync } from '../inc/fs';
-import { IPackageJson } from '../inc/package';
+import { overwriteSafeMark, writeFileIfChangeSafeSync } from '../inc/fs.js';
+import { IPackageJson } from '../inc/package.js';
 
 export const PLUGIN_NAME = 'make-dualstack-package';
 
@@ -71,7 +71,7 @@ function actionCjs(session: IHeftTaskSession, rootDir: string, pkgJson: IPackage
 	// );
 	// if (ch) session.logger.terminal.writeLine(`commonjs shim entry created.`);
 
-	// writeFileIfChangeSafeSync(shimEntry.replace(/cjs$/, 'd.cts'), `${overwriteSafeMark}\nexport * from './api';\n`);
+	// writeFileIfChangeSafeSync(shimEntry.replace(/cjs$/, 'd.cts'), `${overwriteSafeMark}\nexport * from './api.js';\n`);
 
 	const shadowPackagePath = resolve(rootDir, 'lib/cjs', 'package.json');
 	ch = writeFileIfChangeSafeSync(
@@ -98,7 +98,7 @@ function actionEsm(session: IHeftTaskSession, rootDir: string, pkgJson: IPackage
 	// ch = writeFileIfChangeSafeSync(shimEntry, `${overwriteSafeMark}\nexport * from ${JSON.stringify(rel)};\n`);
 	// if (ch) session.logger.terminal.writeLine(`module shim entry created.`);
 
-	// writeFileIfChangeSafeSync(shimEntry.replace(/mjs$/, 'd.mts'), `${overwriteSafeMark}\nexport * from './api';\n`);
+	// writeFileIfChangeSafeSync(shimEntry.replace(/mjs$/, 'd.mts'), `${overwriteSafeMark}\nexport * from './api.js';\n`);
 
 	const shadowPackagePath = resolve(rootDir, 'lib/esm', 'package.json');
 	ch = writeFileIfChangeSafeSync(

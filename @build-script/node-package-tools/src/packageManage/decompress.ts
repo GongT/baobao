@@ -1,11 +1,10 @@
 import { convertCatchedError } from '@idlebox/common';
 import { unlinkSync } from 'fs';
 import { decompress } from 'targz';
-import { debug, log } from '../inc/log';
+import { logger } from '../inc/log.js';
 
 export async function decompressTargz(src: string, dest: string) {
-	log(`解压文件:`);
-	debug(`    文件: ${src}\n    目录: ${dest}`);
+	logger.debug(`解压文件: ${src}\n\u3000\u3000目录: ${dest}`);
 	await new Promise<void>((resolve, reject) => {
 		decompress(
 			{
@@ -33,8 +32,8 @@ export async function decompressTargz(src: string, dest: string) {
 				} else {
 					resolve();
 				}
-			},
+			}
 		);
 	});
-	log('解压完成。');
+	logger.debug('解压完成。');
 }

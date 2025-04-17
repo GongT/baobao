@@ -4,8 +4,8 @@ import { Emitter } from '@idlebox/common';
 import { FSWatcher } from 'chokidar';
 import { readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
-import { hash } from './esbuild/library';
-import { entrySourceRoot, outputDir } from './library/constants';
+import { hash } from './esbuild/library.js';
+import { entrySourceRoot, outputDir } from './library/constants.js';
 
 const event = new Emitter<string | Error>();
 

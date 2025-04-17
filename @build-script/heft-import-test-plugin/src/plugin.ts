@@ -1,7 +1,7 @@
 import { getRushTempFolder, wrapHeftLogger } from '@build-script/heft-plugin-base';
 import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
 import { resolve } from 'path';
-import { run } from './share';
+import { run } from './share.js';
 
 const PLUGIN_NAME = 'import-test';
 

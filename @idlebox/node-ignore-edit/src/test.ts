@@ -1,5 +1,5 @@
 import 'source-map-support/register';
-import { IIgnoreFile, parse, stringify, unscoped } from './api';
+import { IIgnoreFile, parse, stringify, unscoped } from './api.js';
 
 let failed = 0;
 const t1 = '### t1';

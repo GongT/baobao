@@ -4,9 +4,9 @@ import { checkChildProcessResult, streamPromise } from '@idlebox/node';
 import { execa } from 'execa';
 import { gte } from 'semver';
 import split2 from 'split2';
-import { findRushRootPath, loadConfig } from '../api/load';
-import { NormalError } from './error';
-import { spinner } from './temp-spin';
+import { findRushRootPath, loadConfig } from '../api/load.js';
+import { NormalError } from './error.js';
+import { spinner } from './temp-spin.js';
 
 const oraP = import('ora').then((e) => e.default);
 

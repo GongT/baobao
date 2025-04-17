@@ -2,8 +2,8 @@ import { resolve } from 'path';
 import { oneDay } from '@idlebox/common';
 import express from 'express';
 import morgan from 'morgan';
-import { waitComplete } from '../library/wait';
-import { outputDir, projectRoot } from '../build/library/constants';
+import { waitComplete } from '../library/wait.js';
+import { outputDir, projectRoot } from '../build/library/constants.js';
 
 function createApplication() {
 	const app = express();

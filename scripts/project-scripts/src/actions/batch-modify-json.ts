@@ -2,7 +2,7 @@ import { RushProject } from '@build-script/rush-tools';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { existsSync } from 'fs';
 import '../include/prefix';
-import { getopts, handleShort } from '../include/rushArguments';
+import { getopts, handleShort } from '../include/rushArguments.js';
 
 interface IOptions {
 	file: string;

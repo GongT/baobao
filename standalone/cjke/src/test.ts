@@ -1,11 +1,11 @@
 import 'mocha'
 import { expect } from 'chai';
-import { CodePointInfo, readFirstCompleteChar } from './firstCompleteChar';
+import { CodePointInfo, readFirstCompleteChar } from './firstCompleteChar.js';
 import 'source-map-support/register.js';
-import { unicodeEscape } from './escapeUnicode';
-import { stringWidth } from './stringWidth';
-import { limitWidth } from './limitWidth';
-import { everything, nothing } from './base';
+import { unicodeEscape } from './escapeUnicode.js';
+import { stringWidth } from './stringWidth.js';
+import { limitWidth } from './limitWidth.js';
+import { everything, nothing } from './base.js';
 
 function create(char: string, width: number, winCmd = false) {
 	let r: CodePointInfo;

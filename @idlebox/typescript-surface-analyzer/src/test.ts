@@ -2,7 +2,7 @@ import * as api from '.';
 import { resolve } from 'path';
 import { inspect } from 'util';
 import ts from 'typescript';
-import { getOptions } from './inc/load-tsconfig';
+import { getOptions } from './inc/load-tsconfig.js';
 
 const options = getOptions(resolve(__dirname, '../test'), true);
 const p = new api.TypescriptProject(ts, options);

@@ -2,12 +2,12 @@ import { exists } from '@idlebox/node';
 import { execa } from 'execa';
 import { resolve } from 'path';
 import type { ArgsReader } from '../../../../@idlebox/args/lib/esm/library/args-reader.js';
-import { getNewNpmCache } from '../cache/native.npm';
-import { readJsonSync } from '../inc/fs';
+import { getNewNpmCache } from '../cache/native.npm.js';
+import { readJsonSync } from '../inc/fs.js';
 import { distTagInput, registryInput } from '../inc/getArg.js';
-import { debug, errorLog, log } from '../inc/log';
-import { getNoProxyValue, getProxyValue } from '../inc/proxy';
-import { detectRegistry } from '../packageManage/detectRegistry';
+import { logger } from '../inc/log.js';
+import { getNoProxyValue, getProxyValue } from '../inc/proxy.js';
+import { detectRegistry } from '../packageManage/detectRegistry.js';
 
 process.env.COREPACK_ENABLE_STRICT = '0';
 
@@ -23,34 +23,34 @@ export function helpString() {
 export async function main(argv: ArgsReader) {
 	const commands = argv.unused();
 	if (commands[0] !== '--' || commands.length <= 1) {
-		errorLog(
+		logger.error(
 			'参数中必须包含"--"，并且后面跟随要运行的命令。\n  示例: run-if-version-mismatch --quiet -- pnpm publish'
 		);
 		return 22;
 	}
-	log('即将运行命令: %s', commands.join(' '));
+	logger.log('即将运行命令: %s', commands.join(' '));
 
 	const packagePath = process.cwd();
-	log('工作目录: %s', packagePath);
+	logger.log('工作目录: %s', packagePath);
 
 	const packageFile = resolve(packagePath, 'package.json');
 
 	if (!(await exists(packageFile))) {
-		errorLog('未找到package.json文件');
+		logger.error('未找到package.json文件');
 		return 1;
 	}
 	const packageJson = readJsonSync(packageFile);
-	log('包名: %s', packageJson.name);
+	logger.log('包名: %s', packageJson.name);
 
 	const registry = await detectRegistry(registryInput, packagePath);
 
 	const pkg = await getNewNpmCache(packageJson.name, distTagInput, registry);
 	const version = pkg?.version;
-	log('远程版本: %s', version);
+	logger.log('远程版本: %s', version);
 
 	if (!version || packageJson.version !== version) {
-		log('本地版本 (%s) !== 远程版本 (%s)，开始执行命令!', packageJson.version, version);
-		debug('执行的命令: ' + commands.join(' '));
+		logger.log('本地版本 (%s) !== 远程版本 (%s)，开始执行命令!', packageJson.version, version);
+		logger.debug('执行的命令: ' + commands.join(' '));
 		await execa(commands[0], commands.slice(1), {
 			cwd: packagePath,
 			stdout: 'inherit',
@@ -62,10 +62,10 @@ export async function main(argv: ArgsReader) {
 			},
 		});
 
-		debug('刷新npm缓存...');
+		logger.debug('刷新npm缓存...');
 		await getNewNpmCache(packageJson.name, distTagInput, registry); // TODO: should no-cache
 	} else {
-		log('本地版本 (%s) === 远程版本 (%s)，无需操作，直接退出。', packageJson.version, version);
+		logger.log('本地版本 (%s) === 远程版本 (%s)，无需操作，直接退出。', packageJson.version, version);
 	}
 	return 0;
 }

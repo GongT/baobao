@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import { WriteStream } from 'fs';
 import fs from 'fs/promises';
 import { AsyncDisposable, toDisposable } from '@idlebox/common';
-import { erasedMark } from './types';
+import { erasedMark } from './types.js';
 
 export async function openCacheFileForWrite(file: string, create: boolean): Promise<CacheFileWriter> {
 	const fd = await fs.open(file, create ? 'ax' : 'a');

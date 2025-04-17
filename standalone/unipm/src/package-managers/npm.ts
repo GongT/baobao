@@ -1,5 +1,5 @@
-import { PackageManagerType } from './../common/packageManager';
-import { PackageManager } from '../common/packageManager';
+import { PackageManagerType } from './../common/packageManager.js';
+import { PackageManager } from '../common/packageManager.js';
 
 /** @internal */
 export class Npm extends PackageManager {

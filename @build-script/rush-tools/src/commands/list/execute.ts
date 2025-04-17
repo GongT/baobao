@@ -1,6 +1,6 @@
-import { RushProject } from '../../api/rushProject';
+import { RushProject } from '../../api/rushProject.js';
 import type { ArgOf } from '../../common/args.js';
-import { NormalError } from '../../common/error';
+import { NormalError } from '../../common/error.js';
 import { CmdListWhat } from './arguments.js';
 
 /** @internal */

@@ -4,7 +4,7 @@ import { ChildProcess, spawn } from 'child_process';
 import { relative, resolve } from 'path';
 import { Readable } from 'stream';
 import { buildProjects } from '@build-script/rush-tools';
-import { REPO_ROOT } from '../include/paths';
+import { REPO_ROOT } from '../include/paths.js';
 
 interface CompileStatus {
 	title: string;

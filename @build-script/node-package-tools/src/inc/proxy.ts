@@ -1,7 +1,7 @@
 import { getEnvironment } from '@idlebox/node';
 import { execaCommand } from 'execa';
-import { getPackageManager } from '../packageManage/detectRegistry';
-import { debug } from './log';
+import { getPackageManager } from '../packageManage/detectRegistry.js';
+import { logger } from './log.js';
 
 interface IGlobalAgentSetting {
 	HTTP_PROXY?: string;
@@ -28,7 +28,7 @@ export function getNoProxyValue() {
 function setProxy() {
 	const opts = globalAgentSettings();
 	if (opts.HTTPS_PROXY) {
-		debug(`using HTTPS_PROXY = ${opts.HTTPS_PROXY}`);
+		logger.log(`using HTTPS_PROXY = ${opts.HTTPS_PROXY}`);
 		opts.HTTP_PROXY = opts.HTTPS_PROXY;
 		return;
 	}
@@ -44,23 +44,23 @@ function setProxy() {
 		}
 	}
 	if (!v) {
-		debug(`no HTTPS_PROXY/HTTP_PROXY/ALL_PROXY/PROXY`);
+		logger.log(`no HTTPS_PROXY/HTTP_PROXY/ALL_PROXY/PROXY`);
 		return;
 	}
-	debug(`using global proxy: ${v}`);
+	logger.log(`using global proxy: ${v}`);
 	opts.HTTPS_PROXY = opts.HTTP_PROXY = v;
 }
 
 async function setNoProxy() {
 	const opts = globalAgentSettings();
 	if (typeof opts.NO_PROXY === 'string') {
-		debug(`using NO_PROXY = ${opts.NO_PROXY}`);
+		logger.debug(`using NO_PROXY = ${opts.NO_PROXY}`);
 		return;
 	}
 
 	const envVar = getEnvironment('NO_PROXY');
 	if (envVar.value) {
-		debug(`using env.NO_PROXY = ${envVar.value}`);
+		logger.debug(`using env.NO_PROXY = ${envVar.value}`);
 		opts.NO_PROXY = envVar.value;
 		return;
 	}
@@ -68,9 +68,9 @@ async function setNoProxy() {
 	const pm = await getPackageManager();
 	const noproxy = (await execaCommand(pm + ' config get noproxy', { stderr: 'ignore' })).stdout;
 	if (noproxy === 'undefined') {
-		debug(`no NO_PROXY`);
+		logger.debug(`no NO_PROXY`);
 	} else {
-		debug(`using npmrc::noproxy = ${noproxy}`);
+		logger.debug(`using npmrc::noproxy = ${noproxy}`);
 		opts.NO_PROXY = envVar.value;
 	}
 }

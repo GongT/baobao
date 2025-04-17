@@ -1,7 +1,7 @@
 import { resolve } from 'path';
-import { entrySourceRoot } from '../library/constants';
-import { rush } from '../library/rush';
-import { normalizePackageName } from './library';
+import { entrySourceRoot } from '../library/constants.js';
+import { rush } from '../library/rush.js';
+import { normalizePackageName } from './library.js';
 
 export function createEntrypoints() {
 	const entries: Record<string, string> = {

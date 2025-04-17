@@ -1,8 +1,8 @@
 import { DeepReadonly } from '@idlebox/common';
 import { DepGraph } from 'dependency-graph';
-import { RunQueue } from '../common/runnerQueue';
-import { ICProjectConfig, IProjectConfig } from './limitedJson';
-import { RushProject } from './rushProject';
+import { RunQueue } from '../common/runnerQueue.js';
+import { ICProjectConfig, IProjectConfig } from './limitedJson.js';
+import { RushProject } from './rushProject.js';
 
 export interface IProjectCallback {
 	(project: DeepReadonly<IProjectConfig>): Promise<void>;
