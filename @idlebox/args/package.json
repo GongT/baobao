@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/args",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"license": "MIT",
 	"main": "./lib/cjs/interface.cjs",
 	"module": "./lib/esm/interface.js",
@@ -25,7 +25,8 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@idlebox/common": "workspace:^"
+		"@idlebox/common": "workspace:^",
+		"cjke-strings": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -35,7 +36,6 @@
 		"@types/mocha": "^10.0.9",
 		"@types/node": "^22.8.6",
 		"chai": "^5.1.1",
-		"cjke-strings": "workspace:^",
 		"mocha": "^10.7.3",
 		"source-map-support": "^0.5.21"
 	}
