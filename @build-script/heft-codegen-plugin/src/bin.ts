@@ -41,9 +41,19 @@ async function main() {
 			}
 		}
 		const watcher = new WatchHelper(chokidar, runPass);
+
+		process.on('SIGINT', () => {
+			console.log('\nSIGINT received, exiting...');
+			Promise.all([watcher.dispose(), generaters.disposeAll()]).finally(() => {
+				process.exit(0);
+			});
+		});
+
 		await runPass();
 	} else {
 		const code = await wrapOutput(generaters.executeAll());
+
+		generaters.disposeAll();
 
 		process.exit(code);
 	}

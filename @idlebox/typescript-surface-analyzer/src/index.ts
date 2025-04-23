@@ -2,10 +2,11 @@ import type TypeScriptApi from 'typescript';
 import { FileCollector } from './inc/FileCollector.js';
 import { IgnoreFiles } from './inc/IgnoreFiles.js';
 import { consoleLogger, ILogger } from './inc/logger.js';
-import { ITypescriptFile } from './inc/TokenCollector.js';
+import type { ITypescriptFile } from './inc/TokenCollector.js';
 import { ApiHost } from './inc/tsapi.helpers.js';
 
 export type { IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
+export type { ITypescriptFile } from './inc/TokenCollector.js';
 export { loadFilter } from './inc/loadFilter.js';
 export type { ILogger } from './inc/logger.js';
 export { ExportKind } from './inc/TokenCollector.js';

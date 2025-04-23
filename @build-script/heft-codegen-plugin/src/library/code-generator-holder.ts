@@ -142,4 +142,8 @@ export class GeneratorHolder {
 
 		return [...this.generators.keys()];
 	}
+
+	async disposeAll() {
+		await Promise.allSettled(this.generators.values().map((gen) => gen.dispose()));
+	}
 }

@@ -3,6 +3,7 @@ import type { BuildContext, BuildOptions, BuildResult, Plugin } from 'esbuild';
 import { context } from 'esbuild';
 import { randomBytes } from 'node:crypto';
 import { unlink, writeFile } from 'node:fs/promises';
+import { builtinModules } from 'node:module';
 import { basename, dirname, resolve } from 'node:path';
 import type { BaseExecuter } from './executer.base.js';
 import { ImportExecuter } from './executer.import.js';
@@ -19,6 +20,9 @@ const externalResovler: Plugin = {
 	name: 'external-resolver',
 	setup(build) {
 		build.onResolve({ filter: isAbsolute, namespace: 'file' }, async (args) => {
+			if (args.path.startsWith('node:')) {
+				return { external: true, pluginName: 'external-resolver' };
+			}
 			try {
 				const result = await build.resolve(args.path, args);
 				if (result.path && isAllowedType.test(result.path)) {
@@ -89,13 +93,17 @@ export class CodeGenerator {
 				sourcemap: 'linked',
 				sourceRoot: '@@@@@/',
 				entryPoints: [this.entryFileAbs],
-				external: [], // TODO: 需要参数传入
+				external: [...builtinModules], // TODO: 需要参数传入额外的模块
 				absWorkingDir: this.buildFoder,
 				format: 'esm',
 				platform: 'node',
 				mainFields: ['typescript', 'module', 'main'],
 				conditions: ['typescript'],
 				outfile: this.createTempFilePath(), // not really write
+				legalComments: 'none',
+				banner: {
+					js: 'import {createRequire} from "node:module"; const require = createRequire(import.meta.dirname);',
+				},
 				define: {
 					__filename: 'import.meta.filename',
 					__dirname: 'import.meta.dirname',

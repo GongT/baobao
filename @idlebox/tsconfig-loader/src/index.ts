@@ -15,10 +15,7 @@ export interface IExtendParsedCommandLine extends TypeScriptApi.ParsedCommandLin
 /**
  * load options from tsconfig.json using TypeScript API
  */
-export function loadTsConfigJsonFile(
-	project: string,
-	ts: typeof TypeScriptApi,
-): IExtendParsedCommandLine {
+export function loadTsConfigJsonFile(project: string, ts: typeof TypeScriptApi): IExtendParsedCommandLine {
 	let path = resolve(process.cwd(), project);
 
 	const sub = resolve(path, 'tsconfig.json');
@@ -108,7 +105,10 @@ function getRoot(command: TypeScriptApi.ParsedCommandLine | TypeScriptApi.Compil
 	let options: TypeScriptApi.CompilerOptions = command.options
 		? (command as TypeScriptApi.ParsedCommandLine).options
 		: (command as TypeScriptApi.CompilerOptions);
-	const ret = options[type] || dirname(options.configFilePath as string);
+	let ret = options[type];
+	if (!ret && options.configFilePath) {
+		ret = dirname(options.configFilePath as string);
+	}
 	if (!ret) {
 		throw new TypeError('can not get tsconfig.json path from Typescript API, maybe not compitable version');
 	}
