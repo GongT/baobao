@@ -18,9 +18,8 @@ const args = {
 	'--keep-output': '不要清屏',
 	'--server': '输出服务器模式',
 	'--client': '输出客户端模式',
+	'--silent': '目前必须设置，否则输出会乱',
 };
-
-logger.debug('加载watch命令模块');
 
 export function helpString() {
 	return formatOptions(args);
