@@ -1,7 +1,6 @@
-import { definePublicConstant, prettyFormatError } from '@idlebox/common';
 import type { ArgsReader } from './args-reader.js';
 import { customInspectSymbol, wrapStyle } from './functions.js';
-import { ArgKind, IArgument } from './tokens-match.js';
+import { ArgKind, type IArgument } from './tokens-match.js';
 import { tokenToString, type Token } from './tokens.js';
 
 function matchPos(index: number, token?: Token, arg?: IArgument) {
@@ -23,20 +22,15 @@ export abstract class AbstractArgumentError extends ArgumentError {
 
 	constructor(
 		public readonly token?: Token,
-		arg?: IArgument,
+		arg?: IArgument
 	) {
 		if (!arg && !token) {
 			throw new Error('either token or arg must be provided');
 		}
-		super('unknown argument error');
+		super(`unknown argument error`);
 
 		this._stackObject = {} as any;
 		Error.captureStackTrace(this._stackObject, this.constructor);
-		Object.assign(this._stackObject, { message: 'this should not visible' });
-
-		const self: any = this;
-		delete self.message;
-		delete self.stack;
 
 		this.name = this.constructor.name;
 
@@ -46,17 +40,50 @@ export abstract class AbstractArgumentError extends ArgumentError {
 			this.arg = token.bindingArgument;
 		}
 
-		// this.stack = this.stack?.replace(/^\S+\s+/, '');
-		// this.message = this.message?.replace(/^\S+\s+/, '');
+		delete (this as any).message;
+		delete (this as any).stack;
+
+		// Object.defineProperties(this, {
+		// 	message: {
+		// 		configurable: true,
+		// 		enumerable: true,
+		// 		get: () => {},
+		// 	},
+		// 	stack: {
+		// 		configurable: true,
+		// 		enumerable: true,
+		// 		get: () => {
+		// 		},
+		// 	},
+		// });
 	}
 
 	protected abstract get _message(): string;
-	override get message(): string {
-		return `${this.name}: ${this._message}\n  ${this.explainArgs}`;
+	override get message() {
+		const message = `${this.name}: ${this._message}\n  ${this.explainArgs}`;
+		Object.defineProperty(this, 'message', {
+			value: message,
+			configurable: false,
+			writable: false,
+			enumerable: true,
+		});
+		return message;
+	}
+
+	override get stack() {
+		let stack = this._stackObject.stack.slice(this._stackObject.stack.indexOf('\n') + 1);
+		stack = `${this.message}\n${stack}`;
+		Object.defineProperty(this, 'stack', {
+			value: stack,
+			configurable: false,
+			writable: false,
+			enumerable: true,
+		});
+		return stack;
 	}
 
 	get parser() {
-		return (this.token || this.arg)!.parser as ArgsReader;
+		return (this.token || this.arg)?.parser as ArgsReader;
 	}
 
 	protected get explainArgs() {
@@ -72,15 +99,13 @@ export abstract class AbstractArgumentError extends ArgumentError {
 			explainArgs += ' ';
 		}
 
-		definePublicConstant(this, 'explainArgs', explainArgs);
+		Object.defineProperty(this, 'explainArgs', {
+			value: explainArgs,
+			configurable: false,
+			writable: false,
+			enumerable: true,
+		});
 		return explainArgs;
-	}
-
-	override get stack() {
-		const color = shouldWriteColor();
-
-		const stack = color ? prettyFormatError(this._stackObject, false) : this._stackObject.stack;
-		return this.message + '\n' + stack;
 	}
 }
 
@@ -94,7 +119,7 @@ export abstract class AbstractArgumentError extends ArgumentError {
 export class UnexpectedArgument extends AbstractArgumentError {
 	constructor(
 		token: Token,
-		private readonly extra: string,
+		private readonly extra: string
 	) {
 		super(token);
 	}
@@ -107,9 +132,9 @@ export class UnexpectedArgument extends AbstractArgumentError {
 export class UncontinuousPositionalArgument extends UnexpectedArgument {
 	constructor(
 		public readonly last: Token,
-		curr: Token,
+		curr: Token
 	) {
-		super(curr, `positional argument must continuous`);
+		super(curr, 'positional argument must continuous');
 	}
 }
 
@@ -129,7 +154,7 @@ export class ConflictArgument extends AbstractArgumentError {
 	constructor(
 		protected readonly _message: string,
 		arg: IArgument,
-		token?: Token,
+		token?: Token
 	) {
 		super(token, arg);
 	}
@@ -138,12 +163,11 @@ export class ConflictArgument extends AbstractArgumentError {
 		if (this.token) {
 			const color = shouldWriteColor();
 
-			const firstUsage = this.token.bindingArgument!.firstUsageStack;
-			const f_stack = color ? prettyFormatError(firstUsage, true) : firstUsage.stack;
-			return super.stack + '\n' + wrapStyle(color, '38;5;11', 'Previouse usage:', '39;2') + '\n' + f_stack;
-		} else {
-			return super.stack;
+			const firstUsage = this.token.bindingArgument?.firstUsageStack;
+			const f_stack = firstUsage?.stack ?? '***no stack info***';
+			return `${super.stack}\n${wrapStyle(color, '38;5;11', 'Previouse usage:', '39;2')}\n${f_stack}`;
 		}
+		return super.stack;
 	}
 }
 
@@ -176,8 +200,8 @@ function truthy(value: string | undefined) {
 }
 
 function shouldWriteColor() {
-	if (typeof process.env.FORCE_COLOR === undefined) {
-		return truthy(process.env.NODE_DISABLE_COLORS);
+	if (typeof process.env.FORCE_COLOR === 'undefined') {
+		return !truthy(process.env.NODE_DISABLE_COLORS);
 	}
 	return process.env.FORCE_COLOR !== '0';
 }

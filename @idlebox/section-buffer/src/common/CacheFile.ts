@@ -1,10 +1,10 @@
 import { AsyncDisposable } from '@idlebox/common';
-import fs, { stat } from 'fs/promises';
+import fs, { stat } from 'node:fs/promises';
 import { AsyncLock } from './AsyncLock.js';
-import { IMemCachePart } from './MemoryCacheController.js';
+import type { IMemCachePart } from './MemoryCacheController.js';
 import { openCacheFileForRead } from './cacheFileReader.js';
-import { ICacheFileStreamer, openCacheFileForStream } from './cacheFileStreamer.js';
-import { ICacheFileWriter, openCacheFileForWrite } from './cacheFileWriter.js';
+import { type ICacheFileStreamer, openCacheFileForStream } from './cacheFileStreamer.js';
+import { type ICacheFileWriter, openCacheFileForWrite } from './cacheFileWriter.js';
 import { erasedMark, hexNumber } from './types.js';
 
 /**
@@ -46,10 +46,10 @@ export class FileStructureError extends Error {
 
 	constructor(
 		e: Error,
-		public readonly file: string,
+		public readonly file: string
 	) {
-		super('corrupted state file: ' + e.message);
-		this.stack = e.stack!;
+		super(`corrupted state file: ${e.message}`);
+		this.stack = e.stack ?? e.message;
 	}
 }
 
@@ -58,17 +58,17 @@ export class FileDataError extends Error {
 
 	constructor(
 		e: Error,
-		public readonly file: string,
+		public readonly file: string
 	) {
-		super('incomplete state file: ' + e.message);
-		this.stack = e.stack!;
+		super(`incomplete state file: ${e.message}`);
+		this.stack = e.stack ?? e.message;
 	}
 }
 
 export class CacheFile extends AsyncDisposable {
 	private metadata?: Buffer;
 	private sections: ICachePartMeta[] = [];
-	private totalSize: number = 0;
+	private totalSize = 0;
 
 	constructor(protected readonly location: string) {
 		super();
@@ -148,7 +148,8 @@ export class CacheFile extends AsyncDisposable {
 	}
 
 	get metaJson() {
-		return JSON.parse(this.metadata!.toString('utf-8'));
+		if (!this.metadata) return '{}';
+		return JSON.parse(this.metadata.toString('utf-8'));
 	}
 
 	get parts() {
@@ -200,7 +201,7 @@ export class CacheFile extends AsyncDisposable {
 		if (this._writer) {
 			await this.commitBadBlock();
 			await this._writer.dispose();
-			delete this._writer;
+			this._writer = undefined;
 			AsyncLock.get(this).release('write');
 		}
 	}
@@ -210,10 +211,12 @@ export class CacheFile extends AsyncDisposable {
 		if (part.buffers.length === 0 || part.start < 0) throw new Error('invalid arguments');
 		if (part.buffers.some((e) => e.length === 0)) throw new Error('invalid empty buffer');
 
-		await this._writer!.writeBuffer(magic2);
-		await this._writer!.writeUint64(part.start);
+		if (!this._writer) throw new Error('not prepared for write');
 
-		const { dataLength, dataHash, dataStart } = await this._writer!.writeSection(...part.buffers);
+		await this._writer.writeBuffer(magic2);
+		await this._writer.writeUint64(part.start);
+
+		const { dataLength, dataHash, dataStart } = await this._writer.writeSection(...part.buffers);
 
 		this.sections.push({
 			fileOffset: dataStart,
@@ -238,7 +241,9 @@ export class CacheFile extends AsyncDisposable {
 			AsyncLock.get(this).require('write');
 		}
 
-		const writer = this._writer!;
+		if (!this._writer) throw new Error('not prepared for write');
+
+		const writer = this._writer;
 		for (const offset of this.badSections) {
 			await writer.writeBuffer(magic2);
 			await writer.writeUint64(offset);
@@ -290,7 +295,7 @@ export class HashError extends Error {
 	constructor(
 		public readonly offset: string,
 		public readonly want: string,
-		public readonly got: string,
+		public readonly got: string
 	) {
 		super(`hash mismatch @${offset}\n\twant ${want}\n\tgot  ${got}`);
 	}

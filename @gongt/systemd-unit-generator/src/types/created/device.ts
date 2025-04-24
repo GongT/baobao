@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -19,6 +18,11 @@ export interface IDeviceTheUdevDatabaseOptions {
 	ID_MODEL?: MaybeArray<string>;
 }
 
-export const deviceTheUdevDatabaseFields: readonly string[] = ["SYSTEMD_WANTS","SYSTEMD_USER_WANTS","SYSTEMD_ALIAS","SYSTEMD_READY","ID_MODEL_FROM_DATABASE","ID_MODEL"];
-
-
+export const deviceTheUdevDatabaseFields: readonly string[] = [
+	'SYSTEMD_WANTS',
+	'SYSTEMD_USER_WANTS',
+	'SYSTEMD_ALIAS',
+	'SYSTEMD_READY',
+	'ID_MODEL_FROM_DATABASE',
+	'ID_MODEL',
+];

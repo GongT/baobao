@@ -1,7 +1,7 @@
 import { AsyncDisposable, MemorizedEmitter, toDisposable } from '@idlebox/common';
-import { open, rename } from 'fs/promises';
-import { basename, dirname } from 'path';
-import { pipeline } from 'stream/promises';
+import { open, rename } from 'node:fs/promises';
+import { basename, dirname } from 'node:path';
+import { pipeline } from 'node:stream/promises';
 import { AsyncLock } from './common/AsyncLock.js';
 import { LossyAsyncQueue } from './common/AsyncQueue.js';
 import { CacheFile } from './common/CacheFile.js';
@@ -9,7 +9,7 @@ import { MemoryCacheController } from './common/MemoryCacheController.js';
 import { StreamReceiver } from './common/StreamReceiver.js';
 import { Md5Hasher } from './common/cacheFileStreamer.js';
 import { makeEmptyFile } from './common/makeEmptyFile.js';
-import { ISectionData } from './common/types.js';
+import type { ISectionData } from './common/types.js';
 
 interface ILive {
 	readonly start: number;
@@ -31,10 +31,10 @@ export const defaults = {
 };
 
 enum TriggerKind {
-	manual,
-	timer,
-	dataRecv,
-	sync,
+	manual = 0,
+	timer = 1,
+	dataRecv = 2,
+	sync = 3,
 }
 
 export async function createSectionBuffer<MetaType>(options: ISectionBufferOptions<MetaType>) {
@@ -107,7 +107,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	private killTimer() {
 		if (this._timer) {
 			clearInterval(this._timer);
-			delete this._timer;
+			this._timer = undefined;
 		}
 	}
 
@@ -177,7 +177,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 		}
 	}
 
-	private lastFlush: number = 0;
+	private lastFlush = 0;
 
 	forceSync() {
 		this._isManual = true;
@@ -200,8 +200,8 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	}
 	private async __flushCacheReal() {
 		this.lastFlush = Date.now();
-		let numberWrites = 0,
-			bytesWrite = 0;
+		let numberWrites = 0;
+		let bytesWrite = 0;
 		while (true) {
 			const chunk = this.mem.shift();
 			if (!chunk) break;
@@ -218,7 +218,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	private async __rebuildFinalFile() {
 		this._rebuilding = true;
 
-		const target = dirname(this.options.targetFile) + '/.' + basename(this.options.targetFile);
+		const target = `${dirname(this.options.targetFile)}/.${basename(this.options.targetFile)}`;
 		let hasError = false;
 
 		// console.log('rebuild output file! (to %s)', target);

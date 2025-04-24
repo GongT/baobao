@@ -1,7 +1,7 @@
 import { CollectingStream, streamPromise } from '@idlebox/node';
-import { execa, Options as SpawnOptions } from 'execa';
-import { createWriteStream, existsSync, mkdirSync, truncateSync } from 'fs';
-import { dirname } from 'path';
+import { execa, type Options as SpawnOptions } from 'execa';
+import { createWriteStream, existsSync, mkdirSync, truncateSync } from 'node:fs';
+import { dirname } from 'node:path';
 import split2 from 'split2';
 import { TEMP_DIR } from './paths.js';
 
@@ -33,7 +33,7 @@ export function execPromise({
 	const output = new CollectingStream();
 	const full = new CollectingStream();
 
-	full.write(debugExec + '\n\n');
+	full.write(`${debugExec}\n\n`);
 
 	if (logFile) {
 		mkdirSync(dirname(logFile), { recursive: true });
@@ -43,13 +43,13 @@ export function execPromise({
 	}
 	const logger = logFile ? createWriteStream(logFile) : null;
 	r.stdout.pipe(split2()).on('data', (l) => {
-		output.write(l + '\n');
-		full.write(l + '\n');
-		if (logger) logger.write(l + '\n');
+		output.write(`${l}\n`);
+		full.write(`${l}\n`);
+		if (logger) logger.write(`${l}\n`);
 	});
 	r.stderr.pipe(split2()).on('data', (l) => {
-		full.write(l + '\n');
-		if (logger) logger.write(l + '\n');
+		full.write(`${l}\n`);
+		if (logger) logger.write(`${l}\n`);
 	});
 	Promise.all([streamPromise(r.stdout), streamPromise(r.stderr)]).finally(() => {
 		output.end();
@@ -66,11 +66,11 @@ export function execPromise({
 			if (signal) {
 				const l = '==========================================';
 				console.error(`${l}\n\x1B[0m%s\n${l}`, full.getOutput());
-				reject(new Error('child process exit with signal ' + signal));
+				reject(new Error(`child process exit with signal ${signal}`));
 			} else if (code !== 0) {
 				const l = '==========================================';
 				console.error(`${l}\n\x1B[0m%s\n${l}`, full.getOutput());
-				reject(new Error('child process exit with code ' + code));
+				reject(new Error(`child process exit with code ${code}`));
 			} else {
 				Promise.all([output.promise(), full.promise(), logger ? streamPromise(logger) : null]).then(
 					([output, full]) => {
@@ -79,7 +79,7 @@ export function execPromise({
 							full: full,
 						});
 					},
-					reject,
+					reject
 				);
 			}
 		});

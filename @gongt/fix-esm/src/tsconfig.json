@@ -7,6 +7,6 @@
 		"rootDir": "./",
 		"lib": ["DOM", "ESNext"],
 		"types": ["node"],
-		"importHelpers": false
-	}
+		"importHelpers": false,
+	},
 }

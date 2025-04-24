@@ -1,4 +1,4 @@
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 if (!process.argv.some((e) => e.startsWith('--inspect')) && !process.execArgv.includes('--enable-source-maps')) {
 	require('source-map-support/register');
 }

@@ -8,7 +8,7 @@ import type TypeScriptApi from 'typescript';
 import { GeneratorHolder, type IResult } from './library/code-generator-holder.js';
 export * from './api.js';
 
-export class CodeGenPlugin extends PluginInstance<{}> {
+export class CodeGenPlugin extends PluginInstance {
 	private declare readonly generaters: GeneratorHolder;
 	private declare readonly ts: typeof TypeScriptApi;
 	private declare readonly rootDir: string;
@@ -20,7 +20,7 @@ export class CodeGenPlugin extends PluginInstance<{}> {
 		super.init();
 		const ts = await this.configuration.rigPackageResolver.resolvePackageAsync(
 			'typescript',
-			this.session.logger.terminal,
+			this.session.logger.terminal
 		);
 		Object.assign(this, { ts: require(ts) });
 
@@ -35,7 +35,7 @@ export class CodeGenPlugin extends PluginInstance<{}> {
 	private handle_error(result: IResult) {
 		if (result.errors.length > 0) {
 			for (const item of result.errors) {
-				this.session.logger.emitError(item);
+				this.session.logger.emitError(item.error);
 			}
 		}
 	}

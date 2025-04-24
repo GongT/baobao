@@ -23,17 +23,21 @@ export function tryInspect(object: any) {
 
 	if (object[inspect]) {
 		return object[inspect]();
-	} else if (inspectOld && object[inspectOld]) {
-		return object[inspectOld]();
-	} else if (object['inspect']) {
-		return object['inspect']();
-	} else if (object[Symbol.toStringTag]) {
-		return object[Symbol.toStringTag]();
-	} else if (object.toJSON) {
-		return object.toJSON();
-	} else if (object.constructor?.name) {
-		return `unknown: ${object.constructor.name}`;
-	} else {
-		return 'unknown: ' + object;
 	}
+	if (inspectOld && object[inspectOld]) {
+		return object[inspectOld]();
+	}
+	if (object.inspect) {
+		return object.inspect();
+	}
+	if (object[Symbol.toStringTag]) {
+		return object[Symbol.toStringTag]();
+	}
+	if (object.toJSON) {
+		return object.toJSON();
+	}
+	if (object.constructor?.name) {
+		return `unknown: ${object.constructor.name}`;
+	}
+	return `unknown: ${object}`;
 }

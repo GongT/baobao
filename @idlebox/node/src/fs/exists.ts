@@ -1,7 +1,7 @@
-import { ObjectEncodingOptions } from 'fs';
-import { access, readFile } from 'fs/promises';
+import type { ObjectEncodingOptions } from 'node:fs';
+import { access, readFile } from 'node:fs/promises';
 import { isNotExistsError } from '../error/types.js';
-export { existsSync } from 'fs';
+export { existsSync } from 'node:fs';
 
 export async function exists(path: string) {
 	try {
@@ -22,9 +22,8 @@ async function _readFileIfExists(file: string, encoding?: NodeJS.BufferEncoding 
 		if (isNotExistsError(e)) {
 			if (typeof encoding === 'string' || typeof encoding?.encoding === 'string') {
 				return '';
-			} else {
-				return Buffer.allocUnsafe(0);
 			}
+			return Buffer.allocUnsafe(0);
 		}
 		throw e;
 	}

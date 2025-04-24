@@ -1,8 +1,8 @@
 import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
 
-import { link, readlink, stat, symlink, unlink } from 'fs/promises';
+import { link, readlink, stat, symlink, unlink } from 'node:fs/promises';
 import { glob } from 'glob';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 export const PLUGIN_NAME = 'copy-dts-tree';
 
@@ -51,7 +51,7 @@ export default class CopyDtsTreePlugin implements IHeftTaskPlugin<IOptions> {
 			}
 
 			session.logger.terminal.writeLine(
-				`Copied ${statistics.add}, removed ${statistics.remove}, skipped ${statistics.same}.`,
+				`Copied ${statistics.add}, removed ${statistics.remove}, skipped ${statistics.same}.`
 			);
 		});
 	}

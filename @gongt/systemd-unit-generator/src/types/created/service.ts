@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -52,7 +51,7 @@ export interface IServiceSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#WatchdogSec= */
 	WatchdogSec?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#Restart= */
-	Restart?: "no" | "on-success" | "on-failure" | "on-abnormal" | "on-watchdog" | "on-abort" | "always" | string;
+	Restart?: 'no' | 'on-success' | 'on-failure' | 'on-abnormal' | 'on-watchdog' | 'on-abort' | 'always' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#SuccessExitStatus= */
 	SuccessExitStatus?: string[];
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#RestartPreventExitStatus= */
@@ -64,7 +63,7 @@ export interface IServiceSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#NonBlocking= */
 	NonBlocking?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#NotifyAccess= */
-	NotifyAccess?: "none" | "main" | "exec" | "all" | string;
+	NotifyAccess?: 'none' | 'main' | 'exec' | 'all' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#Sockets= */
 	Sockets?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#FileDescriptorStoreMax= */
@@ -74,13 +73,49 @@ export interface IServiceSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#USBFunctionStrings= */
 	USBFunctionStrings?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#OOMPolicy= */
-	OOMPolicy?: "continue" | "stop" | "kill" | string;
+	OOMPolicy?: 'continue' | 'stop' | 'kill' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#OpenFile= */
 	OpenFile?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.service.html#ReloadSignal= */
 	ReloadSignal?: MaybeArray<string>;
 }
 
-export const serviceFields: readonly string[] = ["Type","ExitType","RemainAfterExit","GuessMainPID","PIDFile","BusName","ExecStart","ExecStartPre","ExecStartPost","ExecCondition","ExecReload","ExecStop","ExecStopPost","RestartSec","TimeoutStartSec","TimeoutStopSec","TimeoutAbortSec","TimeoutSec","TimeoutStartFailureMode","TimeoutStopFailureMode","RuntimeMaxSec","RuntimeRandomizedExtraSec","WatchdogSec","Restart","SuccessExitStatus","RestartPreventExitStatus","RestartForceExitStatus","RootDirectoryStartOnly","NonBlocking","NotifyAccess","Sockets","FileDescriptorStoreMax","USBFunctionDescriptors","USBFunctionStrings","OOMPolicy","OpenFile","ReloadSignal"];
-
-
+export const serviceFields: readonly string[] = [
+	'Type',
+	'ExitType',
+	'RemainAfterExit',
+	'GuessMainPID',
+	'PIDFile',
+	'BusName',
+	'ExecStart',
+	'ExecStartPre',
+	'ExecStartPost',
+	'ExecCondition',
+	'ExecReload',
+	'ExecStop',
+	'ExecStopPost',
+	'RestartSec',
+	'TimeoutStartSec',
+	'TimeoutStopSec',
+	'TimeoutAbortSec',
+	'TimeoutSec',
+	'TimeoutStartFailureMode',
+	'TimeoutStopFailureMode',
+	'RuntimeMaxSec',
+	'RuntimeRandomizedExtraSec',
+	'WatchdogSec',
+	'Restart',
+	'SuccessExitStatus',
+	'RestartPreventExitStatus',
+	'RestartForceExitStatus',
+	'RootDirectoryStartOnly',
+	'NonBlocking',
+	'NotifyAccess',
+	'Sockets',
+	'FileDescriptorStoreMax',
+	'USBFunctionDescriptors',
+	'USBFunctionStrings',
+	'OOMPolicy',
+	'OpenFile',
+	'ReloadSignal',
+];

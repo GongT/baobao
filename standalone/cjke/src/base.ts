@@ -4,7 +4,7 @@ import { ansiRegexConstructorLibrary } from './shim.lib.js';
 function modifyRegexp(reg: RegExp): RegExp {
 	const str = reg.toString().slice(1);
 	const li = str.lastIndexOf('/');
-	return new RegExp('^(?:' + str.slice(0, li) + ')', str.slice(li + 1));
+	return new RegExp(`^(?:${str.slice(0, li)})`, str.slice(li + 1));
 }
 
 /** @internal */

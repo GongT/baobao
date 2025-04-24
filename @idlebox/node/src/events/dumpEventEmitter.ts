@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import type { EventEmitter } from 'node:events';
 
 export function dumpEventEmitterEmit(ev: EventEmitter) {
 	const real = ev.emit;

@@ -1,7 +1,7 @@
 import { PROJECT_ROOT } from '../include/paths.js';
-import { resolve, dirname } from 'path';
+import { resolve, dirname } from 'node:path';
 import { execaNode } from 'execa';
-import { mkdirSync, rmSync, symlinkSync, existsSync } from 'fs';
+import { mkdirSync, rmSync, symlinkSync, existsSync } from 'node:fs';
 
 const __dirname = dirname(import.meta.url).replace(/^file:\/\//, '');
 
@@ -24,14 +24,14 @@ describe('The module', () => {
 	it('should able to require', async () => {
 		const r = await execaNode('require.cjs', { cwd: __dirname, stdio: 'inherit' });
 		if (r.exitCode !== 0) {
-			throw new Error('failed with code ' + r.exitCode);
+			throw new Error(`failed with code ${r.exitCode}`);
 		}
 	});
 
 	it('should able to import', async () => {
 		const r = await execaNode('module.js', { cwd: __dirname, stdio: 'inherit' });
 		if (r.exitCode !== 0) {
-			throw new Error('failed with code ' + r.exitCode);
+			throw new Error(`failed with code ${r.exitCode}`);
 		}
 	});
 });

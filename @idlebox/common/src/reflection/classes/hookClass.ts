@@ -6,7 +6,7 @@ interface IConstructorOf<T> extends Object {
 
 interface IHooks<T, TC> {
 	afterConstruct?: ((obj: T) => void)[];
-	beforeConstruct?: ((obj: TC) => T | void)[];
+	beforeConstruct?: ((obj: TC) => T | undefined)[];
 }
 
 export function hookClass<TC extends IConstructorOf<T>, T>(target: TC): IHooks<T, TC> {

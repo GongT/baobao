@@ -2,8 +2,8 @@ import { getKeySort, setKeySort } from '../tools/attachData.js';
 import { insertArrayAlphabet } from '../tools/array.js';
 
 export enum UnorderdFieldsPlacement {
-	PREPEND,
-	APPENND,
+	PREPEND = 0,
+	APPENND = 1,
 }
 
 export function manipulateJsonResult(data: any, oType: UnorderdFieldsPlacement = UnorderdFieldsPlacement.APPENND) {
@@ -24,9 +24,8 @@ export function manipulateJsonResult(data: any, oType: UnorderdFieldsPlacement =
 
 	if (oType === UnorderdFieldsPlacement.APPENND) {
 		return Object.assign(ret, others);
-	} else {
-		return Object.assign(others, ret);
 	}
+	return Object.assign(others, ret);
 }
 
 export function insertKeyAlphabet(data: any, key: any, value: any): typeof data {

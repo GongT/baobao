@@ -1,21 +1,21 @@
 import { exists } from '@idlebox/node';
-import { access, readFile } from 'fs/promises';
-import { dirname, relative, resolve } from 'path';
+import { access, readFile } from 'node:fs/promises';
+import { dirname, relative, resolve } from 'node:path';
 import { RushProject } from '../api/rushProject.js';
 
 export async function registerProjectToRush(projectPath: string, log = console.log) {
 	projectPath = resolve(process.cwd(), projectPath);
 
 	if (
-		!(await access(projectPath + '/package.json').then(
+		!(await access(`${projectPath}/package.json`).then(
 			() => true,
-			() => false,
+			() => false
 		))
 	) {
-		throw new Error('Can not find package.json at ' + projectPath + '.');
+		throw new Error(`Can not find package.json at ${projectPath}.`);
 	}
 
-	const name = JSON.parse(await readFile(projectPath + '/package.json', 'utf-8')).name;
+	const name = JSON.parse(await readFile(`${projectPath}/package.json`, 'utf-8')).name;
 	if (!name) {
 		throw new Error('No "name" in package.json.');
 	}
@@ -50,10 +50,10 @@ export async function registerProjectToRush(projectPath: string, log = console.l
 			throw new Error(`project name "${name}" is already used at "${nameConflict.projectFolder}".`);
 		}
 
-		msg = 'move previous package from ' + nameConflict.projectFolder;
+		msg = `move previous package from ${nameConflict.projectFolder}`;
 		nameConflict.projectFolder = pathToRegister;
 	} else if (pathConflict) {
-		msg = 'rename previous package ' + pathConflict.packageName;
+		msg = `rename previous package ${pathConflict.packageName}`;
 		pathConflict.packageName = name;
 	} else {
 		msg = '';

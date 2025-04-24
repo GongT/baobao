@@ -1,4 +1,4 @@
-import { DisposedError, Emitter, IStateChangeEvent, SimpleStateMachine } from '@idlebox/common';
+import { DisposedError, Emitter, type IStateChangeEvent, SimpleStateMachine } from '@idlebox/common';
 
 function immediate() {
 	return new Promise<void>((resolve) => {
@@ -6,20 +6,20 @@ function immediate() {
 	});
 }
 
-const enum State {
-	idle, // = 'idle',
-	prepareWork, // = 'prepareWork',
-	working, // = 'working',
-	waitting, // = 'waitting',
-	dispose, // = 'dispose',
+enum State {
+	idle = 0, // = 'idle',
+	prepareWork = 1, // = 'prepareWork',
+	working = 2, // = 'working',
+	waitting = 3, // = 'waitting',
+	dispose = 4, // = 'dispose',
 }
 
-const enum Event {
-	recvTask, // = 'recvTask',
-	taskDone, // = 'taskDone',
-	schedule, // = 'schedule',
-	dispose, // = 'dispose',
-	cancel,
+enum Event {
+	recvTask = 0, // = 'recvTask',
+	taskDone = 1, // = 'taskDone',
+	schedule = 2, // = 'schedule',
+	dispose = 3, // = 'dispose',
+	cancel = 4,
 }
 
 const rules = new Map([
@@ -89,18 +89,18 @@ export class LossyAsyncQueue<T = void> {
 			if (this._promise) throw new Error('invalid program state');
 			this._promise = this._execute();
 		} else if (ev.from === State.idle && ev.to === State.idle) {
-			delete this.task;
+			this.task = undefined;
 		} else if (ev.from === State.prepareWork && ev.to === State.working) {
 			// console.log('[AsyncQueue] start working');
 		} else if (ev.from === State.prepareWork && ev.to === State.prepareWork) {
 			// empty
 		} else if (ev.from === State.prepareWork && ev.to === State.idle) {
-			delete this.task;
+			this.task = undefined;
 		} else if (ev.from === State.working && ev.to === State.idle) {
 			// console.log('[AsyncQueue] finish working (%s)', this.state.getName());
 
 			if (!this._promise) throw new Error('invalid program state');
-			delete this._promise;
+			this._promise = undefined;
 			this._onBusy.fire(false);
 		} else if (ev.from === State.working && ev.to === State.waitting) {
 			this._onBusy.fire(true);
@@ -114,7 +114,7 @@ export class LossyAsyncQueue<T = void> {
 		} else if (ev.from === State.waitting && ev.to === State.waitting) {
 			this._onBusy.fire(true);
 		} else if (ev.from === State.waitting && ev.to === State.working) {
-			delete this.task;
+			this.task = undefined;
 		} else if (ev.to === State.dispose) {
 			// empty
 		} else {
@@ -133,7 +133,7 @@ export class LossyAsyncQueue<T = void> {
 		if (this.state.getName() === State.dispose) return;
 
 		const task = this.task!;
-		delete this.task;
+		this.task = undefined;
 
 		this.state.change(Event.schedule);
 

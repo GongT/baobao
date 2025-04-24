@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -43,7 +42,26 @@ export interface INetworkMatchSection {
 	Firmware?: MaybeArray<string>;
 }
 
-export const networkMatchFields: readonly string[] = ["MACAddress","PermanentMACAddress","Path","Driver","Type","Kind","Property","Name","WLANInterfaceType","SSID","BSSID","Host","Virtualization","KernelCommandLine","KernelVersion","Credential","Architecture","Firmware"];
+export const networkMatchFields: readonly string[] = [
+	'MACAddress',
+	'PermanentMACAddress',
+	'Path',
+	'Driver',
+	'Type',
+	'Kind',
+	'Property',
+	'Name',
+	'WLANInterfaceType',
+	'SSID',
+	'BSSID',
+	'Host',
+	'Virtualization',
+	'KernelCommandLine',
+	'KernelVersion',
+	'Credential',
+	'Architecture',
+	'Firmware',
+];
 
 export interface INetworkLinkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MACAddress= */
@@ -65,12 +83,24 @@ export interface INetworkLinkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RequiredForOnline= */
 	RequiredForOnline?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RequiredFamilyForOnline= */
-	RequiredFamilyForOnline?: "ipv4" | "ipv6" | "both" | "any" | string;
+	RequiredFamilyForOnline?: 'ipv4' | 'ipv6' | 'both' | 'any' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ActivationPolicy= */
-	ActivationPolicy?: "up" | "always-up" | "manual" | "always-down" | "down" | "bound" | string;
+	ActivationPolicy?: 'up' | 'always-up' | 'manual' | 'always-down' | 'down' | 'bound' | string;
 }
 
-export const networkLinkFields: readonly string[] = ["MACAddress","MTUBytes","ARP","Multicast","AllMulticast","Promiscuous","Unmanaged","Group","RequiredForOnline","RequiredFamilyForOnline","ActivationPolicy"];
+export const networkLinkFields: readonly string[] = [
+	'MACAddress',
+	'MTUBytes',
+	'ARP',
+	'Multicast',
+	'AllMulticast',
+	'Promiscuous',
+	'Unmanaged',
+	'Group',
+	'RequiredForOnline',
+	'RequiredFamilyForOnline',
+	'ActivationPolicy',
+];
 
 export interface INetworkSrIov_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#VirtualFunction= */
@@ -93,7 +123,17 @@ export interface INetworkSrIov_SectionOptionsOptions {
 	MACAddress?: MaybeArray<string>;
 }
 
-export const networkSrIov_SectionOptionsFields: readonly string[] = ["VirtualFunction","VLANId","QualityOfService","VLANProtocol","MACSpoofCheck","QueryReceiveSideScaling","Trust","LinkState","MACAddress"];
+export const networkSrIov_SectionOptionsFields: readonly string[] = [
+	'VirtualFunction',
+	'VLANId',
+	'QualityOfService',
+	'VLANProtocol',
+	'MACSpoofCheck',
+	'QueryReceiveSideScaling',
+	'Trust',
+	'LinkState',
+	'MACAddress',
+];
 
 export interface INetworkNetworkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Description= */
@@ -105,7 +145,7 @@ export interface INetworkNetworkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#LinkLocalAddressing= */
 	LinkLocalAddressing?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPv6LinkLocalAddressGenerationMode= */
-	IPv6LinkLocalAddressGenerationMode?: "eui64" | "none" | "stable-privacy" | "random" | string;
+	IPv6LinkLocalAddressGenerationMode?: 'eui64' | 'none' | 'stable-privacy' | 'random' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPv6StableSecretAddress= */
 	IPv6StableSecretAddress?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPv4LLStartAddress= */
@@ -145,7 +185,7 @@ export interface INetworkNetworkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPForward= */
 	IPForward?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPMasquerade= */
-	IPMasquerade?: "ipv4" | "ipv6" | "both" | "no" | string;
+	IPMasquerade?: 'ipv4' | 'ipv6' | 'both' | 'no' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPv6PrivacyExtensions= */
 	IPv6PrivacyExtensions?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPv6AcceptRA= */
@@ -212,7 +252,65 @@ export interface INetworkNetworkSection {
 	KeepConfiguration?: MaybeArray<string>;
 }
 
-export const networkNetworkFields: readonly string[] = ["Description","DHCP","DHCPServer","LinkLocalAddressing","IPv6LinkLocalAddressGenerationMode","IPv6StableSecretAddress","IPv4LLStartAddress","IPv4LLRoute","DefaultRouteOnDevice","LLMNR","MulticastDNS","DNSOverTLS","DNSSEC","DNSSECNegativeTrustAnchors","LLDP","EmitLLDP","BindCarrier","Address","Gateway","DNS","Domains","DNSDefaultRoute","NTP","IPForward","IPMasquerade","IPv6PrivacyExtensions","IPv6AcceptRA","IPv6DuplicateAddressDetection","IPv6HopLimit","IPv4AcceptLocal","IPv4RouteLocalnet","IPv4ProxyARP","IPv6ProxyNDP","IPv6ProxyNDPAddress","IPv6SendRA","DHCPPrefixDelegation","IPv6MTUBytes","KeepMaster","BatmanAdvanced","Bond","Bridge","VRF","IPoIB","IPVLAN","IPVTAP","MACsec","MACVLAN","MACVTAP","Tunnel","VLAN","VXLAN","Xfrm","ActiveSlave","PrimarySlave","ConfigureWithoutCarrier","IgnoreCarrierLoss","KeepConfiguration"];
+export const networkNetworkFields: readonly string[] = [
+	'Description',
+	'DHCP',
+	'DHCPServer',
+	'LinkLocalAddressing',
+	'IPv6LinkLocalAddressGenerationMode',
+	'IPv6StableSecretAddress',
+	'IPv4LLStartAddress',
+	'IPv4LLRoute',
+	'DefaultRouteOnDevice',
+	'LLMNR',
+	'MulticastDNS',
+	'DNSOverTLS',
+	'DNSSEC',
+	'DNSSECNegativeTrustAnchors',
+	'LLDP',
+	'EmitLLDP',
+	'BindCarrier',
+	'Address',
+	'Gateway',
+	'DNS',
+	'Domains',
+	'DNSDefaultRoute',
+	'NTP',
+	'IPForward',
+	'IPMasquerade',
+	'IPv6PrivacyExtensions',
+	'IPv6AcceptRA',
+	'IPv6DuplicateAddressDetection',
+	'IPv6HopLimit',
+	'IPv4AcceptLocal',
+	'IPv4RouteLocalnet',
+	'IPv4ProxyARP',
+	'IPv6ProxyNDP',
+	'IPv6ProxyNDPAddress',
+	'IPv6SendRA',
+	'DHCPPrefixDelegation',
+	'IPv6MTUBytes',
+	'KeepMaster',
+	'BatmanAdvanced',
+	'Bond',
+	'Bridge',
+	'VRF',
+	'IPoIB',
+	'IPVLAN',
+	'IPVTAP',
+	'MACsec',
+	'MACVLAN',
+	'MACVTAP',
+	'Tunnel',
+	'VLAN',
+	'VXLAN',
+	'Xfrm',
+	'ActiveSlave',
+	'PrimarySlave',
+	'ConfigureWithoutCarrier',
+	'IgnoreCarrierLoss',
+	'KeepConfiguration',
+];
 
 export interface INetworkAddressSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Address= */
@@ -232,7 +330,7 @@ export interface INetworkAddressSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#HomeAddress= */
 	HomeAddress?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#DuplicateAddressDetection= */
-	DuplicateAddressDetection?: "ipv4" | "ipv6" | "both" | "none" | string;
+	DuplicateAddressDetection?: 'ipv4' | 'ipv6' | 'both' | 'none' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ManageTemporaryAddress= */
 	ManageTemporaryAddress?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#AddPrefixRoute= */
@@ -243,7 +341,21 @@ export interface INetworkAddressSection {
 	NetLabel?: MaybeArray<string>;
 }
 
-export const networkAddressFields: readonly string[] = ["Address","Peer","Broadcast","Label","PreferredLifetime","Scope","RouteMetric","HomeAddress","DuplicateAddressDetection","ManageTemporaryAddress","AddPrefixRoute","AutoJoin","NetLabel"];
+export const networkAddressFields: readonly string[] = [
+	'Address',
+	'Peer',
+	'Broadcast',
+	'Label',
+	'PreferredLifetime',
+	'Scope',
+	'RouteMetric',
+	'HomeAddress',
+	'DuplicateAddressDetection',
+	'ManageTemporaryAddress',
+	'AddPrefixRoute',
+	'AutoJoin',
+	'NetLabel',
+];
 
 export interface INetworkNeighborSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Address= */
@@ -252,7 +364,7 @@ export interface INetworkNeighborSection {
 	LinkLayerAddress?: MaybeArray<string>;
 }
 
-export const networkNeighborFields: readonly string[] = ["Address","LinkLayerAddress"];
+export const networkNeighborFields: readonly string[] = ['Address', 'LinkLayerAddress'];
 
 export interface INetworkIpv6addresslabel_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Label= */
@@ -261,7 +373,7 @@ export interface INetworkIpv6addresslabel_SectionOptionsOptions {
 	Prefix?: MaybeArray<string>;
 }
 
-export const networkIpv6addresslabel_SectionOptionsFields: readonly string[] = ["Label","Prefix"];
+export const networkIpv6addresslabel_SectionOptionsFields: readonly string[] = ['Label', 'Prefix'];
 
 export interface INetworkRoutingpolicyruleSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#TypeOfService= */
@@ -273,7 +385,19 @@ export interface INetworkRoutingpolicyruleSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#FirewallMark= */
 	FirewallMark?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Table= */
-	Table?: "predefined" | "names" | "default" | "main" | "local" | "names" | "defined" | "in" | "RouteTable=" | "in" | "networkd" | string;
+	Table?:
+		| 'predefined'
+		| 'names'
+		| 'default'
+		| 'main'
+		| 'local'
+		| 'names'
+		| 'defined'
+		| 'in'
+		| 'RouteTable='
+		| 'in'
+		| 'networkd'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Priority= */
 	Priority?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IncomingInterface= */
@@ -297,10 +421,28 @@ export interface INetworkRoutingpolicyruleSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SuppressInterfaceGroup= */
 	SuppressInterfaceGroup?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Type= */
-	Type?: "blackhole" | "unreachable" | "prohibit" | string;
+	Type?: 'blackhole' | 'unreachable' | 'prohibit' | string;
 }
 
-export const networkRoutingpolicyruleFields: readonly string[] = ["TypeOfService","From","To","FirewallMark","Table","Priority","IncomingInterface","OutgoingInterface","SourcePort","DestinationPort","IPProtocol","InvertRule","Family","User","SuppressPrefixLength","SuppressInterfaceGroup","Type"];
+export const networkRoutingpolicyruleFields: readonly string[] = [
+	'TypeOfService',
+	'From',
+	'To',
+	'FirewallMark',
+	'Table',
+	'Priority',
+	'IncomingInterface',
+	'OutgoingInterface',
+	'SourcePort',
+	'DestinationPort',
+	'IPProtocol',
+	'InvertRule',
+	'Family',
+	'User',
+	'SuppressPrefixLength',
+	'SuppressInterfaceGroup',
+	'Type',
+];
 
 export interface INetworkNexthopSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Id= */
@@ -308,7 +450,7 @@ export interface INetworkNexthopSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Gateway= */
 	Gateway?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Family= */
-	Family?: "the" | "special" | "values" | "ipv4" | "ipv6" | string;
+	Family?: 'the' | 'special' | 'values' | 'ipv4' | 'ipv6' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#OnLink= */
 	OnLink?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Blackhole= */
@@ -317,7 +459,7 @@ export interface INetworkNexthopSection {
 	Group?: MaybeArray<string>;
 }
 
-export const networkNexthopFields: readonly string[] = ["Id","Gateway","Family","OnLink","Blackhole","Group"];
+export const networkNexthopFields: readonly string[] = ['Id', 'Gateway', 'Family', 'OnLink', 'Blackhole', 'Group'];
 
 export interface INetworkRouteSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Gateway= */
@@ -337,11 +479,35 @@ export interface INetworkRouteSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PreferredSource= */
 	PreferredSource?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Table= */
-	Table?: "predefined" | "names" | "default" | "main" | "local" | "names" | "defined" | "in" | "RouteTable=" | "in" | "networkd" | string;
+	Table?:
+		| 'predefined'
+		| 'names'
+		| 'default'
+		| 'main'
+		| 'local'
+		| 'names'
+		| 'defined'
+		| 'in'
+		| 'RouteTable='
+		| 'in'
+		| 'networkd'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Protocol= */
 	Protocol?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Type= */
-	Type?: "unicast" | "local" | "broadcast" | "anycast" | "multicast" | "blackhole" | "unreachable" | "prohibit" | "throw" | "nat" | "xresolve" | string;
+	Type?:
+		| 'unicast'
+		| 'local'
+		| 'broadcast'
+		| 'anycast'
+		| 'multicast'
+		| 'blackhole'
+		| 'unreachable'
+		| 'prohibit'
+		| 'throw'
+		| 'nat'
+		| 'xresolve'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#InitialCongestionWindow= */
 	InitialCongestionWindow?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#InitialAdvertisedReceiveWindow= */
@@ -362,7 +528,28 @@ export interface INetworkRouteSection {
 	NextHop?: MaybeArray<string>;
 }
 
-export const networkRouteFields: readonly string[] = ["Gateway","GatewayOnLink","Destination","Source","Metric","IPv6Preference","Scope","PreferredSource","Table","Protocol","Type","InitialCongestionWindow","InitialAdvertisedReceiveWindow","QuickAck","FastOpenNoCookie","TTLPropagate","MTUBytes","TCPAdvertisedMaximumSegmentSize","TCPCongestionControlAlgorithm","NextHop"];
+export const networkRouteFields: readonly string[] = [
+	'Gateway',
+	'GatewayOnLink',
+	'Destination',
+	'Source',
+	'Metric',
+	'IPv6Preference',
+	'Scope',
+	'PreferredSource',
+	'Table',
+	'Protocol',
+	'Type',
+	'InitialCongestionWindow',
+	'InitialAdvertisedReceiveWindow',
+	'QuickAck',
+	'FastOpenNoCookie',
+	'TTLPropagate',
+	'MTUBytes',
+	'TCPAdvertisedMaximumSegmentSize',
+	'TCPCongestionControlAlgorithm',
+	'NextHop',
+];
 
 export interface INetworkDhcpv4_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SendHostname= */
@@ -372,7 +559,7 @@ export interface INetworkDhcpv4_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MUDURL= */
 	MUDURL?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ClientIdentifier= */
-	ClientIdentifier?: "mac" | "duid" | "duid-only" | string;
+	ClientIdentifier?: 'mac' | 'duid' | 'duid-only' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#VendorClassIdentifier= */
 	VendorClassIdentifier?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#UserClass= */
@@ -388,11 +575,11 @@ export interface INetworkDhcpv4_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RequestOptions= */
 	RequestOptions?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SendOption= */
-	SendOption?: "uint8" | "uint16" | "uint32" | "ipv4address" | "string" | string;
+	SendOption?: 'uint8' | 'uint16' | 'uint32' | 'ipv4address' | 'string' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SendVendorOption= */
-	SendVendorOption?: "uint8" | "uint16" | "uint32" | "ipv4address" | "string" | string;
+	SendVendorOption?: 'uint8' | 'uint16' | 'uint32' | 'ipv4address' | 'string' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IPServiceType= */
-	IPServiceType?: "the" | "special" | "values" | "none" | "CS6" | "CS4" | string;
+	IPServiceType?: 'the' | 'special' | 'values' | 'none' | 'CS6' | 'CS4' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SocketPriority= */
 	SocketPriority?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Label= */
@@ -418,7 +605,19 @@ export interface INetworkDhcpv4_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RouteMetric= */
 	RouteMetric?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RouteTable= */
-	RouteTable?: "predefined" | "names" | "default" | "main" | "local" | "names" | "defined" | "in" | "RouteTable=" | "in" | "networkd" | string;
+	RouteTable?:
+		| 'predefined'
+		| 'names'
+		| 'default'
+		| 'main'
+		| 'local'
+		| 'names'
+		| 'defined'
+		| 'in'
+		| 'RouteTable='
+		| 'in'
+		| 'networkd'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RouteMTUBytes= */
 	RouteMTUBytes?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#QuickAck= */
@@ -430,7 +629,7 @@ export interface INetworkDhcpv4_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Use6RD= */
 	Use6RD?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#FallbackLeaseLifetimeSec= */
-	FallbackLeaseLifetimeSec?: "forever" | "infinity" | string;
+	FallbackLeaseLifetimeSec?: 'forever' | 'infinity' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RequestBroadcast= */
 	RequestBroadcast?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MaxAttempts= */
@@ -449,7 +648,49 @@ export interface INetworkDhcpv4_SectionOptionsOptions {
 	NetLabel?: MaybeArray<string>;
 }
 
-export const networkDhcpv4_SectionOptionsFields: readonly string[] = ["SendHostname","Hostname","MUDURL","ClientIdentifier","VendorClassIdentifier","UserClass","DUIDType","DUIDRawData","IAID","Anonymize","RequestOptions","SendOption","SendVendorOption","IPServiceType","SocketPriority","Label","UseDNS","RoutesToDNS","UseNTP","RoutesToNTP","UseSIP","UseMTU","UseHostname","UseDomains","UseRoutes","RouteMetric","RouteTable","RouteMTUBytes","QuickAck","UseGateway","UseTimezone","Use6RD","FallbackLeaseLifetimeSec","RequestBroadcast","MaxAttempts","ListenPort","DenyList","AllowList","SendRelease","SendDecline","NetLabel"];
+export const networkDhcpv4_SectionOptionsFields: readonly string[] = [
+	'SendHostname',
+	'Hostname',
+	'MUDURL',
+	'ClientIdentifier',
+	'VendorClassIdentifier',
+	'UserClass',
+	'DUIDType',
+	'DUIDRawData',
+	'IAID',
+	'Anonymize',
+	'RequestOptions',
+	'SendOption',
+	'SendVendorOption',
+	'IPServiceType',
+	'SocketPriority',
+	'Label',
+	'UseDNS',
+	'RoutesToDNS',
+	'UseNTP',
+	'RoutesToNTP',
+	'UseSIP',
+	'UseMTU',
+	'UseHostname',
+	'UseDomains',
+	'UseRoutes',
+	'RouteMetric',
+	'RouteTable',
+	'RouteMTUBytes',
+	'QuickAck',
+	'UseGateway',
+	'UseTimezone',
+	'Use6RD',
+	'FallbackLeaseLifetimeSec',
+	'RequestBroadcast',
+	'MaxAttempts',
+	'ListenPort',
+	'DenyList',
+	'AllowList',
+	'SendRelease',
+	'SendDecline',
+	'NetLabel',
+];
 
 export interface INetworkDhcpv6_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MUDURL= */
@@ -465,7 +706,7 @@ export interface INetworkDhcpv6_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SendOption= */
 	SendOption?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SendVendorOption= */
-	SendVendorOption?: "uint8" | "uint16" | "uint32" | "ipv4address" | "ipv6address" | "string" | string;
+	SendVendorOption?: 'uint8' | 'uint16' | 'uint32' | 'ipv4address' | 'ipv6address' | 'string' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#UserClass= */
 	UserClass?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#VendorClass= */
@@ -491,10 +732,31 @@ export interface INetworkDhcpv6_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#UseDNS= */
 	SendRelease?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#WithoutRA= */
-	WithoutRA?: "no" | "solicit" | "information-request" | string;
+	WithoutRA?: 'no' | 'solicit' | 'information-request' | string;
 }
 
-export const networkDhcpv6_SectionOptionsFields: readonly string[] = ["MUDURL","IAID","DUIDType","DUIDRawData","RequestOptions","SendOption","SendVendorOption","UserClass","VendorClass","PrefixDelegationHint","RapidCommit","UseAddress","UseDelegatedPrefix","UseDNS","UseNTP","UseHostname","UseDomains","NetLabel","SendRelease","WithoutRA"];
+export const networkDhcpv6_SectionOptionsFields: readonly string[] = [
+	'MUDURL',
+	'IAID',
+	'DUIDType',
+	'DUIDRawData',
+	'RequestOptions',
+	'SendOption',
+	'SendVendorOption',
+	'UserClass',
+	'VendorClass',
+	'PrefixDelegationHint',
+	'RapidCommit',
+	'UseAddress',
+	'UseDelegatedPrefix',
+	'UseDNS',
+	'UseNTP',
+	'UseHostname',
+	'UseDomains',
+	'NetLabel',
+	'SendRelease',
+	'WithoutRA',
+];
 
 export interface INetworkDhcpprefixdelegationSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#UplinkInterface= */
@@ -515,7 +777,16 @@ export interface INetworkDhcpprefixdelegationSection {
 	NetLabel?: MaybeArray<string>;
 }
 
-export const networkDhcpprefixdelegationFields: readonly string[] = ["UplinkInterface","SubnetId","Announce","Assign","Token","ManageTemporaryAddress","RouteMetric","NetLabel"];
+export const networkDhcpprefixdelegationFields: readonly string[] = [
+	'UplinkInterface',
+	'SubnetId',
+	'Announce',
+	'Assign',
+	'Token',
+	'ManageTemporaryAddress',
+	'RouteMetric',
+	'NetLabel',
+];
 
 export interface INetworkIpv6acceptra_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Token= */
@@ -525,7 +796,19 @@ export interface INetworkIpv6acceptra_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#UseDomains= */
 	UseDomains?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RouteTable= */
-	RouteTable?: "predefined" | "names" | "default" | "main" | "local" | "names" | "defined" | "in" | "RouteTable=" | "in" | "networkd" | string;
+	RouteTable?:
+		| 'predefined'
+		| 'names'
+		| 'default'
+		| 'main'
+		| 'local'
+		| 'names'
+		| 'defined'
+		| 'in'
+		| 'RouteTable='
+		| 'in'
+		| 'networkd'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RouteMetric= */
 	RouteMetric?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#QuickAck= */
@@ -558,7 +841,27 @@ export interface INetworkIpv6acceptra_SectionOptionsOptions {
 	NetLabel?: MaybeArray<string>;
 }
 
-export const networkIpv6acceptra_SectionOptionsFields: readonly string[] = ["Token","UseDNS","UseDomains","RouteTable","RouteMetric","QuickAck","UseMTU","UseGateway","UseRoutePrefix","UseAutonomousPrefix","UseOnLinkPrefix","RouterDenyList","RouterAllowList","PrefixDenyList","PrefixAllowList","RouteDenyList","RouteAllowList","DHCPv6Client","NetLabel"];
+export const networkIpv6acceptra_SectionOptionsFields: readonly string[] = [
+	'Token',
+	'UseDNS',
+	'UseDomains',
+	'RouteTable',
+	'RouteMetric',
+	'QuickAck',
+	'UseMTU',
+	'UseGateway',
+	'UseRoutePrefix',
+	'UseAutonomousPrefix',
+	'UseOnLinkPrefix',
+	'RouterDenyList',
+	'RouterAllowList',
+	'PrefixDenyList',
+	'PrefixAllowList',
+	'RouteDenyList',
+	'RouteAllowList',
+	'DHCPv6Client',
+	'NetLabel',
+];
 
 export interface INetworkDhcpserverSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ServerAddress= */
@@ -612,9 +915,9 @@ export interface INetworkDhcpserverSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#BootFilename= */
 	BootFilename?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SendOption= */
-	SendOption?: "uint8" | "uint16" | "uint32" | "ipv4address" | "ipv6address" | "string" | string;
+	SendOption?: 'uint8' | 'uint16' | 'uint32' | 'ipv4address' | 'ipv6address' | 'string' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#SendVendorOption= */
-	SendVendorOption?: "uint8" | "uint16" | "uint32" | "ipv4address" | "string" | string;
+	SendVendorOption?: 'uint8' | 'uint16' | 'uint32' | 'ipv4address' | 'string' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#BindToInterface= */
 	BindToInterface?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#RelayTarget= */
@@ -625,7 +928,39 @@ export interface INetworkDhcpserverSection {
 	RelayAgentRemoteId?: MaybeArray<string>;
 }
 
-export const networkDhcpserverFields: readonly string[] = ["ServerAddress","PoolOffset","PoolSize","DefaultLeaseTimeSec","MaxLeaseTimeSec","UplinkInterface","EmitDNS","DNS","EmitNTP","NTP","EmitSIP","SIP","EmitPOP3","POP3","EmitSMTP","SMTP","EmitLPR","LPR","EmitRouter","Router","EmitTimezone","Timezone","BootServerAddress","BootServerName","BootFilename","SendOption","SendVendorOption","BindToInterface","RelayTarget","RelayAgentCircuitId","RelayAgentRemoteId"];
+export const networkDhcpserverFields: readonly string[] = [
+	'ServerAddress',
+	'PoolOffset',
+	'PoolSize',
+	'DefaultLeaseTimeSec',
+	'MaxLeaseTimeSec',
+	'UplinkInterface',
+	'EmitDNS',
+	'DNS',
+	'EmitNTP',
+	'NTP',
+	'EmitSIP',
+	'SIP',
+	'EmitPOP3',
+	'POP3',
+	'EmitSMTP',
+	'SMTP',
+	'EmitLPR',
+	'LPR',
+	'EmitRouter',
+	'Router',
+	'EmitTimezone',
+	'Timezone',
+	'BootServerAddress',
+	'BootServerName',
+	'BootFilename',
+	'SendOption',
+	'SendVendorOption',
+	'BindToInterface',
+	'RelayTarget',
+	'RelayAgentCircuitId',
+	'RelayAgentRemoteId',
+];
 
 export interface INetworkDhcpserverstaticleaseSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MACAddress= */
@@ -634,7 +969,7 @@ export interface INetworkDhcpserverstaticleaseSection {
 	Address?: MaybeArray<string>;
 }
 
-export const networkDhcpserverstaticleaseFields: readonly string[] = ["MACAddress","Address"];
+export const networkDhcpserverstaticleaseFields: readonly string[] = ['MACAddress', 'Address'];
 
 export interface INetworkIpv6sendra_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Managed= */
@@ -659,7 +994,18 @@ export interface INetworkIpv6sendra_SectionOptionsOptions {
 	DNSLifetimeSec?: MaybeArray<string>;
 }
 
-export const networkIpv6sendra_SectionOptionsFields: readonly string[] = ["Managed","OtherInformation","RouterLifetimeSec","RouterPreference","UplinkInterface","EmitDNS","DNS","EmitDomains","Domains","DNSLifetimeSec"];
+export const networkIpv6sendra_SectionOptionsFields: readonly string[] = [
+	'Managed',
+	'OtherInformation',
+	'RouterLifetimeSec',
+	'RouterPreference',
+	'UplinkInterface',
+	'EmitDNS',
+	'DNS',
+	'EmitDomains',
+	'Domains',
+	'DNSLifetimeSec',
+];
 
 export interface INetworkIpv6prefix_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#AddressAutoconfiguration= */
@@ -680,7 +1026,16 @@ export interface INetworkIpv6prefix_SectionOptionsOptions {
 	RouteMetric?: MaybeArray<string>;
 }
 
-export const networkIpv6prefix_SectionOptionsFields: readonly string[] = ["AddressAutoconfiguration","OnLink","Prefix","PreferredLifetimeSec","ValidLifetimeSec","Assign","Token","RouteMetric"];
+export const networkIpv6prefix_SectionOptionsFields: readonly string[] = [
+	'AddressAutoconfiguration',
+	'OnLink',
+	'Prefix',
+	'PreferredLifetimeSec',
+	'ValidLifetimeSec',
+	'Assign',
+	'Token',
+	'RouteMetric',
+];
 
 export interface INetworkIpv6routeprefix_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Route= */
@@ -689,7 +1044,7 @@ export interface INetworkIpv6routeprefix_SectionOptionsOptions {
 	LifetimeSec?: MaybeArray<string>;
 }
 
-export const networkIpv6routeprefix_SectionOptionsFields: readonly string[] = ["Route","LifetimeSec"];
+export const networkIpv6routeprefix_SectionOptionsFields: readonly string[] = ['Route', 'LifetimeSec'];
 
 export interface INetworkBridgeSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#UnicastFlood= */
@@ -717,14 +1072,73 @@ export interface INetworkBridgeSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ProxyARPWiFi= */
 	ProxyARPWiFi?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MulticastRouter= */
-	MulticastRouter?: "no" | "to" | "disable" | "multicast" | "routers" | "on" | "this" | "port" | "query" | "to" | "let" | "the" | "system" | "detect" | "the" | "presence" | "of" | "routers" | "permanent" | "to" | "permanently" | "enable" | "multicast" | "traffic" | "forwarding" | "on" | "this" | "port" | "temporary" | "to" | "enable" | "multicast" | "routers" | "temporarily" | "on" | "this" | "port" | "not" | "depending" | "on" | "incoming" | "queries" | string;
+	MulticastRouter?:
+		| 'no'
+		| 'to'
+		| 'disable'
+		| 'multicast'
+		| 'routers'
+		| 'on'
+		| 'this'
+		| 'port'
+		| 'query'
+		| 'to'
+		| 'let'
+		| 'the'
+		| 'system'
+		| 'detect'
+		| 'the'
+		| 'presence'
+		| 'of'
+		| 'routers'
+		| 'permanent'
+		| 'to'
+		| 'permanently'
+		| 'enable'
+		| 'multicast'
+		| 'traffic'
+		| 'forwarding'
+		| 'on'
+		| 'this'
+		| 'port'
+		| 'temporary'
+		| 'to'
+		| 'enable'
+		| 'multicast'
+		| 'routers'
+		| 'temporarily'
+		| 'on'
+		| 'this'
+		| 'port'
+		| 'not'
+		| 'depending'
+		| 'on'
+		| 'incoming'
+		| 'queries'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Cost= */
 	Cost?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Priority= */
 	Priority?: MaybeArray<string>;
 }
 
-export const networkBridgeFields: readonly string[] = ["UnicastFlood","MulticastFlood","MulticastToUnicast","NeighborSuppression","Learning","HairPin","Isolated","UseBPDU","FastLeave","AllowPortToBeRoot","ProxyARP","ProxyARPWiFi","MulticastRouter","Cost","Priority"];
+export const networkBridgeFields: readonly string[] = [
+	'UnicastFlood',
+	'MulticastFlood',
+	'MulticastToUnicast',
+	'NeighborSuppression',
+	'Learning',
+	'HairPin',
+	'Isolated',
+	'UseBPDU',
+	'FastLeave',
+	'AllowPortToBeRoot',
+	'ProxyARP',
+	'ProxyARPWiFi',
+	'MulticastRouter',
+	'Cost',
+	'Priority',
+];
 
 export interface INetworkBridgefdbSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MACAddress= */
@@ -736,12 +1150,19 @@ export interface INetworkBridgefdbSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#VNI= */
 	VNI?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#AssociatedWith= */
-	AssociatedWith?: "use" | "self" | "master" | "router" | string;
+	AssociatedWith?: 'use' | 'self' | 'master' | 'router' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#OutgoingInterface= */
 	OutgoingInterface?: MaybeArray<string>;
 }
 
-export const networkBridgefdbFields: readonly string[] = ["MACAddress","Destination","VLANId","VNI","AssociatedWith","OutgoingInterface"];
+export const networkBridgefdbFields: readonly string[] = [
+	'MACAddress',
+	'Destination',
+	'VLANId',
+	'VNI',
+	'AssociatedWith',
+	'OutgoingInterface',
+];
 
 export interface INetworkBridgemdbSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MulticastGroupAddress= */
@@ -750,14 +1171,14 @@ export interface INetworkBridgemdbSection {
 	VLANId?: MaybeArray<string>;
 }
 
-export const networkBridgemdbFields: readonly string[] = ["MulticastGroupAddress","VLANId"];
+export const networkBridgemdbFields: readonly string[] = ['MulticastGroupAddress', 'VLANId'];
 
 export interface INetworkLldpSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MUDURL= */
 	MUDURL?: MaybeArray<string>;
 }
 
-export const networkLldpFields: readonly string[] = ["MUDURL"];
+export const networkLldpFields: readonly string[] = ['MUDURL'];
 
 export interface INetworkCanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#BitRate= */
@@ -812,29 +1233,55 @@ export interface INetworkCanSection {
 	ClassicDataLengthCode?: MaybeArray<string>;
 }
 
-export const networkCanFields: readonly string[] = ["BitRate","SamplePoint","TimeQuantaNSec","PropagationSegment","PhaseBufferSegment1","PhaseBufferSegment2","SyncJumpWidth","DataBitRate","DataSamplePoint","DataTimeQuantaNSec","DataPropagationSegment","DataPhaseBufferSegment1","DataPhaseBufferSegment2","DataSyncJumpWidth","FDMode","FDNonISO","RestartSec","Termination","TripleSampling","BusErrorReporting","ListenOnly","Loopback","OneShot","PresumeAck","ClassicDataLengthCode"];
+export const networkCanFields: readonly string[] = [
+	'BitRate',
+	'SamplePoint',
+	'TimeQuantaNSec',
+	'PropagationSegment',
+	'PhaseBufferSegment1',
+	'PhaseBufferSegment2',
+	'SyncJumpWidth',
+	'DataBitRate',
+	'DataSamplePoint',
+	'DataTimeQuantaNSec',
+	'DataPropagationSegment',
+	'DataPhaseBufferSegment1',
+	'DataPhaseBufferSegment2',
+	'DataSyncJumpWidth',
+	'FDMode',
+	'FDNonISO',
+	'RestartSec',
+	'Termination',
+	'TripleSampling',
+	'BusErrorReporting',
+	'ListenOnly',
+	'Loopback',
+	'OneShot',
+	'PresumeAck',
+	'ClassicDataLengthCode',
+];
 
 export interface INetworkIpoibSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Mode= */
-	Mode?: "the" | "special" | "values" | "datagram" | "connected" | string;
+	Mode?: 'the' | 'special' | 'values' | 'datagram' | 'connected' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#IgnoreUserspaceMulticastGroup= */
 	IgnoreUserspaceMulticastGroup?: MaybeArray<string>;
 }
 
-export const networkIpoibFields: readonly string[] = ["Mode","IgnoreUserspaceMulticastGroup"];
+export const networkIpoibFields: readonly string[] = ['Mode', 'IgnoreUserspaceMulticastGroup'];
 
 export interface INetworkQdiscSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "clsact" | "ingress" | string;
+	Parent?: 'clsact' | 'ingress' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 }
 
-export const networkQdiscFields: readonly string[] = ["Parent","Handle"];
+export const networkQdiscFields: readonly string[] = ['Parent', 'Handle'];
 
 export interface INetworkNetworkemulatorSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#DelaySec= */
@@ -849,11 +1296,19 @@ export interface INetworkNetworkemulatorSection {
 	DuplicateRate?: MaybeArray<string>;
 }
 
-export const networkNetworkemulatorFields: readonly string[] = ["Parent","Handle","DelaySec","DelayJitterSec","PacketLimit","LossRate","DuplicateRate"];
+export const networkNetworkemulatorFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'DelaySec',
+	'DelayJitterSec',
+	'PacketLimit',
+	'LossRate',
+	'DuplicateRate',
+];
 
 export interface INetworkTokenbucketfilterSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#LatencySec= */
@@ -872,97 +1327,107 @@ export interface INetworkTokenbucketfilterSection {
 	MTUBytes?: MaybeArray<string>;
 }
 
-export const networkTokenbucketfilterFields: readonly string[] = ["Parent","Handle","LatencySec","LimitBytes","BurstBytes","Rate","MPUBytes","PeakRate","MTUBytes"];
+export const networkTokenbucketfilterFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'LatencySec',
+	'LimitBytes',
+	'BurstBytes',
+	'Rate',
+	'MPUBytes',
+	'PeakRate',
+	'MTUBytes',
+];
 
 export interface INetworkPieSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
 	PacketLimit?: MaybeArray<string>;
 }
 
-export const networkPieFields: readonly string[] = ["Parent","Handle","PacketLimit"];
+export const networkPieFields: readonly string[] = ['Parent', 'Handle', 'PacketLimit'];
 
 export interface INetworkFlowqueuepieSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
 	PacketLimit?: MaybeArray<string>;
 }
 
-export const networkFlowqueuepieFields: readonly string[] = ["Parent","Handle","PacketLimit"];
+export const networkFlowqueuepieFields: readonly string[] = ['Parent', 'Handle', 'PacketLimit'];
 
 export interface INetworkStochasticfairblueSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
 	PacketLimit?: MaybeArray<string>;
 }
 
-export const networkStochasticfairblueFields: readonly string[] = ["Parent","Handle","PacketLimit"];
+export const networkStochasticfairblueFields: readonly string[] = ['Parent', 'Handle', 'PacketLimit'];
 
 export interface INetworkStochasticfairnessqueueingSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PerturbPeriodSec= */
 	PerturbPeriodSec?: MaybeArray<string>;
 }
 
-export const networkStochasticfairnessqueueingFields: readonly string[] = ["Parent","Handle","PerturbPeriodSec"];
+export const networkStochasticfairnessqueueingFields: readonly string[] = ['Parent', 'Handle', 'PerturbPeriodSec'];
 
 export interface INetworkBfifoSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#LimitBytes= */
 	LimitBytes?: MaybeArray<string>;
 }
 
-export const networkBfifoFields: readonly string[] = ["Parent","Handle","LimitBytes"];
+export const networkBfifoFields: readonly string[] = ['Parent', 'Handle', 'LimitBytes'];
 
 export interface INetworkPfifoSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
 	PacketLimit?: MaybeArray<string>;
 }
 
-export const networkPfifoFields: readonly string[] = ["Parent","Handle","PacketLimit"];
+export const networkPfifoFields: readonly string[] = ['Parent', 'Handle', 'PacketLimit'];
 
 export interface INetworkPfifoheaddropSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
 	PacketLimit?: MaybeArray<string>;
 }
 
-export const networkPfifoheaddropFields: readonly string[] = ["Parent","Handle","PacketLimit"];
+export const networkPfifoheaddropFields: readonly string[] = ['Parent', 'Handle', 'PacketLimit'];
 
 export interface INetworkPfifofastSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 }
 
-export const networkPfifofastFields: readonly string[] = ["Parent","Handle"];
+export const networkPfifofastFields: readonly string[] = ['Parent', 'Handle'];
 
 export interface INetworkCakeSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Bandwidth= */
@@ -974,7 +1439,7 @@ export interface INetworkCakeSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#MPUBytes= */
 	MPUBytes?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#CompensationMode= */
-	CompensationMode?: "none" | "atm" | "ptm" | string;
+	CompensationMode?: 'none' | 'atm' | 'ptm' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#UseRawPacketSize= */
 	UseRawPacketSize?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#FlowIsolationMode= */
@@ -995,11 +1460,28 @@ export interface INetworkCakeSection {
 	AckFilter?: MaybeArray<string>;
 }
 
-export const networkCakeFields: readonly string[] = ["Parent","Handle","Bandwidth","AutoRateIngress","OverheadBytes","MPUBytes","CompensationMode","UseRawPacketSize","FlowIsolationMode","NAT","PriorityQueueingPreset","FirewallMark","Wash","SplitGSO","RTTSec","AckFilter"];
+export const networkCakeFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'Bandwidth',
+	'AutoRateIngress',
+	'OverheadBytes',
+	'MPUBytes',
+	'CompensationMode',
+	'UseRawPacketSize',
+	'FlowIsolationMode',
+	'NAT',
+	'PriorityQueueingPreset',
+	'FirewallMark',
+	'Wash',
+	'SplitGSO',
+	'RTTSec',
+	'AckFilter',
+];
 
 export interface INetworkControlleddelaySection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
@@ -1014,31 +1496,39 @@ export interface INetworkControlleddelaySection {
 	CEThresholdSec?: MaybeArray<string>;
 }
 
-export const networkControlleddelayFields: readonly string[] = ["Parent","Handle","PacketLimit","TargetSec","IntervalSec","ECN","CEThresholdSec"];
+export const networkControlleddelayFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'PacketLimit',
+	'TargetSec',
+	'IntervalSec',
+	'ECN',
+	'CEThresholdSec',
+];
 
 export interface INetworkDeficitroundrobinschedulerSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 }
 
-export const networkDeficitroundrobinschedulerFields: readonly string[] = ["Parent","Handle"];
+export const networkDeficitroundrobinschedulerFields: readonly string[] = ['Parent', 'Handle'];
 
 export interface INetworkDeficitroundrobinschedulerclassSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "a" | "qdisc" | "identifier" | string;
+	Parent?: 'root' | 'a' | 'qdisc' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ClassId= */
 	ClassId?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#QuantumBytes= */
 	QuantumBytes?: MaybeArray<string>;
 }
 
-export const networkDeficitroundrobinschedulerclassFields: readonly string[] = ["Parent","ClassId","QuantumBytes"];
+export const networkDeficitroundrobinschedulerclassFields: readonly string[] = ['Parent', 'ClassId', 'QuantumBytes'];
 
 export interface INetworkEnhancedtransmissionselectionSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Bands= */
@@ -1051,11 +1541,18 @@ export interface INetworkEnhancedtransmissionselectionSection {
 	PriorityMap?: MaybeArray<string>;
 }
 
-export const networkEnhancedtransmissionselectionFields: readonly string[] = ["Parent","Handle","Bands","StrictBands","QuantumBytes","PriorityMap"];
+export const networkEnhancedtransmissionselectionFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'Bands',
+	'StrictBands',
+	'QuantumBytes',
+	'PriorityMap',
+];
 
 export interface INetworkGenericrandomearlydetectionSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#VirtualQueues= */
@@ -1066,11 +1563,17 @@ export interface INetworkGenericrandomearlydetectionSection {
 	GenericRIO?: MaybeArray<string>;
 }
 
-export const networkGenericrandomearlydetectionFields: readonly string[] = ["Parent","Handle","VirtualQueues","DefaultVirtualQueue","GenericRIO"];
+export const networkGenericrandomearlydetectionFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'VirtualQueues',
+	'DefaultVirtualQueue',
+	'GenericRIO',
+];
 
 export interface INetworkFairqueueingcontrolleddelaySection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
@@ -1091,11 +1594,22 @@ export interface INetworkFairqueueingcontrolleddelaySection {
 	CEThresholdSec?: MaybeArray<string>;
 }
 
-export const networkFairqueueingcontrolleddelayFields: readonly string[] = ["Parent","Handle","PacketLimit","MemoryLimitBytes","Flows","TargetSec","IntervalSec","QuantumBytes","ECN","CEThresholdSec"];
+export const networkFairqueueingcontrolleddelayFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'PacketLimit',
+	'MemoryLimitBytes',
+	'Flows',
+	'TargetSec',
+	'IntervalSec',
+	'QuantumBytes',
+	'ECN',
+	'CEThresholdSec',
+];
 
 export interface INetworkFairqueueingSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
@@ -1118,22 +1632,34 @@ export interface INetworkFairqueueingSection {
 	CEThresholdSec?: MaybeArray<string>;
 }
 
-export const networkFairqueueingFields: readonly string[] = ["Parent","Handle","PacketLimit","FlowLimit","QuantumBytes","InitialQuantumBytes","MaximumRate","Buckets","OrphanMask","Pacing","CEThresholdSec"];
+export const networkFairqueueingFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'PacketLimit',
+	'FlowLimit',
+	'QuantumBytes',
+	'InitialQuantumBytes',
+	'MaximumRate',
+	'Buckets',
+	'OrphanMask',
+	'Pacing',
+	'CEThresholdSec',
+];
 
 export interface INetworkTriviallinkequalizerSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Id= */
 	Id?: MaybeArray<string>;
 }
 
-export const networkTriviallinkequalizerFields: readonly string[] = ["Parent","Handle","Id"];
+export const networkTriviallinkequalizerFields: readonly string[] = ['Parent', 'Handle', 'Id'];
 
 export interface INetworkHierarchytokenbucketSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#DefaultClass= */
@@ -1142,11 +1668,16 @@ export interface INetworkHierarchytokenbucketSection {
 	RateToQuantum?: MaybeArray<string>;
 }
 
-export const networkHierarchytokenbucketFields: readonly string[] = ["Parent","Handle","DefaultClass","RateToQuantum"];
+export const networkHierarchytokenbucketFields: readonly string[] = [
+	'Parent',
+	'Handle',
+	'DefaultClass',
+	'RateToQuantum',
+];
 
 export interface INetworkHierarchytokenbucketclassSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "a" | "qdisc" | "identifier" | string;
+	Parent?: 'root' | 'a' | 'qdisc' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ClassId= */
 	ClassId?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Priority= */
@@ -1167,31 +1698,42 @@ export interface INetworkHierarchytokenbucketclassSection {
 	CeilBufferBytes?: MaybeArray<string>;
 }
 
-export const networkHierarchytokenbucketclassFields: readonly string[] = ["Parent","ClassId","Priority","QuantumBytes","MTUBytes","OverheadBytes","Rate","CeilRate","BufferBytes","CeilBufferBytes"];
+export const networkHierarchytokenbucketclassFields: readonly string[] = [
+	'Parent',
+	'ClassId',
+	'Priority',
+	'QuantumBytes',
+	'MTUBytes',
+	'OverheadBytes',
+	'Rate',
+	'CeilRate',
+	'BufferBytes',
+	'CeilBufferBytes',
+];
 
 export interface INetworkHeavyhitterfilterSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#PacketLimit= */
 	PacketLimit?: MaybeArray<string>;
 }
 
-export const networkHeavyhitterfilterFields: readonly string[] = ["Parent","Handle","PacketLimit"];
+export const networkHeavyhitterfilterFields: readonly string[] = ['Parent', 'Handle', 'PacketLimit'];
 
 export interface INetworkQuickfairqueueingSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "clsact" | "ingress" | "a" | "class" | "identifier" | string;
+	Parent?: 'root' | 'clsact' | 'ingress' | 'a' | 'class' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Handle= */
 	Handle?: MaybeArray<string>;
 }
 
-export const networkQuickfairqueueingFields: readonly string[] = ["Parent","Handle"];
+export const networkQuickfairqueueingFields: readonly string[] = ['Parent', 'Handle'];
 
 export interface INetworkQuickfairqueueingclassSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Parent= */
-	Parent?: "root" | "a" | "qdisc" | "identifier" | string;
+	Parent?: 'root' | 'a' | 'qdisc' | 'identifier' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#ClassId= */
 	ClassId?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#Weight= */
@@ -1200,7 +1742,7 @@ export interface INetworkQuickfairqueueingclassSection {
 	MaxPacketBytes?: MaybeArray<string>;
 }
 
-export const networkQuickfairqueueingclassFields: readonly string[] = ["Parent","ClassId","Weight","MaxPacketBytes"];
+export const networkQuickfairqueueingclassFields: readonly string[] = ['Parent', 'ClassId', 'Weight', 'MaxPacketBytes'];
 
 export interface INetworkBridgevlanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.network.html#VLAN= */
@@ -1211,6 +1753,56 @@ export interface INetworkBridgevlanSection {
 	PVID?: MaybeArray<string>;
 }
 
-export const networkBridgevlanFields: readonly string[] = ["VLAN","EgressUntagged","PVID"];
+export const networkBridgevlanFields: readonly string[] = ['VLAN', 'EgressUntagged', 'PVID'];
 
-export type __INetworkAll = INetworkMatchSection & INetworkLinkSection & INetworkSrIov_SectionOptionsOptions & INetworkNetworkSection & INetworkAddressSection & INetworkNeighborSection & INetworkIpv6addresslabel_SectionOptionsOptions & INetworkRoutingpolicyruleSection & INetworkNexthopSection & INetworkRouteSection & INetworkDhcpv4_SectionOptionsOptions & INetworkDhcpv6_SectionOptionsOptions & INetworkDhcpprefixdelegationSection & INetworkIpv6acceptra_SectionOptionsOptions & INetworkDhcpserverSection & INetworkDhcpserverstaticleaseSection & INetworkIpv6sendra_SectionOptionsOptions & INetworkIpv6prefix_SectionOptionsOptions & INetworkIpv6routeprefix_SectionOptionsOptions & INetworkBridgeSection & INetworkBridgefdbSection & INetworkBridgemdbSection & INetworkLldpSection & INetworkCanSection & INetworkIpoibSection & INetworkQdiscSection & INetworkNetworkemulatorSection & INetworkTokenbucketfilterSection & INetworkPieSection & INetworkFlowqueuepieSection & INetworkStochasticfairblueSection & INetworkStochasticfairnessqueueingSection & INetworkBfifoSection & INetworkPfifoSection & INetworkPfifoheaddropSection & INetworkPfifofastSection & INetworkCakeSection & INetworkControlleddelaySection & INetworkDeficitroundrobinschedulerSection & INetworkDeficitroundrobinschedulerclassSection & INetworkEnhancedtransmissionselectionSection & INetworkGenericrandomearlydetectionSection & INetworkFairqueueingcontrolleddelaySection & INetworkFairqueueingSection & INetworkTriviallinkequalizerSection & INetworkHierarchytokenbucketSection & INetworkHierarchytokenbucketclassSection & INetworkHeavyhitterfilterSection & INetworkQuickfairqueueingSection & INetworkQuickfairqueueingclassSection & INetworkBridgevlanSection;
+export type __INetworkAll = INetworkMatchSection &
+	INetworkLinkSection &
+	INetworkSrIov_SectionOptionsOptions &
+	INetworkNetworkSection &
+	INetworkAddressSection &
+	INetworkNeighborSection &
+	INetworkIpv6addresslabel_SectionOptionsOptions &
+	INetworkRoutingpolicyruleSection &
+	INetworkNexthopSection &
+	INetworkRouteSection &
+	INetworkDhcpv4_SectionOptionsOptions &
+	INetworkDhcpv6_SectionOptionsOptions &
+	INetworkDhcpprefixdelegationSection &
+	INetworkIpv6acceptra_SectionOptionsOptions &
+	INetworkDhcpserverSection &
+	INetworkDhcpserverstaticleaseSection &
+	INetworkIpv6sendra_SectionOptionsOptions &
+	INetworkIpv6prefix_SectionOptionsOptions &
+	INetworkIpv6routeprefix_SectionOptionsOptions &
+	INetworkBridgeSection &
+	INetworkBridgefdbSection &
+	INetworkBridgemdbSection &
+	INetworkLldpSection &
+	INetworkCanSection &
+	INetworkIpoibSection &
+	INetworkQdiscSection &
+	INetworkNetworkemulatorSection &
+	INetworkTokenbucketfilterSection &
+	INetworkPieSection &
+	INetworkFlowqueuepieSection &
+	INetworkStochasticfairblueSection &
+	INetworkStochasticfairnessqueueingSection &
+	INetworkBfifoSection &
+	INetworkPfifoSection &
+	INetworkPfifoheaddropSection &
+	INetworkPfifofastSection &
+	INetworkCakeSection &
+	INetworkControlleddelaySection &
+	INetworkDeficitroundrobinschedulerSection &
+	INetworkDeficitroundrobinschedulerclassSection &
+	INetworkEnhancedtransmissionselectionSection &
+	INetworkGenericrandomearlydetectionSection &
+	INetworkFairqueueingcontrolleddelaySection &
+	INetworkFairqueueingSection &
+	INetworkTriviallinkequalizerSection &
+	INetworkHierarchytokenbucketSection &
+	INetworkHierarchytokenbucketclassSection &
+	INetworkHeavyhitterfilterSection &
+	INetworkQuickfairqueueingSection &
+	INetworkQuickfairqueueingclassSection &
+	INetworkBridgevlanSection;

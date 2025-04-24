@@ -1,5 +1,5 @@
-import { mkdir, readdir, rm } from 'fs/promises';
-import { resolve } from 'path';
+import { mkdir, readdir, rm } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
 /**
  * delete all content in a dir,

@@ -5,11 +5,11 @@ declare const Element: any;
 type ScalarTypes =
 	| bigint
 	| number
-	| Number
+	| number
 	| boolean
-	| Boolean
+	| boolean
 	| string
-	| String
+	| string
 	| symbol
 	| undefined
 	| null
@@ -43,9 +43,9 @@ export function isScalar(value: any): value is ScalarTypes {
 
 export enum SerializableKind {
 	Invalid = 0,
-	Primitive,
-	Manual,
-	Other,
+	Primitive = 1,
+	Manual = 2,
+	Other = 3,
 }
 
 export function isSerializable(value: any): SerializableKind {
@@ -54,7 +54,7 @@ export function isSerializable(value: any): SerializableKind {
 		case 'bigint':
 		// @ts-expect-error
 		case 'number':
-			if (isNaN(value) || Infinity === value || -Infinity === value) {
+			if (Number.isNaN(value) || Number.POSITIVE_INFINITY === value || Number.NEGATIVE_INFINITY === value) {
 				return SerializableKind.Invalid;
 			}
 		case 'boolean':
@@ -84,7 +84,7 @@ export function isSerializable(value: any): SerializableKind {
 					return SerializableKind.Invalid;
 				}
 			}
-			if ('then' in value && typeof value['then'] === 'function') {
+			if ('then' in value && typeof value.then === 'function') {
 				return SerializableKind.Invalid;
 			}
 

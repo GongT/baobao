@@ -1,5 +1,5 @@
-import { platform } from 'os';
-import { Transform } from 'stream';
+import { platform } from 'node:os';
+import { Transform } from 'node:stream';
 import { decodeStream } from 'iconv-lite';
 import split2 from 'split2';
 
@@ -59,8 +59,8 @@ class ProgressStream extends Transform {
 	override _transform(chunk: string, _encoding: BufferEncoding, callback: Function): void {
 		const match = matchExp.exec(chunk);
 		if (match) {
-			const percent = parseInt(match[1]!);
-			if (!isNaN(percent)) {
+			const percent = Number.parseInt(match[1]!);
+			if (!Number.isNaN(percent)) {
 				this.push({
 					progress: percent,
 					message: match[2] || '',

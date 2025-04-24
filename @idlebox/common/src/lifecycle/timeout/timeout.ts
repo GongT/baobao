@@ -42,7 +42,6 @@ export function timeoutPromise<T>(ms: number, message: string | T, p?: T): T {
 	}
 	if (p instanceof DeferredPromise) {
 		return Promise.race([p.p, timeout(ms, msg)]).then(() => p) as any;
-	} else {
-		return Promise.race([p, timeout(ms, msg)]).then(() => p) as any;
 	}
+	return Promise.race([p, timeout(ms, msg)]).then(() => p) as any;
 }

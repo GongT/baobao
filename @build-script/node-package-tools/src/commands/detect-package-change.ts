@@ -1,9 +1,9 @@
-import { resolve } from 'path';
-import { executeChangeDetect } from '../inc/shared-jobs/detect-change-job.js';
-import { readPackageJson } from '../inc/fs.js';
-import { argv, formatOptions, isJsonOutput, pArgS, pDesc } from '../inc/getArg.js';
-import { logger } from '../inc/log.js';
-import { increaseVersion } from '../packageManage/increaseVersion.js';
+import { argv, formatOptions, isJsonOutput, pArgS, pDesc } from '../common/functions/cli.js';
+import { logger } from '../common/functions/log.js';
+import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
+import { increaseVersion } from '../common/package-manager/package-json.js';
+import { createPackageManager } from '../common/package-manager/package-manager.js';
+import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
 
 process.env.COREPACK_ENABLE_STRICT = '0';
 
@@ -18,15 +18,12 @@ export function helpString() {
 }
 
 export async function main() {
-	process.env.LANG = 'C.UTF-8';
-	process.env.LANGUAGE = 'C.UTF-8';
-
 	const autoInc = argv.flag('--bump');
-	const packageFile = resolve(process.cwd(), 'package.json');
-	logger.log('目标包路径: %s', packageFile);
 
-	const pkgJson = await readPackageJson(packageFile);
-	const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(packageFile, pkgJson);
+	const pm = await createPackageManager(PackageManagerUsageKind.Read);
+
+	const pkgJson = await pm.loadPackageJson();
+	const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm);
 
 	if (autoInc) {
 		if (changedFiles.length) {

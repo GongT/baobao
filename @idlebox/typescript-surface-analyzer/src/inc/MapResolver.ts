@@ -1,5 +1,5 @@
-import { existsSync } from 'fs';
-import { basename, dirname, extname, relative, resolve } from 'path';
+import { existsSync } from 'node:fs';
+import { basename, dirname, extname, relative, resolve } from 'node:path';
 
 interface ILocalResolve {
 	type: 'file';
@@ -16,16 +16,16 @@ export type IResolveResult = ILocalResolve | IExternalResolve;
 export class MapResolver {
 	constructor(
 		private readonly root: string,
-		private readonly map?: Record<string, string[]>,
+		private readonly map?: Record<string, string[]>
 	) {}
 
 	private _resolve(source: string, target: string): string {
 		const base = basename(target);
 		const dir = dirname(target);
-		const fileToTry = [base, base + '.ts', base + '.tsx'];
+		const fileToTry = [base, `${base}.ts`, `${base}.tsx`];
 		if (base.endsWith('.js')) {
 			const bb = base.replace(/\.js$/, '');
-			fileToTry.push(bb + '.ts', bb + '.tsx');
+			fileToTry.push(`${bb}.ts`, `${bb}.tsx`);
 		}
 
 		if (target.startsWith('.')) {
@@ -41,7 +41,7 @@ export class MapResolver {
 				}
 
 				for (const to of tos) {
-					const mapped = (to + '/' + dir.slice(from.length)).replace('//', '/').replace(/^\//, '');
+					const mapped = `${to}/${dir.slice(from.length)}`.replace('//', '/').replace(/^\//, '');
 
 					const found = this.findOne(resolve(this.root, mapped), fileToTry);
 					if (found) {

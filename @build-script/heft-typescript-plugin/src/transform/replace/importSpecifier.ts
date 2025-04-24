@@ -1,6 +1,6 @@
 import type { IScopedLogger } from '@rushstack/heft';
 import { NodeReplacer } from '../library/NodeReplacer.js';
-import { isImportExportFrom, linkParentNode, ValidImportOrExportFromDeclaration } from '../library/util.js';
+import { isImportExportFrom, linkParentNode, type ValidImportOrExportFromDeclaration } from '../library/util.js';
 
 import type TypeScriptApi from 'typescript';
 type IReplacer = (
@@ -34,7 +34,7 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 						if (
 							node.expression.escapedText === 'require' &&
 							node.arguments.length === 1 &&
-							ts.isStringLiteral(node.arguments[0]!)
+							ts.isStringLiteral(node.arguments[0])
 						) {
 							return true;
 						}
@@ -43,7 +43,7 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 				return false;
 			}
 		} catch (e: any) {
-			logger.terminal.writeErrorLine('[replacer] failed:' + e.message);
+			logger.terminal.writeErrorLine(`[replacer] failed:${e.message}`);
 			return false;
 		}
 
@@ -77,7 +77,8 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 				moduleSpecifier,
 				node.assertClause
 			);
-		} else if (ts.isExportDeclaration(node)) {
+		}
+		if (ts.isExportDeclaration(node)) {
 			const moduleSpecifier = this.createString(node);
 			if (!moduleSpecifier) return node;
 			return context.factory.updateExportDeclaration(
@@ -88,19 +89,18 @@ export class ImportExportSpecifierReplacer extends NodeReplacer<ValidImportOrExp
 				moduleSpecifier,
 				node.assertClause
 			);
-		} else {
-			// require("xxx")
-			const sl = node.arguments[0] as TypeScriptApi.StringLiteral;
-			linkParentNode(ts, node, ts.getOriginalNode(sl).parent);
-
-			const str = this.replacer(sl.text, node, context, logger);
-			if (sl.text === str) {
-				return node;
-			}
-			const newStr = context.factory.createStringLiteral(str);
-			ts.setOriginalNode(newStr, ts.getOriginalNode(sl));
-
-			return context.factory.updateCallExpression(node, node.expression, node.typeArguments, [newStr]);
 		}
+		// require("xxx")
+		const sl = node.arguments[0] as TypeScriptApi.StringLiteral;
+		linkParentNode(ts, node, ts.getOriginalNode(sl).parent);
+
+		const str = this.replacer(sl.text, node, context, logger);
+		if (sl.text === str) {
+			return node;
+		}
+		const newStr = context.factory.createStringLiteral(str);
+		ts.setOriginalNode(newStr, ts.getOriginalNode(sl));
+
+		return context.factory.updateCallExpression(node, node.expression, node.typeArguments, [newStr]);
 	}
 }

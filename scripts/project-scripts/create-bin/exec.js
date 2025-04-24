@@ -1,6 +1,6 @@
-import { spawnSync } from 'child_process';
-import { fileURLToPath } from 'url';
-import path from 'path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,7 +9,7 @@ export function exec(file) {
 	const r = spawnSync(
 		process.argv[0],
 		['--no-warnings', '--loader', __filename, path.resolve(__dirname, file), ...process.argv.slice(2)],
-		{ stdio: 'inherit' },
+		{ stdio: 'inherit' }
 	);
 	if (r.signal) {
 		console.error('killed by', r.signal);
@@ -30,7 +30,7 @@ export function resolve(specifier, context, nextResolve) {
 		knownEsm.includes(specifier)
 	) {
 		if (!(specifier.endsWith('.js') || specifier.endsWith('.mjs') || specifier.endsWith('.cjs'))) {
-			const newSpecifier = specifier + '.js';
+			const newSpecifier = `${specifier}.js`;
 			return nextResolve(newSpecifier, context);
 		}
 	}

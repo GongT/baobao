@@ -1,6 +1,6 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { normalizePath } from '@idlebox/node';
-import { relative } from 'path/posix';
+import { relative } from 'node:path/posix';
 
 export class PathViolateError extends Error {}
 
@@ -27,7 +27,7 @@ export function builtFileMapToSource(scope: string, file: string) {
 	}
 	sections[1] = 'src';
 
-	return normalizePath(resolve(scope, './' + sections.join('/')));
+	return normalizePath(resolve(scope, `./${sections.join('/')}`));
 }
 
 export function sourceFileMapToBuilt(scope: string, file: string) {
@@ -41,5 +41,5 @@ export function sourceFileMapToBuilt(scope: string, file: string) {
 	}
 	sections[1] = 'lib';
 
-	return normalizePath(resolve(scope, './' + sections.join('/')));
+	return normalizePath(resolve(scope, `./${sections.join('/')}`));
 }

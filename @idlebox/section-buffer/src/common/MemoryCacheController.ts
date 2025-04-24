@@ -26,8 +26,8 @@ export interface IView {
 
 export class MemoryCacheController {
 	private readonly list: IMemCacheDefrag[] = [];
-	private _size: number = 0;
-	private _memoryUsage: number = 0;
+	private _size = 0;
+	private _memoryUsage = 0;
 	private _viewState: readonly IView[] = [];
 
 	constructor(private readonly maxSize: number) {
@@ -69,7 +69,7 @@ export class MemoryCacheController {
 			if (next && ending > next.start)
 				throw new Error(
 					`invalid buffer at ${hexNumber(starting)} with size ${length}:` +
-						` overlap with next at ${hexNumber(next.start)}`,
+						` overlap with next at ${hexNumber(next.start)}`
 				);
 
 			this.list.splice(index + 1, 0, newItem);
@@ -99,9 +99,8 @@ export class MemoryCacheController {
 
 			this._calculateUsage();
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	check(from = 0, to = this.list.length) {
@@ -120,9 +119,7 @@ export class MemoryCacheController {
 
 				if (totalSize !== item.length) {
 					throw new Error(
-						`invalid buffer at 0x${item.start.toString(16)}: length mismatch (${totalSize} != ${
-							item.length
-						})`,
+						`invalid buffer at 0x${item.start.toString(16)}: length mismatch (${totalSize} != ${item.length})`
 					);
 				}
 			}
@@ -131,16 +128,12 @@ export class MemoryCacheController {
 			if (next) {
 				if (item.start >= next.start) {
 					throw new Error(
-						`invalid buffer at 0x${item.start.toString(16)}: wrong order, next is 0x${next.start.toString(
-							16,
-						)}`,
+						`invalid buffer at 0x${item.start.toString(16)}: wrong order, next is 0x${next.start.toString(16)}`
 					);
 				}
 				if (thisEnding > next.start) {
 					throw new Error(
-						`invalid buffer at 0x${item.start.toString(16)}: overlap with next 0x${next.start.toString(
-							16,
-						)}`,
+						`invalid buffer at 0x${item.start.toString(16)}: overlap with next 0x${next.start.toString(16)}`
 					);
 				}
 			} else if (thisEnding > this.maxSize) {
@@ -203,7 +196,7 @@ export class MemoryCacheController {
 				totalSize: item.buffers.reduce((i, c) => i + c.byteLength, 0),
 			};
 
-			delete this.list[index].buffers;
+			this.list[index].buffers = undefined;
 
 			this.merge(index);
 			this.merge(index - 1);
@@ -224,8 +217,7 @@ export class MemoryCacheController {
 		for (let index = this.list.length - 1; index >= 0; index--) {
 			const item = this.list[index];
 			if (item.start >= end || item.end <= start) continue;
-			if (item.buffers)
-				throw new Error(`punch on data: [${index}] ${hexNumber(item.start)}-${hexNumber(item.end)}`);
+			if (item.buffers) throw new Error(`punch on data: [${index}] ${hexNumber(item.start)}-${hexNumber(item.end)}`);
 
 			if (start <= item.start && end >= item.end) {
 				this.list.splice(index, 1);

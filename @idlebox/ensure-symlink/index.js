@@ -1,14 +1,13 @@
-const fsa = require('fs/promises');
-const fss = require('fs');
-const path = require('path');
+const fsa = require('node:fs/promises');
+const fss = require('node:fs');
+const path = require('node:path');
 
 exports.ensureLinkTarget = async (target, symlink) => {
 	const stat = await fsa.lstat(symlink).catch((e) => {
 		if (e.code === 'ENOENT') {
 			return false;
-		} else {
-			throw e;
 		}
+		throw e;
 	});
 	if (stat) {
 		if (stat.isSymbolicLink()) {

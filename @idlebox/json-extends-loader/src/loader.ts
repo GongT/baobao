@@ -1,9 +1,7 @@
 import { parse } from 'comment-json';
 import { readFileSync } from 'node:fs';
 
-interface IProcess {
-	(file: string, data: any): void;
-}
+type IProcess = (file: string, data: any) => void;
 
 export function createDynamicReader(processor: IProcess) {
 	return function wrappedReadJsonFile(filePath: string) {

@@ -1,7 +1,7 @@
 /// <reference types="@types/heft-jest" />
 
-import { readFileSync, rmSync } from 'fs';
-import { resolve } from 'path';
+import { readFileSync, rmSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { sleep } from '@idlebox/common';
 import { mb, md5, randomTestFile, tmpdir } from './helper.test.d/testlib.js';
 import { SectionBuffer } from './index.js';

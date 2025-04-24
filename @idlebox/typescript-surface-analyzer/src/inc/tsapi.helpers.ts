@@ -1,4 +1,4 @@
-import { relative } from 'path';
+import { relative } from 'node:path';
 import type TypeScriptApi from 'typescript';
 
 export class ApiHost {
@@ -32,9 +32,8 @@ export class ApiHost {
 	nameToString(name: TypeScriptApi.Identifier | TypeScriptApi.StringLiteral | TypeScriptApi.ModuleExportName) {
 		if (this.ts.isIdentifier(name)) {
 			return name.escapedText.toString();
-		} else {
-			return name.text;
 		}
+		return name.text;
 	}
 
 	isExported(n: TypeScriptApi.Node) {

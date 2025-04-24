@@ -4,9 +4,9 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib/esm",
 		"rootDir": "./",
-		"types": ["node"]
+		"types": ["node"],
 	},
 	// "files": ["preload.ts"],
 	// "include": ["**/*.ts"],
-	"exclude": ["**/*.generator.ts"]
+	"exclude": ["**/*.generator.ts"],
 }

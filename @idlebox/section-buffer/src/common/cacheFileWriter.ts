@@ -1,6 +1,6 @@
-import { createHash } from 'crypto';
-import { WriteStream } from 'fs';
-import fs from 'fs/promises';
+import { createHash } from 'node:crypto';
+import type { WriteStream } from 'node:fs';
+import fs from 'node:fs/promises';
 import { AsyncDisposable, toDisposable } from '@idlebox/common';
 import { erasedMark } from './types.js';
 

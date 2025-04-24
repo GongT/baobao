@@ -1,4 +1,4 @@
-import { everything, SupportInfo } from './base.js';
+import { everything, type SupportInfo } from './base.js';
 import { readFirstCompleteChar } from './firstCompleteChar.js';
 
 export interface LimitResult {
@@ -10,8 +10,8 @@ export interface LimitResult {
 }
 
 function returnValue(original: string, length: number, width: number): LimitResult {
-	const result = isFinite(length) ? original.slice(0, length) : original;
-	const remaining = isFinite(length) ? original.slice(length) : '';
+	const result = Number.isFinite(length) ? original.slice(0, length) : original;
+	const remaining = Number.isFinite(length) ? original.slice(length) : '';
 	return {
 		result,
 		width,
@@ -43,7 +43,7 @@ export function limitWidth(original: string, limit: number, supports: SupportInf
 		str = str.slice(item.length);
 	}
 
-	return returnValue(original, Infinity, width);
+	return returnValue(original, Number.POSITIVE_INFINITY, width);
 }
 
 export function chunkText(text: string, width: number, supports: SupportInfo = everything) {

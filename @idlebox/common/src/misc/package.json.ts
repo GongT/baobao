@@ -42,7 +42,7 @@ export function parseExportsField(exports: IExportsField): IFullExportsField {
 	if (!isPathMap(exports)) {
 		return { '.': exports };
 	}
-	let ret: IFullExportsField = {};
+	const ret: IFullExportsField = {};
 	for (const [path, def] of Object.entries(exports)) {
 		if (typeof def === 'string') {
 			ret[path] = { default: def };
@@ -105,5 +105,21 @@ export interface IPackageJson {
 			[option: string]: any;
 		}
 	>;
+
+	dist: IPackageJsonNpmDist;
+
 	[field: string]: any;
+}
+
+export interface IPackageJsonNpmDist {
+	integrity: string;
+	shasum: string;
+	tarball: string;
+	fileCount: number;
+	unpackedSize: number;
+	signatures: {
+		keyid: string;
+		sig: string;
+	}[];
+	size: number;
 }

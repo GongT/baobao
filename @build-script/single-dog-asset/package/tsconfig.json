@@ -35,9 +35,7 @@
 		"inlineSources": false,
 		"isolatedModules": false,
 		"keyofStringsOnly": false,
-		"lib": [
-			"ESNext",
-		],
+		"lib": ["ESNext"],
 		"noImplicitThis": true,
 		"noImplicitAny": true,
 		"noImplicitOverride": true,
@@ -50,10 +48,7 @@
 		"useUnknownInCatchVariables": true,
 		"preserveConstEnums": true,
 		"pretty": true,
-		"typeRoots": [
-			"../node_modules/@types",
-			"../node_modules"
-		],
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"types": [],
 		"removeComments": false,
 		"sourceMap": true,
@@ -69,6 +64,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"incremental": true,
 		"jsxImportSource": "react",
-		"jsx": "react-jsx"
-	}
+		"jsx": "react-jsx",
+	},
 }

@@ -1,10 +1,10 @@
 import { getSourceRoot } from '@idlebox/tsconfig-loader';
-import { relative } from 'path';
+import { relative } from 'node:path';
 import type TypeScriptApi from 'typescript';
-import { ILogger, showFile } from './logger.js';
-import { IResolveResult, MapResolver } from './MapResolver.js';
-import { ExportKind, ITypescriptFile, TokenCollector } from './TokenCollector.js';
-import { ApiHost } from './tsapi.helpers.js';
+import { type ILogger, showFile } from './logger.js';
+import { type IResolveResult, MapResolver } from './MapResolver.js';
+import { ExportKind, type ITypescriptFile, TokenCollector } from './TokenCollector.js';
+import type { ApiHost } from './tsapi.helpers.js';
 
 export class FileCollector {
 	private readonly sourceRoot: string;
@@ -15,7 +15,7 @@ export class FileCollector {
 	constructor(
 		private readonly api: ApiHost,
 		options: TypeScriptApi.CompilerOptions,
-		private readonly logger: ILogger,
+		private readonly logger: ILogger
 	) {
 		this.ts = api.ts;
 		this.sourceRoot = getSourceRoot(options);
@@ -78,7 +78,7 @@ export class FileCollector {
 					'===================\n%s\nLINE: %s\n%s\n===================',
 					e,
 					node.getText(),
-					showFile(node),
+					showFile(node)
 				);
 				return;
 			}
@@ -129,7 +129,7 @@ export class FileCollector {
 			if (this.ts.isStringLiteral(node.name)) {
 				this.logger.error(
 					'only .d.ts can use <export namespace|module "name">, and analyzer do not support this.',
-					showFile(node),
+					showFile(node)
 				);
 			} else {
 				collect.add(node.name, node, ExportKind.Variable);
@@ -138,11 +138,11 @@ export class FileCollector {
 			return;
 		}
 
-		let _isEnumDeclaration: boolean = false,
-			_isClassDeclaration: boolean = false,
-			_isInterfaceDeclaration: boolean = false,
-			_isFunctionDeclaration: boolean = false,
-			_isTypeAliasDeclaration: boolean = false;
+		let _isEnumDeclaration = false;
+		let _isClassDeclaration = false;
+		let _isInterfaceDeclaration = false;
+		let _isFunctionDeclaration = false;
+		let _isTypeAliasDeclaration = false;
 		if (
 			(_isEnumDeclaration = this.ts.isEnumDeclaration(node)) || // export enum XXX { ... }
 			(_isClassDeclaration = this.ts.isClassDeclaration(node)) || // export class XXX {}

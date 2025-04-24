@@ -5,5 +5,5 @@
 		"outDir": "../lib/esm",
 		"rootDir": "./",
 	},
-	"exclude": ["**/*.generator.ts"]
+	"exclude": ["**/*.generator.ts"],
 }

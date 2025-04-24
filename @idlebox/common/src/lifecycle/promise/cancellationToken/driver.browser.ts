@@ -1,4 +1,4 @@
-import { EventHandler } from '../../event/event.js';
+import type { EventHandler } from '../../event/event.js';
 
 import type { CancellationDriver, __CancellationToken } from './source.js';
 

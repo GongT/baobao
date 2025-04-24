@@ -1,4 +1,4 @@
-const { spawnSync } = require('child_process');
+const { spawnSync } = require('node:child_process');
 
 module.exports.exec = function exec(target, argv) {
 	process.env.EXEC_BY_PNPM = 'yes';

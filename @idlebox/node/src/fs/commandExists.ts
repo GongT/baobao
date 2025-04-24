@@ -1,5 +1,5 @@
 import { isWindows } from '@idlebox/common';
-import { access, constants, accessSync } from 'fs';
+import { access, constants, accessSync } from 'node:fs';
 import { PathEnvironment } from '../environment/pathEnvironment.js';
 
 const windowsExecExtensions = ['.exe', '.bat', '.cmd', '.com', '.ps1'];
@@ -14,9 +14,8 @@ function exts(alterExt?: string[]) {
 	}
 	if (isWindows) {
 		return windowsExecExtensions;
-	} else {
-		return [''];
 	}
+	return [''];
 }
 
 export async function commandInPath(cmd: string, alterExt?: string[]): Promise<string | undefined> {

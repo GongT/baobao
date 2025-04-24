@@ -1,7 +1,7 @@
 import { ESBuildHtmlEntry } from '@gongt/esbuild-html-entry';
 import esbuild from 'esbuild';
-import { resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const watch = process.argv.includes('--watch');
 

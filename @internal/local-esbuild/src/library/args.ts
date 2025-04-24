@@ -7,7 +7,7 @@ for (const arg of process.argv.slice(2)) {
 		continue;
 	}
 	if (arg.startsWith('-')) {
-		throw new Error('Unknown argument: ' + arg);
+		throw new Error(`Unknown argument: ${arg}`);
 	}
 
 	const [from, to] = arg.split(':');

@@ -1,6 +1,6 @@
 import { findRushRootPathSync } from '@build-script/rush-tools';
-import { resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const REPO_ROOT = findRushRootPathSync(fileURLToPath(import.meta.url))!;
 export const TEMP_DIR = resolve(REPO_ROOT, 'common/temp');

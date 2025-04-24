@@ -10,12 +10,12 @@ const winLetter = /^[a-z]:[\/\\]/i;
 const doubleSlash = /^[\/\\]{2}[^\/\\]/i;
 
 export enum PathKind {
-	url,
-	unc,
-	win,
-	cifs,
-	unix,
-	relative,
+	url = 0,
+	unc = 1,
+	win = 2,
+	cifs = 3,
+	unix = 4,
+	relative = 5,
 }
 export interface IPathInfo {
 	kind: PathKind;
@@ -31,18 +31,18 @@ export function analyzePath(p: string) {
 		const u = new URL(p);
 		r = {
 			kind: PathKind.url,
-			prefix: u.protocol + '//' + u.host,
+			prefix: `${u.protocol}//${u.host}`,
 			path: u.pathname.slice(1),
 			url: u,
 		};
 	} else if (unc.test(p)) {
 		p = p.replace(unc, '').replace(/^[\/\\]+/, '');
 		const i = /[\///]/.exec(p)?.index ?? -1;
-		if (i <= 0) throw new Error('invalid unc path: ' + inp);
+		if (i <= 0) throw new Error(`invalid unc path: ${inp}`);
 
 		r = {
 			kind: PathKind.unc,
-			prefix: '//?/UNC/' + p.slice(0, i),
+			prefix: `//?/UNC/${p.slice(0, i)}`,
 			path: p.slice(i + 1),
 		};
 	} else if (winSp.test(p) || winLetter.test(p)) {
@@ -56,11 +56,11 @@ export function analyzePath(p: string) {
 	} else if (doubleSlash.test(p)) {
 		p = p.replace(/^[\/\\]+/, '');
 		const i = /[\///]/.exec(p)?.index ?? -1;
-		if (i <= 0) throw new Error('invalid cifs url: ' + inp);
+		if (i <= 0) throw new Error(`invalid cifs url: ${inp}`);
 
 		r = {
 			kind: PathKind.cifs,
-			prefix: '//' + p.slice(0, i),
+			prefix: `//${p.slice(0, i)}`,
 			path: p.slice(i + 1),
 		};
 	} else if (p.startsWith('/')) {
@@ -103,9 +103,8 @@ export function normalizePath(p: string) {
 
 	if (r.prefix === undefined) {
 		return r.path;
-	} else {
-		return `${r.prefix}/${r.path}`;
 	}
+	return `${r.prefix}/${r.path}`;
 }
 
 export function relativePath(from: string, to: string) {
@@ -113,9 +112,7 @@ export function relativePath(from: string, to: string) {
 	const r2 = analyzePath(to);
 	if (r1.kind !== r2.kind)
 		throw new Error(
-			`cannot relative path between different kind: "${PathKind[r1.kind]}::${from}" * "${
-				PathKind[r2.kind]
-			}::${to}"`,
+			`cannot relative path between different kind: "${PathKind[r1.kind]}::${from}" * "${PathKind[r2.kind]}::${to}"`
 		);
 
 	if (r1.prefix !== r2.prefix) return to;
@@ -132,7 +129,7 @@ export function relativePath(from: string, to: string) {
 	p2arr.splice(0, i);
 
 	// add ..
-	const p1 = p1arr.length > 0 ? p1arr.map(() => '..').join('/') + '/' : '';
+	const p1 = p1arr.length > 0 ? `${p1arr.map(() => '..').join('/')}/` : '';
 	const p2 = p2arr.join('/');
 
 	return p1 + p2;

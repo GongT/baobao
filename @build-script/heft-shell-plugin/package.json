@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-shell-plugin",
 	"type": "commonjs",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"main": "./loader/plugin.js",
 	"publishConfig": {
 		"main": "./lib/plugin.js",

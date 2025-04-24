@@ -1,4 +1,4 @@
-import { execaNode, Options, Result, Subprocess } from 'execa';
+import { execaNode, type Options, type Result, type Subprocess } from 'execa';
 import EventEmitter from 'node:events';
 import { Writable } from 'node:stream';
 import split2 from 'split2';
@@ -37,7 +37,7 @@ export class TscWrapper extends EventEmitter<EventMap> {
 	constructor(
 		private readonly tsc: string,
 		private readonly args: string[],
-		private readonly workdir: string = process.cwd(),
+		private readonly workdir: string = process.cwd()
 	) {
 		super();
 		this.outputStream = this.createStream();

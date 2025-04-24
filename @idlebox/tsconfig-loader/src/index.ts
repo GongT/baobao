@@ -1,5 +1,5 @@
-import { existsSync } from 'fs';
-import { dirname, normalize, resolve } from 'path';
+import { existsSync } from 'node:fs';
+import { dirname, normalize, resolve } from 'node:path';
 import type TypeScriptApi from 'typescript';
 
 export interface IFilledOptions extends TypeScriptApi.CompilerOptions {
@@ -95,14 +95,14 @@ export function getOutputRoot(command: TypeScriptApi.ParsedCommandLine | TypeScr
  * @returns
  */
 export function getProjectConfigFile(command: TypeScriptApi.ParsedCommandLine | TypeScriptApi.CompilerOptions): string {
-	let options: TypeScriptApi.CompilerOptions = command.raw
+	const options: TypeScriptApi.CompilerOptions = command.raw
 		? (command as TypeScriptApi.ParsedCommandLine).options
 		: (command as TypeScriptApi.CompilerOptions);
-	return options['configFilePath'] as string;
+	return options.configFilePath as string;
 }
 
 function getRoot(command: TypeScriptApi.ParsedCommandLine | TypeScriptApi.CompilerOptions, type: 'outDir' | 'rootDir') {
-	let options: TypeScriptApi.CompilerOptions = command.options
+	const options: TypeScriptApi.CompilerOptions = command.options
 		? (command as TypeScriptApi.ParsedCommandLine).options
 		: (command as TypeScriptApi.CompilerOptions);
 	let ret = options[type];

@@ -1,6 +1,6 @@
-import { readFile, rm } from 'fs/promises';
-import { resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { readFile, rm } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { TscWrapper } from './export.js';
 import { isFastMode, isWatchMode } from './library/args.js';
 import { buildctx } from './library/context.js';
@@ -13,7 +13,7 @@ buildctx.withOptions((options) => {
 	}
 
 	const externals = Object.keys(pkgJson.devDependencies);
-	options.external!.push(...externals);
+	options.external?.push(...externals);
 });
 
 await buildctx.create();

@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -85,6 +84,44 @@ export interface IResourceControlSection {
 	ManagedOOMPreference?: MaybeArray<string>;
 }
 
-export const resourceControlFields: readonly string[] = ["CPUAccounting","CPUWeight","StartupCPUWeight","CPUQuota","CPUQuotaPeriodSec","AllowedCPUs","StartupAllowedCPUs","AllowedMemoryNodes","StartupAllowedMemoryNodes","MemoryAccounting","MemoryMin","MemoryLow","MemoryHigh","MemoryMax","MemorySwapMax","MemoryZSwapMax","TasksAccounting","TasksMax","IOAccounting","IOWeight","StartupIOWeight","IPAccounting","IPAddressAllow","IPAddressDeny","IPIngressFilterPath","IPEgressFilterPath","BPFProgram","SocketBindAllow","SocketBindDeny","RestrictNetworkInterfaces","DeviceAllow","DevicePolicy","Slice","Delegate","DisableControllers","ManagedOOMSwap","ManagedOOMMemoryPressure","ManagedOOMMemoryPressureLimit","ManagedOOMPreference"];
-
-
+export const resourceControlFields: readonly string[] = [
+	'CPUAccounting',
+	'CPUWeight',
+	'StartupCPUWeight',
+	'CPUQuota',
+	'CPUQuotaPeriodSec',
+	'AllowedCPUs',
+	'StartupAllowedCPUs',
+	'AllowedMemoryNodes',
+	'StartupAllowedMemoryNodes',
+	'MemoryAccounting',
+	'MemoryMin',
+	'MemoryLow',
+	'MemoryHigh',
+	'MemoryMax',
+	'MemorySwapMax',
+	'MemoryZSwapMax',
+	'TasksAccounting',
+	'TasksMax',
+	'IOAccounting',
+	'IOWeight',
+	'StartupIOWeight',
+	'IPAccounting',
+	'IPAddressAllow',
+	'IPAddressDeny',
+	'IPIngressFilterPath',
+	'IPEgressFilterPath',
+	'BPFProgram',
+	'SocketBindAllow',
+	'SocketBindDeny',
+	'RestrictNetworkInterfaces',
+	'DeviceAllow',
+	'DevicePolicy',
+	'Slice',
+	'Delegate',
+	'DisableControllers',
+	'ManagedOOMSwap',
+	'ManagedOOMMemoryPressure',
+	'ManagedOOMMemoryPressureLimit',
+	'ManagedOOMPreference',
+];

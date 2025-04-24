@@ -1,13 +1,16 @@
-import { Transform } from 'stream';
+import { Transform } from 'node:stream';
 
 export type LogFunction = (message: string, ...args: any[]) => void;
 
 export class LoggerStream extends Transform {
 	private readonly prefix: string;
 
-	constructor(private readonly logFn: LogFunction, prefix?: string) {
+	constructor(
+		private readonly logFn: LogFunction,
+		prefix?: string
+	) {
 		super();
-		this.prefix = prefix ? prefix + ' %s' : '%s';
+		this.prefix = prefix ? `${prefix} %s` : '%s';
 	}
 
 	override _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void {
@@ -28,15 +31,18 @@ export class LoggerStream extends Transform {
 }
 
 function pad2(s: string) {
-	return s.length === 1 ? '0' + s : s;
+	return s.length === 1 ? `0${s}` : s;
 }
 
 export class HexDumpLoggerStream extends Transform {
 	private readonly prefix: string;
 
-	constructor(private readonly logFn: LogFunction, prefix?: string) {
+	constructor(
+		private readonly logFn: LogFunction,
+		prefix?: string
+	) {
 		super();
-		this.prefix = prefix ? prefix + ' ' : '';
+		this.prefix = prefix ? `${prefix} ` : '';
 	}
 
 	override _transform(chunk: Buffer, encoding: BufferEncoding, callback: Function): void {
@@ -52,7 +58,7 @@ export class HexDumpLoggerStream extends Transform {
 				.join(' ');
 			itr += 16;
 
-			this.logFn(this.prefix + l + '  ' + r);
+			this.logFn(`${this.prefix + l}  ${r}`);
 		}
 
 		this.push(chunk, encoding);

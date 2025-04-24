@@ -1,7 +1,5 @@
 /** Find the index of given item */
-export interface Finder<Type> {
-	(this: Type[], item: Type): number;
-}
+export type Finder<Type> = (this: Type[], item: Type) => number;
 
 type MyFinder<Type> = (item: Type) => number;
 
@@ -34,9 +32,8 @@ export class CustomSet<Type = string> {
 		if (index === -1) {
 			this.registry.push(item);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -50,10 +47,9 @@ export class CustomSet<Type = string> {
 		const index = this.finder(item);
 		if (index === -1) {
 			return false;
-		} else {
-			this.registry.splice(index, 1);
-			return true;
 		}
+		this.registry.splice(index, 1);
+		return true;
 	}
 
 	/**

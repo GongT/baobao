@@ -1,11 +1,11 @@
-import { Stats } from 'fs';
-import fs from 'fs/promises';
+import type { Stats } from 'node:fs';
+import fs from 'node:fs/promises';
 import { AsyncDisposable, toDisposable } from '@idlebox/common';
 import { hexNumber } from './types.js';
 
 export async function openCacheFileForRead(file: string): Promise<ICacheFileReader | undefined> {
-	let fd: null | fs.FileHandle = null,
-		stat: Stats;
+	let fd: null | fs.FileHandle = null;
+	let stat: Stats;
 
 	try {
 		fd = await fs.open(file, 'r+');
@@ -14,9 +14,8 @@ export async function openCacheFileForRead(file: string): Promise<ICacheFileRead
 		await fd?.close();
 		if (e.code === 'ENOENT') {
 			return undefined;
-		} else {
-			throw e;
 		}
+		throw e;
 		// fd = await fs.open(this.location, 'wx');
 	}
 
@@ -64,9 +63,7 @@ class CacheFileReader extends AsyncDisposable {
 		// console.error('read: cursor=%s, want=%s, read=%s', this._cursor, output.byteLength, result.bytesRead);
 		this._cursor += result.bytesRead;
 		if (result.bytesRead !== output.byteLength) {
-			throw new Error(
-				`unexpected ending of file: reading ${result.bytesRead} bytes, expect ${output.byteLength}`
-			);
+			throw new Error(`unexpected ending of file: reading ${result.bytesRead} bytes, expect ${output.byteLength}`);
 		}
 	}
 
@@ -102,11 +99,11 @@ class CacheFileReader extends AsyncDisposable {
 
 		if (this._cursor === this.stat.size) {
 			return true;
-		} else if (this._cursor > this.stat.size) {
-			throw new Error('read cursor overflow');
-		} else {
-			return false;
 		}
+		if (this._cursor > this.stat.size) {
+			throw new Error('read cursor overflow');
+		}
+		return false;
 	}
 
 	async readBuffer(length: number) {

@@ -10,7 +10,7 @@
 		"**/*.api.json": true,
 		"**/*.api.md": true,
 		"**/package-public.d.ts": true,
-		"pnpm-lock.yaml": true,
+		"pnpm-lock.yaml": true
 	},
 	"prettier.prettierPath": "common/autoinstallers/rush-prettier/node_modules/prettier",
 	"prettier.requireConfig": true,

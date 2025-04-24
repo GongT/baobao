@@ -1,5 +1,5 @@
 import { TscWrapper } from '@internal/local-esbuild';
-import { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
+import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
 import { resolve } from 'node:path';
 
 export const PLUGIN_NAME = 'tsc-exec';
@@ -9,10 +9,7 @@ export default class TscPlugin implements IHeftTaskPlugin {
 
 	apply(session: IHeftTaskSession, configuration: HeftConfiguration): void {
 		async function startTsc(watch: boolean) {
-			const tspkg = await configuration.rigPackageResolver.resolvePackageAsync(
-				'typescript',
-				session.logger.terminal,
-			);
+			const tspkg = await configuration.rigPackageResolver.resolvePackageAsync('typescript', session.logger.terminal);
 			const tsc = resolve(tspkg, 'bin/tsc');
 			const args = ['--project', 'src/tsconfig.json', '--pretty', '--preserveWatchOutput'];
 			if (watch) args.push('--watch');

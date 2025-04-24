@@ -4,6 +4,6 @@
 		"types": ["node"],
 		"moduleResolution": "Node",
 		"module": "ESNext",
-		"target": "ESNext"
-	}
+		"target": "ESNext",
+	},
 }

@@ -1,7 +1,7 @@
 import esbuild from 'esbuild';
-import { mkdir, writeFile } from 'fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { minimatch } from 'minimatch';
-import { dirname, join, resolve } from 'path';
+import { dirname, join, resolve } from 'node:path';
 import { entryFiles } from './args.js';
 import { esbuildProblemMatcherPlugin } from './matcher.js';
 
@@ -25,7 +25,7 @@ class BuildContextHost implements esbuild.BuildContext {
 			throw new Error('already created');
 		}
 		this.created = true;
-		options.plugins!.push(fileWriter, esbuildProblemMatcherPlugin);
+		options.plugins?.push(fileWriter, esbuildProblemMatcherPlugin);
 		this.buildctx.push(await esbuild.context(options));
 	}
 
@@ -64,7 +64,7 @@ const fileWriter: esbuild.Plugin = {
 				const entry = meta.output(rpath).entryPoint;
 				if (!entry) {
 					// esbuild may support cjs split in future? (probably not)
-					throw new Error('output file not have entry: ' + rpath);
+					throw new Error(`output file not have entry: ${rpath}`);
 				}
 
 				const outfile = join(matchMapEntry(entry), rpath);
@@ -91,7 +91,7 @@ function matchMapEntry(entry: string) {
 			return to;
 		}
 	}
-	throw new Error('known entry file: ' + entry);
+	throw new Error(`known entry file: ${entry}`);
 }
 
 class MetaFile {
@@ -104,7 +104,7 @@ class MetaFile {
 				return this.metafile.outputs[file];
 			}
 		}
-		throw new Error('output file not inside metadata: ' + outfile);
+		throw new Error(`output file not inside metadata: ${outfile}`);
 	}
 }
 

@@ -28,8 +28,8 @@ async function resolveNpmVersion([packageName, currentVersion]: [string, string]
 	let maxRetry = 100;
 	while (--retryCnt && --maxRetry && ++currentTry) {
 		try {
-			const pkgjson = await manifest(packageReference + '@latest', { before: d });
-			let newVersion = '^' + pkgjson.version;
+			const pkgjson = await manifest(`${packageReference}@latest`, { before: d });
+			let newVersion = `^${pkgjson.version}`;
 			if (packageReference !== packageName) {
 				newVersion = `npm:${packageReference}@${newVersion}`;
 			}
@@ -41,7 +41,7 @@ async function resolveNpmVersion([packageName, currentVersion]: [string, string]
 				currentTry,
 				packageName,
 				e.code,
-				e.message,
+				e.message
 			);
 			lastError = e;
 			if (e.code === 'ECONNRESET') {
@@ -62,17 +62,17 @@ export async function resolveNpm(versions: Map<string, string>) {
 	const total = versions.size;
 	const padto = total.toFixed(0).length;
 
-	const nc = parseInt((await getNpmConfigValue('network-concurrency')) || '4');
+	const nc = Number.parseInt((await getNpmConfigValue('network-concurrency')) || '4');
 
 	for await (const [packName, newVersion, currentVersion] of asyncPool(
 		nc,
 		[...versions.entries()],
-		resolveNpmVersion,
+		resolveNpmVersion
 	)) {
 		versions.set(packName, newVersion);
 
 		let updated = '';
-		if (currentVersion && currentVersion != newVersion) {
+		if (currentVersion && currentVersion !== newVersion) {
 			updated = ` ${cs}(from ${currentVersion})${ce}`;
 		}
 

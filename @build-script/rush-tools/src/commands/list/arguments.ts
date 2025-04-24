@@ -15,8 +15,8 @@ Options:
 
 export enum CmdListWhat {
 	name = 1,
-	path,
-	relpath,
+	path = 2,
+	relpath = 3,
 }
 
 export function parse(sub: ISubArgsReaderApi) {

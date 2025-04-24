@@ -1,6 +1,6 @@
 import { convertCatchedError } from '@idlebox/common';
 import { writeJsonFileBack } from '@idlebox/node-json-edit';
-import { ICProjectConfig } from '../../api.js';
+import type { ICProjectConfig } from '../../api.js';
 import { RushProject } from '../../api/rushProject.js';
 import { blacklistDependency, resolveNpm } from '../../common/npm.js';
 

@@ -1,5 +1,5 @@
-import { access, mkdir, readFile, writeFile } from 'fs/promises';
-import { dirname } from 'path';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
 
 export interface IInternalFile {
 	originalPath: string;

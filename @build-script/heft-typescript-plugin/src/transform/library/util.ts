@@ -1,20 +1,19 @@
 import { relativePath } from '@build-script/heft-plugin-base';
-import { format } from 'util';
+import { format } from 'node:util';
 
 import type TypeScriptApi from 'typescript';
 export function formatMyDiagnostic(node: TypeScriptApi.Node, message: string, ...args: any[]) {
 	if (node.getSourceFile()) {
 		const pos = node.getSourceFile().getLineAndCharacterOfPosition(node.getStart());
 		return format(
-			'%s(%s,%s): ' + message,
+			`%s(%s,%s): ${message}`,
 			relativePath(process.cwd(), node.getSourceFile().fileName),
 			pos.line + 1,
 			pos.character,
-			...args,
+			...args
 		);
-	} else {
-		return format('(%s failed get position) ' + message, node, ...args);
 	}
+	return format(`(%s failed get position) ${message}`, node, ...args);
 }
 
 export function idToString(id: TypeScriptApi.Identifier) {
@@ -24,9 +23,8 @@ export function idToString(id: TypeScriptApi.Identifier) {
 export function nameToString(ts: typeof TypeScriptApi, name: TypeScriptApi.Identifier | TypeScriptApi.StringLiteral) {
 	if (ts.isStringLiteral(name)) {
 		return name.text;
-	} else {
-		return name.escapedText.toString();
 	}
+	return name.escapedText.toString();
 }
 type valid = {
 	moduleSpecifier: TypeScriptApi.StringLiteral;
@@ -37,7 +35,7 @@ export type ValidImportOrExportFromDeclaration = ValidImportDeclaration | ValidE
 
 export function isImportExportFrom(
 	ts: typeof TypeScriptApi,
-	node: TypeScriptApi.Node,
+	node: TypeScriptApi.Node
 ): node is ValidImportOrExportFromDeclaration {
 	if (!ts.isImportDeclaration(node) && !ts.isExportDeclaration(node)) {
 		// not "import .. from" or "export .. from"
@@ -63,7 +61,7 @@ export function isEsModule(ts: typeof TypeScriptApi, module?: TypeScriptApi.Modu
 
 export function tryGetSourceFile(
 	ts: typeof TypeScriptApi,
-	node: TypeScriptApi.Node,
+	node: TypeScriptApi.Node
 ): TypeScriptApi.SourceFile | undefined {
 	if (ts.isSourceFile(node)) {
 		return node;
@@ -111,11 +109,10 @@ export function createObjectAccess(
 	ts: typeof TypeScriptApi,
 	factory: TypeScriptApi.NodeFactory,
 	target: TypeScriptApi.Identifier,
-	property: TypeScriptApi.StringLiteral | TypeScriptApi.Identifier,
+	property: TypeScriptApi.StringLiteral | TypeScriptApi.Identifier
 ) {
 	if (ts.isStringLiteral(property)) {
 		return factory.createElementAccessExpression(target, property);
-	} else {
-		return factory.createPropertyAccessExpression(target, property);
 	}
+	return factory.createPropertyAccessExpression(target, property);
 }

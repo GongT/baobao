@@ -1,8 +1,8 @@
 /// <reference types="@types/heft-jest" />
 
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { kb, mb, randomTestFile, tmpdir } from '../helper.test.d/testlib.js';
-import { IMemCachePart, MemoryCacheController } from './MemoryCacheController.js';
+import { type IMemCachePart, MemoryCacheController } from './MemoryCacheController.js';
 
 const exampleFile = resolve(tmpdir, 'index-example.bin');
 const test100 = randomTestFile(exampleFile, 100 * mb);
@@ -15,7 +15,7 @@ function slice(start: number, length: number): IMemCachePart {
 	};
 }
 
-describe('MemoryCacheController',  () => {
+describe('MemoryCacheController', () => {
 	it('works normally', () => {
 		const mm = new MemoryCacheController(100 * mb);
 		mm.push(slice(50 * mb, 50 * mb));

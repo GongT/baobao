@@ -1,7 +1,7 @@
 import { ArgumentError, type IArgsReaderApi } from '@idlebox/args';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
-export const execUsage = `[--options] [--] <command>`;
+export const execUsage = '[--options] [--] <command>';
 export const execHelp = `
 	--quiet: no output
 	--continue: when command error, ignore and continue to next project
@@ -34,7 +34,7 @@ export function execCommonArg(sub: IArgsReaderApi) {
 		argv[0] = resolve(process.cwd(), argv[0]);
 		argv.unshift('python3');
 	} else {
-		throw new ArgumentError('unknow how to execute this command: ' + argv[0]);
+		throw new ArgumentError(`unknow how to execute this command: ${argv[0]}`);
 	}
 
 	return { quiet, onErrorContinue, argv };

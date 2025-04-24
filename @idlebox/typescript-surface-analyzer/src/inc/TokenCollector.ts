@@ -1,10 +1,10 @@
 import type TypeScriptApi from 'typescript';
-import { inspect, InspectOptions } from 'util';
-import { createColor, createInspectTab, ILogger } from './logger.js';
-import { IResolveResult } from './MapResolver.js';
+import { inspect, type InspectOptions } from 'node:util';
+import { createColor, createInspectTab, type ILogger } from './logger.js';
+import type { IResolveResult } from './MapResolver.js';
 import { ApiHost } from './tsapi.helpers.js';
 
-import type { inspect as utilsInspect } from 'util';
+import type { inspect as utilsInspect } from 'node:util';
 
 export interface WithOriginal {
 	id?: TypeScriptApi.ModuleExportName;
@@ -29,11 +29,11 @@ export interface IIdentifierResult {
 }
 
 export enum ExportKind {
-	Unknown,
-	Variable,
-	Function,
-	Class,
-	Type,
+	Unknown = 0,
+	Variable = 1,
+	Function = 2,
+	Class = 3,
+	Type = 4,
 }
 
 export interface ITypescriptFile {
@@ -102,13 +102,13 @@ export class TokenCollector implements ITypescriptFile {
 		let ret = `ITypescriptFile< ${c.blue(this.relativePath)} > {\n`;
 
 		if (this.identifiers.size > 0) {
-			ret += tab + c.blue('identifiers') + `(${this.identifiers.size}):\n`;
+			ret += `${tab + c.blue('identifiers')}(${this.identifiers.size}):\n`;
 			for (const [name, def] of this.identifiers.entries()) {
 				ret += `${tab}  - ${c.green(name)}`;
 				if (def.reference) {
 					ret += ' (';
 					if (def.kind !== ExportKind.Unknown) {
-						ret += ExportKind[def.kind] + ' ';
+						ret += `${ExportKind[def.kind]} `;
 					}
 					ret += `from ${def.reference.type === 'file' ? def.reference.relative : def.reference.name}`;
 					if (def.reference.id) {
@@ -123,14 +123,14 @@ export class TokenCollector implements ITypescriptFile {
 		}
 
 		if (this.references.length) {
-			ret += tab + c.blue('references') + `(${this.references.length}):\n`;
+			ret += `${tab + c.blue('references')}(${this.references.length}):\n`;
 			for (const { reference } of this.references) {
-				ret += tab + '  - ' + c.green(reference.type === 'file' ? reference.relative : reference.name) + '\n';
+				ret += `${tab}  - ${c.green(reference.type === 'file' ? reference.relative : reference.name)}\n`;
 			}
 		}
 
 		if (this._defaultExport) {
-			ret += tab + c.red('default') + ': ';
+			ret += `${tab + c.red('default')}: `;
 			if (this._defaultExport.id) {
 				ret += c.gay(ApiHost.idToString(this._defaultExport.id));
 			} else {
@@ -138,6 +138,6 @@ export class TokenCollector implements ITypescriptFile {
 			}
 			ret += ` (${ExportKind[this._defaultExport.kind]})`;
 		}
-		return ret.trim() + '\n}';
+		return `${ret.trim()}\n}`;
 	}
 }

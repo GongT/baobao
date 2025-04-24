@@ -31,7 +31,7 @@ async function main() {
 
 main().then(
 	() => {
-		console.log(`\x1B[38;5;10mComplete.\x1B[0m `);
+		console.log('\x1B[38;5;10mComplete.\x1B[0m ');
 	},
 	(e) => {
 		console.error(e.stack);

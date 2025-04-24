@@ -1,7 +1,8 @@
 import { wrapLogger, type IOutputShim } from '@build-script/heft-plugin-base';
 import { PromisePool } from '@supercharge/promise-pool';
-import { basename, isAbsolute, resolve } from 'path';
+import { basename, isAbsolute, resolve } from 'node:path';
 import { CodeGenerator } from './code-generator.js';
+import { emitIpcMessage, type IBuildComplete, type IBuildStart } from './node-ipc.js';
 import { ExecuteReason } from './shared.js';
 
 export interface IResult {
@@ -24,11 +25,11 @@ export interface IResult {
 	/**
 	 * count and detail failed execute
 	 */
-	errors: Error[];
+	errors: { error: Error; source: string }[];
 	/**
 	 * readed files
 	 */
-	watchFiles: readonly string[];
+	watchFiles: string[];
 }
 
 function nextTick() {
@@ -46,7 +47,7 @@ export class GeneratorHolder {
 	) {}
 
 	async makeGenerators(files: string[], standalone: boolean) {
-		this.logger.debug(`register generator:`);
+		this.logger.debug('register generator:');
 		const used = new Set<string>();
 		for (const file of files) {
 			const abs = resolve(this.root, file);
@@ -75,7 +76,7 @@ export class GeneratorHolder {
 	}
 
 	async executeRelated(trigger: ReadonlySet<string>): Promise<IResult> {
-		delete this._lastResult;
+		this._lastResult = undefined;
 		const toBeExec = [];
 		for (const gen of this.generators.values()) {
 			const reason = gen.shouldExecute(trigger);
@@ -83,17 +84,18 @@ export class GeneratorHolder {
 				toBeExec.push({ generator: gen, reason });
 			}
 		}
+		emitIpcMessage('start', { files: Array.from(trigger), generator: toBeExec.length } as IBuildStart);
 
 		this.logger.log(`start execute: ${this.generators.size} generator registed`);
 
-		const result = {
+		const result: IResult = {
 			count: this.generators.size,
 			schedule: toBeExec.length,
 			success: 0,
 			skip: 0,
-			errors: [] as Error[],
-			watchFiles: [] as string[],
-		} satisfies IResult;
+			errors: [],
+			watchFiles: [],
+		};
 
 		await new PromisePool()
 			.withConcurrency(4)
@@ -102,11 +104,11 @@ export class GeneratorHolder {
 				generator.logger.verbose(`task started (${ExecuteReason[reason]}).`);
 			})
 			.handleError((err, { generator }) => {
-				generator.logger.verbose(`task errored.`);
-				result.errors.push(err);
+				generator.logger.verbose('task errored.');
+				result.errors.push({ error: err, source: generator.id });
 			})
 			.onTaskFinished(({ generator }) => {
-				generator.logger.verbose(`task finished.`);
+				generator.logger.verbose('task finished.');
 			})
 			.process(async ({ generator, reason }) => {
 				await nextTick();
@@ -122,11 +124,23 @@ export class GeneratorHolder {
 		this.logger.log(
 			`  code generate complete:\n    ${result.success} success, ${result.skip} unchange/skip, ${result.errors.length} error.`
 		);
+		emitIpcMessage('stop', {
+			count: result.count,
+			schedule: result.schedule,
+			success: result.success,
+			skip: result.skip,
+			errors: result.errors.map((e) => {
+				return {
+					error: e.error.message,
+					source: e.source,
+				};
+			}),
+		} as IBuildComplete);
 
 		for (const gen of this.generators.values()) {
 			for (const item of gen.relatedFiles) {
 				if (!isAbsolute(item)) {
-					throw new Error('fatal error: something returns a relative path: ' + item);
+					throw new Error(`fatal error: something returns a relative path: ${item}`);
 				}
 			}
 			result.watchFiles.push(...gen.relatedFiles);

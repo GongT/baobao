@@ -1,9 +1,9 @@
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { relativePath, writeFileIfChange } from '@idlebox/node';
-import { access, chmod } from 'fs/promises';
-import { F_OK } from 'constants';
-import { dirname, resolve } from 'path';
-import { RushProject } from '../api/rushProject.js';
+import { access, chmod } from 'node:fs/promises';
+import { F_OK } from 'node:constants';
+import { dirname, resolve } from 'node:path';
+import type { RushProject } from '../api/rushProject.js';
 
 export async function createLink(rush: RushProject, name: string, path: string) {
 	const binTempDir = resolve(rush.tempRoot, 'bin');
@@ -40,7 +40,7 @@ export async function createExecuteWrapper(rush: RushProject, name: string, path
 		`#!/usr/bin/env bash
 
 set -e
-exec "$(dirname "$(realpath "\${BASH_SOURCE[0]}")")"${JSON.stringify('/' + loader)} "$@"
+exec "$(dirname "$(realpath "\${BASH_SOURCE[0]}")")"${JSON.stringify(`/${loader}`)} "$@"
 `
 	);
 

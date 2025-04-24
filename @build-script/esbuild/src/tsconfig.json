@@ -5,6 +5,6 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"types": ["node"],
-		"lib": ["DOM"]
-	}
+		"lib": ["DOM"],
+	},
 }

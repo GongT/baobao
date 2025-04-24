@@ -1,6 +1,6 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { readFile, writeFile } from 'fs/promises';
-import { resolve } from 'path';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { arrayUniqueReference } from '@idlebox/common';
 
 export const unscoped = Symbol('unscoped');
@@ -35,17 +35,16 @@ export function stringify(data: IIgnoreFile): string {
 		if (!arr || arr.length === 0) continue;
 
 		if (item !== unscoped) {
-			ret += '\n### ' + item + '\n';
+			ret += `\n### ${item}\n`;
 		}
 
-		ret +=
-			arr
-				.map((e) => {
-					return isEmptyLine(e) ? '' : e;
-				})
-				.join('\n') + '\n';
+		ret += `${arr
+			.map((e) => {
+				return isEmptyLine(e) ? '' : e;
+			})
+			.join('\n')}\n`;
 	}
-	return ret.trim() + '\n';
+	return `${ret.trim()}\n`;
 }
 
 /** @deprecated */
@@ -57,9 +56,8 @@ export function saveFileSync(data: IIgnoreFile, saveAs: string = data[filePath]!
 	if (result !== data[originalContent]) {
 		writeFileSync(saveAs, result, 'utf-8');
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 export async function saveFile(data: IIgnoreFile, saveAs: string = data[filePath]!) {
@@ -70,9 +68,8 @@ export async function saveFile(data: IIgnoreFile, saveAs: string = data[filePath
 	if (result !== data[originalContent]) {
 		await writeFile(saveAs, result, 'utf-8');
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 function isEmptyLine(line: string | symbol) {
@@ -126,13 +123,12 @@ function wrapProxy(instance: IIgnoreFileData, content: string): IIgnoreFile {
 					};
 				}
 				return (instance as any)[name];
-			} else {
-				if (!instance[name]) {
-					instance[name] = new WrappedArray();
-					sections.push(name);
-				}
-				return instance[name];
 			}
+			if (!instance[name]) {
+				instance[name] = new WrappedArray();
+				sections.push(name);
+			}
+			return instance[name];
 		},
 		set(_target, name: string, value: string[]) {
 			if (!Array.isArray(value)) {

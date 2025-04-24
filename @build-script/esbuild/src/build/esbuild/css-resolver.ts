@@ -1,6 +1,6 @@
-import { dirname, resolve } from 'path';
+import { dirname, resolve } from 'node:path';
 import { resolvePath } from '@idlebox/node';
-import { Plugin } from 'esbuild';
+import type { Plugin } from 'esbuild';
 import { isVerbose } from '../library/constants.js';
 import { rush } from '../library/rush.js';
 

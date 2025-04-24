@@ -1,4 +1,4 @@
-import { IInternalFile } from './filesystem.js';
+import type { IInternalFile } from './filesystem.js';
 import { PrettyFormat } from './prettyFormat.js';
 
 const configSymbol = Symbol('@gongt/node-json-edit');

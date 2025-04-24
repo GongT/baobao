@@ -45,6 +45,7 @@ export class CodeGenerator {
 	private readonly packageFile;
 	private readonly executer: BaseExecuter;
 	private readonly filesToClean = new Set<string>();
+	public readonly id: string;
 
 	private readonly createTempFilePath: (hash?: string, ext?: string) => string;
 
@@ -54,9 +55,11 @@ export class CodeGenerator {
 		standalone: boolean, // true if run by binary, false if by heft
 		public readonly logger: IOutputShim
 	) {
+		this.id = entryFileAbs;
+
 		const packageFile = findUpUntilSync(buildFoder, 'package.json');
 		if (!packageFile) {
-			throw new Error('failed find package.json from ' + buildFoder);
+			throw new Error(`failed find package.json from ${buildFoder}`);
 		}
 		this.packageFile = packageFile;
 
@@ -151,7 +154,7 @@ export class CodeGenerator {
 
 	async compileRun(reason: ExecuteReason) {
 		if (reason === ExecuteReason.NeedCompile || !this.compileResult) {
-			delete this.compileResult;
+			this.compileResult = undefined;
 			try {
 				const context = await this.createContext();
 				this.compileResult = await context.rebuild();
@@ -162,7 +165,7 @@ export class CodeGenerator {
 
 			const hasError = printEsbuildErrors(this.logger, this.compileResult);
 			if (hasError) {
-				delete this.compileResult;
+				this.compileResult = undefined;
 				throw new Error('failed compile generater script: has compile error.');
 			}
 		}
@@ -173,26 +176,25 @@ export class CodeGenerator {
 
 		const src = outputs.find((e) => !e.path.endsWith('.map'));
 
-		const mapFile = scriptFile + '.map';
+		const mapFile = `${scriptFile}.map`;
 		const map = outputs.find((e) => e.path.endsWith('.map'));
 
 		if (!map || !src || outputs.length !== 2) {
 			this.logger.warn(
-				'compiled outputs:\n' +
-					Object.values(outputs)
-						.map((e) => `  - ${e.path}`)
-						.join('\n')
+				`compiled outputs:\n${Object.values(outputs)
+					.map((e) => `  - ${e.path}`)
+					.join('\n')}`
 			);
 			throw new Error('compile output invalid (must be map and src)');
 		}
 
 		//# sourceMappingURL=.concatType.generator.94937e1648fa.mjs.map
 		let script = src.text.replace(/^\/\/#\s*sourceMappingURL=.*$/gm, '');
-		script += '\n//# sourceMappingURL=./' + basename(mapFile);
+		script += `\n//# sourceMappingURL=./${basename(mapFile)}`;
 
 		await writeFile(scriptFile, script, 'utf8');
 		await writeFile(mapFile, map.text.replace('@@@@@', dirname(scriptFile)), 'utf8');
-		this.logger.verbose('scriptFile: ' + scriptFile);
+		this.logger.verbose(`scriptFile: ${scriptFile}`);
 
 		try {
 			return await this.executer.execute(scriptFile);
@@ -222,7 +224,7 @@ export class CodeGenerator {
 		if (this.context) {
 			this.logger.verbose('dispose context');
 			const ctx = this.context;
-			delete this.context;
+			this.context = undefined;
 			await ctx.dispose();
 		}
 	}
@@ -230,11 +232,11 @@ export class CodeGenerator {
 
 function printEsbuildErrors(logger: IOutputShim, result: BuildResult) {
 	if (result.errors.length === 0 && result.warnings.length === 0) {
-		logger.debug(`generator script compiled success`);
+		logger.debug('generator script compiled success');
 		return false;
 	}
 
-	const entry = Object.values(result.metafile!.outputs).find((e) => e.entryPoint)?.entryPoint;
+	const entry = Object.values(result.metafile?.outputs ?? {}).find((e) => e.entryPoint)?.entryPoint;
 	logger.error(`esbuild compile with errors (while bundle ${entry}):`);
 	for (const { text, location } of result.errors) {
 		logger.error(`✘ [ERROR] ${text}`);

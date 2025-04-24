@@ -1,12 +1,12 @@
-import { spawnSync } from 'child_process';
-import { createRequire } from 'module';
-import { platform } from 'os';
+import { spawnSync } from 'node:child_process';
+import { createRequire } from 'node:module';
+import { platform } from 'node:os';
 import { findBinary } from '../environment/findBinary.js';
 import { spawnGetOutputSync } from './execa.js';
 
 const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagation=slave'];
 
-if (platform() === 'linux' && process.getuid!() !== 0) {
+if (platform() === 'linux' && process.getuid?.() !== 0) {
 	unshareArgs.push('--map-root-user');
 }
 
@@ -52,9 +52,8 @@ export function respawnInScope(mainFunc: Function): unknown | never {
 		spawnRecreateEventHandlers();
 		mainFunc();
 		return undefined;
-	} else {
-		execLinux(process.argv);
 	}
+	execLinux(process.argv);
 }
 
 let unshare: string;
@@ -81,9 +80,8 @@ function supportScope() {
 		}
 
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 function spawnSimulate(cmd: string, args: string[]): never {
@@ -105,13 +103,13 @@ function spawnSimulate(cmd: string, args: string[]): never {
 }
 
 function execLinux(cmds: string[]): never {
-	const args = [...unshareArgs, '--wd=' + process.cwd(), ...cmds];
+	const args = [...unshareArgs, `--wd=${process.cwd()}`, ...cmds];
 
 	try {
 		process.env.NEVER_UNSHARE = 'true';
 		const require = createRequire(
 			// @ts-ignore
-			import.meta.url,
+			import.meta.url
 		);
 		const kexec = require('kexec');
 

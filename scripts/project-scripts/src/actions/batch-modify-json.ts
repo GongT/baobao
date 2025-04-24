@@ -1,6 +1,6 @@
 import { RushProject } from '@build-script/rush-tools';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { existsSync } from 'fs';
+import { existsSync } from 'node:fs';
 import '../include/prefix';
 import { getopts, handleShort } from '../include/rushArguments.js';
 
@@ -53,15 +53,15 @@ function parseValue(value) {
 	if (value === 'false') {
 		return false;
 	}
-	if (!isNaN(parseFloat(value))) {
-		return parseFloat(value);
+	if (!Number.isNaN(Number.parseFloat(value))) {
+		return Number.parseFloat(value);
 	}
 	return value;
 }
 const parsedValue = parseValue(value);
 
-let success = 0,
-	fail = 0;
+let success = 0;
+let fail = 0;
 
 const rush = new RushProject();
 main();
@@ -101,7 +101,7 @@ function pathInfo(obj, path) {
 
 	let debug = '';
 	for (const part of ps) {
-		debug += '.' + part;
+		debug += `.${part}`;
 		if (!obj.hasOwnProperty(part)) {
 			// console.log('%s: object path not exists', debug);
 			obj[part] = {};
@@ -122,8 +122,9 @@ function push(json, path, value) {
 	if (arr === undefined) {
 		obj[last] = [value];
 		return true;
-	} else if (!Array.isArray(arr)) {
-		throw new Error(path + ': array required.');
+	}
+	if (!Array.isArray(arr)) {
+		throw new Error(`${path}: array required.`);
 	}
 
 	if (arr.length) {
@@ -140,8 +141,9 @@ function unshift(json, path, value) {
 	if (arr === undefined) {
 		obj[last] = [value];
 		return true;
-	} else if (!Array.isArray(arr)) {
-		throw new Error(path + ': array required.');
+	}
+	if (!Array.isArray(arr)) {
+		throw new Error(`${path}: array required.`);
 	}
 
 	if (arr.length) {
@@ -170,7 +172,6 @@ function del(json, path) {
 			delete obj[last];
 		}
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }

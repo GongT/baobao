@@ -2,9 +2,12 @@ export class TimeoutStorage<T> {
 	private readonly valueKey: string;
 	private readonly expireKey: string;
 
-	constructor(key: string, private readonly storage: Storage = localStorage) {
-		this.valueKey = key + '::value';
-		this.expireKey = key + '::expire';
+	constructor(
+		key: string,
+		private readonly storage: Storage = localStorage
+	) {
+		this.valueKey = `${key}::value`;
+		this.expireKey = `${key}::expire`;
 	}
 
 	save(data: Readonly<T>, expire: string | Date) {

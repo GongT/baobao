@@ -1,18 +1,18 @@
 import { camelCase, lcfirst, ucfirst } from '@idlebox/common';
 import { execa } from 'execa';
-import { writeFile } from 'fs/promises';
-import { resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const manArgs = ['--encoding=utf-8', '--no-hyphenation', '--no-justification', '--pager=cat', '--locale=en-us'];
 const fastStopSignals = ['EXAMPLES', 'SEE ALSO'];
-const nameLine = /^       [a-z0-9_]+=/i;
+const nameLine = /^ {7}[a-z0-9_]+=/i;
 const titleLine = /^\S/;
 
 async function extractPage(...args: string[]) {
 	const ret = await execa('man', manArgs.concat(args), { stdio: 'pipe', all: true });
 	if (ret.exitCode !== 0) {
-		throw new Error('failed print man page for: ' + args.join(' '));
+		throw new Error(`failed print man page for: ${args.join(' ')}`);
 	}
 	return ret.all!;
 }
@@ -46,7 +46,7 @@ const types = [
 	'unit',
 ];
 for (const type of types) {
-	const outputFile = resolve(outDir, type + '.ts');
+	const outputFile = resolve(outDir, `${type}.ts`);
 
 	const rawContent = await extractPage(`systemd.${type}`);
 
@@ -80,7 +80,7 @@ for (const type of types) {
 			docs = '';
 			collectedLines.push(line.trim());
 		} else if (collectedLines.length) {
-			docs += line + ' ';
+			docs += `${line} `;
 		}
 
 		if (fastStopSignals.includes(line)) break;
@@ -100,13 +100,13 @@ for (const type of types) {
 		`${prefix}
 ${contents.join('\n')}
 ${all}
-`,
+`
 	);
 }
 
 await writeFile(
 	resolve(outDir, '../all.ts'),
-	types.map((x) => `export type * from './created/${x}.js';`).join('\n') + '\n',
+	`${types.map((x) => `export type * from './created/${x}.js';`).join('\n')}\n`
 );
 
 interface IVar {
@@ -164,15 +164,17 @@ function createSection(unitType: string, title: string, vars: readonly IVar[]): 
 			typedef = 'string[]';
 		} else if (name.includes('Timeout')) {
 			typedef = 'string | number';
-		} else if (listReg.test(doc)) {
-			const r = listReg.exec(doc)![0];
-			const list = r
-				.slice(13, -1)
-				.replace(/[,"]/g, '')
-				.replace(/\(.+\)/g, '')
-				.split(/\s+/)
-				.filter((e) => e && e !== 'and' && e !== 'or');
-			typedef = list.map((e) => JSON.stringify(e)).join(' | ') + ' | string';
+		} else {
+			const r = listReg.exec(doc);
+			if (r) {
+				const list = r[0]
+					.slice(13, -1)
+					.replace(/[,"]/g, '')
+					.replace(/\(.+\)/g, '')
+					.split(/\s+/)
+					.filter((e) => e && e !== 'and' && e !== 'or');
+				typedef = `${list.map((e) => JSON.stringify(e)).join(' | ')} | string`;
+			}
 		}
 		body.push(`\t/** @see https://www.freedesktop.org/software/systemd/man/systemd.${unitType}.html#${parent}= */`);
 		body.push(`\t${name}?: ${typedef};`);

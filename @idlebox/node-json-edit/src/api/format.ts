@@ -1,5 +1,5 @@
 import { stringify } from 'comment-json';
-import { doc, Options as PrettierOptions } from 'prettier';
+import type { doc, Options as PrettierOptions } from 'prettier';
 import { getAttachedFormat } from '../tools/attachData.js';
 import { manipulateJsonResult, UnorderdFieldsPlacement } from './manipulate.js';
 

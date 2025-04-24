@@ -18,11 +18,11 @@ export class ExtendMap<K, V> extends Map<K, V> {
 	public override get(id: K, def?: V): V {
 		if (super.has(id)) {
 			return super.get(id)!;
-		} else if (arguments.length === 2) {
-			return def!;
-		} else {
-			throw new Error(`Unknown key {${id}} in map.`);
 		}
+		if (arguments.length === 2) {
+			return def!;
+		}
+		throw new Error(`Unknown key {${id}} in map.`);
 	}
 
 	/**
@@ -31,10 +31,9 @@ export class ExtendMap<K, V> extends Map<K, V> {
 	public entry(id: K, init: (id: K) => V): V {
 		if (super.has(id)) {
 			return super.get(id)!;
-		} else {
-			const nv = init(id);
-			super.set(id, nv);
-			return nv;
 		}
+		const nv = init(id);
+		super.set(id, nv);
+		return nv;
 	}
 }

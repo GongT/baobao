@@ -1,10 +1,10 @@
 import { path7za as originalPath7za } from '7zip-bin';
-import { ChildProcess, spawn, SpawnOptions } from 'child_process';
-import { basename, dirname } from 'path';
-import { handleOutput, handleProgress, IStatusReport } from './outputStreams.js';
+import { type ChildProcess, spawn, type SpawnOptions } from 'node:child_process';
+import { basename, dirname } from 'node:path';
+import { handleOutput, handleProgress, type IStatusReport } from './outputStreams.js';
 
 const path7za = originalPath7za.replace(/\.asar([\/\\])/, (_m0, sp) => {
-	return '.asar.unpacked' + sp;
+	return `.asar.unpacked${sp}`;
 });
 
 /** @extern */

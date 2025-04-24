@@ -23,16 +23,17 @@ function sanitizeEnv(env?: ProcessEnv, addonPath?: string[]) {
 	}
 	if (isWindows) {
 		(env as any).Path = env.PATH.replace(/:/g, sepList);
-		delete env.PATH;
+		env.PATH = undefined as any;
 	}
 	return env;
 }
 
 function handleError<T extends SyncResult<SyncOptions> | AsyncResult<AsyncOptions>>(result: T): T {
 	if (result.exitCode !== 0) {
-		throw new Error('command exit with code ' + result.exitCode);
-	} else if (result.signal) {
-		throw new Error('command killed by signal ' + result.signal);
+		throw new Error(`command exit with code ${result.exitCode}`);
+	}
+	if (result.signal) {
+		throw new Error(`command killed by signal ${result.signal}`);
 	}
 	return result;
 }

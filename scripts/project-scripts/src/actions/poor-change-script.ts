@@ -2,8 +2,8 @@ import { overallOrder, RushProject } from '@build-script/rush-tools';
 import { humanDate } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { emptyDir, exists } from '@idlebox/node';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { execPromise } from '../include/execPromise.js';
 import { increaseVersion } from '../include/increaseVersion.js';
 import { normalizePackageName } from '../include/paths.js';
@@ -50,10 +50,10 @@ async function main() {
 	await emptyDir(rushProject.tempFile('logs/update-version/'));
 
 	for (const [index, item] of projects.entries()) {
-		let start: number = Date.now();
+		const start: number = Date.now();
 
 		console.log('🔍 \x1B[38;5;14mCheck package\x1B[0m - %s (%s/%s)', item.packageName, index, projects.length);
-		const logFile = rushProject.tempFile('logs/update-version/' + normalizePackageName(item.packageName) + '.log');
+		const logFile = rushProject.tempFile(`logs/update-version/${normalizePackageName(item.packageName)}.log`);
 		if (verbose) console.log('\x1B[logging to file: %s\x1B[0m', logFile);
 
 		const path = rushProject.absolute(item.projectFolder);
@@ -85,7 +85,7 @@ async function main() {
 		const { changed, changedFiles } = data;
 		if (changed) {
 			console.log('🎯     Change detected');
-			console.log('         * %s files change', changedFiles.length);
+			console.log('       * %s files change', changedFiles.length);
 
 			console.log('✍️     Updating version...');
 			await increaseVersion(rushProject.absolute(item.projectFolder, 'package.json'));
@@ -107,11 +107,11 @@ async function main() {
 
 main().then(
 	() => {
-		console.log(`\x1B[38;5;10mComplete.\x1B[0m `);
+		console.log('\x1B[38;5;10mComplete.\x1B[0m ');
 		console.log(`You may need to run "rush update" or "rush ypublish" now`);
 	},
 	(e) => {
 		console.error(e.stack);
 		process.exit(1);
-	},
+	}
 );

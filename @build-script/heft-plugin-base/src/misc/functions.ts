@@ -1,5 +1,5 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { dirname, relative, resolve } from 'path';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, relative, resolve } from 'node:path';
 
 export function posixPath(p: string) {
 	return p.replace(/\\/g, '/');
@@ -20,12 +20,12 @@ export function writeFileIfChange(file: string, data: string | Buffer) {
 
 export function camelCase(str: string) {
 	return str.replace(/[-.\/_][a-z]/g, (s) => {
-		return s[1]!.toUpperCase();
+		return s[1]?.toUpperCase();
 	});
 }
 
 export function ucfirst<T extends string>(str: T): Capitalize<T> {
-	return <any>(str[0]!.toUpperCase() + str.slice(1));
+	return <any>(str[0]?.toUpperCase() + str.slice(1));
 }
 
 export function findUpUntilSync(from: string, file: string): string | null {

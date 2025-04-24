@@ -1,13 +1,12 @@
 import { normalizePath } from '@idlebox/common';
-import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
-import { IHeftTaskPlugin } from '@rushstack/heft';
+import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
 import { FileError } from '@rushstack/node-core-library';
 import type { BuildContext, BuildOptions, BuildResult, Message, Note } from 'esbuild';
-import { FilterdBuildOptions, filterOptions } from './common/config.js';
+import { type FilterdBuildOptions, filterOptions } from './common/config.js';
 import { executeConfigFile } from './common/execute-config.js';
 import { s } from './common/misc.js';
-import { ESBuildPublicApi, IGlobalSession } from './common/type.js';
-import { createEmitter, IProjectEmitter } from './common/write.js';
+import type { ESBuildPublicApi, IGlobalSession } from './common/type.js';
+import { createEmitter, type IProjectEmitter } from './common/write.js';
 
 export const PLUGIN_NAME = 'esbuild';
 
@@ -18,7 +17,7 @@ function emitResultErrors(result: BuildResult, session: IHeftTaskSession, rootDi
 		if ('id' in item) {
 			msg = `${item.pluginName} [${item.id}] ${item.text}`;
 		} else {
-			msg = '[Note] ' + item.text;
+			msg = `[Note] ${item.text}`;
 		}
 		if (item.location) {
 			e = new FileError(msg, {
@@ -74,12 +73,12 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 					writtenFiles += ret.writtenFiles;
 
 					return result.metafile;
-				}),
+				})
 			);
 
-			allMeta.forEach((e) => {
+			for (const e of allMeta) {
 				session.logger.terminal.writeLine(this._esbuild.analyzeMetafileSync(e));
-			});
+			}
 
 			showTip(contexts, writtenFiles);
 
@@ -104,12 +103,12 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 					writtenFiles += ret.writtenFiles;
 
 					return result.metafile;
-				}),
+				})
 			);
 
-			allMeta.forEach((e) => {
+			for (const e of allMeta) {
 				session.logger.terminal.writeVerboseLine(this._esbuild.analyzeMetafileSync(e));
-			});
+			}
 
 			showTip(contexts, writtenFiles);
 		});
@@ -125,16 +124,16 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 		esbuild: ESBuildPublicApi,
 		session: IHeftTaskSession,
 		configuration: HeftConfiguration,
-		userInput: any,
+		userInput: any
 	) {
-		let configFile;
+		let configFile: string | undefined;
 		for (const ext of ['.cts', '.mts', '.ts', '.cjs', '.mjs', '.json']) {
-			configFile = configuration.rigConfig.tryResolveConfigFilePath('config/esbuild' + ext);
+			configFile = configuration.rigConfig.tryResolveConfigFilePath(`config/esbuild${ext}`);
 			if (configFile) break;
 		}
 		if (!configFile) {
 			throw new Error(
-				'missing config file: config/esbuild.{ts|cjs|mjs|json}, it must `export const options: import("esbuild").BuildOptions` (or it\'s array)',
+				'missing config file: config/esbuild.{ts|cjs|mjs|json}, it must `export const options: import("esbuild").BuildOptions` (or it\'s array)'
 			);
 		}
 
@@ -170,7 +169,7 @@ export default class ESBuildPlugin implements IHeftTaskPlugin {
 			session.logger.terminal.writeDebug('loading esbuild: ');
 			const esbuildPath = await configuration.rigPackageResolver.resolvePackageAsync(
 				'esbuild',
-				session.logger.terminal,
+				session.logger.terminal
 			);
 			session.logger.terminal.writeDebugLine(esbuildPath);
 			this._esbuild = require(esbuildPath);

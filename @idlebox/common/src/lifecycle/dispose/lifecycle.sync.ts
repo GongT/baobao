@@ -1,6 +1,6 @@
-import { Emitter, EventRegister } from '../event/event.js';
+import { Emitter, type EventRegister } from '../event/event.js';
 import { DisposedError } from './disposedError.js';
-import { IDisposable, IDisposableEvents } from './lifecycle.js';
+import type { IDisposable, IDisposableEvents } from './lifecycle.js';
 
 export abstract class DisposableOnce implements IDisposable {
 	private _disposed?: Error;
@@ -85,7 +85,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 					this._onDisposeError.fire(e);
 				} else {
 					console.error('error during dispose, throw:', e);
-					this._onDisposeError.fire(new Error('' + e));
+					this._onDisposeError.fire(new Error(`${e}`));
 				}
 			}
 		}

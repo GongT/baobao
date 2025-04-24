@@ -1,7 +1,7 @@
 import { exists } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
-import { mkdir, readdir } from 'fs/promises';
-import { basename, resolve } from 'path';
+import { mkdir, readdir } from 'node:fs/promises';
+import { basename, resolve } from 'node:path';
 import { RushProject } from '../../api/rushProject.js';
 import { createExecuteWrapper } from '../../common/link.js';
 import { updateAllInstallers } from '../ai/execute.js';
@@ -23,7 +23,7 @@ export async function runLinkLocal(_arg: any) {
 			continue;
 		}
 		for (const item of await readdir(localBinPath)) {
-			console.log('\x1B[2m      * %s\x1B[0m', item);
+			console.log('\x1B[2m    * %s\x1B[0m', item);
 			map.set(item, resolve(localBinPath, item));
 		}
 	}
@@ -36,13 +36,13 @@ export async function runLinkLocal(_arg: any) {
 		}
 		const packageJson = await loadJsonFile(pkgJson);
 		console.log('\x1B[2m   - [project] %s:\x1B[0m', packageJson.name);
-		if (typeof packageJson.bin == 'string') {
+		if (typeof packageJson.bin === 'string') {
 			const name = basename(packageJson.name);
-			console.log('\x1B[2m      * %s\x1B[0m', name);
+			console.log('\x1B[2m    * %s\x1B[0m', name);
 			map.set(name, rush.absolute(project, packageJson.bin));
-		} else if (typeof packageJson.bin == 'object') {
+		} else if (typeof packageJson.bin === 'object') {
 			for (const [name, path] of Object.entries<string>(packageJson.bin)) {
-				console.log('\x1B[2m      * %s\x1B[0m', name);
+				console.log('\x1B[2m    * %s\x1B[0m', name);
 				map.set(name, rush.absolute(project, rush.absolute(project, path)));
 			}
 		}

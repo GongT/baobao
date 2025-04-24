@@ -187,13 +187,13 @@ export async function resortPackage(file: string) {
 function sortScripts({ ...scripts }: any): any {
 	const ret: any = {};
 	for (const action of scriptFields) {
-		for (const field of ['pre' + action, action, 'post' + action]) {
+		for (const field of [`pre${action}`, action, `post${action}`]) {
 			if (scripts[field]) {
 				ret[field] = scripts[field];
 				delete scripts[field];
 
 				for (const k of Object.keys(scripts)) {
-					if (k.startsWith(field + ':')) {
+					if (k.startsWith(`${field}:`)) {
 						ret[k] = scripts[k];
 						delete scripts[k];
 					}
@@ -217,19 +217,18 @@ function sortExports(exports: any) {
 			ret[k] = sortExports(exports[k]);
 		}
 		return ret;
-	} else {
-		const { default: defaultVal, node, import: importVal, require, types, typings, typescript, ...other } = exports;
-		return {
-			typescript,
-			types,
-			typings,
-			...other,
-			node,
-			require,
-			import: importVal,
-			default: defaultVal,
-		};
 	}
+	const { default: defaultVal, node, import: importVal, require, types, typings, typescript, ...other } = exports;
+	return {
+		typescript,
+		types,
+		typings,
+		...other,
+		node,
+		require,
+		import: importVal,
+		default: defaultVal,
+	};
 }
 
 export async function deletePackageDependency(file: string, ...deps: string[]) {

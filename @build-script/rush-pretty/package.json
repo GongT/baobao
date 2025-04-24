@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rush-pretty",
 	"type": "module",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"bin": {
 		"rush-pretty": "./bin.js"
 	},

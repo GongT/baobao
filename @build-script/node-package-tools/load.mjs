@@ -5,4 +5,4 @@ if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
 	install();
 }
 
-import('./lib/main.js');
+await import('./lib/main.js');

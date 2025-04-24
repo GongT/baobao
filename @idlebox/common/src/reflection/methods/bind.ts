@@ -24,7 +24,6 @@ export const bindThis: MethodDecorator = <T>(
 				return fn;
 			},
 		};
-	} else {
-		throw new TypeError('@bindThis can only use with method, but not property.');
 	}
+	throw new TypeError('@bindThis can only use with method, but not property.');
 };

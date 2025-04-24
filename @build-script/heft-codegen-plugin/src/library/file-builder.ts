@@ -1,6 +1,6 @@
 import type { IOutputShim } from '@build-script/heft-plugin-base';
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
 function escapeRegExp(str: string) {
 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
@@ -14,7 +14,7 @@ export class FileBuilder {
 	constructor(
 		public readonly filePath: string,
 		public readonly logger: IOutputShim,
-		public readonly projectRoot: string,
+		public readonly projectRoot: string
 	) {
 		this.referData = readFileSync(filePath, 'utf-8')
 			.split('\n')
@@ -71,10 +71,10 @@ export class FileBuilder {
 	}
 	readSection(starting: string | RegExp, ending: string | RegExp, includeHeaders = false) {
 		if (typeof starting === 'string') {
-			starting = new RegExp('^' + escapeRegExp(starting) + '$');
+			starting = new RegExp(`^${escapeRegExp(starting)}$`);
 		}
 		if (typeof ending === 'string') {
-			ending = new RegExp('^' + escapeRegExp(ending) + '$');
+			ending = new RegExp(`^${escapeRegExp(ending)}$`);
 		}
 		let sw = false;
 		const r = [];
@@ -93,7 +93,7 @@ export class FileBuilder {
 			}
 		}
 
-		throw new Error(`failed find section ${sw ? 'end' : 'start'} signal: ${sw ? '' + ending : '' + starting}`);
+		throw new Error(`failed find section ${sw ? 'end' : 'start'} signal: ${sw ? `${ending}` : `${starting}`}`);
 	}
 
 	/**
@@ -155,14 +155,14 @@ export class WrappedArray {
 		return this.array.join(' | ');
 	}
 	recursion(map: (subarr: WrappedArray) => string[]) {
-		let a = [];
+		const a = [];
 		for (let i = 1; i < this.array.length; i++) {
 			a.push(...map(this.first(i)));
 		}
 		return a;
 	}
 	first(cnt: number | string) {
-		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? parseInt(cnt) : cnt));
+		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? Number.parseInt(cnt) : cnt));
 	}
 	prefix(p: string | ((v: string, i: number) => string)) {
 		return new WrappedArray(this.array.map((i) => p + i));

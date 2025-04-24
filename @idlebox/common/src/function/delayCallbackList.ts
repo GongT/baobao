@@ -12,7 +12,7 @@ export interface MyDelayCallback<Argument extends unknown[]> {
  */
 export class DelayCallbackList<Argument extends unknown[]> {
 	private delayArgument?: Argument;
-	private delayComplete: boolean = false;
+	private delayComplete = false;
 
 	protected list?: MyDelayCallback<Argument>[] = [];
 
@@ -27,7 +27,7 @@ export class DelayCallbackList<Argument extends unknown[]> {
 		if (this.delayComplete) {
 			item(...this.delayArgument!);
 		} else {
-			this.list!.push(item);
+			this.list?.push(item);
 		}
 	}
 
@@ -37,9 +37,9 @@ export class DelayCallbackList<Argument extends unknown[]> {
 		}
 		this.delayComplete = true;
 		this.delayArgument = argument;
-		this.list!.forEach((cb) => {
+		this.list?.forEach((cb) => {
 			cb(...argument);
 		});
-		delete this.list;
+		this.list = undefined;
 	}
 }

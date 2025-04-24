@@ -1,5 +1,5 @@
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { findRushRootPath } from '../../api/load.js';
 import { RushProject } from '../../api/rushProject.js';
 

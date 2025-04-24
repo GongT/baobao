@@ -1,5 +1,5 @@
-import { DepGraph } from 'dependency-graph';
-import { createDeps, IGraphAttachedData, RushProject } from '../../api.js';
+import type { DepGraph } from 'dependency-graph';
+import { createDeps, type IGraphAttachedData, RushProject } from '../../api.js';
 import type { ArgOf } from '../../common/args.js';
 
 export async function runDeps({}: ArgOf<typeof import('./arguments')>) {
@@ -22,7 +22,7 @@ export async function runDeps({}: ArgOf<typeof import('./arguments')>) {
 function printOne(name: string, graph: DepGraph<IGraphAttachedData>, indent: string, walked: readonly string[]) {
 	const deps = graph.directDependenciesOf(name);
 	const data = graph.getNodeData(name);
-	let options = [];
+	const options = [];
 
 	if (walked.length === 0) {
 		if (!data.hasBuildScript) {
@@ -42,7 +42,7 @@ function printOne(name: string, graph: DepGraph<IGraphAttachedData>, indent: str
 		} else if (walked.includes(sub)) {
 			console.log('%s  \x1B[38;5;9m! %s\x1B[0m', indent, sub);
 		} else {
-			printOne(sub, graph, indent + '  ', [...walked, name]);
+			printOne(sub, graph, `${indent}  `, [...walked, name]);
 		}
 	}
 }

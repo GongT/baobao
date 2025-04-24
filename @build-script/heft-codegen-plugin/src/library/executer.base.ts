@@ -16,7 +16,7 @@ export abstract class BaseExecuter {
 		protected readonly projectRoot: string,
 		protected readonly sourceFile: string, // xxx.generator.ts
 		protected readonly targetFile: string, // xxx.generated.js
-		protected readonly logger: IOutputShim,
+		protected readonly logger: IOutputShim
 	) {}
 
 	get hasMemoResult() {
@@ -41,7 +41,7 @@ export abstract class BaseExecuter {
 	protected abstract _execute(scriptFile: string): Promise<IGenerateResult>;
 
 	async execute(scriptFile: string) {
-		delete this.result;
+		this.result = undefined;
 		try {
 			this.result = await this._execute(scriptFile);
 		} catch (e: any) {
@@ -61,9 +61,9 @@ export abstract class BaseExecuter {
 			this.logger[data.type](data.message);
 		}
 		if (result.success) {
-			this.logger.debug(`* generate success`);
+			this.logger.debug('* generate success');
 		} else {
-			const e = new Error(`generate failed`);
+			const e = new Error('generate failed');
 			e.stack = undefined;
 			throw e;
 		}
@@ -73,11 +73,11 @@ export abstract class BaseExecuter {
 
 	shouldExecute(trigger: ReadonlySet<string>): ExecuteReason {
 		if (!this.result) {
-			this.logger.verbose(`should run because never executed`);
+			this.logger.verbose('should run because never executed');
 			return ExecuteReason.NeedExecute;
 		}
 		if (!this.result.success) {
-			this.logger.verbose(`should run because last run has failed`);
+			this.logger.verbose('should run because last run has failed');
 			return ExecuteReason.NeedExecute;
 		}
 		for (const fileAbs of this.result.userWatchFiles) {
@@ -86,7 +86,7 @@ export abstract class BaseExecuter {
 				return ExecuteReason.NeedExecute;
 			}
 		}
-		this.logger.verbose(`should not run`);
+		this.logger.verbose('should not run');
 		return ExecuteReason.NoNeed;
 	}
 }

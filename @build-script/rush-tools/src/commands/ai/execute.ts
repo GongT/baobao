@@ -1,7 +1,7 @@
 import { exists } from '@idlebox/node';
 import { execa } from 'execa';
-import { readdir } from 'fs/promises';
-import { basename, extname, resolve } from 'path';
+import { readdir } from 'node:fs/promises';
+import { basename, extname, resolve } from 'node:path';
 import { RushProject } from '../../api/rushProject.js';
 import type { ArgOf } from '../../common/args.js';
 import { createLinkIfNot } from '../../common/link.js';

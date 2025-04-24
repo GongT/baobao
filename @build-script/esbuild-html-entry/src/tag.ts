@@ -1,16 +1,16 @@
 import { relativePath } from '@idlebox/node';
 import type { Cheerio, CheerioAPI } from 'cheerio';
-import { Element } from 'domhandler';
-import { ImportKind } from 'esbuild';
-import { debug, IDiagnostics } from './tools.js';
+import type { Element } from 'domhandler';
+import type { ImportKind } from 'esbuild';
+import { debug, type IDiagnostics } from './tools.js';
 
 export type CheerElement = Cheerio<Element>;
 
 const isRemoteUrl = /^https?:|^file:/;
 
 export enum TagKind {
-	script,
-	link,
+	script = 0,
+	link = 1,
 }
 
 export class Tag {
@@ -22,7 +22,7 @@ export class Tag {
 		this.kind = $elem[0].tagName === 'script' ? TagKind.script : TagKind.link;
 		this.field = this.kind === TagKind.link ? 'href' : 'src';
 		this.src = $elem.attr(this.field)!;
-		this.$elem.attr('data-' + this.field, this.src);
+		this.$elem.attr(`data-${this.field}`, this.src);
 		this.unuse();
 	}
 
@@ -35,7 +35,7 @@ export class Tag {
 	}
 
 	use(src: string) {
-		this.$elem.attr(this.field, src.startsWith('.') ? src : './' + src);
+		this.$elem.attr(this.field, src.startsWith('.') ? src : `./${src}`);
 	}
 
 	unuse() {
@@ -59,7 +59,7 @@ export class TagCollection {
 	constructor(
 		public readonly $html: CheerioAPI,
 		private readonly commonRoot: string,
-		public readonly htmlSource: string,
+		public readonly htmlSource: string
 	) {}
 
 	get size() {

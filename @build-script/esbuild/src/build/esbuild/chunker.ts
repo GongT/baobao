@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { entrySourceRoot } from '../library/constants.js';
 import { rush } from '../library/rush.js';
 import { normalizePackageName } from './library.js';

@@ -1,6 +1,6 @@
-import { createHash } from 'crypto';
-import { existsSync, mkdirSync, readFileSync, statSync, symlinkSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, statSync, symlinkSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { isLinux } from '@idlebox/common';
 
 export const kb = 1024;
@@ -15,9 +15,8 @@ export function randomTestFile(file: string, size: number) {
 		}
 		writeFileSync(file, test100);
 		return test100;
-	} else {
-		return readFileSync(file);
 	}
+	return readFileSync(file);
 }
 
 const mytestDir = resolve(process.cwd(), 'temp/my-test');

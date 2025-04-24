@@ -1,6 +1,6 @@
 import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
-import { chmod, readFile, writeFile } from 'fs/promises';
-import { resolve } from 'path';
+import { chmod, readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
 interface IAction {
 	chmod?: boolean;
@@ -60,7 +60,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 			const prefix = await parse(rig, act.prefix, !!act.missing, logger);
 			if (prefix && !data.trimStart().startsWith(prefix)) {
 				logger.terminal.writeVerboseLine(' * prepend string');
-				data = prefix + '\n' + data.trimStart();
+				data = `${prefix}\n${data.trimStart()}`;
 				change = true;
 			}
 		}
@@ -68,7 +68,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 			const suffix = await parse(rig, act.suffix, !!act.missing, logger);
 			if (suffix && !data.trimEnd().endsWith(suffix)) {
 				logger.terminal.writeVerboseLine(' * append string');
-				data = data.trimEnd() + '\n' + suffix + '\n';
+				data = `${data.trimEnd()}\n${suffix}\n`;
 				change = true;
 			}
 		}
@@ -85,7 +85,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 async function parse(rig: HeftConfiguration['rigConfig'], input: string, allowMissing: boolean, logger: IScopedLogger) {
 	if (!input.startsWith('<')) return input;
 
-	let r;
+	let r: string | undefined;
 	input = input.slice(1).trim();
 
 	const p1 = resolve(rig.projectFolderPath, input);
@@ -109,7 +109,7 @@ async function parse(rig: HeftConfiguration['rigConfig'], input: string, allowMi
 		return undefined;
 	}
 
-	throw new Error('missing file: ' + input);
+	throw new Error(`missing file: ${input}`);
 }
 
 async function read(f: string, logger: IScopedLogger) {

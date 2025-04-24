@@ -1,6 +1,6 @@
 import { ArgumentError, type ISubArgsReaderApi } from '@idlebox/args';
 
-export interface ArgumentBaseType {}
+export type ArgumentBaseType = {};
 
 export function createArgsDefine() {}
 

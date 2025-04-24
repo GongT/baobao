@@ -1,4 +1,4 @@
-import { inspect as node_inspect, type InspectOptions } from 'node:util';
+import type { inspect as node_inspect, InspectOptions } from 'node:util';
 import type { IArgsReaderApi, NameKind } from '../interface.js';
 import { bindArgType, UnexpectedArgument } from './errors.js';
 import { customInspectSymbol, wrapStyle } from './functions.js';
@@ -15,7 +15,7 @@ export class ArgsReader<T extends string = string> implements IArgsReaderApi {
 
 	constructor(
 		readonly params: IParams,
-		public readonly parent?: ArgsReader,
+		public readonly parent?: ArgsReader
 	) {
 		if (parent) {
 			this.level = parent.level + 1;
@@ -48,7 +48,7 @@ export class ArgsReader<T extends string = string> implements IArgsReaderApi {
 		return this.range(index, 1)[0];
 	}
 
-	range(index: number, maxCount = Infinity): string[] {
+	range(index: number, maxCount = Number.POSITIVE_INFINITY): string[] {
 		const arg = this.match.getPositionArgument(index + this.level + 1, maxCount);
 
 		const ret = [];
@@ -76,14 +76,13 @@ export class ArgsReader<T extends string = string> implements IArgsReaderApi {
 			bindArgType(arg, ArgKind.sub_command);
 			this.commands.push(arg);
 			return new ArgsReader(this.params, this);
-		} else {
-			if (arg.kind === ArgKind.unkown) {
-				this.match.release(arg);
-			} else {
-				bindArgType(arg, ArgKind.sub_command); // this must raise error
-			}
-			return;
 		}
+		if (arg.kind === ArgKind.unkown) {
+			this.match.release(arg);
+		} else {
+			bindArgType(arg, ArgKind.sub_command); // this must raise error
+		}
+		return;
 	}
 
 	single(name: NameKind): string | undefined {
@@ -139,7 +138,7 @@ export class ArgsReader<T extends string = string> implements IArgsReaderApi {
 		}
 	}
 
-	private __inspecting: boolean = false;
+	private __inspecting = false;
 	[customInspectSymbol](_depth: number, inspectOptions: InspectOptions, inspect: typeof node_inspect) {
 		if (this.__inspecting) {
 			return wrapStyle(inspectOptions.colors, '38;5;6', '[Circular]', '0');
@@ -152,10 +151,6 @@ export class ArgsReader<T extends string = string> implements IArgsReaderApi {
 			commands: this.commands.map((v) => v.tokens[0].value),
 		};
 		const name = wrapStyle(inspectOptions.colors, '38;5;12', this.constructor.name, '0');
-		return (
-			`[${name}] ` +
-			inspect(pobject, inspectOptions) +
-			wrapStyle(inspectOptions.colors, '2', ` <-- ${this.constructor.name}`, '0')
-		);
+		return `[${name}] ${inspect(pobject, inspectOptions)}${wrapStyle(inspectOptions.colors, '2', ` <-- ${this.constructor.name}`, '0')}`;
 	}
 }

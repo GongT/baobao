@@ -1,9 +1,9 @@
 import { Emitter } from '@idlebox/common';
 import { relativePath, writeFileIfChange } from '@idlebox/node';
 import { watch as chokidar } from 'chokidar';
-import { BuildOptions, BuildResult, context } from 'esbuild';
-import { mkdir } from 'fs/promises';
-import { dirname, resolve } from 'path';
+import { type BuildOptions, type BuildResult, context } from 'esbuild';
+import { mkdir } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 import type { RawSourceMap } from 'source-map-js';
 import { createEntrypoints } from './esbuild/chunker.js';
 import { resolveStylesPlugin } from './esbuild/css-resolver.js';
@@ -67,14 +67,14 @@ export async function runESBuild(watch: boolean) {
 		const result = await ctx.rebuild();
 		writeOut(result);
 
-		const inputs = Object.keys(result.metafile!.inputs);
+		const inputs = Object.keys(result.metafile?.inputs);
 
 		const watcher = chokidar(inputs, { ignoreInitial: true, atomic: true });
 		watcher.on('all', async () => {
 			try {
 				const result = await ctx.rebuild();
 				writeOut(result);
-				const inputs = Object.keys(result.metafile!.inputs);
+				const inputs = Object.keys(result.metafile?.inputs);
 				watcher.add(inputs);
 			} catch (e: any) {
 				events.fireNoError(e);

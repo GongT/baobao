@@ -1,11 +1,9 @@
-import { resolve } from 'path';
-import { createRequire } from 'module';
+import { resolve } from 'node:path';
+import { createRequire } from 'node:module';
 import { MyError } from './logger.js';
-import { ITypescriptFile } from './TokenCollector.js';
+import type { ITypescriptFile } from './TokenCollector.js';
 
-export interface IFilterFunction {
-	(list: ITypescriptFile[]): void;
-}
+export type IFilterFunction = (list: ITypescriptFile[]) => void;
 
 export function loadFilter(project: string, filterFile: string): IFilterFunction {
 	const resolvedFilterFile = (() => {
@@ -16,14 +14,14 @@ export function loadFilter(project: string, filterFile: string): IFilterFunction
 			try {
 				return require.resolve(resolve(process.cwd(), filterFile));
 			} catch {
-				throw new MyError('can not find filterFile: ' + filterFile);
+				throw new MyError(`can not find filterFile: ${filterFile}`);
 			}
 		}
 	})();
 
 	const fn = require(resolvedFilterFile).export;
 	if (typeof fn !== 'function') {
-		throw new TypeError('filter file not export default function: ' + resolvedFilterFile);
+		throw new TypeError(`filter file not export default function: ${resolvedFilterFile}`);
 	}
 	return fn;
 }

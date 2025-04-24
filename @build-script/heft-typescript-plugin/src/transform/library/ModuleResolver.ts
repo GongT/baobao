@@ -1,11 +1,11 @@
 import { findUpUntilSync, relativePath } from '@build-script/heft-plugin-base';
 import type { IScopedLogger } from '@rushstack/heft';
-import { readFileSync } from 'fs';
-import { builtinModules as _builtinModules, createRequire } from 'module';
-import { platform } from 'os';
-import { dirname, join, resolve } from 'path';
+import { readFileSync } from 'node:fs';
+import { builtinModules as _builtinModules, createRequire } from 'node:module';
+import { platform } from 'node:os';
+import { dirname, join, resolve } from 'node:path';
 import type TypeScriptApi from 'typescript';
-import { format } from 'util';
+import { format } from 'node:util';
 
 const builtinModules = new Set(_builtinModules);
 for (const item of _builtinModules) {
@@ -55,7 +55,7 @@ class ResolveResult {
 		private readonly options: TypeScriptApi.CompilerOptions,
 		resolved: TypeScriptApi.ResolvedModuleWithFailedLookupLocations,
 		private readonly requireResolved: IRequireResolved,
-		private readonly logger: IScopedLogger,
+		private readonly logger: IScopedLogger
 	) {
 		+this.requireResolved;
 
@@ -101,7 +101,7 @@ class ResolveResult {
 			}
 		}
 
-		if (this.absolutePath) this.extension = extensions.find((ex) => this.absolutePath!.endsWith(ex));
+		if (this.absolutePath) this.extension = extensions.find((ex) => this.absolutePath?.endsWith(ex));
 	}
 
 	relativeToSelf() {
@@ -110,26 +110,26 @@ class ResolveResult {
 
 		const r = relativePath(dirname(this.self), this.absolutePath);
 		if (r.startsWith('.')) return r;
-		return './' + r;
+		return `./${r}`;
 	}
 
 	relativeToSourceRoot() {
 		if (!this.absolutePath)
 			throw new Error(`Can not read from unresolved module: ${this.id} is not resolved from ${this.self}`);
 
-		const root = this.options.rootDir || dirname(this.options['configFilePath'] as any);
+		const root = this.options.rootDir || dirname(this.options.configFilePath as any);
 		const r = relativePath(root, this.absolutePath);
 		if (r.startsWith('.')) return r;
-		return './' + r;
+		return `./${r}`;
 	}
 
 	readPackageJson() {
 		if (!this.success) throw new Error('readPackageJson: not valid import target');
 
 		const pkgRoot = this.absolutePackagePath;
-		if (!pkgRoot) throw new Error('readPackageJson: can not resolve package realpath of' + this.id);
+		if (!pkgRoot) throw new Error(`readPackageJson: can not resolve package realpath of${this.id}`);
 
-		const packageJson = requireOrRead(pkgRoot + '/package.json');
+		const packageJson = requireOrRead(`${pkgRoot}/package.json`);
 		if (packageJson.name !== this.moduleName) {
 			throw new Error(`package name mismatch: ${pkgRoot} (should be ${this.moduleName})`);
 		}
@@ -142,7 +142,7 @@ class ResolveResult {
 		}
 
 		this.logger.terminal.writeWarningLine(`failed resolve module "${this.id}" from (${this.self})`);
-		this.logger.terminal.writeWarningLine(`Find Paths:`);
+		this.logger.terminal.writeWarningLine('Find Paths:');
 		for (const item of this.failedLookupLocations) {
 			this.logger.terminal.writeWarningLine(`  - ${item}`);
 		}
@@ -150,9 +150,9 @@ class ResolveResult {
 }
 
 export enum WantModuleKind {
-	CJS,
-	ESM,
-	ANY,
+	CJS = 0,
+	ESM = 1,
+	ANY = 2,
 }
 
 export class ModuleResolver {
@@ -160,7 +160,7 @@ export class ModuleResolver {
 		private readonly ts: typeof TypeScriptApi,
 		private readonly host: TypeScriptApi.CompilerHost,
 		private readonly options: TypeScriptApi.CompilerOptions,
-		private readonly logger: IScopedLogger,
+		private readonly logger: IScopedLogger
 	) {}
 
 	resolve(source: string, target: string, resolveWhat: WantModuleKind = WantModuleKind.ANY) {
@@ -174,7 +174,7 @@ export class ModuleResolver {
 				this.host,
 				this.host.getModuleResolutionCache?.(),
 				undefined,
-				type,
+				type
 			);
 			return !!found.resolvedModule;
 		};
@@ -256,7 +256,7 @@ function requireResolve(source: string, target: string) {
 			};
 		}
 
-		if (pkg.name && (target === pkg.name || target.startsWith(pkg.name + '/'))) {
+		if (pkg.name && (target === pkg.name || target.startsWith(`${pkg.name}/`))) {
 			result.package = {
 				name: pkg.name,
 				root: dirname(pkgPath),

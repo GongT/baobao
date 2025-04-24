@@ -1,5 +1,5 @@
-import { resolve } from 'path';
-import { readFile, writeFile } from 'fs/promises';
+import { resolve } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
 import { entrySourceRoot, outputDir } from './library/constants.js';
 
 export async function generateIndexHtml(params: Record<string, string>) {
@@ -7,7 +7,7 @@ export async function generateIndexHtml(params: Record<string, string>) {
 	let content = await readFile(src, 'utf-8');
 
 	for (const [from, to] of Object.entries(params)) {
-		content = content.replace(from, '/_assets/' + to);
+		content = content.replace(from, `/_assets/${to}`);
 	}
 
 	const dist = resolve(outputDir, 'index.html');

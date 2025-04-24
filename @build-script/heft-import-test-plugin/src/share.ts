@@ -1,9 +1,9 @@
 import type { IOutputShim } from '@build-script/heft-plugin-base';
 import type { IPackageJson, IPackageJsonExports } from '@rushstack/node-core-library';
-import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'fs';
-import { mkdir, writeFile } from 'fs/promises';
-import { tmpdir } from 'os';
-import { dirname, resolve } from 'path';
+import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { dirname, resolve } from 'node:path';
 import ts from 'typescript';
 
 const signal = '\x00';
@@ -15,7 +15,7 @@ function tester(exports: any) {
 		hasDefault: Object.hasOwn(exports, 'default'),
 		symbolList: Object.keys(imports),
 	};
-	process.stdout.write('' + signal + JSON.stringify(info));
+	process.stdout.write(`${signal}${JSON.stringify(info)}`);
 	process.exit(0);
 }
 
@@ -24,9 +24,9 @@ export async function run(projectInput: string, logger: IOutputShim, tempdir: st
 		? resolve(process.cwd(), projectInput)
 		: resolve(process.cwd(), projectInput, 'package.json');
 
-	if (!existsSync(pkgJsonPath)) return `missing package.json`;
+	if (!existsSync(pkgJsonPath)) return 'missing package.json';
 
-	const tempdirPrivate = resolve(tempdir, 'tmp.' + (Math.random() * 65535).toFixed(0));
+	const tempdirPrivate = resolve(tempdir, `tmp.${(Math.random() * 65535).toFixed(0)}`);
 	const projectRoot = dirname(pkgJsonPath);
 
 	try {
@@ -54,8 +54,8 @@ function runInner(
 	projectRoot: string,
 	pkgJson: IPackageJson & Record<string, any>,
 	logger: IOutputShim,
-	tempdir: string,
-): Promise<string | void>[] {
+	tempdir: string
+): Promise<string | undefined>[] {
 	const {
 		name: pkgName,
 		main: pkgMain,
@@ -66,15 +66,15 @@ function runInner(
 		devDependencies,
 	} = pkgJson;
 
-	let innerTypes;
+	let innerTypes: any /* TODO:? */;
 	if (isExportMap(pkgExports) && isObject(pkgExports['.'])) {
-		innerTypes = pkgExports['.']['types'];
+		innerTypes = pkgExports['.'].types;
 	}
 
 	for (const types of [innerTypes, pkgTypes]) {
 		if (typeof types !== 'string') continue;
 
-		logger.verbose('test file: ' + types);
+		logger.verbose(`test file: ${types}`);
 		const dts = resolve(projectRoot, types);
 		if (existsSync(dts)) {
 			logger.verbose('  - exists.');
@@ -87,18 +87,18 @@ function runInner(
 	if (pkgMain === undefined && pkgModule === undefined) {
 		if (!pkgExports) {
 			logger.verbose('no "exports" or "main" in package.json');
-			return [Promise.resolve()];
+			return [Promise.resolve(undefined)];
 		}
 		if (isExportMap(pkgExports) && !pkgExports['.']) {
 			logger.warn('no default exports in package.json, current not support');
-			return [Promise.resolve()];
+			return [Promise.resolve(undefined)];
 		}
 	}
 
 	mkdirSync(tempdir, { recursive: true });
 	logger.verbose(`using temp dir: ${tempdir}`);
 	process.on('exit', () => {
-		if (process.env['NO_DELETE_TEMP']) {
+		if (process.env.NO_DELETE_TEMP) {
 			logger.log(`not deleting temp dir: ${tempdir} (reason: NO_DELETE_TEMP)`);
 		} else {
 			logger.verbose(`deleting temp dir: ${tempdir} (set $env:NO_DELETE_TEMP=yes to skip)`);
@@ -123,8 +123,8 @@ function runInner(
 				},
 			},
 			null,
-			4,
-		),
+			4
+		)
 	);
 
 	const slink = resolve(tempdir, 'node_modules', pkgName);
@@ -140,7 +140,7 @@ function runInner(
 		types: [],
 	};
 	if (dependencies?.['@types/node'] || devDependencies?.['@types/node']) {
-		tsCompileOption.types!.push('node');
+		tsCompileOption.types?.push('node');
 	}
 
 	const pct1 = checkTs(resolve(tempdir, 'node-16-esm'), pkgName, {
@@ -150,8 +150,11 @@ function runInner(
 		module: ts.ModuleKind[ts.ModuleKind.NodeNext],
 		...tsCompileOption,
 	}).then(
-		() => logger.verbose(`test node16 (esm) loader: ok`),
-		(e) => 'node16 (esm) resolution failed: ' + e?.message,
+		() => {
+			logger.verbose('test node16 (esm) loader: ok');
+			return undefined;
+		},
+		(e) => `node16 (esm) resolution failed: ${e?.message}`
 	);
 
 	const pct2 = checkTs(resolve(tempdir, 'node-16-cjs'), pkgName, {
@@ -161,8 +164,11 @@ function runInner(
 		module: ts.ModuleKind[ts.ModuleKind.CommonJS],
 		...tsCompileOption,
 	}).then(
-		() => logger.verbose(`test node16 (cjs) loader: ok`),
-		(e) => 'node16 (cjs) resolution failed: ' + e?.message,
+		() => {
+			logger.verbose('test node16 (cjs) loader: ok');
+			return undefined;
+		},
+		(e) => `node16 (cjs) resolution failed: ${e?.message}`
 	);
 
 	const pct3 = checkTs(resolve(tempdir, 'node'), pkgName, {
@@ -170,18 +176,27 @@ function runInner(
 		module: ts.ModuleKind[ts.ModuleKind.ESNext],
 		...tsCompileOption,
 	}).then(
-		() => logger.verbose(`test node10 module loader: ok`),
-		(e) => 'node10 module resolution failed: ' + e?.message,
+		() => {
+			logger.verbose('test node10 module loader: ok');
+			return undefined;
+		},
+		(e) => `node10 module resolution failed: ${e?.message}`
 	);
 
 	return [pnt1, pnt2, pct1, pct2, pct3];
 }
 
 async function requireExeca(): Promise<typeof import('execa')> {
+	// biome-ignore lint/security/noGlobalEval: 防止esbuild处理这个import，但不确定这里是否必须用top-level eval
 	return eval('import("execa")');
 }
 
-async function checkNode(title: string, src: string, tempdir: string, logger: IOutputShim): Promise<string | void> {
+async function checkNode(
+	title: string,
+	src: string,
+	tempdir: string,
+	logger: IOutputShim
+): Promise<string | undefined> {
 	const execa = (await requireExeca()).execa;
 	const r = await execa(process.execPath, [src], {
 		stderr: 'pipe',
@@ -192,7 +207,7 @@ async function checkNode(title: string, src: string, tempdir: string, logger: IO
 		shell: true,
 		cwd: tempdir,
 	});
-	let output = r.all!.trim();
+	let output = r.all?.trim();
 	if (r.exitCode !== 0 || !output.endsWith('}')) {
 		logger.verbose('try %s - fail', title);
 		return `<${title}> test failed: ${r.stderr}`;
@@ -218,13 +233,14 @@ async function checkNode(title: string, src: string, tempdir: string, logger: IO
 	oSymSz += ']';
 
 	logger.verbose('try %s - ok\n\t%s, %s', title, oDef, oSymSz);
+	return;
 }
 
 async function checkTs(
 	path: string,
 	pkgName: string,
-	options: Record<keyof ts.CompilerOptions, any>,
-): Promise<string | void> {
+	options: Record<keyof ts.CompilerOptions, any>
+): Promise<string | undefined> {
 	await mkdir(path);
 	await writeFile(resolve(path, 'index.ts'), `import * as __lib from '${pkgName}';`);
 	await writeFile(
@@ -239,12 +255,14 @@ async function checkTs(
 				files: ['index.ts'],
 			},
 			null,
-			4,
-		),
+			4
+		)
 	);
 
 	const execa = (await requireExeca()).execa;
 	const r = execa('tsc', ['-p', path], { stderr: 'pipe', stdin: 'ignore', encoding: 'utf8' });
 
-	if (r.exitCode !== 0) return 'failed compile: ' + r.stderr;
+	if (r.exitCode !== 0) return `failed compile: ${r.stderr}`;
+
+	return;
 }

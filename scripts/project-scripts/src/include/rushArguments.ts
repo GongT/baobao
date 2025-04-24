@@ -11,11 +11,11 @@ export function handleShort<T>(input: T, names: (keyof T)[]): T {
 	return input;
 }
 export function getopts<T>(argv = process.argv.slice(2)): T {
-	let opts: any = {};
+	const opts: any = {};
 	for (let index = 0; index < argv.length; index++) {
 		const item = argv[index];
 		if (!item.startsWith('-')) {
-			throw new Error('Unknown argument: ' + item);
+			throw new Error(`Unknown argument: ${item}`);
 		}
 		const name = item.replace(/^-+/, '');
 

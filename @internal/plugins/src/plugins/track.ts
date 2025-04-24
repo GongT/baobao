@@ -1,4 +1,4 @@
-import { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
+import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
 
 export const PLUGIN_NAME = 'track';
 

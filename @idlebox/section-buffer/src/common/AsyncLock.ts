@@ -32,7 +32,7 @@ export class AsyncLock {
 			throw new Error(`[AsyncLock] is running: ${this.current}, can not release ${title}`);
 		}
 		// console.log('[AsyncLock] release ok: %s', title);
-		delete this.current;
+		this.current = undefined;
 	}
 	require(title: string) {
 		if (this.current !== title) {
@@ -50,7 +50,7 @@ export class AsyncLock {
 	static protect(title: string, weak = false) {
 		return <T, A extends any[], R>(
 			original: AsyncFun<T, A, R | undefined>,
-			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>
 		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Protect(this: any, ...args: any) {
 				const lock = getLock(this);
@@ -68,7 +68,7 @@ export class AsyncLock {
 	static start(title: string) {
 		return <T, A extends any[], R>(
 			original: AsyncFun<T, A, R | undefined>,
-			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>
 		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Start(this: any, ...args: any) {
 				const lock = getLock(this);
@@ -85,7 +85,7 @@ export class AsyncLock {
 	static finish(title: string) {
 		return <T, A extends any[], R>(
 			original: AsyncFun<T, A, R | undefined>,
-			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>
 		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Finish(this: any, ...args: any) {
 				const lock = getLock(this);
@@ -101,7 +101,7 @@ export class AsyncLock {
 	static require(title: string) {
 		return <T, A extends any[], R>(
 			original: AsyncFun<T, A, R | undefined>,
-			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>
 		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Require(this: any, ...args: any) {
 				const lock = getLock(this);

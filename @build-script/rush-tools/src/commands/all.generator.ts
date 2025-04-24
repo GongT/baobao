@@ -1,7 +1,7 @@
 import type { FileBuilder, IOutputShim } from '@build-script/heft-codegen-plugin';
 import { camelCase, ucfirst } from '@idlebox/common';
-import { readdir, stat } from 'fs/promises';
-import { resolve } from 'path';
+import { readdir, stat } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
 const dir = import.meta.dirname;
 
@@ -46,7 +46,7 @@ export async function generate(build: FileBuilder, logger: IOutputShim) {
 	}
 	build.append('}');
 
-	build.append(`export const known_sub_commands: readonly CommandKind[] = [`);
+	build.append('export const known_sub_commands: readonly CommandKind[] = [');
 	for (const subdir of subdirs) {
 		const clsName = ucfirst(camelCase(subdir));
 		build.append(`\tCommandKind.${clsName},`);
@@ -58,14 +58,14 @@ export async function generate(build: FileBuilder, logger: IOutputShim) {
 		const clsName = ucfirst(camelCase(subdir));
 
 		build.append(`\t[CommandKind.${clsName}]: {`);
-		build.append(`\t\tloadArgs() {`);
+		build.append('\t\tloadArgs() {');
 		build.append(`\t\t\treturn import("./${subdir}/arguments.js");`);
-		build.append(`\t\t},`);
-		build.append(`\t\tasync loadCmd() {`);
+		build.append('\t\t},');
+		build.append('\t\tasync loadCmd() {');
 		build.append(`\t\t\tconst { run${clsName} } = await import("./${subdir}/execute.js");`);
 		build.append(`\t\t\tconst args = await import("./${subdir}/arguments.js");`);
 		build.append(`\t\t\treturn { ...args, execute: run${clsName} };`);
-		build.append(`\t\t},`);
+		build.append('\t\t},');
 		build.append(`\t} satisfies generated_element<${clsName}Arg>,`);
 	}
 	build.append('} as const;');

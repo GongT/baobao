@@ -3,9 +3,9 @@
 /// <reference types="node" />
 
 import { execa } from 'execa';
-import { existsSync, writeFileSync } from 'fs';
-import { createRequire } from 'module';
-import { basename, resolve } from 'path';
+import { existsSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { basename, resolve } from 'node:path';
 import which from 'which';
 
 // console.error('>>>', process.execPath, ...process.execArgv, ...process.argv.slice(1));
@@ -45,20 +45,19 @@ async function main() {
 
 		process.argv[1] = npmBin;
 		const require = createRequire(npmBin);
-		const id = './' + basename(npmBin);
+		const id = `./${basename(npmBin)}`;
 		// console.error('\x1B[2mrequire: %s from %s', id, npmBin, '\x1B[0m');
 		return require(id);
-	} else {
-		if (process.cwd().includes('/temp/install-run/')) {
-			if (!existsSync('pnpm-workspace.yaml')) {
-				writeFileSync('pnpm-workspace.yaml', '');
-			}
-		}
-		// console.error('run PNPM');
-		const pnpmBin = await which('pnpm');
-		// console.error('\x1B[2mexecute:', pnpmBin, ...argv, '\x1B[0m');
-		r = await execa(pnpmBin, [...argv], options);
 	}
+	if (process.cwd().includes('/temp/install-run/')) {
+		if (!existsSync('pnpm-workspace.yaml')) {
+			writeFileSync('pnpm-workspace.yaml', '');
+		}
+	}
+	// console.error('run PNPM');
+	const pnpmBin = await which('pnpm');
+	// console.error('\x1B[2mexecute:', pnpmBin, ...argv, '\x1B[0m');
+	r = await execa(pnpmBin, [...argv], options);
 
 	if (r.signal) {
 		process.exit(1);

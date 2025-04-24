@@ -1,5 +1,5 @@
 import { assign, CommentArray } from 'comment-json';
-import deepmerge, { Options } from 'deepmerge';
+import deepmerge, { type Options } from 'deepmerge';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
@@ -7,12 +7,8 @@ import { del as delPath, get as getPath } from 'object-path';
 import { NotFoundError } from './error.js';
 import { readJsonFile } from './loader.js';
 
-interface IReadFile {
-	(file: string): any;
-}
-interface IResolver {
-	(current: string, id: string): string;
-}
+type IReadFile = (file: string) => any;
+type IResolver = (current: string, id: string) => string;
 
 /**
  */

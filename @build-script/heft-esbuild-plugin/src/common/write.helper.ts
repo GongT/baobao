@@ -7,33 +7,51 @@ export class OutputFile implements IOutputFile {
 	private _hash: string;
 
 	get contents(): Uint8Array {
-		if (typeof this._contents === 'undefined') {
-			this.contents = Buffer.from(this._text!, 'utf-8');
+		if (this._contents === undefined) {
+			if (this._text === undefined) throw new Error('contents is undefined');
+			this._contents = Buffer.from(this._text, 'utf-8');
+			this._text = undefined;
 		}
-		return this._contents!;
+		return this._contents;
 	}
 	set contents(contents: Buffer) {
-		delete this._text;
+		this._text = undefined;
 		this._contents = contents;
 	}
 
 	get text(): string {
-		if (typeof this._text === 'undefined') {
-			this.text = this._contents!.toString();
+		if (this._text === undefined) {
+			if (this._contents === undefined) throw new Error('contents is undefined');
+			this._text = this._contents.toString();
+			this._contents = undefined;
 		}
-		return this._text!;
+		return this._text;
 	}
 	set text(text: string) {
-		delete this._contents;
+		this._contents = undefined;
 		this._text = text;
 	}
 
 	asString() {
-		return this._text ?? this._contents!.toString();
+		if (this._text) {
+			return this._text;
+		}
+		if (this._contents) {
+			return this._contents.toString();
+		}
+		throw new Error('text/contents is undefined');
 	}
+
 	asBinary(): Uint8Array {
-		return this._contents ?? Buffer.from(this._text!, 'utf-8');
+		if (this._text) {
+			return Buffer.from(this._text);
+		}
+		if (this._contents) {
+			return this._contents;
+		}
+		throw new Error('text/contents is undefined');
 	}
+
 	asAny() {
 		return this._contents ?? this._text ?? '';
 	}
@@ -49,7 +67,7 @@ export class OutputFile implements IOutputFile {
 	constructor(
 		public path: string,
 		init: Uint8Array | string,
-		hash = md5(init),
+		hash = md5(init)
 	) {
 		if (typeof init === 'string') this._text = init;
 		else this._contents = init;

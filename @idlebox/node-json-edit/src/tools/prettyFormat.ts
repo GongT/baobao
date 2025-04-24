@@ -1,6 +1,6 @@
-import { readFile as readFileAsync } from 'fs';
-import { format, Options, resolveConfig } from 'prettier';
-import { promisify } from 'util';
+import { readFile as readFileAsync } from 'node:fs';
+import { format, type Options, resolveConfig } from 'prettier';
+import { promisify } from 'node:util';
 import type { IFileFormatConfig } from '../index.js';
 import { pathExists } from './filesystem.js';
 

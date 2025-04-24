@@ -18,7 +18,7 @@ function getArgs() {
 export default async function () {
 	const { cmd, args } = getArgs();
 
-	let packageJson = (await findUpUntil(process.cwd(), 'package.json')) || undefined;
+	const packageJson = (await findUpUntil(process.cwd(), 'package.json')) || undefined;
 
 	// console.error('finding package manager');
 	const pm = await getPackageManager({ packageJson });

@@ -27,7 +27,7 @@ describe('common usage', () => {
 			'ok',
 			times(3, () => {
 				expect(reader.single(['--work-tree', '-w'])).to.equal('/tmp');
-			}),
+			})
 		);
 		it('fail change caller', () => {
 			expect(() => reader.single(['--work-tree'])).to.throw();
@@ -39,7 +39,7 @@ describe('common usage', () => {
 		'#flag()',
 		times(3, () => {
 			expect(reader.flag('--no-pager')).to.equal(1);
-		}),
+		})
 	);
 
 	describe('#command()', () => {
@@ -49,7 +49,7 @@ describe('common usage', () => {
 			times(3, () => {
 				sub = reader.command(['fetch', 'clone', 'init'])!;
 				expect(sub).is.instanceOf(ArgsReader).and.have.property('value', 'fetch');
-			}),
+			})
 		);
 		it("don' fail unmatch", () => {
 			const sub = reader.command(['a', 'b', 'c'])!;
@@ -60,7 +60,7 @@ describe('common usage', () => {
 			'#flag()',
 			times(3, () => {
 				expect(reader.flag('--all')).to.equal(1);
-			}),
+			})
 		);
 		it(
 			'range access',
@@ -68,7 +68,7 @@ describe('common usage', () => {
 				expect(sub.at(0)).to.equal('origin');
 				expect(sub.at(1)).to.be.undefined;
 				expect(sub.range(0, 1)).to.eql(['origin']);
-			}),
+			})
 		);
 		it(
 			'#range()',
@@ -76,7 +76,7 @@ describe('common usage', () => {
 				expect(() => sub.range(0, 2)).to.throw();
 				expect(sub.range(1, 123)).to.empty;
 				expect(() => reader.range(0, 1)).to.throw();
-			}),
+			})
 		);
 	});
 
@@ -104,5 +104,14 @@ describe('handle error condition', () => {
 		reader = new ArgsReader(['arg1', '--flag', 'arg2']);
 		reader.flag('--flag');
 		expect(() => reader.range(0)).to.throw();
+	});
+});
+
+describe('extra test', () => {
+	it('#1', () => {
+		const args = new ArgsReader(['monorepo-publish', '--debug', '--skip', '3']);
+		expect(args.flag('--verbose')).to.equal(0);
+		expect(args.flag('--debug')).to.equal(1);
+		expect(args.single('--skip')).to.equal('3');
 	});
 });

@@ -2,7 +2,8 @@
 	"name": "root",
 	"private": true,
 	"scripts": {
-		"postinstall": "node scripts/post-install.mjs"
+		"postinstall": "node scripts/post-install.mjs",
+		"pretty": "biome check --diagnostic-level=warn --fix"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",

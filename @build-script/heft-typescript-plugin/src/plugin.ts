@@ -4,7 +4,7 @@ import type TypeScriptApi from 'typescript';
 import { HostCreator } from './helpers/compiler.js';
 import { CustomDiagnosticPrinter } from './helpers/diagnostic.js';
 import { TsPluginSystem } from './helpers/transform-load.js';
-import { IHeftJsonOptions } from './helpers/type.js';
+import type { IHeftJsonOptions } from './helpers/type.js';
 import { normalizeOptions } from './helpers/type.options.js';
 import { createFileWriter } from './helpers/writeFile.js';
 
@@ -31,7 +31,7 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 				declarationDir: null as any,
 			} as TypeScriptApi.CompilerOptions);
 
-			const [maj, min] = this.ts.versionMajorMinor.split('.').map((v) => parseInt(v));
+			const [maj, min] = this.ts.versionMajorMinor.split('.').map((v) => Number.parseInt(v));
 			if (maj > 5 || (maj === 5 && min >= 6)) {
 				// >=5.6
 				compilerOptions.noCheck = true;
@@ -72,7 +72,7 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 			this.ts,
 			this.configuration.buildFolderPath,
 			pluginOptions,
-			this.session.logger,
+			this.session.logger
 		);
 
 		// const isolatedModules = !!options.fast && !!command.options.isolatedModules;
@@ -105,11 +105,11 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 		const writeCtx = createFileWriter(this.ts, this.session, pluginOptions);
 		const customTransformers = this.pluginSystem.create(program, compilerHost);
 
-		let someskip = false,
-			emittedFileCnt = 0;
+		let someskip = false;
+		let emittedFileCnt = 0;
 		if (subsetFiles) {
 			this.session.logger.terminal.writeVerboseLine(
-				`partial compile: ${subsetFiles.length} of ${program.getRootFileNames().length} files`,
+				`partial compile: ${subsetFiles.length} of ${program.getRootFileNames().length} files`
 			);
 			for (const item of subsetFiles) {
 				const file = program.getSourceFile(item);
@@ -120,13 +120,11 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 					if (result.emitSkipped) someskip = true;
 					emittedFileCnt += result.emittedFiles?.length ?? 0;
 				} else {
-					this.session.logger.emitWarning(new Error('file not include in program: ' + item));
+					this.session.logger.emitWarning(new Error(`file not include in program: ${item}`));
 				}
 			}
 		} else {
-			this.session.logger.terminal.writeVerboseLine(
-				`full project compile: ${program.getRootFileNames().length} files`,
-			);
+			this.session.logger.terminal.writeVerboseLine(`full project compile: ${program.getRootFileNames().length} files`);
 			const result = program.emit(undefined, writeCtx.writeFile, undefined, undefined, customTransformers);
 			if (result.emitSkipped) someskip = true;
 			emittedFileCnt += result.emittedFiles?.length ?? 0;
@@ -151,7 +149,7 @@ export class TypeScriptPlugin extends TsPluginInstance<IHeftJsonOptions> {
 
 		if (pluginOptions.fast) this.session.logger.terminal.write('[FAST] ');
 		this.session.logger.terminal.writeLine(
-			`typescript compiled, ${writeCtx.files} file${writeCtx.files > 1 ? 's' : ''} emitted, no errors.`,
+			`typescript compiled, ${writeCtx.files} file${writeCtx.files > 1 ? 's' : ''} emitted, no errors.`
 		);
 		this.session.logger.terminal.writeDebugLine(`Module: ${this.ts.ModuleKind[command.options.module!]}`);
 		this.session.logger.terminal.writeDebugLine(`OutDir: ${command.options.outDir}`);

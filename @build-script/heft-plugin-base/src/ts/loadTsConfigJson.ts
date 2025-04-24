@@ -1,7 +1,7 @@
-import { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
+import type { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
 import { ConfigurationFile } from '@rushstack/heft-config-file';
-import { existsSync } from 'fs';
-import { normalize, resolve } from 'path';
+import { existsSync } from 'node:fs';
+import { normalize, resolve } from 'node:path';
 
 import type TypeScriptApi from 'typescript';
 
@@ -52,7 +52,7 @@ function tryFindTsconfig(logger: IScopedLogger, project: string | undefined, rig
 function tryGetTsconfigAbsolute(
 	logger: IScopedLogger,
 	project: string | undefined,
-	rig: HeftConfiguration['rigConfig'],
+	rig: HeftConfiguration['rigConfig']
 ) {
 	return resolve(rig.projectFolderPath, tryFindTsconfig(logger, project, rig));
 }
@@ -61,7 +61,7 @@ function createCommand(
 	ts: typeof TypeScriptApi,
 	project: string,
 	virtualConfig: any,
-	readFile: (file: string, encoding?: string) => string | undefined,
+	readFile: (file: string, encoding?: string) => string | undefined
 ) {
 	const virtual = resolve(project, '../__virtual_tsconfig.json');
 
@@ -106,7 +106,7 @@ export function parseSingleTsConfigJson(
 	logger: IScopedLogger,
 	ts: typeof TypeScriptApi,
 	rig: HeftConfiguration['rigConfig'],
-	options: ILoadConfigOverride,
+	options: ILoadConfigOverride
 ) {
 	const project = tryGetTsconfigAbsolute(logger, options.project, rig);
 
@@ -136,7 +136,7 @@ export function loadTsConfigJson(
 	logger: IScopedLogger,
 	ts: typeof TypeScriptApi,
 	rig: HeftConfiguration['rigConfig'],
-	options: ILoadConfigOverride,
+	options: ILoadConfigOverride
 ): ILoadedConfigFile {
 	const { exclude, files, include, compilerOptions } = options;
 	const project = tryGetTsconfigAbsolute(logger, options.project, rig);
@@ -154,7 +154,8 @@ export function loadTsConfigJson(
 	const readFiles: string[] = [];
 	function readFile(file: string, encoding?: string) {
 		readFiles.push(file);
-		const text = ts.sys.readFile(file, encoding)!;
+		const text = ts.sys.readFile(file, encoding);
+		if (!text) throw new Error(`failed read file: ${file}`);
 		const json = ts.parseConfigFileTextToJson(file, text);
 		if (json.error) {
 			return text;

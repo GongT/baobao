@@ -1,8 +1,8 @@
 import { PromisePool } from '@supercharge/promise-pool';
 import { execa } from 'execa';
-import { readFile, stat, writeFile } from 'fs/promises';
-import { platform } from 'os';
-import { resolve } from 'path';
+import { readFile, stat, writeFile } from 'node:fs/promises';
+import { platform } from 'node:os';
+import { resolve } from 'node:path';
 import { format, getFileInfo, resolveConfig } from 'prettier';
 
 const IS_VERBOSE = process.argv.includes('--verbose');
@@ -32,7 +32,7 @@ if (process.argv.includes('--staged')) {
 	if (bothModify.length) {
 		console.error(
 			'\x1B[38;5;9msome staged file%s was modified again, this is not support.\x1B[0m',
-			bothModify.length > 1 ? 's' : '',
+			bothModify.length > 1 ? 's' : ''
 		);
 		for (const i of bothModify) console.log(i);
 		process.exit(1);
@@ -65,10 +65,10 @@ process.env.Path =
 	resolve(process.cwd(), 'node_modules/.bin') + arrSep + resolve(process.argv0, '..') + arrSep + process.env.Path;
 
 enum Action {
-	ignore,
-	unknown,
-	modify,
-	unchange,
+	ignore = 0,
+	unknown = 1,
+	modify = 2,
+	unchange = 3,
 }
 interface IResult {
 	action: Action;
@@ -104,11 +104,10 @@ const result = await new PromisePool(files)
 		if (formatted === input) {
 			console.log('✅ unchanged: %s', file);
 			return { action: Action.unchange, file };
-		} else {
-			await writeFile(file, formatted);
-			console.log('✍️ formatted: %s', file);
-			return { action: Action.modify, file };
 		}
+		await writeFile(file, formatted);
+		console.log('✍️ formatted: %s', file);
+		return { action: Action.modify, file };
 	});
 
 const modifiedFiles = result.results.filter((e) => e.action === Action.modify).map((e) => e.file);
@@ -117,7 +116,7 @@ console.log(
 	'%s jobs done, %s skip, %s fail.',
 	modifiedFiles.length,
 	result.results.filter((e) => e.action !== Action.modify).length,
-	result.errors.length,
+	result.errors.length
 );
 
 if (process.argv.includes('--staged') && modifiedFiles.length) {

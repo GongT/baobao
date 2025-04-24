@@ -74,8 +74,8 @@ describe('LossyAsyncQueue', () => {
 	});
 	it('call at right timing', async () => {
 		// console.log('== call at right timing ==');
-		let timeing = 0,
-			got = -1;
+		let timeing = 0;
+		let got = -1;
 		const cb = jest.fn(async () => {
 			got = timeing;
 		});

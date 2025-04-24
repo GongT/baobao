@@ -53,9 +53,8 @@ export async function writeJsonFileBack(data: any): Promise<boolean> {
 	if (checkChange(file, str)) {
 		await saveFile(file, str);
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 /**
@@ -93,14 +92,13 @@ export async function loadJsonFileIfExists(
 	file = abs(file);
 	if (await pathExists(file)) {
 		return loadJsonFile(file, charset);
-	} else {
-		const newData = Object.assign({}, defaultValue);
-		setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
-		const format = new PrettyFormat();
-		await format.learnFromFile(file);
-		setAttachedFormat(newData, format);
-		return newData;
 	}
+	const newData = Object.assign({}, defaultValue);
+	setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
+	const format = new PrettyFormat();
+	await format.learnFromFile(file);
+	setAttachedFormat(newData, format);
+	return newData;
 }
 
 export async function loadJsonFile(file: string, charset: BufferEncoding = DEFAULT_ENCODING): Promise<any> {

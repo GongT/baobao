@@ -1,5 +1,5 @@
-import { existsSync } from 'fs';
-import { resolve } from 'path';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { checkChildProcessResult, commandInPathSync } from '@idlebox/node';
 import { execa } from 'execa';
 import { TEMP_DIR } from './paths.js';
@@ -10,7 +10,7 @@ export const doSpawn: (file: string, args?: string[]) => void =
 function getFile(file: string) {
 	file = resolve(__dirname, '../actions/', file);
 	if (!existsSync(file)) {
-		throw new Error('Can not spawn file: ' + file);
+		throw new Error(`Can not spawn file: ${file}`);
 	}
 	return file;
 }
@@ -28,17 +28,7 @@ function spawnUnshare(file: string, args: string[] = []) {
 	file = getFile(file);
 
 	console.log('Using unshare on unix.');
-	const cmds = [
-		'-m',
-		'-C',
-		'-p',
-		'-f',
-		'--kill-child',
-		'--mount-proc',
-		'--propagation',
-		'private',
-		`--wd=${TEMP_DIR}`,
-	];
+	const cmds = ['-m', '-C', '-p', '-f', '--kill-child', '--mount-proc', '--propagation', 'private', `--wd=${TEMP_DIR}`];
 
 	if (process.getuid() !== 0) {
 		cmds.unshift('--map-root-user');

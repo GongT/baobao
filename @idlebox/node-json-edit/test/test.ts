@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, unlink } from 'fs';
-import { dirname, resolve } from 'path';
+import { existsSync, mkdirSync, unlink } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 import {
 	insertKeyAlphabet,
 	loadJsonFile,

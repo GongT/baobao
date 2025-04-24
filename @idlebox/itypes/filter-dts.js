@@ -1,5 +1,5 @@
-const { resolve } = require('path');
-const { readFileSync, writeFileSync } = require('fs');
+const { resolve } = require('node:path');
+const { readFileSync, writeFileSync } = require('node:fs');
 
 function action(file) {
 	const data = readFileSync(file, 'utf-8');
@@ -8,14 +8,13 @@ function action(file) {
 		return !l.includes('@idlebox/itypes');
 	});
 
-	const result = lines.join('\n').trim() + '\n';
+	const result = `${lines.join('\n').trim()}\n`;
 
 	if (result !== data) {
 		writeFileSync(file, result);
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 const PLUGIN_NAME = 'filter-dts';

@@ -20,7 +20,7 @@ export abstract class TsPluginInstance<OptionsT> extends PluginInstance<OptionsT
 				this.session.logger,
 				this.ts,
 				this.configuration.rigConfig,
-				this.pluginOptions,
+				this.pluginOptions
 			);
 			this._read_mtimes(this.currentCommand.configFiles);
 		}
@@ -30,9 +30,9 @@ export abstract class TsPluginInstance<OptionsT> extends PluginInstance<OptionsT
 	private _read_mtimes(files: readonly string[]) {
 		this.configFilesMtime.clear();
 		for (const file of files) {
-			const mtime = this.ts.sys.getModifiedTime!(file);
+			const mtime = this.ts.sys.getModifiedTime?.(file);
 			if (!mtime) {
-				throw new Error('not get mtime from file: ' + file);
+				throw new Error(`not get mtime from file: ${file}`);
 			}
 			this.configFilesMtime.set(file, mtime);
 		}
@@ -40,7 +40,7 @@ export abstract class TsPluginInstance<OptionsT> extends PluginInstance<OptionsT
 
 	private _diff_mtime(): boolean {
 		for (const [file, mtime] of this.configFilesMtime) {
-			if (mtime !== this.ts.sys.getModifiedTime!(file)) {
+			if (mtime !== this.ts.sys.getModifiedTime?.(file)) {
 				return true;
 			}
 		}
@@ -57,10 +57,10 @@ export abstract class TsPluginInstance<OptionsT> extends PluginInstance<OptionsT
 		const watch = [...configFiles];
 
 		if (command.raw?.include) {
-			watch.push(...command.raw?.include);
+			watch.push(...command.raw.include);
 		}
 		if (command.raw?.files) {
-			watch.push(...command.raw?.files);
+			watch.push(...command.raw.files);
 		} else {
 			const compilerOptions = command.options;
 			watch.push('**/*.ts');

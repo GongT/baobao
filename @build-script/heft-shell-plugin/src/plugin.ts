@@ -1,6 +1,6 @@
 import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession } from '@rushstack/heft';
 import { execa } from 'execa';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 interface IMyOptions {
 	interpreter?: string;
@@ -29,7 +29,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 	async execute(session: IHeftTaskSession, configuration: HeftConfiguration, options: IMyOptions) {
 		session.logger.terminal.writeVerboseLine(JSON.stringify(options, null, 4));
 
-		let exe: string = options.interpreter ?? process.execPath;
+		const exe: string = options.interpreter ?? process.execPath;
 		const args: string[] = [];
 
 		if (Array.isArray(options.interpreterArgs) && options.interpreterArgs.length) {
@@ -52,7 +52,7 @@ export default class RunShellPlugin implements IHeftTaskPlugin<IMyOptions> {
 		if (cwd) {
 			dbg += ` (wd: ${cwd})`;
 		}
-		dbg += `\x1B[0m`;
+		dbg += '\x1B[0m';
 		session.logger.terminal.writeVerboseLine(dbg);
 
 		const result = await execa(exe, args, {

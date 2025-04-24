@@ -3,9 +3,11 @@ import { boxText, supports } from 'cjke-strings';
 function testTerm() {
 	if (process.env.TERM_PROGRAM === 'vscode') {
 		return supports.vscodeIntegrated;
-	} else if (process.env.TERM?.startsWith('xterm')) {
+	}
+	if (process.env.TERM?.startsWith('xterm')) {
 		return supports.everything;
-	} else if (process.env.WT_SESSION) {
+	}
+	if (process.env.WT_SESSION) {
 		return supports.everything;
 	}
 
@@ -34,9 +36,9 @@ export function printTwoColumn(table: ReadonlyArray<readonly [string, string]>) 
 		const lines = boxText(right, maxRight, support);
 		const first = lines.shift();
 
-		process.stderr.write(left.padStart(maxLeft, ' ') + '  ' + first + '\n');
+		process.stderr.write(`${left.padStart(maxLeft, ' ')}  ${first}\n`);
 		for (const line of lines) {
-			process.stderr.write(' '.repeat(maxLeft + 2) + line + '\n');
+			process.stderr.write(`${' '.repeat(maxLeft + 2) + line}\n`);
 		}
 	}
 }

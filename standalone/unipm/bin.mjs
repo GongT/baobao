@@ -3,7 +3,7 @@ if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
 	await import('source-map-support/register.js');
 }
 
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 process.on('uncaughtException', (error, origin) => {
 	console.error('[uncaughtException] %s', error.stack || error.message || error);
 });
@@ -17,7 +17,7 @@ process.on('unhandledRejection', (reason, promise) => {
 	console.error('[unhandledRejection]', promise);
 });
 
-await import(`./lib/esm/index.mjs`)
+await import('./lib/esm/index.mjs')
 	.then((e) => {
 		return e.default();
 	})

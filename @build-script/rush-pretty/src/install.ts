@@ -1,7 +1,7 @@
 import { loadJsonFile, loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { execa } from 'execa';
-import { access, chmod, constants, mkdir, readFile, stat, writeFile } from 'fs/promises';
-import { dirname, resolve } from 'path';
+import { access, chmod, constants, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 import { githook, prettierignore, prettierrc } from './data.js';
 
 console.log('install prettier to current rush project.');
@@ -75,7 +75,7 @@ applyObject<ICommand>(
 		autoinstallerName: 'rush-prettier',
 		safeForSimultaneousRushProcesses: true,
 		shellCommand: 'rush-pretty',
-	},
+	}
 );
 
 if (!cmdJson.parameters) {
@@ -88,7 +88,7 @@ const verbose = applyObject<IParameter>(
 	{ description: 'show verbose output', associatedCommands: [] },
 	{
 		parameterKind: 'flag',
-	},
+	}
 );
 ensureInSet(verbose.associatedCommands, COMMAND_NAME);
 
@@ -99,7 +99,7 @@ const all = applyObject<IParameter>(
 	{ description: 'apply to all files', associatedCommands: [] },
 	{
 		parameterKind: 'flag',
-	},
+	}
 );
 ensureInSet(all.associatedCommands, COMMAND_NAME);
 
@@ -110,7 +110,7 @@ const staged = applyObject<IParameter>(
 	{ description: 'apply to git staged files (also including not added ones)', associatedCommands: [] },
 	{
 		parameterKind: 'flag',
-	},
+	}
 );
 ensureInSet(staged.associatedCommands, COMMAND_NAME);
 

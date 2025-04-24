@@ -1,9 +1,9 @@
 import { findUpUntil } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/node-json-edit';
-import { readFile as readFileAsync } from 'fs';
+import { readFile as readFileAsync } from 'node:fs';
 import json5 from 'json5';
-import { dirname, relative, resolve } from 'path';
-import { promisify } from 'util';
+import { dirname, relative, resolve } from 'node:path';
+import { promisify } from 'node:util';
 import { deletePackageDependency, resortPackage } from '../common/packageJson.js';
 import { PackageManager, PackageManagerType } from '../common/packageManager.js';
 
@@ -34,7 +34,7 @@ export class Rush extends PackageManager {
 		const data = json5.parse(await readFile(found, 'utf-8'));
 		let pm = '';
 		for (const key of ['pnpm', 'npm', 'yarn']) {
-			if (data[key + 'Version']) {
+			if (data[`${key}Version`]) {
 				pm = key;
 				break;
 			}
@@ -112,8 +112,7 @@ export class Rush extends PackageManager {
 
 			const aa = [cmd, ...args].filter((v) => !!v);
 			return this._invoke(this.subPackageManager!, aa);
-		} else {
-			return super.invokeCli(cmd, ...args);
 		}
+		return super.invokeCli(cmd, ...args);
 	}
 }

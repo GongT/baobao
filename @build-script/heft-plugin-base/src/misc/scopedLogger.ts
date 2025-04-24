@@ -1,10 +1,10 @@
-import type { IHeftTaskSession } from "@rushstack/heft";
-import { format } from "node:util";
-import { pickFlag } from "./functions.js";
+import type { IHeftTaskSession } from '@rushstack/heft';
+import { format } from 'node:util';
+import { pickFlag } from './functions.js';
 
-export const isDebug = pickFlag(process.argv, ["--debug"]) > 0;
+export const isDebug = pickFlag(process.argv, ['--debug']) > 0;
 
-export const knownLevels = ["log", "error", "warn", "verbose", "debug"] as const;
+export const knownLevels = ['log', 'error', 'warn', 'verbose', 'debug'] as const;
 
 export interface IOutputShim {
 	log(msg: string, ...args: any[]): void;

@@ -1,34 +1,39 @@
 import { humanDate } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
-import { execa } from 'execa';
-import { resolve } from 'path';
-import { prepareMonorepoDeps } from '../inc/dependency-graph.js';
-import { argv, formatOptions, pArgS, pDesc } from '../inc/getArg.js';
-import { CSI, logger, writeHostLine, writeHostReplace } from '../inc/log.js';
-import { PackageMetaCache } from '../inc/meta-cache.js';
-import { listMonoRepoPackages } from '../inc/mono-tools.js';
-import { DETECT_CHANGE_METACACHE_KEY, executeChangeDetect } from '../inc/shared-jobs/detect-change-job.js';
-import { publishPackageVersion } from '../inc/shared-jobs/publish-package-version-job.js';
-import { increaseVersion } from '../packageManage/increaseVersion.js';
+import { argv, formatOptions, pArgS, pDesc } from '../common/functions/cli.js';
+import { CSI, writeHostLine, writeHostReplace } from '../common/functions/log.js';
+import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
+import { increaseVersion } from '../common/package-manager/package-json.js';
+import { createPackageManager } from '../common/package-manager/package-manager.js';
+import { cnpmSync } from '../common/shared-jobs/cnpm-sync.js';
+import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
+import { publishPackageVersion } from '../common/shared-jobs/publish-package-version-job.js';
+import { prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
+import { createWorkspace } from '../common/workspace/workspace.js';
 
 export function usageString() {
-	return `${pArgS('--verbose')} ${pArgS('--dry')} ${pDesc('在monorepo中按照依赖顺序发布修改过的包')}`;
+	return `${pArgS('--verbose/--silent')} ${pArgS('--dry')} ${pDesc('在monorepo中按照依赖顺序发布修改过的包')}`;
 }
 const args = {
 	'--verbose': '列出所有信息，而不仅是目录',
 	'--dry': '仅检查修改，不发布（仍会修改version字段）',
 	'--debug': '运行后不要删除临时文件和目录',
+	'--skip <N>': '跳过前N-1个包（从第N个包开始运行）',
 };
 export function helpString() {
 	return formatOptions(args);
 }
 
 export async function main() {
-	const list = await listMonoRepoPackages();
-	const deps = await prepareMonorepoDeps(list);
-	const metacache = new PackageMetaCache();
-
 	const dryRun = argv.flag('--dry') > 0;
+	let skip = Number.parseInt(argv.single('--skip') || '0');
+	if (Number.isNaN(skip)) {
+		throw new Error('skip 不是数字');
+	}
+
+	const workspace = await createWorkspace();
+	const list = await workspace.listPackages();
+	const deps = await prepareMonorepoDeps(list);
 
 	for (const data of deps.getIncompleteWithOrder()) {
 		if (data.reference.packageJson.private) {
@@ -37,20 +42,23 @@ export async function main() {
 		}
 	}
 
-	const cnpm = await commandInPath('cnpm');
+	const publishedPackages = [];
 
 	const todoList = deps.getIncompleteWithOrder();
 	const w = todoList.length.toFixed(0).length;
 	for (const [index, data] of todoList.entries()) {
 		const startTime = Date.now();
 		writeHostLine(`📦 [${(index + 1).toFixed(0).padStart(w)}/${todoList.length}] ${data.name}`);
+
+		if (--skip > 0) {
+			writeHostReplace(`    ⏩ ${CSI}2m跳过${CSI}0m`);
+			continue;
+		}
+
 		writeHostReplace(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
-		const packageFile = resolve(data.reference.absolute, 'package.json');
-		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(
-			packageFile,
-			data.reference.packageJson
-		);
+		const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, data.reference.absolute);
+		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm);
 		let shouldPublish = hasChange;
 
 		if (!hasChange && changedFiles.length > 0) {
@@ -77,26 +85,19 @@ export async function main() {
 			continue;
 		}
 
-		const detectMeta = await metacache.getCacheData(data.reference.name, DETECT_CHANGE_METACACHE_KEY);
-		await detectMeta.delete();
+		await publishPackageVersion(pm);
 
-		const changed = await publishPackageVersion(data.reference.absolute, data.reference.packageJson);
+		// if (changed) {
+		publishedPackages.push(data.reference);
+		writeHostReplace(`    ✨ ${CSI}38;5;10m已发布新版本！${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
+		// } else {
+		// writeHostReplace(`    🤔 此版本已经发布 (${remoteVersion}/${data.reference.packageJson.version})\n`);
+		// }
+	}
 
-		if (changed) {
-			writeHostReplace(`    ✨ ${CSI}38;5;10m已发布新版本！${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
-		} else {
-			writeHostReplace(`    🤔 此版本已经发布 (${remoteVersion})\n`);
-		}
+	writeHostLine(`🎉 所有任务完成，共发布了 ${publishedPackages.length} 个包`);
 
-		if (cnpm) {
-			const p = await execa(cnpm, ['sync', data.reference.name], { stdio: 'pipe', all: true, fail: false });
-			if (p.failed || p.exitCode !== 0) {
-				logger.line();
-				logger.debug(p.all);
-				writeHostLine(`    ⚠️  cnpm同步请求失败`);
-			} else {
-				writeHostLine(`    ✨ cnpm同步请求成功`);
-			}
-		}
+	if (await commandInPath('cnpm')) {
+		await cnpmSync(publishedPackages, true).catch();
 	}
 }

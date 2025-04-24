@@ -1,4 +1,4 @@
-import { RushProject } from '@build-script/rush-tools';
+import type { RushProject } from '@build-script/rush-tools';
 import { fromTimeStamp, getTimeStamp } from '@idlebox/common';
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { normalizePackageName } from './paths.js';
@@ -7,7 +7,7 @@ export class ProjectStateCache {
 	constructor(private readonly rushProject: RushProject) {}
 
 	async project(name: string) {
-		const stateFile = this.rushProject.tempFile('proj_status/' + normalizePackageName(name) + '.json');
+		const stateFile = this.rushProject.tempFile(`proj_status/${normalizePackageName(name)}.json`);
 		const state = new ProjectState(stateFile);
 		await state.init();
 		return state;

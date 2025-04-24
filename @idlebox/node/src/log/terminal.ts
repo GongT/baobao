@@ -1,4 +1,4 @@
-import { WrappedConsole, WrappedConsoleOptions } from '@idlebox/common';
+import { WrappedConsole, type WrappedConsoleOptions } from '@idlebox/common';
 
 interface TerminalConsoleOptions {
 	color?: boolean | Partial<typeof colorMap>;

@@ -23,7 +23,7 @@ function createCollectLogger(outputs: ILogMessage[], parent: IOutputShim): IOutp
 	const keys = ['log', 'error', 'debug', 'verbose', 'warn'] as const;
 	const child: IOutputShim = {} as any;
 	for (const key of keys) {
-		const fn: Function = parent[key].bind(parent);
+		const fn: CallableFunction = parent[key].bind(parent);
 		child[key] = (...args: any[]) => {
 			fn(...args);
 			outputs.push({
@@ -38,7 +38,8 @@ function createCollectLogger(outputs: ILogMessage[], parent: IOutputShim): IOutp
 export class ImportExecuter extends BaseExecuter {
 	async _execute(compiledFile: string): Promise<IGenerateResult> {
 		const outputs: ILogMessage[] = [];
-		let result: string | undefined, success: boolean;
+		let result: string | undefined;
+		let success: boolean;
 
 		const logger = createCollectLogger(outputs, this.logger);
 
@@ -55,7 +56,7 @@ export class ImportExecuter extends BaseExecuter {
 
 			if (r) {
 				if (typeof r !== 'string') {
-					return this.errorResult(new Error(`generate function must return string (or no return)`));
+					return this.errorResult(new Error('generate function must return string (or no return)'));
 				}
 				if (builder.size > 0) {
 					logger.warn('generate return and builder.append both used, builder.append will be ignored');
@@ -66,8 +67,8 @@ export class ImportExecuter extends BaseExecuter {
 			}
 
 			let changes = false;
-			logger.verbose('write file: ' + this.targetFile);
-			changes = writeFileIfChange(this.targetFile, header + '\n' + result);
+			logger.verbose(`write file: ${this.targetFile}`);
+			changes = writeFileIfChange(this.targetFile, `${header}\n${result}`);
 			logger.verbose(`  - ${changes ? 'changed' : 'unchanged'}`);
 			return {
 				outputs,

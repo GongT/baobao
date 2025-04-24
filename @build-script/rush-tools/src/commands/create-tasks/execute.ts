@@ -1,7 +1,7 @@
 import { sortByString } from '@idlebox/common';
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { parse } from 'comment-json';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { findRushRootPath } from '../../api/load.js';
 import { RushProject } from '../../api/rushProject.js';
 
@@ -47,7 +47,7 @@ export async function runCreateTasks() {
 	const configFile = resolve(root, '.vscode/tasks.json');
 	const tasksJson = await loadJsonFileIfExists(configFile, defaultTasks, 'utf8');
 
-	const pm = '${workspaceFolder}/' + rush.getPackageManager().bin;
+	const pm = `\${workspaceFolder}/${rush.getPackageManager().bin}`;
 
 	const cfgMap: Record<string, VSCodeTask> = {};
 	const names: string[] = [];
@@ -107,12 +107,12 @@ export async function runCreateTasks() {
 function createConfig(index: number, title: string, path: string) {
 	const json = JSON.stringify(template, null, 4).replace(
 		/^{/,
-		`{\n\t// This task is created by @build-script/rush-tools`,
+		'{\n\t// This task is created by @build-script/rush-tools'
 	);
 
 	const task: VSCodeTask = parse(json) as any;
 
-	task.options.cwd = '${workspaceFolder}/' + path;
+	task.options.cwd = `\${workspaceFolder}/${path}`;
 	task.label = createTitle(index, title);
 	task.problemMatcher.fileLocation.push(task.options.cwd);
 

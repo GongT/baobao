@@ -1,4 +1,4 @@
-import { type IOutputShim } from '@build-script/heft-plugin-base';
+import type { IOutputShim } from '@build-script/heft-plugin-base';
 import { format } from 'node:util';
 import 'source-map-support/register';
 import { ImportExecuter } from './library/executer.import.js';
@@ -26,7 +26,7 @@ async function main() {
 		process.env.projectRoot!,
 		process.env.sourceFile!,
 		process.env.targetFile!,
-		logger,
+		logger
 	);
 
 	return await executer.execute(process.env.scriptFile!);
@@ -51,5 +51,5 @@ main().then(
 			},
 		});
 		process.exit(1);
-	},
+	}
 );

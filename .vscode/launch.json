@@ -10,7 +10,7 @@
 			"name": "Attach NodeJS",
 			"port": 9229,
 			"cwd": "${workspaceFolder}",
-			"skipFiles": ["<node_internals>/**"]
+			"skipFiles": ["<node_internals>/**"],
 		},
 		{
 			"type": "extensionHost",
@@ -18,7 +18,7 @@
 			"name": "启动扩展 - vscode-remote-thief",
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-remote-thief"],
-			"outFiles": ["${workspaceFolder}/@gongt/vscode-remote-thief/lib/**/*.js"]
+			"outFiles": ["${workspaceFolder}/@gongt/vscode-remote-thief/lib/**/*.js"],
 		},
 		{
 			"type": "extensionHost",
@@ -27,9 +27,9 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-auto-extensions",
-				"${workspaceFolder}/@gongt/vscode-auto-extensions/.test"
+				"${workspaceFolder}/@gongt/vscode-auto-extensions/.test",
 			],
-			"outFiles": ["${workspaceFolder}/@gongt/vscode-auto-extensions/lib/**/*.js"]
-		}
-	]
+			"outFiles": ["${workspaceFolder}/@gongt/vscode-auto-extensions/lib/**/*.js"],
+		},
+	],
 }

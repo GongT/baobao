@@ -1,5 +1,5 @@
-import { IExtendParsedCommandLine, loadTsConfigJsonFile } from '@idlebox/tsconfig-loader';
-import { dirname } from 'path';
+import { type IExtendParsedCommandLine, loadTsConfigJsonFile } from '@idlebox/tsconfig-loader';
+import { dirname } from 'node:path';
 import ts from 'typescript';
 
 export function getOptions(file: string, checkOut = false): IExtendParsedCommandLine {

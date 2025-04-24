@@ -1,6 +1,6 @@
 import type TypeScriptApi from 'typescript';
 import type { IScopedLogger } from '@rushstack/heft';
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 import { isAstNode, linkParentNode } from './util.js';
 
 export interface IReplacerContext {
@@ -13,7 +13,7 @@ export interface IReplacerContext {
 export abstract class NodeReplacer<T extends TypeScriptApi.Node, RT = TypeScriptApi.Node> {
 	public abstract readonly kinds: ReadonlyArray<TypeScriptApi.SyntaxKind>;
 	protected abstract _check(node: TypeScriptApi.Node): boolean;
-	protected abstract _replace(node: T): RT | undefined | void;
+	protected abstract _replace(node: T): RT | undefined | undefined;
 	protected declare readonly context: IReplacerContext;
 
 	constructor() {
@@ -41,7 +41,7 @@ export abstract class NodeReplacer<T extends TypeScriptApi.Node, RT = TypeScript
 		return this._check(node);
 	}
 
-	public replace(node: T): RT | undefined | void {
+	public replace(node: T): RT | undefined | undefined {
 		const { ts, logger } = this.context;
 
 		const result = this._replace(node);
@@ -50,7 +50,8 @@ export abstract class NodeReplacer<T extends TypeScriptApi.Node, RT = TypeScript
 		if (isAstNode(ts, result)) {
 			linkParentNode(ts, result, node);
 			return result;
-		} else if (Array.isArray(result) && (result.length === 0 || isAstNode(ts, result[0]))) {
+		}
+		if (Array.isArray(result) && (result.length === 0 || isAstNode(ts, result[0]))) {
 			for (const element of result) {
 				linkParentNode(ts, element, node);
 			}

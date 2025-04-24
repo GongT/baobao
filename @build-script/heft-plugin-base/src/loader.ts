@@ -27,7 +27,7 @@ export default function load(module: Module, options: ILoaderOptions) {
 
 	mkdirSync(dirname(options.distAbs), { recursive: true });
 
-	let release;
+	let release: CallableFunction | undefined;
 	while (!release) {
 		try {
 			release = lockfile.lockSync(options.distAbs, { stale: 20000, realpath: false });
@@ -72,16 +72,13 @@ function check_load(module: Module, options: ILoaderOptions) {
 		if (!construct) {
 			console.error(`module (${options.actualAbs}) export seems wrong:`);
 			console.error(
-				`    exports.__esModule = ${module.exports.__esModule}; all names: ${Object.keys(module.exports).join(', ')}`,
+				`    exports.__esModule = ${module.exports.__esModule}; all names: ${Object.keys(module.exports).join(', ')}`
 			);
 			console.error(
-				`    class: ${
-					construct &&
-					construct
-						.toString()
-						.slice(0, 80)
-						.replace(/\s*\n\s*/m, ' ')
-				} ...`,
+				`    class: ${construct
+					?.toString()
+					.slice(0, 80)
+					.replace(/\s*\n\s*/m, ' ')} ...`
 			);
 		}
 	}
@@ -95,21 +92,18 @@ function load_compile(module: Module, options: ILoaderOptions) {
 	const sourceFile = resolve(module.path, options.src);
 	options.actualAbs = sourceFile;
 
-	const distFile = resolve(module.path, options.dist.replace(/\.[cm]?js/, '') + '.realtime-compile.cjs');
+	const distFile = resolve(module.path, `${options.dist.replace(/\.[cm]?js/, '')}.realtime-compile.cjs`);
 
 	if (is_too_young(distFile)) {
 		if (options.debug) {
 			console.log(
 				'[heft-plugin-base/loader] realtime compile is too frequent, use disk version.',
-				options.force ? '(forced)' : '',
+				options.force ? '(forced)' : ''
 			);
 		}
 	} else {
 		if (options.debug) {
-			console.log(
-				`[heft-plugin-base/loader] compile heft plugin: ${sourceFile}`,
-				options.force ? '(forced)' : '',
-			);
+			console.log(`[heft-plugin-base/loader] compile heft plugin: ${sourceFile}`, options.force ? '(forced)' : '');
 		}
 		realtime_compule(sourceFile, distFile, module.path, options);
 	}
@@ -157,7 +151,7 @@ function realtime_compule(sourceFile: string, distFile: string, buildRoot: strin
 		});
 
 		if (result.errors.length || result.warnings.length) {
-			const entry = Object.values(result.metafile!.outputs).find((e) => e.entryPoint)?.entryPoint;
+			const entry = Object.values(result.metafile?.outputs ?? {}).find((e) => e.entryPoint)?.entryPoint;
 			console.error(`esbuild compile with errors (while bundle ${entry}):`);
 		}
 
@@ -183,7 +177,7 @@ function realtime_compule(sourceFile: string, distFile: string, buildRoot: strin
 }
 
 function getEsbuild(parent: string) {
-	const require = createRequire(parent + '/package.json');
+	const require = createRequire(`${parent}/package.json`);
 	try {
 		return require('esbuild');
 	} catch (e: any) {

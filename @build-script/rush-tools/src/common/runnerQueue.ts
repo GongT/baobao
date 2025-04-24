@@ -1,21 +1,20 @@
 import { DeferredPromise } from '@idlebox/common';
-export interface IJob<T> {
-	(arg: T): Promise<void>;
-}
-interface IJob0 {
-	(): Promise<void>;
-}
+export type IJob<T> = (arg: T) => Promise<void>;
+type IJob0 = () => Promise<void>;
 
 const debug = /\brush[-_]?tools\b/i.test(process.env.NODE_DEBUG || '')
 	? (...args: any[]) => {
 			console.error(...args);
-	  }
+		}
 	: (..._args: any[]) => {};
 
 export class RunQueue<T> {
 	private readonly items = new Map<string, QueueItem>();
 
-	constructor(private readonly job: IJob<T>, private readonly concurrent = 4) {}
+	constructor(
+		private readonly job: IJob<T>,
+		private readonly concurrent = 4
+	) {}
 
 	register(id: string, arg: T, deps: ReadonlyArray<string>) {
 		this.items.set(id, new QueueItem(this.job.bind(undefined, arg), deps));
@@ -73,7 +72,10 @@ class QueueItem {
 	private readonly deps: string[];
 	private hasRun = false;
 
-	constructor(private readonly job: IJob0, deps: ReadonlyArray<string>) {
+	constructor(
+		private readonly job: IJob0,
+		deps: ReadonlyArray<string>
+	) {
 		this.deps = [...deps];
 	}
 

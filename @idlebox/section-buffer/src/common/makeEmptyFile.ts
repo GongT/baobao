@@ -1,5 +1,5 @@
-import { mkdir, open } from 'fs/promises';
-import { dirname } from 'path';
+import { mkdir, open } from 'node:fs/promises';
+import { dirname } from 'node:path';
 
 export async function makeEmptyFile(path: string, size: number) {
 	await mkdir(dirname(path), { recursive: true });

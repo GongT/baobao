@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -37,7 +36,23 @@ export interface ILinkMatchSection {
 	Firmware?: MaybeArray<string>;
 }
 
-export const linkMatchFields: readonly string[] = ["MACAddress","PermanentMACAddress","Path","Driver","Type","Kind","Property","OriginalName","Host","Virtualization","KernelCommandLine","KernelVersion","Credential","Architecture","Firmware"];
+export const linkMatchFields: readonly string[] = [
+	'MACAddress',
+	'PermanentMACAddress',
+	'Path',
+	'Driver',
+	'Type',
+	'Kind',
+	'Property',
+	'OriginalName',
+	'Host',
+	'Virtualization',
+	'KernelCommandLine',
+	'KernelVersion',
+	'Credential',
+	'Architecture',
+	'Firmware',
+];
 
 export interface ILinkLinkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.link.html#Description= */
@@ -175,10 +190,79 @@ export interface ILinkLinkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.link.html#StatisticsBlockCoalesceSec= */
 	StatisticsBlockCoalesceSec?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.link.html#MDI= */
-	MDI?: "the" | "following" | "words:" | "straight" | "auto" | string;
+	MDI?: 'the' | 'following' | 'words:' | 'straight' | 'auto' | string;
 }
 
-export const linkLinkFields: readonly string[] = ["Description","Alias","MACAddressPolicy","MACAddress","NamePolicy","Name","AlternativeNamesPolicy","AlternativeName","TransmitQueues","ReceiveQueues","TransmitQueueLength","MTUBytes","BitsPerSecond","Duplex","AutoNegotiation","WakeOnLan","WakeOnLanPassword","Port","Advertise","ReceiveChecksumOffload","TransmitChecksumOffload","TCPSegmentationOffload","TCP6SegmentationOffload","GenericSegmentationOffload","GenericReceiveOffload","GenericReceiveOffloadHardware","LargeReceiveOffload","ReceiveVLANCTAGHardwareAcceleration","TransmitVLANCTAGHardwareAcceleration","ReceiveVLANCTAGFilter","TransmitVLANSTAGHardwareAcceleration","NTupleFilter","RxChannels","TxChannels","OtherChannels","CombinedChannels","RxBufferSize","RxMiniBufferSize","RxJumboBufferSize","TxBufferSize","RxFlowControl","TxFlowControl","AutoNegotiationFlowControl","GenericSegmentOffloadMaxBytes","GenericSegmentOffloadMaxSegments","UseAdaptiveRxCoalesce","UseAdaptiveTxCoalesce","RxCoalesceSec","RxCoalesceIrqSec","RxCoalesceLowSec","RxCoalesceHighSec","TxCoalesceSec","TxCoalesceIrqSec","TxCoalesceLowSec","TxCoalesceHighSec","RxMaxCoalescedFrames","RxMaxCoalescedIrqFrames","RxMaxCoalescedLowFrames","RxMaxCoalescedHighFrames","TxMaxCoalescedFrames","TxMaxCoalescedIrqFrames","TxMaxCoalescedLowFrames","TxMaxCoalescedHighFrames","CoalescePacketRateLow","CoalescePacketRateHigh","CoalescePacketRateSampleIntervalSec","StatisticsBlockCoalesceSec","MDI"];
+export const linkLinkFields: readonly string[] = [
+	'Description',
+	'Alias',
+	'MACAddressPolicy',
+	'MACAddress',
+	'NamePolicy',
+	'Name',
+	'AlternativeNamesPolicy',
+	'AlternativeName',
+	'TransmitQueues',
+	'ReceiveQueues',
+	'TransmitQueueLength',
+	'MTUBytes',
+	'BitsPerSecond',
+	'Duplex',
+	'AutoNegotiation',
+	'WakeOnLan',
+	'WakeOnLanPassword',
+	'Port',
+	'Advertise',
+	'ReceiveChecksumOffload',
+	'TransmitChecksumOffload',
+	'TCPSegmentationOffload',
+	'TCP6SegmentationOffload',
+	'GenericSegmentationOffload',
+	'GenericReceiveOffload',
+	'GenericReceiveOffloadHardware',
+	'LargeReceiveOffload',
+	'ReceiveVLANCTAGHardwareAcceleration',
+	'TransmitVLANCTAGHardwareAcceleration',
+	'ReceiveVLANCTAGFilter',
+	'TransmitVLANSTAGHardwareAcceleration',
+	'NTupleFilter',
+	'RxChannels',
+	'TxChannels',
+	'OtherChannels',
+	'CombinedChannels',
+	'RxBufferSize',
+	'RxMiniBufferSize',
+	'RxJumboBufferSize',
+	'TxBufferSize',
+	'RxFlowControl',
+	'TxFlowControl',
+	'AutoNegotiationFlowControl',
+	'GenericSegmentOffloadMaxBytes',
+	'GenericSegmentOffloadMaxSegments',
+	'UseAdaptiveRxCoalesce',
+	'UseAdaptiveTxCoalesce',
+	'RxCoalesceSec',
+	'RxCoalesceIrqSec',
+	'RxCoalesceLowSec',
+	'RxCoalesceHighSec',
+	'TxCoalesceSec',
+	'TxCoalesceIrqSec',
+	'TxCoalesceLowSec',
+	'TxCoalesceHighSec',
+	'RxMaxCoalescedFrames',
+	'RxMaxCoalescedIrqFrames',
+	'RxMaxCoalescedLowFrames',
+	'RxMaxCoalescedHighFrames',
+	'TxMaxCoalescedFrames',
+	'TxMaxCoalescedIrqFrames',
+	'TxMaxCoalescedLowFrames',
+	'TxMaxCoalescedHighFrames',
+	'CoalescePacketRateLow',
+	'CoalescePacketRateHigh',
+	'CoalescePacketRateSampleIntervalSec',
+	'StatisticsBlockCoalesceSec',
+	'MDI',
+];
 
 export interface ILinkSrIov_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.link.html#VirtualFunction= */
@@ -201,6 +285,16 @@ export interface ILinkSrIov_SectionOptionsOptions {
 	MACAddress?: MaybeArray<string>;
 }
 
-export const linkSrIov_SectionOptionsFields: readonly string[] = ["VirtualFunction","VLANId","QualityOfService","VLANProtocol","MACSpoofCheck","QueryReceiveSideScaling","Trust","LinkState","MACAddress"];
+export const linkSrIov_SectionOptionsFields: readonly string[] = [
+	'VirtualFunction',
+	'VLANId',
+	'QualityOfService',
+	'VLANProtocol',
+	'MACSpoofCheck',
+	'QueryReceiveSideScaling',
+	'Trust',
+	'LinkState',
+	'MACAddress',
+];
 
 export type __ILinkAll = ILinkMatchSection & ILinkLinkSection & ILinkSrIov_SectionOptionsOptions;

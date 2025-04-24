@@ -2,10 +2,10 @@ import { nameFunction } from '../function/functionName.js';
 import { isWeb } from '../platform/os.js';
 
 export enum ColorKind {
-	DISABLE,
-	TERMINAL,
-	WEB,
-	DETECT,
+	DISABLE = 0,
+	TERMINAL = 1,
+	WEB = 2,
+	DETECT = 3,
 }
 
 export interface WrappedConsoleOptions {
@@ -71,13 +71,12 @@ export abstract class WrappedConsole {
 	protected wrap<T extends keyof Omit<Console & { Console: any }, 'Console'>>(original: T): Function {
 		if (this.bind) {
 			return this.parent[original].bind(this.parent) as any;
-		} else {
-			return this.parent[original];
 		}
+		return this.parent[original];
 	}
 
 	private wrapSimple<T extends keyof Omit<Console & { Console: any }, 'Console'>>(original: T): Console[T] {
-		return nameFunction('console:' + original, this.wrap(original) as any);
+		return nameFunction(`console:${original}`, this.wrap(original) as any);
 	}
 
 	private wrapExtra<T extends keyof Omit<Console & { Console: any }, 'Console'>>(
@@ -85,7 +84,7 @@ export abstract class WrappedConsole {
 		exMessage: string
 	): Console[T] {
 		const bindedFn = this.wrap(original);
-		return nameFunction('console:' + original, (...args: any[]) => {
+		return nameFunction(`console:${original}`, (...args: any[]) => {
 			this.log(exMessage);
 			bindedFn(...args);
 		});
@@ -115,7 +114,7 @@ export abstract class WrappedConsole {
 
 		const fn = this.wrap(original);
 
-		return nameFunction('console:' + original, (...args: any[]) => {
+		return nameFunction(`console:${original}`, (...args: any[]) => {
 			this.convertObjectArg(args, messageLoc);
 			this.processColorLabel(args, messageLoc, original, prefix);
 			fn(...args);

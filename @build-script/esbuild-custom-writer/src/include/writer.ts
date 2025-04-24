@@ -47,18 +47,18 @@ export class CustomFileWriter implements Plugin {
 				console.log('[esbuild] build started');
 			});
 			build.onEnd((result) => {
-				result.errors.forEach(({ text, location }) => {
+				for (const { text, location } of result.errors) {
 					console.error(`✘ [ERROR] ${text}`);
 					if (location) {
 						console.error(`    ${location.file}:${location.line}:${location.column}:`);
 					}
-				});
-				result.warnings.forEach(({ text, location }) => {
+				}
+				for (const { text, location } of result.warnings) {
 					console.error(`✘ [WARNING] ${text}`);
 					if (location) {
 						console.error(`    ${location.file}:${location.line}:${location.column}:`);
 					}
-				});
+				}
 				console.log('[esbuild] build finished');
 			});
 		}
@@ -137,14 +137,16 @@ export class CustomFileWriter implements Plugin {
 	}
 
 	private getEntryPath(result: BuildResult, file: string) {
-		const outputs = result.metafile!.outputs;
-		if (outputs[file]?.entryPoint) {
-			return outputs[file]?.entryPoint;
-		}
-		if (file.endsWith('.map')) {
-			const base = file.replace(/\.map$/, '');
-			if (outputs[base]?.entryPoint) {
-				return outputs[base]?.entryPoint;
+		const outputs = result.metafile?.outputs;
+		if (outputs) {
+			if (outputs[file]?.entryPoint) {
+				return outputs[file]?.entryPoint;
+			}
+			if (file.endsWith('.map')) {
+				const base = file.replace(/\.map$/, '');
+				if (outputs[base]?.entryPoint) {
+					return outputs[base]?.entryPoint;
+				}
 			}
 		}
 

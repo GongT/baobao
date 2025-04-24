@@ -1,13 +1,13 @@
-import { createHash } from 'crypto';
-import { existsSync, readdirSync, readFileSync } from 'fs';
-import { readFile } from 'fs/promises';
-import { dirname, resolve } from 'path';
-import { DeepReadonly, IPackageJson, isWindows } from '@idlebox/common';
+import { createHash } from 'node:crypto';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { type DeepReadonly, type IPackageJson, isWindows } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { exists, relativePath, writeFileIfChange } from '@idlebox/node';
 import { loadJsonFile, readCommentJsonFileSync, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { requireRushPathSync } from '../common/loadRushJson.js';
-import { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson.js';
+import type { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson.js';
 
 interface IProjectDependencyOptions {
 	removeCyclic?: boolean;
@@ -30,16 +30,13 @@ export class RushProject {
 		for (const project of config.projects ?? []) {
 			if (project.decoupledLocalDependencies && project.cyclicDependencyProjects) {
 				throw new Error(
-					'rush.json contains invalid project: ' +
-						JSON.stringify(project, null, 4) +
-						' (cyclicDependencyProjects and decoupledLocalDependencies both exists)'
+					`rush.json contains invalid project: ${JSON.stringify(project, null, 4)} (cyclicDependencyProjects and decoupledLocalDependencies both exists)`
 				);
-			} else if (project.cyclicDependencyProjects) {
-				console.error(
-					'\x1B[38;5;11mdeprecated: cyclicDependencyProjects, use decoupledLocalDependencies.\x1B[0m'
-				);
+			}
+			if (project.cyclicDependencyProjects) {
+				console.error('\x1B[38;5;11mdeprecated: cyclicDependencyProjects, use decoupledLocalDependencies.\x1B[0m');
 				project.decoupledLocalDependencies = project.cyclicDependencyProjects;
-				delete project.cyclicDependencyProjects;
+				project.cyclicDependencyProjects = undefined;
 			}
 
 			project.toString = () => {
@@ -141,12 +138,10 @@ export class RushProject {
 			const p2 = this.getProjectByName(project);
 			if (p2) {
 				return resolve(this.projectRoot, p2.projectFolder, ...segments);
-			} else {
-				return resolve(this.projectRoot, project, ...segments);
 			}
-		} else {
-			return resolve(this.projectRoot, project.projectFolder, ...segments);
+			return resolve(this.projectRoot, project, ...segments);
 		}
+		return resolve(this.projectRoot, project.projectFolder, ...segments);
 	}
 
 	/** @deprecated */
@@ -178,7 +173,7 @@ export class RushProject {
 			f = this.autoinstallers.find(({ packageName }) => name === packageName);
 		}
 		if (!f && required) {
-			throw new Error('missing project with name ' + name);
+			throw new Error(`missing project with name ${name}`);
 		}
 		return f || null;
 	}
@@ -189,14 +184,12 @@ export class RushProject {
 	}
 
 	private packageJsonCache = new Map<string, any>();
-	public packageJsonContent<T extends IPackageJson = IPackageJson>(
-		project: ICProjectConfig | string
-	): DeepReadonly<T> {
+	public packageJsonContent<T extends IPackageJson = IPackageJson>(project: ICProjectConfig | string): DeepReadonly<T> {
 		const name = typeof project === 'string' ? project : project.packageName;
 		if (!this.packageJsonCache.has(name)) {
 			const pkgPath = this.packageJsonPath(name);
 			if (!pkgPath) {
-				throw new Error('missing package.json: ' + name);
+				throw new Error(`missing package.json: ${name}`);
 			}
 
 			const content = readCommentJsonFileSync(pkgPath);
@@ -214,7 +207,7 @@ export class RushProject {
 		if (!this.packageJsonCacheAsync.has(name)) {
 			const pkgPath = this.packageJsonPath(name);
 			if (!pkgPath) {
-				throw new Error('missing package.json: ' + name);
+				throw new Error(`missing package.json: ${name}`);
 			}
 
 			const content = await loadJsonFile(pkgPath);
@@ -237,7 +230,7 @@ export class RushProject {
 
 		const pkg = this.packageJsonContent(project);
 		if (!pkg) {
-			throw new Error('file json not readable: ' + project.toString());
+			throw new Error(`file json not readable: ${project.toString()}`);
 		}
 		const deps: { [id: string]: any } = { ...(pkg.devDependencies || {}) };
 		if (options.includingRuntime && pkg.dependencies) {
@@ -246,9 +239,7 @@ export class RushProject {
 
 		for (const item of cyclicList) {
 			if (!deps[item]) {
-				console.warn(
-					`\x1B[38;5;11mproject "${projectName}" set "${item}" as decoupled, but never depend on it\x1B[0m`
-				);
+				console.warn(`\x1B[38;5;11mproject "${projectName}" set "${item}" as decoupled, but never depend on it\x1B[0m`);
 			}
 		}
 
@@ -307,7 +298,7 @@ export class RushProject {
 		};
 	}
 
-	async copyNpmrc(project: ICProjectConfig | string, symlink: boolean = !isWindows, force: boolean = false) {
+	async copyNpmrc(project: ICProjectConfig | string, symlink = !isWindows, force = false) {
 		const wantFile = this.absolute(project, '.npmrc');
 		if (!force && (await exists(wantFile))) {
 			return;

@@ -7,13 +7,13 @@
 		"wix.vscode-import-cost",
 		"RushStack.rushstack",
 		"rbuckton.tsserver-live-reload",
-		"esbenp.prettier-vscode"
+		"esbenp.prettier-vscode",
 	],
 	"unwantedRecommendations": [
 		"hookyqr.beautify",
 		"esbenp.prettier-vscode",
 		"ms-mssql.mssql",
 		"firefox-devtools.vscode-firefox-debug",
-		"dbaeumer.vscode-eslint"
-	]
+		"dbaeumer.vscode-eslint",
+	],
 }

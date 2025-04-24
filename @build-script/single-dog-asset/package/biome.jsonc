@@ -3,54 +3,54 @@
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
-		"useIgnoreFile": true
+		"useIgnoreFile": true,
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": ["local-history", ".nx", "lib", "node_modules"]
+		"ignore": ["local-history", ".nx", "lib", "node_modules"],
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
 		"formatWithErrors": true,
 		"lineEnding": "lf",
-		"lineWidth": 120
+		"lineWidth": 120,
 	},
 	"organizeImports": {
-		"enabled": false
+		"enabled": false,
 	},
 	"linter": {
 		"enabled": false,
 		"rules": {
-			"recommended": true
-		}
+			"recommended": true,
+		},
 	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",
-			"trailingCommas": "es5"
-		}
+			"trailingCommas": "es5",
+		},
 	},
 	"json": {
 		"parser": {
-			"allowTrailingCommas": true
+			"allowTrailingCommas": true,
 		},
 		"formatter": {
-			"trailingCommas": "none"
-		}
+			"trailingCommas": "none",
+		},
 	},
 	"overrides": [
 		{
 			"include": ["*.ts"],
-			"organizeImports": { "enabled": false }
+			"organizeImports": { "enabled": false },
 		},
 		{
 			"include": ["tsconfig.json", "tsconfig.*.json", ".vscode/*.json"],
 			"json": {
 				"formatter": {
-					"trailingCommas": "all"
-				}
-			}
-		}
-	]
+					"trailingCommas": "all",
+				},
+			},
+		},
+	],
 }

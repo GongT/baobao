@@ -1,5 +1,5 @@
-import { createWriteStream } from 'fs';
-import { resolve } from 'path';
+import { createWriteStream } from 'node:fs';
+import { resolve } from 'node:path';
 import { checkChildProcessResult, streamPromise } from '@idlebox/node';
 import { execa } from 'execa';
 import { gte } from 'semver';
@@ -38,19 +38,19 @@ export async function buildAction(action: string, argv: string[]) {
 		stdio: ['inherit', 'pipe', 'pipe'],
 	});
 
-	const stdout = ps.stdout!.pipe(split2());
-	const stderr = ps.stderr!.pipe(split2());
+	const stdout = ps.stdout?.pipe(split2());
+	const stderr = ps.stderr?.pipe(split2());
 
 	const logFile = resolve(rushRoot, 'common/temp/build.log');
 	const log = createWriteStream(logFile);
 	console.error('Complete log file is at: %s', logFile);
 
 	stdout.on('data', (line) => {
-		log.write(removeEmpty(line) + '\n');
+		log.write(`${removeEmpty(line)}\n`);
 		handleLine(line);
 	});
 	stderr.on('data', (line) => {
-		log.write(removeEmpty(line) + '\n');
+		log.write(`${removeEmpty(line)}\n`);
 		handleLine(line);
 	});
 
@@ -81,21 +81,21 @@ export async function buildAction(action: string, argv: string[]) {
 				checkChildProcessResult(ps);
 				anime.succeed('All complete.');
 			} catch (e: any) {
-				anime.fail('Failed to build: ' + e.message + '\n' + [...failedSet.values()].join(', '));
+				anime.fail(`Failed to build: ${e.message}\n${[...failedSet.values()].join(', ')}`);
 			}
 		},
 		(e) => {
 			ps.kill('SIGKILL');
 			anime.prefixText = '';
 			console.error((e as PromiseRejectedResult).reason);
-			anime.fail('Failed to build: ' + e.message + '\n' + [...failedSet.values()].join(', '));
+			anime.fail(`Failed to build: ${e.message}\n${[...failedSet.values()].join(', ')}`);
 		}
 	);
 
 	function handleLine(text: string) {
 		text = text.replace(/\x1B\[[0-9;]+m/g, '');
 		if (startReg.test(text)) {
-			const name = startReg.exec(text)![1]!;
+			const name = startReg.exec(text)?.[1]!;
 			update(name, true);
 		} else if (isImportantLine.test(text)) {
 			const match = isImportantLine.exec(text)!;
@@ -128,7 +128,7 @@ export async function buildAction(action: string, argv: string[]) {
 
 		const works = [...workingSet.values()].slice(0, process.stderr.rows - 1);
 		for (const name of works) {
-			const l = '⏳ ' + name;
+			const l = `⏳ ${name}`;
 			console.error(l.slice(0, (process.stderr.columns || 80) - 2));
 			lastWorks++;
 		}

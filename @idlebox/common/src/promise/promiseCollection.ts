@@ -10,7 +10,7 @@ export class PromiseCollection {
 
 	create(id: string) {
 		if (this.promiseList[id]) {
-			throw new Error('duplicate promise with id ' + id);
+			throw new Error(`duplicate promise with id ${id}`);
 		}
 		const dfd = new DeferredPromise<any>();
 		this.promiseList[id] = dfd;
@@ -22,12 +22,12 @@ export class PromiseCollection {
 	}
 
 	done(id: string, data: any) {
-		this.promiseList[id]!.complete(data);
+		this.promiseList[id]?.complete(data);
 		delete this.promiseList[id];
 	}
 
 	error(id: string, e: Error) {
-		this.promiseList[id]!.error(e);
+		this.promiseList[id]?.error(e);
 		delete this.promiseList[id];
 	}
 

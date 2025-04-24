@@ -34,7 +34,7 @@ export class ImportMetaReplacer extends NodeReplacer<TypeScriptApi.PropertyAcces
 	override _replace(node: TypeScriptApi.PropertyAccessExpression): TypeScriptApi.Node | undefined {
 		const { ts, logger, context } = this.context;
 
-		logger.terminal.writeDebugLine('replace meta var: ' + node.name);
+		logger.terminal.writeDebugLine(`replace meta var: ${node.name}`);
 		return this.replacer.call(ts, ts.idText(node.name), node, context, logger);
 	}
 

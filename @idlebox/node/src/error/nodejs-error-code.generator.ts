@@ -1,7 +1,7 @@
-import * as assert from 'assert';
-import { existsSync } from 'fs';
-import { readFile, writeFile } from 'fs/promises';
-import { resolve } from 'path';
+import * as assert from 'node:assert';
+import { existsSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import type API_JSON from './cache.generated.json';
 
 const temp = resolve(__dirname, 'cache.generated.json');
@@ -30,9 +30,9 @@ export async function generate() {
 				return section.modules!;
 			}
 		}
-		throw new Error('missing section: ' + id);
+		throw new Error(`missing section: ${id}`);
 	}
-	content += `export enum NodeError {\n`;
+	content += 'export enum NodeError {\n';
 	for (const err of get_id('node.js_error_codes')) {
 		content += line(err.textRaw, err.desc, false);
 	}
@@ -42,7 +42,7 @@ export async function generate() {
 	}
 	content += '}\n\n';
 
-	content += `export enum OpenSSLError {\n`;
+	content += 'export enum OpenSSLError {\n';
 	for (const section of get_id('openssl_error_codes')) {
 		for (const err of (section as any).modules) {
 			content += line(err.textRaw, err.desc, false);

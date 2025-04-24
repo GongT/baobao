@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -15,6 +14,4 @@ export interface ISwapSection {
 	TimeoutSec?: string | number;
 }
 
-export const swapFields: readonly string[] = ["What","Priority","Options","TimeoutSec"];
-
-
+export const swapFields: readonly string[] = ['What', 'Priority', 'Options', 'TimeoutSec'];

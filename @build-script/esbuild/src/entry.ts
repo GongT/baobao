@@ -1,6 +1,6 @@
 import { setErrorLogRoot } from '@idlebox/common';
 import { runMain } from '@idlebox/node';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 import { startServe } from './actions/serve.js';
 import { execute } from './build/index.js';
 import { emitComplete } from './library/wait.js';

@@ -2,8 +2,8 @@
 
 console.log('[script] post rush install');
 
-import { existsSync, readdirSync, symlinkSync } from 'fs';
-import { join, relative, resolve } from 'path';
+import { existsSync, readdirSync, symlinkSync } from 'node:fs';
+import { join, relative, resolve } from 'node:path';
 import { ensureSymLinkSync, globalNodeModules, lstat_catch, projects, readJson, rootDir } from './pre-post-inc.mjs';
 
 console.log('[script] %s', globalNodeModules);

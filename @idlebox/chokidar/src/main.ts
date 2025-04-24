@@ -6,13 +6,13 @@ const log = debug('chokidar');
 
 enum State {
 	// nothing happen
-	IDLE,
+	IDLE = 0,
 	// running callback
-	BUSY,
+	BUSY = 1,
 	// debounce
-	SCHEDULE,
+	SCHEDULE = 2,
 	// change during callback, rerun callback after it done
-	RESCHEDULE,
+	RESCHEDULE = 3,
 }
 
 export class WatchHelper implements IWatchHelper {
@@ -23,7 +23,10 @@ export class WatchHelper implements IWatchHelper {
 	private lastRun?: Promise<void>;
 	private changes = new Set<string>();
 
-	constructor(private readonly watcher: FSWatcher, private readonly onChange: IReloadFunction) {
+	constructor(
+		private readonly watcher: FSWatcher,
+		private readonly onChange: IReloadFunction
+	) {
 		this.realTrigger = this.realTrigger.bind(this);
 		const change = this.handleChange.bind(this);
 		watcher.on('add', change);
@@ -40,7 +43,7 @@ export class WatchHelper implements IWatchHelper {
 	}
 
 	private changeState(s: State) {
-		log('state change: ' + State[s]);
+		log(`state change: ${State[s]}`);
 		this.state = s;
 	}
 
@@ -61,7 +64,7 @@ export class WatchHelper implements IWatchHelper {
 			case State.RESCHEDULE:
 				return;
 			default:
-				throw new Error('Invalid program state. ' + this.state);
+				throw new Error(`Invalid program state. ${this.state}`);
 		}
 	}
 
@@ -86,23 +89,43 @@ export class WatchHelper implements IWatchHelper {
 				} else if (this.state === State.BUSY) {
 					this.changeState(State.IDLE);
 				} else {
-					const e = new Error('Invalid program state. ' + this.state);
+					const e = new Error(`Invalid program state. ${this.state}`);
 					setImmediate(() => {
 						throw e;
 					});
 				}
-				delete this.lastRun;
+				this.lastRun = undefined;
 			});
+	}
+
+	size() {
+		// return Object.keys(this.watcher.getWatched()).length;
+		return this._watches.size;
+	}
+
+	replaceWatch(newList: Iterable<string>) {
+		const newSet = new Set(newList);
+		for (const item of newSet) {
+			this.addWatch(item);
+		}
+
+		for (const item of this._watches) {
+			if (!newSet.has(item)) {
+				this.delWatch(item);
+			}
+		}
 	}
 
 	addWatch(newWatch: string) {
 		if (!this._watches.has(newWatch)) {
+			// console.log('[watch:add] %s', newWatch)
 			this.watcher.add(newWatch);
 			this._watches.add(newWatch);
 		}
 	}
 	delWatch(oldWatch: string) {
 		if (!this._watches.has(oldWatch)) {
+			// console.log('[watch:del] %s', oldWatch)
 			this.watcher.unwatch(oldWatch);
 			this._watches.delete(oldWatch);
 		}
@@ -110,6 +133,7 @@ export class WatchHelper implements IWatchHelper {
 
 	reset() {
 		this.watcher.unwatch([...this._watches.values()]);
+		this._watches.clear();
 	}
 
 	get watches(): ReadonlyArray<string> {
@@ -129,9 +153,7 @@ export interface IWatchHelper {
 	readonly watches: ReadonlyArray<string>;
 }
 
-interface IReloadFunction {
-	(changes: string[]): void | Promise<void>;
-}
+type IReloadFunction = (changes: string[]) => void | Promise<void>;
 
 export function startChokidar(reload: IReloadFunction): IWatchHelper {
 	const w = new WatchHelper(

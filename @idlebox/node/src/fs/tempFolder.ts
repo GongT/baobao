@@ -1,14 +1,14 @@
-import { mkdirSync, readdirSync, rmdirSync, statSync, unlinkSync } from 'fs';
-import { resolve } from 'path';
-import { IDisposable } from '@idlebox/common';
+import { mkdirSync, readdirSync, rmdirSync, statSync, unlinkSync } from 'node:fs';
+import { resolve } from 'node:path';
+import type { IDisposable } from '@idlebox/common';
 import { existsSync } from './exists.js';
 
-let registered = false;
+const registered = false;
 const tempFolders = new Set<string>();
 
 export function createTempFolder(fullPath: string): IDisposable {
 	if (existsSync(fullPath)) {
-		throw new Error('temp folder already exists: ' + fullPath);
+		throw new Error(`temp folder already exists: ${fullPath}`);
 	}
 	if (!registered) {
 		process.on('beforeExit', onBeforeExit);

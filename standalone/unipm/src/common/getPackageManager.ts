@@ -1,10 +1,10 @@
-import { createInterface } from 'readline';
+import { createInterface } from 'node:readline';
 import {
 	getPackageManagerByName,
 	KNOWN_PACKAGE_MANAGER_NAMES,
 	KNOWN_PACKAGE_MANAGERS,
 } from './getPackageManagerByName.js';
-import { PackageManager } from './packageManager.js';
+import type { PackageManager } from './packageManager.js';
 
 export interface IGetPackageManagerOptions {
 	cwd: string;
@@ -89,9 +89,8 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 	if (options.default === 'auto') {
 		if (installed.length) {
 			return installed[0];
-		} else {
-			return packageManagers[0];
 		}
+		return packageManagers[0];
 	}
 
 	for (const item of installed) {
@@ -121,10 +120,10 @@ async function askUserSelect(installed: PackageManager[]): Promise<PackageManage
 		prompt: '> ',
 	});
 
-	let selection: number = -1;
+	let selection = -1;
 	await new Promise((resolve) => {
 		rl.on('line', (line) => {
-			selection = parseInt(line);
+			selection = Number.parseInt(line);
 			if (installed[selection]) {
 				resolve(selection);
 			} else {

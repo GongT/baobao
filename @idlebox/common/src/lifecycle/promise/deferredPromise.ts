@@ -33,7 +33,7 @@ export class DeferredPromise<T, PT = any> {
 		);
 		this.p
 			.finally(() => {
-				delete this._progressList;
+				this._progressList = undefined;
 			})
 			.catch(() => void 0);
 	}
@@ -46,7 +46,7 @@ export class DeferredPromise<T, PT = any> {
 	}
 
 	progress(fn: ProgressCallback<PT>): void {
-		this._progressList!.push(fn);
+		this._progressList?.push(fn);
 	}
 
 	get completed(): boolean {

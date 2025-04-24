@@ -8,9 +8,9 @@ export type Token = IFlag | IValue | IFlagValue;
 export type Tokens = readonly Token[];
 
 export enum TokenKind {
-	Flag,
-	Value,
-	Both,
+	Flag = 0,
+	Value = 1,
+	Both = 2,
 }
 
 interface IAttachData {
@@ -41,7 +41,7 @@ export function tokenToString(token: Token) {
 	if (token.kind === TokenKind.Flag || token.kind === TokenKind.Both) {
 		r += token.short ? `-${token.name}` : `--${token.name}`;
 		if (token.kind === TokenKind.Both) {
-			r += '=' + token.value;
+			r += `=${token.value}`;
 		}
 	} else if (token.kind === TokenKind.Value) {
 		r += token.value;
@@ -102,27 +102,27 @@ export function tokenize(params: IParams): Tokens {
 function attachDebug(token: Token) {
 	(token as any)[customInspectSymbol] = (
 		_depth: number,
-		{ colors }: InspectOptions,
+		{ colors }: InspectOptions
 		// inspect: typeof node_inspect,
 	) => {
 		let r = '';
 
 		if (token.kind === TokenKind.Flag || token.kind === TokenKind.Both) {
-			r += token.short ? `-` : `--`;
+			r += token.short ? '-' : '--';
 
 			r += wrapStyle(colors, '4', token.name, '24');
 
 			if (token.kind === TokenKind.Both) {
-				r += '=' + JSON.stringify(token.value);
+				r += `=${JSON.stringify(token.value)}`;
 			}
 
 			const T = TokenKind[token.kind];
 			return wrapStyle(colors, token.bindingArgument ? '38;5;10' : '2', `<${T}Token ${r}>`, '0');
-		} else if (token.kind === TokenKind.Value) {
+		}
+		if (token.kind === TokenKind.Value) {
 			const v = JSON.stringify(token.value);
 			return wrapStyle(colors, token.bindingArgument ? '38;5;10' : '2', `<ValueToken ${v}>`, '0');
-		} else {
-			return wrapStyle(colors, '38;5;9', 'unkown', '0');
 		}
+		return wrapStyle(colors, '38;5;9', 'unkown', '0');
 	};
 }

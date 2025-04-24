@@ -1,4 +1,4 @@
-import { spawnSync } from 'child_process';
+import { spawnSync } from 'node:child_process';
 import {
 	lstatSync,
 	mkdirSync,
@@ -9,8 +9,8 @@ import {
 	rmSync,
 	symlinkSync,
 	unlinkSync,
-} from 'fs';
-import { dirname, resolve } from 'path';
+} from 'node:fs';
+import { dirname, resolve } from 'node:path';
 
 export const rootDir = resolve(import.meta.dirname, '..');
 export const cacheDir = resolve(rootDir, 'node_modules/temp');
@@ -38,7 +38,7 @@ export function rmdir(p) {
 	} else if (stat.isSymbolicLink()) {
 		unlinkSync(p);
 	} else if (stat.isFile()) {
-		throw new Error('unexpected file: ' + p);
+		throw new Error(`unexpected file: ${p}`);
 	}
 }
 

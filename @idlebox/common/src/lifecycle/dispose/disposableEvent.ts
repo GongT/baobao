@@ -1,4 +1,4 @@
-import { IDisposable } from './lifecycle.js';
+import type { IDisposable } from './lifecycle.js';
 
 declare const AbortController: new () => any;
 
@@ -86,9 +86,8 @@ function check(options: IEventListenerOptions = {}): [{ abort(): void } | undefi
 		const controller = new AbortController();
 		(options as any).signal = controller.signal;
 		return [controller, options];
-	} else {
-		return [undefined, options];
 	}
+	return [undefined, options];
 }
 
 function checkAllSupport(ele: IEventHostObject<any>) {

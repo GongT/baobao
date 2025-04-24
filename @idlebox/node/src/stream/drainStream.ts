@@ -1,9 +1,4 @@
-export function drainStream(
-	stream: NodeJS.ReadableStream,
-	size: number,
-	start: number = 0,
-	extra: number = 0
-): Promise<Buffer> {
+export function drainStream(stream: NodeJS.ReadableStream, size: number, start = 0, extra = 0): Promise<Buffer> {
 	// buff will alloc as start+size+extra, but return will always start+RealStreamSize+extra
 	const buff = Buffer.allocUnsafe(start + size + extra);
 	let cur = start;

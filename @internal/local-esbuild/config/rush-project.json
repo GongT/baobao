@@ -2,7 +2,7 @@
  * The "config/rush-project.json" file configures Rush-specific settings for an individual project
  * in a Rush monorepo.  More documentation is available on the Rush website: https://rushjs.io
  */
- {
+{
 	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush-project.schema.json",
 	/**
 	 * The incremental analyzer can skip Rush commands for projects whose input files have not changed since

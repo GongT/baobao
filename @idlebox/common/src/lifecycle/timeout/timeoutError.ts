@@ -5,7 +5,7 @@ import { humanDate } from '../../date/timeString.js';
  * @public
  */
 export class TimeoutError extends Error {
-	constructor(time: number, what: string = 'no response') {
+	constructor(time: number, what = 'no response') {
 		super(`Timeout: ${what} in ${humanDate.deltaTiny(time)}`);
 	}
 }

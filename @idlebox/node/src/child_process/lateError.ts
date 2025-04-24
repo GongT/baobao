@@ -1,4 +1,4 @@
-import { execa, Options as ExecaOptions, Result } from 'execa';
+import { execa, type Options as ExecaOptions, type Result } from 'execa';
 import { printLine } from '../cli-io/output.js';
 import { checkChildProcessResult } from './error.js';
 
@@ -70,20 +70,24 @@ export function execLazyError<T extends NoStdio = NoStdio>(
 				console.error('\x1B[38;5;9mcommand failed execute: %s', e.message);
 				console.error('\x1B[2m$ "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
 				console.error('\x1B[2mcwd: %s\x1B[0m', opt.cwd ?? process.cwd());
-				console.error('\x1B[2m%s\x1B[0m', ret.all ? '[stdout+stderr]' : '[stderr]');
 			}
 			if (all && ret.all) {
-				console.error('\x1B[2m[stdout+stderr]\x1B[0m');
+				console.error('\x1B[2m<vvvvv stdout+stderr vvvvv>\x1B[0m');
 				console.error(ret.all);
-				console.error('\x1B[2m[stdout+stderr] END\x1B[0m');
+				console.error('\x1B[2m<^^^^^ stdout+stderr ^^^^^>\x1B[0m');
 			} else {
-				console.error('\x1B[2m[stderr]\x1B[0m');
+				console.error('\x1B[2m<vvvvv stderr vvvvv>\x1B[0m');
 				console.error(ret.stderr);
-				console.error('\x1B[2m[stderr] END\x1B[0m');
+				console.error('\x1B[2m<^^^^^ stderr ^^^^^>\x1B[0m');
 			}
 			if (process.stderr.isTTY) {
 				printLine();
 			}
+			Object.defineProperties(e, {
+				stderr: { enumerable: false, value: ret.stderr },
+				stdout: { enumerable: false, value: ret.stdout },
+				all: { enumerable: false, value: ret.all },
+			});
 			throw e;
 		}
 		return ret as any;

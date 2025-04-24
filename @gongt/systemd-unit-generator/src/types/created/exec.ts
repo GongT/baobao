@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -24,9 +23,9 @@ export interface IExecPathsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#MountAPIVFS= */
 	MountAPIVFS?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProtectProc= */
-	ProtectProc?: "noaccess" | "invisible" | "ptraceable" | "default" | string;
+	ProtectProc?: 'noaccess' | 'invisible' | 'ptraceable' | 'default' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProcSubset= */
-	ProcSubset?: "all" | "pid" | string;
+	ProcSubset?: 'all' | 'pid' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#BindPaths= */
 	BindPaths?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#BindPaths= */
@@ -39,7 +38,24 @@ export interface IExecPathsOptions {
 	ExtensionDirectories?: MaybeArray<string>;
 }
 
-export const execPathsFields: readonly string[] = ["ExecSearchPath","WorkingDirectory","RootDirectory","RootImage","RootImageOptions","RootHash","RootHashSignature","RootVerity","MountAPIVFS","ProtectProc","ProcSubset","BindPaths","BindReadOnlyPaths","MountImages","ExtensionImages","ExtensionDirectories"];
+export const execPathsFields: readonly string[] = [
+	'ExecSearchPath',
+	'WorkingDirectory',
+	'RootDirectory',
+	'RootImage',
+	'RootImageOptions',
+	'RootHash',
+	'RootHashSignature',
+	'RootVerity',
+	'MountAPIVFS',
+	'ProtectProc',
+	'ProcSubset',
+	'BindPaths',
+	'BindReadOnlyPaths',
+	'MountImages',
+	'ExtensionImages',
+	'ExtensionDirectories',
+];
 
 export interface IExecUserGroupIdentityOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#User= */
@@ -54,7 +70,13 @@ export interface IExecUserGroupIdentityOptions {
 	PAMName?: MaybeArray<string>;
 }
 
-export const execUserGroupIdentityFields: readonly string[] = ["User","Group","DynamicUser","SupplementaryGroups","PAMName"];
+export const execUserGroupIdentityFields: readonly string[] = [
+	'User',
+	'Group',
+	'DynamicUser',
+	'SupplementaryGroups',
+	'PAMName',
+];
 
 export interface IExecCapabilitiesOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#CapabilityBoundingSet= */
@@ -63,7 +85,7 @@ export interface IExecCapabilitiesOptions {
 	AmbientCapabilities?: MaybeArray<string>;
 }
 
-export const execCapabilitiesFields: readonly string[] = ["CapabilityBoundingSet","AmbientCapabilities"];
+export const execCapabilitiesFields: readonly string[] = ['CapabilityBoundingSet', 'AmbientCapabilities'];
 
 export interface IExecSecurityOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#NoNewPrivileges= */
@@ -72,7 +94,7 @@ export interface IExecSecurityOptions {
 	SecureBits?: MaybeArray<string>;
 }
 
-export const execSecurityFields: readonly string[] = ["NoNewPrivileges","SecureBits"];
+export const execSecurityFields: readonly string[] = ['NoNewPrivileges', 'SecureBits'];
 
 export interface IExecMandatoryAccessControlOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#SELinuxContext= */
@@ -83,7 +105,11 @@ export interface IExecMandatoryAccessControlOptions {
 	SmackProcessLabel?: MaybeArray<string>;
 }
 
-export const execMandatoryAccessControlFields: readonly string[] = ["SELinuxContext","AppArmorProfile","SmackProcessLabel"];
+export const execMandatoryAccessControlFields: readonly string[] = [
+	'SELinuxContext',
+	'AppArmorProfile',
+	'SmackProcessLabel',
+];
 
 export interface IExecProcessPropertiesOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#LimitCPU= */
@@ -123,24 +149,64 @@ export interface IExecProcessPropertiesOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#CoredumpFilter= */
 	CoredumpFilter?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#KeyringMode= */
-	KeyringMode?: "inherit" | "private" | "shared" | string;
+	KeyringMode?: 'inherit' | 'private' | 'shared' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#OOMScoreAdjust= */
 	OOMScoreAdjust?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#TimerSlackNSec= */
 	TimerSlackNSec?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#Personality= */
-	Personality?: "the" | "architecture" | "identifiers" | "arm64" | "arm64-be" | "arm" | "arm-be" | "x86" | "x86-64" | "ppc" | "ppc-le" | "ppc64" | "ppc64-le" | "s390" | "s390x" | string;
+	Personality?:
+		| 'the'
+		| 'architecture'
+		| 'identifiers'
+		| 'arm64'
+		| 'arm64-be'
+		| 'arm'
+		| 'arm-be'
+		| 'x86'
+		| 'x86-64'
+		| 'ppc'
+		| 'ppc-le'
+		| 'ppc64'
+		| 'ppc64-le'
+		| 's390'
+		| 's390x'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#IgnoreSIGPIPE= */
 	IgnoreSIGPIPE?: MaybeArray<string>;
 }
 
-export const execProcessPropertiesFields: readonly string[] = ["LimitCPU","LimitFSIZE","LimitDATA","LimitSTACK","LimitCORE","LimitRSS","LimitNOFILE","LimitAS","LimitNPROC","LimitMEMLOCK","LimitLOCKS","LimitSIGPENDING","LimitMSGQUEUE","LimitNICE","LimitRTPRIO","LimitRTTIME","UMask","CoredumpFilter","KeyringMode","OOMScoreAdjust","TimerSlackNSec","Personality","IgnoreSIGPIPE"];
+export const execProcessPropertiesFields: readonly string[] = [
+	'LimitCPU',
+	'LimitFSIZE',
+	'LimitDATA',
+	'LimitSTACK',
+	'LimitCORE',
+	'LimitRSS',
+	'LimitNOFILE',
+	'LimitAS',
+	'LimitNPROC',
+	'LimitMEMLOCK',
+	'LimitLOCKS',
+	'LimitSIGPENDING',
+	'LimitMSGQUEUE',
+	'LimitNICE',
+	'LimitRTPRIO',
+	'LimitRTTIME',
+	'UMask',
+	'CoredumpFilter',
+	'KeyringMode',
+	'OOMScoreAdjust',
+	'TimerSlackNSec',
+	'Personality',
+	'IgnoreSIGPIPE',
+];
 
 export interface IExecSchedulingOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#Nice= */
 	Nice?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#CPUSchedulingPolicy= */
-	CPUSchedulingPolicy?: "other" | "batch" | "idle" | "fifo" | "rr" | string;
+	CPUSchedulingPolicy?: 'other' | 'batch' | 'idle' | 'fifo' | 'rr' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#CPUSchedulingPriority= */
 	CPUSchedulingPriority?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#CPUSchedulingResetOnFork= */
@@ -152,12 +218,22 @@ export interface IExecSchedulingOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#NUMAMask= */
 	NUMAMask?: string[];
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#IOSchedulingClass= */
-	IOSchedulingClass?: "the" | "strings" | "realtime" | "best-effort" | "idle" | string;
+	IOSchedulingClass?: 'the' | 'strings' | 'realtime' | 'best-effort' | 'idle' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#IOSchedulingPriority= */
 	IOSchedulingPriority?: MaybeArray<string>;
 }
 
-export const execSchedulingFields: readonly string[] = ["Nice","CPUSchedulingPolicy","CPUSchedulingPriority","CPUSchedulingResetOnFork","CPUAffinity","NUMAPolicy","NUMAMask","IOSchedulingClass","IOSchedulingPriority"];
+export const execSchedulingFields: readonly string[] = [
+	'Nice',
+	'CPUSchedulingPolicy',
+	'CPUSchedulingPriority',
+	'CPUSchedulingResetOnFork',
+	'CPUAffinity',
+	'NUMAPolicy',
+	'NUMAMask',
+	'IOSchedulingClass',
+	'IOSchedulingPriority',
+];
 
 export interface IExecSandboxingOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProtectSystem= */
@@ -248,7 +324,51 @@ export interface IExecSandboxingOptions {
 	MountFlags?: MaybeArray<string>;
 }
 
-export const execSandboxingFields: readonly string[] = ["ProtectSystem","ProtectHome","RuntimeDirectory","StateDirectory","CacheDirectory","LogsDirectory","ConfigurationDirectory","RuntimeDirectoryMode","StateDirectoryMode","CacheDirectoryMode","LogsDirectoryMode","ConfigurationDirectoryMode","RuntimeDirectoryPreserve","TimeoutCleanSec","ReadWritePaths","ReadOnlyPaths","InaccessiblePaths","ExecPaths","NoExecPaths","TemporaryFileSystem","PrivateTmp","PrivateDevices","PrivateNetwork","NetworkNamespacePath","PrivateIPC","IPCNamespacePath","PrivateUsers","ProtectHostname","ProtectClock","ProtectKernelTunables","ProtectKernelModules","ProtectKernelLogs","ProtectControlGroups","RestrictAddressFamilies","RestrictFileSystems","RestrictNamespaces","LockPersonality","MemoryDenyWriteExecute","RestrictRealtime","RestrictSUIDSGID","RemoveIPC","PrivateMounts","MountFlags"];
+export const execSandboxingFields: readonly string[] = [
+	'ProtectSystem',
+	'ProtectHome',
+	'RuntimeDirectory',
+	'StateDirectory',
+	'CacheDirectory',
+	'LogsDirectory',
+	'ConfigurationDirectory',
+	'RuntimeDirectoryMode',
+	'StateDirectoryMode',
+	'CacheDirectoryMode',
+	'LogsDirectoryMode',
+	'ConfigurationDirectoryMode',
+	'RuntimeDirectoryPreserve',
+	'TimeoutCleanSec',
+	'ReadWritePaths',
+	'ReadOnlyPaths',
+	'InaccessiblePaths',
+	'ExecPaths',
+	'NoExecPaths',
+	'TemporaryFileSystem',
+	'PrivateTmp',
+	'PrivateDevices',
+	'PrivateNetwork',
+	'NetworkNamespacePath',
+	'PrivateIPC',
+	'IPCNamespacePath',
+	'PrivateUsers',
+	'ProtectHostname',
+	'ProtectClock',
+	'ProtectKernelTunables',
+	'ProtectKernelModules',
+	'ProtectKernelLogs',
+	'ProtectControlGroups',
+	'RestrictAddressFamilies',
+	'RestrictFileSystems',
+	'RestrictNamespaces',
+	'LockPersonality',
+	'MemoryDenyWriteExecute',
+	'RestrictRealtime',
+	'RestrictSUIDSGID',
+	'RemoveIPC',
+	'PrivateMounts',
+	'MountFlags',
+];
 
 export interface IExecSystemCallFilteringOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#SystemCallFilter= */
@@ -261,7 +381,12 @@ export interface IExecSystemCallFilteringOptions {
 	SystemCallLog?: MaybeArray<string>;
 }
 
-export const execSystemCallFilteringFields: readonly string[] = ["SystemCallFilter","SystemCallErrorNumber","SystemCallArchitectures","SystemCallLog"];
+export const execSystemCallFilteringFields: readonly string[] = [
+	'SystemCallFilter',
+	'SystemCallErrorNumber',
+	'SystemCallArchitectures',
+	'SystemCallLog',
+];
 
 export interface IExecEnvironmentOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#Environment= */
@@ -274,13 +399,31 @@ export interface IExecEnvironmentOptions {
 	UnsetEnvironment?: MaybeArray<string>;
 }
 
-export const execEnvironmentFields: readonly string[] = ["Environment","EnvironmentFile","PassEnvironment","UnsetEnvironment"];
+export const execEnvironmentFields: readonly string[] = [
+	'Environment',
+	'EnvironmentFile',
+	'PassEnvironment',
+	'UnsetEnvironment',
+];
 
 export interface IExecLoggingAndStandardInputOutputOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardInput= */
-	StandardInput?: "null" | "tty" | "tty-force" | "tty-fail" | "data" | "file:path" | "socket" | "fd:name" | string;
+	StandardInput?: 'null' | 'tty' | 'tty-force' | 'tty-fail' | 'data' | 'file:path' | 'socket' | 'fd:name' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardOutput= */
-	StandardOutput?: "inherit" | "null" | "tty" | "journal" | "kmsg" | "journal+console" | "kmsg+console" | "file:path" | "append:path" | "truncate:path" | "socket" | "fd:name" | string;
+	StandardOutput?:
+		| 'inherit'
+		| 'null'
+		| 'tty'
+		| 'journal'
+		| 'kmsg'
+		| 'journal+console'
+		| 'kmsg+console'
+		| 'file:path'
+		| 'append:path'
+		| 'truncate:path'
+		| 'socket'
+		| 'fd:name'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardError= */
 	StandardError?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardInputText= */
@@ -321,7 +464,29 @@ export interface IExecLoggingAndStandardInputOutputOptions {
 	TTYVTDisallocate?: MaybeArray<string>;
 }
 
-export const execLoggingAndStandardInputOutputFields: readonly string[] = ["StandardInput","StandardOutput","StandardError","StandardInputText","StandardInputData","LogLevelMax","LogExtraFields","LogRateLimitIntervalSec","LogRateLimitBurst","LogFilterPatterns","LogNamespace","SyslogIdentifier","SyslogFacility","SyslogLevel","SyslogLevelPrefix","TTYPath","TTYReset","TTYVHangup","TTYRows","TTYColumns","TTYVTDisallocate"];
+export const execLoggingAndStandardInputOutputFields: readonly string[] = [
+	'StandardInput',
+	'StandardOutput',
+	'StandardError',
+	'StandardInputText',
+	'StandardInputData',
+	'LogLevelMax',
+	'LogExtraFields',
+	'LogRateLimitIntervalSec',
+	'LogRateLimitBurst',
+	'LogFilterPatterns',
+	'LogNamespace',
+	'SyslogIdentifier',
+	'SyslogFacility',
+	'SyslogLevel',
+	'SyslogLevelPrefix',
+	'TTYPath',
+	'TTYReset',
+	'TTYVHangup',
+	'TTYRows',
+	'TTYColumns',
+	'TTYVTDisallocate',
+];
 
 export interface IExecCredentialsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#LoadCredential= */
@@ -334,15 +499,32 @@ export interface IExecCredentialsOptions {
 	SetCredentialEncrypted?: MaybeArray<string>;
 }
 
-export const execCredentialsFields: readonly string[] = ["LoadCredential","LoadCredentialEncrypted","SetCredential","SetCredentialEncrypted"];
+export const execCredentialsFields: readonly string[] = [
+	'LoadCredential',
+	'LoadCredentialEncrypted',
+	'SetCredential',
+	'SetCredentialEncrypted',
+];
 
 export interface IExecSystemVCompatibilityOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#UtmpIdentifier= */
 	UtmpIdentifier?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#UtmpMode= */
-	UtmpMode?: "init" | "login" | "user" | string;
+	UtmpMode?: 'init' | 'login' | 'user' | string;
 }
 
-export const execSystemVCompatibilityFields: readonly string[] = ["UtmpIdentifier","UtmpMode"];
+export const execSystemVCompatibilityFields: readonly string[] = ['UtmpIdentifier', 'UtmpMode'];
 
-export type __IExecAll = IExecPathsOptions & IExecUserGroupIdentityOptions & IExecCapabilitiesOptions & IExecSecurityOptions & IExecMandatoryAccessControlOptions & IExecProcessPropertiesOptions & IExecSchedulingOptions & IExecSandboxingOptions & IExecSystemCallFilteringOptions & IExecEnvironmentOptions & IExecLoggingAndStandardInputOutputOptions & IExecCredentialsOptions & IExecSystemVCompatibilityOptions;
+export type __IExecAll = IExecPathsOptions &
+	IExecUserGroupIdentityOptions &
+	IExecCapabilitiesOptions &
+	IExecSecurityOptions &
+	IExecMandatoryAccessControlOptions &
+	IExecProcessPropertiesOptions &
+	IExecSchedulingOptions &
+	IExecSandboxingOptions &
+	IExecSystemCallFilteringOptions &
+	IExecEnvironmentOptions &
+	IExecLoggingAndStandardInputOutputOptions &
+	IExecCredentialsOptions &
+	IExecSystemVCompatibilityOptions;

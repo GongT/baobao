@@ -15,7 +15,7 @@ export interface OpenSSLException extends Error {
  * ERR_MODULE_NOT_FOUND: import() not found
  */
 export function isModuleResolutionError(
-	ex: unknown,
+	ex: unknown
 ): ex is NodeException<NodeError.MODULE_NOT_FOUND | NodeError.ERR_MODULE_NOT_FOUND> {
 	return isNodeError(ex) && (ex.code === NodeError.MODULE_NOT_FOUND || ex.code === NodeError.ERR_MODULE_NOT_FOUND);
 }

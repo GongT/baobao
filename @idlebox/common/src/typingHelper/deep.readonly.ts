@@ -1,14 +1,14 @@
-import { Primitive } from './literal.js';
+import type { Primitive } from './literal.js';
 
 export type DeepReadonly<T> = T extends Primitive
 	? T
 	: T extends Array<infer U>
-	? DeepReadonlyArray<U>
-	: T extends Map<infer K, infer V>
-	? DeepReadonlyMap<K, V>
-	: T extends Set<infer M>
-	? DeepReadonlySet<M>
-	: DeepReadonlyObject<T>;
+		? DeepReadonlyArray<U>
+		: T extends Map<infer K, infer V>
+			? DeepReadonlyMap<K, V>
+			: T extends Set<infer M>
+				? DeepReadonlySet<M>
+				: DeepReadonlyObject<T>;
 
 type DeepReadonlyArray<T> = ReadonlyArray<DeepReadonly<T>>;
 type DeepReadonlyMap<K, V> = ReadonlyMap<DeepReadonly<K>, DeepReadonly<V>>;

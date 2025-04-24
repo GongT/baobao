@@ -10,7 +10,7 @@ const isAbsolute = /^[a-z]:[/\\]/i;
 abstract class PathArrayAbstract extends Set<string> {
 	constructor(
 		init: string,
-		private readonly sep: ':' | ';' = isWindows ? ';' : ':',
+		private readonly sep: ':' | ';' = isWindows ? ';' : ':'
 	) {
 		super();
 		if (init) this.add(init);
@@ -44,7 +44,7 @@ abstract class PathArrayAbstract extends Set<string> {
 	 * @returns an array with `part` append to every element
 	 */
 	join(part: string) {
-		return [...this.values()].map((p) => normalizePath(p + '/' + part));
+		return [...this.values()].map((p) => normalizePath(`${p}/${part}`));
 	}
 }
 

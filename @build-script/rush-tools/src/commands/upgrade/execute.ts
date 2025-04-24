@@ -1,8 +1,8 @@
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
-import { unlink } from 'fs/promises';
+import { unlink } from 'node:fs/promises';
 import { isAbsolute as isAbsoluteWin32 } from 'node:path/win32';
-import { resolve } from 'path';
-import { ICProjectConfig, IRushConfig } from '../../api/limitedJson.js';
+import { resolve } from 'node:path';
+import type { ICProjectConfig, IRushConfig } from '../../api/limitedJson.js';
 import { RushProject } from '../../api/rushProject.js';
 import type { ArgOf } from '../../common/args.js';
 import { blacklistDependency, resolveNpm, splitPackageSpecSimple } from '../../common/npm.js';
@@ -28,7 +28,7 @@ export async function runUpgrade({ dryRun, fixLocal, skipUpdate }: ArgOf<typeof 
 			for (const item of project.decoupledLocalDependencies) {
 				const project = rush.getProject(item);
 				if (project.shouldPublish) {
-					decoupled[project.packageName] = '^' + rush.packageJsonContent(project).version;
+					decoupled[project.packageName] = `^${rush.packageJsonContent(project).version}`;
 				}
 			}
 		}
@@ -39,7 +39,7 @@ export async function runUpgrade({ dryRun, fixLocal, skipUpdate }: ArgOf<typeof 
 			project.isAutoInstaller ? '[auto-installer] ' : '',
 			project.packageName,
 			size,
-			size > 1 ? 's' : '',
+			size > 1 ? 's' : ''
 		);
 	}
 
@@ -86,7 +86,7 @@ export async function runUpgrade({ dryRun, fixLocal, skipUpdate }: ArgOf<typeof 
 				project.isAutoInstaller ? '[auto-installer] ' : '',
 				packageJson.name,
 				numChange,
-				numChange > 1 ? 's' : '',
+				numChange > 1 ? 's' : ''
 			);
 			continue;
 		}
@@ -99,7 +99,7 @@ export async function runUpgrade({ dryRun, fixLocal, skipUpdate }: ArgOf<typeof 
 				project.isAutoInstaller ? '[auto-installer] ' : '',
 				packageJson.name,
 				numChange,
-				numChange > 1 ? 's' : '',
+				numChange > 1 ? 's' : ''
 			);
 		}
 		hasSomeChange += numChange;
@@ -113,7 +113,7 @@ export async function runUpgrade({ dryRun, fixLocal, skipUpdate }: ArgOf<typeof 
 	info('Update rush and package manager:');
 	hasSomeChange += await updateRushConfig(rush, map);
 
-	if (hasSomeChange == 0) {
+	if (hasSomeChange === 0) {
 		info('OHHHH! No update!');
 		return;
 	}
@@ -182,7 +182,7 @@ function update(project: ICProjectConfig, target: Record<string, string>, map: M
 				console.error(
 					'[Alert] project "%s" dependency "%s" on filesystem, replace it before publish!',
 					project.packageName,
-					name,
+					name
 				);
 				console.error('        add --publish/-P to automatic replace it.');
 				continue;
@@ -205,14 +205,14 @@ async function updateRushConfig(rush: RushProject, map: Map<string, string>) {
 	const { type, version } = rush.getPackageManager();
 	const config: IRushConfig = await loadJsonFile(rush.configFile);
 
-	const rushVer = map.get('@microsoft/rush')!.slice(1);
-	if (rushVer !== config.rushVersion) {
+	const rushVer = map.get('@microsoft/rush')?.slice(1);
+	if (rushVer && rushVer !== config.rushVersion) {
 		change++;
 		config.rushVersion = rushVer;
 		console.log('  * {project} - rush updated');
 	}
 
-	const pmVer = map.get(type)!.slice(1);
+	const pmVer = map.get(type)?.slice(1);
 	if (pmVer !== version) {
 		change++;
 		if (type === 'npm') {
@@ -234,11 +234,11 @@ async function updateRushConfig(rush: RushProject, map: Map<string, string>) {
 
 function collectRush(alldeps: any, rush: RushProject) {
 	if (!alldeps['@microsoft/rush']) {
-		alldeps['@microsoft/rush'] = '^' + rush.config.rushVersion;
+		alldeps['@microsoft/rush'] = `^${rush.config.rushVersion}`;
 	}
 	const { type, version } = rush.getPackageManager();
 	if (!alldeps[type]) {
-		alldeps[type] = '^' + version;
+		alldeps[type] = `^${version}`;
 	}
 }
 

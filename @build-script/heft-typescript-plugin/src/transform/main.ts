@@ -1,5 +1,5 @@
 import type TypeScriptApi from 'typescript';
-import { IMyTransformCallback } from '../helpers/transform-load.js';
+import type { IMyTransformCallback } from '../helpers/transform-load.js';
 import { appendCallback } from './appender.js';
 import { ModuleResolver } from './library/ModuleResolver.js';
 import { ReplacementSet } from './library/NodeReplacer.js';
@@ -13,10 +13,10 @@ import { ImportExportSpecifierReplacer } from './replace/importSpecifier.js';
 
 const cache = new Map();
 
-const transformer: IMyTransformCallback<TypeScriptApi.SourceFile> = function (
+const transformer: IMyTransformCallback<TypeScriptApi.SourceFile> = (
 	context,
-	{ ts, program, compilerHost, logger, extension },
-) {
+	{ ts, program, compilerHost, logger, extension }
+) => {
 	const compilerOptions = program.getCompilerOptions();
 	const resolver = new ModuleResolver(ts, compilerHost, compilerOptions, logger);
 	const replacement = new ReplacementSet(ts, context, compilerHost, logger);
@@ -30,7 +30,8 @@ const transformer: IMyTransformCallback<TypeScriptApi.SourceFile> = function (
 
 		replacement.register();
 		return EmptyWalker(logger.terminal);
-	} else if (isEsModule(ts, compilerOptions.module)) {
+	}
+	if (isEsModule(ts, compilerOptions.module)) {
 		replacement.push(new ImportExportSpecifierReplacer(createAppendCallback()));
 
 		replacement.register();
@@ -45,13 +46,13 @@ const transformer: IMyTransformCallback<TypeScriptApi.SourceFile> = function (
 			}
 			return node;
 		});
-	} else {
-		const mname = Object.hasOwn(ts.ModuleKind, compilerOptions.module ?? '')
-			? ts.ModuleKind[compilerOptions.module!]
-			: '' + compilerOptions.module;
-		logger.emitWarning(new Error(`unsupported module type: ${mname}`));
-		return EmptyWalker(logger.terminal);
 	}
+	const mname =
+		compilerOptions.module && Object.hasOwn(ts.ModuleKind, compilerOptions.module)
+			? ts.ModuleKind[compilerOptions.module]
+			: `${compilerOptions.module}`;
+	logger.emitWarning(new Error(`unsupported module type: ${mname}`));
+	return EmptyWalker(logger.terminal);
 };
 
 export default transformer;

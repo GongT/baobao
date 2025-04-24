@@ -9,7 +9,7 @@ export class DisposedError extends Error {
 	public readonly inspectString: string;
 	constructor(
 		object: any,
-		public readonly previous: Error,
+		public readonly previous: Error
 	) {
 		const insp = tryInspect(object);
 		super(`Object [${insp}] has already disposed ${getErrorFrame(previous, 2)}.`);

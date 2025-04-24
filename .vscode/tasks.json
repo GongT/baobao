@@ -2,100 +2,127 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Fast Install",
+			"label": "安装依赖（迅速）",
 			"detail": "npm_config_prefer_offline=yes pnpm i",
 			"type": "shell",
 			"icon": {
 				"id": "package",
-				"color": "terminal.ansiGreen"
+				"color": "terminal.ansiGreen",
 			},
 			"options": {
 				"env": {
 					"EXEC_BY_PNPM": "yes",
 					"npm_config_prefer_offline": "true",
 					"npm_config_prefer_frozen_lockfile": "true",
-				}
+				},
 			},
 			"command": "pnpm",
-			"args": [
-				"i"
-			],
-			"problemMatcher": []
+			"args": ["i"],
+			"problemMatcher": [],
+			"presentation": {
+				"clear": true,
+			},
 		},
 		{
-			"label": "Install Dependencies",
-			"detail": "pnpm i",
+			"label": "重新安装依赖",
+			"detail": "pnpm i -f",
 			"type": "shell",
 			"icon": {
-				"id": "package"
+				"id": "package",
+				"color": "terminal.ansiMagenta",
 			},
 			"options": {
 				"env": {
 					"EXEC_BY_PNPM": "yes",
 					"npm_config_prefer_offline": "true",
 					"npm_config_prefer_frozen_lockfile": "false",
-				}
+				},
 			},
 			"command": "pnpm",
-			"args": [
-				"i"
-			],
-			"problemMatcher": []
+			"args": ["i"],
+			"problemMatcher": [],
+			"presentation": {
+				"clear": true,
+			},
 		},
 		{
-			"label": "Format Code",
-			"detail": "rush pretty",
+			"label": "格式化代码",
+			"detail": "pnpm run pretty",
 			"icon": {
-				"id": "code"
+				"id": "code",
+				"color": "terminal.ansiGreen",
 			},
 			"type": "shell",
 			"command": "pnpm",
-			"args": [
-				"run",
-				"pretty"
-			],
-			"problemMatcher": []
+			"args": ["run", "pretty"],
+			"problemMatcher": [],
+			"presentation": {
+				"clear": true,
+			},
 		},
 		{
-			"label": "Watch All",
-			"detail": "lerna run watch",
+			"label": "全部监视",
+			"detail": "",
 			"icon": {
-				"id": "eye-watch"
+				"id": "eye-watch",
+				"color": "terminal.ansiGreen",
 			},
 			"type": "shell",
-			"command": "lerna run watch",
-			"problemMatcher": "$tsc-watch"
+			"command": "node",
+			"args": ["@build-script/node-package-tools/load.mjs", "watch"],
+			"problemMatcher": "$tsc-watch",
+			"presentation": {
+				"clear": true,
+			},
 		},
 		{
-			"label": "Build",
+			"label": "全部构建",
 			"detail": "lerna run build",
 			"icon": {
-				"id": "wrench"
+				"id": "combine",
+				"color": "terminal.ansiMagenta",
 			},
 			"type": "shell",
 			"command": "lerna run build",
 			"problemMatcher": "$tsc",
 			"group": {
 				"kind": "build",
-				"isDefault": true
+				"isDefault": true,
 			},
-			"dependsOn": [
-				"Fast Update"
-			]
+			"dependsOn": ["安装依赖（迅速）"],
+			"presentation": {
+				"clear": true,
+			},
 		},
 		{
-			"label": "Cleanup Everything",
-			"detail": "git clean -ffdx",
+			"label": "清理全部",
+			"detail": "git clean -ffdX",
 			"icon": {
-				"id": "repo-delete"
+				"id": "clear-all",
+				"color": "terminal.ansiMagenta",
 			},
 			"type": "shell",
-			"command": "pnpm",
-			"args": [
-				"run",
-				"distclean"
-			],
-			"problemMatcher": []
-		}
-	]
+			"command": "git",
+			"args": ["clean", "-ffdX"],
+			"problemMatcher": [],
+			"presentation": {
+				"clear": true,
+			},
+		},
+		{
+			"label": "发布所有包",
+			"icon": {
+				"id": "package",
+				"color": "terminal.ansiYellow",
+			},
+			"type": "shell",
+			"command": "node",
+			"args": ["@build-script/node-package-tools/load.mjs", "monorepo-publish", "--silent"],
+			"problemMatcher": [],
+			"dependsOrder": "sequence",
+			"presentation": {
+				"clear": true,
+			},
+		},
+	],
 }

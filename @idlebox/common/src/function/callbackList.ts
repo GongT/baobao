@@ -11,8 +11,8 @@ export interface MyCallback<Argument extends unknown[]> {
  */
 export class CallbackList<Argument extends unknown[]> {
 	protected list: MyCallback<Argument>[] = [];
-	protected running: boolean = false;
-	protected stop: boolean = false;
+	protected running = false;
+	protected stop = false;
 
 	constructor() {
 		this.run = (this.run as any).bind(this);

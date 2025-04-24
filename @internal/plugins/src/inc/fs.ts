@@ -1,5 +1,5 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { access, readFile, writeFile } from 'fs/promises';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { access, readFile, writeFile } from 'node:fs/promises';
 
 export const overwriteSafeMark =
 	'/** GENERATED FILE, DO NOT MODIFY ANY SINGLE BYTE. 7fb39c00-19e3-47cd-8687-15751b438d87 **/';
@@ -11,12 +11,12 @@ export function writeFileIfChangeSafeSync(file: string, data: string) {
 			return false;
 		}
 		if (!old.includes(overwriteSafeMark)) {
-			throw new Error('generate will overriding file: ' + file);
+			throw new Error(`generate will overriding file: ${file}`);
 		}
 	}
 
 	if (!data.includes(overwriteSafeMark)) {
-		throw new Error('missing override mark: ' + file);
+		throw new Error(`missing override mark: ${file}`);
 	}
 
 	writeFileSync(file, data, 'utf-8');

@@ -5,8 +5,8 @@ interface ErrorOptions {
 }
 
 abstract class KnownErrorAbstract extends Error {
-	protected static debugMode: boolean = false;
-	static debug(enabled: boolean = true) {
+	protected static debugMode = false;
+	static debug(enabled = true) {
 		KnownErrorAbstract.debugMode = enabled;
 	}
 	static is(e: any): e is KnownErrorAbstract {

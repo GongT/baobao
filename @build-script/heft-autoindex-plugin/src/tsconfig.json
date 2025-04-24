@@ -4,7 +4,7 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"]
+		"types": ["node"],
 	},
-	"include": ["**/*.ts", "./config-file-schema.json"]
+	"include": ["**/*.ts", "./config-file-schema.json"],
 }

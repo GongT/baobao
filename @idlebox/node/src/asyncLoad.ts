@@ -1,11 +1,11 @@
 import { prettyPrintError } from '@idlebox/common';
 
-export type AsyncMainFunction = () => Promise<void | number>;
+export type AsyncMainFunction = () => Promise<undefined | number> | Promise<void>;
 
 export class ExitError extends Error {
 	constructor(
 		message: string,
-		public readonly code: number = 1,
+		public readonly code: number = 1
 	) {
 		super(message);
 	}
@@ -23,7 +23,10 @@ export function runMain(main: AsyncMainFunction, onExit?: OnExit) {
 	Promise.resolve()
 		.then(async () => {
 			try {
-				await main();
+				const v = await main();
+				if (typeof v === 'number') {
+					process.exitCode = v;
+				}
 				await onExit?.();
 			} catch (e: any) {
 				await onExit?.(e);

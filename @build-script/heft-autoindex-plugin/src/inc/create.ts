@@ -1,14 +1,13 @@
-import { camelCase, IOutputShim, relativePath, ucfirst, writeFileIfChange } from '@build-script/heft-plugin-base';
+import { camelCase, type IOutputShim, relativePath, ucfirst, writeFileIfChange } from '@build-script/heft-plugin-base';
 import { ExportKind, TypescriptProject, type IIdentifierResult } from '@idlebox/typescript-surface-analyzer';
-import { basename, dirname, resolve } from 'path';
+import { basename, dirname, resolve } from 'node:path';
 import type TypeScriptApi from 'typescript';
 
 export function idToString(ts: typeof TypeScriptApi, id: TypeScriptApi.StringLiteral | TypeScriptApi.Identifier) {
 	if (ts.isIdentifier(id)) {
 		return id.escapedText.toString();
-	} else {
-		return id.text;
 	}
+	return id.text;
 }
 
 export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.ParsedCommandLine, logger: IOutputShim) {
@@ -29,13 +28,14 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 
 	const list = p.execute();
 
-	const indexDir =
-		'./' +
-		relativePath(project.options.rootDir || dirname(project.options.configFilePath as string), dirname(indexFileAbs))
-			.split('/')
-			.filter((e) => e && e !== '.')
-			.map(() => '..')
-			.join('/');
+	const indexDir = `./${relativePath(
+		project.options.rootDir || dirname(project.options.configFilePath as string),
+		dirname(indexFileAbs)
+	)
+		.split('/')
+		.filter((e) => e && e !== '.')
+		.map(() => '..')
+		.join('/')}`;
 	logger.verbose('rootDir: %s', project.options.rootDir);
 	logger.verbose('configFilePath: %s', project.options.configFilePath);
 	logger.verbose('index dir: %s', indexDir);
@@ -87,7 +87,7 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 		}
 	}
 
-	const r = writeFileIfChange(indexFileAbs, header.join('\n') + '\n\n' + content.join('\n'));
+	const r = writeFileIfChange(indexFileAbs, `${header.join('\n')}\n\n${content.join('\n')}`);
 
 	if (r) {
 		logger.log('index create ok.');
@@ -99,13 +99,12 @@ export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.Par
 }
 
 function importSpec(indexDir: string, target: string) {
-	return (indexDir + '/' + target.replace(/\.tsx?$/, '.js')).replace(/\/\//g, '/').replace(/^\.\/\.\.\//, '../');
+	return `${indexDir}/${target.replace(/\.tsx?$/, '.js')}`.replace(/\/\//g, '/').replace(/^\.\/\.\.\//, '../');
 }
 
 function typeTag(def: IIdentifierResult) {
 	if (def.kind === ExportKind.Type) {
 		return 'type ';
-	} else {
-		return '';
 	}
+	return '';
 }

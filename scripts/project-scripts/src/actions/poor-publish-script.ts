@@ -2,9 +2,9 @@ import { buildProjects, RushProject } from '@build-script/rush-tools';
 import { humanDate } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { emptyDir } from '@idlebox/node';
-import { readFileSync } from 'fs';
-import { readFile } from 'fs/promises';
-import { resolve } from 'path';
+import { readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { execPromise } from '../include/execPromise.js';
 import { normalizePackageName } from '../include/paths.js';
 import '../include/prefix';
@@ -29,9 +29,9 @@ async function main(argv: string[]) {
 		const index = argv.indexOf('--skip');
 		if (index !== -1) {
 			const skipArg = argv.splice(index, 2);
-			skip = parseInt(skipArg.pop());
-			if (isNaN(skip)) {
-				throw new Error('--skip must with number (got ' + argv.join(' ') + ')');
+			skip = Number.parseInt(skipArg.pop());
+			if (Number.isNaN(skip)) {
+				throw new Error(`--skip must with number (got ${argv.join(' ')})`);
 			}
 		}
 	}
@@ -75,13 +75,13 @@ async function main(argv: string[]) {
 			console.error(
 				'    🤔 already published: %s at %s',
 				state.lastPublishVersion,
-				humanDate.datetime(state.lastPublishTime),
+				humanDate.datetime(state.lastPublishTime)
 			);
 			return;
 		}
 		// console.error('    check...');
 
-		const logFile = rushProject.tempFile('logs/do-publish/' + normalizePackageName(item.packageName) + '.log');
+		const logFile = rushProject.tempFile(`logs/do-publish/${normalizePackageName(item.packageName)}.log`);
 		const pkgPath = rushProject.absolute(item);
 
 		const localNpmrc = resolve(pkgPath, '.npmrc');
@@ -114,10 +114,10 @@ async function main(argv: string[]) {
 
 main(process.argv.slice(2)).then(
 	() => {
-		console.log(`\x1B[38;5;10mComplete.\x1B[0m `);
+		console.log('\x1B[38;5;10mComplete.\x1B[0m ');
 	},
 	(e) => {
 		console.error(e.stack);
 		process.exit(1);
-	},
+	}
 );

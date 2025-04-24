@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -15,6 +14,4 @@ export interface IAutomountSection {
 	TimeoutIdleSec?: string | number;
 }
 
-export const automountFields: readonly string[] = ["Where","ExtraOptions","DirectoryMode","TimeoutIdleSec"];
-
-
+export const automountFields: readonly string[] = ['Where', 'ExtraOptions', 'DirectoryMode', 'TimeoutIdleSec'];

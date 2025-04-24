@@ -1,5 +1,5 @@
-import { IDisposable } from '../dispose/lifecycle.js';
-import { Emitter, EventHandler } from './event.js';
+import type { IDisposable } from '../dispose/lifecycle.js';
+import { Emitter, type EventHandler } from './event.js';
 
 /**
  * 会记住上次fire的内容，并在每个新的handler注册时立即调用一次的Emitter
@@ -8,7 +8,7 @@ import { Emitter, EventHandler } from './event.js';
  */
 export class MemorizedEmitter<T> extends Emitter<T> {
 	private _memo?: T;
-	private _is_memo: boolean = false;
+	private _is_memo = false;
 
 	public override fire(data: T) {
 		this._memo = data;
@@ -28,7 +28,7 @@ export class MemorizedEmitter<T> extends Emitter<T> {
 	}
 
 	public forget() {
-		delete this._memo;
+		this._memo = undefined;
 		this._is_memo = false;
 	}
 

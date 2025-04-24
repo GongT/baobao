@@ -1,10 +1,10 @@
 /// <reference types="@types/heft-jest" />
 
-import { mkdirSync, rmSync, statSync, writeFileSync } from 'fs';
-import { appendFile } from 'fs/promises';
-import { resolve } from 'path';
-import { Writable } from 'stream';
-import { pipeline } from 'stream/promises';
+import { mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { appendFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { Writable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import { md5buff } from '../helper.test.d/testlib.js';
 import { CacheFile, FileDataError, FileStructureError } from './CacheFile.js';
 
@@ -12,12 +12,12 @@ const tmpdir = resolve(process.cwd(), 'temp/my-test');
 mkdirSync(tmpdir, { recursive: true });
 
 const exampleMetadata = { a: 1, b: true };
-const magic1 = 19,
-	start = 8,
-	size = 8,
-	md5len = 16,
-	meta = Buffer.from(JSON.stringify(exampleMetadata)).byteLength,
-	magic2 = 19;
+const magic1 = 19;
+const start = 8;
+const size = 8;
+const md5len = 16;
+const meta = Buffer.from(JSON.stringify(exampleMetadata)).byteLength;
+const magic2 = 19;
 const firstStart = magic1 + size + meta + magic1 + magic2 + start + md5len + size;
 const exampleStruct = [
 	{
@@ -84,12 +84,8 @@ describe('CacheFile', () => {
 			const rw = new CacheFile(testFile);
 			await rw.prepareAppend();
 			await expect(rw.writePart({ buffers: [], start: 321 })).rejects.toThrowError('invalid');
-			await expect(rw.writePart({ buffers: [Buffer.allocUnsafe(10)], start: -1 })).rejects.toThrowError(
-				'invalid'
-			);
-			await expect(rw.writePart({ buffers: [Buffer.allocUnsafe(0)], start: 333 })).rejects.toThrowError(
-				'invalid'
-			);
+			await expect(rw.writePart({ buffers: [Buffer.allocUnsafe(10)], start: -1 })).rejects.toThrowError('invalid');
+			await expect(rw.writePart({ buffers: [Buffer.allocUnsafe(0)], start: 333 })).rejects.toThrowError('invalid');
 			await rw.closeWriter();
 		});
 

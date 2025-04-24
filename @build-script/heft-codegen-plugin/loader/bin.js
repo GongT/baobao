@@ -1,4 +1,4 @@
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 const { install } = require('source-map-support');
 if (!process.argv.some((e) => e.startsWith('--inspect')) && !process.execArgv.includes('--enable-source-maps')) {
 	install();

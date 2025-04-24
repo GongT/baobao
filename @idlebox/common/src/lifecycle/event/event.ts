@@ -1,12 +1,8 @@
-import { IDisposable } from '../dispose/lifecycle.js';
+import type { IDisposable } from '../dispose/lifecycle.js';
 
-export interface EventHandler<T> {
-	(data: T): void;
-}
+export type EventHandler<T> = (data: T) => void;
 
-export interface EventRegister<T> {
-	(callback: EventHandler<T>): IDisposable;
-}
+export type EventRegister<T> = (callback: EventHandler<T>) => IDisposable;
 
 type DeferFn = () => void;
 
@@ -16,7 +12,7 @@ type DeferFn = () => void;
  */
 export class Emitter<T> implements IDisposable {
 	protected readonly _callbacks: EventHandler<T>[] = [];
-	private executing: boolean = false;
+	private executing = false;
 
 	constructor() {
 		this.handle = this.handle.bind(this);

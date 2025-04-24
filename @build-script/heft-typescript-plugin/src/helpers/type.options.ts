@@ -1,11 +1,11 @@
 import type TypeScriptApi from 'typescript';
 import { findTslib } from './tslib.js';
-import { IHeftJsonOptions } from './type.js';
+import type { IHeftJsonOptions } from './type.js';
 
 export function normalizeOptions(
 	ts: typeof TypeScriptApi,
 	options: IHeftJsonOptions,
-	command: TypeScriptApi.ParsedCommandLine,
+	command: TypeScriptApi.ParsedCommandLine
 ): IHeftJsonOptions {
 	const ret: IHeftJsonOptions = {
 		extension: options.extension ?? getExtension(ts, command.options),
@@ -33,12 +33,9 @@ export function normalizeOptions(
 	if (!command.options.paths) command.options.paths = {};
 	if (!command.options.paths.tslib) command.options.paths.tslib = findTslib();
 
-	if (command.options.module !== ts.ModuleKind.CommonJS && command.options.module! < ts.ModuleKind.ES2015) {
-		throw new Error(
-			`unsupported module type: ${
-				ts.ModuleKind[command.options.module!]
-			} (current only support commonjs and esnext)`,
-		);
+	if (command.options.module !== ts.ModuleKind.CommonJS && (command.options.module ?? -1) < ts.ModuleKind.ES2015) {
+		const s = command.options.module ? ts.ModuleKind[command.options.module] : 'undefined';
+		throw new Error(`unsupported module type: ${s} (current only support commonjs and esnext)`);
 	}
 
 	return ret;
@@ -47,17 +44,17 @@ export function normalizeOptions(
 function getExtension(ts: typeof TypeScriptApi, options: TypeScriptApi.CompilerOptions) {
 	if (options.module === ts.ModuleKind.CommonJS) {
 		return '.cjs';
-	} else if (options.module! >= ts.ModuleKind.ES2015) {
-		return '.mjs';
-	} else {
-		return '.js';
 	}
+	if ((options.module ?? 0) >= ts.ModuleKind.ES2015) {
+		return '.mjs';
+	}
+	return '.js';
 }
 
 function ensureNumbers(array: any[]) {
 	return array.map((v) => {
-		v = parseInt(v);
-		if (isNaN(v)) {
+		v = Number.parseInt(v);
+		if (Number.isNaN(v)) {
 			throw new TypeError('[@build-script/heft-typescript-plugin] invalid options: errorLevels must all number');
 		}
 		return v;

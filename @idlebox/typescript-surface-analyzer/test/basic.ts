@@ -4,7 +4,7 @@ export const a = 1,
 export function namedFunction() {}
 export class NamedClass {}
 export enum NamedEnum {}
-export interface INamedInterface {}
+export type INamedInterface = {};
 export type NamedType = typeof NamedEnum;
 
 /** @internal */

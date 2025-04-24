@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -58,11 +57,31 @@ export interface IUnitUnitSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#DefaultDependencies= */
 	DefaultDependencies?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#CollectMode= */
-	CollectMode?: "inactive" | "inactive-or-failed" | string;
+	CollectMode?: 'inactive' | 'inactive-or-failed' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureAction= */
-	FailureAction?: "none" | "reboot" | "reboot-force" | "reboot-immediate" | "poweroff" | "poweroff-force" | "poweroff-immediate" | "exit" | "exit-force" | string;
+	FailureAction?:
+		| 'none'
+		| 'reboot'
+		| 'reboot-force'
+		| 'reboot-immediate'
+		| 'poweroff'
+		| 'poweroff-force'
+		| 'poweroff-immediate'
+		| 'exit'
+		| 'exit-force'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureAction= */
-	SuccessAction?: "none" | "reboot" | "reboot-force" | "reboot-immediate" | "poweroff" | "poweroff-force" | "poweroff-immediate" | "exit" | "exit-force" | string;
+	SuccessAction?:
+		| 'none'
+		| 'reboot'
+		| 'reboot-force'
+		| 'reboot-immediate'
+		| 'poweroff'
+		| 'poweroff-force'
+		| 'poweroff-immediate'
+		| 'exit'
+		| 'exit-force'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureActionExitStatus= */
 	FailureActionExitStatus?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureActionExitStatus= */
@@ -86,7 +105,38 @@ export interface IUnitUnitSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#SourcePath= */
 	SourcePath?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#ConditionArchitecture= */
-	ConditionArchitecture?: "x86" | "x86-64" | "ppc" | "ppc-le" | "ppc64" | "ppc64-le" | "ia64" | "parisc" | "parisc64" | "s390" | "s390x" | "sparc" | "sparc64" | "mips" | "mips-le" | "mips64" | "mips64-le" | "alpha" | "arm" | "arm-be" | "arm64" | "arm64-be" | "sh" | "sh64" | "m68k" | "tilegx" | "cris" | "arc" | "arc-be" | "native" | string;
+	ConditionArchitecture?:
+		| 'x86'
+		| 'x86-64'
+		| 'ppc'
+		| 'ppc-le'
+		| 'ppc64'
+		| 'ppc64-le'
+		| 'ia64'
+		| 'parisc'
+		| 'parisc64'
+		| 's390'
+		| 's390x'
+		| 'sparc'
+		| 'sparc64'
+		| 'mips'
+		| 'mips-le'
+		| 'mips64'
+		| 'mips64-le'
+		| 'alpha'
+		| 'arm'
+		| 'arm-be'
+		| 'arm64'
+		| 'arm64-be'
+		| 'sh'
+		| 'sh64'
+		| 'm68k'
+		| 'tilegx'
+		| 'cris'
+		| 'arc'
+		| 'arc-be'
+		| 'native'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#ConditionFirmware= */
 	ConditionFirmware?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#ConditionVirtualization= */
@@ -108,7 +158,7 @@ export interface IUnitUnitSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#ConditionACPower= */
 	ConditionACPower?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#ConditionNeedsUpdate= */
-	ConditionNeedsUpdate?: "/var/" | "/etc/" | "as" | "argument" | "possibly" | "prefixed" | "with" | "a" | "!" | string;
+	ConditionNeedsUpdate?: '/var/' | '/etc/' | 'as' | 'argument' | 'possibly' | 'prefixed' | 'with' | 'a' | '!' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#ConditionFirstBoot= */
 	ConditionFirstBoot?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#ConditionPathExists= */
@@ -217,7 +267,113 @@ export interface IUnitUnitSection {
 	AssertIOPressure?: MaybeArray<string>;
 }
 
-export const unitUnitFields: readonly string[] = ["Description","Documentation","Wants","Requires","Requisite","BindsTo","PartOf","Upholds","Conflicts","Before","After","OnFailure","OnSuccess","PropagatesReloadTo","ReloadPropagatedFrom","PropagatesStopTo","StopPropagatedFrom","JoinsNamespaceOf","RequiresMountsFor","OnFailureJobMode","IgnoreOnIsolate","StopWhenUnneeded","RefuseManualStart","RefuseManualStop","AllowIsolate","DefaultDependencies","CollectMode","FailureAction","SuccessAction","FailureActionExitStatus","SuccessActionExitStatus","JobTimeoutSec","JobRunningTimeoutSec","JobTimeoutAction","JobTimeoutRebootArgument","StartLimitIntervalSec","StartLimitBurst","StartLimitAction","RebootArgument","SourcePath","ConditionArchitecture","ConditionFirmware","ConditionVirtualization","ConditionHost","ConditionKernelCommandLine","ConditionKernelVersion","ConditionCredential","ConditionEnvironment","ConditionSecurity","ConditionCapability","ConditionACPower","ConditionNeedsUpdate","ConditionFirstBoot","ConditionPathExists","ConditionPathExistsGlob","ConditionPathIsDirectory","ConditionPathIsSymbolicLink","ConditionPathIsMountPoint","ConditionPathIsReadWrite","ConditionPathIsEncrypted","ConditionDirectoryNotEmpty","ConditionFileNotEmpty","ConditionFileIsExecutable","ConditionUser","ConditionGroup","ConditionControlGroupController","ConditionMemory","ConditionCPUs","ConditionCPUFeature","ConditionOSRelease","ConditionMemoryPressure","ConditionCPUPressure","ConditionIOPressure","AssertArchitecture","AssertVirtualization","AssertHost","AssertKernelCommandLine","AssertKernelVersion","AssertCredential","AssertEnvironment","AssertSecurity","AssertCapability","AssertACPower","AssertNeedsUpdate","AssertFirstBoot","AssertPathExists","AssertPathExistsGlob","AssertPathIsDirectory","AssertPathIsSymbolicLink","AssertPathIsMountPoint","AssertPathIsReadWrite","AssertPathIsEncrypted","AssertDirectoryNotEmpty","AssertFileNotEmpty","AssertFileIsExecutable","AssertUser","AssertGroup","AssertControlGroupController","AssertMemory","AssertCPUs","AssertCPUFeature","AssertOSRelease","AssertMemoryPressure","AssertCPUPressure","AssertIOPressure"];
+export const unitUnitFields: readonly string[] = [
+	'Description',
+	'Documentation',
+	'Wants',
+	'Requires',
+	'Requisite',
+	'BindsTo',
+	'PartOf',
+	'Upholds',
+	'Conflicts',
+	'Before',
+	'After',
+	'OnFailure',
+	'OnSuccess',
+	'PropagatesReloadTo',
+	'ReloadPropagatedFrom',
+	'PropagatesStopTo',
+	'StopPropagatedFrom',
+	'JoinsNamespaceOf',
+	'RequiresMountsFor',
+	'OnFailureJobMode',
+	'IgnoreOnIsolate',
+	'StopWhenUnneeded',
+	'RefuseManualStart',
+	'RefuseManualStop',
+	'AllowIsolate',
+	'DefaultDependencies',
+	'CollectMode',
+	'FailureAction',
+	'SuccessAction',
+	'FailureActionExitStatus',
+	'SuccessActionExitStatus',
+	'JobTimeoutSec',
+	'JobRunningTimeoutSec',
+	'JobTimeoutAction',
+	'JobTimeoutRebootArgument',
+	'StartLimitIntervalSec',
+	'StartLimitBurst',
+	'StartLimitAction',
+	'RebootArgument',
+	'SourcePath',
+	'ConditionArchitecture',
+	'ConditionFirmware',
+	'ConditionVirtualization',
+	'ConditionHost',
+	'ConditionKernelCommandLine',
+	'ConditionKernelVersion',
+	'ConditionCredential',
+	'ConditionEnvironment',
+	'ConditionSecurity',
+	'ConditionCapability',
+	'ConditionACPower',
+	'ConditionNeedsUpdate',
+	'ConditionFirstBoot',
+	'ConditionPathExists',
+	'ConditionPathExistsGlob',
+	'ConditionPathIsDirectory',
+	'ConditionPathIsSymbolicLink',
+	'ConditionPathIsMountPoint',
+	'ConditionPathIsReadWrite',
+	'ConditionPathIsEncrypted',
+	'ConditionDirectoryNotEmpty',
+	'ConditionFileNotEmpty',
+	'ConditionFileIsExecutable',
+	'ConditionUser',
+	'ConditionGroup',
+	'ConditionControlGroupController',
+	'ConditionMemory',
+	'ConditionCPUs',
+	'ConditionCPUFeature',
+	'ConditionOSRelease',
+	'ConditionMemoryPressure',
+	'ConditionCPUPressure',
+	'ConditionIOPressure',
+	'AssertArchitecture',
+	'AssertVirtualization',
+	'AssertHost',
+	'AssertKernelCommandLine',
+	'AssertKernelVersion',
+	'AssertCredential',
+	'AssertEnvironment',
+	'AssertSecurity',
+	'AssertCapability',
+	'AssertACPower',
+	'AssertNeedsUpdate',
+	'AssertFirstBoot',
+	'AssertPathExists',
+	'AssertPathExistsGlob',
+	'AssertPathIsDirectory',
+	'AssertPathIsSymbolicLink',
+	'AssertPathIsMountPoint',
+	'AssertPathIsReadWrite',
+	'AssertPathIsEncrypted',
+	'AssertDirectoryNotEmpty',
+	'AssertFileNotEmpty',
+	'AssertFileIsExecutable',
+	'AssertUser',
+	'AssertGroup',
+	'AssertControlGroupController',
+	'AssertMemory',
+	'AssertCPUs',
+	'AssertCPUFeature',
+	'AssertOSRelease',
+	'AssertMemoryPressure',
+	'AssertCPUPressure',
+	'AssertIOPressure',
+];
 
 export interface IUnitInstallSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#Alias= */
@@ -232,6 +388,6 @@ export interface IUnitInstallSection {
 	DefaultInstance?: MaybeArray<string>;
 }
 
-export const unitInstallFields: readonly string[] = ["Alias","WantedBy","RequiredBy","Also","DefaultInstance"];
+export const unitInstallFields: readonly string[] = ['Alias', 'WantedBy', 'RequiredBy', 'Also', 'DefaultInstance'];
 
 export type __IUnitAll = IUnitUnitSection & IUnitInstallSection;

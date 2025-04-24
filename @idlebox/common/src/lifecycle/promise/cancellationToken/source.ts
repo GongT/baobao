@@ -1,7 +1,7 @@
 import { globalObject } from '../../../platform/globalObject.js';
-import { IDisposable } from '../../dispose/lifecycle.js';
+import type { IDisposable } from '../../dispose/lifecycle.js';
 import { DisposableOnce } from '../../dispose/lifecycle.sync.js';
-import { EventHandler } from '../../event/event.js';
+import type { EventHandler } from '../../event/event.js';
 import { CancellationDriverBrowser } from './driver.browser.js';
 import { CancellationDriverCommon } from './driver.common.js';
 

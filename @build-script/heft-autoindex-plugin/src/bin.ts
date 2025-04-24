@@ -1,6 +1,6 @@
 import { wrapConsoleLogger } from '@build-script/heft-plugin-base';
 import { loadTsConfigJsonFile } from '@idlebox/tsconfig-loader';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import ts from 'typescript';
 import { createIndex } from './inc/create.js';
 

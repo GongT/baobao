@@ -2,8 +2,8 @@ import ts from 'typescript';
 
 import { Emitter } from '@idlebox/common';
 import { FSWatcher } from 'chokidar';
-import { readFile, writeFile } from 'fs/promises';
-import { resolve } from 'path';
+import { readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { hash } from './esbuild/library.js';
 import { entrySourceRoot, outputDir } from './library/constants.js';
 
@@ -43,10 +43,10 @@ async function build(file: string) {
 			reportDiagnostics: true,
 		});
 
-		const name = 'bootstrap-' + hash(result.outputText) + '.js';
+		const name = `bootstrap-${hash(result.outputText)}.js`;
 		const output = resolve(outputDir, name);
 		await writeFile(output, result.outputText, 'utf-8');
-		await writeFile(output + '.map', result.sourceMapText!, 'utf-8');
+		await writeFile(`${output}.map`, result.sourceMapText!, 'utf-8');
 
 		event.fire(name);
 	} catch (e: any) {

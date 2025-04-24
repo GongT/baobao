@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-codegen-plugin",
 	"type": "commonjs",
-	"version": "0.0.5",
+	"version": "0.0.8",
 	"bin": {
 		"codegen": "loader/bin.js"
 	},
@@ -12,6 +12,7 @@
 			"types": "./src/plugin.ts",
 			"default": "./loader/plugin.js"
 		},
+		"./binary-entry": "./loader/bin.js",
 		"./executer-thread": "./loader/executer-thread.js",
 		"./package.json": "./package.json"
 	},

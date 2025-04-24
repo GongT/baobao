@@ -1,7 +1,7 @@
 import { findUpUntilSync, pickFlag, wrapConsoleLogger } from '@build-script/heft-plugin-base';
 import { FSWatcher, WatchHelper } from '@idlebox/chokidar';
 import { globSync } from 'glob';
-import { dirname, resolve } from 'path';
+import { dirname, resolve } from 'node:path';
 import { GeneratorHolder, type IResult } from './library/code-generator-holder.js';
 
 const argv = process.argv.splice(2);
@@ -25,7 +25,7 @@ async function main() {
 
 	const pkgRoot = findUpUntilSync(root, 'package.json');
 	if (!pkgRoot) {
-		throw new Error('failed find package.json from ' + root);
+		throw new Error(`failed find package.json from ${root}`);
 	}
 	const generaters = new GeneratorHolder(logger, dirname(pkgRoot));
 	generaters.makeGenerators(files, true);
@@ -35,10 +35,8 @@ async function main() {
 		const chokidar = new FSWatcher({ cwd: dirname(pkgRoot), ignoreInitial: true, atomic: 200 });
 		async function runPass() {
 			await wrapOutput(generaters.executeAll());
-			watcher.reset();
-			for (const file of generaters.watchingFiles) {
-				watcher.addWatch(file);
-			}
+			watcher.replaceWatch(generaters.watchingFiles);
+			console.log('👀 \x1B[2mwatching %d files for change.\x1B[0m', watcher.size());
 		}
 		const watcher = new WatchHelper(chokidar, runPass);
 
@@ -65,7 +63,7 @@ function wrapOutput(p: Promise<IResult>) {
 			if (result.errors.length > 0) {
 				console.error('\x1B[48;5;9m\x1B[K⚠️  Generate Fail: %s errors\x1B[0m', result.errors.length);
 				for (const item of result.errors) {
-					console.error(item);
+					console.error('  * %s\n      in %s', item.error.message, item.source);
 				}
 				return 1;
 			}

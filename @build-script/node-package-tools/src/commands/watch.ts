@@ -1,14 +1,14 @@
-import { registerGlobalLifecycle } from '@idlebox/common';
-import { loadJsonFile } from '@idlebox/node-json-edit';
-import { DependEmitter, prepareMonorepoDeps } from '../inc/dependency-graph.js';
-import { argv, formatOptions, isVerbose, pArgS, pDesc } from '../inc/getArg.js';
-import { isApplicationShuttingDown } from '../inc/global-lifecycle.js';
-import { logger } from '../inc/log.js';
-import { listMonoRepoPackages, monorepo } from '../inc/mono-tools.js';
-import { TerminalController } from '../inc/terminal-controller.js';
-import { makeOutputTester } from '../inc/watch-runner/judge.js';
-import { WatchProgramRunner } from '../inc/watch-runner/program.js';
-import { StateCollection } from '../inc/watch-runner/state-collect.js';
+import { humanDate, registerGlobalLifecycle } from '@idlebox/common';
+import { argv, formatOptions, isVerbose, pArgS, pDesc } from '../common/functions/cli.js';
+import { isApplicationShuttingDown } from '../common/functions/global-lifecycle.js';
+import { logger } from '../common/functions/log.js';
+import { TerminalController } from '../common/functions/terminal-controller.js';
+import { cachedPackageJson } from '../common/package-manager/package-json.js';
+import { makeOutputTester } from '../common/watch-runner/judge.js';
+import { WatchProgramRunner } from '../common/watch-runner/program.js';
+import { StateCollection } from '../common/watch-runner/state-collect.js';
+import { type DependEmitter, prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
+import { createWorkspace } from '../common/workspace/workspace.js';
 
 export function usageString() {
 	return `${pArgS('--verbose')} ${pArgS('--keep-output')} ${pDesc('在每个项目中运行watch脚本')}`;
@@ -28,9 +28,10 @@ export function helpString() {
 
 export async function main() {
 	const isKeepOutput = argv.flag('--keep-output') > 0;
-	process.chdir(await monorepo.getRoot());
 
-	const list = await listMonoRepoPackages();
+	const workspace = await createWorkspace();
+
+	const list = await workspace.listPackages();
 	logger.debug('加载%s个项目', list.length);
 	const deps = await prepareMonorepoDeps(list);
 	const terminal = new TerminalController();
@@ -39,7 +40,7 @@ export async function main() {
 	const queue = new Map<string, WatchProgramRunner>();
 
 	for (const item of list) {
-		const pkgJson = await loadJsonFile(`${item.absolute}/package.json`);
+		const pkgJson = await cachedPackageJson(`${item.absolute}/package.json`);
 		if (!pkgJson.scripts?.watch || pkgJson.scripts.watch === 'true') {
 			deps.setComplated(item.name);
 			states.addDummy(item.name);
@@ -62,6 +63,15 @@ export async function main() {
 			if (report.success) return;
 
 			terminal.section(`[${item.name}] ${report.message}`, report.output);
+		});
+
+		let start = Date.now();
+		process.onBuildStart(() => {
+			start = Date.now();
+			terminal.print(`[${item.name}] 开始编译...`);
+		});
+		process.onBuildStop(() => {
+			terminal.print(`[${item.name}] 完成编译: ${humanDate.deltaTiny(Date.now() - start)}`);
 		});
 	}
 
@@ -97,6 +107,10 @@ function triggerPass(deps: DependEmitter, states: StateCollection, queue: Map<st
 	}
 
 	for (const { process, item } of start) {
+		if (starting > MAX_CONCURRENCY_STARTING) {
+			return;
+		}
+
 		logger.debug('启动 [concurrent=%s]: %s', starting, item);
 
 		const ev = process.onBuildStop((success) => {
@@ -114,8 +128,5 @@ function triggerPass(deps: DependEmitter, states: StateCollection, queue: Map<st
 		queue.delete(item);
 
 		starting++;
-		if (starting > MAX_CONCURRENCY_STARTING) {
-			return;
-		}
 	}
 }

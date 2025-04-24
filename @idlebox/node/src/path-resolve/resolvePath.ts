@@ -1,16 +1,12 @@
 import { isWindows } from '@idlebox/common';
-import { tmpdir } from 'os';
-import { normalize, relative, resolve } from 'path';
+import { tmpdir } from 'node:os';
+import { normalize, relative, resolve } from 'node:path';
 
 const winSlash = /\\/g;
 
-export interface ResolvePathFunction {
-	(...pathSegments: string[]): string;
-}
+export type ResolvePathFunction = (...pathSegments: string[]) => string;
 
-export interface JoinPathFunction {
-	(from: string, to: string): string;
-}
+export type JoinPathFunction = (from: string, to: string) => string;
 
 export const resolvePath: ResolvePathFunction = isWindows ? resolveWindowsPath : resolve;
 
@@ -18,9 +14,7 @@ function resolveWindowsPath(...pathSegments: string[]): string {
 	return resolve(...pathSegments).replace(winSlash, '/');
 }
 
-export interface NormalizePathFunction {
-	(path: string): string;
-}
+export type NormalizePathFunction = (path: string) => string;
 
 export const normalizePath: NormalizePathFunction = isWindows ? normalizeWindowsPath : normalize;
 
@@ -31,9 +25,8 @@ function normalizeWindowsPath(path: string): string {
 export function osTempDir(name?: string) {
 	if (name) {
 		return resolvePath(tmpdir(), name);
-	} else {
-		return resolvePath(tmpdir());
 	}
+	return resolvePath(tmpdir());
 }
 
 function relativeWindowsPath(from: string, to: string) {

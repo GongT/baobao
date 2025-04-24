@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -22,9 +21,9 @@ export interface ISocketSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#ListenUSBFunction= */
 	ListenUSBFunction?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#SocketProtocol= */
-	SocketProtocol?: "udplite" | "sctp" | string;
+	SocketProtocol?: 'udplite' | 'sctp' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#BindIPv6Only= */
-	BindIPv6Only?: "default" | "both" | "ipv6-only" | string;
+	BindIPv6Only?: 'default' | 'both' | 'ipv6-only' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#Backlog= */
 	Backlog?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#BindToDevice= */
@@ -100,7 +99,7 @@ export interface ISocketSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#PassPacketInfo= */
 	PassPacketInfo?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#Timestamping= */
-	Timestamping?: "off" | "us" | string;
+	Timestamping?: 'off' | 'us' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#TCPCongestion= */
 	TCPCongestion?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.socket.html#ExecStartPre= */
@@ -127,6 +126,65 @@ export interface ISocketSection {
 	TriggerLimitBurst?: MaybeArray<string>;
 }
 
-export const socketFields: readonly string[] = ["ListenStream","ListenDatagram","ListenSequentialPacket","ListenFIFO","ListenSpecial","ListenNetlink","ListenMessageQueue","ListenUSBFunction","SocketProtocol","BindIPv6Only","Backlog","BindToDevice","SocketUser","SocketGroup","SocketMode","DirectoryMode","Accept","Writable","FlushPending","MaxConnections","MaxConnectionsPerSource","KeepAlive","KeepAliveTimeSec","KeepAliveIntervalSec","KeepAliveProbes","NoDelay","Priority","DeferAcceptSec","ReceiveBuffer","SendBuffer","IPTOS","IPTTL","Mark","ReusePort","SmackLabel","SmackLabelIPIn","SmackLabelIPOut","SELinuxContextFromNet","PipeSize","MessageQueueMaxMessages","MessageQueueMessageSize","FreeBind","Transparent","Broadcast","PassCredentials","PassSecurity","PassPacketInfo","Timestamping","TCPCongestion","ExecStartPre","ExecStartPost","ExecStopPre","ExecStopPost","TimeoutSec","Service","RemoveOnStop","Symlinks","FileDescriptorName","TriggerLimitIntervalSec","TriggerLimitBurst"];
-
-
+export const socketFields: readonly string[] = [
+	'ListenStream',
+	'ListenDatagram',
+	'ListenSequentialPacket',
+	'ListenFIFO',
+	'ListenSpecial',
+	'ListenNetlink',
+	'ListenMessageQueue',
+	'ListenUSBFunction',
+	'SocketProtocol',
+	'BindIPv6Only',
+	'Backlog',
+	'BindToDevice',
+	'SocketUser',
+	'SocketGroup',
+	'SocketMode',
+	'DirectoryMode',
+	'Accept',
+	'Writable',
+	'FlushPending',
+	'MaxConnections',
+	'MaxConnectionsPerSource',
+	'KeepAlive',
+	'KeepAliveTimeSec',
+	'KeepAliveIntervalSec',
+	'KeepAliveProbes',
+	'NoDelay',
+	'Priority',
+	'DeferAcceptSec',
+	'ReceiveBuffer',
+	'SendBuffer',
+	'IPTOS',
+	'IPTTL',
+	'Mark',
+	'ReusePort',
+	'SmackLabel',
+	'SmackLabelIPIn',
+	'SmackLabelIPOut',
+	'SELinuxContextFromNet',
+	'PipeSize',
+	'MessageQueueMaxMessages',
+	'MessageQueueMessageSize',
+	'FreeBind',
+	'Transparent',
+	'Broadcast',
+	'PassCredentials',
+	'PassSecurity',
+	'PassPacketInfo',
+	'Timestamping',
+	'TCPCongestion',
+	'ExecStartPre',
+	'ExecStartPost',
+	'ExecStopPre',
+	'ExecStopPost',
+	'TimeoutSec',
+	'Service',
+	'RemoveOnStop',
+	'Symlinks',
+	'FileDescriptorName',
+	'TriggerLimitIntervalSec',
+	'TriggerLimitBurst',
+];

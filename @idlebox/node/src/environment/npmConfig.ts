@@ -1,9 +1,9 @@
 import { linux_case } from '@idlebox/common';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 import { spawnGetOutput } from '../child_process/execa.js';
 
 export async function getNpmConfigValue(field: string): Promise<string> {
-	const env_name = 'npm_config_' + linux_case(field);
+	const env_name = `npm_config_${linux_case(field)}`;
 	if (typeof process.env[env_name] === 'string') {
 		return process.env[env_name]!;
 	}
@@ -16,8 +16,7 @@ export async function getNpmConfigValue(field: string): Promise<string> {
 		.then((e) => {
 			if (e === 'undefined') {
 				return '';
-			} else {
-				return '';
 			}
+			return '';
 		});
 }

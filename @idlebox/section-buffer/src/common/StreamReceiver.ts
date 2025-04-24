@@ -1,4 +1,4 @@
-import { Writable } from 'stream';
+import { Writable } from 'node:stream';
 
 export class StreamReceiver extends Writable {
 	constructor(_source: NodeJS.ReadableStream) {

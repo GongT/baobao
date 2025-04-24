@@ -1,4 +1,4 @@
-import { ISystemdUnit, IUnknownSection } from './types/index.js';
+import type { ISystemdUnit, IUnknownSection } from './types/index.js';
 
 export type * from './types/index.js';
 

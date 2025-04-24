@@ -1,4 +1,4 @@
-import { platform } from 'os';
+import { platform } from 'node:os';
 import { PathArray } from '@idlebox/common';
 import { cleanupEnvironment, getEnvironment } from './getEnvironment.js';
 

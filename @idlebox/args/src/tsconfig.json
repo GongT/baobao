@@ -1,17 +1,10 @@
 {
 	"extends": "@internal/local-rig/profiles/dualstack/tsconfig.json",
 	"compilerOptions": {
-		"typeRoots": [
-			"../node_modules/@types",
-			"../node_modules"
-		],
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib/esm",
 		"rootDir": "./",
-		"types": [
-			"node"
-		]
+		"types": ["node"],
 	},
-	"exclude": [
-		"**/*.generator.ts"
-	]
+	"exclude": ["**/*.generator.ts"],
 }

@@ -1,6 +1,6 @@
 import { ensureGlobalObject } from './globalObject.js';
 
-const symbolRegistry = ensureGlobalObject(`@@idlebox/global-symbol`, () => {
+const symbolRegistry = ensureGlobalObject('@@idlebox/global-symbol', () => {
 	return {} as Record<string, Record<string, symbol>>;
 });
 
@@ -12,15 +12,14 @@ const symbolRegistry = ensureGlobalObject(`@@idlebox/global-symbol`, () => {
  */
 export function createSymbol(category: string, name: string): symbol {
 	if (symbolRegistry[category]?.[name]) {
-		return symbolRegistry[category]![name]!;
-	} else {
-		if (!symbolRegistry[category]) {
-			symbolRegistry[category] = {};
-		}
-		const c = symbolRegistry[category]!;
-
-		return (c[name] = Symbol(name));
+		return symbolRegistry[category]?.[name]!;
 	}
+	if (!symbolRegistry[category]) {
+		symbolRegistry[category] = {};
+	}
+	const c = symbolRegistry[category]!;
+
+	return (c[name] = Symbol(name));
 }
 
 /**

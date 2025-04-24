@@ -1,5 +1,5 @@
-const { resolve, basename } = require('path');
-const { readFileSync } = require('fs');
+const { resolve, basename } = require('node:path');
+const { readFileSync } = require('node:fs');
 
 const PROJECT_ROOT = resolve(__dirname, '../../..');
 const myProjects = new Set();
@@ -12,7 +12,7 @@ module.exports = {
 };
 
 function init() {
-	const { spawnSync } = require('child_process');
+	const { spawnSync } = require('node:child_process');
 	const result = spawnSync(process.argv0, [require.main.filename, 'pnpm', 'm', 'ls', '--json', '--depth=-1'], {
 		encoding: 'utf8',
 		stdio: ['ignore', 'pipe', 'inherit'],
@@ -71,7 +71,7 @@ function readPackage(packageJson, context) {
 	if (packageJson.dependencies) lockDep(packageJson.dependencies, context);
 	// if (packageJson.devDependencies) lockDep(packageJson.devDependencies, context);
 
-	if (packageJson.peerDependencies) delete packageJson.peerDependencies;
+	if (packageJson.peerDependencies) packageJson.peerDependencies = undefined;
 
 	return packageJson;
 }

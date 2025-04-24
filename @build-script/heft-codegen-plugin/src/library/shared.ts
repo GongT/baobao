@@ -1,4 +1,7 @@
-import { knownLevels } from '@build-script/heft-plugin-base';
+/**
+ * 这个文件的协议用于worker和主线程之间的通信
+ */
+import type { knownLevels } from '@build-script/heft-plugin-base';
 
 export interface ILogMessage {
 	readonly type: (typeof knownLevels)[number];
@@ -6,9 +9,9 @@ export interface ILogMessage {
 }
 
 export enum ExecuteReason {
-	NoNeed,
-	NeedCompile,
-	NeedExecute,
+	NoNeed = 0,
+	NeedCompile = 1,
+	NeedExecute = 2,
 }
 
 export interface IOutputProtocol extends ILogMessage {

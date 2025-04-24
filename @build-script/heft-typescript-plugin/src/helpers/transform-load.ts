@@ -1,7 +1,7 @@
 import type { HeftConfiguration, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
-import { isAbsolute, resolve } from 'path';
+import { isAbsolute, resolve } from 'node:path';
 import type TypeScriptApi from 'typescript';
-import { ITypescriptPluginDefine, isModuleResolutionError, type IHeftJsonOptions } from './type.js';
+import { type ITypescriptPluginDefine, isModuleResolutionError, type IHeftJsonOptions } from './type.js';
 
 export interface IMyTransformTool extends IStaticTool {
 	readonly program: TypeScriptApi.Program;
@@ -16,21 +16,21 @@ interface IStaticTool {
 }
 
 /** plugin file should export this: */
-export interface IMyTransformCallback<T extends TypeScriptApi.Node> {
-	(context: TypeScriptApi.TransformationContext, tools: IMyTransformTool): TypeScriptApi.Transformer<T>;
-}
+export type IMyTransformCallback<T extends TypeScriptApi.Node> = (
+	context: TypeScriptApi.TransformationContext,
+	tools: IMyTransformTool
+) => TypeScriptApi.Transformer<T>;
 
-export interface IPluginInit {
-	(program: TypeScriptApi.Program, compilerHost: TypeScriptApi.CompilerHost): TypeScriptApi.CustomTransformers;
-}
+export type IPluginInit = (
+	program: TypeScriptApi.Program,
+	compilerHost: TypeScriptApi.CompilerHost
+) => TypeScriptApi.CustomTransformers;
 
-interface IPluginApply {
-	(
-		transformers: TypeScriptApi.CustomTransformers,
-		program: TypeScriptApi.Program,
-		compilerHost: TypeScriptApi.CompilerHost,
-	): void;
-}
+type IPluginApply = (
+	transformers: TypeScriptApi.CustomTransformers,
+	program: TypeScriptApi.Program,
+	compilerHost: TypeScriptApi.CompilerHost
+) => void;
 
 const selfSrcPlugin = process.env.IS_REALTIME_BUILD
 	? resolve(__dirname, '../loader/main.js')
@@ -45,7 +45,7 @@ export class TsPluginSystem {
 		private readonly ts: typeof TypeScriptApi,
 		private readonly session: IHeftTaskSession,
 		private readonly configuration: HeftConfiguration,
-		options: IHeftJsonOptions,
+		options: IHeftJsonOptions
 	) {
 		this.extension = options.extension;
 	}
@@ -81,14 +81,12 @@ export class TsPluginSystem {
 			return;
 		}
 
-		let pkg, packagePath;
+		let pkg;
+		let packagePath;
 		try {
 			packagePath = isAbsolute(item.transform)
 				? item.transform
-				: await this.configuration.rigPackageResolver.resolvePackageAsync(
-						item.transform,
-						this.session.logger.terminal,
-					);
+				: await this.configuration.rigPackageResolver.resolvePackageAsync(item.transform, this.session.logger.terminal);
 
 			if (!packagePath) throw new Error(`not found: ${item.transform}`);
 
@@ -109,7 +107,7 @@ export class TsPluginSystem {
 		const creator = <T extends TypeScriptApi.Node>(
 			program: TypeScriptApi.Program,
 			host: TypeScriptApi.CompilerHost,
-			context: TypeScriptApi.TransformationContext,
+			context: TypeScriptApi.TransformationContext
 		): TypeScriptApi.Transformer<T> => {
 			const transformer = callback(context, {
 				program,
@@ -173,13 +171,15 @@ function requireExport(packagePath: string, pkg: any, importName: string | undef
 	if (importName) {
 		if (typeof pkg?.default?.[importName] === 'function') {
 			return pkg.default;
-		} else if (typeof pkg?.[importName] === 'function') {
+		}
+		if (typeof pkg?.[importName] === 'function') {
 			return pkg.default;
 		}
 	} else {
 		if (typeof pkg?.default === 'function') {
 			return pkg.default;
-		} else if (typeof pkg === 'function') {
+		}
+		if (typeof pkg === 'function') {
 			return pkg;
 		}
 	}
@@ -187,7 +187,7 @@ function requireExport(packagePath: string, pkg: any, importName: string | undef
   package file: ${packagePath}
   exports: ${dumpExport(pkg)}`;
 	if (pkg?.default) {
-		msg += '\n  exports.default: ' + dumpExport(pkg.default);
+		msg += `\n  exports.default: ${dumpExport(pkg.default)}`;
 	}
 	throw new Error(msg);
 }

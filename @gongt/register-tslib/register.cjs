@@ -6,7 +6,7 @@ if (!Module[dup_symbol]) {
 
 	const _resolve = Module._resolveFilename;
 	const tslib = require.resolve('tslib');
-	Module._resolveFilename = function (request, parent, isMain) {
+	Module._resolveFilename = (request, parent, isMain) => {
 		if (request === 'tslib') {
 			return tslib;
 		}

@@ -1,5 +1,5 @@
 import { Minimatch } from 'minimatch';
-import { ILogger } from './logger.js';
+import type { ILogger } from './logger.js';
 export type IIgnore = RegExp | string | MatchFn;
 type MatchFn = (file: string) => boolean;
 
@@ -27,7 +27,7 @@ export class IgnoreFiles {
 		} else if (typeof ignore === 'function') {
 			this.ignores.push(ignore);
 		} else {
-			throw new TypeError('invalid ignore type: ' + typeof ignore);
+			throw new TypeError(`invalid ignore type: ${typeof ignore}`);
 		}
 	}
 

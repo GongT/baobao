@@ -1,4 +1,3 @@
-
 // @ts-ignore
 type MaybeArray<T> = T | T[];
 // @ts-ignore
@@ -21,7 +20,15 @@ export interface INetdevMatchSection {
 	Firmware?: MaybeArray<string>;
 }
 
-export const netdevMatchFields: readonly string[] = ["Host","Virtualization","KernelCommandLine","KernelVersion","Credential","Architecture","Firmware"];
+export const netdevMatchFields: readonly string[] = [
+	'Host',
+	'Virtualization',
+	'KernelCommandLine',
+	'KernelVersion',
+	'Credential',
+	'Architecture',
+	'Firmware',
+];
 
 export interface INetdevNetdevSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Description= */
@@ -36,7 +43,7 @@ export interface INetdevNetdevSection {
 	MACAddress?: MaybeArray<string>;
 }
 
-export const netdevNetdevFields: readonly string[] = ["Description","Name","Kind","MTUBytes","MACAddress"];
+export const netdevNetdevFields: readonly string[] = ['Description', 'Name', 'Kind', 'MTUBytes', 'MACAddress'];
 
 export interface INetdevBridgeSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#HelloTimeSec= */
@@ -67,7 +74,21 @@ export interface INetdevBridgeSection {
 	MulticastIGMPVersion?: MaybeArray<string>;
 }
 
-export const netdevBridgeFields: readonly string[] = ["HelloTimeSec","MaxAgeSec","ForwardDelaySec","AgeingTimeSec","Priority","GroupForwardMask","DefaultPVID","MulticastQuerier","MulticastSnooping","VLANFiltering","VLANProtocol","STP","MulticastIGMPVersion"];
+export const netdevBridgeFields: readonly string[] = [
+	'HelloTimeSec',
+	'MaxAgeSec',
+	'ForwardDelaySec',
+	'AgeingTimeSec',
+	'Priority',
+	'GroupForwardMask',
+	'DefaultPVID',
+	'MulticastQuerier',
+	'MulticastSnooping',
+	'VLANFiltering',
+	'VLANProtocol',
+	'STP',
+	'MulticastIGMPVersion',
+];
 
 export interface INetdevVlanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Id= */
@@ -88,7 +109,16 @@ export interface INetdevVlanSection {
 	IngressQOSMaps?: MaybeArray<string>;
 }
 
-export const netdevVlanFields: readonly string[] = ["Id","Protocol","GVRP","MVRP","LooseBinding","ReorderHeader","EgressQOSMaps","IngressQOSMaps"];
+export const netdevVlanFields: readonly string[] = [
+	'Id',
+	'Protocol',
+	'GVRP',
+	'MVRP',
+	'LooseBinding',
+	'ReorderHeader',
+	'EgressQOSMaps',
+	'IngressQOSMaps',
+];
 
 export interface INetdevMacvlanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Mode= */
@@ -99,7 +129,7 @@ export interface INetdevMacvlanSection {
 	BroadcastMulticastQueueLength?: MaybeArray<string>;
 }
 
-export const netdevMacvlanFields: readonly string[] = ["Mode","SourceMACAddress","BroadcastMulticastQueueLength"];
+export const netdevMacvlanFields: readonly string[] = ['Mode', 'SourceMACAddress', 'BroadcastMulticastQueueLength'];
 
 export interface INetdevIpvlanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Mode= */
@@ -108,7 +138,7 @@ export interface INetdevIpvlanSection {
 	Flags?: MaybeArray<string>;
 }
 
-export const netdevIpvlanFields: readonly string[] = ["Mode","Flags"];
+export const netdevIpvlanFields: readonly string[] = ['Mode', 'Flags'];
 
 export interface INetdevVxlanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#VNI= */
@@ -163,7 +193,33 @@ export interface INetdevVxlanSection {
 	Independent?: MaybeArray<string>;
 }
 
-export const netdevVxlanFields: readonly string[] = ["VNI","Remote","Local","Group","TOS","TTL","MacLearning","FDBAgeingSec","MaximumFDBEntries","ReduceARPProxy","L2MissNotification","L3MissNotification","RouteShortCircuit","UDPChecksum","UDP6ZeroChecksumTx","UDP6ZeroChecksumRx","RemoteChecksumTx","RemoteChecksumRx","GroupPolicyExtension","GenericProtocolExtension","DestinationPort","PortRange","FlowLabel","IPDoNotFragment","Independent"];
+export const netdevVxlanFields: readonly string[] = [
+	'VNI',
+	'Remote',
+	'Local',
+	'Group',
+	'TOS',
+	'TTL',
+	'MacLearning',
+	'FDBAgeingSec',
+	'MaximumFDBEntries',
+	'ReduceARPProxy',
+	'L2MissNotification',
+	'L3MissNotification',
+	'RouteShortCircuit',
+	'UDPChecksum',
+	'UDP6ZeroChecksumTx',
+	'UDP6ZeroChecksumRx',
+	'RemoteChecksumTx',
+	'RemoteChecksumRx',
+	'GroupPolicyExtension',
+	'GenericProtocolExtension',
+	'DestinationPort',
+	'PortRange',
+	'FlowLabel',
+	'IPDoNotFragment',
+	'Independent',
+];
 
 export interface INetdevGeneveSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Id= */
@@ -188,16 +244,27 @@ export interface INetdevGeneveSection {
 	IPDoNotFragment?: MaybeArray<string>;
 }
 
-export const netdevGeneveFields: readonly string[] = ["Id","Remote","TOS","TTL","UDPChecksum","UDP6ZeroChecksumTx","UDP6ZeroChecksumRx","DestinationPort","FlowLabel","IPDoNotFragment"];
+export const netdevGeneveFields: readonly string[] = [
+	'Id',
+	'Remote',
+	'TOS',
+	'TTL',
+	'UDPChecksum',
+	'UDP6ZeroChecksumTx',
+	'UDP6ZeroChecksumRx',
+	'DestinationPort',
+	'FlowLabel',
+	'IPDoNotFragment',
+];
 
 export interface INetdevBareudpSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#DestinationPort= */
 	DestinationPort?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#EtherType= */
-	EtherType?: "ipv4" | "ipv6" | "mpls-uc" | "mpls-mc" | string;
+	EtherType?: 'ipv4' | 'ipv6' | 'mpls-uc' | 'mpls-mc' | string;
 }
 
-export const netdevBareudpFields: readonly string[] = ["DestinationPort","EtherType"];
+export const netdevBareudpFields: readonly string[] = ['DestinationPort', 'EtherType'];
 
 export interface INetdevL2tp_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#TunnelId= */
@@ -209,7 +276,7 @@ export interface INetdevL2tp_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Local= */
 	Local?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#EncapsulationType= */
-	EncapsulationType?: "udp" | "ip" | string;
+	EncapsulationType?: 'udp' | 'ip' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#UDPSourcePort= */
 	UDPSourcePort?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#UDPDestinationPort= */
@@ -222,7 +289,18 @@ export interface INetdevL2tp_SectionOptionsOptions {
 	UDP6ZeroChecksumRx?: MaybeArray<string>;
 }
 
-export const netdevL2tp_SectionOptionsFields: readonly string[] = ["TunnelId","PeerTunnelId","Remote","Local","EncapsulationType","UDPSourcePort","UDPDestinationPort","UDPChecksum","UDP6ZeroChecksumTx","UDP6ZeroChecksumRx"];
+export const netdevL2tp_SectionOptionsFields: readonly string[] = [
+	'TunnelId',
+	'PeerTunnelId',
+	'Remote',
+	'Local',
+	'EncapsulationType',
+	'UDPSourcePort',
+	'UDPDestinationPort',
+	'UDPChecksum',
+	'UDP6ZeroChecksumTx',
+	'UDP6ZeroChecksumRx',
+];
 
 export interface INetdevL2tpsession_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Name= */
@@ -235,7 +313,12 @@ export interface INetdevL2tpsession_SectionOptionsOptions {
 	Layer2SpecificHeader?: MaybeArray<string>;
 }
 
-export const netdevL2tpsession_SectionOptionsFields: readonly string[] = ["Name","SessionId","PeerSessionId","Layer2SpecificHeader"];
+export const netdevL2tpsession_SectionOptionsFields: readonly string[] = [
+	'Name',
+	'SessionId',
+	'PeerSessionId',
+	'Layer2SpecificHeader',
+];
 
 export interface INetdevMacsecSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Port= */
@@ -244,7 +327,7 @@ export interface INetdevMacsecSection {
 	Encrypt?: MaybeArray<string>;
 }
 
-export const netdevMacsecFields: readonly string[] = ["Port","Encrypt"];
+export const netdevMacsecFields: readonly string[] = ['Port', 'Encrypt'];
 
 export interface INetdevMacsecreceivechannelSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Port= */
@@ -253,7 +336,7 @@ export interface INetdevMacsecreceivechannelSection {
 	MACAddress?: MaybeArray<string>;
 }
 
-export const netdevMacsecreceivechannelFields: readonly string[] = ["Port","MACAddress"];
+export const netdevMacsecreceivechannelFields: readonly string[] = ['Port', 'MACAddress'];
 
 export interface INetdevMacsectransmitassociationSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#PacketNumber= */
@@ -270,7 +353,14 @@ export interface INetdevMacsectransmitassociationSection {
 	UseForEncoding?: MaybeArray<string>;
 }
 
-export const netdevMacsectransmitassociationFields: readonly string[] = ["PacketNumber","KeyId","Key","KeyFile","Activate","UseForEncoding"];
+export const netdevMacsectransmitassociationFields: readonly string[] = [
+	'PacketNumber',
+	'KeyId',
+	'Key',
+	'KeyFile',
+	'Activate',
+	'UseForEncoding',
+];
 
 export interface INetdevMacsecreceiveassociationSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Port= */
@@ -289,7 +379,15 @@ export interface INetdevMacsecreceiveassociationSection {
 	Activate?: MaybeArray<string>;
 }
 
-export const netdevMacsecreceiveassociationFields: readonly string[] = ["Port","MACAddress","PacketNumber","KeyId","Key","KeyFile","Activate"];
+export const netdevMacsecreceiveassociationFields: readonly string[] = [
+	'Port',
+	'MACAddress',
+	'PacketNumber',
+	'KeyId',
+	'Key',
+	'KeyFile',
+	'Activate',
+];
 
 export interface INetdevTunnelSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#External= */
@@ -348,7 +446,35 @@ export interface INetdevTunnelSection {
 	ERSPANHardwareId?: MaybeArray<string>;
 }
 
-export const netdevTunnelFields: readonly string[] = ["External","Local","Remote","TOS","TTL","DiscoverPathMTU","IPv6FlowLabel","CopyDSCP","EncapsulationLimit","Key","InputKey","OutputKey","Mode","Independent","AssignToLoopback","AllowLocalRemote","FooOverUDP","FOUDestinationPort","FOUSourcePort","Encapsulation","IPv6RapidDeploymentPrefix","ISATAP","SerializeTunneledPackets","ERSPANVersion","ERSPANIndex","ERSPANDirection","ERSPANHardwareId"];
+export const netdevTunnelFields: readonly string[] = [
+	'External',
+	'Local',
+	'Remote',
+	'TOS',
+	'TTL',
+	'DiscoverPathMTU',
+	'IPv6FlowLabel',
+	'CopyDSCP',
+	'EncapsulationLimit',
+	'Key',
+	'InputKey',
+	'OutputKey',
+	'Mode',
+	'Independent',
+	'AssignToLoopback',
+	'AllowLocalRemote',
+	'FooOverUDP',
+	'FOUDestinationPort',
+	'FOUSourcePort',
+	'Encapsulation',
+	'IPv6RapidDeploymentPrefix',
+	'ISATAP',
+	'SerializeTunneledPackets',
+	'ERSPANVersion',
+	'ERSPANIndex',
+	'ERSPANDirection',
+	'ERSPANHardwareId',
+];
 
 export interface INetdevFoooverudpSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Encapsulation= */
@@ -365,7 +491,14 @@ export interface INetdevFoooverudpSection {
 	Local?: MaybeArray<string>;
 }
 
-export const netdevFoooverudpFields: readonly string[] = ["Encapsulation","Port","PeerPort","Protocol","Peer","Local"];
+export const netdevFoooverudpFields: readonly string[] = [
+	'Encapsulation',
+	'Port',
+	'PeerPort',
+	'Protocol',
+	'Peer',
+	'Local',
+];
 
 export interface INetdevPeerSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Name= */
@@ -374,14 +507,14 @@ export interface INetdevPeerSection {
 	MACAddress?: MaybeArray<string>;
 }
 
-export const netdevPeerFields: readonly string[] = ["Name","MACAddress"];
+export const netdevPeerFields: readonly string[] = ['Name', 'MACAddress'];
 
 export interface INetdevVxcanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Peer= */
 	Peer?: MaybeArray<string>;
 }
 
-export const netdevVxcanFields: readonly string[] = ["Peer"];
+export const netdevVxcanFields: readonly string[] = ['Peer'];
 
 export interface INetdevTunSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#MultiQueue= */
@@ -398,7 +531,14 @@ export interface INetdevTunSection {
 	KeepCarrier?: MaybeArray<string>;
 }
 
-export const netdevTunFields: readonly string[] = ["MultiQueue","PacketInfo","VNetHeader","User","Group","KeepCarrier"];
+export const netdevTunFields: readonly string[] = [
+	'MultiQueue',
+	'PacketInfo',
+	'VNetHeader',
+	'User',
+	'Group',
+	'KeepCarrier',
+];
 
 export interface INetdevWireguardSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#PrivateKey= */
@@ -415,7 +555,14 @@ export interface INetdevWireguardSection {
 	RouteMetric?: MaybeArray<string>;
 }
 
-export const netdevWireguardFields: readonly string[] = ["PrivateKey","PrivateKeyFile","ListenPort","FirewallMark","RouteTable","RouteMetric"];
+export const netdevWireguardFields: readonly string[] = [
+	'PrivateKey',
+	'PrivateKeyFile',
+	'ListenPort',
+	'FirewallMark',
+	'RouteTable',
+	'RouteMetric',
+];
 
 export interface INetdevWireguardpeerSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#PublicKey= */
@@ -436,7 +583,16 @@ export interface INetdevWireguardpeerSection {
 	RouteMetric?: MaybeArray<string>;
 }
 
-export const netdevWireguardpeerFields: readonly string[] = ["PublicKey","PresharedKey","PresharedKeyFile","AllowedIPs","Endpoint","PersistentKeepalive","RouteTable","RouteMetric"];
+export const netdevWireguardpeerFields: readonly string[] = [
+	'PublicKey',
+	'PresharedKey',
+	'PresharedKeyFile',
+	'AllowedIPs',
+	'Endpoint',
+	'PersistentKeepalive',
+	'RouteTable',
+	'RouteMetric',
+];
 
 export interface INetdevBondSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Mode= */
@@ -487,7 +643,31 @@ export interface INetdevBondSection {
 	MinLinks?: MaybeArray<string>;
 }
 
-export const netdevBondFields: readonly string[] = ["Mode","TransmitHashPolicy","LACPTransmitRate","MIIMonitorSec","UpDelaySec","DownDelaySec","LearnPacketIntervalSec","AdSelect","AdActorSystemPriority","AdUserPortKey","AdActorSystem","FailOverMACPolicy","ARPValidate","ARPIntervalSec","ARPIPTargets","ARPAllTargets","PrimaryReselectPolicy","ResendIGMP","PacketsPerSlave","GratuitousARP","AllSlavesActive","DynamicTransmitLoadBalancing","MinLinks"];
+export const netdevBondFields: readonly string[] = [
+	'Mode',
+	'TransmitHashPolicy',
+	'LACPTransmitRate',
+	'MIIMonitorSec',
+	'UpDelaySec',
+	'DownDelaySec',
+	'LearnPacketIntervalSec',
+	'AdSelect',
+	'AdActorSystemPriority',
+	'AdUserPortKey',
+	'AdActorSystem',
+	'FailOverMACPolicy',
+	'ARPValidate',
+	'ARPIntervalSec',
+	'ARPIPTargets',
+	'ARPAllTargets',
+	'PrimaryReselectPolicy',
+	'ResendIGMP',
+	'PacketsPerSlave',
+	'GratuitousARP',
+	'AllSlavesActive',
+	'DynamicTransmitLoadBalancing',
+	'MinLinks',
+];
 
 export interface INetdevXfrmSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#InterfaceId= */
@@ -496,18 +676,18 @@ export interface INetdevXfrmSection {
 	Independent?: MaybeArray<string>;
 }
 
-export const netdevXfrmFields: readonly string[] = ["InterfaceId","Independent"];
+export const netdevXfrmFields: readonly string[] = ['InterfaceId', 'Independent'];
 
 export interface INetdevVrfSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Table= */
 	Table?: MaybeArray<string>;
 }
 
-export const netdevVrfFields: readonly string[] = ["Table"];
+export const netdevVrfFields: readonly string[] = ['Table'];
 
 export interface INetdevBatmanadvancedSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#GatewayMode= */
-	GatewayMode?: "off" | "server" | "client" | string;
+	GatewayMode?: 'off' | 'server' | 'client' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Aggregation= */
 	Aggregation?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#BridgeLoopAvoidance= */
@@ -528,28 +708,80 @@ export interface INetdevBatmanadvancedSection {
 	RoutingAlgorithm?: MaybeArray<string>;
 }
 
-export const netdevBatmanadvancedFields: readonly string[] = ["GatewayMode","Aggregation","BridgeLoopAvoidance","DistributedArpTable","Fragmentation","HopPenalty","OriginatorIntervalSec","GatewayBandwidthDown","GatewayBandwidthUp","RoutingAlgorithm"];
+export const netdevBatmanadvancedFields: readonly string[] = [
+	'GatewayMode',
+	'Aggregation',
+	'BridgeLoopAvoidance',
+	'DistributedArpTable',
+	'Fragmentation',
+	'HopPenalty',
+	'OriginatorIntervalSec',
+	'GatewayBandwidthDown',
+	'GatewayBandwidthUp',
+	'RoutingAlgorithm',
+];
 
 export interface INetdevIpoibSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#PartitionKey= */
 	PartitionKey?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Mode= */
-	Mode?: "the" | "special" | "values" | "datagram" | "connected" | string;
+	Mode?: 'the' | 'special' | 'values' | 'datagram' | 'connected' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#IgnoreUserspaceMulticastGroup= */
 	IgnoreUserspaceMulticastGroup?: MaybeArray<string>;
 }
 
-export const netdevIpoibFields: readonly string[] = ["PartitionKey","Mode","IgnoreUserspaceMulticastGroup"];
+export const netdevIpoibFields: readonly string[] = ['PartitionKey', 'Mode', 'IgnoreUserspaceMulticastGroup'];
 
 export interface INetdevWlanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#PhysicalDevice= */
 	PhysicalDevice?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Type= */
-	Type?: "the" | "ad-hoc" | "station" | "ap" | "ap-vlan" | "wds" | "monitor" | "mesh-point" | "p2p-client" | "p2p-go" | "p2p-device" | "ocb" | "nan" | string;
+	Type?:
+		| 'the'
+		| 'ad-hoc'
+		| 'station'
+		| 'ap'
+		| 'ap-vlan'
+		| 'wds'
+		| 'monitor'
+		| 'mesh-point'
+		| 'p2p-client'
+		| 'p2p-go'
+		| 'p2p-device'
+		| 'ocb'
+		| 'nan'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#WDS= */
 	WDS?: MaybeArray<string>;
 }
 
-export const netdevWlanFields: readonly string[] = ["PhysicalDevice","Type","WDS"];
+export const netdevWlanFields: readonly string[] = ['PhysicalDevice', 'Type', 'WDS'];
 
-export type __INetdevAll = INetdevMatchSection & INetdevNetdevSection & INetdevBridgeSection & INetdevVlanSection & INetdevMacvlanSection & INetdevIpvlanSection & INetdevVxlanSection & INetdevGeneveSection & INetdevBareudpSection & INetdevL2tp_SectionOptionsOptions & INetdevL2tpsession_SectionOptionsOptions & INetdevMacsecSection & INetdevMacsecreceivechannelSection & INetdevMacsectransmitassociationSection & INetdevMacsecreceiveassociationSection & INetdevTunnelSection & INetdevFoooverudpSection & INetdevPeerSection & INetdevVxcanSection & INetdevTunSection & INetdevWireguardSection & INetdevWireguardpeerSection & INetdevBondSection & INetdevXfrmSection & INetdevVrfSection & INetdevBatmanadvancedSection & INetdevIpoibSection & INetdevWlanSection;
+export type __INetdevAll = INetdevMatchSection &
+	INetdevNetdevSection &
+	INetdevBridgeSection &
+	INetdevVlanSection &
+	INetdevMacvlanSection &
+	INetdevIpvlanSection &
+	INetdevVxlanSection &
+	INetdevGeneveSection &
+	INetdevBareudpSection &
+	INetdevL2tp_SectionOptionsOptions &
+	INetdevL2tpsession_SectionOptionsOptions &
+	INetdevMacsecSection &
+	INetdevMacsecreceivechannelSection &
+	INetdevMacsectransmitassociationSection &
+	INetdevMacsecreceiveassociationSection &
+	INetdevTunnelSection &
+	INetdevFoooverudpSection &
+	INetdevPeerSection &
+	INetdevVxcanSection &
+	INetdevTunSection &
+	INetdevWireguardSection &
+	INetdevWireguardpeerSection &
+	INetdevBondSection &
+	INetdevXfrmSection &
+	INetdevVrfSection &
+	INetdevBatmanadvancedSection &
+	INetdevIpoibSection &
+	INetdevWlanSection;

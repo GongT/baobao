@@ -1,6 +1,6 @@
 /// <reference path="../globals.d.ts" />
 
-import { DeferredPromise, EventRegister } from '@idlebox/common';
+import { DeferredPromise, type EventRegister } from '@idlebox/common';
 import { emptyDir } from '@idlebox/node';
 import { transpileBootstrap } from './compile-bootstrap.js';
 import { runESBuild } from './compile-esbuild.js';
@@ -9,7 +9,7 @@ import { compileScss } from './compile-scss.js';
 import { isProd, outputDir } from './library/constants.js';
 
 let timer: NodeJS.Timeout | undefined;
-let firstBuild = new DeferredPromise<void>();
+const firstBuild = new DeferredPromise<void>();
 let waiting = true;
 function scheduleGenerateIndex() {
 	if (timer || waiting) return;

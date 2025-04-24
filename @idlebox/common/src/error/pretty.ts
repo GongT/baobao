@@ -74,8 +74,8 @@ function addLoc(ret: IStructreStackLine, m: Record<TypeMatchFileOnly, string>) {
 	ret.location = {
 		schema: m.schema?.replace(/\/+$/, '') ?? '',
 		path: path,
-		line: parseInt(m.line),
-		column: parseInt(m.column),
+		line: Number.parseInt(m.line),
+		column: Number.parseInt(m.column),
 		isAbsolute: isAbsolute(path),
 	};
 }
@@ -126,12 +126,13 @@ export function parseStackLine(line: string): IStructreStackLine {
 		addLoc(ret, mEval);
 
 		ret.eval = {
-			eval_column: parseInt(mEval.eval_column),
+			eval_column: Number.parseInt(mEval.eval_column),
 			eval_func: mEval.eval_func,
-			eval_line: parseInt(mEval.eval_line),
+			eval_line: Number.parseInt(mEval.eval_line),
 			funcs: [],
 		};
 		for (const item of line.matchAll(regEvalItem)) {
+			// biome-ignore lint/style/noNonNullAssertion: 有匹配必然有 groups
 			ret.eval.funcs.push(item.groups!.func_name);
 		}
 		ret.eval.funcs.push(mEval.eval_func);
@@ -161,7 +162,7 @@ export function prettyPrintError(type: string, e: Error) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
 		console.error(
-			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m',
+			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m'
 		);
 	}
 }
@@ -197,12 +198,7 @@ export function prettyFormatStack(stackLines: readonly string[]) {
 					if (fn_name) {
 						ret += ' (';
 					}
-					ret += formatFileLine(
-						line.location.schema,
-						line.location.path,
-						line.location.line,
-						line.location.column,
-					);
+					ret += formatFileLine(line.location.schema, line.location.path, line.location.line, line.location.column);
 					if (fn_name) {
 						ret += ')';
 					}
@@ -216,7 +212,7 @@ export function prettyFormatStack(stackLines: readonly string[]) {
 				const color = fn_name ? (isNodeModule ? '14;2' : '14') : '8';
 				ret = `\x1b[0m  at \x1b[38;5;${color}m`;
 				if (fn_alias && fn_name && fn_name.startsWith('Object.')) {
-					ret += fn_alias + ' [export]';
+					ret += `${fn_alias} [export]`;
 				} else {
 					ret += formatFunctionName(fn_name, fn_alias);
 				}
@@ -232,7 +228,7 @@ export function prettyFormatStack(stackLines: readonly string[]) {
 					} else {
 						color = '\x1b[38;5;2m';
 					}
-					ret += ' (' + color;
+					ret += ` (${color}`;
 					const file = formatFileLine(line.location.schema, path, line.location.line, line.location.column);
 					const lastNmPos = file.lastIndexOf('/node_modules/');
 					if (lastNmPos >= 0) {
@@ -266,15 +262,14 @@ interface IError {
 export function prettyFormatError(e: IError, withMessage = true) {
 	if (!e || !e.stack) {
 		if (withMessage) {
-			let msg = e?.message || 'Unknown Error';
+			const msg = e?.message || 'Unknown Error';
 
-			return red(msg + '\n  No stack trace');
-		} else {
-			return red('  No stack trace');
+			return red(`${msg}\n  No stack trace`);
 		}
+		return red('  No stack trace');
 	}
 
-	let stackLines = e.stack.split(/\n/g);
+	const stackLines = e.stack.split(/\n/g);
 
 	let first = 'Unknown Error';
 	if (/^\S/.test(stackLines[0])) {
@@ -286,10 +281,9 @@ export function prettyFormatError(e: IError, withMessage = true) {
 			first = first.replace(/^(\S+):/, `$1(code ${e.code}):`);
 		}
 
-		return first + '\n' + prettyFormatStack(stackLines).join('\n');
-	} else {
-		return prettyFormatStack(stackLines).join('\n');
+		return `${first}\n${prettyFormatStack(stackLines).join('\n')}`;
 	}
+	return prettyFormatStack(stackLines).join('\n');
 }
 
 let alert = false;
@@ -300,7 +294,7 @@ function formatFileLine(schema: string | undefined, file: string, row?: number, 
 		try {
 			rel = relativePath(root, file);
 			if (rel[0] !== '.') {
-				rel = './' + rel;
+				rel = `./${rel}`;
 			} else if (rel[1] === '.') {
 				if (file.length < rel.length) {
 					rel = file;
@@ -311,13 +305,12 @@ function formatFileLine(schema: string | undefined, file: string, row?: number, 
 			}
 		} catch (e: any) {
 			if (!alert) {
-				debugger;
 				alert = true;
 				console.error(
 					'pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m',
 					root,
 					file,
-					e.stack,
+					e.stack
 				);
 			}
 			rel = file;
@@ -331,12 +324,10 @@ function formatFunctionName(fn?: string, as?: string) {
 	if (fn) {
 		if (as) {
 			return `${fn} [as ${as}]`;
-		} else {
-			return fn;
 		}
-	} else {
-		return '<anonymous>';
+		return fn;
 	}
+	return '<anonymous>';
 }
 
 function translateFunction(data: IStructreStackLine): IStructreStackLine {
@@ -353,8 +344,8 @@ function translateFunction(data: IStructreStackLine): IStructreStackLine {
 		data.func.name = 'process.nextTick';
 	}
 	if (data.func.name.startsWith('Timeout.') && data.func.alias === '_onTimeout') {
-		data.func.name = 'setTimeout->' + data.func.name.slice(8);
-		delete data.func.alias;
+		data.func.name = `setTimeout->${data.func.name.slice(8)}`;
+		data.func.alias = undefined;
 	}
 	return data;
 }
@@ -370,13 +361,17 @@ function skipSomeFrame({ location }: IStructreStackLine): boolean {
 	if (location.schema === 'node:') {
 		if (location.path.startsWith('internal/timers')) {
 			return false;
-		} else if (location.path === 'internal/modules/cjs/loader') {
+		}
+		if (location.path === 'internal/modules/cjs/loader') {
 			return false;
-		} else if (location.path === 'internal/modules/esm/loader') {
+		}
+		if (location.path === 'internal/modules/esm/loader') {
 			return false;
-		} else if (location.path === 'internal/modules/run_main') {
+		}
+		if (location.path === 'internal/modules/run_main') {
 			return false;
-		} else if (location.path === 'internal/modules/esm/module_job') {
+		}
+		if (location.path === 'internal/modules/esm/module_job') {
 			return false;
 		}
 	}

@@ -1,9 +1,11 @@
 import type esbuild from 'esbuild';
-import { formatWithOptions } from 'util';
+import { formatWithOptions } from 'node:util';
 
 export const debug: Function = process.argv.includes('--debug')
 	? (text: string, ...args: any[]) => {
-			process.stderr.write(formatWithOptions({ colors: true, breakLength: Infinity }, text, ...args) + '\n');
+			process.stderr.write(
+				`${formatWithOptions({ colors: true, breakLength: Number.POSITIVE_INFINITY }, text, ...args)}\n`
+			);
 		}
 	: () => {};
 
@@ -20,9 +22,8 @@ export function commonParent(a: string, b: string) {
 
 	if (i < ar.length) {
 		return ar.slice(0, i).join('/');
-	} else {
-		return br.slice(0, i).join('/');
 	}
+	return br.slice(0, i).join('/');
 }
 
 export interface IDiagnostics {

@@ -4,9 +4,9 @@ function heftPluginBaseLoaderWrap() {
 	}
 	const src = require.resolve('../src/loader.ts');
 	const ts = require('typescript');
-	const fs = require('fs');
-	const path = require('path');
-	const { Module } = require('module');
+	const fs = require('node:fs');
+	const path = require('node:path');
+	const { Module } = require('node:module');
 
 	const content = fs.readFileSync(src, 'utf8');
 	const result = ts.transpileModule(content, {

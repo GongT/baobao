@@ -1,7 +1,5 @@
 /** @public */
-export interface InitFunc<O, T> {
-	(this: O): T;
-}
+export type InitFunc<O, T> = (this: O) => T;
 
 /**
  * Define property on target, call init it when first use, them memorize

@@ -1,7 +1,7 @@
 import eslint from '@eslint/js';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import tseslint from 'typescript-eslint';
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 
 const importedRules = {};
 Object.assign(importedRules, eslint.configs.recommended.rules, ...tseslint.configs.recommended.map((e) => e.rules));

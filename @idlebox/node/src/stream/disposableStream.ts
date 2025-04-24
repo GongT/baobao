@@ -1,5 +1,5 @@
-import { Readable, Writable } from 'stream';
-import { IDisposable } from '@idlebox/common';
+import type { Readable, Writable } from 'node:stream';
+import type { IDisposable } from '@idlebox/common';
 
 export function disposableStream<T extends Writable | Readable>(stream: T): T & IDisposable {
 	if ((stream as any).dispose) {

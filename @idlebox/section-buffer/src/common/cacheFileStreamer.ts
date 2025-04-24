@@ -1,6 +1,6 @@
-import { createHash } from 'crypto';
-import fs from 'fs/promises';
-import { Transform, TransformCallback } from 'stream';
+import { createHash } from 'node:crypto';
+import fs from 'node:fs/promises';
+import { Transform, type TransformCallback } from 'node:stream';
 import { AsyncDisposable, toDisposable } from '@idlebox/common';
 
 export async function openCacheFileForStream(file: string): Promise<ICacheFileStreamer> {

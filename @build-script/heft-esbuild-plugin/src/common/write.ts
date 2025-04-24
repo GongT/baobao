@@ -1,9 +1,9 @@
-import { IHeftTaskSession } from '@rushstack/heft';
-import { Metafile } from 'esbuild';
-import { mkdir, rm, writeFile } from 'fs/promises';
-import { dirname, resolve } from 'path';
-import { FilterdBuildOptions } from './config.js';
-import { IOutputModifier } from './type.js';
+import type { IHeftTaskSession } from '@rushstack/heft';
+import type { Metafile } from 'esbuild';
+import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import type { FilterdBuildOptions } from './config.js';
+import type { IOutputModifier } from './type.js';
 import { OutputFile } from './write.helper.js';
 
 export interface IProjectEmitterProps {
@@ -13,9 +13,7 @@ export interface IProjectEmitterProps {
 	readonly session: IHeftTaskSession;
 }
 
-export interface IProjectEmitter {
-	(props: IProjectEmitterProps): Promise<IInternalReturn> | IInternalReturn;
-}
+export type IProjectEmitter = (props: IProjectEmitterProps) => Promise<IInternalReturn> | IInternalReturn;
 
 interface IInternalCache {
 	writeFile: Map<string, string>;
@@ -49,7 +47,7 @@ export function createEmitter(onEmit?: IOutputModifier): IProjectEmitter {
 
 		for (const item of files) {
 			if (!item.path || !item.contents) {
-				throw new Error('invalid file: ' + JSON.stringify(item));
+				throw new Error(`invalid file: ${JSON.stringify(item)}`);
 			}
 			const content = item.contents || Buffer.from(item.text, 'utf-8');
 			cache.writeFile.set(item.path, item.hash);

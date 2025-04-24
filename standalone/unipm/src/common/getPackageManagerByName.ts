@@ -2,7 +2,7 @@ import { Npm } from '../package-managers/npm.js';
 import { Pnpm } from '../package-managers/pnpm.js';
 import { Rush } from '../package-managers/rush.js';
 import { Yarn } from '../package-managers/yarn.js';
-import { PackageManagerConstructor } from './packageManager.js';
+import type { PackageManagerConstructor } from './packageManager.js';
 
 export const KNOWN_PACKAGE_MANAGERS: PackageManagerConstructor[] = [Npm, Yarn, Pnpm, Rush];
 export const KNOWN_PACKAGE_MANAGER_NAMES: string[] = ['npm', 'yarn', 'pnpm', 'rush'];

@@ -8,10 +8,10 @@ export type PositionKind = readonly [number, number];
 
 export enum ArgKind {
 	unkown = 0, // must 0
-	positional,
-	flag,
-	option,
-	sub_command,
+	positional = 1,
+	flag = 2,
+	option = 3,
+	sub_command = 4,
 }
 
 export interface IArgument<TokenType = Token> {
@@ -26,13 +26,13 @@ export interface IArgument<TokenType = Token> {
 
 function argPrivateAssign<T>(
 	args: Omit<IArgument<T>, 'parser' | 'firstUsageStack'>,
-	parser: IArgsReaderApi,
+	parser: IArgsReaderApi
 ): IArgument<T> {
 	Object.assign(args, { firstUsageStack: new StackTrace(args._id), parser });
 
 	(args as any)[customInspectSymbol] = function (
 		this: IArgument,
-		_depth: number,
+		_depth: number
 		// inspectOptions: InspectOptions,
 		// inspect: typeof node_inspect,
 	) {
@@ -53,11 +53,11 @@ function argPrivateAssign<T>(
  */
 export class TokenMatch {
 	private readonly memo = new Map<string, IArgument>();
-	private positionalCache?: IValue[];
+	protected positionalCache?: IValue[];
 
 	constructor(
 		private readonly tokens: readonly Token[],
-		private readonly parser: IArgsReaderApi,
+		private readonly parser: IArgsReaderApi
 	) {}
 
 	release(arg: IArgument) {
@@ -65,7 +65,7 @@ export class TokenMatch {
 			if (arg === value) {
 				this.memo.delete(key);
 				for (const token of arg.tokens) {
-					delete token.bindingArgument;
+					token.bindingArgument = undefined;
 				}
 				return;
 			}
@@ -86,13 +86,12 @@ export class TokenMatch {
 			for (const item of arg.tokens) {
 				if (item.kind === TokenKind.Both) {
 					// ok
+					tokens.push(item);
 				} else if (item.kind === TokenKind.Flag && item.next?.kind === TokenKind.Value) {
 					tokens.push(item.next);
 				} else {
 					throw new UnexpectedArgument(item, 'a value is required');
 				}
-
-				tokens.push(item);
 			}
 			writable(arg).tokens = tokens;
 
@@ -116,7 +115,7 @@ export class TokenMatch {
 	}
 
 	getPositionArgument(from: number, count: number): IArgument<IValue> {
-		const id = isFinite(count) ? `range[${from}:${from + count}]` : `range[${from}:]`;
+		const id = Number.isFinite(count) ? `range[${from}:${from + count}]` : `range[${from}:]`;
 		const exists = this.memo.get(id);
 		if (exists) {
 			return exists as IArgument<IValue>;
@@ -133,7 +132,7 @@ export class TokenMatch {
 
 				kind: ArgKind.unkown,
 			},
-			this.parser,
+			this.parser
 		);
 
 		for (const token of this.tokens) {
@@ -182,12 +181,12 @@ export class TokenMatch {
 		if (exists) {
 			return exists;
 		}
-		delete this.positionalCache;
+		this.positionalCache = undefined;
 
 		const flagsToken = [];
 		for (const flag of tokenize(flags)) {
 			if (flag.kind !== TokenKind.Flag) {
-				throw new Error('invalid flag name: ' + flag);
+				throw new Error(`invalid flag name: ${flag}`);
 			}
 			flagsToken.push(flag);
 		}
@@ -201,7 +200,7 @@ export class TokenMatch {
 
 				kind: ArgKind.unkown,
 			},
-			this.parser,
+			this.parser
 		);
 
 		for (const token of this.tokens) {
@@ -231,7 +230,7 @@ export class TokenMatch {
 
 			ret += value.tokens
 				.map((x) => {
-					return `${tab}  ${x.index} ` + wrapStyle(colors, '2', tokenToString(x), '0');
+					return `${tab}  ${x.index} ${wrapStyle(colors, '2', tokenToString(x), '0')}`;
 				})
 				.join(' ');
 			ret += `\n${tab}}`;

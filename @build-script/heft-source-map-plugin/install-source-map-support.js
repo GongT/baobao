@@ -1,4 +1,4 @@
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 
 let registed = false;
 if (!process.argv.find((e) => e.startsWith('--inspect'))) {

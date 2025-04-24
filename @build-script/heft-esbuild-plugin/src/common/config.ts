@@ -1,6 +1,6 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { normalizePath } from '@idlebox/common';
-import { BuildOptions } from 'esbuild';
+import type { BuildOptions } from 'esbuild';
 
 export interface FilterdBuildOptions extends BuildOptions {
 	outfile: never;
@@ -10,10 +10,10 @@ export interface FilterdBuildOptions extends BuildOptions {
 }
 
 function required(options: BuildOptions, key: keyof BuildOptions) {
-	if (typeof options[key] === 'undefined') throw new Error(key + ' is required');
+	if (typeof options[key] === 'undefined') throw new Error(`${key} is required`);
 }
 function denied(options: BuildOptions, key: keyof BuildOptions) {
-	if (typeof options[key] !== 'undefined') throw new Error(key + ' is denied');
+	if (typeof options[key] !== 'undefined') throw new Error(`${key} is denied`);
 }
 
 export function filterOptions(rootDir: string, options: BuildOptions): FilterdBuildOptions {
@@ -32,12 +32,12 @@ export function filterOptions(rootDir: string, options: BuildOptions): FilterdBu
 	} else if (options.platform === 'node') {
 	}
 
-	const outputDir = normalizePath(resolve(rootDir, './' + options.outdir));
+	const outputDir = normalizePath(resolve(rootDir, `./${options.outdir}`));
 	if (!outputDir.startsWith(rootDir)) {
-		throw new Error('output dirctory is out of root: ' + outputDir);
+		throw new Error(`output dirctory is out of root: ${outputDir}`);
 	}
 	if (outputDir === rootDir) {
-		throw new Error('output dirctory is root: ' + options.outdir);
+		throw new Error(`output dirctory is root: ${options.outdir}`);
 	}
 	options.outdir = outputDir;
 	options.absWorkingDir = rootDir;

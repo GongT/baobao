@@ -1,6 +1,6 @@
 import { globalSingletonStrong } from '../../platform/globalSingleton.js';
 import { createSymbol } from '../../platform/globalSymbol.js';
-import { IDisposable } from './lifecycle.js';
+import type { IDisposable } from './lifecycle.js';
 import { AsyncDisposable } from './lifecycle.async.js';
 
 const symbol = createSymbol('lifecycle', 'application');
@@ -23,9 +23,8 @@ export function ensureDisposeGlobal() {
 	const obj = globalSingletonStrong<AsyncDisposable>(symbol);
 	if (obj && !obj.hasDisposed) {
 		return Promise.resolve(obj.dispose());
-	} else {
-		return Promise.resolve();
 	}
+	return Promise.resolve();
 }
 
 /**
@@ -36,13 +35,13 @@ export function ensureDisposeGlobal() {
  */
 export function disposeGlobal() {
 	const obj = globalSingletonStrong<AsyncDisposable>(symbol);
-	if (obj && obj.hasDisposed) {
+	if (obj?.hasDisposed) {
 		throw new Error('global already disposed.');
-	} else if (obj) {
-		return Promise.resolve(obj.dispose());
-	} else {
-		return Promise.resolve();
 	}
+	if (obj) {
+		return Promise.resolve(obj.dispose());
+	}
+	return Promise.resolve();
 }
 
 /**

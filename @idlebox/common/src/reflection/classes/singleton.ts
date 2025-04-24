@@ -3,8 +3,8 @@ import { hookClass } from './hookClass.js';
 export const singletonSymbol = Symbol('@gongt/singleton');
 
 export enum SingletonType {
-	Throw,
-	Return,
+	Throw = 0,
+	Return = 1,
 }
 
 export function singleton(type: SingletonType = SingletonType.Return): ClassDecorator {
@@ -21,9 +21,8 @@ export function singleton(type: SingletonType = SingletonType.Return): ClassDeco
 			if (cls[singletonSymbol]) {
 				if (type === SingletonType.Return) {
 					return cls[singletonSymbol];
-				} else {
-					throw new Error(`Duplicate new singleton class [${target.name}]`);
 				}
+				throw new Error(`Duplicate new singleton class [${target.name}]`);
 			}
 		});
 		hook.afterConstruct.push((obj) => {

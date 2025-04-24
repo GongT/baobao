@@ -15,7 +15,6 @@ export function assertNotNull<T>(val: T | null | undefined): T {
 export function throwNull<T>(val: T) {
 	if (val === undefined || val === null) {
 		return val!;
-	} else {
-		throw new Error('Value is ' + typeof val);
 	}
+	throw new Error(`Value is ${typeof val}`);
 }

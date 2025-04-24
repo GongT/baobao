@@ -20,9 +20,7 @@ export function arrayUniqueReference(arr: any[]): void {
 	}
 }
 
-export interface IUniqueIdFactory<T> {
-	(item: T): string;
-}
+export type IUniqueIdFactory<T> = (item: T) => string;
 
 function defaultFactory(t: any) {
 	return t as string;
@@ -42,9 +40,8 @@ export function uniqueFilter<T>(idFactory: IUniqueIdFactory<T> = defaultFactory)
 		const id = idFactory(item);
 		if (seen[id]) {
 			return false;
-		} else {
-			seen[id] = true;
-			return true;
 		}
+		seen[id] = true;
+		return true;
 	};
 }

@@ -1,7 +1,7 @@
 import { Emitter } from '@idlebox/common';
 import { FSWatcher } from 'chokidar';
-import { writeFile } from 'fs/promises';
-import { basename, resolve } from 'path';
+import { writeFile } from 'node:fs/promises';
+import { basename, resolve } from 'node:path';
 import { compileAsync } from 'sass';
 import { hash } from './esbuild/library.js';
 import { entrySourceRoot, isTTY, outputDir } from './library/constants.js';
@@ -18,10 +18,10 @@ async function compile(f: string) {
 			sourceMapIncludeSources: true,
 		});
 
-		const name = basename(f).replace(/\.scss$/, '-' + hash(res.css) + '.css');
+		const name = basename(f).replace(/\.scss$/, `-${hash(res.css)}.css`);
 		const file = resolve(outputDir, name);
 		await writeFile(file, res.css, 'utf-8');
-		await writeFile(file + '.map', JSON.stringify(res.sourceMap), 'utf-8');
+		await writeFile(`${file}.map`, JSON.stringify(res.sourceMap), 'utf-8');
 
 		return name;
 	} catch (e: any) {
@@ -38,7 +38,7 @@ function build(file: string) {
 		},
 		(e) => {
 			event.fireNoError(e);
-		},
+		}
 	);
 }
 

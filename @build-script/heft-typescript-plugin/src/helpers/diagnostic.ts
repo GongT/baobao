@@ -1,7 +1,7 @@
 import type { IScopedLogger } from '@rushstack/heft';
 import { FileError } from '@rushstack/node-core-library';
 import type TypeScriptApi from 'typescript';
-import { IHeftJsonOptions } from './type.js';
+import type { IHeftJsonOptions } from './type.js';
 
 export class CustomDiagnosticPrinter {
 	private readonly diagnostics: TypeScriptApi.Diagnostic[] = [];
@@ -9,7 +9,7 @@ export class CustomDiagnosticPrinter {
 		private readonly ts: typeof TypeScriptApi,
 		private readonly rootDir: string,
 		private readonly options: IHeftJsonOptions,
-		private readonly logger: IScopedLogger,
+		private readonly logger: IScopedLogger
 	) {}
 
 	public add(...diagnosticsArrays: ReadonlyArray<TypeScriptApi.Diagnostic>[]) {
@@ -41,7 +41,7 @@ export class CustomDiagnosticPrinter {
 				return true;
 			}
 		} else {
-			this.logger.terminal.writeWarningLine('found error from out-of-worktree:' + diagnostic.file.fileName);
+			this.logger.terminal.writeWarningLine(`found error from out-of-worktree:${diagnostic.file.fileName}`);
 		}
 		return false;
 	}
@@ -92,7 +92,7 @@ export class CustomDiagnosticPrinter {
 			this.print_line(diagnostic);
 		}
 
-		let message: string[] = [];
+		const message: string[] = [];
 
 		if (warningCount || errorCount) {
 			const s1 = errorCount === 1 ? '' : 's';

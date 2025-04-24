@@ -33,8 +33,8 @@ export function isObjectSameRecursive(a: any, b: any) {
 
 	for (const k of aks) {
 		if (a[k] !== b[k]) {
-			const av = a[k],
-				bv = b[k];
+			const av = a[k];
+			const bv = b[k];
 			if (av && bv && typeof av === 'object' && typeof bv === 'object') {
 				if (Array.isArray(av)) {
 					if (Array.isArray(bv)) {

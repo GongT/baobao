@@ -1,6 +1,6 @@
 import * as api from '.';
-import { resolve } from 'path';
-import { inspect } from 'util';
+import { resolve } from 'node:path';
+import { inspect } from 'node:util';
 import ts from 'typescript';
 import { getOptions } from './inc/load-tsconfig.js';
 

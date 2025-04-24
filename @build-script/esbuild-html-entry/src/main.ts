@@ -1,10 +1,10 @@
 import { relativePath } from '@idlebox/node';
-import { CheerioAPI, load as loadHtml } from 'cheerio';
+import { type CheerioAPI, load as loadHtml } from 'cheerio';
 import type esbuild from 'esbuild';
-import { readFile, stat, writeFile } from 'fs/promises';
-import { basename, dirname, resolve } from 'path';
+import { readFile, stat, writeFile } from 'node:fs/promises';
+import { basename, dirname, resolve } from 'node:path';
 import { Tag, TagCollection } from './tag.js';
-import { commonParent, debug, IDiagnostics } from './tools.js';
+import { commonParent, debug, type IDiagnostics } from './tools.js';
 
 const PLUGIN_NAME = 'html-creation';
 const NAMESPACE = '@gongt/esbuild-html-entry';
@@ -31,7 +31,7 @@ export class HtmlEntryPlugin {
 		this.sourceRoot = resolve(build.initialOptions.absWorkingDir ?? process.cwd());
 		debug('[plugin] sourceRoot:', this.sourceRoot);
 
-		let cr = resolve(this.sourceRoot, build.initialOptions.outdir ?? '.');
+		const cr = resolve(this.sourceRoot, build.initialOptions.outdir ?? '.');
 		if (cr.startsWith(this.sourceRoot) || this.sourceRoot.startsWith(cr)) {
 		}
 		this.commonParent = commonParent(this.sourceRoot, cr);
@@ -54,14 +54,14 @@ export class HtmlEntryPlugin {
 		}
 		debug(
 			'\x1b[38;5;11m[onEnd]\x1b[0m outputFiles:',
-			args.outputFiles?.map((e) => e.path),
+			args.outputFiles?.map((e) => e.path)
 		);
 		debug('        metafile.outputs:', Object.keys(args.metafile.outputs));
 
 		const entryMap = new Map<ICache, string>();
 
 		for (const [jsBundle, output] of Object.entries(args.metafile.outputs)) {
-			if (!output.entryPoint?.startsWith(NAMESPACE + ':')) {
+			if (!output.entryPoint?.startsWith(`${NAMESPACE}:`)) {
 				debug('\x1b[2m ✘ %s (entry: %s)\x1b[0m', jsBundle, output.entryPoint);
 				continue;
 			}
@@ -187,7 +187,7 @@ export class HtmlEntryPlugin {
 
 	private async tryResolve(kind: esbuild.ImportKind, importer: string, file: string, diag: IDiagnostics) {
 		if (!file.startsWith('.')) {
-			file = './' + file;
+			file = `./${file}`;
 		}
 		const res = await this._resolve(file, { importer, kind, resolveDir: dirname(importer) });
 		diag.errors.push(...res.errors);

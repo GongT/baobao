@@ -1,4 +1,4 @@
-import { ArgumentError, createArgsReader, ISubArgsReaderApi, printTwoColumn } from '@idlebox/args';
+import { ArgumentError, createArgsReader, type ISubArgsReaderApi, printTwoColumn } from '@idlebox/args';
 import { commands_define, known_sub_commands, type CommandKind } from './commands/all.generated.js';
 
 export default async function main() {
@@ -24,7 +24,7 @@ export default async function main() {
 			if (got) {
 				throw new ArgumentError(`invalid command: ${got}`);
 			}
-			throw new ArgumentError(`missing command`);
+			throw new ArgumentError('missing command');
 		}
 
 		const { parse, execute } = await commands_define[sub.value].loadCmd();
@@ -40,7 +40,7 @@ export default async function main() {
 		return 0;
 	} catch (e: unknown) {
 		if (e instanceof ArgumentError) {
-			console.error(`\n\t\x1B[38;5;9m%s\x1B[0m\n`, e.message);
+			console.error('\n\t\x1B[38;5;9m%s\x1B[0m\n', e.message);
 			await printUsage(sub?.value);
 			return 1;
 		}

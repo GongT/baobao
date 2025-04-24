@@ -1,56 +1,113 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"vcs": {
-		"enabled": false,
+		"enabled": true,
 		"clientKind": "git",
-		"useIgnoreFile": true
+		"useIgnoreFile": true,
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": ["local-history", ".nx", "lib", "node_modules"]
+		"ignore": ["local-history", ".nx", "lib", "node_modules"],
+		"include": ["*.js", "*.mjs", "*.cjs", "*.ts", "*.tsx", "*.json"],
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
 		"formatWithErrors": true,
 		"lineEnding": "lf",
-		"lineWidth": 120
-	},
-	"organizeImports": {
-		"enabled": false
+		"lineWidth": 120,
 	},
 	"linter": {
-		"enabled": false,
+		"enabled": true,
 		"rules": {
-			"recommended": true
-		}
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "off",
+			},
+			"style": {
+				"noArguments": "off",
+				"noParameterAssign": "off",
+				"noNonNullAssertion": "warn",
+				"useShorthandFunctionType": "off",
+				"useShorthandArrayType": "off",
+				"noUselessElse": "off",
+				"noUnusedTemplateLiteral": "off",
+				"noDefaultExport": "error",
+			},
+			"complexity": {
+				"noThisInStatic": "off",
+			},
+			"correctness": {
+				"useImportExtensions": {
+					"fix": "unsafe",
+					"level": "error",
+					"options": {
+						"suggestedExtensions": {
+							"ts": {
+								"module": "js",
+								"component": "js",
+							},
+						},
+					},
+				},
+			},
+			"nursery": {
+				"noSubstr": "info",
+				"useAtIndex": "info",
+			},
+			"performance": {
+				"useTopLevelRegex": "info",
+				"noDelete": "info",
+			},
+			"security": {},
+		},
+	},
+	"organizeImports": {
+		"enabled": false,
 	},
 	"javascript": {
 		"formatter": {
+			"enabled": true,
 			"quoteStyle": "single",
-			"trailingCommas": "es5"
-		}
+			"trailingCommas": "es5",
+		},
+		"linter": {
+			"enabled": true,
+		},
 	},
 	"json": {
 		"parser": {
-			"allowTrailingCommas": true
+			"allowTrailingCommas": true,
+			"allowComments": true,
 		},
 		"formatter": {
-			"trailingCommas": "none"
-		}
+			"enabled": true,
+			"trailingCommas": "none",
+		},
+		"linter": {
+			"enabled": true,
+		},
 	},
 	"overrides": [
 		{
 			"include": ["*.ts"],
-			"organizeImports": { "enabled": false }
+			"organizeImports": { "enabled": false },
 		},
 		{
-			"include": ["tsconfig.json", "tsconfig.*.json", ".vscode/*.json"],
+			"include": ["tsconfig.json", "tsconfig.*.json", ".vscode/*.json", "*.jsonc"],
 			"json": {
 				"formatter": {
-					"trailingCommas": "all"
-				}
-			}
-		}
-	]
+					"trailingCommas": "all",
+				},
+			},
+		},
+	],
+	"css": {
+		"formatter": {
+			"enabled": true,
+		},
+		"linter": {
+			"enabled": true,
+		},
+	},
 }

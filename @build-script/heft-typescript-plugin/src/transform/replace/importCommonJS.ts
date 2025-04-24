@@ -1,8 +1,8 @@
 import type TypeScriptApi from 'typescript';
 
-import { ModuleResolver, WantModuleKind } from '../library/ModuleResolver.js';
+import { type ModuleResolver, WantModuleKind } from '../library/ModuleResolver.js';
 import { NodeReplacer } from '../library/NodeReplacer.js';
-import { createObjectAccess, isImportExportFrom, ValidImportOrExportFromDeclaration } from '../library/util.js';
+import { createObjectAccess, isImportExportFrom, type ValidImportOrExportFromDeclaration } from '../library/util.js';
 
 /**
  * 输入类似：
@@ -25,7 +25,7 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 
 	constructor(
 		protected readonly resolver: ModuleResolver,
-		fileDetectCache = new Map<string, boolean>(),
+		fileDetectCache = new Map<string, boolean>()
 	) {
 		super();
 
@@ -65,7 +65,7 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 		const self = node.getSourceFile().fileName;
 		const id = node.moduleSpecifier.text;
 
-		const cid = self + '?' + id;
+		const cid = `${self}?${id}`;
 		if (this.cache.has(cid)) {
 			return this.cache.get(cid)!;
 		}
@@ -114,8 +114,7 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 			context: { factory },
 		} = this.context;
 
-		const uniqueName =
-			'_' + node.moduleSpecifier.text.replace(/^@/, '').replace(/[/\.-]/g, '_') + '_' + node.getStart();
+		const uniqueName = `_${node.moduleSpecifier.text.replace(/^@/, '').replace(/[/\.-]/g, '_')}_${node.getStart()}`;
 		logger.terminal.writeVerboseLine(`modify import to {default} with id: ${uniqueName}`);
 		if (ts.isExportDeclaration(node)) {
 			const uid = factory.createIdentifier(uniqueName);
@@ -129,7 +128,7 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 					local_name,
 					undefined,
 					undefined,
-					createObjectAccess(ts, factory, uid, item.propertyName || item.name),
+					createObjectAccess(ts, factory, uid, item.propertyName || item.name)
 				);
 				varList.push(varDef);
 
@@ -138,7 +137,7 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 
 			const copyStmt = factory.createVariableStatement(
 				[factory.createModifier(ts.SyntaxKind.ExportKeyword)],
-				factory.createVariableDeclarationList(varList, ts.NodeFlags.Const),
+				factory.createVariableDeclarationList(varList, ts.NodeFlags.Const)
 			);
 
 			/*
@@ -155,49 +154,41 @@ export class ImportCommonJS extends NodeReplacer<ValidImportOrExportFromDeclarat
 					undefined,
 					factory.createImportClause(false, uid, undefined),
 					node.moduleSpecifier,
-					undefined,
+					undefined
 				),
 				copyStmt,
 				factory.createExportDeclaration(undefined, false, factory.createNamedExports(exports)),
 			];
-		} else {
-			const nameToUse = node.importClause?.name?.text ?? uniqueName;
-			const uid = factory.createIdentifier(nameToUse);
-			if (node.importClause) ts.setOriginalNode(uid, node.importClause.name);
-
-			return [
-				factory.createImportDeclaration(
-					node.modifiers,
-					factory.createImportClause(false, uid, undefined),
-					node.moduleSpecifier,
-					node.attributes,
-				),
-				factory.createVariableStatement(
-					undefined,
-					factory.createVariableDeclarationList(
-						[
-							factory.createVariableDeclaration(
-								factory.createObjectBindingPattern(
-									(node.importClause!.namedBindings! as TypeScriptApi.NamedImports).elements.map(
-										(node) => {
-											return factory.createBindingElement(
-												undefined,
-												node.propertyName,
-												node.name.text,
-												undefined,
-											);
-										},
-									),
-								),
-								undefined,
-								undefined,
-								uid,
-							),
-						],
-						ts.NodeFlags.Const,
-					),
-				),
-			];
 		}
+		const nameToUse = node.importClause?.name?.text ?? uniqueName;
+		const uid = factory.createIdentifier(nameToUse);
+		if (node.importClause) ts.setOriginalNode(uid, node.importClause.name);
+
+		return [
+			factory.createImportDeclaration(
+				node.modifiers,
+				factory.createImportClause(false, uid, undefined),
+				node.moduleSpecifier,
+				node.attributes
+			),
+			factory.createVariableStatement(
+				undefined,
+				factory.createVariableDeclarationList(
+					[
+						factory.createVariableDeclaration(
+							factory.createObjectBindingPattern(
+								(node.importClause?.namedBindings! as TypeScriptApi.NamedImports).elements.map((node) => {
+									return factory.createBindingElement(undefined, node.propertyName, node.name.text, undefined);
+								})
+							),
+							undefined,
+							undefined,
+							uid
+						),
+					],
+					ts.NodeFlags.Const
+				)
+			),
+		];
 	}
 }

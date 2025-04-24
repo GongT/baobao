@@ -1,8 +1,8 @@
 import '../include/prefix';
 import split2 from 'split2';
-import { ChildProcess, spawn } from 'child_process';
-import { relative, resolve } from 'path';
-import { Readable } from 'stream';
+import { type ChildProcess, spawn } from 'node:child_process';
+import { relative, resolve } from 'node:path';
+import type { Readable } from 'node:stream';
 import { buildProjects } from '@build-script/rush-tools';
 import { REPO_ROOT } from '../include/paths.js';
 
@@ -25,7 +25,7 @@ async function main() {
 	return buildProjects(async ({ packageName, projectFolder }) => {
 		const path = resolve(REPO_ROOT, projectFolder);
 		const pkg = require(resolve(path, 'package.json'));
-		const watchScript: string = pkg.scripts && pkg.scripts.watch;
+		const watchScript: string = pkg.scripts?.watch;
 
 		if (!watchScript) {
 			console.error(`\x1B[38;5;14m${packageName}\x1B[38;5;10m skip - no watch script\x1B[0m`);
@@ -57,7 +57,7 @@ const ps = [];
 function waitHandle(title: string, p: ChildProcess) {
 	ps.push(p);
 	p.on('exit', (code, signal) => {
-		console.error(`\x1B[38;5;14m${title}\x1B[38;5;9m watch exit with %s`, signal ? 'signal ' + signal : code);
+		console.error(`\x1B[38;5;14m${title}\x1B[38;5;9m watch exit with %s`, signal ? `signal ${signal}` : code);
 		ps.forEach((p) => {
 			p.kill('SIGINT');
 		});
@@ -71,7 +71,7 @@ function stdoutHandle(status: CompileStatus, stdout: Readable): Promise<void> {
 
 	return new Promise((resolve) => {
 		split.on('data', function filterPassthrough(line: Buffer) {
-			let toPrint: string = '';
+			let toPrint = '';
 			let data = line.toString();
 
 			if (clearSeq.test(data)) {
@@ -113,15 +113,15 @@ function dumpFailed() {
 	if (failed.length === 0) {
 		return process.stdout.write('No project has error.\n');
 	}
-	process.stdout.write(failed.length + ' project can not compile:\n');
+	process.stdout.write(`${failed.length} project can not compile:\n`);
 	for (const { title } of failed) {
-		process.stdout.write(' * ' + title + '\n');
+		process.stdout.write(` * ${title}\n`);
 	}
 }
 
 main().then(
 	() => {
-		console.log(`\x1B[38;5;10mAll projects compiled at least one time.\x1B[0m `);
+		console.log('\x1B[38;5;10mAll projects compiled at least one time.\x1B[0m ');
 	},
 	(e) => {
 		console.error(e.stack);

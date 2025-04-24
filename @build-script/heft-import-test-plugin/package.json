@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-import-test-plugin",
 	"type": "commonjs",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"main": "./loader/index.js",
 	"publishConfig": {
 		"main": "./lib/index.js",

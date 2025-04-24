@@ -1,4 +1,4 @@
-import { everything, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, SupportInfo } from './base.js';
+import { everything, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, type SupportInfo } from './base.js';
 import { combiningCharactersRegexStarting, isCombiningCharacters } from './combiningCharacters.js';
 import { isFullwidthCodePointLibrary } from './shim.lib.js';
 

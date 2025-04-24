@@ -1,5 +1,5 @@
 import type TypeScriptApi from 'typescript';
-import { InspectOptions } from 'util';
+import type { InspectOptions } from 'node:util';
 
 export interface ILogger {
 	log(msg: string, ...args: any[]): void;
@@ -8,7 +8,7 @@ export interface ILogger {
 	verbose(msg: string, ...args: any[]): void;
 }
 
-export const isDebug = /\bEXPORT\b/.test('' + process.env.NODE_DEBUG);
+export const isDebug = /\bEXPORT\b/.test(`${process.env.NODE_DEBUG}`);
 
 export function debug(msg: string, ...args: any[]) {
 	if (isDebug) console.log(msg, ...args);
@@ -23,7 +23,7 @@ export const consoleLogger: ILogger = {
 
 export function showFile(node: TypeScriptApi.Node) {
 	const file = node.getSourceFile();
-	return '(at: ' + file.fileName + ':' + file.getLineAndCharacterOfPosition(node.getStart()).line + ')';
+	return `(at: ${file.fileName}:${file.getLineAndCharacterOfPosition(node.getStart()).line})`;
 }
 
 const colors = {

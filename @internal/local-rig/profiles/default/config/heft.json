@@ -6,9 +6,7 @@
 			"cleanFiles": [
 				{
 					"sourcePath": "src",
-					"includeGlobs": [
-						"**/*.generated.ts"
-					]
+					"includeGlobs": ["**/*.generated.ts"]
 				}
 			],
 			"tasksByName": {
@@ -32,9 +30,7 @@
 					}
 				},
 				"autoindex": {
-					"taskDependencies": [
-						"codegen"
-					],
+					"taskDependencies": ["codegen"],
 					"taskPlugin": {
 						"pluginPackage": "@build-script/heft-autoindex-plugin"
 					}
@@ -43,9 +39,7 @@
 		},
 		"compile": {
 			"phaseDescription": "编译",
-			"phaseDependencies": [
-				"generate"
-			],
+			"phaseDependencies": ["generate"],
 			"cleanFiles": [
 				{
 					"sourcePath": "temp"
@@ -75,9 +69,7 @@
 		},
 		"postprocess": {
 			"phaseDescription": "对编译结果进行后处理、正规化",
-			"phaseDependencies": [
-				"compile"
-			],
+			"phaseDependencies": ["compile"],
 			"tasksByName": {
 				"track": {
 					"taskPlugin": {
@@ -90,29 +82,18 @@
 		},
 		"build": {
 			"phaseDescription": "生成不可变的发布文件（例如打包）",
-			"phaseDependencies": [
-				"postprocess"
-			],
+			"phaseDependencies": ["postprocess"],
 			// "phaseDescription": "run build process",
 			"cleanFiles": [
 				{
 					"sourcePath": ".",
-					"fileExtensions": [
-						".tgz",
-						".log"
-					],
-					"excludeGlobs": [
-						"node_modules"
-					]
+					"fileExtensions": [".tgz", ".log"],
+					"excludeGlobs": ["node_modules"]
 				},
 				{
 					"sourcePath": ".",
-					"includeGlobs": [
-						"*-logs"
-					],
-					"excludeGlobs": [
-						"node_modules"
-					]
+					"includeGlobs": ["*-logs"],
+					"excludeGlobs": ["node_modules"]
 				}
 			],
 			"tasksByName": {
@@ -122,14 +103,12 @@
 						"pluginPackage": "@internal/plugins",
 						"options": {}
 					}
-				},
+				}
 			}
 		},
 		"test": {
 			"phaseDescription": "执行测试（如有）",
-			"phaseDependencies": [
-				"postprocess"
-			],
+			"phaseDependencies": ["postprocess"],
 			"tasksByName": {
 				// "depcheck": {
 				// 	"taskPlugin": {

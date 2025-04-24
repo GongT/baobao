@@ -1,10 +1,10 @@
 import { sleep } from '@idlebox/common';
 import { streamPromise } from '@idlebox/node';
 import { execa } from 'execa';
-import { createWriteStream, mkdirSync } from 'fs';
-import { resolve } from 'path';
-import { PassThrough } from 'stream';
-import { ICProjectConfig, RushProject } from '../api.js';
+import { createWriteStream, mkdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { PassThrough } from 'node:stream';
+import type { ICProjectConfig, RushProject } from '../api.js';
 
 interface IRunArgs {
 	quiet: boolean;
@@ -23,7 +23,7 @@ export async function runCustomCommand(rush: RushProject, project: string | ICPr
 		console.error(
 			'[rush-tool] export PROJECT_NAME=%s PROJECT_PATH=%s',
 			process.env.PROJECT_NAME,
-			process.env.PROJECT_PATH,
+			process.env.PROJECT_PATH
 		);
 	}
 	const p = execa(options.argv[0], options.argv.slice(1), {
@@ -32,14 +32,14 @@ export async function runCustomCommand(rush: RushProject, project: string | ICPr
 		stdio: ['inherit', 'pipe', 'pipe'],
 	});
 
-	const stdout = p.stdout!.pipe(new PassThrough(), { end: true });
-	const stderr = p.stderr!.pipe(new PassThrough(), { end: true });
+	const stdout = p.stdout?.pipe(new PassThrough(), { end: true });
+	const stderr = p.stderr?.pipe(new PassThrough(), { end: true });
 	stdout.pipe(process.stdout);
 	stderr.pipe(process.stderr);
 
 	const logPath = resolve(absPath, '.rush/logs');
 	mkdirSync(logPath, { recursive: true });
-	const logger = createWriteStream(logPath + '/rush-tools.run.log');
+	const logger = createWriteStream(`${logPath}/rush-tools.run.log`);
 	stdout.pipe(logger, { end: false });
 	stderr.pipe(logger, { end: false });
 
@@ -52,7 +52,7 @@ export async function runCustomCommand(rush: RushProject, project: string | ICPr
 				console.error(
 					'[rush-tool] export PROJECT_NAME=%s PROJECT_PATH=%s',
 					process.env.PROJECT_NAME,
-					process.env.PROJECT_PATH,
+					process.env.PROJECT_PATH
 				);
 			}
 			console.error('[rush-tool] [command fail]', e.message);

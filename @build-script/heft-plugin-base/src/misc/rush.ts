@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'path';
+import { dirname, resolve } from 'node:path';
 import { findUpUntilSync } from './functions.js';
 
 let rootDir: string | null;

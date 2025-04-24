@@ -1,6 +1,6 @@
-import 'mocha'
+import 'mocha';
 import { expect } from 'chai';
-import { CodePointInfo, readFirstCompleteChar } from './firstCompleteChar.js';
+import { type CodePointInfo, readFirstCompleteChar } from './firstCompleteChar.js';
 import 'source-map-support/register.js';
 import { unicodeEscape } from './escapeUnicode.js';
 import { stringWidth } from './stringWidth.js';
@@ -10,18 +10,15 @@ import { everything, nothing } from './base.js';
 function create(char: string, width: number, winCmd = false) {
 	let r: CodePointInfo;
 	before(() => {
-		r = readFirstCompleteChar(
-			`${char}👌~ working ${char}[${unicodeEscape(char)}]`,
-			winCmd ? nothing : everything
-		);
+		r = readFirstCompleteChar(`${char}👌~ working ${char}[${unicodeEscape(char)}]`, winCmd ? nothing : everything);
 	});
-	it(`should catch output of ${JSON.stringify(char)}`, function () {
+	it(`should catch output of ${JSON.stringify(char)}`, () => {
 		expect(r.data).is.equal(char);
 	});
-	it(`should has length of ${char.length}`, function () {
+	it(`should has length of ${char.length}`, () => {
 		expect(r.length).is.equal(char.length);
 	});
-	it(`should has width of ${width}`, function () {
+	it(`should has width of ${width}`, () => {
 		expect(r.width).is.equal(width);
 	});
 }
@@ -33,13 +30,13 @@ describe('Basic', () => {
 		before(() => {
 			r = readFirstCompleteChar('');
 		});
-		it(`should return empty`, function () {
+		it('should return empty', () => {
 			expect(r.data).is.equal('');
 		});
-		it(`should has length of "0"`, function () {
+		it(`should has length of "0"`, () => {
 			expect(r.length).is.equal(0);
 		});
-		it(`should has width of "0"`, function () {
+		it(`should has width of "0"`, () => {
 			expect(r.width).is.equal(0);
 		});
 	});
@@ -101,47 +98,47 @@ describe('Big code page', () => {
 // basic width counting
 describe('#stringWidth', () => {
 	describe('Width of 𠮟', () => {
-		it('should be 2', function () {
+		it('should be 2', () => {
 			expect(stringWidth('𠮟')).to.equal(2);
 		});
 	});
 	describe('Width of D834 DD1E', () => {
-		it('should be 1', function () {
+		it('should be 1', () => {
 			expect(stringWidth('\uD834\uDD1E')).to.equal(1);
 		});
 	});
 	describe('Width of D834 DD1E (cmd)', () => {
-		it('should be 2', function () {
+		it('should be 2', () => {
 			expect(stringWidth('\uD834\uDD1E', nothing)).to.equal(2);
 		});
 	});
 	describe('Width of 𠮟👍🏽', () => {
-		it('should be 4', function () {
+		it('should be 4', () => {
 			expect(stringWidth('𠮟👍🏽')).to.equal(4);
 		});
 	});
 	describe('Width of 😂😂😂', () => {
-		it('should be 6', function () {
+		it('should be 6', () => {
 			expect(stringWidth('😂😂😂')).to.equal(6);
 		});
 	});
 	describe('Width of A\u0300', () => {
-		it('should be 1', function () {
+		it('should be 1', () => {
 			expect(stringWidth('A\u0300')).to.equal(1);
 		});
 	});
 	describe('Width of A\u0300 (on cmd)', () => {
-		it('should be 2', function () {
+		it('should be 2', () => {
 			expect(stringWidth('A\u0300', nothing)).to.equal(2);
 		});
 	});
 	describe('Width of 😂\u0300', () => {
-		it('should be 2', function () {
+		it('should be 2', () => {
 			expect(stringWidth('😂\u0300')).to.equal(2);
 		});
 	});
 	describe('Width of 😂\u0300 (on cmd)', () => {
-		it('should be 3', function () {
+		it('should be 3', () => {
 			expect(stringWidth('😂\u0300', nothing)).to.equal(3);
 		});
 	});

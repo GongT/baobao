@@ -1,13 +1,13 @@
 import type { HeftConfiguration, IHeftTaskSession } from '@rushstack/heft';
-import { existsSync } from 'fs';
-import { dirname, relative, resolve } from 'path';
+import { existsSync } from 'node:fs';
+import { dirname, relative, resolve } from 'node:path';
 import { overwriteSafeMark, writeFileIfChangeSafeSync } from '../inc/fs.js';
-import { IPackageJson } from '../inc/package.js';
+import type { IPackageJson } from '../inc/package.js';
 
 export const PLUGIN_NAME = 'make-dualstack-package';
 
 export default class MakeDualStackPlugin {
-	apply(session: IHeftTaskSession, configuration: HeftConfiguration, _options?: void): void {
+	apply(session: IHeftTaskSession, configuration: HeftConfiguration, _options?: undefined): void {
 		session.hooks.run.tapPromise(PLUGIN_NAME, async (_opt) => {
 			const pkgJsonPath = resolve(configuration.buildFolderPath, 'package.json');
 			try {
@@ -51,7 +51,7 @@ function basicCheck(pkgJsonPath: string, pkgJson: IPackageJson) {
 	existsAndBasicSame('module', 'import');
 
 	if (pkgJson.types || pkgJson.typings || exported.types) {
-		throw new Error('forbidden "types" field in ' + pkgJsonPath);
+		throw new Error(`forbidden "types" field in ${pkgJsonPath}`);
 	}
 }
 
@@ -82,7 +82,7 @@ function actionCjs(session: IHeftTaskSession, rootDir: string, pkgJson: IPackage
 			exports: relativePath(dirname(shadowPackagePath), absoluteEntry),
 		})
 	);
-	if (ch) session.logger.terminal.writeLine(`commonjs package created.`);
+	if (ch) session.logger.terminal.writeLine('commonjs package created.');
 }
 
 function actionEsm(session: IHeftTaskSession, rootDir: string, pkgJson: IPackageJson) {
@@ -109,9 +109,9 @@ function actionEsm(session: IHeftTaskSession, rootDir: string, pkgJson: IPackage
 			exports: relativePath(dirname(shadowPackagePath), absoluteEntry),
 		})
 	);
-	if (ch) session.logger.terminal.writeLine(`module package created.`);
+	if (ch) session.logger.terminal.writeLine('module package created.');
 }
 
 function relativePath(from: string, to: string) {
-	return './' + relative(from, to).replace(/\\/g, '/');
+	return `./${relative(from, to).replace(/\\/g, '/')}`;
 }

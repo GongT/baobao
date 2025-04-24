@@ -1,13 +1,13 @@
-const { readFileSync, writeFileSync } = require('fs');
-const { resolve } = require('path');
+const { readFileSync, writeFileSync } = require('node:fs');
+const { resolve } = require('node:path');
 
-module.exports.remove = function (cwd) {
+module.exports.remove = (cwd) => {
 	const pkgFile = resolve(cwd, 'package.json');
 	const pkg = require(pkgFile);
 	const typingFile = pkg.types || pkg.typings;
 
 	if (!typingFile) {
-		throw new Error('missing types field in ' + pkgFile);
+		throw new Error(`missing types field in ${pkgFile}`);
 	}
 
 	const targetDts = resolve(cwd, typingFile);

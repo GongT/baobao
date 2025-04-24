@@ -1,12 +1,10 @@
 {
 	"name": "@gongt/esbuild-custom-writer",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"type": "module",
 	"license": "MIT",
 	"repository": "https://github.com/GongT/baobao",
-	"keywords": [
-		"esbuild"
-	],
+	"keywords": ["esbuild"],
 	"exports": {
 		".": "./lib/main.js",
 		"./package.json": "./package.json"

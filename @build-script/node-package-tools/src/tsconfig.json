@@ -4,7 +4,8 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"]
+		"types": ["node"],
+		"noEmitOnError": false
 	},
-	"exclude": ["**/*.generator.ts"]
+	"exclude": ["**/*.generator.ts"],
 }

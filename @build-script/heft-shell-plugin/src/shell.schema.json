@@ -4,9 +4,7 @@
 	"description": "This schema describes the \"options\" field that can be specified in heft.json when loading \"@build-script/heft-shell-plugin\".",
 	"type": "object",
 	"additionalProperties": false,
-	"required": [
-		"script"
-	],
+	"required": ["script"],
 	/*
 	interpreter?: string;
 	interpreterArgs?: string[];

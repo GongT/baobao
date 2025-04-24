@@ -1,6 +1,6 @@
 import { isDebug } from '@build-script/heft-plugin-base';
 import { execaNode } from 'execa';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { BaseExecuter, type IGenerateResult } from './executer.base.js';
 import type { IOutputProtocol, IProtocolMessage } from './shared.js';
 
@@ -41,9 +41,9 @@ export class ThreadExecuter extends BaseExecuter {
 		});
 		this.logger.verbose('process started');
 
-		let complete = false,
-			error,
-			data;
+		let complete = false;
+		let error;
+		let data;
 		const outputs: IOutputProtocol[] = [];
 
 		try {

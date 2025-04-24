@@ -7,7 +7,7 @@ if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
 
 const { prettyPrintError } = await import('@idlebox/common');
 
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 try {
 	const { default: main } = await import('./lib/esm/index.js');
 	await main();

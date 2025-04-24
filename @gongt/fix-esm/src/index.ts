@@ -1,9 +1,9 @@
 import { parseExportsField, type IExportCondition } from '@idlebox/common';
 import esbuild from 'esbuild';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
 const sym = Symbol.for('fix-esm');
-const Module = require('module') as any;
+const Module = require('node:module') as any;
 
 function executeBuild(filename: string) {
 	const code = readFileSync(filename, 'utf8');
@@ -12,15 +12,15 @@ function executeBuild(filename: string) {
 			contents: code,
 			loader: 'js',
 		},
-		outfile: filename + 'c',
+		outfile: `${filename}c`,
 		format: 'cjs',
 		sourcemap: 'inline',
 		write: true,
 	});
 	if (result.errors.length) {
-		throw new Error('[fix-esm] compile failed: ' + result.errors[0].text);
+		throw new Error(`[fix-esm] compile failed: ${result.errors[0].text}`);
 	}
-	return readFileSync(filename + 'c', 'utf-8');
+	return readFileSync(`${filename}c`, 'utf-8');
 }
 
 let originalLoader: typeof wrappedLoader;
@@ -38,7 +38,7 @@ function wrappedLoader(mod: any, filename: string) {
 	} catch (error: any) {
 		// console.log('[fix-esm] error!', error.message);
 		if (!(error instanceof Error)) {
-			throw new Error(`[fix-esm] unknown type of error catched: ${typeof error} - ${'' + error}.`);
+			throw new Error(`[fix-esm] unknown type of error catched: ${typeof error} - ${`${error}`}.`);
 		}
 		if (!isNodeError(error)) {
 			throw error;
@@ -47,11 +47,12 @@ function wrappedLoader(mod: any, filename: string) {
 			error.code === 'ERR_REQUIRE_ESM' ||
 			/^Cannot use (import|export) statement outside a module/.test(error.message)
 		) {
-			if (existsSync(filename + 'c')) {
-				return wrappedLoader(mod, filename + 'c');
+			if (existsSync(`${filename}c`)) {
+				return wrappedLoader(mod, `${filename}c`);
 			}
 			return buildLoader(mod, filename);
-		} else if (error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED') {
+		}
+		if (error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED') {
 			const match = /No "exports" main defined in (.+)$/.exec(error.message);
 			if (match) {
 				modify_package_json(match[1]);
@@ -73,9 +74,9 @@ function fillCond(v: IExportCondition) {
 	if (!v.require) {
 		const rvalue = v.import ?? v.default;
 		if (typeof rvalue === 'string') {
-			v.require = rvalue + 'c';
+			v.require = `${rvalue}c`;
 		} else {
-			throw new Error('[fix-esm] can not find any exports field in ' + Object.keys(v).join(', '));
+			throw new Error(`[fix-esm] can not find any exports field in ${Object.keys(v).join(', ')}`);
 		}
 	}
 	return v;
@@ -98,13 +99,13 @@ function modify_package_json(file: string) {
 			pkgJson.exports[key] = fillCond(data);
 		}
 	} else if (pkgJson.module && !pkgJson.main) {
-		pkgJson.main = pkgJson.module + 'c';
+		pkgJson.main = `${pkgJson.module}c`;
 	} else {
 		throw new Error('[fix-esm] not know how to modify this json');
 	}
 
 	const indent = /^\s+/m.exec(original)?.[0] || '  ';
-	const indentValue = indent[0] == '\t' ? '\t' : indent.length;
+	const indentValue = indent[0] === '\t' ? '\t' : indent.length;
 
 	const newContent = JSON.stringify(pkgJson, null, indentValue);
 	writeFileSync(file, newContent);
@@ -113,7 +114,7 @@ function modify_package_json(file: string) {
 function buildLoader(mod: any, filename: string) {
 	console.error('[fix-esm] realtime compile: %s', filename);
 	// console.error('          cache items: %s', Object.keys(Module ._cache).length);
-	let transpiledCode = executeBuild(filename);
+	const transpiledCode = executeBuild(filename);
 
 	mod._compile(transpiledCode, filename);
 	mod.loaded = true;
@@ -123,7 +124,7 @@ if (!Module[sym]) {
 	originalLoader = Module._extensions['.js'];
 
 	const _resolve = Module._resolveFilename;
-	Module._resolveFilename = function (request: string, parent: string, isMain: boolean) {
+	Module._resolveFilename = (request: string, parent: string, isMain: boolean) => {
 		// console.error('[fix-esm] resolve: %s', request);
 		try {
 			return _resolve(request, parent, isMain);

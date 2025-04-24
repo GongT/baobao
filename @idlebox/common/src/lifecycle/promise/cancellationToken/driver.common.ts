@@ -1,5 +1,5 @@
-import { IDisposable } from '../../dispose/lifecycle.js';
-import { Emitter, EventHandler } from '../../event/event.js';
+import type { IDisposable } from '../../dispose/lifecycle.js';
+import { Emitter, type EventHandler } from '../../event/event.js';
 
 import type { CancellationDriver, __CancellationToken } from './source.js';
 

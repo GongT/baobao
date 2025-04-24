@@ -1,7 +1,7 @@
-import { ChildProcess } from 'child_process';
-import { EventEmitter } from 'events';
-import { IToRun, processPromise, processQuitPromise } from './fork.js';
-import { IStatusReport } from './outputStreams.js';
+import type { ChildProcess } from 'node:child_process';
+import { EventEmitter } from 'node:events';
+import { type IToRun, processPromise, processQuitPromise } from './fork.js';
+import type { IStatusReport } from './outputStreams.js';
 
 /** @extern */
 export class I7zHandler extends EventEmitter {
@@ -14,7 +14,7 @@ export class I7zHandler extends EventEmitter {
 		super();
 
 		this._timer = setImmediate(() => {
-			delete this._timer;
+			this._timer = undefined;
 			this._start();
 		});
 	}
@@ -48,16 +48,15 @@ export class I7zHandler extends EventEmitter {
 		}
 		if (this._timer) {
 			clearImmediate(this._timer);
-			delete this._timer;
+			this._timer = undefined;
 		}
 	}
 
 	async cancel(): Promise<void> {
 		if (this._promise) {
 			return processQuitPromise(this.cp!);
-		} else {
-			return this.hold();
 		}
+		return this.hold();
 	}
 
 	public get commandline() {

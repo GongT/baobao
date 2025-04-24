@@ -1,12 +1,10 @@
-import { DeepReadonly } from '@idlebox/common';
+import type { DeepReadonly } from '@idlebox/common';
 import { DepGraph } from 'dependency-graph';
 import { RunQueue } from '../common/runnerQueue.js';
-import { ICProjectConfig, IProjectConfig } from './limitedJson.js';
+import type { ICProjectConfig, IProjectConfig } from './limitedJson.js';
 import { RushProject } from './rushProject.js';
 
-export interface IProjectCallback {
-	(project: DeepReadonly<IProjectConfig>): Promise<void>;
-}
+export type IProjectCallback = (project: DeepReadonly<IProjectConfig>) => Promise<void>;
 
 export interface IGraphAttachedData {
 	readonly packageJson: any;
@@ -60,14 +58,13 @@ export async function buildProjects(builder: IProjectCallback): Promise<void>;
 export async function buildProjects(opts: IBuildProjectOptions, builder: IProjectCallback): Promise<void>;
 export async function buildProjects(
 	opts_: IBuildProjectOptions | IProjectCallback,
-	builder_?: IProjectCallback,
+	builder_?: IProjectCallback
 ): Promise<void> {
 	const { opts, builder } = ((): { opts: IBuildProjectOptions; builder: IProjectCallback } => {
 		if (builder_) {
 			return { opts: opts_ as IBuildProjectOptions, builder: builder_ };
-		} else {
-			return { opts: {}, builder: opts_ as IProjectCallback };
 		}
+		return { opts: {}, builder: opts_ as IProjectCallback };
 	})();
 
 	const { rushProject = new RushProject(), concurrent = 4 } = opts;
@@ -81,7 +78,7 @@ export async function buildProjects(
 		q.register(
 			project.packageName,
 			project,
-			sub.map((e) => e.project.packageName),
+			sub.map((e) => e.project.packageName)
 		);
 	}
 

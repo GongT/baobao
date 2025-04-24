@@ -6,7 +6,7 @@ export namespace humanDate {
 	 */
 	export function time(date: Date | string | number) {
 		if (typeof date === 'string') {
-			date = parseInt(date);
+			date = Number.parseInt(date);
 		}
 		date = new Date(date as number);
 		return `${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
@@ -19,7 +19,7 @@ export namespace humanDate {
 	 */
 	export function date(date: Date | string | number, sp = '-') {
 		if (typeof date === 'string') {
-			date = parseInt(date);
+			date = Number.parseInt(date);
 		}
 		date = new Date(date as number);
 		return `${date.getFullYear()}${sp}${pad2(date.getMonth() + 1)}${sp}${pad2(date.getDate())}`;
@@ -30,19 +30,13 @@ export namespace humanDate {
 	 */
 	export function datetime(date: Date | string | number) {
 		if (typeof date === 'string') {
-			date = parseInt(date);
+			date = Number.parseInt(date);
 		}
 		date = new Date(date as number);
-		return (
-			`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` +
-			' ' +
-			`${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`
-		);
+		return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
 	}
 
-	export interface ITimeFormatter {
-		(s: number): string;
-	}
+	export type ITimeFormatter = (s: number) => string;
 
 	export interface IFormatters {
 		s: ITimeFormatter;
@@ -53,16 +47,16 @@ export namespace humanDate {
 
 	const formatters: IFormatters = {
 		s(v: number) {
-			return v + 's';
+			return `${v}s`;
 		},
 		m(v: number) {
-			return v + 'm';
+			return `${v}m`;
 		},
 		h(v: number) {
-			return v + 'h';
+			return `${v}h`;
 		},
 		d(v: number) {
-			return v + 'd';
+			return `${v}d`;
 		},
 	};
 

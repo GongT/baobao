@@ -1,8 +1,8 @@
 import type { HeftConfiguration, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
-import { IHeftTaskPlugin } from '@rushstack/heft';
+import type { IHeftTaskPlugin } from '@rushstack/heft';
 import { parse } from 'comment-json';
-import { lstat, readFile, realpath } from 'fs/promises';
-import { resolve } from 'path';
+import { lstat, readFile, realpath } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
 export const PLUGIN_NAME = 'check-project';
 
@@ -26,7 +26,7 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 		if (rigName === '@internal/local-rig') {
 			session.logger.terminal.writeDebugLine('check simple project');
 		} else {
-			throw new Error('update ' + __filename);
+			throw new Error(`update ${__filename}`);
 		}
 
 		const check: ICheck = {
@@ -45,7 +45,7 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 			checkJsonConfig(data, check.tsconfig.template, check.tsconfig.extends);
 		} catch (e: any) {
 			CheckFail.th(
-				`file content verify failed:\n    File: ${tsconfigPath}\n    Template: ${physicalPath}\n    Reason: \x1b[38;5;9m${e.message}\x1b[0m\n`,
+				`file content verify failed:\n    File: ${tsconfigPath}\n    Template: ${physicalPath}\n    Reason: \x1b[38;5;9m${e.message}\x1b[0m\n`
 			);
 		}
 
@@ -53,7 +53,7 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 		try {
 			const pkg = JSON.parse(await readFile(pkgPath, 'utf-8'));
 			if (!pkg.devDependencies) {
-				throw new Error(`missing devDependencies in package.json`);
+				throw new Error('missing devDependencies in package.json');
 			}
 
 			if (!pkg.devDependencies[rigName]) {
@@ -76,30 +76,25 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 
 			session.logger.terminal.writeDebugLine('check exports in package.json');
 
-			let kind, main, module, typings;
+			let kind;
+			let main;
+			let module;
+			let typings;
 			if (rigName === '@internal/local-rig') {
 				const is_autoindex = configuration.rigConfig.tryResolveConfigFilePath('config/autoindex.json');
 				const is_dual = rigProfile === 'dualstack';
 				const is_cjs = rigProfile === 'commonjs';
 
 				if (is_dual) {
-					main = is_autoindex
-						? './lib/cjs/__create_index.generated.cjs'
-						: getObjectPathTo(pkg, ['main'])?.value;
-					module = is_autoindex
-						? './lib/esm/__create_index.generated.js'
-						: getObjectPathTo(pkg, ['module'])?.value;
-					typings = is_autoindex
-						? './lib/esm/__create_index.generated.d.ts'
-						: getObjectPathTo(pkg, ['types'])?.value;
+					main = is_autoindex ? './lib/cjs/__create_index.generated.cjs' : getObjectPathTo(pkg, ['main'])?.value;
+					module = is_autoindex ? './lib/esm/__create_index.generated.js' : getObjectPathTo(pkg, ['module'])?.value;
+					typings = is_autoindex ? './lib/esm/__create_index.generated.d.ts' : getObjectPathTo(pkg, ['types'])?.value;
 					kind = 'module';
 				} else if (is_cjs) {
 					main = is_autoindex ? './lib/__create_index.generated.js' : getObjectPathTo(pkg, ['main'])?.value;
 					kind = 'commonjs';
 				} else {
-					module = is_autoindex
-						? './lib/__create_index.generated.js'
-						: getObjectPathTo(pkg, ['module'])?.value;
+					module = is_autoindex ? './lib/__create_index.generated.js' : getObjectPathTo(pkg, ['module'])?.value;
 					kind = 'module';
 				}
 			}
@@ -123,7 +118,7 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 		}
 
 		const npmignore = await mustLStat(resolve(configuration.buildFolderPath, '.npmignore'));
-		assert(npmignore.isSymbolicLink(), `file must be symbolic link: .npmignore`);
+		assert(npmignore.isSymbolicLink(), 'file must be symbolic link: .npmignore');
 
 		session.logger.terminal.writeLine('check complete!');
 	}
@@ -132,7 +127,7 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 			await this.executeInner(session, configuration);
 		} catch (e: any) {
 			if (e instanceof CheckFail) {
-				session.logger.emitError(new Error('project check failed: ' + e.message));
+				session.logger.emitError(new Error(`project check failed: ${e.message}`));
 			} else {
 				session.logger.terminal.writeErrorLine('plugin internal error!');
 				session.logger.terminal.writeErrorLine(e.stack.replace(/^/gm, '    '));
@@ -141,7 +136,7 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 		}
 	}
 
-	apply(session: IHeftTaskSession, configuration: HeftConfiguration, _options?: void): void {
+	apply(session: IHeftTaskSession, configuration: HeftConfiguration, _options?: undefined): void {
 		session.hooks.run.tapPromise(PLUGIN_NAME, () => this.execute(session, configuration));
 	}
 }
@@ -160,7 +155,7 @@ async function mustLStat(file: string) {
 		return ss;
 	} catch (e) {
 		throw new CheckFail(
-			`missing or unreadable required file:\n    File: ${file}\n  Create it by running "ln -s ./node_modules/@build-script/single-dog-asset/package/npmignore .npmignore"`,
+			`missing or unreadable required file:\n    File: ${file}\n  Create it by running "ln -s ./node_modules/@build-script/single-dog-asset/package/npmignore .npmignore"`
 		);
 	}
 }
@@ -190,7 +185,7 @@ async function loadCommentTemplate(path: string) {
 			if (comment.type !== 'BlockComment') continue;
 
 			try {
-				return parse('{\n' + comment.value.trim() + '\n}', undefined, true) as Record<string, any>;
+				return parse(`{\n${comment.value.trim()}\n}`, undefined, true) as Record<string, any>;
 			} catch (e: any) {
 				throw new Error(`template file "${path}" has ${e.message}`);
 			}
@@ -232,7 +227,7 @@ function check_export_field(
 	logger: IScopedLogger,
 	pkg: any,
 	exportType: 'require' | 'import' | 'types',
-	want: string | undefined,
+	want: string | undefined
 ) {
 	requireFieldEquals(logger, pkg, ['exports', '.', exportType], want);
 }

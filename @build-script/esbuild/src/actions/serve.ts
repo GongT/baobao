@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { oneDay } from '@idlebox/common';
 import express from 'express';
 import morgan from 'morgan';
@@ -15,11 +15,11 @@ function createApplication() {
 		const s = res.statusCode ? res.statusCode.toFixed(0) : ' - ';
 		if (res.statusCode === 200 || res.statusCode === 304) {
 			return `\x1B[38;5;10m${s}`;
-		} else if (res.statusCode < 400) {
-			return `\x1B[38;5;11m${s}`;
-		} else {
-			return `\x1B[38;5;9m${s}`;
 		}
+		if (res.statusCode < 400) {
+			return `\x1B[38;5;11m${s}`;
+		}
+		return `\x1B[38;5;9m${s}`;
 	});
 	app.use(morgan(':color_status :method :url\x1B[0m'));
 

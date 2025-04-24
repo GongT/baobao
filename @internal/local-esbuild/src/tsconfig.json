@@ -4,6 +4,6 @@
 		"typeRoots": ["../node_modules", "../node_modules/@types"],
 		"rootDir": "./",
 		"outDir": "../lib",
-		"types": ["node"]
-	}
+		"types": ["node"],
+	},
 }

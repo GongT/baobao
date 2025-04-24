@@ -11,7 +11,7 @@ export function TopLevelWalker(
 ) {
 	return (sourceFile: TypeScriptApi.SourceFile) => {
 		// console.log('transform', sourceFile.fileName);
-		terminal.writeVerboseLine('> walk file: ' + sourceFile.fileName);
+		terminal.writeVerboseLine(`> walk file: ${sourceFile.fileName}`);
 		return ts.visitEachChild(sourceFile, callback, context);
 	};
 }
@@ -19,7 +19,7 @@ export function TopLevelWalker(
 export function EmptyWalker(terminal: IScopedLogger['terminal']) {
 	return (sourceFile: TypeScriptApi.SourceFile) => {
 		// console.log('transform', sourceFile.fileName);
-		terminal.writeVerboseLine('> walk file: ' + sourceFile.fileName);
+		terminal.writeVerboseLine(`> walk file: ${sourceFile.fileName}`);
 		return sourceFile;
 	};
 }

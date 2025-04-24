@@ -1,7 +1,7 @@
 import type { IScopedLogger } from '@rushstack/heft';
-import { realpathSync } from 'fs';
+import { realpathSync } from 'node:fs';
 import type TypeScriptApi from 'typescript';
-import { crc32 } from 'zlib';
+import { crc32 } from 'node:zlib';
 
 export class HostCreator {
 	private readonly realpathCache = new Map<string, string>();
@@ -12,11 +12,11 @@ export class HostCreator {
 
 	constructor(
 		private readonly ts: typeof TypeScriptApi,
-		private readonly logger: IScopedLogger,
+		private readonly logger: IScopedLogger
 	) {}
 
 	private cached_realpath(path: string) {
-		let real = this.realpathCache!.get(path);
+		let real = this.realpathCache?.get(path);
 		if (real) return real;
 
 		try {
@@ -26,7 +26,7 @@ export class HostCreator {
 		}
 
 		this.logger.terminal.writeVerboseLine(`realpath(${path}) -> ${real}`);
-		this.realpathCache!.set(path, real);
+		this.realpathCache?.set(path, real);
 
 		return real;
 	}
@@ -39,7 +39,7 @@ export class HostCreator {
 		this.logger.terminal.writeVerboseLine(`create compiler host: ${hash.toString(16)}`);
 
 		const host = (compilerOptions.incremental ? this.ts.createIncrementalCompilerHost : this.ts.createCompilerHost)(
-			compilerOptions,
+			compilerOptions
 		);
 
 		host.getEnvironmentVariable = (name: string) => process.env[name];

@@ -3,7 +3,7 @@ import { nameFunction } from './functionName.js';
 export interface MyAsyncCallback<Argument extends unknown[]> {
 	displayName?: string;
 
-	(...param: Argument): Promise<void | undefined | boolean> | void | undefined | boolean;
+	(...param: Argument): Promise<undefined | undefined | boolean> | undefined | undefined | boolean;
 }
 
 /**
@@ -11,7 +11,7 @@ export interface MyAsyncCallback<Argument extends unknown[]> {
  */
 export class AsyncCallbackList<Argument extends unknown[]> {
 	protected list: MyAsyncCallback<Argument>[] = [];
-	protected running: boolean = false;
+	protected running = false;
 
 	constructor() {
 		this.run = (this.run as any).bind(this);
@@ -62,7 +62,7 @@ export class AsyncCallbackList<Argument extends unknown[]> {
 	 */
 	async run(...argument: Argument): Promise<boolean> {
 		this.running = true;
-		let ret: boolean | undefined | void;
+		let ret: boolean | undefined | undefined;
 		for (const cb of this.list) {
 			ret = await cb(...argument);
 			if (ret === true) {

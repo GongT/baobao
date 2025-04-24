@@ -5,7 +5,6 @@ export const title = 'fix dependency issues';
 export const usage = '';
 export const help = '';
 
-
 export function parse(_sub: ISubArgsReaderApi) {
 	return {};
 }
