@@ -12,7 +12,7 @@ import { prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
 import { createWorkspace } from '../common/workspace/workspace.js';
 
 export function usageString() {
-	return `${pArgS('--verbose/--silent')} ${pArgS('--dry')} ${pDesc('在monorepo中按照依赖顺序发布修改过的包')}`;
+	return `${pArgS('--verbose / --silent')} ${pArgS('--dry')} ${pDesc('在monorepo中按照依赖顺序发布修改过的包')}`;
 }
 const args = {
 	'--verbose': '列出所有信息，而不仅是目录',
