@@ -6,11 +6,10 @@ import type { ITypescriptFile } from './inc/TokenCollector.js';
 import { ApiHost } from './inc/tsapi.helpers.js';
 
 export type { IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
-export type { ITypescriptFile } from './inc/TokenCollector.js';
 export { loadFilter } from './inc/loadFilter.js';
 export type { ILogger } from './inc/logger.js';
 export { ExportKind } from './inc/TokenCollector.js';
-export type { IIdentifierResult } from './inc/TokenCollector.js';
+export type { IIdentifierResult, ITypescriptFile } from './inc/TokenCollector.js';
 
 export class TypescriptProject {
 	public readonly projectFiles: readonly string[];
@@ -51,6 +50,7 @@ export class TypescriptProject {
 
 		const sources = [];
 		for (const file of program.getSourceFiles()) {
+			// FIXME: getRootFileNames 实际还是会获取到所有文件
 			const isDefaultLibrary = program.isSourceFileDefaultLibrary(file);
 			const isFromExternalLibrary = program.isSourceFileFromExternalLibrary(file);
 

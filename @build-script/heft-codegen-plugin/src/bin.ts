@@ -1,5 +1,5 @@
 import { findUpUntilSync, pickFlag, wrapConsoleLogger } from '@build-script/heft-plugin-base';
-import { FSWatcher, WatchHelper } from '@idlebox/chokidar';
+import { startChokidar } from '@idlebox/chokidar';
 import { globSync } from 'glob';
 import { dirname, resolve } from 'node:path';
 import { GeneratorHolder, type IResult } from './library/code-generator-holder.js';
@@ -32,13 +32,19 @@ async function main() {
 
 	if (watchMode) {
 		console.log('execute generators in watch mode.');
-		const chokidar = new FSWatcher({ cwd: dirname(pkgRoot), ignoreInitial: true, atomic: 200 });
+
+		if (generaters.size === 0) {
+			console.error(' !! no generator found.');
+			process.exit(1);
+		}
+
+		const watcher = startChokidar(runPass);
 		async function runPass() {
 			await wrapOutput(generaters.executeAll());
-			watcher.replaceWatch(generaters.watchingFiles);
-			console.log('👀 \x1B[2mwatching %d files for change.\x1B[0m', watcher.size());
+			const towatch = generaters.watchingFiles;
+			watcher.replace(towatch);
+			console.log('👀 \x1B[2mwatching %d files for change.\x1B[0m', towatch.length);
 		}
-		const watcher = new WatchHelper(chokidar, runPass);
 
 		process.on('SIGINT', () => {
 			console.log('\nSIGINT received, exiting...');
@@ -59,7 +65,7 @@ async function main() {
 
 function wrapOutput(p: Promise<IResult>) {
 	return p
-		.then((result) => {
+		.then(result => {
 			if (result.errors.length > 0) {
 				console.error('\x1B[48;5;9m\x1B[K⚠️  Generate Fail: %s errors\x1B[0m', result.errors.length);
 				for (const item of result.errors) {
@@ -72,7 +78,7 @@ function wrapOutput(p: Promise<IResult>) {
 				console.log(
 					'\x1B[48;5;10m\x1B[K✅  Generate Complete, %s success %s unchanged.\x1B[0m',
 					result.success,
-					result.skip
+					result.skip,
 				);
 			}
 			return 0;

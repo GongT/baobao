@@ -46,6 +46,10 @@ export class GeneratorHolder {
 		private readonly root: string
 	) {}
 
+	get size() {
+		return this.generators.size;
+	}
+
 	async makeGenerators(files: string[], standalone: boolean) {
 		this.logger.debug('register generator:');
 		const used = new Set<string>();

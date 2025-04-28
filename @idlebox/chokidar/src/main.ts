@@ -1,6 +1,7 @@
-import { registerGlobalLifecycle } from '@idlebox/common';
-import { FSWatcher } from 'chokidar';
+import { FSWatcher, type ChokidarOptions } from 'chokidar';
 import debug from 'debug';
+import { join } from 'node:path';
+import { deprecate } from 'node:util';
 
 const log = debug('chokidar');
 
@@ -16,21 +17,38 @@ enum State {
 }
 
 export class WatchHelper implements IWatchHelper {
-	private _watches = new Set<string>();
 	private state = State.IDLE;
 
 	public debounceMs = 800;
 	private lastRun?: Promise<void>;
 	private changes = new Set<string>();
+	private readonly cwd: string | undefined;
+	private trackedFiles = new Set<string>();
 
 	constructor(
 		private readonly watcher: FSWatcher,
-		private readonly onChange: IReloadFunction
+		private readonly onChange: IReloadFunction,
 	) {
-		this.realTrigger = this.realTrigger.bind(this);
-		const change = this.handleChange.bind(this);
-		watcher.on('add', change);
-		watcher.on('change', change);
+		this.lowlevel_handler = this.lowlevel_handler.bind(this);
+		this.handler = this.handler.bind(this);
+
+		this.cwd = watcher.options.cwd;
+	}
+
+	listen(item: (typeof allowedEvents)[number]) {
+		if (!allowedEvents.includes(item)) {
+			throw new Error(`not allowed watcher event name: ${item}`);
+		}
+		if (this.watcher.listenerCount(item) === 0) {
+			this.watcher.addListener(item, this.lowlevel_handler);
+		}
+	}
+	unlisten(item: (typeof allowedEvents)[number]) {
+		if (!allowedEvents.includes(item)) {
+			throw new Error(`not allowed watcher event name: ${item}`);
+		}
+
+		this.watcher.removeAllListeners(item);
 	}
 
 	private _debounce?: NodeJS.Timeout;
@@ -39,7 +57,7 @@ export class WatchHelper implements IWatchHelper {
 			clearTimeout(this._debounce);
 			this._debounce = undefined;
 		}
-		this._debounce = setTimeout(this.realTrigger, this.debounceMs);
+		this._debounce = setTimeout(this.handler, this.debounceMs);
 	}
 
 	private changeState(s: State) {
@@ -47,7 +65,7 @@ export class WatchHelper implements IWatchHelper {
 		this.state = s;
 	}
 
-	private handleChange(path: string) {
+	private lowlevel_handler(path: string) {
 		log('file changes: %s', path);
 		this.changes.add(path);
 		switch (this.state) {
@@ -68,7 +86,7 @@ export class WatchHelper implements IWatchHelper {
 		}
 	}
 
-	private realTrigger() {
+	private handler() {
 		log('trigger...');
 
 		const changes = [...this.changes.values()];
@@ -80,12 +98,12 @@ export class WatchHelper implements IWatchHelper {
 			.then(() => {
 				this.onChange(changes);
 			})
-			.catch((e) => {
+			.catch(e => {
 				log('Failed callback: %s', e.stack);
 			})
 			.finally(() => {
 				if (this.state === State.RESCHEDULE) {
-					this.realTrigger();
+					this.handler();
 				} else if (this.state === State.BUSY) {
 					this.changeState(State.IDLE);
 				} else {
@@ -98,70 +116,140 @@ export class WatchHelper implements IWatchHelper {
 			});
 	}
 
-	size() {
-		// return Object.keys(this.watcher.getWatched()).length;
-		return this._watches.size;
+	get empty() {
+		return Object.keys(this.watcher.getWatched()).length === 0;
 	}
 
-	replaceWatch(newList: Iterable<string>) {
-		const newSet = new Set(newList);
-		for (const item of newSet) {
-			this.addWatch(item);
+	get size() {
+		let sum = 0;
+		for (const item of Object.values(this.watcher.getWatched())) {
+			sum += item.length;
 		}
+		return sum;
+	}
 
-		for (const item of this._watches) {
+	replace(newList: readonly string[]) {
+		const newSet = new Set(newList);
+		for (const item of this.trackedFiles) {
 			if (!newSet.has(item)) {
-				this.delWatch(item);
+				this.delete(item);
 			}
 		}
+		for (const item of this.watches) {
+			if (!newSet.has(item)) {
+				this.delete(item);
+			}
+		}
+
+		this.add([...newSet]);
 	}
 
-	addWatch(newWatch: string) {
-		if (!this._watches.has(newWatch)) {
-			// console.log('[watch:add] %s', newWatch)
-			this.watcher.add(newWatch);
-			this._watches.add(newWatch);
+	addWatch = deprecate(this.add.bind(this), 'use add instead of addWatch');
+	delWatch = deprecate(this.delete.bind(this), 'use delete instead of delWatch');
+
+	add(files: string | readonly string[]) {
+		// console.log('[watch:add] %s', files)
+		if (typeof files === 'string') {
+			this.trackedFiles.add(files);
+		} else {
+			for (const file of files) {
+				this.trackedFiles.add(file);
+			}
 		}
+		this.watcher.add(files as string[]);
 	}
-	delWatch(oldWatch: string) {
-		if (!this._watches.has(oldWatch)) {
-			// console.log('[watch:del] %s', oldWatch)
-			this.watcher.unwatch(oldWatch);
-			this._watches.delete(oldWatch);
+
+	delete(files: string | readonly string[]) {
+		// console.log('[watch:del] %s', files)
+		if (typeof files === 'string') {
+			this.trackedFiles.delete(files);
+		} else {
+			for (const file of files) {
+				this.trackedFiles.delete(file);
+			}
 		}
+		this.watcher.unwatch(files as string[]);
 	}
 
 	reset() {
-		this.watcher.unwatch([...this._watches.values()]);
-		this._watches.clear();
+		this.watcher.unwatch([...this.trackedFiles]);
+		this.trackedFiles.clear();
+		this.watcher.unwatch(this.watches);
 	}
 
-	get watches(): ReadonlyArray<string> {
-		return [...this._watches.values()];
+	get expectedWatches() {
+		return [...this.trackedFiles];
 	}
 
-	dispose(): Promise<void> {
-		return Promise.all([this.watcher.close(), this.lastRun]).then();
+	get trackingSize() {
+		return this.trackedFiles.size;
+	}
+
+	get watches(): string[] {
+		const list = [];
+		for (const [folder, files] of Object.entries(this.watcher.getWatched())) {
+			for (const file of files) {
+				if (this.cwd) {
+					list.push(join(this.cwd, folder, file));
+				} else {
+					list.push(join(folder, file));
+				}
+			}
+		}
+		return list;
+	}
+
+	async dispose() {
+		await Promise.all([this.watcher.close(), this.lastRun]);
 	}
 }
 
 export interface IWatchHelper {
-	addWatch(newWatch: string): void;
-	delWatch(oldWatch: string): void;
+	/** @deprecated use add */
+	addWatch(files: string | readonly string[]): void;
+	/** @deprecated use delete */
+	delWatch(files: string | readonly string[]): void;
+
+	add(files: string | readonly string[]): void;
+	delete(files: string | readonly string[]): void;
+	replace(files: readonly string[]): void;
 	reset(): void;
+
+	/** 注意: chokidar的api无法同步获取监听文件数量，这个数值不会实时的反映实际情况 */
+	readonly size: number;
+	/** 注意: chokidar的api无法同步获取监听文件数量，这个数值不会实时的反映实际情况 */
+	readonly empty: boolean;
+
+	/** 本地维护的文件列表，和实际不一定相符，比如 符号链接、文件删除自动取消监视 等情况均无法同步 */
+	readonly trackingSize: number;
+	readonly expectedWatches: string[];
+
+	listen(item: (typeof allowedEvents)[number]): void;
+	unlisten(item: (typeof allowedEvents)[number]): void;
+
 	dispose(): Promise<void>;
-	readonly watches: ReadonlyArray<string>;
+	readonly watches: string[];
 }
 
 type IReloadFunction = (changes: string[]) => void | Promise<void>;
+const allowedEvents = ['add', 'addDir', 'change', 'unlink', 'unlinkDir', 'ready'] as const;
 
-export function startChokidar(reload: IReloadFunction): IWatchHelper {
-	const w = new WatchHelper(
-		new FSWatcher({
-			ignoreInitial: true,
-		}),
-		reload
-	);
-	registerGlobalLifecycle(w);
-	return w;
+export interface IExtraOptions extends ChokidarOptions {
+	debounceMs: number;
+	watchingEvents: (typeof allowedEvents)[number][];
+}
+
+const defaultOptions: IExtraOptions = {
+	ignoreInitial: true,
+	debounceMs: 500,
+	watchingEvents: ['add', 'change'],
+};
+
+export function startChokidar(reload: IReloadFunction, options: Partial<IExtraOptions> = {}): IWatchHelper {
+	const opts = Object.assign({}, defaultOptions, options);
+	const watcher = new WatchHelper(new FSWatcher(opts), reload);
+	for (const item of opts.watchingEvents) {
+		watcher.listen(item);
+	}
+	return watcher;
 }

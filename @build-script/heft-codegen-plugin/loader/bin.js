@@ -1,6 +1,6 @@
 Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 const { install } = require('source-map-support');
-if (!process.argv.some((e) => e.startsWith('--inspect')) && !process.execArgv.includes('--enable-source-maps')) {
+if (!process.execArgv.some((e) => e.startsWith('--inspect')) && !process.execArgv.includes('--enable-source-maps')) {
 	install();
 }
 require('@build-script/heft-plugin-base/loader').default(module, {

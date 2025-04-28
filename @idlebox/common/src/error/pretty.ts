@@ -7,8 +7,8 @@ const process = globalObject.process;
 const window = globalObject.window;
 
 const padding = /^(?<padding>\s*)at /.source;
-const func_call = /(?<func_name>(?:async )?[^\/\\\s]+) (?:\[as (?<func_alias>[^\]]+)] )?/.source;
-//                              [xxxx.yyyyy] [as eval]
+const func_call = /(?<func_name>(?:(?:async|new) )?[^\/\\\s]+) (?:\[as (?<func_alias>[^\]]+)] )?/.source;
+//                              xxxx.yyyyy [as eval]
 const line_column = /(?::(?<line>\d+))?(?::(?<column>\d+))?/.source;
 const locationEsm = /(?<schema>node:|file:\/\/|https?:\/\/)?(?<path2>[^:]+)/.source;
 //                        node:internal/modules/cjs/loader.js:883:14
@@ -60,6 +60,7 @@ export interface IStructreStackLine {
 	func?: IFunction;
 	location?: IFileLocation;
 	eval?: IEvalDef;
+	_matches?: RegExp;
 }
 
 function matchLine<T extends string>(line: string, reg: RegExp): null | Record<T, string> {
@@ -69,10 +70,11 @@ function matchLine<T extends string>(line: string, reg: RegExp): null | Record<T
 	}
 	return m.groups as any;
 }
+const endingSlashes = /\/+$/;
 function addLoc(ret: IStructreStackLine, m: Record<TypeMatchFileOnly, string>) {
 	const path = m.path1 || m.path2;
 	ret.location = {
-		schema: m.schema?.replace(/\/+$/, '') ?? '',
+		schema: m.schema?.replace(endingSlashes, '') ?? '',
 		path: path,
 		line: Number.parseInt(m.line),
 		column: Number.parseInt(m.column),
@@ -96,9 +98,10 @@ export function parseStackLine(line: string): IStructreStackLine {
 		},
 	};
 	Object.assign(ret, { __raw });
-	const mNormal = matchLine<TypeMatchNormal>(line, regNormal);
 
+	const mNormal = matchLine<TypeMatchNormal>(line, regNormal);
 	if (mNormal) {
+		ret._matches = regNormal;
 		ret.padding = mNormal.padding;
 		addFunc(ret, mNormal);
 		addLoc(ret, mNormal);
@@ -107,6 +110,7 @@ export function parseStackLine(line: string): IStructreStackLine {
 
 	const mFile = matchLine<TypeMatchFileOnly>(line, regFileOnly);
 	if (mFile) {
+		ret._matches = regFileOnly;
 		ret.padding = mFile.padding;
 		addLoc(ret, mFile);
 		return ret;
@@ -114,6 +118,7 @@ export function parseStackLine(line: string): IStructreStackLine {
 
 	const mNoFile = matchLine<TypeMatchNoFile>(line, regNoFile);
 	if (mNoFile) {
+		ret._matches = regNoFile;
 		ret.padding = mNoFile.padding;
 		addFunc(ret, mNoFile);
 		return ret;
@@ -121,6 +126,7 @@ export function parseStackLine(line: string): IStructreStackLine {
 
 	const mEval = matchLine<TypeMatchEval>(line.replaceAll(regEvalItem, ''), regEval);
 	if (mEval) {
+		ret._matches = regEval;
 		ret.padding = mEval.padding;
 		addFunc(ret, mEval);
 		addLoc(ret, mEval);
@@ -162,7 +168,7 @@ export function prettyPrintError(type: string, e: Error) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
 		console.error(
-			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m'
+			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m',
 		);
 	}
 }
@@ -171,16 +177,25 @@ function red(s: string) {
 	return isNative ? `\x1B[38;5;9m${s}\x1B[0m` : s;
 }
 
+export function parseStackString(stack: string) {
+	return stack.split('\n').map(parseStackLine);
+}
+
 export function prettyFormatStack(stackLines: readonly string[]) {
 	const structured: IStructreStackLine[] = stackLines.map(parseStackLine);
+	let messageEnded = false;
 	return structured
 		.filter(skipSomeFrame)
 		.map(translateFunction)
-		.map((line) => {
-			let ret;
+		.map(line => {
+			let ret: string;
 			if (line.invalid) {
+				if (messageEnded) {
+					return red(line.toString());
+				}
 				return line.toString();
 			}
+			messageEnded = true;
 			const fn_name = line.func?.name;
 
 			if (!line.location?.isAbsolute || line.location.schema === 'node:') {
@@ -218,11 +233,11 @@ export function prettyFormatStack(stackLines: readonly string[]) {
 				}
 				ret += '\x1b[0m';
 				if (line.eval) {
-					ret += `\x1b[2m(${line.eval.funcs.filter((e) => e !== '<anonymous>').join('->')})\x1b[0m`;
+					ret += `\x1b[2m(${line.eval.funcs.filter(e => e !== '<anonymous>').join('->')})\x1b[0m`;
 				}
 
 				if (path) {
-					let color;
+					let color: string;
 					if (isNodeModule) {
 						color = '\x1b[38;5;237m';
 					} else {
@@ -259,6 +274,9 @@ interface IError {
 	readonly message?: any;
 	readonly stack?: string;
 }
+
+const regStartsNotEmpty = /^\S/;
+const regErrorClassName = /^(\S+):/;
 export function prettyFormatError(e: IError, withMessage = true) {
 	if (!e || !e.stack) {
 		if (withMessage) {
@@ -272,13 +290,13 @@ export function prettyFormatError(e: IError, withMessage = true) {
 	const stackLines = e.stack.split(/\n/g);
 
 	let first = 'Unknown Error';
-	if (/^\S/.test(stackLines[0])) {
-		first = stackLines.shift()!;
+	if (regStartsNotEmpty.test(stackLines[0])) {
+		first = stackLines.shift() as string;
 	}
 
 	if (withMessage) {
 		if (e.code) {
-			first = first.replace(/^(\S+):/, `$1(code ${e.code}):`);
+			first = first.replace(regErrorClassName, `$1(code ${e.code}):`);
 		}
 
 		return `${first}\n${prettyFormatStack(stackLines).join('\n')}`;
@@ -310,7 +328,7 @@ function formatFileLine(schema: string | undefined, file: string, row?: number, 
 					'pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m',
 					root,
 					file,
-					e.stack
+					e.stack,
 				);
 			}
 			rel = file;
@@ -353,7 +371,7 @@ function translateFunction(data: IStructreStackLine): IStructreStackLine {
 /**
  *
  */
-function skipSomeFrame({ location }: IStructreStackLine): boolean {
+function skipSomeFrame({ func, location }: IStructreStackLine): boolean {
 	if (!location?.path) {
 		return true;
 	}
@@ -379,6 +397,9 @@ function skipSomeFrame({ location }: IStructreStackLine): boolean {
 		if (location.path.startsWith('_stream_')) {
 			return false;
 		}
+	}
+	if (func?.name === 'new Promise' && location.path === '<anonymous>') {
+		return false;
 	}
 	return true;
 }
