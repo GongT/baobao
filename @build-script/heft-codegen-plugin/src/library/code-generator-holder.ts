@@ -1,6 +1,6 @@
 import { wrapLogger, type IOutputShim } from '@build-script/heft-plugin-base';
 import { PromisePool } from '@supercharge/promise-pool';
-import { basename, isAbsolute, resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { CodeGenerator } from './code-generator.js';
 import { emitIpcMessage, type IBuildComplete, type IBuildStart } from './node-ipc.js';
 import { ExecuteReason } from './shared.js';
@@ -26,10 +26,6 @@ export interface IResult {
 	 * count and detail failed execute
 	 */
 	errors: { error: Error; source: string }[];
-	/**
-	 * readed files
-	 */
-	watchFiles: string[];
 }
 
 function nextTick() {
@@ -80,12 +76,14 @@ export class GeneratorHolder {
 	}
 
 	async executeRelated(trigger: ReadonlySet<string>): Promise<IResult> {
-		this._lastResult = undefined;
 		const toBeExec = [];
 		for (const gen of this.generators.values()) {
 			const reason = gen.shouldExecute(trigger);
 			if (reason !== ExecuteReason.NoNeed) {
-				toBeExec.push({ generator: gen, reason });
+				toBeExec.push({
+					generator: gen,
+					reason,
+				});
 			}
 		}
 		emitIpcMessage('start', { files: Array.from(trigger), generator: toBeExec.length } as IBuildStart);
@@ -98,7 +96,6 @@ export class GeneratorHolder {
 			success: 0,
 			skip: 0,
 			errors: [],
-			watchFiles: [],
 		};
 
 		await new PromisePool()
@@ -122,7 +119,6 @@ export class GeneratorHolder {
 				} else {
 					result.skip++;
 				}
-				result.watchFiles.push(...gr.userWatchFiles);
 			});
 
 		this.logger.log(
@@ -141,24 +137,19 @@ export class GeneratorHolder {
 			}),
 		} as IBuildComplete);
 
-		for (const gen of this.generators.values()) {
-			for (const item of gen.relatedFiles) {
-				if (!isAbsolute(item)) {
-					throw new Error(`fatal error: something returns a relative path: ${item}`);
-				}
-			}
-			result.watchFiles.push(...gen.relatedFiles);
-		}
-
-		this._lastResult = result;
 		return result;
 	}
 
-	private _lastResult?: IResult;
-	get watchingFiles() {
-		if (this._lastResult?.watchFiles) return this._lastResult.watchFiles;
+	getAllWatchingFiles() {
+		const files = new Set<string>(this.generators.keys());
 
-		return [...this.generators.keys()];
+		for (const gen of this.generators.values()) {
+			for (const file of gen.relatedFiles()) {
+				files.add(file);
+			}
+		}
+
+		return [...files];
 	}
 
 	async disposeAll() {

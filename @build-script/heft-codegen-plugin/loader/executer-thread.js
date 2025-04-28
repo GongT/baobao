@@ -1,6 +1,7 @@
 Error.stackTraceLimit = Number.POSITIVE_INFINITY;
-if (!process.argv.some((e) => e.startsWith('--inspect')) && !process.execArgv.includes('--enable-source-maps')) {
-	require('source-map-support/register');
+const { install } = require('source-map-support');
+if (!process.execArgv.some((e) => e.startsWith('--inspect')) && !process.execArgv.includes('--enable-source-maps')) {
+	install();
 }
 // console.log('executer thread running with realtime compile!');
 require('@build-script/heft-plugin-base/loader').default(module, {

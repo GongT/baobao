@@ -80,10 +80,18 @@ export abstract class BaseExecuter {
 			this.logger.verbose('should run because last run has failed');
 			return ExecuteReason.NeedExecute;
 		}
-		for (const fileAbs of this.result.userWatchFiles) {
-			if (trigger.has(fileAbs)) {
-				this.logger.verbose(`should run because user watching file has changed: ${fileAbs}`);
+		for (const watch of this.result.userWatchFiles) {
+			if (trigger.has(watch)) {
+				this.logger.verbose(`should run because user watching file has changed: ${watch}`);
 				return ExecuteReason.NeedExecute;
+			}
+			if (watch.endsWith('/')) {
+				for (const file of trigger) {
+					if (file.startsWith(watch)) {
+						this.logger.verbose(`should run because user watching folder has changed: ${file}`);
+						return ExecuteReason.NeedCompile;
+					}
+				}
 			}
 		}
 		this.logger.verbose('should not run');

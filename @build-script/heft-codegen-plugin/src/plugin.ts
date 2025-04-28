@@ -57,7 +57,7 @@ export class CodeGenPlugin extends PluginInstance {
 		const command = await this.listGenFiles();
 		await this.generaters.makeGenerators(command.fileNames, false);
 
-		const watchFiles = [...this.generaters.watchingFiles];
+		const watchFiles = this.generaters.getAllWatchingFiles();
 		// this.logger.verbose('watchGlobAsync()', watchFiles);
 		const map = await woptions.watchGlobAsync(watchFiles, {
 			cwd: this.configuration.buildFolderPath,

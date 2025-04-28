@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-codegen-plugin",
 	"type": "commonjs",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"bin": {
 		"codegen": "loader/bin.js"
 	},
@@ -35,13 +35,14 @@
 	},
 	"dependencies": {
 		"@build-script/heft-plugin-base": "workspace:^",
+		"@idlebox/chokidar": "workspace:^",
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@supercharge/promise-pool": "^3.2.0",
 		"esbuild": "^0.24.0",
 		"execa": "^9.4.0",
 		"glob": "^11.0.0",
+		"minimatch": "^10.0.1",
 		"source-map-support": "^0.5.21",
-		"@idlebox/chokidar": "workspace:^",
 		"tslib": "^2.7.0"
 	},
 	"devDependencies": {

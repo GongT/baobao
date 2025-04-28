@@ -5,7 +5,7 @@ import { randomBytes } from 'node:crypto';
 import { unlink, writeFile } from 'node:fs/promises';
 import { builtinModules } from 'node:module';
 import { basename, dirname, resolve } from 'node:path';
-import type { BaseExecuter } from './executer.base.js';
+import type { BaseExecuter, IGenerateResult } from './executer.base.js';
 import { ImportExecuter } from './executer.import.js';
 import { ThreadExecuter } from './executer.thread.js';
 import type { FileBuilder } from './file-builder.js';
@@ -15,6 +15,7 @@ type IOptions = BuildOptions & { write: false; metafile: true };
 
 const isAbsolute = /^[^.]/;
 const isAllowedType = /\.[mc]?js$/;
+const generatorSuffix = /\.generator\.ts$/;
 
 const externalResovler: Plugin = {
 	name: 'external-resolver',
@@ -42,6 +43,7 @@ export interface GeneratorBody {
 export class CodeGenerator {
 	private context?: BuildContext<IOptions>;
 	private compileResult?: BuildResult<IOptions>;
+	private lastSuccessfulExecute?: IGenerateResult;
 	private readonly packageFile;
 	private readonly executer: BaseExecuter;
 	private readonly filesToClean = new Set<string>();
@@ -76,7 +78,7 @@ export class CodeGenerator {
 			};
 		}
 
-		const resultFile = entryFileAbs.replace(/\.generator\.ts$/, '.generated.ts');
+		const resultFile = entryFileAbs.replace(generatorSuffix, '.generated.ts');
 		this.executer = new (standalone ? ImportExecuter : ThreadExecuter)(
 			buildFoder,
 			entryFileAbs,
@@ -93,7 +95,7 @@ export class CodeGenerator {
 				write: false,
 				metafile: true,
 				bundle: true,
-				sourcemap: 'linked',
+				sourcemap: 'both',
 				sourceRoot: '@@@@@/',
 				entryPoints: [this.entryFileAbs],
 				external: [...builtinModules], // TODO: 需要参数传入额外的模块
@@ -141,10 +143,10 @@ export class CodeGenerator {
 			return ExecuteReason.NeedCompile;
 		}
 
-		for (const rel of Object.keys(this.compileResult.metafile.inputs)) {
-			const abs = resolve(this.buildFoder, rel);
+		// const watchingFiles =
+		for (const abs of this.esbuildInputFiles()) {
 			if (trigger.has(abs)) {
-				this.logger.verbose(`should run because source code has changed: ${abs}`);
+				this.logger.verbose(`should run because related file has changed: ${abs}`);
 				return ExecuteReason.NeedCompile;
 			}
 		}
@@ -197,7 +199,9 @@ export class CodeGenerator {
 		this.logger.verbose(`scriptFile: ${scriptFile}`);
 
 		try {
-			return await this.executer.execute(scriptFile);
+			const result = await this.executer.execute(scriptFile);
+			this.lastSuccessfulExecute = result;
+			return result;
 		} finally {
 			if (isDebug) {
 				this.logger.warn('debug mode enabled, keep compile output.');
@@ -209,15 +213,23 @@ export class CodeGenerator {
 		}
 	}
 
-	get relatedFiles() {
-		const files = [];
-		files.push(this.entryFileAbs);
-		if (this.compileResult) {
-			for (const rel of Object.keys(this.compileResult.metafile.inputs)) {
-				files.push(resolve(this.buildFoder, rel));
+	*relatedFiles() {
+		if (this.lastSuccessfulExecute?.userWatchFiles.size) {
+			for (const file of this.lastSuccessfulExecute.userWatchFiles) {
+				yield file;
 			}
 		}
-		return [...files, this.packageFile];
+		yield* this.esbuildInputFiles();
+	}
+
+	*esbuildInputFiles() {
+		yield this.packageFile;
+		yield this.entryFileAbs;
+		if (this.compileResult) {
+			for (const rel of Object.keys(this.compileResult.metafile.inputs)) {
+				yield resolve(this.buildFoder, rel);
+			}
+		}
 	}
 
 	async dispose() {
@@ -232,7 +244,7 @@ export class CodeGenerator {
 
 function printEsbuildErrors(logger: IOutputShim, result: BuildResult) {
 	if (result.errors.length === 0 && result.warnings.length === 0) {
-		logger.debug('generator script compiled success');
+		logger.debug(`generator script compiled success: ${result.outputFiles?.[0].hash}`);
 		return false;
 	}
 
