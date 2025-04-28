@@ -162,13 +162,13 @@ export function prettyPrintError(type: string, e: Error) {
 	}
 
 	const columns = process?.stderr?.columns || 80;
-	console.error(`${'-'.repeat(columns)}\n[${type}] ${prettyFormatError(e)}\n${'-'.repeat(columns)}`);
+	console.error(`\n${'-'.repeat(columns)}\n[${type}] ${prettyFormatError(e)}\n${'-'.repeat(columns)}`);
 
 	if (!notify_printed && e.stack && e.message !== e.stack) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
 		console.error(
-			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m',
+			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m'
 		);
 	}
 }
@@ -187,7 +187,7 @@ export function prettyFormatStack(stackLines: readonly string[]) {
 	return structured
 		.filter(skipSomeFrame)
 		.map(translateFunction)
-		.map(line => {
+		.map((line) => {
 			let ret: string;
 			if (line.invalid) {
 				if (messageEnded) {
@@ -233,7 +233,7 @@ export function prettyFormatStack(stackLines: readonly string[]) {
 				}
 				ret += '\x1b[0m';
 				if (line.eval) {
-					ret += `\x1b[2m(${line.eval.funcs.filter(e => e !== '<anonymous>').join('->')})\x1b[0m`;
+					ret += `\x1b[2m(${line.eval.funcs.filter((e) => e !== '<anonymous>').join('->')})\x1b[0m`;
 				}
 
 				if (path) {
@@ -328,7 +328,7 @@ function formatFileLine(schema: string | undefined, file: string, row?: number, 
 					'pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m',
 					root,
 					file,
-					e.stack,
+					e.stack
 				);
 			}
 			rel = file;
@@ -365,6 +365,11 @@ function translateFunction(data: IStructreStackLine): IStructreStackLine {
 		data.func.name = `setTimeout->${data.func.name.slice(8)}`;
 		data.func.alias = undefined;
 	}
+	if (data.func.name.startsWith('async Promise.all')) {
+		data.func.name = `Promise.all()`;
+		data.func.alias = data.location?.path;
+		data.location = undefined;
+	}
 	return data;
 }
 
@@ -398,8 +403,11 @@ function skipSomeFrame({ func, location }: IStructreStackLine): boolean {
 			return false;
 		}
 	}
-	if (func?.name === 'new Promise' && location.path === '<anonymous>') {
-		return false;
+	if (location.path === '<anonymous>') {
+		// new Promise ('<anonymous>')
+		if (func?.name === 'new Promise') {
+			return false;
+		}
 	}
 	return true;
 }

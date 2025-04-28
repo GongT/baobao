@@ -27,7 +27,7 @@ export class WatchHelper implements IWatchHelper {
 
 	constructor(
 		private readonly watcher: FSWatcher,
-		private readonly onChange: IReloadFunction,
+		private readonly onChange: IReloadFunction
 	) {
 		this.lowlevel_handler = this.lowlevel_handler.bind(this);
 		this.handler = this.handler.bind(this);
@@ -39,6 +39,7 @@ export class WatchHelper implements IWatchHelper {
 		if (!allowedEvents.includes(item)) {
 			throw new Error(`not allowed watcher event name: ${item}`);
 		}
+		console.log('listen: %s [before %d]', item, this.watcher.listenerCount(item));
 		if (this.watcher.listenerCount(item) === 0) {
 			this.watcher.addListener(item, this.lowlevel_handler);
 		}
@@ -57,7 +58,10 @@ export class WatchHelper implements IWatchHelper {
 			clearTimeout(this._debounce);
 			this._debounce = undefined;
 		}
-		this._debounce = setTimeout(this.handler, this.debounceMs);
+		this._debounce = setTimeout(() => {
+			this._debounce = undefined;
+			this.handler();
+		}, this.debounceMs);
 	}
 
 	private changeState(s: State) {
@@ -98,7 +102,7 @@ export class WatchHelper implements IWatchHelper {
 			.then(() => {
 				this.onChange(changes);
 			})
-			.catch(e => {
+			.catch((e) => {
 				log('Failed callback: %s', e.stack);
 			})
 			.finally(() => {
@@ -128,7 +132,7 @@ export class WatchHelper implements IWatchHelper {
 		return sum;
 	}
 
-	replace(newList: readonly string[]) {
+	async replace(newList: readonly string[]) {
 		const newSet = new Set(newList);
 		for (const item of this.trackedFiles) {
 			if (!newSet.has(item)) {
@@ -142,6 +146,13 @@ export class WatchHelper implements IWatchHelper {
 		}
 
 		this.add([...newSet]);
+
+		/**
+		 * 暂时没有办法得知删除操作是否完成
+		 * 	可能遇到问题（不确定）：如果删除的项目中有目录，而添加的项目中有其子项，则可能因为异步顺序导致添加后立刻又删除
+		 * 想不到怎么解决
+		 */
+		throw new Error('replace() is not implemented');
 	}
 
 	addWatch = deprecate(this.add.bind(this), 'use add instead of addWatch');
@@ -212,7 +223,7 @@ export interface IWatchHelper {
 
 	add(files: string | readonly string[]): void;
 	delete(files: string | readonly string[]): void;
-	replace(files: readonly string[]): void;
+	replace(files: readonly string[]): Promise<void>;
 	reset(): void;
 
 	/** 注意: chokidar的api无法同步获取监听文件数量，这个数值不会实时的反映实际情况 */
@@ -246,9 +257,10 @@ const defaultOptions: IExtraOptions = {
 };
 
 export function startChokidar(reload: IReloadFunction, options: Partial<IExtraOptions> = {}): IWatchHelper {
-	const opts = Object.assign({}, defaultOptions, options);
+	const { debounceMs, watchingEvents, ...opts } = Object.assign({}, defaultOptions, options);
 	const watcher = new WatchHelper(new FSWatcher(opts), reload);
-	for (const item of opts.watchingEvents) {
+	watcher.debounceMs = debounceMs;
+	for (const item of watchingEvents) {
 		watcher.listen(item);
 	}
 	return watcher;
