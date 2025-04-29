@@ -5,7 +5,7 @@ import { consoleLogger, type ILogger } from './inc/logger.js';
 import type { ITypescriptFile } from './inc/TokenCollector.js';
 import { ApiHost } from './inc/tsapi.helpers.js';
 
-export type { IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
+export { loadTsConfigJsonFile, type IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
 export { loadFilter } from './inc/loadFilter.js';
 export type { ILogger } from './inc/logger.js';
 export { ExportKind } from './inc/TokenCollector.js';

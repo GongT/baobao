@@ -3,7 +3,7 @@ import { ExecuteReason, type ILogMessage } from './shared.js';
 
 export interface IGenerateResult {
 	outputs: ILogMessage[];
-	userWatchFiles: Set<string>;
+	userWatchFiles: ReadonlySet<string>;
 	success: boolean;
 	changes: boolean;
 	error?: Error;

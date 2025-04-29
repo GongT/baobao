@@ -16,9 +16,6 @@ export class FileBuilder {
 		public readonly logger: IOutputShim,
 		public readonly projectRoot: string
 	) {
-		/*
-		 *	读取文件内容并按行分割，过滤掉空行
-		 */
 		this.referData = readFileSync(filePath, 'utf-8')
 			.split('\n')
 			.filter((l) => l.length > 0);
@@ -38,10 +35,7 @@ export class FileBuilder {
 		}
 	}
 
-	/**
-	 *	获取当前监听的文件列表
-	 */
-	get watchingFiles() {
+	get watchingFiles(): ReadonlySet<string> {
 		return this._watchFiles;
 	}
 
@@ -53,24 +47,20 @@ export class FileBuilder {
 		return loadInheritedJson(file);
 	}
 
-	/**
-	 *	将文本追加到结果数组中
-	 */
 	append(text: string) {
 		this.result.push(text);
 		return text;
 	}
 
-	/**
-	 * 将结果数组转换为字符串
-	 */
+	prepend(text: string) {
+		this.result.unshift(text);
+		return text;
+	}
+
 	toString() {
 		return this.result.join('\n');
 	}
 
-	/* 
-		获取结果数组的大小
-	*/
 	get size() {
 		return this.result.length;
 	}
@@ -138,15 +128,15 @@ export class FileBuilder {
 	 * 从当前文件中复制枚举定义，枚举必须以 "[export ][const ]enum ename {" 开头
 	 */
 	copyEnumDeclare(ename: string, head = true) {
-		this.append(this.readInterfaceDeclare(ename, head));
+		this.append(this.readEnumDeclare(ename, head));
 	}
 	readEnumDeclare(ename: string, head = true) {
 		return this.readSection(new RegExp(`^(?:export )?(?:const )?enum ${escapeRegExp(ename)} {`), /^}/, head);
 	}
 
-	/* 
-		生成一个从指定范围的数字序列
-	*/
+	/**
+	 * 生成一个指定范围的数字序列（以字符串表示）
+	 */
 	seq(from: number, to: number) {
 		const r: string[] = [];
 		for (let i = from; i <= to; i++) {
@@ -155,13 +145,34 @@ export class FileBuilder {
 		return new WrappedArray(r);
 	}
 
-	/* 
-		递归地减少范围内的数字，并通过映射函数生成字符串
-	*/
+	import(what: string[], where: string): string;
+	import(type: true, what: string[], where: string): string;
+	import(type: boolean | string[], what: string | string[], where?: string): string {
+		if (typeof type !== 'boolean') {
+			where = what as string;
+			what = type;
+			type = false;
+		}
+		if (Array.isArray(what)) {
+			what = what.join(', ');
+		}
+		if (type) {
+			return this.prepend(`import type { ${what} } from '${where}';`);
+		} else {
+			return this.prepend(`import { ${what} } from '${where}';`);
+		}
+	}
+
+	/**
+	 * 从from到to每一个数字n
+	 * 生成数组Ax = [0...n]
+	 * 然后对每个Ax执行map
+	 * 将map返回的字符串连接到一起
+	 */
 	reduceRecursive(from: number, to: number, map: (arr: WrappedArray, index: string) => string) {
 		const arr = this.seq(from, to);
 		const strs = arr.map((v, i) => {
-			return map(arr.first(i + 1), v);
+			return map(arr.begining(i + 1), v);
 		});
 		return this.append(strs.toLines());
 	}
@@ -170,47 +181,51 @@ export class FileBuilder {
 export class WrappedArray {
 	constructor(private array: string[]) {}
 
-	/* 
-		将数组转换为以逗号分隔的字符串
-	*/
 	toList() {
 		return this.array.join(', ');
 	}
-
-	/* 
-		将数组转换为以换行符分隔的字符串
-	*/
 	toLines() {
 		return this.array.join('\n');
 	}
-
-	/* 
-		将数组转换为以竖线分隔的联合类型字符串
-	*/
 	toUnion() {
 		return this.array.join(' | ');
 	}
 
-	/* 
-		递归处理数组的子数组，并通过映射函数生成新数组
-	*/
+	/**
+	 * 从0到length，每前N项组成一个新数组A1...AN
+	 * 对每个Ax执行map，返回数组Bx
+	 * 然后把所有Bx连接成一个一维数组
+	 */
 	recursion(map: (subarr: WrappedArray) => string[]) {
 		const a = [];
 		for (let i = 1; i < this.array.length; i++) {
-			a.push(...map(this.first(i)));
+			a.push(...map(this.begining(i)));
 		}
 		return a;
 	}
 
-	/* 
-		获取数组的前几个元素
-	*/
-	first(cnt: number | string) {
+	/**
+	 *	获取数组的前几个元素
+	 */
+	begining(cnt: number | string) {
 		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? Number.parseInt(cnt) : cnt));
 	}
+	/**
+	 *	获取数组的后几个元素
+	 */
+	ending(cnt: number | string) {
+		return new WrappedArray(this.array.slice(-(typeof cnt === 'string' ? Number.parseInt(cnt) : cnt)));
+	}
+
+	/**
+	 * 每一项添加前缀，返回复制的数组
+	 */
 	prefix(p: string | ((v: string, i: number) => string)) {
 		return new WrappedArray(this.array.map((i) => p + i));
 	}
+	/**
+	 * 每一项添加后缀，返回复制的数组
+	 */
 	postfix(p: string | ((v: string, i: number) => string)) {
 		return new WrappedArray(this.array.map((i) => p + i));
 	}
@@ -219,5 +234,16 @@ export class WrappedArray {
 	}
 	[Symbol.iterator]() {
 		return this.array.values();
+	}
+
+	toJsSet() {
+		return new Set(this.array);
+	}
+	toJsArray(): readonly string[] {
+		return this.array;
+	}
+
+	get length() {
+		return this.array.length;
 	}
 }
