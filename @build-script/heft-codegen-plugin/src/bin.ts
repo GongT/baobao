@@ -1,27 +1,54 @@
 import { findUpUntilSync, pickFlag, wrapConsoleLogger } from '@build-script/heft-plugin-base';
 import { startChokidar } from '@idlebox/chokidar';
-import { globSync } from 'glob';
+import { glob, Ignore } from 'glob';
+import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { GeneratorHolder, type IResult } from './library/code-generator-holder.js';
 import { IgnoreFiles } from './todo/IgnoreFiles.js';
 
-const argv = process.argv.splice(2);
-const watchMode = pickFlag(argv, ['--watch', '-w']) > 0;
-const project = argv.pop();
-if (!project) {
-	console.error('usage: $0 package-dir');
-	process.exit(1);
-}
-
-if (argv.length > 0) {
-	console.error('unknown arguments:', argv);
-	process.exit(1);
-}
-
-const root = resolve(process.cwd(), project);
-const files = globSync('**/*.generator.{ts,js}', { ignore: ['node_modules/**'], cwd: root, absolute: true });
-
 async function main() {
+	const argv = process.argv.splice(2);
+	const watchMode = pickFlag(argv, ['--watch', '-w']) > 0;
+	const project = argv.pop();
+	if (!project) {
+		console.error('usage: $0 package-dir');
+		process.exit(1);
+	}
+
+	if (argv.length > 0) {
+		console.error('unknown arguments:', argv);
+		process.exit(1);
+	}
+
+	const root = resolve(process.cwd(), project);
+	const ignoreFile = findUpUntilSync(root, '.gitignore');
+	const ignore = new Ignore([], { cwd: root });
+	if (ignoreFile) {
+		for (let line of readFileSync(ignoreFile, 'utf-8').split('\n')) {
+			line = line.trim();
+
+			if (line.startsWith('#')) continue;
+			if (line.length === 0) continue;
+			if (line.startsWith('!')) {
+				console.error('ignore file: invert match not support now: %s', line);
+				continue;
+			}
+
+			if (line.endsWith('/')) {
+				ignore.add(`**/${line}**`);
+			} else {
+				ignore.add(`**/${line}`);
+				ignore.add(`**/${line}/**`);
+			}
+		}
+	}
+
+	const files = await glob('**/*.generator.{ts,js}', {
+		ignore,
+		cwd: root,
+		absolute: true,
+	});
+
 	const logger = wrapConsoleLogger();
 
 	const pkgRoot = findUpUntilSync(root, 'package.json');
@@ -108,7 +135,7 @@ function wrapOutput(p: Promise<IResult>) {
 			if (result.errors.length > 0) {
 				console.error('\x1B[48;5;9m\x1B[K⚠️  Generate Fail: %s errors\x1B[0m', result.errors.length);
 				for (const item of result.errors) {
-					console.error('  * %s\n      in %s', item.error.message, item.source);
+					console.error('  * %s\n      in %s', item.error.message.replace('\n', ''), item.source);
 				}
 				return 1;
 			}

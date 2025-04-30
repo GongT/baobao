@@ -77,7 +77,7 @@ export class ImportExecuter extends BaseExecuter {
 				userWatchFiles: builder.watchingFiles,
 			};
 		} catch (e: any) {
-			return this.errorResult(new Error(`failed execute generator [${this.sourceFile}]: ${e?.stack ?? e}`));
+			return this.errorResult(new Error(`Failed execute generator\n    source file: ${this.sourceFile}\n${e?.stack ?? e}`));
 		} finally {
 			if (gen) {
 				gen.dispose?.(logger);

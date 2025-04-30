@@ -63,8 +63,8 @@ export abstract class BaseExecuter {
 		if (result.success) {
 			this.logger.debug('* generate success');
 		} else {
-			const e = new Error('generate failed');
-			e.stack = undefined;
+			const e = new Error(`generate failed: ${result.error?.name ?? 'UnknownError'}, more information see above`);
+			e.stack = e.message;
 			throw e;
 		}
 

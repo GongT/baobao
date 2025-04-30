@@ -2,6 +2,7 @@ import { isAbsolute } from '../path/isAbsolute.js';
 import { relativePath } from '../path/normalizePath.js';
 import { globalObject } from '../platform/globalObject.js';
 import { isNative } from '../platform/os.js';
+import { vscEscapeValue } from './pretty.vscode.js';
 
 const process = globalObject.process;
 const window = globalObject.window;
@@ -32,6 +33,13 @@ type TypeMatchEval = 'padding' | TypeMatchNoFile | TypeMatchFileOnly | 'eval_fun
 
 let root = process?.cwd?.() ?? window?.location?.domain ?? '/';
 export function setErrorLogRoot(_root: string) {
+	if (
+		typeof process !== 'undefined' &&
+		process.stderr?.write?.call &&
+		(process.env?.VSCODE_SHELL_INTEGRATION || process.env?.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT)
+	) {
+		process.stderr.write(`\x1B]633;P;Cwd=${vscEscapeValue(_root)}\x07`);
+	}
 	root = _root;
 }
 
