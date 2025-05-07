@@ -10,6 +10,7 @@ common/temp
 common/deploy
 *.tsbuildinfo
 .rpt2_cache/
+node-compile-cache/
 
 ### Temp Files
 *.lock

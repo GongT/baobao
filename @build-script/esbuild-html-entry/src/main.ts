@@ -7,7 +7,7 @@ import { Tag, TagCollection } from './tag.js';
 import { commonParent, debug, type IDiagnostics } from './tools.js';
 
 const PLUGIN_NAME = 'html-creation';
-const NAMESPACE = '@gongt/esbuild-html-entry';
+const NAMESPACE = 'esbuild-html-entry';
 const isHtml = /.*\.html$/;
 // const rExt = /\..+?$/;
 
@@ -39,13 +39,11 @@ export class HtmlEntryPlugin {
 
 		this._resolve = build.resolve;
 
-		this.onStart = this.onStart.bind(this);
 		this.onResolve = this.onResolve.bind(this);
 		this.onLoad = this.onLoad.bind(this);
 		this.onEnd = this.onEnd.bind(this);
 	}
 
-	onStart() {}
 	async onEnd(args: esbuild.BuildResult): Promise<esbuild.OnEndResult | null> {
 		const res: IDiagnostics = { warnings: [], errors: [] };
 		if (!args.metafile) {
@@ -226,7 +224,6 @@ export class ESBuildHtmlEntry implements esbuild.Plugin {
 		}
 
 		const plugin = new HtmlEntryPlugin(build);
-		build.onStart(plugin.onStart);
 		build.onResolve({ filter: isHtml }, plugin.onResolve);
 		build.onLoad({ filter: isHtml, namespace: NAMESPACE }, plugin.onLoad);
 		build.onEnd(plugin.onEnd);

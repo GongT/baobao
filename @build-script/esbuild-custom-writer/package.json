@@ -1,6 +1,6 @@
 {
-	"name": "@gongt/esbuild-custom-writer",
-	"version": "0.0.3",
+	"name": "@build-script/esbuild-custom-writer",
+	"version": "0.1.0",
 	"type": "module",
 	"license": "MIT",
 	"repository": "https://github.com/GongT/baobao",

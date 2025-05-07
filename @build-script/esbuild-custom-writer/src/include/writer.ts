@@ -1,11 +1,13 @@
 import { md5 } from '@idlebox/node';
 import type { BuildResult, Plugin, PluginBuild } from 'esbuild';
 import { randomBytes } from 'node:crypto';
-import { writeFile } from 'node:fs/promises';
+import { unlink, writeFile } from 'node:fs/promises';
 import { relative, resolve } from 'node:path';
 import type { IPluginOptions } from '../main.js';
 import { ChainCallbackList } from './callbacks.js';
 import type { IEntry, IFile, IOnEmitFileCallback } from './file.js';
+
+const isSourceMap = /\.map$/;
 
 export class CustomFileWriter implements Plugin {
 	readonly name = 'file-write';
@@ -31,7 +33,9 @@ export class CustomFileWriter implements Plugin {
 	async setup(build: PluginBuild) {
 		const rootDir = build.initialOptions.absWorkingDir || process.cwd();
 		if (build.initialOptions.write !== false) {
-			throw new Error("esbuild options.write must be false, or custom file writer won't work.");
+			const e = new Error('InvalidOptions: `esbuild.context()` option `.write` must be explicitly set to `false`.');
+			e.stack = e.message;
+			throw e;
 		}
 
 		this.#rootDir = rootDir;
@@ -83,6 +87,17 @@ export class CustomFileWriter implements Plugin {
 				const prev = this.#cache.get(rel);
 				const entry = this.getEntry(result, rel);
 
+				if (!entry) {
+					if (result.metafile?.outputs) {
+						for (const [key, value] of Object.entries(result.metafile.outputs)) {
+							console.error(`[file-write] ${key} => ${value.entryPoint}`);
+						}
+						console.error(`[file-write] can not find entry for %s`, rel);
+					} else {
+						console.error('[file-write] metafile is invalid, outputs = Falsy');
+					}
+				}
+
 				const outFile = await this.#callbacks.call(fileObj, entry, prev);
 				if (outFile === false) {
 					console.debug('skip emit: %s', fileObj.path);
@@ -93,12 +108,13 @@ export class CustomFileWriter implements Plugin {
 			}
 			console.log('%d files to emit.', list.length);
 
-			for (const [key, item] of [...this.#cache.entries()]) {
-				if (list.includes(item)) continue;
-				this.#cache.delete(key);
+			for (const [rel, item] of this.#cache.entries()) {
+				if (list.find((item) => item.relative === rel)) continue;
+				this.#cache.delete(rel);
 
 				if (this.#options.delete) {
-					// todo: delete fs
+					console.log('[file-write] delete file: %s', item.path);
+					await unlink(item.path);
 				}
 			}
 
@@ -121,8 +137,12 @@ export class CustomFileWriter implements Plugin {
 	}
 
 	readonly #idCache = new Map<string, string>();
-	private getEntry(result: BuildResult, file: string): IEntry {
+	private getEntry(result: BuildResult, file: string): undefined | IEntry {
 		const rel = this.getEntryPath(result, file);
+		if (!rel) {
+			return undefined;
+		}
+
 		let id = this.#idCache.get(rel);
 		if (!id) {
 			id = md5(randomBytes(32));
@@ -138,18 +158,34 @@ export class CustomFileWriter implements Plugin {
 
 	private getEntryPath(result: BuildResult, file: string) {
 		const outputs = result.metafile?.outputs;
-		if (outputs) {
-			if (outputs[file]?.entryPoint) {
-				return outputs[file]?.entryPoint;
-			}
-			if (file.endsWith('.map')) {
-				const base = file.replace(/\.map$/, '');
-				if (outputs[base]?.entryPoint) {
-					return outputs[base]?.entryPoint;
-				}
+		// console.log(inspect(outputs, { colors: true, depth: 10, compact: true, breakLength: 40, maxArrayLength: 1 }));
+		if (!outputs) {
+			return undefined;
+		}
+		if (outputs[file]?.entryPoint) {
+			return outputs[file]?.entryPoint;
+		}
+		if (file.endsWith('.map')) {
+			const base = file.replace(isSourceMap, '');
+			if (outputs[base]?.entryPoint) {
+				return outputs[base]?.entryPoint;
 			}
 		}
 
-		throw new Error(`can not find entry file for output "${file}", ${this.name} plugin internal failure`);
+		if (file.endsWith('.css') || file.endsWith('.css.map')) {
+			return this.getEntryPathTryCss(result, file);
+		}
+
+		return undefined;
+	}
+
+	private getEntryPathTryCss(result: BuildResult, file: string) {
+		const id = file.replace(isSourceMap, '');
+		for (const output of Object.values(result.metafile!.outputs)) {
+			if (output.cssBundle === id && output.entryPoint) {
+				return output.entryPoint;
+			}
+		}
+		return undefined;
 	}
 }

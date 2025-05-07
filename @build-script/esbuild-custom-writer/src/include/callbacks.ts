@@ -7,7 +7,7 @@ export class ChainCallbackList {
 		this.list.push(cb);
 	}
 
-	async call(file: IFile, entry: IEntry, prev?: IFile) {
+	async call(file: IFile, entry?: IEntry, prev?: IFile) {
 		for (const cb of this.list) {
 			const mfile = await cb(file, entry, prev);
 			if (mfile === false) {
