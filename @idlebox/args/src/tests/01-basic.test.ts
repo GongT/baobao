@@ -20,18 +20,20 @@ afterEach(function () {
 });
 
 describe('common usage', () => {
-	reader = new ArgsReader(['--work-tree=/tmp', '--no-pager', 'fetch', '--all', 'origin']);
+	reader = new ArgsReader(['--work-tree=/tmp', '--no-pager', 'fetch', '--all', 'origin', '--depth', '5']);
 
 	describe('#single()', () => {
 		it(
 			'ok',
 			times(3, () => {
 				expect(reader.single(['--work-tree', '-w'])).to.equal('/tmp');
+				expect(reader.single(['--depth'])).to.equal('5');
 			})
 		);
 		it('fail change caller', () => {
 			expect(() => reader.single(['--work-tree'])).to.throw();
 			expect(() => reader.single(['-w', '--work-tree'])).to.throw();
+			expect(() => reader.flag(['--depth'])).to.throw();
 		});
 	});
 

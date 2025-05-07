@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/args",
 	"type": "module",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"license": "MIT",
 	"main": "./lib/cjs/interface.cjs",
 	"module": "./lib/esm/interface.js",
@@ -17,7 +17,7 @@
 	"sideEffects": false,
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
-		"test": "heft test",
+		"test": "mocha --bail lib/esm/tests",
 		"build": "heft --unmanaged build",
 		"_phase:build": "heft --unmanaged build",
 		"watch": "heft --unmanaged build-watch",
