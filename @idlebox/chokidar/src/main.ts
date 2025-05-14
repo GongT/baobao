@@ -39,7 +39,7 @@ export class WatchHelper implements IWatchHelper {
 		if (!allowedEvents.includes(item)) {
 			throw new Error(`not allowed watcher event name: ${item}`);
 		}
-		console.log('listen: %s [before %d]', item, this.watcher.listenerCount(item));
+		log('listen: %s [before %d]', item, this.watcher.listenerCount(item));
 		if (this.watcher.listenerCount(item) === 0) {
 			this.watcher.addListener(item, this.lowlevel_handler);
 		}
@@ -71,7 +71,12 @@ export class WatchHelper implements IWatchHelper {
 
 	private lowlevel_handler(path: string) {
 		log('file changes: %s', path);
-		this.changes.add(path);
+		if (path) {
+			this.changes.add(path);
+		}
+		if (!this.changes.size) {
+			return;
+		}
 		switch (this.state) {
 			case State.IDLE:
 				this.changeState(State.SCHEDULE);
