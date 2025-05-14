@@ -1,13 +1,16 @@
 import { globalSingletonStrong } from '../../platform/globalSingleton.js';
 import { createSymbol } from '../../platform/globalSymbol.js';
-import type { IDisposable } from './lifecycle.js';
+import { _debug_dispose } from './debug.js';
 import { AsyncDisposable } from './lifecycle.async.js';
+import type { IDisposable } from './lifecycle.js';
 
 const symbol = createSymbol('lifecycle', 'application');
 
 function create() {
-	return new AsyncDisposable();
+	return new AsyncDisposable('global');
 }
+
+const logger = _debug_dispose.extend('global');
 
 /**
  * Add object into global disposable store, it will be dispose when call to `disposeGlobal`
@@ -41,6 +44,7 @@ export function disposeGlobal() {
 	if (obj) {
 		return Promise.resolve(obj.dispose());
 	}
+	if (logger.enabled) logger(`dispose global (not exists)`);
 	return Promise.resolve();
 }
 

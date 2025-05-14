@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.4.8",
+	"version": "1.4.10",
 	"license": "MIT",
 	"main": "./lib/cjs/__create_index.generated.cjs",
 	"module": "./lib/esm/__create_index.generated.js",
@@ -29,5 +29,8 @@
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2"
+	},
+	"dependencies": {
+		"debug": "^4.3.7"
 	}
 }

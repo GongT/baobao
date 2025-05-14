@@ -12,11 +12,17 @@ export interface IDisposableEvents {
 /** @public */
 export interface IDisposable {
 	dispose(): void;
+
+	name?: string;
+	displayName?: string;
 }
 
 /** @public */
 export interface IAsyncDisposable {
 	dispose(): void | Promise<void>;
+
+	name?: string;
+	displayName?: string;
 }
 
 /**

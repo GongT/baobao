@@ -14,7 +14,7 @@ export class Emitter<T> implements IDisposable {
 	protected readonly _callbacks: EventHandler<T>[] = [];
 	private executing = false;
 
-	constructor() {
+	constructor(public readonly displayName?: string) {
 		this.handle = this.handle.bind(this);
 	}
 

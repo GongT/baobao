@@ -1,10 +1,11 @@
+const splittersAndLower = /[-.\/_]+[a-z]/g;
 /** @public */
 export function camelCase(str: string) {
 	return str
-		.replace(/[-.\/_]+[a-z]/g, (s) => {
+		.replace(splittersAndLower, (s) => {
 			return s[1]?.toUpperCase();
 		})
-		.replace(/[-.\/_]+/g, '');
+		.replace(spliters, '');
 }
 
 /**
@@ -12,7 +13,8 @@ export function camelCase(str: string) {
  * @public
  */
 export function ucfirst<T extends string>(str: T): Capitalize<T> {
-	return <any>(str[0]?.toUpperCase() + str.slice(1));
+	if (!str) return str as any;
+	return <any>(str[0].toUpperCase() + str.slice(1));
 }
 
 /**
@@ -20,29 +22,33 @@ export function ucfirst<T extends string>(str: T): Capitalize<T> {
  * @public
  */
 export function lcfirst<T extends string>(str: T): Uncapitalize<T> {
-	return <any>(str[0]?.toLowerCase() + str.slice(1));
+	if (!str) return str as any;
+	return <any>(str[0].toLowerCase() + str.slice(1));
 }
 
+const prefixCapitals = /^[A-Z]+/;
+const allCapitals = /[A-Z]+/g;
+const spliters = /[-.\/_]+/g;
 /** @public */
 export function linux_case(str: string) {
 	return str
-		.replace(/^[A-Z]+/, (s) => {
+		.replace(prefixCapitals, (s) => {
 			return s.toLowerCase();
 		})
-		.replace(/[A-Z]+/g, (s) => {
+		.replace(allCapitals, (s) => {
 			return `_${s.toLowerCase()}`;
 		})
-		.replace(/[-.\/_]+/g, '_');
+		.replace(spliters, '_');
 }
 
 /** @public */
 export function linux_case_hyphen(str: string) {
 	return str
-		.replace(/^[A-Z]/, (s) => {
+		.replace(prefixCapitals, (s) => {
 			return s.toLowerCase();
 		})
-		.replace(/[A-Z]+/g, (s) => {
+		.replace(allCapitals, (s) => {
 			return `-${s.toLowerCase()}`;
 		})
-		.replace(/[-.\/_]+/g, '-');
+		.replace(spliters, '-');
 }

@@ -1,4 +1,5 @@
 import { Emitter, type EventRegister } from '../event/event.js';
+import { _debug_dispose, dispose_name } from './debug.js';
 import { DisposedError } from './disposedError.js';
 import type { IDisposable, IDisposableEvents } from './lifecycle.js';
 
@@ -34,6 +35,12 @@ export class Disposable implements IDisposable, IDisposableEvents {
 
 	private _disposed?: Error;
 
+	/** @internal */
+	readonly #logger;
+	constructor(public readonly displayName?: string) {
+		this.#logger = _debug_dispose.extend(this.displayName || 'async-disposable');
+	}
+
 	public get hasDisposed() {
 		return !!this._disposed;
 	}
@@ -53,6 +60,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 	public _register<T extends IDisposable>(d: T): T;
 	public _register<T extends IDisposable & IDisposableEvents>(d: T, autoDereference?: boolean): T;
 	public _register<T extends IDisposable | (IDisposable & IDisposableEvents)>(d: T, autoDereference?: boolean): T {
+		if (this.#logger.enabled) this.#logger(`register ${dispose_name(d)}`);
 		this.assertNotDisposed();
 		this._disposables.unshift(d);
 		if (autoDereference) {
@@ -64,6 +72,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 	}
 
 	public _unregister(d: IDisposable) {
+		if (this.#logger.enabled) this.#logger(`unregister ${dispose_name(d)}`);
 		return this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
 	}
 
@@ -79,6 +88,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 		this._disposables.push(this._onDisposeError);
 		for (const item of this._disposables.values()) {
 			try {
+				if (this.#logger.enabled) this.#logger(`register ${dispose_name(item)}`);
 				item.dispose();
 			} catch (e) {
 				if (e instanceof Error) {
