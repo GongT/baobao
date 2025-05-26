@@ -1,7 +1,7 @@
 {
 	"name": "@gongt/fix-esm",
 	"type": "commonjs",
-	"version": "1.1.3",
+	"version": "1.1.4",
 	"description": "auto fix ERR_REQUIRE_ESM by esbuild",
 	"license": "MIT",
 	"main": "./lib/index.js",

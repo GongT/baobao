@@ -1,12 +1,9 @@
 {
 	"name": "@gongt/systemd-unit-generator",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "generate systemd unit file with type checking",
-	"keywords": [
-		"generater",
-		"systemd"
-	],
+	"keywords": ["generater", "systemd"],
 	"license": "MIT",
 	"main": "./lib/cjs/index.cjs",
 	"module": "./lib/esm/index.js",

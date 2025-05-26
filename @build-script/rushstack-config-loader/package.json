@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rushstack-config-loader",
 	"type": "module",
-	"version": "0.0.18",
+	"version": "0.0.19",
 	"license": "MIT",
 	"main": "./lib/cjs/api.cjs",
 	"module": "./lib/esm/api.js",

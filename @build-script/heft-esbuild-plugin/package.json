@@ -1,18 +1,10 @@
 {
 	"name": "@build-script/heft-esbuild-plugin",
 	"type": "commonjs",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"license": "WTFPL",
 	"description": "lowlevel esbuild plugin for [heft]",
-	"keywords": [
-		"esbuild",
-		"rushstack",
-		"heft",
-		"toolchain",
-		"bundle",
-		"compiler",
-		"incremental"
-	],
+	"keywords": ["esbuild", "rushstack", "heft", "toolchain", "bundle", "compiler", "incremental"],
 	"types": "./src/api.ts",
 	"main": "./loader/plugin.js",
 	"publishConfig": {

@@ -1,5 +1,6 @@
 {
 	"name": "@build-script/build-protocol",
+	"private": true,
 	"type": "module",
 	"version": "0.1.0",
 	"keywords": [],

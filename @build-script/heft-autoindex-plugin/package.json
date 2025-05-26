@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/heft-autoindex-plugin",
 	"type": "commonjs",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"bin": {
 		"typescript-create-index": "./loader/bin.js"
 	},
