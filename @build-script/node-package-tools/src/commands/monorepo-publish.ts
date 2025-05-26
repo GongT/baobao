@@ -1,6 +1,6 @@
 import { humanDate } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
-import { argv, formatOptions, pArgS, pDesc } from '../common/functions/cli.js';
+import { argv, formatOptions, pArgS } from '../common/functions/cli.js';
 import { CSI, writeHostLine, writeHostReplace } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
@@ -12,7 +12,10 @@ import { prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
 import { createWorkspace } from '../common/workspace/workspace.js';
 
 export function usageString() {
-	return `${pArgS('--verbose / --silent')} ${pArgS('--dry')} ${pDesc('在monorepo中按照依赖顺序发布修改过的包')}`;
+	return `${pArgS('--verbose / --silent')} ${pArgS('--dry')}`;
+}
+export function descriptionString() {
+	return '在monorepo中按照依赖顺序发布修改过的包';
 }
 const args = {
 	'--verbose': '列出所有信息，而不仅是目录',

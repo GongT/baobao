@@ -16,7 +16,7 @@ const common_args = {
 	'--quiet': '减少输出',
 	'--registry <xxx>': 'npm服务器，默认从.npmrc读取(必须有schema://)',
 	'--dist-tag <xxx>': '需要从服务器读取时使用的tag，默认为"latest"',
-	'--package <xxx>': '启动前更改当前目录（文件夹应包含package.json）',
+	'--package <xxx>': '实际操作前，更改当前目录（此文件夹应包含package.json）',
 	'--json': '输出json格式（部分命令支持）',
 	'--help': '显示帮助信息',
 };

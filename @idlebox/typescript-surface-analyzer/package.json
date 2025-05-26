@@ -37,7 +37,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
 		"@types/minimatch": "^5.1.2",
-		"@types/node": "^22.8.6",
+		"@types/node": "^22.14.1",
 		"typescript": "^5.8.2"
 	}
 }

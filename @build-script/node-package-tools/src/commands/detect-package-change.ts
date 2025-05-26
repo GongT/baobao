@@ -1,4 +1,4 @@
-import { argv, formatOptions, isJsonOutput, pArgS, pDesc } from '../common/functions/cli.js';
+import { argv, formatOptions, isJsonOutput, pArgS } from '../common/functions/cli.js';
 import { logger } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
@@ -8,7 +8,10 @@ import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js'
 process.env.COREPACK_ENABLE_STRICT = '0';
 
 export function usageString() {
-	return `${pArgS('--bump')} ${pArgS('--json')} ${pDesc('本地运行npm pack并与npm上的最新版本对比差异')}`;
+	return `${pArgS('--bump')} ${pArgS('--json')}`;
+}
+export function descriptionString() {
+	return '本地运行npm pack并与npm上的最新版本对比差异';
 }
 const args = {
 	'--bump': '当发现更改时更新package.json，增加版本号0.0.1',

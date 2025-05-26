@@ -13,6 +13,9 @@ process.env.COREPACK_ENABLE_STRICT = '0';
 export function usageString() {
 	return `${pArgS('--no-cache')} ${pArgS('--flush')} \x1B[38;5;9m--\x1B[0m command to run`;
 }
+export function descriptionString() {
+	return '如果版本号改变，则运行命令';
+}
 const args = {
 	'--no-cache': '禁用缓存',
 	'--flush': '程序成功退出时自动删除npm缓存',

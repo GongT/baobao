@@ -53,6 +53,21 @@ export function parseExportsField(exports: IExportsField): IFullExportsField {
 	return ret;
 }
 
+export function resolveExportPath(exportField: string | IExportCondition, condition: readonly string[]) {
+	if (!exportField || typeof exportField === 'string') {
+		return exportField;
+	}
+	for (const cond of condition) {
+		const value = exportField[cond];
+		if (!value || typeof value === 'string') {
+			return value;
+		}
+
+		return resolveExportPath(value, condition);
+	}
+	return undefined;
+}
+
 // export function resolveImport(exports:IFullExportsField, file:string,platform:string, condition: string){
 // }
 

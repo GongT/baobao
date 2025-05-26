@@ -18,7 +18,7 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@types/node": "^22.8.6",
+		"@types/node": "^22.14.1",
 		"@types/split2": "^4.2.3",
 		"rimraf": "^6.0.1"
 	},

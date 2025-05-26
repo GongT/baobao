@@ -2,9 +2,11 @@ import { PackageManagerUsageKind } from '../common/package-manager/driver.abstra
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 
 export function usageString() {
+	return '测试参数';
+}
+export function descriptionString() {
 	return '测试命令';
 }
-
 export function helpString() {
 	return '没有帮助信息';
 }

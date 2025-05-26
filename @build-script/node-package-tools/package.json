@@ -41,7 +41,7 @@
 		"@rushstack/heft": "^0.68.2",
 		"@types/cacache": "^17.0.2",
 		"@types/global-agent": "^3.0.0",
-		"@types/node": "^22.8.6",
+		"@types/node": "^22.14.1",
 		"@types/npm-registry-fetch": "^8.0.7",
 		"@types/request": "^2.48.12",
 		"@types/semver": "^7.5.8",

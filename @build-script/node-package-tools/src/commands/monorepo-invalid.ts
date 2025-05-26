@@ -1,10 +1,12 @@
-import { pDesc } from '../common/functions/cli.js';
 import { logger } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 
 export function usageString() {
-	return `${pDesc('删除本monorepo中所有包的npm缓存')}`;
+	return '';
+}
+export function descriptionString() {
+	return '从npm缓存中删除关于本monorepo的数据，以便安装最新版本';
 }
 export function helpString() {
 	return '';

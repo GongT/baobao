@@ -23,6 +23,7 @@
 			"recommended": true,
 			"suspicious": {
 				"noExplicitAny": "off",
+				"noControlCharactersInRegex": "off",
 			},
 			"style": {
 				"noArguments": "off",

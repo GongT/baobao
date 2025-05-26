@@ -1,18 +1,16 @@
-[English](./README.en.md)
-
 # Node.js 包发布辅助工具集
 
 # 使用方式
 
-```text
+```text id="usage"
 Usage:
-    njspkg [通用参数] <命令> [命令参数] 
+    njspkg [通用参数] <命令> [命令参数]
 
 通用参数:
   --quiet: 减少输出
   --registry <xxx>: npm服务器，默认从.npmrc读取(必须有schema://)
   --dist-tag <xxx>: 需要从服务器读取时使用的tag，默认为"latest"
-  --package <xxx>: 启动前更改当前目录（文件夹应包含package.json）
+  --package <xxx>: 实际操作前，更改当前目录（此文件夹应包含package.json）
   --json: 输出json格式（部分命令支持）
   --help: 显示帮助信息
 
@@ -22,7 +20,7 @@ detect-package-change --bump --json 本地运行npm pack并与npm上的最新版
 monorepo-cnpm-sync 调用cnpm sync命令
   需要在PATH中存在cnpm命令
 
-monorepo-invalid 删除本monorepo中所有包的npm缓存
+monorepo-invalid 从npm缓存中删除关于本monorepo的数据，以便安装最新版本
   
 
 monorepo-list --verbose --json --relative 列出所有项目目录
@@ -36,18 +34,23 @@ monorepo-publish --verbose / --silent --dry 在monorepo中按照依赖顺序发�
   --debug: 运行后不要删除临时文件和目录
   --skip <N>: 跳过前N-1个包（从第N个包开始运行）
 
-run-if-version-mismatch --no-cache --flush -- command to run
+monorepo-tsconfig --dev 为所有项目的 tsconfig.json 添加 references 字段
+  查找tsconfig.json和src/tsconfig.json。如果不在这里，可以在package.json中设置exports['./tsconfig.json'] = './xxxx'
+  --dev: 也将devDependencies中的包添加到references中
+
+run-if-version-mismatch --no-cache --flush -- command to run 如果版本号改变，则运行命令
   如果package.json中的version与npm上的版本(latest)不一致，则运行命令
     注意: 命令行中的"--"是必须的
   --no-cache: 禁用缓存
   --flush: 程序成功退出时自动删除npm缓存
   --newer: 只有在本地版本号大于远程版本号时才运行（默认只要不同就运行）
 
-watch --silent --verbose --keep-output 在每个项目中运行watch脚本
+watch --verbose --keep-output 在每个项目中运行watch脚本
   --verbose: 显示所有输出，而不仅仅在编译出错时输出
   --keep-output: 不要清屏
   --server: 输出服务器模式
   --client: 输出客户端模式
+  --silent: 目前必须设置，否则输出会乱
 ```
 
 

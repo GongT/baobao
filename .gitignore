@@ -25,7 +25,6 @@ dist/
 lib/
 *.tgz
 .test
-build-*/
 tsdoc-metadata.json
 
 ### Package Manager
@@ -56,5 +55,5 @@ yarn-error.log*
 c_cpp_properties.json
 vcpkg_installed
 _*.ts
-
+tsconfig.everything.json
 .nx

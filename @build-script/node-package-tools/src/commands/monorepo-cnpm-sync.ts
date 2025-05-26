@@ -4,7 +4,10 @@ import { createPackageManager } from '../common/package-manager/package-manager.
 import { cnpmSync } from '../common/shared-jobs/cnpm-sync.js';
 
 export function usageString() {
-	return `${pDesc('调用cnpm sync命令')}`;
+	return '';
+}
+export function descriptionString() {
+	return '调用cnpm sync命令';
 }
 export function helpString() {
 	return pDesc('需要在PATH中存在cnpm命令');

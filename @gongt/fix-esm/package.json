@@ -31,6 +31,6 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^22.8.6"
+		"@types/node": "^22.14.1"
 	}
 }

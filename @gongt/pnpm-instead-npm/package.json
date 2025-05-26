@@ -2,7 +2,11 @@
 	"name": "@gongt/pnpm-instead-npm",
 	"version": "1.0.5",
 	"description": "symlink npm to pnpm, always install with pnpm",
-	"keywords": ["package manager", "pnpm", "npm"],
+	"keywords": [
+		"package manager",
+		"pnpm",
+		"npm"
+	],
 	"bin": {
 		"npm": "bin/npm.mjs",
 		"npx": "bin/npx.mjs"
@@ -20,6 +24,6 @@
 		"which": "^5.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^22.8.6"
+		"@types/node": "^22.14.1"
 	}
 }

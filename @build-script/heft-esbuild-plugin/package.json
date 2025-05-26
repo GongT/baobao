@@ -4,7 +4,15 @@
 	"version": "0.0.12",
 	"license": "WTFPL",
 	"description": "lowlevel esbuild plugin for [heft]",
-	"keywords": ["esbuild", "rushstack", "heft", "toolchain", "bundle", "compiler", "incremental"],
+	"keywords": [
+		"esbuild",
+		"rushstack",
+		"heft",
+		"toolchain",
+		"bundle",
+		"compiler",
+		"incremental"
+	],
 	"types": "./src/api.ts",
 	"main": "./loader/plugin.js",
 	"publishConfig": {
@@ -27,15 +35,15 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"comment-json": "^4.2.5",
-		"@rushstack/node-core-library": "^5.9.0"
+		"@rushstack/node-core-library": "^5.9.0",
+		"comment-json": "^4.2.5"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/heft-plugin-base": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.8.6",
+		"@types/node": "^22.14.1",
 		"esbuild": "^0.24.0",
 		"ts-node": "^10.9.2"
 	}

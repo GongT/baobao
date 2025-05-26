@@ -3,7 +3,10 @@
 	"type": "module",
 	"version": "0.0.17",
 	"description": "api for modify .*ignore files",
-	"keywords": ["gitignore", "ignorefile"],
+	"keywords": [
+		"gitignore",
+		"ignorefile"
+	],
 	"license": "MIT",
 	"author": "GongT",
 	"main": "./lib/cjs/api.cjs",
@@ -34,6 +37,6 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.8.6"
+		"@types/node": "^22.14.1"
 	}
 }

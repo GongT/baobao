@@ -8,4 +8,22 @@
 		"noEmitOnError": false
 	},
 	"exclude": ["**/*.generator.ts"],
+	"references": [
+		{
+			"$id": "node-package-tools/monorepo-tsconfig",
+			"path": "../../../@idlebox/args/src/tsconfig.json"
+		},
+		{
+			"$id": "node-package-tools/monorepo-tsconfig",
+			"path": "../../../@idlebox/common/src/tsconfig.json"
+		},
+		{
+			"$id": "node-package-tools/monorepo-tsconfig",
+			"path": "../../../@idlebox/node/src/tsconfig.json"
+		},
+		{
+			"$id": "node-package-tools/monorepo-tsconfig",
+			"path": "../../../@idlebox/node-json-edit/src/tsconfig.json"
+		}
+	]
 }

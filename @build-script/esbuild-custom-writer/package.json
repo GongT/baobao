@@ -4,7 +4,9 @@
 	"type": "module",
 	"license": "MIT",
 	"repository": "https://github.com/GongT/baobao",
-	"keywords": ["esbuild"],
+	"keywords": [
+		"esbuild"
+	],
 	"exports": {
 		".": "./lib/main.js",
 		"./package.json": "./package.json"
@@ -24,7 +26,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^22.8.6",
+		"@types/node": "^22.14.1",
 		"esbuild": "^0.24.0",
 		"rimraf": "^6.0.1"
 	}

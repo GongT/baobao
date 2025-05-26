@@ -1,11 +1,12 @@
 import { prettyPrintError } from '@idlebox/common';
 import { resolve } from 'node:path';
 import cmdList from './command-file-map.generated.js';
-import { argv, DieError, isHelp, pCmd, printCommonOptions } from './common/functions/cli.js';
+import { argv, DieError, isHelp, pCmd, pDesc, printCommonOptions } from './common/functions/cli.js';
 import { registerShutdownHandlers, shutdown } from './common/functions/global-lifecycle.js';
 import { configureProxyFromEnvironment } from './common/package-manager/proxy.js';
 
 const usage_prefix = '\x1B[1mnjspkg\x1B[0m \x1B[38;5;3m[通用参数]\x1B[0m';
+const isHidden = ['sync-my-readme'];
 
 try {
 	process.exitCode = await main();
@@ -47,26 +48,65 @@ async function main() {
 		return await main(subArgv);
 	}
 	if (isHelp) {
-	} else if (cmd === undefined) {
+	} else if (argv.unused().length === 0) {
 		console.error('Command is required. pass -h / --help to get usage.');
 		return 1;
 	} else {
-		console.error('Unknown command: %s\n', cmd);
+		console.error('\x1B[38;5;9mUnknown command: %s\x1B[0m\n', argv.unused()[0]);
+
+		printLegend();
+		process.stderr.write('\n');
+		const tbl = table();
+		for (const [cmd, file] of Object.entries(cmdList)) {
+			if (isHidden.includes(cmd)) continue;
+			const { descriptionString } = await import(file);
+
+			tbl.line(cmd, descriptionString().trim());
+		}
+		tbl.emit();
+		process.stderr.write('\n');
+
+		return 22;
 	}
 
-	process.stderr.write(
-		`\x1B[2mUsage:\x1B[0m\n    ${usage_prefix} \x1B[38;5;10m<命令>\x1B[0m \x1B[38;5;14m[命令参数]\x1B[0m \n\n`
-	);
-
+	printLegend();
+	process.stderr.write('\n');
 	printCommonOptions();
 	process.stderr.write('\n');
 
 	for (const [cmd, file] of Object.entries(cmdList)) {
-		const { helpString, usageString } = await import(file);
-		process.stderr.write(`${pCmd(cmd)} ${usageString().trim()}\n`);
+		if (isHidden.includes(cmd)) continue;
+		const { helpString, usageString, descriptionString } = await import(file);
+		let usage = usageString().trim();
+		if (usage) usage += ' ';
+		usage += pDesc(descriptionString().trim());
+		process.stderr.write(`${pCmd(cmd)} ${usage}\n`);
 		const s = helpString().trim();
 		process.stderr.write(`${s.replace(/^/gm, '  ')}\n\n`);
 	}
 
 	return isHelp ? 0 : 22;
+}
+
+function printLegend() {
+	process.stderr.write(
+		`\x1B[2mUsage:\x1B[0m\n    ${usage_prefix} \x1B[38;5;10m<命令>\x1B[0m \x1B[38;5;14m[命令参数]\x1B[0m\n`
+	);
+}
+
+function table() {
+	const elements: [string, string][] = [];
+
+	return {
+		line(left: string, right: string) {
+			elements.push([left, right]);
+		},
+		emit() {
+			const max_left = Math.max(...elements.map((s) => s[0].length));
+
+			for (const [left, right] of elements) {
+				process.stderr.write(`  ${pCmd(left.padEnd(max_left))}  ${right}\n`);
+			}
+		},
+	};
 }

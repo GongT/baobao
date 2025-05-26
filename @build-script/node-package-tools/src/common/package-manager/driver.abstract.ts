@@ -15,8 +15,8 @@ export interface IUploadResult {
 }
 
 export enum PackageManagerUsageKind {
-	Read,
-	Write,
+	Read = 0,
+	Write = 1,
 }
 
 export abstract class PackageManager {

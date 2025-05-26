@@ -32,6 +32,6 @@
 		"@microsoft/api-extractor": "^7.47.9",
 		"@rushstack/heft": "^0.68.2",
 		"@rushstack/heft-typescript-plugin": "^0.5.30",
-		"@types/node": "^22.8.6"
+		"@types/node": "^22.14.1"
 	}
 }

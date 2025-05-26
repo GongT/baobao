@@ -1,8 +1,11 @@
-import { argv, formatOptions, isJsonOutput, isVerbose, pArgS, pDesc } from '../common/functions/cli.js';
+import { argv, formatOptions, isJsonOutput, isVerbose, pArgS } from '../common/functions/cli.js';
 import { createWorkspace } from '../common/workspace/workspace.js';
 
 export function usageString() {
-	return `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')} ${pDesc('列出所有项目目录')}`;
+	return `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')}`;
+}
+export function descriptionString() {
+	return '列出所有项目目录';
 }
 const args = {
 	'--verbose': '列出所有信息，而不仅是目录',

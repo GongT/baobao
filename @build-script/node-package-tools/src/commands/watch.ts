@@ -1,5 +1,5 @@
 import { humanDate, registerGlobalLifecycle } from '@idlebox/common';
-import { argv, formatOptions, isVerbose, pArgS, pDesc } from '../common/functions/cli.js';
+import { argv, formatOptions, isVerbose, pArgS } from '../common/functions/cli.js';
 import { isApplicationShuttingDown } from '../common/functions/global-lifecycle.js';
 import { logger } from '../common/functions/log.js';
 import { TerminalController } from '../common/functions/terminal-controller.js';
@@ -11,7 +11,10 @@ import { type DependEmitter, prepareMonorepoDeps } from '../common/workspace/dep
 import { createWorkspace } from '../common/workspace/workspace.js';
 
 export function usageString() {
-	return `${pArgS('--verbose')} ${pArgS('--keep-output')} ${pDesc('在每个项目中运行watch脚本')}`;
+	return `${pArgS('--verbose')} ${pArgS('--keep-output')}`;
+}
+export function descriptionString() {
+	return '在每个项目中运行watch脚本';
 }
 const args = {
 	'--verbose': '显示所有输出，而不仅仅在编译出错时输出',
