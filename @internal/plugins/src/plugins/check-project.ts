@@ -1,7 +1,7 @@
-import type { HeftConfiguration, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
-import type { IHeftTaskPlugin } from '@rushstack/heft';
+import type { HeftConfiguration, IHeftTaskPlugin, IHeftTaskSession, IScopedLogger } from '@rushstack/heft';
+import { ProjectConfigurationFile } from '@rushstack/heft-config-file';
 import { parse } from 'comment-json';
-import { lstat, readFile, realpath } from 'node:fs/promises';
+import { lstatSync, readFileSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 export const PLUGIN_NAME = 'check-project';
@@ -14,8 +14,10 @@ interface ICheck {
 	};
 }
 
+const tsExtension = /\.ts$/;
+
 export default class CheckProjectPlugin implements IHeftTaskPlugin {
-	private async executeInner(session: IHeftTaskSession, configuration: HeftConfiguration) {
+	private executeInner(session: IHeftTaskSession, configuration: HeftConfiguration) {
 		const rigPath = configuration.rigConfig.getResolvedProfileFolder();
 		const rigName = configuration.rigConfig.rigPackageName;
 		const rigProfile = configuration.rigConfig.rigProfile;
@@ -34,24 +36,24 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 		} as any;
 
 		check.tsconfig.extends = `${rigName}/${rigRelPath}/tsconfig.json`;
-		const physicalPath = await realpath(resolve(rigPath, 'tsconfig.json'));
-		check.tsconfig.template = await loadCommentTemplate(physicalPath);
+		const physicalPath = realpathSync(resolve(rigPath, 'tsconfig.json'));
+		check.tsconfig.template = loadCommentTemplate(physicalPath);
 		check.tsconfig.placement = 'src/tsconfig.json';
 
 		const tsconfigPath = resolve(configuration.buildFolderPath, check.tsconfig.placement);
 		try {
-			const data = await mustReadJson(tsconfigPath);
+			const data = mustReadJson(tsconfigPath);
 			session.logger.terminal.writeDebugLine('check tsconfig.json');
 			checkJsonConfig(data, check.tsconfig.template, check.tsconfig.extends);
 		} catch (e: any) {
-			CheckFail.th(
+			CheckFail.push(
 				`file content verify failed:\n    File: ${tsconfigPath}\n    Template: ${physicalPath}\n    Reason: \x1b[38;5;9m${e.message}\x1b[0m\n`
 			);
 		}
 
 		const pkgPath = resolve(configuration.buildFolderPath, 'package.json');
 		try {
-			const pkg = JSON.parse(await readFile(pkgPath, 'utf-8'));
+			const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
 			if (!pkg.devDependencies) {
 				throw new Error('missing devDependencies in package.json');
 			}
@@ -76,49 +78,45 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 
 			session.logger.terminal.writeDebugLine('check exports in package.json');
 
-			let kind;
-			let main;
-			let module;
-			let typings;
-			if (rigName === '@internal/local-rig') {
-				const is_autoindex = configuration.rigConfig.tryResolveConfigFilePath('config/autoindex.json');
-				const is_dual = rigProfile === 'dualstack';
-				const is_cjs = rigProfile === 'commonjs';
+			requireFieldEquals(session.logger, pkg, ['typings'], undefined);
 
-				if (is_dual) {
-					main = is_autoindex ? './lib/cjs/__create_index.generated.cjs' : getObjectPathTo(pkg, ['main'])?.value;
-					module = is_autoindex ? './lib/esm/__create_index.generated.js' : getObjectPathTo(pkg, ['module'])?.value;
-					typings = is_autoindex ? './lib/esm/__create_index.generated.d.ts' : getObjectPathTo(pkg, ['types'])?.value;
-					kind = 'module';
-				} else if (is_cjs) {
-					main = is_autoindex ? './lib/__create_index.generated.js' : getObjectPathTo(pkg, ['main'])?.value;
-					kind = 'commonjs';
-				} else {
-					module = is_autoindex ? './lib/__create_index.generated.js' : getObjectPathTo(pkg, ['module'])?.value;
-					kind = 'module';
+			if (rigName === '@internal/local-rig') {
+				const checked = check_exports_correctly_set_to_index(session, configuration, pkg);
+
+				if (!checked) {
+					const is_dual = rigProfile === 'dualstack';
+					const is_cjs = rigProfile === 'commonjs';
+
+					if (is_dual) {
+						requireFieldEquals(session.logger, pkg, ['type'], 'module');
+
+						if (pkg.module) check_export_field(session.logger, pkg, 'default', pkg.module);
+						if (pkg.main) check_export_field(session.logger, pkg, 'require', pkg.main);
+						if (pkg.types) check_export_field(session.logger, pkg, 'types', pkg.types);
+					} else {
+						requireFieldEquals(session.logger, pkg, ['types'], undefined);
+						check_export_field(session.logger, pkg, 'types', undefined);
+						check_export_field(session.logger, pkg, 'require', undefined);
+
+						if (is_cjs) {
+							requireFieldEquals(session.logger, pkg, ['type'], 'commonjs');
+						} else {
+							requireFieldEquals(session.logger, pkg, ['type'], 'module');
+						}
+
+						requireFieldEquals(session.logger, pkg, ['module'], undefined);
+						if (pkg.main) check_export_field(session.logger, pkg, 'default', pkg.main);
+					}
 				}
 			}
-			check_export_field(session.logger, pkg, 'require', main);
-			check_export_field(session.logger, pkg, 'import', module);
-			if (typings) check_export_field(session.logger, pkg, 'types', typings);
-
-			session.logger.terminal.writeDebugLine(`  - type = ${pkg.type}`);
-			assert(pkg.type === kind, `"type" field must be "${kind}", got ${JSON.stringify(pkg.type)}`);
-
-			// requireFieldEquals(session.logger, pkg, ['exports', '.', 'main'], undefined);
-			// requireFieldEquals(session.logger, pkg, ['exports', '.', 'module'], undefined);
-			// requireFieldEquals(session.logger, pkg, ['exports', '.', 'typings'], undefined);
-
-			// requireFieldEquals(session.logger, pkg, ['main'], undefined);
-			// requireFieldEquals(session.logger, pkg, ['module'], undefined);
-			// requireFieldEquals(session.logger, pkg, ['types'], undefined);
-			requireFieldEquals(session.logger, pkg, ['typings'], undefined);
 		} catch (e: any) {
-			CheckFail.th(`file content verify failed:\n    File: ${pkgPath}\n${e.message}\n`);
+			CheckFail.push(`意外错误: ${e.message}`);
 		}
 
-		const npmignore = await mustLStat(resolve(configuration.buildFolderPath, '.npmignore'));
-		assert(npmignore.isSymbolicLink(), 'file must be symbolic link: .npmignore');
+		const npmignore = lstatFile(resolve(configuration.buildFolderPath, '.npmignore'));
+		assert(npmignore?.isSymbolicLink() ?? true, 'file must be symbolic link: .npmignore');
+
+		CheckFail.throwIfErrors(pkgPath);
 
 		session.logger.terminal.writeLine('check complete!');
 	}
@@ -141,31 +139,58 @@ export default class CheckProjectPlugin implements IHeftTaskPlugin {
 	}
 }
 
+function loadAutoIndex(session: IHeftTaskSession, configuration: HeftConfiguration): string | undefined {
+	const config = new ProjectConfigurationFile<{ filename?: string }>({
+		projectRelativeFilePath: 'config/autoindex.json',
+		jsonSchemaObject: {},
+	});
+	const autoindex = config.tryLoadConfigurationFileForProject(
+		session.logger.terminal,
+		configuration.buildFolderPath,
+		configuration.rigConfig
+	);
+	if (!autoindex) return undefined;
+
+	let filename = autoindex.filename ?? './src/__create_index.generated.ts';
+	if (!filename.startsWith('./')) {
+		filename = `./${filename}`;
+	}
+	return filename;
+}
+
 class CheckFail extends Error {
-	static th(message: string): never {
-		const e = new CheckFail(message);
-		e.stack = e.message;
-		throw e;
+	static errors: string[] = [];
+	static push(message: string) {
+		CheckFail.errors.push(message);
+	}
+	static throwIfErrors(who: string) {
+		if (CheckFail.errors.length > 0) {
+			const message = `${CheckFail.errors.length} errors found in ${who}:`;
+
+			const all_errors = CheckFail.errors.join('\n  - ');
+			CheckFail.errors = [];
+			throw new CheckFail(`${message}\n  - ${all_errors}`);
+		}
 	}
 }
 
-async function mustLStat(file: string) {
+function lstatFile(file: string) {
 	try {
-		const ss = await lstat(file);
+		const ss = lstatSync(file);
 		return ss;
 	} catch (e) {
-		throw new CheckFail(
-			`missing or unreadable required file:\n    File: ${file}\n  Create it by running "ln -s ./node_modules/@build-script/single-dog-asset/package/npmignore .npmignore"`
+		CheckFail.push(
+			`missing or unreadable required file:\n    File: ${file}\n  Create it by running "ln -s --relative $(realpath ./node_modules/@build-script/single-dog-asset/package/npmignore) .npmignore"`
 		);
 	}
 }
 
 function assert(cond: boolean, message: string) {
-	if (!cond) CheckFail.th(message);
+	if (!cond) CheckFail.push(message);
 }
 
-async function loadCommentTemplate(path: string) {
-	const json = parse(await readFile(path, 'utf-8')) as any;
+function loadCommentTemplate(path: string) {
+	const json = parse(readFileSync(path, 'utf-8')) as any;
 
 	const symbols = [Symbol.for('before')];
 	const options = json.compilerOptions;
@@ -194,8 +219,59 @@ async function loadCommentTemplate(path: string) {
 	throw new Error(`template file "${path}" has no json block comment`);
 }
 
-async function mustReadJson(file: string): Promise<any> {
-	const data = await readFile(file, 'utf-8');
+function check_exports_correctly_set_to_index(session: IHeftTaskSession, configuration: HeftConfiguration, pkg: any) {
+	const rigProfile = configuration.rigConfig.rigProfile;
+
+	const is_dual = rigProfile === 'dualstack';
+	const is_cjs = rigProfile === 'commonjs';
+
+	const index_should_be = loadAutoIndex(session, configuration);
+	if (index_should_be) {
+		check_export_field(session.logger, pkg, 'source', index_should_be);
+		check_export_field(session.logger, pkg, 'import', undefined);
+
+		const cjs = index_should_be.replace('/src/', '/lib/cjs/').replace(tsExtension, '.cjs');
+		const esm = index_should_be.replace('/src/', '/lib/esm/').replace(tsExtension, '.js');
+		if (is_dual) {
+			const typ = index_should_be.replace('/src/', '/lib/esm/').replace(tsExtension, '.d.ts');
+
+			check_export_field(session.logger, pkg, 'require', cjs);
+			check_export_field(session.logger, pkg, 'default', esm);
+			check_export_field(session.logger, pkg, 'types', typ);
+
+			requireFieldEquals(session.logger, pkg, ['type'], 'module');
+			requireFieldEquals(session.logger, pkg, ['main'], cjs);
+			requireFieldEquals(session.logger, pkg, ['module'], esm);
+
+			requireFieldEquals(session.logger, pkg, ['types'], typ);
+		} else if (is_cjs) {
+			check_export_field(session.logger, pkg, 'require', undefined);
+			check_export_field(session.logger, pkg, 'default', cjs);
+			check_export_field(session.logger, pkg, 'types', undefined);
+
+			requireFieldEquals(session.logger, pkg, ['type'], 'commonjs');
+			requireFieldEquals(session.logger, pkg, ['main'], cjs);
+			requireFieldEquals(session.logger, pkg, ['module'], undefined);
+
+			requireFieldEquals(session.logger, pkg, ['types'], undefined);
+		} else {
+			check_export_field(session.logger, pkg, 'require', undefined);
+			check_export_field(session.logger, pkg, 'default', esm);
+			check_export_field(session.logger, pkg, 'types', undefined);
+
+			requireFieldEquals(session.logger, pkg, ['type'], 'module');
+			requireFieldEquals(session.logger, pkg, ['main'], esm);
+			requireFieldEquals(session.logger, pkg, ['module'], undefined);
+
+			requireFieldEquals(session.logger, pkg, ['types'], undefined);
+		}
+	}
+
+	return !!index_should_be; // return true if autoindex is enabled
+}
+
+function mustReadJson(file: string): any {
+	const data = readFileSync(file, 'utf-8');
 	try {
 		return parse(data, undefined, true);
 	} catch (e: any) {
@@ -207,7 +283,7 @@ function checkJsonConfig(data: any, template: Record<string, any>, exValue: stri
 	if (data.extends !== exValue) throw new Error(`"extends" must be "${exValue}"`);
 
 	const cop = data.compilerOptions;
-	if (!cop) CheckFail.th('missing compilerOptions');
+	if (!cop) CheckFail.push('missing compilerOptions');
 
 	for (const prop of Object.keys(template)) {
 		const expect = template[prop];
@@ -226,7 +302,7 @@ function checkJsonConfig(data: any, template: Record<string, any>, exValue: stri
 function check_export_field(
 	logger: IScopedLogger,
 	pkg: any,
-	exportType: 'require' | 'import' | 'types',
+	exportType: 'require' | 'default' | 'types' | 'source' | 'import',
 	want: string | undefined
 ) {
 	requireFieldEquals(logger, pkg, ['exports', '.', exportType], want);

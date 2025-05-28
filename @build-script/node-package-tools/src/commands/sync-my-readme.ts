@@ -1,15 +1,12 @@
 import { findUpUntilSync, writeFileIfChangeSync } from '@idlebox/node';
 import { execaNode } from 'execa';
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
+import { CommandDefine } from '../common/functions/cli.js';
 
-export function usageString() {
-	return '';
-}
-export function descriptionString() {
-	return '内部开发命令';
-}
-export function helpString() {
-	return '';
+export class Command extends CommandDefine {
+	protected override _usage = '';
+	protected override _description = '内部开发命令';
+	protected override _help = '';
 }
 
 export async function main() {

@@ -40,8 +40,8 @@ export abstract class AbstractArgumentError extends ArgumentError {
 			this.arg = token.bindingArgument;
 		}
 
-		delete (this as any).message;
-		delete (this as any).stack;
+		(this as any).message = undefined;
+		(this as any).stack = undefined;
 
 		// Object.defineProperties(this, {
 		// 	message: {

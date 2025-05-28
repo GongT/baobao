@@ -11,7 +11,7 @@
 	"types": "./lib/esm/index.d.ts",
 	"exports": {
 		".": {
-			"typescript": "./src/index.ts",
+			"source": "./src/index.ts",
 			"types": "./lib/esm/index.d.ts",
 			"require": "./lib/cjs/index.cjs",
 			"import": "./lib/esm/index.js"
@@ -29,9 +29,9 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.14.1",
-		"typescript": "^5.8.2"
+		"@rushstack/heft": "^0.73.6",
+		"@types/node": "^22.15.21",
+		"typescript": "^5.8.3"
 	},
 	"peerDependencies": {
 		"typescript": "^5.8.2"

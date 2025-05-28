@@ -1,18 +1,19 @@
 {
 	"name": "cjke-strings",
 	"type": "module",
-	"version": "1.0.35",
+	"version": "1.1.0",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
 	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
 	"license": "MIT",
-	"main": "./lib/cjs/__create_index.generated.cjs",
-	"module": "./lib/esm/__create_index.generated.js",
-	"types": "./lib/esm/__create_index.generated.d.ts",
+	"main": "./lib/cjs/x-index.cjs",
+	"module": "./lib/esm/x-index.js",
+	"types": "./lib/esm/x-index.d.ts",
 	"exports": {
 		".": {
-			"types": "./lib/esm/__create_index.generated.d.ts",
-			"import": "./lib/esm/__create_index.generated.js",
-			"require": "./lib/cjs/__create_index.generated.cjs"
+			"source": "./src/x-index.ts",
+			"types": "./lib/esm/x-index.d.ts",
+			"import": "./lib/esm/x-index.js",
+			"require": "./lib/cjs/x-index.cjs"
 		},
 		"./package.json": "./package.json"
 	},
@@ -26,7 +27,6 @@
 	},
 	"repository": "https://github.com/GongT/cjke.git",
 	"dependencies": {
-		"@gongt/fix-esm": "workspace:^",
 		"ansi-regex": "^6.1.0",
 		"emoji-regex": "^10.4.0",
 		"is-fullwidth-code-point": "^5.0.0",
@@ -36,10 +36,10 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/chai": "^5.0.0",
-		"@types/mocha": "^10.0.9",
-		"chai": "^5.1.1",
-		"mocha": "^10.7.3"
+		"@rushstack/heft": "^0.73.6",
+		"@types/chai": "^5.2.2",
+		"@types/mocha": "^10.0.10",
+		"chai": "^5.2.0",
+		"mocha": "^11.5.0"
 	}
 }

@@ -1,6 +1,6 @@
 import { humanDate } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
-import { argv, formatOptions, pArgS } from '../common/functions/cli.js';
+import { argv, CommandDefine, pArgS } from '../common/functions/cli.js';
 import { CSI, writeHostLine, writeHostReplace } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
@@ -11,20 +11,16 @@ import { publishPackageVersion } from '../common/shared-jobs/publish-package-ver
 import { prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
 import { createWorkspace } from '../common/workspace/workspace.js';
 
-export function usageString() {
-	return `${pArgS('--verbose / --silent')} ${pArgS('--dry')}`;
-}
-export function descriptionString() {
-	return '在monorepo中按照依赖顺序发布修改过的包';
-}
-const args = {
-	'--verbose': '列出所有信息，而不仅是目录',
-	'--dry': '仅检查修改，不发布（仍会修改version字段）',
-	'--debug': '运行后不要删除临时文件和目录',
-	'--skip <N>': '跳过前N-1个包（从第N个包开始运行）',
-};
-export function helpString() {
-	return formatOptions(args);
+export class Command extends CommandDefine {
+	protected override _usage = `${pArgS('--verbose / --silent')} ${pArgS('--dry')}`;
+	protected override _description = '在monorepo中按照依赖顺序发布修改过的包';
+	protected override _help = '';
+	protected override _arguments = {
+		'--verbose': { flag: true, description: '列出所有信息，而不仅是目录' },
+		'--dry': { flag: true, description: '仅检查修改，不发布（仍会修改version字段）' },
+		'--debug': { flag: true, description: '运行后不要删除临时文件和目录' },
+		'--skip': { flag: false, description: '跳过前N-1个包（从第N个包开始运行）' },
+	};
 }
 
 export async function main() {

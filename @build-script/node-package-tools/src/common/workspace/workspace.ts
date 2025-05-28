@@ -31,6 +31,7 @@ export interface IPackageInfo {
 	name: string;
 	absolute: string;
 	relative: string;
+	/** 仅有工作区依赖 */
 	dependencies: string[];
 	packageJson: IPackageJson;
 }

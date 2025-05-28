@@ -5,6 +5,9 @@ node_modules
 jspm_modules
 config
 
+### Development Entry Points
+loader/*.devel.js
+
 ### Hidden Files
 .*
 _*
@@ -32,8 +35,9 @@ lib/**/test.*
 
 ### Temp Files
 *.jsc
-*.realtime-compile.cjs
-*.realtime-compile.cjs.map
+*.realtime-compile.*
+*.realtime-compile.*.map
+lib/chunk-*
 
 ### Examples
 /example

@@ -1,12 +1,17 @@
+import type { ISubArgsReaderApi } from '@idlebox/args';
 import { prettyPrintError } from '@idlebox/common';
 import { resolve } from 'node:path';
 import cmdList from './command-file-map.generated.js';
-import { argv, DieError, isHelp, pCmd, pDesc, printCommonOptions } from './common/functions/cli.js';
+import { argv, DieError, isHelp, pCmd, pDesc, printCommonOptions, type CommandDefine } from './common/functions/cli.js';
 import { registerShutdownHandlers, shutdown } from './common/functions/global-lifecycle.js';
 import { configureProxyFromEnvironment } from './common/package-manager/proxy.js';
 
 const usage_prefix = '\x1B[1mnjspkg\x1B[0m \x1B[38;5;3m[通用参数]\x1B[0m';
 const isHidden = ['sync-my-readme'];
+
+if (process.argv[1].includes('/node_modules/')) {
+	isHidden.push('test');
+}
 
 try {
 	process.exitCode = await main();
@@ -24,18 +29,31 @@ try {
 	shutdown(1);
 }
 
+type MainFunc = (argv: ISubArgsReaderApi) => Promise<number> | number;
+
+async function importCommand(cmd: keyof typeof cmdList) {
+	const exports = await import(cmdList[cmd]);
+	const main: MainFunc = exports.main;
+	const Command: new () => CommandDefine = exports.Command;
+	return { main, Command };
+}
+
 async function main() {
 	const chdir = argv.single(['--package']);
 	if (chdir) process.chdir(resolve(process.cwd(), chdir));
 
-	const subArgv = argv.command(Object.keys(cmdList));
-	const cmd: keyof typeof cmdList = subArgv?.value as any;
+	const allKnownCommands = Object.keys(cmdList) as (keyof typeof cmdList)[];
 
-	if (cmd && cmdList[cmd]) {
-		const { main, helpString, usageString } = await import(cmdList[cmd]);
+	const subArgv = argv.command(allKnownCommands);
+
+	if (subArgv?.value && cmdList[subArgv.value]) {
+		const cmd = subArgv.value;
+		const { main, Command } = await importCommand(cmd);
+
 		if (isHelp) {
-			process.stderr.write(`Usage: ${usage_prefix} ${pCmd(cmd)} ${usageString().trim()}\n`);
-			process.stderr.write(`${helpString().trim().replace(/^/gm, '  ')}\n\n`);
+			const command = new Command();
+			process.stderr.write(`Usage: ${usage_prefix} ${pCmd(cmd)} ${command.usage.trim()}\n`);
+			process.stderr.write(`${command.help.trim().replace(/^/gm, '  ')}\n\n`);
 			printCommonOptions();
 			process.stderr.write('\n');
 			return 0;
@@ -47,6 +65,7 @@ async function main() {
 		// RUN MAIN HERE
 		return await main(subArgv);
 	}
+
 	if (isHelp) {
 	} else if (argv.unused().length === 0) {
 		console.error('Command is required. pass -h / --help to get usage.');
@@ -57,11 +76,12 @@ async function main() {
 		printLegend();
 		process.stderr.write('\n');
 		const tbl = table();
-		for (const [cmd, file] of Object.entries(cmdList)) {
+		for (const cmd of allKnownCommands) {
 			if (isHidden.includes(cmd)) continue;
-			const { descriptionString } = await import(file);
+			const { Command } = await importCommand(cmd);
 
-			tbl.line(cmd, descriptionString().trim());
+			const command = new Command();
+			tbl.line(cmd, command.description.trim());
 		}
 		tbl.emit();
 		process.stderr.write('\n');
@@ -74,14 +94,16 @@ async function main() {
 	printCommonOptions();
 	process.stderr.write('\n');
 
-	for (const [cmd, file] of Object.entries(cmdList)) {
+	for (const cmd of allKnownCommands) {
 		if (isHidden.includes(cmd)) continue;
-		const { helpString, usageString, descriptionString } = await import(file);
-		let usage = usageString().trim();
+		const { Command } = await importCommand(cmd);
+		const command = new Command();
+
+		let usage = command.usage.trim();
 		if (usage) usage += ' ';
-		usage += pDesc(descriptionString().trim());
+		usage += pDesc(command.description.trim());
 		process.stderr.write(`${pCmd(cmd)} ${usage}\n`);
-		const s = helpString().trim();
+		const s = command.help.trim();
 		process.stderr.write(`${s.replace(/^/gm, '  ')}\n\n`);
 	}
 

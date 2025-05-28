@@ -1,4 +1,4 @@
-import { argv, formatOptions, isJsonOutput, pArgS } from '../common/functions/cli.js';
+import { argv, CommandDefine, isJsonOutput, pArgS } from '../common/functions/cli.js';
 import { logger } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
@@ -7,17 +7,13 @@ import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js'
 
 process.env.COREPACK_ENABLE_STRICT = '0';
 
-export function usageString() {
-	return `${pArgS('--bump')} ${pArgS('--json')}`;
-}
-export function descriptionString() {
-	return '本地运行npm pack并与npm上的最新版本对比差异';
-}
-const args = {
-	'--bump': '当发现更改时更新package.json，增加版本号0.0.1',
-};
-export function helpString() {
-	return formatOptions(args);
+export class Command extends CommandDefine {
+	protected override _usage = `${pArgS('--bump')} ${pArgS('--json')}`;
+	protected override _description = '本地运行npm pack并与npm上的最新版本对比差异';
+	protected override _help = '';
+	protected override _arguments = {
+		'--bump': { flag: true, description: '当发现更改时更新package.json，增加版本号0.0.1' },
+	};
 }
 
 export async function main() {

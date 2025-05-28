@@ -14,17 +14,18 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.14.1",
+		"@rushstack/heft": "^0.73.6",
+		"@types/node": "^22.15.21",
 		"@types/split2": "^4.2.3",
 		"comment-json": "^4.2.5",
 		"rimraf": "^6.0.1",
-		"typescript": "^5.8.2"
+		"typescript": "^5.8.3"
 	},
 	"dependencies": {
 		"@internal/local-esbuild": "workspace:^",
-		"execa": "^9.4.0",
-		"glob": "^11.0.0",
+		"@rushstack/heft-config-file": "^0.18.2",
+		"execa": "^9.6.0",
+		"glob": "^11.0.2",
 		"split2": "^4.2.0"
 	}
 }

@@ -3,14 +3,15 @@
 	"type": "module",
 	"version": "1.4.6",
 	"license": "MIT",
-	"main": "./lib/cjs/__create_index.generated.cjs",
-	"module": "./lib/esm/__create_index.generated.js",
-	"types": "./lib/esm/__create_index.generated.d.ts",
+	"main": "./lib/cjs/autoindex.cjs",
+	"module": "./lib/esm/autoindex.js",
+	"types": "./lib/esm/autoindex.d.ts",
 	"exports": {
 		".": {
-			"types": "./lib/esm/__create_index.generated.d.ts",
-			"require": "./lib/cjs/__create_index.generated.cjs",
-			"import": "./lib/esm/__create_index.generated.js"
+			"source": "./src/autoindex.ts",
+			"types": "./lib/esm/autoindex.d.ts",
+			"require": "./lib/cjs/autoindex.cjs",
+			"default": "./lib/esm/autoindex.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -27,14 +28,14 @@
 	"dependencies": {
 		"@gongt/fix-esm": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"execa": "^9.4.0",
+		"execa": "^9.6.0",
 		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.14.1"
+		"@rushstack/heft": "^0.73.6",
+		"@types/node": "^22.15.21"
 	},
 	"peerDependencies": {
 		"fix-esm": "^1.0.1"

@@ -4,7 +4,8 @@ import type {
 	IHeftTaskRunIncrementalHookOptions,
 	IHeftTaskSession,
 } from '@rushstack/heft';
-import { ConfigurationFile, type IConfigurationFileOptionsBase } from '@rushstack/heft-config-file';
+import { ProjectConfigurationFile, type IProjectConfigurationFileOptions } from '@rushstack/heft-config-file';
+import { RigConfig } from '@rushstack/rig-package';
 import { wrapHeftLogger, type IOutputShim } from './scopedLogger.js';
 
 export class DontExecute extends Error {}
@@ -113,8 +114,8 @@ export abstract class PluginInstance<OptionsT = object> {
 
 		const opts = {
 			projectRelativeFilePath: file,
-		} satisfies IConfigurationFileOptionsBase<any>;
-		const config = new ConfigurationFile<T>(
+		} satisfies IProjectConfigurationFileOptions;
+		const config = new ProjectConfigurationFile<T>(
 			typeof schema === 'string' ? { ...opts, jsonSchemaPath: schema } : { ...opts, jsonSchemaObject: schema }
 		);
 
@@ -139,4 +140,16 @@ export abstract class PluginInstance<OptionsT = object> {
 			);
 		}
 	}
+}
+
+export function loadConfigJson<T>(projectRoot: string, basename: string, schemaJson: object = {}) {
+	const config = `config/${basename}.json`;
+	const instance = new ProjectConfigurationFile<T>({
+		projectRelativeFilePath: config,
+		jsonSchemaObject: schemaJson,
+	});
+
+	const rig = RigConfig.loadForProjectFolder({ projectFolderPath: projectRoot });
+
+	return instance.tryLoadConfigurationFileForProject({} as any, projectRoot, rig);
 }

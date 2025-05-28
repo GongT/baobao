@@ -8,7 +8,7 @@ import {
 	writeJsonFile,
 	writeJsonFileBack,
 	writeJsonFileBackForce,
-} from '../src/index';
+} from '../src/index.js';
 
 process.chdir(dirname(__dirname));
 if (!existsSync('test')) {

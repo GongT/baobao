@@ -1,2 +1,2 @@
-const { remove } = require('./remove');
+const { remove } = require('./remove.js');
 remove(process.cwd());

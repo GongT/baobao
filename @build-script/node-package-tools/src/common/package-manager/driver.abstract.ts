@@ -1,5 +1,6 @@
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
+import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { NpmCacheHandler } from '../cache/native.npm.js';
 import { registryInput } from '../functions/cli.js';
@@ -34,6 +35,10 @@ export abstract class PackageManager {
 		if (!this.projectPath.startsWith(workspace.root)) {
 			throw new Error(`project "${this.projectPath}" is outside the workspace root`);
 		}
+	}
+
+	public install() {
+		return execa(this.binary, ['install'], { cwd: this.projectPath, stdio: 'inherit' });
 	}
 
 	public pack(saveAs: string, packagePath = this.projectPath) {

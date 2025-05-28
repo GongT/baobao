@@ -102,8 +102,7 @@ export class CodeGenerator {
 				absWorkingDir: this.buildFoder,
 				format: 'esm',
 				platform: 'node',
-				mainFields: ['typescript', 'module', 'main'],
-				conditions: ['typescript'],
+				conditions: ['source', 'module', 'default'],
 				outfile: this.createTempFilePath(), // not really write
 				legalComments: 'none',
 				banner: {

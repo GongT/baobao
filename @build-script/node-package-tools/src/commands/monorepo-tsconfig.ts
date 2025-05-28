@@ -3,22 +3,18 @@ import { relativePath } from '@idlebox/node';
 import { loadJsonFile, writeJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { argv, formatOptions, pArgS } from '../common/functions/cli.js';
+import { argv, CommandDefine, pArgS } from '../common/functions/cli.js';
 import { writeHostLine } from '../common/functions/log.js';
-import { createWorkspace, IPackageInfo } from '../common/workspace/workspace.js';
+import { createWorkspace, type IPackageInfo } from '../common/workspace/workspace.js';
 
-export function usageString() {
-	return `${pArgS('--dev')}`;
-}
-export function descriptionString() {
-	return '为所有项目的 tsconfig.json 添加 references 字段';
-}
-const args = {
-	'--dev': '也将devDependencies中的包添加到references中',
-};
-export function helpString() {
-	return `查找tsconfig.json和src/tsconfig.json\n    如果不在这里，可以在package.json中设置exports['./tsconfig.json'] = './xxxx'
-${formatOptions(args)}`;
+export class Command extends CommandDefine {
+	protected override _usage = `${pArgS('--dev')}`;
+	protected override _description = '为所有项目的 tsconfig.json 添加 references 字段';
+	protected override _help =
+		`查找tsconfig.json和src/tsconfig.json\n    如果不在这里，可以在package.json中设置exports['./tsconfig.json'] = './xxxx'`;
+	protected override _arguments = {
+		'--dev': { flag: true, description: '也将devDependencies中的包添加到references中' },
+	};
 }
 
 const path_element_id = 'node-package-tools/monorepo-tsconfig';

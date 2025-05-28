@@ -3,6 +3,8 @@ import { unlinkSync } from 'node:fs';
 import tgz from 'targz';
 import { logger } from '../functions/log.js';
 
+const packageFolder = /^package\//;
+
 export async function decompressPack(src: string, dest: string) {
 	logger.debug(`解压文件: ${src}\n\u3000\u3000目录: ${dest}`);
 	await new Promise<void>((resolve, reject) => {
@@ -15,8 +17,8 @@ export async function decompressPack(src: string, dest: string) {
 						return !header || !header.name;
 					},
 					map(header) {
-						if (header.name.startsWith('package/')) {
-							header.name = header.name.replace(/^package\//, '');
+						if (packageFolder.test(header.name)) {
+							header.name = header.name.replace(packageFolder, '');
 						} else {
 							header.name = '';
 						}

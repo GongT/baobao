@@ -2,6 +2,7 @@ import { FSWatcher, type ChokidarOptions } from 'chokidar';
 import debug from 'debug';
 import { join } from 'node:path';
 import { deprecate } from 'node:util';
+export { FSWatcher } from 'chokidar';
 
 const log = debug('chokidar');
 
@@ -29,7 +30,6 @@ export class WatchHelper implements IWatchHelper {
 		private readonly watcher: FSWatcher,
 		private readonly onChange: IReloadFunction
 	) {
-		this.lowlevel_handler = this.lowlevel_handler.bind(this);
 		this.handler = this.handler.bind(this);
 
 		this.cwd = watcher.options.cwd;
@@ -39,9 +39,12 @@ export class WatchHelper implements IWatchHelper {
 		if (!allowedEvents.includes(item)) {
 			throw new Error(`not allowed watcher event name: ${item}`);
 		}
-		log('listen: %s [before %d]', item, this.watcher.listenerCount(item));
+
+		log('listen: %s [previous %d]', item, this.watcher.listenerCount(item));
 		if (this.watcher.listenerCount(item) === 0) {
-			this.watcher.addListener(item, this.lowlevel_handler);
+			this.watcher.addListener(item, (ch) => {
+				this.lowlevel_handler(ch, item);
+			});
 		}
 	}
 	unlisten(item: (typeof allowedEvents)[number]) {
@@ -69,12 +72,12 @@ export class WatchHelper implements IWatchHelper {
 		this.state = s;
 	}
 
-	private lowlevel_handler(path: string) {
+	private lowlevel_handler(path: string, event: WatchEventKind) {
 		log('file changes: %s', path);
 		if (path) {
 			this.changes.add(path);
 		}
-		if (!this.changes.size) {
+		if (!this.changes.size && event !== 'ready') {
 			return;
 		}
 		switch (this.state) {
@@ -249,6 +252,7 @@ export interface IWatchHelper {
 
 type IReloadFunction = (changes: string[]) => void | Promise<void>;
 const allowedEvents = ['add', 'addDir', 'change', 'unlink', 'unlinkDir', 'ready'] as const;
+export type WatchEventKind = (typeof allowedEvents)[number];
 
 export interface IExtraOptions extends ChokidarOptions {
 	debounceMs: number;

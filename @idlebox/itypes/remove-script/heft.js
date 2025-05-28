@@ -1,5 +1,5 @@
 const { basename, resolve } = require('node:path');
-const { remove } = require('./remove');
+const { remove } = require('./remove.js');
 
 const pluginName = require(resolve(__dirname, '../package.json')).name;
 const PLUGIN_NAME = basename(pluginName);

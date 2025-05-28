@@ -1,1 +1,1 @@
-export * as basicNamespace from '../basic';
+export * as basicNamespace from '../basic.js';

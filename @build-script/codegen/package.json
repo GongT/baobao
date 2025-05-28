@@ -1,0 +1,58 @@
+{
+	"name": "@build-script/codegen",
+	"type": "module",
+	"version": "0.0.1",
+	"bin": {
+		"codegen": "./loader/bin.devel.js"
+	},
+	"main": "./lib/plugin.js",
+	"exports": {
+		".": {
+			"source": "./src/plugin.ts",
+			"default": "./lib/plugin.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"imports": {
+		"#self-reference": "./loader/plugin.devel.js"
+	},
+	"publishConfig": {
+		"bin": {
+			"codegen": "./loader/bin.js"
+		},
+		"imports": {
+			"#self-reference": "./lib/plugin.js"
+		}
+	},
+	"scripts": {
+		"prepack": "heft build --clean",
+		"test": "heft test --clean",
+		"build": "heft compile",
+		"_phase:build": "heft compile",
+		"watch": "heft compile-watch",
+		"clean": "heft clean"
+	},
+	"dependencies": {
+		"@idlebox/args": "workspace:^",
+		"@idlebox/chokidar": "workspace:^",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/json-extends-loader": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@supercharge/promise-pool": "^3.2.0",
+		"esbuild": "^0.25.5",
+		"glob": "^11.0.2",
+		"minimatch": "^10.0.1",
+		"source-map-support": "^0.5.21",
+		"tslib": "^2.8.1"
+	},
+	"devDependencies": {
+		"@idlebox/esbuild-executer": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@rushstack/heft": "^0.73.6",
+		"@types/node": "^22.15.21",
+		"@types/source-map": "npm:source-map@*",
+		"execa": "^9.6.0",
+		"typescript": "^5.8.3"
+	}
+}

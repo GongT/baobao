@@ -4,54 +4,54 @@
 
 /* basic.ts */
 // Identifiers
-export { a } from './basic';
-export { b } from './basic';
-export { namedFunction } from './basic';
-export { NamedClass } from './basic';
-export { NamedEnum } from './basic';
-export { INamedInterface } from './basic';
-export { NamedType } from './basic';
-export { _hidden } from './basic';
+export { a } from './basic.js';
+export { b } from './basic.js';
+export { namedFunction } from './basic.js';
+export { NamedClass } from './basic.js';
+export { NamedEnum } from './basic.js';
+export { INamedInterface } from './basic.js';
+export { NamedType } from './basic.js';
+export { _hidden } from './basic.js';
 /* ignore-this-file.ignore.ts */
 // Identifiers
 export { ThisIsIgnore } from './ignore-this-file.ignore';
 /* defaults/class.ts */
 // Identifiers
 // Default
-export { default as DefaultsClass } from './defaults/class';
+export { default as DefaultsClass } from './defaults/class.js';
 /* defaults/function.ts */
 // Identifiers
 // Default
-export { default as defaultsFunction } from './defaults/function';
+export { default as defaultsFunction } from './defaults/function.js';
 /* defaults/named-class.ts */
 // Identifiers
 // Default
-export { default as DefaultClass } from './defaults/named-class';
+export { default as DefaultClass } from './defaults/named-class.js';
 /* defaults/named-function.ts */
 // Identifiers
 // Default
-export { default as defaultFunction } from './defaults/named-function';
+export { default as defaultFunction } from './defaults/named-function.js';
 /* defaults/named-value.ts */
 // Identifiers
 // Default
-export { default as a } from './defaults/named-value';
+export { default as a } from './defaults/named-value.js';
 /* defaults/value.ts */
 // Identifiers
 // Default
-export { default as defaultsValue } from './defaults/value';
+export { default as defaultsValue } from './defaults/value.js';
 /* export-from/all.ts */
 // Identifiers
 // References
-export * from './basic';
+export * from './basic.js';
 /* export-from/named.ts */
 // Identifiers
-export { aa } from './export-from/named';
-export { x } from './export-from/named';
+export { aa } from './export-from/named.js';
+export { x } from './export-from/named.js';
 /* export-from/namespace.ts */
 // Identifiers
 /* namespace/module.ts */
 // Identifiers
-export { NamedModule } from './namespace/module';
+export { NamedModule } from './namespace/module.js';
 /* namespace/namespace.ts */
 // Identifiers
-export { A } from './namespace/namespace';
+export { A } from './namespace/namespace.js';

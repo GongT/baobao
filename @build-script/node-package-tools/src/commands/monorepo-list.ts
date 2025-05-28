@@ -1,19 +1,15 @@
-import { argv, formatOptions, isJsonOutput, isVerbose, pArgS } from '../common/functions/cli.js';
+import { argv, CommandDefine, isJsonOutput, isVerbose, pArgS } from '../common/functions/cli.js';
 import { createWorkspace } from '../common/workspace/workspace.js';
 
-export function usageString() {
-	return `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')}`;
-}
-export function descriptionString() {
-	return '列出所有项目目录';
-}
-const args = {
-	'--verbose': '列出所有信息，而不仅是目录',
-	'--json': '输出json（不受--verbose和--name影响）',
-	'--relative': '输出相对路径（相对于monorepo根目录）',
-};
-export function helpString() {
-	return formatOptions(args);
+export class Command extends CommandDefine {
+	protected override _usage = `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')}`;
+	protected override _description = '列出所有项目目录';
+	protected override _help = '';
+	protected override _arguments = {
+		'--verbose': { flag: true, description: '列出所有信息，而不仅是目录' },
+		'--json': { flag: true, description: '输出json（不受--verbose和--name影响）' },
+		'--relative': { flag: true, description: '输出相对路径（相对于monorepo根目录）' },
+	};
 }
 
 export async function main() {

@@ -1,4 +1,5 @@
 packages:
+  - '@build-protocol/*'
   - '@build-script/*'
   - '@gongt/*'
   - '@idlebox/*'

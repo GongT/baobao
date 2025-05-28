@@ -1,4 +1,4 @@
-import * as api from '.';
+import * as api from './index.js';
 import { resolve } from 'node:path';
 import { inspect } from 'node:util';
 import ts from 'typescript';

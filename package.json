@@ -3,15 +3,15 @@
 	"private": true,
 	"scripts": {
 		"postinstall": "node scripts/post-install.mjs",
-		"pretty": "biome check --diagnostic-level=warn --fix"
+		"pretty": "biome check --diagnostic-level=warn --unsafe",
+		"build": "node @build-protocol/manager/loader/bin.devel.js build",
+		"watch": "node @build-protocol/manager/loader/bin.devel.js build -w",
+		"publish-everything": "node @build-script/node-package-tools/load.mjs monorepo-publish --silent"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@nx/js": "20.0.6",
-		"lerna": "^8.1.9",
-		"nx": "^20.0.6",
-		"tslib": "^2.3.0",
-		"typescript": "^5.8.2"
+		"tslib": "^2.8.1",
+		"typescript": "^5.8.3"
 	},
 	"pnpm": {
 		"patchedDependencies": {

@@ -1,5 +1,6 @@
 import { createTaskPlugin, TsPluginInstance } from '@build-script/heft-plugin-base';
 import type { IHeftTaskRunIncrementalHookOptions } from '@rushstack/heft';
+import { resolve } from 'node:path';
 import json from './config-file-schema.json';
 import { createIndex } from './inc/create.js';
 
@@ -7,11 +8,11 @@ export class AutoIndexPlugin extends TsPluginInstance<{}> {
 	private readonly config = this.loadConfig<any>('autoindex', json);
 
 	override async run() {
-		+this.config;
-
 		const { command } = this.loadTsConfig();
 
-		createIndex(this.ts, command, this.logger);
+		const filename = this.config.filename || 'src/__create_index.generated.ts';
+
+		createIndex(this.ts, command, this.logger, resolve(this.configuration.buildFolderPath, filename));
 
 		this.session.logger.terminal.writeLine('index created.');
 	}
@@ -24,7 +25,9 @@ export class AutoIndexPlugin extends TsPluginInstance<{}> {
 			return;
 		}
 
-		createIndex(this.ts, command, this.logger);
+		const filename = this.config.filename || 'src/__create_index.generated.ts';
+
+		createIndex(this.ts, command, this.logger, resolve(this.configuration.buildFolderPath, filename));
 		this.session.logger.terminal.writeLine('index created.');
 	}
 }

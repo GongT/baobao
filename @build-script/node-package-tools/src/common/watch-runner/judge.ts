@@ -1,6 +1,15 @@
 import type { IPackageJson } from '@idlebox/common';
 import { StateEvent, type IOutputProcessor } from './program.js';
 
+const startingCompilationReg = /Starting (incremental )?compilation/;
+const foundErrorsReg = /Found (\d+) errors?\. Watching for file changes/;
+const heftStartReg = /---- generate started ----/;
+const heftStopReg = /---- Finished \(\d/;
+const heftFailedReg = /---- Failed \(\d/;
+const esbuildStartReg = /\[esbuild\] build started/;
+const esbuildStopReg = /\[esbuild\] build finished: success/;
+const esbuildFailedReg = /\[esbuild\] build finished: fail/;
+
 type Tester = (line: string) => boolean;
 
 interface ISignals {
@@ -34,11 +43,11 @@ function compile(reg: RegExp): Tester {
 }
 
 export function checkTypescriptCompilerOutput(line: string) {
-	let r;
-	if (/Starting (incremental )?compilation/.test(line)) {
+	if (startingCompilationReg.test(line)) {
 		return StateEvent.StartBuild;
 	}
-	if ((r = /Found (\d+) errors?\. Watching for file changes/.exec(line))) {
+	const r = foundErrorsReg.exec(line);
+	if (r) {
 		if (r[1] === '0') {
 			return StateEvent.StopSuccess;
 		}
@@ -54,16 +63,16 @@ export function makeOutputTester(pkgJson: IPackageJson) {
 	}
 	if (command.includes('heft ')) {
 		return createSingleLineMatch({
-			start: /---- generate started ----/,
-			stop: /---- Finished \(\d/,
-			failed: /---- Failed \(\d/,
+			start: heftStartReg,
+			stop: heftStopReg,
+			failed: heftFailedReg,
 		});
 	}
 	if (command.startsWith('local-esbuild ')) {
 		return createSingleLineMatch({
-			start: /\[esbuild\] build started/,
-			stop: /\[esbuild\] build finished: success/,
-			failed: /\[esbuild\] build finished: fail/,
+			start: esbuildStartReg,
+			stop: esbuildStopReg,
+			failed: esbuildFailedReg,
 		});
 	}
 	// TODO: load scripts from local project and rig

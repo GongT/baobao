@@ -7,7 +7,7 @@
 	"exports": {
 		".": {
 			"types": "./src/index.ts",
-			"typescript": "./src/index.ts",
+			"source": "./src/index.ts",
 			"require": "./lib/index.js"
 		},
 		"./loader": "./helpers/loader-wrap.js",
@@ -30,19 +30,20 @@
 		"clean": "heft clean"
 	},
 	"dependencies": {
-		"@rushstack/heft-config-file": "^0.15.7",
+		"@rushstack/heft-config-file": "^0.18.2",
+		"@rushstack/rig-package": "^0.5.3",
 		"proper-lockfile": "^4.1.2",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.7.0"
+		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/esbuild": "npm:esbuild@^0.24.0",
-		"@types/node": "^22.14.1",
+		"@rushstack/heft": "^0.73.6",
+		"@types/esbuild": "npm:esbuild@^0.25.5",
+		"@types/node": "^22.15.21",
 		"@types/proper-lockfile": "^4.1.4",
 		"@types/source-map-support": "^0.5.10",
-		"typescript": "^5.8.2"
+		"typescript": "^5.8.3"
 	}
 }

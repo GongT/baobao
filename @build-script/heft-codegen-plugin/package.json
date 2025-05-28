@@ -39,18 +39,18 @@
 		"@idlebox/chokidar": "workspace:^",
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@supercharge/promise-pool": "^3.2.0",
-		"esbuild": "^0.24.0",
-		"execa": "^9.4.0",
-		"glob": "^11.0.0",
+		"esbuild": "^0.25.5",
+		"execa": "^9.6.0",
+		"glob": "^11.0.2",
 		"minimatch": "^10.0.1",
 		"source-map-support": "^0.5.21",
-		"tslib": "^2.7.0"
+		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.14.1",
-		"typescript": "^5.8.2"
+		"@rushstack/heft": "^0.73.6",
+		"@types/node": "^22.15.21",
+		"typescript": "^5.8.3"
 	}
 }

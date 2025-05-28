@@ -3,7 +3,7 @@ import deepmerge, { type Options } from 'deepmerge';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
-import { del as delPath, get as getPath } from 'object-path';
+import objectPath from 'object-path';
 import { NotFoundError } from './error.js';
 import { readJsonFile } from './loader.js';
 
@@ -63,8 +63,8 @@ export function loadInheritedJson(file: string, options: Partial<ILoadJsonOption
 			throw new TypeError(`can not parse json object: ${extend}`);
 		}
 
-		extend = getPath(data, o.extendsField) || '';
-		datas.push(delPath(data, o.extendsField));
+		extend = objectPath.get(data, o.extendsField) || '';
+		datas.push(objectPath.del(data, o.extendsField));
 	}
 
 	let result: any = {};

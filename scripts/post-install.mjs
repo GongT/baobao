@@ -10,9 +10,7 @@ console.log('[script] %s', globalNodeModules);
 const tools = {
 	tsc: 'typescript/bin/tsc',
 	eslint: 'eslint/bin/eslint.js',
-	prettier: 'prettier/bin/prettier.cjs',
-	// lerna: 'lerna/dist/cli.js',
-	// nx: 'nx/bin/nx.js',
+	biome: '@biomejs/biome/bin/biome',
 };
 
 for (const { path } of projects()) {

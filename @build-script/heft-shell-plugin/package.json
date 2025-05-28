@@ -20,12 +20,12 @@
 	},
 	"dependencies": {
 		"@build-script/heft-plugin-base": "workspace:^",
-		"execa": "^9.4.0"
+		"execa": "^9.6.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.67.2",
-		"@types/node": "^22.14.1"
+		"@rushstack/heft": "^0.73.6",
+		"@types/node": "^22.15.21"
 	}
 }

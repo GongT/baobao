@@ -24,9 +24,9 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^22.14.1",
+		"@types/node": "^22.15.21",
 		"domhandler": "^5.0.3",
-		"esbuild": "^0.24.0",
+		"esbuild": "^0.25.5",
 		"rimraf": "^6.0.1"
 	}
 }

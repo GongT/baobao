@@ -27,16 +27,16 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@rushstack/node-core-library": "^5.9.0",
+		"@rushstack/node-core-library": "^5.13.1",
 		"comment-json": "^4.2.5"
 	},
 	"devDependencies": {
 		"@build-script/heft-plugin-base": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/node": "^22.14.1",
-		"esbuild": "^0.24.0",
+		"@rushstack/heft": "^0.73.6",
+		"@types/node": "^22.15.21",
+		"esbuild": "^0.25.5",
 		"ts-node": "^10.9.2"
 	}
 }

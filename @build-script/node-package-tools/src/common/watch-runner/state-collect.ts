@@ -50,13 +50,17 @@ export class StateCollection extends Disposable {
 	}
 
 	public getState() {
-		const pending = [];
-		const building = [];
-		const success = [];
-		const fail = [];
+		const pending: string[] = [];
+		const building: string[] = [];
+		const success: string[] = [];
+		const fail: string[] = [];
 
 		for (const [process, state] of this.processes.entries()) {
-			const title = this.titles.get(process)!;
+			const title = this.titles.get(process);
+
+			if (!title) {
+				throw new Error(`程序状态异常，未找到标题为 ${process} 的进程`);
+			}
 
 			if (state === RunState.Idle) {
 				pending.push(title);

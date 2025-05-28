@@ -1,5 +1,5 @@
 import type { HeftConfiguration, IScopedLogger } from '@rushstack/heft';
-import { ConfigurationFile } from '@rushstack/heft-config-file';
+import { ProjectConfigurationFile } from '@rushstack/heft-config-file';
 import { existsSync } from 'node:fs';
 import { normalize, resolve } from 'node:path';
 
@@ -21,7 +21,7 @@ function tryFindTsconfig(logger: IScopedLogger, project: string | undefined, rig
 	if (rig.rigFound) {
 		const tsJsonPath = rig.tryResolveConfigFilePath('config/typescript.json');
 		if (tsJsonPath) {
-			const config = new ConfigurationFile<any>({
+			const config = new ProjectConfigurationFile<any>({
 				projectRelativeFilePath: 'config/typescript.json',
 				jsonSchemaObject: {},
 			});

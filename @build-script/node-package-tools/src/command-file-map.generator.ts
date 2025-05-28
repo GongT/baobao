@@ -14,12 +14,7 @@ export async function generate(b) {
 			throw new Error(`Invalid command file name: ${name}`);
 		}
 		const cmdName = parts[0];
-		if (cmdName === 'test') {
-			continue;
-		}
-
 		const file = `./commands/${cmdName}.js`;
-
 		map[cmdName] = file;
 	}
 	return `export default ${JSON.stringify(map, null, '\t')} as const;\n`;

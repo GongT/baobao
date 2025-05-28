@@ -18,27 +18,27 @@
 		"@build-script/rush-tools": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"chokidar": "^4.0.1",
+		"chokidar": "^4.0.3",
 		"crc": "^4.3.2",
-		"esbuild": "^0.24.0",
+		"esbuild": "^0.25.5",
 		"esbuild-sass-plugin": "^3.3.1",
-		"express": "^4.21.1",
+		"express": "^5.1.0",
 		"morgan": "^1.10.0",
-		"postcss": "^8.4.47",
-		"postcss-modules": "^6.0.0",
-		"sass": "^1.79.5",
-		"sass-embedded": "^1.79.5",
+		"postcss": "^8.5.3",
+		"postcss-modules": "^6.0.1",
+		"sass": "^1.89.0",
+		"sass-embedded": "^1.89.0",
 		"scope-css": "^1.2.1",
 		"source-map-support": "^0.5.21",
-		"typescript": "^5.8.2"
+		"typescript": "^5.8.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/express": "^5.0.0",
+		"@rushstack/heft": "^0.73.6",
+		"@types/express": "^5.0.2",
 		"@types/morgan": "^1.9.9",
-		"@types/node": "^22.14.1",
+		"@types/node": "^22.15.21",
 		"@types/source-map-js": "npm:source-map-js@^1.2.1"
 	}
 }

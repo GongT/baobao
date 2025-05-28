@@ -145,8 +145,7 @@ function realtime_compule(sourceFile: string, distFile: string, buildRoot: strin
 			external: ['typescript', 'esbuild', 'tslib', ...(options.external ?? [])],
 			treeShaking: true,
 			outfile: distFile,
-			mainFields: ['typescript', 'module', 'main'],
-			conditions: ['typescript'],
+			conditions: ['source', 'module', 'default'],
 			// write: false,
 		});
 

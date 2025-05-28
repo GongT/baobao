@@ -1,6 +1,6 @@
-import { camelCase, type IOutputShim, relativePath, ucfirst, writeFileIfChange } from '@build-script/heft-plugin-base';
+import { camelCase, relativePath, ucfirst, writeFileIfChange, type IOutputShim } from '@build-script/heft-plugin-base';
 import { ExportKind, TypescriptProject, type IIdentifierResult } from '@idlebox/typescript-surface-analyzer';
-import { basename, dirname, resolve } from 'node:path';
+import { basename, dirname } from 'node:path';
 import type TypeScriptApi from 'typescript';
 
 export function idToString(ts: typeof TypeScriptApi, id: TypeScriptApi.StringLiteral | TypeScriptApi.Identifier) {
@@ -10,16 +10,23 @@ export function idToString(ts: typeof TypeScriptApi, id: TypeScriptApi.StringLit
 	return id.text;
 }
 
-export function createIndex(ts: typeof TypeScriptApi, project: TypeScriptApi.ParsedCommandLine, logger: IOutputShim) {
-	const outFile: string = '__create_index.generated.ts';
-
+export function createIndex(
+	ts: typeof TypeScriptApi,
+	project: TypeScriptApi.ParsedCommandLine,
+	logger: IOutputShim,
+	indexFileAbs: string
+) {
 	if (!project.options.rootDir || !project.options.configFilePath) {
-		throw new Error('missing rootDir and {internal}configFilePath');
+		console.log(project.options);
+		throw new Error(`missing rootDir and {internal}configFilePath`);
+	}
+	if (!project.options.rootDir) {
+		console.log(project.options);
+		throw new Error(`missing rootDir: ${project.options.configFilePath}`);
 	}
 
 	const p = new TypescriptProject(ts, project, logger);
-	const indexFileAbs = resolve(project.options.rootDir, outFile);
-	logger.verbose('index file: %s', indexFileAbs);
+	logger.log('creating index file: %s', indexFileAbs);
 
 	p.additionalIgnores.add((f: string) => f === indexFileAbs);
 	p.additionalIgnores.add('**/*.test.ts');

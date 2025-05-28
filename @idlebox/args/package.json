@@ -1,13 +1,14 @@
 {
 	"name": "@idlebox/args",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.8",
 	"license": "MIT",
 	"main": "./lib/cjs/interface.cjs",
 	"module": "./lib/esm/interface.js",
 	"types": "./lib/esm/interface.d.ts",
 	"exports": {
 		".": {
+			"source": "./src/interface.ts",
 			"types": "./lib/esm/interface.d.ts",
 			"require": "./lib/cjs/interface.cjs",
 			"import": "./lib/esm/interface.js"
@@ -30,12 +31,12 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.68.2",
-		"@types/chai": "^5.0.0",
-		"@types/mocha": "^10.0.9",
-		"@types/node": "^22.14.1",
-		"chai": "^5.1.1",
-		"mocha": "^10.7.3",
+		"@rushstack/heft": "^0.73.6",
+		"@types/chai": "^5.2.2",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "^22.15.21",
+		"chai": "^5.2.0",
+		"mocha": "^11.5.0",
 		"source-map-support": "^0.5.21"
 	}
 }

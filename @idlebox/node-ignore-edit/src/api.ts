@@ -83,7 +83,7 @@ function isEmptyLine(line: string | symbol) {
 }
 
 function trimLastEmptyLines(lines: (string | symbol)[]) {
-	while (isEmptyLine(lines[lines.length - 1]!)) {
+	while (isEmptyLine(lines.at(-1)!)) {
 		lines.pop();
 	}
 }
@@ -105,7 +105,7 @@ function wrapProxy(instance: IIgnoreFileData, content: string): IIgnoreFile {
 			sections.push(section);
 			instance[section] = current;
 		} else if (!line) {
-			if (current.length > 0 && !isEmptyLine(current[current.length - 1]!)) {
+			if (current.length > 0 && !isEmptyLine(current.at(-1)!)) {
 				current.push(emptyLine());
 			}
 		} else {

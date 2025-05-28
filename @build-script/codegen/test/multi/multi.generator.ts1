@@ -1,0 +1,12 @@
+import type { GenerateContext } from '#self-reference';
+
+logger.warn('global init from bbb...');
+
+export function generate(ctx: GenerateContext) {
+	const file1 = ctx.file('some-data.json');
+	file1.append('{}');
+
+	const file2 = ctx.file('foo.component.tsx');
+	file2.append(`import React from 'react';`);
+	file2.append(`export function Foo() {\n\treturn <div />;\n}\n`);
+}

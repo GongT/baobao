@@ -1,5 +1,5 @@
 export * from './misc/functions.js';
-export { DontExecute, IWatchOptions, PluginInstance, createTaskPlugin } from './misc/pluginBase.js';
+export { createTaskPlugin, DontExecute, IWatchOptions, loadConfigJson, PluginInstance } from './misc/pluginBase.js';
 export { getRushTempFolder } from './misc/rush.js';
 export {
 	isDebug,

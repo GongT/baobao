@@ -1,5 +1,5 @@
 import { humanDate, registerGlobalLifecycle } from '@idlebox/common';
-import { argv, formatOptions, isVerbose, pArgS } from '../common/functions/cli.js';
+import { argv, CommandDefine, isVerbose, pArgS } from '../common/functions/cli.js';
 import { isApplicationShuttingDown } from '../common/functions/global-lifecycle.js';
 import { logger } from '../common/functions/log.js';
 import { TerminalController } from '../common/functions/terminal-controller.js';
@@ -10,22 +10,19 @@ import { StateCollection } from '../common/watch-runner/state-collect.js';
 import { type DependEmitter, prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
 import { createWorkspace } from '../common/workspace/workspace.js';
 
-export function usageString() {
-	return `${pArgS('--verbose')} ${pArgS('--keep-output')}`;
-}
-export function descriptionString() {
-	return '在每个项目中运行watch脚本';
-}
-const args = {
-	'--verbose': '显示所有输出，而不仅仅在编译出错时输出',
-	'--keep-output': '不要清屏',
-	'--server': '输出服务器模式',
-	'--client': '输出客户端模式',
-	'--silent': '目前必须设置，否则输出会乱',
-};
+// TODO: 转移到 @build-protocol 中
 
-export function helpString() {
-	return formatOptions(args);
+export class Command extends CommandDefine {
+	protected override _usage = `${pArgS('--verbose')} ${pArgS('--keep-output')}`;
+	protected override _description = '在每个项目中运行watch脚本';
+	protected override _help = ``;
+	protected override _arguments = {
+		'--verbose': { flag: true, description: '显示所有输出，而不仅仅在编译出错时输出' },
+		'--keep-output': { flag: true, description: '不要清屏' },
+		'--server': { flag: true, description: '输出服务器模式' },
+		'--client': { flag: true, description: '输出客户端模式' },
+		'--silent': { flag: true, description: '目前必须设置，否则输出会乱' },
+	};
 }
 
 export async function main() {

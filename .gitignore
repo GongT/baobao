@@ -19,6 +19,7 @@ temp/
 *.bak
 /.vscode/local-history
 .node-package-tools
+*.generator.js
 
 ### Build Result
 dist/
