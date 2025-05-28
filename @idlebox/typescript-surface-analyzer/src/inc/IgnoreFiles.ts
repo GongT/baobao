@@ -4,14 +4,22 @@ export type IIgnore = RegExp | string | MatchFn;
 type MatchFn = (file: string) => boolean;
 
 function matcher(reg: RegExp): MatchFn {
-	return (str) => reg.test(str);
+	const fn: MatchFn = (str) => reg.test(str);
+	Object.assign(fn, { displayName: `RegExp(${reg.toString()})` });
+	return fn;
 }
 
 function minimatcher(glob: string): MatchFn {
 	const m = new Minimatch(glob);
-	return (str) => {
+	const fn: MatchFn = (str) => {
 		return m.match(str);
 	};
+	Object.assign(fn, { displayName: `minimatch(${glob})` });
+	return fn;
+}
+
+function nameof(fn: any) {
+	return fn.displayName || fn.name || 'anonymous';
 }
 
 export class IgnoreFiles {
@@ -35,15 +43,27 @@ export class IgnoreFiles {
 		this.ignores.length = 0;
 	}
 
+	public isIgnored(file: string) {
+		return this.ignores.some((predicate) => {
+			return predicate(file);
+		});
+	}
+
 	public filter(files: readonly string[]) {
+		this.logger.verbose('ignore rules: %s', this.ignores.length);
+		for (const ignore of this.ignores) {
+			this.logger.verbose('  - %s', nameof(ignore));
+		}
 		return files.filter((file) => {
-			const ignore = this.ignores.some((predicate) => {
+			const ignore = this.ignores.find((predicate) => {
 				return predicate(file);
 			});
 			if (ignore) {
-				this.logger.debug('ignore file by rules: %s', file);
+				this.logger.debug('ignore by rule [%s]: %s', nameof(ignore), file);
 				return false;
 			}
+
+			this.logger.verbose('not ignore file by rules: %s', file);
 			return true;
 		});
 	}

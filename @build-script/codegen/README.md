@@ -1,7 +1,11 @@
-## codegen [task] - 代码生成器
+## codegen - 代码生成器
 
 根据搜索指定目录中的所有 `.generator.ts` 结尾的文件，调用其中的 `generate` 函数，将结果写入 `.generated.ts`。
 
+
+### TODOs
+
+-  [ ] watch时增加删除生成器
 
 ### 使用
 

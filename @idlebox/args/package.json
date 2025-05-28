@@ -3,26 +3,21 @@
 	"type": "module",
 	"version": "0.0.8",
 	"license": "MIT",
-	"main": "./lib/cjs/interface.cjs",
-	"module": "./lib/esm/interface.js",
-	"types": "./lib/esm/interface.d.ts",
+	"main": "./lib/interface.js",
 	"exports": {
 		".": {
 			"source": "./src/interface.ts",
-			"types": "./lib/esm/interface.d.ts",
-			"require": "./lib/cjs/interface.cjs",
-			"import": "./lib/esm/interface.js"
+			"default": "./lib/interface.js"
 		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"test": "mocha --bail lib/esm/tests",
-		"build": "heft --unmanaged build",
-		"_phase:build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepack": "rimraf lib && tsc -p src",
+		"build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib",
+		"test": "mocha --bail lib/esm/tests"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

@@ -182,6 +182,7 @@ function lstatFile(file: string) {
 		CheckFail.push(
 			`missing or unreadable required file:\n    File: ${file}\n  Create it by running "ln -s --relative $(realpath ./node_modules/@build-script/single-dog-asset/package/npmignore) .npmignore"`
 		);
+		return undefined;
 	}
 }
 
@@ -230,14 +231,13 @@ function check_exports_correctly_set_to_index(session: IHeftTaskSession, configu
 		check_export_field(session.logger, pkg, 'source', index_should_be);
 		check_export_field(session.logger, pkg, 'import', undefined);
 
-		const cjs = index_should_be.replace('/src/', '/lib/cjs/').replace(tsExtension, '.cjs');
-		const esm = index_should_be.replace('/src/', '/lib/esm/').replace(tsExtension, '.js');
 		if (is_dual) {
+			const cjs = index_should_be.replace('/src/', '/lib/cjs/').replace(tsExtension, '.cjs');
+			const esm = index_should_be.replace('/src/', '/lib/esm/').replace(tsExtension, '.js');
 			const typ = index_should_be.replace('/src/', '/lib/esm/').replace(tsExtension, '.d.ts');
 
 			check_export_field(session.logger, pkg, 'require', cjs);
 			check_export_field(session.logger, pkg, 'default', esm);
-			check_export_field(session.logger, pkg, 'types', typ);
 
 			requireFieldEquals(session.logger, pkg, ['type'], 'module');
 			requireFieldEquals(session.logger, pkg, ['main'], cjs);
@@ -245,25 +245,27 @@ function check_exports_correctly_set_to_index(session: IHeftTaskSession, configu
 
 			requireFieldEquals(session.logger, pkg, ['types'], typ);
 		} else if (is_cjs) {
+			const cjs = index_should_be.replace('/src/', '/lib/').replace(tsExtension, '.cjs');
 			check_export_field(session.logger, pkg, 'require', undefined);
 			check_export_field(session.logger, pkg, 'default', cjs);
-			check_export_field(session.logger, pkg, 'types', undefined);
 
 			requireFieldEquals(session.logger, pkg, ['type'], 'commonjs');
 			requireFieldEquals(session.logger, pkg, ['main'], cjs);
 			requireFieldEquals(session.logger, pkg, ['module'], undefined);
-
-			requireFieldEquals(session.logger, pkg, ['types'], undefined);
 		} else {
+			const esm = index_should_be.replace('/src/', '/lib/').replace(tsExtension, '.js');
 			check_export_field(session.logger, pkg, 'require', undefined);
 			check_export_field(session.logger, pkg, 'default', esm);
-			check_export_field(session.logger, pkg, 'types', undefined);
 
 			requireFieldEquals(session.logger, pkg, ['type'], 'module');
 			requireFieldEquals(session.logger, pkg, ['main'], esm);
 			requireFieldEquals(session.logger, pkg, ['module'], undefined);
+		}
 
-			requireFieldEquals(session.logger, pkg, ['types'], undefined);
+		if (pkg.types) {
+			check_export_field(session.logger, pkg, 'types', pkg.types);
+		} else {
+			check_export_field(session.logger, pkg, 'types', undefined);
 		}
 	}
 

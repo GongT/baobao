@@ -11,6 +11,7 @@ export class FileCollector {
 	private readonly sources = new Map<TypeScriptApi.SourceFile, TokenCollector>();
 	private readonly resolver: MapResolver;
 	readonly ts: typeof TypeScriptApi;
+	public stripTags: readonly string[] = ['internal'];
 
 	constructor(
 		private readonly api: ApiHost,
@@ -50,8 +51,10 @@ export class FileCollector {
 		if (node.kind === this.ts.SyntaxKind.EndOfFileToken) {
 			return;
 		}
-		if (!this.api.isTagInternal(node)) {
-			logger.verbose(' * tsdoc @internal node: %s', this.ts.SyntaxKind[node.kind]);
+
+		const tagMatched = this.api.isTagMatch(node, this.stripTags);
+		if (tagMatched) {
+			logger.verbose(' * skip node by tsdoc @%s: %s', tagMatched, this.ts.SyntaxKind[node.kind]);
 			return;
 		}
 
@@ -61,7 +64,7 @@ export class FileCollector {
 			try {
 				if (node.moduleSpecifier) {
 					// export {a, b, c} from 'xxxx';
-					const path = (0 || eval)(node.moduleSpecifier.getText());
+					const path = (0 || eval)(node.moduleSpecifier.getText()); // TODO
 					const ref = this.resolver.resolve(collect.absolutePath, path);
 
 					if (ref) {

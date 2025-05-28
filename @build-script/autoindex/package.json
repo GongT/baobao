@@ -1,0 +1,48 @@
+{
+	"name": "@build-script/autoindex",
+	"type": "module",
+	"version": "0.0.1",
+	"repository": "https://github.com/GongT/baobao",
+	"bin": {
+		"autoindex": "./loader/bin.devel.js"
+	},
+	"main": "./lib/plugin.js",
+	"exports": {
+		".": {
+			"source": "./src/plugin.ts",
+			"default": "./lib/plugin.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"publishConfig": {
+		"bin": {
+			"autoindex": "./loader/bin.js"
+		}
+	},
+	"scripts": {
+		"prepack": "rimraf lib && tsc -p src",
+		"build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib"
+	},
+	"dependencies": {
+		"@idlebox/args": "workspace:^",
+		"@idlebox/chokidar": "workspace:^",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@idlebox/typescript-surface-analyzer": "workspace:^",
+		"comment-json": "^4.2.5",
+		"glob": "^11.0.2",
+		"minimatch": "^10.0.1",
+		"source-map-support": "^0.5.21",
+		"tslib": "^2.8.1"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^22.15.21",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.8.3"
+	}
+}

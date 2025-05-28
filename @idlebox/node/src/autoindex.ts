@@ -86,6 +86,10 @@
 /* fs/emptyDir.ts */
 	// Identifiers
 	export {emptyDir} from "./fs/emptyDir.js";
+/* fs/ensureDir.ts */
+	// Identifiers
+	export {ensureDirExists} from "./fs/ensureDir.js";
+	export {ensureParentExists} from "./fs/ensureDir.js";
 /* fs/tempFolder.ts */
 	// Identifiers
 	export {createTempFolder} from "./fs/tempFolder.js";

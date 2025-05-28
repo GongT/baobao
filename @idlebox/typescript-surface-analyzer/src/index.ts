@@ -10,6 +10,7 @@ export { loadFilter } from './inc/loadFilter.js';
 export type { ILogger } from './inc/logger.js';
 export { ExportKind } from './inc/TokenCollector.js';
 export type { IIdentifierResult, ITypescriptFile } from './inc/TokenCollector.js';
+export { IgnoreFiles };
 
 export class TypescriptProject {
 	public readonly projectFiles: readonly string[];
@@ -38,19 +39,28 @@ export class TypescriptProject {
 	}
 
 	public createNewProgram(): TypeScriptApi.Program {
+		// 这里过滤作用不大，因为被import的文件还是会被包含在内
 		return this.ts.createProgram(this.additionalIgnores.filter(this.projectFiles), this.command.options, this.host);
 	}
 
-	public execute(): ITypescriptFile[] {
+	public execute(stripTags?: readonly string[]): ITypescriptFile[] {
 		const program = this.createNewProgram();
 		const ret = new FileCollector(this.api, this.command.options, this.logger);
+
+		if (stripTags) {
+			ret.stripTags = stripTags;
+		}
+
 		// const tc = program.getTypeChecker();
 		// this.logger.debug('project files: %s', this.projectFiles);
 		// this.logger.debug('matched files: %s', program.getRootFileNames());
 
 		const sources = [];
 		for (const file of program.getSourceFiles()) {
-			// FIXME: getRootFileNames 实际还是会获取到所有文件
+			if (this.additionalIgnores.isIgnored(file.fileName)) {
+				continue;
+			}
+
 			const isDefaultLibrary = program.isSourceFileDefaultLibrary(file);
 			const isFromExternalLibrary = program.isSourceFileFromExternalLibrary(file);
 

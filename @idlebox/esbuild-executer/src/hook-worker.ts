@@ -1,6 +1,8 @@
 import type { LoadFnOutput, LoadHookContext, ResolveFnOutput, ResolveHookContext } from 'node:module';
+import { resolve as resolvePath } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { compileFile } from './common/compiler.js';
+import { inspectEnabled } from './common/cli.js';
+import { compileFile, createEntryMapping } from './common/compiler.js';
 import { logger, registerLogger } from './common/logger.js';
 import type { IErrorMessage, IInitializeMessage, InitializeData } from './common/message.types.js';
 
@@ -11,17 +13,38 @@ export type NextResolve = (specifier: string, context?: Partial<ResolveHookConte
 export type NextLoad = (url: string, context?: Partial<LoadHookContext>) => P<LoadFnOutput>;
 
 let compiledFiles: undefined | Map<string, Uint8Array>;
+let inspectModeEntryMapping: undefined | Map<string, string>;
 
 export async function initialize({ options, port, tsFile }: InitializeData) {
 	registerLogger(port);
 
+	let entryFileUrl: string = tsFile;
 	try {
 		logger.worker`initialize worker with options: ${tsFile}, ${options}`;
 		compiledFiles = await compileFile(tsFile, options, port);
 
-		logger.worker`initialized`;
+		if (inspectEnabled) {
+			logger.worker`inspect mode enabled, entry mapping:`;
+			inspectModeEntryMapping = new Map();
+			const { entryPoints, outDir } = createEntryMapping([tsFile, ...(options?.entries ?? [])]);
+			for (const entry of entryPoints) {
+				const from = pathToFileURL(resolvePath(outDir, entry.in)).toString();
+				// biome-ignore lint/style/useTemplate: <explanation>
+				const to = pathToFileURL(resolvePath(outDir, entry.out)).toString() + '.js';
+				logger.worker`  ${from} -> ${to}`;
+				inspectModeEntryMapping.set(from, to);
+			}
+			const shouldFoundEntry = inspectModeEntryMapping.get(tsFile);
 
-		port.postMessage({ type: 'initialize' } as IInitializeMessage);
+			if (!shouldFoundEntry) {
+				throw new Error(`inspect mode entry file not found: ${tsFile}`);
+			}
+			entryFileUrl = shouldFoundEntry;
+		}
+
+		logger.worker`initialized | entry file: ${entryFileUrl}`;
+
+		port.postMessage({ type: 'initialize', entryFileUrl: entryFileUrl } satisfies IInitializeMessage);
 	} catch (e: any) {
 		port.postMessage({ type: 'error', message: e.message, stack: e.stack } satisfies IErrorMessage);
 	}
@@ -65,17 +88,27 @@ export async function resolve(
 		return r;
 	}
 
-	if (specifier.startsWith('.') && context.parentURL) {
-		const absolute = new URL(specifier, context.parentURL).href;
-		// logger.hook(`resolve absolute: ${absolute}`);
-		if (compiledFiles.has(absolute)) {
-			return {
-				url: absolute,
-				format: 'module',
-				shortCircuit: true,
-			};
-		}
+	let absolute: string = specifier;
+	if (absolute.startsWith('.') && context.parentURL) {
+		absolute = new URL(absolute, context.parentURL).href;
+		logger.hook`    turn to absolute: ${absolute}`;
 	}
+
+	const inspectEntry = inspectModeEntryMapping?.get(absolute);
+	if (inspectEntry) {
+		logger.hook`    found inspect mode entry!`;
+		absolute = inspectEntry;
+	}
+
+	if (absolute && compiledFiles.has(absolute)) {
+		logger.hook`    resolve memory result: ${absolute}`;
+		return {
+			url: absolute,
+			format: 'module',
+			shortCircuit: true,
+		};
+	}
+
 	return nextResolve(specifier, context);
 }
 

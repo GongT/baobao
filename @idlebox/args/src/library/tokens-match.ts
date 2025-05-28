@@ -90,7 +90,7 @@ export class TokenMatch {
 				} else if (item.kind === TokenKind.Flag && item.next?.kind === TokenKind.Value) {
 					tokens.push(item.next);
 				} else {
-					throw new UnexpectedArgument(item, 'a value is required');
+					throw new UnexpectedArgument(item, 'value is required');
 				}
 			}
 			writable(arg).tokens = tokens;

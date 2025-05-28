@@ -15,4 +15,7 @@ export const debugs = {
 	worker: debug('executer:worker'),
 	resolve: debug('executer:resolve'),
 	output: output,
-} satisfies Record<IDebugMessage['kind'], debug.Debugger>;
+	master: debug('executer:master'),
+} satisfies Record<IDebugMessage['kind'] | 'master', debug.Debugger>;
+
+export const inspectEnabled = process.execArgv.some((e) => e.startsWith('--inspect'));

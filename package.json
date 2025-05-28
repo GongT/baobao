@@ -9,7 +9,7 @@
 		"publish-everything": "node @build-script/node-package-tools/load.mjs monorepo-publish --silent"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
+		"@biomejs/biome": "beta",
 		"tslib": "^2.8.1",
 		"typescript": "^5.8.3"
 	},

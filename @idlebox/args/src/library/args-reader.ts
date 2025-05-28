@@ -1,4 +1,4 @@
-import type { inspect as node_inspect, InspectOptions } from 'node:util';
+import type { InspectOptions, inspect as node_inspect } from 'node:util';
 import type { IArgsReaderApi, NameKind } from '../interface.js';
 import { bindArgType, UnexpectedArgument } from './errors.js';
 import { customInspectSymbol, wrapStyle } from './functions.js';
@@ -136,6 +136,19 @@ export class ArgsReader<T extends string = string> implements IArgsReaderApi {
 			}
 			last = token.index;
 		}
+	}
+
+	throwUnexpectedArgument(value: string, message?: string): never {
+		const token = this.tokens.find((token) => {
+			if (token.kind === TokenKind.Value) {
+				return token.value === value;
+			}
+			return false;
+		});
+		if (!token) {
+			throw new Error(`token not found for value: ${value}`);
+		}
+		throw new UnexpectedArgument(token, message ?? `unexpected argument: ${value}`);
 	}
 
 	private __inspecting = false;

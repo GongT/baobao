@@ -28,6 +28,11 @@ export interface IErrorMessage {
 }
 export interface IInitializeMessage {
 	readonly type: 'initialize';
+	readonly entryFileUrl: string;
+}
+export interface IImportedMessage {
+	readonly type: 'imported';
+	readonly quit: boolean;
 }
 export interface InitializeData {
 	options: IExecuteOptions;

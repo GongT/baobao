@@ -40,8 +40,10 @@ export abstract class AbstractArgumentError extends ArgumentError {
 			this.arg = token.bindingArgument;
 		}
 
-		(this as any).message = undefined;
-		(this as any).stack = undefined;
+		// biome-ignore lint/performance/noDelete: <explanation>
+		delete (this as any).message;
+		// biome-ignore lint/performance/noDelete: <explanation>
+		delete (this as any).stack;
 
 		// Object.defineProperties(this, {
 		// 	message: {
@@ -125,7 +127,7 @@ export class UnexpectedArgument extends AbstractArgumentError {
 	}
 
 	get _message() {
-		return `unexpected argument: ${tokenToString(this.token!)}: ${this.extra}`;
+		return `${tokenToString(this.token!)}: ${this.extra}`;
 	}
 }
 

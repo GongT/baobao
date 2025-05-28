@@ -8,16 +8,16 @@ export class ApiHost {
 		return relative(from, to).replace(/\\/g, '/');
 	}
 
-	isTagInternal(node: TypeScriptApi.Node) {
+	isTagMatch(node: TypeScriptApi.Node, tags: readonly string[]) {
 		for (const item of this.ts.getJSDocTags(node)) {
 			if (item.tagName) {
 				const n = ApiHost.idToString(item.tagName).toLowerCase();
-				if (n === 'internal') {
-					return false;
+				if (tags.includes(n)) {
+					return n;
 				}
 			}
 		}
-		return true;
+		return undefined;
 	}
 
 	static idToString(id: TypeScriptApi.Identifier | TypeScriptApi.ModuleExportName) {

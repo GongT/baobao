@@ -1,15 +1,15 @@
 # json extends loader
 
-Read json config file chains. Like:
+读取链式json配置文件。例如：
 
 ```json
 {
 	"extends": "...",
-	...
+	// ...
 }
 ```
 
-## Usage:
+## 用法：
 
 ```ts
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
@@ -17,23 +17,26 @@ import { loadInheritedJson } from '@idlebox/json-extends-loader';
 const config = loadInheritedJson('src/tsconfig.json', { cwd: __dirname });
 ```
 
-## Options (2nd argument)
+## 选项（第二个参数）
 
-All optional.
+全部为可选项。
 
-| param          | type                                                    | default                               | description                                                                |
-| -------------- | ------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
-| readJsonFile   | `(absPath: string) => any` i.e. `IJsonLoader`           | read file and parse by `comment-json` | read given file, you can read anything (eg. yaml) by this function         |
-| cwd            | `string`                                                | `process.cwd()`                       | if 1st arg is relative, join it with cwd, otherwize no effect              |
-| extendsField   | `string`                                                | `"extends"`                           | change "extends" to other field name                                       |
-| nodeResolution | `boolean`                                               | `true`                                | if false, node_modules is not searched, only able to extends relative path |
-| arrayMerge     | `<T>(target: T[], source: T[], options?: Options): T[]` | simple override by later value        | [see this](https://www.npmjs.com/package/deepmerge)                        |
+| 参数           | 类型                                                    | 默认值                                                                       | 说明                                                         |
+| -------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| readJsonFile   | `(absPath: string) => any` 即 `IJsonLoader`             | 使用[comment-json](https://www.npmjs.com/package/comment-json)读取并解析文件 | 读取指定文件，你可以通过此函数读取任何内容（如yaml）         |
+| cwd            | `string`                                                | `process.cwd()`                                                              | 如果第一个参数是相对路径，则与cwd拼接，否则无影响            |
+| extendsField   | `string`                                                | `"extends"`                                                                  | 将"extends"更换为其他字段名                                  |
+| nodeResolution | `boolean`                                               | `true`                                                                       | 若为false，则不搜索node_modules，只能继承相对路径            |
+| arrayMerge     | `<T>(target: T[], source: T[], options?: Options): T[]` | 后者简单覆盖前者                                                             | 参考[deepmerge](https://www.npmjs.com/package/deepmerge)文档 |
 
-## Utils
+## 额外的工具方法
 
 #### readJsonFile(filePath: string): any
 
-Read json file and parse by `comment-json`.
+使用[comment-json](https://www.npmjs.com/package/comment-json)读取并解析json文件。
+
+这是readJsonFile选项的默认值。
+
 
 #### createDynamicReader(processor: IProcess): IJsonLoader
 
@@ -43,12 +46,16 @@ interface IProcess {
 }
 ```
 
-create a function, feat for `readJsonFile` option. you can modify `data` as you want.
+返回一个函数，可用于`readJsonFile`选项。你可以在此回调中修改`data`。
 
 ### const tsconfigReader: IJsonLoader
 
-a pre-defined loader, can use when load `tsconfig.json`, it resolve many path-related option.
+预定义的loader，可作为`readJsonFile`选项使用。
+
+为加载`tsconfig.json`优化
+
+- 解析许多与路径相关的选项。例如 outDir、rootDir
 
 ### class NotFoundError
 
-Error object
+错误对象

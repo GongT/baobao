@@ -2,32 +2,27 @@
 	"name": "@idlebox/json-extends-loader",
 	"type": "module",
 	"version": "1.0.17",
-	"description": "",
+	"description": "load JSON files with \"extends\" field",
 	"keywords": [],
 	"license": "MIT",
 	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "./lib/cjs/index.cjs",
-	"module": "./lib/esm/index.js",
-	"types": "./lib/esm/index.d.ts",
+	"repository": "https://github.com/GongT/baobao",
+	"main": "./lib/index.js",
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"types": "./lib/esm/index.d.ts",
-			"require": "./lib/cjs/index.cjs",
-			"import": "./lib/esm/index.js"
+			"default": "./lib/index.js"
 		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"build": "heft --unmanaged build",
-		"_phase:build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean",
+		"prepack": "rimraf lib && tsc -p src",
+		"build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib",
 		"test": "node test/esbuild.js"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"comment-json": "^4.2.5",
 		"deepmerge": "^4.3.1",
@@ -37,7 +32,6 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"@types/object-path": "^0.11.4"
 	}

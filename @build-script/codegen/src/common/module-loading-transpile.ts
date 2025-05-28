@@ -2,7 +2,6 @@ import esbuild from 'esbuild';
 import { readFileSync, writeFileSync } from 'node:fs';
 import module, { builtinModules } from 'node:module';
 import { basename, dirname } from 'node:path';
-import type { RawSourceMap } from 'source-map';
 import { install } from 'source-map-support';
 import { Logger, type ILogger } from './output.js';
 
@@ -16,7 +15,7 @@ const fileExtension = /\.ts$/;
 
 export type IOptions = esbuild.BuildOptions & { write: false; metafile: true };
 const compiledMemory = new Map<string, Uint8Array>();
-const sourceMapMemory = new Map<string, RawSourceMap>();
+const sourceMapMemory = new Map<string, any>();
 
 export async function createEsbuildContext(absInputFile: string, packageFile: string, logger: ILogger) {
 	const bannerCode = [
@@ -129,9 +128,10 @@ export function registerModuleLoader() {
 					const [path] = source.replace(schema, '').split('?');
 					const mapData = sourceMapMemory.get(path);
 					if (mapData) {
+						logger.verbose(`exists source map for: ${path}`);
+
 						// console.log(mapData.buffer);
 						return {
-							url: path,
 							map: mapData,
 						};
 					} else {
@@ -152,18 +152,18 @@ export function registerModuleLoader() {
 	}
 
 	module.registerHooks({
-		resolve(specifier, context, nextResolve) {
-			// 	if (context.importAttributes.my_loader === 'compiled') {
-			// 		logger.verbose(`resolve ${specifier}`);
-			// 		const [path] = specifier.split('?');
-			// 		if (!compiledMemory.has(path)) {
-			// 			throw new Error(`module not found in compiled memory: ${specifier}`);
-			// 		}
-			// 		return nextResolve(path, context);
-			// 	}
-			logger.verbose(`try resolve: ${specifier}`);
-			return nextResolve(specifier, context);
-		},
+		// resolve(specifier, context, nextResolve) {
+		// 	if (context.importAttributes.my_loader === 'compiled') {
+		// 		logger.verbose(`resolve ${specifier}`);
+		// 		const [path] = specifier.split('?');
+		// 		if (!compiledMemory.has(path)) {
+		// 			throw new Error(`module not found in compiled memory: ${specifier}`);
+		// 		}
+		// 		return nextResolve(path, context);
+		// 	}
+		// 	logger.verbose(`try resolve: ${specifier}`);
+		// 	return nextResolve(specifier, context);
+		// },
 		load(url, context, nextLoad) {
 			if (context.importAttributes.my_loader === 'compiled') {
 				const [path] = url.replace(schema, '').split('?');

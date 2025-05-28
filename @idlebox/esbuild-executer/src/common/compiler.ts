@@ -2,11 +2,11 @@ import esbuild from 'esbuild';
 import { dirname, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { MessagePort } from 'node:worker_threads';
-import { isTrue } from './cli.js';
+import { inspectEnabled, isTrue } from './cli.js';
 import { decideExternal } from './external-decider.js';
 import { logger } from './logger.js';
 import type { IExecuteOptions, ISourceMapMessage } from './message.types.js';
-import { createDebugOutput } from './write_debug_file.js';
+import { createDebugOutput, createInspectOutput } from './write_debug_file.js';
 
 const tsExt = /\.ts$/;
 const mapExt = /\.map$/;
@@ -29,6 +29,29 @@ function getLowestCommonAncestor(files: string[]): string {
 	return commonParts.join('/');
 }
 
+export function createEntryMapping(entries: string[]) {
+	const srcList = entries.map((e) => fileURLToPath(e));
+	const outDir = getLowestCommonAncestor(srcList.map((e) => dirname(e)));
+
+	const entryMapping: { in: string; out: string }[] = [];
+	for (const entry of srcList) {
+		const rel = relative(outDir, entry);
+
+		let out = rel.replace(tsExt, '');
+
+		if (inspectEnabled) {
+			out = `._${out}.realtime-compile`;
+		}
+
+		entryMapping.push({ in: rel, out: out });
+	}
+
+	return {
+		entryPoints: entryMapping,
+		outDir,
+	};
+}
+
 export async function compileFile(tsFile: string, options: IExecuteOptions, port: MessagePort) {
 	// const packageJsonFile = findPackageJSON(tsFile);
 	// if (!packageJsonFile) {
@@ -37,28 +60,21 @@ export async function compileFile(tsFile: string, options: IExecuteOptions, port
 
 	const plugins = [decideExternal, esbuildWarningPlugin];
 
-	const srcList = [fileURLToPath(tsFile)];
-	if (options?.entries) {
-		srcList.push(...options.entries.map((e) => fileURLToPath(e)));
-	}
-	const outDir = getLowestCommonAncestor(srcList.map((e) => dirname(e)));
-	const entryMapping: { in: string; out: string }[] = [];
-	for (const entry of srcList) {
-		const rel = relative(outDir, entry);
-		entryMapping.push({ in: rel, out: rel.replace(tsExt, '') });
-	}
+	const { entryPoints, outDir } = createEntryMapping([tsFile, ...(options?.entries ?? [])]);
 
-	if (isTrue('WRITE_COMPILE_RESULT')) {
+	if (inspectEnabled) {
+		plugins.push(createInspectOutput(outDir));
+	} else if (isTrue('WRITE_COMPILE_RESULT')) {
 		plugins.push(createDebugOutput());
 	}
 
 	// const wd = tmpdir();
 
 	logger.esbuild`compiling files: ${outDir}`;
-	logger.esbuild`${entryMapping}`;
+	logger.esbuild`${entryPoints}`;
 	const context = await esbuild.context({
 		absWorkingDir: outDir,
-		entryPoints: entryMapping,
+		entryPoints: entryPoints,
 		bundle: true,
 		format: 'esm',
 		minify: false,
@@ -68,8 +84,9 @@ export async function compileFile(tsFile: string, options: IExecuteOptions, port
 		outdir: outDir,
 		outbase: outDir,
 		// logLevel: 'info',
+		chunkNames: inspectEnabled ? '._chunk-[name]-[hash]' : 'chunk-[name]-[hash]',
 		entryNames: '[name]',
-		splitting: srcList.length > 1,
+		splitting: entryPoints.length > 1,
 		treeShaking: true,
 		metafile: true,
 		logLevel: 'silent',
@@ -77,7 +94,7 @@ export async function compileFile(tsFile: string, options: IExecuteOptions, port
 		banner: {
 			js: 'const require = (await import("node:module")).createRequire(import.meta.dirname);',
 		},
-		outExtension: { '.js': '.ts' },
+		outExtension: { '.js': inspectEnabled ? '.js' : '.ts' },
 		loader: {
 			'.js': 'ts',
 			'.ts': 'ts',
@@ -105,7 +122,7 @@ export async function compileFile(tsFile: string, options: IExecuteOptions, port
 	}
 
 	const resultMap = new Map<string, Uint8Array>();
-	if (srcList.length === 1 && result.outputFiles.length !== 2) {
+	if (entryPoints.length === 1 && result.outputFiles.length !== 2) {
 		throw new Error(`expected 2 output files, got ${result.outputFiles.length}`);
 	}
 	for (const file of result.outputFiles) {

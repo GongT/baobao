@@ -3,15 +3,11 @@
 	"type": "module",
 	"version": "1.4.11",
 	"license": "MIT",
-	"main": "./lib/cjs/autoindex.cjs",
-	"module": "./lib/esm/autoindex.js",
-	"types": "./lib/esm/autoindex.d.ts",
+	"main": "./lib/autoindex.js",
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",
-			"types": "./lib/esm/autoindex.d.ts",
-			"require": "./lib/cjs/autoindex.cjs",
-			"default": "./lib/esm/autoindex.js"
+			"default": "./lib/autoindex.js"
 		},
 		"./package.json": "./package.json"
 	},

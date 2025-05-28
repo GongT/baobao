@@ -31,9 +31,32 @@ export function createDebugOutput(): esbuild.Plugin {
 				}
 
 				if (folder_found) {
-					logger.output`write debug file to ${folder_found}/metafile.json`;
-					writeFileSync(`${folder_found}/metafile.json`, JSON.stringify(result.metafile, null, 4));
+					logger.output`write debug file to ${folder_found}/.metafile.json`;
+					writeFileSync(`${folder_found}/.metafile.json`, JSON.stringify(result.metafile, null, 4));
 				}
+			});
+		},
+	};
+}
+
+export function createInspectOutput(outDir: string): esbuild.Plugin {
+	return {
+		name: 'write-inspect-file',
+		setup(build) {
+			build.onEnd((result) => {
+				if (!result.outputFiles) {
+					throw new Error('esbuild did not produce output files');
+				}
+
+				for (const file of result.outputFiles) {
+					// logger.esbuild`receive compiled file: ${file.path}`;
+
+					logger.esbuild`write inspect file to ${file.path}`;
+					writeFileSync(file.path, file.contents);
+				}
+
+				logger.esbuild`write inspect file to ${outDir}/.metafile.json`;
+				writeFileSync(`${outDir}/.metafile.json`, JSON.stringify(result.metafile, null, 4));
 			});
 		},
 	};

@@ -1,8 +1,8 @@
 {
-	"extends": "@internal/local-rig/profiles/dualstack/tsconfig.json",
+	"extends": "@internal/local-rig/profiles/default/tsconfig.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
-		"outDir": "../lib/esm",
+		"outDir": "../lib",
 		"rootDir": "./",
 	},
 }
