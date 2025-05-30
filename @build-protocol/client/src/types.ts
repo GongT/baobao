@@ -1,11 +1,11 @@
 export enum BuildEvent {
-	Start = 'start',
-	Success = 'success',
-	Failed = 'failed',
+	Start = "start",
+	Success = "success",
+	Failed = "failed",
 }
 
 export interface IMessageObject {
-	__brand__: 'IMessageObject';
+	readonly __brand__: unique symbol;
 	event: BuildEvent;
 
 	/**
@@ -22,4 +22,9 @@ export interface IMessageObject {
 	 * 从start到stop之间的输出内容，包含stop，不包含start
 	 */
 	output?: string;
+
+	/**
+	 * 一行成功消息（替代默认的“build success”）
+	 */
+	message?: string;
 }

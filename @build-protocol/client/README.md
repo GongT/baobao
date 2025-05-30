@@ -1,13 +1,43 @@
-# 构建（监视）启动与完成事件标准协议
+# 构建协议客户端
 
-#### 这是什么
-这是一个自用协议，规定各种转译、构建启动和完成时发送事件
+### CLI
 
-#### 为什么
-我的项目并没有特别复杂，不希望有一个几十上百万行的屎山来管理我几百行的代码。并且我需要每一个构建步骤都把自己的输出写到硬盘上，以便快速确定到底在哪一步出了问题。
+##### 标准输入模式
 
-对于非watch模式，这很简单，只需要写一个shell脚本依次运行命令，每个命令本来就会把输出写到硬盘上，哪个命令出错直接退出即可。
+> build-protocol-client --stdin [--start <开始>] --finish <完成> [--success <成功>] [--error <错误>]
 
-但是，更多的时候我需要watch模式。首个出错的信息是最重要的，我需要一个通用的办法在前一步watch出错时抑制后续步骤的运行，所以需要知道它到底成功执行了没有。
+* `--start` <开始>：可选，匹配编译开始时的输出内容。如果不设置，则不会发出开始事件。
+* `--finish` <完成>：匹配行，成功则发送成功或失败事件。必须设置。
+* `--error` <失败>：二选一，匹配从上次完成（不含）直到本次完成（包含）的输出内容，匹配到则认为成功。
+* `--success` <成功>：二选一，匹配从上次完成（不含）直到本次完成（包含）的输出内容，匹配到则认为成功。
 
-于是就有了这个协议。
+同时匹配或同时没有匹配到 `--error` 和 `--success` 时，优先认定为发生了错误。    
+但如果输入被关闭（例如前面的进程结束），则在没有匹配到 `--error` 时候认定为成功。且即使没有匹配到 `--finish`，也会发送完成事件。
+
+所有字符串都是正则表达式，带有flag=`umi`，可以设置对应的 `--xxx-fixed yyyy` ，只进行字符串搜索。
+
+例如：
+
+```bash
+tsc -p . -w | \
+build-protocol-client --stdin \
+	--success "Found 0 errors" \
+	--finish "Watching for file changes\\." \
+	--start "Starting (incremental)? compilation"
+```
+
+##### 运行命令并同时监听stdout和stderr
+> build-protocol-client [--start <开始>] --finish <完成> [--success <成功>] [--error <错误>] -- <命令> [<参数>...]
+
+* `--` 必须存在，后面的内容会被认定为命令和参数。
+* 其他选项见上方说明
+
+
+### API
+
+```ts
+import { BuildProtocolClient } from '@build-protocol/client';
+
+const protocol = BuildProtocolClient();
+
+await protocol.connect();

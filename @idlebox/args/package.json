@@ -9,6 +9,10 @@
 			"source": "./src/interface.ts",
 			"default": "./lib/interface.js"
 		},
+		"./default": {
+			"source": "./src/default.ts",
+			"default": "./lib/default.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -17,7 +21,7 @@
 		"build": "tsc -p src",
 		"watch": "tsc -p src -w",
 		"clean": "rimraf lib",
-		"test": "mocha --bail lib/esm/tests"
+		"test": "mocha --require source-map-support/register --bail lib/tests"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
@@ -26,7 +30,6 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.73.6",
 		"@types/chai": "^5.2.2",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^22.15.21",

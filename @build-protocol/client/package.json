@@ -7,10 +7,18 @@
 	"license": "MIT",
 	"exports": {
 		".": {
-			"types": "./lib/index.d.ts",
-			"default": "./lib/index.js"
+			"source": "./src/api.ts",
+			"default": "./lib/api.js"
 		},
 		"./package.json": "./package.json"
+	},
+	"bin": {
+		"build-protocol-client": "./lib/bin.devel.js"
+	},
+	"publishConfig": {
+		"bin": {
+			"build-protocol-client": "./lib/bin.js"
+		}
 	},
 	"scripts": {
 		"prepack": "rimraf lib && tsc -p src",
@@ -22,6 +30,7 @@
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@build-protocol/types": "workspace:^",
 		"execa": "^9.6.0",
 		"split2": "^4.2.0"

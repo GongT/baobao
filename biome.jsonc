@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.1/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -7,8 +7,18 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": ["local-history", ".nx", "lib", "node_modules"],
-		"include": ["*.js", "*.mjs", "*.cjs", "*.ts", "*.tsx", "*.json"],
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"recommended": true,
+			"source": {
+				"organizeImports": "off",
+				"useSortedKeys": "off",
+				"useSortedProperties": "off",
+				"useSortedAttributes": "on",
+			},
+		},
 	},
 	"formatter": {
 		"enabled": true,
@@ -43,12 +53,7 @@
 					"fix": "unsafe",
 					"level": "error",
 					"options": {
-						"suggestedExtensions": {
-							"ts": {
-								"module": "js",
-								"component": "js",
-							},
-						},
+						"forceJsExtensions": true,
 					},
 				},
 			},
@@ -63,14 +68,11 @@
 			"security": {},
 		},
 	},
-	"organizeImports": {
-		"enabled": false,
-	},
 	"javascript": {
 		"formatter": {
 			"enabled": true,
 			"quoteStyle": "single",
-			"trailingCommas": "es5",
+			"trailingCommas": "all",
 		},
 		"linter": {
 			"enabled": true,
@@ -91,11 +93,10 @@
 	},
 	"overrides": [
 		{
-			"include": ["*.ts"],
-			"organizeImports": { "enabled": false },
+			"includes": ["*.ts"],
 		},
 		{
-			"include": ["tsconfig.json", "tsconfig.*.json", ".vscode/*.json", "*.jsonc"],
+			"includes": ["tsconfig.json", "tsconfig.*.json", ".vscode/*.json", "*.jsonc"],
 			"json": {
 				"formatter": {
 					"trailingCommas": "all",

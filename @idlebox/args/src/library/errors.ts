@@ -1,112 +1,121 @@
-import type { ArgsReader } from './args-reader.js';
-import { customInspectSymbol, wrapStyle } from './functions.js';
-import { ArgKind, type IArgument } from './tokens-match.js';
-import { tokenToString, type Token } from './tokens.js';
+import { die } from '../tools/assert.js';
+import { customInspectSymbol, wrapStyle } from '../tools/color.js';
+import { ParamKind } from '../types.js';
+import { Parameter } from './parameter.js';
+import type { TToken } from './token.js';
 
-function matchPos(index: number, token?: Token, arg?: IArgument) {
-	if (token?.index === index) return true;
-	if (!arg) return false;
+function matchPos(index: number, arg?: TToken, param?: Parameter) {
+	if (arg?.index === index) return true;
+	if (!param) return false;
 
-	for (const item of arg.tokens) {
+	for (const item of param.tokens) {
 		if (item.index === index) return true;
 	}
 	return false;
 }
 
-export class ArgumentError extends Error {}
+export abstract class BaseError extends Error {
+	protected abstract _getMessage(): string;
+	protected abstract explain(): string;
+	private readonly _stackObject: StackTrace;
 
-export abstract class AbstractArgumentError extends ArgumentError {
-	public override readonly name: string;
-	public readonly _stackObject: { readonly stack: string };
-	public readonly arg?: IArgument;
-
-	constructor(
-		public readonly token?: Token,
-		arg?: IArgument
-	) {
-		if (!arg && !token) {
-			throw new Error('either token or arg must be provided');
-		}
-		super(`unknown argument error`);
-
-		this._stackObject = {} as any;
-		Error.captureStackTrace(this._stackObject, this.constructor);
+	constructor(skip = 1) {
+		super(`unknown argument error (you should not see this)`);
 
 		this.name = this.constructor.name;
+		this._stackObject = new StackTrace(undefined, 1 + skip);
 
-		if (arg) {
-			this.arg = arg;
-		} else if (token) {
-			this.arg = token.bindingArgument;
-		}
+		// // biome-ignore lint/performance/noDelete: 必须删除，否则会阻碍get message被调用
+		// delete (this as any).message;
+		// // biome-ignore lint/performance/noDelete: 必须删除，否则会阻碍get stack被调用
+		// delete (this as any).stack;
 
-		// biome-ignore lint/performance/noDelete: <explanation>
-		delete (this as any).message;
-		// biome-ignore lint/performance/noDelete: <explanation>
-		delete (this as any).stack;
-
-		// Object.defineProperties(this, {
-		// 	message: {
-		// 		configurable: true,
-		// 		enumerable: true,
-		// 		get: () => {},
-		// 	},
-		// 	stack: {
-		// 		configurable: true,
-		// 		enumerable: true,
-		// 		get: () => {
-		// 		},
-		// 	},
-		// });
-	}
-
-	protected abstract get _message(): string;
-	override get message() {
-		const message = `${this.name}: ${this._message}\n  ${this.explainArgs}`;
-		Object.defineProperty(this, 'message', {
-			value: message,
-			configurable: false,
-			writable: false,
-			enumerable: true,
+		Object.defineProperties(this, {
+			message: {
+				configurable: false,
+				enumerable: true,
+				get: () => {
+					return this.getMessage();
+				},
+			},
+			stack: {
+				configurable: false,
+				enumerable: true,
+				get: () => {
+					return this.getStack();
+				},
+			},
 		});
-		return message;
 	}
 
+	private getMessage() {
+		return `${this.name}: ${this._getMessage()}\n${this.explain()}`;
+	}
+
+	/**
+	 * 此方法不会执行
+	 * @deprecated 知道是ArgumentError，应该使用`getStack()`方法获取堆栈信息
+	 */
 	override get stack() {
-		let stack = this._stackObject.stack.slice(this._stackObject.stack.indexOf('\n') + 1);
-		stack = `${this.message}\n${stack}`;
-		Object.defineProperty(this, 'stack', {
-			value: stack,
-			configurable: false,
-			writable: false,
-			enumerable: true,
-		});
-		return stack;
+		die('shadowed function got called.');
+
+		// @ts-expect-error
+		return this.getStack();
+	}
+
+	/**
+	 * 此方法不会执行
+	 * @deprecated 知道是ArgumentError，应该使用`getMessage()`方法获取信息
+	 */
+	override get message() {
+		die('shadowed function got called.');
+
+		// @ts-expect-error
+		return this.getMessage();
+	}
+
+	getStack() {
+		return this._stackObject.getStack();
+	}
+}
+
+abstract class AbstractParameterError extends BaseError {
+	constructor(
+		public readonly parameter: Parameter,
+		skip = 1,
+	) {
+		super(skip + 1);
+	}
+}
+
+abstract class AbstractArgumentError extends BaseError {
+	public override readonly name: string;
+
+	constructor(
+		public readonly token: TToken,
+		skip = 1,
+	) {
+		super(skip + 1);
+
+		this.name = this.constructor.name;
 	}
 
 	get parser() {
-		return (this.token || this.arg)?.parser as ArgsReader;
+		return this.token.getParser();
 	}
 
-	protected get explainArgs() {
+	protected explain() {
 		const color = shouldWriteColor();
 
 		let explainArgs = color ? '\x1B[0m' : '';
-		for (const [index, param] of this.parser.params.entries()) {
-			if (matchPos(index, this.token, this.arg)) {
-				explainArgs += wrapStyle(color, '38;5;9;1', `>>>${param}<<<`, '0');
+		for (const [index, param] of this.parser.arguments.entries()) {
+			if (matchPos(index, this.token, this.token.getBinding())) {
+				explainArgs += wrapStyle(color, '38;5;9;4:3', param.toString(), '0');
 			} else {
-				explainArgs += wrapStyle(color, '3', param, '0');
+				explainArgs += wrapStyle(color, '3', param.toString(), '0');
 			}
 			explainArgs += ' ';
 		}
-
-		Object.defineProperty(this, 'explainArgs', {
-			value: explainArgs,
-			configurable: false,
-			writable: false,
-			enumerable: true,
-		});
 		return explainArgs;
 	}
 }
@@ -118,30 +127,38 @@ export abstract class AbstractArgumentError extends ArgumentError {
  *   - 位置参数不连续
  *   - 位置参数和子命令冲突
  */
-export class UnexpectedArgument extends AbstractArgumentError {
+export class Unexpected extends AbstractArgumentError {
 	constructor(
-		token: Token,
-		private readonly extra: string
+		token: TToken,
+		private readonly extra: string,
+		skip = 1,
 	) {
-		super(token);
+		super(token, 1 + skip);
 	}
 
-	get _message() {
-		return `${tokenToString(this.token!)}: ${this.extra}`;
+	protected override _getMessage() {
+		return `${this.token?.toString()}: ${this.extra}`;
 	}
 }
 
-export class UncontinuousPositionalArgument extends UnexpectedArgument {
+export class UnexpectedCommand extends Unexpected {
+	constructor(token: TToken, commands: readonly string[], skip = 1) {
+		super(token, `unexpected command, expected one of: ${commands.join(', ')}`, skip + 1);
+	}
+}
+
+export class Uncontentious extends Unexpected {
 	constructor(
-		public readonly last: Token,
-		curr: Token
+		public readonly last: TToken,
+		curr: TToken,
+		skip = 1,
 	) {
-		super(curr, 'positional argument must continuous');
+		super(curr, 'positional argument must continuous', 1 + skip);
 	}
 }
 
 export interface IUsedBy {
-	readonly argument: IArgument;
+	readonly argument: Parameter;
 	readonly stack: StackTrace;
 }
 /**
@@ -150,48 +167,52 @@ export interface IUsedBy {
  *    之前是--option >>value<<，现在是位置参数
  *    之前是[--flag]，现在是[--flag=value]
  */
-export class ConflictArgument extends AbstractArgumentError {
-	public declare readonly arg: IArgument;
+export class Conflict extends AbstractParameterError {
+	constructor(
+		prev: Parameter,
+		private readonly curr: Parameter,
+		skip = 1,
+	) {
+		super(prev, 1 + skip);
+	}
+
+	protected override _getMessage(): string {
+		if (this.curr.kind !== ParamKind.unknown && this.parameter.kind !== this.curr.kind) {
+			return `conflicts usage: ${ParamKind[this.parameter.kind]} is used again as ${ParamKind[this.curr.kind]}`;
+		} else {
+			return `conflicts usage: ${this.parameter._id} is used again as ${this.curr._id}`;
+		}
+	}
+
+	protected override explain(): string {
+		const color = shouldWriteColor();
+
+		const f_stack = this.parameter.firstUsageStack?.getStack() ?? '***no stack info***';
+		return `${wrapStyle(color, '38;5;11', 'Previous usage:', '39;2')}\n${f_stack}\n--`;
+	}
+}
+
+export class StackTrace {
+	private declare readonly stack: string;
 
 	constructor(
-		protected readonly _message: string,
-		arg: IArgument,
-		token?: Token
+		private readonly attchMessage?: string,
+		private readonly skip = 1,
 	) {
-		super(token, arg);
+		Error.captureStackTrace(this);
 	}
 
-	override get stack() {
-		if (this.token) {
-			const color = shouldWriteColor();
-
-			const firstUsage = this.token.bindingArgument?.firstUsageStack;
-			const f_stack = firstUsage?.stack ?? '***no stack info***';
-			return `${super.stack}\n${wrapStyle(color, '38;5;11', 'Previouse usage:', '39;2')}\n${f_stack}`;
+	getStack() {
+		let s = this.stack
+			.split('\n')
+			.slice(this.skip + 1)
+			.join('\n');
+		if (this.attchMessage) {
+			return `${this.attchMessage}\n${s}`;
+		} else {
+			return s;
 		}
-		return super.stack;
 	}
-}
-
-export function bindArgType(arg: IArgument, type: ArgKind) {
-	if (arg.kind && arg.kind !== type) {
-		const msg = `confilict usage: ${ArgKind[arg.kind]} is used again as ${ArgKind[type]}`;
-		throw new ConflictArgument(msg, arg);
-	}
-
-	for (const token of arg.tokens) {
-		if (token.bindingArgument && token.bindingArgument !== arg) {
-			const msg = `confilict usage: ${tokenToString(token)} is used by ${token.bindingArgument._id}, and requested again as ${arg._id}`;
-			throw new ConflictArgument(msg, arg, token);
-		}
-		token.bindingArgument = arg;
-	}
-
-	Object.assign(arg, { kind: type });
-}
-
-export class StackTrace extends Error {
-	declare readonly stack: string;
 
 	[customInspectSymbol]() {
 		return '<StackTrace>';

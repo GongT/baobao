@@ -1,0 +1,34 @@
+{
+	"name": "@idlebox/logger",
+	"type": "module",
+	"version": "0.0.8",
+	"license": "MIT",
+	"main": "./lib/index.js",
+	"description": "A simple logger module for my self use (nodejs).",
+	"exports": {
+		".": {
+			"source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepack": "rimraf lib && tsc -p src",
+		"build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib",
+		"test": "mocha --bail lib/esm/tests"
+	},
+	"repository": "https://github.com/GongT/baobao",
+	"dependencies": {
+		"debug": "^4.4.1"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/args": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/debug": "^4.1.12",
+		"@types/node": "^22.15.21"
+	}
+}

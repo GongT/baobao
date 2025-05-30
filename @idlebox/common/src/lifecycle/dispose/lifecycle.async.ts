@@ -1,8 +1,9 @@
-import { convertCatchedError } from '../../error/convertUnknown.js';
-import { Emitter, type EventRegister } from '../event/event.js';
-import { _debug_dispose, dispose_name } from './debug.js';
-import { DisposedError } from './disposedError.js';
-import type { IAsyncDisposable, IDisposableEvents } from './lifecycle.js';
+import type debug from "debug";
+import { convertCatchedError } from "../../error/convertUnknown.js";
+import { Emitter, type EventRegister } from "../event/event.js";
+import { _debug_dispose, dispose_name } from "./debug.js";
+import { DisposedError } from "./disposedError.js";
+import type { IAsyncDisposable, IDisposableEvents } from "./lifecycle.js";
 
 /**
  * Async version of Disposable
@@ -12,17 +13,28 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
 	private readonly _disposables: IAsyncDisposable[] = [];
 
 	protected readonly _onDisposeError = new Emitter<Error>();
-	public readonly onDisposeError: EventRegister<Error> = this._onDisposeError.register;
+	public readonly onDisposeError: EventRegister<Error> =
+		this._onDisposeError.register;
 
 	protected readonly _onBeforeDispose = new Emitter<void>();
-	public readonly onBeforeDispose: EventRegister<void> = this._onBeforeDispose.register;
+	public readonly onBeforeDispose: EventRegister<void> =
+		this._onBeforeDispose.register;
 
 	private _disposed?: Error;
+	public readonly displayName?: string;
 
 	/** @internal */
-	readonly #logger;
-	constructor(public readonly displayName?: string) {
-		this.#logger = _debug_dispose.extend(this.displayName || 'async-disposable');
+	readonly #logger: debug.Debugger;
+
+	constructor(displayName?: string) {
+		if (displayName !== undefined) {
+			this.displayName = displayName;
+		} else if (!this.displayName) {
+			displayName = dispose_name(this, "AsyncDisposable");
+			this.displayName = displayName;
+		}
+
+		this.#logger = _debug_dispose.extend(this.displayName);
 	}
 
 	public get hasDisposed() {
@@ -42,8 +54,13 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
 	 * register a disposable object
 	 */
 	public _register<T extends IAsyncDisposable>(d: T): T;
-	public _register<T extends IAsyncDisposable & IDisposableEvents>(d: T, autoDereference?: boolean): T;
-	public _register<T extends IAsyncDisposable | (IAsyncDisposable & IDisposableEvents)>(d: T, deref?: boolean): T {
+	public _register<T extends IAsyncDisposable & IDisposableEvents>(
+		d: T,
+		autoDereference?: boolean,
+	): T;
+	public _register<
+		T extends IAsyncDisposable | (IAsyncDisposable & IDisposableEvents),
+	>(d: T, deref?: boolean): T {
 		if (this.#logger.enabled) this.#logger(`register ${dispose_name(d)}`);
 		this.assertNotDisposed();
 		this._disposables.unshift(d);
@@ -66,7 +83,7 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
 			return;
 		}
 		this._onBeforeDispose.fireNoError();
-		this._disposed = new Error('disposed');
+		this._disposed = new Error("disposed");
 
 		this._disposables.push(this._onBeforeDispose);
 		this._disposables.push(this._onDisposeError);
