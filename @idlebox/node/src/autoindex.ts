@@ -5,8 +5,7 @@
 /* asyncLoad.ts */
 	// Identifiers
 	export {type AsyncMainFunction} from "./asyncLoad.js";
-	export {ExitError} from "./asyncLoad.js";
-	export {runMain} from "./asyncLoad.js";
+	export {executeMainFunction} from "./asyncLoad.js";
 /* preload.ts */
 	// Identifiers
 /* child_process/error.ts */
@@ -97,6 +96,11 @@
 	// Identifiers
 	export {writeFileIfChangeSync} from "./fs/weiteChanged.js";
 	export {writeFileIfChange} from "./fs/weiteChanged.js";
+/* lifecycle/register.ts */
+	// Identifiers
+	export {shutdown} from "./lifecycle/register.js";
+	export {registerNodejsExitHandler} from "./lifecycle/register.js";
+	export {die} from "./lifecycle/register.js";
 /* log/terminal.ts */
 	// Identifiers
 	export {WrappedTerminalConsole} from "./log/terminal.js";

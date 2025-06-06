@@ -8,7 +8,7 @@ export function printUsage() {
 Options:
   -w, --watch            监视模式
   -d, --debug            显示调试输出
-  -o, --output <file>    输出文件路径
+  -o, --output <file>    输出文件路径(默认: autoindex.generated，相对于tsconfig.json所在目录)
   --exclude <pattern>    额外排除的文件或目录
   --include <pattern>    额外包含的文件或目录
   -a, --absolute <path>  绝对导入路径前缀

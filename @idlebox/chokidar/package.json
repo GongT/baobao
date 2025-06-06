@@ -15,7 +15,6 @@
 	"scripts": {
 		"prepack": "heft --unmanaged build --production --clean",
 		"build": "heft --unmanaged build",
-		"_phase:build": "heft --unmanaged build",
 		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},

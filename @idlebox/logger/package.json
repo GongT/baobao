@@ -22,11 +22,12 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
 		"debug": "^4.4.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@idlebox/args": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/debug": "^4.1.12",
 		"@types/node": "^22.15.21"

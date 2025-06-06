@@ -1,4 +1,3 @@
-import '@gongt/fix-esm';
 import { isWindows, sepList } from '@idlebox/common';
 import type { Options as AsyncOptions, Result as AsyncResult, SyncOptions, SyncResult } from 'execa';
 import { execa, execaSync } from 'execa';

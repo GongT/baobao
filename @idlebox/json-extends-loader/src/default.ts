@@ -13,6 +13,9 @@ type IResolver = (current: string, id: string) => string;
 /**
  */
 export interface ILoadJsonOptions {
+	/**
+	 * need to be sync function
+	 */
 	readJsonFile: IReadFile;
 	cwd?: string;
 
@@ -58,9 +61,14 @@ export function loadInheritedJson(file: string, options: Partial<ILoadJsonOption
 		lastFile = extend;
 		// console.error('read file:', extend);
 
-		const data = o.readJsonFile(extend);
+		let data: any;
+		try {
+			data = o.readJsonFile(extend);
+		} catch (e: any) {
+			throw new TypeError(`${e.message} in json file: "${extend}"`, { cause: e });
+		}
 		if (!data || data instanceof CommentArray || typeof data !== 'object') {
-			throw new TypeError(`can not parse json object: ${extend}`);
+			throw new TypeError(`invalid json object in "${extend}"`);
 		}
 
 		extend = objectPath.get(data, o.extendsField) || '';

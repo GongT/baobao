@@ -30,7 +30,6 @@
 		"prepack": "heft build --clean",
 		"test": "heft test --clean",
 		"build": "heft compile",
-		"_phase:build": "heft compile",
 		"watch": "heft compile-watch",
 		"clean": "heft clean"
 	},

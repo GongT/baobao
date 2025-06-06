@@ -1,0 +1,27 @@
+{
+	"$schema": "../node_modules/@mpis/run/commands.schema.json",
+	"build": [
+		// "bash -c 'echo aaaaaaaaaaaaaaaaaaaaa'",
+		/**
+		 *
+		 */
+		"autoindex -o autoindex src",
+
+		/**
+		 *
+		 */
+		"codegen src",
+
+		/**
+		 *
+		 */
+		{
+			"title": "Compile TypeScript",
+			"command": "mis-tsc -p src",
+			"watch": "-w",
+			"cwd": "src",
+			"env": {}
+		}
+	],
+	"clean": ["lib"]
+}

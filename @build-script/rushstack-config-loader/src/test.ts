@@ -1,7 +1,7 @@
 import { dirname } from 'node:path';
-import { RushStackConfig } from './api.js';
+import { ProjectConfig } from './common/config.js';
+import { tsconfig, typescriptProject } from './tools/typescript.js';
 
-const c = new RushStackConfig(dirname(__dirname));
-c.typescriptSearchSrcFolder = true;
-console.log('tsconfig = %s', c.tsconfigPath());
-console.log(c.tsconfig());
+const c = new ProjectConfig(dirname(__dirname));
+console.log('tsconfig = %s', await typescriptProject(c));
+console.log(await tsconfig(c));

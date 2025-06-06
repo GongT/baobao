@@ -16,13 +16,15 @@
 		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
 		"build": "heft --unmanaged build",
-		"_phase:build": "heft --unmanaged build",
 		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {
+		"@build-script/autoindex": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@build-script/codegen": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.73.6"

@@ -1,13 +1,13 @@
 import { globalSingletonStrong } from '../../platform/globalSingleton.js';
 import { createSymbol } from '../../platform/globalSymbol.js';
 import { _debug_dispose } from './debug.js';
-import { AsyncDisposable } from './lifecycle.async.js';
+import { AsyncDisposable, AsyncDisposableUnordered } from './lifecycle.async.js';
 import type { IDisposable } from './lifecycle.js';
 
 const symbol = createSymbol('lifecycle', 'application');
 
-function create() {
-	return new AsyncDisposable('global');
+function create(): AsyncDisposable {
+	return new AsyncDisposableUnordered('global');
 }
 
 const logger = _debug_dispose.extend('global');
@@ -21,6 +21,8 @@ export function registerGlobalLifecycle(object: IDisposable) {
 
 /**
  * Same as disposeGlobal, but do not throw by duplicate call
+ * 
+ * Never throws when child object dispose failed
  */
 export function ensureDisposeGlobal() {
 	const obj = globalSingletonStrong<AsyncDisposable>(symbol);

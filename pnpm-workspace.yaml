@@ -1,9 +1,37 @@
 packages:
-  - '@build-protocol/*'
+  - .
+  - '@mpis/*'
   - '@build-script/*'
   - '@gongt/*'
   - '@idlebox/*'
   - '@internal/*'
   - standalone/*
+
+enablePrePostScripts: true
+hoistWorkspacePackages: false
+
+ignoredOptionalDependencies:
+  - fsevents
 onlyBuiltDependencies:
   - '@biomejs/biome'
+  - esbuild
+
+autoInstallPeers: false
+nodeOptions: ''
+
+hoist: false
+publicHoistPattern:
+  - "@types/*"
+  - "@biomejs/biome"
+hoistPattern:
+  - ""
+
+overrides:
+
+saveWorkspaceProtocol: rolling
+savePrefix: '^'
+ignoreWorkspaceCycles: true
+
+
+patchedDependencies:
+  "@types/tar-stream": "patches/@types__tar-stream.patch"

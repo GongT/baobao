@@ -1,38 +1,50 @@
-import { TimeoutError } from './timeoutError.js';
 import { DeferredPromise } from '../promise/deferredPromise.js';
+import { TimeoutError } from './timeoutError.js';
 
 /**
+ * @param unref defaults to `false`, when true, call `unref()` on the timer.
+ *            can not set to `true` on other platform.
  * @returns promise reject with TimeoutError after specific time
  */
-export function timeout(ms: number, error = 'no response'): Promise<never> {
+export function timeout(ms: number, error = 'no response', unref = false): Promise<never> {
 	return new Promise((_, reject) => {
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			reject(new TimeoutError(ms, error));
 		}, ms);
+		if (unref) (timer as any).unref();
 	});
 }
 
 /**
+ * @param unref defaults to `false`, when true, call `unref()` on the timer.
+ *            can not set to `true` on other platform.
  * @returns promise resolve after specific time
  */
-export function sleep(ms: number): Promise<void> {
+export function sleep(ms: number, unref = false): Promise<void> {
 	return new Promise((resolve) => {
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			resolve();
 		}, ms);
+		if (unref) (timer as any).unref();
 	});
 }
 
-export function timeoutPromise<T>(ms: number, p: Promise<T>): Promise<T>;
-export function timeoutPromise<T>(ms: number, message: string, p: Promise<T>): Promise<T>;
-export function timeoutPromise<T, PT = any>(ms: number, p: DeferredPromise<T, PT>): DeferredPromise<T, PT>;
-export function timeoutPromise<T, PT = any>(
-	ms: number,
-	message: string,
-	p: DeferredPromise<T, PT>
-): DeferredPromise<T, PT>;
+export function timeoutPromise<T>(ms: number, p: PromiseLike<T> | DeferredPromise<T>): PromiseLike<T>;
+export function timeoutPromise<T>(ms: number, message: string, p: PromiseLike<T> | DeferredPromise<T>): PromiseLike<T>;
 
-export function timeoutPromise<T>(ms: number, message: string | T, p?: T): T {
+/**
+ * race the promise with timeout
+ *
+ * @param ms timeout in milliseconds
+ * @param message error.message when timeout
+ * @param p the promise
+ * @returns
+ */
+export function timeoutPromise<T>(
+	ms: number,
+	message: string | PromiseLike<T> | DeferredPromise<T>,
+	p?: PromiseLike<T> | DeferredPromise<T>,
+): PromiseLike<T> {
 	let msg: string | undefined;
 	if (typeof message !== 'string') {
 		p = message;
@@ -41,7 +53,7 @@ export function timeoutPromise<T>(ms: number, message: string | T, p?: T): T {
 		msg = message;
 	}
 	if (p instanceof DeferredPromise) {
-		return Promise.race([p.p, timeout(ms, msg)]).then(() => p) as any;
+		return Promise.race([p.p, timeout(ms, msg)]);
 	}
-	return Promise.race([p, timeout(ms, msg)]).then(() => p) as any;
+	return Promise.race([p as PromiseLike<T>, timeout(ms, msg)]);
 }

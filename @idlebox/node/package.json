@@ -16,13 +16,11 @@
 		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
 		"build": "heft --unmanaged build",
-		"_phase:build": "heft --unmanaged build",
 		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@gongt/fix-esm": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"execa": "^9.6.0",
 		"source-map-support": "^0.5.21"
@@ -32,16 +30,5 @@
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21"
-	},
-	"peerDependencies": {
-		"fix-esm": "^1.0.1"
-	},
-	"peerDependenciesMeta": {
-		"fix-esm": {
-			"optional": true
-		}
-	},
-	"optionalDependencies": {
-		"kexec": "npm:@gongt/kexec@latest"
 	}
 }

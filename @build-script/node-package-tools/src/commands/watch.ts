@@ -10,7 +10,7 @@ import { StateCollection } from '../common/watch-runner/state-collect.js';
 import { type DependEmitter, prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
 import { createWorkspace } from '../common/workspace/workspace.js';
 
-// TODO: 转移到 @build-protocol 中
+// TODO: 转移到 @mpis 中
 
 export class Command extends CommandDefine {
 	protected override _usage = `${pArgS('--verbose')} ${pArgS('--keep-output')}`;

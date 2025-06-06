@@ -1,0 +1,43 @@
+{
+	"name": "@mpis/monorepo",
+	"private": true,
+	"type": "module",
+	"version": "0.1.0",
+	"keywords": [],
+	"license": "MIT",
+	"bin": {
+		"build-manager": "./loader/bin.devel.js"
+	},
+	"publishConfig": {
+		"bin": {
+			"build-manager": "./loader/bin.js"
+		}
+	},
+	"exports": {
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"prepack": "rimraf lib && tsc -p src",
+		"build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "rimraf lib"
+	},
+	"repository": "https://github.com/GongT/baobao",
+	"dependencies": {
+		"@mpis/shared": "workspace:^",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"execa": "^9.6.0"
+	},
+	"devDependencies": {
+		"@idlebox/esbuild-executer": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^22.15.21",
+		"esbuild": "^0.25.5",
+		"rimraf": "^6.0.1"
+	},
+	"peerDependencies": {
+		"esbuild": ">=0.24.0"
+	}
+}

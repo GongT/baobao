@@ -1,0 +1,89 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Run Commands Schema",
+	"type": "object",
+	"allowTrailingCommas": true,
+	"required": ["$schema", "build", "clean"],
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The JSON schema link"
+		},
+		"build": {
+			"type": "array",
+			"description": "List of commands to run",
+			"items": {
+				"type": ["object", "string"],
+				"additionalProperties": false,
+				"description": "A single command to execute",
+				"required": ["command"],
+				"minLength": 1,
+				"properties": {
+					"title": {
+						"type": "string",
+						"description": "A debug title for the command",
+						"minLength": 1
+					},
+					"command": {
+						"type": ["string", "array"],
+						"description": "The command to run",
+						"items": { "type": "string", "minLength": 1 },
+						"minLength": 1
+					},
+					"watch": {
+						"type": ["string", "array"],
+						"description": "additional arguments to pass to the command when watching",
+						"default": ["-w"],
+						"items": { "type": "string", "minLength": 1 }
+					},
+					"cwd": {
+						"type": "string",
+						"description": "working directory (relative to the package.json directory)",
+						"default": ".",
+						"minLength": 1
+					},
+					"env": {
+						"type": "object",
+						"description": "additional environment variables (key-value pairs) for the command",
+						"additionalProperties": {
+							"type": "string"
+						}
+					}
+				},
+				"errorMessage": { "not": "Can not have both 'command' and 'watch' but different type." },
+				"not": {
+					"oneOf": [
+						{
+							"properties": {
+								"command": {
+									"type": "string"
+								},
+								"watch": {
+									"type": "array"
+								}
+							}
+						},
+						{
+							"properties": {
+								"command": {
+									"type": "array"
+								},
+								"watch": {
+									"type": "string"
+								}
+							}
+						}
+					]
+				}
+			}
+		},
+		"clean": {
+			"type": "array",
+			"description": "List of file globs to clean up",
+			"items": {
+				"type": "string",
+				"description": "A single glob pattern"
+			}
+		}
+	}
+}

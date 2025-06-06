@@ -22,7 +22,6 @@
 		"prepack": "heft --unmanaged build --production --clean",
 		"test": "heft test",
 		"build": "heft --unmanaged build",
-		"_phase:build": "heft --unmanaged build",
 		"watch": "heft --unmanaged build-watch",
 		"clean": "heft clean"
 	},

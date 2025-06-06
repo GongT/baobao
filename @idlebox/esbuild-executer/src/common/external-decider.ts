@@ -1,6 +1,7 @@
 import type esbuild from 'esbuild';
+import { moduleResolve } from 'import-meta-resolve';
 import { builtinModules, findPackageJSON } from 'node:module';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { logger } from './logger.js';
 
 const notRelative = /^[^.]/;
@@ -13,6 +14,8 @@ export const decideExternal: esbuild.Plugin = {
 		if (!basedir) {
 			throw new Error('esbuild initialOptions.absWorkingDir is not set');
 		}
+
+		const conditions = new Set(build.initialOptions.conditions || ['default']);
 
 		const pkgCache = new Map<string, string>();
 		async function loadJsonFor(fileUrl: string) {
@@ -86,12 +89,10 @@ export const decideExternal: esbuild.Plugin = {
 			// 否则不编进bundle，运行时将从文件读取
 
 			try {
-				const { absolute, format } = await import(`${args.path}?_=${Math.random().toString()}`, {
-					with: { type: 'metadata', parent: args.importer },
-				});
+				const absoluteUrl = moduleResolve(args.path, pathToFileURL(args.importer), conditions, true);
 
-				logger.resolve`       -> <${format}> ${absolute}`;
-				return { path: absolute, external: true };
+				logger.resolve`       -> ${absoluteUrl}`;
+				return { path: fileURLToPath(absoluteUrl), external: true };
 			} catch (e: any) {
 				logger.error`??????? 发生什么事了 ${e.message}`;
 				return undefined;

@@ -1,15 +1,6 @@
-import { prettyPrintError } from '@idlebox/common';
+import { AppExit, prettyPrintError } from '@idlebox/common';
 
 export type AsyncMainFunction = () => Promise<undefined | number> | Promise<void>;
-
-export class ExitError extends Error {
-	constructor(
-		message: string,
-		public readonly code: number = 1
-	) {
-		super(message);
-	}
-}
 
 type OnExit = (error?: Error) => Promise<any>;
 
@@ -19,7 +10,7 @@ type OnExit = (error?: Error) => Promise<any>;
  * setErrorLogRoot(require('path').dirname(__dirname));
  * ```
  **/
-export function runMain(main: AsyncMainFunction, onExit?: OnExit) {
+export function executeMainFunction(main: AsyncMainFunction, onExit?: OnExit) {
 	Promise.resolve()
 		.then(async () => {
 			try {
@@ -34,7 +25,7 @@ export function runMain(main: AsyncMainFunction, onExit?: OnExit) {
 			}
 		})
 		.catch((e) => {
-			if (e instanceof ExitError) {
+			if (e instanceof AppExit) {
 				if (e.code) {
 					console.error('[exit] %s', e.message);
 					process.exitCode = e.code;

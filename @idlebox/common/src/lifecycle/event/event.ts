@@ -1,8 +1,11 @@
+import { AppExit } from '../../autoindex.js';
 import type { IDisposable } from '../dispose/lifecycle.js';
 
 export type EventHandler<T> = (data: T) => void;
 
-export type EventRegister<T> = (callback: EventHandler<T>) => IDisposable;
+export type EventRegister<T> = ((callback: EventHandler<T>) => IDisposable) & {
+	once(callback: EventHandler<T>): IDisposable;
+};
 
 type DeferFn = () => void;
 
@@ -14,9 +17,7 @@ export class Emitter<T> implements IDisposable {
 	protected readonly _callbacks: EventHandler<T>[] = [];
 	private executing = false;
 
-	constructor(public readonly displayName?: string) {
-		this.handle = this.handle.bind(this);
-	}
+	constructor(public readonly displayName?: string) {}
 
 	/**
 	 * @returns 当前注册回调数量
@@ -52,18 +53,28 @@ export class Emitter<T> implements IDisposable {
 			try {
 				callback(data);
 			} catch (e) {
-				console.error('Error ignored: ', e);
+				if (e instanceof AppExit) {
+					continue;
+				}
+				console.error('Error ignored: %s', e instanceof Error ? e.message : e);
 			}
 		}
 		this.doDefer();
 		this.executing = false;
 	}
 
-	/**
-	 * 获取handle()方法的引用
-	 */
 	get register(): EventRegister<T> {
-		return this.handle;
+		return Object.assign(this.handle.bind(this), {
+			once: this.once.bind(this),
+		});
+	}
+
+	/**
+	 * AI喜欢用event()
+	 * @alias register
+	 */
+	get event(): EventRegister<T> {
+		return this.register;
 	}
 
 	/**
@@ -82,16 +93,17 @@ export class Emitter<T> implements IDisposable {
 				this._callbacks.splice(index, 1);
 			}
 		};
-		return {
-			dispose: () => {
-				disposed = true;
-				if (this.executing) {
-					this.defer(realDispose);
-				} else {
-					realDispose();
-				}
-			},
+
+		const dispose = () => {
+			disposed = true;
+			if (this.executing) {
+				this.defer(realDispose);
+			} else {
+				realDispose();
+			}
 		};
+
+		return { dispose };
 	}
 
 	/**
@@ -118,6 +130,9 @@ export class Emitter<T> implements IDisposable {
 		this.defers.length = 0;
 	}
 
+	[Symbol.dispose]() {
+		this.dispose();
+	}
 	dispose() {
 		this.requireNotExecuting();
 		this._callbacks.length = 0;

@@ -70,9 +70,9 @@ async function main() {
 	} else {
 		logger.debug('execute generators in build mode.');
 
-		const success = await generatorHolder.executeAll();
+		const result = await generatorHolder.executeAll();
 
-		await shutdown(success ? 0 : 1);
+		await shutdown(result.errors.length);
 	}
 }
 

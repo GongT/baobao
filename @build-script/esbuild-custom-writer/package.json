@@ -12,7 +12,6 @@
 	"scripts": {
 		"prepack": "rimraf lib && tsc -p src",
 		"build": "tsc -p src",
-		"_phase:build": "tsc -p src",
 		"watch": "tsc -p src -w",
 		"clean": "rimraf lib",
 		"test": "node test/esbuild.js"

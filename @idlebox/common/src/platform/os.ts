@@ -3,7 +3,10 @@ declare const navigator: any;
 declare const window: any;
 declare const global: any;
 
-export const hasProcess = typeof process !== 'undefined' && typeof process.pid === 'number';
+/**
+ * buy detect process.pid, is there any bundler mock this?
+ */
+export const hasProcess = typeof process?.pid === 'number';
 export const hasWindow = typeof window !== 'undefined' && globalThis === window;
 export const hasGlobal = typeof global !== 'undefined' && globalThis === global;
 
@@ -32,6 +35,7 @@ export let isWindows = false;
 export let isMacintosh = false;
 export let isLinux = false;
 export let isNative = false;
+export let isNodeJs = false;
 export let isWeb = false;
 export let is64Bit = false;
 
@@ -44,6 +48,7 @@ if (hasWindow && !hasProcess) {
 	is64Bit = userAgent.includes('x64');
 } else if (hasProcess) {
 	isNative = true;
+	isNodeJs = typeof process.versions?.node === 'string';
 	is64Bit = process.arch === 'x64';
 	if (process.platform === 'linux') {
 		isLinux = true;

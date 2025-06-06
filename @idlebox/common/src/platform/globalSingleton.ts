@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noShadowRestrictedNames:  */
+
 import { functionName } from '../function/functionName.js';
 import { ensureGlobalObject } from './globalObject.js';
 
@@ -28,8 +30,7 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor?: 
 			if (object === undefined)
 				throw new TypeError(`singleton constructor (${functionName(constructor)}) returned undefined.`);
 		} else {
-			singletonRegistry.delete(symbol);
-			return undefined;
+			throw new TypeError(`singleton (${String(symbol)}) is not defined and no constructor provided.`);
 		}
 		singletonRegistry.set(symbol, object);
 	} else if (object === undefined && constructor) {

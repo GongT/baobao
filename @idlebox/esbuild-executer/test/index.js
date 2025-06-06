@@ -1,8 +1,8 @@
 import { execute } from '../lib/index.js';
 const tsFile = import.meta.resolve('./tsfile.ts');
-const workerFile = import.meta.resolve('./worker.ts');
+const workerFile = import.meta.resolve('./common/worker.ts');
 
-console.log('[test] try import:', tsFile);
+console.log('[test] try import by esbuild:\n  entry = %s\n  extra = %s', tsFile, workerFile);
 
 const exports = await execute(tsFile, { entries: [workerFile] });
 

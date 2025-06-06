@@ -30,10 +30,15 @@ export class DeferredPromise<T, PT = any> {
 					this.progress(fn);
 					return this.p;
 				},
-			}
+			},
 		);
 	}
 
+	/**
+	 * notify progress to callbacks
+	 * @param progress argument
+	 * @returns 
+	 */
 	notify(progress: PT): this {
 		if (this.#success !== undefined) throw new Error('no more event after settled');
 		for (const cb of this.#progressList) {
@@ -42,24 +47,36 @@ export class DeferredPromise<T, PT = any> {
 		return this;
 	}
 
+	/**
+	 * register a progress callback
+	 * @param fn progress callback function, will be called when notify is called
+	 * @returns 
+	 */
 	progress(fn: ProgressCallback<PT>): IDisposable {
 		if (this.#success !== undefined) throw new Error('no more listener after settled');
 		this.#progressList.push(fn);
 
+		const dispose = () => {
+			const index = this.#progressList.indexOf(fn);
+			if (index >= 0) {
+				this.#progressList.splice(index, 1);
+			}
+		};
 		return {
-			dispose: () => {
-				const index = this.#progressList.indexOf(fn);
-				if (index >= 0) {
-					this.#progressList.splice(index, 1);
-				}
-			},
+			dispose,
 		};
 	}
 
+	/**
+	 * whether the promise is still working (not completed)
+	 */
 	get working(): boolean {
 		return this.#success === undefined;
 	}
 
+	/**
+	 * whether the promise is completed (resolved or rejected)
+	 */
 	get completed(): boolean {
 		return this.#success !== undefined;
 	}
@@ -91,7 +108,7 @@ export class DeferredPromise<T, PT = any> {
 	}
 
 	/**
-	 * reject the promise with CancelError
+	 * reject the deferred with {CancelError}
 	 */
 	cancel() {
 		this.#success = false;
@@ -115,7 +132,7 @@ export class DeferredPromise<T, PT = any> {
 			},
 			(e) => {
 				p.error(e);
-			}
+			},
 		);
 		return p;
 	}

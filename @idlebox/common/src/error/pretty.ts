@@ -158,13 +158,17 @@ export function parseStackLine(line: string): IStructreStackLine {
 	return ret;
 }
 
+function isPrettyDisabled() {
+	return globalObject.DISABLE_PRETTY_ERROR || globalObject.process?.env?.DISABLE_PRETTY_ERROR;
+}
+
 let notify_printed = false;
 export function prettyPrintError(type: string, e: Error) {
 	if (!e.stack || e.stack === e.message) {
 		return console.error(e.message);
 	}
 
-	if (globalObject.DISABLE_PRETTY_ERROR || globalObject.process?.env?.DISABLE_PRETTY_ERROR) {
+	if (isPrettyDisabled()) {
 		console.error('[%s] %s', type, e.stack || e.message);
 		return;
 	}
@@ -176,7 +180,7 @@ export function prettyPrintError(type: string, e: Error) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
 		console.error(
-			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m'
+			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m',
 		);
 	}
 }
@@ -190,6 +194,9 @@ export function parseStackString(stack: string) {
 }
 
 export function prettyFormatStack(stackLines: readonly string[]) {
+	if (isPrettyDisabled()) {
+		return stackLines;
+	}
 	const structured: IStructreStackLine[] = stackLines.map(parseStackLine);
 	let messageEnded = false;
 	return structured
@@ -295,6 +302,10 @@ export function prettyFormatError(e: IError, withMessage = true) {
 		return red('  No stack trace');
 	}
 
+	if (isPrettyDisabled()) {
+		return e.stack;
+	}
+
 	const stackLines = e.stack.split(/\n/g);
 
 	let first = 'Unknown Error';
@@ -336,7 +347,7 @@ function formatFileLine(schema: string | undefined, file: string, row?: number, 
 					'pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m',
 					root,
 					file,
-					e.stack
+					e.stack,
 				);
 			}
 			rel = file;

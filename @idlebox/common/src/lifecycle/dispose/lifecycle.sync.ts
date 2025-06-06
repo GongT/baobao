@@ -18,6 +18,9 @@ export abstract class DisposableOnce implements IDisposable {
 		this._dispose();
 	}
 
+	[Symbol.dispose]() {
+		this.dispose();
+	}
 	protected abstract _dispose(): void;
 }
 
@@ -38,7 +41,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 	/** @internal */
 	readonly #logger;
 	constructor(public readonly displayName?: string) {
-		this.#logger = _debug_dispose.extend(this.displayName || 'async-disposable');
+		this.#logger = _debug_dispose.extend(this.displayName || 'disposable');
 	}
 
 	public get hasDisposed() {
@@ -76,6 +79,9 @@ export class Disposable implements IDisposable, IDisposableEvents {
 		return this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
 	}
 
+	[Symbol.dispose]() {
+		this.dispose();
+	}
 	public dispose(): void {
 		if (this._disposed) {
 			console.warn(new DisposedError(this, this._disposed).message);
@@ -88,7 +94,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 		this._disposables.push(this._onDisposeError);
 		for (const item of this._disposables.values()) {
 			try {
-				if (this.#logger.enabled) this.#logger(`register ${dispose_name(item)}`);
+				if (this.#logger.enabled) this.#logger(`dispose ${dispose_name(item)}`);
 				item.dispose();
 			} catch (e) {
 				if (e instanceof Error) {

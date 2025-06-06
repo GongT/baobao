@@ -79,6 +79,7 @@
 	export { isMacintosh } from "./platform/os.js";
 	export { isLinux } from "./platform/os.js";
 	export { isNative } from "./platform/os.js";
+	export { isNodeJs } from "./platform/os.js";
 	export { isWeb } from "./platform/os.js";
 	export { is64Bit } from "./platform/os.js";
 	export { sepList } from "./platform/os.js";
@@ -113,6 +114,9 @@
 	export { parseStackString } from "./error/pretty.js";
 	export { prettyFormatStack } from "./error/pretty.js";
 	export { prettyFormatError } from "./error/pretty.js";
+/* error-wellknown/exit.error.ts */
+	// Identifiers
+	export { AppExit } from "./error-wellknown/exit.error.js";
 /* function/functionName.ts */
 	// Identifiers
 	export type { NamedFunction } from "./function/functionName.js";
@@ -132,19 +136,6 @@
 	// Identifiers
 	export type { MyDelayCallback } from "./function/delayCallbackList.js";
 	export { DelayCallbackList } from "./function/delayCallbackList.js";
-/* lifecycle/event/event.ts */
-	// Identifiers
-	export type { EventHandler } from "./lifecycle/event/event.js";
-	export type { EventRegister } from "./lifecycle/event/event.js";
-	export { Emitter } from "./lifecycle/event/event.js";
-/* lifecycle/dispose/lifecycle.ts */
-	// Identifiers
-	export type { IDisposableEvents } from "./lifecycle/dispose/lifecycle.js";
-	export type { IDisposable } from "./lifecycle/dispose/lifecycle.js";
-	export type { IAsyncDisposable } from "./lifecycle/dispose/lifecycle.js";
-	export { toDisposable } from "./lifecycle/dispose/lifecycle.js";
-/* lifecycle/dispose/debug.ts */
-	// Identifiers
 /* lifecycle/dispose/disposableEvent.ts */
 	// Identifiers
 	export type { IEventListenerOptions } from "./lifecycle/dispose/disposableEvent.js";
@@ -193,14 +184,14 @@
 	export type { ProgressCallback } from "./lifecycle/promise/deferredPromise.js";
 	export type { IProgressHolder } from "./lifecycle/promise/deferredPromise.js";
 	export { DeferredPromise } from "./lifecycle/promise/deferredPromise.js";
+/* lifecycle/promise/cancellationToken/driver.browser.ts */
+	// Identifiers
 /* lifecycle/promise/cancellationToken/driver.common.ts */
 	// Identifiers
 /* lifecycle/promise/cancellationToken/source.ts */
 	// Identifiers
 	export type { CancellationToken } from "./lifecycle/promise/cancellationToken/source.js";
 	export { CancellationTokenSource } from "./lifecycle/promise/cancellationToken/source.js";
-/* lifecycle/promise/cancellationToken/driver.browser.ts */
-	// Identifiers
 /* lifecycle/timeout/timeoutError.ts */
 	// Identifiers
 	export { TimeoutError } from "./lifecycle/timeout/timeoutError.js";
@@ -331,3 +322,16 @@
 /* typingHelper/deep.writable.ts */
 	// Identifiers
 	export type { DeepWriteable } from "./typingHelper/deep.writable.js";
+/* lifecycle/event/event.ts */
+	// Identifiers
+	export type { EventHandler } from "./lifecycle/event/event.js";
+	export type { EventRegister } from "./lifecycle/event/event.js";
+	export { Emitter } from "./lifecycle/event/event.js";
+/* lifecycle/dispose/lifecycle.ts */
+	// Identifiers
+	export type { IDisposableEvents } from "./lifecycle/dispose/lifecycle.js";
+	export type { IDisposable } from "./lifecycle/dispose/lifecycle.js";
+	export type { IAsyncDisposable } from "./lifecycle/dispose/lifecycle.js";
+	export { toDisposable } from "./lifecycle/dispose/lifecycle.js";
+/* lifecycle/dispose/debug.ts */
+	// Identifiers

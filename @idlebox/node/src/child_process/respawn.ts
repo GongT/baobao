@@ -1,5 +1,4 @@
 import { spawnSync } from 'node:child_process';
-import { createRequire } from 'node:module';
 import { platform } from 'node:os';
 import { findBinary } from '../environment/findBinary.js';
 import { spawnGetOutputSync } from './execa.js';
@@ -29,7 +28,7 @@ function shutdown_quit(signal: string, code: number) {
  * If can't do that (eg. on Windows), spawn as normal, but quit self after it quit.
  */
 export function trySpawnInScope(cmds: string[]): never {
-	if (process.env.NEVER_UNSHARE || insideScope() || !supportScope()) {
+	if (process.env.NEVER_UNSHARE || !process.execve || insideScope() || !supportScope()) {
 		spawnSimulate(cmds[0], cmds.slice(1));
 	} else {
 		execLinux(cmds);
@@ -107,16 +106,12 @@ function execLinux(cmds: string[]): never {
 
 	try {
 		process.env.NEVER_UNSHARE = 'true';
-		const require = createRequire(
-			// @ts-ignore
-			import.meta.url
-		);
-		const kexec = require('kexec');
 
 		process.removeAllListeners('SIGINT');
 		process.removeAllListeners('SIGTERM');
-		kexec(unshare, args);
-		console.error('[Linux] kexec failed.');
+		// biome-ignore lint/style/noNonNullAssertion: 上面判断过了
+		process.execve!(unshare, args);
+		console.error('[Linux] execve failed.');
 	} catch (err: any) {
 		if (
 			err.code === 'MODULE_NOT_FOUND' ||
@@ -125,7 +120,7 @@ function execLinux(cmds: string[]): never {
 		) {
 			spawnSimulate(unshare, args);
 		} else {
-			console.error('[Linux] <%s> kexec failed:', err.code, err);
+			console.error('[Linux] <%s> execve failed:', err.code, err);
 		}
 	}
 	process.exit(1);
