@@ -24,6 +24,7 @@
 		"@build-script/autoindex": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/run": "workspace:^",
+		"@mpis/typescript": "workspace:^",
 		"@build-script/codegen": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",

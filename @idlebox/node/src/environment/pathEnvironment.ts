@@ -1,13 +1,16 @@
-import { platform } from 'node:os';
-import { PathArray } from '@idlebox/common';
+import { isWindows, PathArray } from '@idlebox/common';
 import { cleanupEnvironment, getEnvironment } from './getEnvironment.js';
 
-export const PATH_SEPARATOR = platform() === 'win32' ? ';' : ':';
+/**
+ * PATH_SEPARATOR is the separator used in the PATH environment variable.
+ * It is ';' on Windows and ':' on other platforms.
+ */
+export const PATH_SEPARATOR = isWindows ? ';' : ':';
 export class PathEnvironment extends PathArray {
 	private readonly name: string;
 	private readonly env: NodeJS.ProcessEnv;
 
-	constructor(varName = platform() === 'win32' ? 'Path' : 'PATH', env: NodeJS.ProcessEnv = process.env) {
+	constructor(varName = isWindows ? 'Path' : 'PATH', env: NodeJS.ProcessEnv = process.env) {
 		const { name, value } = getEnvironment(varName, env);
 		super('', PATH_SEPARATOR);
 

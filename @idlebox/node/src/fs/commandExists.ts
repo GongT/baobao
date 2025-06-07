@@ -20,7 +20,7 @@ function exts(alterExt?: string[]) {
 
 export async function commandInPath(cmd: string, alterExt?: string[]): Promise<string | undefined> {
 	const pathVar = new PathEnvironment();
-	for (const item of pathVar.join(cmd)) {
+	for (const item of pathVar.joinpath(cmd)) {
 		for (const ext of exts(alterExt)) {
 			const found = await new Promise((resolve) => {
 				access(item + ext, constants.X_OK, (e) => {
@@ -35,7 +35,7 @@ export async function commandInPath(cmd: string, alterExt?: string[]): Promise<s
 }
 export function commandInPathSync(cmd: string, alterExt?: string[]): string | undefined {
 	const pathVar = new PathEnvironment();
-	for (const item of pathVar.join(cmd)) {
+	for (const item of pathVar.joinpath(cmd)) {
 		for (const ext of exts(alterExt)) {
 			try {
 				accessSync(item + ext, constants.X_OK);

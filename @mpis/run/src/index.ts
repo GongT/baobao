@@ -95,39 +95,48 @@ switch (command.value) {
 function printFailedRunError(worker: ProcessIPCClient, message: string) {
 	if (watchMode) process.stderr.write('\x1Bc');
 
-	console.error(
-		'\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m',
-		' '.repeat(process.stderr.columns || 80),
-		`below is output of ${worker.title}`,
-	);
-	console.error(worker.outputStream.toString().trimEnd());
+	const text = worker.outputStream.toString().trimEnd();
 
-	console.error(
-		'\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n',
-		' '.repeat(process.stderr.columns || 80),
-		`ending output of ${worker.title}`,
-	);
+	if (text) {
+		console.error(
+			'\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m',
+			' '.repeat(process.stderr.columns || 80),
+			`below is output of ${worker.title}`,
+		);
+		console.error(text);
+
+		console.error(
+			'\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n',
+			' '.repeat(process.stderr.columns || 80),
+			`ending output of ${worker.title}`,
+		);
+	} else {
+		console.error(
+			'\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m',
+			' '.repeat(process.stderr.columns || 80),
+			`no output from ${worker.title}`,
+		);
+	}
 
 	console.error(workersManager.formatDebugGraph());
 	logger.fatal`"${worker.title}" ${message}`;
 }
 
 function reprintWatchModeError() {
-	if (!watchMode) return;
-
-	process.stderr.write('\x1Bc');
+	if (watchMode) {
+		process.stderr.write('\x1Bc');
+		if (errors.size === 0) {
+			logger.info`All workers completed successfully.`;
+			return;
+		}
+	}
 	printAllErrors();
 }
 
 function printAllErrors() {
-	if (errors.size === 0) {
-		logger.info`All workers completed successfully.`;
-		return;
-	}
-
 	for (const [worker, error] of errors) {
 		const band = ' '.repeat(process.stderr.columns || 80);
-		const banner = `\x1B[38;5;9m${band}\r  ${worker.title}  \x1B[0m`;
+		const banner = `\x1B[38;5;9m${band}\r  ---- ${worker.title}  \x1B[0m`;
 		console.error(banner);
 		if (error instanceof CompileError) {
 			console.error(error.toString());
@@ -137,5 +146,7 @@ function printAllErrors() {
 		console.error(banner);
 	}
 
-	console.error(`%s of %s worker failed.`, errors.size, workersManager.size);
+	if (errors.size > 0) {
+		console.error(`%s of %s worker failed.`, errors.size, workersManager.size);
+	}
 }

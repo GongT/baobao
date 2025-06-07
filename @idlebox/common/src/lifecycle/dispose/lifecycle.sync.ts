@@ -3,6 +3,10 @@ import { _debug_dispose, dispose_name } from './debug.js';
 import { DisposedError } from './disposedError.js';
 import type { IDisposable, IDisposableEvents } from './lifecycle.js';
 
+interface _DOMDisposable {
+	[Symbol.dispose](): void;
+}
+
 export abstract class DisposableOnce implements IDisposable {
 	private _disposed?: Error;
 
@@ -18,6 +22,15 @@ export abstract class DisposableOnce implements IDisposable {
 		this._dispose();
 	}
 
+	toWeb(): _DOMDisposable {
+		return this;
+	}
+	static fromWeb(disposable: _DOMDisposable): IDisposable {
+		if (!('dispose' in disposable)) {
+			Object.assign(disposable, { dispose: disposable[Symbol.dispose] });
+		}
+		return disposable as unknown as IDisposable;
+	}
 	[Symbol.dispose]() {
 		this.dispose();
 	}
@@ -79,9 +92,19 @@ export class Disposable implements IDisposable, IDisposableEvents {
 		return this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
 	}
 
+	toWeb(): _DOMDisposable {
+		return this;
+	}
+	static fromWeb(disposable: _DOMDisposable): IDisposable {
+		if (!('dispose' in disposable)) {
+			Object.assign(disposable, { dispose: disposable[Symbol.dispose] });
+		}
+		return disposable as unknown as IDisposable;
+	}
 	[Symbol.dispose]() {
 		this.dispose();
 	}
+
 	public dispose(): void {
 		if (this._disposed) {
 			console.warn(new DisposedError(this, this._disposed).message);

@@ -1,23 +1,17 @@
 {
-	"name": "@mpis/client",
+	"name": "@mpis/publish",
 	"private": true,
 	"type": "module",
 	"version": "0.1.0",
 	"keywords": [],
 	"license": "MIT",
-	"exports": {
-		".": {
-			"source": "./src/api.ts",
-			"default": "./lib/api.js"
-		},
-		"./package.json": "./package.json"
-	},
 	"bin": {
-		"build-protocol-client": "./loader/bin.devel.js"
+		"publish-package": "./loader/bin.devel.js"
 	},
 	"publishConfig": {
+		"directory": "lib1",
 		"bin": {
-			"build-protocol-client": "./loader/bin.js"
+			"publish-package": "./loader/bin.js"
 		}
 	},
 	"scripts": {
@@ -30,11 +24,10 @@
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
-		"@mpis/shared": "workspace:^",
-		"execa": "^9.6.0",
-		"split2": "^4.2.0"
+		"execa": "^9.6.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

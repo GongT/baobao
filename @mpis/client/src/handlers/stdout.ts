@@ -1,3 +1,4 @@
+import { PassThrough } from 'node:stream';
 import split2 from 'split2';
 import { channelClient } from '../common/message-channel.js';
 
@@ -9,6 +10,8 @@ interface IOptions {
 }
 
 export function listenOutputStream(stream: NodeJS.ReadableStream, options: IOptions) {
+	if (options.title) channelClient.friendlyTitle = options.title;
+
 	function emit_failed() {
 		channelClient.failed(memory);
 		memory = '';
@@ -22,8 +25,6 @@ export function listenOutputStream(stream: NodeJS.ReadableStream, options: IOpti
 		channelClient.start();
 		memory = '';
 	}
-
-	if (options.title) channelClient.friendlyTitle = options.title;
 
 	const reading_stream = split2();
 
@@ -67,4 +68,18 @@ export function listenOutputStream(stream: NodeJS.ReadableStream, options: IOpti
 	});
 
 	stream.pipe(reading_stream, { end: true });
+}
+export function hookCurrentProcessOutput(options: IOptions) {
+	const pipe = new PassThrough({});
+	listenOutputStream(pipe, options);
+
+	function makePipeFunction(originalWrite: (...args: any[]) => boolean) {
+		return function (this: NodeJS.WriteStream, ...args: any[]) {
+			pipe.write.apply(pipe, args as any);
+			return originalWrite.apply(this, args);
+		};
+	}
+
+	process.stdout.write = makePipeFunction(process.stdout.write);
+	process.stderr.write = makePipeFunction(process.stderr.write);
 }

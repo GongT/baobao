@@ -1,5 +1,5 @@
-import { formatWithOptions, inspect, type InspectOptions } from 'util';
-import { LogLevel, logLevelNames, logTagColor } from './colors.js';
+import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
+import { call_debug_command, nodeFormat } from './debug.commands.js';
 import { color_enabled } from './helpers.js';
 import type { IMyDebug, IMyDebugWithControl } from './types.js';
 
@@ -63,44 +63,65 @@ interface IWriteLineOptions {
 	level: LogLevel;
 }
 
-const colorInspectOptions: InspectOptions = {
-	depth: 3,
-	compact: true,
-	colors: true,
-	maxArrayLength: 5,
-	maxStringLength: 100,
-};
+function format_template(messages: TemplateStringsArray, args: unknown[], color: boolean) {
+	const result_messages: string[] = messages.slice();
+	const result_args: string[] = [];
+	for (const [index, arg] of args.entries()) {
+		const prefix = result_messages[index] || '';
+		const postfix = result_messages[index + 1] || '';
+
+		if (prefix.endsWith('<') && postfix.startsWith('>')) {
+			const command = prefix.slice(prefix.lastIndexOf(' ') + 1, -1);
+			const result = call_debug_command(command, arg, color);
+			result_messages[index] = prefix.slice(0, prefix.lastIndexOf(' ') + 1);
+			if (result_messages[index + 1]) {
+				result_messages[index + 1] = postfix.slice(1);
+			}
+			result_args.push(result);
+		} else if (typeof arg === 'string') {
+			result_args.push(call_debug_command('stripe', arg, color));
+		} else if (
+			typeof arg === 'number' ||
+			typeof arg === 'boolean' ||
+			typeof arg === 'bigint' ||
+			typeof arg === 'symbol'
+		) {
+			result_args.push(arg.toString());
+		} else if (arg === null || arg === undefined) {
+			if (color) {
+				result_args.push(`\x1B[2m${arg}\x1B[22m`);
+			} else {
+				result_args.push(String(arg));
+			}
+		} else {
+			result_args.push(call_debug_command('inspect', arg, color));
+		}
+	}
+
+	let ret = '';
+	while (result_messages.length || result_args.length) {
+		const message = result_messages.shift();
+		if (message) ret += message;
+		const arg = result_args.shift();
+		if (arg) ret += arg;
+	}
+
+	return ret;
+}
 
 /**
  * TAG带颜色
  */
 function write_line_colored_tag({ tag, stream, color }: IWriteLineOptions) {
-	return (messages: readonly string[] | string, ...args: unknown[]) => {
-		stream.write(`[\x1b[${color}m${tag}\x1b[0m] `);
+	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
+		const head = `\x1b[${color}m${tag}\x1b[0m]`;
+		let body: string;
 		if (typeof messages === 'string') {
-			stream.write(formatWithOptions(colorInspectOptions, messages, ...args));
+			body = nodeFormat(messages, args, true);
 		} else {
-			for (const message of messages) {
-				stream.write(message);
-				if (!args.length) continue;
-
-				const arg = args.shift();
-				if (
-					typeof arg === 'string' ||
-					typeof arg === 'number' ||
-					typeof arg === 'boolean' ||
-					typeof arg === 'bigint' ||
-					typeof arg === 'symbol'
-				) {
-					stream.write(arg.toString());
-				} else if (arg === null || arg === undefined) {
-					stream.write(String(arg));
-				} else {
-					stream.write(inspect(arg, colorInspectOptions));
-				}
-			}
+			body = format_template(messages, args, true);
 		}
-		stream.write('\n');
+		stream.write(`${head} ${body}\n`);
 	};
 }
 
@@ -108,32 +129,15 @@ function write_line_colored_tag({ tag, stream, color }: IWriteLineOptions) {
  * 整行带颜色
  */
 function write_line_colored_line({ tag, stream, color }: IWriteLineOptions) {
-	return (messages: readonly string[] | string, ...args: unknown[]) => {
-		stream.write(`\x1b[${color}m[${tag}] `);
+	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
+		const head = `\x1B[${color}m[${tag}]`;
+		let body: string;
 		if (typeof messages === 'string') {
-			stream.write(formatWithOptions(colorInspectOptions, messages, ...args));
+			body = nodeFormat(messages, args, false);
 		} else {
-			for (const message of messages) {
-				stream.write(message);
-				if (!args.length) continue;
-
-				const arg = args.shift();
-				if (
-					typeof arg === 'string' ||
-					typeof arg === 'number' ||
-					typeof arg === 'boolean' ||
-					typeof arg === 'bigint' ||
-					typeof arg === 'symbol'
-				) {
-					stream.write(arg.toString());
-				} else if (arg === null || arg === undefined) {
-					stream.write(String(arg));
-				} else {
-					stream.write(`${inspect(arg, colorInspectOptions)}\x1b[${color}m`);
-				}
-			}
+			body = format_template(messages, args, false);
 		}
-		stream.write('\x1b[0m\n');
+		stream.write(`\x1B[${color}m${head} ${body}\x1B[0m\n`);
 	};
 }
 
@@ -141,38 +145,18 @@ function write_line_colored_line({ tag, stream, color }: IWriteLineOptions) {
  * 不带颜色
  */
 function write_line_monolithic({ tag, level, stream }: IWriteLineOptions) {
-	const inspectOptions: InspectOptions = {
-		depth: 3,
-		compact: true,
-		colors: false,
-		maxArrayLength: 5,
-		maxStringLength: 100,
-	};
-	const lvlStr = logLevelNames[level];
+	const lvlStr = logLevelPaddingStr[level];
 
-	return (messages: readonly string[] | string, ...args: unknown[]) => {
-		stream.write(`[${tag}:${lvlStr}] `);
+	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
+		const head = `[${tag}:${lvlStr}] `;
+		let body: string;
+
 		if (typeof messages === 'string') {
-			stream.write(formatWithOptions(inspectOptions, messages, ...args));
+			body = nodeFormat(messages, args, false);
 		} else {
-			for (const message of messages) {
-				stream.write(message);
-				const arg = args.shift();
-				if (
-					typeof arg === 'string' ||
-					typeof arg === 'number' ||
-					typeof arg === 'boolean' ||
-					typeof arg === 'bigint' ||
-					typeof arg === 'symbol'
-				) {
-					stream.write(arg.toString());
-				} else if (arg === null || arg === undefined) {
-					stream.write(String(arg));
-				} else {
-					stream.write(inspect(arg, inspectOptions));
-				}
-			}
+			body = format_template(messages, args, false);
 		}
-		stream.write('\n');
+
+		stream.write(`${head} ${body}\n`);
 	};
 }

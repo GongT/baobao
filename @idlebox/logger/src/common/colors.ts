@@ -21,7 +21,7 @@ export const logTagColor: Record<LogLevel, string> = {
 	[LogLevel.verbose]: '2',
 };
 
-export const logLevelNames: Record<LogLevel, string> = {
+export const logLevelPaddingStr: Record<LogLevel, string> = {
 	[LogLevel.fatal]: 'fatal  ',
 	[LogLevel.error]: 'error  ',
 	[LogLevel.success]: 'success',

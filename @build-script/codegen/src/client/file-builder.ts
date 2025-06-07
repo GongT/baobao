@@ -7,39 +7,53 @@ const endingQuote = /^}/;
 const hasJsSuffix = /\.[cm]?jsx?$/i;
 
 export class FileBuilder {
-	protected referData: string[];
+	protected _referData?: string[];
 	protected result: string[] = [];
-	public readonly absoluteFileName: string;
-	public readonly fileName: string;
+	public readonly absolutePath: string;
+	public readonly relativePath: string;
 
 	constructor(
-		public readonly selfPath: string,
+		protected readonly projectRoot: string,
+		private readonly selfPath: string,
+		name: string,
 		public readonly logger: ILogger,
-		relPath: string
 	) {
-		if (hasJsSuffix.test(relPath)) {
-			throw new Error(`file name "${relPath}" should not have a .js suffix. Use .ts (or omit) instead`);
+		if (hasJsSuffix.test(name)) {
+			throw new Error(`file name "${name}" should not have a .js suffix. Use .ts (or omit) instead`);
 		}
-		if (isAbsolute(relPath)) {
-			throw new Error(`file name "${relPath}" should not be absolute.`);
+		if (isAbsolute(name)) {
+			if (!name.startsWith('/')) {
+				throw new Error(`file name "${name}" should not be absolute.`); // windows drive
+			}
+			name = resolve(projectRoot, `./${name}`);
+		} else {
+			name = resolve(selfPath, '..', name);
 		}
 
-		const ext = extname(relPath) || '.ts';
-
-		if (relPath.endsWith(ext)) {
-			relPath = relPath.slice(0, -ext.length);
+		if (!name.startsWith(projectRoot)) {
+			logger.warn(`output file "${name}" is not under the project root "${projectRoot}"`);
 		}
 
-		relPath = `${relPath}.generated${ext}`;
+		const ext = extname(name) || '.ts';
 
-		this.fileName = relPath;
-		this.absoluteFileName = resolve(selfPath, '..', relPath);
+		if (name.endsWith(ext)) {
+			name = name.slice(0, -ext.length);
+		}
 
-		this.referData = readFileSync(selfPath, 'utf-8')
-			.split('\n')
-			.filter((l) => l.length > 0);
+		name = `${name}.generated${ext}`;
+
+		this.relativePath = name;
+		this.absolutePath = resolve(projectRoot, name);
 	}
 
+	get referData() {
+		if (!this._referData) {
+			this._referData = readFileSync(this.selfPath, 'utf-8')
+				.split('\n')
+				.filter((l) => l.length > 0);
+		}
+		return this._referData;
+	}
 	append(text: string) {
 		this.result.push(text);
 		return text;

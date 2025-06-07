@@ -14,9 +14,9 @@ export class Context {
 	private readonly _watchFiles: Set<string> = new Set<string>();
 
 	constructor(
-		public readonly sourceFile: string,
+		public readonly sourceFile: string, // absolute
 		public readonly logger: ILogger,
-		public readonly projectRoot: string
+		public readonly projectRoot: string,
 	) {}
 
 	/**
@@ -45,9 +45,16 @@ export class Context {
 		return this._watchFiles;
 	}
 
-	file(relative_to_output: string): FileBuilder;
+	/**
+	 * 创建一个文件
+	 * @param name 文件名，如果以/开头，则表示相对于项目根目录的路径，如果以.开头，则表示相对于源文件的路径
+	 */
 	file(name: string) {
-		const writer = new FileBuilder(this.sourceFile, this.logger, name);
+		const writer = new FileBuilder(this.projectRoot, this.sourceFile, name, this.logger);
+
+		if (this.files.some((file) => file.absolutePath === writer.absolutePath)) {
+			throw new Error(`File ${name} already exists in the context.`);
+		}
 
 		this.files.push(writer);
 		return writer;
@@ -56,7 +63,7 @@ export class Context {
 	/** @internal */
 	__commit() {
 		return this.files.map((file) => {
-			const path = file.absoluteFileName;
+			const path = file.absolutePath;
 			let content = file.toString();
 			if (isSourceFile.test(path)) {
 				content = typescriptAlertHeader + content;

@@ -5,6 +5,10 @@ import { _debug_dispose, dispose_name } from './debug.js';
 import { DisposedError } from './disposedError.js';
 import type { IAsyncDisposable, IDisposableEvents } from './lifecycle.js';
 
+interface _DOMAsyncDisposable {
+	[Symbol.asyncDispose](): Promise<void>;
+}
+
 /**
  * Async version of Disposable
  * @public
@@ -88,6 +92,16 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
 	[Symbol.asyncDispose]() {
 		return this.dispose();
 	}
+	static fromWeb(disposable: _DOMAsyncDisposable): IAsyncDisposable {
+		if (!('dispose' in disposable)) {
+			Object.assign(disposable, { dispose: disposable[Symbol.asyncDispose] });
+		}
+		return disposable as unknown as IAsyncDisposable;
+	}
+	toWeb(): _DOMAsyncDisposable {
+		return this;
+	}
+
 	public async dispose(): Promise<void> {
 		for (const cb of this.__finalize_dispose()) {
 			try {

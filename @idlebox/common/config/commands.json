@@ -17,9 +17,9 @@
 		 */
 		{
 			"title": "Compile TypeScript",
-			"command": "mis-tsc -p src",
-			"watch": "-w",
-			"cwd": "src",
+			"command": ["mpis-tsc", "-p", "src"],
+			"watch": ["-w"],
+			"cwd": ".",
 			"env": {}
 		}
 	],

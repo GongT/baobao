@@ -4,7 +4,7 @@ export interface IEnvironmentResult {
 }
 
 export function getEnvironment(name: string, env = process.env): IEnvironmentResult {
-	if (env.hasOwnProperty(name)) {
+	if (Object.hasOwn(env, name)) {
 		return {
 			value: env[name],
 			name: name,
@@ -35,7 +35,7 @@ export function deleteEnvironment(name: string, env = process.env) {
 }
 
 export function cleanupEnvironment(name: string, env = process.env) {
-	if (env.hasOwnProperty(name)) {
+	if (Object.hasOwn(env, name)) {
 		for (const item of Object.keys(env)) {
 			if (item.toLowerCase() === name && name !== item) {
 				delete env[item];

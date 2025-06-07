@@ -1,8 +1,18 @@
+import type { FileBuilder, GenerateContext } from '@build-script/codegen';
+
 export function concatStringType(a: string[]): string {
 	return a.join('');
 }
 
-export function generate(builder: any) {
+export function generate(context: GenerateContext) {
+	let builder: FileBuilder;
+	if (context.file) {
+		builder = context.file('./concatType');
+	} else {
+		// TODO
+		builder = context as any;
+	}
+
 	const typeList = [];
 	const argList = [];
 	const returnList = [];

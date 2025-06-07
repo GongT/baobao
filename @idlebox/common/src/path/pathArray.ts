@@ -5,49 +5,113 @@ import { normalizePath } from './normalizePath.js';
 const isAbsolute = /^[a-z]:[/\\]/i;
 
 /**
- * Work on "PATH"-like values, but always use / insteadof \
+ * Work on "PATH"-like values, but always use / instead-of \
  */
-abstract class PathArrayAbstract extends Set<string> {
+abstract class PathArrayAbstract {
+	private readonly array: string[] = [];
+
 	constructor(
-		init: string,
-		private readonly sep: ':' | ';' = isWindows ? ';' : ':'
+		init: string | string[] = [],
+		private readonly sep: ':' | ';' = isWindows ? ';' : ':',
 	) {
-		super();
-		if (init) this.add(init);
+		if (Array.isArray(init)) {
+			for (const item of init) {
+				this.add(item);
+			}
+		} else {
+			this.add(init);
+		}
 	}
 
+	get size() {
+		return this.array.length;
+	}
+
+	/**
+	 * 添加value到数组
+	 * @param value 路径，允许传入是字符串表达的数组（/a:/b:/c）
+	 * @param first 是否将路径添加到数组的开头
+	 * @param force 是否强制添加路径，即使它已经存在
+	 */
+	add(value: string, first: boolean = false, force: boolean = false) {
+		for (const part of this.split(value)) {
+			if (force) {
+				this._delete(part);
+			}
+			this._add(part, first);
+		}
+	}
+
+	protected _add(normalizedPath: string, prepend: boolean = false) {
+		if (this.has(normalizedPath)) return false;
+		if (prepend) {
+			this.array.unshift(normalizedPath);
+		} else {
+			this.array.push(normalizedPath);
+		}
+		return true;
+	}
+
+	delete(value: string) {
+		let anyRet = false;
+		for (const part of this.split(value)) {
+			anyRet = anyRet || this._delete(part);
+		}
+		return anyRet;
+	}
+
+	protected _delete(normalizedPath: string) {
+		const index = this.array.indexOf(normalizedPath);
+		if (index !== -1) {
+			this.array.splice(index, 1);
+			return true;
+		}
+		return false;
+	}
+
+	split(value: string): string[] {
+		return value.split(this.sep).map((p) => this.normalize(p));
+	}
+
+	has(value: string) {
+		return this.array.includes(this.normalize(value));
+	}
+
+	/**
+	 * Normalize the given path. it maybe relative or absolute.
+	 */
 	abstract normalize(path: string): string;
 
-	split(pathArrStr: string) {
-		return pathArrStr.split(this.sep);
+	toString(): string {
+		return this.array.join(this.sep);
+	}
+	toArray(): string[] {
+		return this.array.slice();
 	}
 
-	override toString(): string {
-		return [...this.values()].join(this.sep);
+	[Symbol.iterator]() {
+		return this.array.values();
 	}
 
-	// /** @deprecated @use values() */
-	// override keys() {
-	// 	return super.keys();
-	// }
-
-	// /** @deprecated @use values() */
-	// override entries() {
-	// 	return super.entries();
-	// }
-
-	// override [Symbol.iterator]() {
-	// 	return this.values();
-	// }
+	values() {
+		return this.array.values();
+	}
 
 	/**
 	 * @returns an array with `part` append to every element
 	 */
-	join(part: string) {
-		return [...this.values()].map((p) => normalizePath(`${p}/${part}`));
+	joinpath(part: string) {
+		return this.array.map((p) => `${p}/${part}`);
+	}
+
+	clear() {
+		this.array.length = 0;
 	}
 }
 
+/**
+ * handle PATH like values, but always use / instead of \
+ */
 export class PathArrayWindows extends PathArrayAbstract {
 	private readonly caseMap = new Map<string, string>();
 
@@ -64,57 +128,26 @@ export class PathArrayWindows extends PathArrayAbstract {
 		this.caseMap.clear();
 	}
 
-	override add(paths: string) {
-		for (const p of this.split(paths)) {
-			const rpath = this.normalize(p);
-			const lcase = rpath.toLowerCase();
-			this.caseMap.set(lcase, rpath);
-			super.add(lcase);
-		}
-		return this;
+	override _add(normalizedPath: string) {
+		const lcase = normalizedPath.toLowerCase();
+		this.caseMap.set(lcase, normalizedPath);
+		return super._add(lcase);
 	}
 
-	override delete(paths: string) {
-		let anyRet = false;
-		for (const p of this.split(paths)) {
-			const rpath = this.normalize(p);
-			const lcase = rpath.toLowerCase();
-			this.caseMap.delete(lcase);
-			anyRet = anyRet || super.delete(lcase);
-		}
-		return anyRet;
+	override _delete(normalizedPath: string) {
+		const lcase = normalizedPath.toLowerCase();
+		this.caseMap.delete(lcase);
+		return super._delete(lcase);
 	}
 
 	override has(path: string): boolean {
-		return super.has(this.normalize(path).toLowerCase());
-	}
-
-	override values() {
-		return this.caseMap.values();
+		return this.caseMap.has(this.normalize(path).toLowerCase());
 	}
 }
+
 export class PathArrayPosix extends PathArrayAbstract {
 	override normalize(path: string) {
 		return normalizePath(path);
-	}
-
-	override add(paths: string) {
-		for (const p of this.split(paths)) {
-			super.add(this.normalize(p));
-		}
-		return this;
-	}
-
-	override delete(paths: string) {
-		let anyRet = false;
-		for (const p of this.split(paths)) {
-			anyRet = anyRet || super.delete(this.normalize(p));
-		}
-		return anyRet;
-	}
-
-	override has(path: string): boolean {
-		return super.has(this.normalize(path));
 	}
 }
 

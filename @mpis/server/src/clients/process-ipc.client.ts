@@ -1,7 +1,9 @@
-import { timeout } from '@idlebox/common';
+import { isWindows, lcfirst, PathArray, timeout } from '@idlebox/common';
+import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
 import type { Options, ResultPromise } from 'execa';
 import { execa } from 'execa';
+import { dirname, resolve } from 'node:path';
 import { Writable } from 'node:stream';
 import { CompileError } from '../common/error.js';
 import { ProtocolClientObject, State } from '../common/protocol-client-object.js';
@@ -40,6 +42,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	public stopSignal: NodeJS.Signals = 'SIGINT';
 	private _started = false;
 	public readonly outputStream = new OutputHandler();
+	private readonly pathvar;
 
 	constructor(
 		title: string,
@@ -48,6 +51,19 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		public readonly env: Record<string, string>,
 	) {
 		super(title);
+
+		const pathVar = getEnvironment(isWindows ? 'Path' : 'PATH').value;
+		if (!pathVar) {
+			throw new Error('PATH environment variable is not set');
+		}
+		this.pathvar = new PathArray(pathVar);
+		this.pathvar.add(dirname(process.execPath), true, true);
+		const pkgJsonPath = findUpUntilSync({ from: cwd, file: 'node_modules' });
+		if (pkgJsonPath) {
+			this.pathvar.add(resolve(pkgJsonPath, '.bin'), true, true);
+		} else {
+			this.logger.warn`running command without any package.`;
+		}
 	}
 
 	static is(obj: any): obj is ProcessIPCClient {
@@ -77,7 +93,9 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	protected override async _execute() {
 		if (this._started) throw new Error('process already spawned');
 
-		this.logger.info('spawning | %s', this.commandline);
+		this.logger.info`spawning | commandline<${this.commandline}>`;
+		this.logger.debug`working directory: long<${this.cwd}>`;
+		this.logger.debug`path variable: long<${this.pathvar.toString()}>`;
 
 		const doExec = execa({
 			cwd: this.cwd,
@@ -85,6 +103,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			ipc: true,
 			env: {
 				...this.env,
+				PATH: this.pathvar.toString(),
 				BUILD_PROTOCOL_SERVER: 'ipc:nodejs',
 				BUILD_PROTOCOL_TITLE: this.title,
 			},
@@ -102,25 +121,28 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		if (this.logger.verbose.isEnabled) {
 			for (const stream of ['stdout', 'stderr'] as const) {
 				this.process[stream]!.on('data', (chunk: Buffer) => {
-					const debugTxt = chunk
-						.toString('utf-8')
-						.replaceAll('\n', '\\n')
-						.replaceAll('\r', '\\r')
-						.replaceAll('\x1B', '\\e');
+					if (this.logger.verbose.isEnabled) {
+						const debugTxt = chunk
+							.toString('utf-8')
+							.replaceAll('\n', '\\n')
+							.replaceAll('\r', '\\r')
+							.replaceAll('\x1B', '\\e');
 
-					this.logger.verbose`[${stream}] ${debugTxt}`;
+						this.logger.verbose`[${stream}] ${debugTxt}`;
+					}
 					this.outputStream.write(chunk);
 				});
 			}
 		} else {
-			this.process.stdout!.pipe(this.outputStream);
-			this.process.stderr!.pipe(this.outputStream);
+			this.process.stdout!.pipe(this.outputStream, { end: false });
+			this.process.stderr!.pipe(this.outputStream, { end: false });
 		}
 
 		this.process.on('message', this.onMessage);
 
 		this._started = true;
 		try {
+			await Promise.all([streamPromise(this.process.stdout!), streamPromise(this.process.stderr!)]);
 			const process = await this.process;
 
 			if (this.hasDisposed) {
@@ -130,7 +152,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 			if (process.failed) {
 				this.logger.warn`process can not start: ${process.message}`;
-				throw new Error(`process can not start: ${process.message}`);
+				throw new Error(`process can not start: ${lcfirst(process.message || '*no message*')}`);
 			}
 
 			if (process.exitCode !== 0) {

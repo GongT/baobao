@@ -1,5 +1,7 @@
 import { AsyncDisposable, Emitter } from '@idlebox/common';
 import { createLogger, type IMyLogger } from '@idlebox/logger';
+import { readFileSync } from 'node:fs';
+import { findPackageJSON } from 'node:module';
 import { BuildEvent, type IMessageObject } from '../types.js';
 
 export type IUserMessageObject = Omit<IMessageObject, '__brand__' | 'title' | 'pid'>;
@@ -19,13 +21,19 @@ function getDefaultTitle(): string {
 	if (process.title !== 'node') {
 		return process.title;
 	}
-	return process.argv[1];
+	const packagePath = findPackageJSON(process.argv[1]);
+	if (packagePath) {
+		const packageJson = JSON.parse(readFileSync(packagePath, 'utf-8'));
+		return packageJson.name.replace('@mpis/', '').replace('@', '').replace('/', ':');
+	}
+	return 'unknown';
 }
 
 export abstract class AbstractChannelClient extends AsyncDisposable {
 	private cstate = ConnectionState.Disconnected;
 	protected connecting?: Promise<any>;
 	private queuedMessage?: IUserMessageObject;
+	public declare logger: IMyLogger;
 
 	protected readonly _onFailure = new Emitter<Error>();
 	public readonly onFailure = this._onFailure.register;
@@ -40,7 +48,6 @@ export abstract class AbstractChannelClient extends AsyncDisposable {
 	}
 
 	private declare _title: string;
-	protected declare logger: IMyLogger;
 	get friendlyTitle() {
 		return this._title;
 	}
@@ -80,11 +87,12 @@ export abstract class AbstractChannelClient extends AsyncDisposable {
 					pid: process.pid,
 				});
 			} else {
+				this.logger.debug`(${ConnectionState[this.cstate]}) will emit: ${message.event}()`;
+				this.queuedMessage = message;
+
 				if (this.cstate === ConnectionState.Disconnected) {
 					await this.connect();
 				}
-				this.logger.debug`will emit: ${message.event}()`;
-				this.queuedMessage = message;
 			}
 		} catch (e: any) {
 			this.logger.warn`send message failed: ${e?.message ?? e}`;
@@ -138,9 +146,14 @@ export abstract class AbstractChannelClient extends AsyncDisposable {
 }
 
 export class VoidClient extends AbstractChannelClient {
+	constructor() {
+		super();
+		this.logger.debug;
+	}
+
 	protected override async _disconnect(): Promise<void> {}
 	protected override async _connect(): Promise<void> {}
 	protected override _send(message: IMessageObject): void {
-		this.logger.warn(`VoidClient: ${message.event} ${message.title} ${message.output}`);
+		this.logger.warn`VoidClient: sending: \x1B[38;5;10m${message.event}\x1B[39m output=${message.output}...`;
 	}
 }
