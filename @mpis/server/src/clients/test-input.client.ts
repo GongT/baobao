@@ -99,7 +99,7 @@ export class InputTestClient extends ProtocolClientObject {
 		this.emitStart();
 	}
 	test_succ() {
-		this.emitSuccess();
+		this.emitSuccess('test build complete');
 	}
 	test_fail() {
 		this.emitFailure(new Error('test fail'));

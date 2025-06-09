@@ -5,7 +5,6 @@ import type { Options, ResultPromise } from 'execa';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { Writable } from 'node:stream';
-import { CompileError } from '../common/error.js';
 import { ProtocolClientObject, State } from '../common/protocol-client-object.js';
 
 interface MyOptions extends Options {
@@ -43,14 +42,16 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	private _started = false;
 	public readonly outputStream = new OutputHandler();
 	private readonly pathvar;
+	public displayTitle: string;
 
 	constructor(
-		title: string,
+		id: string,
 		public readonly commandline: readonly string[] | string,
 		public readonly cwd: string,
 		public readonly env: Record<string, string>,
 	) {
-		super(title);
+		super(id);
+		this.displayTitle = id;
 
 		const pathVar = getEnvironment(isWindows ? 'Path' : 'PATH').value;
 		if (!pathVar) {
@@ -64,6 +65,8 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		} else {
 			this.logger.warn`running command without any package.`;
 		}
+
+		this.onMessage = this.onMessage.bind(this);
 	}
 
 	static is(obj: any): obj is ProcessIPCClient {
@@ -71,19 +74,24 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	}
 
 	private onMessage(message: any) {
-		if (!is_message(message)) return;
+		this.logger.debug`receive event: ${message?.event}`;
+		this.logger.verbose`${message}`;
 
-		this.logger.verbose`receive event: ${message.event}`;
+		if (!is_message(message)) {
+			this.logger.verbose`unknown event.`;
+			return;
+		}
+
 		switch (message.event) {
 			case BuildEvent.Start:
 				this.outputStream.clear();
 				this.emitStart();
 				break;
 			case BuildEvent.Success:
-				this.emitSuccess();
+				this.emitSuccess(message.message, message.output);
 				break;
 			case BuildEvent.Failed:
-				this.emitFailure(new CompileError(this.title, `${message.output}`));
+				this.emitFailure(message.message, message.output);
 				break;
 			default:
 				this.logger.warn`unknown message event: ${message.event}`;
@@ -93,7 +101,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	protected override async _execute() {
 		if (this._started) throw new Error('process already spawned');
 
-		this.logger.info`spawning | commandline<${this.commandline}>`;
+		this.logger.info`spawning ${this.displayTitle} | commandline<${this.commandline}>`;
 		this.logger.debug`working directory: long<${this.cwd}>`;
 		this.logger.debug`path variable: long<${this.pathvar.toString()}>`;
 
@@ -105,7 +113,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				...this.env,
 				PATH: this.pathvar.toString(),
 				BUILD_PROTOCOL_SERVER: 'ipc:nodejs',
-				BUILD_PROTOCOL_TITLE: this.title,
+				BUILD_PROTOCOL_TITLE: this.displayTitle,
 			},
 			reject: false,
 			buffer: false,
@@ -171,7 +179,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 		if (!this.process || !this._started) return;
 
-		this.logger.debug`sending ${this.stopSignal} to ${this.title}`;
+		this.logger.debug`sending ${this.stopSignal} to ${this._id}`;
 
 		// 发送信号然后等待最多5秒
 		const process = this.process;

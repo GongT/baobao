@@ -5,7 +5,7 @@ export enum BuildEvent {
 }
 
 export interface IMessageObject {
-	__brand__: 'IMessageObject';
+	readonly __brand__: unique symbol;
 	event: BuildEvent;
 
 	/**
@@ -20,6 +20,13 @@ export interface IMessageObject {
 
 	/**
 	 * 从start到stop之间的输出内容，包含stop，不包含start
+	 *
+	 * error时一定有，success不一定
 	 */
 	output?: string;
+
+	/**
+	 * 一行成功、失败消息
+	 */
+	message: string;
 }

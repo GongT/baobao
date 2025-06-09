@@ -1,5 +1,7 @@
 import { createArgsReader } from '@idlebox/args';
 import { resolve } from 'node:path';
+import { PassThrough } from 'node:stream';
+import { format } from 'node:util';
 import type { ILogger } from '../common/logger.js';
 
 export function printUsage() {
@@ -14,7 +16,7 @@ Options:
   -a, --absolute <path>  绝对导入路径前缀
   --skip-tag <tag>       忽略被 @tag 注释的符号
   -h, --help             显示帮助信息
-`.trim()
+`.trim(),
 	);
 }
 
@@ -57,15 +59,40 @@ export function parseArgs() {
 
 export type ICliCtx = ReturnType<typeof parseArgs>;
 
-export function createConsoleLogger(context: ICliCtx): ILogger {
+interface WithStream {
+	stream: NodeJS.ReadableStream;
+}
+
+export function createConsoleLogger(context: ICliCtx): ILogger & WithStream {
+	const stream = new PassThrough();
+
+	function pipe(level: string, msg: string, ...args: any[]) {
+		const text = format(msg, ...args);
+		stream.write((level ? `[${level}] ` : '') + text + '\n');
+	}
+
 	function debug(msg: string, ...args: any[]) {
 		console.debug(`\x1B[2m${msg}\x1B[0m`, ...args);
+
+		pipe('debug', msg, ...args);
 	}
+
+	function debug_disabled(msg: string, ...args: any[]) {
+		pipe('debug', msg, ...args);
+	}
+
 	return {
-		log: console.error.bind(console),
+		stream,
+		log: (msg: string, ...args: any[]) => {
+			const text = format(msg, ...args);
+
+			pipe('', text);
+		},
 		error(msg: string, ...args: any[]) {
 			console.error(`\x1B[38;5;9m${msg}\x1B[0m`, ...args);
+
+			pipe('error', msg, ...args);
 		},
-		debug: context.debugMode ? debug : () => {},
+		debug: context.debugMode ? debug : debug_disabled,
 	};
 }

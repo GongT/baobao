@@ -37,10 +37,12 @@ if (argv.unused().length > 0) {
 	throw logger.fatal`Unknown arguments: ${argv.unused().join(' ')}`;
 }
 
+const defaultNoClear = logger.debug.isEnabled;
+
 const watchMode = command.value === 'watch';
 const config = loadConfigFile(watchMode);
 logger.verbose`loaded config file: ${config}`;
-const errors = new Map<ProcessIPCClient, Error>();
+const errors = new Map<ProcessIPCClient, Error | null>();
 switch (command.value) {
 	case 'clean':
 		for (const folder of config.clean) {
@@ -49,46 +51,69 @@ switch (command.value) {
 		}
 		break;
 	case 'build':
-	case 'watch': {
-		let last: ProcessIPCClient[] = [];
-		for (const title of config.buildTitles) {
-			const cmds = config.build.get(title);
-			if (!cmds) throw logger.fatal`program state error, no build command "${title}"`;
+	case 'watch':
+		// for (const worker of workersManager.allWorkers) {
+		// 	worker.onFailure(() => {
+		// 		reprintWatchModeError();
+		// 	});
+		// 	worker.onSuccess(() => {
+		// 		reprintWatchModeError();
+		// 	});
+		// }
 
-			const worker = new ProcessIPCClient(title.replace(/\s+/g, ''), cmds.command, cmds.cwd, cmds.env);
-
-			workersManager.addWorker(worker, last);
-
-			worker.onFailure((e) => {
-				errors.set(worker, e);
-				reprintWatchModeError();
-			});
-			worker.onSuccess(() => {
-				errors.delete(worker);
-				reprintWatchModeError();
-			});
-			last = [worker];
-		}
+		initializeWorkers();
 
 		workersManager.onTerminate((w) => {
 			if (!ProcessIPCClient.is(w)) {
-				logger.fatal`worker "${w.title}" is not a ProcessIPCClient, this is a bug.`;
+				logger.fatal`worker "${w._id}" is not a ProcessIPCClient, this is a bug.`;
 				return;
 			}
 
+			const times = `(+${humanDate.delta(w.time.executeEnd! - w.time.executeStart!)})`;
+
 			if (watchMode) {
-				printFailedRunError(w, 'unexpected exit in watch mode');
+				printFailedRunError(w, `unexpected exit in watch mode ${times}`);
 			} else if (!w.isSuccess) {
-				printFailedRunError(w, 'failed to execute');
+				printFailedRunError(w, `failed to execute ${times}`);
 			} else {
-				logger.success`"${w.title}" successfully finished.`;
+				logger.success`"${w._id}" successfully finished ${times}.`;
 			}
 		});
 
 		await workersManager.finalize();
 
-		printAllErrors();
+		reprintWatchModeError();
+
 		break;
+}
+
+function initializeWorkers() {
+	let last: ProcessIPCClient[] = [];
+	for (const title of config.buildTitles) {
+		const cmds = config.build.get(title);
+		if (!cmds) throw logger.fatal`program state error, no build command "${title}"`;
+
+		const worker = new ProcessIPCClient(title.replace(/\s+/g, ''), cmds.command, cmds.cwd, cmds.env);
+		worker.displayTitle = 'client';
+
+		workersManager.addWorker(worker, last);
+
+		let nodeFirstTime = true;
+		worker.onFailure((e) => {
+			errors.set(worker, e);
+			reprintWatchModeError(nodeFirstTime);
+			nodeFirstTime = false;
+		});
+		worker.onSuccess(() => {
+			errors.set(worker, null);
+			if (nodeFirstTime) {
+				nodeFirstTime = false;
+			} else {
+				reprintWatchModeError();
+			}
+		});
+
+		last = [worker];
 	}
 }
 
@@ -101,32 +126,33 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 		console.error(
 			'\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m',
 			' '.repeat(process.stderr.columns || 80),
-			`below is output of ${worker.title}`,
+			`below is output of ${worker._id}`,
 		);
 		console.error(text);
 
 		console.error(
 			'\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n',
 			' '.repeat(process.stderr.columns || 80),
-			`ending output of ${worker.title}`,
+			`ending output of ${worker._id}`,
 		);
 	} else {
 		console.error(
 			'\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m',
 			' '.repeat(process.stderr.columns || 80),
-			`no output from ${worker.title}`,
+			`no output from ${worker._id}`,
 		);
 	}
 
 	console.error(workersManager.formatDebugGraph());
-	logger.fatal`"${worker.title}" ${message}`;
+	logger.fatal`"${worker._id}" ${message}`;
 }
 
-function reprintWatchModeError() {
+function reprintWatchModeError(noClear?: boolean) {
 	if (watchMode) {
-		process.stderr.write('\x1Bc');
-		if (errors.size === 0) {
-			logger.info`All workers completed successfully.`;
+		if (!noClear && !defaultNoClear) process.stderr.write('\x1Bc');
+		console.error(workersManager.formatDebugGraph());
+		if (errors.values().every((e) => !e)) {
+			logger.info`All workers completed successfully.${watchMode ? ' Watching for changes...' : ''}`;
 			return;
 		}
 	}
@@ -135,18 +161,22 @@ function reprintWatchModeError() {
 
 function printAllErrors() {
 	for (const [worker, error] of errors) {
+		if (error === null) {
+			continue;
+		}
+
 		const band = ' '.repeat(process.stderr.columns || 80);
-		const banner = `\x1B[38;5;9m${band}\r  ---- ${worker.title}  \x1B[0m`;
+		const banner = `\x1B[38;5;9m${band}\r  ---- ${worker._id}  \x1B[0m`;
 		console.error(banner);
 		if (error instanceof CompileError) {
 			console.error(error.toString());
-		} else {
+		} else if (error instanceof Error) {
 			console.error(prettyFormatError(error));
+		} else {
+			console.error(`can not handle error: ${error}`);
 		}
 		console.error(banner);
 	}
 
-	if (errors.size > 0) {
-		console.error(`%s of %s worker failed.`, errors.size, workersManager.size);
-	}
+	console.error(`%s of %s worker failed.`, [...errors.values().filter((e) => !!e)].length, workersManager.size);
 }

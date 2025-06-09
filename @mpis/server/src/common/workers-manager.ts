@@ -52,27 +52,27 @@ class WorkersManager extends Disposable {
 		this.workerList.push(worker);
 
 		worker.onSuccess.once(() => {
-			this.logger.debug`worker ${worker.title} success, continue start`;
+			this.logger.debug`worker ${worker._id} success, continue start`;
 			this.start_anything_else();
 		});
 		worker.onTerminate.once(() => {
-			this.logger.debug`worker ${worker.title} terminated, continue start`;
+			this.logger.debug`worker ${worker._id} terminated, continue start`;
 			this.start_anything_else();
 		});
 
 		worker.onSuccess(() => {
-			this.dependencyGraph.setStatus(worker.title, true);
+			this.dependencyGraph.setStatus(worker._id, true);
 		});
 		worker.onFailure(() => {
-			this.dependencyGraph.setStatus(worker.title, false);
+			this.dependencyGraph.setStatus(worker._id, false);
 		});
 		worker.onTerminate(() => {
 			this._onTerminate.fireNoError(worker);
 		});
 
 		this.dependencyGraph.addNode(
-			worker.title,
-			dependencies.map((e) => e.title),
+			worker._id,
+			dependencies.map((e) => e._id),
 			worker,
 		);
 	}
@@ -132,8 +132,8 @@ class WorkersManager extends Disposable {
 		}
 
 		for (const worker of leafs) {
-			this.logger.verbose`  ++ ${worker.title}`;
-			this.dependencyGraph.setInitialized(worker.title);
+			this.logger.verbose`  ++ ${worker._id}`;
+			this.dependencyGraph.setInitialized(worker._id);
 			worker.execute();
 		}
 	}
@@ -194,6 +194,10 @@ class WorkersManager extends Disposable {
 	 */
 	public get unrecoverableWorkers() {
 		return this.workerList.filter((worker) => worker.state === State.COMPILE_FAILED && !worker.running);
+	}
+
+	public get allWorkers() {
+		return this.workerList;
 	}
 
 	public formatDebugGraph() {

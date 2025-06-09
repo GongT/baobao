@@ -114,14 +114,15 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
  */
 function write_line_colored_tag({ tag, stream, color }: IWriteLineOptions) {
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
-		const head = `\x1b[${color}m${tag}\x1b[0m]`;
+		const head = `[\x1b[${color}m${tag}\x1b[0m]`;
 		let body: string;
 		if (typeof messages === 'string') {
 			body = nodeFormat(messages, args, true);
 		} else {
 			body = format_template(messages, args, true);
 		}
-		stream.write(`${head} ${body}\n`);
+
+		write(stream, head, body);
 	};
 }
 
@@ -137,7 +138,9 @@ function write_line_colored_line({ tag, stream, color }: IWriteLineOptions) {
 		} else {
 			body = format_template(messages, args, false);
 		}
-		stream.write(`\x1B[${color}m${head} ${body}\x1B[0m\n`);
+		body += '\x1B[0m';
+
+		write(stream, head, body);
 	};
 }
 
@@ -148,7 +151,7 @@ function write_line_monolithic({ tag, level, stream }: IWriteLineOptions) {
 	const lvlStr = logLevelPaddingStr[level];
 
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
-		const head = `[${tag}:${lvlStr}] `;
+		const head = `[${tag}:${lvlStr}]`;
 		let body: string;
 
 		if (typeof messages === 'string') {
@@ -157,6 +160,14 @@ function write_line_monolithic({ tag, level, stream }: IWriteLineOptions) {
 			body = format_template(messages, args, false);
 		}
 
-		stream.write(`${head} ${body}\n`);
+		write(stream, head, body);
 	};
+}
+
+function write(stream: NodeJS.WritableStream, head: string, body: string) {
+	if (body[0] === '[') {
+		stream.write(`${head}${body}\n`);
+	} else {
+		stream.write(`${head} ${body}\n`);
+	}
 }

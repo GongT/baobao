@@ -35,30 +35,28 @@ export function createCollectLogger(outputs: ILogMessage[], pipe: ILogger): ILog
 	return child;
 }
 
-export async function printResult(result: IResult, logger: ILogger) {
-	if (result.errors.length > 0) {
-		logger.boom(`generate fail: ${result.errors.length} errors`);
-		const categories = new Map<string, Error[]>();
-		for (const { error, source } of result.errors) {
-			if (!categories.has(source)) {
-				categories.set(source, []);
-			}
-			categories.get(source)?.push(error);
-		}
+export function formatResult(result: IResult) {
+	if (result.errors.length === 0) return '';
 
-		const line = '-'.repeat(process.stderr.columns || 80);
-		for (const [source, errors] of categories) {
-			const rel = relativePath(process.cwd(), source);
-			console.error('\x1B[2m%s\r-- %s \x1B[0m', line, rel.startsWith('..') ? source : rel);
-			for (const error of errors) {
-				console.error(error.stack);
-				console.error('');
-			}
-		}
+	const msgs: string[] = [];
 
-		return false;
+	const categories = new Map<string, Error[]>();
+	for (const { error, source } of result.errors) {
+		if (!categories.has(source)) {
+			categories.set(source, []);
+		}
+		categories.get(source)?.push(error);
 	}
 
-	logger.checked(`generate complete`);
-	return true;
+	const line = '-'.repeat(process.stderr.columns || 80);
+	for (const [source, errors] of categories) {
+		const rel = relativePath(process.cwd(), source);
+		msgs.push('\x1B[2m%s\r-- %s \x1B[0m', line, rel.startsWith('..') ? source : rel);
+		for (const error of errors) {
+			msgs.push(error.stack ?? error.message);
+			msgs.push('');
+		}
+	}
+
+	return msgs.join('\n');
 }

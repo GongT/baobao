@@ -13,11 +13,11 @@ export function listenOutputStream(stream: NodeJS.ReadableStream, options: IOpti
 	if (options.title) channelClient.friendlyTitle = options.title;
 
 	function emit_failed() {
-		channelClient.failed(memory);
+		channelClient.failed('matching failed output', memory);
 		memory = '';
 	}
 	function emit_success() {
-		channelClient.success('build complete', memory);
+		channelClient.success('matching success output', memory);
 		memory = '';
 	}
 
@@ -30,10 +30,10 @@ export function listenOutputStream(stream: NodeJS.ReadableStream, options: IOpti
 
 	let memory = '';
 	let started = false;
-	let lastSuccess = false;
+	let lastFailed = false;
 
 	reading_stream.on('end', () => {
-		if (started || !lastSuccess) {
+		if (started || lastFailed) {
 			emit_failed();
 			process.exitCode = 1;
 		}
@@ -45,11 +45,11 @@ export function listenOutputStream(stream: NodeJS.ReadableStream, options: IOpti
 			memory += '\n';
 			if (!options.stop.test(line)) return;
 
-			lastSuccess = options.isFailed(line, memory);
-			if (lastSuccess) {
-				emit_success();
-			} else {
+			lastFailed = options.isFailed(line, memory);
+			if (lastFailed) {
 				emit_failed();
+			} else {
+				emit_success();
 			}
 			return;
 		} else if (options.start) {

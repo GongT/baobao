@@ -161,7 +161,11 @@ export class DependencyGraph<T> {
 				fail++;
 			}
 		}
-		return `\x1B[1;7m 总数: ${this.deps.size()} \x1B[0m 未初始化: ${uninit} | 成功: ${succ} | 失败: ${fail}`;
+
+		const u = uninit ? `未初始化: ${uninit} | ` : '';
+		const c = fail + uninit ? '48;5;1' : '48;5;238';
+
+		return `\x1B[${c}m 总数: ${this.deps.size()} \x1B[0m ${u}成功: ${succ} | 失败: ${fail}`;
 	}
 
 	[inspect.custom]() {

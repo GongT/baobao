@@ -1,14 +1,20 @@
 export class CompileError extends Error {
 	constructor(
 		title: string,
-		public readonly output: string,
+		message: string,
+		public readonly output?: string,
 	) {
-		super(`${title} compile failed`);
+		const m = `${title} compile failed`;
+		super(message ? `${m}: ${message}` : m);
 		this.name = 'CompileError';
 		this.stack = this.message;
 	}
 
 	public override toString() {
-		return `${this.output}\n\n${this.message}`;
+		if (this.output) {
+			return `${this.output}\n\n${this.message}`;
+		} else {
+			return `${this.message} / ** no output **`;
+		}
 	}
 }

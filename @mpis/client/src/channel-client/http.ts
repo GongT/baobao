@@ -1,4 +1,4 @@
-import type { IMessageObject } from '../types.js';
+import type { IMessageObject } from '@mpis/shared';
 import { AbstractChannelClient } from './abs.js';
 
 /**

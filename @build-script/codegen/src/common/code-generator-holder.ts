@@ -1,11 +1,12 @@
 import { Emitter } from '@idlebox/common';
 import { findUpUntilSync } from '@idlebox/node';
+import { channelClient } from '@mpis/client';
 import { PromisePool } from '@supercharge/promise-pool';
 import { readFileSync } from 'node:fs';
 import { basename, dirname, relative } from 'node:path';
 import { CodeGenerator } from './code-generator.js';
 import { Logger, type ILogger } from './output.js';
-import { ExecuteReason, printResult } from './shared.js';
+import { ExecuteReason, formatResult } from './shared.js';
 
 export interface IResult {
 	/**
@@ -170,6 +171,7 @@ class GeneratorHolder {
 		this.logger.info(' Start Generate');
 
 		// TODO: send start event
+		channelClient.start();
 
 		await new PromisePool()
 			.withConcurrency(4)
@@ -194,19 +196,26 @@ class GeneratorHolder {
 				}
 			});
 
-		if (result.errors.length) {
-			this.logger.error('code generate complete');
-		} else {
-			this.logger.success('code generate complete');
-		}
 		this.logger.log(
-			`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`
+			`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`,
 		);
 
-		// TODO: send stop event
+		if (result.errors.length) {
+			this.logger.boom(`generate fail: ${result.errors.length} errors`);
+		} else {
+			this.logger.checked(`generate success.`);
+		}
 
-		printResult(result, this.logger);
+		const msg = formatResult(result);
+		console.error(msg);
+
 		this._onComplete.fire();
+
+		if (result.errors.length) {
+			channelClient.failed(`${result.errors.length} error occurred in ${toBeExec.length} generators`, msg);
+		} else {
+			channelClient.success(`no error in ${toBeExec.length} generators`);
+		}
 
 		return result;
 	}

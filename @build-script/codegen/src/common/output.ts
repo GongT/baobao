@@ -1,5 +1,7 @@
 import { colorMode, verboseMode } from './shared.js';
 
+// TODO: replace logger with @idlebox/logger
+
 export interface ILogger {
 	get title(): string;
 	error(msg: string): void;

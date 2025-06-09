@@ -20,11 +20,13 @@ export interface IMessageObject {
 
 	/**
 	 * 从start到stop之间的输出内容，包含stop，不包含start
+	 * 
+	 * error时一定有，success不一定
 	 */
 	output?: string;
 
 	/**
-	 * 一行成功消息（替代默认的“build success”）
+	 * 一行成功、失败消息
 	 */
-	message?: string;
+	message: string;
 }

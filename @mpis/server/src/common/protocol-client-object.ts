@@ -1,6 +1,7 @@
 import { AsyncDisposable, Emitter } from '@idlebox/common';
 import { createLogger, type IMyLogger } from '@idlebox/logger';
 import { inspect } from 'node:util';
+import { CompileError } from './error.js';
 
 export enum State {
 	// 没有启动
@@ -15,63 +16,96 @@ export enum State {
 	COMPILE_SUCCEED,
 }
 
+type Timings = {
+	executeStart?: number;
+	executeEnd?: number;
+	firstStart?: number;
+	lastCompile?: number;
+};
+
+interface SuccessEvent {
+	message: string;
+	output?: string;
+}
+
 export abstract class ProtocolClientObject extends AsyncDisposable {
 	protected readonly logger: IMyLogger;
 	private _state = State.NOT_EXECUTE;
 	private _running = false;
+	private readonly timings: Timings = {};
 
-	private readonly _onStart = this._register(new Emitter<void>());
 	/**
 	 * 编译开始时反复触发
 	 */
+	private readonly _onStart = this._register(new Emitter<void>());
 	public readonly onStart = this._onStart.event;
 
-	private readonly _onSuccess = this._register(new Emitter<void>());
 	/**
 	 * 编译成功时反复触发
 	 */
+	private readonly _onSuccess = this._register(new Emitter<SuccessEvent>());
 	public readonly onSuccess = this._onSuccess.event;
 
-	private readonly _onFailure = this._register(new Emitter<Error>());
 	/**
 	 * 编译出错时反复触发
 	 */
+	private readonly _onFailure = this._register(new Emitter<Error>());
 	public readonly onFailure = this._onFailure.event;
 
-	private readonly _onTerminate = this._register(new Emitter<void>());
+	/**
+	 * 编译结束时反复触发
+	 */
+	// private readonly _onFinally = this._register(new Emitter<void>());
+	// public readonly onFinally = this._onFinally.event;
+
 	/**
 	 * 子线程退出后触发一次
 	 */
+	private readonly _onTerminate = this._register(new Emitter<void>());
 	public readonly onTerminate = this._onTerminate.event;
 
-	constructor(public readonly title: string) {
-		super(title);
+	constructor(public readonly _id: string) {
+		super(_id);
 
-		this.logger = createLogger(`protocol:${title}`);
+		this.logger = createLogger(`protocol:${_id}`);
 
-		if (title.includes(' ')) {
+		if (_id.includes(' ')) {
 			this.logger.warn(`title contains space`);
 		}
 	}
 
-	protected emitSuccess() {
+	protected emitSuccess(message: string, output?: string) {
+		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_SUCCEED;
-		this._onSuccess.fireNoError();
+		this._onSuccess.fireNoError({ message, output });
+		// this._onFinally.fireNoError();
 	}
 
-	protected emitFailure(e: Error) {
+	protected emitFailure(message: Error): void;
+	protected emitFailure(message: string, output?: string): void;
+	protected emitFailure(e: string | Error, output?: string) {
+		if (e instanceof Error) {
+			//
+		} else {
+			e = new CompileError(this._id, e, output);
+		}
+		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_FAILED;
 		this._onFailure.fireNoError(e);
+		// this._onFinally.fireNoError();
 	}
 
 	protected emitStart() {
+		if (this._state === State.EXECUTING) {
+			this.timings.firstStart = Date.now();
+		}
 		this._state = State.COMPILE_STARTED;
 		this._onStart.fireNoError();
 	}
 
-	// private _throw_not_init() {
-	// 	this.logger.error`want to fire event, but worker not executed.`;
-	// }
+	public get time(): Readonly<Timings> {
+		return this.timings;
+	}
 
 	get state() {
 		return this._state;
@@ -87,6 +121,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 			return;
 		}
 
+		this.timings.executeStart = Date.now();
 		this.logger.debug` ~ worker _execute()`;
 		this._running = true;
 		this._state = State.EXECUTING;
@@ -98,19 +133,20 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 			this.logger.debug` ~ worker _execute() error: ${e.message}`;
 			this.emitFailure(e);
 		} finally {
+			this.timings.executeEnd = Date.now();
 			this._running = false;
 
 			if (this.state !== State.COMPILE_FAILED && this.state !== State.COMPILE_SUCCEED) {
 				this.logger.verbose` ~ unknown state, emitting success`;
-				this.emitSuccess();
+				this.emitSuccess('build completed without error');
 			}
 
 			if (this.hasDisposed) {
 				this.logger.verbose` ~ disposed, not firing events other than terminate`;
 			} else {
 				this._onTerminate.fireNoError();
-				this.logger.debug` ~ worker _execute() ending`;
 			}
+			this.logger.debug` ~ worker _execute() ending`;
 		}
 	}
 
@@ -123,7 +159,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	}
 
 	protected _inspect() {
-		return `[Worker ${State[this.state]} (${this._running ? 'running' : 'stopped'}) ${this.title}]`;
+		return `[Worker ${State[this.state]} (${this._running ? 'running' : 'stopped'}) ${this._id}]`;
 	}
 
 	/**

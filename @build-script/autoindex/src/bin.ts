@@ -1,5 +1,6 @@
 import { startChokidar } from '@idlebox/chokidar';
 import type { IgnoreFiles } from '@idlebox/typescript-surface-analyzer';
+import { channelClient } from '@mpis/client';
 import { glob } from 'glob';
 import { existsSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -38,45 +39,60 @@ if (context.absoluteImport && context.absoluteImport[0] !== '#') {
 const ts: typeof TypeScriptApi = await getTypescript(tsconfigFile, logger);
 logger.log('typescript version: %s', ts.version);
 
+let outputs = '';
+logger.stream.on('data', (data) => {
+	outputs += data.toString();
+});
+
 async function main() {
-	const { command, configFiles } = loadTsConfigJson(ts, tsconfigFile, {
-		exclude: context.excludePatterns,
-		include: context.includePatterns,
-	});
+	channelClient.start();
+	outputs = '';
 
-	if (context.verboseMode) {
-		logger.debug('options:', command.options);
-		logger.debug('command:');
-		for (const file of command.fileNames) {
-			logger.debug('  - %s', file);
+	try {
+		const { command, configFiles } = loadTsConfigJson(ts, tsconfigFile, {
+			exclude: context.excludePatterns,
+			include: context.includePatterns,
+		});
+
+		if (context.verboseMode) {
+			logger.debug('options:', command.options);
+			logger.debug('command:');
+			for (const file of command.fileNames) {
+				logger.debug('  - %s', file);
+			}
 		}
+
+		const rootDir = command.options.rootDir;
+		if (!rootDir) {
+			die('无法确定rootDir，请添加tsconfig.json中的compilerOptions.rootDir设置。');
+		}
+
+		logger.debug('rootDir=%s', rootDir);
+
+		const outputFile = resolve(rootDir, context.outputFile);
+
+		if (!outputFile.startsWith(rootDir)) {
+			die(`输出文件 ${outputFile} 路径异常，离开rootDir`);
+		}
+
+		const r = await createIndex({
+			ts,
+			project: command,
+			outputFileAbs: outputFile,
+			logger,
+			absoluteImport: context.absoluteImport,
+			stripTags: context.stripTags,
+			extraExcludes: context.excludePatterns,
+		});
+
+		r.watchFiles.push(...configFiles);
+
+		channelClient.success('autoindex success', outputs);
+		return r;
+	} catch (e) {
+		channelClient.failed('autoindex failed', outputs);
+		throw e;
 	}
-
-	const rootDir = command.options.rootDir;
-	if (!rootDir) {
-		die('无法确定rootDir，请添加tsconfig.json中的compilerOptions.rootDir设置。');
-	}
-
-	logger.debug('rootDir=%s', rootDir);
-
-	const outputFile = resolve(rootDir, context.outputFile);
-
-	if (!outputFile.startsWith(rootDir)) {
-		die(`输出文件 ${outputFile} 路径异常，离开rootDir`);
-	}
-
-	const r = await createIndex({
-		ts,
-		project: command,
-		outputFileAbs: outputFile,
-		logger,
-		absoluteImport: context.absoluteImport,
-		stripTags: context.stripTags,
-		extraExcludes: context.excludePatterns,
-	});
-
-	r.watchFiles.push(...configFiles);
-	return r;
 }
 
 if (context.watchMode) {

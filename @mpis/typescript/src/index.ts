@@ -14,10 +14,10 @@ if (!binPath) {
 }
 
 // [9:51:48 AM] Found 123 errors. Watching for file changes.
-const matchEndingLine = /^\[.+\] Found (\d+) errors?/m;
+const matchEndingLine = /Found (\d+) errors?/m;
 // [9:51:48 AM] Starting compilation in watch mode
 // [9:51:48 AM] File change detected. Starting incremental compilation...
-const matchStartLine = /^\[.+\] (File change detected|Starting compilation in watch mode)/m;
+const matchStartLine = /(File change detected|Starting compilation in watch mode)/m;
 
 const tscPath = resolve(tsPkgJsonPath, '..', binPath);
 const args = process.argv.splice(1, Infinity, tscPath).slice(1);
@@ -52,14 +52,15 @@ hookCurrentProcessOutput({
 });
 
 // console.log('output hooked');
+argv.flag(['--preserveWatchOutput']);
 
 const rebuild = argv.unused();
 if (buildArg) rebuild.push('--build', buildArg);
 if (projectArg) rebuild.push('--project', projectArg);
+
 process.argv.push(...rebuild);
+process.argv.push('--preserveWatchOutput');
 
 // console.log(`+ ${process.argv.join(' ')}`);
 
 await import(tscPath);
-
-throw new Error('TypeScript compiler should not return.');

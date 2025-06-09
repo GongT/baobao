@@ -9,6 +9,7 @@
 	"exports": {
 		".": {
 			"source": "./src/plugin.ts",
+			"types": "./src/plugin.ts",
 			"default": "./lib/plugin.js"
 		},
 		"./package.json": "./package.json"
@@ -37,6 +38,7 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@idlebox/node": "workspace:^",
+		"@mpis/client": "workspace:^",
 		"@supercharge/promise-pool": "^3.2.0",
 		"esbuild": "^0.25.5",
 		"glob": "^11.0.2",

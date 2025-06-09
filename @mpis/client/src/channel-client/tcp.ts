@@ -1,6 +1,7 @@
 import { createConnection, type Socket } from 'node:net';
-import type { IMessageObject } from '../types.js';
 import { AbstractChannelClient } from './abs.js';
+import type { IMessageObject } from '@mpis/shared';
+export { make_message, type IMessageObject } from '@mpis/shared';
 
 /**
  * TCP连接的客户端实现

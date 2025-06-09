@@ -10,6 +10,7 @@
 	"exports": {
 		".": {
 			"source": "./src/plugin.ts",
+			"types": "./src/plugin.ts",
 			"default": "./lib/plugin.js"
 		},
 		"./package.json": "./package.json"
@@ -31,6 +32,7 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
+		"@mpis/client": "workspace:^",
 		"comment-json": "^4.2.5",
 		"glob": "^11.0.2",
 		"minimatch": "^10.0.1",

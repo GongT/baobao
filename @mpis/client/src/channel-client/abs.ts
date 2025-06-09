@@ -1,8 +1,8 @@
 import { AsyncDisposable, Emitter } from '@idlebox/common';
 import { createLogger, type IMyLogger } from '@idlebox/logger';
+import { BuildEvent, type IMessageObject } from '@mpis/shared';
 import { readFileSync } from 'node:fs';
 import { findPackageJSON } from 'node:module';
-import { BuildEvent, type IMessageObject } from '../types.js';
 
 export type IUserMessageObject = Omit<IMessageObject, '__brand__' | 'title' | 'pid'>;
 
@@ -57,22 +57,24 @@ export abstract class AbstractChannelClient extends AsyncDisposable {
 		this.logger = createLogger(`mpis:${title}`);
 	}
 
-	success(message?: string, output?: string) {
+	success(message: string, output?: string) {
 		return this.send({
 			event: BuildEvent.Success,
 			output,
 			message,
 		});
 	}
-	failed(output: string) {
+	failed(message: string, output: string) {
 		return this.send({
 			event: BuildEvent.Failed,
 			output,
+			message,
 		});
 	}
 	start() {
 		return this.send({
 			event: BuildEvent.Start,
+			message: '',
 		});
 	}
 
@@ -102,7 +104,7 @@ export abstract class AbstractChannelClient extends AsyncDisposable {
 
 	/** @internal */
 	public async connect(): Promise<void> {
-		this.logger.verbose`connect() current state=${ConnectionState[this.cstate]}`;
+		this.logger.verbose`connect(${process.env.BUILD_PROTOCOL_SERVER}) [current state=${ConnectionState[this.cstate]}]`;
 		if (this.cstate === ConnectionState.Connecting) {
 			await this.connecting;
 			return;

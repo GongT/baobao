@@ -14,7 +14,7 @@
 
 ```json
 {
-	"__brand__": "IMessageObject",
+	"__brand__": "BPCM",
 	"event": "start", // success failed
 	"title": "some-build-command",
 	"pid": process.pid,

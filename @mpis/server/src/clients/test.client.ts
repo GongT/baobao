@@ -30,7 +30,7 @@ export class TestClient extends ProtocolClientObject {
 	protected override async _execute() {
 		if (this.intervalId) throw new Error('process already spawned');
 
-		this.logger.info('spawning %s', this.title);
+		this.logger.info('spawning %s', this._id);
 		this.testMain();
 
 		await this.testQuit();
@@ -75,7 +75,7 @@ export class TestClient extends ProtocolClientObject {
 		// 模拟结束
 		this.logger.info(`finish: ${state ? 'success' : 'fail'}`);
 		if (state) {
-			this.emitSuccess();
+			this.emitSuccess('test success');
 		} else {
 			this.emitFailure(new Error(`test fail`));
 		}
