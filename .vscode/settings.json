@@ -14,7 +14,7 @@
 		"**/*.api.md": true,
 		"**/package-public.d.ts": true,
 		"project-impact-graph.yaml": true,
-		".node-package-tools/**": true,
+		".package-tools/**": true,
 		"**/._*": true,
 		"**/.debug/**": true,
 	},

@@ -67,7 +67,7 @@ export class NpmCacheHandler {
 
 	private getTarballFile(name: string, tag: string) {
 		const es = escapePackageNameToFilename(name);
-		return resolve(this.path, `../node-package-tools/${es}-${tag}.tgz`);
+		return resolve(this.path, `../package-tools/${es}-${tag}.tgz`);
 	}
 
 	public async downloadTarball(name: string, distTag: string) {

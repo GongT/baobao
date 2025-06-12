@@ -1,5 +1,5 @@
 import { findUpUntil } from '@idlebox/node';
-import { loadJsonFile } from '@idlebox/node-json-edit';
+import { loadJsonFile } from '@idlebox/json-edit';
 import { readFile as readFileAsync } from 'node:fs';
 import json5 from 'json5';
 import { dirname, relative, resolve } from 'node:path';

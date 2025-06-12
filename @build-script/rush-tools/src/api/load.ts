@@ -1,6 +1,6 @@
 import { basename, dirname } from 'node:path';
 import { findUpUntil, findUpUntilSync } from '@idlebox/node';
-import { loadJsonFile } from '@idlebox/node-json-edit';
+import { loadJsonFile } from '@idlebox/json-edit';
 import type { IRushConfig } from './limitedJson.js';
 
 export function findRushJson(fromPath = process.cwd()): Promise<string | null> {

@@ -1,5 +1,5 @@
 {
-	"name": "@idlebox/node-json-edit",
+	"name": "@idlebox/json-edit",
 	"type": "module",
 	"version": "2.0.37",
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",

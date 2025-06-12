@@ -1,5 +1,5 @@
 import { exists } from '@idlebox/node';
-import { loadJsonFile } from '@idlebox/node-json-edit';
+import { loadJsonFile } from '@idlebox/json-edit';
 import { mkdir, readdir } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
 import { RushProject } from '../../api/rushProject.js';

@@ -1,17 +1,17 @@
 {
-	"name": "@mpis/publish",
+	"name": "@mpis/publisher",
 	"private": true,
 	"type": "module",
 	"version": "0.1.0",
 	"keywords": [],
 	"license": "MIT",
 	"bin": {
-		"publish-package": "./loader/bin.devel.js"
+		"publisher": "./loader/bin.devel.js"
 	},
 	"publishConfig": {
 		"directory": "lib1",
 		"bin": {
-			"publish-package": "./loader/bin.js"
+			"publisher": "./loader/bin.js"
 		}
 	},
 	"scripts": {

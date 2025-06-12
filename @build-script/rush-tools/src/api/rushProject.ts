@@ -5,7 +5,7 @@ import { dirname, resolve } from 'node:path';
 import { type DeepReadonly, type IPackageJson, isWindows } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { exists, relativePath, writeFileIfChange } from '@idlebox/node';
-import { loadJsonFile, readCommentJsonFileSync, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { loadJsonFile, readCommentJsonFileSync, writeJsonFileBack } from '@idlebox/json-edit';
 import { requireRushPathSync } from '../common/loadRushJson.js';
 import type { ICProjectConfig, ICRushConfig, IProjectConfig, IRushConfig } from './limitedJson.js';
 

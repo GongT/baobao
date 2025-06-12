@@ -1,5 +1,5 @@
 import { arrayDiff, sortByString } from '@idlebox/common';
-import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 
 const dependenciesFields: readonly string[] = [
 	'dependencies',

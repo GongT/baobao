@@ -1,7 +1,7 @@
 import type { IInternalFile } from './filesystem.js';
 import { PrettyFormat } from './prettyFormat.js';
 
-const configSymbol = Symbol('@gongt/node-json-edit');
+const configSymbol = Symbol('@gongt/json-edit');
 
 declare interface IAttachedData {
 	formatInfo: PrettyFormat;

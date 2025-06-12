@@ -1,6 +1,6 @@
 import type { IPackageJson } from '@idlebox/common';
 import { execLazyError, exists, findUpUntil, relativePath } from '@idlebox/node';
-import { readCommentJsonFile } from '@idlebox/node-json-edit';
+import { readCommentJsonFile } from '@idlebox/json-edit';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { logger } from '../functions/log.js';
@@ -85,7 +85,7 @@ export async function createWorkspace(cwd = process.cwd()): Promise<IWorkspace> 
 	const tool = tools.find((def) => found.endsWith(def.find));
 	const projectManagerKind = tool?.name ?? ProjectManagerKind.None;
 
-	const temp = resolve(projectRoot, tool?.temp ?? '.node-package-tools');
+	const temp = resolve(projectRoot, tool?.temp ?? '.package-tools');
 	const packageManagerKind = await detectPackageManager(projectManagerKind, projectRoot);
 
 	const workspaceKind = await detectRepoType(projectManagerKind, projectRoot);

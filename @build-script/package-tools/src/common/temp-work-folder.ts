@@ -1,6 +1,6 @@
 import { registerGlobalLifecycle } from '@idlebox/common';
 import { emptyDir } from '@idlebox/node';
-import { writeJsonFile } from '@idlebox/node-json-edit';
+import { writeJsonFile } from '@idlebox/json-edit';
 import { randomBytes } from 'node:crypto';
 import { rmSync } from 'node:fs';
 import { mkdir } from 'node:fs/promises';

@@ -29,7 +29,7 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/node-json-edit": "workspace:^",
+		"@idlebox/json-edit": "workspace:^",
 		"execa": "^9.6.0",
 		"json5": "^2.2.3",
 		"pacote": "^21.0.0",

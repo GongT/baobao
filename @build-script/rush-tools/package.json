@@ -31,7 +31,7 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/node-json-edit": "workspace:^",
+		"@idlebox/json-edit": "workspace:^",
 		"@microsoft/rush-lib": "^5.153.2",
 		"cli-spinners": "^3.2.0",
 		"comment-json": "^4.2.5",

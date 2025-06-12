@@ -5,6 +5,6 @@
 	"dependencies": {
 		"@build-script/rush-tools": "latest",
 		"@build-script/single-dog-asset": "latest",
-		"@build-script/node-package-tools": "latest"
+		"@build-script/package-tools": "latest"
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"name": "@idlebox/node-ignore-edit",
+	"name": "@idlebox/ignore-edit",
 	"type": "module",
 	"version": "0.0.18",
 	"description": "api for modify .*ignore files",

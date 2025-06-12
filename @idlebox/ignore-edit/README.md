@@ -19,7 +19,7 @@ temp/
 ```
 
 ```ts
-import { loadFile, saveFile } from '@idlebox/node-ignore-edit';
+import { loadFile, saveFile } from '@idlebox/ignore-edit';
 const content = loadFile('.gitignore');
 
 content.packages.push('jspm_packages');

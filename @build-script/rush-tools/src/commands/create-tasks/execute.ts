@@ -1,5 +1,5 @@
 import { sortByString } from '@idlebox/common';
-import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/json-edit';
 import { parse } from 'comment-json';
 import { resolve } from 'node:path';
 import { findRushRootPath } from '../../api/load.js';

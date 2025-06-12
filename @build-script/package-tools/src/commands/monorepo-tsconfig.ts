@@ -1,6 +1,6 @@
 import { resolveExportPath } from '@idlebox/common';
 import { relativePath } from '@idlebox/node';
-import { loadJsonFile, writeJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { loadJsonFile, writeJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { argv, CommandDefine, pArgS } from '../common/functions/cli.js';
@@ -17,7 +17,7 @@ export class Command extends CommandDefine {
 	};
 }
 
-const path_element_id = 'node-package-tools/monorepo-tsconfig';
+const path_element_id = 'package-tools/monorepo-tsconfig';
 interface IReference {
 	$id?: string;
 	path: string;

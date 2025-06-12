@@ -1,4 +1,4 @@
-import { loadJsonFile, loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { loadJsonFile, loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/json-edit';
 import { execa } from 'execa';
 import { access, chmod, constants, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';

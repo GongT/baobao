@@ -1,10 +1,10 @@
 {
-	"name": "@build-script/node-package-tools",
+	"name": "@build-script/package-tools",
 	"type": "module",
 	"version": "1.1.1",
 	"license": "MIT",
 	"bin": {
-		"node-package-tools": "./load.mjs",
+		"package-tools": "./load.mjs",
 		"njspkg": "./load.mjs"
 	},
 	"scripts": {
@@ -19,7 +19,7 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/node-json-edit": "workspace:^",
+		"@idlebox/json-edit": "workspace:^",
 		"cacache": "^19.0.1",
 		"dependency-graph": "^1.0.0",
 		"execa": "^9.6.0",

@@ -1,4 +1,4 @@
-import { loadJsonFile, writeJsonFileBack } from '@idlebox/node-json-edit';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { unlink } from 'node:fs/promises';
 import { isAbsolute as isAbsoluteWin32 } from 'node:path/win32';
 import { resolve } from 'node:path';

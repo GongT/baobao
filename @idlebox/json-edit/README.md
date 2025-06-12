@@ -1,4 +1,4 @@
-# node-json-edit
+# json-edit
 
 A tool for read and write json file **with comments**.
 

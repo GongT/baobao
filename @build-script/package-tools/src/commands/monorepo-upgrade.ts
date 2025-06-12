@@ -1,4 +1,4 @@
-import { writeJsonFileBack } from '@idlebox/node-json-edit';
+import { writeJsonFileBack } from '@idlebox/json-edit';
 import { argv, CommandDefine } from '../common/functions/cli.js';
 import { writeHostLine } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';

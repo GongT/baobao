@@ -4,7 +4,7 @@
 		"pretty": "biome check --diagnostic-level=warn --unsafe",
 		"build": "node @mpis/run/loader/bin.devel.js build",
 		"watch": "node @mpis/run/loader/bin.devel.js build -w",
-		"publish-everything": "node @build-script/node-package-tools/load.mjs monorepo-publish --silent"
+		"publish-everything": "node @build-script/package-tools/load.mjs monorepo-publish --silent"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "beta",
