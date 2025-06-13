@@ -31,8 +31,9 @@
 
 运行
 
-支持一部分`pack`和`publish`的参数。workspace相关参数不支持。（例如-r）
+支持一小部分`pack`和`publish`的参数。
 
 ```bash
-publisher <publish/pack>
+publisher pack [--out xxx.tgz]
+publisher publish [--access public] [--dry-run] [--force] [--no-git-checks] [--publish-branch master] [--report-summary] [--tag latest] [--registry https://registry.npmjs.org]
 ```

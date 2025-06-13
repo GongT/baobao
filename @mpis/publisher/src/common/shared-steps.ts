@@ -2,7 +2,7 @@ import { logger } from '@idlebox/logger';
 import { readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { extract } from 'tar/extract';
-import { createTempFolder, projectPath, tempDir } from './constants.js';
+import { createTempFolder, getDecompressed, projectPath, tempDir } from './constants.js';
 import { execPnpm, execPnpmUser } from './exec.js';
 
 export function reconfigurePackageJson(mode: 'pack' | 'publish') {
@@ -32,8 +32,9 @@ export function reconfigurePackageJson(mode: 'pack' | 'publish') {
 export async function makeTempPackage() {
 	await createTempFolder();
 
+	const tempPackagePath = getDecompressed();
+
 	const sourceTgz = resolve(tempDir, 'pack.tgz');
-	const decompressedPackagePath = resolve(tempDir, 'package');
 
 	logger.log`使用pnpm构建并打包……`;
 	await execPnpm(['--silent', 'pack', '--out', sourceTgz]);
@@ -41,10 +42,10 @@ export async function makeTempPackage() {
 
 	const nm = resolve(projectPath, 'node_modules');
 	logger.verbose`symlink(${nm})`;
-	symlinkSync(nm, resolve(decompressedPackagePath, 'node_modules'));
+	symlinkSync(nm, resolve(tempPackagePath, 'node_modules'));
 
 	logger.log`执行prepublishHook……`;
-	await execPnpmUser(decompressedPackagePath, ['run', 'prepublishHook']);
+	await execPnpmUser(tempPackagePath, ['run', 'prepublishHook']);
 	logger.success`prepublishHook成功完成`;
 }
 

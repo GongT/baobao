@@ -3,7 +3,7 @@ import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { emptyDir, findUpUntilSync } from '@idlebox/node';
 import { rmSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 export let packagePath: string;
 
@@ -36,3 +36,7 @@ export async function createTempFolder() {
 }
 
 export let tempDir: string;
+
+export function getDecompressed() {
+	return resolve(tempDir, 'package');
+}
