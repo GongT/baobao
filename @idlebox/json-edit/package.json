@@ -5,15 +5,11 @@
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"license": "MIT",
-	"main": "./lib/cjs/index.cjs",
-	"module": "./lib/esm/index.js",
-	"types": "./lib/esm/index.d.ts",
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"types": "./lib/esm/index.d.ts",
-			"require": "./lib/cjs/index.cjs",
-			"import": "./lib/esm/index.js"
+			"types": "./src/index.ts",
+			"import": "./lib/index.js"
 		},
 		"./package.json": "./package.json"
 	},

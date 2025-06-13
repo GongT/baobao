@@ -6,7 +6,6 @@
 	"bin": {
 		"autoindex": "./loader/bin.devel.js"
 	},
-	"main": "./lib/plugin.js",
 	"exports": {
 		".": {
 			"source": "./src/plugin.ts",

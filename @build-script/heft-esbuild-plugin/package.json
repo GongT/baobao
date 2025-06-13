@@ -4,16 +4,22 @@
 	"version": "0.0.13",
 	"license": "WTFPL",
 	"description": "lowlevel esbuild plugin for [heft]",
-	"keywords": ["esbuild", "rushstack", "heft", "toolchain", "bundle", "compiler", "incremental"],
-	"types": "./src/api.ts",
-	"main": "./loader/plugin.js",
-	"publishConfig": {
-		"types": "./lib/api.d.ts",
-		"main": "./lib/plugin.js",
-		"exports": {
-			".": "./lib/plugin.js",
-			"./package.json": "./package.json"
-		}
+	"keywords": [
+		"esbuild",
+		"rushstack",
+		"heft",
+		"toolchain",
+		"bundle",
+		"compiler",
+		"incremental"
+	],
+	"exports": {
+		".": {
+			"types": "./src/api.ts",
+			"main": "./loader/plugin.js"
+		},
+		"./package.json": "./package.json",
+		"./heft-plugin.json": "./heft-plugin.json"
 	},
 	"scripts": {
 		"prepack": "heft build --clean",

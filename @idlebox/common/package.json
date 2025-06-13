@@ -21,11 +21,8 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {
-		"@build-script/autoindex": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@mpis/typescript": "workspace:^",
-		"@build-script/codegen": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.73.6"

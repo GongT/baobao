@@ -1,3 +1,4 @@
+import { relative } from 'node:path';
 import { formatWithOptions, inspect } from 'node:util';
 
 const STRING_MAX_LENGTH = 128;
@@ -68,6 +69,12 @@ const debug_commands = {
 		} else {
 			return s;
 		}
+	},
+	relative(s: unknown, color: boolean) {
+		if (typeof s !== 'string') {
+			return color_error(`relative<> need string, not ${typeof s}(${s?.constructor?.name})`, color);
+		}
+		return relative(process.cwd(), s);
 	},
 };
 type DebugCommands = Record<string, (arg: unknown, color: boolean) => string>;

@@ -94,6 +94,11 @@ function initializeWorkers() {
 		if (!cmds) throw logger.fatal`program state error, no build command "${title}"`;
 
 		const worker = new ProcessIPCClient(title.replace(/\s+/g, ''), cmds.command, cmds.cwd, cmds.env);
+
+		for (const path of config.additionalPaths) {
+			worker.pathvar.add(path);
+		}
+
 		worker.displayTitle = 'client';
 
 		workersManager.addWorker(worker, last);
@@ -178,5 +183,10 @@ function printAllErrors() {
 		console.error(banner);
 	}
 
-	console.error(`%s of %s worker failed.`, [...errors.values().filter((e) => !!e)].length, workersManager.size);
+	const numFailed = [...errors.values().filter((e) => !!e)].length;
+	if (numFailed !== 0) {
+		console.error(`${numFailed} of ${workersManager.size} worker failed.`);
+	} else {
+		console.error(`All of ${workersManager.size} workers succeeded.`);
+	}
 }

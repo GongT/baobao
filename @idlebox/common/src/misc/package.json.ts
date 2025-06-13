@@ -36,6 +36,8 @@ function isPathMap(exportsField: IExportCondition | IExportMap): exportsField is
 	return Object.keys(exportsField).some((e) => e.startsWith('.'));
 }
 export function parseExportsField(exports: IExportsField): IFullExportsField {
+	if (!exports) return {};
+
 	if (typeof exports === 'string') {
 		return { '.': { default: exports } };
 	}

@@ -78,25 +78,49 @@ export class ProjectConfig {
 		throw Object.assign(e, { code: 'MODULE_NOT_FOUND', message, stack: e1.stack });
 	}
 
-	getJsonConfigInfo(name: string): ConfigFile {
+	getJsonConfigInfo(name: string): ResolvedFile {
 		return this.getFileInfo(`config/${name}.json`);
 	}
 
-	getFileInfo(path: string): ConfigFile {
-		const proj = resolve(this.rigConfig.projectFolderPath, path);
-		const rig = resolve(this.rigConfig.getResolvedProfileFolder(), path);
+	/**
+	 * 同步解析文件绝对路径
+	 * @param rel 文件的相对路径
+	 * @param root 当使用rig时，是否忽略profile
+	 */
+	getFileInfo(path: string): ResolvedFile {
+		const info = this._getFileInfo(path);
+		if (info.project.exists) {
+			return { effective: info.project.path, ...info };
+		} else if (info.rig.exists) {
+			return { effective: info.rig.path, ...info };
+		} else if (info.rigRoot.exists) {
+			return { effective: info.rigRoot.path, ...info };
+		} else {
+			return { effective: undefined, ...info };
+		}
+	}
 
-		return {
-			effective: this.rigConfig.tryResolveConfigFilePath(path),
-			project: {
-				path: proj,
-				exists: existsSync(proj),
-			},
-			rig: {
-				path: rig,
-				exists: existsSync(rig),
-			},
-		};
+	private _getFileInfo(path: string): Omit<ResolvedFile, 'effective'> {
+		const proj = resolve(this.rigConfig.projectFolderPath, path);
+
+		let rigProfile: string | undefined;
+		try {
+			rigProfile = this.rigConfig.getResolvedProfileFolder();
+			const rig = resolve(rigProfile, path);
+			const rigRoot = resolve(rigProfile, '../..', path);
+
+			return {
+				project: { path: proj, exists: existsSync(proj) },
+				rig: { path: rig, exists: existsSync(rig) },
+				rigRoot: { path: rigRoot, exists: existsSync(rigRoot) },
+			};
+		} catch {
+			return {
+				project: { path: proj, exists: existsSync(proj) },
+				rig: { path: '', exists: false },
+				rigRoot: { path: '', exists: false },
+			};
+		}
 	}
 
 	/**
@@ -137,10 +161,12 @@ export class ProjectConfig {
 			} else {
 				return child;
 			}
-		} else if(result){
+		} else if (result) {
 			return result;
-		}else{
-			throw new Error(`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`);
+		} else {
+			throw new Error(
+				`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`,
+			);
 		}
 	}
 }
@@ -149,8 +175,9 @@ type IFile = {
 	path: string;
 	exists: boolean;
 };
-type ConfigFile = {
+type ResolvedFile = {
 	effective: string | undefined;
 	project: IFile;
 	rig: IFile;
+	rigRoot: IFile;
 };

@@ -7,10 +7,12 @@
 	"exports": {
 		".": {
 			"source": "./src/interface.ts",
+			"types": "./src/interface.ts",
 			"default": "./lib/interface.js"
 		},
 		"./default": {
 			"source": "./src/default.ts",
+			"types": "./src/default.ts",
 			"default": "./lib/default.js"
 		},
 		"./package.json": "./package.json"

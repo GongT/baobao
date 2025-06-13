@@ -25,9 +25,7 @@ export abstract class BaseError extends Error {
 		this.name = this.constructor.name;
 		this._stackObject = new StackTrace(undefined, 1 + skip);
 
-		// // biome-ignore lint/performance/noDelete: 必须删除，否则会阻碍get message被调用
 		// delete (this as any).message;
-		// // biome-ignore lint/performance/noDelete: 必须删除，否则会阻碍get stack被调用
 		// delete (this as any).stack;
 
 		Object.defineProperties(this, {
@@ -42,7 +40,7 @@ export abstract class BaseError extends Error {
 				configurable: false,
 				enumerable: true,
 				get: () => {
-					return this.getStack();
+					return this.getMessage() + '\n' + this.getStack();
 				},
 			},
 		});

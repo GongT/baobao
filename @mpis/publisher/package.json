@@ -8,26 +8,22 @@
 	"bin": {
 		"publisher": "./loader/bin.devel.js"
 	},
-	"publishConfig": {
-		"directory": "lib1",
-		"bin": {
-			"publisher": "./loader/bin.js"
-		}
-	},
 	"scripts": {
 		"prepack": "rimraf lib && tsc -p src",
 		"build": "tsc -p src",
 		"watch": "tsc -p src -w",
-		"clean": "rimraf lib"
+		"clean": "rimraf lib",
+		"prepublishHook": "local-rig-prepublish-hook"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@idlebox/logger": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
-		"execa": "^9.6.0"
+		"@idlebox/logger": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"execa": "^9.6.0",
+		"tar": "^7.4.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

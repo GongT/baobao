@@ -63,7 +63,7 @@ export async function writeJsonFileBack(data: any): Promise<boolean> {
 export async function writeJsonFile(
 	file: string,
 	data: any,
-	charset: BufferEncoding = DEFAULT_ENCODING
+	charset: BufferEncoding = DEFAULT_ENCODING,
 ): Promise<boolean> {
 	file = abs(file);
 	const newData = Object.assign({}, data);
@@ -87,7 +87,7 @@ export async function writeJsonFile(
 export async function loadJsonFileIfExists(
 	file: string,
 	defaultValue: any = {},
-	charset: BufferEncoding = DEFAULT_ENCODING
+	charset: BufferEncoding = DEFAULT_ENCODING,
 ): Promise<any> {
 	file = abs(file);
 	if (await pathExists(file)) {

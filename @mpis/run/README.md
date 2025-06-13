@@ -6,6 +6,8 @@
 
 对于不支持的命令，可以使用 [标准输出监视器 或 客户端API](../client) 快速实现
 
+Path中添加`当前包`和`rig包`的`node_modules/.bin`目录
+
 
 ### 配置: 创建文件`config/commands.json`，内容如下：
 
@@ -18,26 +20,34 @@
 	 */
 	"$schema": "../node_modules/@mpis/run/commands.schema.json",
 	"build": [
-		// 如果只有command也可以写成字符串
-		"codegen src",
 		{
-			"command": "autoindex src"
+			// 也可以写成字符串，但强烈不建议，无法正确处理空格和特殊字符，且额外增加一层shell
+			"command": ["codegen", "src"]
+		},
+		{
+			"title": "autoindex",
+			"command": {
+				// 运行指定包里的指定bin，不会自动安装此包，它必须存在于当前包或rig包的依赖中，此binary必须是js文件
+				"package": "@build-script/autoindex",
+				// 要执行的bin名字，必须设置。但如果此包的bin字段是字符串，则必须不设置。
+				"binary": "autoindex",
+				"arguments": ["src"]
+			}
 		},
 		{
 			// 可选，默认为command的第一个单词，仅用于显示
 			"title": "typescript",
-			"command": "mpis-tsc -p src",
-			// 可选，当调用watch时默认添加 -w 可以换成其他参数代替 -w ，可以是数组形式
-			"watch": "--watch" 
+			"command": ["mpis-tsc", "-p", "src"],
+			// 可选，当调用watch时默认添加 -w 可以换成其他参数代替 -w
+			"watch": ["--watch" ]
 		},
 		{
 			"title": "esbuild",
-			// 当command第一个元素是 ts，可以直接执行它
-			"command": "config/esbuild.config.ts"
+			// 当command第一个元素是 xxx.ts，可以直接执行它，此文件相对于package.json所在路径，同时也会在rig/profile和rig根目录中寻找同名文件
+			"command": ["config/esbuild.config.ts"]
 		},
 		{
 			"title": "esbuild",
-			// command也可以是数组形式，支持命令中带空格等字符
 			"command": [
 				"build-protocol-client",
 				"--start=Starting compilation",

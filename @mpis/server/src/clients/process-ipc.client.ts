@@ -41,7 +41,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	public stopSignal: NodeJS.Signals = 'SIGINT';
 	private _started = false;
 	public readonly outputStream = new OutputHandler();
-	private readonly pathvar;
+	public readonly pathvar;
 	public displayTitle: string;
 
 	constructor(
@@ -59,9 +59,9 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		}
 		this.pathvar = new PathArray(pathVar);
 		this.pathvar.add(dirname(process.execPath), true, true);
-		const pkgJsonPath = findUpUntilSync({ from: cwd, file: 'node_modules' });
-		if (pkgJsonPath) {
-			this.pathvar.add(resolve(pkgJsonPath, '.bin'), true, true);
+		const nmPath = findUpUntilSync({ from: cwd, file: 'node_modules' });
+		if (nmPath) {
+			this.pathvar.add(resolve(nmPath, '.bin'), true, true);
 		} else {
 			this.logger.warn`running command without any package.`;
 		}

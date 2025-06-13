@@ -63,7 +63,7 @@
 			},
 			"performance": {
 				"useTopLevelRegex": "info",
-				"noDelete": "info",
+				"noDelete": "off",
 			},
 			"security": {},
 		},

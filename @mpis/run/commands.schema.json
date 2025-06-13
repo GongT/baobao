@@ -25,9 +25,15 @@
 						"minLength": 1
 					},
 					"command": {
-						"type": ["string", "array"],
+						"type": ["string", "array", "object"],
 						"description": "The command to run",
 						"items": { "type": "string", "minLength": 1 },
+						"required": ["package"],
+						"properties": {
+							"package": { "type": "string" },
+							"binary": { "type": "string" },
+							"arguments": { "type": "array", "items": { "type": "string" } }
+						},
 						"minLength": 1
 					},
 					"watch": {
@@ -52,8 +58,9 @@
 				},
 				"errorMessage": { "not": "Can not have both 'command' and 'watch' but different type." },
 				"not": {
-					"oneOf": [
+					"anyOf": [
 						{
+							"required": ["command", "watch"],
 							"properties": {
 								"command": {
 									"type": "string"
@@ -64,6 +71,7 @@
 							}
 						},
 						{
+							"required": ["command", "watch"],
 							"properties": {
 								"command": {
 									"type": "array"
