@@ -101,7 +101,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	protected override async _execute() {
 		if (this._started) throw new Error('process already spawned');
 
-		this.logger.info`spawning ${this.displayTitle} | commandline<${this.commandline}>`;
+		this.logger.log`spawning ${this.displayTitle} | commandline<${this.commandline}>`;
 		this.logger.debug`working directory: long<${this.cwd}>`;
 		this.logger.debug`path variable: long<${this.pathvar.toString()}>`;
 
@@ -164,11 +164,11 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			}
 
 			if (process.exitCode !== 0) {
-				this.logger.warn`process died with code ${process.signal ?? process.exitCode}`;
-				throw new Error(`process exited with code ${process.signal ?? process.exitCode}`);
+				this.logger.debug`process quited with code ${process.exitCode}`;
+				throw new Error(`process exited with code ${process.exitCode}`);
 			}
 
-			this.logger.warn`process quited with code ${process.exitCode}`;
+			this.logger.debug`process quited with code ${process.exitCode}`;
 		} finally {
 			this._started = false;
 		}
@@ -189,7 +189,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		await Promise.race([process, timeout(5000, 'process did not exit in 5s')]);
 	}
 
-	protected override _inspect() {
+	override _inspect() {
 		return `[Process ${this.process?.pid ?? 'not started'} ${State[this.state]}]`;
 	}
 }

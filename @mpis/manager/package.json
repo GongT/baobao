@@ -8,11 +8,6 @@
 	"bin": {
 		"build-manager": "./loader/bin.devel.js"
 	},
-	"publishConfig": {
-		"bin": {
-			"build-manager": "./loader/bin.js"
-		}
-	},
 	"exports": {
 		"./package.json": "./package.json"
 	},
@@ -24,20 +19,22 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@mpis/shared": "workspace:^",
+		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.0"
+		"@idlebox/json-edit": "workspace:^",
+		"@mpis/server": "workspace:^",
+		"@mpis/shared": "workspace:^",
+		"dependency-graph": "^1.0.0",
+		"execa": "^9.6.0",
+		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^22.15.21",
-		"esbuild": "^0.25.5",
 		"rimraf": "^6.0.1"
-	},
-	"peerDependencies": {
-		"esbuild": ">=0.24.0"
 	}
 }

@@ -2,14 +2,14 @@ import { DeferredPromise, registerGlobalLifecycle, sleep, toDisposable } from '@
 import { createLogger, EnableLogLevel } from '@idlebox/logger';
 import { createInterface, type Interface } from 'node:readline/promises';
 import { ProtocolClientObject, State } from '../common/protocol-client-object.js';
-import { workersManager } from '../common/workers-manager.js';
+import type { WorkersManager } from '../common/workers-manager.js';
 
 let rl: Interface;
 let ended = false;
 const logger = createLogger('repl', true);
 logger.enable(EnableLogLevel.verbose);
 
-export function readlineTestInit() {
+export function readlineTestInit(manager: WorkersManager) {
 	if (rl) return;
 
 	rl = createInterface({
@@ -25,10 +25,10 @@ export function readlineTestInit() {
 		}),
 	);
 
-	readlineMain();
+	readlineMain(manager);
 }
 
-async function readlineMain() {
+async function readlineMain(workersManager: WorkersManager) {
 	while (!ended) {
 		const graph = workersManager.formatDebugGraph();
 		const line = await rl.question(`${graph}\n全部start: auto\n控制worker: [start|succ|fail|quit0|quit1] number\n> `);

@@ -15,7 +15,7 @@ codegen ./root1 ./root2 ... ./rootN [--watch] [--debug]
 
 ### 生成器写法
 ```ts
-import type { GenerateContext } from '@build-script/heft-codegen-plugin';
+import type { GenerateContext } from '@build-script/codegen';
 
 export async function generate(builder: GenerateContext) {
 	logger.info('Generating code...');
@@ -31,7 +31,7 @@ export async function dispose() {
 ### 也可以这样写
 
 ```ts
-import type { GenerateContext, ILogger } from '@build-script/heft-codegen-plugin';
+import type { GenerateContext, ILogger } from '@build-script/codegen';
 
 class Generator {
 	async generate(builder: GenerateContext) {}
@@ -46,7 +46,7 @@ export default new Generator();
 ### 可以生成多个文件
 
 ```ts
-import type { GenerateContext } from '@build-script/heft-codegen-plugin';
+import type { GenerateContext } from '@build-script/codegen';
 
 export async function generate(builder: GenerateContext) {
 	const someOtherFile1 = builder.file("base-name-of-file.tsx"); // 生成的文件名为 base-name-of-file.generated.tsx

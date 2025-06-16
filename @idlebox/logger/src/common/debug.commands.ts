@@ -49,9 +49,13 @@ const debug_commands = {
 	},
 	commandline(cmds: unknown, color: boolean) {
 		if (Array.isArray(cmds)) {
-			return cmds.map((s) => JSON.stringify(s)).join(' ');
+			const prefix = color ? '\x1B[2m' : '';
+			const postfix = color ? '\x1B[0m' : '';
+			return prefix + cmds.map((s) => JSON.stringify(s)).join(' ') + postfix;
 		} else if (typeof cmds === 'string') {
-			return cmds;
+			const prefix = color ? '\x1B[2;3m' : '';
+			const postfix = color ? '\x1B[0m' : '';
+			return prefix + cmds + postfix;
 		} else {
 			return color_error(`commandline<> need string or array, not ${typeof cmds}`, color);
 		}

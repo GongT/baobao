@@ -1,9 +1,11 @@
 import { createRootLogger, EnableLogLevel, logger, set_default_log_level } from '@idlebox/logger';
 import { readlineTestInit } from '../clients/test-input.client.js';
-import { workersManager } from '../common/workers-manager.js';
+import { ModeKind, WorkersManager } from '../common/workers-manager.js';
 import { test_manual } from './shared/functions.js';
 
-process.stderr.write('\x1Bc')
+const workersManager = new WorkersManager(ModeKind.Watch);
+
+process.stderr.write('\x1Bc');
 createRootLogger('test', EnableLogLevel.verbose);
 set_default_log_level(EnableLogLevel.verbose);
 
@@ -25,8 +27,8 @@ workersManager.addWorker(test2b, [testaa]);
 workersManager.addWorker(testaa, []);
 
 setTimeout(() => {
-	readlineTestInit();
+	readlineTestInit(workersManager);
 }, 2000);
 
 await workersManager.finalize();
-logger.info('all workers started!!');
+logger.info('all workers finished!!');

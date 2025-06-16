@@ -44,7 +44,9 @@ Path中添加`当前包`和`rig包`的`node_modules/.bin`目录
 		{
 			"title": "esbuild",
 			// 当command第一个元素是 xxx.ts，可以直接执行它，此文件相对于package.json所在路径，同时也会在rig/profile和rig根目录中寻找同名文件
-			"command": ["config/esbuild.config.ts"]
+			"command": ["scripts/esbuild.config.ts"],
+			// 此命令的工作目录，相对于package.json所在目录
+			"cwd": "."
 		},
 		{
 			"title": "esbuild",
@@ -75,4 +77,16 @@ Path中添加`当前包`和`rig包`的`node_modules/.bin`目录
 pnpm exec run build
 pnpm exec run watch
 pnpm exec run clean
+```
+
+```json
+{
+	"name": "my-project",
+	"version": "1.0.0",
+	"scripts": {
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
+	},
+}
 ```

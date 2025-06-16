@@ -1,4 +1,5 @@
 import { pad2 } from '../string/pad2.js';
+import { oneDay, oneHour, oneMinute, oneSecond } from './consts.js';
 
 export namespace humanDate {
 	/**
@@ -39,6 +40,7 @@ export namespace humanDate {
 	export type ITimeFormatter = (s: number) => string;
 
 	export interface IFormatters {
+		ms: ITimeFormatter;
 		s: ITimeFormatter;
 		m: ITimeFormatter;
 		h: ITimeFormatter;
@@ -46,6 +48,9 @@ export namespace humanDate {
 	}
 
 	const formatters: IFormatters = {
+		ms(v: number) {
+			return `${v}ms`;
+		},
 		s(v: number) {
 			return `${v}s`;
 		},
@@ -75,70 +80,53 @@ export namespace humanDate {
 	 * day is the largest unit
 	 */
 	export function deltaTiny(ms: number) {
-		if (ms <= 0) {
+		if (ms > oneDay) {
+			return formatters.d(Math.floor(ms / oneDay));
+		} else if (ms > oneHour) {
+			return formatters.h(Math.floor(ms / oneHour));
+		} else if (ms > oneMinute) {
+			return formatters.m(Math.floor(ms / oneMinute));
+		} else if (ms > oneSecond) {
+			return formatters.s(Math.floor(ms / oneSecond));
+		} else if (ms > 0) {
+			return formatters.ms(ms);
+		} else {
 			return '0s';
 		}
-		if (ms > 86400000) {
-			return formatters.d(Math.floor(ms / 86400000));
-		}
-		if (ms > 3600000) {
-			return formatters.h(Math.floor(ms / 3600000));
-		}
-		if (ms > 60000) {
-			return formatters.m(Math.floor(ms / 60000));
-		}
-		return formatters.s(Math.floor(ms / 1000));
 	}
 
 	/**
 	 * format time delta (in ms) to string, like: '1d10m42s'
+	 * only return XXXms when ms<1000
 	 * when ms<=0, returns '0s'
 	 *
 	 * format can set by `setLocaleFormatter`
 	 * day is the largest unit
 	 */
 	export function delta(ms: number) {
-		let ret = '';
-		let val = Math.ceil(ms / 1000);
-
-		if (val <= 0) {
+		if (ms <= 0) {
 			return '0s';
 		}
 
-		// sec
-		const s = val % 60;
-		val = Math.floor(val / 60);
-		if (s > 0) {
-			ret = formatters.s(s);
-		}
-		if (val === 0) {
-			return ret;
+		// ms
+		if (ms < oneSecond) {
+			return formatters.ms(ms);
 		}
 
-		// min
-		const m = val % 60;
-		val = Math.floor(val / 60);
-		if (m > 0) {
-			ret = formatters.m(m) + ret;
+		let ret = '';
+		if (ms > oneDay) {
+			ret += formatters.d(Math.floor(ms / oneDay));
+			ms = ms % oneDay;
 		}
-		if (val === 0) {
-			return ret;
+		if (ms > oneHour) {
+			ret += formatters.h(Math.floor(ms / oneHour));
+			ms = ms % oneHour;
 		}
-
-		// hour
-		const h = val % 24;
-		val = Math.floor(val / 24);
-		if (h > 0) {
-			ret = formatters.h(h) + ret;
+		if (ms > oneMinute) {
+			ret += formatters.m(Math.floor(ms / oneMinute));
+			ms = ms % oneMinute;
 		}
-		if (val === 0) {
-			return ret;
-		}
-
-		// day
-		if (val > 0) {
-			ret = formatters.d(h) + ret;
-		}
+		ret += formatters.s(Math.floor(ms / oneSecond));
 		return ret;
 	}
 }

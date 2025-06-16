@@ -1,5 +1,5 @@
 import { AsyncDisposable, Emitter } from '@idlebox/common';
-import { createLogger, type IMyLogger } from '@idlebox/logger';
+import { createLogger, EnableLogLevel, type IMyLogger } from '@idlebox/logger';
 import { inspect } from 'node:util';
 import { CompileError } from './error.js';
 
@@ -53,12 +53,6 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	public readonly onFailure = this._onFailure.event;
 
 	/**
-	 * 编译结束时反复触发
-	 */
-	// private readonly _onFinally = this._register(new Emitter<void>());
-	// public readonly onFinally = this._onFinally.event;
-
-	/**
 	 * 子线程退出后触发一次
 	 */
 	private readonly _onTerminate = this._register(new Emitter<void>());
@@ -68,6 +62,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		super(_id);
 
 		this.logger = createLogger(`protocol:${_id}`);
+		this.logger.enable(EnableLogLevel.log);
 
 		if (_id.includes(' ')) {
 			this.logger.warn(`title contains space`);
@@ -75,6 +70,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	}
 
 	protected emitSuccess(message: string, output?: string) {
+		this.logger.success`built: ${message}`;
 		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_SUCCEED;
 		this._onSuccess.fireNoError({ message, output });
@@ -89,6 +85,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		} else {
 			e = new CompileError(this._id, e, output);
 		}
+		this.logger.warn`failed: ${e.message}`;
 		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_FAILED;
 		this._onFailure.fireNoError(e);
@@ -99,6 +96,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		if (this._state === State.EXECUTING) {
 			this.timings.firstStart = Date.now();
 		}
+		this.logger.log`start building...`;
 		this._state = State.COMPILE_STARTED;
 		this._onStart.fireNoError();
 	}
@@ -115,6 +113,10 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		return this._state === State.COMPILE_SUCCEED;
 	}
 
+	/**
+	 * 执行逻辑
+	 * 不会抛出异常
+	 */
 	public async execute() {
 		if (this._state !== State.NOT_EXECUTE) {
 			this.logger.fatal` ! worker already started`;
@@ -158,7 +160,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		return this._inspect();
 	}
 
-	protected _inspect() {
+	public _inspect() {
 		return `[Worker ${State[this.state]} (${this._running ? 'running' : 'stopped'}) ${this._id}]`;
 	}
 

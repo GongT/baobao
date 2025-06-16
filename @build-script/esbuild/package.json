@@ -14,7 +14,6 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@build-script/rush-tools": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"chokidar": "^4.0.3",

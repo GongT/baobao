@@ -2,7 +2,7 @@ import { argv } from '@idlebox/args/default';
 import { humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler } from '@idlebox/node';
-import { CompileError, ProcessIPCClient, workersManager } from '@mpis/server';
+import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { rmSync } from 'node:fs';
 import { printUsage } from './common/args.js';
 import { loadConfigFile } from './common/config-file.js';
@@ -33,11 +33,14 @@ if (!command) {
 
 logger.info`Running command "${command.value}" in ${projectRoot}`;
 
-if (argv.unused().length > 0) {
-	throw logger.fatal`Unknown arguments: ${argv.unused().join(' ')}`;
+function finalizeArgv() {
+	if (argv.unused().length > 0) {
+		throw logger.fatal`Unknown arguments: ${argv.unused().join(' ')}`;
+	}
 }
 
 const defaultNoClear = logger.debug.isEnabled;
+let workersManager: WorkersManager;
 
 const watchMode = command.value === 'watch';
 const config = loadConfigFile(watchMode);
@@ -45,46 +48,56 @@ logger.verbose`loaded config file: ${config}`;
 const errors = new Map<ProcessIPCClient, Error | null>();
 switch (command.value) {
 	case 'clean':
-		for (const folder of config.clean) {
-			logger.log` * removing folder: ${folder}`;
-			rmSync(folder, { recursive: true, force: true });
-		}
+		finalizeArgv();
+		executeClean();
 		break;
 	case 'build':
-	case 'watch':
-		// for (const worker of workersManager.allWorkers) {
-		// 	worker.onFailure(() => {
-		// 		reprintWatchModeError();
-		// 	});
-		// 	worker.onSuccess(() => {
-		// 		reprintWatchModeError();
-		// 	});
-		// }
+		{
+			const clean = argv.flag(['--clean']) > 0;
+			finalizeArgv();
 
-		initializeWorkers();
+			if (clean) executeClean();
 
-		workersManager.onTerminate((w) => {
-			if (!ProcessIPCClient.is(w)) {
-				logger.fatal`worker "${w._id}" is not a ProcessIPCClient, this is a bug.`;
-				return;
-			}
-
-			const times = `(+${humanDate.delta(w.time.executeEnd! - w.time.executeStart!)})`;
-
-			if (watchMode) {
-				printFailedRunError(w, `unexpected exit in watch mode ${times}`);
-			} else if (!w.isSuccess) {
-				printFailedRunError(w, `failed to execute ${times}`);
-			} else {
-				logger.success`"${w._id}" successfully finished ${times}.`;
-			}
-		});
-
-		await workersManager.finalize();
-
-		reprintWatchModeError();
-
+			await executeBuild();
+		}
 		break;
+	case 'watch':
+		await executeBuild();
+		break;
+}
+
+async function executeBuild() {
+	workersManager = new WorkersManager(command!.value === 'watch' ? ModeKind.Watch : ModeKind.Build);
+
+	initializeWorkers();
+
+	workersManager.onTerminate((w) => {
+		if (!ProcessIPCClient.is(w)) {
+			logger.fatal`worker "${w._id}" is not a ProcessIPCClient, this is a bug.`;
+			return;
+		}
+
+		const times = `(+${humanDate.delta(w.time.executeEnd! - w.time.executeStart!)})`;
+
+		if (watchMode) {
+			printFailedRunError(w, `unexpected exit in watch mode ${times}`);
+		} else if (!w.isSuccess) {
+			printFailedRunError(w, `failed to execute ${times}`);
+		} else {
+			logger.success`"${w._id}" successfully finished ${times}.`;
+		}
+	});
+
+	await workersManager.finalize();
+
+	reprintWatchModeError();
+}
+
+function executeClean() {
+	for (const folder of config.clean) {
+		logger.log` * removing folder: ${folder}`;
+		rmSync(folder, { recursive: true, force: true });
+	}
 }
 
 function initializeWorkers() {
@@ -155,12 +168,8 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 function reprintWatchModeError(noClear?: boolean) {
 	if (watchMode) {
 		if (!noClear && !defaultNoClear) process.stderr.write('\x1Bc');
-		console.error(workersManager.formatDebugGraph());
-		if (errors.values().every((e) => !e)) {
-			logger.info`All workers completed successfully.${watchMode ? ' Watching for changes...' : ''}`;
-			return;
-		}
 	}
+	console.error(workersManager.formatDebugGraph());
 	printAllErrors();
 }
 
@@ -185,8 +194,8 @@ function printAllErrors() {
 
 	const numFailed = [...errors.values().filter((e) => !!e)].length;
 	if (numFailed !== 0) {
-		console.error(`${numFailed} of ${workersManager.size} worker failed.`);
+		logger.error(`💥 ${numFailed} of ${workersManager.size} worker failed.`);
 	} else {
-		console.error(`All of ${workersManager.size} workers succeeded.`);
+		logger.success(`✅ All of ${workersManager.size} workers succeeded.`);
 	}
 }

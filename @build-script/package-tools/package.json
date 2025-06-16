@@ -35,7 +35,6 @@
 		"tinygradient": "^2.0.1"
 	},
 	"devDependencies": {
-		"@build-script/heft-plugin-base": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@internal/plugins": "workspace:^",

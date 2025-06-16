@@ -36,7 +36,7 @@ export function trySpawnInScope(cmds: string[]): never {
 }
 
 /**
- * Self restart in a pid/cgroup namespace on linux.
+ * Self restart in a pid+cgroup+mount namespace on linux.
  * Your application must inside mainFunc, not before or after it.
  *
  * ```typescript
@@ -46,7 +46,7 @@ export function trySpawnInScope(cmds: string[]): never {
  * });
  * ```
  */
-export function respawnInScope(mainFunc: Function): unknown | never {
+export function respawnInScope(mainFunc: CallableFunction): unknown | never {
 	if (process.env.NEVER_UNSHARE || insideScope() || !supportScope()) {
 		spawnRecreateEventHandlers();
 		mainFunc();

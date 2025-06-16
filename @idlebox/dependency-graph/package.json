@@ -1,5 +1,5 @@
 {
-	"name": "@mpis/server",
+	"name": "@idlebox/dependency-graph",
 	"private": true,
 	"type": "module",
 	"version": "0.1.0",
@@ -7,9 +7,9 @@
 	"license": "MIT",
 	"exports": {
 		".": {
-			"types": "./src/api.ts",
-			"source": "./src/api.ts",
-			"default": "./lib/api.js"
+			"types": "./src/index.ts",
+			"source": "./src/index.ts",
+			"default": "./lib/index.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -22,19 +22,16 @@
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"@idlebox/dependency-graph": "workspace:^",
-		"@idlebox/esbuild-executer": "workspace:^",
-		"@idlebox/logger": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@mpis/shared": "workspace:^",
-		"dependency-graph": "^1.0.0",
-		"execa": "^9.6.0"
+		"dependency-graph": "^1.0.0"
 	},
 	"devDependencies": {
+		"@idlebox/logger": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^22.15.21",
-		"rimraf": "^6.0.1",
-		"why-is-node-running": "^3.2.2"
+		"chai": "^5.2.0",
+		"mocha": "^11.5.0",
+		"rimraf": "^6.0.1"
 	}
 }
