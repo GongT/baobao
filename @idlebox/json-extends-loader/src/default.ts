@@ -45,6 +45,16 @@ const defaultOptions: ILoadJsonOptions = {
 	arrayMerge: overwriteMerge,
 };
 
+export class ResolveError extends Error {
+	public readonly code: string;
+
+	constructor(id: string, current: string) {
+		super(`Cannot resolve module "${id}" from "${current}"`);
+		this.name = 'ResolveError';
+		this.code = 'MODULE_NOT_FOUND';
+	}
+}
+
 export function loadInheritedJson(file: string, options: Partial<ILoadJsonOptions> = {}): any {
 	const o = deepmerge.all<ILoadJsonOptions>([{}, defaultOptions, options]);
 

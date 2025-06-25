@@ -8,10 +8,10 @@
 		"npx": "bin/npx.mjs"
 	},
 	"scripts": {
-		"build": "true",
-		"clean": "true",
-		"test": "true",
-		"watch": "true"
+		"build": "",
+		"clean": "",
+		"test": "",
+		"watch": ""
 	},
 	"preferGlobal": true,
 	"dependencies": {

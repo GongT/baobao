@@ -16,6 +16,7 @@ TypeScript代码和工具库
 * [common](@idlebox/common) 通用函数库
 * [node](@idlebox/node) nodejs函数库
 * [browser](@idlebox/browser) 浏览器函数库
+* [dependency-graph](@idlebox/dependency-graph) [dependency-graph](https://www.npmjs.com/package/dependency-graph)的包装
 
 ----
 CLI程序辅助库
@@ -52,8 +53,8 @@ CLI程序辅助库
 * [shared](@mpis/shared) 标准协议
 * [client](@mpis/client) 协议客户端库、标准输出转换程序
 * [run](@mpis/run) 单项目build、watch工具
-* [manager](@mpis/manager) monorepo build、watch工具
-* [server](@mpis/server) 协议服务器库（run和manager基于此）
+* [monorepo](@mpis/monorepo) monorepo build、watch工具
+* [server](@mpis/server) 协议服务器库（run和monorepo基于此）
 
 ----
 协议实现

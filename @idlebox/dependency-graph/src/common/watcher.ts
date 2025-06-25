@@ -37,6 +37,14 @@ abstract class RunBase extends StartupPump<IWatchEvents, IWatchAttach> {
 			.reverse();
 	}
 
+	public addEmptyNode(name: string) {
+		super._addEmptyNode(name, {} as any, {
+			died: false,
+			isRunning: false,
+			lastError: undefined,
+		});
+	}
+
 	protected override _isNodeSuccess(_name: string, data: IWatchAttach): boolean {
 		return data.isRunning === false && data.lastError === undefined;
 	}

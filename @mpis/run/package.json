@@ -6,13 +6,8 @@
 	"keywords": [],
 	"license": "MIT",
 	"bin": {
-		"run": "./loader/bin.devel.js"
-	},
-	"publishConfig": {
-		"bin": {
-			"run": "./loader/bin.js",
-			"mpis-run": "./loader/bin.js"
-		}
+		"run": "./loader/bin.devel.js",
+		"mpis-run": "./loader/bin.devel.js"
 	},
 	"exports": {
 		"./package.json": "./package.json"
@@ -34,13 +29,13 @@
 		"@mpis/server": "workspace:^",
 		"@mpis/shared": "workspace:^",
 		"execa": "^9.6.0",
-		"source-map-support": "^0.5.21"
+		"source-map-support": "^0.5.21",
+		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^22.15.21",
-		"rimraf": "^6.0.1"
+		"@types/node": "^22.15.21"
 	}
 }

@@ -1,0 +1,22 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Monorepo Build Config Schema",
+	"type": "object",
+	"allowTrailingCommas": true,
+	"required": ["$schema"],
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "The JSON schema link"
+		},
+		"dependencies": {
+			"type": "array",
+			"description": "List of dependencies, overrides package.json",
+			"items": {
+				"type": "string",
+				"minLength": 1,
+				"description": "A dependency name, must persist as 'workspace:' in package.json"
+			}
+		}
+	}	
+}

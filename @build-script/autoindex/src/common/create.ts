@@ -1,4 +1,5 @@
 import { camelCase, ucfirst } from '@idlebox/common';
+import type { IMyLogger } from '@idlebox/logger';
 import { ensureParentExists, relativePath, writeFileIfChange } from '@idlebox/node';
 import {
 	ExportKind,
@@ -8,7 +9,6 @@ import {
 } from '@idlebox/typescript-surface-analyzer';
 import { basename, dirname } from 'node:path';
 import type TypeScriptApi from 'typescript';
-import type { ILogger } from './logger.js';
 
 export function idToString(ts: typeof TypeScriptApi, id: TypeScriptApi.StringLiteral | TypeScriptApi.Identifier) {
 	if (ts.isIdentifier(id)) {
@@ -20,20 +20,15 @@ export function idToString(ts: typeof TypeScriptApi, id: TypeScriptApi.StringLit
 export interface ICreateIndexContext {
 	absoluteImport?: string;
 	stripTags?: readonly string[];
-	blacklist?: readonly string[];
 	extraExcludes?: readonly string[];
 	ts: typeof TypeScriptApi;
 	project: TypeScriptApi.ParsedCommandLine;
 	outputFileAbs: string;
-	logger: ILogger;
+	logger: IMyLogger;
 	verbose?: boolean;
 }
 
-export function createStandaloneIgnore(
-	logger: ILogger,
-	outputFileAbs: string,
-	extraExcludes?: readonly string[]
-): ICreateIndexContext {
+export function createStandaloneIgnore(logger: IMyLogger, outputFileAbs: string, extraExcludes?: readonly string[]) {
 	const ignores = new IgnoreFiles(logger);
 	applyIgnores(ignores, outputFileAbs, extraExcludes);
 	return ignores;
@@ -59,10 +54,6 @@ interface IRet {
 	ignores: IgnoreFiles;
 }
 
-function noop() {
-	// do nothing
-}
-
 export async function createIndex({
 	logger,
 	outputFileAbs,
@@ -71,7 +62,6 @@ export async function createIndex({
 	absoluteImport,
 	extraExcludes = [],
 	stripTags = ['internal'],
-	verbose = false,
 }: ICreateIndexContext): Promise<IRet> {
 	if (!project.options.rootDir || !project.options.configFilePath) {
 		logger.error('%o', project.options);
@@ -82,13 +72,7 @@ export async function createIndex({
 		throw new Error(`missing rootDir: ${project.options.configFilePath}`);
 	}
 
-	const passLogger = { ...logger, verbose: logger.debug };
-	if (!verbose) {
-		passLogger.verbose = noop;
-		passLogger.debug = noop;
-	}
-
-	const p = new TypescriptProject(ts, project, passLogger);
+	const p = new TypescriptProject(ts, project, logger);
 	logger.log('creating index file: %s', outputFileAbs);
 	applyIgnores(p.additionalIgnores, outputFileAbs, extraExcludes);
 
@@ -96,7 +80,7 @@ export async function createIndex({
 
 	const indexDir = `./${relativePath(
 		project.options.rootDir || dirname(project.options.configFilePath as string),
-		dirname(outputFileAbs)
+		dirname(outputFileAbs),
 	)
 		.split('/')
 		.filter((e) => e && e !== '.')
@@ -134,8 +118,8 @@ export async function createIndex({
 				content.push(
 					`\texport * from "${importSpec(
 						indexDir,
-						reference.type === 'file' ? reference.relativeFromRoot : reference.name
-					)}";`
+						reference.type === 'file' ? reference.relativeFromRoot : reference.name,
+					)}";`,
 				);
 			}
 		}

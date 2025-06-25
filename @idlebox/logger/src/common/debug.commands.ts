@@ -47,6 +47,18 @@ const debug_commands = {
 			return s;
 		}
 	},
+	list(items: unknown, color: boolean) {
+		if (!Array.isArray(items) || (items.length && typeof items[0] !== 'string')) {
+			return color_error(`list<> need array of strings, not ${typeof items}(${items?.constructor?.name})`, color);
+		}
+		const postfix = color ? '\x1B[0m' : '';
+		if (items.length === 0) {
+			const prefix = color ? '\x1B[3;2m' : '';
+			return ':\n' + prefix + '  - <list is empty>' + postfix;
+		}
+		const prefix = color ? '\x1B[2m' : '';
+		return ':\n' + prefix + '  * ' + items.map((s) => s).join('\n  * ') + postfix;
+	},
 	commandline(cmds: unknown, color: boolean) {
 		if (Array.isArray(cmds)) {
 			const prefix = color ? '\x1B[2m' : '';

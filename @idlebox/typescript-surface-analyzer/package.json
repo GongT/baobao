@@ -25,6 +25,7 @@
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/tsconfig-loader": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"minimatch": "^10.0.1"
 	},
 	"devDependencies": {

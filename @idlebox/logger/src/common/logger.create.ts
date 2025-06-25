@@ -2,6 +2,7 @@ import process from 'node:process';
 import { PassThrough } from 'node:stream';
 import { create } from './create.js';
 import { debug_enabled, defaultLogLevel } from './helpers.js';
+import { terminal } from './logger.global.js';
 import { EnableLogLevel, type IMyLogger } from './types.js';
 
 /**
@@ -26,9 +27,9 @@ export function createLogger(
 		level = defaultLogLevel;
 	}
 
-	const terminal = create(tag, color_enabled, stream, level);
+	const logger = create(tag, color_enabled, stream, level);
 
-	// terminal.error`logger "${tag}" created, level = ${EnableLogLevel[level]}`;
+	(terminal || logger).verbose`logger "${tag}" created, level = ${EnableLogLevel[level]}`;
 
-	return terminal;
+	return logger;
 }

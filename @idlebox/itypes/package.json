@@ -7,9 +7,9 @@
 	"license": "MIT",
 	"typings": "./index.d.ts",
 	"scripts": {
-		"build": "true",
-		"clean": "true",
-		"test": "true",
-		"watch": "true"
+		"build": "",
+		"clean": "",
+		"test": "",
+		"watch": ""
 	}
 }

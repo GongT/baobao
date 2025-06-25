@@ -1,11 +1,19 @@
 {
 	"name": "@idlebox/common",
+	"private": true,
 	"type": "module",
-	"version": "1.4.11",
-	"license": "MIT",
+	"version": "1.4.13",
+	"description": "Common utilities",
+	"keywords": [
+		"utilities",
+		"functions",
+		"helpers",
+		"library"
+	],
 	"main": "./lib/autoindex.js",
 	"exports": {
 		".": {
+			"types": "./src/autoindex.ts",
 			"source": "./src/autoindex.ts",
 			"default": "./lib/autoindex.js"
 		},
@@ -13,16 +21,16 @@
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"test": "heft test",
-		"build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/run": "workspace:^",
+		"@mpis/publisher": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.73.6"

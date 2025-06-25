@@ -5,7 +5,7 @@
 		 *
 		 */
 		{
-			"command": ["autoindex", "-o", "autoindex", "src"]
+			"command": ["autoindex", "--config", "-o", "autoindex", "src"]
 		},
 
 		/**

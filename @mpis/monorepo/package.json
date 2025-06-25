@@ -12,29 +12,30 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"prepack": "rimraf lib && tsc -p src",
-		"build": "tsc -p src",
-		"watch": "tsc -p src -w",
-		"clean": "rimraf lib"
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-tsc -p src",
+		"watch": "mpis-tsc -p src -w",
+		"clean": "mpis-run clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
+		"@build-script/rushstack-config-loader": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/dependency-graph": "workspace:^",
+		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/json-edit": "workspace:^",
 		"@mpis/server": "workspace:^",
 		"@mpis/shared": "workspace:^",
-		"dependency-graph": "^1.0.0",
 		"execa": "^9.6.0",
-		"source-map-support": "^0.5.21"
+		"source-map-support": "^0.5.21",
+		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^22.15.21",
-		"rimraf": "^6.0.1"
+		"@types/node": "^22.15.21"
 	}
 }

@@ -2,8 +2,8 @@
 	"scripts": {
 		"postinstall": "node scripts/post-install.mjs",
 		"pretty": "biome check --diagnostic-level=warn --unsafe",
-		"build": "node @mpis/run/loader/bin.devel.js build",
-		"watch": "node @mpis/run/loader/bin.devel.js build -w",
+		"build": "node @mpis/monorepo/loader/bin.devel.js build",
+		"watch": "node @mpis/monorepo/loader/bin.devel.js build -w",
 		"publish-everything": "node @build-script/package-tools/load.mjs monorepo-publish --silent"
 	},
 	"devDependencies": {

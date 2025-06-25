@@ -29,4 +29,5 @@ export function createGlobalLogger(tag: string, defaultLevel: EnableLogLevel = E
 	} else {
 		terminal.debug`debug is enabled`;
 	}
+	return;
 }

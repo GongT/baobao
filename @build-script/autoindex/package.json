@@ -20,17 +20,19 @@
 		}
 	},
 	"scripts": {
-		"prepack": "rimraf lib && tsc -p src",
-		"build": "tsc -p src",
-		"watch": "tsc -p src -w",
-		"clean": "rimraf lib"
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-tsc -p src",
+		"watch": "mpis-tsc -p src -w",
+		"clean": "mpis-run clean"
 	},
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"@idlebox/chokidar": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
+		"@build-script/rushstack-config-loader": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"comment-json": "^4.2.5",
 		"glob": "^11.0.2",
@@ -43,7 +45,6 @@
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^22.15.21",
-		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
 	}
 }

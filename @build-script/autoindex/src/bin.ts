@@ -1,52 +1,24 @@
 import { startChokidar } from '@idlebox/chokidar';
+import { createRootLogger, logger } from '@idlebox/logger';
 import type { IgnoreFiles } from '@idlebox/typescript-surface-analyzer';
 import { channelClient } from '@mpis/client';
 import { glob } from 'glob';
-import { existsSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import type TypeScriptApi from 'typescript';
-import { createConsoleLogger, parseArgs, printUsage } from './cli/args.js';
-import { die } from './cli/output.js';
+import { parseArgs } from './common/cli.js';
+import { loadConfigFile } from './common/config.js';
 import { createIndex } from './common/create.js';
-import { getTypescript, loadTsConfigJson } from './common/tsconfig-loader.js';
+import { loadTsConfigJson } from './common/tsconfig-loader.js';
+import { loadTypescript } from './common/typescript.js';
 
-const context = await Promise.resolve()
-	.then(parseArgs)
-	.catch((e) => {
-		printUsage();
-		console.error('');
-		console.error('');
-		die(e.message);
-	});
-
-const logger = createConsoleLogger(context);
-logger.debug('context', context);
-
-let tsconfigFile: string = context.project;
-if (statSync(tsconfigFile).isDirectory()) {
-	tsconfigFile = resolve(tsconfigFile, 'tsconfig.json');
-	if (!existsSync(tsconfigFile)) {
-		die(`missing "tsconfig.json" in: ${tsconfigFile}`);
-	}
-} else if (!existsSync(tsconfigFile)) {
-	die(`missing tsconfig: ${tsconfigFile}`);
-}
-
-if (context.absoluteImport && context.absoluteImport[0] !== '#') {
-	die(`绝对导入路径必须以'#'开头: ${context.absoluteImport}`);
-}
-
-const ts: typeof TypeScriptApi = await getTypescript(tsconfigFile, logger);
-logger.log('typescript version: %s', ts.version);
-
-let outputs = '';
-logger.stream.on('data', (data) => {
-	outputs += data.toString();
-});
+createRootLogger('autoindex');
 
 async function main() {
+	let outputs = '';
+	logger.stream.on('data', (data) => {
+		outputs += data.toString();
+	});
+
 	channelClient.start();
-	outputs = '';
 
 	try {
 		const { command, configFiles } = loadTsConfigJson(ts, tsconfigFile, {
@@ -64,15 +36,15 @@ async function main() {
 
 		const rootDir = command.options.rootDir;
 		if (!rootDir) {
-			die('无法确定rootDir，请添加tsconfig.json中的compilerOptions.rootDir设置。');
+			throw logger.fatal('无法确定rootDir，请添加tsconfig.json中的compilerOptions.rootDir设置。');
 		}
 
 		logger.debug('rootDir=%s', rootDir);
 
-		const outputFile = resolve(rootDir, context.outputFile);
+		const outputFile = resolve(rootDir, context.outputFile + '.ts');
 
 		if (!outputFile.startsWith(rootDir)) {
-			die(`输出文件 ${outputFile} 路径异常，离开rootDir`);
+			throw logger.fatal(`输出文件 ${outputFile} 路径异常，离开rootDir`);
 		}
 
 		const r = await createIndex({
@@ -94,6 +66,12 @@ async function main() {
 		throw e;
 	}
 }
+
+const args = await parseArgs();
+logger.debug`arguments: ${args}`;
+
+const context = await loadConfigFile(args, logger);
+const { ts, file: tsconfigFile } = await loadTypescript(context);
 
 if (context.watchMode) {
 	let lastExecuteIgnore: IgnoreFiles | undefined;

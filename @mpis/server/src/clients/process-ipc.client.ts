@@ -1,4 +1,5 @@
 import { isWindows, lcfirst, PathArray, timeout } from '@idlebox/common';
+import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
 import type { Options, ResultPromise } from 'execa';
@@ -49,21 +50,28 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		public readonly commandline: readonly string[] | string,
 		public readonly cwd: string,
 		public readonly env: Record<string, string>,
+		logger?: IMyLogger,
 	) {
-		super(id);
+		super(id, logger);
 		this.displayTitle = id;
 
-		const pathVar = getEnvironment(isWindows ? 'Path' : 'PATH').value;
-		if (!pathVar) {
-			throw new Error('PATH environment variable is not set');
-		}
-		this.pathvar = new PathArray(pathVar);
-		this.pathvar.add(dirname(process.execPath), true, true);
-		const nmPath = findUpUntilSync({ from: cwd, file: 'node_modules' });
-		if (nmPath) {
-			this.pathvar.add(resolve(nmPath, '.bin'), true, true);
+		const pathVarName = isWindows ? 'Path' : 'PATH';
+		if (env[pathVarName]) {
+			this.pathvar = new PathArray(env[pathVarName]);
 		} else {
-			this.logger.warn`running command without any package.`;
+			// TODO: rig package
+			const pathVar = getEnvironment(pathVarName).value;
+			if (!pathVar) {
+				throw new Error('PATH environment variable is not set');
+			}
+			this.pathvar = new PathArray(pathVar);
+			this.pathvar.add(dirname(process.execPath), true, true);
+			const nmPath = findUpUntilSync({ from: cwd, file: 'node_modules' });
+			if (nmPath) {
+				this.pathvar.add(resolve(nmPath, '.bin'), true, true);
+			} else {
+				this.logger.warn`running command without any package.`;
+			}
 		}
 
 		this.onMessage = this.onMessage.bind(this);
@@ -160,12 +168,15 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 			if (process.failed) {
 				this.logger.warn`process can not start: ${process.message}`;
-				throw new Error(`process can not start: ${lcfirst(process.message || '*no message*')}`);
+				return this.emitFailure(
+					`process can not start: ${lcfirst(process.message || '*no message*')}`,
+					this.outputStream.toString(),
+				);
 			}
 
 			if (process.exitCode !== 0) {
 				this.logger.debug`process quited with code ${process.exitCode}`;
-				throw new Error(`process exited with code ${process.exitCode}`);
+				return this.emitFailure(`process exited with code ${process.exitCode}`, this.outputStream.toString());
 			}
 
 			this.logger.debug`process quited with code ${process.exitCode}`;

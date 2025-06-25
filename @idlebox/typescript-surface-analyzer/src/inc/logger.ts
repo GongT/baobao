@@ -1,25 +1,8 @@
-import type TypeScriptApi from 'typescript';
+import { createLogger, type IMyLogger } from '@idlebox/logger';
 import type { InspectOptions } from 'node:util';
+import type TypeScriptApi from 'typescript';
 
-export interface ILogger {
-	log(msg: string, ...args: any[]): void;
-	error(msg: string, ...args: any[]): void;
-	debug(msg: string, ...args: any[]): void;
-	verbose(msg: string, ...args: any[]): void;
-}
-
-export const isDebug = /\bEXPORT\b/.test(`${process.env.NODE_DEBUG}`);
-
-export function debug(msg: string, ...args: any[]) {
-	if (isDebug) console.log(msg, ...args);
-}
-
-export const consoleLogger: ILogger = {
-	log: console.log,
-	error: console.error,
-	debug: isDebug ? console.error : () => {},
-	verbose: isDebug ? console.error : () => {},
-};
+export const consoleLogger: IMyLogger = createLogger('typescript-surface-analyzer');
 
 export function showFile(node: TypeScriptApi.Node) {
 	const file = node.getSourceFile();

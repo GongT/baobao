@@ -88,7 +88,8 @@ async function executeBuild() {
 		}
 	});
 
-	await workersManager.finalize();
+	workersManager.finalize();
+	await workersManager.startup();
 
 	reprintWatchModeError();
 }
@@ -98,10 +99,11 @@ function executeClean() {
 		logger.log` * removing folder: ${folder}`;
 		rmSync(folder, { recursive: true, force: true });
 	}
+	logger.success`Cleaned up ${config.clean.length} folders.`;
 }
 
 function initializeWorkers() {
-	let last: ProcessIPCClient[] = [];
+	let last: ProcessIPCClient | undefined;
 	for (const title of config.buildTitles) {
 		const cmds = config.build.get(title);
 		if (!cmds) throw logger.fatal`program state error, no build command "${title}"`;
@@ -114,7 +116,7 @@ function initializeWorkers() {
 
 		worker.displayTitle = 'client';
 
-		workersManager.addWorker(worker, last);
+		workersManager.addWorker(worker, last ? [last._id] : []);
 
 		let nodeFirstTime = true;
 		worker.onFailure((e) => {
@@ -131,7 +133,7 @@ function initializeWorkers() {
 			}
 		});
 
-		last = [worker];
+		last = worker;
 	}
 }
 
@@ -174,14 +176,20 @@ function reprintWatchModeError(noClear?: boolean) {
 }
 
 function printAllErrors() {
+	let index = 0;
 	for (const [worker, error] of errors) {
 		if (error === null) {
 			continue;
 		}
 
-		const band = ' '.repeat(process.stderr.columns || 80);
-		const banner = `\x1B[38;5;9m${band}\r  ---- ${worker._id}  \x1B[0m`;
-		console.error(banner);
+		index++;
+
+		let tag = '';
+		if (error.name !== 'Error') {
+			tag = ` (${error.name})`;
+		}
+		const banner = `\x1B[48;5;9m ERROR ${index} \x1B[0m`;
+		console.error(`\n${banner}${tag} ${worker._id}`);
 		if (error instanceof CompileError) {
 			console.error(error.toString());
 		} else if (error instanceof Error) {
@@ -189,13 +197,14 @@ function printAllErrors() {
 		} else {
 			console.error(`can not handle error: ${error}`);
 		}
-		console.error(banner);
+		console.error(`\n${banner} ${worker._id}`);
 	}
 
 	const numFailed = [...errors.values().filter((e) => !!e)].length;
+	console.error('');
 	if (numFailed !== 0) {
-		logger.error(`💥 ${numFailed} of ${workersManager.size} worker failed.`);
+		logger.error(`💥 ${numFailed} of ${workersManager.size} worker failed`);
 	} else {
-		logger.success(`✅ All of ${workersManager.size} workers succeeded.`);
+		logger.success(`✅ no error in ${workersManager.size} workers`);
 	}
 }

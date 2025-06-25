@@ -24,4 +24,6 @@ autoindex [--watch] [--debug] [...] project
 -   `-a, --absolute <#??>`: 默认生成类似 `import './xxx'` 的相对路径，使用此选项会变成类似 `import '#??/xxx'` 的绝对路径。
 -   `--skip-tag <tag>`: 忽略被 `@tag` 注释的符号，可多个，不传时默认 `internal`，传入任意值则不带此默认。
 
+-   `--no-config`: 不读取`config/autoindex.json`文件，仅使用命令行参数。
+
 -   `project`:  项目使用的tsconfig.json路径（或其目录）。

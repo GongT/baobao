@@ -1,9 +1,9 @@
+import type { IMyLogger } from '@idlebox/logger';
 import { isModuleResolutionError } from '@idlebox/node';
 import { parse, stringify } from 'comment-json';
 import { createRequire } from 'node:module';
 import { normalize, resolve } from 'node:path';
 import type TypeScriptApi from 'typescript';
-import type { ILogger } from './logger.js';
 
 export interface ILoadedConfigFile {
 	readonly command: TypeScriptApi.ParsedCommandLine;
@@ -18,7 +18,7 @@ interface ILoadTsConfigJsonOptions {
 export function loadTsConfigJson(
 	ts: typeof TypeScriptApi,
 	tsconfigJson: string,
-	options: ILoadTsConfigJsonOptions = {}
+	options: ILoadTsConfigJsonOptions = {},
 ): ILoadedConfigFile {
 	const { exclude, include } = options;
 
@@ -88,8 +88,10 @@ export function loadTsConfigJson(
 		throw new Error('fatal error, can not continue');
 	}
 
-	if(!config_patched){
-		throw new Error(`tsconfig.json file "${tsconfigJson}" has not been patched with exclude/include options, please report issue.`);
+	if (!config_patched) {
+		throw new Error(
+			`tsconfig.json file "${tsconfigJson}" has not been patched with exclude/include options, please report issue.`,
+		);
 	}
 
 	if (!command.options.rootDir) {
@@ -103,7 +105,7 @@ function interop(v: any) {
 	return v.default ?? v;
 }
 
-export async function getTypescript(tsconfigFile: string, logger?: ILogger): Promise<typeof TypeScriptApi> {
+export async function getTypescript(tsconfigFile: string, logger?: IMyLogger): Promise<typeof TypeScriptApi> {
 	const require = createRequire(tsconfigFile);
 	try {
 		return require('typescript');

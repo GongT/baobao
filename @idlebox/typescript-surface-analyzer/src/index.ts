@@ -1,13 +1,12 @@
+import type { IMyLogger } from '@idlebox/logger';
 import type TypeScriptApi from 'typescript';
 import { FileCollector } from './inc/FileCollector.js';
 import { IgnoreFiles } from './inc/IgnoreFiles.js';
-import { consoleLogger, type ILogger } from './inc/logger.js';
+import { consoleLogger } from './inc/logger.js';
 import type { ITypescriptFile } from './inc/TokenCollector.js';
 import { ApiHost } from './inc/tsapi.helpers.js';
-
 export { loadTsConfigJsonFile, type IExtendParsedCommandLine } from '@idlebox/tsconfig-loader';
 export { loadFilter } from './inc/loadFilter.js';
-export type { ILogger } from './inc/logger.js';
 export { ExportKind } from './inc/TokenCollector.js';
 export type { IIdentifierResult, ITypescriptFile } from './inc/TokenCollector.js';
 export { IgnoreFiles };
@@ -21,7 +20,7 @@ export class TypescriptProject {
 	constructor(
 		readonly ts: typeof TypeScriptApi,
 		private readonly command: TypeScriptApi.ParsedCommandLine,
-		private readonly logger: ILogger = consoleLogger
+		private readonly logger: IMyLogger = consoleLogger,
 	) {
 		this.api = new ApiHost(ts);
 		this.projectFiles = this.command.fileNames;

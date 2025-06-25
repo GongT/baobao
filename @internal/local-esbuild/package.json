@@ -12,15 +12,14 @@
 		"local-esbuild": "bin.js"
 	},
 	"scripts": {
-		"build": "tsc -p src",
+		"build": "mpis-tsc -p src",
 		"clean": "rimraf temp lib",
-		"watch": "tsc -p src --watch"
+		"watch": "mpis-tsc -p src --watch"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@types/node": "^22.15.21",
-		"@types/split2": "^4.2.3",
-		"rimraf": "^6.0.1"
+		"@types/split2": "^4.2.3"
 	},
 	"dependencies": {
 		"esbuild": "^0.25.5",

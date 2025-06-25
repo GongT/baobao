@@ -23,7 +23,7 @@ export abstract class GraphBase<T, pT> {
 		}
 		this.logger?.debug(`注册worker ${name}`);
 		this.logger?.verbose(`依赖：${dependencies.join(', ')}`);
-		this.graph.addNode(name, { name, dependencies, reference: itemRef, privateData: pt });
+		this.graph.addNode(name, { name, dependencies: dependencies.slice(), reference: itemRef, privateData: pt });
 		this.reverse.set(itemRef, name);
 	}
 

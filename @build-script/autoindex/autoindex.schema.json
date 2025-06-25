@@ -1,25 +1,23 @@
 {
-	"$schema": "http://json-schema.org/draft-04/schema#",
+	"$schema": "http://json-schema.org/draft-07/schema",
 	"title": "自动索引选项",
 	"description": "此schema描述了使用 @build-script/autoindex 时可以在 config/autoindex.json 中配置的选项。",
 	"type": "object",
 
 	"additionalProperties": false,
 
-	"required": ["project"],
 	"properties": {
+		"$schema": {
+			"type": "string"
+		},
 		"project": {
 			"type": "string",
 			"description": "项目使用的tsconfig.json路径（或其目录），相对于package.json所在目录。"
 		},
-		"filename": {
+		"output": {
 			"type": "string",
 			"default": "autoindex.generated",
-			"description": "索引文件的输出路径，相对于outDir。"
-		},
-		"outDir": {
-			"type": "string",
-			"description": "输出目录的路径，默认从tsconfig读取rootDir，如果没有就是tsconfig所在目录。"
+			"description": "索引文件的输出路径，相对于tsconfig.json所在目录。"
 		},
 		"include": {
 			"type": "array",
@@ -35,12 +33,16 @@
 			},
 			"description": "要排除的文件模式数组，用于扩展tsconfig里对应的值。"
 		},
-		"blacklist": {
+		"stripTags": {
 			"type": "array",
 			"items": {
 				"type": "string"
 			},
-			"description": "黑名单模式数组，匹配这些模式的符号将不会被索引。"
+			"description": "字符串数组，指定要从导出中删除的标签。默认值为['internal']。"
+		},
+		"absolute": {
+			"type": "string",
+			"description": "是否使用绝对导入路径，设置一个绝对路径前缀。默认使用相对路径。"
 		},
 		"watch": {
 			"type": "object",

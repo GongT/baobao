@@ -1,5 +1,5 @@
+import type { IMyLogger } from '@idlebox/logger';
 import { Minimatch } from 'minimatch';
-import type { ILogger } from './logger.js';
 export type IIgnore = RegExp | string | MatchFn;
 type MatchFn = (file: string) => boolean;
 
@@ -25,7 +25,7 @@ function nameof(fn: any) {
 export class IgnoreFiles {
 	private readonly ignores: MatchFn[] = [];
 
-	constructor(private readonly logger: ILogger) {}
+	constructor(private readonly logger: IMyLogger) {}
 
 	public add(ignore: IIgnore) {
 		if (ignore instanceof RegExp) {

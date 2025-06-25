@@ -1,4 +1,4 @@
-import { loadInheritedJson } from '@idlebox/json-extends-loader';
+import { loadInheritedJson, NotFoundError } from '@idlebox/json-extends-loader';
 import { type IRigConfig, RigConfig } from '@rushstack/rig-package';
 import deepmerge, { type Options } from 'deepmerge';
 import { resolve as importResolve } from 'import-meta-resolve';
@@ -22,6 +22,7 @@ export class ProjectConfig {
 	/**
 	 *
 	 * @param projectFolder absolute path of directory where the package.json is in
+	 * @param rigConfig 一个`RigConfig`，如果undefined，则自动加载
 	 */
 	constructor(
 		projectFolder: string,
@@ -103,9 +104,8 @@ export class ProjectConfig {
 	private _getFileInfo(path: string): Omit<ResolvedFile, 'effective'> {
 		const proj = resolve(this.rigConfig.projectFolderPath, path);
 
-		let rigProfile: string | undefined;
 		try {
-			rigProfile = this.rigConfig.getResolvedProfileFolder();
+			const rigProfile = this.rigConfig.getResolvedProfileFolder();
 			const rig = resolve(rigProfile, path);
 			const rigRoot = resolve(rigProfile, '../..', path);
 
@@ -124,6 +124,62 @@ export class ProjectConfig {
 	}
 
 	/**
+	 * 加载 config/xxx.json，如果没有再去找rig
+	 * @param name
+	 * @param schemaContent
+	 */
+	loadSingleJson<T>(name: string, schemaContent?: any): T {
+		const files = this.getJsonConfigInfo(name);
+
+		if (!files.effective) {
+			throw new Error(
+				`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`,
+			);
+		}
+
+		let result: any;
+		try {
+			result = loadInheritedJson(files.project.path);
+		} catch (e) {
+			if (e instanceof NotFoundError) {
+				result = loadInheritedJson(files.rig.path);
+			} else {
+				throw e;
+			}
+		}
+
+		this._read_json_validate(result, files, schemaContent);
+		return result as T;
+	}
+
+	/**
+	 * 加载 config/xxx.json，不尝试rig
+	 * @param name
+	 * @param schemaContent
+	 * @throws {ValidationError} 如果配置文件不符合 schemaContent 的要求，则抛出错误
+	 */
+	loadPackageJsonOnly<T>(name: string, schemaContent?: any): T {
+		const files = this.getJsonConfigInfo(name);
+		const result = loadInheritedJson(files.project.path);
+		this._read_json_validate(result, files, schemaContent);
+		return result as T;
+	}
+
+	private _read_json_validate(data: any, files: ResolvedFile, schemaContent?: any) {
+		if (!schemaContent) {
+			return;
+		}
+		try {
+			validateSchema(data, schemaContent);
+		} catch (e: unknown) {
+			if (e instanceof ValidationError) {
+				e.message = `invalid "${files.effective}"${e.message}\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`;
+			}
+			throw e;
+		}
+	}
+
+	/**
 	 * 同时加载 rig 和项目的 config/xxx.json 文件
 	 * 目前使用deepmerge 合并两个配置文件
 	 *
@@ -132,22 +188,6 @@ export class ProjectConfig {
 	 * @throws {Error} 如果配置文件不符合 schemaContent 的要求，则抛出错误
 	 */
 	loadBothJson<T>(name: string, schemaContent?: any, mergeConfig?: Options): T {
-		const data = this._loadBothJson<T>(name, mergeConfig);
-		if (schemaContent) {
-			try {
-				validateSchema(data, schemaContent);
-			} catch (e: unknown) {
-				console.log(data);
-				if (e instanceof ValidationError) {
-					const files = this.getJsonConfigInfo(name);
-					e.message = `invalid "${name}.json"${e.message}\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`;
-				}
-				throw e;
-			}
-		}
-		return data;
-	}
-	private _loadBothJson<T>(name: string, mergeConfig?: Options): T {
 		const files = this.getJsonConfigInfo(name);
 
 		let result: any;
@@ -157,17 +197,19 @@ export class ProjectConfig {
 		if (files.project.exists) {
 			const child = loadInheritedJson(files.project.path);
 			if (result) {
-				return deepmerge(result, child, mergeConfig);
+				result = deepmerge(result, child, mergeConfig);
 			} else {
-				return child;
+				result = child;
 			}
 		} else if (result) {
-			return result;
+			// nothing to do
 		} else {
 			throw new Error(
 				`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`,
 			);
 		}
+		this._read_json_validate(result, files, schemaContent);
+		return result;
 	}
 }
 

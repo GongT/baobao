@@ -24,8 +24,8 @@
 	],
 	"license": "MIT",
 	"scripts": {
-		"build": "tsc -p src",
-		"watch": "tsc -p src -w"
+		"build": "mpis-tsc -p src",
+		"watch": "mpis-tsc -p src -w"
 	},
 	"dependencies": {
 		"debug": "^4.4.1",

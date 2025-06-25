@@ -10,10 +10,10 @@
 		"default": "./index.js"
 	},
 	"scripts": {
-		"build": "true",
-		"clean": "true",
-		"test": "true",
-		"watch": "true"
+		"build": "",
+		"clean": "",
+		"test": "",
+		"watch": ""
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {

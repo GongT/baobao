@@ -1,9 +1,10 @@
-import type TypeScriptApi from 'typescript';
 import { inspect, type InspectOptions } from 'node:util';
-import { createColor, createInspectTab, type ILogger } from './logger.js';
+import type TypeScriptApi from 'typescript';
+import { createColor, createInspectTab } from './logger.js';
 import type { IResolveResult } from './MapResolver.js';
 import { ApiHost } from './tsapi.helpers.js';
 
+import type { IMyLogger } from '@idlebox/logger';
 import type { inspect as utilsInspect } from 'node:util';
 
 export interface WithOriginal {
@@ -55,7 +56,7 @@ export class TokenCollector implements ITypescriptFile {
 	constructor(
 		public readonly sourceFile: TypeScriptApi.SourceFile,
 		public readonly relativePath: string,
-		private readonly logger: ILogger
+		private readonly logger: IMyLogger,
 	) {
 		this.absolutePath = sourceFile.fileName;
 	}
@@ -71,7 +72,7 @@ export class TokenCollector implements ITypescriptFile {
 		id: TypeScriptApi.ModuleExportName,
 		node: TypeScriptApi.Node,
 		reference: IResolveResult & WithOriginal,
-		kind = ExportKind.Unknown
+		kind = ExportKind.Unknown,
 	) {
 		const name = ApiHost.idToString(id);
 		if (this.identifiers.has(name)) this.logger.debug('duplicate exported identifier: %s', ApiHost.idToString(id));

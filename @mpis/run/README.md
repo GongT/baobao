@@ -84,6 +84,7 @@ pnpm exec run clean
 	"name": "my-project",
 	"version": "1.0.0",
 	"scripts": {
+		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean"

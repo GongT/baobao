@@ -2,19 +2,19 @@ import { argv } from '@idlebox/args/default';
 import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler } from '@idlebox/node';
-import { printUsage } from './common/args.js';
+import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
 
 registerNodejsExitHandler();
 
 let level = EnableLogLevel.auto;
-if (argv.flag(['-v', '--verbose']) > 0) {
+if (verboseMode) {
 	level = EnableLogLevel.verbose;
-} else if (argv.flag(['-d', '--debug']) > 0) {
+} else if (debugMode) {
 	level = EnableLogLevel.debug;
 }
 createRootLogger('', level);
 
-if (argv.flag(['-h', '--help']) > 0) {
+if (helpMode) {
 	printUsage();
 	process.exit(0);
 }
@@ -32,6 +32,7 @@ if (!cmd) {
 	logger.fatal`No command specified.`;
 	process.exit(1);
 }
+export const currentCommand = cmd.value;
 
 logger.log`Running command: ${cmd.value}`;
 

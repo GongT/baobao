@@ -8,10 +8,10 @@
 		"local-rig-prepublish-hook": "./loader/prepublish-hook.devel.js"
 	},
 	"scripts": {
-		"build": "tsc -p src --noEmit",
-		"clean": "true",
-		"test": "true",
-		"watch": "tsc -p src --noEmit -w"
+		"build": "mpis-tsc -p src --noEmit",
+		"clean": "",
+		"test": "",
+		"watch": "mpis-tsc -p src --noEmit -w"
 	},
 	"private": true,
 	"dependencies": {

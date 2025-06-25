@@ -2,13 +2,15 @@ import type { IDisposable } from '../dispose/lifecycle.js';
 import { Disposable } from '../dispose/lifecycle.sync.js';
 import { Emitter } from '../event/event.js';
 
+type TimerT = ReturnType<typeof setInterval>;
+
 /**
  * @param unref defaults to `false`, when true, call `unref()` on the timer.
  *            can not set to `true` on other platform.
  * @returns dispose will stop the interval
  */
 export function interval(ms: number, action: () => void, unref = false) {
-	let timer: number | undefined = setInterval(action, ms);
+	let timer: TimerT | undefined = setInterval(action, ms);
 	// unref is not supported in browser
 	if (unref) (timer as any).unref();
 
@@ -23,7 +25,7 @@ export function interval(ms: number, action: () => void, unref = false) {
 
 /**
  * A simple interval class.
- * 
+ *
  * mainly use for pause/resume several times.
  */
 export class Interval extends Disposable {

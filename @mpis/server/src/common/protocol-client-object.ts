@@ -1,5 +1,5 @@
 import { AsyncDisposable, Emitter } from '@idlebox/common';
-import { createLogger, EnableLogLevel, type IMyLogger } from '@idlebox/logger';
+import { createLogger, type IMyLogger } from '@idlebox/logger';
 import { inspect } from 'node:util';
 import { CompileError } from './error.js';
 
@@ -58,11 +58,13 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	private readonly _onTerminate = this._register(new Emitter<void>());
 	public readonly onTerminate = this._onTerminate.event;
 
-	constructor(public readonly _id: string) {
+	constructor(
+		public readonly _id: string,
+		logger?: IMyLogger,
+	) {
 		super(_id);
 
-		this.logger = createLogger(`protocol:${_id}`);
-		this.logger.enable(EnableLogLevel.log);
+		this.logger = logger ?? createLogger(`protocol:${_id}`);
 
 		if (_id.includes(' ')) {
 			this.logger.warn(`title contains space`);
@@ -70,7 +72,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	}
 
 	protected emitSuccess(message: string, output?: string) {
-		this.logger.success`built: ${message}`;
+		this.logger.success`built: ${message}\n`;
 		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_SUCCEED;
 		this._onSuccess.fireNoError({ message, output });
@@ -80,12 +82,14 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	protected emitFailure(message: Error): void;
 	protected emitFailure(message: string, output?: string): void;
 	protected emitFailure(e: string | Error, output?: string) {
-		if (e instanceof Error) {
-			//
+		if (e instanceof Error && !(e instanceof CompileError)) {
+			const ee = new CompileError(this._id, e.message, output);
+			ee.stack = ee.message + '\n' + e.stack?.slice(e.message.length + 1);
+			e = ee;
 		} else {
-			e = new CompileError(this._id, e, output);
+			e = new CompileError(this._id, e.toString(), output);
 		}
-		this.logger.warn`failed: ${e.message}`;
+		this.logger.error`failed: ${e.message}`;
 		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_FAILED;
 		this._onFailure.fireNoError(e);
@@ -96,7 +100,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		if (this._state === State.EXECUTING) {
 			this.timings.firstStart = Date.now();
 		}
-		this.logger.log`start building...`;
+		this.logger.debug`emit event: start building...`;
 		this._state = State.COMPILE_STARTED;
 		this._onStart.fireNoError();
 	}
@@ -140,7 +144,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 
 			if (this.state !== State.COMPILE_FAILED && this.state !== State.COMPILE_SUCCEED) {
 				this.logger.verbose` ~ unknown state, emitting success`;
-				this.emitSuccess('build completed without error');
+				this.emitSuccess('build exited without error');
 			}
 
 			if (this.hasDisposed) {

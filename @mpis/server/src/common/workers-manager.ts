@@ -56,10 +56,12 @@ export class WorkersManager extends Disposable {
 	protected readonly _onTerminate = this._register(new Emitter<ProtocolClientObject>());
 	public readonly onTerminate = this._onTerminate.event;
 
-	constructor(public readonly mode: ModeKind) {
+	constructor(
+		public readonly mode: ModeKind,
+		logger = createLogger('worker'),
+	) {
 		super(`WorkersManager`);
 
-		const logger = createLogger('worker');
 		this.logger = logger.extend('master');
 		this.dependencyGraph =
 			mode === ModeKind.Watch
@@ -70,26 +72,31 @@ export class WorkersManager extends Disposable {
 		registerNodejsExitHandler();
 	}
 
-	addWorker(worker: ProtocolClientObject, dependencies: ProtocolClientObject[]) {
+	addEmptyWorker(id: string) {
+		this.dependencyGraph.addEmptyNode(id);
+	}
+
+	addWorker(worker: ProtocolClientObject, dependencies: readonly string[]) {
 		this._register(worker);
 
 		this.workerList.push(worker);
 
-		this.dependencyGraph.addNode(
-			worker._id,
-			dependencies.map((e) => e._id),
-			new EventTranslate(this.logger, worker),
-		);
+		this.dependencyGraph.addNode(worker._id, dependencies, new EventTranslate(this.logger, worker));
 	}
 
-	async finalize() {
+	private _finalized = false;
+	finalize() {
+		if (this._finalized) return;
+		this._finalized = true;
 		Object.freeze(this.workerList);
 		this.dependencyGraph.finalize();
-
 		this.logger.debug`workers finalized.`;
+	}
+
+	async startup() {
+		this.finalize();
 
 		await this.dependencyGraph.startup();
-
 		this.logger.debug`all workers started!!!`;
 	}
 

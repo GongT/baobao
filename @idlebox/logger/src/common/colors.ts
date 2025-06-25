@@ -17,8 +17,8 @@ export const logTagColor: Record<LogLevel, string> = {
 	[LogLevel.log]: '0',
 	[LogLevel.info]: '38;5;14',
 	[LogLevel.success]: '38;5;10',
-	[LogLevel.debug]: '2',
-	[LogLevel.verbose]: '2',
+	[LogLevel.debug]: '38;5;243',
+	[LogLevel.verbose]: '38;5;234',
 };
 
 export const logLevelPaddingStr: Record<LogLevel, string> = {

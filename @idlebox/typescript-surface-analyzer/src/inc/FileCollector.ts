@@ -1,7 +1,8 @@
+import type { IMyLogger } from '@idlebox/logger';
 import { getSourceRoot } from '@idlebox/tsconfig-loader';
 import { relative } from 'node:path';
 import type TypeScriptApi from 'typescript';
-import { type ILogger, showFile } from './logger.js';
+import { showFile } from './logger.js';
 import { type IResolveResult, MapResolver } from './MapResolver.js';
 import { ExportKind, type ITypescriptFile, TokenCollector } from './TokenCollector.js';
 import type { ApiHost } from './tsapi.helpers.js';
@@ -16,7 +17,7 @@ export class FileCollector {
 	constructor(
 		private readonly api: ApiHost,
 		options: TypeScriptApi.CompilerOptions,
-		private readonly logger: ILogger
+		private readonly logger: IMyLogger,
 	) {
 		this.ts = api.ts;
 		this.sourceRoot = getSourceRoot(options);
@@ -47,7 +48,7 @@ export class FileCollector {
 		return relative(this.sourceRoot, abs).replace(/^\/+|^[a-z]:[/\\]+/gi, '');
 	}
 
-	private tokenWalk(collect: TokenCollector, node: TypeScriptApi.Node, logger: ILogger) {
+	private tokenWalk(collect: TokenCollector, node: TypeScriptApi.Node, logger: IMyLogger): void {
 		if (node.kind === this.ts.SyntaxKind.EndOfFileToken) {
 			return;
 		}
@@ -81,7 +82,7 @@ export class FileCollector {
 					'===================\n%s\nLINE: %s\n%s\n===================',
 					e,
 					node.getText(),
-					showFile(node)
+					showFile(node),
 				);
 				return;
 			}
@@ -132,7 +133,7 @@ export class FileCollector {
 			if (this.ts.isStringLiteral(node.name)) {
 				this.logger.error(
 					'only .d.ts can use <export namespace|module "name">, and analyzer do not support this.',
-					showFile(node)
+					showFile(node),
 				);
 			} else {
 				collect.add(node.name, node, ExportKind.Variable);

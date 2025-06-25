@@ -11,6 +11,7 @@ export enum StartupState {
 }
 
 interface IPriData {
+	isEmptyNode: boolean;
 	startupState: StartupState;
 	initialize(): Promise<void>;
 }
@@ -29,17 +30,30 @@ export abstract class StartupPump<T, pT> extends GraphBase<T, pT & IPriData> {
 		name: string,
 		dependencies: readonly string[],
 		itemRef: T,
-		pt: pT & Omit<IPriData, 'startupState'>,
+		pt: pT & Omit<IPriData, 'startupState' | 'isEmptyNode'>,
 	): void {
 		super._addNode(name, dependencies, itemRef, {
 			...pt,
+			isEmptyNode: false,
 			startupState: StartupState.Wait,
+		});
+	}
+
+	protected _addEmptyNode(name: string, itemRef: T, pt: pT) {
+		super._addNode(name, [], itemRef, {
+			...pt,
+			isEmptyNode: true,
+			startupState: StartupState.Done,
+			initialize() {
+				return Promise.resolve();
+			},
 		});
 	}
 
 	protected abstract _isNodeSuccess(name: string, data: pT): boolean;
 	protected isNodeSuccess(name: string): boolean {
 		const data = this.getPrivateData(name);
+		if (data.isEmptyNode) return true;
 		return data.startupState === StartupState.Done && this._isNodeSuccess(name, data);
 	}
 
@@ -130,9 +144,14 @@ export abstract class StartupPump<T, pT> extends GraphBase<T, pT & IPriData> {
 		if (this.working.size >= this.concurrency || this.isShutdown) return;
 		const leafs = this.leafNodes().filter((name) => this.getPrivateData(name).startupState === StartupState.Wait);
 
-		if (this.logger)
+		const notStarted = this.overallOrder.filter((name) => {
+			return !this.isNodeInitialized(name);
+		});
+
+		if (this.logger) {
 			this.logger
-				.debug`[pump] working size: ${this.working.size}, concurrency: ${this.concurrency}, leafs to run: ${leafs}`;
+				.debug`[pump] working size: ${this.working.size}, queue: ${notStarted.length}, concurrency: ${this.concurrency}, leafs to run: ${leafs}`;
+		}
 
 		for (const name of leafs) {
 			const data = this.getPrivateData(name);
@@ -162,6 +181,25 @@ export abstract class StartupPump<T, pT> extends GraphBase<T, pT & IPriData> {
 		}
 		if (this.logger) {
 			this.logger.debug`       working size: ${this.working.size}`;
+		}
+
+		if (this.working.size === 0 && !this.allInitialized) {
+			let message = 'died lock: no more working, but not all nodes initialized\n';
+			for (const name of this.overallOrder) {
+				const pt = this.getPrivateData(name);
+				message += `  - ${name}: [${StartupState[pt.startupState]}]`;
+				message += ` [${this.isNodeSuccess(name) ? 'success' : 'not success'}]`;
+				if (pt.startupState !== StartupState.Done) {
+					const blocker = this.blockedBy(name);
+					if (blocker.length !== 1) {
+						message += ` blocker: ${blocker.length}`;
+					} else {
+						message += ` blocker: ${blocker[0]}`;
+					}
+				}
+				message += '\n';
+			}
+			throw new Error(message);
 		}
 	}
 

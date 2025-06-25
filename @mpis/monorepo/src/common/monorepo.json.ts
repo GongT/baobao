@@ -1,4 +1,4 @@
 export interface IBuildConfigJson {
 	$schema: string;
-	dependencies: readonly string[];
+	dependencies?: readonly string[];
 }

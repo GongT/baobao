@@ -1,3 +1,5 @@
+import { argv } from '@idlebox/args/default';
+
 export function printUsage() {
 	console.log('Usage: build-manager <command>');
 	console.log();
@@ -6,3 +8,7 @@ export function printUsage() {
 	console.log('  watch   start watch mode');
 	console.log('  clean   cleanup all projects');
 }
+
+export const verboseMode = argv.flag(['-v', '--verbose']) > 0;
+export const debugMode = argv.flag(['-d', '--debug']) > 0;
+export const helpMode = argv.flag(['-h', '--help']) > 0;

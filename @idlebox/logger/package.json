@@ -15,10 +15,10 @@
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "rimraf lib && tsc -p src",
-		"build": "tsc -p src",
-		"watch": "tsc -p src -w",
-		"clean": "rimraf lib",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-tsc -p src",
+		"watch": "mpis-tsc -p src -w",
+		"clean": "mpis-run clean",
 		"test": "mocha --bail lib/esm/tests"
 	},
 	"repository": "https://github.com/GongT/baobao",

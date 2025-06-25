@@ -101,7 +101,6 @@
 	// Identifiers
 	export { globalObject } from "./platform/globalObject.js";
 	export { ensureGlobalObject } from "./platform/globalObject.js";
-	export { x } from "./platform/globalObject.js";
 /* error/pretty.vscode.ts */
 	// Identifiers
 	export { vscEscapeValue } from "./error/pretty.vscode.js";
@@ -322,6 +321,10 @@
 /* typingHelper/deep.writable.ts */
 	// Identifiers
 	export type { DeepWriteable } from "./typingHelper/deep.writable.js";
+/* lifecycle/timeout/interval.ts */
+	// Identifiers
+	export { interval } from "./lifecycle/timeout/interval.js";
+	export { Interval } from "./lifecycle/timeout/interval.js";
 /* lifecycle/event/event.ts */
 	// Identifiers
 	export type { EventHandler } from "./lifecycle/event/event.js";

@@ -2,8 +2,12 @@ import Ajv, { type ErrorObject } from 'ajv';
 import ajvErrors from 'ajv-errors';
 import { inspect } from 'node:util';
 
+// import draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json' with { type: 'json' };
+
 export function validateSchema(object: any, schema: any): boolean {
 	const ajv = ajvErrors(new Ajv({ allErrors: true, strict: false }));
+	// ajv.addMetaSchema(draft7MetaSchema);
+
 	const validate = ajv.compile(schema);
 	const valid = validate(object);
 

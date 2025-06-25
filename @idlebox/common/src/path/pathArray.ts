@@ -23,6 +23,11 @@ abstract class PathArrayAbstract {
 		}
 	}
 
+	clone(): PathArrayAbstract {
+		const Cls = this.constructor as any;
+		return new Cls(this.array);
+	}
+
 	get size() {
 		return this.array.length;
 	}
