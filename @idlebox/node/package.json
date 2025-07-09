@@ -3,12 +3,12 @@
 	"type": "module",
 	"version": "1.4.6",
 	"license": "MIT",
-	"main": "./lib/autoindex.generated.js",
+	"main": "./lib/autoindex.js",
 	"exports": {
 		".": {
-			"source": "./src/autoindex.generated.ts",
-			"types": "./src/autoindex.generated.ts",
-			"default": "./lib/autoindex.generated.js"
+			"source": "./src/autoindex.ts",
+			"types": "./src/autoindex.ts",
+			"default": "./lib/autoindex.js"
 		},
 		"./package.json": "./package.json"
 	},

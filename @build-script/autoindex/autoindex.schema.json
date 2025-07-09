@@ -5,6 +5,7 @@
 	"type": "object",
 
 	"additionalProperties": false,
+	"allowTrailingCommas": true,
 
 	"properties": {
 		"$schema": {

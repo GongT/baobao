@@ -1,4 +1,5 @@
 {
-	"$schema": "../../../@build-script/heft-autoindex-plugin/src/config-file-schema.json",
-	"project": "./src"
+	"$schema": "../../../@build-script/autoindex/autoindex.schema.json",
+	"project": "./src",
+	"output": "autoindex",
 }

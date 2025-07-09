@@ -10,12 +10,12 @@
 		"helpers",
 		"library"
 	],
-	"main": "./lib/autoindex.generated.js",
+	"main": "./lib/autoindex.js",
 	"exports": {
 		".": {
-			"types": "./src/autoindex.generated.ts",
-			"source": "./src/autoindex.generated.ts",
-			"default": "./lib/autoindex.generated.js"
+			"types": "./src/autoindex.ts",
+			"source": "./src/autoindex.ts",
+			"default": "./lib/autoindex.js"
 		},
 		"./package.json": "./package.json"
 	},
