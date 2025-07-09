@@ -22,8 +22,14 @@ Options:
 	);
 }
 
+export enum ConfigKind {
+	DISABLE = 'disable',
+	IMPLICIT = 'implicit',
+	EXPLICIT = 'explicit',
+}
+
 export interface ICliArgs {
-	readonly useConfigFile: boolean;
+	readonly configType: ConfigKind;
 	readonly watchMode: boolean;
 	readonly debugMode: boolean;
 	readonly outputFile?: string;
@@ -60,8 +66,14 @@ async function _parseArgs(): Promise<ICliArgs> {
 	const includePatterns = argv.multiple(['--include']);
 	const absoluteImport = argv.single(['-a', '--absolute']);
 	const stripTags = argv.multiple(['--skip-tag']);
-	const useConfigFile = argv.flag(['--config']) >= 0;
 	const projVal = argv.range(0, 1)[0];
+
+	let configType = ConfigKind.IMPLICIT;
+	if (argv.flag(['--config']) > 0) {
+		configType = ConfigKind.EXPLICIT;
+	} else if (argv.flag(['--config']) < 0) {
+		configType = ConfigKind.DISABLE;
+	}
 
 	if (verboseMode) {
 		logger.enable(EnableLogLevel.verbose);
@@ -84,7 +96,7 @@ async function _parseArgs(): Promise<ICliArgs> {
 	const project = projVal ? resolve(process.cwd(), projVal) : undefined;
 
 	return {
-		useConfigFile,
+		configType,
 		watchMode,
 		debugMode,
 		outputFile,

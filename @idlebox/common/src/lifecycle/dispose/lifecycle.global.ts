@@ -21,7 +21,7 @@ export function registerGlobalLifecycle(object: IDisposable) {
 
 /**
  * Same as disposeGlobal, but do not throw by duplicate call
- * 
+ *
  * Never throws when child object dispose failed
  */
 export function ensureDisposeGlobal() {

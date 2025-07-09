@@ -1,0 +1,6 @@
+{
+	"$schema": "../../@mpis/monorepo/build.schema.json",
+	"removeDependencies": [
+		"@mpis/run"
+	]
+}

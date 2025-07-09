@@ -47,6 +47,7 @@
 			},
 			"complexity": {
 				"noThisInStatic": "off",
+				"useLiteralKeys": "off",
 			},
 			"correctness": {
 				"useImportExtensions": {

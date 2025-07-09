@@ -28,6 +28,11 @@ export interface MaybeNamedFunction extends Function {
 	displayName?: string;
 }
 
+export interface MaybeNamed {
+	readonly name?: string;
+	readonly displayName?: string;
+}
+
 /**
  * Assert function must have oneof displayName/name property
  */

@@ -3,6 +3,8 @@ import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler } from '@idlebox/node';
 import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
+import { runBuild } from './common/cmd.build.js';
+import { runWatch } from './common/cmd.watch.js';
 
 registerNodejsExitHandler();
 
@@ -36,14 +38,15 @@ export const currentCommand = cmd.value;
 
 logger.log`Running command: ${cmd.value}`;
 
+process.title = `MpisMonorepo`;
+
 switch (cmd.value) {
 	case 'build':
-		await import('./commands/build.js');
+		await runBuild();
 		break;
 	case 'watch':
-		await import('./commands/watch.js');
+		await runWatch();
 		break;
 	case 'clean':
-		await import('./commands/clean.js');
-		break;
+		throw new Error('The "clean" command is not implemented yet.');
 }

@@ -26,11 +26,11 @@
 		}
 	},
 	"scripts": {
-		"prepack": "heft build --clean",
-		"test": "heft test --clean",
-		"build": "heft compile",
-		"watch": "heft compile-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
@@ -47,9 +47,10 @@
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"@types/source-map": "npm:source-map@*",

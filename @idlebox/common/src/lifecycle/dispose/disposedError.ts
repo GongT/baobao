@@ -1,6 +1,7 @@
 import { tryInspect } from '../../debugging/tryInspect.js';
 import { getErrorFrame } from '../../error/getFrame.js';
 import { prettyFormatError } from '../../error/pretty.js';
+import type { StackTraceHolder } from '../../error/stackTrace.js';
 
 /**
  * Error when call dispose() twice
@@ -9,10 +10,16 @@ export class DisposedError extends Error {
 	public readonly inspectString: string;
 	constructor(
 		object: any,
-		public readonly previous: Error
+		public readonly previous: StackTraceHolder,
 	) {
 		const insp = tryInspect(object);
+
+		const old = (Error as any).stackTraceLimit;
+		(Error as any).stackTraceLimit = Number.MAX_SAFE_INTEGER;
+
 		super(`Object [${insp}] has already disposed ${getErrorFrame(previous, 2)}.`);
+
+		(Error as any).stackTraceLimit = old;
 
 		this.inspectString = insp;
 		this.name = 'Warning';

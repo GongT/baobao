@@ -3,7 +3,10 @@
 	"type": "module",
 	"version": "0.0.18",
 	"description": "api for modify .*ignore files",
-	"keywords": ["gitignore", "ignorefile"],
+	"keywords": [
+		"gitignore",
+		"ignorefile"
+	],
 	"license": "MIT",
 	"author": "GongT",
 	"main": "./lib/cjs/api.cjs",
@@ -20,10 +23,11 @@
 	"bin": "bin.cjs",
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
@@ -32,6 +36,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21"
 	}

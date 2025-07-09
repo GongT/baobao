@@ -19,6 +19,12 @@ export class MapResolver {
 		private readonly map?: Record<string, string[]>
 	) {}
 
+	/**
+	 * TODO: 需要node exports resolve
+	 * @param source 
+	 * @param target 
+	 * @returns 
+	 */
 	private _resolve(source: string, target: string): string {
 		const base = basename(target);
 		const dir = dirname(target);

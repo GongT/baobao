@@ -3,7 +3,12 @@
 	"type": "commonjs",
 	"version": "1.0.7",
 	"description": "some global variables copied from @types/node or dom",
-	"keywords": ["Typescript", "console", "type", "typings"],
+	"keywords": [
+		"Typescript",
+		"console",
+		"type",
+		"typings"
+	],
 	"license": "MIT",
 	"typings": "./index.d.ts",
 	"scripts": {
@@ -11,5 +16,8 @@
 		"clean": "",
 		"test": "",
 		"watch": ""
+	},
+	"devDependencies": {
+		"@mpis/run": "workspace:*"
 	}
 }

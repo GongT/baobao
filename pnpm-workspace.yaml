@@ -27,6 +27,7 @@ hoistPattern:
   - ""
 
 overrides:
+  ajv: '^8.17.1'
 
 saveWorkspaceProtocol: rolling
 savePrefix: '^'

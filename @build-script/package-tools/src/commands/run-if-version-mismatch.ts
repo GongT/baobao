@@ -1,7 +1,7 @@
+import type { IArgsReaderApi } from '@idlebox/args';
 import { checkChildProcessResult } from '@idlebox/node';
 import { execa } from 'execa';
 import { lt } from 'semver';
-import type { ArgsReader } from '../../../../@idlebox/args/lib/esm/library/args-reader.js';
 import { CacheMode } from '../common/cache/native.npm.js';
 import { CommandDefine, distTagInput, pArgS, pDesc } from '../common/functions/cli.js';
 import { logger } from '../common/functions/log.js';
@@ -22,7 +22,7 @@ export class Command extends CommandDefine {
 		'--newer': { flag: true, description: '只有在本地版本号大于远程版本号时才运行（默认只要不同就运行）' },
 	};
 }
-export async function main(argv: ArgsReader) {
+export async function main(argv: IArgsReaderApi) {
 	const noCache = argv.flag('--no-cache') > 0;
 	const flushCache = argv.flag('--flush') > 0;
 	const onlyNewer = argv.flag('--newer') > 0;
@@ -30,7 +30,7 @@ export async function main(argv: ArgsReader) {
 	const commands = argv.unused();
 	if (commands.length === 0 || !process.argv.includes('--')) {
 		logger.error(
-			'参数中必须包含"--"，并且后面跟随要运行的命令。\n  示例: run-if-version-mismatch --quiet -- pnpm publish'
+			'参数中必须包含"--"，并且后面跟随要运行的命令。\n  示例: run-if-version-mismatch --quiet -- pnpm publish',
 		);
 		return 22;
 	}

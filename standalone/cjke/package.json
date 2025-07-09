@@ -3,22 +3,31 @@
 	"type": "module",
 	"version": "1.1.0",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
-	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
+	"keywords": [
+		"CJK",
+		"chinese",
+		"display width",
+		"emoji",
+		"string",
+		"string width",
+		"unicode"
+	],
 	"license": "MIT",
-	"main": "./lib/autoindex.js",
+	"main": "./lib/autoindex.generated.js",
 	"exports": {
 		".": {
-			"source": "./src/autoindex.ts",
-			"default": "./lib/autoindex.js"
+			"source": "./src/autoindex.generated.ts",
+			"types": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"test": "heft test",
-		"build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
 	"repository": "https://github.com/GongT/cjke.git",
 	"dependencies": {
@@ -31,6 +40,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/chai": "^5.2.2",
 		"@types/mocha": "^10.0.10",

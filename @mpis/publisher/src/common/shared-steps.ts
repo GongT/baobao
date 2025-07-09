@@ -45,7 +45,7 @@ export async function makeTempPackage() {
 	symlinkSync(nm, resolve(tempPackagePath, 'node_modules'));
 
 	logger.log`执行prepublishHook……`;
-	await execPnpmUser(tempPackagePath, ['run', 'prepublishHook']);
+	await execPnpmUser(tempPackagePath, ['run', '--if-present', 'prepublishHook']);
 	logger.success`prepublishHook成功完成`;
 }
 

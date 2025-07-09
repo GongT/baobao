@@ -61,7 +61,7 @@ function _colorEnabled(stream: IWritableStream): boolean {
 	return false;
 }
 
-export function color_enabled(stream: IWritableStream = process.stderr): boolean {
+export function detectColorEnable(stream: IWritableStream = process.stderr): boolean {
 	if (stream.colorEnabled === undefined) {
 		stream.colorEnabled = _colorEnabled(stream);
 	}

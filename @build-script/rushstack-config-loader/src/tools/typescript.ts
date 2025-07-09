@@ -11,7 +11,7 @@ function defaultTypeScript(config: ProjectConfig) {
 	r = config.rigConfig.tryResolveConfigFilePath('src/tsconfig.json');
 	if (r) return r;
 
-	config.warning('internal resolver failed.');
+	config.logger.error('internal resolver failed.');
 	return undefined;
 }
 
@@ -24,7 +24,7 @@ export async function typescriptProject(config: ProjectConfig): Promise<ITypeScr
 
 	let cfg: ITypeScriptConfigurationJson;
 	if (cfgFile) {
-		config.warning(`found config file: ${cfgFile}`);
+		config.logger.error(`found config file: ${cfgFile}`);
 		cfg = loadInheritedJson(cfgFile, {
 			cwd: config.projectFolder,
 			readJsonFile: createDynamicReader((_file, data: any) => {
@@ -34,7 +34,7 @@ export async function typescriptProject(config: ProjectConfig): Promise<ITypeScr
 			}),
 		});
 	} else {
-		config.warning('missing config/typescript.json (searched rig package), using internal resolver.');
+		config.logger.error('missing config/typescript.json (searched rig package), using internal resolver.');
 		const project = defaultTypeScript(config);
 		cfg = { project };
 	}

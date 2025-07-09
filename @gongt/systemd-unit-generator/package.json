@@ -3,7 +3,10 @@
 	"type": "module",
 	"version": "0.0.7",
 	"description": "generate systemd unit file with type checking",
-	"keywords": ["generater", "systemd"],
+	"keywords": [
+		"generater",
+		"systemd"
+	],
 	"license": "MIT",
 	"main": "./lib/cjs/index.cjs",
 	"module": "./lib/esm/index.js",
@@ -19,10 +22,11 @@
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
@@ -32,6 +36,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21"
 	}

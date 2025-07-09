@@ -1,3 +1,4 @@
+import type { MaybeNamed } from '../../function/functionName.js';
 import type { EventRegister } from '../event/event.js';
 
 /**
@@ -10,11 +11,8 @@ export interface IDisposableEvents {
 }
 
 /** @public */
-export interface IDisposable {
+export interface IDisposable extends MaybeNamed {
 	dispose(): void;
-
-	readonly name?: string;
-	readonly displayName?: string;
 
 	// [Symbol.dispose]?(): void;
 	/** @internal do not use/rely */
@@ -22,11 +20,8 @@ export interface IDisposable {
 }
 
 /** @public */
-export interface IAsyncDisposable {
+export interface IAsyncDisposable extends MaybeNamed {
 	dispose(): void | Promise<void>;
-
-	name?: string;
-	displayName?: string;
 
 	// [Symbol.dispose]?(): void | Promise<void>;
 	// [Symbol.asyncDispose]?(): void | Promise<void>;
@@ -69,4 +64,31 @@ export function toDisposable(fn_or_obj: Disposable | AsyncDisposable | (() => vo
 			cause: fn_or_obj,
 		});
 	}
+}
+
+type ClosableAsync = { close(): Promise<any> } & MaybeNamed;
+type ClosableSync = { close(cb: (e?: Error) => void): void } & MaybeNamed;
+export function closableToDisposable(closable: ClosableAsync | ClosableSync): IDisposable {
+	const promised = closable.close.length === 0;
+
+	return {
+		get displayName() {
+			return `closableToDisposable[AsyncDisposable](${closable.displayName || closable.name || closable.constructor.name || 'unknown'})`;
+		},
+		dispose() {
+			if (promised) {
+				return (closable as ClosableAsync).close();
+			} else {
+				return new Promise<void>((resolve, reject) => {
+					return (closable as ClosableSync).close((error) => {
+						if (error) {
+							reject(error);
+						} else {
+							resolve();
+						}
+					});
+				});
+			}
+		},
+	};
 }

@@ -181,7 +181,10 @@ export class CustomFileWriter implements Plugin {
 
 	private getEntryPathTryCss(result: BuildResult, file: string) {
 		const id = file.replace(isSourceMap, '');
-		for (const output of Object.values(result.metafile?.outputs)) {
+		if (!result.metafile?.outputs) {
+			return undefined;
+		}
+		for (const output of Object.values(result.metafile.outputs)) {
 			if (output.cssBundle === id && output.entryPoint) {
 				return output.entryPoint;
 			}

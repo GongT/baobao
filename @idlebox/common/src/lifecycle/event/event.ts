@@ -1,4 +1,4 @@
-import { AppExit } from '../../autoindex.js';
+import { AppExit } from '../../error-wellknown/exit.error.js';
 import type { IDisposable } from '../dispose/lifecycle.js';
 
 export type EventHandler<T> = (data: T) => void;

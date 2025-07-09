@@ -3,7 +3,12 @@
 	"type": "module",
 	"version": "2.0.37",
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
-	"keywords": ["comment", "edit", "json", "jsonc"],
+	"keywords": [
+		"comment",
+		"edit",
+		"json",
+		"jsonc"
+	],
 	"license": "MIT",
 	"exports": {
 		".": {
@@ -15,10 +20,11 @@
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
@@ -28,6 +34,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"source-map-support": "^0.5.21",

@@ -68,7 +68,7 @@ export function makeOutputTester(pkgJson: IPackageJson) {
 			failed: heftFailedReg,
 		});
 	}
-	if (command.startsWith('local-esbuild ')) {
+	if (command.startsWith('esbuild ')) {
 		return createSingleLineMatch({
 			start: esbuildStartReg,
 			stop: esbuildStopReg,

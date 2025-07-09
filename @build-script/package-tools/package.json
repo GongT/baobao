@@ -8,18 +8,19 @@
 		"njspkg": "./load.mjs"
 	},
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/ensure-symlink": "workspace:^",
-		"@idlebox/node": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
+		"@idlebox/node": "workspace:^",
 		"cacache": "^19.0.1",
 		"dependency-graph": "^1.0.0",
 		"execa": "^9.6.0",
@@ -37,7 +38,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@internal/plugins": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/cacache": "^17.0.2",
 		"@types/global-agent": "^3.0.0",
@@ -46,6 +47,7 @@
 		"@types/request": "^2.48.12",
 		"@types/semver": "^7.7.0",
 		"@types/targz": "^1.0.5",
+		"@types/tiny-async-pool": "^2.0.3",
 		"@types/tinycolor2": "^1.4.6"
 	}
 }

@@ -1,12 +1,11 @@
 import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
 import { call_debug_command, nodeFormat } from './debug.commands.js';
-import { color_enabled } from './helpers.js';
 import type { IMyDebug, IMyDebugWithControl } from './types.js';
 
 interface IDebugOptions {
 	tag: string;
 	level: LogLevel;
-	color_enabled?: boolean;
+	color_enabled: boolean;
 	color_entire_line?: boolean;
 	stream?: NodeJS.WritableStream;
 	enabled?: boolean;
@@ -14,7 +13,7 @@ interface IDebugOptions {
 export function createDebug({
 	tag,
 	level,
-	color_enabled: color_forced,
+	color_enabled,
 	color_entire_line = false,
 	stream = process.stdout,
 	enabled = true,
@@ -26,10 +25,9 @@ export function createDebug({
 		color,
 		level,
 	};
-	const colors: boolean = typeof color_forced === 'undefined' ? color_enabled(lineOpt.stream) : color_forced;
 
 	let write_line: IMyDebug;
-	if (!colors) {
+	if (!color_enabled) {
 		write_line = write_line_monolithic(lineOpt);
 	} else if (color_entire_line) {
 		write_line = write_line_colored_line(lineOpt);

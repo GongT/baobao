@@ -1,7 +1,7 @@
 import { shutdown } from '@idlebox/node';
 import { LogLevel } from './colors.js';
 import { createDebug } from './debug-fn.js';
-import { defaultLogLevel } from './helpers.js';
+import { defaultLogLevel, detectColorEnable } from './helpers.js';
 import { EnableLogLevel, type IMyDebugWithControl, type IMyLogger } from './types.js';
 
 const seen_loggers = new Set<string>();
@@ -15,6 +15,8 @@ export function create(
 ): IMyLogger {
 	let currentLevel = defaultLevel;
 	seen_loggers.add(tag);
+
+	if (color_enabled === undefined) color_enabled = detectColorEnable(stream);
 
 	const log_fatal = createDebug({ tag, color_enabled, level: LogLevel.fatal, stream, color_entire_line: true });
 
@@ -42,6 +44,8 @@ export function create(
 		success,
 		debug,
 		verbose,
+
+		colorEnabled: color_enabled,
 
 		enable(newMaxLevel: EnableLogLevel) {
 			currentLevel = newMaxLevel;

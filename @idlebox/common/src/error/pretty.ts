@@ -7,7 +7,7 @@ import { vscEscapeValue } from './pretty.vscode.js';
 const process = globalObject.process;
 const window = globalObject.window;
 
-const padding = /^(?<padding>\s*)at /.source;
+const padding = /^(?<padding> {4})at /.source;
 const func_call = /(?<func_name>(?:(?:async|new) )?[^\/\\\s]+) (?:\[as (?<func_alias>[^\]]+)] )?/.source;
 //                              xxxx.yyyyy [as eval]
 const line_column = /(?::(?<line>\d+))?(?::(?<column>\d+))?/.source;
@@ -30,6 +30,9 @@ const regEvalItem = new RegExp(`\\(eval at ${func_call}`, 'g');
 const eval_source = /, (?<eval_func>[\S]+):(?<eval_line>\d+):(?<eval_column>\d+)/.source;
 const regEval = new RegExp(`${padding}${func_call}.*?\\(${location}\\)+${eval_source}`);
 type TypeMatchEval = 'padding' | TypeMatchNoFile | TypeMatchFileOnly | 'eval_func' | 'eval_line' | 'eval_column';
+
+const regInvalid = new RegExp(`${padding}(?<content>.+) \\(${location}\\)$`);
+type TypeMatchInvalid = TypeMatchFileOnly | 'content';
 
 let root = process?.cwd?.() ?? window?.location?.domain ?? '/';
 export function setErrorLogRoot(_root: string) {
@@ -147,11 +150,20 @@ export function parseStackLine(line: string): IStructreStackLine {
 		};
 		for (const item of line.matchAll(regEvalItem)) {
 			// biome-ignore lint/style/noNonNullAssertion: 有匹配必然有 groups
-			ret.eval.funcs.push(item.groups!.func_name);
+			ret.eval.funcs.push(item.groups!['func_name']);
 		}
 		ret.eval.funcs.push(mEval.eval_func);
 
 		return ret;
+	}
+
+	const mInv = matchLine<TypeMatchInvalid>(line, regInvalid);
+	if (mInv) {
+		const path = mInv.path1 || mInv.path2;
+		if (path.endsWith(mInv.content)) {
+			addLoc(ret, mInv);
+			return ret;
+		}
 	}
 
 	ret.invalid = true;
@@ -425,6 +437,9 @@ function skipSomeFrame({ func, location }: IStructreStackLine): boolean {
 	if (location.path === '<anonymous>') {
 		// new Promise ('<anonymous>')
 		if (func?.name === 'new Promise') {
+			return false;
+		}
+		if (func?.name === 'new Function') {
 			return false;
 		}
 	}

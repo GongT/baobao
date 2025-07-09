@@ -1,14 +1,15 @@
 import Ajv, { type ErrorObject } from 'ajv';
-import ajvErrors from 'ajv-errors';
+import { readFileSync } from 'node:fs';
 import { inspect } from 'node:util';
 
-// import draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json' with { type: 'json' };
+// https://github.com/ajv-validator/ajv-errors/issues/157
+// import ajvErrors from 'ajv-errors';
 
-export function validateSchema(object: any, schema: any): boolean {
-	const ajv = ajvErrors(new Ajv({ allErrors: true, strict: false }));
-	// ajv.addMetaSchema(draft7MetaSchema);
+export function validateSchema(object: any, schemaFile: string): boolean {
+	const ajv = new Ajv({ allErrors: true, strict: false });
 
-	const validate = ajv.compile(schema);
+	const validate = loadSchemaFile(ajv, schemaFile);
+
 	const valid = validate(object);
 
 	if (validate.errors) {
@@ -16,6 +17,18 @@ export function validateSchema(object: any, schema: any): boolean {
 	}
 
 	return valid;
+}
+
+function loadSchemaFile(ajv: Ajv, schemaFile: string): any {
+	try {
+		const schema = JSON.parse(readFileSync(schemaFile, 'utf-8'));
+		return ajv.compile(schema);
+	} catch (e: any) {
+		if (e instanceof SyntaxError) {
+			throw new Error(`invalid JSON schema file: ${schemaFile} - ${e.message}`);
+		}
+		throw e;
+	}
 }
 
 function formatError(error: ErrorObject, level = 0): string {

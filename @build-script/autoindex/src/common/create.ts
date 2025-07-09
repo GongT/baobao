@@ -115,12 +115,11 @@ export async function createIndex({
 		if (file.references.length) {
 			content.push('\t// References');
 			for (const { reference } of file.references) {
-				content.push(
-					`\texport * from "${importSpec(
-						indexDir,
-						reference.type === 'file' ? reference.relativeFromRoot : reference.name,
-					)}";`,
-				);
+				if (reference.type === 'file') {
+					content.push(`\texport * from "${importSpec(indexDir, reference.relativeFromRoot)}";`);
+				} else {
+					content.push(`\texport * from "${reference.name}";`);
+				}
 			}
 		}
 		if (file.defaultExport) {

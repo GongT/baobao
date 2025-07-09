@@ -31,8 +31,8 @@
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/logger": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"@mpis/shared": "workspace:^",
 		"execa": "^9.6.0",
 		"split2": "^4.2.0"
@@ -40,6 +40,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21"
 	}
 }

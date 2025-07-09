@@ -34,6 +34,8 @@ Path中添加`当前包`和`rig包`的`node_modules/.bin`目录
 				"arguments": ["src"]
 			}
 		},
+		// 可以从 commands 中引用
+		"some-common-command",
 		{
 			// 可选，默认为command的第一个单词，仅用于显示
 			"title": "typescript",
@@ -62,6 +64,13 @@ Path中添加`当前包`和`rig包`的`node_modules/.bin`目录
 			]
 		},
 	],
+	"commands": {
+		  // 可以在此处定义一些常用的命令，供其他命令引用
+		"some-common-command": {
+			"title": "common command",
+			"command": ["some-command", "--arg=value"]
+		}
+	},
 	"clean": [
 		"dist",
 		"lib",

@@ -2,6 +2,7 @@ import { argv } from '@idlebox/args/default';
 import { humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler } from '@idlebox/node';
+import { channelClient } from '@mpis/client';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { rmSync } from 'node:fs';
 import { printUsage } from './common/args.js';
@@ -30,6 +31,8 @@ if (!command) {
 	printUsage();
 	throw logger.fatal`No command provided. Please specify a command to run.`;
 }
+
+process.title = `MpisRun`;
 
 logger.info`Running command "${command.value}" in ${projectRoot}`;
 
@@ -66,6 +69,8 @@ switch (command.value) {
 		break;
 }
 
+// channelClient.displayName = `MpisRun`;
+
 async function executeBuild() {
 	workersManager = new WorkersManager(command!.value === 'watch' ? ModeKind.Watch : ModeKind.Build);
 
@@ -89,6 +94,8 @@ async function executeBuild() {
 	});
 
 	workersManager.finalize();
+
+	channelClient.start();
 	await workersManager.startup();
 
 	reprintWatchModeError();
@@ -114,7 +121,8 @@ function initializeWorkers() {
 			worker.pathvar.add(path);
 		}
 
-		worker.displayTitle = 'client';
+		const cmd0 = typeof cmds.command === 'string' ? cmds.command.split(' ')[0] : cmds.command[0];
+		worker.displayTitle = `run:${cmd0}`;
 
 		workersManager.addWorker(worker, last ? [last._id] : []);
 
@@ -123,6 +131,7 @@ function initializeWorkers() {
 			errors.set(worker, e);
 			reprintWatchModeError(nodeFirstTime);
 			nodeFirstTime = false;
+			sendStatus();
 		});
 		worker.onSuccess(() => {
 			errors.set(worker, null);
@@ -131,6 +140,7 @@ function initializeWorkers() {
 			} else {
 				reprintWatchModeError();
 			}
+			sendStatus();
 		});
 
 		last = worker;
@@ -175,12 +185,22 @@ function reprintWatchModeError(noClear?: boolean) {
 	printAllErrors();
 }
 
-function printAllErrors() {
+function sendStatus() {
+	const noError = errors.values().every((e) => !e);
+	if (noError) {
+		channelClient.success(`All workers completed successfully.`);
+	} else {
+		const errorCnt = errors.values().filter((e) => !!e);
+		channelClient.failed(`${errorCnt} (of ${workersManager.size}) workers error.`, formatAllErrors());
+	}
+}
+
+function formatAllErrors() {
+	const lines: string[] = [];
+	const colorEnabled = logger.colorEnabled;
 	let index = 0;
 	for (const [worker, error] of errors) {
-		if (error === null) {
-			continue;
-		}
+		if (error === null) continue;
 
 		index++;
 
@@ -188,21 +208,25 @@ function printAllErrors() {
 		if (error.name !== 'Error') {
 			tag = ` (${error.name})`;
 		}
-		const banner = `\x1B[48;5;9m ERROR ${index} \x1B[0m`;
-		console.error(`\n${banner}${tag} ${worker._id}`);
+		const banner = colorEnabled ? `\x1B[48;5;9m ERROR ${index} \x1B[0m` : `ERROR ${index}`;
+		lines.push(`\n${banner}${tag} ${worker._id}`);
 		if (error instanceof CompileError) {
-			console.error(error.toString());
+			lines.push(error.toString());
 		} else if (error instanceof Error) {
-			console.error(prettyFormatError(error));
+			lines.push(prettyFormatError(error));
 		} else {
-			console.error(`can not handle error: ${error}`);
+			lines.push(`can not handle error: ${error}`);
 		}
-		console.error(`\n${banner} ${worker._id}`);
+		lines.push(`\n${banner} ${worker._id}`);
 	}
+	return lines.join('\n');
+}
 
+function printAllErrors() {
 	const numFailed = [...errors.values().filter((e) => !!e)].length;
-	console.error('');
 	if (numFailed !== 0) {
+		console.error(formatAllErrors());
+
 		logger.error(`💥 ${numFailed} of ${workersManager.size} worker failed`);
 	} else {
 		logger.success(`✅ no error in ${workersManager.size} workers`);

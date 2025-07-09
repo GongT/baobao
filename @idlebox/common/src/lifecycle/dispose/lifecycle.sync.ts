@@ -1,3 +1,4 @@
+import { createStackTraceHolder, type StackTraceHolder } from '../../error/stackTrace.js';
 import { Emitter, type EventRegister } from '../event/event.js';
 import { _debug_dispose, dispose_name } from './debug.js';
 import { DisposedError } from './disposedError.js';
@@ -8,7 +9,7 @@ interface _DOMDisposable {
 }
 
 export abstract class DisposableOnce implements IDisposable {
-	private _disposed?: Error;
+	private _disposed?: StackTraceHolder;
 
 	public get hasDisposed() {
 		return !!this._disposed;
@@ -18,7 +19,7 @@ export abstract class DisposableOnce implements IDisposable {
 			console.warn(new DisposedError(this, this._disposed).message);
 			return;
 		}
-		this._disposed = new Error('disposed');
+		this._disposed = createStackTraceHolder('disposed', this.dispose);
 		this._dispose();
 	}
 
@@ -49,7 +50,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 	protected readonly _onBeforeDispose = new Emitter<void>();
 	public readonly onBeforeDispose: EventRegister<void> = this._onBeforeDispose.register;
 
-	private _disposed?: Error;
+	private _disposed?: StackTraceHolder;
 
 	/** @internal */
 	readonly #logger;
@@ -111,7 +112,7 @@ export class Disposable implements IDisposable, IDisposableEvents {
 			return;
 		}
 		this._onBeforeDispose.fireNoError();
-		this._disposed = new Error('disposed');
+		this._disposed = createStackTraceHolder('disposed', this.dispose);
 
 		this._disposables.push(this._onBeforeDispose);
 		this._disposables.push(this._onDisposeError);

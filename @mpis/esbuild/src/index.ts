@@ -1,5 +1,5 @@
-import { BuildEvent, channelClient, make_message } from '../../types/src.js';
 import { isModuleResolutionError } from '@idlebox/node';
+import { channelClient } from '@mpis/client';
 import type esbuild from 'esbuild';
 import { createRequire } from 'node:module';
 
@@ -23,6 +23,8 @@ function loadLocalEsbuild(): typeof esbuild | null {
 export async function defineEsbuild(title: string, options: OptionOrFunc): Promise<esbuild.BuildContext> {
 	const esb: typeof esbuild = loadLocalEsbuild() || (await import('esbuild').then((m) => m.default || m));
 
+	channelClient.friendlyTitle = title;
+
 	if (typeof options === 'function') {
 		options = await options();
 	}
@@ -34,30 +36,29 @@ export async function defineEsbuild(title: string, options: OptionOrFunc): Promi
 		setup(build) {
 			build.onStart(() => {
 				console.log('[watch] build started');
-				channelClient.send(make_message(BuildEvent.Start, title));
+				channelClient.start();
 			});
 
 			build.onEnd((result) => {
 				const errors: string[] = [];
 				for (const error of result.errors) {
 					errors.push(
-						`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: error: ${error.text}`
+						`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: error: ${error.text}`,
 					);
 				}
 				for (const error of result.warnings) {
 					errors.push(
-						`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: warning: ${error.text}`
+						`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: warning: ${error.text}`,
 					);
 				}
 
-				channelClient.send(
-					make_message(errors.length > 0 ? BuildEvent.Failed : BuildEvent.Success, title, errors.join('\n'))
-				);
-
+				console.log('[watch] build finished');
 				if (errors.length) {
-					console.log('[watch] build finished');
+					channelClient.failed('esbuild build failed', errors.join('\n'));
+					console.error(errors.join('\n'));
+				} else {
+					channelClient.success('esbuild build finished');
 				}
-				console.error(errors.join('\n'));
 			});
 		},
 	});

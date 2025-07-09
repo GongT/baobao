@@ -155,4 +155,15 @@ export class WorkersManager extends Disposable {
 			this.dependencyGraph.debugFormatSummary()
 		);
 	}
+
+	public formatDebugList() {
+		const dNum = this.startingWorkers.length + this.remainingWorkers.length;
+
+		return (
+			`[\x1B[38;5;14mWorkersManager\x1B[39m total=${this.workerList.length}; pending=${dNum}]\n` +
+			this.dependencyGraph.debugFormatList() +
+			'\n' +
+			this.dependencyGraph.debugFormatSummary()
+		);
+	}
 }

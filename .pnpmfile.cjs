@@ -13,9 +13,9 @@ module.exports = {
 };
 
 function init() {
-	const cmds = [process.argv0, require.main.filename, 'multi', 'ls', '--json', '--depth=-1']
+	const cmds = [process.argv0, require.main.filename, 'multi', 'ls', '--json', '--depth=-1'];
 	console.error(`\x1B[2m+ ${cmds.join(' ')}\x1B[0m`);
-	const result = spawnSync(cmds[0],cmds.slice(1), {
+	const result = spawnSync(cmds[0], cmds.slice(1), {
 		encoding: 'utf8',
 		stdio: ['ignore', 'pipe', 'inherit'],
 	});
@@ -29,7 +29,7 @@ function init() {
 	for (const { path } of projects) {
 		const p = resolve(path, 'package.json');
 		const val = loadJsonSync(p);
-		if(val.name) {
+		if (val.name) {
 			myProjects.add(val.name);
 		}
 
@@ -43,7 +43,7 @@ function init() {
 
 function addEverythingToDependency(rigPkg) {
 	for (const name of myProjects.values()) {
-		if(name===rigPkg.name) continue;
+		if (name === rigPkg.name) continue;
 		rigPkg.devDependencies[name] = 'workspace:^';
 	}
 }
@@ -73,12 +73,12 @@ function readPackage(packageJson, context) {
 
 function lockDep(deps, context) {
 	for (const [name, version] of Object.entries(deps)) {
-		if (!name.startsWith('@types/')) continue;
-
-		if (knownTypesVersion[name]) {
-			deps[name] = knownTypesVersion[name];
-		} else {
-			knownTypesVersion[name] = version;
+		if (name.startsWith('@types/')) {
+			if (knownTypesVersion[name]) {
+				deps[name] = knownTypesVersion[name];
+			} else {
+				knownTypesVersion[name] = version;
+			}
 		}
 	}
 }

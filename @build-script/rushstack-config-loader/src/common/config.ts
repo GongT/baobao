@@ -2,13 +2,12 @@ import { loadInheritedJson, NotFoundError } from '@idlebox/json-extends-loader';
 import { type IRigConfig, RigConfig } from '@rushstack/rig-package';
 import deepmerge, { type Options } from 'deepmerge';
 import { resolve as importResolve } from 'import-meta-resolve';
-import { existsSync } from 'node:fs';
+import { existsSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { validateSchema, ValidationError } from './ajv.js';
 import { isModuleResolutionError } from './functions.js';
-
-export type IWarning = (message: string) => void;
+import type { IMyLogger } from './logger.js';
 
 /**
  * 主类，通用项目配置文件加载器
@@ -27,7 +26,7 @@ export class ProjectConfig {
 	constructor(
 		projectFolder: string,
 		rigConfig?: IRigConfig,
-		public readonly warning: IWarning = console.warn,
+		public readonly logger: IMyLogger = console,
 	) {
 		this.rigConfig = rigConfig || RigConfig.loadForProjectFolder({ projectFolderPath: projectFolder });
 		if (this.rigConfig.rigFound) {
@@ -126,14 +125,14 @@ export class ProjectConfig {
 	/**
 	 * 加载 config/xxx.json，如果没有再去找rig
 	 * @param name
-	 * @param schemaContent
 	 */
-	loadSingleJson<T>(name: string, schemaContent?: any): T {
+	loadSingleJson<T>(name: string, schemaFile?: string): T {
 		const files = this.getJsonConfigInfo(name);
 
 		if (!files.effective) {
-			throw new Error(
-				`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`,
+			throw new NotFoundError(
+				`config/${name}.json`,
+				`\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`,
 			);
 		}
 
@@ -148,32 +147,32 @@ export class ProjectConfig {
 			}
 		}
 
-		this._read_json_validate(result, files, schemaContent);
+		this._read_json_validate(result, files, schemaFile);
 		return result as T;
 	}
 
 	/**
 	 * 加载 config/xxx.json，不尝试rig
 	 * @param name
-	 * @param schemaContent
-	 * @throws {ValidationError} 如果配置文件不符合 schemaContent 的要求，则抛出错误
+	 * @param schemaFile
+	 * @throws {ValidationError} 如果配置文件不符合 schemaFile 的要求，则抛出错误
 	 */
-	loadPackageJsonOnly<T>(name: string, schemaContent?: any): T {
+	loadPackageJsonOnly<T>(name: string, schemaFile?: string): T {
 		const files = this.getJsonConfigInfo(name);
 		const result = loadInheritedJson(files.project.path);
-		this._read_json_validate(result, files, schemaContent);
+		this._read_json_validate(result, files, schemaFile);
 		return result as T;
 	}
 
-	private _read_json_validate(data: any, files: ResolvedFile, schemaContent?: any) {
-		if (!schemaContent) {
+	private _read_json_validate(data: any, files: ResolvedFile, schemaFile?: string) {
+		if (!schemaFile) {
 			return;
 		}
 		try {
-			validateSchema(data, schemaContent);
+			validateSchema(data, schemaFile);
 		} catch (e: unknown) {
 			if (e instanceof ValidationError) {
-				e.message = `invalid "${files.effective}"${e.message}\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`;
+				e.message = `invalid JSON: ${e.message}\n  - schema file: "${schemaFile}"\n  - effective: "${tryRealPath(files.effective)}"\n  - project file: ${files.project.path}\n  - rig file: ${tryRealPath(files.rig.path)}`;
 			}
 			throw e;
 		}
@@ -185,9 +184,9 @@ export class ProjectConfig {
 	 *
 	 * TODO: 实现此处的 merge 方法 https://heft.rushstack.io/pages/advanced/heft-config-file/
 	 *
-	 * @throws {Error} 如果配置文件不符合 schemaContent 的要求，则抛出错误
+	 * @throws {Error} 如果配置文件不符合 schemaFile 的要求，则抛出错误
 	 */
-	loadBothJson<T>(name: string, schemaContent?: any, mergeConfig?: Options): T {
+	loadBothJson<T>(name: string, schemaFile?: string, mergeConfig?: Options): T {
 		const files = this.getJsonConfigInfo(name);
 
 		let result: any;
@@ -205,10 +204,10 @@ export class ProjectConfig {
 			// nothing to do
 		} else {
 			throw new Error(
-				`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${files.rig.path}`,
+				`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`,
 			);
 		}
-		this._read_json_validate(result, files, schemaContent);
+		this._read_json_validate(result, files, schemaFile);
 		return result;
 	}
 }
@@ -223,3 +222,12 @@ type ResolvedFile = {
 	rig: IFile;
 	rigRoot: IFile;
 };
+
+function tryRealPath(link?: string) {
+	if (!link) return undefined;
+	try {
+		return realpathSync(link);
+	} catch {
+		return link;
+	}
+}

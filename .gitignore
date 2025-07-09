@@ -46,10 +46,7 @@ yarn-error.log*
 **/.editorconfig
 **/.git*
 **/.prettier*
-**/pnpm-lock.yaml
 **/yarn.lock
-
-!common/config/rush/pnpm-lock.yaml
 
 ### Generated Files
 *.generated.*

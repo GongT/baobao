@@ -27,15 +27,16 @@ const test4 = test_success_quit(Math.random() * 500 + 200);
 
 const testaa = test_success_quit(Math.random() * 500 + 200);
 
-workersManager.addWorker(test1, [test2]);
-workersManager.addWorker(test2, [test2a, test2b]);
-workersManager.addWorker(test3, [testaa]);
-workersManager.addWorker(test4, [testaa]);
+workersManager.addWorker(test1, [test2._id]);
+workersManager.addWorker(test2, [test2a._id, test2b._id]);
+workersManager.addWorker(test3, [testaa._id]);
+workersManager.addWorker(test4, [testaa._id]);
 workersManager.addWorker(test2a, []);
-workersManager.addWorker(test2b, [testaa]);
+workersManager.addWorker(test2b, [testaa._id]);
 workersManager.addWorker(testaa, []);
 
-await workersManager.finalize().then(
+await workersManager.finalize()
+await workersManager.startup().then(
 	() => {
 		logger.info('all workers completed!!');
 		shutdown(0);

@@ -21,6 +21,7 @@ interface ICommandInput {
 }
 interface IConfigFileInput {
 	build: (string | ICommandInput)[];
+	commands: Record<string, ICommandInput>;
 	clean: string[];
 }
 
@@ -58,13 +59,17 @@ function watchModeCmd(
 }
 
 export function loadConfigFile(watchMode: boolean): IConfigFile {
-	const config = new ProjectConfig(projectRoot, undefined, logger.warn);
-	const schema = JSON.parse(readFileSync(resolve(selfRoot, 'commands.schema.json'), 'utf-8'));
+	const config = new ProjectConfig(projectRoot, undefined, logger);
+	const schemaFile = resolve(selfRoot, 'commands.schema.json');
 
 	const configFile = config.getJsonConfigInfo('commands');
 	logger.debug`using config file long<${configFile.effective}>`;
 
-	const input: IConfigFileInput = config.loadBothJson('commands', schema);
+	const input: IConfigFileInput = config.loadBothJson('commands', schemaFile, {
+		arrayMerge(target, _source) {
+			return target;
+		},
+	});
 
 	const buildMap = new Map<string, ICommand>();
 	const buildTitles: string[] = [];
@@ -76,15 +81,12 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 		buildTitles.push(cmd.title);
 	}
 
-	for (const item of input.build) {
+	for (let item of input.build) {
 		if (typeof item === 'string') {
-			set({
-				title: guessTitle(item),
-				command: watchModeCmd(item, undefined, watchMode),
-				cwd: projectRoot,
-				env: {},
-			});
-			continue;
+			item = input.commands[item];
+			if (!item) {
+				logger.fatal`command "${item}" not found in commands`;
+			}
 		}
 
 		const cmd = item.command;

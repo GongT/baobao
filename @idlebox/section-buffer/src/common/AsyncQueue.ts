@@ -1,4 +1,11 @@
-import { DisposedError, Emitter, type IStateChangeEvent, SimpleStateMachine } from '@idlebox/common';
+import {
+	createStackTraceHolder,
+	DisposedError,
+	Emitter,
+	type IStateChangeEvent,
+	SimpleStateMachine,
+	type StackTraceHolder,
+} from '@idlebox/common';
 
 function immediate() {
 	return new Promise<void>((resolve) => {
@@ -65,7 +72,7 @@ export class LossyAsyncQueue<T = void> {
 	private state = new SimpleStateMachine(rules, State.idle);
 
 	private _promise: Promise<void> | undefined;
-	private disposed: Error | undefined;
+	private disposed: StackTraceHolder | undefined;
 
 	private readonly _onError = new Emitter<Error>();
 	public readonly onError = this._onError.register;
@@ -168,7 +175,7 @@ export class LossyAsyncQueue<T = void> {
 	async dispose() {
 		if (this.disposed) return;
 
-		this.disposed = new Error();
+		this.disposed = createStackTraceHolder('disposed');
 
 		// console.log('[AsyncQueue] to dispose: promise=%s, state=%s', !!this._promise, this.state.getName());
 		this.state.change(Event.dispose);

@@ -4,6 +4,80 @@
 	"type": "object",
 	"allowTrailingCommas": true,
 	"required": ["$schema", "build", "clean"],
+	"definitions": {
+		"CommandSpecifier": {
+			"type": "object",
+			"additionalProperties": false,
+			"description": "A single command to execute",
+			"required": ["command"],
+			"minLength": 1,
+			"properties": {
+				"title": {
+					"type": "string",
+					"description": "A debug title for the command",
+					"minLength": 1
+				},
+				"command": {
+					"type": ["string", "array", "object"],
+					"description": "The command to run",
+					"items": { "type": "string", "minLength": 1 },
+					"required": ["package"],
+					"properties": {
+						"package": { "type": "string" },
+						"binary": { "type": "string" },
+						"arguments": { "type": "array", "items": { "type": "string" } }
+					},
+					"minLength": 1
+				},
+				"watch": {
+					"type": ["string", "array"],
+					"description": "additional arguments to pass to the command when watching",
+					"default": ["-w"],
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"cwd": {
+					"type": "string",
+					"description": "working directory (relative to the package.json directory)",
+					"default": ".",
+					"minLength": 1
+				},
+				"env": {
+					"type": "object",
+					"description": "additional environment variables (key-value pairs) for the command",
+					"additionalProperties": {
+						"type": "string"
+					}
+				}
+			},
+			"errorMessage": { "not": "Can not have both 'command' and 'watch' but different type." },
+			"not": {
+				"anyOf": [
+					{
+						"required": ["command", "watch"],
+						"properties": {
+							"command": {
+								"type": "string"
+							},
+							"watch": {
+								"type": "array"
+							}
+						}
+					},
+					{
+						"required": ["command", "watch"],
+						"properties": {
+							"command": {
+								"type": "array"
+							},
+							"watch": {
+								"type": "string"
+							}
+						}
+					}
+				]
+			}
+		}
+	},
 	"properties": {
 		"$schema": {
 			"type": "string",
@@ -13,76 +87,19 @@
 			"type": "array",
 			"description": "List of commands to run",
 			"items": {
-				"type": ["object", "string"],
-				"additionalProperties": false,
-				"description": "A single command to execute",
-				"required": ["command"],
-				"minLength": 1,
-				"properties": {
-					"title": {
+				"anyOf": [
+					{ "$ref": "#/definitions/CommandSpecifier" },
+					{
 						"type": "string",
-						"description": "A debug title for the command",
-						"minLength": 1
-					},
-					"command": {
-						"type": ["string", "array", "object"],
-						"description": "The command to run",
-						"items": { "type": "string", "minLength": 1 },
-						"required": ["package"],
-						"properties": {
-							"package": { "type": "string" },
-							"binary": { "type": "string" },
-							"arguments": { "type": "array", "items": { "type": "string" } }
-						},
-						"minLength": 1
-					},
-					"watch": {
-						"type": ["string", "array"],
-						"description": "additional arguments to pass to the command when watching",
-						"default": ["-w"],
-						"items": { "type": "string", "minLength": 1 }
-					},
-					"cwd": {
-						"type": "string",
-						"description": "working directory (relative to the package.json directory)",
-						"default": ".",
-						"minLength": 1
-					},
-					"env": {
-						"type": "object",
-						"description": "additional environment variables (key-value pairs) for the command",
-						"additionalProperties": {
-							"type": "string"
-						}
+						"description": "title in commands"
 					}
-				},
-				"errorMessage": { "not": "Can not have both 'command' and 'watch' but different type." },
-				"not": {
-					"anyOf": [
-						{
-							"required": ["command", "watch"],
-							"properties": {
-								"command": {
-									"type": "string"
-								},
-								"watch": {
-									"type": "array"
-								}
-							}
-						},
-						{
-							"required": ["command", "watch"],
-							"properties": {
-								"command": {
-									"type": "array"
-								},
-								"watch": {
-									"type": "string"
-								}
-							}
-						}
-					]
-				}
+				]
+			}
+		},
+		"commands": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "#/definitions/CommandSpecifier"
 			}
 		},
 		"clean": {

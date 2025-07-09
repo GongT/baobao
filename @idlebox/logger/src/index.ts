@@ -2,7 +2,7 @@ export { LogLevel, logTagColor } from './common/colors.js';
 export { all_logger_names } from './common/create.js';
 export { createDebug } from './common/debug-fn.js';
 export {
-	color_enabled,
+	detectColorEnable as color_enabled,
 	debug_enabled,
 	is_string_truthy,
 	match_disabled,

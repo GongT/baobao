@@ -19,15 +19,16 @@
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
-		"@mpis/client": "workspace:^",
-		"@idlebox/node": "workspace:^",
 		"@idlebox/args": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@mpis/client": "workspace:^",
 		"typescript": "^5.8.3"
 	},
 	"devDependencies": {
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21"
 	},
 	"peerDependencies": {

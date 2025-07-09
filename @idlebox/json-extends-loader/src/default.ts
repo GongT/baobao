@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import objectPath from 'object-path';
-import { NotFoundError } from './error.js';
+import { ExtendError } from './error.js';
 import { readJsonFile } from './loader.js';
 
 type IReadFile = (file: string) => any;
@@ -110,7 +110,7 @@ function nodeResolution(current: string, id: string): string {
 		return req.resolve(id);
 	} catch (e: any) {
 		if (isModuleResolutionError(e)) {
-			throw new NotFoundError(id, current);
+			throw new ExtendError(id, current);
 		}
 		throw e;
 	}
@@ -118,7 +118,7 @@ function nodeResolution(current: string, id: string): string {
 function resolveFilesystem(current: string, id: string): string {
 	const file = resolve(current, '..', id);
 	if (!existsSync(file)) {
-		throw new NotFoundError(file, current);
+		throw new ExtendError(file, current);
 	}
 	return file;
 }

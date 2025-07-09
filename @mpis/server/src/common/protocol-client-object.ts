@@ -89,7 +89,7 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		} else {
 			e = new CompileError(this._id, e.toString(), output);
 		}
-		this.logger.error`failed: ${e.message}`;
+		this.logger.error`failed: long<${e.message}>`;
 		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_FAILED;
 		this._onFailure.fireNoError(e);

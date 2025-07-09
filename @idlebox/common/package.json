@@ -10,12 +10,12 @@
 		"helpers",
 		"library"
 	],
-	"main": "./lib/autoindex.js",
+	"main": "./lib/autoindex.generated.js",
 	"exports": {
 		".": {
-			"types": "./src/autoindex.ts",
-			"source": "./src/autoindex.ts",
-			"default": "./lib/autoindex.js"
+			"types": "./src/autoindex.generated.ts",
+			"source": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -29,13 +29,15 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@mpis/run": "workspace:^",
-		"@mpis/publisher": "workspace:^",
+		"@build-script/autoindex": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/publisher": "workspace:^",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6"
 	},
 	"dependencies": {
+		"ajv-errors": "^3.0.0",
 		"debug": "^4.4.1"
 	}
 }

@@ -24,8 +24,10 @@
 	],
 	"license": "MIT",
 	"scripts": {
-		"build": "mpis-tsc -p src",
-		"watch": "mpis-tsc -p src -w"
+		"prepack": "rimraf lib && tsc -p src",
+		"clean": "rimraf lib",
+		"build": "tsc -p src",
+		"watch": ""
 	},
 	"dependencies": {
 		"debug": "^4.4.1",
@@ -36,7 +38,10 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@mpis/typescript": "workspace:*",
 		"@types/node": "^22.15.21",
+		"@types/source-map-support": "^0.5.10",
+		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
 	}
 }

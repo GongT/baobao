@@ -1,24 +1,22 @@
 {
 	"$schema": "../node_modules/@mpis/run/commands.schema.json",
-	"build": [
-		/**
-		 *
-		 */
-		{
-			"command": ["autoindex", "--config", "-o", "autoindex", "src"]
+	"build": ["autoindex", "codegen", "typescript"],
+	"commands": {
+		"autoindex": {
+			"command": ["autoindex", "--config"]
 		},
 
 		/**
 		 *
 		 */
-		{
+		"codegen": {
 			"command": ["codegen", "src"]
 		},
 
 		/**
 		 *
 		 */
-		{
+		"typescript": {
 			"title": "Compile TypeScript",
 			"command": {
 				"package": "@mpis/typescript",
@@ -29,6 +27,6 @@
 			"cwd": ".",
 			"env": {}
 		}
-	],
+	},
 	"clean": ["lib"]
 }

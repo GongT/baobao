@@ -33,6 +33,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21",
 		"why-is-node-running": "^3.2.2"
 	}

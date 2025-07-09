@@ -25,10 +25,11 @@
 		"dependency-graph": "^1.0.0"
 	},
 	"devDependencies": {
-		"@idlebox/logger": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21",
 		"chai": "^5.2.0",
 		"mocha": "^11.5.0"

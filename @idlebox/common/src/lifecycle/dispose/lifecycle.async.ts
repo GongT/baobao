@@ -1,5 +1,6 @@
 import type debug from 'debug';
 import { convertCatchedError } from '../../error/convertUnknown.js';
+import { createStackTraceHolder, type StackTraceHolder } from '../../error/stackTrace.js';
 import { Emitter, type EventRegister } from '../event/event.js';
 import { _debug_dispose, dispose_name } from './debug.js';
 import { DisposedError } from './disposedError.js';
@@ -22,7 +23,7 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
 	protected readonly _onBeforeDispose = new Emitter<void>();
 	public readonly onBeforeDispose: EventRegister<void> = this._onBeforeDispose.register;
 
-	private _disposed?: Error;
+	private _disposed?: StackTraceHolder;
 	public readonly displayName?: string;
 
 	/** @internal */
@@ -81,7 +82,7 @@ export class AsyncDisposable implements IAsyncDisposable, IDisposableEvents {
 		}
 
 		this._onBeforeDispose.fireNoError();
-		this._disposed = new Error('disposed');
+		this._disposed = createStackTraceHolder('disposed', this.dispose);
 
 		this._disposables.push(this._onBeforeDispose);
 		this._disposables.push(this._onDisposeError);

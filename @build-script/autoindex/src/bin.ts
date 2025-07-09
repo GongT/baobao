@@ -12,6 +12,14 @@ import { loadTypescript } from './common/typescript.js';
 
 createRootLogger('autoindex');
 
+let tsData: Awaited<ReturnType<typeof loadTypescript>>;
+async function loadTypescriptOnce() {
+	if (!tsData) {
+		tsData = await loadTypescript(context);
+	}
+	return tsData;
+}
+
 async function main() {
 	let outputs = '';
 	logger.stream.on('data', (data) => {
@@ -19,6 +27,8 @@ async function main() {
 	});
 
 	channelClient.start();
+
+	const { ts, file: tsconfigFile } = await loadTypescriptOnce();
 
 	try {
 		const { command, configFiles } = loadTsConfigJson(ts, tsconfigFile, {
@@ -71,9 +81,15 @@ const args = await parseArgs();
 logger.debug`arguments: ${args}`;
 
 const context = await loadConfigFile(args, logger);
-const { ts, file: tsconfigFile } = await loadTypescript(context);
 
-if (context.watchMode) {
+if (!context.project) {
+	logger.log`没有任务需要执行`;
+	if (context.watchMode) {
+		setInterval(() => {
+			// x
+		}, 10000);
+	}
+} else if (context.watchMode) {
 	let lastExecuteIgnore: IgnoreFiles | undefined;
 	async function exec() {
 		const r = await main();

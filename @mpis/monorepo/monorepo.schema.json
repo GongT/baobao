@@ -17,6 +17,15 @@
 				"minLength": 1,
 				"description": "A dependency name, must persist as 'workspace:' in package.json"
 			}
+		},
+		"removeDependencies": {
+			"type": "array",
+			"description": "List of dependencies to remove from package.json",
+			"items": {
+				"type": "string",
+				"minLength": 1,
+				"description": "A dependency name, must persist as 'workspace:' in package.json"
+			}
 		}
-	}	
+	}
 }

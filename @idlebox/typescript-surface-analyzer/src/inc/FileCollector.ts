@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noAssignInExpressions: <explanation> */
+
 import type { IMyLogger } from '@idlebox/logger';
 import { getSourceRoot } from '@idlebox/tsconfig-loader';
 import { relative } from 'node:path';
@@ -34,7 +36,7 @@ export class FileCollector {
 
 		for (const sourceFile of sourceFiles) {
 			const collector = this.sources.get(sourceFile)!;
-			this.logger.debug('-> %s <-', collector.relativePath);
+			this.logger.debug`-> ${collector.relativePath} <-`;
 
 			this.ts.forEachChild(sourceFile, (node: TypeScriptApi.Node) => {
 				this.tokenWalk(collector, node, this.logger);
@@ -55,17 +57,18 @@ export class FileCollector {
 
 		const tagMatched = this.api.isTagMatch(node, this.stripTags);
 		if (tagMatched) {
-			logger.verbose(' * skip node by tsdoc @%s: %s', tagMatched, this.ts.SyntaxKind[node.kind]);
+			logger.verbose` * skip node by tsdoc @${tagMatched}: ${this.ts.SyntaxKind[node.kind]}`;
 			return;
 		}
 
 		if (this.ts.isExportDeclaration(node)) {
-			logger.verbose(' * found ExportDeclaration');
+			logger.verbose` * found ExportDeclaration ${node.moduleSpecifier?.getText()}`;
 			let reference: IResolveResult;
 			try {
 				if (node.moduleSpecifier) {
 					// export {a, b, c} from 'xxxx';
-					const path = (0 || eval)(node.moduleSpecifier.getText()); // TODO
+					// biome-ignore lint/security/noGlobalEval: 必定是字符串字面值，除非目标代码写错了，暂不考虑这种情况
+					const path: string = eval(node.moduleSpecifier.getText());
 					const ref = this.resolver.resolve(collect.absolutePath, path);
 
 					if (ref) {
@@ -73,17 +76,15 @@ export class FileCollector {
 					} else {
 						reference = { type: 'dependency', name: path };
 					}
+					logger.verbose`  resolved as ${reference}`;
 				} else {
 					// export {a, b, c};
 					reference = this.resolver.convert(collect.absolutePath);
+					logger.verbose`  convert to ${reference}`;
 				}
 			} catch (e: any) {
-				this.logger.error(
-					'===================\n%s\nLINE: %s\n%s\n===================',
-					e,
-					node.getText(),
-					showFile(node),
-				);
+				this.logger
+					.error`===================\n${e}\nLINE: long<${node.getText()}>\n long<${showFile(node)}>\n===================`;
 				return;
 			}
 

@@ -35,4 +35,5 @@ export type IMyLogger = {
 	enable(newMaxLevel: EnableLogLevel): void;
 
 	readonly tag: string;
+	readonly colorEnabled: boolean;
 };

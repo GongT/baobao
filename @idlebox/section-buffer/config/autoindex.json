@@ -1,3 +1,4 @@
 {
-	"$schema": "../../../@build-script/heft-autoindex-plugin/src/config-file-schema.json"
+	"$schema": "../../../@build-script/heft-autoindex-plugin/src/config-file-schema.json",
+	"project": "./src"
 }

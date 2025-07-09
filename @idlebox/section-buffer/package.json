@@ -4,24 +4,25 @@
 	"version": "0.0.22",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
-	"main": "./lib/cjs/__create_index.generated.cjs",
-	"module": "./lib/esm/__create_index.generated.js",
-	"types": "./lib/esm/__create_index.generated.d.ts",
+	"main": "./lib/cjs/autoindex.generated.cjs",
+	"module": "./lib/esm/autoindex.generated.js",
+	"types": "./lib/esm/autoindex.generated.d.ts",
 	"private": true,
 	"exports": {
 		".": {
-			"types": "./lib/esm/__create_index.generated.d.ts",
-			"import": "./lib/esm/__create_index.generated.js",
-			"require": "./lib/cjs/__create_index.generated.cjs"
+			"types": "./lib/esm/autoindex.generated.d.ts",
+			"import": "./lib/esm/autoindex.generated.js",
+			"require": "./lib/cjs/autoindex.generated.cjs"
 		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepack": "heft --unmanaged build --production --clean",
-		"build": "heft --unmanaged build",
-		"watch": "heft --unmanaged build-watch",
-		"clean": "heft clean"
+		"prepublishHook": "local-rig-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^"
@@ -29,6 +30,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/heft-jest": "^1.0.6",
 		"@types/node": "^22.15.21"

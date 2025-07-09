@@ -58,6 +58,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		const pathVarName = isWindows ? 'Path' : 'PATH';
 		if (env[pathVarName]) {
 			this.pathvar = new PathArray(env[pathVarName]);
+			delete env[pathVarName];
 		} else {
 			// TODO: rig package
 			const pathVar = getEnvironment(pathVarName).value;
@@ -72,6 +73,10 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			} else {
 				this.logger.warn`running command without any package.`;
 			}
+		}
+
+		if (this.logger.colorEnabled) {
+			env.FORCE_COLOR = 'yes';
 		}
 
 		this.onMessage = this.onMessage.bind(this);
@@ -109,20 +114,23 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	protected override async _execute() {
 		if (this._started) throw new Error('process already spawned');
 
-		this.logger.log`spawning ${this.displayTitle} | commandline<${this.commandline}>`;
+		const env = {
+			...this.env,
+			PATH: this.pathvar.toString(),
+			BUILD_PROTOCOL_SERVER: 'ipc:nodejs',
+			BUILD_PROTOCOL_TITLE: this.displayTitle,
+		};
+
+		this.logger.log`spawning | commandline<${this.commandline}>`;
 		this.logger.debug`working directory: long<${this.cwd}>`;
 		this.logger.debug`path variable: long<${this.pathvar.toString()}>`;
+		this.logger.debug`environment variable: ${this.env}`;
 
 		const doExec = execa({
 			cwd: this.cwd,
 			stdio: ['inherit', 'pipe', 'pipe', 'ipc'],
 			ipc: true,
-			env: {
-				...this.env,
-				PATH: this.pathvar.toString(),
-				BUILD_PROTOCOL_SERVER: 'ipc:nodejs',
-				BUILD_PROTOCOL_TITLE: this.displayTitle,
-			},
+			env: env,
 			reject: false,
 			buffer: false,
 			maxBuffer: 10,
@@ -136,15 +144,17 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 		if (this.logger.verbose.isEnabled) {
 			for (const stream of ['stdout', 'stderr'] as const) {
+				const logger = this.logger.extend(stream[3]);
 				this.process[stream]!.on('data', (chunk: Buffer) => {
-					if (this.logger.verbose.isEnabled) {
+					if (logger.verbose.isEnabled) {
 						const debugTxt = chunk
 							.toString('utf-8')
+							.trimEnd()
 							.replaceAll('\n', '\\n')
 							.replaceAll('\r', '\\r')
 							.replaceAll('\x1B', '\\e');
 
-						this.logger.verbose`[${stream}] ${debugTxt}`;
+						logger.verbose`${debugTxt}`;
 					}
 					this.outputStream.write(chunk);
 				});
@@ -166,17 +176,24 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				return;
 			}
 
+			if (process.exitCode || process.signal) {
+				const output = this.outputStream.toString();
+				this.logger.debug`process exit, exitCode: ${process.exitCode}, signal: ${process.signal}`;
+				this.logger.verbose`${process}`;
+
+				let m = process.exitCode
+					? `process quited with code ${process.exitCode}`
+					: `process killed by signal ${process.signal}`;
+				return this.emitFailure(m, output);
+			}
+
 			if (process.failed) {
 				this.logger.warn`process can not start: ${process.message}`;
+				this.logger.verbose`${process}`;
 				return this.emitFailure(
 					`process can not start: ${lcfirst(process.message || '*no message*')}`,
 					this.outputStream.toString(),
 				);
-			}
-
-			if (process.exitCode !== 0) {
-				this.logger.debug`process quited with code ${process.exitCode}`;
-				return this.emitFailure(`process exited with code ${process.exitCode}`, this.outputStream.toString());
 			}
 
 			this.logger.debug`process quited with code ${process.exitCode}`;

@@ -21,18 +21,18 @@
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",
-		"build": "mpis-tsc -p src",
-		"watch": "mpis-tsc -p src -w",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
 		"clean": "mpis-run clean"
 	},
 	"dependencies": {
+		"@build-script/rushstack-config-loader": "workspace:^",
 		"@idlebox/args": "workspace:^",
-		"@idlebox/logger": "workspace:^",
 		"@idlebox/chokidar": "workspace:^",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
-		"@build-script/rushstack-config-loader": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"comment-json": "^4.2.5",
 		"glob": "^11.0.2",
@@ -44,6 +44,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21",
 		"typescript": "^5.8.3"
 	}

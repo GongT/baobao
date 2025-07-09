@@ -115,6 +115,11 @@ export abstract class GraphBase<T, pT> {
 	}
 
 	protected abstract inspectTitlePrefix(name: string): string;
+	private inspectTitle(name: string) {
+		const text = `${name} - ${inspect(this.getNodeData(name)).replace(/\n/g, '').slice(0, 80)}`;
+		const prefix = this.inspectTitlePrefix(name);
+		return `${prefix}${prefix ? ' ' : ''}${text}`;
+	}
 
 	/**
 	 * debug输出依赖图结构，类似：
@@ -129,11 +134,6 @@ export abstract class GraphBase<T, pT> {
 			const c = isLast ? '  ' : '│ ';
 			return lines.map((line) => `${c}${line}`);
 		};
-		const inspectTitle = (name: string) => {
-			const text = `${name} - ${inspect(this.getNodeData(name)).replace(/\n/g, '').slice(0, 80)}`;
-			const prefix = this.inspectTitlePrefix(name);
-			return `${prefix}${prefix ? ' ' : ''}${text}`;
-		};
 		const drawDepOne = (name: string) => {
 			let result: string[] = [];
 			const data = this.graph.directDependenciesOf(name);
@@ -141,7 +141,7 @@ export abstract class GraphBase<T, pT> {
 				const isLast = data.indexOf(dep) === data.length - 1;
 				const c = isLast ? '└─' : '├─';
 
-				result.push(`${c}${inspectTitle(dep)}`);
+				result.push(`${c}${this.inspectTitle(dep)}`);
 
 				result.push(...indent(drawDepOne(dep), isLast));
 			}
@@ -151,10 +151,17 @@ export abstract class GraphBase<T, pT> {
 		let result = [];
 		const leafs = this.graph.entryNodes();
 		for (const name of leafs) {
-			result.push(inspectTitle(name));
+			result.push(this.inspectTitle(name));
 			result.push(...drawDepOne(name));
 		}
 
+		return result.join('\n');
+	}
+	debugFormatList() {
+		let result = [];
+		for (const name of this.graph.overallOrder()) {
+			result.push(this.inspectTitle(name));
+		}
 		return result.join('\n');
 	}
 

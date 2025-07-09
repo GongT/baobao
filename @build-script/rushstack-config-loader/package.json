@@ -10,6 +10,7 @@
 			"source": "./src/api.ts",
 			"default": "./lib/api.js"
 		},
+		"./heft-plugin": "./lib/api-heft-plugin.js",
 		"./package.json": "./package.json"
 	},
 	"scripts": {
@@ -31,8 +32,10 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@microsoft/api-extractor": "^7.52.8",
+		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@rushstack/heft-typescript-plugin": "^0.9.7",
+		"@rushstack/terminal": "latest",
 		"@types/node": "^22.15.21"
 	}
 }

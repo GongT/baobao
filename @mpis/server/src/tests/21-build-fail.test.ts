@@ -33,15 +33,15 @@ const testaa = choose === 7 ? test_fail_quit() : test_success_quit();
 const ts = [test1, test2, test2a, test2b, test3, test4, testaa];
 logger.warn`current choose: ${choose} [${ts.map((e) => e._id).join(', ')}]`;
 
-workersManager.addWorker(test1, [test2]);
-workersManager.addWorker(test2, [test2a, test2b]);
-workersManager.addWorker(test3, [testaa]);
-workersManager.addWorker(test4, [testaa]);
+workersManager.addWorker(test1, [test2._id]);
+workersManager.addWorker(test2, [test2a._id, test2b._id]);
+workersManager.addWorker(test3, [testaa._id]);
+workersManager.addWorker(test4, [testaa._id]);
 workersManager.addWorker(test2a, []);
-workersManager.addWorker(test2b, [testaa]);
+workersManager.addWorker(test2b, [testaa._id]);
 workersManager.addWorker(testaa, []);
 
-await workersManager.finalize().then(
+await workersManager.startup().then(
 	() => {
 		logger.fatal('all workers completed!!');
 		shutdown(1);
