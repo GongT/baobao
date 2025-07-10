@@ -9,21 +9,14 @@
 	],
 	"license": "MIT",
 	"author": "GongT",
-	"main": "./lib/cjs/api.cjs",
-	"module": "./lib/esm/api.js",
-	"types": "./lib/esm/api.d.ts",
 	"exports": {
-		".": {
-			"types": "./lib/esm/api.d.ts",
-			"import": "./lib/esm/api.js",
-			"require": "./lib/cjs/api.cjs"
-		},
+		".": "./lib/api.js",
 		"./package.json": "./package.json"
 	},
-	"bin": "bin.cjs",
+	"bin": "bin.js",
 	"sideEffects": false,
 	"scripts": {
-		"prepublishHook": "local-rig-prepublish-hook",
+		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",

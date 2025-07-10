@@ -41,7 +41,7 @@ export function createConfig(packageRoot) {
 			'no-restricted-imports': [
 				'error',
 				{
-					patterns: [{ group: ['**/lib/esm', '**/lib/cjs', '**/_*'], message: '导入路径错误' }],
+					patterns: [{ group: ['**/lib', '**/autoindex*', '**/_*'], message: '导入路径错误' }],
 				},
 			],
 		},

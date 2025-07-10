@@ -20,7 +20,7 @@
 		"7za": "./7za.js"
 	},
 	"scripts": {
-		"prepublishHook": "local-rig-prepublish-hook",
+		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",

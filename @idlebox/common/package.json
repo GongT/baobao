@@ -10,7 +10,6 @@
 		"helpers",
 		"library"
 	],
-	"main": "./lib/autoindex.js",
 	"exports": {
 		".": {
 			"types": "./src/autoindex.ts",
@@ -21,11 +20,12 @@
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepublishHook": "local-rig-prepublish-hook",
+		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -37,7 +37,6 @@
 		"@rushstack/heft": "^0.73.6"
 	},
 	"dependencies": {
-		"ajv-errors": "^3.0.0",
 		"debug": "^4.4.1"
 	}
 }

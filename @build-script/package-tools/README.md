@@ -44,13 +44,6 @@ run-if-version-mismatch --no-cache --flush -- command to run 如果版本号改�
   --no-cache: 禁用缓存
   --flush: 程序成功退出时自动删除npm缓存
   --newer: 只有在本地版本号大于远程版本号时才运行（默认只要不同就运行）
-
-watch --verbose --keep-output 在每个项目中运行watch脚本
-  --verbose: 显示所有输出，而不仅仅在编译出错时输出
-  --keep-output: 不要清屏
-  --server: 输出服务器模式
-  --client: 输出客户端模式
-  --silent: 目前必须设置，否则输出会乱
 ```
 
 

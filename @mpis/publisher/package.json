@@ -13,7 +13,7 @@
 		"build": "mpis-tsc -p src",
 		"watch": "mpis-tsc -p src -w",
 		"clean": "mpis-run clean",
-		"prepublishHook": "local-rig-prepublish-hook"
+		"prepublishHook": "internal-prepublish-hook"
 	},
 	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {

@@ -1,9 +1,10 @@
 {
-	"extends": "@internal/local-rig/profiles/default/tsconfig.json",
+	"extends": "@build-script/single-dog-asset/package/tsconfig.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"lib": ["ESNext", "DOM"],
+		"types": ["node"],
+		"noEmit": true,
 	},
 }

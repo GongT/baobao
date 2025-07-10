@@ -1,8 +1,8 @@
 {
 	"name": "@build-script/autoindex",
 	"type": "module",
+	"private": true,
 	"version": "0.0.1",
-	"repository": "https://github.com/GongT/baobao",
 	"bin": {
 		"autoindex": "./loader/bin.devel.js"
 	},
@@ -20,10 +20,12 @@
 		}
 	},
 	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"@build-script/rushstack-config-loader": "workspace:^",

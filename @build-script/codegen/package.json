@@ -2,10 +2,10 @@
 	"name": "@build-script/codegen",
 	"type": "module",
 	"version": "0.0.1",
+	"private": true,
 	"bin": {
 		"codegen": "./loader/bin.devel.js"
 	},
-	"main": "./lib/plugin.js",
 	"exports": {
 		".": {
 			"source": "./src/plugin.ts",
@@ -26,11 +26,12 @@
 		}
 	},
 	"scripts": {
-		"prepublishHook": "local-rig-prepublish-hook",
+		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"@idlebox/args": "workspace:^",

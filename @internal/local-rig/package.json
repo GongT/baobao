@@ -4,25 +4,15 @@
 	"version": "1.0.1",
 	"description": "",
 	"license": "WTFPL",
-	"bin": {
-		"local-rig-prepublish-hook": "./loader/prepublish-hook.devel.js"
-	},
 	"scripts": {
-		"build": "mpis-tsc -p src --noEmit",
+		"build": "",
 		"clean": "",
 		"test": "",
-		"watch": "mpis-tsc -p src --noEmit -w"
+		"watch": ""
 	},
 	"private": true,
-	"dependencies": {
-		"@rushstack/heft-jest-plugin": "^0.16.8",
-		"@rushstack/heft-lint-plugin": "^0.5.38",
-		"eslint": "^9.27.0",
-		"typescript": "^5.8.3"
-	},
 	"devDependencies": {
 		"@eslint/js": "^9.27.0",
-		"@types/node": "^22.15.21",
 		"eslint": "^9.27.0",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.32.1"

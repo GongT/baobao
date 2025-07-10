@@ -4,21 +4,14 @@
 	"version": "0.0.22",
 	"license": "MIT",
 	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
-	"main": "./lib/cjs/autoindex.generated.cjs",
-	"module": "./lib/esm/autoindex.generated.js",
-	"types": "./lib/esm/autoindex.generated.d.ts",
 	"private": true,
 	"exports": {
-		".": {
-			"types": "./lib/esm/autoindex.generated.d.ts",
-			"import": "./lib/esm/autoindex.generated.js",
-			"require": "./lib/cjs/autoindex.generated.cjs"
-		},
+		".": "./lib/autoindex.generated.js",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepublishHook": "local-rig-prepublish-hook",
+		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",

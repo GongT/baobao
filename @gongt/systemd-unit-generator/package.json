@@ -8,21 +8,14 @@
 		"systemd"
 	],
 	"license": "MIT",
-	"main": "./lib/cjs/index.cjs",
-	"module": "./lib/esm/index.js",
-	"types": "./lib/esm/index.d.ts",
 	"exports": {
-		".": {
-			"types": "./lib/esm/index.d.ts",
-			"require": "./lib/cjs/index.cjs",
-			"import": "./lib/esm/index.js"
-		},
+		".":  "./lib/index.js",
 		"./tools": "./lib/tools/index.js",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
 	"scripts": {
-		"prepublishHook": "local-rig-prepublish-hook",
+		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",

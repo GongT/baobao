@@ -13,6 +13,7 @@
 	"exports": {
 		".": "./lib/index.js",
 		"./register": "./lib/hook-worker.js",
+		"./early-loader.js": "./early-loader.devel.js",
 		"./lib/hook-worker.js": "./lib/hook-worker.js",
 		"./package.json": "./package.json"
 	},

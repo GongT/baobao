@@ -1,0 +1,32 @@
+{
+	"name": "@internal/scripts",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "",
+	"license": "WTFPL",
+	"bin": {
+		"internal-prepublish-hook": "./loader/project-prepublish-hook.js",
+		"internal-lint": "./loader/project-lint.js"
+	},
+	"scripts": {
+		"build": "tsc -p src --noEmit",
+		"clean": "rimraf lib",
+		"test": "",
+		"watch": "tsc -p src --noEmit -w"
+	},
+	"private": true,
+	"devDependencies": {
+		"@idlebox/common": "workspace:^",
+		"@idlebox/json-edit": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
+		"@build-script/rushstack-config-loader": "workspace:^",
+		"@idlebox/logger": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^22.15.21",
+		"comment-json": "^4.2.5",
+		"execa": "^9.6.0",
+		"typescript": "^5.8.3"
+	}
+}

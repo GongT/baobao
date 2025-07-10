@@ -12,7 +12,7 @@ import { projectRoot } from './common/paths.js';
 registerNodejsExitHandler();
 
 let level = EnableLogLevel.auto;
-if (argv.flag(['-v', '--verbose']) > 0) {
+if (argv.flag(['-d', '--debug']) > 1) {
 	level = EnableLogLevel.verbose;
 } else if (argv.flag(['-d', '--debug']) > 0) {
 	level = EnableLogLevel.debug;
@@ -96,6 +96,8 @@ async function executeBuild() {
 	workersManager.finalize();
 
 	channelClient.start();
+
+	logger.verbose`Workers initialized, starting execution...`;
 	await workersManager.startup();
 
 	reprintWatchModeError();

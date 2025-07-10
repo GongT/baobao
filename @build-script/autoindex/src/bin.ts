@@ -89,6 +89,7 @@ if (!context.project) {
 			// x
 		}, 10000);
 	}
+	channelClient.success('no task to execute');
 } else if (context.watchMode) {
 	let lastExecuteIgnore: IgnoreFiles | undefined;
 	async function exec() {

@@ -6,7 +6,7 @@ import type { ILogger } from './output.js';
 export const argv = createArgsReader(process.argv.slice(2));
 export const watchMode = argv.flag(['-w', '--watch']) > 0;
 export const debugMode = argv.flag(['-d', '--debug']) > 0;
-export const verboseMode = argv.flag(['-v', '--verbose']) > 0 || debugMode;
+export const verboseMode = argv.flag(['-d', '--debug']) > 1;
 export const colorMode = process.stderr.isTTY;
 
 export enum ExecuteReason {

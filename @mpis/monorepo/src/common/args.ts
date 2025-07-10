@@ -9,6 +9,6 @@ export function printUsage() {
 	console.log('  clean   cleanup all projects');
 }
 
-export const verboseMode = argv.flag(['-v', '--verbose']) > 0;
+export const verboseMode = argv.flag(['-d', '--debug']) > 1;
 export const debugMode = argv.flag(['-d', '--debug']) > 0;
 export const helpMode = argv.flag(['-h', '--help']) > 0;
