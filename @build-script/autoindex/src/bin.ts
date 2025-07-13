@@ -5,7 +5,7 @@ import { channelClient } from '@mpis/client';
 import { glob } from 'glob';
 import { resolve } from 'node:path';
 import { parseArgs } from './common/cli.js';
-import { loadConfigFile } from './common/config.js';
+import { createContext } from './common/config.js';
 import { createIndex } from './common/create.js';
 import { loadTsConfigJson } from './common/tsconfig-loader.js';
 import { loadTypescript } from './common/typescript.js';
@@ -80,7 +80,7 @@ async function main() {
 const args = await parseArgs();
 logger.debug`arguments: ${args}`;
 
-const context = await loadConfigFile(args, logger);
+const context = await createContext(args, logger);
 
 if (!context.project) {
 	logger.log`没有任务需要执行`;
@@ -89,6 +89,7 @@ if (!context.project) {
 			// x
 		}, 10000);
 	}
+
 	channelClient.success('no task to execute');
 } else if (context.watchMode) {
 	let lastExecuteIgnore: IgnoreFiles | undefined;

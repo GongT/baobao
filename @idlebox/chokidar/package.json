@@ -2,13 +2,11 @@
 	"name": "@idlebox/chokidar",
 	"type": "module",
 	"version": "0.1.3",
-	"license": "MIT",
-	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
-	"main": "./lib/main.js",
 	"exports": {
 		".": {
 			"source": "./src/main.ts",
-			"default": "./lib/main.js"
+			"default": "./lib/main.js",
+			"types": "./src/main.ts"
 		},
 		"./package.json": "./package.json"
 	},
@@ -17,7 +15,8 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
@@ -31,5 +30,6 @@
 		"@rushstack/heft": "^0.73.6",
 		"@types/debug": "^4.1.12",
 		"@types/node": "^22.15.21"
-	}
+	},
+	"private": true
 }

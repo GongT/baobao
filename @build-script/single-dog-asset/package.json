@@ -1,16 +1,21 @@
 {
 	"name": "@build-script/single-dog-asset",
 	"version": "1.0.34",
-	"license": "MIT",
 	"scripts": {
 		"build": "",
 		"clean": "",
 		"test": "",
-		"watch": ""
+		"watch": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"devDependencies": {
 		"@mpis/run": "workspace:*",
 		"prettier": "^3.5.3"
-	}
+	},
+	"exports": {
+		"./package.json": "./package.json"
+	},
+	"type": "module",
+	"private": true
 }

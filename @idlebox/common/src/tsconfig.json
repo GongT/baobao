@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
-		"rootDir": "./",
+		"rootDir": "./"
 	},
-	"exclude": ["**/*.generator.ts"],
+	"exclude": ["**/*.generator.ts", "**/*.test.ts"]
 }

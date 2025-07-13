@@ -165,12 +165,12 @@ class GeneratorHolder {
 
 		if (!toBeExec.length) {
 			this.logger.debug(`should execute none of ${result.count} generators`);
+			channelClient.success(`no generators should execute`);
 			return result;
 		}
 		this.logger.log(`should execute ${result.schedule} of ${result.count} generators`);
 		this.logger.info(' Start Generate');
 
-		// TODO: send start event
 		channelClient.start();
 
 		await new PromisePool()

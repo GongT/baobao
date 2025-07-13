@@ -4,25 +4,22 @@
 	"version": "1.0.17",
 	"description": "load JSON files with \"extends\" field",
 	"keywords": [],
-	"license": "MIT",
-	"author": "GongT <gongteng524702837@gmail.com>",
-	"repository": "https://github.com/GongT/baobao",
-	"main": "./lib/index.js",
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"types": "./src/index.ts",
-			"import": "./lib/index.js"
+			"types": "./src/index.ts"
 		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
 	"scripts": {
 		"prepack": "mpis-run build --clean",
-		"build": "mpis-tsc -p src",
-		"watch": "mpis-tsc -p src -w",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"test": "node test/esbuild.js"
+		"test": "node test/esbuild.js",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"comment-json": "^4.2.5",
@@ -36,5 +33,6 @@
 		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21",
 		"@types/object-path": "^0.11.4"
-	}
+	},
+	"private": true
 }

@@ -8,10 +8,16 @@ import { parse } from 'comment-json';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { isAbsolute, resolve } from 'node:path';
-import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormat } from '../tools/attachData.js';
+import {
+	cloneAttachedFieldsInto,
+	getAttachedFile,
+	setAttachedFile,
+	setAttachedFormatter,
+} from '../tools/attachData.js';
 import { checkChange, loadFile, pathExists, saveFile } from '../tools/filesystem.js';
-import { PrettyFormat } from '../tools/prettyFormat.js';
+import { createDefaultFormatter } from '../tools/formatter.js';
 import { stringifyJsonText } from './format.js';
+import type { IFormatter, JsonEditObject } from './types.js';
 
 const DEFAULT_ENCODING = 'utf-8';
 
@@ -26,13 +32,21 @@ function requireFile(data: any) {
 /**
  * attach file save path to "data" object
  */
-export function createJsonFile(data: any, saveAs: string, charset: BufferEncoding = DEFAULT_ENCODING) {
+export async function createJsonFile<T = any, K = any>(
+	data: T,
+	saveAs: string,
+	charset: BufferEncoding = DEFAULT_ENCODING,
+	formatter?: IFormatter<K>,
+): Promise<JsonEditObject<T, K>> {
 	const newData = Object.assign({}, data);
 	setAttachedFile(newData, { originalPath: saveAs, encoding: charset, exists: false });
-	const format = new PrettyFormat();
-	format.learnFromFile(saveAs);
-	setAttachedFormat(data, format);
-	return data;
+	if (formatter) {
+		setAttachedFormatter(data, formatter);
+	} else {
+		const format = await createDefaultFormatter(undefined, saveAs);
+		setAttachedFormatter(data, format);
+	}
+	return newData as JsonEditObject<T>;
 }
 
 /**
@@ -84,32 +98,43 @@ export async function writeJsonFile(
 	return ret;
 }
 
-export async function loadJsonFileIfExists(
+export async function loadJsonFileIfExists<T = any, K = any>(
 	file: string,
-	defaultValue: any = {},
+	defaultValue: T = {} as any,
 	charset: BufferEncoding = DEFAULT_ENCODING,
-): Promise<any> {
+	formatter?: IFormatter<K>,
+): Promise<JsonEditObject<T, K>> {
 	file = abs(file);
 	if (await pathExists(file)) {
 		return loadJsonFile(file, charset);
 	}
 	const newData = Object.assign({}, defaultValue);
 	setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
-	const format = new PrettyFormat();
-	await format.learnFromFile(file);
-	setAttachedFormat(newData, format);
-	return newData;
+	if (formatter) {
+		setAttachedFormatter(newData, formatter);
+	} else {
+		const format = await createDefaultFormatter(undefined, file);
+		setAttachedFormatter(newData, format);
+	}
+	return newData as JsonEditObject<T, K>;
 }
 
-export async function loadJsonFile(file: string, charset: BufferEncoding = DEFAULT_ENCODING): Promise<any> {
+export async function loadJsonFile<T = any, K = any>(
+	file: string,
+	charset: BufferEncoding = DEFAULT_ENCODING,
+	formatter?: IFormatter<K>,
+): Promise<JsonEditObject<T, K>> {
 	file = abs(file);
 	const targetFile = await loadFile(file, charset);
-	const data = parse(targetFile.originalContent);
+	const data: any = parse(targetFile.originalContent);
 	setAttachedFile(data, targetFile);
-	const format = new PrettyFormat();
-	await format.learnFromFile(file, targetFile.originalContent);
-	setAttachedFormat(data, format);
-	return data;
+	if (formatter) {
+		setAttachedFormatter(data, formatter);
+	} else {
+		const format = await createDefaultFormatter(targetFile.originalContent, file);
+		setAttachedFormatter(data, format);
+	}
+	return data as JsonEditObject<T, K>;
 }
 
 export function parseJsonText(text: string): any {

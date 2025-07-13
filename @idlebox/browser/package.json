@@ -2,9 +2,10 @@
 	"name": "@idlebox/browser",
 	"type": "module",
 	"version": "0.0.39",
-	"license": "MIT",
 	"exports": {
-		".": "./lib/autoindex.generated.js",
+		".": {
+			"default": "./lib/autoindex.generated.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -13,9 +14,9 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"source-map-support": "^0.5.21"
@@ -25,5 +26,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6"
-	}
+	},
+	"private": true
 }

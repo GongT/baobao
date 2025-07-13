@@ -2,11 +2,7 @@
 	"name": "@gongt/pnpm-instead-npm",
 	"version": "1.0.6",
 	"description": "symlink npm to pnpm, always install with pnpm",
-	"keywords": [
-		"package manager",
-		"pnpm",
-		"npm"
-	],
+	"keywords": ["package manager", "pnpm", "npm"],
 	"bin": {
 		"npm": "bin/npm.mjs",
 		"npx": "bin/npx.mjs"
@@ -15,7 +11,9 @@
 		"build": "",
 		"clean": "",
 		"test": "",
-		"watch": ""
+		"watch": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
 	"preferGlobal": true,
 	"dependencies": {
@@ -26,5 +24,10 @@
 	"devDependencies": {
 		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21"
-	}
+	},
+	"exports": {
+		"./package.json": "./package.json"
+	},
+	"type": "module",
+	"private": true
 }

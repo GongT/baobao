@@ -4,7 +4,6 @@
 	"type": "module",
 	"version": "0.1.0",
 	"keywords": [],
-	"license": "MIT",
 	"bin": {
 		"run": "./loader/bin.devel.js",
 		"mpis-run": "./loader/bin.devel.js"
@@ -16,9 +15,10 @@
 		"prepack": "node loader/bin.devel.js build --clean",
 		"build": "node loader/bin.devel.js build",
 		"watch": "node loader/bin.devel.js watch",
-		"clean": "node loader/bin.devel.js clean"
+		"clean": "node loader/bin.devel.js clean",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@build-script/rushstack-config-loader": "workspace:^",
 		"@idlebox/args": "workspace:^",

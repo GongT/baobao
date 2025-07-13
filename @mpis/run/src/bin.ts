@@ -1,23 +1,17 @@
-import { argv } from '@idlebox/args/default';
 import { humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
-import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
 import { registerNodejsExitHandler } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { rmSync } from 'node:fs';
-import { printUsage } from './common/args.js';
+import { context, parseCliArgs } from './common/args.js';
 import { loadConfigFile } from './common/config-file.js';
 import { projectRoot } from './common/paths.js';
+import { initializeStdin, registerCommand } from './common/stdin.js';
 
 registerNodejsExitHandler();
 
-let level = EnableLogLevel.auto;
-if (argv.flag(['-d', '--debug']) > 1) {
-	level = EnableLogLevel.verbose;
-} else if (argv.flag(['-d', '--debug']) > 0) {
-	level = EnableLogLevel.debug;
-}
-createRootLogger('', level);
+parseCliArgs();
 
 const start = Date.now();
 registerGlobalLifecycle(
@@ -26,45 +20,30 @@ registerGlobalLifecycle(
 	}),
 );
 
-const command = argv.command(['build', 'watch', 'clean', 'init']);
-if (!command) {
-	printUsage();
-	throw logger.fatal`No command provided. Please specify a command to run.`;
-}
-
 process.title = `MpisRun`;
 
-logger.info`Running command "${command.value}" in ${projectRoot}`;
-
-function finalizeArgv() {
-	if (argv.unused().length > 0) {
-		throw logger.fatal`Unknown arguments: ${argv.unused().join(' ')}`;
-	}
-}
+logger.info`Running command "${context.command}" in ${projectRoot}`;
 
 const defaultNoClear = logger.debug.isEnabled;
 let workersManager: WorkersManager;
 
-const watchMode = command.value === 'watch';
-const config = loadConfigFile(watchMode);
+const config = loadConfigFile(context.watchMode);
 logger.verbose`loaded config file: ${config}`;
 const errors = new Map<ProcessIPCClient, Error | null>();
-switch (command.value) {
+
+switch (context.command) {
 	case 'clean':
-		finalizeArgv();
 		executeClean();
 		break;
 	case 'build':
 		{
-			const clean = argv.flag(['--clean']) > 0;
-			finalizeArgv();
-
-			if (clean) executeClean();
+			if (context.withCleanup) executeClean();
 
 			await executeBuild();
 		}
 		break;
 	case 'watch':
+		initializeStdin();
 		await executeBuild();
 		break;
 }
@@ -72,7 +51,7 @@ switch (command.value) {
 // channelClient.displayName = `MpisRun`;
 
 async function executeBuild() {
-	workersManager = new WorkersManager(command!.value === 'watch' ? ModeKind.Watch : ModeKind.Build);
+	workersManager = new WorkersManager(context.watchMode ? ModeKind.Watch : ModeKind.Build);
 
 	initializeWorkers();
 
@@ -84,7 +63,7 @@ async function executeBuild() {
 
 		const times = `(+${humanDate.delta(w.time.executeEnd! - w.time.executeStart!)})`;
 
-		if (watchMode) {
+		if (context.watchMode) {
 			printFailedRunError(w, `unexpected exit in watch mode ${times}`);
 		} else if (!w.isSuccess) {
 			printFailedRunError(w, `failed to execute ${times}`);
@@ -97,6 +76,11 @@ async function executeBuild() {
 
 	channelClient.start();
 
+	if (context.breakMode) {
+		logger.warn`Break mode enabled, waiting for input command...`;
+		addDebugCommand();
+		return;
+	}
 	logger.verbose`Workers initialized, starting execution...`;
 	await workersManager.startup();
 
@@ -117,6 +101,8 @@ function initializeWorkers() {
 		const cmds = config.build.get(title);
 		if (!cmds) throw logger.fatal`program state error, no build command "${title}"`;
 
+		if (!cmds.env['DEBUG']) cmds.env['DEBUG'] = '';
+		if (!cmds.env['DEBUG_LEVEL']) cmds.env['DEBUG_LEVEL'] = '';
 		const worker = new ProcessIPCClient(title.replace(/\s+/g, ''), cmds.command, cmds.cwd, cmds.env);
 
 		for (const path of config.additionalPaths) {
@@ -150,7 +136,7 @@ function initializeWorkers() {
 }
 
 function printFailedRunError(worker: ProcessIPCClient, message: string) {
-	if (watchMode) process.stderr.write('\x1Bc');
+	if (context.watchMode) process.stderr.write('\x1Bc');
 
 	const text = worker.outputStream.toString().trimEnd();
 
@@ -180,11 +166,57 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 }
 
 function reprintWatchModeError(noClear?: boolean) {
-	if (watchMode) {
+	if (context.watchMode) {
 		if (!noClear && !defaultNoClear) process.stderr.write('\x1Bc');
 	}
-	console.error(workersManager.formatDebugGraph());
+	console.error(workersManager.formatDebugList());
 	printAllErrors();
+}
+
+registerCommand({
+	name: ['status', 's'],
+	description: '显示当前状态',
+	callback: () => reprintWatchModeError(),
+});
+
+function addDebugCommand() {
+	registerCommand({
+		name: ['continue', 'c'],
+		description: '开始执行',
+		callback: () => {
+			workersManager.startup();
+		},
+	});
+	registerCommand({
+		name: ['debug'],
+		description: '切换调试模式（仅在启动前有效）',
+		callback: (text: string) => {
+			const [_, index, on_off] = text.split(/\s+/);
+			const list: ProcessIPCClient[] = workersManager.allWorkers as ProcessIPCClient[];
+			const worker = list[Number(index)];
+			if (!worker) {
+				logger.error`worker index out of range: ${index}`;
+				return;
+			}
+			if (on_off === 'on') {
+				worker.env['DEBUG'] = '*,-executer:*,-dispose:*';
+				worker.env['DEBUG_LEVEL'] = 'verbose';
+				logger.success`debug mode enabled for worker "${worker._id}"`;
+			} else if (on_off === 'off') {
+				worker.env['DEBUG'] = '';
+				worker.env['DEBUG_LEVEL'] = '';
+				logger.success`debug mode disabled for worker "${worker._id}"`;
+			} else {
+				logger.error`invalid argument: ${text}`;
+			}
+		},
+	});
+	// registerCommand({
+	// 	name: ['print', 'p'],
+	// 	description: '显示命令执行输出',
+	// 	callback: () => {
+	// 	},
+	// });
 }
 
 function sendStatus() {

@@ -3,32 +3,35 @@
 	"description": "A simple script to execute typescript file during development.",
 	"version": "0.0.1",
 	"type": "module",
-	"main": "./lib/index.js",
 	"bin": {
-		"es-node": "./lib/bin.js"
+		"es-node": "./loader/bin.js"
 	},
 	"engines": {
 		"node": ">=18.19.0 < 20 || >=20.6.0"
 	},
 	"exports": {
-		".": "./lib/index.js",
-		"./register": "./lib/hook-worker.js",
-		"./early-loader.js": "./early-loader.devel.js",
-		"./lib/hook-worker.js": "./lib/hook-worker.js",
+		".": {
+			"default": "./lib/index.js"
+		},
+		"./register": {
+			"default": "./lib/hook-worker.js"
+		},
+		"./early-loader.js": {
+			"default": "./early-loader.devel.js"
+		},
+		"./lib/hook-worker.js": {
+			"default": "./lib/hook-worker.js"
+		},
 		"./package.json": "./package.json"
 	},
-	"keywords": [
-		"typescript",
-		"esbuild",
-		"executer",
-		"runner"
-	],
-	"license": "MIT",
+	"keywords": ["typescript", "esbuild", "executer", "runner"],
 	"scripts": {
 		"prepack": "rimraf lib && tsc -p src",
 		"clean": "rimraf lib",
 		"build": "tsc -p src",
-		"watch": ""
+		"watch": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"debug": "^4.4.1",
@@ -38,11 +41,13 @@
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
+		"@internal/local-rig": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/typescript": "workspace:*",
 		"@types/node": "^22.15.21",
 		"@types/source-map-support": "^0.5.10",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
-	}
+	},
+	"private": true
 }

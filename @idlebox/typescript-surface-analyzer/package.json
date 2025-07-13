@@ -4,13 +4,11 @@
 	"type": "module",
 	"description": "Api and CLI tool for collect export information in typescript project",
 	"keywords": [],
-	"license": "MIT",
-	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "./lib/index.js",
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"default": "./lib/index.js"
+			"default": "./lib/index.js",
+			"types": "./src/index.ts"
 		},
 		"./package.json": "./package.json"
 	},
@@ -21,9 +19,9 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"test": "node test/esbuild.js"
+		"test": "node test/esbuild.js",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
@@ -37,5 +35,6 @@
 		"@types/minimatch": "^5.1.2",
 		"@types/node": "^22.15.21",
 		"typescript": "^5.8.3"
-	}
+	},
+	"private": true
 }

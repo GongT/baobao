@@ -263,6 +263,7 @@
 /* object/objectPath.ts */
 	// Identifiers
 	export { objectPath } from "./object/objectPath.js";
+	export { ObjectPath } from "./object/objectPath.js";
 /* object/objectSame.ts */
 	// Identifiers
 	export { isObjectSame } from "./object/objectSame.js";

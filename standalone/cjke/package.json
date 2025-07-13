@@ -3,17 +3,7 @@
 	"type": "module",
 	"version": "1.1.0",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
-	"keywords": [
-		"CJK",
-		"chinese",
-		"display width",
-		"emoji",
-		"string",
-		"string width",
-		"unicode"
-	],
-	"license": "MIT",
-	"main": "./lib/autoindex.js",
+	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",
@@ -27,9 +17,9 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/cjke.git",
 	"dependencies": {
 		"ansi-regex": "^6.1.0",
 		"emoji-regex": "^10.4.0",
@@ -38,7 +28,6 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
@@ -46,5 +35,6 @@
 		"@types/mocha": "^10.0.10",
 		"chai": "^5.2.0",
 		"mocha": "^11.5.0"
-	}
+	},
+	"private": true
 }

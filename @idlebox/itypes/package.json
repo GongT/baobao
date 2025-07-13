@@ -1,23 +1,22 @@
 {
 	"name": "@idlebox/itypes",
-	"type": "commonjs",
+	"type": "module",
 	"version": "1.0.7",
 	"description": "some global variables copied from @types/node or dom",
-	"keywords": [
-		"Typescript",
-		"console",
-		"type",
-		"typings"
-	],
-	"license": "MIT",
-	"typings": "./index.d.ts",
+	"keywords": ["Typescript", "console", "type", "typings"],
 	"scripts": {
 		"build": "",
 		"clean": "",
 		"test": "",
-		"watch": ""
+		"watch": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
 	"devDependencies": {
 		"@mpis/run": "workspace:*"
-	}
+	},
+	"exports": {
+		"./package.json": "./package.json"
+	},
+	"private": true
 }

@@ -4,7 +4,6 @@
 	"description": "A collection of Node.js error codes and their descriptions.",
 	"type": "module",
 	"version": "0.1.0",
-	"main": "./lib/nodejs-error-code.generated.js",
 	"exports": {
 		".": {
 			"source": "./src/nodejs-error-code.generated.ts",
@@ -19,7 +18,8 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

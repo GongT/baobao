@@ -2,17 +2,7 @@
 	"name": "7zip-bin-wrapper",
 	"type": "module",
 	"version": "1.0.40",
-	"license": "MIT",
-	"author": "GongT <gongteng524702837@gmail.com>",
-	"main": "./lib/cjs/autoindex.generated.cjs",
-	"module": "./lib/esm/autoindex.generated.js",
-	"types": "./lib/esm/autoindex.generated.d.ts",
 	"exports": {
-		".": {
-			"types": "./lib/esm/autoindex.generated.d.ts",
-			"import": "./lib/esm/autoindex.generated.js",
-			"require": "./lib/cjs/autoindex.generated.cjs"
-		},
 		"./package.json": "./package.json"
 	},
 	"bin": {
@@ -24,7 +14,8 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"iconv-lite": "^0.6.3",
@@ -39,5 +30,6 @@
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"@types/split2": "^4.2.3"
-	}
+	},
+	"private": true
 }

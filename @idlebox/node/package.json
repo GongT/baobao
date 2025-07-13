@@ -2,13 +2,11 @@
 	"name": "@idlebox/node",
 	"type": "module",
 	"version": "1.4.6",
-	"license": "MIT",
-	"main": "./lib/autoindex.js",
 	"exports": {
 		".": {
-			"source": "./src/autoindex.ts",
-			"types": "./src/autoindex.ts",
-			"default": "./lib/autoindex.js"
+			"source": "./src/autoindex.generated.ts",
+			"types": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -18,9 +16,9 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"execa": "^9.6.0",
@@ -33,5 +31,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21"
-	}
+	},
+	"private": true
 }

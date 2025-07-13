@@ -3,14 +3,14 @@
 	"type": "module",
 	"version": "0.0.7",
 	"description": "generate systemd unit file with type checking",
-	"keywords": [
-		"generater",
-		"systemd"
-	],
-	"license": "MIT",
+	"keywords": ["generater", "systemd"],
 	"exports": {
-		".":  "./lib/index.js",
-		"./tools": "./lib/tools/index.js",
+		".": {
+			"default": "./lib/index.js"
+		},
+		"./tools": {
+			"default": "./lib/tools/index.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -19,9 +19,9 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"execa": "^9.6.0"
@@ -32,5 +32,6 @@
 		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21"
-	}
+	},
+	"private": true
 }

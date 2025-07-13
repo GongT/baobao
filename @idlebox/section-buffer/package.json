@@ -2,11 +2,11 @@
 	"name": "@idlebox/section-buffer",
 	"type": "module",
 	"version": "0.0.22",
-	"license": "MIT",
-	"author": "GongT <admin@gongt.me> https://github.com/gongt/",
 	"private": true,
 	"exports": {
-		".": "./lib/autoindex.generated.js",
+		".": {
+			"default": "./lib/autoindex.generated.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -15,7 +15,8 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^"

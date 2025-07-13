@@ -3,7 +3,6 @@
 	"scripts": {
 		"postinstall": "node @internal/scripts/loader/repo-post-install.js",
 		"pretty": "biome check --diagnostic-level=warn --unsafe",
-		"prepare": "pnpm run -C @idlebox/esbuild-executer build",
 		"build": "node @mpis/monorepo/loader/bin.devel.js build",
 		"watch": "node @mpis/monorepo/loader/bin.devel.js build -w",
 		"publish-everything": "node @build-script/package-tools/load.mjs monorepo-publish --silent",

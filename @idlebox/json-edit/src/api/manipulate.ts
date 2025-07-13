@@ -1,12 +1,12 @@
-import { getKeySort, setKeySort } from '../tools/attachData.js';
 import { insertArrayAlphabet } from '../tools/array.js';
+import { getKeySort, setKeySort } from '../tools/attachData.js';
 
 export enum UnorderdFieldsPlacement {
 	PREPEND = 0,
-	APPENND = 1,
+	APPEND = 1,
 }
 
-export function manipulateJsonResult(data: any, oType: UnorderdFieldsPlacement = UnorderdFieldsPlacement.APPENND) {
+export function manipulateJsonResult(data: any, oType: UnorderdFieldsPlacement = UnorderdFieldsPlacement.APPEND) {
 	const keySort = getKeySort(data);
 	if (!keySort) {
 		return data;
@@ -22,7 +22,7 @@ export function manipulateJsonResult(data: any, oType: UnorderdFieldsPlacement =
 		}
 	}
 
-	if (oType === UnorderdFieldsPlacement.APPENND) {
+	if (oType === UnorderdFieldsPlacement.APPEND) {
 		return Object.assign(ret, others);
 	}
 	return Object.assign(others, ret);
@@ -31,8 +31,8 @@ export function manipulateJsonResult(data: any, oType: UnorderdFieldsPlacement =
 export function insertKeyAlphabet(data: any, key: any, value: any): typeof data {
 	let keySort = getKeySort(data);
 	if (!keySort) {
-		setKeySort(data, [...Object.keys(data)]);
-		keySort = getKeySort(data);
+		keySort = [...Object.keys(data)];
+		setKeySort(data, keySort);
 	}
 
 	if (!keySort.includes(key)) {

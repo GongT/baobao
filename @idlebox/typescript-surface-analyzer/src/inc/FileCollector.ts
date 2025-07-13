@@ -68,7 +68,7 @@ export class FileCollector {
 				if (node.moduleSpecifier) {
 					// export {a, b, c} from 'xxxx';
 					// biome-ignore lint/security/noGlobalEval: 必定是字符串字面值，除非目标代码写错了，暂不考虑这种情况
-					const path: string = eval(node.moduleSpecifier.getText());
+					const path: string = (0, eval)(node.moduleSpecifier.getText());
 					const ref = this.resolver.resolve(collect.absolutePath, path);
 
 					if (ref) {

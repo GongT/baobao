@@ -1,10 +1,16 @@
-import { readFile as readFileAsync } from 'node:fs';
+import { readFile } from 'fs/promises';
+import type { doc, Options as PrettierOptions } from 'prettier';
 import { format, type Options, resolveConfig } from 'prettier';
-import { promisify } from 'node:util';
-import type { IFileFormatConfig } from '../index.js';
-import { pathExists } from './filesystem.js';
+import type { IFormatter } from '../api/types.js';
+import { pathExists } from '../tools/filesystem.js';
 
-const readFile = promisify(readFileAsync);
+type PassedEditableFormats = 'bracketSpacing' | 'endOfLine';
+
+export interface IPrettyFormatConfig extends doc.printer.Options, Pick<PrettierOptions, PassedEditableFormats> {
+	lastNewLine: boolean;
+}
+
+type ICfg = Partial<IPrettyFormatConfig>;
 
 enum LineFeed {
 	CRLF = 'crlf',
@@ -13,7 +19,7 @@ enum LineFeed {
 
 type PassedFormats = 'trailingComma' | 'parser' | 'filepath' | 'quoteProps';
 
-export interface IInternalFormat extends IFileFormatConfig, Pick<Options, PassedFormats> {}
+export interface IInternalFormat extends IPrettyFormatConfig, Pick<Options, PassedFormats> {}
 
 const defaultFormat: IInternalFormat = {
 	parser: 'json',
@@ -28,10 +34,25 @@ const defaultFormat: IInternalFormat = {
 	__embeddedInHtml: false,
 };
 
-export class PrettyFormat {
+export class PrettierFormat implements IFormatter<ICfg> {
 	constructor(private current: IInternalFormat = { ...defaultFormat }) {}
 
-	setFormat(format: Partial<IFileFormatConfig>) {
+	static async createInstance(text?: string, file?: string) {
+		const instance = new PrettierFormat();
+		if (file) {
+			await instance.learnFromFile(file, text);
+		} else if (text) {
+			instance.learnFromString(text);
+		}
+		return instance;
+	}
+
+	clone() {
+		const copy = new PrettierFormat({ ...this.current });
+		return copy;
+	}
+
+	setOptions(format: ICfg) {
 		Object.assign(this.current, format);
 	}
 
@@ -46,15 +67,14 @@ export class PrettyFormat {
 		return this.current.lastNewLine ? result : result.trim();
 	}
 
-	/** @deprecated */
-	learnFromFileAsync(file: string, content?: string) {
-		return this.learnFromFile(file, content);
+	getOptions(): ICfg {
+		return this.current;
 	}
 
 	async learnFromFile(file: string, content?: string) {
 		const f = await resolveConfig(file, { editorconfig: true });
 		if (f) {
-			this.setFormat({ ...f, lastNewLine: true });
+			this.setOptions({ ...f, lastNewLine: true });
 		} else if (await pathExists(file)) {
 			this.current.filepath = file;
 			if (!content) content = await readFile(file, 'utf-8');
@@ -84,9 +104,5 @@ export class PrettyFormat {
 	private detectLastNewLine(text: string) {
 		const lastClose = text.lastIndexOf('}');
 		this.current.lastNewLine = lastClose !== text.length - 1;
-	}
-
-	toJSON(): IFileFormatConfig {
-		return this.current;
 	}
 }

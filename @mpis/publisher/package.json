@@ -4,18 +4,17 @@
 	"type": "module",
 	"version": "0.1.0",
 	"keywords": [],
-	"license": "MIT",
 	"bin": {
 		"publisher": "./loader/bin.devel.js"
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",
-		"build": "mpis-tsc -p src",
-		"watch": "mpis-tsc -p src -w",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"prepublishHook": "internal-prepublish-hook"
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
@@ -30,5 +29,8 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:*",
 		"@types/node": "^22.15.21"
+	},
+	"exports": {
+		"./package.json": "./package.json"
 	}
 }

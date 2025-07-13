@@ -5,25 +5,25 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"types": ["node"],
-		"noEmitOnError": false,
+		"noEmitOnError": false
 	},
 	"exclude": ["**/*.generator.ts"],
 	"references": [
 		{
 			"$id": "package-tools/monorepo-tsconfig",
-			"path": "../../../@idlebox/args/src/tsconfig.json",
+			"path": "../../../@idlebox/args/src/tsconfig.json"
 		},
 		{
 			"$id": "package-tools/monorepo-tsconfig",
-			"path": "../../../@idlebox/common/src/tsconfig.json",
+			"path": "../../../@idlebox/common/src/tsconfig.json"
 		},
 		{
 			"$id": "package-tools/monorepo-tsconfig",
-			"path": "../../../@idlebox/node/src/tsconfig.json",
+			"path": "../../../@idlebox/node/src/tsconfig.json"
 		},
 		{
 			"$id": "package-tools/monorepo-tsconfig",
-			"path": "../../../@idlebox/json-edit/src/tsconfig.json",
-		},
-	],
+			"path": "../../../@idlebox/json-edit/src/tsconfig.json"
+		}
+	]
 }

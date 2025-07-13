@@ -3,14 +3,11 @@
 	"type": "module",
 	"version": "0.0.18",
 	"description": "api for modify .*ignore files",
-	"keywords": [
-		"gitignore",
-		"ignorefile"
-	],
-	"license": "MIT",
-	"author": "GongT",
+	"keywords": ["gitignore", "ignorefile"],
 	"exports": {
-		".": "./lib/api.js",
+		".": {
+			"default": "./lib/api.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"bin": "bin.js",
@@ -20,7 +17,8 @@
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
-		"clean": "mpis-run clean"
+		"clean": "mpis-run clean",
+		"lint": "internal-lint"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
@@ -32,5 +30,6 @@
 		"@mpis/run": "workspace:*",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21"
-	}
+	},
+	"private": true
 }

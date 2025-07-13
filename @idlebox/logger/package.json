@@ -2,8 +2,6 @@
 	"name": "@idlebox/logger",
 	"type": "module",
 	"version": "0.0.8",
-	"license": "MIT",
-	"main": "./lib/index.js",
 	"description": "A simple logger module for my self use (nodejs).",
 	"exports": {
 		".": {
@@ -16,12 +14,13 @@
 	"sideEffects": false,
 	"scripts": {
 		"prepack": "mpis-run build --clean",
-		"build": "mpis-tsc -p src",
-		"watch": "mpis-tsc -p src -w",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"test": "mocha --bail lib/tests"
+		"test": "mocha --bail lib/tests",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
@@ -33,5 +32,6 @@
 		"@mpis/run": "workspace:*",
 		"@types/debug": "^4.1.12",
 		"@types/node": "^22.15.21"
-	}
+	},
+	"private": true
 }

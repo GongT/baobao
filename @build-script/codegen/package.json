@@ -17,14 +17,6 @@
 	"imports": {
 		"#self-reference": "./loader/plugin.devel.js"
 	},
-	"publishConfig": {
-		"bin": {
-			"codegen": "./loader/bin.js"
-		},
-		"imports": {
-			"#self-reference": "./lib/plugin.js"
-		}
-	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",

@@ -4,22 +4,22 @@
 	"type": "module",
 	"version": "0.1.0",
 	"keywords": [],
-	"license": "MIT",
 	"exports": {
 		".": {
-			"types": "./src/index.ts",
-			"source": "./src/index.ts",
-			"default": "./lib/index.js"
+			"types": "./src/autoindex.generated.ts",
+			"source": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",
-		"build": "mpis-tsc -p src",
-		"watch": "mpis-tsc -p src -w",
-		"clean": "mpis-run clean"
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
 	},
-	"repository": "https://github.com/GongT/baobao",
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"dependency-graph": "^1.0.0"

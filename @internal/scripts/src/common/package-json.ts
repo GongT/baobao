@@ -1,4 +1,4 @@
-import { parseExportsField, type IFullExportsField, type IPackageJson } from '@idlebox/common';
+import { parseExportsField, type IExportMap, type IFullExportsField, type IPackageJson } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { resolve } from 'node:path';
@@ -18,12 +18,16 @@ export async function readPackageJson() {
 }
 
 export async function writeBack() {
+	(packageJson.exports as IExportMap)['./package.json'] = './package.json';
+
 	const ch = await writeJsonFileBack(packageJson);
 	if (!ch) {
 		throw new Error('package.json居然没有修改');
+		// logger.debug`package.json没有修改，跳过写入`;
+		// return;
 	}
 	const currentPackagePath = resolve(currentProject, 'package.json');
-	logger.log`写入到 long<${currentPackagePath}>`;
+	logger.success`写入到 long<${currentPackagePath}>`;
 }
 
 export function getExportsField() {

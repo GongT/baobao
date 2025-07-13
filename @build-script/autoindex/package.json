@@ -14,11 +14,6 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"publishConfig": {
-		"bin": {
-			"autoindex": "./loader/bin.js"
-		}
-	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
