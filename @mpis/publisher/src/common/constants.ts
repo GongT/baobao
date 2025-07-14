@@ -34,8 +34,12 @@ export async function createTempFolder() {
 	} else {
 		registerGlobalLifecycle(
 			toDisposable(() => {
-				logger.verbose`Cleaning up temporary folder.`;
-				rmSync(tempFolder, { recursive: true, force: true });
+				if (!process.exitCode) {
+					logger.verbose`Cleaning up temporary folder.`;
+					rmSync(tempFolder, { recursive: true, force: true });
+				} else {
+					logger.warn`Temporary folder not cleaned up due to non-zero exit code.`;
+				}
 			}),
 		);
 	}

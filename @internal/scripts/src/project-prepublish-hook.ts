@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { currentProject } from './common/constants.js';
 import { readPackageJson, writeBack } from './common/package-json.js';
 import {
+	deleteScripts,
 	ensureExportsPackageJson,
 	makeInformationalFields,
 	mirrorExportsAndMain,
@@ -25,6 +26,7 @@ removeLoaderFromExportsAndBin();
 
 mirrorExportsAndMain();
 ensureExportsPackageJson();
+deleteScripts();
 
 await writeBack();
 writeNpmFiles();

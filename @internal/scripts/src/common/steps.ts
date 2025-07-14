@@ -30,6 +30,11 @@ export function makeInformationalFields() {
 	}
 }
 
+export function deleteScripts() {
+	logger.debug`删除test脚本`;
+	delete packageJson.scripts.test;
+}
+
 /**
  * 如果source和types相同，则移除 types 字段
  * 此types是为了在未编译当前项目时编译依赖时使用，发布后直接使用默认类型即可
