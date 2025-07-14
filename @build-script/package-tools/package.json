@@ -12,7 +12,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
@@ -25,6 +26,7 @@
 		"execa": "^9.6.0",
 		"global-agent": "^3.0.0",
 		"make-fetch-happen": "^14.0.3",
+		"minimatch": "^10.0.1",
 		"npm-registry-fetch": "^18.0.2",
 		"pacote": "^21.0.0",
 		"semver": "^7.7.2",
@@ -35,9 +37,10 @@
 		"tinygradient": "^2.0.1"
 	},
 	"devDependencies": {
+		"@build-script/codegen": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/cacache": "^17.0.2",
 		"@types/global-agent": "^3.0.0",
@@ -51,6 +54,5 @@
 	},
 	"exports": {
 		"./package.json": "./package.json"
-	},
-	"private": true
+	}
 }

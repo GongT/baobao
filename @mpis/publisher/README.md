@@ -17,6 +17,10 @@
    1. 删除`prepack`等[pack lifecycle](https://docs.npmjs.com/cli/v8/using-npm/scripts#npm-pack)脚本
    1. 调用 `pnpm pack`
 
+#### extract
+1. 先运行pack流程
+2. 将生成的 tar 包解压到临时目录
+
 #### 使用
 
 修改`package.json`，最好设置`private=true`以防不小心运行`pnpm publish`，并添加`scripts.prepublishHook`。

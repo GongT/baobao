@@ -54,7 +54,7 @@ export abstract class PackageManager {
 
 	async getScope() {
 		const pkg = await this.loadPackageJson();
-		if (pkg.name.startsWith('@')) {
+		if (pkg.name?.startsWith('@')) {
 			const name = pkg.name.split('/')[0];
 			return name;
 		} else {

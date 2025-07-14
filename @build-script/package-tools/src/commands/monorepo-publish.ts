@@ -20,6 +20,7 @@ export class Command extends CommandDefine {
 		'--dry': { flag: true, description: '仅检查修改，不发布（仍会修改version字段）' },
 		'--debug': { flag: true, description: '运行后不要删除临时文件和目录' },
 		'--skip': { flag: false, description: '跳过前N-1个包（从第N个包开始运行）' },
+		'--private': { flag: false, description: '即使private=true也执行' },
 	};
 }
 
@@ -34,10 +35,12 @@ export async function main() {
 	const list = await workspace.listPackages();
 	const deps = await prepareMonorepoDeps(list);
 
-	for (const data of deps.getIncompleteWithOrder()) {
-		if (data.reference.packageJson.private) {
-			writeHostLine(`🛑 跳过，private=true: ${data.name}`);
-			deps.setComplated(data.name);
+	if (argv.flag('--private') <= 0) {
+		for (const data of deps.getIncompleteWithOrder()) {
+			if (data.reference.packageJson.private) {
+				writeHostLine(`🛑 跳过，private=true: ${data.name}`);
+				deps.setComplated(data.name);
+			}
 		}
 	}
 
@@ -57,7 +60,7 @@ export async function main() {
 		writeHostReplace(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
 		const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, data.reference.absolute);
-		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm);
+		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});
 		let shouldPublish = hasChange;
 
 		if (!hasChange && changedFiles.length > 0) {
@@ -76,7 +79,7 @@ export async function main() {
 		}
 
 		writeHostReplace(
-			`🪄 正在发布新版本 ${data.reference.name} ${data.reference.packageJson.version} ==\ueac3==> ${remoteVersion}`
+			`🪄 正在发布新版本 ${data.reference.name} ${data.reference.packageJson.version} ==\ueac3==> ${remoteVersion}`,
 		);
 
 		if (dryRun) {

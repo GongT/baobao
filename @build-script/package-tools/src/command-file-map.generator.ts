@@ -1,10 +1,12 @@
+import type { GenerateContext } from '@build-script/codegen';
 import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-export async function generate(b) {
+export async function generate(ctx: GenerateContext) {
 	const map = {};
 	const root = resolve(__dirname, 'commands');
-	b.watchFiles(root);
+	ctx.watchFiles(root + '/**/*.ts');
+	ctx.watchFiles(root + '/');
 	for (const name of readdirSync(root)) {
 		if (!name.endsWith('.ts')) {
 			continue;

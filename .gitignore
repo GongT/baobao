@@ -20,6 +20,8 @@ temp/
 /.vscode/local-history
 .node-package-tools
 *.generator.js
+.package-tools/
+.publisher/
 
 ### Build Result
 dist/

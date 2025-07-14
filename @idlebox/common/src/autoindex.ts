@@ -248,6 +248,7 @@
 	export type { IExportMap } from "./misc/package.json.js";
 	export type { IFullExportsField } from "./misc/package.json.js";
 	export type { IExportsField } from "./misc/package.json.js";
+	export type { IImportsField } from "./misc/package.json.js";
 	export { parseExportsField } from "./misc/package.json.js";
 	export { resolveExportPath } from "./misc/package.json.js";
 	export type { IPackageJson } from "./misc/package.json.js";

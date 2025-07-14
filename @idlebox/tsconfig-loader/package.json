@@ -18,7 +18,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -30,6 +31,5 @@
 	},
 	"peerDependencies": {
 		"typescript": "^5.8.2"
-	},
-	"private": true
+	}
 }

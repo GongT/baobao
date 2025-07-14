@@ -1,7 +1,6 @@
 {
 	"name": "@build-script/autoindex",
 	"type": "module",
-	"private": true,
 	"version": "0.0.1",
 	"bin": {
 		"autoindex": "./loader/bin.devel.js"
@@ -20,7 +19,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@build-script/rushstack-config-loader": "workspace:^",
@@ -41,7 +41,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@types/node": "^22.15.21",
 		"typescript": "^5.8.3"
 	}

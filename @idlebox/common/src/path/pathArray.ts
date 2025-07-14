@@ -14,12 +14,14 @@ abstract class PathArrayAbstract {
 		init: string | string[] = [],
 		private readonly sep: ':' | ';' = isWindows ? ';' : ':',
 	) {
-		if (Array.isArray(init)) {
-			for (const item of init) {
-				this.add(item);
+		if (init.length) {
+			if (Array.isArray(init)) {
+				for (const item of init) {
+					this.add(item);
+				}
+			} else {
+				this.add(init);
 			}
-		} else {
-			this.add(init);
 		}
 	}
 

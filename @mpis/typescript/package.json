@@ -1,6 +1,5 @@
 {
 	"name": "@mpis/typescript",
-	"private": true,
 	"type": "module",
 	"version": "0.1.0",
 	"keywords": [],
@@ -16,7 +15,8 @@
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
@@ -28,7 +28,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@types/node": "^22.15.21"
 	},
 	"peerDependencies": {

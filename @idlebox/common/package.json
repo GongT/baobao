@@ -1,15 +1,9 @@
 {
 	"name": "@idlebox/common",
-	"private": true,
 	"type": "module",
 	"version": "1.4.13",
 	"description": "Common utilities",
-	"keywords": [
-		"utilities",
-		"functions",
-		"helpers",
-		"library"
-	],
+	"keywords": ["utilities", "functions", "helpers", "library"],
 	"exports": {
 		".": {
 			"types": "./src/autoindex.ts",
@@ -25,7 +19,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

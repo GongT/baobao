@@ -18,7 +18,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"ansi-regex": "^6.1.0",
@@ -29,12 +30,11 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/chai": "^5.2.2",
 		"@types/mocha": "^10.0.10",
 		"chai": "^5.2.0",
 		"mocha": "^11.5.0"
-	},
-	"private": true
+	}
 }

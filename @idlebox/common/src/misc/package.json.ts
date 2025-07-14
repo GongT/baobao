@@ -31,6 +31,7 @@ export interface IFullExportsField {
 }
 
 export type IExportsField = string | IExportCondition | IExportMap;
+export type IImportsField = IExportCondition | IExportMap;
 
 function isPathMap(exportsField: IExportCondition | IExportMap): exportsField is IExportMap {
 	return Object.keys(exportsField).some((e) => e.startsWith('.'));
@@ -110,6 +111,7 @@ export interface IPackageJson {
 	publishConfig: Record<string, any>;
 	workspaces: string[];
 	exports: IExportsField;
+	imports: IImportsField;
 	dependencies: Record<string, string>;
 	devDependencies: Record<string, string>;
 	optionalDependencies: Record<string, string>;

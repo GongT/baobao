@@ -15,7 +15,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
@@ -24,8 +25,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6"
-	},
-	"private": true
+	}
 }

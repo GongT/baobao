@@ -19,7 +19,8 @@
 		"clean": "mpis-run clean",
 		"test": "mocha --bail lib/tests",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
@@ -29,9 +30,8 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@types/debug": "^4.1.12",
 		"@types/node": "^22.15.21"
-	},
-	"private": true
+	}
 }

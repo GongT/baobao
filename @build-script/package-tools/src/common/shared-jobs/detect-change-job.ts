@@ -14,8 +14,17 @@ interface IResult {
 	remoteVersion?: string;
 }
 
-export async function executeChangeDetect(pm: IPackageManager): Promise<IResult> {
+interface IDetectOptions {
+	forcePrivate?: boolean;
+}
+
+export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions): Promise<IResult> {
 	const packageJson = await pm.loadPackageJson();
+	logger.log('包名: %s', packageJson.name);
+	if (!packageJson.name) {
+		throw new Error(`${pm.projectPath}/package.json 中缺少 name 字段`);
+	}
+
 	const cache = await pm.createCacheHandler();
 
 	const p = new PathEnvironment();
@@ -27,9 +36,7 @@ export async function executeChangeDetect(pm: IPackageManager): Promise<IResult>
 		}
 	}
 
-	logger.log('包名: %s', packageJson.name);
-
-	if (packageJson.private) {
+	if (packageJson.private && !options.forcePrivate) {
 		logger.log('检测到私有包，禁止运行');
 		return { changedFiles: [], hasChange: false };
 	}

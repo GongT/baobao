@@ -112,7 +112,7 @@ async function main() {
 
 function printLegend() {
 	process.stderr.write(
-		`\x1B[2mUsage:\x1B[0m\n    ${usage_prefix} \x1B[38;5;10m<命令>\x1B[0m \x1B[38;5;14m[命令参数]\x1B[0m\n`
+		`\x1B[2mUsage:\x1B[0m\n    ${usage_prefix} \x1B[38;5;10m<命令>\x1B[0m \x1B[38;5;14m[命令参数]\x1B[0m\n`,
 	);
 }
 

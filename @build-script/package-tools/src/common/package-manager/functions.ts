@@ -1,5 +1,5 @@
 import { getNpmConfigValue } from '@idlebox/node';
-import { manifest } from 'pacote';
+import pacote from 'pacote';
 import asyncPool from 'tiny-async-pool';
 
 /**
@@ -61,7 +61,7 @@ async function resolveNpmVersion([packageName, currentVersion]: [string, string]
 	let maxRetry = 100;
 	while (--retryCnt && --maxRetry && ++currentTry) {
 		try {
-			const pkgjson = await manifest(`${packageReference}@latest`, { before: d });
+			const pkgjson = await pacote.manifest(`${packageReference}@latest`, { before: d });
 			let newVersion = `^${pkgjson.version}`;
 			if (packageReference !== packageName) {
 				newVersion = `npm:${packageReference}@${newVersion}`;

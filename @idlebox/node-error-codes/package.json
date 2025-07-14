@@ -1,6 +1,5 @@
 {
 	"name": "@idlebox/node-error-codes",
-	"private": true,
 	"description": "A collection of Node.js error codes and their descriptions.",
 	"type": "module",
 	"version": "0.1.0",
@@ -19,12 +18,13 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"@build-script/codegen": "workspace:"

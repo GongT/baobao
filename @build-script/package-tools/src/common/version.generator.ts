@@ -6,7 +6,7 @@ export function generate(builder: FileBuilder, logger: IOutputShim) {
 	const pkgFile = path.resolve(__dirname, '../../package.json');
 	const pkg = JSON.parse(fs.readFileSync(pkgFile, 'utf-8'));
 
-	logger.log('package info = %s @ %s', pkg.name, pkg.version);
+	logger.log(`package info = ${pkg.name} @ ${pkg.version}`);
 
 	return `export const self_package_version = "${pkg.version}";
 export const self_package_name = "${pkg.name}";

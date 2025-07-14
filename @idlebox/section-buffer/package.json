@@ -2,7 +2,6 @@
 	"name": "@idlebox/section-buffer",
 	"type": "module",
 	"version": "0.0.22",
-	"private": true,
 	"exports": {
 		".": {
 			"default": "./lib/autoindex.generated.js"
@@ -16,7 +15,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^"
@@ -24,7 +24,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/heft-jest": "^1.0.6",
 		"@types/node": "^22.15.21"

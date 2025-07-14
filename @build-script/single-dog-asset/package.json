@@ -7,15 +7,15 @@
 		"test": "",
 		"watch": "",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@mpis/run": "workspace:*",
+		"@internal/local-rig": "workspace:^",
 		"prettier": "^3.5.3"
 	},
 	"exports": {
 		"./package.json": "./package.json"
 	},
-	"type": "module",
-	"private": true
+	"type": "module"
 }

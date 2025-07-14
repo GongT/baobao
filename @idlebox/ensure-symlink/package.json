@@ -14,13 +14,13 @@
 		"test": "",
 		"watch": "",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@types/node": "^22.15.21"
 	},
 	"monorepo": true,
-	"type": "module",
-	"private": true
+	"type": "module"
 }

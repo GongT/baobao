@@ -6,7 +6,8 @@
 	"license": "WTFPL",
 	"bin": {
 		"internal-prepublish-hook": "./loader/project-prepublish-hook.js",
-		"internal-lint": "./loader/project-lint.js"
+		"internal-lint": "./loader/project-lint.js",
+		"internal-prepublish-deny": "./loader/project-prepublish-deny.js"
 	},
 	"scripts": {
 		"build": "tsc -p src --noEmit",

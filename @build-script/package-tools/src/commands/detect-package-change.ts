@@ -22,7 +22,7 @@ export async function main() {
 	const pm = await createPackageManager(PackageManagerUsageKind.Read);
 
 	const pkgJson = await pm.loadPackageJson();
-	const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm);
+	const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});
 
 	if (autoInc) {
 		if (changedFiles.length) {

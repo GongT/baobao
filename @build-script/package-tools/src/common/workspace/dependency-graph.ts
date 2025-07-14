@@ -2,18 +2,18 @@ import { DepGraph, DepGraphCycleError } from 'dependency-graph';
 import { logger } from '../functions/log.js';
 import type { IPackageInfo } from './workspace.js';
 
-interface IGraphData {
+export interface IGraphData {
 	readonly name: string;
 	readonly dependencies: readonly string[];
 	completed: boolean;
 	readonly reference: Readonly<IPackageInfo>;
 }
 
-export async function prepareMonorepoDeps(list: readonly IPackageInfo[]) {
+export async function prepareMonorepoDeps(list: readonly IPackageInfo[], production = false) {
 	const deps = new DependEmitter();
 
 	for (const item of list) {
-		deps.addNode(item.name, item.dependencies, item);
+		deps.addNode(item.name, production ? item.dependencies : item.devDependencies, item);
 	}
 
 	deps.detectLoop();

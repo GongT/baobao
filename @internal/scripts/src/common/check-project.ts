@@ -96,12 +96,15 @@ async function executeInner(logger: IMyLogger) {
 	const denyFields = ['license', 'author', 'repository', 'typings', 'types', 'main', 'module'];
 
 	pkgChk.equals(['type'], 'module');
-	pkgChk.equals(['private'], true);
+
+	pkgChk.notset(['private']);
+	pkgChk.equals(['scripts', 'prepublishOnly'], 'internal-prepublish-deny');
+	pkgChk.equals(['scripts', 'prepublishHook'], 'internal-prepublish-hook');
+	pkgChk.equals(['scripts', 'lint'], 'internal-lint');
+
 	for (const field of denyFields) {
 		pkgChk.notset([field]);
 	}
-	pkgChk.equals(['scripts', 'prepublishHook'], 'internal-prepublish-hook');
-	pkgChk.equals(['scripts', 'lint'], 'internal-lint');
 
 	pkgChk.notset(['publishConfig']);
 
@@ -110,6 +113,7 @@ async function executeInner(logger: IMyLogger) {
 		logger.debug('using mpis-run');
 
 		const scripts = {
+			prepublishOnly: 'internal-prepublish-deny',
 			prepack: 'mpis-run build --clean',
 			build: 'mpis-run build',
 			watch: 'mpis-run watch',

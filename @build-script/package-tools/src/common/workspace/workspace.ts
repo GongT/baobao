@@ -1,6 +1,6 @@
 import type { IPackageJson } from '@idlebox/common';
-import { execLazyError, exists, findUpUntil, relativePath } from '@idlebox/node';
 import { readCommentJsonFile } from '@idlebox/json-edit';
+import { execLazyError, exists, findUpUntil, relativePath } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { logger } from '../functions/log.js';
@@ -31,8 +31,10 @@ export interface IPackageInfo {
 	name: string;
 	absolute: string;
 	relative: string;
-	/** 仅有工作区依赖 */
+	/** 仅有工作区依赖，不包devDependencies */
 	dependencies: string[];
+	/** 仅有工作区依赖，包含所有dependencies */
+	devDependencies: string[];
 	packageJson: IPackageJson;
 }
 
@@ -114,7 +116,7 @@ class Workspace implements IAnalyzeResult {
 
 	constructor(
 		public readonly cwd: string,
-		result: IAnalyzeResult
+		result: IAnalyzeResult,
 	) {
 		this.root = result.root;
 		this.packageManagerKind = result.packageManagerKind;
@@ -158,6 +160,7 @@ async function listMonoRepoPackages(projRoot: string, wokspaceKind: WorkspaceKin
 				absolute: projRoot,
 				relative: '.',
 				dependencies: [],
+				devDependencies: [],
 				packageJson,
 			},
 		];
@@ -174,6 +177,9 @@ async function listMonoRepoPackages(projRoot: string, wokspaceKind: WorkspaceKin
 
 function filter(localNames: string[], depMap: Record<string, string>) {
 	const ret: string[] = [];
+	if (!depMap) {
+		return ret;
+	}
 	for (const name of localNames) {
 		const ver = depMap[name];
 		if (!ver) continue;
@@ -196,18 +202,19 @@ async function listPnpm(projectRoot: string) {
 	for (const { name, path } of defs) {
 		const pkgFile = resolve(path, 'package.json');
 		const pkg = await cachedPackageJson(pkgFile);
-		const deps = {};
+		const allDep = {};
 		if (pkg.dependencies) {
-			Object.assign(deps, pkg.dependencies);
+			Object.assign(allDep, pkg.dependencies);
 		}
 		if (pkg.devDependencies) {
-			Object.assign(deps, pkg.devDependencies);
+			Object.assign(allDep, pkg.devDependencies);
 		}
 		ret.push({
 			absolute: path,
 			relative: relativePath(projectRoot, path),
 			name: name,
-			dependencies: filter(allNames, deps),
+			dependencies: filter(allNames, pkg.dependencies),
+			devDependencies: filter(allNames, allDep),
 			packageJson: pkg,
 		});
 	}

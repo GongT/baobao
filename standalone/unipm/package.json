@@ -15,7 +15,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"preferGlobal": true,
 	"dependencies": {
@@ -30,11 +31,10 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"@types/pacote": "^11.1.8"
 	},
-	"monorepo": true,
-	"private": true
+	"monorepo": true
 }

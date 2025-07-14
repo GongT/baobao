@@ -15,7 +15,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"iconv-lite": "^0.6.3",
@@ -26,10 +27,9 @@
 		"7zip-bin": "^5.2.0",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"@types/split2": "^4.2.3"
-	},
-	"private": true
+	}
 }

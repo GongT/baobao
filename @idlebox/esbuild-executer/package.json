@@ -31,7 +31,8 @@
 		"build": "tsc -p src",
 		"watch": "",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"debug": "^4.4.1",
@@ -43,11 +44,10 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
-		"@mpis/typescript": "workspace:*",
+		"@mpis/typescript": "workspace:^",
 		"@types/node": "^22.15.21",
 		"@types/source-map-support": "^0.5.10",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
-	},
-	"private": true
+	}
 }

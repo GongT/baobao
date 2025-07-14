@@ -13,7 +13,8 @@
 		"test": "",
 		"watch": "",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"preferGlobal": true,
 	"dependencies": {
@@ -22,12 +23,11 @@
 		"which": "^5.0.0"
 	},
 	"devDependencies": {
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@types/node": "^22.15.21"
 	},
 	"exports": {
 		"./package.json": "./package.json"
 	},
-	"type": "module",
-	"private": true
+	"type": "module"
 }

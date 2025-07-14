@@ -10,13 +10,13 @@
 		"test": "",
 		"watch": "",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@mpis/run": "workspace:*"
+		"@mpis/run": "workspace:^"
 	},
 	"exports": {
 		"./package.json": "./package.json"
-	},
-	"private": true
+	}
 }

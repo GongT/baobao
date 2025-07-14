@@ -1,9 +1,9 @@
-const fsa = require('node:fs/promises');
-const fss = require('node:fs');
-const path = require('node:path');
+import { lstatSync, mkdirSync, readlinkSync, symlinkSync, unlinkSync } from 'node:fs';
+import { lstat, mkdir, readlink, symlink, unlink } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 
-exports.ensureLinkTarget = async (target, symlink) => {
-	const stat = await fsa.lstat(symlink).catch((e) => {
+export async function ensureLinkTarget(target, symlinkFile) {
+	const stat = await lstat(symlinkFile).catch((e) => {
 		if (e.code === 'ENOENT') {
 			return false;
 		}
@@ -11,8 +11,8 @@ exports.ensureLinkTarget = async (target, symlink) => {
 	});
 	if (stat) {
 		if (stat.isSymbolicLink()) {
-			const dest = await fsa.readlink(symlink);
-			const destAbs = path.resolve(path.dirname(symlink), dest);
+			const dest = await readlink(symlinkFile);
+			const destAbs = resolve(dirname(symlinkFile), dest);
 
 			if (target === dest || target === destAbs) {
 				return false;
@@ -20,17 +20,17 @@ exports.ensureLinkTarget = async (target, symlink) => {
 		} else if (!stat.isFile()) {
 			throw new Error(`ensureLinkTarget: ${target} is not regular file`);
 		}
-		await fsa.unlink(symlink);
+		await unlink(symlinkFile);
 	}
-	await fsa.mkdir(path.dirname(symlink), { recursive: true });
-	await fsa.symlink(target, symlink, 'junction');
+	await mkdir(dirname(symlinkFile), { recursive: true });
+	await symlink(target, symlinkFile, 'junction');
 	return true;
-};
+}
 
-exports.ensureLinkTargetSync = (target, symlink) => {
+export function ensureLinkTargetSync(target, symlink) {
 	let stat;
 	try {
-		stat = fss.lstatSync(symlink);
+		stat = lstatSync(symlink);
 	} catch (e) {
 		if (e.code === 'ENOENT') {
 			stat = false;
@@ -40,8 +40,8 @@ exports.ensureLinkTargetSync = (target, symlink) => {
 	}
 	if (stat) {
 		if (stat.isSymbolicLink()) {
-			const dest = fss.readlinkSync(symlink);
-			const destAbs = path.resolve(path.dirname(symlink), dest);
+			const dest = readlinkSync(symlink);
+			const destAbs = resolve(dirname(symlink), dest);
 
 			if (target === dest || target === destAbs) {
 				return false;
@@ -49,9 +49,9 @@ exports.ensureLinkTargetSync = (target, symlink) => {
 		} else if (!stat.isFile()) {
 			throw new Error(`ensureLinkTarget: ${target} is not regular file`);
 		}
-		fss.unlinkSync(symlink);
+		unlinkSync(symlink);
 	}
-	fss.mkdirSync(path.dirname(symlink), { recursive: tru });
-	fss.symlinkSync(target, symlink, 'junction');
+	mkdirSync(dirname(symlink), { recursive: tru });
+	symlinkSync(target, symlink, 'junction');
 	return true;
-};
+}

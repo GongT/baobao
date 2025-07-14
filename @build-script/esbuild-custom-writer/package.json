@@ -16,7 +16,8 @@
 		"clean": "mpis-run clean",
 		"test": "node test/esbuild.js",
 		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
@@ -25,9 +26,8 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@types/node": "^22.15.21",
 		"esbuild": "^0.25.5"
-	},
-	"private": true
+	}
 }

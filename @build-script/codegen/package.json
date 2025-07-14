@@ -2,7 +2,6 @@
 	"name": "@build-script/codegen",
 	"type": "module",
 	"version": "0.0.1",
-	"private": true,
 	"bin": {
 		"codegen": "./loader/bin.devel.js"
 	},
@@ -23,7 +22,8 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
@@ -43,7 +43,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21",
 		"@types/source-map": "npm:source-map@*",

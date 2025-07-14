@@ -20,7 +20,8 @@
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
 		"test": "node test/esbuild.js",
-		"lint": "internal-lint"
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/logger": "workspace:^",
@@ -30,11 +31,10 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:*",
+		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/minimatch": "^5.1.2",
 		"@types/node": "^22.15.21",
 		"typescript": "^5.8.3"
-	},
-	"private": true
+	}
 }

@@ -20,6 +20,12 @@ registerGlobalLifecycle(
 	}),
 );
 
+registerCommand({
+	name: ['status', 's'],
+	description: '显示当前状态',
+	callback: () => reprintWatchModeError(),
+});
+
 process.title = `MpisRun`;
 
 logger.info`Running command "${context.command}" in ${projectRoot}`;
@@ -172,12 +178,6 @@ function reprintWatchModeError(noClear?: boolean) {
 	console.error(workersManager.formatDebugList());
 	printAllErrors();
 }
-
-registerCommand({
-	name: ['status', 's'],
-	description: '显示当前状态',
-	callback: () => reprintWatchModeError(),
-});
 
 function addDebugCommand() {
 	registerCommand({

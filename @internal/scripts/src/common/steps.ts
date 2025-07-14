@@ -2,7 +2,7 @@
 import { type IExportMap } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { cpSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { currentProject, monorepoRoot } from './constants.js';
 import { isPublish } from './constants.publish.js';
@@ -17,16 +17,11 @@ export function makeInformationalFields() {
 		packageJson[field] = value;
 	}
 
+	logger.log`设置 package.json 的信息字段`;
 	make('license', 'MIT');
 	make('author', 'GongT <admin@gongt.me>');
 	make('repository', 'https://github.com/GongT/baobao');
-}
 
-export function sanitizePackageJson() {
-	if (!Object.hasOwn(packageJson, 'type')) {
-		logger.warn`package.json中缺少 type 字段，设置为 module`;
-		packageJson.type = 'module';
-	}
 	if (!Object.hasOwn(packageJson, 'description')) {
 		logger.warn`package.json中缺少 description`;
 	}
@@ -78,7 +73,7 @@ export function mirrorExportsAndMain() {
 }
 
 /**
- * 删除exports和bin里关于loader的内容
+ * 删除exports、imports和bin里关于loader的内容
  */
 export function removeLoaderFromExportsAndBin() {
 	const exports = getExportsField();
@@ -92,6 +87,16 @@ export function removeLoaderFromExportsAndBin() {
 		}
 	} else if (typeof packageJson.bin === 'string') {
 		packageJson.bin = modifyLoaderInString(packageJson.bin);
+	}
+
+	if (packageJson.imports) {
+		for (const [key, value] of Object.entries(packageJson.imports)) {
+			if (typeof value !== 'string') {
+				continue;
+			}
+
+			packageJson.imports[key] = modifyLoaderInString(value);
+		}
 	}
 }
 function modifyLoaderInString(str: string): string {
@@ -114,10 +119,17 @@ function modifyLoaderInString(str: string): string {
  * 写入npmignore和npmrc
  */
 export function writeNpmFiles() {
-	const source = import.meta.resolve('@build-script/single-dog-asset/package/npmignore');
+	const sdaPath = dirname(fileURLToPath(import.meta.resolve('@build-script/single-dog-asset/package.json')));
 
-	cpSync(fileURLToPath(source), resolve(currentProject, '.npmignore'));
+	const ignoreSource = resolve(sdaPath, 'package/npmignore');
+	const ignoreDist = resolve(currentProject, '.npmignore');
 
-	const file = resolve(monorepoRoot, isPublish ? '.npmrc-publish' : '.npmrc');
-	cpSync(file, resolve(currentProject, '.npmrc'));
+	logger.debug`将 ${ignoreSource} 复制到 long<${ignoreDist}>`;
+	cpSync(ignoreSource, ignoreDist);
+
+	const tcSource = resolve(monorepoRoot, isPublish ? '.npmrc-publish' : '.npmrc');
+	const rcDist = resolve(currentProject, '.npmrc');
+
+	logger.debug`将 ${tcSource} 复制到 ${rcDist}`;
+	cpSync(tcSource, rcDist);
 }
