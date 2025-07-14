@@ -2,7 +2,7 @@
 	"name": "@idlebox/node-error-codes",
 	"description": "A collection of Node.js error codes and their descriptions.",
 	"type": "module",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"exports": {
 		".": {
 			"source": "./src/nodejs-error-code.generated.ts",

@@ -40,7 +40,7 @@ export class NpmCacheHandler {
 	constructor(
 		private readonly pm: IPackageManager,
 		private readonly registry: string,
-		public readonly path: string
+		public readonly path: string,
 	) {}
 
 	deleteMetadata(name: string) {
@@ -84,6 +84,9 @@ export class NpmCacheHandler {
 }
 
 function getVersion(json: any, distTag: string): IPackageJson | undefined {
+	if (!json.versions) {
+		return undefined;
+	}
 	const v = json?.['dist-tags']?.[distTag];
 	if (!v) {
 		return json.versions[distTag];

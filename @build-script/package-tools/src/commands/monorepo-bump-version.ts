@@ -71,9 +71,13 @@ export async function main() {
 		const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, data.reference.absolute);
 		const { hasChange, remoteVersion } = await executeChangeDetect(pm, { forcePrivate: allowPrivate });
 
-		if (!remoteVersion) throw new Error('程序错误, remoteVersion 为空');
-
-		if (hasChange) {
+		if (!remoteVersion) {
+			writeHostReplace('    ✨ 远程版本不存在\n');
+			const packageJson = await pm.loadPackageJson();
+			if (packageJson.version !== '0.0.1') {
+				throw new Error(`远程版本不存在，但本地包版本不是 0.0.1\n  package: ${pm.projectPath}/package.json`);
+			}
+		} else if (hasChange) {
 			changedPackages.push(data.name);
 			await increaseVersion(data.reference.packageJson, remoteVersion);
 			writeHostReplace('    ✍️ 已修改本地包版本\n');

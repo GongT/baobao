@@ -1,9 +1,10 @@
 import { sleep } from '@idlebox/common';
 import { exists, streamPromise } from '@idlebox/node';
 import { createWriteStream } from 'node:fs';
-import { readFile, rename, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import type { IncomingHttpHeaders, IncomingMessage, OutgoingHttpHeaders } from 'node:http';
 import { get } from 'node:https';
+import { dirname } from 'node:path';
 import type { Readable } from 'node:stream';
 import { createBrotliDecompress, createGunzip, createInflate } from 'node:zlib';
 import { logger } from '../functions/log.js';
@@ -29,6 +30,7 @@ export async function downloadFileCached(url: string, file: string) {
 	}
 	const response = await http_stream(url);
 
+	await mkdir(dirname(file), { recursive: true });
 	const writeOut = createWriteStream(`${file}.downloading`);
 	await streamPromise(response.stream.pipe(writeOut));
 
@@ -45,7 +47,7 @@ class RedirectError extends Error {
 	constructor(
 		url: string,
 		public readonly location: string,
-		public readonly code: number
+		public readonly code: number,
 	) {
 		super(`Request ${url} - Redirect to "${location}" with code ${code}`);
 	}
@@ -59,7 +61,7 @@ export class HttpError extends Error {
 	constructor(
 		public readonly url: string,
 		public readonly code: number,
-		msg: string
+		msg: string,
 	) {
 		super(`Request ${url} - Server responded with ${code}: ${msg}`);
 	}
@@ -107,7 +109,7 @@ function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 
 		const request = get(url, { headers }, (response) => {
 			logger.debug(
-				`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}][${response.headers['content-length']} bytes]`
+				`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}][${response.headers['content-length']} bytes]`,
 			);
 			if (response.statusCode === 200) {
 				const bytes = Number.parseInt(response.headers['content-length'] ?? '--');
@@ -117,7 +119,7 @@ function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 					response.on('data', (bs) => {
 						downloaded += bs.length;
 						process.stderr.write(
-							`\x1B[2mdownload: ${downloaded} of ${bytes} bytes (${Math.round((downloaded / bytes) * 100)}%)\x1B[0m\r`
+							`\x1B[2mdownload: ${downloaded} of ${bytes} bytes (${Math.round((downloaded / bytes) * 100)}%)\x1B[0m\r`,
 						);
 					});
 					response.on('end', () => {

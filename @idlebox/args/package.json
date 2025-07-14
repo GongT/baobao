@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/args",
 	"type": "module",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"exports": {
 		".": {
 			"source": "./src/interface.ts",

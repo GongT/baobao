@@ -1,7 +1,7 @@
-import { findUpUntil } from '@idlebox/node';
 import { loadJsonFile } from '@idlebox/json-edit';
-import { readFile as readFileAsync } from 'node:fs';
+import { findUpUntil } from '@idlebox/node';
 import json5 from 'json5';
+import { readFile as readFileAsync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { deletePackageDependency, resortPackage } from '../common/packageJson.js';
@@ -26,7 +26,7 @@ export class Rush extends PackageManager {
 	private subPackageManager?: string;
 
 	async _detect(sub = false): Promise<boolean> {
-		const found = await findUpUntil(this.cwd, 'rush.json');
+		const found = await findUpUntil({ from: this.cwd, file: 'rush.json' });
 		if (!found) {
 			return false;
 		}
@@ -57,7 +57,7 @@ export class Rush extends PackageManager {
 	}
 
 	public override async uninstall(...packages: string[]): Promise<void> {
-		const pkgJson = await findUpUntil(this.cwd, 'package.json');
+		const pkgJson = await findUpUntil({ from: this.cwd, file: 'package.json' });
 		if (pkgJson) {
 			await deletePackageDependency(pkgJson, ...packages);
 		}
@@ -75,7 +75,7 @@ export class Rush extends PackageManager {
 			await super._invokeErrorLater(this.cliName, [this.installCommand, ...flags, '-p', pkg]);
 		}
 
-		const pkgJson = await findUpUntil(this.cwd, 'package.json');
+		const pkgJson = await findUpUntil({ from: this.cwd, file: 'package.json' });
 		if (pkgJson) {
 			await resortPackage(pkgJson);
 		}
