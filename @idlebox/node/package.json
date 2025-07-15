@@ -32,5 +32,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@rushstack/heft": "^0.73.6",
 		"@types/node": "^22.15.21"
-	}
+	},
+	"decoupledDependencies": "*"
 }

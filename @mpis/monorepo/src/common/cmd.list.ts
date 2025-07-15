@@ -3,25 +3,17 @@ import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { createMonorepoObject } from './monorepo.js';
 
-export async function runBuild() {
+export async function runList() {
+	const asList = argv.flag(['--list', '-l']) > 0;
 	if (argv.unused().length) {
 		logger.error`Unknown arguments: ${argv.unused().join(', ')}`;
 		return shutdown(1);
 	}
 
 	const repo = await createMonorepoObject();
+	repo._finalize();
 
-	repo.onStateChange(() => {
-		if (process.stderr.isTTY) process.stderr.write('\x1Bc');
+	const text = repo.dump(asList);
 
-		repo.printScreen();
-	});
-	try {
-		await repo.startup();
-
-		logger.success('Monorepo started successfully');
-	} catch (error: any) {
-		console.error(error.message);
-		shutdown(1);
-	}
+	console.log(text);
 }

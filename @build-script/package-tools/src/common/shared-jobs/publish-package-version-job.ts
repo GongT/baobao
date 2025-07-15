@@ -25,7 +25,7 @@ export async function publishPackageVersion(pm: IPackageManager) {
 	logger.debug('    -> %s', packFile);
 
 	const publish_rc = pm.workspace.getNpmRCPath('.npmrc-publish');
-	const default_rc = pm.workspace.getNpmRCPath('.npmrc-publish');
+	const default_rc = pm.workspace.getNpmRCPath('.npmrc');
 	if (await exists(publish_rc)) {
 		logger.debug('找到配置文件: %s', publish_rc);
 		await copyFile(publish_rc, wd.joinpath('.npmrc'));

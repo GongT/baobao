@@ -2,7 +2,9 @@
 	"name": "@build-script/esbuild-custom-writer",
 	"version": "0.1.2",
 	"type": "module",
-	"keywords": ["esbuild"],
+	"keywords": [
+		"esbuild"
+	],
 	"exports": {
 		".": {
 			"default": "./lib/main.js"

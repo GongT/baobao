@@ -127,6 +127,17 @@ export interface IPackageJson {
 
 	dist: IPackageJsonNpmDist;
 
+	/* My Addons */
+	/**
+	 * Array of dependencies that will remove from dependencies and devDependencies when resolving build order.
+	 */
+	decoupledDependencies: string | string[];
+	/**
+	 * Array of package names that add this package to it's `decoupledDependencies`.
+	 */
+	decoupledDependents: string | string[];
+	/* My Addons End */
+
 	[field: string]: any;
 }
 

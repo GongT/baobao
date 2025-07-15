@@ -1,4 +1,4 @@
-import { ProjectConfig, ValidationError } from '@build-script/rushstack-config-loader';
+import { ProjectConfig } from '@build-script/rushstack-config-loader';
 import { AsyncDisposable, Emitter, isWindows, PathArray, type IPackageJson } from '@idlebox/common';
 import { loadJsonFile } from '@idlebox/json-edit';
 import { logger, type IMyLogger } from '@idlebox/logger';
@@ -8,12 +8,7 @@ import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
 import { currentCommand } from '../bin.js';
-import { selfRootDir, workspaceRoot } from './constants.js';
-import type { IBuildConfigJson } from './monorepo.json.js';
-
-const schemas = {
-	build: resolve(selfRootDir, 'monorepo.schema.json'),
-} as const;
+import { workspaceRoot } from './constants.js';
 
 interface IPnpmListProject {
 	name: string;
@@ -60,7 +55,7 @@ async function getWorkspaceProjects(logger: IMyLogger): Promise<readonly IWorksp
 
 		const config = new ProjectConfig(project.path, undefined, logger);
 		logger.debug`use rig package: ${config.rigConfig.rigFound}`;
-		const dependencies = await filterWorkspaceDependencies(config, logger, project.path, packageJson);
+		const dependencies = await mergeDependencies(packageJson);
 
 		return {
 			_id: project.name ? normalizeName(project.name) : '',
@@ -71,54 +66,14 @@ async function getWorkspaceProjects(logger: IMyLogger): Promise<readonly IWorksp
 			config: config,
 		} satisfies IWorkspaceProject;
 	});
-	const result = await Promise.all(ps);
-	return result.filter((p) => !!p);
+	const results = (await Promise.all(ps)).filter((p) => !!p);
+
+	decoupleDependencies(logger, results);
+
+	return results;
 }
 
-async function filterWorkspaceDependencies(
-	config: ProjectConfig,
-	logger: IMyLogger,
-	absolutePath: string,
-	packageJson: IPackageJson,
-): Promise<string[]> {
-	const removes: string[] = [];
-
-	try {
-		const overrides = config.loadPackageJsonOnly<IBuildConfigJson>('monorepo', schemas.build);
-		logger.debug`using override file ${absolutePath}/config/monorepo.json`;
-
-		if (overrides.dependencies && overrides.removeDependencies) {
-			logger.fatal`${absolutePath}/config/monorepo.json: cannot use both "dependencies" and "removeDependencies" at the same time.`;
-		}
-
-		if (overrides.dependencies) {
-			const dependencies: string[] = [];
-			dependencies.push(...overrides.dependencies);
-
-			for (const name of dependencies) {
-				const depVer = packageJson.dependencies?.[name] ?? packageJson.devDependencies?.[name];
-				if (!depVer || !depVer.startsWith('workspace:')) {
-					logger.fatal(
-						`dependency "${name}"(${depVer}) in "${absolutePath}/config/monorepo.json" must specified in package.json with version "workspace:"`,
-					);
-				}
-			}
-
-			return dependencies;
-		}
-		if (overrides.removeDependencies?.length) {
-			removes.push(...overrides.removeDependencies);
-		}
-	} catch (error: any) {
-		if (error instanceof ValidationError) {
-			logger.fatal(error.message);
-		}
-		logger.debug`monorepo.json: ${error.name} long<${error.message}>`;
-		if (error.code !== 'ENOENT') {
-			throw error;
-		}
-	}
-
+function mergeDependencies(packageJson: IPackageJson) {
 	const dependencies = new Set<string>();
 	if (packageJson.dependencies) {
 		for (const [name, version] of Object.entries(packageJson.dependencies)) {
@@ -135,16 +90,102 @@ async function filterWorkspaceDependencies(
 		}
 	}
 
-	for (const remove of removes) {
-		if (!dependencies.has(remove)) {
-			logger.fatal`dependency "${remove}" in "${absolutePath}/config/monorepo.json" not found in package.json`;
+	return Array.from(dependencies);
+}
+
+type NotReadonly<T> = {
+	-readonly [P in keyof T]: T[P];
+};
+type IGlobalRemoveMap = Map<string /* 目标包名 */, string[]>;
+
+function decoupleDependencies(logger: IMyLogger, projects: readonly NotReadonly<IWorkspaceProject>[]) {
+	const global_removes: IGlobalRemoveMap = new Map();
+	const local_names = projects.map((p) => p.packageJson.name);
+	for (const name of local_names) {
+		global_removes.set(name, []);
+	}
+	global_removes.set('*', []);
+
+	for (const { packageJson, absolutePath } of projects) {
+		const add_if_not = (r: string) => {
+			const exists = global_removes.get(r);
+			if (!exists) {
+				const pkgFile = resolve(absolutePath, 'package.json');
+				throw logger.fatal`decoupledDependents in long<${pkgFile}> specified a package "${r}" that is not in workspace.`;
+			}
+			exists.push(packageJson.name);
+		};
+
+		if (Array.isArray(packageJson.decoupledDependents)) {
+			for (const decouplePackage of packageJson.decoupledDependents) {
+				add_if_not(decouplePackage);
+			}
+		} else if (packageJson.decoupledDependents === '*') {
+			add_if_not('*');
+		} else if (packageJson.decoupledDependents) {
+			const pkgFile = resolve(absolutePath, 'package.json');
+			logger.fatal`decoupledDependents in long<${pkgFile}> must be an array, or "*", got "${packageJson.decoupledDependents}"`;
 		}
-		dependencies.delete(remove);
 	}
 
-	logger.verbose`workspace dependencies list<${dependencies}>`;
+	logger.verbose`decoupled dependencies list<${global_removes}>`;
 
-	return Array.from(dependencies);
+	for (const project of projects) {
+		decoupleDependenciesProject(
+			logger,
+			project,
+			global_removes.get(project.packageJson.name) ?? [],
+			global_removes.get('*') ?? [],
+		);
+		logger.verbose`workspace dependencies list<${project.workspaceDependencies}>`;
+	}
+}
+
+function decoupleDependenciesProject(
+	logger: IMyLogger,
+	project: NotReadonly<IWorkspaceProject>,
+	revert_removes: readonly string[],
+	global_removes: readonly string[],
+) {
+	logger.debug`decouple: project ${project.packageJson.name} dependencies: ${project.workspaceDependencies.length}`;
+	if (revert_removes.length === 0 && global_removes.length === 0 && !project.packageJson.decoupledDependencies) {
+		logger.debug`decouple: nothing to do`;
+		return;
+	}
+	const dependencies = new Set(project.workspaceDependencies);
+
+	const removes = project.packageJson.decoupledDependencies ?? [];
+	if (Array.isArray(removes)) {
+		for (const remove of [...removes, ...revert_removes]) {
+			if (!dependencies.has(remove)) {
+				const pkgFile = resolve(project.absolutePath, 'package.json');
+				logger.fatal`decoupled dependency "${remove}" in long<${pkgFile}> not exists (or not workspace:)`;
+			}
+
+			logger.verbose`decouple: delete dependency "${remove}" from ${project.packageJson.name}`;
+			dependencies.delete(remove);
+		}
+		for (const remove of global_removes) {
+			if (dependencies.has(remove)) {
+				logger.verbose`decouple: delete dependency "${remove}" from ${project.packageJson.name}`;
+				dependencies.delete(remove);
+			}
+		}
+	} else if (typeof removes === 'string') {
+		if (removes === '*') {
+			logger.verbose`decouple: force delete all dependencies from ${project.packageJson.name}`;
+			dependencies.clear();
+		} else {
+			const pkgFile = resolve(project.absolutePath, 'package.json');
+			logger.fatal`decoupledDependencies in long<${pkgFile}> must be an array, or "*", got "${removes}"`;
+		}
+	} else {
+		const pkgFile = resolve(project.absolutePath, 'package.json');
+		logger.fatal`decoupledDependencies in long<${pkgFile}> must be an array, got ${typeof removes}`;
+	}
+
+	project.workspaceDependencies = Array.from(dependencies);
+	logger.debug`decouple: finished: ${project.workspaceDependencies.length} remains`;
 }
 
 export async function createMonorepoObject() {
@@ -190,6 +231,10 @@ class PnpmMonoRepo extends AsyncDisposable {
 				this.workersManager.addEmptyWorker(project.packageJson.name);
 			}
 		}
+	}
+
+	async _finalize() {
+		this.workersManager.finalize();
 	}
 
 	async startup() {
@@ -276,18 +321,17 @@ class PnpmMonoRepo extends AsyncDisposable {
 		return pathvar;
 	}
 
-	dump() {
-		return this.workersManager.formatDebugList();
+	dump(asList = true) {
+		if (asList) {
+			return this.workersManager.formatDebugList();
+		} else {
+			return this.workersManager.formatDebugGraph();
+		}
 	}
 
 	printScreen() {
 		let r = this.formatErrors();
 		r += this.dump();
 		console.error(r);
-	}
-
-	override async dispose(): Promise<void> {
-		await super.dispose();
-		this.printScreen();
 	}
 }

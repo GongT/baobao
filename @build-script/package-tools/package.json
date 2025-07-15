@@ -6,6 +6,9 @@
 		"package-tools": "./load.mjs",
 		"njspkg": "./load.mjs"
 	},
+	"exports": {
+		"./package.json": "./package.json"
+	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -51,8 +54,5 @@
 		"@types/targz": "^1.0.5",
 		"@types/tiny-async-pool": "^2.0.3",
 		"@types/tinycolor2": "^1.4.6"
-	},
-	"exports": {
-		"./package.json": "./package.json"
 	}
 }

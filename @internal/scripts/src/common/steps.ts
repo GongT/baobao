@@ -30,9 +30,21 @@ export function makeInformationalFields() {
 	}
 }
 
-export function deleteScripts() {
-	logger.debug`删除test脚本`;
-	delete packageJson.scripts.test;
+export function deleteDevelopmentFields() {
+	if (packageJson.scripts?.test) {
+		logger.debug`删除test脚本`;
+		delete packageJson.scripts.test;
+	}
+
+	if (packageJson.decoupledDependencies) {
+		logger.debug`删除 decoupledDependencies`;
+		delete (packageJson as any).decoupledDependencies;
+	}
+
+	if (packageJson.decoupledDependents) {
+		logger.debug`删除 decoupledDependents`;
+		delete (packageJson as any).decoupledDependents;
+	}
 }
 
 /**

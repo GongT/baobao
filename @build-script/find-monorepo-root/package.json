@@ -2,7 +2,7 @@
 	"name": "@build-script/find-monorepo-root",
 	"type": "module",
 	"version": "0.0.1",
-	"bin":{
+	"bin": {
 		"find-monorepo-root": "./loader/bin.devel.js"
 	},
 	"exports": {

@@ -35,6 +35,8 @@ export async function main() {
 	const list = await workspace.listPackages();
 	const deps = await prepareMonorepoDeps(list);
 
+	deps.detectLoop();
+
 	if (argv.flag('--private') <= 0) {
 		for (const data of deps.getIncompleteWithOrder()) {
 			if (data.reference.packageJson.private) {

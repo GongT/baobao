@@ -4,6 +4,7 @@ import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler } from '@idlebox/node';
 import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
 import { runBuild } from './common/cmd.build.js';
+import { runList } from './common/cmd.list.js';
 import { runWatch } from './common/cmd.watch.js';
 
 registerNodejsExitHandler();
@@ -28,7 +29,7 @@ registerGlobalLifecycle(
 	}),
 );
 
-const cmd = argv.command(['build', 'watch', 'clean']);
+const cmd = argv.command(['build', 'watch', 'clean', 'list', 'ls']);
 if (!cmd) {
 	printUsage();
 	logger.fatal`No command specified.`;
@@ -46,6 +47,10 @@ switch (cmd.value) {
 		break;
 	case 'watch':
 		await runWatch();
+		break;
+	case 'list':
+	case 'ls':
+		await runList();
 		break;
 	case 'clean':
 		throw new Error('The "clean" command is not implemented yet.');

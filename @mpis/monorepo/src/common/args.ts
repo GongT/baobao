@@ -7,6 +7,7 @@ export function printUsage() {
 	console.log('  build   run build');
 	console.log('  watch   start watch mode');
 	console.log('  clean   cleanup all projects');
+	console.log('  list/ls [--list] dump projects');
 }
 
 export const verboseMode = argv.flag(['-d', '--debug']) > 1;

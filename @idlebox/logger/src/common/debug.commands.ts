@@ -29,6 +29,10 @@ export function nodeInspect(object: unknown, color: boolean): string {
 	return inspect(object, options(color));
 }
 
+function isSyncIterable(obj: unknown): obj is Iterable<unknown> {
+	return typeof obj === 'object' && obj !== null && Symbol.iterator in obj;
+}
+
 const debug_commands = {
 	inspect(object: unknown, color: boolean) {
 		return inspect(object, options(color));
@@ -48,16 +52,36 @@ const debug_commands = {
 		}
 	},
 	list(items: unknown, color: boolean) {
-		if (!Array.isArray(items) || (items.length && typeof items[0] !== 'string')) {
-			return color_error(`list<> need array of strings, not ${typeof items}(${items?.constructor?.name})`, color);
+		if (!isSyncIterable(items)) {
+			return color_error(`list<> need iterable value, not ${typeof items}(${items?.constructor?.name})`, color);
 		}
 		const postfix = color ? '\x1B[0m' : '';
-		if (items.length === 0) {
+		let index = 0;
+		const lines: string[] = [];
+		const prefix = color ? '\x1B[2m' : '';
+		for (const item of items) {
+			if (Array.isArray(item)) {
+				if (item.length === 2) {
+					const [key, value] = item;
+					if (typeof key === 'number') {
+						lines.push(`  - ${prefix}${item}${postfix}`);
+					} else {
+						lines.push(`  * ${prefix}${key}: ${value.toString()}${postfix}`);
+					}
+				} else {
+					return color_error(`list<> item ${index} is array with length ${item.length}, expected 2`, color);
+				}
+			} else {
+				lines.push(`  - ${prefix}${item}${postfix}`);
+			}
+			index++;
+		}
+
+		if (lines.length === 0) {
 			const prefix = color ? '\x1B[3;2m' : '';
 			return ':\n' + prefix + '  - <list is empty>' + postfix;
 		}
-		const prefix = color ? '\x1B[2m' : '';
-		return ':\n' + prefix + '  * ' + items.map((s) => s).join('\n  * ') + postfix;
+		return ':\n' + lines.join('\n');
 	},
 	commandline(cmds: unknown, color: boolean) {
 		if (Array.isArray(cmds)) {
