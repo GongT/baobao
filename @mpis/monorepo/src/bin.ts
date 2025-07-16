@@ -1,5 +1,5 @@
 import { argv } from '@idlebox/args/default';
-import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
+import { humanDate, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler } from '@idlebox/node';
 import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
@@ -25,7 +25,7 @@ if (helpMode) {
 const start = Date.now();
 registerGlobalLifecycle(
 	toDisposable(() => {
-		logger.info`Operation completed in ${Date.now() - start}ms (${process.exitCode ? 'failed' : 'success'}).`;
+		logger.info`Operation completed in ${humanDate.delta(Date.now() - start)} (${process.exitCode ? 'failed' : 'success'}).`;
 	}),
 );
 

@@ -1,0 +1,7 @@
+{
+	"$schema": "../../../@build-script/autoindex/autoindex.schema.json",
+	"exclude": ["**/bins/**"],
+	"project": "src",
+	"stripTags": ["private"],
+	"output": "autoindex"
+}

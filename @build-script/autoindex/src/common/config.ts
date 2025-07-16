@@ -58,11 +58,14 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 
 		if (!context.outputFile && configFileData.output) context.outputFile = configFileData.output;
 
-		if (!context.includePatterns && configFileData.include) context.includePatterns = configFileData.include;
+		if (!context.includePatterns) context.includePatterns = [];
+		if (configFileData.include?.length) context.includePatterns.push(...configFileData.include);
 
-		if (!context.excludePatterns && configFileData.exclude) context.excludePatterns = configFileData.exclude;
+		if (!context.excludePatterns) context.excludePatterns = [];
+		if (configFileData.exclude?.length) context.excludePatterns.push(...configFileData.exclude);
 
-		if (!context.stripTags && configFileData.stripTags) context.stripTags = configFileData.stripTags;
+		if (!context.stripTags) context.stripTags = [];
+		if (configFileData.stripTags?.length) context.stripTags.push(...configFileData.stripTags);
 	} catch (e: unknown) {
 		if (e instanceof NotFoundError) {
 			logger.verbose`由于文件不存在，未使用配置文件（${e.message}）`;

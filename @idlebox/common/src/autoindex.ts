@@ -121,6 +121,7 @@
 /* error-wellknown/exit.error.ts */
 	// Identifiers
 	export { AppExit } from "./error-wellknown/exit.error.js";
+	export { NotImplementedError } from "./error-wellknown/exit.error.js";
 /* function/functionName.ts */
 	// Identifiers
 	export type { NamedFunction } from "./function/functionName.js";

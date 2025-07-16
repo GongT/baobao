@@ -19,15 +19,14 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@build-script/rushstack-config-loader": "workspace:^",
+		"@build-script/monorepo-lib": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/dependency-graph": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@mpis/server": "workspace:^",
-		"@mpis/shared": "workspace:^",
+		"@rushstack/rig-package": "^0.5.3",
 		"execa": "^9.6.0",
 		"source-map-support": "^0.5.21",
 		"split-cmd": "^1.1.0"
@@ -36,8 +35,8 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/typescript": "workspace:^",
 		"@mpis/run": "workspace:^",
+		"@mpis/typescript": "workspace:^",
 		"@types/node": "^22.15.21"
 	}
 }

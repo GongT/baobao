@@ -12,3 +12,10 @@ export class AppExit extends Error {
 		this.name = 'AppExit';
 	}
 }
+
+export class NotImplementedError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = 'NotImplemented';
+	}
+}

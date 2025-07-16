@@ -17,6 +17,7 @@ const tools: Record<string, string> = {
 	eslint: 'eslint/bin/eslint.js',
 	biome: '@biomejs/biome/bin/biome',
 	publisher: '@mpis/publisher/loader/bin.devel.js',
+	depcheck: 'depcheck/bin/depcheck.js',
 };
 
 for (const [tool, path] of Object.entries(packageJson.bin)) {

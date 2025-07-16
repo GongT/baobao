@@ -21,7 +21,7 @@
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@build-script/find-monorepo-root": "workspace:^",
+		"@build-script/monorepo-lib": "workspace:^",
 		"execa": "^9.6.0",
 		"tar": "^7.4.3"
 	},

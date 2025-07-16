@@ -5,4 +5,4 @@ if (!process.execArgv.some((e) => e.startsWith('--inspect')) && !process.execArg
 	install();
 }
 
-await import('../lib/bin.js');
+await import('../lib/bins/find-monorepo-root.js');

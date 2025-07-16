@@ -1,4 +1,4 @@
-import { findMonorepoRoot } from './api.js';
+import { findMonorepoRoot } from '../common/find-root.js';
 
 const r = await findMonorepoRoot(process.cwd());
 

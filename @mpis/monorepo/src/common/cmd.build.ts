@@ -1,7 +1,7 @@
 import { argv } from '@idlebox/args/default';
 import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
-import { createMonorepoObject } from './monorepo.js';
+import { createMonorepoObject } from './workspace.js';
 
 export async function runBuild() {
 	if (argv.unused().length) {

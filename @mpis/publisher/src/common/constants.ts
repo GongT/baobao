@@ -1,4 +1,4 @@
-import { findMonorepoRootSync } from '@build-script/find-monorepo-root';
+import { findMonorepoRootSync } from '@build-script/monorepo-lib';
 import { argv } from '@idlebox/args/default';
 import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
