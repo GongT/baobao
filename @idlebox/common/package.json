@@ -3,12 +3,7 @@
 	"type": "module",
 	"version": "1.4.14",
 	"description": "Common utilities",
-	"keywords": [
-		"utilities",
-		"functions",
-		"helpers",
-		"library"
-	],
+	"keywords": ["utilities", "functions", "helpers", "library"],
 	"exports": {
 		".": {
 			"types": "./src/autoindex.ts",
@@ -34,7 +29,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/publisher": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.73.6"
+		"@rushstack/heft": "^0.74.0"
 	},
 	"dependencies": {
 		"debug": "^4.4.1"

@@ -1,23 +1,23 @@
+import type { MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { registerGlobalLifecycle } from '@idlebox/common';
-import { emptyDir } from '@idlebox/node';
 import { writeJsonFile } from '@idlebox/json-edit';
+import { logger } from '@idlebox/logger';
+import { emptyDir } from '@idlebox/node';
 import { randomBytes } from 'node:crypto';
 import { rmSync } from 'node:fs';
 import { mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { isDebugMode } from './functions/cli.js';
-import { logger } from './functions/log.js';
 import { decompressPack } from './taball/decompress.js';
-import type { IWorkspace } from './workspace/workspace.js';
 
 export class TempWorkingFolder {
 	public readonly path: string;
 	private _exists = false;
 
 	constructor(
-		private readonly workspace: IWorkspace,
+		private readonly workspace: MonorepoWorkspace,
 		name: string,
-		__internal_isChild = false
+		__internal_isChild = false,
 	) {
 		if (!__internal_isChild) {
 			registerGlobalLifecycle(this);

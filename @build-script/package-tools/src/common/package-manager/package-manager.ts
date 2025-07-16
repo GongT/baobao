@@ -1,5 +1,5 @@
+import { createWorkspace, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { commandInPath, PathEnvironment } from '@idlebox/node';
-import { createWorkspace, type IWorkspace } from '../workspace/workspace.js';
 import type { PackageManager, PackageManagerUsageKind } from './driver.abstract.js';
 import { NPM } from './driver.npm.js';
 import { PNPM } from './driver.pnpm.js';
@@ -9,16 +9,16 @@ export type IPackageManager = PackageManager;
 
 type PackageManagerConstructor = new (
 	usage: PackageManagerUsageKind,
-	workspace: IWorkspace,
-	subdir?: string
+	workspace: MonorepoWorkspace,
+	subdir?: string,
 ) => IPackageManager;
 
 let pmCls: PackageManagerConstructor | undefined;
 
 export async function createPackageManager(
 	usage: PackageManagerUsageKind,
-	workspace?: IWorkspace,
-	subdir?: string
+	workspace?: MonorepoWorkspace,
+	subdir?: string,
 ): Promise<IPackageManager> {
 	if (!workspace) workspace = await createWorkspace();
 

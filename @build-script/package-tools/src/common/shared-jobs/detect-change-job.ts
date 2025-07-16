@@ -1,8 +1,8 @@
+import { logger } from '@idlebox/logger';
 import { PathEnvironment } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { gt } from 'semver';
 import { distTagInput } from '../functions/cli.js';
-import { logger } from '../functions/log.js';
 import { GitWorkingTree } from '../git/git.js';
 import { makePackageJsonOrderConsistence } from '../package-manager/package-json.js';
 import type { IPackageManager } from '../package-manager/package-manager.js';

@@ -30,8 +30,8 @@
 		"@idlebox/logger": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^22.15.21",
-		"chai": "^5.2.0",
-		"mocha": "^11.5.0"
+		"@types/node": "^24.0.14",
+		"chai": "^5.2.1",
+		"mocha": "^11.7.1"
 	}
 }

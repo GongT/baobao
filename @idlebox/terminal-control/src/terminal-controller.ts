@@ -2,7 +2,6 @@ import { addDisposableEventListener, registerGlobalLifecycle, type IDisposable }
 import stringWidth from 'string-width';
 import type tinycolor from 'tinycolor2';
 import { tinygradient } from 'tinygradient';
-import { shutdownExtraErase } from './global-lifecycle.js';
 
 const CSI = '\x1B[';
 const g = tinygradient(['#5ee7df', '#b490ca']);

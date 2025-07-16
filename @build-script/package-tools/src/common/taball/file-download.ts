@@ -1,4 +1,5 @@
 import { sleep } from '@idlebox/common';
+import { logger } from '@idlebox/logger';
 import { exists, streamPromise } from '@idlebox/node';
 import { createWriteStream } from 'node:fs';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
@@ -7,7 +8,6 @@ import { get } from 'node:https';
 import { dirname } from 'node:path';
 import type { Readable } from 'node:stream';
 import { createBrotliDecompress, createGunzip, createInflate } from 'node:zlib';
-import { logger } from '../functions/log.js';
 
 interface IMetaInfo {
 	headers: IncomingHttpHeaders;

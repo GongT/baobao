@@ -1,13 +1,13 @@
 import { createLogger, type IMyLogger } from '@idlebox/logger';
-import { findUpUntil } from '@idlebox/node';
+import { execLazyError, findUpUntil } from '@idlebox/node';
 import { dirname, resolve } from 'node:path';
 import { decoupleDependencies } from './common/deduplicate-dependency.js';
+import { PackageManagerKind, WorkspaceKind, type IPackageInfo, type IPackageInfoRW } from './common/types.js';
 import { lernaListProjects, nxListProjects } from './drivers/lerna-nx.js';
 import { npmListProjects } from './drivers/npm.js';
 import { pnpmListProjects } from './drivers/pnpm.js';
 import { rushListProjects } from './drivers/rush.js';
 import { yarnListProjects } from './drivers/yarn.js';
-import { PackageManagerKind, WorkspaceKind, type IPackageInfo, type IPackageInfoRW } from './common/types.js';
 
 interface IAnalyzeResult {
 	readonly root: string;
@@ -41,6 +41,13 @@ export class MonorepoWorkspace implements IAnalyzeResult {
 		this.packageManagerKind = result.packageManagerKind;
 		this.workspaceKind = result.workspaceKind;
 		this.temp = result.temp;
+	}
+
+	public async requireGitClean() {
+		const res = await execLazyError('git', ['status', '--porcelain'], { cwd: this.root });
+		if (res.stdout.trim().length > 0) {
+			throw new Error(`请先提交或清理工作区的修改`);
+		}
 	}
 
 	/**

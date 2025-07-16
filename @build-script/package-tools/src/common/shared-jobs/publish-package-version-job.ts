@@ -1,7 +1,7 @@
+import { logger } from '@idlebox/logger';
 import { exists } from '@idlebox/node';
 import { copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { logger } from '../functions/log.js';
 import type { IPackageManager } from '../package-manager/package-manager.js';
 import { TempWorkingFolder } from '../temp-work-folder.js';
 
@@ -24,8 +24,8 @@ export async function publishPackageVersion(pm: IPackageManager) {
 	const packFile = await pm.pack(wd.path);
 	logger.debug('    -> %s', packFile);
 
-	const publish_rc = pm.workspace.getNpmRCPath('.npmrc-publish');
-	const default_rc = pm.workspace.getNpmRCPath('.npmrc');
+	const publish_rc = pm.workspace.getNpmRCPath(true);
+	const default_rc = pm.workspace.getNpmRCPath(false);
 	if (await exists(publish_rc)) {
 		logger.debug('找到配置文件: %s', publish_rc);
 		await copyFile(publish_rc, wd.joinpath('.npmrc'));

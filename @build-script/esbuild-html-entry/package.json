@@ -2,10 +2,7 @@
 	"name": "@build-script/esbuild-html-entry",
 	"version": "0.1.3",
 	"type": "module",
-	"keywords": [
-		"esbuild",
-		"html"
-	],
+	"keywords": ["esbuild", "html"],
 	"exports": {
 		".": {
 			"default": "./lib/main.js"
@@ -24,14 +21,14 @@
 	},
 	"dependencies": {
 		"@idlebox/node": "workspace:^",
-		"cheerio": "^1.0.0"
+		"cheerio": "^1.1.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^22.15.21",
+		"@types/node": "^24.0.14",
 		"domhandler": "^5.0.3",
-		"esbuild": "^0.25.5"
+		"esbuild": "^0.25.6"
 	}
 }

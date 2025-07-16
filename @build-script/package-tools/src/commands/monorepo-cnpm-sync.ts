@@ -1,6 +1,6 @@
-import { CommandDefine, pDesc } from '../common/functions/cli.js';
-import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
-import { createPackageManager } from '../common/package-manager/package-manager.js';
+import { createWorkspace } from '@build-script/monorepo-lib';
+import { argv } from '@idlebox/args/default';
+import { CommandDefine, isQuiet, pDesc } from '../common/functions/cli.js';
 import { cnpmSync } from '../common/shared-jobs/cnpm-sync.js';
 
 export class Command extends CommandDefine {
@@ -10,8 +10,10 @@ export class Command extends CommandDefine {
 }
 
 export async function main() {
-	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
-	const list = await packageManager.workspace.listPackages();
+	const workspace = await createWorkspace();
+	const list = await workspace.listPackages();
 
-	await cnpmSync(list);
+	const dry = argv.flag('--dry') > 0;
+
+	await cnpmSync(list, isQuiet, dry);
 }

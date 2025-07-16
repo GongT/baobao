@@ -19,12 +19,12 @@
 	"preferGlobal": true,
 	"dependencies": {
 		"execa": "^9.6.0",
-		"npm": "^11.4.1",
+		"npm": "^11.4.2",
 		"which": "^5.0.0"
 	},
 	"devDependencies": {
 		"@mpis/run": "workspace:^",
-		"@types/node": "^22.15.21"
+		"@types/node": "^24.0.14"
 	},
 	"exports": {
 		"./package.json": "./package.json"

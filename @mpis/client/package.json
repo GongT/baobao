@@ -36,6 +36,6 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^22.15.21"
+		"@types/node": "^24.0.14"
 	}
 }

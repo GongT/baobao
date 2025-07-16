@@ -1,8 +1,8 @@
+import { logger } from '@idlebox/logger';
 import { commandInPath, execLazyError, exists } from '@idlebox/node';
 import { rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { isVerbose } from '../functions/cli.js';
-import { logger } from '../functions/log.js';
 
 export async function requireGitInPath() {
 	if (await commandInPath('git')) {
@@ -65,7 +65,7 @@ export class GitWorkingTree {
 			'    文件更改: %d 个 (%s%s)',
 			files.length,
 			files.slice(0, 5).join(', '),
-			files.length > 5 ? ' ...' : ''
+			files.length > 5 ? ' ...' : '',
 		);
 
 		return files.map((item) => {

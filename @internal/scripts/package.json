@@ -25,7 +25,7 @@
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^22.15.21",
+		"@types/node": "^24.0.14",
 		"comment-json": "^4.2.5",
 		"execa": "^9.6.0",
 		"typescript": "^5.8.3",

@@ -1,10 +1,11 @@
-import { writeJsonFileBack } from '@idlebox/json-edit';
+import type { IPackageInfo } from '@build-script/monorepo-lib';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
+import { logger } from '@idlebox/logger';
+import { resolve } from 'node:path';
 import { argv, CommandDefine } from '../common/functions/cli.js';
-import { writeHostLine } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { resolveNpm, splitAliasVersion, splitPackageSpecSimple } from '../common/package-manager/functions.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
-import type { IPackageInfo } from '../common/workspace/workspace.js';
 
 export class Command extends CommandDefine {
 	protected override _usage = '';
@@ -19,55 +20,55 @@ export async function main() {
 	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
 	const projects = await packageManager.workspace.listPackages();
 
-	writeHostLine('Collecting local project versions:');
+	logger.log('Collecting local project versions:');
 	const alldeps: Record<string, string> = {};
 	for (const project of projects) {
 		const myDeps = { ...project.packageJson.dependencies, ...project.packageJson.devDependencies };
 		Object.assign(alldeps, filterDependencyToUpgrade(myDeps));
 
 		const size = Object.keys(myDeps).length;
-		writeHostLine(`  * ${project.name} -  ${size} dep${size > 1 ? 's' : ''}`);
+		logger.log(`  * ${project.name} -  ${size} dep${size > 1 ? 's' : ''}`);
 	}
 
-	writeHostLine('Resolving npm registry:');
+	logger.log('Resolving npm registry:');
 	const map = await resolveNpm(new Map(Object.entries(alldeps)));
 
-	writeHostLine('Write changed files:');
+	logger.log('Write changed files:');
 	let hasSomeChange = 0;
 	for (const project of projects) {
-		const packageJson = project.packageJson;
+		const packageJson = await loadJsonFile(resolve(project.absolute, 'package.json'));
 
 		let numChange = 0;
 		numChange += update(project, packageJson.dependencies, map);
 		numChange += update(project, packageJson.devDependencies, map);
 
 		if (dryRun) {
-			writeHostLine(`  * ${project.name} -  ${numChange} change${numChange > 1 ? 's' : ''}`);
+			logger.log(`  * ${project.name} -  ${numChange} change${numChange > 1 ? 's' : ''}`);
 			continue;
 		}
 
 		const changed = await writeJsonFileBack(packageJson);
 
 		if (changed) {
-			writeHostLine(`  * ${project.name} -  ${numChange} change${numChange > 1 ? 's' : ''}`);
+			logger.log(`  * ${project.name} -  ${numChange} change${numChange > 1 ? 's' : ''}`);
 		}
 		hasSomeChange += numChange;
 	}
 
 	if (dryRun) {
-		writeHostLine('dry-run: quit now.');
+		logger.log('dry-run: quit now.');
 		return;
 	}
 
 	if (hasSomeChange === 0) {
-		writeHostLine('OHHHH! No update!');
+		logger.log('OHHHH! No update!');
 		return;
 	}
 
-	writeHostLine('Delete temp file(s):');
+	logger.log('Delete temp file(s):');
 
 	if (skipUpdate) {
-		console.error(`You should run "${packageManager.binary} update" now`);
+		logger.warn(`You should run "${packageManager.binary} update" now`);
 		return;
 	}
 
@@ -80,7 +81,7 @@ export async function main() {
  */
 function update(project: IPackageInfo, target: Record<string, string>, map: Map<string, string>) {
 	let changed = 0;
-	writeHostLine(`updating: ${project.name}`);
+	logger.log(`updating: ${project.name}`);
 	if (!target) return changed;
 	for (const [name, currVer] of Object.entries(target)) {
 		if (currVer.startsWith('workspace:')) continue;

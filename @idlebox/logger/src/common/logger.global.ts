@@ -1,4 +1,3 @@
-import { registerNodejsExitHandler } from '@idlebox/node';
 import process from 'node:process';
 import { PassThrough } from 'node:stream';
 import { create } from './create.js';
@@ -19,7 +18,6 @@ export let terminal: IMyLogger;
 export function createGlobalLogger(tag: string, defaultLevel: EnableLogLevel = EnableLogLevel.auto): void {
 	if (terminal) throw new Error('global logger already created');
 
-	registerNodejsExitHandler();
 	terminal = create(tag, undefined, stream);
 
 	terminal.enable(defaultLevel || EnableLogLevel.log);

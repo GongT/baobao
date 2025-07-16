@@ -1,9 +1,9 @@
 import { Emitter } from '@idlebox/common';
 import { findUpUntilSync } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
-import { PromisePool } from '@supercharge/promise-pool';
 import { readFileSync } from 'node:fs';
 import { basename, dirname, relative } from 'node:path';
+import asyncPool from 'tiny-async-pool';
 import { CodeGenerator } from './code-generator.js';
 import { Logger, type ILogger } from './output.js';
 import { ExecuteReason, formatResult } from './shared.js';
@@ -173,20 +173,10 @@ class GeneratorHolder {
 
 		channelClient.start();
 
-		await new PromisePool()
-			.withConcurrency(4)
-			.for(toBeExec)
-			.onTaskStarted(({ generator, reason }) => {
+		async function execute({ generator, reason }: { generator: CodeGenerator; reason: ExecuteReason }) {
+			try {
 				generator.logger.verbose(`<pool> task started (${ExecuteReason[reason]}).`);
-			})
-			.handleError((err, { generator }) => {
-				generator.logger.verbose('<pool> task errored.');
-				result.errors.push({ error: err, source: generator.id });
-			})
-			.onTaskFinished(({ generator }) => {
-				generator.logger.verbose('<pool> task finished.');
-			})
-			.process(async ({ generator, reason }) => {
+
 				await nextTick();
 				const gr = await generator.compileRun(reason);
 				if (gr.changes) {
@@ -194,7 +184,17 @@ class GeneratorHolder {
 				} else {
 					result.skip += gr.totalFiles - gr.changes;
 				}
-			});
+
+				generator.logger.verbose('<pool> task finished.');
+			} catch (err: any) {
+				generator.logger.verbose('<pool> task errored.');
+				result.errors.push({ error: err, source: generator.id });
+			}
+		}
+
+		for await (const _ of asyncPool(4, toBeExec, execute)) {
+			// no op, just waiting for all tasks to finish
+		}
 
 		this.logger.log(
 			`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`,

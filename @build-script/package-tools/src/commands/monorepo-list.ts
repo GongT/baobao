@@ -1,5 +1,5 @@
+import { createWorkspace } from '@build-script/monorepo-lib';
 import { argv, CommandDefine, isJsonOutput, isVerbose, pArgS } from '../common/functions/cli.js';
-import { createWorkspace } from '../common/workspace/workspace.js';
 
 export class Command extends CommandDefine {
 	protected override _usage = `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')}`;
@@ -7,7 +7,7 @@ export class Command extends CommandDefine {
 	protected override _help = '';
 	protected override _arguments = {
 		'--verbose': { flag: true, description: '列出所有信息，而不仅是目录' },
-		'--json': { flag: true, description: '输出json（不受--verbose和--name影响）' },
+		'--json': { flag: true, description: '输出json（同时使--verbose和--relative无效）' },
 		'--relative': { flag: true, description: '输出相对路径（相对于monorepo根目录）' },
 	};
 }
@@ -24,8 +24,8 @@ export async function main() {
 				list.map((e) => {
 					const { packageJson, ...extras } = e;
 					return extras;
-				})
-			)
+				}),
+			),
 		);
 		return;
 	}

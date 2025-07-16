@@ -1,5 +1,4 @@
 import { format } from 'node:util';
-import { isQuiet } from './cli.js';
 
 const isTTY = process.stderr.isTTY;
 

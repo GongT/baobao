@@ -1,15 +1,13 @@
+import { createWorkspace } from '@build-script/monorepo-lib';
 import { humanDate } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
-import { argv, CommandDefine, pArgS } from '../common/functions/cli.js';
-import { CSI, writeHostLine, writeHostReplace } from '../common/functions/log.js';
+import { argv, CommandDefine, CSI, pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 import { cnpmSync } from '../common/shared-jobs/cnpm-sync.js';
 import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
 import { publishPackageVersion } from '../common/shared-jobs/publish-package-version-job.js';
-import { prepareMonorepoDeps } from '../common/workspace/dependency-graph.js';
-import { createWorkspace } from '../common/workspace/workspace.js';
 
 export class Command extends CommandDefine {
 	protected override _usage = `${pArgS('--verbose / --silent')} ${pArgS('--dry')}`;
@@ -40,8 +38,8 @@ export async function main() {
 	if (argv.flag('--private') <= 0) {
 		for (const data of deps.getIncompleteWithOrder()) {
 			if (data.reference.packageJson.private) {
-				writeHostLine(`🛑 跳过，private=true: ${data.name}`);
-				deps.setComplated(data.name);
+				console.log(`🛑 跳过，private=true: ${data.name}`);
+				deps.setComp·lated(data.name);
 			}
 		}
 	}
@@ -52,14 +50,14 @@ export async function main() {
 	const w = todoList.length.toFixed(0).length;
 	for (const [index, data] of todoList.entries()) {
 		const startTime = Date.now();
-		writeHostLine(`📦 [${(index + 1).toFixed(0).padStart(w)}/${todoList.length}] ${data.name}`);
+		console.log(`📦 [${(index + 1).toFixed(0).padStart(w)}/${todoList.length}] ${data.name}`);
 
 		if (--skip > 0) {
-			writeHostReplace(`    ⏩ ${CSI}2m跳过${CSI}0m`);
+			console.log(`    ⏩ ${CSI}2m跳过${CSI}0m`);
 			continue;
 		}
 
-		writeHostReplace(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
+		console.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
 		const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, data.reference.absolute);
 		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});
@@ -72,20 +70,20 @@ export async function main() {
 
 		if (hasChange) {
 			await increaseVersion(data.reference.packageJson, remoteVersion);
-			writeHostReplace('    ✍️ 已修改本地包版本\n');
+			console.log('    ✍️ 已修改本地包版本\n');
 		}
 
 		if (!shouldPublish) {
-			writeHostReplace(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
+			console.log(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
 			continue;
 		}
 
-		writeHostReplace(
+		console.log(
 			`🪄 正在发布新版本 ${data.reference.name} ${data.reference.packageJson.version} ==\ueac3==> ${remoteVersion}`,
 		);
 
 		if (dryRun) {
-			writeHostReplace(`    ✨ dry run (in ${humanDate.delta(Date.now() - startTime)})\n`);
+			console.log(`    ✨ dry run (in ${humanDate.delta(Date.now() - startTime)})\n`);
 			continue;
 		}
 
@@ -93,13 +91,13 @@ export async function main() {
 
 		// if (changed) {
 		publishedPackages.push(data.reference);
-		writeHostReplace(`    ✨ ${CSI}38;5;10m已发布新版本！${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
+		console.log(`    ✨ ${CSI}38;5;10m已发布新版本！${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
 		// } else {
-		// writeHostReplace(`    🤔 此版本已经发布 (${remoteVersion}/${data.reference.packageJson.version})\n`);
+		// console.log(`    🤔 此版本已经发布 (${remoteVersion}/${data.reference.packageJson.version})\n`);
 		// }
 	}
 
-	writeHostLine(`🎉 所有任务完成，共发布了 ${publishedPackages.length} 个包`);
+	console.log(`🎉 所有任务完成，共发布了 ${publishedPackages.length} 个包`);
 
 	if (await commandInPath('cnpm')) {
 		await cnpmSync(publishedPackages, true).catch();

@@ -1,17 +1,25 @@
 import type { ISubArgsReaderApi } from '@idlebox/args';
-import { prettyPrintError } from '@idlebox/common';
+import { AppExit, prettyPrintError } from '@idlebox/common';
+import { createRootLogger, EnableLogLevel } from '@idlebox/logger';
 import { resolve } from 'node:path';
 import cmdList from './command-file-map.generated.js';
-import { argv, DieError, isHelp, pCmd, pDesc, printCommonOptions, type CommandDefine } from './common/functions/cli.js';
+import {
+	argv,
+	DieError,
+	isHelp,
+	isQuiet,
+	isVerbose,
+	pCmd,
+	pDesc,
+	printCommonOptions,
+	type CommandDefine,
+} from './common/functions/cli.js';
 import { registerShutdownHandlers, shutdown } from './common/functions/global-lifecycle.js';
 import { configureProxyFromEnvironment } from './common/package-manager/proxy.js';
 
-const usage_prefix = '\x1B[1mnjspkg\x1B[0m \x1B[38;5;3m[通用参数]\x1B[0m';
-const isHidden = ['sync-my-readme'];
+createRootLogger('', isVerbose ? EnableLogLevel.verbose : isQuiet ? EnableLogLevel.error : EnableLogLevel.log);
 
-if (process.argv[1].includes('/node_modules/')) {
-	isHidden.push('test');
-}
+const usage_prefix = '\x1B[1mnjspkg\x1B[0m \x1B[38;5;3m[通用参数]\x1B[0m';
 
 try {
 	process.exitCode = await main();
@@ -20,13 +28,14 @@ try {
 	}
 	process.exit();
 } catch (e: any) {
-	if (e instanceof DieError) {
+	if (e instanceof AppExit) {
+	} else if (e instanceof DieError) {
 		console.error('错误: %s', e.message);
+		shutdown(1);
 	} else {
 		prettyPrintError('main', e);
+		shutdown(1);
 	}
-
-	shutdown(1);
 }
 
 type MainFunc = (argv: ISubArgsReaderApi) => Promise<number> | number;
@@ -77,10 +86,11 @@ async function main() {
 		process.stderr.write('\n');
 		const tbl = table();
 		for (const cmd of allKnownCommands) {
-			if (isHidden.includes(cmd)) continue;
 			const { Command } = await importCommand(cmd);
 
 			const command = new Command();
+			if (command.isHidden) continue;
+
 			tbl.line(cmd, command.description.trim());
 		}
 		tbl.emit();
@@ -95,9 +105,9 @@ async function main() {
 	process.stderr.write('\n');
 
 	for (const cmd of allKnownCommands) {
-		if (isHidden.includes(cmd)) continue;
 		const { Command } = await importCommand(cmd);
 		const command = new Command();
+		if (command.isHidden) continue;
 
 		let usage = command.usage.trim();
 		if (usage) usage += ' ';

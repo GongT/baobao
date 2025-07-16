@@ -36,9 +36,9 @@
 		"@internal/local-rig": "workspace:^",
 		"@microsoft/api-extractor": "^7.52.8",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.73.6",
-		"@rushstack/heft-typescript-plugin": "^0.9.7",
+		"@rushstack/heft": "^0.74.0",
+		"@rushstack/heft-typescript-plugin": "^0.9.8",
 		"@rushstack/terminal": "latest",
-		"@types/node": "^22.15.21"
+		"@types/node": "^24.0.14"
 	}
 }

@@ -1,5 +1,6 @@
+import { logger } from '@idlebox/logger';
+import { printLine } from '@idlebox/node';
 import { argv, CommandDefine, isJsonOutput, pArgS } from '../common/functions/cli.js';
-import { logger } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
@@ -45,9 +46,9 @@ function printResult(changedFiles: string[], changed: boolean) {
 		if (changedFiles.length === 0) {
 			console.log('changes: no');
 		} else {
-			logger.line();
+			printLine();
 			logger.log('%s', changedFiles.join('\n'));
-			logger.line();
+			printLine();
 			console.log('changes: yes');
 		}
 	} else {

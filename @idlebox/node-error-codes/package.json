@@ -25,8 +25,8 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.73.6",
-		"@types/node": "^22.15.21",
+		"@rushstack/heft": "^0.74.0",
+		"@types/node": "^24.0.14",
 		"@build-script/codegen": "workspace:"
 	}
 }

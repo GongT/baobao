@@ -26,6 +26,6 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.73.6"
+		"@rushstack/heft": "^0.74.0"
 	}
 }

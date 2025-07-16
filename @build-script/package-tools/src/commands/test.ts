@@ -6,6 +6,7 @@ export class Command extends CommandDefine {
 	protected override _usage = '测试参数';
 	protected override _description = '测试命令';
 	protected override _help = '没有帮助信息';
+	public override isHidden = true;
 }
 
 export async function main() {

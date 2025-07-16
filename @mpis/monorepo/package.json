@@ -37,6 +37,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@mpis/typescript": "workspace:^",
-		"@types/node": "^22.15.21"
+		"@types/node": "^24.0.14"
 	}
 }

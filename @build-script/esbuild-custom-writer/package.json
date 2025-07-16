@@ -2,9 +2,7 @@
 	"name": "@build-script/esbuild-custom-writer",
 	"version": "0.1.2",
 	"type": "module",
-	"keywords": [
-		"esbuild"
-	],
+	"keywords": ["esbuild"],
 	"exports": {
 		".": {
 			"default": "./lib/main.js"
@@ -29,7 +27,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^22.15.21",
-		"esbuild": "^0.25.5"
+		"@types/node": "^24.0.14",
+		"esbuild": "^0.25.6"
 	}
 }

@@ -7,6 +7,7 @@ export class Command extends CommandDefine {
 	protected override _usage = '';
 	protected override _description = '内部开发命令';
 	protected override _help = '';
+	public override isHidden = true;
 }
 
 export async function main() {

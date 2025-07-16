@@ -1,10 +1,10 @@
 import type { IArgsReaderApi } from '@idlebox/args';
+import { logger } from '@idlebox/logger';
 import { checkChildProcessResult } from '@idlebox/node';
 import { execa } from 'execa';
 import { lt } from 'semver';
 import { CacheMode } from '../common/cache/native.npm.js';
 import { CommandDefine, distTagInput, pArgS, pDesc } from '../common/functions/cli.js';
-import { logger } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 
@@ -38,7 +38,7 @@ export async function main(argv: IArgsReaderApi) {
 
 	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
 
-	const packagePath = await packageManager.workspace.getNearestPackage();
+	const packagePath = await packageManager.workspace.getNearestPackage(process.cwd());
 	logger.log('工作目录: %s', packagePath);
 
 	const packageJson = await packageManager.loadPackageJson();

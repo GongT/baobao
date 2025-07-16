@@ -1,12 +1,13 @@
 import { sleep, type IPackageJson } from '@idlebox/common';
+import { logger } from '@idlebox/logger';
 import { get as cacheGet, rm as cacheRm } from 'cacache';
 import { rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { json as npmFetchJson } from 'npm-registry-fetch';
-import { logger } from '../functions/log.js';
 import { DEFAULT_NPM_REGISTRY } from '../package-manager/constant.js';
 import type { IPackageManager } from '../package-manager/package-manager.js';
+import { getProxyValue } from '../package-manager/proxy.js';
 import { downloadFileCached } from '../taball/file-download.js';
 import { self_package_name, self_package_repository, self_package_version } from '../version.generated.js';
 import { escapePackageNameToFilename } from './escape-package-path.js';
@@ -125,6 +126,7 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 		try_cnt++;
 		retry--;
 		try {
+			const proxy = getProxyValue(registry);
 			json = (await npmFetchJson(name, {
 				cache: path,
 				registry: registry,
@@ -133,6 +135,7 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 				preferOnline: options.mode === CacheMode.ForceNew,
 				offline: options.mode === CacheMode.Offline,
 				preferOffline: options.mode === CacheMode.Normal,
+				proxy: proxy,
 				timeout: 5000,
 				userAgent: `${self_package_name}(${self_package_version}) GongT(${self_package_repository})`,
 			})) as any;

@@ -32,6 +32,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/debug": "^4.1.12",
-		"@types/node": "^22.15.21"
+		"@types/node": "^24.0.14"
 	}
 }

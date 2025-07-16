@@ -1,5 +1,7 @@
 import { createArgsReader } from '@idlebox/args';
 
+export const CSI = '\x1b[';
+
 export class DieError extends Error {
 	constructor(msg: string) {
 		super(msg);
@@ -48,6 +50,8 @@ export abstract class CommandDefine {
 	 * 通用命令行参数
 	 */
 	protected readonly _commonArgs?: readonly CommonArgs[];
+
+	public readonly isHidden: boolean = false;
 
 	get help() {
 		let r = this._help;

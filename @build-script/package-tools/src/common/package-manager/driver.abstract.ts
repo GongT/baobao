@@ -1,12 +1,12 @@
+import type { MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
+import { logger } from '@idlebox/logger';
 import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { NpmCacheHandler } from '../cache/native.npm.js';
 import { registryInput } from '../functions/cli.js';
-import { logger } from '../functions/log.js';
 import { TempWorkingFolder } from '../temp-work-folder.js';
-import type { IWorkspace } from '../workspace/workspace.js';
 import { DEFAULT_NPM_REGISTRY } from './constant.js';
 import { cachedPackageJson } from './package-json.js';
 
@@ -27,8 +27,8 @@ export abstract class PackageManager {
 
 	constructor(
 		public readonly usageKind: PackageManagerUsageKind,
-		public readonly workspace: IWorkspace,
-		subdir = process.cwd()
+		public readonly workspace: MonorepoWorkspace,
+		subdir = process.cwd(),
 	) {
 		this.configTemp = new TempWorkingFolder(this.workspace, 'package-manager', true);
 		this.projectPath = resolve(workspace.root, subdir);
@@ -63,9 +63,9 @@ export abstract class PackageManager {
 	}
 
 	async getConfig(key: string): Promise<any> {
-		const pkgPublishConfig = this.workspace.getNpmRCPath('.npmrc-publish');
+		const pkgPublishConfig = this.workspace.getNpmRCPath(true);
 		if (this.usageKind === PackageManagerUsageKind.Read || !(await exists(pkgPublishConfig))) {
-			return this._get_config(dirname(this.workspace.getNpmRCPath('.npmrc')), key);
+			return this._get_config(dirname(this.workspace.getNpmRCPath(false)), key);
 		}
 
 		if (!this.configTemp.exists) {

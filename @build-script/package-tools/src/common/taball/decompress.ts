@@ -1,7 +1,7 @@
 import { convertCatchedError } from '@idlebox/common';
+import { logger } from '@idlebox/logger';
 import { unlinkSync } from 'node:fs';
 import tgz from 'targz';
-import { logger } from '../functions/log.js';
 
 const packageFolder = /^package\//;
 
@@ -34,7 +34,7 @@ export async function decompressPack(src: string, dest: string) {
 				} else {
 					resolve();
 				}
-			}
+			},
 		);
 	});
 	logger.debug('解压完成');

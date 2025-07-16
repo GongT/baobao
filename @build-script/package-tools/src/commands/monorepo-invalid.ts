@@ -1,5 +1,5 @@
+import { logger } from '@idlebox/logger';
 import { CommandDefine } from '../common/functions/cli.js';
-import { logger } from '../common/functions/log.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 

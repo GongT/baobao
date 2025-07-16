@@ -12,7 +12,7 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"prettier": "^3.5.3"
+		"prettier": "^3.6.2"
 	},
 	"exports": {
 		"./package.json": "./package.json"
