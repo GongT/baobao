@@ -45,6 +45,11 @@ export function deleteDevelopmentFields() {
 		logger.debug`删除 decoupledDependents`;
 		delete (packageJson as any).decoupledDependents;
 	}
+
+	if (packageJson.publishConfig?.packCommand) {
+		logger.debug`删除 publishConfig.packCommand`;
+		delete packageJson.publishConfig.packCommand;
+	}
 }
 
 /**
@@ -73,18 +78,16 @@ export function ensureExportsPackageJson() {
  */
 export function mirrorExportsAndMain() {
 	const currentPackagePath = resolve(currentProject, 'package.json');
-	const exports = getExportsField();
-	if (!exports['.']) {
-		logger.fatal`long<${currentPackagePath}> exports['.'] 不存在`;
-		return;
+
+	if (packageJson.main) {
+		logger.fatal`long<${currentPackagePath}> 中存在main字段，应该删除`;
 	}
 
-	const main = exports['.'].default;
+	const exports = getExportsField();
+
+	const main = exports['.']?.default;
 	if (main) {
 		logger.log`将exports[.]同步到main`;
-		if (packageJson.main) {
-			logger.fatal`long<${currentPackagePath}> 中存在main字段，应该删除`;
-		}
 		packageJson.main = main;
 	}
 }

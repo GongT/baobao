@@ -3,7 +3,7 @@ import { PackageManager, type IUploadResult } from './driver.abstract.js';
 export class NPM extends PackageManager {
 	override binary = 'npm';
 
-	override async _pack(_saveAs: string, _packagePath: string): Promise<string> {
+	override async _pack(_saveAs: string): Promise<string> {
 		throw new Error('Method not implemented.');
 	}
 

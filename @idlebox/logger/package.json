@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/logger",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "A simple logger module for my self use (nodejs).",
 	"exports": {
 		".": {
@@ -33,5 +33,8 @@
 		"@mpis/run": "workspace:^",
 		"@types/debug": "^4.1.12",
 		"@types/node": "^24.0.14"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

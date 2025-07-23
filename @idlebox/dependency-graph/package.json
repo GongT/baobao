@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/dependency-graph",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"keywords": [],
 	"exports": {
 		".": {
@@ -33,5 +33,8 @@
 		"@types/node": "^24.0.14",
 		"chai": "^5.2.1",
 		"mocha": "^11.7.1"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

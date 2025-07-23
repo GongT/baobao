@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/autoindex",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"bin": {
 		"autoindex": "./loader/bin.devel.js"
 	},
@@ -45,5 +45,8 @@
 		"@types/node": "^24.0.14",
 		"typescript": "^5.8.3"
 	},
-	"decoupledDependencies": ["@build-script/rushstack-config-loader"]
+	"decoupledDependencies": ["@build-script/rushstack-config-loader"],
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
 }

@@ -48,9 +48,9 @@ const duplicatePublishOnUnpublishRegex = /Cannot publish over previously publish
 export class PNPM extends PackageManager {
 	override binary = 'pnpm';
 
-	override async _pack(saveAs: string, packagePath: string) {
+	override async _pack(saveAs: string) {
 		const chProcess = await execLazyError(this.binary, ['pack', '--out', saveAs], {
-			cwd: packagePath,
+			cwd: this.projectPath,
 			verbose: isVerbose,
 			env: { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' },
 		});
@@ -58,7 +58,7 @@ export class PNPM extends PackageManager {
 		if (!lastLine) {
 			throw new Error('impossible: string split empty?');
 		}
-		const output = resolve(packagePath, lastLine);
+		const output = resolve(this.projectPath, lastLine);
 
 		if (await exists(output)) {
 			return output;

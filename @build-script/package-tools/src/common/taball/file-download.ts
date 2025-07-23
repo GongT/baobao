@@ -38,7 +38,7 @@ export async function downloadFileCached(url: string, file: string) {
 	await writeFile(metadata, JSON.stringify(meta), 'utf-8');
 
 	await rename(`${file}.downloading`, file);
-	logger.log('     -> 下载完成');
+	logger.debug('     -> 下载完成');
 
 	return file;
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/single-dog-asset",
-	"version": "1.0.35",
+	"version": "1.0.36",
 	"scripts": {
 		"build": "",
 		"clean": "",
@@ -11,11 +11,13 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
 		"prettier": "^3.6.2"
 	},
 	"exports": {
 		"./package.json": "./package.json"
 	},
-	"type": "module"
+	"type": "module",
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
 }

@@ -1,7 +1,7 @@
 {
 	"name": "7zip-bin-wrapper",
 	"type": "module",
-	"version": "1.0.41",
+	"version": "1.0.42",
 	"exports": {
 		"./package.json": "./package.json"
 	},
@@ -31,5 +31,8 @@
 		"@rushstack/heft": "^0.74.0",
 		"@types/node": "^24.0.14",
 		"@types/split2": "^4.2.3"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

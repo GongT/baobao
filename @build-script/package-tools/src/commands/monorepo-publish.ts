@@ -92,7 +92,7 @@ class BuildPackageJob implements IWatchEvents {
 		if (hasChange) {
 			const packageJson = await pm.loadPackageJson();
 			localVersion = await increaseVersion(packageJson, remoteVersion || '0.0.0');
-			this.log('    ✍️ 已修改本地包版本\n');
+			this.log(`    ✍️ 已修改本地包版本: ${localVersion}`);
 		}
 		if (!shouldPublish) {
 			this.log(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m\n`);

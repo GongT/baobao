@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/server",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"keywords": [],
 	"exports": {
 		".": {
@@ -36,5 +36,8 @@
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14",
 		"why-is-node-running": "^3.2.2"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

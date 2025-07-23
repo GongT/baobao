@@ -21,6 +21,8 @@ export async function writeBack() {
 	(packageJson.exports as IExportMap)['./package.json'] = './package.json';
 
 	const ch = await writeJsonFileBack(packageJson);
+	packageJson = null as any;
+
 	if (!ch) {
 		throw new Error('package.json居然没有修改');
 		// logger.debug`package.json没有修改，跳过写入`;

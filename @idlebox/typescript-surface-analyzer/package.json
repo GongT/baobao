@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/typescript-surface-analyzer",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"type": "module",
 	"description": "Api and CLI tool for collect export information in typescript project",
 	"keywords": [],
@@ -36,5 +36,8 @@
 		"@types/minimatch": "^6.0.0",
 		"@types/node": "^24.0.14",
 		"typescript": "^5.8.3"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

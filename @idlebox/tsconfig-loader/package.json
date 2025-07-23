@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/tsconfig-loader",
 	"type": "module",
-	"version": "1.0.17",
+	"version": "1.0.18",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"exports": {
@@ -31,5 +31,8 @@
 	},
 	"peerDependencies": {
 		"typescript": "^5.8.2"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

@@ -108,6 +108,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 			this._onStateChange.fireNoError();
 		});
 		exec.onSuccess(() => {
+			this.errorMessages.delete(project);
 			this._onStateChange.fireNoError();
 		});
 		exec.onStart(() => {

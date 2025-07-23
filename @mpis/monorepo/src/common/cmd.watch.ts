@@ -20,8 +20,8 @@ export async function runWatch() {
 		repo.printScreen();
 	});
 	repo.onStateChange(() => {
-		// process.stderr.write('\x1Bc');
-		// printScreen();
+		process.stderr.write('\x1Bc');
+		repo.printScreen();
 	});
 
 	await repo.startup();

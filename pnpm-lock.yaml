@@ -290,6 +290,9 @@ importers:
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
+      split-cmd:
+        specifier: ^1.1.0
+        version: 1.1.0
       string-width:
         specifier: ^7.2.0
         version: 7.2.0
@@ -403,9 +406,6 @@ importers:
 
   '@build-script/single-dog-asset':
     devDependencies:
-      '@internal/local-rig':
-        specifier: workspace:^
-        version: link:../../@internal/local-rig
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -1085,6 +1085,9 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
+      '@idlebox/args':
+        specifier: workspace:^
+        version: link:../../@idlebox/args
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
@@ -1317,9 +1320,6 @@ importers:
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
-      split-cmd:
-        specifier: ^1.1.0
-        version: 1.1.0
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^

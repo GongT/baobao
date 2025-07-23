@@ -66,8 +66,15 @@ export class ObjectPath {
 			const rest = path.slice();
 			const last = rest.pop()!;
 
-			for (const name of rest) {
-				if (!cursor[name]) cursor[name] = {};
+			for (const [index, name] of rest.entries()) {
+				if (!cursor[name]) {
+					const next = path[index + 1];
+					if (typeof next === 'number') {
+						cursor[name] = [];
+					} else {
+						cursor[name] = {};
+					}
+				}
 				cursor = cursor[name];
 			}
 			cursor[last] = value;
@@ -83,7 +90,13 @@ export class ObjectPath {
 			}
 
 			if (cursor) {
-				delete cursor[last];
+				if (Array.isArray(cursor) && typeof last === 'number') {
+					if (last < cursor.length) {
+						cursor.splice(last, 1);
+					}
+				} else {
+					delete cursor[last];
+				}
 			}
 
 			for (const { object, child } of objects) {

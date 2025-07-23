@@ -25,15 +25,18 @@ export async function executeProjectCheck() {
 	await readPackageJson();
 
 	const logger = createLogger(`check-project:${packageJson.name}`);
-	logger.enable(EnableLogLevel.error);
+	logger.enable(EnableLogLevel.warn);
 	errorRegistry = new ErrorCollector(logger);
 
 	try {
-		await executeInner(logger);
+		const notices = await executeInner(logger);
 
 		errorRegistry.throwIfErrors();
 
 		logger.success('检查没有问题');
+		for (const notice of notices) {
+			logger.warn`   long<${notice}>`;
+		}
 	} catch (e: any) {
 		if (!(e instanceof CheckFail)) {
 			errorRegistry.with(resolve(currentProject, 'package.json')).emit(`意外错误: ${e.stack}`);
@@ -57,6 +60,7 @@ function makeProj(logger: IMyLogger) {
 }
 
 async function executeInner(logger: IMyLogger) {
+	let notice: string[] = [];
 	const pkgPath = resolve(currentProject, 'package.json');
 	logger.debug`check project long<${pkgPath}>`;
 
@@ -71,7 +75,7 @@ async function executeInner(logger: IMyLogger) {
 		// no need
 	} else {
 		errorRegistry.with(`${currentProject}/config/rig.json`).emit(`invalid rig setting`);
-		return;
+		return notice;
 	}
 
 	pkgChk.hasField(['devDependencies']);
@@ -106,7 +110,9 @@ async function executeInner(logger: IMyLogger) {
 		pkgChk.notset([field]);
 	}
 
-	pkgChk.notset(['publishConfig']);
+	pkgChk.equals(['publishConfig', 'pack-command'], undefined);
+	pkgChk.equals(['publishConfig', 'packCommand', 0], 'publisher');
+	pkgChk.equals(['publishConfig', 'packCommand', 1], 'pack');
 
 	const usingMpis = usingMpisRun();
 	if (usingMpis) {
@@ -123,6 +129,7 @@ async function executeInner(logger: IMyLogger) {
 			pkgChk.equals(['scripts', key], value);
 		}
 	} else {
+		notice.push(`不使用 mpis-run`);
 		logger.debug('not using mpis-run');
 	}
 
@@ -144,6 +151,8 @@ async function executeInner(logger: IMyLogger) {
 	}
 	check_export_field(pkgChk, 'import', undefined);
 	check_export_field(pkgChk, 'require', undefined);
+
+	return notice;
 }
 
 function usingMpisRun() {

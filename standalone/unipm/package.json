@@ -1,7 +1,7 @@
 {
 	"name": "unipm",
 	"type": "module",
-	"version": "1.1.32",
+	"version": "1.1.33",
 	"exports": {
 		"./package.json": "./package.json"
 	},
@@ -36,5 +36,8 @@
 		"@types/node": "^24.0.14",
 		"@types/pacote": "^11.1.8"
 	},
-	"monorepo": true
+	"monorepo": true,
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
 }

@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/esbuild",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"keywords": [],
 	"exports": {
 		".": {
@@ -34,5 +34,8 @@
 	},
 	"peerDependencies": {
 		"esbuild": ">=0.24.0"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

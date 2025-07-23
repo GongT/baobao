@@ -1,9 +1,10 @@
 import type { MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { logger } from '@idlebox/logger';
-import { exists, writeFileIfChange } from '@idlebox/node';
+import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
+import { split as splitCmd } from 'split-cmd';
 import { NpmCacheHandler } from '../cache/native.npm.js';
 import { registryInput } from '../functions/cli.js';
 import { TempWorkingFolder } from '../temp-work-folder.js';
@@ -42,12 +43,33 @@ export abstract class PackageManager {
 		return execa(this.binary, ['install'], { cwd: this.projectPath, stdio: 'inherit' });
 	}
 
-	public pack(saveAs: string, packagePath = this.projectPath) {
-		logger.verbose(`打包项目: ${packagePath}`);
-		return this._pack(saveAs, packagePath);
+	public async pack(saveAs: string) {
+		logger.verbose`打包项目: long<${this.projectPath}> -> long<${saveAs}>`;
+
+		const pkg = await this.loadPackageJson();
+		if (pkg.publishConfig?.['packCommand']) {
+			const cmds =
+				typeof pkg.publishConfig['packCommand'] === 'string'
+					? splitCmd(pkg.publishConfig['packCommand'])
+					: pkg.publishConfig['packCommand'];
+
+			if (!Array.isArray(cmds)) {
+				logger.fatal`publishConfig.packCommand必须是字符串或字符串数组, 但实际是: ${typeof pkg.publishConfig['packCommand']}`;
+			}
+
+			logger.debug`使用自定义打包命令: ${cmds[0]}...`;
+
+			const [cmd, ...args] = cmds;
+			await execLazyError(cmd, [...args, '--out', saveAs], {
+				cwd: this.projectPath,
+			});
+			return saveAs;
+		} else {
+			return this._pack(saveAs);
+		}
 	}
 
-	protected abstract _pack(saveAs: string, packagePath: string): Promise<string>;
+	protected abstract _pack(saveAs: string): Promise<string>;
 
 	async loadPackageJson() {
 		return cachedPackageJson(resolve(this.projectPath, 'package.json'));

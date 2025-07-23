@@ -138,7 +138,8 @@ export let defaultLogLevel = (() => {
 	} else {
 		// 参数中含有 --debug 或 -d 时，设置默认日志级别
 		const dbgCnt = process.argv.filter((e) => e === '--debug' || e === '-d').length;
-		if (dbgCnt > 1) {
+		const dbgCnt2 = process.argv.filter((e) => e === '-dd').length > 0;
+		if (dbgCnt > 1 || dbgCnt2) {
 			return EnableLogLevel.verbose;
 		} else if (dbgCnt === 1) {
 			return EnableLogLevel.debug;

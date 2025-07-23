@@ -22,6 +22,7 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
+		"@idlebox/args": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@internal/local-rig": "workspace:^",

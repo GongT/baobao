@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/monorepo-lib",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"bin": {
 		"find-monorepo-root": "./loader/find-monorepo-root.devel.js",
 		"list-monorepo-projects": "./loader/list-monorepo-projects.devel.js"
@@ -36,5 +36,8 @@
 		"@mpis/run": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@types/node": "^24.0.14"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

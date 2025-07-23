@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/shared",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"keywords": [],
 	"exports": {
 		".": {
@@ -25,5 +25,8 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
 	}
 }

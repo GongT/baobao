@@ -7,7 +7,7 @@
  *  GENERATED FILE, DO NOT MODIFY
  *  这是生成的文件，千万不要修改
  * 
- * @build-script/codegen 1.0.0 - The Simple Code Generater
+ * @build-script/codegen 1.0.2 - The Simple Code Generater
  * https://github.com/GongT/baobao
  * 
  ******************************************************************************/

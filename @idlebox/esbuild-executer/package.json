@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/esbuild-executer",
 	"description": "A simple script to execute typescript file during development.",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"type": "module",
 	"bin": {
 		"es-node": "./loader/bin.js"
@@ -50,7 +50,8 @@
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
 	},
-	"decoupledDependencies": [
-		"@mpis/typescript"
-	]
+	"decoupledDependencies": ["@mpis/typescript"],
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
 }
