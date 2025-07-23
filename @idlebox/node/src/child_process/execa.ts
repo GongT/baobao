@@ -93,9 +93,15 @@ export async function spawnGetOutput({ exec, cwd, env, addonPath }: ICommand) {
 	return result.stdout as string;
 }
 
-export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand) {
+type EveryOut = {
+	stdout: string;
+	stderr: string;
+	all: string;
+};
+export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<EveryOut> {
 	const [cmd, ...args] = exec;
-	const opts: AsyncOptions = {
+
+	const result = await execa(cmd, args, {
 		stdio: ['ignore', 'pipe', 'pipe'],
 		cwd,
 		reject: false,
@@ -103,9 +109,11 @@ export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand
 		encoding: 'utf8',
 		all: true,
 		env: sanitizeEnv(env, addonPath),
-	};
-
-	const result = await execa(cmd, args, opts);
+	});
 	handleError(result);
-	return result.all as string;
+	return {
+		all: result.all,
+		stdout: result.stdout,
+		stderr: result.stderr,
+	};
 }

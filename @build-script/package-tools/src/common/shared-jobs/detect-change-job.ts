@@ -20,7 +20,7 @@ interface IDetectOptions {
 
 export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions): Promise<IResult> {
 	const packageJson = await pm.loadPackageJson();
-	logger.log('包名: %s', packageJson.name);
+	logger.debug('修改检测 | 包名: %s', packageJson.name);
 	if (!packageJson.name) {
 		throw new Error(`${pm.projectPath}/package.json 中缺少 name 字段`);
 	}
@@ -37,19 +37,19 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 	}
 
 	if (packageJson.private && !options.forcePrivate) {
-		logger.log('检测到私有包，禁止运行');
+		logger.debug('检测到私有包，禁止运行');
 		return { changedFiles: [], hasChange: false };
 	}
 
 	const remotePackage = await cache.fetchVersion(packageJson.name, distTagInput);
-	logger.log(' -> npm 远程版本 = %s', remotePackage?.version);
-	logger.log(' -> package.json 本地版本 = %s', packageJson.version);
+	logger.debug(' -> npm 远程版本 = %s', remotePackage?.version);
+	logger.debug(' -> package.json 本地版本 = %s', packageJson.version);
 
 	if (!remotePackage || gt(packageJson.version, remotePackage.version)) {
-		logger.log('本地版本 (%s) 已经大于远程版本 (%s)，无需进一步检测', packageJson.version, remotePackage?.version);
+		logger.debug('本地版本 (%s) 已经大于远程版本 (%s)，无需进一步检测', packageJson.version, remotePackage?.version);
 		return { changedFiles: ['package.json'], hasChange: false, remoteVersion: remotePackage?.version };
 	}
-	logger.log('本地版本 (%s) 小于或等于远程版本 (%s)，尝试检测更改...', packageJson.version, remotePackage.version);
+	logger.debug('本地版本 (%s) 小于或等于远程版本 (%s)，尝试检测更改...', packageJson.version, remotePackage.version);
 
 	const tarball = await cache.downloadTarball(packageJson.name, distTagInput);
 
@@ -62,12 +62,15 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 	await gitrepo.init();
 
 	const pack = await pm.pack(tempFolder.joinpath('local-pack.tgz'));
-	logger.log('  --> %s', pack);
+	logger.verbose('  --> %s', pack);
 
 	await workingRoot.unpack(pack);
+	logger.verbose('  unpacked successfully');
+
 	await makePackageJsonOrderConsistence(workingRoot.path);
 
 	const changedFiles = await gitrepo.commitChanges();
+	logger.verbose`  changed files: list<${changedFiles}>`;
 
 	return { changedFiles, hasChange: changedFiles.length > 0, remoteVersion: remotePackage.version };
 }

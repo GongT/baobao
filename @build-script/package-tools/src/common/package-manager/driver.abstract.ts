@@ -1,7 +1,7 @@
 import type { MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { logger } from '@idlebox/logger';
-import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
+import { exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { NpmCacheHandler } from '../cache/native.npm.js';
@@ -13,6 +13,7 @@ import { cachedPackageJson } from './package-json.js';
 export interface IUploadResult {
 	name: string;
 	version: string;
+	published: boolean;
 }
 
 export enum PackageManagerUsageKind {
@@ -42,7 +43,7 @@ export abstract class PackageManager {
 	}
 
 	public pack(saveAs: string, packagePath = this.projectPath) {
-		logger.log(`打包项目: ${packagePath}`);
+		logger.verbose(`打包项目: ${packagePath}`);
 		return this._pack(saveAs, packagePath);
 	}
 
@@ -80,38 +81,51 @@ export abstract class PackageManager {
 	private async _get_config(cwd: string, key: string) {
 		const scope = await this.getScope();
 		if (scope) {
-			const content = await this._execGetOut(cwd, ['config', 'get', `${scope}:${key}`]);
-			logger.debug('$ npm config get %s:%s -> %s', scope, key, content);
-			if (content !== 'undefined') {
-				return content;
+			const { stdout } = await this._execGetOut(cwd, ['config', 'get', `${scope}:${key}`]);
+			logger.debug('$ npm config get %s:%s -> %s', scope, key, stdout);
+			if (`${stdout}` !== 'undefined') {
+				return stdout;
 			}
 		}
-		const content = await this._execGetOut(cwd, ['config', 'get', key]);
-		logger.debug('$ npm config get %s -> %s', key, content);
-		return content === 'undefined' ? undefined : content;
+		const { stdout } = await this._execGetOut(cwd, ['config', 'get', key]);
+		logger.debug('$ npm config get %s -> %s', key, stdout);
+		return stdout === 'undefined' ? undefined : stdout;
 	}
 
-	protected abstract _uploadTarball(pack: string, cwd: string): Promise<IUploadResult | undefined>;
+	protected abstract _uploadTarball(pack: string, cwd: string): Promise<IUploadResult>;
 	public async uploadTarball(pack: string, cwd: string = this.projectPath) {
 		logger.debug(`上传压缩包: ${pack}`);
 		try {
 			const r = await this._uploadTarball(pack, cwd);
-			if (r) {
-				logger.log('    发布成功: %s @ %s', r.name, r.version);
-				return r;
-			} else {
-				logger.log('    ! 覆盖已有版本');
-				return r;
-			}
-		} catch (e) {
-			logger.log('    发布失败!');
+			logger.debug('    发布成功: %s @ %s [%s]', r.name, r.version, r.published);
+			return r;
+		} catch (e: any) {
+			logger.error`    tarball发布失败! ${e}`;
 			throw e;
 		}
 	}
 
-	protected async _execGetOut(cwd: string, cmds: string[]): Promise<string> {
-		const result = await execLazyError(this.binary, cmds, { cwd, stdout: 'pipe' });
-		return result.stdout.trim();
+	protected async _execGetOut(cwd: string, cmds: string[], reject = true) {
+		const result = await execa(this.binary, cmds, {
+			stdio: ['ignore', 'pipe', 'pipe'],
+			cwd: cwd,
+			reject: reject,
+			stripFinalNewline: true,
+			encoding: 'utf8',
+			all: true,
+		});
+
+		return {
+			get stdout() {
+				return result.stdout.trim();
+			},
+			get stderr() {
+				return result.stderr.trim();
+			},
+			get all() {
+				return result.all.trim();
+			},
+		};
 	}
 
 	private _cachedReg?: string;

@@ -3,7 +3,12 @@
 	"type": "module",
 	"version": "1.4.14",
 	"description": "Common utilities",
-	"keywords": ["utilities", "functions", "helpers", "library"],
+	"keywords": [
+		"utilities",
+		"functions",
+		"helpers",
+		"library"
+	],
 	"exports": {
 		".": {
 			"types": "./src/autoindex.ts",
@@ -34,5 +39,5 @@
 	"dependencies": {
 		"debug": "^4.4.1"
 	},
-	"decoupledDependencies": "*"
+	"decoupledDependents": "*"
 }

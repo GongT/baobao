@@ -1,7 +1,9 @@
+import { prettyPrintError } from '@idlebox/common';
+import { logger } from '@idlebox/logger';
 import { execLazyError, exists } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { isVerbose } from '../functions/cli.js';
-import { PackageManager } from './driver.abstract.js';
+import { PackageManager, type IUploadResult } from './driver.abstract.js';
 
 interface IPnpmPublishResult {
 	id: string;
@@ -21,11 +23,33 @@ interface IPnpmPublishResult {
 	bundled: []; // ?
 }
 
+type RegistryErrorField = {
+	code: string;
+	summary: string;
+	detail: string;
+};
+class RegistryError extends Error {
+	constructor(private readonly error: RegistryErrorField) {
+		super(error.summary || 'no error summary');
+
+		if (this.error.detail) {
+			this.stack = this.error.detail;
+		}
+	}
+
+	get code() {
+		return this.error.code;
+	}
+}
+
+const duplicatePublishRegex = /You cannot publish over the previously published versions: (.+)/;
+const duplicatePublishOnUnpublishRegex = /Cannot publish over previously published version "(.+)"/;
+
 export class PNPM extends PackageManager {
 	override binary = 'pnpm';
 
 	override async _pack(saveAs: string, packagePath: string) {
-		const chProcess = await execLazyError(this.binary, ['pack', '--pack-destination', saveAs], {
+		const chProcess = await execLazyError(this.binary, ['pack', '--out', saveAs], {
 			cwd: packagePath,
 			verbose: isVerbose,
 			env: { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' },
@@ -43,19 +67,45 @@ export class PNPM extends PackageManager {
 		throw new Error(`pnpm pack失败: ${output} 不存在`);
 	}
 
-	override async _uploadTarball(pack: string, cwd: string) {
+	override async _uploadTarball(pack: string, cwd: string): Promise<IUploadResult> {
 		let result: IPnpmPublishResult;
+		const cmds = ['publish', pack, '--json', '--no-git-checks'];
+		const { stdout, all } = await this._execGetOut(cwd, cmds, false);
 		try {
-			const output = await this._execGetOut(cwd, ['publish', pack, '--json', '--no-git-checks']);
-			result = JSON.parse(output);
-		} catch (e: any) {
-			if (e.stderr?.includes('You cannot publish over the previously published versions')) {
-				return;
+			const out = JSON.parse(stdout);
+			if (out.error) {
+				throw new RegistryError(out.error);
+			} else {
+				result = out;
+				if (!result.name || !result.version) {
+					logger.fatal`npm registry return invalid response:\n long<${stdout}>`;
+				}
 			}
+		} catch (e: any) {
+			if (e instanceof RegistryError) {
+				let dupVer: string | undefined;
+				dupVer = duplicatePublishRegex.exec(e.message)?.[1];
+				if (!dupVer) {
+					dupVer = duplicatePublishOnUnpublishRegex.exec(e.message)?.[1];
+				}
+				if (dupVer) {
+					return {
+						published: false,
+						name: '', // TODO
+						version: dupVer,
+					};
+				}
+			}
+
+			logger.warn`publish long<${pack}> error: ${e}`;
+			console.error(all);
+			prettyPrintError(`${this.binary} ${cmds.join(' ')}`, e);
+
 			throw e;
 		}
 
 		return {
+			published: true,
 			name: result.name,
 			version: result.version,
 		};

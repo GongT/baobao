@@ -39,7 +39,7 @@ export class TempWorkingFolder {
 	}
 
 	async mkdir() {
-		logger.log('临时工作目录: %s', this.path);
+		logger.debug('临时工作目录: %s', this.path);
 		await mkdir(this.path, { recursive: true });
 		this._exists = true;
 	}

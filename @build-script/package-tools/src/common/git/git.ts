@@ -19,7 +19,7 @@ export class GitWorkingTree {
 	}
 
 	async init() {
-		logger.log('初始化git工作区: %s', this.path);
+		logger.debug('初始化git工作区: %s', this.path);
 		const gitDir = resolve(this.path, '.git');
 		if (await exists(gitDir)) {
 			logger.debug('   - 删除已有.git文件夹');
@@ -32,18 +32,18 @@ export class GitWorkingTree {
 	}
 
 	async commitChanges() {
-		logger.log('检测文件更改:');
+		logger.debug('检测文件更改:');
 
 		const { stdout: testOut } = await this._exec(['status']);
 		const statusOut = testOut.toString().trim();
 		if (statusOut.includes('nothing to commit, working tree clean')) {
-			logger.log('    git工作区状态: 干净');
+			logger.debug('    git工作区状态: 干净');
 			return [];
 		}
 		// if (isDebugMode) {
 		// 	await execa('git', ['diff'], { cwd: this.path, stdio: ['ignore', 2, 2] });
 		// }
-		logger.log('    git工作区状态: 有修改');
+		logger.debug('    git工作区状态: 有修改');
 
 		await this._exec(['add', '.']);
 		await this._exec(['commit', '-m', 'DetectChangedFiles']);
@@ -61,7 +61,7 @@ export class GitWorkingTree {
 		}
 		const files = lines.slice(titleLine + 1);
 
-		logger.log(
+		logger.debug(
 			'    文件更改: %d 个 (%s%s)',
 			files.length,
 			files.slice(0, 5).join(', '),

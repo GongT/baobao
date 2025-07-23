@@ -4,7 +4,7 @@ import { shutdown } from '@idlebox/node';
 import { createMonorepoObject } from './workspace.js';
 
 export async function runList() {
-	const asList = argv.flag(['--list', '-l']) > 0;
+	const depth = parseInt(argv.single(['--depth']) || '0');
 	if (argv.unused().length) {
 		logger.error`Unknown arguments: ${argv.unused().join(', ')}`;
 		return shutdown(1);
@@ -13,7 +13,7 @@ export async function runList() {
 	const repo = await createMonorepoObject();
 	repo._finalize();
 
-	const text = repo.dump(asList);
+	const text = repo.dump(depth);
 
 	console.log(text);
 }

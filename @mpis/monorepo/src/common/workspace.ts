@@ -161,11 +161,11 @@ class PnpmMonoRepo extends AsyncDisposable {
 		return pathvar;
 	}
 
-	dump(asList = true) {
-		if (asList) {
+	dump(depth: number = 0) {
+		if (depth <= 0) {
 			return this.workersManager.formatDebugList();
 		} else {
-			return this.workersManager.formatDebugGraph();
+			return this.workersManager.formatDebugGraph(depth);
 		}
 	}
 

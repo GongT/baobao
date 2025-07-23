@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/run",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"keywords": [],
 	"bin": {
 		"run": "./loader/bin.devel.js",
@@ -38,5 +38,5 @@
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^24.0.14"
 	},
-	"decoupledDependents": "*"
+	"decoupledDependencies": "*"
 }

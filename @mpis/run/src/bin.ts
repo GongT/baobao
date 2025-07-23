@@ -13,6 +13,7 @@ registerNodejsExitHandler();
 
 parseCliArgs();
 
+let execute_index = 0;
 const start = Date.now();
 registerGlobalLifecycle(
 	toDisposable(() => {
@@ -257,12 +258,15 @@ function formatAllErrors() {
 }
 
 function printAllErrors() {
+	execute_index++;
+	const execTip = `exec: ${execute_index} / ${humanDate.delta(Date.now() - start)}`;
+
 	const numFailed = [...errors.values().filter((e) => !!e)].length;
 	if (numFailed !== 0) {
 		console.error(formatAllErrors());
 
-		logger.error(`💥 ${numFailed} of ${workersManager.size} worker failed`);
+		logger.error(`💥 ${numFailed} of ${workersManager.size} worker failed (${execTip})`);
 	} else {
-		logger.success(`✅ no error in ${workersManager.size} workers`);
+		logger.success(`✅ no error in ${workersManager.size} workers (${execTip})`);
 	}
 }

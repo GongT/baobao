@@ -52,4 +52,5 @@ export async function increaseVersion(pkg: IPackageJson, current: string) {
 	logger.log('新版本: %s', pkg.version);
 	const ch = await writeJsonFileBack(pkg);
 	logger.debug('package.json回写: %s', ch);
+	return v;
 }

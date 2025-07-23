@@ -24,7 +24,9 @@ export abstract class GraphBase<T, pT> {
 		this.logger?.debug(`注册worker ${name}`);
 		this.logger?.verbose(`依赖：${dependencies.join(', ')}`);
 		this.graph.addNode(name, { name, dependencies: dependencies.slice(), reference: itemRef, privateData: pt });
-		this.reverse.set(itemRef, name);
+		if (typeof itemRef === 'object') {
+			this.reverse.set(itemRef, name);
+		}
 	}
 
 	size() {
@@ -42,7 +44,9 @@ export abstract class GraphBase<T, pT> {
 		this.reverse.delete(d.reference);
 
 		d.reference = data;
-		this.reverse.set(data, name);
+		if (typeof data === 'object') {
+			this.reverse.set(data, name);
+		}
 	}
 	getNodeName(data: T): string {
 		const r = this.reverse.get(data);
@@ -129,12 +133,12 @@ export abstract class GraphBase<T, pT> {
 	 * │  └─ dddd
 	 * └─ cccc
 	 */
-	debugFormatGraph() {
+	debugFormatGraph(depth = Infinity) {
 		const indent = (lines: string[], isLast: boolean) => {
 			const c = isLast ? '  ' : '│ ';
 			return lines.map((line) => `${c}${line}`);
 		};
-		const drawDepOne = (name: string) => {
+		const drawDepOne = (name: string, level: number) => {
 			let result: string[] = [];
 			const data = this.graph.directDependenciesOf(name);
 			for (const dep of data) {
@@ -143,7 +147,8 @@ export abstract class GraphBase<T, pT> {
 
 				result.push(`${c}${this.inspectTitle(dep)}`);
 
-				result.push(...indent(drawDepOne(dep), isLast));
+				if (depth <= level) continue;
+				result.push(...indent(drawDepOne(dep, level + 1), isLast));
 			}
 
 			return result;
@@ -152,7 +157,9 @@ export abstract class GraphBase<T, pT> {
 		const leafs = this.graph.entryNodes();
 		for (const name of leafs) {
 			result.push(this.inspectTitle(name));
-			result.push(...drawDepOne(name));
+
+			if (depth === 0) continue;
+			result.push(...drawDepOne(name, 1));
 		}
 
 		return result.join('\n');

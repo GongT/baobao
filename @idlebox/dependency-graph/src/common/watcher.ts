@@ -25,7 +25,7 @@ interface IWatcherElement extends IWatchEvents {
 	dependencies: readonly string[];
 }
 
-abstract class RunBase extends StartupPump<IWatchEvents, IWatchAttach> {
+abstract class RunBase<Job extends IWatchEvents> extends StartupPump<Job, IWatchAttach> {
 	protected readonly _onProcessQuit = new DeferredPromise<void>();
 
 	getErrors() {
@@ -38,7 +38,7 @@ abstract class RunBase extends StartupPump<IWatchEvents, IWatchAttach> {
 	}
 
 	public addEmptyNode(name: string) {
-		super._addEmptyNode(name, {} as any, {
+		super._addEmptyNode(name, undefined as any, {
 			died: false,
 			isRunning: false,
 			lastError: undefined,
@@ -107,7 +107,7 @@ abstract class RunBase extends StartupPump<IWatchEvents, IWatchAttach> {
 	}
 }
 
-export class WatcherDependencyGraph extends RunBase {
+export class WatcherDependencyGraph<Job extends IWatchEvents = IWatchEvents> extends RunBase<Job> {
 	static from(nodes: ReadonlyArray<IWatcherElement>) {
 		const g = new WatcherDependencyGraph();
 		for (const node of nodes) {
@@ -117,7 +117,7 @@ export class WatcherDependencyGraph extends RunBase {
 		return g;
 	}
 
-	addNode(name: string, dependencies: readonly string[], events: IWatchEvents) {
+	addNode(name: string, dependencies: readonly string[], events: Job) {
 		const dfd = new DeferredPromise<void>();
 		this._addNode(name, dependencies, events, {
 			died: false,
@@ -193,7 +193,7 @@ export class WatcherDependencyGraph extends RunBase {
 	}
 }
 
-export class BuilderDependencyGraph extends RunBase {
+export class BuilderDependencyGraph<Job extends IWatchEvents = IWatchEvents> extends RunBase<Job> {
 	static from(nodes: ReadonlyArray<IWatcherElement>) {
 		const g = new WatcherDependencyGraph();
 		for (const node of nodes) {
@@ -203,7 +203,7 @@ export class BuilderDependencyGraph extends RunBase {
 		return g;
 	}
 
-	addNode(name: string, dependencies: readonly string[], events: IWatchEvents) {
+	addNode(name: string, dependencies: readonly string[], events: Job) {
 		this._addNode(name, dependencies, events, {
 			died: false,
 			isRunning: false,

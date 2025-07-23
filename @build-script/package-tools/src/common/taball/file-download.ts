@@ -16,7 +16,7 @@ interface IMetaInfo {
 
 export async function downloadFileCached(url: string, file: string) {
 	const metadata = `${file}.meta.json`;
-	logger.log('下载文件:\n    地址: %s\n    保存到: %s', url, file);
+	logger.debug`下载文件:\n    地址: long<${url}>\n    保存到: long<${file}>`;
 	let meta: IMetaInfo | undefined;
 	if (await exists(metadata)) {
 		try {

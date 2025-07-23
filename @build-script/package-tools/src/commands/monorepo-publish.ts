@@ -1,105 +1,237 @@
-import { createWorkspace } from '@build-script/monorepo-lib';
-import { humanDate } from '@idlebox/common';
-import { commandInPath } from '@idlebox/node';
+import {
+	createWorkspace,
+	normalizePackageName,
+	type IPackageInfo,
+	type MonorepoWorkspace,
+} from '@build-script/monorepo-lib';
+import { Emitter, prettyPrintError } from '@idlebox/common';
+import { BuilderDependencyGraph, type IWatchEvents } from '@idlebox/dependency-graph';
+import { logger } from '@idlebox/logger';
+import { commandInPath, emptyDir, writeFileIfChangeSync } from '@idlebox/node';
+import { cpSync, existsSync } from 'fs';
+import { resolve } from 'path';
+import { inspect } from 'util';
 import { argv, CommandDefine, CSI, pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
-import { cnpmSync } from '../common/shared-jobs/cnpm-sync.js';
+import { cnpmSyncNames } from '../common/shared-jobs/cnpm-sync.js';
 import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
-import { publishPackageVersion } from '../common/shared-jobs/publish-package-version-job.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = `${pArgS('--verbose / --silent')} ${pArgS('--dry')}`;
+	protected override _usage = `${pArgS('--debug')} ${pArgS('--dry')}`;
 	protected override _description = '在monorepo中按照依赖顺序发布修改过的包';
 	protected override _help = '';
 	protected override _arguments = {
-		'--verbose': { flag: true, description: '列出所有信息，而不仅是目录' },
+		'--debug': { flag: true, description: '详细输出模式' },
 		'--dry': { flag: true, description: '仅检查修改，不发布（仍会修改version字段）' },
-		'--debug': { flag: true, description: '运行后不要删除临时文件和目录' },
-		'--skip': { flag: false, description: '跳过前N-1个包（从第N个包开始运行）' },
 		'--private': { flag: false, description: '即使private=true也执行' },
 	};
 }
 
-export async function main() {
-	const dryRun = argv.flag('--dry') > 0;
-	let skip = Number.parseInt(argv.single('--skip') || '0');
-	if (Number.isNaN(skip)) {
-		throw new Error('skip 不是数字');
+interface IState {
+	readonly index: number;
+	readonly length: number;
+	readonly options: ReturnType<typeof options>;
+}
+
+let indexDisplay = 0;
+class BuildPackageJob implements IWatchEvents {
+	private readonly _onSuccess = new Emitter<void>();
+	public readonly onSuccess = this._onSuccess.event;
+
+	private readonly _onFailed = new Emitter<Error>();
+	public readonly onFailed = this._onFailed.event;
+
+	private readonly _onRunning = new Emitter<void>();
+	public readonly onRunning = this._onRunning.event;
+
+	private shouldPublish = '';
+
+	constructor(
+		private readonly state: IState,
+		private readonly project: IPackageInfo,
+		private readonly workspace: MonorepoWorkspace,
+	) {
+		this.onSuccess(() => {
+			indexDisplay++;
+			const { length } = this.state;
+			const w = length.toFixed(0).length;
+			console.log(`📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
+			console.log(this.logText.join('\n'));
+			this.logText.length = 0;
+		});
+		this.onFailed((e) => {
+			indexDisplay++;
+			const { length } = this.state;
+			const w = length.toFixed(0).length;
+			console.log(`📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
+			console.log(this.logText.join('\n'));
+			prettyPrintError('❌pack failed', e);
+			this.logText.length = 0;
+		});
 	}
 
-	const workspace = await createWorkspace();
-	const list = await workspace.listPackages();
-	const deps = await prepareMonorepoDeps(list);
-
-	deps.detectLoop();
-
-	if (argv.flag('--private') <= 0) {
-		for (const data of deps.getIncompleteWithOrder()) {
-			if (data.reference.packageJson.private) {
-				console.log(`🛑 跳过，private=true: ${data.name}`);
-				deps.setComp·lated(data.name);
-			}
-		}
+	get name() {
+		return this.project.name;
 	}
 
-	const publishedPackages = [];
+	getPackagePath() {
+		return this.shouldPublish || undefined;
+	}
 
-	const todoList = deps.getIncompleteWithOrder();
-	const w = todoList.length.toFixed(0).length;
-	for (const [index, data] of todoList.entries()) {
-		const startTime = Date.now();
-		console.log(`📦 [${(index + 1).toFixed(0).padStart(w)}/${todoList.length}] ${data.name}`);
+	async execute() {
+		this._onRunning.fire();
+		this.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
-		if (--skip > 0) {
-			console.log(`    ⏩ ${CSI}2m跳过${CSI}0m`);
-			continue;
-		}
-
-		console.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
-
-		const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, data.reference.absolute);
+		const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute);
 		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});
-		let shouldPublish = hasChange;
-
-		if (!hasChange && changedFiles.length > 0) {
-			shouldPublish = true;
-		}
-		if (!remoteVersion) throw new Error('程序错误, remoteVersion 为空');
+		let shouldPublish = hasChange || changedFiles.length > 0;
+		let localVersion = this.project.packageJson.version;
 
 		if (hasChange) {
-			await increaseVersion(data.reference.packageJson, remoteVersion);
-			console.log('    ✍️ 已修改本地包版本\n');
+			const packageJson = await pm.loadPackageJson();
+			localVersion = await increaseVersion(packageJson, remoteVersion || '0.0.0');
+			this.log('    ✍️ 已修改本地包版本\n');
 		}
-
 		if (!shouldPublish) {
-			console.log(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
-			continue;
+			this.log(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m\n`);
+			this._onSuccess.fire();
+			return;
 		}
 
-		console.log(
-			`🪄 正在发布新版本 ${data.reference.name} ${data.reference.packageJson.version} ==\ueac3==> ${remoteVersion}`,
+		this.log(`    🔄 打包文件`);
+
+		const tempFile = resolve(
+			this.workspace.temp,
+			`publish/${normalizePackageName(this.project.name)}-${localVersion}.tgz`,
 		);
+		this.shouldPublish = await pm.pack(tempFile);
 
-		if (dryRun) {
-			console.log(`    ✨ dry run (in ${humanDate.delta(Date.now() - startTime)})\n`);
-			continue;
+		if (remoteVersion) {
+			this.log(`    🎈 即将发布新版本 "${this.project.packageJson.version}" 以更新远程版本 "${remoteVersion}"`);
+		} else {
+			this.log(`    🎈 即将发布初始版本 "${this.project.packageJson.version}"`);
 		}
-
-		await publishPackageVersion(pm);
-
-		// if (changed) {
-		publishedPackages.push(data.reference);
-		console.log(`    ✨ ${CSI}38;5;10m已发布新版本！${CSI}0m (in ${humanDate.delta(Date.now() - startTime)})\n`);
-		// } else {
-		// console.log(`    🤔 此版本已经发布 (${remoteVersion}/${data.reference.packageJson.version})\n`);
-		// }
+		this._onSuccess.fire();
 	}
 
-	console.log(`🎉 所有任务完成，共发布了 ${publishedPackages.length} 个包`);
+	private readonly logText: string[] = [];
+	log(text: string) {
+		this.logText.push(text);
+	}
 
-	if (await commandInPath('cnpm')) {
-		await cnpmSync(publishedPackages, true).catch();
+	[inspect.custom]() {
+		// TODO
+		return '~~~~~~~~';
+	}
+}
+
+function options() {
+	const dryRun = argv.flag('--dry') > 0;
+
+	return {
+		dryRun: dryRun,
+	};
+}
+
+export async function main() {
+	const workspace = await createWorkspace();
+	await workspace.decoupleDependencies();
+
+	const temp = resolve(workspace.temp, 'publish');
+	await emptyDir(temp);
+
+	const projects = await workspace.listPackages();
+
+	const concurrency = argv.flag(['--debug', '-d']) > 0 ? 1 : 10;
+	const graph = new BuilderDependencyGraph<BuildPackageJob>(concurrency, logger);
+	const opts = options();
+
+	const shouldPublishProjects = projects.filter((project) => {
+		if (!project.packageJson.name) return false;
+
+		if (project.packageJson.private) {
+			console.log(`📦 ${project.name}`);
+			console.log(`    🛑 跳过，private=true: ${project.name}`);
+			graph.addEmptyNode(project.name);
+			return false;
+		}
+
+		return true;
+	});
+
+	let index = 0;
+	for (const project of shouldPublishProjects) {
+		graph.addNode(
+			project.name,
+			project.devDependencies,
+			new BuildPackageJob(
+				{
+					index,
+					length: shouldPublishProjects.length,
+					options: opts,
+				},
+				project,
+				workspace,
+			),
+		);
+
+		index++;
+	}
+
+	await graph.startup();
+
+	const packageToPublish: { name: string; pack: string }[] = [];
+	for (const id of graph.overallOrder) {
+		const node = graph.getNodeData(id);
+		if (!(node instanceof BuildPackageJob)) continue;
+
+		const pack = node.getPackagePath();
+		if (!pack) continue;
+		packageToPublish.push({ name: node.name, pack });
+	}
+	console.log(`✅ 打包阶段结束，有 ${packageToPublish.length} 个包需要发布`);
+
+	if (opts.dryRun) {
+		console.log(`中断并退出（--dry）`);
+		return;
+	}
+
+	const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, temp);
+	const npmrc = workspace.getNpmRCPath(true);
+	if (existsSync(npmrc)) {
+		cpSync(npmrc, resolve(temp, '.npmrc'));
+		writeFileIfChangeSync(resolve(temp, 'package.json'), '{}');
+	}
+
+	const w = packageToPublish.length.toFixed(0).length;
+	let published: string[] = [];
+
+	try {
+		index = 1;
+		for (const { name, pack } of packageToPublish) {
+			console.log(`📦 [${index.toFixed(0).padStart(w)}/${packageToPublish.length}] ${name}`);
+			const r = await pm.uploadTarball(pack);
+			if (r.published) {
+				console.log(`    👌 已发布新版本 ${r.version}`);
+			} else {
+				console.log(`    🤔 版本号未改变 ${r.version}`);
+			}
+			published.push(name);
+
+			index++;
+		}
+
+		console.log(`🎉 所有任务完成，共发布了 ${published.length} 个包`);
+	} catch (e) {
+		logger.error`发布过程中发生错误: ${e instanceof Error ? e.message : e}`;
+		throw e;
+	} finally {
+		console.log(`🔄 同步到cnpm（可能非常慢）`)
+		if (await commandInPath('cnpm')) {
+			await cnpmSyncNames(published, true).catch();
+		}
+		console.log(`	🐱 已同步到 cnpm`);
 	}
 }

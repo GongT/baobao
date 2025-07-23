@@ -9,8 +9,4 @@ import { registerNodejsExitHandler } from '@idlebox/node';
 
 registerNodejsExitHandler();
 
-setTimeout(() => {
-	console.log('timeout');
-}, 10000);
-
 await import('./lib/main.js');

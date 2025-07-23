@@ -60,7 +60,7 @@ export class NpmCacheHandler {
 		}
 		const version = getVersion(json, distTag);
 		if (!version) {
-			logger.log(` ! 找不到版本信息(${distTag})`);
+			logger.warn(` ! 找不到版本信息(${name}@${distTag})`);
 			return;
 		}
 		return version;
@@ -146,7 +146,7 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 				throw new Error('npm fetch throw unexpected thing');
 			}
 			if (e.statusCode === 404) {
-				logger.log('registry say 404, return empty.');
+				logger.verbose('registry say 404, return empty.');
 				return undefined;
 			}
 			if (e.code === 'ECONNRESET') retry++;
