@@ -228,10 +228,8 @@ export async function main() {
 		logger.error`发布过程中发生错误: ${e instanceof Error ? e.message : e}`;
 		throw e;
 	} finally {
-		console.log(`🔄 同步到cnpm（可能非常慢）`)
 		if (await commandInPath('cnpm')) {
 			await cnpmSyncNames(published, true).catch();
 		}
-		console.log(`	🐱 已同步到 cnpm`);
 	}
 }
