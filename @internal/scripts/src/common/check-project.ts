@@ -101,13 +101,13 @@ async function executeInner(logger: IMyLogger) {
 
 	pkgChk.equals(['type'], 'module');
 
-	pkgChk.notset(['private']);
+	pkgChk.not_exists(['private']);
 	pkgChk.equals(['scripts', 'prepublishOnly'], 'internal-prepublish-deny');
 	pkgChk.equals(['scripts', 'prepublishHook'], 'internal-prepublish-hook');
 	pkgChk.equals(['scripts', 'lint'], 'internal-lint');
 
 	for (const field of denyFields) {
-		pkgChk.notset([field]);
+		pkgChk.not_exists([field]);
 	}
 
 	pkgChk.equals(['publishConfig', 'pack-command'], undefined);
@@ -149,6 +149,11 @@ async function executeInner(logger: IMyLogger) {
 	} else {
 		check_export_field(pkgChk, 'types', undefined);
 	}
+
+	if (exports['.']) {
+		pkgChk.exists(['exports', '.', 'default']);
+	}
+
 	check_export_field(pkgChk, 'import', undefined);
 	check_export_field(pkgChk, 'require', undefined);
 

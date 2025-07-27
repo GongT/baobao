@@ -16,7 +16,14 @@ export class ObjectChecker {
 		this.object = new ObjectPath(object);
 	}
 
-	notset(path: readonly KeyType[]) {
+	exists(path: readonly KeyType[]) {
+		const exists = this.object.exists(path);
+		if (exists) return;
+
+		this.error.emit(`field \`${format_path(path)}\` must exists`);
+	}
+
+	not_exists(path: readonly KeyType[]) {
 		const exists = this.object.exists(path);
 		if (!exists) return;
 
@@ -28,7 +35,7 @@ export class ObjectChecker {
 
 	equals(path: readonly KeyType[], want: Primitive) {
 		if (want === undefined) {
-			return this.notset(path);
+			return this.not_exists(path);
 		}
 		const data = this.object.get(path);
 		if (data === want) return;

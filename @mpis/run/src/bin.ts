@@ -81,6 +81,11 @@ async function executeBuild() {
 
 	workersManager.finalize();
 
+	if (workersManager.allWorkers.length === 0) {
+		logger.fatal`No workers to execute, check your config file.`;
+		return;
+	}
+
 	channelClient.start();
 
 	if (context.breakMode) {

@@ -21,7 +21,7 @@ function getDefaultTitle(): string {
 	if (process.title !== 'node') {
 		return process.title;
 	}
-	const packagePath = findPackageJSON(process.argv[1]);
+	const packagePath = findPackageJSON(process.argv[1], import.meta.url);
 	if (packagePath) {
 		const packageJson = JSON.parse(readFileSync(packagePath, 'utf-8'));
 		return packageJson.name.replace('@mpis/', '').replace('@', '').replace('/', ':');

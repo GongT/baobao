@@ -1,5 +1,5 @@
-import { assign, CommentArray } from 'comment-json';
-import deepmerge, { type Options } from 'deepmerge';
+import { deepmerge, type MergeStrategy } from '@idlebox/deepmerge';
+import { CommentArray } from 'comment-json';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
@@ -33,16 +33,14 @@ export interface ILoadJsonOptions {
 
 	/**
 	 * controls how to merge array
-	 * @default override
-	 * @see  https://www.npmjs.com/package/deepmerge
+	 * @default {undefined} override everything
 	 */
-	arrayMerge: Options['arrayMerge'];
+	customMerge?: MergeStrategy;
 }
 const defaultOptions: ILoadJsonOptions = {
 	readJsonFile,
 	extendsField: 'extends',
 	nodeResolution: true,
-	arrayMerge: overwriteMerge,
 };
 
 export class ResolveError extends Error {
@@ -56,7 +54,7 @@ export class ResolveError extends Error {
 }
 
 export function loadInheritedJson(file: string, options: Partial<ILoadJsonOptions> = {}): any {
-	const o = deepmerge.all<ILoadJsonOptions>([{}, defaultOptions, options]);
+	const o = { ...defaultOptions, ...options };
 
 	const resolve: IResolver = o.nodeResolution ? nodeResolution : resolveFilesystem;
 
@@ -85,19 +83,17 @@ export function loadInheritedJson(file: string, options: Partial<ILoadJsonOption
 		datas.push(objectPath.del(data, o.extendsField));
 	}
 
+	if (datas.length === 1) {
+		return datas[0];
+	}
+
 	let result: any = {};
 	for (const object of datas.reverse()) {
-		result = deepmerge(result, object, {
-			arrayMerge: o.arrayMerge,
-			customMerge: () => (a, b) => assign(a, b),
-		});
+		result = deepmerge(result, object, o.customMerge);
 	}
 	return result;
 }
 
-function overwriteMerge(_destinationArray: any[], sourceArray: any[], _options?: Options) {
-	return sourceArray;
-}
 const isModuleResolutionError = (ex: any) =>
 	typeof ex === 'object' &&
 	!!ex &&

@@ -1,9 +1,14 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.4.15",
+	"version": "1.4.16",
 	"description": "Common utilities",
-	"keywords": ["utilities", "functions", "helpers", "library"],
+	"keywords": [
+		"utilities",
+		"functions",
+		"helpers",
+		"library"
+	],
 	"exports": {
 		".": {
 			"types": "./src/autoindex.ts",
@@ -23,19 +28,23 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
 		"@build-script/autoindex": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/publisher": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0"
+		"@rushstack/heft": "^0.74.0",
+		"@types/debug": "^4.1.12"
 	},
 	"dependencies": {
 		"debug": "^4.4.1"
 	},
 	"decoupledDependents": "*",
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

@@ -1,0 +1,39 @@
+{
+	"name": "@idlebox/deepmerge",
+	"version": "0.0.1",
+	"description": "Deep merge utility for JSON files with custom merge strategies.",
+	"type": "module",
+	"exports": {
+		".": {
+			"source": "./src/index.ts",
+			"types": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"prepack": "rimraf lib && tsc -p src && mocha lib/tests",
+		"build": "tsc -p src",
+		"watch": "tsc -p src --watch",
+		"test": "mocha lib/tests",
+		"clean": "rimraf lib",
+		"prepublishOnly": "internal-prepublish-deny",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@types/node": "^24.0.14",
+		"chai": "^5.2.1",
+		"mocha": "^11.7.1",
+		"rimraf": "^6.0.1"
+	},
+	"publishConfig": {
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
+	}
+}

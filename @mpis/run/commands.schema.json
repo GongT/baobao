@@ -30,8 +30,8 @@
 					"minLength": 1
 				},
 				"watch": {
-					"type": ["string", "array"],
-					"description": "additional arguments to pass to the command when watching",
+					"type": ["string", "array", "boolean"],
+					"description": "additional arguments to pass to the command when watching, set to false to disable watching",
 					"default": ["-w"],
 					"items": { "type": "string", "minLength": 1 }
 				},

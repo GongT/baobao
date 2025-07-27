@@ -1,13 +1,14 @@
 {
 	"name": "@idlebox/json-edit-biome",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "biomejs formatter for @idlebox/json-edit.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"types": "./src/index.ts"
+			"types": "./src/index.ts",
+			"default": "./lib/index.js"
 		},
 		"./package.json": "./package.json"
 	},

@@ -1,6 +1,6 @@
+import { deepmerge, type MergeStrategy } from '@idlebox/deepmerge';
 import { loadInheritedJson, NotFoundError } from '@idlebox/json-extends-loader';
 import { type IRigConfig, RigConfig } from '@rushstack/rig-package';
-import deepmerge, { type Options } from 'deepmerge';
 import { resolve as importResolve } from 'import-meta-resolve';
 import { existsSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -180,13 +180,12 @@ export class ProjectConfig {
 
 	/**
 	 * 同时加载 rig 和项目的 config/xxx.json 文件
-	 * 目前使用deepmerge 合并两个配置文件
 	 *
-	 * TODO: 实现此处的 merge 方法 https://heft.rushstack.io/pages/advanced/heft-config-file/
+	 * TODO?: 实现此处的 merge 方法 https://heft.rushstack.io/pages/advanced/heft-config-file/
 	 *
 	 * @throws {Error} 如果配置文件不符合 schemaFile 的要求，则抛出错误
 	 */
-	loadBothJson<T>(name: string, schemaFile?: string, mergeConfig?: Options): T {
+	loadBothJson<T>(name: string, schemaFile?: string, customMerge?: MergeStrategy): T {
 		const files = this.getJsonConfigInfo(name);
 
 		let result: any;
@@ -196,7 +195,7 @@ export class ProjectConfig {
 		if (files.project.exists) {
 			const child = loadInheritedJson(files.project.path);
 			if (result) {
-				result = deepmerge(result, child, mergeConfig);
+				result = deepmerge(result, child, customMerge);
 			} else {
 				result = child;
 			}

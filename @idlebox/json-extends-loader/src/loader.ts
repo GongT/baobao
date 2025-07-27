@@ -12,5 +12,5 @@ export function createDynamicReader(processor: IProcess) {
 }
 
 export function readJsonFile(filePath: string): any {
-	return parse(readFileSync(filePath, 'utf-8'));
+	return parse(readFileSync(filePath, 'utf-8'), null, true);
 }

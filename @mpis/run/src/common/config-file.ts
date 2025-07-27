@@ -15,7 +15,7 @@ interface IPackageBinary {
 interface ICommandInput {
 	title?: string;
 	command: string | readonly string[] | IPackageBinary;
-	watch?: string | readonly string[];
+	watch?: string | readonly string[] | boolean;
 	cwd?: string;
 	env?: Record<string, string>;
 }
@@ -40,11 +40,14 @@ export interface IConfigFile {
 
 function watchModeCmd(
 	command: string | readonly string[],
-	watch?: string | readonly string[],
+	watch?: string | readonly string[] | boolean,
 	watchMode?: boolean,
 ): string | readonly string[] {
 	if (!watchMode) {
 		return command;
+	}
+	if (typeof watch === 'boolean') {
+		throw new Error(`Invalid watch value: ${watch}. Expected string or array.`);
 	}
 
 	if (typeof command === 'string') {
@@ -66,8 +69,19 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 	logger.debug`using config file long<${configFile.effective}>`;
 
 	const input: IConfigFileInput = config.loadBothJson('commands', schemaFile, {
-		arrayMerge(target, _source) {
-			return target;
+		array(left, right, keyPath) {
+			switch (keyPath[0]) {
+				case 'build':
+				case 'clean': {
+					if (!Array.isArray(right)) {
+						return left;
+					}
+					const s = new Set([...left, ...right]);
+					return [...s.values()];
+				}
+				default:
+					return right;
+			}
 		},
 	});
 
@@ -83,10 +97,26 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 
 	for (let item of input.build) {
 		if (typeof item === 'string') {
-			item = input.commands[item];
-			if (!item) {
-				logger.fatal`command "${item}" not found in commands`;
+			const found = input.commands[item];
+			if (!found) {
+				logger.fatal`command ${input.build.indexOf(item)} "${item}" not found in "commands" list<${Object.keys(input.commands)}>`;
 			}
+			item = found;
+		}
+
+		if (item.watch === false && watchMode) {
+			let debug_title = item.title;
+			if (!debug_title) {
+				if (Array.isArray(item.command)) {
+					debug_title = item.command[0];
+				} else if (typeof item.command === 'string') {
+					debug_title = item.command;
+				} else if (typeof item.command === 'object' && 'package' in item.command) {
+					debug_title = item.command.package;
+				}
+			}
+			logger.log`command "${debug_title}" watch mode is disabled.`;
+			continue;
 		}
 
 		const cmd = item.command;

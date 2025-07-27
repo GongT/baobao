@@ -25,10 +25,10 @@
 	"dependencies": {
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
+		"@idlebox/deepmerge": "workspace:^",
 		"@rushstack/rig-package": "^0.5.3",
 		"ajv": "^8.17.1",
 		"ajv-errors": "^3.0.0",
-		"deepmerge": "^4.3.1",
 		"import-meta-resolve": "^4.1.0"
 	},
 	"devDependencies": {
@@ -42,6 +42,9 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }
