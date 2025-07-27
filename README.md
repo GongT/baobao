@@ -1,4 +1,6 @@
 # BAOBAO
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FGongT%2Fbaobao.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FGongT%2Fbaobao?ref=badge_shield)
+
 
 TypeScript代码和工具库
 
@@ -71,3 +73,7 @@ CLI程序辅助库
 
 * [cjke](standalone/cjke) 计算汉字和emoji的宽度
 * [unipm](standalone/unipm) 自动选择包管理器安装依赖（pnpm、yarn、npm）
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FGongT%2Fbaobao.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FGongT%2Fbaobao?ref=badge_large)
