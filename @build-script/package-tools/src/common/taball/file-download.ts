@@ -24,7 +24,7 @@ export async function downloadFileCached(url: string, file: string) {
 		} catch {}
 
 		if (meta?.url === url) {
-			logger.log('     -> 已经下载');
+			logger.debug('     -> 已经下载');
 			return file;
 		}
 	}

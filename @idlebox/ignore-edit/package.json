@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/ignore-edit",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "api for modify .*ignore files",
 	"keywords": ["gitignore", "ignorefile"],
 	"exports": {

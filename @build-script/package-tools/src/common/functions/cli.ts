@@ -74,16 +74,16 @@ export abstract class CommandDefine {
 	}
 }
 
-export const isVerbose = argv.flag('--verbose') > 0;
 export const isQuiet = argv.flag(['--silent', '-s', '--quiet']) > 0;
 export const isJsonOutput = argv.flag('--json') > 0;
 export const isHelp = argv.flag(['--help', '-h']) > 0;
 export const distTagInput = argv.single('--dist-tag') || 'latest';
 export const registryInput = argv.single('--registry') || 'detect';
-export const isDebugMode = argv.flag('--debug') > 0;
+export const isDebugMode = argv.flag(['--debug', '-d']) > 0;
+export const isVerbose = argv.flag(['--debug', '-d']) > 1;
 
 if (isVerbose && isQuiet) {
-	die('不能同时使用 --verbose 和 --quiet');
+	die(`不能同时使用 --debug 和 --quiet: ${process.argv}`);
 }
 
 export function pArgS(s: string) {

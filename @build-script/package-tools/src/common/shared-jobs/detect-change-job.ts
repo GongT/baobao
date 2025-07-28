@@ -72,5 +72,12 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 	const changedFiles = await gitrepo.commitChanges();
 	logger.verbose`  changed files: list<${changedFiles}>`;
 
+	if (logger.debug.isEnabled) {
+		if (changedFiles.includes('package.json')) {
+			const diff = await gitrepo.fileDiff('package.json');
+			logger.debug(`    - package.json 文件的修改:\n${diff}`);
+		}
+	}
+
 	return { changedFiles, hasChange: changedFiles.length > 0, remoteVersion: remotePackage.version };
 }

@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/esbuild-executer",
 	"description": "A simple script to execute typescript file during development.",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"type": "module",
 	"bin": {
 		"es-node": "./loader/bin.js"
@@ -29,7 +29,7 @@
 		"prepack": "rimraf lib && tsc -p src",
 		"clean": "rimraf lib",
 		"build": "tsc -p src",
-		"watch": "",
+		"watch": "tsc -p src -w",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"

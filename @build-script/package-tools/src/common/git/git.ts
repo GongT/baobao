@@ -72,4 +72,47 @@ export class GitWorkingTree {
 			return item.replace('Would remove ', '');
 		});
 	}
+
+	async fileDiff(file: string) {
+		const { stdout } = await this._exec(['diff', '--color=never', '-U0', `HEAD~1`, file]);
+		logger.verbose(stdout.trimEnd());
+		const lines = stdout.toString().trim().split('\n').slice(4);
+
+		let diff = formatChangeSideBySide('Published', 'Local');
+		let last_change = { old: '', new: '' };
+		for (const line of lines) {
+			if (line.startsWith('@@ ')) {
+				diff += formatChangeSideBySide(last_change.old, last_change.new);
+				last_change = { old: '', new: '' };
+				continue;
+			}
+
+			if (line.startsWith('+')) {
+				last_change.new += line.slice(1) + '\n';
+			} else if (line.startsWith('-')) {
+				last_change.old += line.slice(1) + '\n';
+			}
+		}
+		diff += formatChangeSideBySide(last_change.old, last_change.new);
+		return diff.trim();
+	}
+}
+
+function formatChangeSideBySide(oldText: string, newText: string): string {
+	if (!oldText && !newText) {
+		return '';
+	}
+
+	const oldLines = oldText.split('\n').map((l) => l.replaceAll('\t', '  '));
+	const newLines = newText.split('\n').map((l) => l.replaceAll('\t', '  '));
+
+	const maxLines = Math.max(oldLines.length, newLines.length);
+	const formattedLines: string[] = [];
+	for (let i = 0; i < maxLines; i++) {
+		const oldLine = oldLines[i] || '';
+		const newLine = newLines[i] || '';
+		const formattedLine = `${oldLine.padEnd(40, ' ')} | ${newLine}`;
+		formattedLines.push(formattedLine);
+	}
+	return formattedLines.join('\n') + '\n';
 }

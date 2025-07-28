@@ -57,7 +57,7 @@ class BuildPackageJob implements IWatchEvents {
 			indexDisplay++;
 			const { length } = this.state;
 			const w = length.toFixed(0).length;
-			console.log(`📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
+			console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
 			console.log(this.logText.join('\n'));
 			this.logText.length = 0;
 		});
@@ -65,7 +65,7 @@ class BuildPackageJob implements IWatchEvents {
 			indexDisplay++;
 			const { length } = this.state;
 			const w = length.toFixed(0).length;
-			console.log(`📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
+			console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
 			console.log(this.logText.join('\n'));
 			prettyPrintError('❌pack failed', e);
 			this.logText.length = 0;
@@ -89,10 +89,13 @@ class BuildPackageJob implements IWatchEvents {
 		let shouldPublish = hasChange || changedFiles.length > 0;
 		let localVersion = this.project.packageJson.version;
 
+		this.log(
+			`    👀 ${changedFiles.length} 个文件有修改: ${changedFiles.slice(0, 3).join(', ')}${changedFiles.length > 3 ? ' ...' : ''}`,
+		);
 		if (hasChange) {
 			const packageJson = await pm.loadPackageJson();
 			localVersion = await increaseVersion(packageJson, remoteVersion || '0.0.0');
-			this.log(`    ✍️ 已修改本地包版本: ${localVersion}`);
+			this.log(`    ✍️  已修改本地包版本: ${localVersion}`);
 		}
 		if (!shouldPublish) {
 			this.log(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m\n`);
@@ -109,9 +112,9 @@ class BuildPackageJob implements IWatchEvents {
 		this.shouldPublish = await pm.pack(tempFile);
 
 		if (remoteVersion) {
-			this.log(`    🎈 即将发布新版本 "${this.project.packageJson.version}" 以更新远程版本 "${remoteVersion}"`);
+			this.log(`    🎈 即将发布新版本 "${localVersion}" 以更新远程版本 "${remoteVersion}"`);
 		} else {
-			this.log(`    🎈 即将发布初始版本 "${this.project.packageJson.version}"`);
+			this.log(`    🎈 即将发布初始版本 "${localVersion}"`);
 		}
 		this._onSuccess.fire();
 	}
@@ -145,7 +148,16 @@ export async function main() {
 	const projects = await workspace.listPackages();
 
 	const concurrency = argv.flag(['--debug', '-d']) > 0 ? 1 : 10;
+	if (concurrency === 1) {
+		logger.warn`由于设置了--debug参数，运行模式改为单线程`;
+	}
 	const graph = new BuilderDependencyGraph<BuildPackageJob>(concurrency, logger);
+
+	function debugSummary() {
+		const info = graph.debugFormatSummary();
+		process.stderr.write(`${CSI}K${info}\r`);
+	}
+
 	const opts = options();
 
 	const shouldPublishProjects = projects.filter((project) => {
@@ -163,19 +175,20 @@ export async function main() {
 
 	let index = 0;
 	for (const project of shouldPublishProjects) {
-		graph.addNode(
-			project.name,
-			project.devDependencies,
-			new BuildPackageJob(
-				{
-					index,
-					length: shouldPublishProjects.length,
-					options: opts,
-				},
-				project,
-				workspace,
-			),
+		const job = new BuildPackageJob(
+			{
+				index,
+				length: shouldPublishProjects.length,
+				options: opts,
+			},
+			project,
+			workspace,
 		);
+
+		job.onRunning(debugSummary);
+		job.onSuccess(debugSummary);
+		job.onFailed(debugSummary);
+		graph.addNode(project.name, project.devDependencies, job);
 
 		index++;
 	}

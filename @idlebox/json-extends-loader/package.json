@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/json-extends-loader",
 	"type": "module",
-	"version": "1.0.20",
+	"version": "1.0.21",
 	"description": "load JSON files with \"extends\" field",
 	"keywords": [],
 	"exports": {
@@ -37,9 +37,6 @@
 		"@types/object-path": "^0.11.4"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

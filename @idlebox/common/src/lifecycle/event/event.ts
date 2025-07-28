@@ -3,9 +3,10 @@ import type { IDisposable } from '../dispose/lifecycle.js';
 
 export type EventHandler<T> = (data: T) => void;
 
-export type EventRegister<T> = ((callback: EventHandler<T>) => IDisposable) & {
+export interface EventRegister<T> {
+	(callback: EventHandler<T>): IDisposable;
 	once(callback: EventHandler<T>): IDisposable;
-};
+}
 
 type DeferFn = () => void;
 

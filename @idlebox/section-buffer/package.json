@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/section-buffer",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"exports": {
 		".": {
 			"default": "./lib/autoindex.generated.js"
