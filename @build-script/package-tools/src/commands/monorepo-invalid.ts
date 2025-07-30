@@ -1,3 +1,4 @@
+import { createWorkspace } from '@build-script/monorepo-lib';
 import { logger } from '@idlebox/logger';
 import { CommandDefine } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
@@ -10,10 +11,11 @@ export class Command extends CommandDefine {
 }
 
 export async function main() {
-	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
+	const workspace = await createWorkspace();
+	const packageManager = await createPackageManager(PackageManagerUsageKind.Read, workspace);
 	const cache = await packageManager.createCacheHandler();
 
-	const list = await packageManager.workspace.listPackages();
+	const list = await workspace.listPackages();
 
 	logger.log('删除%d个项目在 %s 的npm缓存', list.length, cache.path);
 	for (const data of list) {

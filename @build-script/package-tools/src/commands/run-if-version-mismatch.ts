@@ -1,3 +1,4 @@
+import { createWorkspace } from '@build-script/monorepo-lib';
 import type { IArgsReaderApi } from '@idlebox/args';
 import { logger } from '@idlebox/logger';
 import { checkChildProcessResult } from '@idlebox/node';
@@ -36,10 +37,11 @@ export async function main(argv: IArgsReaderApi) {
 	}
 	logger.debug('即将运行命令: %s', commands.join(' '));
 
-	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
+	const workspace = await createWorkspace();
+	const packageManager = await createPackageManager(PackageManagerUsageKind.Read, workspace);
 
-	const packagePath = await packageManager.workspace.getNearestPackage(process.cwd());
-	logger.log('工作目录: %s', packagePath);
+	const packageInfo = await workspace.getNearestPackage(process.cwd());
+	logger.log('工作目录: %s', packageInfo.name);
 
 	const packageJson = await packageManager.loadPackageJson();
 	logger.log('包名: %s', packageJson.name);
@@ -62,7 +64,7 @@ export async function main(argv: IArgsReaderApi) {
 
 	logger.log('本地版本 (%s) !== 远程版本 (%s)，开始执行命令!', packageJson.version, rversion);
 	const r = await execa(commands[0], commands.slice(1), {
-		cwd: packagePath,
+		cwd: packageInfo.absolute,
 		stdout: 'inherit',
 		stderr: 'inherit',
 	});

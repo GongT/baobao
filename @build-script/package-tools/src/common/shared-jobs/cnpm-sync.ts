@@ -1,20 +1,7 @@
-import type { IPackageInfo } from '@build-script/monorepo-lib';
 import { logger } from '@idlebox/logger';
 import { checkChildProcessResult, printLine } from '@idlebox/node';
 import { execa } from 'execa';
 import { CSI, isQuiet } from '../functions/cli.js';
-import { PackageManagerUsageKind } from '../package-manager/driver.abstract.js';
-import { createPackageManager } from '../package-manager/package-manager.js';
-
-export function cnpmSync(list: ReadonlyArray<IPackageInfo>, collectOutput = isQuiet, dryRun = false) {
-	const names = list
-		.filter((e) => {
-			return !!e.packageJson.name && !e.packageJson.private;
-		})
-		.map((e) => e.packageJson.name);
-
-	return cnpmSyncNames(names, collectOutput, dryRun);
-}
 
 export async function cnpmSyncNames(names: ReadonlyArray<string>, collectOutput = isQuiet, dryRun = false) {
 	console.log(`🔃 cnpm同步${names.length}个包`);
@@ -42,17 +29,6 @@ export async function cnpmSyncNames(names: ReadonlyArray<string>, collectOutput 
 			ALL_PROXY: undefined,
 		},
 	});
-
-	logger.debug('刷新npm缓存...');
-	try {
-		const pm = await createPackageManager(PackageManagerUsageKind.Read);
-		const cache = await pm.createCacheHandler();
-		for (const name of names) {
-			await cache.deleteMetadata(name);
-		}
-	} catch (e) {
-		logger.warn`failed flush npm cache: ${e}`;
-	}
 
 	try {
 		checkChildProcessResult(p);

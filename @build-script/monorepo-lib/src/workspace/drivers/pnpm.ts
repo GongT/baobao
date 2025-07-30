@@ -1,4 +1,4 @@
-import { relativePath } from '@idlebox/node';
+import { normalizePath, relativePath } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { execJson } from '../../common/exec.js';
 import { importPackageJson } from '../../common/import-package-json.js';
@@ -29,7 +29,7 @@ export async function pnpmListProjects(projectRoot: string) {
 			Object.assign(allDep, pkg.devDependencies);
 		}
 		ret.push({
-			absolute: path,
+			absolute: normalizePath(path),
 			relative: relativePath(projectRoot, path),
 			name: name,
 			dependencies: filter(allNames, pkg.dependencies),

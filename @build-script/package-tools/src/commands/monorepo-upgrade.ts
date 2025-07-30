@@ -1,4 +1,4 @@
-import type { IPackageInfo } from '@build-script/monorepo-lib';
+import { createWorkspace, type IPackageInfo } from '@build-script/monorepo-lib';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { resolve } from 'node:path';
@@ -17,8 +17,9 @@ export async function main() {
 	const dryRun = argv.flag('--dry') > 0;
 	const skipUpdate = argv.flag('--skip-update') > 0;
 
-	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
-	const projects = await packageManager.workspace.listPackages();
+	const workspace = await createWorkspace();
+	const packageManager = await createPackageManager(PackageManagerUsageKind.Read, workspace);
+	const projects = await workspace.listPackages();
 
 	logger.log('Collecting local project versions:');
 	const alldeps: Record<string, string> = {};

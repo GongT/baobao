@@ -1,3 +1,4 @@
+import { createSimpleProject } from '@build-script/monorepo-lib';
 import { CommandDefine } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
@@ -10,7 +11,8 @@ export class Command extends CommandDefine {
 }
 
 export async function main() {
-	const pm = await createPackageManager(PackageManagerUsageKind.Read);
+	const w = await createSimpleProject();
+	const pm = await createPackageManager(PackageManagerUsageKind.Read, w);
 	const cache = await pm.createCacheHandler();
 
 	const r = await cache.downloadTarball('react-dom', 'latest');

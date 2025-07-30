@@ -1,3 +1,4 @@
+import { createWorkspaceOrPackage } from '@build-script/monorepo-lib';
 import { logger } from '@idlebox/logger';
 import { printLine } from '@idlebox/node';
 import { argv, CommandDefine, isJsonOutput, pArgS } from '../common/functions/cli.js';
@@ -20,7 +21,8 @@ export class Command extends CommandDefine {
 export async function main() {
 	const autoInc = argv.flag('--bump');
 
-	const pm = await createPackageManager(PackageManagerUsageKind.Read);
+	const workspace = await createWorkspaceOrPackage();
+	const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
 
 	const pkgJson = await pm.loadPackageJson();
 	const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});

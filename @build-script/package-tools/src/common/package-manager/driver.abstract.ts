@@ -1,10 +1,10 @@
-import type { MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { logger } from '@idlebox/logger';
 import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
+import type { WorkspaceBase } from '@build-script/monorepo-lib';
 import { NpmCacheHandler } from '../cache/native.npm.js';
 import { registryInput } from '../functions/cli.js';
 import { TempWorkingFolder } from '../temp-work-folder.js';
@@ -29,7 +29,7 @@ export abstract class PackageManager {
 
 	constructor(
 		public readonly usageKind: PackageManagerUsageKind,
-		public readonly workspace: MonorepoWorkspace,
+		public readonly workspace: WorkspaceBase,
 		subdir = process.cwd(),
 	) {
 		this.configTemp = new TempWorkingFolder(this.workspace, 'package-manager', true);

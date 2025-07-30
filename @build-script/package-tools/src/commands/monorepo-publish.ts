@@ -15,6 +15,7 @@ import { argv, CommandDefine, CSI, pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
+import { clearNpmMetaCache } from '../common/shared-jobs/clear-cache.js';
 import { cnpmSyncNames } from '../common/shared-jobs/cnpm-sync.js';
 import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
 
@@ -243,6 +244,9 @@ export async function main() {
 	} finally {
 		if (await commandInPath('cnpm')) {
 			await cnpmSyncNames(published, true).catch();
+
+			const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
+			await clearNpmMetaCache(pm, published);
 		}
 	}
 }

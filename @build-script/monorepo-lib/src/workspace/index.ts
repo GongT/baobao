@@ -1,5 +1,5 @@
 import { createLogger, type IMyLogger } from '@idlebox/logger';
-import { execLazyError, findUpUntil } from '@idlebox/node';
+import { execLazyError, findUpUntil, normalizePath } from '@idlebox/node';
 import { dirname, resolve } from 'node:path';
 import { decoupleDependencies } from './common/deduplicate-dependency.js';
 import { PackageManagerKind, WorkspaceKind, type IPackageInfo, type IPackageInfoRW } from './common/types.js';
@@ -16,15 +16,38 @@ interface IAnalyzeResult {
 	readonly temp: string;
 }
 
-export class MonorepoWorkspace implements IAnalyzeResult {
-	public readonly root: string;
-	public readonly packageManagerKind: PackageManagerKind;
-	public readonly workspaceKind: WorkspaceKind;
+export abstract class WorkspaceBase {
+	readonly root: string;
+	readonly packageManagerKind: PackageManagerKind;
+	readonly isMonorepo: boolean = false;
 
 	/**
 	 * 临时文件夹，保证在project目录内部
 	 */
-	public readonly temp: string;
+	readonly temp: string;
+
+	constructor(result: Omit<IAnalyzeResult, 'workspaceKind'>) {
+		this.root = result.root;
+		this.packageManagerKind = result.packageManagerKind;
+		this.temp = result.temp;
+	}
+
+	public async requireGitClean() {
+		const res = await execLazyError('git', ['status', '--porcelain'], { cwd: this.root });
+		if (res.stdout.trim().length > 0) {
+			throw new Error(`请先提交或清理工作区的修改`);
+		}
+	}
+
+	public getNpmRCPath(publish = false) {
+		const name = publish ? '.npmrc-publish' : '.npmrc';
+		return resolve(this.root, name);
+	}
+}
+
+export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
+	readonly workspaceKind: WorkspaceKind;
+	override readonly isMonorepo: true = true;
 
 	constructor(
 		result: IAnalyzeResult,
@@ -37,21 +60,20 @@ export class MonorepoWorkspace implements IAnalyzeResult {
 			throw new Error('workspaceKind cannot be Unknown');
 		}
 
-		this.root = result.root;
-		this.packageManagerKind = result.packageManagerKind;
+		super(result);
 		this.workspaceKind = result.workspaceKind;
-		this.temp = result.temp;
 	}
 
-	public async requireGitClean() {
-		const res = await execLazyError('git', ['status', '--porcelain'], { cwd: this.root });
-		if (res.stdout.trim().length > 0) {
-			throw new Error(`请先提交或清理工作区的修改`);
+	public override getNpmRCPath(publish = false) {
+		const name = publish ? '.npmrc-publish' : '.npmrc';
+		if (this.workspaceKind === WorkspaceKind.RushStack) {
+			return resolve(this.root, 'common/config/rush', name);
+		} else {
+			return resolve(this.root, name);
 		}
 	}
 
 	/**
-	 *
 	 * @param from 搜索起始目录
 	 * @returns
 	 */
@@ -60,16 +82,14 @@ export class MonorepoWorkspace implements IAnalyzeResult {
 		if (!pkgJsonFile) {
 			throw new Error(`缺少package.json文件: ${from}`);
 		}
-		return dirname(pkgJsonFile);
-	}
-
-	public getNpmRCPath(publish = false) {
-		const name = publish ? '.npmrc-publish' : '.npmrc';
-		if (this.workspaceKind === WorkspaceKind.RushStack) {
-			return resolve(this.root, 'common/config/rush', name);
-		} else {
-			return resolve(this.root, name);
+		const root = normalizePath(dirname(pkgJsonFile));
+		await this.initialize();
+		for (const pkg of this.cachedList.values()) {
+			if (pkg.absolute === root) {
+				return pkg;
+			}
 		}
+		throw new Error(`无法在monorepo中找到此项目: ${root}`);
 	}
 
 	public async listPackages(): Promise<IPackageInfo[]> {
@@ -109,6 +129,10 @@ export class MonorepoWorkspace implements IAnalyzeResult {
 
 		this.decoupled = true;
 	}
+}
+
+export class SimplePackage extends WorkspaceBase {
+	override readonly isMonorepo: false = false;
 }
 
 export type IDecoupleMethod = (projects: readonly IPackageInfoRW[]) => Promise<void>;

@@ -74,6 +74,8 @@ export function resolveExportPath(exportField: string | IExportCondition, condit
 // export function resolveImport(exports:IFullExportsField, file:string,platform:string, condition: string){
 // }
 
+type PackageManagers = 'pnpm' | 'npm' | 'yarn' | string;
+
 export interface IPackageJson {
 	name: string;
 	version: string;
@@ -91,6 +93,7 @@ export interface IPackageJson {
 	files: string[];
 	bin: StringOr<Record<string, string>>;
 	man: MaybeArray<string>;
+	packageManager: `${PackageManagers}@${string}`;
 	directories: {
 		bin: string;
 		man: string;

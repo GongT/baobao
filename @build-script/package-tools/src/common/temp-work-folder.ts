@@ -1,4 +1,4 @@
-import type { MonorepoWorkspace } from '@build-script/monorepo-lib';
+import type { WorkspaceBase } from '@build-script/monorepo-lib';
 import { registerGlobalLifecycle } from '@idlebox/common';
 import { writeJsonFile } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
@@ -15,7 +15,7 @@ export class TempWorkingFolder {
 	private _exists = false;
 
 	constructor(
-		private readonly workspace: MonorepoWorkspace,
+		private readonly workspace: WorkspaceBase,
 		name: string,
 		__internal_isChild = false,
 	) {

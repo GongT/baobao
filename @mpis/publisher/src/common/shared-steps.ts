@@ -1,4 +1,6 @@
+import { AppExit, prettyPrintError } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
+import { ExecaError } from 'execa';
 import { readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createTempFolder, getDecompressed, projectPath, tempDir } from './constants.js';
@@ -36,7 +38,26 @@ export async function makeTempPackage() {
 	const sourceTgz = resolve(tempDir, 'pnpm-packed-simple.tgz');
 
 	logger.log`使用pnpm构建并打包……`;
-	await execPnpm(['--silent', 'pack', '--out', sourceTgz]);
+	try {
+		await execPnpm(['--silent', 'pack', '--out', sourceTgz]);
+	} catch (e: any) {
+		if (e instanceof ExecaError) {
+			logger.error`failed execute command\n  command: long<${e.escapedCommand}>\n  working directory: long<${e.cwd}>`;
+			console.error('');
+			console.error((e.all || e.stderr || '').replace(/^/gm, `\x1B[48;5;11m \x1B[0m `));
+			console.error('');
+
+			const message = e.originalMessage || e.shortMessage;
+			prettyPrintError('pnpm打包失败', {
+				name: e.name,
+				message: message,
+				stack: e.stack.replace(e.message, message),
+			});
+			throw new AppExit('failed pnpm pack', 1);
+		} else {
+			throw e;
+		}
+	}
 
 	logger.debug`已打包为 relative<${sourceTgz}>`;
 

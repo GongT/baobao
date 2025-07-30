@@ -57,6 +57,12 @@ export abstract class StartupPump<T, pT> extends GraphBase<T, pT & IPriData> {
 		return data.startupState === StartupState.Done && this._isNodeSuccess(name, data);
 	}
 
+	protected isNodeDone(name: string): boolean {
+		const data = this.getPrivateData(name);
+		if (data.isEmptyNode) return true;
+		return data.startupState === StartupState.Done;
+	}
+
 	private startPromise?: DeferredPromise<void>;
 	async startup(change_concurrency?: number): Promise<this> {
 		if (change_concurrency) {
@@ -102,7 +108,7 @@ export abstract class StartupPump<T, pT> extends GraphBase<T, pT & IPriData> {
 
 	get allInitialized(): boolean {
 		for (const name of this.overallOrder) {
-			if (!this.isNodeSuccess(name)) {
+			if (!this.isNodeDone(name)) {
 				return false;
 			}
 		}

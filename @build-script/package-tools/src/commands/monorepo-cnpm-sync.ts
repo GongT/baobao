@@ -1,7 +1,10 @@
 import { createWorkspace } from '@build-script/monorepo-lib';
 import { argv } from '@idlebox/args/default';
 import { CommandDefine, isQuiet, pDesc } from '../common/functions/cli.js';
-import { cnpmSync } from '../common/shared-jobs/cnpm-sync.js';
+import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
+import { createPackageManager } from '../common/package-manager/package-manager.js';
+import { clearNpmMetaCache } from '../common/shared-jobs/clear-cache.js';
+import { cnpmSyncNames } from '../common/shared-jobs/cnpm-sync.js';
 
 export class Command extends CommandDefine {
 	protected override _usage = '';
@@ -15,5 +18,14 @@ export async function main() {
 
 	const dry = argv.flag('--dry') > 0;
 
-	await cnpmSync(list, isQuiet, dry);
+	const names = list
+		.filter((e) => {
+			return !!e.packageJson.name && !e.packageJson.private;
+		})
+		.map((e) => e.packageJson.name);
+
+	await cnpmSyncNames(names, isQuiet, dry);
+
+	const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
+	await clearNpmMetaCache(pm, names);
 }

@@ -1,4 +1,5 @@
 import { argv } from '@idlebox/args/default';
+import { AppExit, prettyPrintError } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { debugMode, projectPath } from './common/constants.js';
 
@@ -27,12 +28,21 @@ logger.log(`running "${cmd.value}" in project "${projectPath}"`);
 process.env.npm_lifecycle_event = cmd.value;
 process.env.lifecycle_event = cmd.value;
 
-if (cmd.value === 'pack') {
-	import('./commands/pack.js');
-} else if (cmd.value === 'publish') {
-	import('./commands/publish.js');
-} else {
-	import('./commands/extract.js');
+try {
+	if (cmd.value === 'pack') {
+		await import('./commands/pack.js');
+	} else if (cmd.value === 'publish') {
+		await import('./commands/publish.js');
+	} else {
+		await import('./commands/extract.js');
+	}
+} catch (e: any) {
+	if (e instanceof AppExit) {
+		// nothing to do
+	} else {
+		prettyPrintError('执行命令失败', e);
+		process.exitCode = process.exitCode || 1;
+	}
 }
 
 function printUsage() {

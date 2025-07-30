@@ -1,6 +1,12 @@
 import esbuild from 'esbuild';
-import { readFileSync, writeFileSync } from 'node:fs';
-import module, { builtinModules } from 'node:module';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import module, {
+	builtinModules,
+	createRequire,
+	findPackageJSON,
+	LoadHookContext,
+	type LoadFnOutput,
+} from 'node:module';
 import { basename, dirname } from 'node:path';
 import { install } from 'source-map-support';
 import { Logger, type ILogger } from './output.js';
@@ -116,6 +122,7 @@ export async function createEsbuildContext(absInputFile: string, packageFile: st
 	});
 }
 
+import { fileURLToPath } from 'node:url';
 import { debugMode, verboseMode } from './shared.js';
 export function registerModuleLoader() {
 	const logger = Logger('loader');
@@ -165,7 +172,7 @@ export function registerModuleLoader() {
 		// 	return nextResolve(specifier, context);
 		// },
 		load(url, context, nextLoad) {
-			if (context.importAttributes.my_loader === 'compiled') {
+			if (context.importAttributes?.my_loader === 'compiled') {
 				const [path] = url.replace(schema, '').split('?');
 				logger.verbose(`load memory: ${url}`);
 				return {
@@ -174,8 +181,45 @@ export function registerModuleLoader() {
 					shortCircuit: true,
 				};
 			}
-			logger.verbose(`try load: ${url}`);
-			return nextLoad(url, context);
+			logger.verbose(`try load ${context.format}: ${url}`);
+			try {
+				return nextLoad(url, context);
+			} catch (e) {
+				const r = manualLoad(logger, url, context);
+				if (!r) throw e;
+				return r;
+			}
 		},
 	});
+}
+
+function manualLoad(logger: ILogger, url: string, context: LoadHookContext): undefined | LoadFnOutput {
+	const path = fileURLToPath(url);
+	if (!existsSync(path)) {
+		logger.error(`manual load missing file: ${url}`);
+		return undefined;
+	}
+
+	let t: string;
+	if (context.format) {
+		t = context.format;
+	} else {
+		const pkgJsonPath = findPackageJSON(url);
+
+		if (!pkgJsonPath) {
+			logger.error(`manual load no package.json: ${path}`);
+			return undefined;
+		}
+
+		const require = createRequire(path);
+		const pkgJson = require(pkgJsonPath);
+
+		t = pkgJson.type || 'commonjs';
+	}
+
+	return {
+		format: t,
+		shortCircuit: true,
+		source: readFileSync(path),
+	};
 }

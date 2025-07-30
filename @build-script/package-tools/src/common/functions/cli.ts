@@ -15,6 +15,9 @@ function die(msg: string) {
 export const argv = createArgsReader(process.argv.slice(2));
 
 type ArgDefine = {
+	/**
+	 * 为false时在后面加一个 <value>
+	 */
 	flag: boolean;
 	description: string;
 };
@@ -48,7 +51,7 @@ export abstract class CommandDefine {
 	protected readonly _arguments?: Record<string, ArgDefine>;
 	/**
 	 * 通用命令行参数
-	 */
+	*/
 	protected readonly _commonArgs?: readonly CommonArgs[];
 
 	public readonly isHidden: boolean = false;

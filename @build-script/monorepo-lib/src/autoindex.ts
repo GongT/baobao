@@ -40,8 +40,13 @@
 	export { yarnListProjects } from "./workspace/drivers/yarn.js";
 /* workspace/index.ts */
 	// Identifiers
+	export { WorkspaceBase } from "./workspace/index.js";
 	export { MonorepoWorkspace } from "./workspace/index.js";
+	export { SimplePackage } from "./workspace/index.js";
 	export type { IDecoupleMethod } from "./workspace/index.js";
 /* workspace/common/create.ts */
 	// Identifiers
+	export { NotMonorepo } from "./workspace/common/create.js";
+	export { createWorkspaceOrPackage } from "./workspace/common/create.js";
+	export { createSimpleProject } from "./workspace/common/create.js";
 	export { createWorkspace } from "./workspace/common/create.js";
