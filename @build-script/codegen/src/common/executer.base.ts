@@ -16,7 +16,7 @@ export abstract class BaseExecuter {
 	constructor(
 		protected readonly projectRoot: string,
 		protected readonly sourceFileAbs: string, // xxx.generator.ts
-		protected readonly logger: ILogger
+		protected readonly logger: ILogger,
 	) {}
 
 	get hasMemoResult() {

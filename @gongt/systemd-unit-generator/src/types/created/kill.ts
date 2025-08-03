@@ -20,12 +20,4 @@ export interface IKillSection {
 	WatchdogSignal?: MaybeArray<string>;
 }
 
-export const killFields: readonly string[] = [
-	'KillMode',
-	'KillSignal',
-	'RestartKillSignal',
-	'SendSIGHUP',
-	'SendSIGKILL',
-	'FinalKillSignal',
-	'WatchdogSignal',
-];
+export const killFields: readonly string[] = ['KillMode', 'KillSignal', 'RestartKillSignal', 'SendSIGHUP', 'SendSIGKILL', 'FinalKillSignal', 'WatchdogSignal'];

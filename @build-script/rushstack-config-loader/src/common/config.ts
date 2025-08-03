@@ -30,9 +30,7 @@ export class ProjectConfig {
 	) {
 		this.rigConfig = rigConfig || RigConfig.loadForProjectFolder({ projectFolderPath: projectFolder });
 		if (this.rigConfig.rigFound) {
-			this.rigPackageUrl = pathToFileURL(
-				resolve(this.rigConfig.getResolvedProfileFolder(), '../../package.json'),
-			).toString();
+			this.rigPackageUrl = pathToFileURL(resolve(this.rigConfig.getResolvedProfileFolder(), '../../package.json')).toString();
 		}
 		this.projectFolder = this.rigConfig.projectFolderPath;
 		this.currentPackageUrl = pathToFileURL(resolve(this.projectFolder, 'package.json')).toString();
@@ -130,10 +128,7 @@ export class ProjectConfig {
 		const files = this.getJsonConfigInfo(name);
 
 		if (!files.effective) {
-			throw new NotFoundError(
-				`config/${name}.json`,
-				`\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`,
-			);
+			throw new NotFoundError(`config/${name}.json`, `\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`);
 		}
 
 		let result: any;
@@ -202,9 +197,7 @@ export class ProjectConfig {
 		} else if (result) {
 			// nothing to do
 		} else {
-			throw new Error(
-				`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`,
-			);
+			throw new Error(`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`);
 		}
 		this._read_json_validate(result, files, schemaFile);
 		return result;

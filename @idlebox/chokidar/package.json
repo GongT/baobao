@@ -33,6 +33,9 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

@@ -36,7 +36,7 @@ class CacheFileWriter extends AsyncDisposable {
 
 	constructor(
 		fd: fs.FileHandle,
-		private cursor: number
+		private cursor: number,
 	) {
 		super();
 
@@ -48,7 +48,7 @@ class CacheFileWriter extends AsyncDisposable {
 				await new Promise((resolve) => {
 					this.stream.end(resolve);
 				});
-			})
+			}),
 		);
 	}
 

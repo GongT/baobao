@@ -29,6 +29,9 @@
 		"@rushstack/heft": "^0.74.0"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

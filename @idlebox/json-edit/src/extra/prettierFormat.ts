@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises';
+import { readFile } from 'node:fs/promises';
 import type { doc, Options as PrettierOptions } from 'prettier';
 import { format, type Options, resolveConfig } from 'prettier';
 import type { IFormatter } from '../api/types.js';

@@ -1,5 +1,5 @@
-import { inspect } from 'util';
-import type { MessagePort } from 'worker_threads';
+import { inspect } from 'node:util';
+import type { MessagePort } from 'node:worker_threads';
 import { debugs } from './cli.js';
 import type { IDebugMessage, IWarningMessage } from './message.types.js';
 

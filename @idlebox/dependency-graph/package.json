@@ -12,6 +12,7 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
+		"test": "SILENT=1 mocha --bail --parallel=false -r 'source-map-support/register.js' 'lib/tests/**.test.js'",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
@@ -22,6 +23,7 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
+		"@types/execa": "npm:execa@^9.6.0",
 		"dependency-graph": "^1.0.0"
 	},
 	"devDependencies": {
@@ -30,11 +32,17 @@
 		"@idlebox/logger": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@types/chai-as-promised": "^8.0.2",
 		"@types/node": "^24.0.14",
 		"chai": "^5.2.1",
+		"chai-as-promised": "^8.0.1",
 		"mocha": "^11.7.1"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

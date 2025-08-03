@@ -79,7 +79,12 @@ export namespace humanDate {
 	 * format can set by `setLocaleFormatter`
 	 * day is the largest unit
 	 */
-	export function deltaTiny(ms: number) {
+	export function deltaTiny(from: number, to: number): string;
+	export function deltaTiny(ms: number): string;
+	export function deltaTiny(ms: number, to?: number) {
+		if (arguments.length === 2) {
+			ms = to! - ms;
+		}
 		if (ms > oneDay) {
 			return formatters.d(Math.floor(ms / oneDay));
 		} else if (ms > oneHour) {
@@ -103,7 +108,12 @@ export namespace humanDate {
 	 * format can set by `setLocaleFormatter`
 	 * day is the largest unit
 	 */
-	export function delta(ms: number) {
+	export function delta(from: number, to: number): string;
+	export function delta(ms: number): string;
+	export function delta(ms: number, to?: number) {
+		if (arguments.length === 2) {
+			ms = to! - ms;
+		}
 		if (ms <= 0) {
 			return '0s';
 		}

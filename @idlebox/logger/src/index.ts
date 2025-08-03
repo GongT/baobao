@@ -21,3 +21,5 @@ export {
 	type IMyLogger,
 } from './common/types.js';
 export { createLogFile } from './printers/file.js';
+
+export const CSI = '\x1b[';

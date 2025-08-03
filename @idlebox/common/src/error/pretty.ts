@@ -8,7 +8,7 @@ const process = globalObject.process;
 const window = globalObject.window;
 
 const padding = /^(?<padding> {4})at /.source;
-const func_call = /(?<func_name>(?:(?:async|new) )?[^\/\\\s]+) (?:\[as (?<func_alias>[^\]]+)] )?/.source;
+const func_call = /(?<func_name>(?:(?:async|new) )?[^/\\\s]+) (?:\[as (?<func_alias>[^\]]+)] )?/.source;
 //                              xxxx.yyyyy [as eval]
 const line_column = /(?::(?<line>\d+))?(?::(?<column>\d+))?/.source;
 const locationEsm = /(?<schema>node:|file:\/\/|https?:\/\/)?(?<path2>[^:]+)/.source;
@@ -36,11 +36,7 @@ type TypeMatchInvalid = TypeMatchFileOnly | 'content';
 
 let root = process?.cwd?.() ?? window?.location?.domain ?? '/';
 export function setErrorLogRoot(_root: string) {
-	if (
-		typeof process !== 'undefined' &&
-		process.stderr?.write?.call &&
-		(process.env?.VSCODE_SHELL_INTEGRATION || process.env?.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT)
-	) {
+	if (typeof process !== 'undefined' && process.stderr?.write?.call && (process.env?.VSCODE_SHELL_INTEGRATION || process.env?.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT)) {
 		process.stderr.write(`\x1B]633;P;Cwd=${vscEscapeValue(_root)}\x07`);
 	}
 	root = _root;
@@ -186,14 +182,17 @@ export function prettyPrintError(type: string, e: Error) {
 	}
 
 	const columns = process?.stderr?.columns || 80;
-	console.error(`\n${'-'.repeat(columns)}\n[${type}] ${prettyFormatError(e)}\n${'-'.repeat(columns)}`);
+	const line = '-'.repeat(columns);
+	console.error(`\n${line}\n[${type}] ${prettyFormatError(e)}`);
+	if (e.cause && typeof e.cause === 'object' && 'stack' in e.cause) {
+		console.error(`[Caused by] ${prettyFormatError(e.cause as Error)}`);
+	}
+	console.error(line);
 
 	if (!notify_printed && e.stack && e.message !== e.stack) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
-		console.error(
-			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m',
-		);
+		console.error('\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m');
 	}
 }
 
@@ -355,12 +354,7 @@ function formatFileLine(schema: string | undefined, file: string, row?: number, 
 		} catch (e: any) {
 			if (!alert) {
 				alert = true;
-				console.error(
-					'pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m',
-					root,
-					file,
-					e.stack,
-				);
+				console.error('pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m', root, file, e.stack);
 			}
 			rel = file;
 		}

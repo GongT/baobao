@@ -59,29 +59,9 @@ export interface IUnitUnitSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#CollectMode= */
 	CollectMode?: 'inactive' | 'inactive-or-failed' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureAction= */
-	FailureAction?:
-		| 'none'
-		| 'reboot'
-		| 'reboot-force'
-		| 'reboot-immediate'
-		| 'poweroff'
-		| 'poweroff-force'
-		| 'poweroff-immediate'
-		| 'exit'
-		| 'exit-force'
-		| string;
+	FailureAction?: 'none' | 'reboot' | 'reboot-force' | 'reboot-immediate' | 'poweroff' | 'poweroff-force' | 'poweroff-immediate' | 'exit' | 'exit-force' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureAction= */
-	SuccessAction?:
-		| 'none'
-		| 'reboot'
-		| 'reboot-force'
-		| 'reboot-immediate'
-		| 'poweroff'
-		| 'poweroff-force'
-		| 'poweroff-immediate'
-		| 'exit'
-		| 'exit-force'
-		| string;
+	SuccessAction?: 'none' | 'reboot' | 'reboot-force' | 'reboot-immediate' | 'poweroff' | 'poweroff-force' | 'poweroff-immediate' | 'exit' | 'exit-force' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureActionExitStatus= */
 	FailureActionExitStatus?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.unit.html#FailureActionExitStatus= */

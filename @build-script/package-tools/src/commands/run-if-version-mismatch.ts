@@ -30,9 +30,7 @@ export async function main(argv: IArgsReaderApi) {
 
 	const commands = argv.unused();
 	if (commands.length === 0 || !process.argv.includes('--')) {
-		logger.error(
-			'参数中必须包含"--"，并且后面跟随要运行的命令。\n  示例: run-if-version-mismatch --quiet -- pnpm publish',
-		);
+		logger.error('参数中必须包含"--"，并且后面跟随要运行的命令。\n  示例: run-if-version-mismatch --quiet -- pnpm publish');
 		return 22;
 	}
 	logger.debug('即将运行命令: %s', commands.join(' '));

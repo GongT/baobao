@@ -30,6 +30,9 @@
 		"@build-script/codegen": "workspace:"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

@@ -4,7 +4,7 @@ if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
 }
 
 Error.stackTraceLimit = Number.POSITIVE_INFINITY;
-process.on('uncaughtException', (error, origin) => {
+process.on('uncaughtException', (error, _origin) => {
 	console.error('[uncaughtException] %s', error.stack || error.message || error);
 });
 

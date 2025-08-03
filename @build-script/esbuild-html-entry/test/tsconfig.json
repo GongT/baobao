@@ -3,6 +3,6 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"lib": ["ESNext", "DOM"],
 		"outDir": "../lib/test/tsc-out",
-		"noEmit": true,
-	},
+		"noEmit": true
+	}
 }

@@ -22,7 +22,7 @@ for (const { path } of list) {
 
 	const args: string[] = [];
 	if (debug > 0) {
-		args.push('-' + 'd'.repeat(debug));
+		args.push(`-${'d'.repeat(debug)}`);
 	}
 
 	const promise = execa(checkerScript, args, {

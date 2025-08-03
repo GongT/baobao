@@ -1,3 +1,4 @@
+import { createStackTraceHolder } from '../../autoindex.js';
 import { AppExit } from '../../error-wellknown/exit.error.js';
 import type { IDisposable } from '../dispose/lifecycle.js';
 
@@ -57,7 +58,7 @@ export class Emitter<T> implements IDisposable {
 				if (e instanceof AppExit) {
 					continue;
 				}
-				console.error('Error ignored: %s', e instanceof Error ? e.message : e);
+				console.error('Emitter.fireNoError: error ignored: %s', e instanceof Error ? e.stack : e);
 			}
 		}
 		this.doDefer();
@@ -134,14 +135,25 @@ export class Emitter<T> implements IDisposable {
 	[Symbol.dispose]() {
 		this.dispose();
 	}
+
+	private _disposed = false;
+	public get hasDisposed() {
+		return this._disposed;
+	}
+
 	dispose() {
+		if (this._disposed) return;
+		this._disposed = true;
 		this.requireNotExecuting();
 		this._callbacks.length = 0;
+
+		const trace = createStackTraceHolder('disposed');
+
 		this.fireNoError =
 			this.fire =
 			this.handle =
 				() => {
-					throw new Error('Event is disposed');
+					throw new Error('Event is disposed', { cause: trace });
 				};
 	}
 

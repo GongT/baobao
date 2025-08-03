@@ -23,6 +23,7 @@ hoist: false
 publicHoistPattern:
   - "@types/*"
   - "@biomejs/biome"
+  - "source-map-support"
 hoistPattern:
   - ""
 

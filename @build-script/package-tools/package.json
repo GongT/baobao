@@ -56,6 +56,9 @@
 		"@types/tinycolor2": "^1.4.6"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

@@ -12,14 +12,7 @@ import { getExportsField, packageJson, readPackageJson, writeBack } from './pack
 
 let errorRegistry: ErrorCollector;
 const assetPkgName = '@build-script/single-dog-asset';
-const very_basic_packages = [
-	'@build-script/single-dog-asset',
-	'@idlebox/itypes',
-	'@internal/local-rig',
-	'@internal/scripts',
-	'@gongt/pnpm-instead-npm',
-	'@idlebox/ensure-symlink',
-];
+const very_basic_packages = ['@build-script/single-dog-asset', '@idlebox/itypes', '@internal/local-rig', '@internal/scripts', '@gongt/pnpm-instead-npm', '@idlebox/ensure-symlink'];
 
 export async function executeProjectCheck() {
 	await readPackageJson();
@@ -60,7 +53,7 @@ function makeProj(logger: IMyLogger) {
 }
 
 async function executeInner(logger: IMyLogger) {
-	let notice: string[] = [];
+	const notice: string[] = [];
 	const pkgPath = resolve(currentProject, 'package.json');
 	logger.debug`check project long<${pkgPath}>`;
 
@@ -255,10 +248,6 @@ async function readJsonOut(file: string) {
 	}
 }
 
-function check_export_field(
-	check: ObjectChecker,
-	exportType: 'require' | 'default' | 'types' | 'source' | 'import',
-	want: string | undefined,
-) {
+function check_export_field(check: ObjectChecker, exportType: 'require' | 'default' | 'types' | 'source' | 'import', want: string | undefined) {
 	check.equals(['exports', '.', exportType], want);
 }

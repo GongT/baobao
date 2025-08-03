@@ -89,10 +89,10 @@ export async function createWorkspace(cwd = process.cwd()): Promise<MonorepoWork
 			packageManagerKind = await getLernaPackageManager(projectRoot);
 			break;
 		case 'package.json':
-			if (await exists(projectRoot + '/yarn.lock')) {
+			if (await exists(`${projectRoot}/yarn.lock`)) {
 				workspaceKind = WorkspaceKind.YarnWorkspace;
 				packageManagerKind = PackageManagerKind.YARN;
-			} else if (await exists(projectRoot + '/package-lock.json')) {
+			} else if (await exists(`${projectRoot}/package-lock.json`)) {
 				workspaceKind = WorkspaceKind.NpmWorkspace;
 				packageManagerKind = PackageManagerKind.NPM;
 			} else {

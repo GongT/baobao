@@ -155,18 +155,7 @@ export interface INspawnFilesSection {
 	PrivateUsersOwnership?: MaybeArray<string>;
 }
 
-export const nspawnFilesFields: readonly string[] = [
-	'ReadOnly',
-	'Volatile',
-	'Bind',
-	'BindReadOnly',
-	'BindUser',
-	'TemporaryFileSystem',
-	'Inaccessible',
-	'Overlay',
-	'OverlayReadOnly',
-	'PrivateUsersOwnership',
-];
+export const nspawnFilesFields: readonly string[] = ['ReadOnly', 'Volatile', 'Bind', 'BindReadOnly', 'BindUser', 'TemporaryFileSystem', 'Inaccessible', 'Overlay', 'OverlayReadOnly', 'PrivateUsersOwnership'];
 
 export interface INspawnNetworkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html#Private= */
@@ -189,16 +178,6 @@ export interface INspawnNetworkSection {
 	Port?: MaybeArray<string>;
 }
 
-export const nspawnNetworkFields: readonly string[] = [
-	'Private',
-	'VirtualEthernet',
-	'VirtualEthernetExtra',
-	'Interface',
-	'MACVLAN',
-	'IPVLAN',
-	'Bridge',
-	'Zone',
-	'Port',
-];
+export const nspawnNetworkFields: readonly string[] = ['Private', 'VirtualEthernet', 'VirtualEthernetExtra', 'Interface', 'MACVLAN', 'IPVLAN', 'Bridge', 'Zone', 'Port'];
 
 export type __INspawnAll = INspawnExecSection & INspawnFilesSection & INspawnNetworkSection;

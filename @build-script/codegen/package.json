@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/codegen",
 	"type": "module",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"bin": {
 		"codegen": "./loader/bin.devel.js"
 	},
@@ -51,6 +51,9 @@
 		"typescript": "^5.8.3"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

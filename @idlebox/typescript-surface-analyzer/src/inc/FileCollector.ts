@@ -83,8 +83,7 @@ export class FileCollector {
 					logger.verbose`  convert to ${reference}`;
 				}
 			} catch (e: any) {
-				this.logger
-					.error`===================\n${e}\nLINE: long<${node.getText()}>\n long<${showFile(node)}>\n===================`;
+				this.logger.error`===================\n${e}\nLINE: long<${node.getText()}>\n long<${showFile(node)}>\n===================`;
 				return;
 			}
 
@@ -114,9 +113,7 @@ export class FileCollector {
 		if (this.ts.isExportAssignment(node)) {
 			// export default VALUE
 			logger.debug(' * found ExportAssignment');
-			const id: TypeScriptApi.Identifier | undefined = this.ts.isIdentifier(node.expression)
-				? node.expression
-				: undefined;
+			const id: TypeScriptApi.Identifier | undefined = this.ts.isIdentifier(node.expression) ? node.expression : undefined;
 
 			collect.setDefault(id, node, ExportKind.Variable);
 
@@ -132,10 +129,7 @@ export class FileCollector {
 			logger.debug(' * found ModuleDeclaration');
 			// export namespace|module
 			if (this.ts.isStringLiteral(node.name)) {
-				this.logger.error(
-					'only .d.ts can use <export namespace|module "name">, and analyzer do not support this.',
-					showFile(node),
-				);
+				this.logger.error('only .d.ts can use <export namespace|module "name">, and analyzer do not support this.', showFile(node));
 			} else {
 				collect.add(node.name, node, ExportKind.Variable);
 			}

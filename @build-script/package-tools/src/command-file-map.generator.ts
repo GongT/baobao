@@ -5,8 +5,8 @@ import { resolve } from 'node:path';
 export async function generate(ctx: GenerateContext) {
 	const map = {};
 	const root = resolve(__dirname, 'commands');
-	ctx.watchFiles(root + '/**/*.ts');
-	ctx.watchFiles(root + '/');
+	ctx.watchFiles(`${root}/**/*.ts`);
+	ctx.watchFiles(`${root}/`);
 	for (const name of readdirSync(root)) {
 		if (!name.endsWith('.ts')) {
 			continue;

@@ -14,7 +14,7 @@ export { NamedType } from './basic.js';
 export { _hidden } from './basic.js';
 /* ignore-this-file.ignore.ts */
 // Identifiers
-export { ThisIsIgnore } from './ignore-this-file.ignore';
+export { ThisIsIgnore } from './ignore-this-file.ignore.js';
 /* defaults/class.ts */
 // Identifiers
 // Default

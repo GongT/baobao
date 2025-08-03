@@ -200,16 +200,16 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	}
 	private async __flushCacheReal() {
 		this.lastFlush = Date.now();
-		let numberWrites = 0;
-		let bytesWrite = 0;
+		let _numberWrites = 0;
+		let _bytesWrite = 0;
 		while (true) {
 			const chunk = this.mem.shift();
 			if (!chunk) break;
 
 			// console.log('\tchunk at %s, %s bytes', hexNumber(chunk.start), chunk.totalSize);
 			await this.file.writePart(chunk);
-			numberWrites++;
-			bytesWrite += chunk.totalSize;
+			_numberWrites++;
+			_bytesWrite += chunk.totalSize;
 		}
 		// console.log('flush cache finish (%s writes, %s bytes).', numberWrites, bytesWrite);
 	}

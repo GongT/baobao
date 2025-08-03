@@ -61,12 +61,7 @@ export class GitWorkingTree {
 		}
 		const files = lines.slice(titleLine + 1);
 
-		logger.debug(
-			'    文件更改: %d 个 (%s%s)',
-			files.length,
-			files.slice(0, 5).join(', '),
-			files.length > 5 ? ' ...' : '',
-		);
+		logger.debug('    文件更改: %d 个 (%s%s)', files.length, files.slice(0, 5).join(', '), files.length > 5 ? ' ...' : '');
 
 		return files.map((item) => {
 			return item.replace('Would remove ', '');
@@ -88,9 +83,9 @@ export class GitWorkingTree {
 			}
 
 			if (line.startsWith('+')) {
-				last_change.new += line.slice(1) + '\n';
+				last_change.new += `${line.slice(1)}\n`;
 			} else if (line.startsWith('-')) {
-				last_change.old += line.slice(1) + '\n';
+				last_change.old += `${line.slice(1)}\n`;
 			}
 		}
 		diff += formatChangeSideBySide(last_change.old, last_change.new);
@@ -114,5 +109,5 @@ function formatChangeSideBySide(oldText: string, newText: string): string {
 		const formattedLine = `${oldLine.padEnd(40, ' ')} | ${newLine}`;
 		formattedLines.push(formattedLine);
 	}
-	return formattedLines.join('\n') + '\n';
+	return `${formattedLines.join('\n')}\n`;
 }

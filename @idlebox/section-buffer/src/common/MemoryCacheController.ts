@@ -66,11 +66,7 @@ export class MemoryCacheController {
 			if (starting < current.end) continue;
 
 			const next = this.list[index + 1];
-			if (next && ending > next.start)
-				throw new Error(
-					`invalid buffer at ${hexNumber(starting)} with size ${length}:` +
-						` overlap with next at ${hexNumber(next.start)}`
-				);
+			if (next && ending > next.start) throw new Error(`invalid buffer at ${hexNumber(starting)} with size ${length}:` + ` overlap with next at ${hexNumber(next.start)}`);
 
 			this.list.splice(index + 1, 0, newItem);
 			this.merge(index + 1);
@@ -118,23 +114,17 @@ export class MemoryCacheController {
 				}
 
 				if (totalSize !== item.length) {
-					throw new Error(
-						`invalid buffer at 0x${item.start.toString(16)}: length mismatch (${totalSize} != ${item.length})`
-					);
+					throw new Error(`invalid buffer at 0x${item.start.toString(16)}: length mismatch (${totalSize} != ${item.length})`);
 				}
 			}
 
 			const thisEnding = item.start + item.length;
 			if (next) {
 				if (item.start >= next.start) {
-					throw new Error(
-						`invalid buffer at 0x${item.start.toString(16)}: wrong order, next is 0x${next.start.toString(16)}`
-					);
+					throw new Error(`invalid buffer at 0x${item.start.toString(16)}: wrong order, next is 0x${next.start.toString(16)}`);
 				}
 				if (thisEnding > next.start) {
-					throw new Error(
-						`invalid buffer at 0x${item.start.toString(16)}: overlap with next 0x${next.start.toString(16)}`
-					);
+					throw new Error(`invalid buffer at 0x${item.start.toString(16)}: overlap with next 0x${next.start.toString(16)}`);
 				}
 			} else if (thisEnding > this.maxSize) {
 				throw new Error(`invalid buffer at 0x${item.start.toString(16)}: ending after end of file`);

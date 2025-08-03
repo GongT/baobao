@@ -113,11 +113,7 @@ function execLinux(cmds: string[]): never {
 		process.execve!(unshare, args);
 		console.error('[Linux] execve failed.');
 	} catch (err: any) {
-		if (
-			err.code === 'MODULE_NOT_FOUND' ||
-			err.code === 'ERR_MODULE_NOT_FOUND' ||
-			err.code === 'UNDECLARED_DEPENDENCY'
-		) {
+		if (err.code === 'MODULE_NOT_FOUND' || err.code === 'ERR_MODULE_NOT_FOUND' || err.code === 'UNDECLARED_DEPENDENCY') {
 			spawnSimulate(unshare, args);
 		} else {
 			console.error('[Linux] <%s> execve failed:', err.code, err);

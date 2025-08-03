@@ -37,7 +37,7 @@ export class DeferredPromise<T, PT = any> {
 	/**
 	 * notify progress to callbacks
 	 * @param progress argument
-	 * @returns 
+	 * @returns
 	 */
 	notify(progress: PT): this {
 		if (this.#success !== undefined) throw new Error('no more event after settled');
@@ -50,7 +50,7 @@ export class DeferredPromise<T, PT = any> {
 	/**
 	 * register a progress callback
 	 * @param fn progress callback function, will be called when notify is called
-	 * @returns 
+	 * @returns
 	 */
 	progress(fn: ProgressCallback<PT>): IDisposable {
 		if (this.#success !== undefined) throw new Error('no more listener after settled');

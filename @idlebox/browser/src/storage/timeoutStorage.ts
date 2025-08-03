@@ -4,7 +4,7 @@ export class TimeoutStorage<T> {
 
 	constructor(
 		key: string,
-		private readonly storage: Storage = localStorage
+		private readonly storage: Storage = localStorage,
 	) {
 		this.valueKey = `${key}::value`;
 		this.expireKey = `${key}::expire`;
@@ -54,7 +54,7 @@ export class TimeoutStorage<T> {
 
 		try {
 			return JSON.parse(json);
-		} catch (e) {
+		} catch (_e) {
 			// console.warn('[%s] JSON %s', this.key, e.message);
 			this.forget();
 			return defaultVal;

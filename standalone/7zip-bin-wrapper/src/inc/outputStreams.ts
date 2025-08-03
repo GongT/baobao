@@ -81,11 +81,7 @@ export function handleOutput(stream: NodeJS.ReadableStream) {
 }
 
 export function handleProgress(stream: NodeJS.ReadableStream, message: boolean) {
-	return transformOutputEncode(stream)
-		.pipe(new BackspaceNewlineStream())
-		.pipe(split2())
-		.pipe(new FilterStream())
-		.pipe(new ProgressStream(message));
+	return transformOutputEncode(stream).pipe(new BackspaceNewlineStream()).pipe(split2()).pipe(new FilterStream()).pipe(new ProgressStream(message));
 }
 
 export class LoggerStream extends Transform {

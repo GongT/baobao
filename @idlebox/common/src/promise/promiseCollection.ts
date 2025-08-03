@@ -18,7 +18,7 @@ export class PromiseCollection {
 	}
 
 	has(id: string) {
-		return this.promiseList.hasOwnProperty(id);
+		return Object.hasOwn(this.promiseList, id);
 	}
 
 	done(id: string, data: any) {

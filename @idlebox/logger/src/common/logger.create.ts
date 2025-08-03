@@ -11,11 +11,7 @@ import { EnableLogLevel, type IMyLogger } from './types.js';
  * @param pipeTo 默认是 process.stderr
  * @returns
  */
-export function createLogger(
-	tag: string,
-	color_enabled: boolean | undefined = undefined,
-	pipeTo: undefined | NodeJS.WritableStream = process.stderr,
-): IMyLogger {
+export function createLogger(tag: string, color_enabled: boolean | undefined = undefined, pipeTo: undefined | NodeJS.WritableStream = process.stderr): IMyLogger {
 	const stream = new PassThrough();
 	if (pipeTo) {
 		Object.assign(stream, { isTTY: (pipeTo as any).isTTY });

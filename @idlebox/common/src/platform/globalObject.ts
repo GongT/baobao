@@ -6,8 +6,7 @@ declare const window: any;
  * if not, window in browser, global in nodejs
  * @public
  */
-export const globalObject: any =
-	typeof globalThis === 'undefined' ? (typeof window === 'undefined' ? global : window) : globalThis;
+export const globalObject: any = typeof globalThis === 'undefined' ? (typeof window === 'undefined' ? global : window) : globalThis;
 
 export function ensureGlobalObject<T>(symbol: string, constructor: () => T): T {
 	const sm = Symbol.for(symbol);

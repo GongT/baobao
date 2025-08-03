@@ -14,7 +14,7 @@
 	"scripts": {
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
-		"watch": "mpis-run watch",
+		"watch": "false && mpis-run watch",
 		"clean": "mpis-run clean",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
@@ -27,6 +27,9 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

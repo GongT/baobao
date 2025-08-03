@@ -71,7 +71,7 @@ function readPackage(packageJson, context) {
 	return packageJson;
 }
 
-function lockDep(deps, context) {
+function lockDep(deps, _context) {
 	for (const [name, version] of Object.entries(deps)) {
 		if (name.startsWith('@types/')) {
 			if (knownTypesVersion[name]) {

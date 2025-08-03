@@ -28,7 +28,8 @@
 		"@idlebox/node": "workspace:^",
 		"@mpis/shared": "workspace:^",
 		"dependency-graph": "^1.0.0",
-		"execa": "^9.6.0"
+		"execa": "^9.6.0",
+		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -38,6 +39,9 @@
 		"why-is-node-running": "^3.2.2"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

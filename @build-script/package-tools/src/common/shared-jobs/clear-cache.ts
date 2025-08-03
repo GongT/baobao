@@ -1,5 +1,5 @@
 import { logger } from '@idlebox/logger';
-import { type PackageManager } from '../package-manager/driver.abstract.js';
+import type { PackageManager } from '../package-manager/driver.abstract.js';
 
 export async function clearNpmMetaCache(pm: PackageManager, names: readonly string[]) {
 	logger.debug('刷新npm缓存...');

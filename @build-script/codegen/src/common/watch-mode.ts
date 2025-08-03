@@ -13,7 +13,7 @@ export function startWatchMode(roots: readonly string[]) {
 
 	const folders = globSync(
 		roots.map((p) => `${p}/**/`),
-		{ ignore: ['node_modules/**'] }
+		{ ignore: ['node_modules/**'] },
 	);
 	watcher.add(folders);
 
@@ -40,7 +40,7 @@ function syncFilesToWatcher(watcher: IWatchHelper) {
 	});
 }
 
-let notifyTimer: NodeJS.Timeout | undefined = undefined;
+let notifyTimer: NodeJS.Timeout | undefined;
 function notifyWatching(watcher: IWatchHelper) {
 	if (!debugMode) {
 		const watching = watcher.watches;

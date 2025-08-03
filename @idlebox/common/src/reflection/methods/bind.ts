@@ -1,11 +1,7 @@
 /**
  * Auto bind `this` to class method
  */
-export const bindThis: MethodDecorator = <T>(
-	_target: Object,
-	propertyKey: string | symbol,
-	descriptor: TypedPropertyDescriptor<T>
-) => {
+export const bindThis: MethodDecorator = <T>(_target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => {
 	const oldFunc = descriptor.value;
 	if (typeof oldFunc === 'function') {
 		return {

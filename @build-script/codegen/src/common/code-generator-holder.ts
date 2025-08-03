@@ -196,9 +196,7 @@ class GeneratorHolder {
 			// no op, just waiting for all tasks to finish
 		}
 
-		this.logger.log(
-			`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`,
-		);
+		this.logger.log(`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`);
 
 		if (result.errors.length) {
 			this.logger.boom(`generate fail: ${result.errors.length} errors`);

@@ -28,7 +28,7 @@ export class WatchHelper implements IWatchHelper {
 
 	constructor(
 		private readonly watcher: FSWatcher,
-		private readonly onChange: IReloadFunction
+		private readonly onChange: IReloadFunction,
 	) {
 		this.handler = this.handler.bind(this);
 

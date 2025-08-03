@@ -29,4 +29,9 @@ export interface IMessageObject {
 	 * 一行成功、失败消息
 	 */
 	message: string;
+
+	/**
+	 * error.name || Error.constructor.name
+	 */
+	error?: string;
 }

@@ -20,12 +20,4 @@ export interface IDnssdServiceSection {
 	TxtData?: MaybeArray<string>;
 }
 
-export const dnssdServiceFields: readonly string[] = [
-	'Name',
-	'Type',
-	'Port',
-	'Priority',
-	'Weight',
-	'TxtText',
-	'TxtData',
-];
+export const dnssdServiceFields: readonly string[] = ['Name', 'Type', 'Port', 'Priority', 'Weight', 'TxtText', 'TxtData'];

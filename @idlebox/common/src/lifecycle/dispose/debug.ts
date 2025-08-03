@@ -11,16 +11,7 @@ export function dispose_name(dis: IDisposable | IAsyncDisposable, defaultName = 
 function name_of_func(obj: any) {
 	const name: string = obj.name;
 
-	if (
-		name === 'Object' ||
-		name === 'Function' ||
-		name === 'AsyncFunction' ||
-		name === 'GeneratorFunction' ||
-		name === 'AsyncGeneratorFunction' ||
-		name === 'Disposable' ||
-		name === 'AsyncDisposable' ||
-		name.toLowerCase() === 'dispose'
-	) {
+	if (name === 'Object' || name === 'Function' || name === 'AsyncFunction' || name === 'GeneratorFunction' || name === 'AsyncGeneratorFunction' || name === 'Disposable' || name === 'AsyncDisposable' || name.toLowerCase() === 'dispose') {
 		return '';
 	}
 

@@ -3,16 +3,16 @@
 /* eslint-disable */
 
 /* common/args.ts */
-	// Identifiers
-	export { printUsage } from "./common/args.js";
+// Identifiers
+export { printUsage } from './common/args.js';
 /* common/paths.ts */
-	// Identifiers
-	export { projectRoot } from "./common/paths.js";
-	export { selfRoot } from "./common/paths.js";
+// Identifiers
+export { projectRoot } from './common/paths.js';
+export { selfRoot } from './common/paths.js';
 /* common/config-file.ts */
-	// Identifiers
-	export type { ICommand } from "./common/config-file.js";
-	export type { IConfigFile } from "./common/config-file.js";
-	export { loadConfigFile } from "./common/config-file.js";
+// Identifiers
+export type { ICommand } from './common/config-file.js';
+export type { IConfigFile } from './common/config-file.js';
+export { loadConfigFile } from './common/config-file.js';
 /* bin.ts */
-	// Identifiers
+// Identifiers

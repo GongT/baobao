@@ -1,18 +1,4 @@
-import type {
-	IAutomountSection,
-	IKillSection,
-	IMountSection,
-	IPathSection,
-	IResourceControlSection,
-	IScopeSection,
-	IServiceSection,
-	ISocketSection,
-	ISwapSection,
-	ITimerSection,
-	IUnitInstallSection,
-	IUnitUnitSection,
-	__IExecAll,
-} from './all.js';
+import type { IAutomountSection, IKillSection, IMountSection, IPathSection, IResourceControlSection, IScopeSection, IServiceSection, ISocketSection, ISwapSection, ITimerSection, IUnitInstallSection, IUnitUnitSection, __IExecAll } from './all.js';
 
 export type * from './all.js';
 

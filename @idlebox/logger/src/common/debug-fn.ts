@@ -10,14 +10,7 @@ interface IDebugOptions {
 	stream?: NodeJS.WritableStream;
 	enabled?: boolean;
 }
-export function createDebug({
-	tag,
-	level,
-	color_enabled,
-	color_entire_line = false,
-	stream = process.stdout,
-	enabled = true,
-}: IDebugOptions): IMyDebugWithControl {
+export function createDebug({ tag, level, color_enabled, color_entire_line = false, stream = process.stdout, enabled = true }: IDebugOptions): IMyDebugWithControl {
 	const color = logTagColor[level];
 	const lineOpt = {
 		tag: tag ? tag : `${LogLevel[level]}`,
@@ -61,6 +54,8 @@ interface IWriteLineOptions {
 	level: LogLevel;
 }
 
+const lastWordReg = /\b[a-z_]+<$/i;
+
 function format_template(messages: TemplateStringsArray, args: unknown[], color: boolean) {
 	const result_messages: string[] = messages.slice();
 	const result_args: string[] = [];
@@ -68,22 +63,23 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
 		const prefix = result_messages[index] || '';
 		const postfix = result_messages[index + 1] || '';
 
-		if (prefix.endsWith('<') && postfix.startsWith('>')) {
-			const command = prefix.slice(prefix.lastIndexOf(' ') + 1, -1);
-			const result = call_debug_command(command, arg, color);
-			result_messages[index] = prefix.slice(0, prefix.lastIndexOf(' ') + 1);
-			if (result_messages[index + 1]) {
+		if (prefix[prefix.length - 1] === '<' && postfix[0] === '>') {
+			const lastWord = lastWordReg.exec(prefix);
+			if (lastWord) {
+				const command = prefix.slice(lastWord.index, -1);
+				const result = call_debug_command(command, arg, color);
+
+				result_messages[index] = prefix.slice(0, lastWord.index);
 				result_messages[index + 1] = postfix.slice(1);
+
+				result_args.push(result);
+				continue;
 			}
-			result_args.push(result);
-		} else if (typeof arg === 'string') {
+		}
+
+		if (typeof arg === 'string') {
 			result_args.push(call_debug_command('stripe', arg, color));
-		} else if (
-			typeof arg === 'number' ||
-			typeof arg === 'boolean' ||
-			typeof arg === 'bigint' ||
-			typeof arg === 'symbol'
-		) {
+		} else if (typeof arg === 'number' || typeof arg === 'boolean' || typeof arg === 'bigint' || typeof arg === 'symbol') {
 			result_args.push(arg.toString());
 		} else if (arg === null || arg === undefined) {
 			if (color) {

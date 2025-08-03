@@ -13,6 +13,6 @@ console.log(
 		.map((e) => {
 			return inspect(e, { colors: true });
 		})
-		.join('\n')
+		.join('\n'),
 );
 // console.log(inspect(list, { colors: true }));

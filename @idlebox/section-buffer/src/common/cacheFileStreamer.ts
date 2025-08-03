@@ -17,7 +17,7 @@ class CacheFileStreamer extends AsyncDisposable {
 		this._register(
 			toDisposable(() => {
 				fd.close();
-			})
+			}),
 		);
 	}
 

@@ -24,7 +24,7 @@ export class CodeGenerator {
 	constructor(
 		private readonly buildFolder: string, // path to nearest package.json folder
 		private readonly entryFileAbs: string, // absolute path of *.generator.ts
-		public readonly logger: ILogger
+		public readonly logger: ILogger,
 	) {
 		this.id = entryFileAbs;
 

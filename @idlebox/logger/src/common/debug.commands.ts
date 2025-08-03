@@ -41,14 +41,19 @@ const debug_commands = {
 		if (typeof s !== 'string') {
 			return color_error(`can not stripe ${typeof s}`, color);
 		}
-		if (s.length > 100) {
+		let str = s;
+		str = str.replace(/\n/g, '\\n');
+		str = str.replace(/\r/g, '\\r');
+		str = str.replace(/\t/g, '\\t');
+		str = str.replace(/\x1B/g, '\\e');
+		if (str.length > 100) {
 			if (color) {
-				return `\x1B[38;5;10m"${s.slice(0, STRING_MAX_LENGTH - 3)}..."\x1B[39m`;
+				return `\x1B[38;5;10m"${str.slice(0, STRING_MAX_LENGTH - 3)}..."\x1B[39m`;
 			} else {
-				return `"${s.slice(0, STRING_MAX_LENGTH - 3)}..."`;
+				return `"${str.slice(0, STRING_MAX_LENGTH - 3)}..."`;
 			}
 		} else {
-			return s;
+			return str;
 		}
 	},
 	list(items: unknown, color: boolean) {
@@ -79,9 +84,9 @@ const debug_commands = {
 
 		if (lines.length === 0) {
 			const prefix = color ? '\x1B[3;2m' : '';
-			return ':\n' + prefix + '  - <list is empty>' + postfix;
+			return `:\n${prefix}  - <list is empty>${postfix}`;
 		}
-		return ':\n' + lines.join('\n');
+		return `:\n${lines.join('\n')}`;
 	},
 	commandline(cmds: unknown, color: boolean) {
 		if (Array.isArray(cmds)) {
@@ -119,11 +124,7 @@ const debug_commands = {
 };
 type DebugCommands = Record<string, (arg: unknown, color: boolean) => string>;
 
-export function call_debug_command(
-	command: keyof typeof debug_commands | string,
-	arg: unknown,
-	color: boolean,
-): string {
+export function call_debug_command(command: keyof typeof debug_commands | string, arg: unknown, color: boolean): string {
 	const fn = (debug_commands as DebugCommands)[command];
 	if (!fn) {
 		return color_error(`unknown command ${command}`, color);

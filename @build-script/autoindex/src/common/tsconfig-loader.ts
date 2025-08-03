@@ -15,11 +15,7 @@ interface ILoadTsConfigJsonOptions {
 	include?: string[];
 }
 
-export function loadTsConfigJson(
-	ts: typeof TypeScriptApi,
-	tsconfigJson: string,
-	options: ILoadTsConfigJsonOptions = {},
-): ILoadedConfigFile {
+export function loadTsConfigJson(ts: typeof TypeScriptApi, tsconfigJson: string, options: ILoadTsConfigJsonOptions = {}): ILoadedConfigFile {
 	const { exclude, include } = options;
 
 	const readFiles: string[] = [];
@@ -89,9 +85,7 @@ export function loadTsConfigJson(
 	}
 
 	if (!config_patched) {
-		throw new Error(
-			`tsconfig.json file "${tsconfigJson}" has not been patched with exclude/include options, please report issue.`,
-		);
+		throw new Error(`tsconfig.json file "${tsconfigJson}" has not been patched with exclude/include options, please report issue.`);
 	}
 
 	if (!command.options.rootDir) {

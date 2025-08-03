@@ -2,15 +2,7 @@ import { error } from 'node:console';
 import module from 'node:module';
 import { MessageChannel } from 'node:worker_threads';
 import { debugs, inspectEnabled, isTrue } from './common/cli.js';
-import type {
-	IDebugMessage,
-	IErrorMessage,
-	IExecuteOptions,
-	IImportedMessage,
-	IInitializeMessage,
-	ISourceMapMessage,
-	IWarningMessage,
-} from './common/message.types.js';
+import type { IDebugMessage, IErrorMessage, IExecuteOptions, IImportedMessage, IInitializeMessage, ISourceMapMessage, IWarningMessage } from './common/message.types.js';
 export type { IExecuteOptions };
 
 const schema = /^file:\/\//;
@@ -27,23 +19,20 @@ export async function execute(tsFile: string, options?: IExecuteOptions) {
 	await registerSourceMap(sourceMaps);
 
 	const { port1, port2 } = new MessageChannel();
-	port1.on(
-		'message',
-		(data: ISourceMapMessage | IDebugMessage | IWarningMessage | IInitializeMessage | IErrorMessage) => {
-			if (data.type === 'source-map') {
-				debugMap(`received source map for: ${data.fileUrl}`);
-				sourceMaps.set(data.fileUrl, JSON.parse(Buffer.from(data.sourceMap).toString('utf-8')));
-			} else if (data.type === 'debug') {
-				debugs[data.kind]('\x1B[2m%s\x1B[0m', data.message);
-			} else if (data.type === 'warning') {
-				error(data.message);
-			} else if (data.type === 'initialize' || data.type === 'error') {
-				// empty
-			} else {
-				debugs.master(`unknown message type: ${JSON.stringify(data)}`);
-			}
+	port1.on('message', (data: ISourceMapMessage | IDebugMessage | IWarningMessage | IInitializeMessage | IErrorMessage) => {
+		if (data.type === 'source-map') {
+			debugMap(`received source map for: ${data.fileUrl}`);
+			sourceMaps.set(data.fileUrl, JSON.parse(Buffer.from(data.sourceMap).toString('utf-8')));
+		} else if (data.type === 'debug') {
+			debugs[data.kind]('\x1B[2m%s\x1B[0m', data.message);
+		} else if (data.type === 'warning') {
+			error(data.message);
+		} else if (data.type === 'initialize' || data.type === 'error') {
+			// empty
+		} else {
+			debugs.master(`unknown message type: ${JSON.stringify(data)}`);
 		}
-	);
+	});
 	const ready = new Promise<string>((resolve, reject) => {
 		function waitForPort(data: IInitializeMessage | IErrorMessage) {
 			if (data.type === 'initialize') {

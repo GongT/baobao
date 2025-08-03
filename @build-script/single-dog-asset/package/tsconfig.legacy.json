@@ -4,6 +4,6 @@
 		"module": "ESNext",
 		"moduleResolution": "Node10",
 		"resolvePackageJsonExports": false,
-		"resolvePackageJsonImports": false,
-	},
+		"resolvePackageJsonImports": false
+	}
 }

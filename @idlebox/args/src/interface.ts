@@ -1,7 +1,7 @@
 import { ApplicationArguments } from './library/reader.app.js';
 import { tokenize as _tokenize } from './tools/tokenize.js';
 import type { IArgsReaderApi, IArgumentList, IToken } from './types.js';
-export * from './types.js'
+export * from './types.js';
 
 /**
  * 创建一个ArgsReader

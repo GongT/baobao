@@ -5,14 +5,9 @@ import { defaultLogLevel, detectColorEnable } from './helpers.js';
 import { EnableLogLevel, type IMyDebugWithControl, type IMyLogger } from './types.js';
 
 const seen_loggers = new Set<string>();
-export let all_logger_names: ReadonlySet<string> = seen_loggers;
+export const all_logger_names: ReadonlySet<string> = seen_loggers;
 
-export function create(
-	tag: string,
-	color_enabled: undefined | boolean,
-	stream: NodeJS.ReadWriteStream,
-	defaultLevel = EnableLogLevel.auto,
-): IMyLogger {
+export function create(tag: string, color_enabled: undefined | boolean, stream: NodeJS.ReadWriteStream, defaultLevel = EnableLogLevel.auto): IMyLogger {
 	let currentLevel = defaultLevel;
 	seen_loggers.add(tag);
 

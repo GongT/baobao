@@ -9,7 +9,7 @@ export async function importPackageJson(file: string): Promise<IPackageJson> {
 			throw e;
 		}
 
-		const ee = new Error('No such file: ' + file);
+		const ee = new Error(`No such file: ${file}`);
 		Object.assign(ee, { code: 'ENOENT' });
 		Error.captureStackTrace(ee, importPackageJson);
 		throw ee;

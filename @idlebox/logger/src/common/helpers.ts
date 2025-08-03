@@ -69,7 +69,7 @@ export function detectColorEnable(stream: IWritableStream = process.stderr): boo
 }
 
 export function escapeRegExp(str: string) {
-	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+	return str.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
 }
 
 /**
@@ -81,9 +81,9 @@ export function compile_match_regex(tag: string, invert = false): RegExp {
 	const parts = tag.split(':');
 	parts.pop();
 
-	let regs = ['\\*'];
+	const regs = ['\\*'];
 
-	let comb = [];
+	const comb = [];
 	for (const part of parts) {
 		comb.push(part);
 		regs.push(`${escapeRegExp(comb.join(':'))}:\\*`);

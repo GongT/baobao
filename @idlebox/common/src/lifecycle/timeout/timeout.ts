@@ -40,11 +40,7 @@ export function timeoutPromise<T>(ms: number, message: string, p: PromiseLike<T>
  * @param p the promise
  * @returns
  */
-export function timeoutPromise<T>(
-	ms: number,
-	message: string | PromiseLike<T> | DeferredPromise<T>,
-	p?: PromiseLike<T> | DeferredPromise<T>,
-): PromiseLike<T> {
+export function timeoutPromise<T>(ms: number, message: string | PromiseLike<T> | DeferredPromise<T>, p?: PromiseLike<T> | DeferredPromise<T>): PromiseLike<T> {
 	let msg: string | undefined;
 	if (typeof message !== 'string') {
 		p = message;

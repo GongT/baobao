@@ -42,14 +42,10 @@ export async function defineEsbuild(title: string, options: OptionOrFunc): Promi
 			build.onEnd((result) => {
 				const errors: string[] = [];
 				for (const error of result.errors) {
-					errors.push(
-						`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: error: ${error.text}`,
-					);
+					errors.push(`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: error: ${error.text}`);
 				}
 				for (const error of result.warnings) {
-					errors.push(
-						`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: warning: ${error.text}`,
-					);
+					errors.push(`> ${error.location?.file}:${error.location?.line}:${error.location?.column}: warning: ${error.text}`);
 				}
 
 				console.log('[watch] build finished');

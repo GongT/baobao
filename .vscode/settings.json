@@ -17,7 +17,11 @@
 		".package-tools/**": true,
 		"**/._*": true,
 		"**/.debug/**": true,
+		"**/.publisher/**": true,
 	},
+	"biome.lsp.bin": "./node_modules/.bin/biome",
+	"biome.requireConfiguration": true,
+	"typescript.preferences.organizeImports": { "typeOrder": "last", "unicodeCollation": "ordinal" },
 	"typescript.tsdk": "./node_modules/typescript/lib",
 	"[json][json5][jsonc][typescript][typescriptreact][javascript]": {
 		"editor.defaultFormatter": "biomejs.biome",
@@ -34,8 +38,5 @@
 	"files.readonlyInclude": {
 		"**/lib/**": true,
 	},
-	"cSpell.words": [
-		"itypes",
-		"mpis"
-	],
+	"cSpell.words": ["itypes", "mpis"],
 }

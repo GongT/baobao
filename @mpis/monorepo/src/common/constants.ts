@@ -1,6 +1,6 @@
 import { logger } from '@idlebox/logger';
 import { findUpUntilSync } from '@idlebox/node';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 
 export const initialWorkingDirectory = process.cwd();
 

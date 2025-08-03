@@ -25,7 +25,7 @@ function wrapFunction(instance: any, name: string) {
 			(e: any) => {
 				// console.log(' <-- %s is throw:', name, e.message);
 				throw e;
-			}
+			},
 		);
 	};
 	instance[name] = jest.fn(fn);

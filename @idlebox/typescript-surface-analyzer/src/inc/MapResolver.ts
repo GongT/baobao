@@ -16,14 +16,14 @@ export type IResolveResult = ILocalResolve | IExternalResolve;
 export class MapResolver {
 	constructor(
 		private readonly root: string,
-		private readonly map?: Record<string, string[]>
+		private readonly map?: Record<string, string[]>,
 	) {}
 
 	/**
 	 * TODO: 需要node exports resolve
-	 * @param source 
-	 * @param target 
-	 * @returns 
+	 * @param source
+	 * @param target
+	 * @returns
 	 */
 	private _resolve(source: string, target: string): string {
 		const base = basename(target);

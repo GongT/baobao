@@ -16,11 +16,7 @@ export function nxListProjects(_projectRoot: string): never {
  */
 export async function getLernaPackageManager(projectRoot: string): Promise<PackageManagerKind> {
 	const settings = await readCommentJsonFile(resolve(projectRoot, 'lerna.json'));
-	if (
-		settings.npmClient === PackageManagerKind.NPM ||
-		settings.npmClient === PackageManagerKind.YARN ||
-		settings.npmClient === PackageManagerKind.PNPM
-	) {
+	if (settings.npmClient === PackageManagerKind.NPM || settings.npmClient === PackageManagerKind.YARN || settings.npmClient === PackageManagerKind.PNPM) {
 		return settings.npmClient;
 	}
 	throw new Error('lerna.json is invalid, npmClient field is unknown');

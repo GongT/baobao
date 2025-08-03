@@ -12,4 +12,3 @@ if (!self) {
 	throw new Error('Could not find self directory');
 }
 export const selfRoot = dirname(self);
-

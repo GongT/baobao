@@ -35,6 +35,9 @@
 	},
 	"decoupledDependents": "*",
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

@@ -36,20 +36,4 @@ export interface ITimerSection {
 	RemainAfterElapse?: MaybeArray<string>;
 }
 
-export const timerFields: readonly string[] = [
-	'OnActiveSec',
-	'OnBootSec',
-	'OnStartupSec',
-	'OnUnitActiveSec',
-	'OnUnitInactiveSec',
-	'OnCalendar',
-	'AccuracySec',
-	'RandomizedDelaySec',
-	'FixedRandomDelay',
-	'OnClockChange',
-	'OnTimezoneChange',
-	'Unit',
-	'Persistent',
-	'WakeSystem',
-	'RemainAfterElapse',
-];
+export const timerFields: readonly string[] = ['OnActiveSec', 'OnBootSec', 'OnStartupSec', 'OnUnitActiveSec', 'OnUnitInactiveSec', 'OnCalendar', 'AccuracySec', 'RandomizedDelaySec', 'FixedRandomDelay', 'OnClockChange', 'OnTimezoneChange', 'Unit', 'Persistent', 'WakeSystem', 'RemainAfterElapse'];

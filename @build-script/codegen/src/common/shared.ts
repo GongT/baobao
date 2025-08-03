@@ -51,7 +51,8 @@ export function formatResult(result: IResult) {
 	const line = '-'.repeat(process.stderr.columns || 80);
 	for (const [source, errors] of categories) {
 		const rel = relativePath(process.cwd(), source);
-		msgs.push('\x1B[2m%s\r-- %s \x1B[0m', line, rel.startsWith('..') ? source : rel);
+		const loc = rel.startsWith('..') ? source : rel;
+		msgs.push(`\x1B[2m${line}\r-- ${loc} \x1B[0m`);
 		for (const error of errors) {
 			msgs.push(error.stack ?? error.message);
 			msgs.push('');

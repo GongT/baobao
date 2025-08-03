@@ -3,7 +3,15 @@
 	"type": "module",
 	"version": "1.1.4",
 	"description": "a set of Chinese Japanese Korean and Emoji strings helpers",
-	"keywords": ["CJK", "chinese", "display width", "emoji", "string", "string width", "unicode"],
+	"keywords": [
+		"CJK",
+		"chinese",
+		"display width",
+		"emoji",
+		"string",
+		"string width",
+		"unicode"
+	],
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",
@@ -38,6 +46,9 @@
 		"mocha": "^11.7.1"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

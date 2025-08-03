@@ -3,17 +3,7 @@ import { AppExit, prettyPrintError } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel } from '@idlebox/logger';
 import { resolve } from 'node:path';
 import cmdList from './command-file-map.generated.js';
-import {
-	argv,
-	DieError,
-	isHelp,
-	isQuiet,
-	isVerbose,
-	pCmd,
-	pDesc,
-	printCommonOptions,
-	type CommandDefine,
-} from './common/functions/cli.js';
+import { argv, DieError, isHelp, isQuiet, isVerbose, pCmd, pDesc, printCommonOptions, type CommandDefine } from './common/functions/cli.js';
 import { registerShutdownHandlers, shutdown } from './common/functions/global-lifecycle.js';
 import { configureProxyFromEnvironment } from './common/package-manager/proxy.js';
 
@@ -121,9 +111,7 @@ async function main() {
 }
 
 function printLegend() {
-	process.stderr.write(
-		`\x1B[2mUsage:\x1B[0m\n    ${usage_prefix} \x1B[38;5;10m<命令>\x1B[0m \x1B[38;5;14m[命令参数]\x1B[0m\n`,
-	);
+	process.stderr.write(`\x1B[2mUsage:\x1B[0m\n    ${usage_prefix} \x1B[38;5;10m<命令>\x1B[0m \x1B[38;5;14m[命令参数]\x1B[0m\n`);
 }
 
 function table() {

@@ -1,9 +1,5 @@
 import { createInterface } from 'node:readline';
-import {
-	getPackageManagerByName,
-	KNOWN_PACKAGE_MANAGER_NAMES,
-	KNOWN_PACKAGE_MANAGERS,
-} from './getPackageManagerByName.js';
+import { getPackageManagerByName, KNOWN_PACKAGE_MANAGER_NAMES, KNOWN_PACKAGE_MANAGERS } from './getPackageManagerByName.js';
 import type { PackageManager } from './packageManager.js';
 
 export interface IGetPackageManagerOptions {
@@ -21,7 +17,7 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 			default: 'auto',
 			ask: true,
 		},
-		_options || {}
+		_options || {},
 	);
 
 	if (options.packageJson) {
@@ -67,7 +63,7 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 				return pm.exists().then((found) => {
 					return found ? pm : undefined;
 				});
-			})
+			}),
 		)
 	).filter((e) => !!e) as PackageManager[];
 

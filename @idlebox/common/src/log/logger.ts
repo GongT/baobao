@@ -79,10 +79,7 @@ export abstract class WrappedConsole {
 		return nameFunction(`console:${original}`, this.wrap(original) as any);
 	}
 
-	private wrapExtra<T extends keyof Omit<Console & { Console: any }, 'Console'>>(
-		original: T,
-		exMessage: string
-	): Console[T] {
+	private wrapExtra<T extends keyof Omit<Console & { Console: any }, 'Console'>>(original: T, exMessage: string): Console[T] {
 		const bindedFn = this.wrap(original);
 		return nameFunction(`console:${original}`, (...args: any[]) => {
 			this.log(exMessage);
@@ -100,11 +97,7 @@ export abstract class WrappedConsole {
 		return prefix;
 	}
 
-	private wrapMessageAt<T extends keyof Omit<Console & { Console: any }, 'Console'>>(
-		original: T,
-		messageLoc: number,
-		additionalPrefix?: string
-	): Console[T] {
+	private wrapMessageAt<T extends keyof Omit<Console & { Console: any }, 'Console'>>(original: T, messageLoc: number, additionalPrefix?: string): Console[T] {
 		let prefix = `[${this.title}]`;
 		if (additionalPrefix) {
 			prefix += `[${additionalPrefix}] `;
@@ -134,12 +127,7 @@ export abstract class WrappedConsole {
 		}
 	}
 
-	protected abstract processColorLabel(
-		normalizedArguments: any[],
-		messageLoc: number,
-		level: string,
-		prefix: string
-	): void;
+	protected abstract processColorLabel(normalizedArguments: any[], messageLoc: number, level: string, prefix: string): void;
 
 	protected uncolor(args: any[], pos: number, prefix: string, postfix: string) {
 		args[pos] = prefix + args[pos] + postfix;

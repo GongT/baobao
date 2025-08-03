@@ -10,7 +10,7 @@ const PLUGIN_NAME = basename(pluginName);
  * @param {*} heftConfiguration
  * @param {*} options
  */
-function removeTypes(heftSession, heftConfiguration, options = {}) {
+function removeTypes(heftSession, heftConfiguration, _options = {}) {
 	heftSession.hooks.build.tap(PLUGIN_NAME, (build) => {
 		build.hooks.postBuild.tap(PLUGIN_NAME, (postBuild) => {
 			postBuild.hooks.run.tapPromise(PLUGIN_NAME, async function codegen() {

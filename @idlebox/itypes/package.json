@@ -3,7 +3,12 @@
 	"type": "module",
 	"version": "1.0.10",
 	"description": "some global variables copied from @types/node or dom",
-	"keywords": ["Typescript", "console", "type", "typings"],
+	"keywords": [
+		"Typescript",
+		"console",
+		"type",
+		"typings"
+	],
 	"scripts": {
 		"build": "",
 		"clean": "",
@@ -20,6 +25,9 @@
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

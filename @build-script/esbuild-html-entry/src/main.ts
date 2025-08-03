@@ -52,7 +52,7 @@ export class HtmlEntryPlugin {
 		}
 		debug(
 			'\x1b[38;5;11m[onEnd]\x1b[0m outputFiles:',
-			args.outputFiles?.map((e) => e.path)
+			args.outputFiles?.map((e) => e.path),
 		);
 		debug('        metafile.outputs:', Object.keys(args.metafile.outputs));
 
@@ -81,9 +81,7 @@ export class HtmlEntryPlugin {
 			const jsBundleRel = relativePath(outputDir, resolve(this.commonParent, jsBundle));
 			debug('   * jsBundle: %s (%s)', jsBundleRel, jsBundle);
 
-			const cssBundleRel = output.cssBundle
-				? relativePath(outputDir, resolve(this.commonParent, output.cssBundle))
-				: undefined;
+			const cssBundleRel = output.cssBundle ? relativePath(outputDir, resolve(this.commonParent, output.cssBundle)) : undefined;
 			debug('   * cssBundle: %s (%s)', cssBundleRel, output.cssBundle);
 
 			const outputFile = resolve(outputDir, basename(sourceFile));

@@ -1,6 +1,6 @@
 import { humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { registerNodejsExitHandler } from '@idlebox/node';
+import { registerNodejsExitHandler, shutdown } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { rmSync } from 'node:fs';
@@ -46,12 +46,18 @@ switch (context.command) {
 		{
 			if (context.withCleanup) executeClean();
 
-			await executeBuild();
+			await executeBuild().catch((e: Error) => {
+				logger.error`failed ${context.command} project: ${e.message}`;
+				shutdown(1);
+			});
 		}
 		break;
 	case 'watch':
 		initializeStdin();
-		await executeBuild();
+		await executeBuild().catch((e: Error) => {
+			logger.error`failed ${context.command} project: ${e.message}`;
+			shutdown(1);
+		});
 		break;
 }
 
@@ -61,14 +67,17 @@ async function executeBuild() {
 	workersManager = new WorkersManager(context.watchMode ? ModeKind.Watch : ModeKind.Build);
 
 	initializeWorkers();
+	const graph = workersManager.finalize();
 
-	workersManager.onTerminate((w) => {
+	workersManager.onTerminate((trans) => {
+		const w = trans.worker;
+
 		if (!ProcessIPCClient.is(w)) {
 			logger.fatal`worker "${w._id}" is not a ProcessIPCClient, this is a bug.`;
 			return;
 		}
 
-		const times = `(+${humanDate.delta(w.time.executeEnd! - w.time.executeStart!)})`;
+		const times = `(+${humanDate.delta(w.time.executeStart!, w.time.executeEnd!)})`;
 
 		if (context.watchMode) {
 			printFailedRunError(w, `unexpected exit in watch mode ${times}`);
@@ -79,9 +88,7 @@ async function executeBuild() {
 		}
 	});
 
-	workersManager.finalize();
-
-	if (workersManager.allWorkers.length === 0) {
+	if (workersManager.nodeNames.length === 0) {
 		logger.fatal`No workers to execute, check your config file.`;
 		return;
 	}
@@ -94,7 +101,9 @@ async function executeBuild() {
 		return;
 	}
 	logger.verbose`Workers initialized, starting execution...`;
-	await workersManager.startup();
+	await graph.startup();
+
+	logger.verbose`Startup returned.`;
 
 	reprintWatchModeError();
 }
@@ -153,36 +162,32 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 	const text = worker.outputStream.toString().trimEnd();
 
 	if (text) {
-		console.error(
-			'\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m',
-			' '.repeat(process.stderr.columns || 80),
-			`below is output of ${worker._id}`,
-		);
+		console.error('\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `below is output of ${worker._id}`);
 		console.error(text);
 
-		console.error(
-			'\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n',
-			' '.repeat(process.stderr.columns || 80),
-			`ending output of ${worker._id}`,
-		);
+		console.error('\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n', ' '.repeat(process.stderr.columns || 80), `ending output of ${worker._id}`);
 	} else {
-		console.error(
-			'\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m',
-			' '.repeat(process.stderr.columns || 80),
-			`no output from ${worker._id}`,
-		);
+		console.error('\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `no output from ${worker._id}`);
 	}
 
-	console.error(workersManager.formatDebugGraph());
+	const graph = workersManager.finalize();
+	console.error('%s\n%s', graph.debugFormatGraph(), graph.debugFormatSummary());
 	logger.fatal`"${worker._id}" ${message}`;
 }
 
+let printTo: NodeJS.Timeout | undefined;
 function reprintWatchModeError(noClear?: boolean) {
-	if (context.watchMode) {
-		if (!noClear && !defaultNoClear) process.stderr.write('\x1Bc');
-	}
-	console.error(workersManager.formatDebugList());
-	printAllErrors();
+	if (printTo) clearTimeout(printTo);
+	printTo = setTimeout(() => {
+		printTo = undefined;
+
+		if (context.watchMode) {
+			if (!noClear && !defaultNoClear) process.stderr.write('\x1Bc');
+		}
+		const graph = workersManager.finalize();
+		console.error('%s\n%s', graph.debugFormatList(), graph.debugFormatSummary());
+		printAllErrors();
+	}, 50);
 }
 
 function addDebugCommand() {
@@ -190,7 +195,7 @@ function addDebugCommand() {
 		name: ['continue', 'c'],
 		description: '开始执行',
 		callback: () => {
-			workersManager.startup();
+			workersManager.finalize().startup();
 		},
 	});
 	registerCommand({
@@ -198,7 +203,7 @@ function addDebugCommand() {
 		description: '切换调试模式（仅在启动前有效）',
 		callback: (text: string) => {
 			const [_, index, on_off] = text.split(/\s+/);
-			const list: ProcessIPCClient[] = workersManager.allWorkers as ProcessIPCClient[];
+			const list = workersManager._allWorkers as ProcessIPCClient[];
 			const worker = list[Number(index)];
 			if (!worker) {
 				logger.error`worker index out of range: ${index}`;
@@ -230,8 +235,15 @@ function sendStatus() {
 	if (noError) {
 		channelClient.success(`All workers completed successfully.`);
 	} else {
-		const errorCnt = errors.values().filter((e) => !!e);
-		channelClient.failed(`${errorCnt} (of ${workersManager.size}) workers error.`, formatAllErrors());
+		let errorCnt = 0;
+		const arr: string[] = [];
+		for (const [client, err] of errors.entries()) {
+			if (err) {
+				errorCnt++;
+				arr.push(client._id);
+			}
+		}
+		channelClient.failed(`mpis-run: ${arr.join(', ')} (${errorCnt} / ${workersManager.size()})`, formatAllErrors());
 	}
 }
 
@@ -270,8 +282,8 @@ function printAllErrors() {
 	if (numFailed !== 0) {
 		console.error(formatAllErrors());
 
-		logger.error(`💥 ${numFailed} of ${workersManager.size} worker failed (${execTip})`);
+		logger.error(`💥 ${numFailed} of ${workersManager.size()} worker failed (${execTip})`);
 	} else {
-		logger.success(`✅ no error in ${workersManager.size} workers (${execTip})`);
+		logger.success(`✅ no error in ${workersManager.size()} workers (${execTip})`);
 	}
 }

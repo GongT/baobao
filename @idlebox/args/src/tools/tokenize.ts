@@ -56,10 +56,7 @@ export function tokenize(inputs: IArgumentList, parser?: ApplicationArguments): 
 
 			if (short) {
 				flag = match.groups.short_flag;
-				assert(
-					flag.length === 1,
-					`short flag must be a single character: ${flag}\noriginal: ${inputs.join(' ')}\nparams:\n  * ${params.join('\n  * ')}\nextras:\n  * ${extras.join('\n  * ')}`,
-				);
+				assert(flag.length === 1, `short flag must be a single character: ${flag}\noriginal: ${inputs.join(' ')}\nparams:\n  * ${params.join('\n  * ')}\nextras:\n  * ${extras.join('\n  * ')}`);
 			} else {
 				flag = match.groups.long_flag;
 			}

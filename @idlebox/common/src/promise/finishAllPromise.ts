@@ -43,7 +43,7 @@ export function finishAllPromise<T>(ps: Promise<T>[]) {
 					rejected.push(index);
 					last--;
 					toDone();
-				}
+				},
 			);
 		});
 	});

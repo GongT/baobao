@@ -1,16 +1,10 @@
-import {
-	createWorkspace,
-	normalizePackageName,
-	type IPackageInfo,
-	type MonorepoWorkspace,
-} from '@build-script/monorepo-lib';
+import { createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { Emitter, prettyPrintError } from '@idlebox/common';
-import { BuilderDependencyGraph, type IWatchEvents } from '@idlebox/dependency-graph';
+import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
 import { logger } from '@idlebox/logger';
 import { commandInPath, emptyDir, writeFileIfChangeSync } from '@idlebox/node';
-import { cpSync, existsSync } from 'fs';
-import { resolve } from 'path';
-import { inspect } from 'util';
+import { cpSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { argv, CommandDefine, CSI, pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
@@ -30,14 +24,14 @@ export class Command extends CommandDefine {
 	};
 }
 
-interface IState {
+interface IPayload {
 	readonly index: number;
 	readonly length: number;
 	readonly options: ReturnType<typeof options>;
 }
 
 let indexDisplay = 0;
-class BuildPackageJob implements IWatchEvents {
+class BuildPackageJob extends Job<void> {
 	private readonly _onSuccess = new Emitter<void>();
 	public readonly onSuccess = this._onSuccess.event;
 
@@ -50,13 +44,17 @@ class BuildPackageJob implements IWatchEvents {
 	private shouldPublish = '';
 
 	constructor(
-		private readonly state: IState,
+		name: string,
+		deps: readonly string[],
+		private readonly payload: IPayload,
 		private readonly project: IPackageInfo,
 		private readonly workspace: MonorepoWorkspace,
 	) {
+		super(name, deps);
+
 		this.onSuccess(() => {
 			indexDisplay++;
-			const { length } = this.state;
+			const { length } = this.payload;
 			const w = length.toFixed(0).length;
 			console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
 			console.log(this.logText.join('\n'));
@@ -64,7 +62,7 @@ class BuildPackageJob implements IWatchEvents {
 		});
 		this.onFailed((e) => {
 			indexDisplay++;
-			const { length } = this.state;
+			const { length } = this.payload;
 			const w = length.toFixed(0).length;
 			console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
 			console.log(this.logText.join('\n'));
@@ -73,26 +71,20 @@ class BuildPackageJob implements IWatchEvents {
 		});
 	}
 
-	get name() {
-		return this.project.name;
-	}
-
 	getPackagePath() {
 		return this.shouldPublish || undefined;
 	}
 
-	async execute() {
+	protected override async _execute() {
 		this._onRunning.fire();
 		this.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
 		const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute);
 		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});
-		let shouldPublish = hasChange || changedFiles.length > 0;
+		const shouldPublish = hasChange || changedFiles.length > 0;
 		let localVersion = this.project.packageJson.version;
 
-		this.log(
-			`    👀 ${changedFiles.length} 个文件有修改: ${changedFiles.slice(0, 3).join(', ')}${changedFiles.length > 3 ? ' ...' : ''}`,
-		);
+		this.log(`    👀 ${changedFiles.length} 个文件有修改: ${changedFiles.slice(0, 3).join(', ')}${changedFiles.length > 3 ? ' ...' : ''}`);
 		if (hasChange) {
 			const packageJson = await pm.loadPackageJson();
 			localVersion = await increaseVersion(packageJson, remoteVersion || '0.0.0');
@@ -106,10 +98,7 @@ class BuildPackageJob implements IWatchEvents {
 
 		this.log(`    🔄 打包文件`);
 
-		const tempFile = resolve(
-			this.workspace.temp,
-			`publish/${normalizePackageName(this.project.name)}-${localVersion}.tgz`,
-		);
+		const tempFile = resolve(this.workspace.temp, `publish/${normalizePackageName(this.project.name)}-${localVersion}.tgz`);
 		this.shouldPublish = await pm.pack(tempFile);
 
 		if (remoteVersion) {
@@ -123,11 +112,6 @@ class BuildPackageJob implements IWatchEvents {
 	private readonly logText: string[] = [];
 	log(text: string) {
 		this.logText.push(text);
-	}
-
-	[inspect.custom]() {
-		// TODO
-		return '~~~~~~~~';
 	}
 }
 
@@ -152,7 +136,7 @@ export async function main() {
 	if (concurrency === 1) {
 		logger.warn`由于设置了--debug参数，运行模式改为单线程`;
 	}
-	const graph = new BuilderDependencyGraph<BuildPackageJob>(concurrency, logger);
+	const builder = new JobGraphBuilder(concurrency, logger);
 
 	function debugSummary() {
 		const info = graph.debugFormatSummary();
@@ -167,7 +151,7 @@ export async function main() {
 		if (project.packageJson.private) {
 			console.log(`📦 ${project.name}`);
 			console.log(`    🛑 跳过，private=true: ${project.name}`);
-			graph.addEmptyNode(project.name);
+			builder.addEmptyNode(project.name);
 			return false;
 		}
 
@@ -177,6 +161,8 @@ export async function main() {
 	let index = 0;
 	for (const project of shouldPublishProjects) {
 		const job = new BuildPackageJob(
+			project.name,
+			project.devDependencies,
 			{
 				index,
 				length: shouldPublishProjects.length,
@@ -189,16 +175,17 @@ export async function main() {
 		job.onRunning(debugSummary);
 		job.onSuccess(debugSummary);
 		job.onFailed(debugSummary);
-		graph.addNode(project.name, project.devDependencies, job);
+		builder.addNode(job);
 
 		index++;
 	}
 
+	const graph = builder.finalize();
 	await graph.startup();
 
 	const packageToPublish: { name: string; pack: string }[] = [];
 	for (const id of graph.overallOrder) {
-		const node = graph.getNodeData(id);
+		const node = graph.getNodeByName(id);
 		if (!(node instanceof BuildPackageJob)) continue;
 
 		const pack = node.getPackagePath();
@@ -220,7 +207,7 @@ export async function main() {
 	}
 
 	const w = packageToPublish.length.toFixed(0).length;
-	let published: string[] = [];
+	const published: string[] = [];
 
 	try {
 		index = 1;

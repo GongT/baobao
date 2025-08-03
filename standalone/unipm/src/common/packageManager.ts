@@ -38,7 +38,7 @@ export abstract class PackageManager {
 			(e) => {
 				console.error('Exception of detect() package manager %s\n%s', this.friendlyName, e.stack);
 				return undefined;
-			}
+			},
 		);
 	}
 
@@ -60,11 +60,7 @@ export abstract class PackageManager {
 	}
 
 	/** spawn package manager binary, mute output */
-	protected async _invokeErrorLater(
-		cmd: string,
-		args: string[],
-		spawnOptions: Omit<ExecaOptions, 'stdio' | 'encoding'> = {}
-	): Promise<void> {
+	protected async _invokeErrorLater(cmd: string, args: string[], spawnOptions: Omit<ExecaOptions, 'stdio' | 'encoding'> = {}): Promise<void> {
 		const p = this.__invoke(cmd, args, {
 			...spawnOptions,
 			stdio: ['ignore', 'pipe', 'pipe'],

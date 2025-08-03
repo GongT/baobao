@@ -29,6 +29,9 @@ export class Context {
 	 */
 	watchFiles(...files: string[]) {
 		for (const file of files) {
+			if (typeof file !== 'string') {
+				throw new TypeError(`Expected string, got ${typeof file}`);
+			}
 			this._watchFiles.add(file);
 		}
 	}

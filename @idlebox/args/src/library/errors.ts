@@ -1,7 +1,7 @@
 import { die } from '../tools/assert.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
 import { ParamKind } from '../types.js';
-import { Parameter } from './parameter.js';
+import type { Parameter } from './parameter.js';
 import type { TToken } from './token.js';
 
 function matchPos(index: number, arg?: TToken, param?: Parameter) {
@@ -40,7 +40,7 @@ export abstract class BaseError extends Error {
 				configurable: false,
 				enumerable: true,
 				get: () => {
-					return this.getMessage() + '\n' + this.getStack();
+					return `${this.getMessage()}\n${this.getStack()}`;
 				},
 			},
 		});
@@ -201,7 +201,7 @@ export class StackTrace {
 	}
 
 	getStack() {
-		let s = this.stack
+		const s = this.stack
 			.split('\n')
 			.slice(this.skip + 1)
 			.join('\n');

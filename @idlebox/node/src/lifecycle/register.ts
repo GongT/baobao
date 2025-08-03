@@ -10,8 +10,10 @@ class Exit extends AppExit {
 	}
 }
 
-let shuttingDown = false;
+const shuttingDown = false;
 export function shutdown(exitCode: number): never {
+	debugger;
+
 	if (exitCode) {
 		process.exitCode = exitCode;
 	}
@@ -53,7 +55,10 @@ function _real_register() {
 		shutdown(0);
 	});
 
-	process.on('beforeExit', shutdown);
+	process.on('beforeExit', (code) => {
+		console.log(`Process beforeExit with code: ${code}`);
+		shutdown(code);
+	});
 
 	process.on('unhandledRejection', (reason, _promise) => {
 		if (reason instanceof Error) {

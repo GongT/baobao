@@ -18,25 +18,11 @@ export interface IEventEmitterObject<T extends Function> {
 	removeListener(type: string, handler: T): any;
 }
 
-export function addDisposableEventListener<T extends Function>(
-	target: IEventHostObject<T> | IEventEmitterObject<T>,
-	type: string,
-	options: IEventListenerOptions,
-	handler: T
-): IDisposable;
+export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, options: IEventListenerOptions, handler: T): IDisposable;
 
-export function addDisposableEventListener<T extends Function>(
-	target: IEventHostObject<T> | IEventEmitterObject<T>,
-	type: string,
-	handler: T
-): IDisposable;
+export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, handler: T): IDisposable;
 
-export function addDisposableEventListener<T extends Function>(
-	target: IEventHostObject<T> | IEventEmitterObject<T>,
-	type: string,
-	_options: IEventListenerOptions | T | undefined,
-	_handler?: T
-): IDisposable {
+export function addDisposableEventListener<T extends Function>(target: IEventHostObject<T> | IEventEmitterObject<T>, type: string, _options: IEventListenerOptions | T | undefined, _handler?: T): IDisposable {
 	if (!_handler) {
 		if (typeof _options === 'function') {
 			_handler = _options;
@@ -109,7 +95,7 @@ function checkSupport(field: string, ele: IEventHostObject<any>) {
 
 		ele.addEventListener('_test_', null, options);
 		ele.removeEventListener('_test_', null, options);
-	} catch (err) {
+	} catch (_err) {
 		supported = false;
 	}
 	return supported;

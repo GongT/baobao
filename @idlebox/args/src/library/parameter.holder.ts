@@ -41,9 +41,7 @@ export class ParameterHolder {
 			this.ranges.set([desc.from, desc.to], created);
 		} else {
 			if (this.commands.length + 1 !== desc.level) {
-				throw new TypeError(
-					`can not create command at level ${desc.level}, because there are ${this.commands.length} levels.`,
-				);
+				throw new TypeError(`can not create command at level ${desc.level}, because there are ${this.commands.length} levels.`);
 			}
 			this.commands.push(created);
 		}

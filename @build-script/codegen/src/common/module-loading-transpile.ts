@@ -1,12 +1,6 @@
 import esbuild from 'esbuild';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import module, {
-	builtinModules,
-	createRequire,
-	findPackageJSON,
-	LoadHookContext,
-	type LoadFnOutput,
-} from 'node:module';
+import module, { builtinModules, createRequire, findPackageJSON, type LoadHookContext, type LoadFnOutput } from 'node:module';
 import { basename, dirname } from 'node:path';
 import { install } from 'source-map-support';
 import { Logger, type ILogger } from './output.js';
@@ -24,11 +18,7 @@ const compiledMemory = new Map<string, Uint8Array>();
 const sourceMapMemory = new Map<string, any>();
 
 export async function createEsbuildContext(absInputFile: string, packageFile: string, logger: ILogger) {
-	const bannerCode = [
-		`const require = (await import("node:module")).createRequire(import.meta.dirname);`,
-		`import { Logger } from '${selfReference}';`,
-		`const logger = Logger('${logger.title}');`,
-	];
+	const bannerCode = [`const require = (await import("node:module")).createRequire(import.meta.dirname);`, `import { Logger } from '${selfReference}';`, `const logger = Logger('${logger.title}');`];
 
 	const files = new Set<string>();
 	function removeMemory() {

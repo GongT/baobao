@@ -51,7 +51,7 @@ export abstract class CommandDefine {
 	protected readonly _arguments?: Record<string, ArgDefine>;
 	/**
 	 * 通用命令行参数
-	*/
+	 */
 	protected readonly _commonArgs?: readonly CommonArgs[];
 
 	public readonly isHidden: boolean = false;

@@ -29,9 +29,11 @@ export function readlineTestInit(manager: WorkersManager) {
 }
 
 async function readlineMain(workersManager: WorkersManager) {
+	const graph = workersManager.finalize();
+
 	while (!ended) {
-		const graph = workersManager.formatDebugGraph();
-		const line = await rl.question(`${graph}\n全部start: auto\n控制worker: [start|succ|fail|quit0|quit1] number\n> `);
+		const graphDebug = graph.debugFormatGraph() + '\n' + graph.debugFormatSummary();
+		const line = await rl.question(`${graphDebug}\n全部start: auto\n控制worker: [start|succ|fail|quit0|quit1] number\n> `);
 
 		console.error(`\x1Bc输入了 ${line}\n`);
 
@@ -86,6 +88,10 @@ export class InputTestClient extends ProtocolClientObject {
 		InputTestClient.instances.set(title, this);
 
 		this.dfd = new DeferredPromise<void>();
+	}
+
+	protected override async _stop() {
+		this.dfd.error(new Error('stopped by manager'));
 	}
 
 	test_quit0() {

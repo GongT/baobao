@@ -8,12 +8,7 @@ import { parse } from 'comment-json';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { isAbsolute, resolve } from 'node:path';
-import {
-	cloneAttachedFieldsInto,
-	getAttachedFile,
-	setAttachedFile,
-	setAttachedFormatter,
-} from '../tools/attachData.js';
+import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormatter } from '../tools/attachData.js';
 import { checkChange, loadFile, pathExists, saveFile } from '../tools/filesystem.js';
 import { createDefaultFormatter } from '../tools/formatter.js';
 import { stringifyJsonText } from './format.js';
@@ -32,12 +27,7 @@ function requireFile(data: any) {
 /**
  * attach file save path to "data" object
  */
-export async function createJsonFile<T = any, K = any>(
-	data: T,
-	saveAs: string,
-	charset: BufferEncoding = DEFAULT_ENCODING,
-	formatter?: IFormatter<K>,
-): Promise<JsonEditObject<T, K>> {
+export async function createJsonFile<T = any, K = any>(data: T, saveAs: string, charset: BufferEncoding = DEFAULT_ENCODING, formatter?: IFormatter<K>): Promise<JsonEditObject<T, K>> {
 	const newData = Object.assign({}, data);
 	setAttachedFile(newData, { originalPath: saveAs, encoding: charset, exists: false });
 	if (formatter) {
@@ -74,11 +64,7 @@ export async function writeJsonFileBack(data: any): Promise<boolean> {
 /**
  * check if `data` is same with content of `file`, if not, overwrite `file`
  */
-export async function writeJsonFile(
-	file: string,
-	data: any,
-	charset: BufferEncoding = DEFAULT_ENCODING,
-): Promise<boolean> {
+export async function writeJsonFile(file: string, data: any, charset: BufferEncoding = DEFAULT_ENCODING): Promise<boolean> {
 	file = abs(file);
 	const newData = Object.assign({}, data);
 	cloneAttachedFieldsInto(data, newData);
@@ -98,12 +84,7 @@ export async function writeJsonFile(
 	return ret;
 }
 
-export async function loadJsonFileIfExists<T = any, K = any>(
-	file: string,
-	defaultValue: T = {} as any,
-	charset: BufferEncoding = DEFAULT_ENCODING,
-	formatter?: IFormatter<K>,
-): Promise<JsonEditObject<T, K>> {
+export async function loadJsonFileIfExists<T = any, K = any>(file: string, defaultValue: T = {} as any, charset: BufferEncoding = DEFAULT_ENCODING, formatter?: IFormatter<K>): Promise<JsonEditObject<T, K>> {
 	file = abs(file);
 	if (await pathExists(file)) {
 		return loadJsonFile(file, charset);
@@ -119,11 +100,7 @@ export async function loadJsonFileIfExists<T = any, K = any>(
 	return newData as JsonEditObject<T, K>;
 }
 
-export async function loadJsonFile<T = any, K = any>(
-	file: string,
-	charset: BufferEncoding = DEFAULT_ENCODING,
-	formatter?: IFormatter<K>,
-): Promise<JsonEditObject<T, K>> {
+export async function loadJsonFile<T = any, K = any>(file: string, charset: BufferEncoding = DEFAULT_ENCODING, formatter?: IFormatter<K>): Promise<JsonEditObject<T, K>> {
 	file = abs(file);
 	const targetFile = await loadFile(file, charset);
 	const data: any = parse(targetFile.originalContent);

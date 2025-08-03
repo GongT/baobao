@@ -9,7 +9,7 @@ if (!tsFile) {
 	process.exit(1);
 }
 
-const absolutePath = new URL(tsFile, pathToFileURL(process.cwd()) + '/').href;
+const absolutePath = new URL(tsFile, `${pathToFileURL(process.cwd())}/`).href;
 process.argv.splice(1, 2, fileURLToPath(absolutePath)); // Replace the first argument with the absolute path
 
 await execute(absolutePath);

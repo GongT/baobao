@@ -5,11 +5,7 @@ export const memorizeValueSymbol = Symbol('@gongt/memorizeValue');
  *
  * remember first return value of method/getter, directlly return memorized value when call it again
  */
-export const memo: MethodDecorator = <T>(
-	_target: Object,
-	propertyKey: string | symbol,
-	descriptor: TypedPropertyDescriptor<T>
-) => {
+export const memo: MethodDecorator = <T>(_target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => {
 	const original: Function = (descriptor.value ? descriptor.value : descriptor.get) as any;
 	if (descriptor.set || typeof original !== 'function') {
 		throw new TypeError('@memo should only use on method, or getter. Not property and setter.');

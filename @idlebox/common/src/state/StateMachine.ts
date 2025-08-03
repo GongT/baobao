@@ -39,10 +39,7 @@ export class SimpleStateMachine<StateType, EventType> {
 		const state = this.rules.get(this.currentState)!;
 		const next = state.get(event);
 		if (typeof next === 'undefined') {
-			throw new Error(
-				`no event "${event} (${typeof event})" on state "${this.currentState} (${typeof this
-					.currentState})" (has ${[...state.keys()].map((v) => `"${v} (${typeof v})"`).join(', ')})`
-			);
+			throw new Error(`no event "${event} (${typeof event})" on state "${this.currentState} (${typeof this.currentState})" (has ${[...state.keys()].map((v) => `"${v} (${typeof v})"`).join(', ')})`);
 		}
 
 		const last = this.currentState;

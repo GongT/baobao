@@ -25,26 +25,7 @@ type MaybeArray<T> = T | T[];
 type BooleanType = 'true' | 'false' | 'yes' | 'no' | '1' | '0' | 'on' | 'off';
 `;
 
-const types = [
-	'automount',
-	'dnssd',
-	'device',
-	'exec',
-	'kill',
-	'link',
-	'mount',
-	'netdev',
-	'network',
-	'nspawn',
-	'path',
-	'resource-control',
-	'scope',
-	'service',
-	'socket',
-	'swap',
-	'timer',
-	'unit',
-];
+const types = ['automount', 'dnssd', 'device', 'exec', 'kill', 'link', 'mount', 'netdev', 'network', 'nspawn', 'path', 'resource-control', 'scope', 'service', 'socket', 'swap', 'timer', 'unit'];
 for (const type of types) {
 	const outputFile = resolve(outDir, `${type}.ts`);
 
@@ -100,14 +81,11 @@ for (const type of types) {
 		`${prefix}
 ${contents.join('\n')}
 ${all}
-`
+`,
 	);
 }
 
-await writeFile(
-	resolve(outDir, '../all.ts'),
-	`${types.map((x) => `export type * from './created/${x}.js';`).join('\n')}\n`
-);
+await writeFile(resolve(outDir, '../all.ts'), `${types.map((x) => `export type * from './created/${x}.js';`).join('\n')}\n`);
 
 interface IVar {
 	parent: string;
@@ -137,7 +115,7 @@ function flattenVars(lines: string[], docs: string[]) {
 }
 
 function createSection(unitType: string, title: string, vars: readonly IVar[]): IContent {
-	const listReg = /Takes one of [^\.]+\./i;
+	const listReg = /Takes one of [^.]+\./i;
 	const gotTitle = /^\[([a-z]+)\]/i.exec(title);
 
 	let append;

@@ -43,7 +43,6 @@ class PnpmMonoRepo extends AsyncDisposable {
 
 		this.mode = currentCommand === 'watch' ? ModeKind.Watch : ModeKind.Build;
 		this.workersManager = new WorkersManager(this.mode, logger);
-		this.workersManager._register(this);
 	}
 
 	async initialize() {
@@ -56,7 +55,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 			if (exec) {
 				this.workersManager.addWorker(exec, project.devDependencies);
 			} else {
-				this.workersManager.addEmptyWorker(project.packageJson.name);
+				this.workersManager.addEmptyNode(project.packageJson.name);
 			}
 		}
 	}
@@ -66,19 +65,18 @@ class PnpmMonoRepo extends AsyncDisposable {
 	}
 
 	async startup() {
-		this.workersManager.finalize();
+		const graph = this.workersManager.finalize();
 		// this.dump();
-		await this.workersManager.startup();
+		graph._register(this);
+		await graph.startup();
 	}
 
 	private makeExecuter(watchMode: boolean, project: IPackageInfo): undefined | ProcessIPCClient {
 		if (project.packageJson.scripts?.watch === undefined) {
-			this.logger
-				.fatal`project ${project.packageJson.name} does not have a "watch" script. If it doesn't need, specify a empty string.`;
+			this.logger.fatal`project ${project.packageJson.name} does not have a "watch" script. If it doesn't need, specify a empty string.`;
 		}
 		if (project.packageJson.scripts?.build === undefined) {
-			this.logger
-				.fatal`project ${project.packageJson.name} does not have a "build" script. If it doesn't need, specify a empty string.`;
+			this.logger.fatal`project ${project.packageJson.name} does not have a "build" script. If it doesn't need, specify a empty string.`;
 		}
 		const script = watchMode ? project.packageJson.scripts.watch : project.packageJson.scripts.build;
 
@@ -101,7 +99,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 
 		exec.onFailure((e) => {
 			if (e instanceof CompileError) {
-				this.errorMessages.set(project, e.message + '\n' + (e.output ?? 'no output from process'));
+				this.errorMessages.set(project, `${e.message}\n${e.output ?? 'no output from process'}`);
 			} else {
 				this.errorMessages.set(project, e.stack || e.message);
 			}
@@ -163,11 +161,14 @@ class PnpmMonoRepo extends AsyncDisposable {
 	}
 
 	dump(depth: number = 0) {
+		const graph = this.workersManager.finalize();
+		let graphTxt: string;
 		if (depth <= 0) {
-			return this.workersManager.formatDebugList();
+			graphTxt = graph.debugFormatList();
 		} else {
-			return this.workersManager.formatDebugGraph(depth);
+			graphTxt = graph.debugFormatGraph(depth);
 		}
+		return graphTxt + '\n' + graph.debugFormatSummary();
 	}
 
 	printScreen() {

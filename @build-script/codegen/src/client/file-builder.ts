@@ -1,19 +1,22 @@
 import { escapeRegExp } from '@idlebox/common';
+import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
-import { extname, isAbsolute, resolve } from 'node:path';
+import { dirname, isAbsolute, resolve } from 'node:path';
 import type { ILogger } from '../common/output.js';
 
 const endingQuote = /^}/;
 const hasJsSuffix = /\.[cm]?jsx?$/i;
+const hasTsSuffix = /\.[cm]?tsx?$/i;
 
 export class FileBuilder {
 	protected _referData?: string[];
 	protected result: string[] = [];
 	public readonly absolutePath: string;
-	public readonly relativePath: string;
 
 	constructor(
+		// dirname of package.json
 		protected readonly projectRoot: string,
+		// the generator.ts file absolute
 		private readonly selfPath: string,
 		name: string,
 		public readonly logger: ILogger,
@@ -34,16 +37,25 @@ export class FileBuilder {
 			logger.warn(`output file "${name}" is not under the project root "${projectRoot}"`);
 		}
 
-		const ext = extname(name) || '.ts';
+		if (name.endsWith('.json')) {
+			name = name.slice(0, -5) + '.generated.json';
+		} else {
+			if (name.endsWith('.ts')) {
+				name = name.slice(0, -3);
+			}
 
-		if (name.endsWith(ext)) {
-			name = name.slice(0, -ext.length);
+			name = `${name}.generated.ts`;
 		}
 
-		name = `${name}.generated${ext}`;
-
-		this.relativePath = name;
 		this.absolutePath = resolve(projectRoot, name);
+	}
+
+	get dirname() {
+		return dirname(this.absolutePath);
+	}
+
+	getAbsolutePath() {
+		return this.absolutePath;
 	}
 
 	get referData() {
@@ -155,21 +167,46 @@ export class FileBuilder {
 		return new WrappedArray(r);
 	}
 
-	import(what: string[], where: string): string;
-	import(type: true, what: string[], where: string): string;
-	import(type: boolean | string[], what: string | string[], where?: string): string {
-		if (typeof type !== 'boolean') {
-			where = what as string;
-			what = type;
-			type = false;
-		}
+	/**
+	 * 在文件开头生成一个import语句
+	 * @param what 如果是数组形式，且头一个是“type”，则生成 import type {...}。
+	 * @param where 文件路径，后缀自动从.ts[x]改成.js，如果是绝对路径，则自动转换成相对于当前生成结果文件。
+	 * @param exports 如果为true，则生成export语句
+	 * @returns 添加的import语句
+	 */
+	import(what: string | string[], where: string, exports = false): string {
+		let type = false;
 		if (Array.isArray(what)) {
+			if (what[0] === 'type') {
+				type = true;
+				what.shift();
+			}
 			what = what.join(', ');
 		}
+
+		if (typeof where !== 'string') {
+			throw new TypeError(`import path must be a string, got ${typeof where}`);
+		}
+
+		if (!where.startsWith('.')) {
+			if (where.startsWith('#')) {
+				// is ok
+			} else if (isAbsolute(where)) {
+				where = relativePath(this.dirname, where);
+			} else {
+				throw new Error(`import path "${where}" should starts with . or #`);
+			}
+		}
+
+		if (hasTsSuffix.test(where)) {
+			where = where.replace(hasTsSuffix, '.js');
+		}
+
+		const s = exports ? 'export' : 'import';
 		if (type) {
-			return this.prepend(`import type { ${what} } from '${where}';`);
+			return this.prepend(`${s} type { ${what} } from '${where}';`);
 		} else {
-			return this.prepend(`import { ${what} } from '${where}';`);
+			return this.prepend(`${s} { ${what} } from '${where}';`);
 		}
 	}
 

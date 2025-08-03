@@ -1,4 +1,4 @@
-const splittersAndLower = /[-.\/_]+[a-z]/g;
+const splittersAndLower = /[-./_]+[a-z]/g;
 /** @public */
 export function camelCase(str: string) {
 	return str
@@ -28,7 +28,7 @@ export function lcfirst<T extends string>(str: T): Uncapitalize<T> {
 
 const prefixCapitals = /^[A-Z]+/;
 const allCapitals = /[A-Z]+/g;
-const spliters = /[-.\/_]+/g;
+const spliters = /[-./_]+/g;
 /** @public */
 export function linux_case(str: string) {
 	return str

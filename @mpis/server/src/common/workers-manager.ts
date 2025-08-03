@@ -1,45 +1,65 @@
-import { Disposable, Emitter, registerGlobalLifecycle } from '@idlebox/common';
-import { BuilderDependencyGraph, WatcherDependencyGraph, type IWatchEvents } from '@idlebox/dependency-graph';
-import { createLogger, type IMyLogger } from '@idlebox/logger';
-import { registerNodejsExitHandler } from '@idlebox/node';
-import { inspect } from 'node:util';
-import { State, type ProtocolClientObject } from './protocol-client-object.js';
+import { Emitter, registerGlobalLifecycle } from '@idlebox/common';
+import { getPauseControl, Job, JobGraphBuilder, JobState, pause, UnrecoverableJobError } from '@idlebox/dependency-graph';
+import { createLogger } from '@idlebox/logger';
+import { inspect, type InspectOptionsStylized } from 'node:util';
+import { type ProtocolClientObject } from './protocol-client-object.js';
 
 const MAX_STARTING = 4;
 
-class EventTranslate implements IWatchEvents {
-	private readonly _onSuccess = new Emitter<void>();
-	public readonly onSuccess = this._onSuccess.event;
-
-	private readonly _onFailed = new Emitter<Error>();
-	public readonly onFailed = this._onFailed.event;
-
-	private readonly _onRunning = new Emitter<void>();
-	public readonly onRunning = this._onRunning.event;
-
+class EventTranslate extends Job<string> {
 	constructor(
-		protected readonly logger: IMyLogger,
-		private readonly worker: ProtocolClientObject,
+		name: string,
+		dependencies: readonly string[],
+		public readonly worker: ProtocolClientObject,
+		public readonly mode: ModeKind,
 	) {
+		super(name, dependencies);
+
 		worker.onStart(() => {
-			this._onRunning.fireNoError();
+			this.setState(JobState.Running);
 		});
-		worker.onSuccess(() => {
-			this._onSuccess.fireNoError();
+		worker.onSuccess((evt) => {
+			this.setState(JobState.Success, evt.message);
 		});
 		worker.onFailure((err) => {
-			this._onFailed.fireNoError(err);
+			this.setState(JobState.Error, err);
 		});
 	}
 
-	async execute(): Promise<void> {
+	protected override async _execute(): Promise<undefined> {
 		await this.worker.execute();
 
-		// this.worker.err
+		this.logger.debug`worker execute() return | state = ${this._state}`;
+		if (this.mode === ModeKind.Watch) {
+			if (this.isFatalError()) return;
+
+			this.logger.warn`this is watcher, it should not quit!`;
+			this.setState(JobState.ErrorExited, new UnrecoverableJobError(`watch worker "${this.name}" quited`));
+			return;
+		}
+
+		if (this.isSuccess()) {
+			const lastD = this.getLastData() as any;
+			this.setState(JobState.SuccessExited, lastD);
+		} else if (this.isFailling()) {
+			if (this.isFatalError()) {
+				// nothing
+			} else {
+				this.setState(JobState.ErrorExited, this.getLastError() || new Error('impossible'));
+			}
+		}
 	}
 
-	[inspect.custom]() {
-		return this.worker._inspect();
+	get [pause]() {
+		return getPauseControl(this.worker);
+	}
+
+	override async stop() {
+		return this.worker.dispose();
+	}
+
+	override [inspect.custom](_d: number, options: InspectOptionsStylized, ins: typeof inspect) {
+		return this.debugPrefix() + ' ' + ins(this.worker, options).trim();
 	}
 }
 
@@ -48,122 +68,85 @@ export enum ModeKind {
 	Build = 'build',
 }
 
-export class WorkersManager extends Disposable {
-	private readonly workerList: ProtocolClientObject[] = [];
-	private readonly dependencyGraph: WatcherDependencyGraph | BuilderDependencyGraph;
-	private readonly logger;
-
-	protected readonly _onTerminate = this._register(new Emitter<ProtocolClientObject>());
+export class WorkersManager extends JobGraphBuilder<string, EventTranslate> {
+	protected readonly _onTerminate = new Emitter<EventTranslate>();
 	public readonly onTerminate = this._onTerminate.event;
 
 	constructor(
 		public readonly mode: ModeKind,
-		logger = createLogger('worker'),
+		private readonly _logger = createLogger('workers'),
 	) {
-		super(`WorkersManager`);
-
-		this.logger = logger.extend('master');
-		this.dependencyGraph =
-			mode === ModeKind.Watch
-				? new WatcherDependencyGraph(MAX_STARTING, this.logger)
-				: new BuilderDependencyGraph(MAX_STARTING, this.logger);
-
-		registerGlobalLifecycle(this);
-		registerNodejsExitHandler();
+		super(MAX_STARTING, _logger.extend('master'));
 	}
 
-	addEmptyWorker(id: string) {
-		this.dependencyGraph.addEmptyNode(id);
+	protected override getChildLogger(node: EventTranslate) {
+		return this._logger.extend(node.name);
 	}
 
 	addWorker(worker: ProtocolClientObject, dependencies: readonly string[]) {
-		this._register(worker);
-
-		this.workerList.push(worker);
-
-		this.dependencyGraph.addNode(worker._id, dependencies, new EventTranslate(this.logger, worker));
+		const job = new EventTranslate(worker._id, dependencies, worker, this.mode);
+		worker.onTerminate(() => {
+			this._onTerminate.fireNoError(job);
+		});
+		this.addNode(job);
 	}
 
-	private _finalized = false;
-	finalize() {
-		if (this._finalized) return;
-		this._finalized = true;
-		Object.freeze(this.workerList);
-		this.dependencyGraph.finalize();
-		this.logger.debug`workers finalized.`;
-	}
-
-	async startup() {
-		this.finalize();
-
-		await this.dependencyGraph.startup();
-		this.logger.debug`all workers started!!!`;
-	}
-
-	public get size() {
-		return this.dependencyGraph.size();
+	protected override _finalize() {
+		const graph = super._finalize();
+		registerGlobalLifecycle(graph);
+		// registerNodejsExitHandler();
+		graph._register(this._onTerminate);
+		return graph;
 	}
 
 	/**
 	 * 进程退出的
 	 */
 	public get quitedWorkers() {
-		return this.workerList.filter((worker) => !worker.running);
+		return [...this.nodes].filter((worker) => !worker.isStopped()).map((e) => e.worker);
 	}
 
 	/**
 	 * 正在编译的
 	 */
 	public get startingWorkers() {
-		return this.workerList.filter(
-			(worker) => worker.state === State.EXECUTING || worker.state === State.COMPILE_STARTED,
-		);
+		return [...this.nodes].filter((worker) => !worker.isRunning()).map((e) => e.worker);
 	}
 
 	/**
 	 * 报告了错误但还在运行的
 	 */
 	public get recoverableFailedWorkers() {
-		return this.workerList.filter((worker) => worker.state === State.COMPILE_FAILED && worker.running);
+		return [...this.nodes].filter((worker) => !worker.isFailling()).map((e) => e.worker);
 	}
 
 	/**
 	 * 还没有开始的worker
 	 */
 	public get remainingWorkers() {
-		return this.workerList.filter((worker) => worker.state === State.NOT_EXECUTE);
+		return [...this.nodes].filter((worker) => !worker.isStarted()).map((e) => e.worker);
 	}
 
 	/**
 	 * 运行失败且退出的worker
 	 */
 	public get unrecoverableWorkers() {
-		return this.workerList.filter((worker) => worker.state === State.COMPILE_FAILED && !worker.running);
+		return [...this.nodes].filter((worker) => !worker.isFatalError()).map((e) => e.worker);
 	}
 
-	public get allWorkers() {
-		return this.workerList;
+	public get _allWorkers() {
+		return [...this.nodes].map((e) => e.worker);
 	}
 
-	public formatDebugGraph(depth = Infinity) {
-		const dNum = this.startingWorkers.length + this.remainingWorkers.length;
+	// public formatDebugGraph(depth = Infinity) {
+	// 	const dNum = this.startingWorkers.length + this.remainingWorkers.length;
 
-		return (
-			`[\x1B[38;5;14mWorkersManager\x1B[39m total=${this.workerList.length}; pending=${dNum}]\n` +
-			this.dependencyGraph.debugFormatGraph(depth) +
-			'\n' +
-			this.dependencyGraph.debugFormatSummary()
-		);
-	}
+	// 	return `[\x1B[38;5;14mWorkersManager\x1B[39m total=${this.workerList.length}; pending=${dNum}]\n` + this.graphBuilder.debugFormatGraph(depth) + '\n' + this.graphBuilder.debugFormatSummary();
+	// }
 
-	public formatDebugList() {
-		const dNum = this.startingWorkers.length + this.remainingWorkers.length;
+	// public formatDebugList() {
+	// 	const dNum = this.startingWorkers.length + this.remainingWorkers.length;
 
-		return (
-			`[\x1B[38;5;14mWorkersManager\x1B[39m total=${this.workerList.length}; pending=${dNum}]\n` +
-			this.dependencyGraph.debugFormatList() +
-			'\n' +
-			this.dependencyGraph.debugFormatSummary()
-		);
-	}
+	// 	return `[\x1B[38;5;14mWorkersManager\x1B[39m total=${this.workerList.length}; pending=${dNum}]\n` + this.graphBuilder.debugFormatList() + '\n' + this.graphBuilder.debugFormatSummary();
+	// }
 }

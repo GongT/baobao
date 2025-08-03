@@ -13,7 +13,7 @@
 		"build": "tsc -p src --noEmit",
 		"clean": "rimraf lib",
 		"test": "",
-		"watch": "tsc -p src --noEmit -w"
+		"watch": ""
 	},
 	"private": true,
 	"devDependencies": {

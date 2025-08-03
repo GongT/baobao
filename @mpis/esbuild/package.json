@@ -36,6 +36,9 @@
 		"esbuild": ">=0.24.0"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

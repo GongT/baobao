@@ -1,12 +1,7 @@
 import { camelCase, ucfirst } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { ensureParentExists, relativePath, writeFileIfChange } from '@idlebox/node';
-import {
-	ExportKind,
-	IgnoreFiles,
-	TypescriptProject,
-	type IIdentifierResult,
-} from '@idlebox/typescript-surface-analyzer';
+import { ExportKind, IgnoreFiles, TypescriptProject, type IIdentifierResult } from '@idlebox/typescript-surface-analyzer';
 import { basename, dirname } from 'node:path';
 import type TypeScriptApi from 'typescript';
 
@@ -54,15 +49,7 @@ interface IRet {
 	ignores: IgnoreFiles;
 }
 
-export async function createIndex({
-	logger,
-	outputFileAbs,
-	project,
-	ts,
-	absoluteImport,
-	extraExcludes = [],
-	stripTags = ['internal'],
-}: ICreateIndexContext): Promise<IRet> {
+export async function createIndex({ logger, outputFileAbs, project, ts, absoluteImport, extraExcludes = [], stripTags = ['internal'] }: ICreateIndexContext): Promise<IRet> {
 	if (!project.options.rootDir || !project.options.configFilePath) {
 		logger.error('%o', project.options);
 		throw new Error(`missing rootDir and {internal}configFilePath`);
@@ -78,10 +65,7 @@ export async function createIndex({
 
 	const list = p.execute(stripTags);
 
-	const indexDir = `./${relativePath(
-		project.options.rootDir || dirname(project.options.configFilePath as string),
-		dirname(outputFileAbs),
-	)
+	const indexDir = `./${relativePath(project.options.rootDir || dirname(project.options.configFilePath as string), dirname(outputFileAbs))
 		.split('/')
 		.filter((e) => e && e !== '.')
 		.map(() => '..')

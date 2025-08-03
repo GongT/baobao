@@ -10,8 +10,7 @@ import { argv, CommandDefine, pArgS } from '../common/functions/cli.js';
 export class Command extends CommandDefine {
 	protected override _usage = `${pArgS('--dev')}`;
 	protected override _description = '为所有项目的 tsconfig.json 添加 references 字段';
-	protected override _help =
-		`查找tsconfig.json和src/tsconfig.json\n    如果不在这里，可以在package.json中设置exports['./tsconfig.json'] = './xxxx'`;
+	protected override _help = `查找tsconfig.json和src/tsconfig.json\n    如果不在这里，可以在package.json中设置exports['./tsconfig.json'] = './xxxx'`;
 	protected override _arguments = {
 		'--dev': { flag: true, description: '也将devDependencies中的包添加到references中' },
 	};

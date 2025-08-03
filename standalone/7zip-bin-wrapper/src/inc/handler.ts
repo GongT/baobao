@@ -30,7 +30,7 @@ export class I7zHandler extends EventEmitter {
 			},
 			(status) => {
 				this.emit('progress', status);
-			}
+			},
 		);
 
 		this._promise = processPromise(this.cp, this.commandline, this.cwd).catch((e) => e);

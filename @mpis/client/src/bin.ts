@@ -1,6 +1,6 @@
 import { argv } from '@idlebox/args/default';
 import { execa } from 'execa';
-import { basename } from 'path';
+import { basename } from 'node:path';
 import { listenOutputStream } from './api.js';
 
 const stdinMode = argv.flag('--stdin') > 0;

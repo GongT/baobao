@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: <explanation> */
-import { type IExportMap } from '@idlebox/common';
+import type { IExportMap } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { cpSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';

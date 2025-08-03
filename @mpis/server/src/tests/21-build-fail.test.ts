@@ -1,22 +1,19 @@
 import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
-import { createRootLogger, EnableLogLevel, logger, set_default_log_level } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { ModeKind, WorkersManager } from '../common/workers-manager.js';
 import { test_fail_quit, test_success_quit } from './shared/functions.js';
 
-const workersManager = new WorkersManager(ModeKind.Build);
+const workersManager = new WorkersManager(ModeKind.Build, logger);
 
 registerGlobalLifecycle(
 	toDisposable(() => {
 		logger.info`global lifecycle cleaning up...`;
-		console.error(workersManager.formatDebugGraph());
+		console.error(workersManager.finalize().debugFormatGraph());
+		console.error(workersManager.finalize().debugFormatSummary());
 		logger.info`bye bye`;
 	}),
 );
-
-process.stderr.write('\x1Bc');
-createRootLogger('test', EnableLogLevel.verbose);
-set_default_log_level(EnableLogLevel.verbose);
 
 const choose = Math.round(Math.random() * 6) + 1;
 // const choose = 7;
@@ -41,13 +38,16 @@ workersManager.addWorker(test2a, []);
 workersManager.addWorker(test2b, [testaa._id]);
 workersManager.addWorker(testaa, []);
 
-await workersManager.startup().then(
-	() => {
-		logger.fatal('all workers completed!!');
-		shutdown(1);
-	},
-	() => {
-		logger.success`great, error catches!!`;
-		shutdown(0);
-	},
-);
+await workersManager
+	.finalize()
+	.startup()
+	.then(
+		() => {
+			logger.fatal('Oops, all workers completed, but they should fail');
+			shutdown(1);
+		},
+		() => {
+			logger.success`great, error catches!!`;
+			shutdown(0);
+		},
+	);

@@ -13,10 +13,7 @@ interface IPnpmListReturnElement {
 
 export async function pnpmListProjects(projectRoot: string) {
 	const ret: IPackageInfoRW[] = [];
-	const defs: IPnpmListReturnElement[] = await execJson(
-		['pnpm', 'recursive', 'ls', '--depth=-1', '--json'],
-		projectRoot,
-	);
+	const defs: IPnpmListReturnElement[] = await execJson(['pnpm', 'recursive', 'ls', '--depth=-1', '--json'], projectRoot);
 	const allNames = defs.map((d) => d.name);
 	for (const { name, path } of defs) {
 		const pkgFile = resolve(path, 'package.json');

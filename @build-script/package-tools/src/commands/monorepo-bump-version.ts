@@ -1,9 +1,8 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { Emitter, humanDate } from '@idlebox/common';
-import { BuilderDependencyGraph, type IWatchEvents } from '@idlebox/dependency-graph';
+import { humanDate } from '@idlebox/common';
+import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
 import { logger } from '@idlebox/logger';
 import { makeRe } from 'minimatch';
-import { inspect } from 'node:util';
 import { argv, CommandDefine, CSI } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
@@ -23,31 +22,26 @@ export class Command extends CommandDefine {
 	};
 }
 
-interface IState {
+interface IPayload {
 	readonly index: number;
 	readonly length: number;
 	readonly options: ReturnType<typeof options>;
 	readonly changedPackages: string[];
 }
 
-class BumpVersionJob implements IWatchEvents {
-	private readonly _onSuccess = new Emitter<void>();
-	public readonly onSuccess = this._onSuccess.event;
-
-	private readonly _onFailed = new Emitter<Error>();
-	public readonly onFailed = this._onFailed.event;
-
-	private readonly _onRunning = new Emitter<void>();
-	public readonly onRunning = this._onRunning.event;
-
+class BumpVersionJob extends Job<void> {
 	constructor(
-		private readonly state: IState,
+		name: string,
+		deps: readonly string[],
+		private readonly payload: IPayload,
 		private readonly project: IPackageInfo,
 		private readonly workspace: MonorepoWorkspace,
-	) {}
+	) {
+		super(name, deps);
+	}
 
-	async execute() {
-		const { index, length, options, changedPackages } = this.state;
+	protected override async _execute() {
+		const { index, length, options, changedPackages } = this.payload;
 		const w = length.toFixed(0).length;
 		console.log(`📦 [${(index + 1).toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
 		if (this.project.packageJson.private && !options.allowPrivate) {
@@ -85,18 +79,13 @@ class BumpVersionJob implements IWatchEvents {
 			}
 		}
 	}
-
-	[inspect.custom]() {
-		// TODO
-		return '~~~~~~~~';
-	}
 }
 
 function options() {
 	const excludes = argv.multiple('--exclude');
 	let excludeReg: RegExp | undefined;
 	if (excludes.length > 0) {
-		let regTxt = [];
+		const regTxt = [];
 		for (const exclude of excludes) {
 			const match = makeRe(exclude, { platform: 'linux' });
 			if (!match) {
@@ -135,7 +124,7 @@ export async function main() {
 	await workspace.decoupleDependencies();
 	const projects = await workspace.listPackages();
 
-	const graph = new BuilderDependencyGraph(1, logger);
+	const graph = new JobGraphBuilder(1, logger);
 
 	const opts = options();
 
@@ -146,9 +135,9 @@ export async function main() {
 		if (!project.packageJson.name) continue;
 
 		graph.addNode(
-			project.packageJson.name,
-			[],
 			new BumpVersionJob(
+				project.packageJson.name,
+				[],
 				{
 					index,
 					length: projects.length,
@@ -163,7 +152,7 @@ export async function main() {
 		index++;
 	}
 
-	await graph.startup();
+	await graph.finalize().startup();
 
 	console.log(`🎉 所有任务完成，共修改了 ${changedPackages.length} 个包`);
 }

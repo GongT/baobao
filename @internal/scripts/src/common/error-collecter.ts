@@ -75,7 +75,7 @@ export class CheckFail extends Error {
 		const errCnt = this.errors.values().reduce((c, v) => c + v.messages.length, 0);
 		const header = `${errCnt} errors found:`;
 
-		let all_messages = [header];
+		const all_messages = [header];
 		for (const [who, sub] of this.errors.entries()) {
 			if (sub.messages.length === 0) continue;
 

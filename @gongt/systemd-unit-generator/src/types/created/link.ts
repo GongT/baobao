@@ -36,23 +36,7 @@ export interface ILinkMatchSection {
 	Firmware?: MaybeArray<string>;
 }
 
-export const linkMatchFields: readonly string[] = [
-	'MACAddress',
-	'PermanentMACAddress',
-	'Path',
-	'Driver',
-	'Type',
-	'Kind',
-	'Property',
-	'OriginalName',
-	'Host',
-	'Virtualization',
-	'KernelCommandLine',
-	'KernelVersion',
-	'Credential',
-	'Architecture',
-	'Firmware',
-];
+export const linkMatchFields: readonly string[] = ['MACAddress', 'PermanentMACAddress', 'Path', 'Driver', 'Type', 'Kind', 'Property', 'OriginalName', 'Host', 'Virtualization', 'KernelCommandLine', 'KernelVersion', 'Credential', 'Architecture', 'Firmware'];
 
 export interface ILinkLinkSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.link.html#Description= */
@@ -285,16 +269,6 @@ export interface ILinkSrIov_SectionOptionsOptions {
 	MACAddress?: MaybeArray<string>;
 }
 
-export const linkSrIov_SectionOptionsFields: readonly string[] = [
-	'VirtualFunction',
-	'VLANId',
-	'QualityOfService',
-	'VLANProtocol',
-	'MACSpoofCheck',
-	'QueryReceiveSideScaling',
-	'Trust',
-	'LinkState',
-	'MACAddress',
-];
+export const linkSrIov_SectionOptionsFields: readonly string[] = ['VirtualFunction', 'VLANId', 'QualityOfService', 'VLANProtocol', 'MACSpoofCheck', 'QueryReceiveSideScaling', 'Trust', 'LinkState', 'MACAddress'];
 
 export type __ILinkAll = ILinkMatchSection & ILinkLinkSection & ILinkSrIov_SectionOptionsOptions;

@@ -86,7 +86,7 @@ export class TerminalController {
 					this.tick();
 					this.gradientPosition = (this.gradientPosition + 1) % this.gradientArray.length;
 				},
-				Math.ceil(1000 / 60)
+				Math.ceil(1000 / 60),
 			);
 		}
 	}

@@ -1,7 +1,7 @@
 export enum BuildEvent {
-	Start = "start",
-	Success = "success",
-	Failed = "failed",
+	Start = 'start',
+	Success = 'success',
+	Failed = 'failed',
 }
 
 export interface IMessageObject {
@@ -20,7 +20,7 @@ export interface IMessageObject {
 
 	/**
 	 * 从start到stop之间的输出内容，包含stop，不包含start
-	 * 
+	 *
 	 * error时一定有，success不一定
 	 */
 	output?: string;

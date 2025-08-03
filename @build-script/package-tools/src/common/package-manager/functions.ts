@@ -69,13 +69,7 @@ async function resolveNpmVersion([packageName, currentVersion]: [string, string]
 
 			return [packageName, newVersion, currentVersion];
 		} catch (e: any) {
-			console.error(
-				'[npm:resolve][try %s] failed fetch package "%s": [%s] %s',
-				currentTry,
-				packageName,
-				e.code,
-				e.message
-			);
+			console.error('[npm:resolve][try %s] failed fetch package "%s": [%s] %s', currentTry, packageName, e.code, e.message);
 			lastError = e;
 			if (e.code === 'ECONNRESET') {
 				retryCnt++;
@@ -97,11 +91,7 @@ export async function resolveNpm(versions: Map<string, string>) {
 
 	const nc = Number.parseInt((await getNpmConfigValue('network-concurrency')) || '4');
 
-	for await (const [packName, newVersion, currentVersion] of asyncPool(
-		nc,
-		[...versions.entries()],
-		resolveNpmVersion
-	)) {
+	for await (const [packName, newVersion, currentVersion] of asyncPool(nc, [...versions.entries()], resolveNpmVersion)) {
 		versions.set(packName, newVersion);
 
 		let updated = '';

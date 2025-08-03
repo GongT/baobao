@@ -1,11 +1,4 @@
-import {
-	createStackTraceHolder,
-	DisposedError,
-	Emitter,
-	type IStateChangeEvent,
-	SimpleStateMachine,
-	type StackTraceHolder,
-} from '@idlebox/common';
+import { createStackTraceHolder, DisposedError, Emitter, type IStateChangeEvent, SimpleStateMachine, type StackTraceHolder } from '@idlebox/common';
 
 function immediate() {
 	return new Promise<void>((resolve) => {

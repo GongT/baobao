@@ -3,7 +3,10 @@
 	"type": "module",
 	"version": "0.0.3",
 	"description": "api for modify .*ignore files",
-	"keywords": ["gitignore", "ignorefile"],
+	"keywords": [
+		"gitignore",
+		"ignorefile"
+	],
 	"exports": {
 		".": {
 			"default": "./lib/api.js"
@@ -33,6 +36,9 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

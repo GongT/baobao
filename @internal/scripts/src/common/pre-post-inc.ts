@@ -1,16 +1,5 @@
 import { logger } from '@idlebox/logger';
-import {
-	lstatSync,
-	mkdirSync,
-	readdirSync,
-	readFileSync,
-	readlinkSync,
-	rmdirSync,
-	rmSync,
-	symlinkSync,
-	unlinkSync,
-	type Stats,
-} from 'node:fs';
+import { lstatSync, mkdirSync, readdirSync, readFileSync, readlinkSync, rmdirSync, rmSync, symlinkSync, unlinkSync, type Stats } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
 export function readJson(file: string) {

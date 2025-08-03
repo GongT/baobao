@@ -64,17 +64,7 @@ interface StrategyRequired {
 }
 
 function isPrimitive(value: any): value is Primitive {
-	return (
-		value === undefined ||
-		value === null ||
-		typeof value === 'string' ||
-		typeof value === 'number' ||
-		typeof value === 'boolean' ||
-		typeof value === 'bigint' ||
-		typeof value === 'function' ||
-		value instanceof RegExp ||
-		value instanceof Date
-	);
+	return value === undefined || value === null || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint' || typeof value === 'function' || value instanceof RegExp || value instanceof Date;
 }
 
 const defaults: StrategyRequired = {
@@ -129,7 +119,7 @@ function _deepmerge(a: any, b: any, keypath: KeyType[], options: StrategyRequire
 		return objMerged;
 	}
 
-	let copy: any = {};
+	const copy: any = {};
 	const keys = new Set([...Object.getOwnPropertyNames(a), ...Object.getOwnPropertyNames(b ?? {})]);
 	for (const key of keys) {
 		copy[key] = _deepmerge(a[key], b?.[key], [...keypath, key], options);

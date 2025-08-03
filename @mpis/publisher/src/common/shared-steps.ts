@@ -14,10 +14,7 @@ export function reconfigurePackageJson(mode: 'pack' | 'publish') {
 	if (pkgJson.scripts) {
 		delete pkgJson.scripts.prepublishHook;
 
-		const lifecycles =
-			mode === 'pack'
-				? ['prepack', 'prepare', 'postpack']
-				: ['prepublishOnly', 'prepack', 'prepare', 'postpack', 'publish', 'postpublish'];
+		const lifecycles = mode === 'pack' ? ['prepack', 'prepare', 'postpack'] : ['prepublishOnly', 'prepack', 'prepare', 'postpack', 'publish', 'postpublish'];
 
 		for (const lifecycle of lifecycles) {
 			if (pkgJson.scripts[lifecycle]) {

@@ -48,10 +48,7 @@ export abstract class PackageManager {
 
 		const pkg = await this.loadPackageJson();
 		if (pkg.publishConfig?.['packCommand']) {
-			const cmds =
-				typeof pkg.publishConfig['packCommand'] === 'string'
-					? splitCmd(pkg.publishConfig['packCommand'])
-					: pkg.publishConfig['packCommand'];
+			const cmds = typeof pkg.publishConfig['packCommand'] === 'string' ? splitCmd(pkg.publishConfig['packCommand']) : pkg.publishConfig['packCommand'];
 
 			if (!Array.isArray(cmds)) {
 				logger.fatal`publishConfig.packCommand必须是字符串或字符串数组, 但实际是: ${typeof pkg.publishConfig['packCommand']}`;

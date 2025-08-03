@@ -24,12 +24,17 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"keywords": ["typescript", "esbuild", "executer", "runner"],
+	"keywords": [
+		"typescript",
+		"esbuild",
+		"executer",
+		"runner"
+	],
 	"scripts": {
-		"prepack": "rimraf lib && tsc -p src",
-		"clean": "rimraf lib",
-		"build": "tsc -p src",
-		"watch": "tsc -p src -w",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
@@ -50,8 +55,13 @@
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
 	},
-	"decoupledDependencies": ["@mpis/typescript"],
+	"decoupledDependencies": [
+		"@mpis/typescript"
+	],
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

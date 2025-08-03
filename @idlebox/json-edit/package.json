@@ -3,7 +3,12 @@
 	"type": "module",
 	"version": "0.0.3",
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
-	"keywords": ["comment", "edit", "json", "jsonc"],
+	"keywords": [
+		"comment",
+		"edit",
+		"json",
+		"jsonc"
+	],
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
@@ -38,6 +43,9 @@
 		"vite-node": "^3.2.4"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

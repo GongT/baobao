@@ -156,6 +156,6 @@ export class VoidClient extends AbstractChannelClient {
 	protected override async _disconnect(): Promise<void> {}
 	protected override async _connect(): Promise<void> {}
 	protected override _send(message: IMessageObject): void {
-		this.logger.warn`VoidClient: sending: \x1B[38;5;10m${message.event}\x1B[39m output=${message.output}...`;
+		this.logger.warn`VoidClient: sending: \x1B[38;5;11m${message.event}\x1B[39m message=[${message.message}] output=stripe<${message.output}>`;
 	}
 }

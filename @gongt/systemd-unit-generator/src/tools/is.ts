@@ -1,14 +1,4 @@
-import type {
-	ISystemdAutomountUnit,
-	ISystemdMountUnit,
-	ISystemdPathUnit,
-	ISystemdScopeUnit,
-	ISystemdServiceUnit,
-	ISystemdSocketUnit,
-	ISystemdSwapUnit,
-	ISystemdTimerUnit,
-	ISystemdUnit,
-} from '../types/index.js';
+import type { ISystemdAutomountUnit, ISystemdMountUnit, ISystemdPathUnit, ISystemdScopeUnit, ISystemdServiceUnit, ISystemdSocketUnit, ISystemdSwapUnit, ISystemdTimerUnit, ISystemdUnit } from '../types/index.js';
 
 export function isInstallableUnit(u: ISystemdUnit): u is ISystemdUnit & Required<Pick<ISystemdUnit, 'Install'>> {
 	return !!u.Install;

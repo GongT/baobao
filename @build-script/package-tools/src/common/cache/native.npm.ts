@@ -117,13 +117,13 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 
 	const options: Required<IMyOpts> = Object.assign({}, defOpt, _options);
 
-	let try_cnt = 0;
+	let _try_cnt = 0;
 	let retry = options.maxRetry;
 	let retry_timeout = 500;
 	let json: IRegistryMetadata | undefined;
 
 	while (true) {
-		try_cnt++;
+		_try_cnt++;
 		retry--;
 		try {
 			const proxy = getProxyValue(registry);

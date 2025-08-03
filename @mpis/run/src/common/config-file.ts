@@ -38,11 +38,7 @@ export interface IConfigFile {
 	additionalPaths: readonly string[];
 }
 
-function watchModeCmd(
-	command: string | readonly string[],
-	watch?: string | readonly string[] | boolean,
-	watchMode?: boolean,
-): string | readonly string[] {
+function watchModeCmd(command: string | readonly string[], watch?: string | readonly string[] | boolean, watchMode?: boolean): string | readonly string[] {
 	if (!watchMode) {
 		return command;
 	}
@@ -141,9 +137,7 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 	if (config.rigConfig.rigFound) {
 		const nmPath = findUpUntilSync({ file: 'node_modules', from: config.rigConfig.getResolvedProfileFolder() });
 		if (!nmPath) {
-			throw new Error(
-				`Failed to find "node_modules" folder in rig profile "${config.rigConfig.getResolvedProfileFolder()}".`,
-			);
+			throw new Error(`Failed to find "node_modules" folder in rig profile "${config.rigConfig.getResolvedProfileFolder()}".`);
 		}
 		additionalPaths.push(resolve(nmPath, '.bin'));
 	}

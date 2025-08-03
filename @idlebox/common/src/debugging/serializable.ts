@@ -2,20 +2,7 @@ declare const window: any;
 declare const EventTarget: any;
 declare const Element: any;
 
-type ScalarTypes =
-	| bigint
-	| number
-	| number
-	| boolean
-	| boolean
-	| string
-	| string
-	| symbol
-	| undefined
-	| null
-	| Date
-	| RegExp
-	| Function;
+type ScalarTypes = bigint | number | number | boolean | boolean | string | string | symbol | undefined | null | Date | RegExp | Function;
 
 export function isScalar(value: any): value is ScalarTypes {
 	switch (typeof value) {
@@ -28,14 +15,7 @@ export function isScalar(value: any): value is ScalarTypes {
 		case 'function':
 			return true;
 		case 'object':
-			return (
-				value === null ||
-				value instanceof Date ||
-				value instanceof Boolean ||
-				value instanceof String ||
-				value instanceof Number ||
-				value instanceof RegExp
-			);
+			return value === null || value instanceof Date || value instanceof Boolean || value instanceof String || value instanceof Number || value instanceof RegExp;
 		default:
 			return false;
 	}
@@ -68,15 +48,7 @@ export function isSerializable(value: any): SerializableKind {
 			if ('toJSON' in value || Symbol.toPrimitive in value) {
 				return SerializableKind.Manual;
 			}
-			if (
-				value instanceof Map ||
-				value instanceof WeakMap ||
-				value instanceof Set ||
-				value instanceof WeakSet ||
-				value instanceof RegExp ||
-				value instanceof Promise ||
-				value === Math
-			) {
+			if (value instanceof Map || value instanceof WeakMap || value instanceof Set || value instanceof WeakSet || value instanceof RegExp || value instanceof Promise || value === Math) {
 				return SerializableKind.Invalid;
 			}
 			if (typeof window === 'object') {

@@ -26,15 +26,4 @@ export interface IMountSection {
 	TimeoutSec?: string | number;
 }
 
-export const mountFields: readonly string[] = [
-	'What',
-	'Where',
-	'Type',
-	'Options',
-	'SloppyOptions',
-	'LazyUnmount',
-	'ReadWriteOnly',
-	'ForceUnmount',
-	'DirectoryMode',
-	'TimeoutSec',
-];
+export const mountFields: readonly string[] = ['What', 'Where', 'Type', 'Options', 'SloppyOptions', 'LazyUnmount', 'ReadWriteOnly', 'ForceUnmount', 'DirectoryMode', 'TimeoutSec'];

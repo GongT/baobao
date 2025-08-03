@@ -1,19 +1,8 @@
 import type { InspectOptions, InspectOptionsStylized, inspect as node_inspect } from 'node:util';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
-import {
-	normalizeParameterDescription,
-	normalizeParameterDescriptionFlag,
-	normalizeParameterDescriptionRange,
-} from '../tools/param-desc.js';
+import { normalizeParameterDescription, normalizeParameterDescriptionFlag, normalizeParameterDescriptionRange } from '../tools/param-desc.js';
 import { tokenize } from '../tools/tokenize.js';
-import {
-	ParamKind,
-	TokenKind,
-	type IArgsReaderApi,
-	type IArgumentList,
-	type ISubArgsReaderApi,
-	type ParamDefineFlag,
-} from '../types.js';
+import { ParamKind, type TokenKind, type IArgsReaderApi, type IArgumentList, type ISubArgsReaderApi, type ParamDefineFlag } from '../types.js';
 import { Unexpected, UnexpectedCommand } from './errors.js';
 import { isDoubleDash, isValue, matchFlagByFlags, matchOptionByFlags } from './match.js';
 import { ParameterHolder } from './parameter.holder.js';

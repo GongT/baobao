@@ -8,8 +8,5 @@
 		"publish-everything": "node @build-script/package-tools/load.js monorepo-publish --silent",
 		"check": "node @internal/scripts/loader/repo-check-all.js"
 	},
-	"devDependencies": {
-		"@biomejs/biome": "beta",
-		"typescript": "^5.8.3"
-	}
+	"devDependencies": { "@biomejs/biome": "2.1.3", "typescript": "^5.8.3" }
 }

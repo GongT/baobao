@@ -1,4 +1,4 @@
-import { type IMyLogger } from '@idlebox/logger';
+import type { IMyLogger } from '@idlebox/logger';
 import { resolve } from 'node:path';
 import type { IPackageInfoRW } from './types.js';
 
@@ -42,22 +42,12 @@ export function decoupleDependencies(logger: IMyLogger, projects: readonly IPack
 	logger.verbose`decoupled dependencies list<${global_removes}>`;
 
 	for (const project of projects) {
-		decoupleDependenciesProject(
-			logger,
-			project,
-			global_removes.get(project.packageJson.name) ?? [],
-			global_removes.get('*') ?? [],
-		);
+		decoupleDependenciesProject(logger, project, global_removes.get(project.packageJson.name) ?? [], global_removes.get('*') ?? []);
 		logger.verbose`workspace dependencies list<${project.devDependencies}>`;
 	}
 }
 
-function decoupleDependenciesProject(
-	logger: IMyLogger,
-	project: IPackageInfoRW,
-	revert_removes: readonly string[],
-	global_removes: readonly string[],
-) {
+function decoupleDependenciesProject(logger: IMyLogger, project: IPackageInfoRW, revert_removes: readonly string[], global_removes: readonly string[]) {
 	logger.debug`decouple: project ${project.packageJson.name} dependencies: ${project.devDependencies.length}`;
 	if (revert_removes.length === 0 && global_removes.length === 0 && !project.packageJson.decoupledDependencies) {
 		logger.debug`decouple: nothing to do`;

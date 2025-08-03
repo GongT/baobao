@@ -59,7 +59,7 @@ export class TagCollection {
 	constructor(
 		public readonly $html: CheerioAPI,
 		private readonly commonRoot: string,
-		public readonly htmlSource: string
+		public readonly htmlSource: string,
 	) {}
 
 	get size() {

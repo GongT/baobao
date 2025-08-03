@@ -1,5 +1,5 @@
 import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
-import { createRootLogger, EnableLogLevel, logger, set_default_log_level } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { ModeKind, WorkersManager } from '../common/workers-manager.js';
 import { test_success_quit } from './shared/functions.js';
@@ -9,14 +9,11 @@ const workersManager = new WorkersManager(ModeKind.Build);
 registerGlobalLifecycle(
 	toDisposable(() => {
 		logger.info`global lifecycle cleaning up...`;
-		console.error(workersManager.formatDebugGraph());
+		console.error(workersManager.finalize().debugFormatGraph());
+		console.error(workersManager.finalize().debugFormatSummary());
 		logger.info`bye bye`;
 	}),
 );
-
-process.stderr.write('\x1Bc');
-createRootLogger('test', EnableLogLevel.verbose);
-set_default_log_level(EnableLogLevel.verbose);
 
 const test1 = test_success_quit(Math.random() * 500 + 200);
 const test2 = test_success_quit(Math.random() * 500 + 200);
@@ -35,14 +32,16 @@ workersManager.addWorker(test2a, []);
 workersManager.addWorker(test2b, [testaa._id]);
 workersManager.addWorker(testaa, []);
 
-await workersManager.finalize()
-await workersManager.startup().then(
-	() => {
-		logger.info('all workers completed!!');
-		shutdown(0);
-	},
-	() => {
-		logger.info('some workers failed!!');
-		shutdown(0);
-	},
-);
+await workersManager
+	.finalize()
+	.startup()
+	.then(
+		() => {
+			logger.info('all workers completed!!');
+			shutdown(0);
+		},
+		() => {
+			logger.info('some workers failed!!');
+			shutdown(0);
+		},
+	);

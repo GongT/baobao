@@ -51,7 +51,7 @@ async function main() {
 
 		logger.debug('rootDir=%s', rootDir);
 
-		const outputFile = resolve(rootDir, context.outputFile + '.ts');
+		const outputFile = resolve(rootDir, `${context.outputFile}.ts`);
 
 		if (!outputFile.startsWith(rootDir)) {
 			throw logger.fatal(`输出文件 ${outputFile} 路径异常，离开rootDir`);

@@ -50,7 +50,7 @@ export function getProxyValue(url: string) {
 				logger.verbose(`  hit equals`);
 				return '';
 			}
-			const domainEnding = npPart[0] === '.' ? npPart : '.' + npPart;
+			const domainEnding = npPart[0] === '.' ? npPart : `.${npPart}`;
 			if (domain.endsWith(domainEnding)) {
 				logger.verbose(`  hit ending: ${domainEnding}`);
 				return '';

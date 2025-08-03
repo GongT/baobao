@@ -7,7 +7,7 @@ export class LoggerStream extends Transform {
 
 	constructor(
 		private readonly logFn: LogFunction,
-		prefix?: string
+		prefix?: string,
 	) {
 		super();
 		this.prefix = prefix ? `${prefix} %s` : '%s';
@@ -39,7 +39,7 @@ export class HexDumpLoggerStream extends Transform {
 
 	constructor(
 		private readonly logFn: LogFunction,
-		prefix?: string
+		prefix?: string,
 	) {
 		super();
 		this.prefix = prefix ? `${prefix} ` : '';

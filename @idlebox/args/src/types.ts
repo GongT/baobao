@@ -15,15 +15,7 @@ export type IArgumentList = readonly IArgument[];
  * 例如：`--verbose` 是一个Token，`-abc=xyz` 是 `-a` `-b` `-c=xyz` 三个Token
  */
 type AnyToken = IFlag | IValue | IFlagValue | IDoubleDash;
-export type IToken<Kind extends TokenKind | unknown = unknown> = Kind extends TokenKind.Flag
-	? IFlag
-	: Kind extends TokenKind.Value
-		? IValue
-		: Kind extends TokenKind.Both
-			? IFlagValue
-			: Kind extends TokenKind.DoubleDash
-				? IDoubleDash
-				: AnyToken;
+export type IToken<Kind extends TokenKind | unknown = unknown> = Kind extends TokenKind.Flag ? IFlag : Kind extends TokenKind.Value ? IValue : Kind extends TokenKind.Both ? IFlagValue : Kind extends TokenKind.DoubleDash ? IDoubleDash : AnyToken;
 export type ITokens = readonly IToken[];
 
 export enum TokenKind {

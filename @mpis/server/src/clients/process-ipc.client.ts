@@ -1,4 +1,5 @@
-import { isWindows, lcfirst, PathArray, timeout } from '@idlebox/common';
+import { isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
+import { IPauseableObject, IPauseControl, pause } from '@idlebox/dependency-graph';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -6,7 +7,9 @@ import type { Options, ResultPromise } from 'execa';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { Writable } from 'node:stream';
-import { ProtocolClientObject, State } from '../common/protocol-client-object.js';
+import type { InspectOptionsStylized } from 'node:util';
+import { split as splitCmd } from 'split-cmd';
+import { ProtocolClientObject } from '../common/protocol-client-object.js';
 
 interface MyOptions extends Options {
 	cwd: string;
@@ -37,23 +40,33 @@ class OutputHandler extends Writable {
 	}
 }
 
-export class ProcessIPCClient extends ProtocolClientObject {
+/**
+ * 创建一个node进程，它会发送事件过来
+ */
+export class ProcessIPCClient extends ProtocolClientObject implements IPauseableObject {
 	private declare process: ResultPromise<MyOptions>;
 	public stopSignal: NodeJS.Signals = 'SIGINT';
 	private _started = false;
 	public readonly outputStream = new OutputHandler();
 	public readonly pathvar;
+	public readonly commandline: readonly string[];
 	public displayTitle: string;
 
 	constructor(
 		id: string,
-		public readonly commandline: readonly string[] | string,
+		commandline: readonly string[] | string,
 		public readonly cwd: string,
 		public readonly env: Record<string, string>,
 		logger?: IMyLogger,
 	) {
 		super(id, logger);
 		this.displayTitle = id;
+
+		if (typeof commandline === 'string') {
+			this.commandline = splitCmd(commandline);
+		} else {
+			this.commandline = commandline;
+		}
 
 		const pathVarName = isWindows ? 'Path' : 'PATH';
 		if (env[pathVarName]) {
@@ -135,24 +148,15 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			buffer: false,
 			maxBuffer: 10,
 		} satisfies MyOptions);
-		if (typeof this.commandline === 'string') {
-			this.process = doExec({ shell: true })(this.commandline);
-		} else {
-			const [command, ...args] = this.commandline;
-			this.process = doExec(command, args);
-		}
+		const [command, ...args] = this.commandline;
+		this.process = doExec(command, args);
 
 		if (this.logger.verbose.isEnabled) {
 			for (const stream of ['stdout', 'stderr'] as const) {
 				const logger = this.logger.extend(stream[3]);
-				this.process[stream]!.on('data', (chunk: Buffer) => {
+				this.process[stream]?.on('data', (chunk: Buffer) => {
 					if (logger.verbose.isEnabled) {
-						const debugTxt = chunk
-							.toString('utf-8')
-							.trimEnd()
-							.replaceAll('\n', '\\n')
-							.replaceAll('\r', '\\r')
-							.replaceAll('\x1B', '\\e');
+						const debugTxt = chunk.toString('utf-8').trimEnd().replaceAll('\n', '\\n').replaceAll('\r', '\\r').replaceAll('\x1B', '\\e');
 
 						logger.verbose`${debugTxt}`;
 					}
@@ -160,8 +164,8 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				});
 			}
 		} else {
-			this.process.stdout!.pipe(this.outputStream, { end: false });
-			this.process.stderr!.pipe(this.outputStream, { end: false });
+			this.process.stdout?.pipe(this.outputStream, { end: false });
+			this.process.stderr?.pipe(this.outputStream, { end: false });
 		}
 
 		this.process.on('message', this.onMessage);
@@ -181,19 +185,14 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				this.logger.debug`process exit, exitCode: ${process.exitCode}, signal: ${process.signal}`;
 				this.logger.verbose`${process}`;
 
-				let m = process.exitCode
-					? `process quited with code ${process.exitCode}`
-					: `process killed by signal ${process.signal}`;
+				const m = process.exitCode ? `process "${this._id}" quited with code ${process.exitCode}` : `process "${this._id}" killed by signal ${process.signal}`;
 				return this.emitFailure(m, output);
 			}
 
 			if (process.failed) {
 				this.logger.warn`process can not start: ${process.message}`;
 				this.logger.verbose`${process}`;
-				return this.emitFailure(
-					`process can not start: ${lcfirst(process.message || '*no message*')}`,
-					this.outputStream.toString(),
-				);
+				return this.emitFailure(`process "${this._id}" can not start: ${lcfirst(process.message || '*no message*')}`, this.outputStream.toString());
 			}
 
 			this.logger.debug`process quited with code ${process.exitCode}`;
@@ -202,10 +201,10 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		}
 	}
 
-	override async dispose() {
-		await super.dispose();
-
-		if (!this.process || !this._started) return;
+	protected override async _stop() {
+		if (!this.process || !this._started) {
+			return;
+		}
 
 		this.logger.debug`sending ${this.stopSignal} to ${this._id}`;
 
@@ -214,10 +213,43 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 		process.kill(this.stopSignal);
 
-		await Promise.race([process, timeout(5000, 'process did not exit in 5s')]);
+		try {
+			await Promise.race([process, timeout(5000, 'process did not exit in 5s')]);
+		} catch (e: any) {
+			if (TimeoutError.is(e)) {
+				this.logger.error`process did not exit in 5s, force kill it: ${e.message}`;
+				process.kill('SIGKILL');
+				return;
+			}
+			throw e;
+		}
 	}
 
-	override _inspect() {
-		return `[Process ${this.process?.pid ?? 'not started'} ${State[this.state]}]`;
+	// override _inspect(_d: number, options: InspectOptionsStylized) {
+	// 	return `${id} { ${options.stylize(this.last_event_message, 'string')} }`;
+	// }
+
+	override _inspectDesc(options: InspectOptionsStylized) {
+		const pid = this.process?.pid ? `[pid=${options.stylize(this.process.pid.toString(), 'number')}]` : options.stylize('not started', 'undefined');
+		return `${this._id} ${pid}`;
 	}
+
+	private _is_paused = false;
+	readonly [pause]: IPauseControl = {
+		isPaused: () => {
+			return this._is_paused;
+		},
+		pause: async () => {
+			if (this._is_paused) return;
+			this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
+			this.process.kill('SIGSTOP');
+			this._is_paused = true;
+		},
+		resume: async () => {
+			if (!this._is_paused) return;
+			this.logger.verbose`send SIGCONT to ${this.process.pid}`;
+			this.process.kill('SIGCONT');
+			this._is_paused = false;
+		},
+	};
 }

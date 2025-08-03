@@ -36,7 +36,7 @@ export async function cnpmSyncNames(names: ReadonlyArray<string>, collectOutput 
 			process.stderr.write(`${CSI}K`);
 		}
 		console.log('    ✨ cnpm同步请求成功');
-	} catch (e) {
+	} catch (_e) {
 		if (collectOutput) {
 			printLine();
 			logger.error(p.all as any);
