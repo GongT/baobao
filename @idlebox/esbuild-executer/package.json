@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/esbuild-executer",
 	"description": "A simple script to execute typescript file during development.",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"type": "module",
 	"bin": {
 		"es-node": "./loader/bin.js"
@@ -24,17 +24,12 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"keywords": [
-		"typescript",
-		"esbuild",
-		"executer",
-		"runner"
-	],
+	"keywords": ["typescript", "esbuild", "executer", "runner"],
 	"scripts": {
-		"prepack": "mpis-run build --clean",
-		"build": "mpis-run build",
-		"watch": "mpis-run watch",
-		"clean": "mpis-run clean",
+		"prepack": "rimraf lib && mpis-tsc -p src",
+		"build": "mpis-tsc -p src",
+		"watch": "mpis-tsc -p src -w",
+		"clean": "rimraf lib",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
@@ -55,13 +50,8 @@
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
 	},
-	"decoupledDependencies": [
-		"@mpis/typescript"
-	],
+	"decoupledDependencies": ["@mpis/typescript"],
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

@@ -1,7 +1,9 @@
+import { prettyFormatError } from '@idlebox/common';
 import debug from 'debug';
 import process from 'node:process';
+import { debug_commands } from './debug.commands.js';
 import { terminal } from './logger.global.js';
-import { EnableLogLevel } from './types.js';
+import { EnableLogLevel, type IDebugCommand } from './types.js';
 
 /**
  * 判断 字符串是否为“真值”
@@ -182,4 +184,33 @@ export let defaultLogLevel = (() => {
  */
 export function set_default_log_level(level: EnableLogLevel) {
 	defaultLogLevel = level;
+}
+
+type ErrorAction = 'stack' | 'message' | 'stack-pretty' | 'inspect' | IDebugCommand;
+const actions = {
+	stack(e: Error, _color: boolean) {
+		return e.stack || e.message || e?.toString() || '*unknown error*';
+	},
+	message(e: Error, _color: boolean) {
+		return e.message || e?.toString() || '*unknown error*';
+	},
+	['stack-pretty']: (e: Error, _color: boolean) => {
+		return prettyFormatError(e);
+	},
+};
+export let current_error_action = actions.stack;
+export function set_error_action(action: ErrorAction) {
+	switch (action) {
+		case 'stack':
+		case 'message':
+		case 'stack-pretty':
+			current_error_action = actions[action];
+			break;
+		case 'inspect':
+			current_error_action = debug_commands.inspect;
+			break;
+		default:
+			current_error_action = action;
+			break;
+	}
 }

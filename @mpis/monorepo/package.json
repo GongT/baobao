@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/monorepo",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"keywords": [],
 	"bin": {
 		"build-manager": "./loader/bin.devel.js"
@@ -40,9 +40,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

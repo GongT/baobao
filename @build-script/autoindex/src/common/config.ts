@@ -68,7 +68,7 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 		if (configFileData.stripTags?.length) context.stripTags.push(...configFileData.stripTags);
 	} catch (e: unknown) {
 		if (e instanceof NotFoundError) {
-			logger.verbose`由于文件不存在，未使用配置文件（${e.message}）`;
+			logger.verbose`由于文件不存在，未使用配置文件（${e}）`;
 		} else {
 			throw e;
 		}

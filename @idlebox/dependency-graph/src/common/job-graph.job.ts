@@ -116,7 +116,6 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 	}
 
 	override async dispose(): Promise<void> {
-		this.logger.debug`disposing: stopping`;
 		await this.stop();
 		await this.join();
 		return super.dispose();

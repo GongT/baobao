@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node",
 	"type": "module",
-	"version": "1.4.9",
+	"version": "1.4.10",
 	"exports": {
 		".": {
 			"source": "./src/autoindex.generated.ts",
@@ -35,9 +35,6 @@
 	},
 	"decoupledDependents": "*",
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

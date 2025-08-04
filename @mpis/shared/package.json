@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/shared",
 	"type": "module",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"keywords": [],
 	"exports": {
 		".": {
@@ -14,7 +14,7 @@
 	"scripts": {
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
-		"watch": "false && mpis-run watch",
+		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
@@ -27,9 +27,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

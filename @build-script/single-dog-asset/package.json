@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/single-dog-asset",
-	"version": "1.0.37",
+	"version": "1.0.38",
 	"scripts": {
 		"build": "",
 		"clean": "",
@@ -18,9 +18,6 @@
 	},
 	"type": "module",
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

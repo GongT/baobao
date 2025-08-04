@@ -1,6 +1,8 @@
 import { argv } from '@idlebox/args/default';
+import { prettyPrintError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
+import { debugMode } from './args.js';
 import { createMonorepoObject } from './workspace.js';
 
 export async function runBuild() {
@@ -11,17 +13,36 @@ export async function runBuild() {
 
 	const repo = await createMonorepoObject();
 
-	repo.onStateChange(() => {
-		if (process.stderr.isTTY) process.stderr.write('\x1Bc');
+	if (!debugMode) {
+		repo.onStateChange(() => {
+			if (process.stderr.isTTY) process.stderr.write('\x1Bc');
 
-		repo.printScreen();
-	});
+			repo.printScreen();
+		});
+	}
+
+	let completed = false;
+	registerGlobalLifecycle(
+		toDisposable(() => {
+			if (debugMode) {
+				repo.printScreen();
+			} else {
+				if (process.stderr.isTTY) process.stderr.write('\x1Bc');
+				repo.printScreen();
+			}
+			if (!completed && !process.exitCode) {
+				process.exitCode = 1;
+			}
+		}),
+	);
+
 	try {
 		await repo.startup();
 
 		logger.success('Monorepo started successfully');
+		completed = true;
 	} catch (error: any) {
-		console.error(error.message);
+		prettyPrintError('monorepo build', error);
 		shutdown(1);
 	}
 }

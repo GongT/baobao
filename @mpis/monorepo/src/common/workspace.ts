@@ -1,6 +1,6 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { AsyncDisposable, Emitter, isWindows, PathArray } from '@idlebox/common';
-import { logger, type IMyLogger } from '@idlebox/logger';
+import { CSI, logger, type IMyLogger } from '@idlebox/logger';
 import { getEnvironment } from '@idlebox/node';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
@@ -27,6 +27,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 	public readonly onStateChange = this._onStateChange.event;
 
 	private readonly mode: ModeKind;
+	private readonly packageToWorker = new Map<IPackageInfo, ProcessIPCClient>();
 
 	constructor(
 		public readonly logger: IMyLogger,
@@ -116,6 +117,9 @@ class PnpmMonoRepo extends AsyncDisposable {
 		exec.onTerminate(() => {
 			this._onStateChange.fireNoError();
 		});
+
+		this.packageToWorker.set(project, exec);
+
 		return exec;
 	}
 
@@ -123,11 +127,27 @@ class PnpmMonoRepo extends AsyncDisposable {
 		if (this.errorMessages.size === 0) return '';
 		let output = '';
 
-		const flush_line = ' '.repeat(process.stderr.columns || 80);
+		const lWidth = process.stderr.columns || 80;
+
+		const barC = '48;5;185';
+		const textC = '38;5;13';
+
+		function buildLine(txt: string) {
+			let psize = 4 + 2 + txt.length + 2;
+			if (psize >= lWidth) {
+				txt = txt.slice(Math.max(lWidth - 20), 20);
+				psize = 4 + 2 + txt.length + 2;
+			}
+			return `\n${CSI}${barC}m    ${CSI}0;${textC}m  ${txt}  ${CSI}0${barC}m${' '.repeat(lWidth - psize)}${CSI}0m\n`;
+		}
+
 		for (const [project, text] of this.errorMessages.entries()) {
-			output += `\n\x1B[48;5;1m${flush_line}\r    \x1B[0;38;5;9;1m  below is output of ${project.packageJson.name}  \x1B[0m\n`;
-			output += text;
-			output += `\x1B[48;5;1m${flush_line}\r    \x1B[0;38;5;9;1m  ending output of ${project.packageJson.name}  \x1B[0m\n`;
+			const block = text.replace(/^\s*\n/, '').trimEnd();
+			const exec = this.packageToWorker.get(project)!;
+			output += buildLine(`[@mpis/monorepo] below is output in project ${project.packageJson.name}: ${exec.commandline.join(' ')}`);
+			output += ``;
+			output += `\n${block}\n`.replace('\x1bc', '').replace(/^/gm, `${CSI}${barC}m ${CSI}0m `);
+			output += buildLine(`[@mpis/monorepo] ending output in project ${project.packageJson.name}`);
 		}
 		return output;
 	}

@@ -1,10 +1,8 @@
 {
 	"name": "@build-script/esbuild-custom-writer",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"type": "module",
-	"keywords": [
-		"esbuild"
-	],
+	"keywords": ["esbuild"],
 	"exports": {
 		".": {
 			"default": "./lib/main.js"
@@ -33,9 +31,6 @@
 		"esbuild": "^0.25.6"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

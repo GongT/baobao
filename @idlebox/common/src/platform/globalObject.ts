@@ -10,7 +10,7 @@ export const globalObject: any = typeof globalThis === 'undefined' ? (typeof win
 
 export function ensureGlobalObject<T>(symbol: string, constructor: () => T): T {
 	const sm = Symbol.for(symbol);
-	if (!globalObject[sm]) {
+	if (!Object.hasOwn(globalObject, sm)) {
 		globalObject[sm] = constructor();
 	}
 	return globalObject[sm];

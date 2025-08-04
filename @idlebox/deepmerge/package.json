@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/deepmerge",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Deep merge utility for JSON files with custom merge strategies.",
 	"type": "module",
 	"exports": {
@@ -31,9 +31,6 @@
 		"rimraf": "^6.0.1"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

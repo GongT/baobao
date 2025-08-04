@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/args",
 	"type": "module",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"exports": {
 		".": {
 			"source": "./src/interface.ts",
@@ -41,9 +41,6 @@
 		"source-map-support": "^0.5.21"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

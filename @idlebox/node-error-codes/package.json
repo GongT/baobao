@@ -2,7 +2,7 @@
 	"name": "@idlebox/node-error-codes",
 	"description": "A collection of Node.js error codes and their descriptions.",
 	"type": "module",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"exports": {
 		".": {
 			"source": "./src/nodejs-error-code.generated.ts",
@@ -30,9 +30,6 @@
 		"@build-script/codegen": "workspace:"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

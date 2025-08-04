@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/client",
 	"type": "module",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"keywords": [],
 	"exports": {
 		".": {
@@ -39,9 +39,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

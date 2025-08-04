@@ -1,11 +1,8 @@
 {
 	"name": "@build-script/esbuild-html-entry",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"type": "module",
-	"keywords": [
-		"esbuild",
-		"html"
-	],
+	"keywords": ["esbuild", "html"],
 	"exports": {
 		".": {
 			"default": "./lib/main.js"
@@ -35,9 +32,6 @@
 		"esbuild": "^0.25.6"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

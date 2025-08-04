@@ -85,9 +85,13 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 		if (this.bootstrap.starter.hasDisposed) return;
 		if (this.concurrency === c) return;
 		this.concurrency = c;
-		this.bootstrap.starter.pump();
+
+		if (this.bootstrap.starter.isRunning) {
+			this.bootstrap.starter.pump();
+		}
 	}
 
+	private newEventCounter = 0;
 	private async onNodeChange(node: T) {
 		this.logger.debug`node has change: ${node.name} -> ${node.state}`;
 		if (node.isFatalError()) {
@@ -97,10 +101,13 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 			}
 			this.stop();
 		}
+		if (this.bootstrap.starter.hasDisposed) {
+			this.newEventCounter++;
+		}
 	}
 
 	protected override inspectSummary(): ISummary {
-		const statistics = { 成功: 0, 失败: 0, 队列: 0, 结束: 0, 运行中: 0 };
+		const statistics = { 成功: 0, 失败: 0, 队列: 0, 结束: 0, 运行中: 0, phase: '' as string | number };
 		for (const node of this.nodes) {
 			if (node.isSuccess()) {
 				statistics.成功++;
@@ -119,6 +126,14 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 			}
 		}
 
+		if (!this.bootstrap.starter.hasDisposed) {
+			statistics.phase = '<starting> ';
+		} else if (this.stopped === 1) {
+			statistics.phase = '<shutdown> ';
+		} else {
+			statistics.phase = this.newEventCounter;
+		}
+
 		let totalColor = '';
 		if (statistics.失败) {
 			totalColor = `7;38;5;1`;
@@ -128,16 +143,6 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 			totalColor = `7`;
 		}
 		return { totalColor, statistics };
-	}
-
-	override debugFormatSummary(): string {
-		let phase = '';
-		if (!this.bootstrap.starter.hasDisposed) {
-			phase = '<starting> ';
-		} else if (this.stopped === 1) {
-			phase = '<shutdown> ';
-		}
-		return `${phase}${super.debugFormatSummary()}`;
 	}
 
 	private stopped = 0;

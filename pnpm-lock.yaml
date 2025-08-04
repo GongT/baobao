@@ -966,6 +966,31 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
+  '@idlebox/unshare':
+    dependencies:
+      '@idlebox/common':
+        specifier: 'workspace:'
+        version: link:../common
+      '@idlebox/node':
+        specifier: 'workspace:'
+        version: link:../node
+      execa:
+        specifier: ^9.6.0
+        version: 9.6.0
+    devDependencies:
+      '@build-script/single-dog-asset':
+        specifier: workspace:^
+        version: link:../../@build-script/single-dog-asset
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      '@mpis/run':
+        specifier: workspace:^
+        version: link:../../@mpis/run
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.0.14
+
   '@internal/local-rig':
     devDependencies:
       7zip-bin-wrapper:
@@ -1061,6 +1086,9 @@ importers:
       '@idlebox/typescript-surface-analyzer':
         specifier: workspace:^
         version: link:../../@idlebox/typescript-surface-analyzer
+      '@idlebox/unshare':
+        specifier: workspace:^
+        version: link:../../@idlebox/unshare
       '@internal/scripts':
         specifier: workspace:^
         version: link:../scripts
@@ -1350,6 +1378,9 @@ importers:
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
+      split-cmd:
+        specifier: ^1.1.0
+        version: 1.1.0
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^

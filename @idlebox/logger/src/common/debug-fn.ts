@@ -1,5 +1,7 @@
+import { Cdim, Crst, CSI, NCdim } from './ansi.js';
 import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
-import { call_debug_command, nodeFormat } from './debug.commands.js';
+import { call_debug_command, debug_commands, nodeFormat } from './debug.commands.js';
+import { current_error_action } from './helpers.js';
 import type { IMyDebug, IMyDebugWithControl } from './types.js';
 
 interface IDebugOptions {
@@ -78,17 +80,19 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
 		}
 
 		if (typeof arg === 'string') {
-			result_args.push(call_debug_command('stripe', arg, color));
+			result_args.push(debug_commands.stripe(arg, color));
 		} else if (typeof arg === 'number' || typeof arg === 'boolean' || typeof arg === 'bigint' || typeof arg === 'symbol') {
 			result_args.push(arg.toString());
 		} else if (arg === null || arg === undefined) {
 			if (color) {
-				result_args.push(`\x1B[2m${arg}\x1B[22m`);
+				result_args.push(`${Cdim}${arg}${NCdim}`);
 			} else {
 				result_args.push(String(arg));
 			}
+		} else if (arg instanceof Error) {
+			result_args.push(current_error_action(arg, color));
 		} else {
-			result_args.push(call_debug_command('inspect', arg, color));
+			result_args.push(debug_commands.inspect(arg, color));
 		}
 	}
 
@@ -108,7 +112,7 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
  */
 function write_line_colored_tag({ tag, stream, color }: IWriteLineOptions) {
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
-		const head = `[\x1b[${color}m${tag}\x1b[0m]`;
+		const head = `[${CSI}${color}m${tag}${Crst}]`;
 		let body: string;
 		if (typeof messages === 'string') {
 			body = nodeFormat(messages, args, true);
@@ -125,14 +129,14 @@ function write_line_colored_tag({ tag, stream, color }: IWriteLineOptions) {
  */
 function write_line_colored_line({ tag, stream, color }: IWriteLineOptions) {
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
-		const head = `\x1B[${color}m[${tag}]`;
+		const head = `${CSI}${color}m[${tag}]`;
 		let body: string;
 		if (typeof messages === 'string') {
 			body = nodeFormat(messages, args, false);
 		} else {
 			body = format_template(messages, args, false);
 		}
-		body += '\x1B[0m';
+		body += Crst;
 
 		write(stream, head, body);
 	};

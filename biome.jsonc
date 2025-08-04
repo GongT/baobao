@@ -35,6 +35,7 @@
 			"suspicious": {
 				"noExplicitAny": "off",
 				"noControlCharactersInRegex": "off",
+				"noImplicitAnyLet": "off",
 			},
 			"style": {
 				"noParameterAssign": "off",
@@ -98,10 +99,10 @@
 	},
 	"overrides": [
 		{
-			"includes": ["*.ts"],
+			"includes": ["**/*.ts"],
 		},
 		{
-			"includes": ["tsconfig.json", "tsconfig.*.json", ".vscode/*.json", "*.jsonc"],
+			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc"],
 			"json": {
 				"formatter": {
 					"trailingCommas": "all",
@@ -109,9 +110,10 @@
 			},
 		},
 		{
-			"includes": ["package.json"],
+			"includes": ["**/package.json"],
 			"formatter": {
-				"expand": "never",
+				"expand": "auto",
+				"lineWidth": 300,
 			},
 		},
 	],

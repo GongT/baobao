@@ -46,7 +46,7 @@ export abstract class BaseExecuter {
 		try {
 			this.result = await this._execute(scriptFile);
 		} catch (e: any) {
-			this.logger.warn(`_execute() should not throw: ${e.message}`);
+			this.logger.warn(`_execute() should not throw: ${e.stack || e.message}`);
 			this.result = {
 				outputs: [e.message],
 				userWatchFiles: new Set(),

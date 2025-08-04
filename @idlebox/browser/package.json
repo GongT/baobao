@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/browser",
 	"type": "module",
-	"version": "0.0.42",
+	"version": "0.0.43",
 	"exports": {
 		".": {
 			"default": "./lib/autoindex.generated.js"
@@ -29,9 +29,6 @@
 		"@rushstack/heft": "^0.74.0"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

@@ -1,7 +1,7 @@
 {
 	"name": "7zip-bin-wrapper",
 	"type": "module",
-	"version": "1.0.43",
+	"version": "1.0.44",
 	"exports": {
 		"./package.json": "./package.json"
 	},
@@ -33,9 +33,6 @@
 		"@types/split2": "^4.2.3"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

@@ -1,8 +1,20 @@
-import { AppExit, ensureDisposeGlobal, globalSingletonStrong, prettyPrintError } from '@idlebox/common';
+/** biome-ignore-all lint/suspicious/noDebugger: debug file */
+
+import { AppExit, ensureDisposeGlobal, ensureGlobalObject, prettyPrintError } from '@idlebox/common';
 import { createRequire, syncBuiltinESMExports } from 'node:module';
+import { basename } from 'node:path';
 import process from 'node:process';
 
 const originalExit = process.exit;
+const prefix = process.stderr.isTTY ? '' : `<${title()} ${process.pid}> `;
+const hasInspect = process.argv.some((arg) => arg.startsWith('--inspect=') || arg.startsWith('--inspect-brk=') || arg === '--inspect' || arg === '--inspect-brk');
+
+function title() {
+	if (process.title && process.title !== 'node') {
+		return process.title;
+	}
+	return basename(process.argv[1] || '') || 'node';
+}
 
 class Exit extends AppExit {
 	constructor(code: number) {
@@ -12,7 +24,7 @@ class Exit extends AppExit {
 
 const shuttingDown = false;
 export function shutdown(exitCode: number): never {
-	debugger;
+	if (hasInspect) debugger;
 
 	if (exitCode) {
 		process.exitCode = exitCode;
@@ -30,20 +42,18 @@ export function shutdown(exitCode: number): never {
 	throw new Exit(code);
 }
 
-const exitHandler = Symbol('exithandler/registed');
-
 /**
  * 注册nodejs退出处理器
  */
 export function registerNodejsExitHandler() {
-	globalSingletonStrong(exitHandler, _real_register);
+	ensureGlobalObject('exithandler/register', _real_register);
 }
 function _real_register() {
 	process.on('SIGINT', () => {
-		console.log('\nReceived SIGINT. Exiting gracefully...');
+		console.error(`\n${prefix}Received SIGINT. Exiting gracefully...`);
 
 		if (shuttingDown) {
-			console.error('Exiting immediately.');
+			console.error(`Exiting immediately.`);
 			originalExit(1);
 		}
 
@@ -51,23 +61,25 @@ function _real_register() {
 	});
 
 	process.on('SIGTERM', () => {
-		console.log('Received SIGTERM. Exiting gracefully...');
+		console.error(`${prefix}Received SIGTERM. Exiting gracefully...`);
 		shutdown(0);
 	});
 
 	process.on('beforeExit', (code) => {
-		console.log(`Process beforeExit with code: ${code}`);
+		console.error(`${prefix}Process beforeExit with code: ${code}`);
 		shutdown(code);
 	});
 
 	process.on('unhandledRejection', (reason, _promise) => {
+		if (hasInspect) debugger;
+
 		if (reason instanceof Error) {
 			if (reason instanceof AppExit) {
 				return;
 			}
-			prettyPrintError('Unhandled Rejection', reason);
+			prettyPrintError(`${prefix}Unhandled Rejection`, reason);
 		} else {
-			console.error('Unhandled Rejection / error type unknown:', reason);
+			console.error(`${prefix}Unhandled Rejection / error type unknown:`, reason);
 		}
 		shutdown(1);
 	});
@@ -80,13 +92,16 @@ function _real_register() {
 		if (error instanceof AppExit) {
 			return;
 		}
-		prettyPrintError('Uncaught Exception', error);
+
+		if (hasInspect) debugger;
+
+		prettyPrintError(`${prefix}Uncaught Exception`, error);
 		shutdown(1);
 	}
 
 	if (process.hasUncaughtExceptionCaptureCallback()) {
 		process.on('uncaughtException', uncaughtException);
-		throw new Error('[process uncaught exception capture] callback already registered by other module');
+		throw new Error(`${prefix} [uncaught exception capture] callback already registered by other module`);
 	}
 	process.setUncaughtExceptionCaptureCallback(uncaughtException);
 
@@ -97,6 +112,7 @@ function _real_register() {
  * @deprecated 仅用于测试
  */
 export function die(message: string): never {
-	console.error(message);
+	debugger;
+	console.error(`${prefix}DIE!`, message);
 	shutdown(1);
 }

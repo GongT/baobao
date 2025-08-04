@@ -119,7 +119,7 @@ export abstract class PackageManager {
 			logger.debug('    发布成功: %s @ %s [%s]', r.name, r.version, r.published);
 			return r;
 		} catch (e: any) {
-			logger.error`    tarball发布失败! ${e}`;
+			logger.error`    tarball发布失败! ${e.message}`;
 			throw e;
 		}
 	}

@@ -132,16 +132,11 @@ export async function main() {
 
 	const projects = await workspace.listPackages();
 
-	const concurrency = argv.flag(['--debug', '-d']) > 0 ? 1 : 10;
+	const concurrency = 1; // argv.flag(['--debug', '-d']) > 0 ? 1 : 10;
 	if (concurrency === 1) {
-		logger.warn`由于设置了--debug参数，运行模式改为单线程`;
+		// logger.warn`由于设置了--debug参数，运行模式改为单线程`;
 	}
 	const builder = new JobGraphBuilder(concurrency, logger);
-
-	function debugSummary() {
-		const info = graph.debugFormatSummary();
-		process.stderr.write(`${CSI}K${info}\r`);
-	}
 
 	const opts = options();
 
@@ -181,6 +176,11 @@ export async function main() {
 	}
 
 	const graph = builder.finalize();
+
+	function debugSummary() {
+		const info = graph?.debugFormatSummary();
+		process.stderr.write(`${CSI}K${info}\r`);
+	}
 	await graph.startup();
 
 	const packageToPublish: { name: string; pack: string }[] = [];
@@ -203,8 +203,8 @@ export async function main() {
 	const npmrc = workspace.getNpmRCPath(true);
 	if (existsSync(npmrc)) {
 		cpSync(npmrc, resolve(temp, '.npmrc'));
-		writeFileIfChangeSync(resolve(temp, 'package.json'), '{}');
 	}
+	writeFileIfChangeSync(resolve(temp, 'package.json'), '{}');
 
 	const w = packageToPublish.length.toFixed(0).length;
 	const published: string[] = [];
@@ -213,7 +213,7 @@ export async function main() {
 		index = 1;
 		for (const { name, pack } of packageToPublish) {
 			console.log(`📦 [${index.toFixed(0).padStart(w)}/${packageToPublish.length}] ${name}`);
-			const r = await pm.uploadTarball(pack);
+			const r = await pm.uploadTarball(pack, temp);
 			if (r.published) {
 				console.log(`    👌 已发布新版本 ${r.version}`);
 			} else {
@@ -229,8 +229,8 @@ export async function main() {
 		logger.error`发布过程中发生错误: ${e instanceof Error ? e.message : e}`;
 		throw e;
 	} finally {
-		if (await commandInPath('cnpm')) {
-			await cnpmSyncNames(published, true).catch();
+		if (published.length > 0 && (await commandInPath('cnpm'))) {
+			await cnpmSyncNames(published, true);
 
 			const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
 			await clearNpmMetaCache(pm, published);

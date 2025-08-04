@@ -147,6 +147,7 @@ export class ProcessIPCClient extends ProtocolClientObject implements IPauseable
 			reject: false,
 			buffer: false,
 			maxBuffer: 10,
+			detached: process.pid === 1,
 		} satisfies MyOptions);
 		const [command, ...args] = this.commandline;
 		this.process = doExec(command, args);

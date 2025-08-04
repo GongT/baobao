@@ -1,12 +1,8 @@
 {
 	"name": "@gongt/pnpm-instead-npm",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"description": "symlink npm to pnpm, always install with pnpm",
-	"keywords": [
-		"package manager",
-		"pnpm",
-		"npm"
-	],
+	"keywords": ["package manager", "pnpm", "npm"],
 	"bin": {
 		"npm": "bin/npm.mjs",
 		"npx": "bin/npx.mjs"
@@ -35,9 +31,6 @@
 	},
 	"type": "module",
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

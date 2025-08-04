@@ -4,6 +4,7 @@ import { registerNodejsExitHandler, shutdown } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { rmSync } from 'node:fs';
+import { dumpConfig } from './commands/config.js';
 import { context, parseCliArgs } from './common/args.js';
 import { loadConfigFile } from './common/config-file.js';
 import { projectRoot } from './common/paths.js';
@@ -31,7 +32,7 @@ process.title = `MpisRun`;
 
 logger.info`Running command "${context.command}" in ${projectRoot}`;
 
-const defaultNoClear = logger.debug.isEnabled;
+const defaultNoClear = logger.debug.isEnabled || !process.stderr.isTTY;
 let workersManager: WorkersManager;
 
 const config = loadConfigFile(context.watchMode);
@@ -43,6 +44,10 @@ switch (context.command) {
 		executeClean();
 		break;
 	case 'build':
+		if (context.dumpConfig) {
+			dumpConfig(config);
+			break;
+		}
 		{
 			if (context.withCleanup) executeClean();
 
@@ -53,6 +58,10 @@ switch (context.command) {
 		}
 		break;
 	case 'watch':
+		if (context.dumpConfig) {
+			dumpConfig(config);
+			break;
+		}
 		initializeStdin();
 		await executeBuild().catch((e: Error) => {
 			logger.error`failed ${context.command} project: ${e.message}`;
@@ -130,8 +139,7 @@ function initializeWorkers() {
 			worker.pathvar.add(path);
 		}
 
-		const cmd0 = typeof cmds.command === 'string' ? cmds.command.split(' ')[0] : cmds.command[0];
-		worker.displayTitle = `run:${cmd0}`;
+		worker.displayTitle = `run:${cmds.command[0]}`;
 
 		workersManager.addWorker(worker, last ? [last._id] : []);
 
@@ -156,18 +164,20 @@ function initializeWorkers() {
 	}
 }
 
-function printFailedRunError(worker: ProcessIPCClient, message: string) {
-	if (context.watchMode) process.stderr.write('\x1Bc');
+const cls = /\x1Bc/g;
 
-	const text = worker.outputStream.toString().trimEnd();
+function printFailedRunError(worker: ProcessIPCClient, message: string) {
+	if (context.watchMode && process.stderr.isTTY) process.stderr.write('\x1Bc');
+
+	const text = worker.outputStream.toString().trimEnd().replace(cls, '');
 
 	if (text) {
-		console.error('\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `below is output of ${worker._id}`);
+		console.error('\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `[@mpis/run] below is output of ${worker._id}`);
 		console.error(text);
 
-		console.error('\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n', ' '.repeat(process.stderr.columns || 80), `ending output of ${worker._id}`);
+		console.error('\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n', ' '.repeat(process.stderr.columns || 80), `[@mpis/run] ending output of ${worker._id}`);
 	} else {
-		console.error('\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `no output from ${worker._id}`);
+		console.error('\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `[@mpis/run] no output from ${worker._id}`);
 	}
 
 	const graph = workersManager.finalize();
@@ -233,7 +243,7 @@ function addDebugCommand() {
 function sendStatus() {
 	const noError = errors.values().every((e) => !e);
 	if (noError) {
-		channelClient.success(`All workers completed successfully.`);
+		channelClient.success(`all ${workersManager.size()} workers completed successfully.`);
 	} else {
 		let errorCnt = 0;
 		const arr: string[] = [];

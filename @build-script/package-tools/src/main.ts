@@ -23,7 +23,7 @@ try {
 		console.error('错误: %s', e.message);
 		shutdown(1);
 	} else {
-		prettyPrintError('main', e);
+		prettyPrintError('package-tools:main', e);
 		shutdown(1);
 	}
 }

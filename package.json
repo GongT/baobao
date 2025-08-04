@@ -5,7 +5,8 @@
 		"pretty": "biome check --diagnostic-level=warn --unsafe",
 		"build": "node @mpis/monorepo/loader/bin.devel.js build",
 		"watch": "node @mpis/monorepo/loader/bin.devel.js watch",
-		"publish-everything": "node @build-script/package-tools/load.js monorepo-publish --silent",
+		"publish-everything": "node @build-script/package-tools/load.js monorepo-publish",
+		"link": "node @build-script/package-tools/load.js --recursive",
 		"check": "node @internal/scripts/loader/repo-check-all.js"
 	},
 	"devDependencies": { "@biomejs/biome": "2.1.3", "typescript": "^5.8.3" }

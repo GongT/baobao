@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/section-buffer",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"exports": {
 		".": {
 			"default": "./lib/autoindex.generated.js"
@@ -30,9 +30,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

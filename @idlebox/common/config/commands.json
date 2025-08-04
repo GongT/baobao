@@ -1,0 +1,4 @@
+{
+	"$schema": "../../../@mpis/run/commands.schema.json",
+	"build": ["codegen", "autoindex", "typescript"]
+}

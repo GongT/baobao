@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/package-tools",
 	"type": "module",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"bin": {
 		"package-tools": "./load.js",
 		"njspkg": "./load.js"
@@ -56,9 +56,6 @@
 		"@types/tinycolor2": "^1.4.6"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

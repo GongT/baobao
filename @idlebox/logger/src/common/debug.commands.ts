@@ -1,11 +1,13 @@
 import { relative } from 'node:path';
 import { formatWithOptions, inspect } from 'node:util';
+import { Cdim, Cdimita, CFgreen, CFred, Cita, Crst, NCF, NCita } from './ansi.js';
+import type { IDebugCommand } from './types.js';
 
 const STRING_MAX_LENGTH = 128;
 
 function color_error(message: string, color: boolean) {
 	if (color) {
-		return `\x1B[38;5;9m<inspect**${message}**>\x1B[39m`;
+		return `${CFred}<inspect**${message}**>${NCF}`;
 	} else {
 		return `<inspect**${message}**>`;
 	}
@@ -33,7 +35,7 @@ function isSyncIterable(obj: unknown): obj is Iterable<unknown> {
 	return typeof obj === 'object' && obj !== null && Symbol.iterator in obj;
 }
 
-const debug_commands = {
+export const debug_commands: Record<string, IDebugCommand> = {
 	inspect(object: unknown, color: boolean) {
 		return inspect(object, options(color));
 	},
@@ -46,11 +48,12 @@ const debug_commands = {
 		str = str.replace(/\r/g, '\\r');
 		str = str.replace(/\t/g, '\\t');
 		str = str.replace(/\x1B/g, '\\e');
-		if (str.length > 100) {
+		if (str.length > STRING_MAX_LENGTH) {
+			const chars = `(${str.length.toFixed(0)} chars)`;
 			if (color) {
-				return `\x1B[38;5;10m"${str.slice(0, STRING_MAX_LENGTH - 3)}..."\x1B[39m`;
+				return `"${CFgreen}${str.slice(0, STRING_MAX_LENGTH - chars.length - 3)}...${NCF} ${chars}"`;
 			} else {
-				return `"${str.slice(0, STRING_MAX_LENGTH - 3)}..."`;
+				return `"${CFgreen}${str}${NCF}"`;
 			}
 		} else {
 			return str;
@@ -60,10 +63,10 @@ const debug_commands = {
 		if (!isSyncIterable(items)) {
 			return color_error(`list<> need iterable value, not ${typeof items}(${items?.constructor?.name})`, color);
 		}
-		const postfix = color ? '\x1B[0m' : '';
+		const postfix = color ? Crst : '';
 		let index = 0;
 		const lines: string[] = [];
-		const prefix = color ? '\x1B[2m' : '';
+		const prefix = color ? Cdim : '';
 		for (const item of items) {
 			if (Array.isArray(item)) {
 				if (item.length === 2) {
@@ -83,19 +86,19 @@ const debug_commands = {
 		}
 
 		if (lines.length === 0) {
-			const prefix = color ? '\x1B[3;2m' : '';
+			const prefix = color ? Cdimita : '';
 			return `:\n${prefix}  - <list is empty>${postfix}`;
 		}
 		return `:\n${lines.join('\n')}`;
 	},
 	commandline(cmds: unknown, color: boolean) {
 		if (Array.isArray(cmds)) {
-			const prefix = color ? '\x1B[2m' : '';
-			const postfix = color ? '\x1B[0m' : '';
+			const prefix = color ? Cdim : '';
+			const postfix = color ? Crst : '';
 			return prefix + cmds.map((s) => JSON.stringify(s)).join(' ') + postfix;
 		} else if (typeof cmds === 'string') {
-			const prefix = color ? '\x1B[2;3m' : '';
-			const postfix = color ? '\x1B[0m' : '';
+			const prefix = color ? Cdimita : '';
+			const postfix = color ? Crst : '';
 			return prefix + cmds + postfix;
 		} else {
 			return color_error(`commandline<> need string or array, not ${typeof cmds}`, color);
@@ -110,9 +113,9 @@ const debug_commands = {
 			}
 		}
 		if (color) {
-			return `\x1B[3m${s}\x1B[23m`;
+			return `${Cita}${s}${NCita}`;
 		} else {
-			return s;
+			return s as string;
 		}
 	},
 	relative(s: unknown, color: boolean) {

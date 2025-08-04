@@ -1,12 +1,9 @@
 {
 	"name": "@gongt/systemd-unit-generator",
 	"type": "module",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"description": "generate systemd unit file with type checking",
-	"keywords": [
-		"generater",
-		"systemd"
-	],
+	"keywords": ["generater", "systemd"],
 	"exports": {
 		".": {
 			"default": "./lib/index.js"
@@ -38,9 +35,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

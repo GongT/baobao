@@ -8,6 +8,7 @@ export {
 	match_disabled,
 	match_enabled,
 	set_default_log_level,
+	set_error_action,
 } from './common/helpers.js';
 export { createLogger } from './common/logger.create.js';
 export {
@@ -19,7 +20,8 @@ export {
 	type IMyDebug,
 	type IMyDebugWithControl,
 	type IMyLogger,
+	type IDebugCommand,
 } from './common/types.js';
 export { createLogFile } from './printers/file.js';
 
-export const CSI = '\x1b[';
+export { CSI } from './common/ansi.js';

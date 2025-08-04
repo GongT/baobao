@@ -3,8 +3,14 @@ import type { IMyLogger } from '@idlebox/logger';
 import type { JobGraph } from './job-graph.graph.js';
 import type { Job } from './job-graph.job.js';
 
+enum State {
+	Pre,
+	Run,
+	Post,
+}
+
 export class Starter<Data, T extends Job<Data>> extends Disposable {
-	public state: 'pre' | 'run' | 'post';
+	public state: State;
 	public readonly working = new Set<T>();
 	private readonly logger: IMyLogger;
 	private result?: boolean;
@@ -17,7 +23,7 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 		const log = logger.extend('bootstrap');
 		super(log.tag);
 
-		this.state = 'pre';
+		this.state = State.Pre;
 		this.logger = log;
 
 		for (const node of graph.nodes) {
@@ -43,7 +49,7 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 	}
 
 	override dispose() {
-		if (this.state === 'post') {
+		if (this.state === State.Post) {
 			return;
 		}
 
@@ -51,7 +57,7 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 
 		this.logger.verbose`dispose()`;
 		super.dispose();
-		this.state = 'post';
+		this.state = State.Post;
 		this.pump = () => {
 			this.logger.warn`pump() called after dispose()`;
 		};
@@ -71,10 +77,16 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 		}
 	}
 
+	public get isRunning() {
+		return this.state === State.Run;
+	}
+
 	/**
 	 * 执行当前可以开始的节点的初始化过程
 	 */
 	pump() {
+		if (this.state === State.Pre) this.state = State.Run;
+
 		const notStart = this.graph.nodes.filter((e) => !e.isStarted()).length;
 		if (notStart === 0 && this.working.size === 0) {
 			// 结束判定

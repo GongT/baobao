@@ -1,4 +1,8 @@
-export type StackTraceHolder = StackTraceHoldObject;
+export interface StackTraceHolder {
+	readonly message: string;
+	readonly stack: string;
+	toString(): string;
+}
 
 export interface IWithStack {
 	stack?: string;
@@ -40,7 +44,7 @@ if (!('captureStackTrace' in (Error as any))) {
 	}) as any;
 }
 
-function createStackTraceHolder1(message: string, boundary: any = createStackTraceHolder1): StackTraceHoldObject {
+function createStackTraceHolder1(message: string, boundary: any = createStackTraceHolder1): StackTraceHolder {
 	return new StackTraceHoldObject(message, boundary);
 }
 

@@ -4,6 +4,7 @@ import { findUpUntilSync } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { split as splitCmd } from 'split-cmd';
 import { projectRoot, selfRoot } from './paths.js';
 
 interface IPackageBinary {
@@ -27,34 +28,30 @@ interface IConfigFileInput {
 
 export interface ICommand {
 	title: string;
-	command: string | readonly string[];
+	command: readonly string[];
 	cwd: string;
 	env: Record<string, string>;
 }
 export interface IConfigFile {
 	buildTitles: readonly string[];
 	build: ReadonlyMap<string, ICommand>;
+	unusedBuild: Record<string, ICommand>;
 	clean: readonly string[];
 	additionalPaths: readonly string[];
 }
 
-function watchModeCmd(command: string | readonly string[], watch?: string | readonly string[] | boolean, watchMode?: boolean): string | readonly string[] {
+function watchModeCmd(command: string | readonly string[], watch?: string | readonly string[] | boolean, watchMode?: boolean): readonly string[] {
+	const cmdArr = typeof command === 'string' ? splitCmd(command) : command;
+
 	if (!watchMode) {
-		return command;
+		return cmdArr;
 	}
 	if (typeof watch === 'boolean') {
 		throw new Error(`Invalid watch value: ${watch}. Expected string or array.`);
 	}
 
-	if (typeof command === 'string') {
-		if (!watch) watch = '-w';
-
-		return `${command} ${watch}`;
-	} else {
-		if (!watch) watch = ['-w'];
-
-		return [...command, ...watch];
-	}
+	if (!watch) watch = ['-w'];
+	return [...cmdArr, ...watch];
 }
 
 export function loadConfigFile(watchMode: boolean): IConfigFile {
@@ -68,6 +65,11 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 		array(left, right, keyPath) {
 			switch (keyPath[0]) {
 				case 'build':
+					if (Array.isArray(right)) {
+						return right;
+					} else {
+						return left;
+					}
 				case 'clean': {
 					if (!Array.isArray(right)) {
 						return left;
@@ -83,13 +85,6 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 
 	const buildMap = new Map<string, ICommand>();
 	const buildTitles: string[] = [];
-	function set(cmd: ICommand) {
-		if (buildMap.has(cmd.title)) {
-			throw new Error(`duplicate command "${cmd.title}", rename it before continue`);
-		}
-		buildMap.set(cmd.title, cmd);
-		buildTitles.push(cmd.title);
-	}
 
 	for (let item of input.build) {
 		if (typeof item === 'string') {
@@ -115,22 +110,23 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 			continue;
 		}
 
-		const cmd = item.command;
-		if (Array.isArray(cmd)) {
-			const copy = cmd.slice();
-			resolveCommandIsFile(config, copy);
-			set({
-				title: item.title ?? guessTitle(cmd),
-				command: watchModeCmd(copy, item.watch, watchMode),
-				cwd: resolve(projectRoot, item.cwd || '.'),
-				env: item.env ?? {},
-			});
-		} else if (typeof cmd === 'object' && 'package' in cmd) {
-			const obj = parsePackagedBinary(config, item, watchMode);
-			set(obj);
-		} else {
-			throw TypeError(`Invalid command type: ${typeof cmd}. Expected string or array or object.`);
+		const cmd = resolveCommand(config, item, watchMode);
+
+		if (buildMap.has(cmd.title)) {
+			throw new Error(`duplicate command "${cmd.title}", rename it before continue`);
 		}
+		buildMap.set(cmd.title, cmd);
+		buildTitles.push(cmd.title);
+	}
+
+	const unused: Record<string, ICommand> = {};
+	for (const [name, item] of Object.entries(input.commands)) {
+		const title = item.title ?? name;
+		if (buildMap.has(title)) {
+			continue;
+		}
+
+		unused[title] = resolveCommand(config, item, watchMode);
 	}
 
 	const additionalPaths: string[] = [];
@@ -154,9 +150,29 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 	return {
 		buildTitles,
 		build: buildMap,
+		unusedBuild: unused,
 		clean,
 		additionalPaths: additionalPaths.toReversed(),
 	};
+}
+
+function resolveCommand(config: ProjectConfig, input: ICommandInput, watchMode: boolean): ICommand {
+	const cmd = input.command;
+	if (Array.isArray(cmd)) {
+		const copy = cmd.slice();
+		resolveCommandIsFile(config, copy);
+		return {
+			title: input.title ?? guessTitle(cmd),
+			command: watchModeCmd(copy, input.watch, watchMode),
+			cwd: resolve(projectRoot, input.cwd || '.'),
+			env: input.env ?? {},
+		};
+	} else if (typeof cmd === 'object' && 'package' in cmd) {
+		const obj = parsePackagedBinary(config, input, watchMode);
+		return obj;
+	} else {
+		throw TypeError(`Invalid command type: ${typeof cmd}. Expected string or array or object.`);
+	}
 }
 
 function guessTitle(command: string | readonly string[]): string {

@@ -82,7 +82,7 @@ export abstract class AbstractBaseNode<State = any> extends AsyncDisposable {
 
 export type ISummary = {
 	totalColor?: string;
-	statistics?: Record<string, number>;
+	statistics?: Record<string, number | string | boolean>;
 };
 
 export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends AsyncDisposable {

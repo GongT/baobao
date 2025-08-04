@@ -1,4 +1,3 @@
-import { prettyPrintError } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { execLazyError, exists } from '@idlebox/node';
 import { resolve } from 'node:path';
@@ -33,7 +32,7 @@ class RegistryError extends Error {
 		super(error.summary || 'no error summary');
 
 		if (this.error.detail) {
-			this.stack = this.error.detail;
+			this.stack = this.error.detail.trimEnd() + '\n' + this.stack;
 		}
 	}
 
@@ -99,7 +98,13 @@ export class PNPM extends PackageManager {
 
 			logger.warn`publish long<${pack}> error: ${e}`;
 			console.error(all);
-			prettyPrintError(`${this.binary} ${cmds.join(' ')}`, e);
+
+			// prettyPrintError(`publish package`, {
+			// 	message: `${e.message}\ncommand: ${this.binary} ${cmds.join(' ')}\nworking dir: ${cwd}`,
+			// 	stack: e.stack,
+			// });
+
+			e.message = `${e.message}\ncommand: ${this.binary} ${cmds.join(' ')}\nworking dir: ${cwd}`;
 
 			throw e;
 		}

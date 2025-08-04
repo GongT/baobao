@@ -1,0 +1,39 @@
+{
+	"name": "@idlebox/unshare",
+	"description": "use unshare",
+	"keywords": ["unshare", "container", "spawn", "linux"],
+	"type": "module",
+	"version": "0.0.1",
+	"exports": {
+		".": {
+			"source": "./src/index.ts",
+			"types": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/common": "workspace:",
+		"@idlebox/node": "workspace:",
+		"execa": "^9.6.0"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@types/node": "^24.0.14"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
+}

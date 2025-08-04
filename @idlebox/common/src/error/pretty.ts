@@ -3,6 +3,7 @@ import { relativePath } from '../path/normalizePath.js';
 import { globalObject } from '../platform/globalObject.js';
 import { isNative } from '../platform/os.js';
 import { vscEscapeValue } from './pretty.vscode.js';
+import { createStackTraceHolder } from './stackTrace.js';
 
 const process = globalObject.process;
 const window = globalObject.window;
@@ -62,6 +63,7 @@ interface IEvalDef {
 
 export interface IStructreStackLine {
 	invalid?: boolean;
+	special?: boolean;
 	toString(): string;
 	padding?: string;
 	func?: IFunction;
@@ -170,8 +172,12 @@ function isPrettyDisabled() {
 	return globalObject.DISABLE_PRETTY_ERROR || globalObject.process?.env?.DISABLE_PRETTY_ERROR;
 }
 
+function isSelfPrint() {
+	return globalObject.PRETTY_ERROR_LOCATION || globalObject.process?.env?.PRETTY_ERROR_LOCATION;
+}
+
 let notify_printed = false;
-export function prettyPrintError(type: string, e: Error) {
+export function prettyPrintError<ErrorType extends IError = IError>(type: string, e: ErrorType) {
 	if (!e.stack || e.stack === e.message) {
 		return console.error(e.message);
 	}
@@ -183,16 +189,16 @@ export function prettyPrintError(type: string, e: Error) {
 
 	const columns = process?.stderr?.columns || 80;
 	const line = '-'.repeat(columns);
-	console.error(`\n${line}\n[${type}] ${prettyFormatError(e)}`);
+	console.error(`\n${line}\n[${type}] ${prettyFormatError(e, true, prettyPrintError)}`);
 	if (e.cause && typeof e.cause === 'object' && 'stack' in e.cause) {
-		console.error(`[Caused by] ${prettyFormatError(e.cause as Error)}`);
+		console.error(`[Caused by] ${prettyFormatError(e.cause as IError, true, prettyPrintError)}`);
 	}
 	console.error(line);
 
 	if (!notify_printed && e.stack && e.message !== e.stack) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
-		console.error('\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack\x1B[0m');
+		console.error('\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack, use env.PRETTY_ERROR_LOCATION to see print location\x1B[0m');
 	}
 }
 
@@ -204,17 +210,41 @@ export function parseStackString(stack: string) {
 	return stack.split('\n').map(parseStackLine);
 }
 
-export function prettyFormatStack(stackLines: readonly string[]) {
+/**
+ * Format a stack trace for display.
+ * @param stackLines The stack lines to format.
+ */
+export function prettyFormatStack(stackLines: readonly string[]): string[];
+/** @internal */
+export function prettyFormatStack(stackLines: readonly string[], boundary?: CallableFunction): string[];
+export function prettyFormatStack(stackLines: readonly string[], boundary: CallableFunction = prettyFormatStack): string[] {
 	if (isPrettyDisabled()) {
-		return stackLines;
+		return stackLines.slice();
 	}
 	const structured: IStructreStackLine[] = stackLines.map(parseStackLine);
+
+	if (isSelfPrint()) {
+		structured.push({
+			special: true,
+			toString() {
+				return '== Above error was printed at here:';
+			},
+		});
+
+		const selfStack = createStackTraceHolder('111', boundary);
+		const stackLines = selfStack.stack.split(/\n/g).slice(1);
+		structured.push(...stackLines.map(parseStackLine));
+	}
+
 	let messageEnded = false;
 	return structured
 		.filter(skipSomeFrame)
 		.map(translateFunction)
 		.map((line) => {
 			let ret: string;
+			if (line.special) {
+				return line.toString();
+			}
 			if (line.invalid) {
 				if (messageEnded) {
 					return red(line.toString());
@@ -299,11 +329,22 @@ interface IError {
 	readonly code?: any;
 	readonly message?: any;
 	readonly stack?: string;
+
+	readonly cause?: unknown;
 }
 
 const regStartsNotEmpty = /^\S/;
 const regErrorClassName = /^(\S+):/;
-export function prettyFormatError(e: IError, withMessage = true) {
+
+/**
+ * Pretty formats an error object.
+ * @param e The error object to format.
+ * @param withMessage Whether to include the error message.
+ */
+export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage?: boolean): string;
+/** @internal */
+export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage?: boolean, boundary?: CallableFunction): string;
+export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage = true, boundary: CallableFunction = prettyPrintError) {
 	if (!e || !e.stack) {
 		if (withMessage) {
 			const msg = e?.message || 'Unknown Error';
@@ -329,9 +370,9 @@ export function prettyFormatError(e: IError, withMessage = true) {
 			first = first.replace(regErrorClassName, `$1(code ${e.code}):`);
 		}
 
-		return `${first}\n${prettyFormatStack(stackLines).join('\n')}`;
+		return `${first}\n${prettyFormatStack(stackLines, boundary).join('\n')}`;
 	}
-	return prettyFormatStack(stackLines).join('\n');
+	return prettyFormatStack(stackLines, boundary).join('\n');
 }
 
 let alert = false;
