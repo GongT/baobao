@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/json-extends-loader",
 	"type": "module",
-	"version": "1.0.22",
+	"version": "1.0.23",
 	"description": "load JSON files with \"extends\" field",
 	"keywords": [],
 	"exports": {

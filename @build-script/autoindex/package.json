@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/autoindex",
 	"type": "module",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"bin": {
 		"autoindex": "./loader/bin.devel.js"
 	},

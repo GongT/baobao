@@ -25,6 +25,7 @@ function sort(object: any): any {
 export async function makePackageJsonOrderConsistence(root: string) {
 	const filepath = resolve(root, 'package.json');
 	const data = JSON.parse(await readFile(filepath, 'utf-8'));
+	delete data.devDependencies;
 	const json = sort(data);
 	await writeFile(filepath, JSON.stringify(json, null, 2), 'utf-8');
 

@@ -9,7 +9,7 @@ export const typescriptAlertHeader = `/* eslint-disable */
  *  GENERATED FILE, DO NOT MODIFY
  *  这是生成的文件，千万不要修改
  * 
- * ${pkgJson.name} ${pkgJson.version} - The Simple Code Generater
+ * ${pkgJson.name} - The Simple Code Generater
  * https://github.com/GongT/baobao
  * 
  ******************************************************************************/

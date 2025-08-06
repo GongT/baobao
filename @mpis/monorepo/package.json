@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/monorepo",
 	"type": "module",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"keywords": [],
 	"bin": {
 		"build-manager": "./loader/bin.devel.js"

@@ -2,8 +2,9 @@ import { createWorkspace, normalizePackageName, type IPackageInfo, type Monorepo
 import { Emitter, prettyPrintError } from '@idlebox/common';
 import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
 import { logger } from '@idlebox/logger';
-import { commandInPath, emptyDir, writeFileIfChangeSync } from '@idlebox/node';
-import { cpSync, existsSync } from 'node:fs';
+import { commandInPath, emptyDir, writeFileIfChange } from '@idlebox/node';
+import { existsSync } from 'node:fs';
+import { copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { argv, CommandDefine, CSI, pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
@@ -102,9 +103,9 @@ class BuildPackageJob extends Job<void> {
 		this.shouldPublish = await pm.pack(tempFile);
 
 		if (remoteVersion) {
-			this.log(`    🎈 即将发布新版本 "${localVersion}" 以更新远程版本 "${remoteVersion}"`);
+			this.log(`    🎈 即将发布新版本 "${localVersion}" 以更新远程版本 "${remoteVersion}"\n`);
 		} else {
-			this.log(`    🎈 即将发布初始版本 "${localVersion}"`);
+			this.log(`    🎈 即将发布初始版本 "${localVersion}"\n`);
 		}
 		this._onSuccess.fire();
 	}
@@ -202,9 +203,11 @@ export async function main() {
 	const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, temp);
 	const npmrc = workspace.getNpmRCPath(true);
 	if (existsSync(npmrc)) {
-		cpSync(npmrc, resolve(temp, '.npmrc'));
+		await copyFile(npmrc, resolve(temp, '.npmrc'));
+	} else {
+		logger.warn`npmrc文件不存在 (long<${npmrc}>)`;
 	}
-	writeFileIfChangeSync(resolve(temp, 'package.json'), '{}');
+	await writeFileIfChange(resolve(temp, 'package.json'), '{}');
 
 	const w = packageToPublish.length.toFixed(0).length;
 	const published: string[] = [];
@@ -225,9 +228,9 @@ export async function main() {
 		}
 
 		console.log(`🎉 所有任务完成，共发布了 ${published.length} 个包`);
-	} catch (e) {
-		logger.error`发布过程中发生错误: ${e instanceof Error ? e.message : e}`;
-		throw e;
+	} catch (e: any) {
+		prettyPrintError(`发布过程中发生错误`, e);
+		process.exitCode = 1;
 	} finally {
 		if (published.length > 0 && (await commandInPath('cnpm'))) {
 			await cnpmSyncNames(published, true);

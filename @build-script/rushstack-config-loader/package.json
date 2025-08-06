@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rushstack-config-loader",
 	"type": "module",
-	"version": "0.0.23",
+	"version": "0.0.24",
 	"exports": {
 		".": {
 			"types": "./src/api.ts",
