@@ -26,7 +26,7 @@ interface IReference {
 }
 
 export async function main() {
-	const includeDev = argv.flag('--dev') > 0;
+	const includeDev = argv.flag(['--dev']) > 0;
 
 	const repo = await createWorkspace();
 

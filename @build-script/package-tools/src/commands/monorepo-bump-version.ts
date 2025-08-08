@@ -81,7 +81,7 @@ class BumpVersionJob extends Job<void> {
 }
 
 function options() {
-	const excludes = argv.multiple('--exclude');
+	const excludes = argv.multiple(['--exclude']);
 	let excludeReg: RegExp | undefined;
 	if (excludes.length > 0) {
 		const regTxt = [];
@@ -95,15 +95,15 @@ function options() {
 		excludeReg = new RegExp(`^(${regTxt.join('|')})$`);
 	}
 
-	const skip = Number.parseInt(argv.single('--skip') || '0');
+	const skip = Number.parseInt(argv.single(['--skip']) || '0');
 	if (Number.isNaN(skip)) {
 		throw new Error('skip 不是数字');
 	}
 
-	const force = argv.flag('--force') > 0;
-	const always = !force && argv.flag('--always') > 0;
+	const force = argv.flag(['--force']) > 0;
+	const always = !force && argv.flag(['--always']) > 0;
 
-	const allowPrivate = argv.flag('--allow-private') > 0;
+	const allowPrivate = argv.flag(['--allow-private']) > 0;
 
 	if (argv.unused().length > 0) {
 		logger.fatal`未知参数: ${argv.unused().join(', ')}`;

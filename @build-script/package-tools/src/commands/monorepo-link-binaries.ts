@@ -42,7 +42,7 @@ interface IJobContext {
 }
 
 export async function main() {
-	const recursiveMode = argv.flag('--recursive') > 0;
+	const recursiveMode = argv.flag(['--recursive']) > 0;
 
 	const workspace = await createWorkspace();
 
@@ -53,8 +53,8 @@ export async function main() {
 		localPackages.push(pkg.packageJson.name);
 	}
 
-	const additionalPackages = new Set(argv.multiple('--from'));
-	for (const projectName of argv.multiple('--transparent')) {
+	const additionalPackages = new Set(argv.multiple(['--from']));
+	for (const projectName of argv.multiple(['--transparent'])) {
 		const proj = await workspace.getPackage(projectName);
 		if (!proj) {
 			throw new Error(`missing transparent project: ${projectName}`);
@@ -105,7 +105,7 @@ async function execute(ctx: IJobContext) {
 		}
 	}
 
-	const dry = argv.flag('--dry') > 0;
+	const dry = argv.flag(['--dry']) > 0;
 	const bindir = resolve(ctx.packageRoot, 'node_modules/.bin');
 	for (const [name, target] of final) {
 		const link = `${bindir}/${name}`;

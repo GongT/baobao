@@ -13,8 +13,8 @@ export class Command extends CommandDefine {
 }
 
 export async function main() {
-	const dryRun = argv.flag('--dry') > 0;
-	const skipUpdate = argv.flag('--skip-update') > 0;
+	const dryRun = argv.flag(['--dry']) > 0;
+	const skipUpdate = argv.flag(['--skip-update']) > 0;
 
 	const workspace = await createWorkspace();
 	const packageManager = await createPackageManager(PackageManagerUsageKind.Read, workspace);

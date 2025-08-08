@@ -19,7 +19,7 @@ export class Command extends CommandDefine {
 }
 
 export async function main() {
-	const autoInc = argv.flag('--bump');
+	const autoInc = argv.flag(['--bump']);
 
 	const workspace = await createWorkspaceOrPackage();
 	const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);

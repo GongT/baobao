@@ -35,9 +35,9 @@ export class Command extends CommandDefine {
 	};
 }
 export async function main(argv: ArgumentTypings.IArgsReaderApi) {
-	const noCache = argv.flag('--no-cache') > 0;
-	const flushCache = argv.flag('--flush') > 0;
-	const onlyNewer = argv.flag('--newer') > 0;
+	const noCache = argv.flag(['--no-cache']) > 0;
+	const flushCache = argv.flag(['--flush']) > 0;
+	const onlyNewer = argv.flag(['--newer']) > 0;
 
 	const commands = argv.unused();
 	if (commands.length === 0 || !process.argv.includes('--')) {

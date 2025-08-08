@@ -5,7 +5,7 @@ import { getDecompressed } from '../common/constants.js';
 import { execPnpmMute } from '../common/exec.js';
 import { makeTempPackage, reconfigurePackageJson } from '../common/shared-steps.js';
 
-const out = argv.single('--out') || '%s-%v.tgz';
+const out = argv.single(['--out']) || '%s-%v.tgz';
 
 if (argv.unused().length > 0) {
 	throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);

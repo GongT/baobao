@@ -9,13 +9,13 @@ export class DieError extends Error {
 
 /** @deprecated */
 export const isQuiet = app.silent;
-export const isJsonOutput = argv.flag('--json') > 0;
+export const isJsonOutput = argv.flag(['--json']) > 0;
 
 /** @deprecated */
 export const isHelp = app.showHelp;
 
-export const distTagInput = argv.single('--dist-tag') || 'latest';
-export const registryInput = argv.single('--registry') || 'detect';
+export const distTagInput = argv.single(['--dist-tag']) || 'latest';
+export const registryInput = argv.single(['--registry']) || 'detect';
 
 /** @deprecated */
 export const isDebugMode = app.debug;

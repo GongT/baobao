@@ -17,7 +17,7 @@ export async function main() {
 	const repo = await createWorkspace();
 	const list = await repo.listPackages();
 
-	const isRelative = argv.flag('--relative') > 0;
+	const isRelative = argv.flag(['--relative']) > 0;
 
 	if (isJsonOutput) {
 		console.log(

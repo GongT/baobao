@@ -39,14 +39,14 @@ export function parseCliArgs() {
 
 	let breakMode = false;
 	if (watchMode) {
-		dumpConfig = argv.flag('--dump') > 0;
-		breakMode = argv.flag('--break') > 0;
+		dumpConfig = argv.flag(['--dump']) > 0;
+		breakMode = argv.flag(['--break']) > 0;
 	}
 
 	let withCleanup = false;
 	if (buildMode) {
-		dumpConfig = argv.flag('--dump') > 0;
-		withCleanup = argv.flag('--clean') > 0;
+		dumpConfig = argv.flag(['--dump']) > 0;
+		withCleanup = argv.flag(['--clean']) > 0;
 	}
 
 	let configCommand;

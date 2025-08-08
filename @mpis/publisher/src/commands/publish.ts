@@ -7,29 +7,29 @@ import { makeTempPackage, reconfigurePackageJson } from '../common/shared-steps.
 
 const publishArgs: string[] = [];
 
-if (argv.single('--access')) {
-	publishArgs.push('--access', argv.single('--access')!);
+if (argv.single(['--access'])) {
+	publishArgs.push('--access', argv.single(['--access'])!);
 }
-if (argv.flag('--dry-run') > 0) {
+if (argv.flag(['--dry-run']) > 0) {
 	publishArgs.push('--dry-run');
 }
-if (argv.flag('--force') > 0) {
+if (argv.flag(['--force']) > 0) {
 	publishArgs.push('--force');
 }
-if (argv.flag('--no-git-checks') > 0) {
+if (argv.flag(['--no-git-checks']) > 0) {
 	publishArgs.push('--no-git-checks');
 }
-if (argv.single('--publish-branch')) {
-	publishArgs.push('--publish-branch', argv.single('--publish-branch')!);
+if (argv.single(['--publish-branch'])) {
+	publishArgs.push('--publish-branch', argv.single(['--publish-branch'])!);
 }
-if (argv.flag('--report-summary') > 0) {
+if (argv.flag(['--report-summary']) > 0) {
 	publishArgs.push('--report-summary');
 }
-if (argv.single('--tag')) {
-	publishArgs.push('--tag', argv.single('--tag')!);
+if (argv.single(['--tag'])) {
+	publishArgs.push('--tag', argv.single(['--tag'])!);
 }
-if (argv.single('--registry')) {
-	publishArgs.push('--registry', argv.single('--registry')!);
+if (argv.single(['--registry'])) {
+	publishArgs.push('--registry', argv.single(['--registry'])!);
 }
 
 if (argv.unused().length > 0) {

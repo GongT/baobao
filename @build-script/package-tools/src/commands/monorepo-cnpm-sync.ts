@@ -16,7 +16,7 @@ export async function main() {
 	const workspace = await createWorkspace();
 	const list = await workspace.listPackages();
 
-	const dry = argv.flag('--dry') > 0;
+	const dry = argv.flag(['--dry']) > 0;
 
 	const names = list
 		.filter((e) => {
