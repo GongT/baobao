@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/ensure-symlink",
-	"version": "1.0.36",
+	"version": "1.0.37",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
 	"exports": {
 		".": {

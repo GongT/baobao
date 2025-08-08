@@ -39,6 +39,7 @@ lib/**/test.*
 *.realtime-compile.*
 *.realtime-compile.*.map
 lib/chunk-*
+**/*.tsbuildinfo
 
 ### Examples
 /example

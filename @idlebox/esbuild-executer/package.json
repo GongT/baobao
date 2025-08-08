@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/esbuild-executer",
 	"description": "A simple script to execute typescript file during development.",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"type": "module",
 	"bin": {
 		"es-node": "./loader/bin.js"
@@ -38,8 +38,8 @@
 		"debug": "^4.4.1",
 		"esbuild": "^0.25.6",
 		"import-meta-resolve": "^4.1.0",
-		"@idlebox/source-map-support": "workspace:^",
-		"tslib": "^2.8.1"
+		"tslib": "^2.8.1",
+		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",

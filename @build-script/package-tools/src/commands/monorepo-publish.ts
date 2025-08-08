@@ -117,7 +117,7 @@ class BuildPackageJob extends Job<void> {
 }
 
 function options() {
-	const dryRun = argv.flag('--dry') > 0;
+	const dryRun = argv.flag(['--dry']) > 0;
 
 	return {
 		dryRun: dryRun,

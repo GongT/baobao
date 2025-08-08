@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/single-dog-asset",
-	"version": "1.0.38",
+	"version": "1.0.39",
 	"scripts": {
 		"build": "",
 		"clean": "",

@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/browser",
 	"type": "module",
-	"version": "0.0.44",
+	"version": "0.0.45",
 	"exports": {
 		".": {
 			"default": "./lib/autoindex.generated.js"

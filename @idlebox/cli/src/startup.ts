@@ -183,13 +183,17 @@ export function makeApplication({ name: binName, description }: IAppBasic = auto
 				logger.error`missing command, use --help/-h to see available commands`;
 				shutdown(ExitCode.USAGE);
 			}
+			const commandName = subcmd.value;
 
-			assert.ok(imports[subcmd.value], `command "${subcmd.value}" not found`);
+			assert.ok(imports[commandName], `command "${commandName}" not found`);
 
 			const callSites = getCallSites(2, { sourceMap: false });
-			const entryFile = new URL(imports[subcmd.value], callSites[1].scriptName).toString();
+			const entryFile = new URL(imports[commandName], callSites[1].scriptName).toString();
 
-			execMain(entryFile, subcmd);
+			if (commons) consumeArguments(commons);
+			consumeCommandArguments(commands.find((cmd) => cmd.command === commandName));
+
+			await execMain(entryFile, subcmd);
 		},
 		async dynamic(absRootDir: string, globs: string | string[] = ['*.js']) {
 			if (typeof globs === 'string') {
@@ -209,23 +213,29 @@ export function makeApplication({ name: binName, description }: IAppBasic = auto
 
 			const subcmd = argv.command(known_commands);
 
+			if (subcmd?.value) {
+				const cmd = await importDefine(importMap[subcmd.value]);
+				commands = [cmd];
+			} else {
+				commands = await Promise.all(known_commands.map((cmd) => importDefine(importMap[cmd])));
+			}
+
 			if (info.showHelp) {
-				if (subcmd?.value) {
-					const cmd = await importDefine(importMap[subcmd.value]);
-					commands = [cmd];
-				} else {
-					commands = await Promise.all(known_commands.map((cmd) => importDefine(importMap[cmd])));
-				}
 				const help = await this.getHelper(subcmd?.value);
 				console.error(help.help());
 				shutdown(0);
 			}
+
 			if (!subcmd?.value) {
 				logger.error`missing command, use --help/-h to see available commands`;
 				shutdown(ExitCode.USAGE);
 			}
+			const commandName = subcmd.value;
 
-			execMain(importMap[subcmd.value], subcmd);
+			if (commons) consumeArguments(commons);
+			consumeCommandArguments(commands.find((cmd) => cmd.command === commandName));
+
+			await execMain(importMap[commandName], subcmd);
 		},
 	};
 }
@@ -256,4 +266,31 @@ async function importDefine(file: string): Promise<ICommandDefineWithCommand> {
 		command: basename(file, extname(file)),
 		...cmd.toJSON(),
 	};
+}
+
+const spaces = /\s+/g;
+
+function consumeArguments(defines: IArgDefineMap) {
+	for (const [name, { flag }] of Object.entries(defines)) {
+		const names = name.split(spaces);
+		if (flag) {
+			argv.flag(names);
+		} else {
+			argv.multiple(names);
+		}
+	}
+}
+
+function consumeCommandArguments(command?: ICommandDefine) {
+	if (!command) {
+		throw logger.fatal(`program defect: command must not empty not`);
+	}
+
+	if (command.args) consumeArguments(command.args);
+	if (command.commonArgs) consumeArguments(command.commonArgs);
+	if (!command.positional) {
+		if (argv.unused().length > 0) {
+			logger.fatal`unexpected arguments: ${argv.unused().join(', ')}`;
+		}
+	}
 }

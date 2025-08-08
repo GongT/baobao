@@ -734,9 +734,6 @@ importers:
 
   '@idlebox/esbuild-executer':
     dependencies:
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       debug:
         specifier: ^4.4.1
         version: 4.4.1(supports-color@8.1.1)
@@ -746,6 +743,9 @@ importers:
       import-meta-resolve:
         specifier: ^4.1.0
         version: 4.1.0
+      source-map-support:
+        specifier: ^0.5.21
+        version: 0.5.21
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
