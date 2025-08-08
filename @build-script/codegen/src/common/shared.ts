@@ -3,11 +3,13 @@ import { relativePath } from '@idlebox/common';
 import type { IResult } from './code-generator-holder.js';
 import type { ILogger } from './output.js';
 
-export const argv = createArgsReader(process.argv.slice(2));
+const argv = createArgsReader(process.argv.slice(2));
 export const watchMode = argv.flag(['-w', '--watch']) > 0;
 export const debugMode = argv.flag(['-d', '--debug']) > 0;
 export const verboseMode = argv.flag(['-d', '--debug']) > 1;
+export const showHelp = argv.flag(['-h', '--help']) > 0;
 export const colorMode = process.stderr.isTTY;
+export const remainingArgs = argv.unused();
 
 export enum ExecuteReason {
 	NoNeed = 0,

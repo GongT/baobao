@@ -8,7 +8,7 @@ import { generatorHolder } from './common/code-generator-holder.js';
 import { shutdown } from './common/lifecycle.js';
 import { registerModuleLoader } from './common/module-loading-transpile.js';
 import { die, Logger } from './common/output.js';
-import { argv, watchMode } from './common/shared.js';
+import { remainingArgs, showHelp, watchMode } from './common/shared.js';
 import { startWatchMode } from './common/watch-mode.js';
 
 const logger = Logger('main');
@@ -18,7 +18,6 @@ async function main() {
 	registerModuleLoader();
 	registerGlobalLifecycle(generatorHolder);
 
-	const showHelp = argv.flag(['-h', '--help']) > 0;
 	if (showHelp) {
 		console.log('usage: $0 [--watch] ...root-dirs');
 		console.log('  --verbose: 输出部分调试信息');
@@ -28,7 +27,7 @@ async function main() {
 		process.exit(0);
 	}
 
-	const folders = argv.unused();
+	const folders = remainingArgs.slice();
 	if (folders.length === 0) {
 		console.error('usage: $0 package-dir');
 		process.exit(1);

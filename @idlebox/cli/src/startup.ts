@@ -1,3 +1,4 @@
+import type { ArgumentTypings } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import { CliApplicationHelp, type CommandDefine, type IArgDefineMap, type ICommandDefine, type ICommandDefineWithCommand } from '@idlebox/cli-help-builder';
 import { humanDate, NotImplementedError, registerGlobalLifecycle, toDisposable, type IPackageJson } from '@idlebox/common';
@@ -10,7 +11,6 @@ import { glob } from 'node:fs/promises';
 import { findPackageJSON } from 'node:module';
 import { basename, extname, resolve } from 'node:path';
 import { getCallSites } from 'node:util';
-import type { ISubArgsReaderApi } from '../../args/src/types.js';
 import { ExitCode, type IApp } from './index.js';
 
 class CliApplication implements IApp {
@@ -230,7 +230,7 @@ export function makeApplication({ name: binName, description }: IAppBasic = auto
 	};
 }
 
-async function execMain(file: string, subcmd: ISubArgsReaderApi) {
+async function execMain(file: string, subcmd: ArgumentTypings.ISubArgsReaderApi) {
 	logger.verbose`executing js file: ${file}`;
 	const { main } = await import(file);
 	if (typeof main !== 'function') {
