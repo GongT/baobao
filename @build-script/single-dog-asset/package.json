@@ -19,5 +19,6 @@
 	"type": "module",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

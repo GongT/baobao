@@ -1,0 +1,45 @@
+{
+	"name": "@idlebox/cli-static-generator",
+	"type": "module",
+	"version": "0.0.1",
+	"bin": {
+		"make-cli": "./loader/bin.js"
+	},
+	"exports": {
+		".": {
+			"source": "./src/builder.ts",
+			"types": "./src/builder.ts",
+			"default": "./lib/builder.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"test": "mocha --require @idlebox/source-map-support/register --bail lib/tests",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/args": "workspace:^",
+		"@idlebox/cli-help-builder": "workspace:^",
+		"@idlebox/logger": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"esbuild": "^0.25.6"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
+		"@idlebox/common": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@types/node": "^24.0.14"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
+}

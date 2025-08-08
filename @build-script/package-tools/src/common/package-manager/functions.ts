@@ -95,7 +95,8 @@ export async function resolveNpm(versions: Map<string, string>) {
 		versions.set(packName, newVersion);
 
 		let updated = '';
-		if (currentVersion && currentVersion !== newVersion) {
+		// new version must be ^x.y.z , current version is splitted, so must be x.y.z
+		if (currentVersion && !newVersion.includes(currentVersion)) {
 			updated = ` ${cs}(from ${currentVersion})${ce}`;
 		}
 

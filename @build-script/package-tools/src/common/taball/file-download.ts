@@ -1,5 +1,5 @@
 import { sleep } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { exists, streamPromise } from '@idlebox/node';
 import { createWriteStream } from 'node:fs';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';

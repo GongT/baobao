@@ -1,12 +1,12 @@
 import { createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
+import { argv, CommandDefine, CSI, logger } from '@idlebox/cli';
 import { Emitter, prettyPrintError } from '@idlebox/common';
 import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
-import { logger } from '@idlebox/logger';
 import { commandInPath, emptyDir, writeFileIfChange } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { argv, CommandDefine, CSI, pArgS } from '../common/functions/cli.js';
+import { pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
@@ -15,10 +15,10 @@ import { cnpmSyncNames } from '../common/shared-jobs/cnpm-sync.js';
 import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = `${pArgS('--debug')} ${pArgS('--dry')}`;
-	protected override _description = '在monorepo中按照依赖顺序发布修改过的包';
-	protected override _help = '';
-	protected override _arguments = {
+	protected override readonly _usage = `${pArgS('--debug')} ${pArgS('--dry')}`;
+	protected override readonly _description = '在monorepo中按照依赖顺序发布修改过的包';
+	protected override readonly _help = '';
+	protected override readonly _arguments = {
 		'--debug': { flag: true, description: '详细输出模式' },
 		'--dry': { flag: true, description: '仅检查修改，不发布（仍会修改version字段）' },
 		'--private': { flag: false, description: '即使private=true也执行' },

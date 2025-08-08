@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"source-map-support": "^0.5.21"
+		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

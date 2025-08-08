@@ -1,13 +1,13 @@
 import { createWorkspace } from '@build-script/monorepo-lib';
-import { logger } from '@idlebox/logger';
-import { CommandDefine } from '../common/functions/cli.js';
+import { CommandDefine } from '@idlebox/cli';
+import { logger } from '@idlebox/cli';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = '';
-	protected override _description = '从npm缓存中删除关于本monorepo的数据，以便安装最新版本';
-	protected override _help = '';
+	protected override readonly _usage = '';
+	protected override readonly _description = '从npm缓存中删除关于本monorepo的数据，以便安装最新版本';
+	protected override readonly _help = '';
 }
 
 export async function main() {

@@ -1,5 +1,5 @@
 import { convertCatchedError } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { existsSync, unlinkSync } from 'node:fs';
 import tgz from 'targz';
 

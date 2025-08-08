@@ -1,7 +1,7 @@
 import 'mocha';
 import { expect } from 'chai';
 import { type CodePointInfo, readFirstCompleteChar } from './firstCompleteChar.js';
-import 'source-map-support/register.js';
+import '@idlebox/source-map-support/register ';
 import { unicodeEscape } from './escapeUnicode.js';
 import { stringWidth } from './stringWidth.js';
 import { limitWidth } from './limitWidth.js';

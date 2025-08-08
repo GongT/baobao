@@ -6,9 +6,9 @@
 	"version": "0.0.1",
 	"exports": {
 		".": {
-			"source": "./src/index.ts",
-			"types": "./src/index.ts",
-			"default": "./lib/index.js"
+			"source": "./src/autoindex.generated.ts",
+			"types": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},

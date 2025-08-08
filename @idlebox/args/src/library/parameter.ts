@@ -14,7 +14,7 @@ export class Parameter implements IParameter {
 	private _kind: undefined | ParamKind;
 
 	constructor(private readonly _definition: IParamDesc) {
-		this.firstUsageStack = new StackTrace();
+		this.firstUsageStack = new StackTrace(undefined, 2);
 	}
 
 	get _id(): string {

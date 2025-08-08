@@ -39,4 +39,5 @@
 		"**/lib/**": true,
 	},
 	"cSpell.words": ["itypes", "mpis"],
+	"remote.autoForwardPorts": false
 }

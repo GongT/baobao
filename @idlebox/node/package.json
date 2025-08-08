@@ -4,9 +4,9 @@
 	"version": "1.4.11",
 	"exports": {
 		".": {
-			"source": "./src/autoindex.generated.ts",
-			"types": "./src/autoindex.generated.ts",
-			"default": "./lib/autoindex.generated.js"
+			"source": "./src/autoindex.ts",
+			"types": "./src/autoindex.ts",
+			"default": "./lib/autoindex.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"execa": "^9.6.0",
-		"source-map-support": "^0.5.21",
+		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/node-error-codes": "workspace:"
 	},
 	"devDependencies": {

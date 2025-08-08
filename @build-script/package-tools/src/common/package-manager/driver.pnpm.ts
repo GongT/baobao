@@ -1,4 +1,4 @@
-import { CSI, logger } from '@idlebox/logger';
+import { CSI, logger } from '@idlebox/cli';
 import { execLazyError, exists } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { isVerbose } from '../functions/cli.js';

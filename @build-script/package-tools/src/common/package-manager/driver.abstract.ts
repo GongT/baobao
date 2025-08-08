@@ -1,5 +1,5 @@
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';

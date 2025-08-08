@@ -110,7 +110,7 @@ export function normalizePath(p: string) {
 export function relativePath(from: string, to: string) {
 	const r1 = analyzePath(from);
 	const r2 = analyzePath(to);
-	if (r1.kind !== r2.kind) throw new Error(`cannot relative path between different kind: "${PathKind[r1.kind]}::${from}" * "${PathKind[r2.kind]}::${to}"`);
+	if (r1.kind !== r2.kind) throw new Error(`cannot relative path between different kind\n * "${PathKind[r1.kind]}::${from}"\n * "${PathKind[r2.kind]}::${to}"`);
 
 	if (r1.prefix !== r2.prefix) return to;
 

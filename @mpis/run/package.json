@@ -30,7 +30,7 @@
 		"@mpis/shared": "workspace:^",
 		"split-cmd": "^1.1.0",
 		"execa": "^9.6.0",
-		"source-map-support": "^0.5.21"
+		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -41,5 +41,6 @@
 	"decoupledDependencies": "*",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

@@ -1,11 +1,12 @@
 import { createWorkspace } from '@build-script/monorepo-lib';
-import { argv, CommandDefine, isJsonOutput, isVerbose, pArgS } from '../common/functions/cli.js';
+import { argv, CommandDefine } from '@idlebox/cli';
+import { isJsonOutput, isVerbose, pArgS } from '../common/functions/cli.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')}`;
-	protected override _description = '列出所有项目目录';
-	protected override _help = '';
-	protected override _arguments = {
+	protected override readonly _usage = `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')}`;
+	protected override readonly _description = '列出所有项目目录';
+	protected override readonly _help = '';
+	protected override readonly _arguments = {
 		'--verbose': { flag: true, description: '列出所有信息，而不仅是目录' },
 		'--json': { flag: true, description: '输出json（同时使--verbose和--relative无效）' },
 		'--relative': { flag: true, description: '输出相对路径（相对于monorepo根目录）' },

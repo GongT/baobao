@@ -1,8 +1,8 @@
+import { install } from '@idlebox/source-map-support';
 import esbuild from 'esbuild';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import module, { builtinModules, createRequire, findPackageJSON, type LoadHookContext, type LoadFnOutput } from 'node:module';
+import module, { builtinModules, createRequire, findPackageJSON, type LoadFnOutput, type LoadHookContext } from 'node:module';
 import { basename, dirname } from 'node:path';
-import { install } from 'source-map-support';
 import { Logger, type ILogger } from './output.js';
 
 const builtinModulesWithPrefix = builtinModules.map((m) => `node:${m}`);
@@ -117,34 +117,33 @@ import { debugMode, verboseMode } from './shared.js';
 export function registerModuleLoader() {
 	const logger = Logger('loader');
 
-	if (process.env.SOURCE_MAP_SUPPORT !== 'false') {
-		install({
-			retrieveSourceMap(source) {
-				if (source.includes('?')) {
-					logger.verbose(`source map: ${source}`);
-					const [path] = source.replace(schema, '').split('?');
-					const mapData = sourceMapMemory.get(path);
-					if (mapData) {
-						logger.verbose(`exists source map for: ${path}`);
+	const activated = install({
+		retrieveSourceMap(source) {
+			if (source.includes('?')) {
+				logger.verbose(`source map: ${source}`);
+				const [path] = source.replace(schema, '').split('?');
+				const mapData = sourceMapMemory.get(path);
+				if (mapData) {
+					logger.verbose(`exists source map for: ${path}`);
 
-						// console.log(mapData.buffer);
-						return {
-							map: mapData,
-						};
-					} else {
-						logger.error(`missing source map for: ${path}`);
+					// console.log(mapData.buffer);
+					return {
+						map: mapData,
+					};
+				} else {
+					logger.error(`missing source map for: ${path}`);
 
-						if (verboseMode) {
-							for (const key of sourceMapMemory.keys()) {
-								logger.verbose(key);
-							}
+					if (verboseMode) {
+						for (const key of sourceMapMemory.keys()) {
+							logger.verbose(key);
 						}
 					}
 				}
-				return null;
-			},
-		});
-	} else {
+			}
+			return null;
+		},
+	});
+	if (!activated) {
 		logger.warn('source map support is disabled');
 	}
 

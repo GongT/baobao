@@ -107,6 +107,10 @@ async function executeInner(logger: IMyLogger) {
 	pkgChk.equals(['publishConfig', 'packCommand', 0], 'publisher');
 	pkgChk.equals(['publishConfig', 'packCommand', 1], 'pack');
 
+	if (!packageJson.sideEffects) {
+		pkgChk.equals(['sideEffects'], false);
+	}
+
 	const usingMpis = usingMpisRun();
 	if (usingMpis) {
 		logger.debug('using mpis-run');

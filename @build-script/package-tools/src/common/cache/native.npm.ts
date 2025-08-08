@@ -1,5 +1,5 @@
 import { sleep, type IPackageJson } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { get as cacheGet, rm as cacheRm } from 'cacache';
 import { rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';

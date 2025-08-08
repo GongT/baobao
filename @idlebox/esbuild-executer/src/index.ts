@@ -1,7 +1,7 @@
 import { error } from 'node:console';
 import module from 'node:module';
 import { MessageChannel } from 'node:worker_threads';
-import { debugs, inspectEnabled, isTrue } from './common/cli.js';
+import { debugs } from './common/cli.js';
 import type { IDebugMessage, IErrorMessage, IExecuteOptions, IImportedMessage, IInitializeMessage, ISourceMapMessage, IWarningMessage } from './common/message.types.js';
 export type { IExecuteOptions };
 
@@ -79,23 +79,20 @@ async function registerSourceMap(sourceMaps: Map<string, any>) {
 		configurable: false,
 	});
 
-	const userDisabled = isTrue('DISABLE_SOURCE_MAP');
-	const systemDisabled = inspectEnabled || process.execArgv.includes('--enable-source-maps');
-
-	if (!userDisabled && !systemDisabled) {
+	const { install } = await import('@idlebox/source-map-support');
+	const activated = install({
+		retrieveSourceMap(source) {
+			const map = sourceMaps.get(source);
+			if (map) {
+				debugMap(`matched source map for: ${source}`);
+				return { url: source.replace(schema, ''), map: map };
+			}
+			debugMap(`need to resolve source map for: ${source}`);
+			return null;
+		},
+	});
+	if (activated) {
 		debugMap('register source-map');
-		const { install } = await import('source-map-support');
-		install({
-			retrieveSourceMap(source) {
-				const map = sourceMaps.get(source);
-				if (map) {
-					debugMap(`matched source map for: ${source}`);
-					return { url: source.replace(schema, ''), map: map };
-				}
-				debugMap(`need to resolve source map for: ${source}`);
-				return null;
-			},
-		});
 	} else {
 		debugMap('not register source-map');
 	}

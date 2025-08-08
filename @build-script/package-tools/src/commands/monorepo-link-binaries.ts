@@ -1,19 +1,20 @@
 import { createWorkspace, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { argv } from '@idlebox/args/default';
+import { argv } from '@idlebox/cli';
+import { CommandDefine } from '@idlebox/cli';
 import type { DeepReadonly, IPackageJson } from '@idlebox/common';
 import { ensureLinkTargetSync } from '@idlebox/ensure-symlink';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
-import { CommandDefine, pArgS } from '../common/functions/cli.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = `${pArgS('--from=...')} ${pArgS('--recursive')}`;
-	protected override _description = '将monorepo中每个项目的bins连接到当前项目的 ./node_modules/.bin';
-	protected override _help = '存在bin同名时，monorepo项目优先于npm包';
-	protected override _arguments = {
+	protected override readonly _usage = '';
+	protected override readonly _description = '将monorepo中每个项目的bins连接到当前项目的 ./node_modules/.bin';
+	protected override readonly _help = '存在bin同名时，monorepo项目优先于npm包';
+	protected override readonly _arguments = {
 		'--from': {
+			usage: true,
 			flag: false,
 			description: '将<value>视为各个项目的直接依赖 (必须是至少一个项目的依赖，否则找不到)',
 		},
@@ -21,7 +22,11 @@ export class Command extends CommandDefine {
 			flag: false,
 			description: '将<value>的所有直接依赖视为此项目的直接依赖',
 		},
-		'--recursive': { flag: true, description: '在每个项目中运行，而非当前项目' },
+		'--recursive': {
+			usage: true,
+			flag: true,
+			description: '在每个项目中运行，而非当前项目',
+		},
 	};
 }
 

@@ -28,5 +28,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

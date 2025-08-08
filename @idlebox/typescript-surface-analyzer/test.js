@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
 process.env.NODE_DEBUG = 'EXPORT';
-require('source-map-support/register');
-require('./lib/test.js');
+import '@idlebox/source-map-support/register';
+
+await import('./lib/test.js');

@@ -1,4 +1,4 @@
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { commandInPath, execLazyError, exists } from '@idlebox/node';
 import { rm } from 'node:fs/promises';
 import { resolve } from 'node:path';

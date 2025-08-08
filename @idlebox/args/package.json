@@ -21,7 +21,7 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"test": "mocha --require source-map-support/register --bail lib/tests",
+		"test": "mocha --require @idlebox/source-map-support/register --bail lib/tests",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
@@ -38,7 +38,7 @@
 		"@types/node": "^24.0.14",
 		"chai": "^5.2.1",
 		"mocha": "^11.7.1",
-		"source-map-support": "^0.5.21"
+		"@idlebox/source-map-support": "workspace:^"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

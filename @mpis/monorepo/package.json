@@ -28,7 +28,7 @@
 		"@mpis/server": "workspace:^",
 		"@rushstack/rig-package": "^0.5.3",
 		"execa": "^9.6.0",
-		"source-map-support": "^0.5.21",
+		"@idlebox/source-map-support": "workspace:^",
 		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
@@ -41,5 +41,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

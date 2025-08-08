@@ -12,7 +12,7 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"test": "SILENT=1 mocha --bail --parallel=false -r 'source-map-support/register.js' 'lib/tests/**.test.js'",
+		"test": "SILENT=1 mocha --bail --parallel=false -r '@idlebox/source-map-support/register' 'lib/tests/**.test.js'",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
@@ -41,5 +41,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

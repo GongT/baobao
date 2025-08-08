@@ -1,19 +1,18 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
+import { argv, CommandDefine, CSI, logger } from '@idlebox/cli';
 import { humanDate } from '@idlebox/common';
 import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
-import { logger } from '@idlebox/logger';
 import { makeRe } from 'minimatch';
-import { argv, CommandDefine, CSI } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = ``;
-	protected override _description = '在monorepo中按照依赖顺序分别运行detect-package-change';
-	protected override _help = '';
-	protected override _arguments = {
+	protected override readonly _usage = ``;
+	protected override readonly _description = '在monorepo中按照依赖顺序分别运行detect-package-change';
+	protected override readonly _help = '';
+	protected override readonly _arguments = {
 		'--skip': { flag: false, description: '跳过前N-1个包（从第N个包开始运行）' },
 		'--allow-private': { flag: true, description: '即使private=true也执行' },
 		'--exclude': { flag: false, description: '排除指定的包' },

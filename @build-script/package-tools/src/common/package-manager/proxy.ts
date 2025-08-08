@@ -1,5 +1,5 @@
 import { escapeRegExp } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { getEnvironment } from '@idlebox/node';
 import type { IPackageManager } from './package-manager.js';
 

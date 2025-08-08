@@ -1,7 +1,7 @@
 import { createWorkspaceOrPackage } from '@build-script/monorepo-lib';
-import { logger } from '@idlebox/logger';
+import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { printLine } from '@idlebox/node';
-import { argv, CommandDefine, isJsonOutput, pArgS } from '../common/functions/cli.js';
+import { isJsonOutput } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
@@ -10,10 +10,10 @@ import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js'
 process.env.COREPACK_ENABLE_STRICT = '0';
 
 export class Command extends CommandDefine {
-	protected override _usage = `${pArgS('--bump')} ${pArgS('--json')}`;
-	protected override _description = '本地运行npm pack并与npm上的最新版本对比差异';
-	protected override _help = '';
-	protected override _arguments = {
+	protected override readonly _usage = '';
+	protected override readonly _description = '本地运行npm pack并与npm上的最新版本对比差异';
+	protected override readonly _help = '';
+	protected override readonly _arguments = {
 		'--bump': { flag: true, description: '当发现更改时更新package.json，增加版本号0.0.1' },
 	};
 }

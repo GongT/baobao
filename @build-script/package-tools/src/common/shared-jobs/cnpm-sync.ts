@@ -1,7 +1,7 @@
-import { logger } from '@idlebox/logger';
+import { CSI, logger } from '@idlebox/cli';
 import { checkChildProcessResult, printLine } from '@idlebox/node';
 import { execa } from 'execa';
-import { CSI, isQuiet } from '../functions/cli.js';
+import { isQuiet } from '../functions/cli.js';
 
 export async function cnpmSyncNames(names: ReadonlyArray<string>, collectOutput = isQuiet, dryRun = false) {
 	console.log(`🔃 cnpm同步${names.length}个包`);

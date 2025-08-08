@@ -1,6 +1,7 @@
 export interface StackTraceHolder {
 	readonly message: string;
 	readonly stack: string;
+	name: string;
 	toString(): string;
 }
 
@@ -20,6 +21,10 @@ class StackTraceHoldObject {
 		(Error as any).captureStackTrace(this.holder, boundary);
 
 		(Error as any).stackTraceLimit = old;
+	}
+
+	set name(v: string) {
+		this.holder.name = v;
 	}
 
 	toString(): string {

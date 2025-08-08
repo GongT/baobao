@@ -1,6 +1,6 @@
 import type { IPackageJson } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { inc } from 'semver';

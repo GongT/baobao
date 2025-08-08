@@ -5,9 +5,9 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"types": ["node"],
-		"noEmitOnError": false,
+		"noEmitOnError": false
 	},
 	// "files": ["preload.ts"],
 	// "include": ["**/*.ts"],
-	"exclude": ["**/*.generator.ts"],
+	"exclude": ["**/*.generator.ts"]
 }

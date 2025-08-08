@@ -1,20 +1,16 @@
 import { nameFunction } from './functionName.js';
 
-export interface MyCallback<Argument extends unknown[]> {
-	displayName?: string;
-
-	(...param: Argument): any;
-}
+export type MyCallback<Argument extends unknown[]> = (...param: Argument) => boolean | undefined | void;
 
 /**
  * Manage a list of callback
  */
 export class CallbackList<Argument extends unknown[]> {
-	protected list: MyCallback<Argument>[] = [];
+	protected list: MyCallback<Argument>[];
 	protected running = false;
-	protected stop = false;
 
-	constructor() {
+	constructor(initial?: readonly MyCallback<Argument>[]) {
+		this.list = initial ? initial.slice() : [];
 		this.run = (this.run as any).bind(this);
 	}
 
@@ -61,28 +57,26 @@ export class CallbackList<Argument extends unknown[]> {
 	}
 
 	/**
-	 * in a callback, call this.stopRun() to stop remain callbacks (not by return false)
+	 * in a callback, return false (not 0 or other falsy value) to stop execute
 	 * @returns {boolean} true if every callback called, false if stop in middle
 	 */
 	run(...argument: Argument): boolean {
 		if (this.running) {
 			throw new Error("can not run CallbackList in it's callback.");
 		}
-		this.stop = false;
 
 		this.running = true;
-		for (const cb of this.list) {
-			if (this.stop) break;
-			cb(...argument);
+		try {
+			for (const cb of this.list) {
+				const stop = cb(...argument);
+				if (stop === false) {
+					return false;
+				}
+			}
+
+			return true;
+		} finally {
+			this.running = false;
 		}
-		this.running = false;
-
-		const ret = !this.stop;
-		this.stop = false;
-		return ret;
-	}
-
-	stopRun() {
-		this.stop = true;
 	}
 }

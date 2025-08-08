@@ -30,6 +30,13 @@ lib/
 .test
 tsdoc-metadata.json
 
+### Mistake
+**/src/**/*.d.ts
+!**/src/global.d.ts
+!**/src/globals.d.ts
+**/src/**/*.js
+**/src/**/*.map
+
 ### Package Manager
 node_modules
 jspm_packages

@@ -38,7 +38,7 @@
 		"debug": "^4.4.1",
 		"esbuild": "^0.25.6",
 		"import-meta-resolve": "^4.1.0",
-		"source-map-support": "^0.5.21",
+		"@idlebox/source-map-support": "workspace:^",
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
@@ -46,12 +46,12 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/typescript": "workspace:^",
 		"@types/node": "^24.0.14",
-		"@types/source-map-support": "^0.5.10",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3"
 	},
 	"decoupledDependencies": ["@mpis/typescript"],
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

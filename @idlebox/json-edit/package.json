@@ -33,7 +33,7 @@
 		"@mpis/run": "workspace:^",
 		"@rushstack/heft": "^0.74.0",
 		"@types/node": "^24.0.14",
-		"source-map-support": "^0.5.21",
+		"@idlebox/source-map-support": "workspace:^",
 		"tslib": "^2.8.1",
 		"vite-node": "^3.2.4"
 	},

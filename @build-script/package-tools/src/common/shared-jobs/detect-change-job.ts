@@ -1,4 +1,4 @@
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { PathEnvironment } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { gt } from 'semver';
