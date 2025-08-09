@@ -22,15 +22,14 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
+		"@idlebox/errors": "workspace:^",
 		"execa": "^9.6.0",
-		"@idlebox/source-map-support": "workspace:^",
-		"@idlebox/node-error-codes": "workspace:"
+		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
 		"@types/node": "^24.0.14"
 	},
 	"decoupledDependents": "*",

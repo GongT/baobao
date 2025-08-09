@@ -1,4 +1,4 @@
-import { shutdown } from '@idlebox/node';
+import { SoftwareDefectError } from '@idlebox/common';
 import { LogLevel } from './colors.js';
 import { createDebug } from './debug-fn.js';
 import { defaultLogLevel, detectColorEnable } from './helpers.js';
@@ -28,9 +28,9 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 	return {
 		tag,
 		stream,
-		fatal: (messages, ...args) => {
+		fatal: function fatal(messages, ...args) {
 			log_fatal(messages as any, ...args);
-			shutdown(1);
+			throw new SoftwareDefectError(`logger.fatal has been called`, fatal);
 		},
 		error,
 		warn,

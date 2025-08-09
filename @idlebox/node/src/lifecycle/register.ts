@@ -1,23 +1,15 @@
 /** biome-ignore-all lint/suspicious/noDebugger: debug file */
 
-import { AppExit, ensureDisposeGlobal, ensureGlobalObject, prettyPrintError, type MyCallback } from '@idlebox/common';
+import { ensureDisposeGlobal, ensureGlobalObject, functionName, isProductionMode, prettyPrintError, type MyCallback } from '@idlebox/common';
+import { ErrorWithCode, Exit, ExitCode, InterruptError, UncaughtException, UnhandledRejection } from '@idlebox/errors';
 import assert from 'node:assert';
-import { createRequire, syncBuiltinESMExports } from 'node:module';
+import { syncBuiltinESMExports } from 'node:module';
 import { basename } from 'node:path';
 import process from 'node:process';
-import { Exit, InterruptError, UncaughtException, UnhandledRejection } from './internal-errors.js';
+import { inspect } from 'node:util';
 
 const originalExit: (code?: number) => never = process.exit;
 const prefix = process.stderr.isTTY ? '' : `<${title()} ${process.pid}> `;
-const hasInspect = process.argv.some((arg) => arg.startsWith('--inspect=') || arg.startsWith('--inspect-brk=') || arg === '--inspect' || arg === '--inspect-brk');
-
-let abnormalExitCode = 1;
-export function setAbnormalExitCode(code: number) {
-	if (code < 1) {
-		throw new TypeError(`abnormal exit code must be greater than 0, got ${code}`);
-	}
-	abnormalExitCode = code;
-}
 
 function title() {
 	if (process.title && process.title !== 'node') {
@@ -30,22 +22,29 @@ function getCurrentCode() {
 	return typeof process.exitCode === 'string' ? parseInt(process.exitCode) : process.exitCode || 0;
 }
 
-let shuttingDown = false;
-export function shutdown(exitCode: number): never {
-	if (hasInspect) debugger;
-
-	if (exitCode) {
+export function setExitCodeIfNot(exitCode: number) {
+	if (exitCode || typeof process.exitCode !== 'number') {
 		process.exitCode = exitCode;
+		globalThis.process.exitCode = exitCode;
 	}
+}
+
+let shuttingDown = 0;
+export function shutdown(exitCode: number): never {
+	_shutdown(exitCode);
+	throw new Exit(getCurrentCode());
+}
+function _shutdown(exitCode: number) {
+	setExitCodeIfNot(exitCode);
 
 	if (!shuttingDown) {
-		shuttingDown = true;
+		shuttingDown = 1;
 		ensureDisposeGlobal().finally(() => {
 			originalExit(getCurrentCode());
 		});
+	} else {
+		shuttingDown++;
 	}
-
-	throw new Exit(getCurrentCode());
 }
 
 const typed_error_handlers = new WeakMap<ErrorConstructor, MyCallback<[Error]>>();
@@ -68,19 +67,30 @@ export function registerNodejsGlobalTypedErrorHandler(ErrorCls: ErrorConstructor
 	typed_error_handlers.set(ErrorCls, fn);
 }
 
-function callErrorHandler(e: unknown) {
+function uniqueErrorHandler(e: unknown, logger: IDebugOutput) {
+	if (!isProductionMode) logger.verbose?.(`uniqueErrorHandler:`);
 	if (!(e instanceof Error)) {
 		prettyPrintError(`${prefix}catch unexpect object`, new Error(`error object is ${typeof e} ${e ? (e as any).constructor?.name : 'unknown'}`));
-		throw originalExit(abnormalExitCode);
+		throw originalExit(ExitCode.PROGRAM);
+	}
+
+	if (e instanceof Exit) {
+		if (!isProductionMode) logger.verbose?.(`  - skip exit object`);
+		if (!shuttingDown) {
+			_shutdown(e.code);
+		}
+		throw e;
 	}
 
 	try {
 		const catcher = typed_error_handlers.get(e.constructor as ErrorConstructor);
 		if (catcher) {
+			if (!isProductionMode) logger.verbose?.(`  - call catcher ${functionName(catcher)}`);
 			catcher(e);
 			return;
 		}
 		for (const [Cls, fn] of inherit_error_handlers) {
+			if (!isProductionMode) logger.verbose?.(`  - call inherited catcher ${functionName(fn)}`);
 			if (e instanceof Cls) {
 				fn(e);
 				return;
@@ -96,73 +106,93 @@ function callErrorHandler(e: unknown) {
 	}
 
 	if (e instanceof InterruptError) {
-		if (shuttingDown) {
-			console.error(`${prefix}Exiting immediately.`);
-			originalExit(1);
+		if (!isProductionMode) logger.verbose?.(`  - shuttingDown = ${shuttingDown}`);
+		if (shuttingDown > 5) {
+			logger.output(`${prefix}Exiting immediately.`);
+			originalExit(ExitCode.INTERRUPT);
 		}
 
-		shutdown(0);
+		shutdown(ExitCode.INTERRUPT);
 	}
-	if (e instanceof AppExit) {
-		ensureDisposeGlobal().finally(() => {
-			originalExit(getCurrentCode());
-		});
-	}
-	if (e instanceof UncaughtException) {
+	if (e instanceof UnhandledRejection) {
+		if (!isProductionMode) logger.verbose?.(`  - UnhandledRejection`);
 		if (e.cause instanceof Error) {
 			prettyPrintError(`${prefix}Unhandled Rejection`, e.cause);
 		} else {
-			console.error(`${prefix}Unhandled Rejection / error type unknown:`, e.cause);
+			logger.output(`${prefix}Unhandled Rejection / error type unknown: ${inspect(e.cause)}`);
 		}
-		shutdown(abnormalExitCode);
+		return;
 	}
 	if (e instanceof UncaughtException) {
+		if (!isProductionMode) logger.verbose?.(`  - UncaughtException`);
 		prettyPrintError(`${prefix}Uncaught Exception`, e.cause);
-		shutdown(abnormalExitCode);
+		return;
 	}
+
+	if (!isProductionMode) logger.verbose?.(`  - common error`);
+	prettyPrintError(`${prefix}unhandled global exception`, e);
+	shutdown(ExitCode.PROGRAM);
+}
+
+interface IDebugOutput {
+	output(message: string): void;
+	verbose?(message: string): void;
 }
 
 /**
  * 注册nodejs退出处理器
  */
-export function registerNodejsExitHandler() {
-	ensureGlobalObject('exithandler/register', _real_register);
+export function registerNodejsExitHandler(logger: IDebugOutput = { output: console.error }) {
+	ensureGlobalObject('exithandler/register', () => _real_register(logger));
 }
-function _real_register() {
+function _real_register(logger: IDebugOutput) {
+	logger.verbose?.(`register nodejs exit handler: production=${isProductionMode}`);
 	process.on('SIGINT', () => {
-		console.error(`\n${prefix}Received SIGINT. Exiting gracefully...`);
-		callErrorHandler(new InterruptError('SIGINT'));
+		logger.output(`\n${prefix}Received SIGINT. Exiting gracefully...`);
+		uniqueErrorHandler(new InterruptError('SIGINT'), logger);
 	});
 
 	process.on('SIGTERM', () => {
-		console.error(`${prefix}Received SIGTERM. Exiting gracefully...`);
-		callErrorHandler(new InterruptError('SIGTERM'));
+		logger.output(`${prefix}Received SIGTERM. Exiting gracefully...`);
+		uniqueErrorHandler(new InterruptError('SIGTERM'), logger);
 	});
 
 	process.on('beforeExit', (code) => {
 		// empty handler prevent real exit
-		shutdown(code);
+		if (!isProductionMode) logger.verbose?.(`process: beforeExit: ${code}`);
+		if (process.exitCode === undefined || process.exitCode === '') {
+			code = ExitCode.EXECUTION;
+			logger.output(`${prefix}beforeExit called, but process.exitCode has not been set, switch to ${code}`);
+		}
+		_shutdown(code);
 	});
+
+	function finalThrow(e: UnhandledRejection | UncaughtException) {
+		try {
+			uniqueErrorHandler(e, logger);
+
+			if (e.cause instanceof ErrorWithCode) {
+				if (!isProductionMode) logger.verbose?.(`finalThrow: got code: ${e.cause.code}`);
+				_shutdown(e.cause.code);
+			} else {
+				if (!isProductionMode) logger.verbose?.(`finalThrow: not got code: ${e.cause} `);
+				_shutdown(ExitCode.PROGRAM);
+			}
+		} catch (e: any) {
+			if (e instanceof Exit) {
+				return;
+			}
+			prettyPrintError('Exception while handling error', e);
+			_shutdown(ExitCode.PROGRAM);
+		}
+	}
 
 	process.on('unhandledRejection', (reason, promise) => {
-		if (reason instanceof AppExit) {
-			return;
-		}
-		if (hasInspect) debugger;
-		callErrorHandler(new UnhandledRejection(reason, promise));
+		finalThrow(new UnhandledRejection(reason, promise));
 	});
 
-	const processMdl = createRequire(import.meta.url)('node:process');
-	processMdl.exit = shutdown;
-	syncBuiltinESMExports();
-
 	function uncaughtException(error: Error): void {
-		if (error instanceof AppExit) {
-			return;
-		}
-		if (hasInspect) debugger;
-
-		callErrorHandler(new UncaughtException(error));
+		finalThrow(new UncaughtException(error));
 	}
 
 	if (process.hasUncaughtExceptionCaptureCallback()) {
@@ -170,6 +200,9 @@ function _real_register() {
 		throw new Error(`${prefix} [uncaught exception capture] callback already registered by other module`);
 	}
 	process.setUncaughtExceptionCaptureCallback(uncaughtException);
+
+	process.exit = shutdown;
+	syncBuiltinESMExports();
 
 	return true;
 }

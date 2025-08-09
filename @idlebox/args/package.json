@@ -27,6 +27,7 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
+		"@idlebox/errors": "workspace:^",
 		"cjke-strings": "workspace:^"
 	},
 	"devDependencies": {

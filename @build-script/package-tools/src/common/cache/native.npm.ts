@@ -1,5 +1,5 @@
-import { sleep, type IPackageJson } from '@idlebox/common';
 import { logger } from '@idlebox/cli';
+import { sleep, type IPackageJson } from '@idlebox/common';
 import { get as cacheGet, rm as cacheRm } from 'cacache';
 import { rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';
@@ -38,19 +38,23 @@ export interface IRegistryMetadata {
 }
 
 export class NpmCacheHandler {
+	private readonly cache_path;
+
 	constructor(
 		private readonly pm: IPackageManager,
 		private readonly registry: string,
 		public readonly path: string,
-	) {}
+	) {
+		this.cache_path = resolve(path, '_cacache');
+	}
 
 	deleteMetadata(name: string) {
-		return deleteNpmCache(this.path, name, this.registry);
+		return deleteNpmCache(this.cache_path, name, this.registry);
 	}
 
 	async fetchMetadata(name: string, cacheMode = CacheMode.Normal) {
 		const registry = await this.pm.getNpmRegistry();
-		return fetchNpmWithCache(this.path, name, registry, { mode: cacheMode });
+		return fetchNpmWithCache(this.cache_path, name, registry, { mode: cacheMode });
 	}
 
 	async fetchVersion(name: string, distTag = 'latest', cacheMode = CacheMode.Normal) {
@@ -68,7 +72,7 @@ export class NpmCacheHandler {
 
 	private getTarballFile(name: string, tag: string) {
 		const es = escapePackageNameToFilename(name);
-		return resolve(this.path, `../package-tools/${es}-${tag}.tgz`);
+		return resolve(this.path, `package-tools/${es}-${tag}.tgz`);
 	}
 
 	public async downloadTarball(name: string, distTag: string) {

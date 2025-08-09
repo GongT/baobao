@@ -1,17 +1,17 @@
 import type { ArgumentTypings } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import { CliApplicationHelp, type CommandDefine, type IArgDefineMap, type ICommandDefine, type ICommandDefineWithCommand } from '@idlebox/cli-help-builder';
-import { humanDate, NotImplementedError, registerGlobalLifecycle, toDisposable, type IPackageJson } from '@idlebox/common';
+import { humanDate, NotImplementedError, registerGlobalLifecycle, SoftwareDefectError, toDisposable, UsageError, type IPackageJson } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, shutdown } from '@idlebox/node';
-import { mapSourcePosition } from '@idlebox/source-map-support';
+import { hasInstalledSourceMapSupport } from '@idlebox/source-map-support';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { glob } from 'node:fs/promises';
 import { findPackageJSON } from 'node:module';
 import { basename, extname, resolve } from 'node:path';
 import { getCallSites } from 'node:util';
-import { ExitCode, type IApp } from './index.js';
+import { mapSourceFile, type IApp } from './index.js';
 
 class CliApplication implements IApp {
 	public debug = false;
@@ -42,6 +42,7 @@ const fixedCommon = {
 interface IAppBasic {
 	readonly name: string;
 	readonly description: string;
+	readonly logPrefix?: string;
 }
 
 function autoload(): IAppBasic {
@@ -61,7 +62,7 @@ function autoload(): IAppBasic {
 	return { name, description };
 }
 
-export function makeApplication({ name: binName, description }: IAppBasic = autoload()) {
+export function makeApplication({ name: binName, description, logPrefix }: IAppBasic = autoload()) {
 	assert.equal(typeof binName, 'string', 'name must be a string');
 	assert.equal(typeof description, 'string', 'description must be a string');
 
@@ -89,28 +90,32 @@ export function makeApplication({ name: binName, description }: IAppBasic = auto
 		level = EnableLogLevel.error;
 	}
 
-	createRootLogger(binName, level);
+	createRootLogger(logPrefix ?? binName, level);
 	info.color = logger.colorEnabled;
 
+	logger.verbose`source-map-support is: ${hasInstalledSourceMapSupport()}`;
+
 	if (!binName || !description) {
-		logger.error`missing application name or description`;
-		shutdown(ExitCode.PROGRAM);
+		throw new SoftwareDefectError(`missing application name or description`);
 	}
 
-	registerNodejsExitHandler();
+	const coreLog = logger.extend('nodejs');
+	registerNodejsExitHandler({
+		output: coreLog.log,
+		verbose: coreLog.verbose,
+	});
 
 	if (logger.debug.isEnabled) {
 		const startTime = Date.now();
 		registerGlobalLifecycle(
 			toDisposable(() => {
-				logger.debug(`process exit with code ${process.exitCode} | ${humanDate.delta(startTime, Date.now())}`);
+				logger.debug(`process will exit with code ${process.exitCode} | ${humanDate.delta(startTime, Date.now())}`);
 			}),
 		);
 	}
 
 	if (info.debug && info.silent) {
-		logger.error`can not use --debug and --silent together`;
-		shutdown(ExitCode.USAGE);
+		throw new UsageError(`can not use --debug and --silent together`);
 	}
 
 	let commons: IArgDefineMap | undefined;
@@ -180,8 +185,7 @@ export function makeApplication({ name: binName, description }: IAppBasic = auto
 				shutdown(0);
 			}
 			if (!subcmd?.value) {
-				logger.error`missing command, use --help/-h to see available commands`;
-				shutdown(ExitCode.USAGE);
+				throw new UsageError(`missing command, use --help/-h to see available commands`);
 			}
 			const commandName = subcmd.value;
 
@@ -227,8 +231,7 @@ export function makeApplication({ name: binName, description }: IAppBasic = auto
 			}
 
 			if (!subcmd?.value) {
-				logger.error`missing command, use --help/-h to see available commands`;
-				shutdown(ExitCode.USAGE);
+				throw new UsageError(`missing command, use --help/-h to see available commands`);
 			}
 			const commandName = subcmd.value;
 
@@ -241,18 +244,16 @@ export function makeApplication({ name: binName, description }: IAppBasic = auto
 }
 
 async function execMain(file: string, subcmd: ArgumentTypings.ISubArgsReaderApi) {
-	logger.verbose`executing js file: ${file}`;
+	logger.verbose`executing js file: ${mapSourceFile(file)}`;
 	const { main } = await import(file);
 	if (typeof main !== 'function') {
-		const r = mapSourcePosition({ source: file, column: 0, line: 1 });
-		logger.fatal`missing main() function in file long<${r.source}>`;
+		throw new NotImplementedError(`missing main() function in file ${mapSourceFile(file)}`);
 	}
 
 	const result = await main(subcmd);
 
 	if (result !== undefined) {
-		const r = mapSourcePosition({ source: file, column: 0, line: 1 });
-		logger.warn`main function retrun type is not void in file long<${r.source}>`;
+		logger.warn`main function retrun type is not void in file long<${mapSourceFile(file)}>`;
 	}
 }
 
@@ -283,14 +284,14 @@ function consumeArguments(defines: IArgDefineMap) {
 
 function consumeCommandArguments(command?: ICommandDefine) {
 	if (!command) {
-		throw logger.fatal(`program defect: command must not empty not`);
+		throw new UsageError(`program defect: command must not empty not`);
 	}
 
 	if (command.args) consumeArguments(command.args);
 	if (command.commonArgs) consumeArguments(command.commonArgs);
 	if (!command.positional) {
 		if (argv.unused().length > 0) {
-			logger.fatal`unexpected arguments: ${argv.unused().join(', ')}`;
+			throw new UsageError(`unexpected arguments: ${argv.unused().join(', ')}`);
 		}
 	}
 }

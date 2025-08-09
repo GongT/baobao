@@ -1,5 +1,5 @@
 import { argv } from '@idlebox/args/default';
-import { AppExit, prettyPrintError } from '@idlebox/common';
+import { Exit, prettyPrintError } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { debugMode, projectPath } from './common/constants.js';
 
@@ -37,10 +37,10 @@ try {
 		await import('./commands/extract.js');
 	}
 } catch (e: any) {
-	if (e instanceof AppExit) {
-		// nothing to do
+	if (e instanceof Exit) {
+		throw e;
 	} else {
-		prettyPrintError('执行命令失败', e);
+		prettyPrintError('publisher执行命令失败', e);
 		process.exitCode = process.exitCode || 1;
 	}
 }

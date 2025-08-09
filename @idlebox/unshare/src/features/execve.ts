@@ -1,5 +1,5 @@
 import { execaSync } from 'execa';
-import type { ICommandToRun } from '../common/types.js';
+import type { ICommandToRun } from './types.js';
 
 export function execveOrSpawn(command: ICommandToRun): never {
 	if (process.execve) {

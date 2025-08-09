@@ -1,10 +1,13 @@
 import { commandInPath } from '@idlebox/node';
-import { execa } from 'execa';
-import { mkdir } from 'fs/promises';
+import { execa, ExecaError, type Options } from 'execa';
+import { mkdir } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { inspect } from 'node:util';
+import { inside } from './path-calc.js';
+import type { IMountInfo } from '../features/types.js';
+import { detectVsCode } from './vscode.js';
 
 let mountBinPromise: undefined | Promise<string>;
-
-const verbose = undefined;
 
 function findMountBin() {
 	if (!mountBinPromise) {
@@ -20,17 +23,22 @@ function findMountBin() {
 export async function mountBinding(source: string, target: string, writable: boolean) {
 	const mount = await findMountBin();
 
-	await execa(mount, ['--rbind', source, target, '-o', writable ? 'rw' : 'ro'], {
-		stdio: 'inherit',
-		verbose,
-	});
+	try {
+		await execWithoutOutput`${mount} --mkdir --rbind ${source} ${target} -o ${writable ? 'rw' : 'ro'}`;
+	} catch (e) {
+		throwErrorWithStdout(e, 'failed bind mount');
+	}
 }
 
 export async function mountTmpfs(path: string) {
 	// console.log('mount tmpfs!', path);
 	const mount = await findMountBin();
 	await mkdir(path, { recursive: true });
-	await execa({ stdio: 'inherit', verbose })`${mount} -t tmpfs --source tmpfs --target ${path}`;
+	try {
+		await execWithoutOutput`${mount} -t tmpfs --source tmpfs --target ${path}`;
+	} catch (e) {
+		throwErrorWithStdout(e, 'failed mount tmpfs');
+	}
 }
 
 let guid = 0;
@@ -45,60 +53,53 @@ export async function mountOverlay(lower: string, upper: string, target: string)
 
 	await mkdir(`/tmp/overlay/${id}/work`, { recursive: true });
 
-	await execa({ stdio: 'inherit', verbose })`${mount} -t overlay -o lowerdir=${lower},upperdir=${upper},workdir=/tmp/overlay/${id}/work --source overlayfs --target ${target}`;
-}
-
-interface IMountInfo {
-	target: string;
-	source: string;
-	fstype: string;
-	options: string;
+	try {
+		await execWithoutOutput`${mount} --mkdir -t overlay -o lowerdir=${lower},upperdir=${upper},workdir=/tmp/overlay/${id}/work --source overlayfs --target ${target}`;
+	} catch (e) {
+		throwErrorWithStdout(e, 'failed mount overlay');
+	}
 }
 
 interface IFindMntResult {
 	filesystems: IMountInfo[];
 }
 
-const extraLeave = ['/proc', '/dev', '/sys'];
+// const extraLeave = ['/proc', '/dev', '/sys'];
 
-function inside(path: string, containers: readonly string[]) {
-	for (const what of containers) {
-		if (path === what || path.startsWith(`${what}/`)) {
-			return true;
-		}
+export async function recreateRootFilesystem(keep_visible: readonly string[]) {
+	const newRoot = '/tmp/rootfs';
+	await mountTmpfs(newRoot);
+
+	await mountOverlay('/', 'tmpfs', newRoot);
+
+	// console.log(filesystems);
+
+	for (const path of keep_visible.toSorted(shortToLong)) {
+		await mountBinding(path, `${newRoot}${path}`, false);
 	}
-	return false;
+	await mountBinding(dirname(process.execPath), `${newRoot}${dirname(process.execPath)}`, false);
+	await mountBinding('/proc', `${newRoot}/proc`, true);
+	await mountBinding('/dev', `${newRoot}/dev`, true);
+	await mountTmpfs(`${newRoot}/tmp`);
+
+	const vscode = detectVsCode();
+	if (vscode) {
+		await mountBinding(vscode, `${newRoot}${vscode}`, false);
+	}
+
+	return newRoot;
 }
 
-function outside(container: string, files: readonly string[]) {
-	for (const file of files) {
-		if (container === file || file.startsWith(`${container}/`)) {
-			return true;
+function throwErrorWithStdout(e: unknown, extraMessage?: string) {
+	if (isNoOutputError(e)) {
+		console.error(`\ncommand: ${e.escapedCommand}\n\x1B[0;3m${e.all}\x1B[0m\n`);
+		if (!extraMessage) {
+			extraMessage = `process failed`;
 		}
+		throw new Error(`${extraMessage}: ${e.originalMessage || e.shortMessage || e.message}`);
+	} else {
+		throw e;
 	}
-	return false;
-}
-
-export async function leaveOnlyFilesystem(files: readonly string[]) {
-	const toUnmount = [];
-	const filesystems = await findmnt([]);
-
-	for (const { target } of filesystems.toReversed()) {
-		if (target === '/') continue;
-		if (inside(target, extraLeave)) continue;
-		if (outside(target, files)) continue;
-
-		toUnmount.push(target);
-	}
-
-	if (toUnmount.length) {
-		await execa({ stdio: 'inherit', verbose })`umount ${toUnmount}`;
-	}
-	// for (const path of toUnmount) {
-	// 	await execa({ stdio: 'inherit', verbose })`umount ${path}`;
-	// }
-
-	await mountTmpfs('/tmp');
 }
 
 export async function remountRootReadonly(keeps: readonly string[]) {
@@ -127,12 +128,17 @@ export async function remountRootReadonly(keeps: readonly string[]) {
 	for (const [path, shouldRemount] of toRemount.entries()) {
 		if (!shouldRemount) continue;
 
-		await execa({ all: true, verbose })`${mount} ${path} -o remount,bind,ro`;
+		try {
+			await execWithoutOutput`${mount} ${path} -o remount,bind,ro`;
+		} catch (e) {
+			console.log(inspect(await findmnt([]), { breakLength: 140, compact: true }));
+			throwErrorWithStdout(e, 'failed remount bind');
+		}
 	}
 }
 
 export async function findmnt(filter: readonly string[]) {
-	const { stdout } = await execa({ encoding: 'ascii' })`findmnt ${filter} --json --list`;
+	const { stdout } = await execa({ encoding: 'ascii' })`findmnt ${filter} -o+PROPAGATION --json --list`;
 	const { filesystems } = JSON.parse(stdout) as IFindMntResult;
 	return filesystems;
 }
@@ -151,4 +157,31 @@ function findMostNear(file: string, containers: readonly string[]) {
 		}
 	}
 	return longest;
+}
+
+export function setVerbose(v: boolean) {
+	if (v) {
+		execWithoutOutput = execa({ ...noOutputOptions, verbose: 'short' }) as any;
+	} else {
+		execWithoutOutput = execa(noOutputOptions);
+	}
+}
+
+const noOutputOptions = {
+	stdio: ['ignore', 'pipe', 'pipe'],
+	all: true,
+	encoding: 'utf8',
+	env: {
+		LANG: 'C',
+	},
+} as const;
+let execWithoutOutput = execa(noOutputOptions);
+const isNoOutputError = isExecaError<typeof noOutputOptions>;
+
+function isExecaError<T extends Options>(e: unknown): e is ExecaError<T> {
+	return e instanceof ExecaError;
+}
+
+export function shortToLong(a: string, b: string) {
+	return a.length - b.length;
 }

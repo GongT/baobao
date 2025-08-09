@@ -14,12 +14,12 @@ export class DisposedError extends Error {
 	) {
 		const insp = tryInspect(object);
 
-		const old = (Error as any).stackTraceLimit;
-		(Error as any).stackTraceLimit = Number.MAX_SAFE_INTEGER;
+		const old = Error.stackTraceLimit;
+		Error.stackTraceLimit = Number.MAX_SAFE_INTEGER;
 
 		super(`Object [${insp}] has already disposed ${getErrorFrame(previous, 2)}.`);
 
-		(Error as any).stackTraceLimit = old;
+		Error.stackTraceLimit = old;
 
 		this.inspectString = insp;
 		this.name = 'Warning';

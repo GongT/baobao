@@ -1,0 +1,35 @@
+{
+	"name": "@idlebox/errors",
+	"description": "A collection of my errors.",
+	"type": "module",
+	"version": "0.1.5",
+	"exports": {
+		".": {
+			"source": "./src/autoindex.ts",
+			"types": "./src/autoindex.ts",
+			"default": "./lib/autoindex.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/node-error-codes": "workspace:^"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
+}

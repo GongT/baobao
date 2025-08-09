@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import type { ICommandToRun } from './types.js';
+import type { ICommandToRun } from '../features/types.js';
 
 export const CHILDREN_DIR = resolve(import.meta.dirname, '../children');
 export const CONTAINER_ENV_VAR_NAME = 'UNSHARE_CONTAINER_DATA';
@@ -13,5 +13,3 @@ export function getRespawnCommand(extraEnv: Record<string, string>): ICommandToR
 		extraEnv,
 	};
 }
-
-export const GLOBAL_SIGNAL = Symbol('unshared');

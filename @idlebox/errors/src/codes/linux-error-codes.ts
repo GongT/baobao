@@ -1,4 +1,4 @@
-export enum LinuxError {
+export enum LinuxErrorCode {
 	EPERM = 'EPERM' /* Not super-user */,
 	ENOENT = 'ENOENT' /* No such file or directory */,
 	ESRCH = 'ESRCH' /* No such process */,

@@ -124,6 +124,7 @@ export function match_disabled(tag: string, env = process.env.DEBUG || ''): numb
  * 调用debug模块的debug.enabled方法
  */
 export function debug_enabled(tag: string) {
+	if(!tag) return true;
 	return debug(tag).enabled;
 }
 

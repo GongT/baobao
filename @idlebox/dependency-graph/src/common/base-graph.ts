@@ -78,6 +78,10 @@ export abstract class AbstractBaseNode<State = any> extends AsyncDisposable {
 		const ss = this.translateState?.() ?? this._state;
 		return `${this.debugPrefix()} [${this.displayName}] ${ss}`;
 	}
+
+	customInspect() {
+		return inspect(this, insOpt).replace(/\n/g, '');
+	}
 }
 
 export type ISummary = {
@@ -203,7 +207,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 				const isLast = data.indexOf(dep) === data.length - 1;
 				const c = isLast ? '└─' : '├─';
 
-				result.push(`${c}${cusInspect(this.getNodeByName(dep))}`);
+				result.push(`${c}${this.getNodeByName(dep).customInspect()}`);
 
 				if (depth <= level) continue;
 				result.push(...indent(drawDepOne(dep, level + 1), isLast));
@@ -214,7 +218,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 		const result = [];
 		const leafs = this.graph.entryNodes();
 		for (const name of leafs) {
-			result.push(cusInspect(this.getNodeByName(name)));
+			result.push(this.getNodeByName(name).customInspect());
 
 			if (depth === 0) continue;
 			result.push(...drawDepOne(name, 1));
@@ -225,7 +229,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 	debugFormatList() {
 		const result = [];
 		for (const name of this.graph.overallOrder()) {
-			result.push(cusInspect(this.getNodeByName(name)));
+			result.push(this.getNodeByName(name).customInspect());
 		}
 		return result.join('\n');
 	}
@@ -368,7 +372,3 @@ const insOpt: InspectOptions = {
 	showHidden: false,
 	showProxy: false,
 };
-
-function cusInspect(node: AbstractBaseNode) {
-	return inspect(node, insOpt).replace(/\n/g, '');
-}

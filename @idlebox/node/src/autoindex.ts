@@ -27,20 +27,6 @@
 	export type { ISpawnOptions } from "./child_process/lateError.js";
 	export type { ExecaReturnValue } from "./child_process/lateError.js";
 	export { execLazyError } from "./child_process/lateError.js";
-/* error/linux.ts */
-	// Identifiers
-	export { LinuxError } from "./error/linux.js";
-/* error/types.ts */
-	// Identifiers
-	export type { OpenSSLException } from "./error/types.js";
-	export { isModuleResolutionError } from "./error/types.js";
-	export { isNotExistsError } from "./error/types.js";
-	export { isExistsError } from "./error/types.js";
-	export { isTypeError } from "./error/types.js";
-	export { isFileTypeError } from "./error/types.js";
-	export { isNodeError } from "./error/types.js";
-	// References
-	export * from "@idlebox/node-error-codes";
 /* fs/exists.ts */
 	// Identifiers
 	export { existsSync } from "./fs/exists.js";
@@ -94,20 +80,17 @@
 	// Identifiers
 	export { writeFileIfChangeSync } from "./fs/weiteChanged.js";
 	export { writeFileIfChange } from "./fs/weiteChanged.js";
-/* lifecycle/internal-errors.ts */
-	// Identifiers
-	export { Exit } from "./lifecycle/internal-errors.js";
-	export { InterruptError } from "./lifecycle/internal-errors.js";
-	export { UnhandledRejection } from "./lifecycle/internal-errors.js";
-	export { UncaughtException } from "./lifecycle/internal-errors.js";
 /* lifecycle/register.ts */
 	// Identifiers
-	export { setAbnormalExitCode } from "./lifecycle/register.js";
+	export { setExitCodeIfNot } from "./lifecycle/register.js";
 	export { shutdown } from "./lifecycle/register.js";
 	export { registerNodejsGlobalTypedErrorHandlerWithInheritance } from "./lifecycle/register.js";
 	export { registerNodejsGlobalTypedErrorHandler } from "./lifecycle/register.js";
 	export { registerNodejsExitHandler } from "./lifecycle/register.js";
 	export { die } from "./lifecycle/register.js";
+/* lifecycle/workingDirectory.ts */
+	// Identifiers
+	export { workingDirectory } from "./lifecycle/workingDirectory.js";
 /* log/terminal.ts */
 	// Identifiers
 	export { WrappedTerminalConsole } from "./log/terminal.js";

@@ -38,6 +38,7 @@
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"
 	},
+	"decoupledDependencies": ["@idlebox/args"],
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

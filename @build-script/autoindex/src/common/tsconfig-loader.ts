@@ -1,5 +1,5 @@
 import type { IMyLogger } from '@idlebox/logger';
-import { isModuleResolutionError } from '@idlebox/node';
+import { isModuleResolutionError } from '@idlebox/common';
 import { parse, stringify } from 'comment-json';
 import { createRequire } from 'node:module';
 import { normalize, resolve } from 'node:path';

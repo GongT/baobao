@@ -31,7 +31,6 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
 		"@types/node": "^24.0.14",
 		"@idlebox/source-map-support": "workspace:^",
 		"tslib": "^2.8.1",

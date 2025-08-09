@@ -29,7 +29,7 @@ export async function runWatch() {
 		repo.onStateChange(() => {
 			if (cls && !repo.hasDisposed) process.stderr.write('\x1Bc');
 			logger.info`State changed, printing current state...`;
-			repo.printScreen();
+			repo.printScreen(true);
 		});
 	}
 

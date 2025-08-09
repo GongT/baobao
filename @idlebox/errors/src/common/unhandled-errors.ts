@@ -1,17 +1,6 @@
-import { AppExit } from '@idlebox/common';
-
-export class Exit extends AppExit {
-	constructor(code: number) {
-		super(`process exit with code ${code}`, code);
-	}
-}
-
-export class InterruptError extends Error {
-	constructor(public readonly signal: NodeJS.Signals) {
-		super(`interrupt by signal ${signal}`);
-	}
-}
-
+/**
+ *
+ */
 class ProxiedError extends Error {
 	declare cause: any;
 
@@ -34,7 +23,7 @@ class ProxiedError extends Error {
 
 export class UnhandledRejection extends ProxiedError {
 	constructor(
-		reason: any,
+		reason: unknown,
 		public readonly promise: Promise<unknown>,
 	) {
 		super('unhandled promise rejection', reason);
@@ -42,7 +31,7 @@ export class UnhandledRejection extends ProxiedError {
 }
 
 export class UncaughtException extends ProxiedError {
-	constructor(public readonly error: unknown) {
+	constructor(public readonly error: Error) {
 		super('uncaught exception', error);
 	}
 }

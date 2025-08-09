@@ -1,4 +1,4 @@
-import { isModuleResolutionError } from '@idlebox/node';
+import { isModuleResolutionError } from '@idlebox/common';
 import { channelClient } from '@mpis/client';
 import type esbuild from 'esbuild';
 import { createRequire } from 'node:module';

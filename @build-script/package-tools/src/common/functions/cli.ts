@@ -9,7 +9,6 @@ export class DieError extends Error {
 
 /** @deprecated */
 export const isQuiet = app.silent;
-export const isJsonOutput = argv.flag(['--json']) > 0;
 
 /** @deprecated */
 export const isHelp = app.showHelp;

@@ -45,15 +45,15 @@ export function ensureSymLinkSync(linkFile: string, targetFile: string, force = 
 		if (exists === targetFile) {
 			return;
 		}
-		logger.log('update link: %s -> %s', exists, targetFile);
+		logger.debug('update link: %s -> %s', exists, targetFile);
 		unlinkSync(linkFile);
 	} catch (e: any) {
 		if (e.code === 'ENOENT') {
-			console.log('create link: %s -> %s', linkFile, targetFile);
+			logger.debug('create link: %s -> %s', linkFile, targetFile);
 			mkdirSync(dirname(linkFile), { recursive: true });
 		} else if (e.code === 'EINVAL') {
 			if (force) {
-				console.log('update link: file -> %s', targetFile);
+				logger.debug('update link: file -> %s', targetFile);
 				rmSync(linkFile);
 			} else {
 				return;

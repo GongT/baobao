@@ -25,8 +25,7 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0"
+		"@mpis/run": "workspace:^"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

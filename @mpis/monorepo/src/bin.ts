@@ -1,7 +1,7 @@
 import { argv } from '@idlebox/args/default';
 import { humanDate, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
-import { registerNodejsExitHandler } from '@idlebox/node';
+import { registerNodejsExitHandler, setExitCodeIfNot } from '@idlebox/node';
 import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
 
 registerNodejsExitHandler();
@@ -37,6 +37,8 @@ export const currentCommand = cmd.value;
 logger.log`Running command: ${cmd.value}`;
 
 process.title = `MpisMonorepo`;
+
+setExitCodeIfNot(0);
 
 switch (cmd.value) {
 	case 'build':

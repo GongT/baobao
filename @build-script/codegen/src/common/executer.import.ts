@@ -23,7 +23,12 @@ export class ImportExecuter extends BaseExecuter {
 		const logger = createCollectLogger(outputs, this.logger);
 		const ctx = new Context(this.sourceFileAbs, logger, this.projectRoot);
 
-		const gen: GeneratorBody = interop(await import(`${compiledFile}?t=${Date.now()}`, { with: { my_loader: 'compiled' } }));
+		let gen: GeneratorBody;
+		try {
+			gen = interop(await import(`${compiledFile}?t=${Date.now()}`, { with: { my_loader: 'compiled' } }));
+		} catch (e: any) {
+			return this.errorResult(new Error(`failed import compiled file: ${e.message}`));
+		}
 
 		if (typeof gen.generate !== 'function') {
 			return this.errorResult(new Error(`module ${this.sourceFileAbs} must export "generate" function`));

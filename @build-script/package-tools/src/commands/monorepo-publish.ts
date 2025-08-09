@@ -1,13 +1,15 @@
 import { createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { argv, CommandDefine, CSI, logger } from '@idlebox/cli';
-import { Emitter, prettyPrintError } from '@idlebox/common';
-import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
-import { commandInPath, emptyDir, writeFileIfChange } from '@idlebox/node';
+import { app, argv, CommandDefine, CSI, logger } from '@idlebox/cli';
+import { prettyPrintError } from '@idlebox/common';
+import { Job, JobGraphBuilder, JobState } from '@idlebox/dependency-graph';
+import { commandInPath, emptyDir, workingDirectory, writeFileIfChange } from '@idlebox/node';
+import { FsNodeType, spawnReadonlyFileSystemWithCommand } from '@idlebox/unshare';
+import { execaNode } from 'execa';
 import { existsSync } from 'node:fs';
 import { copyFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { dirname, relative, resolve } from 'node:path';
 import { pArgS } from '../common/functions/cli.js';
-import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
+import { PackageManagerUsageKind, type PackageManager } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 import { clearNpmMetaCache } from '../common/shared-jobs/clear-cache.js';
@@ -21,98 +23,179 @@ export class Command extends CommandDefine {
 	protected override readonly _arguments = {
 		'--debug': { flag: true, description: '详细输出模式' },
 		'--dry': { flag: true, description: '仅检查修改，不发布（仍会修改version字段）' },
-		'--private': { flag: false, description: '即使private=true也执行' },
+		'--private': { flag: true, description: '即使private=true也执行' },
+		'--concurrency': { flag: false, description: '并发数（默认5）' },
+		// '--no-unshare': { flag: true, description: '不执行unshare逻辑（在linux上默认执行）' },
 	};
 }
 
-interface IPayload {
-	readonly index: number;
-	readonly length: number;
-	readonly options: ReturnType<typeof options>;
-}
-
-let indexDisplay = 0;
 class BuildPackageJob extends Job<void> {
-	private readonly _onSuccess = new Emitter<void>();
-	public readonly onSuccess = this._onSuccess.event;
-
-	private readonly _onFailed = new Emitter<Error>();
-	public readonly onFailed = this._onFailed.event;
-
-	private readonly _onRunning = new Emitter<void>();
-	public readonly onRunning = this._onRunning.event;
-
 	private shouldPublish = '';
 
 	constructor(
 		name: string,
 		deps: readonly string[],
-		private readonly payload: IPayload,
 		private readonly project: IPackageInfo,
 		private readonly workspace: MonorepoWorkspace,
+		unshareExecuter: boolean,
 	) {
 		super(name, deps);
 
-		this.onSuccess(() => {
-			indexDisplay++;
-			const { length } = this.payload;
-			const w = length.toFixed(0).length;
-			console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
-			console.log(this.logText.join('\n'));
-			this.logText.length = 0;
-		});
-		this.onFailed((e) => {
-			indexDisplay++;
-			const { length } = this.payload;
-			const w = length.toFixed(0).length;
-			console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
-			console.log(this.logText.join('\n'));
-			prettyPrintError('❌pack failed', e);
-			this.logText.length = 0;
-		});
+		this.detect = unshareExecuter ? this.unsharedDetect : this.sharedDetect;
+		this.pack = unshareExecuter ? this.unsharedPack : this.sharedPack;
+	}
+
+	private readonly logText: string[] = [];
+	log(text: string) {
+		this.logText.push(text);
+	}
+	flushLog() {
+		console.log(this.logText.join('\n'));
+		this.logText.length = 0;
 	}
 
 	getPackagePath() {
 		return this.shouldPublish || undefined;
 	}
 
-	protected override async _execute() {
-		this._onRunning.fire();
-		this.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
+	private readonly detect: typeof executeChangeDetect;
 
-		const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute);
-		const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});
-		const shouldPublish = hasChange || changedFiles.length > 0;
-		let localVersion = this.project.packageJson.version;
-
-		this.log(`    👀 ${changedFiles.length} 个文件有修改: ${changedFiles.slice(0, 3).join(', ')}${changedFiles.length > 3 ? ' ...' : ''}`);
-		if (hasChange) {
-			const packageJson = await pm.loadPackageJson();
-			localVersion = await increaseVersion(packageJson, remoteVersion || '0.0.0');
-			this.log(`    ✍️  已修改本地包版本: ${localVersion}`);
-		}
-		if (!shouldPublish) {
-			this.log(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m\n`);
-			this._onSuccess.fire();
-			return;
-		}
-
-		this.log(`    🔄 打包文件`);
-
-		const tempFile = resolve(this.workspace.temp, `publish/${normalizePackageName(this.project.name)}-${localVersion}.tgz`);
-		this.shouldPublish = await pm.pack(tempFile);
-
-		if (remoteVersion) {
-			this.log(`    🎈 即将发布新版本 "${localVersion}" 以更新远程版本 "${remoteVersion}"\n`);
+	private async unsharedDetect() {
+		const exArgs = [];
+		if (app.verbose) {
+			exArgs.push('-dd');
 		} else {
-			this.log(`    🎈 即将发布初始版本 "${localVersion}"\n`);
+			exArgs.push('-d');
 		}
-		this._onSuccess.fire();
+		const promise = execaNode(process.argv[1], ['detect-package-change', '--unshare', this.workspace.root, ...exArgs], {
+			stdio: ['ignore', 'pipe', 'pipe'],
+			cwd: this.project.absolute,
+			encoding: 'utf8',
+			env: {
+				LOGGER_PREFIX: `package-change:${normalizePackageName(this.project.name, ':')}`,
+				// FORCE_COLOR: logger.colorEnabled ? '1' : '',
+			},
+			all: true,
+		});
+
+		let result: Awaited<typeof promise>;
+		try {
+			result = await promise;
+		} catch (e: unknown) {
+			this.log(`${CSI}K${CSI}0;3;2m${(e as any).all}${CSI}0m`);
+			throw new Error(`子项目 ${this.project.name} 中运行修改检测失败（日志在上方）`);
+		}
+
+		try {
+			const { changedFiles, changed: hasChange, remoteVersion } = JSON.parse(result.stdout);
+			return { changedFiles, hasChange, remoteVersion };
+		} catch (e: any) {
+			this.log(result.stdout);
+			throw new Error(`子程序输出不是json: ${e.message}`);
+		}
 	}
 
-	private readonly logText: string[] = [];
-	log(text: string) {
-		this.logText.push(text);
+	private async sharedDetect(pm: PackageManager) {
+		return await executeChangeDetect(pm, {});
+	}
+
+	private readonly pack: typeof this.sharedPack;
+
+	private async unsharedPack(_pm: PackageManager, tempFile: string) {
+		const exArgs = [];
+		if (app.verbose) {
+			exArgs.push('-dd');
+		} else {
+			exArgs.push('-d');
+		}
+
+		const promise = spawnReadonlyFileSystemWithCommand(
+			{
+				options: {
+					volumes: [
+						{ path: this.workspace.root, type: FsNodeType.readonly },
+						{ path: this.project.absolute, type: FsNodeType.passthru },
+						{ path: dirname(tempFile), type: FsNodeType.passthru },
+					],
+					verbose: true,
+				},
+				command: {
+					scriptFile: process.argv[1],
+					argv: ['unshare-make-tarball', '--output', tempFile, ...exArgs, '--project', this.project.name],
+				},
+			},
+			{
+				stdin: 'ignore',
+				stdout: 'pipe',
+				stderr: 'pipe',
+				cwd: this.project.absolute,
+				encoding: 'utf8',
+				all: true,
+				env: {
+					LOGGER_PREFIX: `unshare-pack:${normalizePackageName(this.project.name, ':')}`,
+				},
+			},
+		);
+
+		let result: Awaited<typeof promise>;
+		try {
+			result = await promise;
+		} catch (e: unknown) {
+			this.log(`${CSI}K${CSI}0;3;2m${(e as any).all}${CSI}0m`);
+			throw new Error(`子项目 ${this.project.name} 中运行修改检测失败（日志在上方）`);
+		}
+
+		const filePath = result.stdout.trim();
+		if (!existsSync(filePath)) {
+			this.log(`${CSI}K${CSI}0;3;2m${result.all}${CSI}0m`);
+			throw new Error(`应该打包的文件不存在: ${filePath}`);
+		}
+
+		return filePath;
+	}
+
+	private async sharedPack(pm: PackageManager, tempFile: string) {
+		return await pm.pack(tempFile);
+	}
+
+	protected override async _execute() {
+		this.setState(JobState.Running);
+		try {
+			this.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
+
+			const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute);
+			const { changedFiles, hasChange, remoteVersion } = await this.detect(pm);
+			const shouldPublish = hasChange || changedFiles.length > 0;
+			let localVersion = this.project.packageJson.version;
+
+			this.log(`    👀 ${changedFiles.length} 个文件有修改: ${changedFiles.slice(0, 3).join(', ')}${changedFiles.length > 3 ? ' ...' : ''}`);
+			if (hasChange) {
+				this.project.absolute;
+				const packageJson = await pm.loadPackageJson();
+				localVersion = await increaseVersion(packageJson, remoteVersion || '0.0.0');
+				this.log(`    ✍️  已修改本地包版本: ${localVersion}`);
+			}
+			if (!shouldPublish) {
+				this.log(`    ✨ ${CSI}38;5;10m未发现修改${CSI}0m\n`);
+				this.setState(JobState.SuccessExited);
+				return;
+			}
+
+			this.log(`    🔄 打包文件`);
+			const tempFile = resolve(this.workspace.temp, `publish/${normalizePackageName(this.project.name)}-${localVersion}.tgz`);
+			this.shouldPublish = await this.pack(pm, tempFile);
+			this.log(`       📦 ${relative(this.workspace.root, this.shouldPublish)}`);
+
+			if (remoteVersion) {
+				this.log(`    🎈 即将发布新版本 "${localVersion}" 以更新远程版本 "${remoteVersion}"\n`);
+			} else {
+				this.log(`    🎈 即将发布初始版本 "${localVersion}"\n`);
+			}
+
+			this.setState(JobState.SuccessExited);
+		} catch (e: any) {
+			this.setState(JobState.ErrorExited, e);
+		}
 	}
 }
 
@@ -124,18 +207,33 @@ function options() {
 	};
 }
 
+async function prepareTempFolder(temp: string, workspace: MonorepoWorkspace) {
+	await emptyDir(temp);
+
+	const npmrc = workspace.getNpmRCPath(true);
+	if (existsSync(npmrc)) {
+		await copyFile(npmrc, resolve(temp, '.npmrc'));
+	} else {
+		logger.warn`npmrc文件不存在 (long<${npmrc}>)`;
+	}
+	await writeFileIfChange(resolve(temp, 'package.json'), '{}');
+}
+
 export async function main() {
 	const workspace = await createWorkspace();
-	await workspace.decoupleDependencies();
+	workingDirectory.chdir(workspace.root);
+	const zipDir = resolve(workspace.temp, 'publish');
 
-	const temp = resolve(workspace.temp, 'publish');
-	await emptyDir(temp);
+	await workspace.decoupleDependencies();
+	await prepareTempFolder(zipDir, workspace);
+	const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, zipDir);
 
 	const projects = await workspace.listPackages();
 
-	const concurrency = 1; // argv.flag(['--debug', '-d']) > 0 ? 1 : 10;
-	if (concurrency === 1) {
-		// logger.warn`由于设置了--debug参数，运行模式改为单线程`;
+	let concurrency = Number.parseInt(argv.single(['--concurrency']) || '0') || 5;
+	if (app.debug) {
+		concurrency = 1;
+		logger.warn`由于设置了--debug参数，运行模式改为单线程`;
 	}
 	const builder = new JobGraphBuilder(concurrency, logger);
 
@@ -155,22 +253,25 @@ export async function main() {
 	});
 
 	let index = 0;
+	let indexDisplay = 0;
+	const width = shouldPublishProjects.length.toFixed(0).length;
 	for (const project of shouldPublishProjects) {
-		const job = new BuildPackageJob(
-			project.name,
-			project.devDependencies,
-			{
-				index,
-				length: shouldPublishProjects.length,
-				options: opts,
-			},
-			project,
-			workspace,
-		);
+		const job = new BuildPackageJob(project.name, project.devDependencies, project, workspace, false);
 
-		job.onRunning(debugSummary);
-		job.onSuccess(debugSummary);
-		job.onFailed(debugSummary);
+		job.onStateChange(() => {
+			if (job.isStopped()) {
+				indexDisplay++;
+				console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(width)}/${shouldPublishProjects.length}] ${project.name}`);
+				job.flushLog();
+
+				const e = job.getLastError();
+				if (e) {
+					prettyPrintError(`job failed for ${project.name}`, e);
+				}
+			}
+
+			debugSummary();
+		});
 		builder.addNode(job);
 
 		index++;
@@ -200,15 +301,6 @@ export async function main() {
 		return;
 	}
 
-	const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, temp);
-	const npmrc = workspace.getNpmRCPath(true);
-	if (existsSync(npmrc)) {
-		await copyFile(npmrc, resolve(temp, '.npmrc'));
-	} else {
-		logger.warn`npmrc文件不存在 (long<${npmrc}>)`;
-	}
-	await writeFileIfChange(resolve(temp, 'package.json'), '{}');
-
 	const w = packageToPublish.length.toFixed(0).length;
 	const published: string[] = [];
 
@@ -216,7 +308,7 @@ export async function main() {
 		index = 1;
 		for (const { name, pack } of packageToPublish) {
 			console.log(`📦 [${index.toFixed(0).padStart(w)}/${packageToPublish.length}] ${name}`);
-			const r = await pm.uploadTarball(pack, temp);
+			const r = await pm.uploadTarball(pack, zipDir);
 			if (r.published) {
 				console.log(`    👌 已发布新版本 ${r.version}`);
 			} else {

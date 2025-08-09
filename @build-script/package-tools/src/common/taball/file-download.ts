@@ -1,5 +1,5 @@
-import { sleep } from '@idlebox/common';
 import { logger } from '@idlebox/cli';
+import { sleep } from '@idlebox/common';
 import { exists, streamPromise } from '@idlebox/node';
 import { createWriteStream } from 'node:fs';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
@@ -18,7 +18,7 @@ export async function downloadFileCached(url: string, file: string) {
 	const metadata = `${file}.meta.json`;
 	logger.debug`下载文件:\n    地址: long<${url}>\n    保存到: long<${file}>`;
 	let meta: IMetaInfo | undefined;
-	if (await exists(metadata)) {
+	if ((await exists(metadata)) && (await exists(file))) {
 		try {
 			meta = JSON.parse(await readFile(metadata, 'utf-8'));
 		} catch {}

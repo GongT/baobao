@@ -12,7 +12,7 @@
  * 
  ******************************************************************************/
 
-export enum NodeError {
+export enum NodeErrorCode {
 	/**
 	 * <p>Used when an operation has been aborted (typically using an <code>AbortController</code>).</p>
 	 * <p>APIs <em>not</em> using <code>AbortSignal</code>s typically do not raise an error with this code.</p>
@@ -2415,7 +2415,7 @@ export enum NodeError {
 	ERR_ZLIB_BINDING_CLOSED = 'ERR_ZLIB_BINDING_CLOSED',
 }
 
-export enum OpenSSLError {
+export enum OpenSSLErrorCode {
 	/**
 	 * <p>The certificate is not yet valid: the notBefore date is after the current time.</p>
 	 * <p><a id="CERT_HAS_EXPIRED"></a></p>

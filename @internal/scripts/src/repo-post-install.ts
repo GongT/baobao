@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { createRootLogger, logger } from '@idlebox/logger';
+import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { relativePath } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -9,7 +9,7 @@ import { globalNodeModules, monorepoRoot } from './common/constants.js';
 import { listPnpm } from './common/monorepo.js';
 import { ensureSymLinkSync } from './common/pre-post-inc.js';
 
-createRootLogger('post-install');
+createRootLogger('post-install', EnableLogLevel.verbose);
 
 logger.log`modules dir: long<${globalNodeModules}>`;
 const tools: Record<string, string> = {
@@ -18,6 +18,9 @@ const tools: Record<string, string> = {
 	biome: '@biomejs/biome/bin/biome',
 	publisher: '@mpis/publisher/loader/bin.devel.js',
 	depcheck: 'depcheck/bin/depcheck.js',
+	'mpis-run': '@mpis/run/loader/bin.devel.js',
+	'codegen': '@build-script/codegen/loader/bin.devel.js',
+	'autoindex': '@build-script/autoindex/loader/bin.devel.js',
 };
 
 for (const [tool, path] of Object.entries(packageJson.bin)) {
@@ -33,6 +36,7 @@ for (const { path } of await listPnpm()) {
 }
 
 function linkTools(projRoot: string) {
+	logger.log`link tools inside long<${projRoot}>`;
 	const localNodeModules = resolve(monorepoRoot, projRoot, 'node_modules');
 	const localBinDir = resolve(localNodeModules, '.bin');
 	for (const [tool, path] of Object.entries(tools)) {

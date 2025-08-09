@@ -29,11 +29,11 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/publisher": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
 		"@types/debug": "^4.1.12"
 	},
 	"dependencies": {
-		"debug": "^4.4.1"
+		"debug": "^4.4.1",
+		"@idlebox/errors": "workspace:^"
 	},
 	"decoupledDependents": "*",
 	"publishConfig": {

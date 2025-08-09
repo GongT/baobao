@@ -1,6 +1,6 @@
 import { findMonorepoRootSync } from '@build-script/monorepo-lib';
 import { argv } from '@idlebox/args/default';
-import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
+import { prettyPrintError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { emptyDir, findUpUntilSync } from '@idlebox/node';
 import { rmSync } from 'node:fs';
@@ -36,7 +36,11 @@ export async function createTempFolder() {
 			toDisposable(() => {
 				if (!process.exitCode) {
 					logger.verbose`Cleaning up temporary folder.`;
-					rmSync(tempFolder, { recursive: true, force: true });
+					try {
+						rmSync(tempFolder, { recursive: true, force: true });
+					} catch (e: any) {
+						prettyPrintError('failed cleanup temporary folder', e);
+					}
 				} else {
 					logger.warn`Temporary folder not cleaned up due to non-zero exit code.`;
 				}

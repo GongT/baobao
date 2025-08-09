@@ -2,6 +2,10 @@
 // @ts-ignore
 /* eslint-disable */
 
+/* re-export.ts */
+	// Identifiers
+	// References
+	export * from "@idlebox/errors";
 /* array/arrayDiff.ts */
 	// Identifiers
 	export type { IArrayUpdate } from "./array/arrayDiff.js";
@@ -118,10 +122,6 @@
 	export { parseStackString } from "./error/pretty.js";
 	export { prettyFormatStack } from "./error/pretty.js";
 	export { prettyFormatError } from "./error/pretty.js";
-/* error-wellknown/exit.error.ts */
-	// Identifiers
-	export { AppExit } from "./error-wellknown/exit.error.js";
-	export { NotImplementedError } from "./error-wellknown/exit.error.js";
 /* function/functionName.ts */
 	// Identifiers
 	export type { NamedFunction } from "./function/functionName.js";
@@ -142,6 +142,9 @@
 	// Identifiers
 	export type { MyDelayCallback } from "./function/delayCallbackList.js";
 	export { DelayCallbackList } from "./function/delayCallbackList.js";
+/* function/noop.ts */
+	// Identifiers
+	export { noop } from "./function/noop.js";
 /* lifecycle/dispose/disposableEvent.ts */
 	// Identifiers
 	export type { IEventListenerOptions } from "./lifecycle/dispose/disposableEvent.js";
@@ -334,6 +337,12 @@
 /* typingHelper/deep.writable.ts */
 	// Identifiers
 	export type { DeepWriteable } from "./typingHelper/deep.writable.js";
+/* path/pathCalc.ts */
+	// Identifiers
+	export { isPathContains } from "./path/pathCalc.js";
+/* platform/compile.ts */
+	// Identifiers
+	export { isProductionMode } from "./platform/compile.js";
 /* lifecycle/event/event.ts */
 	// Identifiers
 	export type { EventHandler } from "./lifecycle/event/event.js";

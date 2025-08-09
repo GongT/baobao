@@ -9,6 +9,7 @@ if (platform() === 'linux' && process.getuid?.() !== 0) {
 	unshareArgs.push('--map-root-user');
 }
 
+/** @deprecated */
 export function spawnRecreateEventHandlers() {
 	process.on('SIGINT', () => shutdown_quit('SIGINT', 130));
 	process.on('SIGTERM', () => shutdown_quit('SIGTERM', 143));
@@ -26,6 +27,7 @@ function shutdown_quit(signal: string, code: number) {
 /**
  * Spawn a command, replace current node process
  * If can't do that (eg. on Windows), spawn as normal, but quit self after it quit.
+ * @deprecated
  */
 export function trySpawnInScope(cmds: string[]): never {
 	if (process.env.NEVER_UNSHARE || !process.execve || insideScope() || !supportScope()) {

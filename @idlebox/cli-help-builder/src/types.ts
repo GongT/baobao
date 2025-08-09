@@ -95,6 +95,7 @@ export type IArgDefine = {
 	readonly flag: boolean;
 	readonly description: string;
 
+	readonly isHidden?: boolean;
 	/**
 	 * 为true时添加到usage最前面
 	 */

@@ -15,7 +15,7 @@ interface IDebugOptions {
 export function createDebug({ tag, level, color_enabled, color_entire_line = false, stream = process.stdout, enabled = true }: IDebugOptions): IMyDebugWithControl {
 	const color = logTagColor[level];
 	const lineOpt = {
-		tag: tag ? tag : `${LogLevel[level]}`,
+		tag: tag ? tag : `${LogLevel[level][0].toUpperCase()}`,
 		stream,
 		color,
 		level,
@@ -23,7 +23,10 @@ export function createDebug({ tag, level, color_enabled, color_entire_line = fal
 
 	let write_line: IMyDebug;
 	if (!color_enabled) {
-		write_line = write_line_monolithic(lineOpt);
+		write_line = write_line_monolithic({
+			...lineOpt,
+			tag: tag ? tag : `$$`,
+		});
 	} else if (color_entire_line) {
 		write_line = write_line_colored_line(lineOpt);
 	} else {
@@ -147,9 +150,9 @@ function write_line_colored_line({ tag, stream, color }: IWriteLineOptions) {
  */
 function write_line_monolithic({ tag, level, stream }: IWriteLineOptions) {
 	const lvlStr = logLevelPaddingStr[level];
+	const head = `[${tag}/${lvlStr}]`;
 
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
-		const head = `[${tag}:${lvlStr}]`;
 		let body: string;
 
 		if (typeof messages === 'string') {

@@ -1,5 +1,6 @@
-import { createStackTraceHolder } from '../../autoindex.js';
-import { AppExit } from '../../error-wellknown/exit.error.js';
+import { functionName } from '../../autoindex.js';
+import { createStackTraceHolder } from '../../error/stackTrace.js';
+import { DisposedError } from '../dispose/disposedError.js';
 import type { IDisposable } from '../dispose/lifecycle.js';
 
 export type EventHandler<T> = (data: T) => void;
@@ -55,9 +56,9 @@ export class Emitter<T> implements IDisposable {
 			try {
 				callback(data);
 			} catch (e) {
-				if (e instanceof AppExit) {
-					continue;
-				}
+				// if (e instanceof Exit) {
+				// 	continue;
+				// }
 				console.error('Emitter.fireNoError: error ignored: %s', e instanceof Error ? e.stack : e);
 			}
 		}
@@ -85,19 +86,22 @@ export class Emitter<T> implements IDisposable {
 	 */
 	handle(callback: EventHandler<T>): IDisposable {
 		this.requireNotExecuting();
-		let disposed = false;
-		this._callbacks.unshift((e) => {
-			if (!disposed) callback(e);
-		});
+		let deleted = false;
+		const deletable = (e: T) => {
+			if (!deleted) callback(e);
+		};
+		this._callbacks.unshift(deletable);
 		const realDispose = () => {
-			const index = this._callbacks.indexOf(callback);
-			if (index !== -1) {
-				this._callbacks.splice(index, 1);
+			const index = this._callbacks.indexOf(deletable);
+			if (index === -1) {
+				throw new Error(`callback not exists, when try delete: ${functionName(callback)}`);
 			}
+			this._callbacks.splice(index, 1);
 		};
 
 		const dispose = () => {
-			disposed = true;
+			if (deleted) return;
+			deleted = true;
 			if (this.executing) {
 				this.defer(realDispose);
 			} else {
@@ -153,7 +157,7 @@ export class Emitter<T> implements IDisposable {
 			this.fire =
 			this.handle =
 				() => {
-					throw new Error('Event is disposed', { cause: trace });
+					throw new DisposedError(this, trace);
 				};
 	}
 

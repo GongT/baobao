@@ -1,9 +1,8 @@
 import { createWorkspace } from '@build-script/monorepo-lib';
-import { argv, CommandDefine } from '@idlebox/cli';
-import { isJsonOutput, isVerbose, pArgS } from '../common/functions/cli.js';
+import { app, argv, CommandDefine } from '@idlebox/cli';
 
 export class Command extends CommandDefine {
-	protected override readonly _usage = `${pArgS('--verbose')} ${pArgS('--json')} ${pArgS('--relative')}`;
+	protected override readonly _usage = ``;
 	protected override readonly _description = '列出所有项目目录';
 	protected override readonly _help = '';
 	protected override readonly _arguments = {
@@ -19,7 +18,7 @@ export async function main() {
 
 	const isRelative = argv.flag(['--relative']) > 0;
 
-	if (isJsonOutput) {
+	if (argv.flag(['--json']) > 0) {
 		console.log(
 			JSON.stringify(
 				list.map((e) => {
@@ -32,7 +31,7 @@ export async function main() {
 	}
 
 	for (const item of list) {
-		if (isVerbose) {
+		if (app.verbose) {
 			console.log('name: %s', item.name);
 			console.log('path: %s', item.absolute);
 			console.log('relative: %s', item.relative);

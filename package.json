@@ -5,7 +5,7 @@
 		"pretty": "biome check --diagnostic-level=warn --unsafe",
 		"build": "node @mpis/monorepo/loader/bin.devel.js build",
 		"watch": "node @mpis/monorepo/loader/bin.devel.js watch",
-		"publish-everything": "node @build-script/package-tools/load.js monorepo-publish",
+		"publish-everything": "node @build-script/package-tools/load.js monorepo-publish --concurrency 1",
 		"link": "node @build-script/package-tools/load.js --recursive",
 		"check": "node @internal/scripts/loader/repo-check-all.js"
 	},

@@ -18,7 +18,7 @@ interface IDetectOptions {
 	forcePrivate?: boolean;
 }
 
-export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions): Promise<IResult> {
+export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions = {}): Promise<IResult> {
 	const packageJson = await pm.loadPackageJson();
 	logger.debug('修改检测 | 包名: %s', packageJson.name);
 	if (!packageJson.name) {

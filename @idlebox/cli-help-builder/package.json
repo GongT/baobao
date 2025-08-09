@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/cli-help-builder",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
@@ -31,9 +31,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

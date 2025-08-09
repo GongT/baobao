@@ -1,6 +1,6 @@
 import { humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { registerNodejsExitHandler, shutdown } from '@idlebox/node';
+import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { rmSync } from 'node:fs';
@@ -51,10 +51,15 @@ switch (context.command) {
 		{
 			if (context.withCleanup) executeClean();
 
-			await executeBuild().catch((e: Error) => {
+			try {
+				await executeBuild();
+
+				logger.debug`build completed.`;
+				setExitCodeIfNot(0);
+			} catch (e: any) {
 				logger.error`failed ${context.command} project: ${e.message}`;
 				shutdown(1);
-			});
+			}
 		}
 		break;
 	case 'watch':

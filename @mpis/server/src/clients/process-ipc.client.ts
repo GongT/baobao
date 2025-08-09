@@ -1,5 +1,4 @@
 import { isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
-import { IPauseableObject, IPauseControl, pause } from '@idlebox/dependency-graph';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -13,7 +12,7 @@ import { ProtocolClientObject } from '../common/protocol-client-object.js';
 
 interface MyOptions extends Options {
 	cwd: string;
-	stdio: ['inherit', 'pipe', 'pipe', 'ipc'];
+	stdio: ['ignore', 'pipe', 'pipe', 'ipc'];
 	env: Record<string, string>;
 	reject: false;
 	ipc: true;
@@ -43,7 +42,7 @@ class OutputHandler extends Writable {
 /**
  * 创建一个node进程，它会发送事件过来
  */
-export class ProcessIPCClient extends ProtocolClientObject implements IPauseableObject {
+export class ProcessIPCClient extends ProtocolClientObject {
 	private declare process: ResultPromise<MyOptions>;
 	public stopSignal: NodeJS.Signals = 'SIGINT';
 	private _started = false;
@@ -141,7 +140,7 @@ export class ProcessIPCClient extends ProtocolClientObject implements IPauseable
 
 		const doExec = execa({
 			cwd: this.cwd,
-			stdio: ['inherit', 'pipe', 'pipe', 'ipc'],
+			stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
 			ipc: true,
 			env: env,
 			reject: false,
@@ -235,22 +234,22 @@ export class ProcessIPCClient extends ProtocolClientObject implements IPauseable
 		return `${this._id} ${pid}`;
 	}
 
-	private _is_paused = false;
-	readonly [pause]: IPauseControl = {
-		isPaused: () => {
-			return this._is_paused;
-		},
-		pause: async () => {
-			if (this._is_paused) return;
-			this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
-			this.process.kill('SIGSTOP');
-			this._is_paused = true;
-		},
-		resume: async () => {
-			if (!this._is_paused) return;
-			this.logger.verbose`send SIGCONT to ${this.process.pid}`;
-			this.process.kill('SIGCONT');
-			this._is_paused = false;
-		},
-	};
+	// private _is_paused = false;
+	// readonly [pause]: IPauseControl = { implements IPauseableObject
+	// 	isPaused: () => {
+	// 		return this._is_paused;
+	// 	},
+	// 	pause: async () => {
+	// 		if (this._is_paused) return;
+	// 		this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
+	// 		this.process.kill('SIGSTOP');
+	// 		this._is_paused = true;
+	// 	},
+	// 	resume: async () => {
+	// 		if (!this._is_paused) return;
+	// 		this.logger.verbose`send SIGCONT to ${this.process.pid}`;
+	// 		this.process.kill('SIGCONT');
+	// 		this._is_paused = false;
+	// 	},
+	// };
 }

@@ -1,4 +1,4 @@
-import { AppExit, prettyPrintError } from '@idlebox/common';
+import { ErrorWithCode, prettyPrintError } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { ExecaError } from 'execa';
 import { readFileSync, symlinkSync, writeFileSync } from 'node:fs';
@@ -50,7 +50,7 @@ export async function makeTempPackage() {
 				message: message,
 				stack: e.stack.replace(e.message, message),
 			});
-			throw new AppExit('failed pnpm pack', 1);
+			throw new ErrorWithCode('failed pnpm pack', 1);
 		} else {
 			throw e;
 		}

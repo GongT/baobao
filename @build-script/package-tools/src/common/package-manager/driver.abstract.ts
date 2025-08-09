@@ -1,10 +1,10 @@
-import { ensureLinkTarget } from '@idlebox/ensure-symlink';
+import type { WorkspaceBase } from '@build-script/monorepo-lib';
 import { logger } from '@idlebox/cli';
+import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
-import type { WorkspaceBase } from '@build-script/monorepo-lib';
 import { NpmCacheHandler } from '../cache/native.npm.js';
 import { registryInput } from '../functions/cli.js';
 import { TempWorkingFolder } from '../temp-work-folder.js';
@@ -54,7 +54,7 @@ export abstract class PackageManager {
 				logger.fatal`publishConfig.packCommand必须是字符串或字符串数组, 但实际是: ${typeof pkg.publishConfig['packCommand']}`;
 			}
 
-			logger.debug`使用自定义打包命令: ${cmds[0]}...`;
+			logger.debug`使用自定义打包命令: ${Array.from(cmds)}`;
 
 			const [cmd, ...args] = cmds;
 			await execLazyError(cmd, [...args, '--out', saveAs], {
@@ -73,7 +73,12 @@ export abstract class PackageManager {
 	}
 
 	async getScope() {
-		const pkg = await this.loadPackageJson();
+		let pkg;
+		try {
+			pkg = await this.loadPackageJson();
+		} catch {
+			return undefined;
+		}
 		if (pkg.name?.startsWith('@')) {
 			const name = pkg.name.split('/')[0];
 			return name;
@@ -174,7 +179,7 @@ export abstract class PackageManager {
 			const path = await this.getConfig('cache');
 			if (!path) throw new Error('npm config get cache返回为空');
 
-			this._cache_handler = new NpmCacheHandler(this, registry, resolve(path, '_cacache'));
+			this._cache_handler = new NpmCacheHandler(this, registry, path);
 		}
 		return this._cache_handler;
 	}

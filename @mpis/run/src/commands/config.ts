@@ -1,7 +1,7 @@
 import { ProjectConfig } from '@build-script/rushstack-config-loader';
 import { CSI, logger } from '@idlebox/logger';
 import { realpathSync } from 'node:fs';
-import { projectRoot } from '../autoindex.js';
+import { projectRoot } from '../common/paths.js';
 import type { ICommand, IConfigFile } from '../common/config-file.js';
 
 export function dumpConfig(config: IConfigFile) {

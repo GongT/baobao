@@ -1,7 +1,7 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { AsyncDisposable, Emitter, isWindows, PathArray } from '@idlebox/common';
 import { CSI, logger, type IMyLogger } from '@idlebox/logger';
-import { getEnvironment } from '@idlebox/node';
+import { getEnvironment, workingDirectory } from '@idlebox/node';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { dirname, resolve } from 'node:path';
@@ -145,9 +145,12 @@ class PnpmMonoRepo extends AsyncDisposable {
 			const block = text.replace(/^\s*\n/, '').trimEnd();
 			const exec = this.packageToWorker.get(project)!;
 			output += buildLine(`[@mpis/monorepo] below is output in project ${project.packageJson.name}: ${exec.commandline.join(' ')}`);
-			output += ``;
+			output += workingDirectory.escapeVscodeCwd(project.absolute);
 			output += `\n${block}\n`.replace('\x1bc', '').replace(/^/gm, `${CSI}${barC}m ${CSI}0m `);
 			output += buildLine(`[@mpis/monorepo] ending output in project ${project.packageJson.name}`);
+		}
+		if (output) {
+			output += workingDirectory.escapeVscodeCwd(process.cwd());
 		}
 		return output;
 	}
@@ -180,20 +183,32 @@ class PnpmMonoRepo extends AsyncDisposable {
 		return pathvar;
 	}
 
-	dump(depth: number = 0) {
+	dump(depth: number = 0, short = false) {
 		const graph = this.workersManager.finalize();
 		let graphTxt: string;
 		if (depth <= 0) {
-			graphTxt = graph.debugFormatList();
+			if (short) {
+				const result = [];
+				for (const name of graph.overallOrder) {
+					const node = graph.getNodeByName(name);
+					if (node.isBlocking()) {
+						result.push(node.customInspect());
+					}
+				}
+				result.push(graph.debugFormatSummary());
+				return result.join('\n');
+			} else {
+				graphTxt = graph.debugFormatList();
+			}
 		} else {
 			graphTxt = graph.debugFormatGraph(depth);
 		}
 		return graphTxt + '\n' + graph.debugFormatSummary();
 	}
 
-	printScreen() {
+	printScreen(short = false) {
 		let r = this.formatErrors();
-		r += this.dump();
+		r += this.dump(0, short);
 		console.error(r);
 	}
 }

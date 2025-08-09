@@ -14,6 +14,7 @@
 	},
 	"sideEffects": false,
 	"scripts": {
+		"test": "node -r source-map-support/register",
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",

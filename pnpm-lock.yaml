@@ -137,9 +137,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -266,6 +263,9 @@ importers:
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../../@idlebox/source-map-support
+      '@idlebox/unshare':
+        specifier: workspace:^
+        version: link:../../@idlebox/unshare
       cacache:
         specifier: ^19.0.1
         version: 19.0.1
@@ -312,9 +312,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/cacache':
         specifier: ^19.0.0
         version: 19.0.0
@@ -435,15 +432,15 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
 
   '@idlebox/args':
     dependencies:
+      '@idlebox/errors':
+        specifier: workspace:^
+        version: link:../errors
       cjke-strings:
         specifier: workspace:^
         version: link:../../standalone/cjke
@@ -494,9 +491,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
 
   '@idlebox/chokidar':
     dependencies:
@@ -519,9 +513,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -624,6 +615,9 @@ importers:
 
   '@idlebox/common':
     dependencies:
+      '@idlebox/errors':
+        specifier: workspace:^
+        version: link:../errors
       debug:
         specifier: ^4.4.1
         version: 4.4.1(supports-color@8.1.1)
@@ -646,9 +640,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -732,6 +723,22 @@ importers:
         specifier: ^24.0.14
         version: 24.0.14
 
+  '@idlebox/errors':
+    dependencies:
+      '@idlebox/node-error-codes':
+        specifier: workspace:^
+        version: link:../node-error-codes
+    devDependencies:
+      '@build-script/single-dog-asset':
+        specifier: workspace:^
+        version: link:../../@build-script/single-dog-asset
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      '@mpis/run':
+        specifier: workspace:^
+        version: link:../../@mpis/run
+
   '@idlebox/esbuild-executer':
     dependencies:
       debug:
@@ -787,9 +794,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -821,9 +825,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -855,9 +856,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -929,9 +927,9 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
-      '@idlebox/node-error-codes':
-        specifier: 'workspace:'
-        version: link:../node-error-codes
+      '@idlebox/errors':
+        specifier: workspace:^
+        version: link:../errors
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -948,9 +946,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -969,9 +964,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -991,9 +983,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/heft-jest':
         specifier: ^1.0.6
         version: 1.0.6
@@ -1034,9 +1023,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -1065,9 +1051,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/minimatch':
         specifier: ^6.0.0
         version: 6.0.0
@@ -1171,6 +1154,9 @@ importers:
       '@idlebox/ensure-symlink':
         specifier: workspace:^
         version: link:../../@idlebox/ensure-symlink
+      '@idlebox/errors':
+        specifier: workspace:^
+        version: link:../../@idlebox/errors
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1635,9 +1621,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -1669,9 +1652,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/chai':
         specifier: ^5.2.2
         version: 5.2.2
@@ -1718,9 +1698,6 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@rushstack/heft':
-        specifier: ^0.74.0
-        version: 0.74.0(@types/node@24.0.14)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
