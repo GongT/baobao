@@ -16,6 +16,8 @@ export async function createMonorepoObject() {
 }
 
 export type IPnpmMonoRepo = PnpmMonoRepo;
+const colorReg = /\x1B\[[0-9;]+?m/g;
+const unclosedColorReg = /\x1B\[[^m]*$/g;
 
 class PnpmMonoRepo extends AsyncDisposable {
 	private readonly workersManager: WorkersManager;
@@ -133,10 +135,10 @@ class PnpmMonoRepo extends AsyncDisposable {
 		const textC = '38;5;13';
 
 		function buildLine(txt: string) {
-			let psize = 4 + 2 + txt.length + 2;
+			let psize = 4 + 2 + txt.replace(colorReg, '').length + 2;
 			if (psize >= lWidth) {
-				txt = txt.slice(Math.max(lWidth - 20), 20);
-				psize = 4 + 2 + txt.length + 2;
+				txt = txt.slice(Math.max(lWidth - 20), 20).replace(unclosedColorReg, '');
+				psize = 4 + 2 + txt.replace(colorReg, '').length + 2;
 			}
 			return `\n${CSI}${barC}m    ${CSI}0;${textC}m  ${txt}  ${CSI}0${barC}m${' '.repeat(lWidth - psize)}${CSI}0m\n`;
 		}

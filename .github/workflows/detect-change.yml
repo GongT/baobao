@@ -1,0 +1,37 @@
+name: 检查代码变化并提交新的版本号
+run-name: ${{ github.actor }} 提交了一个新的节点版本 🚀
+
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[checkpoint] ')
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 4
+
+      - name: 安装pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: 安装Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'pnpm'
+
+      - name: 安装依赖
+        run: pnpm install
+
+      - name: 执行构建
+        run: |
+          npm config --location=user set cache="${RUNNER_TEMP}/npm"
+          pnpm run build
+
+      - name: 检测修改并提交
+        run: source .github/scripts/check-commit.sh

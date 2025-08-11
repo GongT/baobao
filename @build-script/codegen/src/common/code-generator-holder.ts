@@ -113,9 +113,9 @@ class GeneratorHolder {
 			}
 
 			this.logger.debug(`  - new: ${rel}`);
-			const packagejson = findUpUntilSync({ file: 'package.json', from: abs });
+			const packagejson = findUpUntilSync({ file: ['package.json', 'package.yaml'], from: abs });
 			if (!packagejson) {
-				throw new Error(`failed find package.json for ${abs}`);
+				throw new Error(`failed find package.json|yaml for ${abs}`);
 			}
 			this.knownPackageJsons.add(packagejson);
 

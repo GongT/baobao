@@ -17,6 +17,9 @@
 	// Identifiers
 	export { combiningCharactersRegex } from "./combiningCharacters.js";
 	export { isCombiningCharacters } from "./combiningCharacters.js";
+/* escapeUnicode.ts */
+	// Identifiers
+	export { unicodeEscape } from "./escapeUnicode.js";
 /* firstCompleteChar.ts */
 	// Identifiers
 	export type { CodePointInfo } from "./firstCompleteChar.js";
@@ -27,13 +30,8 @@
 	export { limitWidth } from "./limitWidth.js";
 	export { chunkText } from "./limitWidth.js";
 	export { boxText } from "./limitWidth.js";
-/* escapeUnicode.ts */
-	// Identifiers
-	export { unicodeEscape } from "./escapeUnicode.js";
 /* stringWidth.ts */
 	// Identifiers
 	export { stringWidth } from "./stringWidth.js";
-/* autoindex.generated.ts */
-	// Identifiers
 /* test.ts */
 	// Identifiers

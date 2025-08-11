@@ -1,9 +1,5 @@
 ### Hidden Files
 .*
-!/.*
-
-### Git
-!*.gitignore
 
 ### Cache File
 common/temp
@@ -27,7 +23,6 @@ temp/
 dist/
 lib/
 *.tgz
-.test
 tsdoc-metadata.json
 
 ### Mistake

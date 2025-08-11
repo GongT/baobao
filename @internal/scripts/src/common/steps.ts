@@ -4,8 +4,7 @@ import { logger } from '@idlebox/logger';
 import { cpSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { currentProject, monorepoRoot } from './constants.js';
-import { isPublish } from './constants.publish.js';
+import { currentProject } from './constants.js';
 import { getExportsField, packageJson } from './package-json.js';
 
 export function makeInformationalFields() {
@@ -146,10 +145,4 @@ export function writeNpmFiles() {
 
 	logger.debug`将 ${ignoreSource} 复制到 long<${ignoreDist}>`;
 	cpSync(ignoreSource, ignoreDist);
-
-	const tcSource = resolve(monorepoRoot, isPublish ? '.npmrc-publish' : '.npmrc');
-	const rcDist = resolve(currentProject, '.npmrc');
-
-	logger.debug`将 ${tcSource} 复制到 ${rcDist}`;
-	cpSync(tcSource, rcDist);
 }

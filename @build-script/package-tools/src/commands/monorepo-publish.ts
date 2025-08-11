@@ -2,14 +2,16 @@ import { createWorkspace, normalizePackageName, type IPackageInfo, type Monorepo
 import { app, argv, CommandDefine, CSI, logger } from '@idlebox/cli';
 import { prettyPrintError } from '@idlebox/common';
 import { Job, JobGraphBuilder, JobState } from '@idlebox/dependency-graph';
-import { commandInPath, emptyDir, workingDirectory, writeFileIfChange } from '@idlebox/node';
+import { commandInPath, emptyDir, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
 import { FsNodeType, spawnReadonlyFileSystemWithCommand } from '@idlebox/unshare';
 import { execaNode } from 'execa';
 import { existsSync } from 'node:fs';
-import { copyFile } from 'node:fs/promises';
+import { copyFile, readFile } from 'node:fs/promises';
 import { dirname, relative, resolve } from 'node:path';
+import { parse as parseYaml, stringify } from 'yaml';
 import { pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind, type PackageManager } from '../common/package-manager/driver.abstract.js';
+import { PNPM } from '../common/package-manager/driver.pnpm.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 import { clearNpmMetaCache } from '../common/shared-jobs/clear-cache.js';
@@ -207,15 +209,31 @@ function options() {
 	};
 }
 
-async function prepareTempFolder(temp: string, workspace: MonorepoWorkspace) {
+async function prepareTempFolder(temp: string, pm: PackageManager) {
 	await emptyDir(temp);
 
-	const npmrc = workspace.getNpmRCPath(true);
+	const npmrc = pm.workspace.getNpmRCPath(true);
 	if (existsSync(npmrc)) {
 		await copyFile(npmrc, resolve(temp, '.npmrc'));
 	} else {
-		logger.warn`npmrc文件不存在 (long<${npmrc}>)`;
+		logger.debug`npmrc文件不存在 (long<${npmrc}>)`;
 	}
+
+	if (pm instanceof PNPM) {
+		const workspaceFile = resolve(pm.workspace.root, 'pnpm-workspace.yaml');
+		if (existsSync(workspaceFile)) {
+			const options = parseYaml(await readFile(workspaceFile, 'utf-8'), { keepSourceTokens: true });
+			const published = options['publishConfig'] || options['publish-config'];
+			if (published) {
+				Object.assign(options, published);
+				delete options['publishConfig'];
+				delete options['publish-config'];
+				options.packages = ['.'];
+				await writeFileIfChange(resolve(temp, 'pnpm-workspace.yaml'), stringify(options, {}));
+			}
+		}
+	}
+
 	await writeFileIfChange(resolve(temp, 'package.json'), '{}');
 }
 
@@ -225,8 +243,8 @@ export async function main() {
 	const zipDir = resolve(workspace.temp, 'publish');
 
 	await workspace.decoupleDependencies();
-	await prepareTempFolder(zipDir, workspace);
 	const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, zipDir);
+	await prepareTempFolder(zipDir, pm);
 
 	const projects = await workspace.listPackages();
 
@@ -298,7 +316,7 @@ export async function main() {
 
 	if (opts.dryRun) {
 		console.log(`中断并退出（--dry）`);
-		return;
+		throw shutdown(0);
 	}
 
 	const w = packageToPublish.length.toFixed(0).length;
@@ -320,9 +338,10 @@ export async function main() {
 		}
 
 		console.log(`🎉 所有任务完成，共发布了 ${published.length} 个包`);
+		shutdown(0);
 	} catch (e: any) {
 		prettyPrintError(`发布过程中发生错误`, e);
-		process.exitCode = 1;
+		shutdown(1);
 	} finally {
 		if (published.length > 0 && (await commandInPath('cnpm'))) {
 			await cnpmSyncNames(published, true);

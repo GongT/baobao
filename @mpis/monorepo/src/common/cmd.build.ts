@@ -11,9 +11,10 @@ export async function runBuild() {
 		return shutdown(1);
 	}
 
+	const hasCi = process.env.CI;
 	const repo = await createMonorepoObject();
 
-	if (!debugMode) {
+	if (!debugMode && !hasCi) {
 		repo.onStateChange(() => {
 			if (process.stderr.isTTY) process.stderr.write('\x1Bc');
 
@@ -24,7 +25,7 @@ export async function runBuild() {
 	let completed = false;
 	registerGlobalLifecycle(
 		toDisposable(() => {
-			if (debugMode) {
+			if (debugMode || hasCi) {
 				repo.printScreen();
 			} else {
 				if (process.stderr.isTTY) process.stderr.write('\x1Bc');

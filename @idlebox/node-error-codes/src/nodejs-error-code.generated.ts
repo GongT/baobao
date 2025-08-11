@@ -492,8 +492,10 @@ export enum NodeErrorCode {
 	 */
 	ERR_FS_EISDIR = 'ERR_FS_EISDIR',
 	/**
-	 * <p>An attempt has been made to read a file whose size is larger than the maximum
-	 * allowed size for a <code>Buffer</code>.</p>
+	 * <p>An attempt was made to read a file larger than the supported 2 GiB limit for
+	 * <code>fs.readFile()</code>. This is not a limitation of <code>Buffer</code>, but an internal I/O constraint.
+	 * For handling larger files, consider using <code>fs.createReadStream()</code> to read the
+	 * file in chunks.</p>
 	 * <p><a id="ERR_FS_WATCH_QUEUE_OVERFLOW"></a></p>
 	 */
 	ERR_FS_FILE_TOO_LARGE = 'ERR_FS_FILE_TOO_LARGE',
@@ -1365,9 +1367,19 @@ export enum NodeErrorCode {
 	 * <a href="cli.html#--disable-protomode"><code>--disable-proto=throw</code></a>. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf"><code>Object.getPrototypeOf</code></a> and
 	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf"><code>Object.setPrototypeOf</code></a> should be used to get and set the prototype of an
 	 * object.</p>
-	 * <p><a id="ERR_QUIC_APPLICATION_ERROR"></a></p>
+	 * <p><a id="ERR_PROXY_INVALID_CONFIG"></a></p>
 	 */
 	ERR_PROTO_ACCESS = 'ERR_PROTO_ACCESS',
+	/**
+	 * <p>Failed to proxy a request because the proxy configuration is invalid.</p>
+	 * <p><a id="ERR_PROXY_TUNNEL"></a></p>
+	 */
+	ERR_PROXY_INVALID_CONFIG = 'ERR_PROXY_INVALID_CONFIG',
+	/**
+	 * <p>Failed to establish proxy tunnel when <code>NODE_USE_ENV_PROXY</code> or <code>--use-env-proxy</code> is enabled.</p>
+	 * <p><a id="ERR_QUIC_APPLICATION_ERROR"></a></p>
+	 */
+	ERR_PROXY_TUNNEL = 'ERR_PROXY_TUNNEL',
 	/**
 	 * <p>A QUIC application error occurred.</p>
 	 * <p><a id="ERR_QUIC_CONNECTION_FAILED"></a></p>

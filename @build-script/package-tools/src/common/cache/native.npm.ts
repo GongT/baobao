@@ -194,8 +194,9 @@ async function deleteNpmCache(path: string, name: string, registry?: string) {
 		const tc = i > 0 ? '├' : '└';
 
 		const info = await cacheGet.info(path, cid);
-		// console.log(info);
+		logger.verbose`cache info: ${info}`;
 		await cacheRm.content(path, cid);
+		await cacheRm.entry(path, cid);
 		// @types/cacache 最后一个参数丢失
 		await (cacheRm.entry as any)(path, cid, { removeFully: true });
 		if (info) {

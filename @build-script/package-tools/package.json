@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/package-tools",
 	"type": "module",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "A Node.js package managing tool",
 	"bin": {
 		"package-tools": "./load.js",
@@ -21,12 +21,12 @@
 	},
 	"dependencies": {
 		"@build-script/monorepo-lib": "workspace:^",
+		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/dependency-graph": "workspace:^",
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
-		"@idlebox/cli": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/dependency-graph": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/unshare": "workspace:^",
 		"cacache": "^19.0.1",
@@ -38,7 +38,8 @@
 		"semver": "^7.7.2",
 		"split-cmd": "^1.1.0",
 		"targz": "^1.0.1",
-		"tiny-async-pool": "^2.1.0"
+		"tiny-async-pool": "^2.1.0",
+		"yaml": "^2.8.1"
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
@@ -57,7 +58,10 @@
 		"@types/tinycolor2": "^1.4.6"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	},
 	"sideEffects": false
 }

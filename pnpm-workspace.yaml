@@ -37,3 +37,16 @@ ignoreWorkspaceCycles: true
 
 patchedDependencies:
   "@types/tar-stream": "patches/@types__tar-stream.patch"
+
+access: public
+always-auth: false
+fetch-retries: 1000
+network-concurrency: 3
+git-checks: false
+registry: https://registry.npmmirror.com/
+
+publishConfig:
+  registry: https://registry.npmjs.org/
+  prefer-offline: false
+  prefer-frozen-lockfile: false
+  git-checks: false

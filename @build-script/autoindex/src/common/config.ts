@@ -34,7 +34,7 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 	logger.debug`即将加载配置文件: config/autoindex.json`;
 	logger.verbose`使用schema文件: ${schemaFile}`;
 
-	const packageJsonFile = findUpUntilSync({ file: 'package.json', from: context.project ?? process.cwd() });
+	const packageJsonFile = findUpUntilSync({ file: ['package.json', 'package.yaml'], from: context.project ?? process.cwd() });
 	if (!packageJsonFile) {
 		throw logger.fatal`无法找到项目根目录，请确保在正确的目录下运行。`;
 	}
