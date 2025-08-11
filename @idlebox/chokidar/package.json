@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/chokidar",
 	"type": "module",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"exports": {
 		".": {
 			"source": "./src/main.ts",
