@@ -6,6 +6,10 @@ summ() {
 	echo "$@" >>"${GITHUB_STEP_SUMMARY}"
 }
 
+
+git config --global user.name "$(git log -n 1 --pretty=format:%an) (action bot)"
+git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
+
 summ -e "# 检测修改\n"
 
 pnpm run publish-everything --dry
@@ -33,8 +37,6 @@ cat >>"${GITHUB_STEP_SUMMARY}" <<-EOF
 EOF
 
 git add .
-git config user.name "$(git log -n 1 --pretty=format:%an) (action bot)"
-git config user.email "$(git log -n 1 --pretty=format:%ae)"
 
 MESSAGE="chore: update package versions [skip ci]"
 MESSAGE+=$'\n'

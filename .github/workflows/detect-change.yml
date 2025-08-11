@@ -1,4 +1,4 @@
-name: 检查代码变化并提交新的版本号
+name: 发布新版本
 run-name: ${{ github.actor }} 提交了一个新的节点版本 🚀
 
 on:
@@ -35,3 +35,8 @@ jobs:
 
       - name: 检测修改并提交
         run: source .github/scripts/check-commit.sh
+
+      - name: 发布新版本
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: source .github/scripts/publish-all.sh
