@@ -1,5 +1,8 @@
 ### Hidden Files
 .*
+!.github/
+!.git*
+!.pnpmfile.*
 
 ### Cache File
 common/temp
@@ -49,7 +52,7 @@ yarn-error.log*
 ### Monorepo Local Files
 **/.editorconfig
 **/.git*
-**/.prettier*
+!/.git*
 **/yarn.lock
 
 ### Generated Files

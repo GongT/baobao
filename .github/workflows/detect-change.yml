@@ -26,7 +26,9 @@ jobs:
           cache: 'pnpm'
 
       - name: 安装依赖
-        run: pnpm install
+        run: |
+          git clean -ffdx
+          pnpm install
 
       - name: 执行构建
         run: |
