@@ -165,11 +165,22 @@ class BuildPackageJob extends Job<void> {
 			this.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
 			const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute);
-			const { changedFiles, hasChange, remoteVersion } = await this.detect(pm);
+			const { changedFiles, hasChange, remoteVersion, packageJsonDiff } = await this.detect(pm);
 			const shouldPublish = hasChange || changedFiles.length > 0;
 			let localVersion = this.project.packageJson.version;
 
-			this.log(`    👀 ${changedFiles.length} 个文件有修改: ${changedFiles.slice(0, 3).join(', ')}${changedFiles.length > 3 ? ' ...' : ''}`);
+			if (process.env.CI && changedFiles.length) {
+				this.log(`::group::    👀 ${changedFiles.length} 个文件有修改`);
+				for (const file of changedFiles) {
+					this.log(`  * ${file}`);
+					if (file === 'package.json') {
+						this.log(`${packageJsonDiff}`);
+					}
+				}
+				this.log(`::endgroup::`);
+			} else {
+				this.log(`    👀 ${changedFiles.length} 个文件有修改: ${changedFiles.slice(0, 3).join(', ')}${changedFiles.length > 3 ? ' ...' : ''}`);
+			}
 			if (hasChange) {
 				this.project.absolute;
 				const packageJson = await pm.loadPackageJson();

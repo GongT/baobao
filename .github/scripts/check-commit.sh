@@ -48,7 +48,7 @@ MESSAGE+=$'\n'
 mapfile -t packages < <(find .package-tools/publish -name '*.tgz' | xargs -I {} basename {} .tgz)
 for pkg in "${packages[@]}"; do
 	summ "- ${pkg}"
-	MESSAGE+=$(printf " * %s\n" "${pkg}")
+	MESSAGE+="$(printf " * %s\n" "${pkg}")"
 done
 
 git commit -m "$MESSAGE"
