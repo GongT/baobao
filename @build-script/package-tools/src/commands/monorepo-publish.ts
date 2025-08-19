@@ -292,7 +292,7 @@ export async function main() {
 				}
 			}
 
-			debugSummary();
+			if (!process.env.CI) debugSummary();
 		});
 		builder.addNode(job);
 
@@ -346,7 +346,7 @@ export async function main() {
 		prettyPrintError(`发布过程中发生错误`, e);
 		setExitCodeIfNot(1);
 	} finally {
-		if (published.length > 0 && (await commandInPath('cnpm'))) {
+		if (published.length > 0 && !process.env.CI && (await commandInPath('cnpm'))) {
 			await cnpmSyncNames(published, true);
 
 			const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
