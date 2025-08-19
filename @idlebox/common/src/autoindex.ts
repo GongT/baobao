@@ -137,10 +137,10 @@
 	export { parseStackString } from "./error/pretty.nodejs.js";
 	export { prettyFormatStack } from "./error/pretty.nodejs.js";
 	export { prettyFormatError } from "./error/pretty.nodejs.js";
-/* lifecycle/dispose/disposedError.ts */
+/* lifecycle/dispose/bridges/function.ts */
 	// Identifiers
-	export { Disposed } from "./lifecycle/dispose/disposedError.js";
-	export { DuplicateDisposed } from "./lifecycle/dispose/disposedError.js";
+	export { functionToDisposable } from "./lifecycle/dispose/bridges/function.js";
+	export { disposerFunction } from "./lifecycle/dispose/bridges/function.js";
 /* lifecycle/event/type.ts */
 	// Identifiers
 	export type { IEventEmitter } from "./lifecycle/event/type.js";
@@ -162,10 +162,10 @@
 	export type { IAsyncDisposable } from "./lifecycle/dispose/disposable.js";
 /* lifecycle/dispose/debug.ts */
 	// Identifiers
-/* lifecycle/dispose/bridges/function.ts */
+/* lifecycle/dispose/disposedError.ts */
 	// Identifiers
-	export { functionToDisposable } from "./lifecycle/dispose/bridges/function.js";
-	export { disposerFunction } from "./lifecycle/dispose/bridges/function.js";
+	export { Disposed } from "./lifecycle/dispose/disposedError.js";
+	export { DuplicateDisposed } from "./lifecycle/dispose/disposedError.js";
 /* lifecycle/dispose/disposableEvent.ts */
 	// Identifiers
 	export { addAnyKindOfListener } from "./lifecycle/dispose/disposableEvent.js";

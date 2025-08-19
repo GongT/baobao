@@ -2,7 +2,7 @@
 	"name": "@idlebox/errors",
 	"description": "A collection of my errors.",
 	"type": "module",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",
@@ -31,9 +31,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

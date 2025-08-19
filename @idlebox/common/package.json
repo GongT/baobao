@@ -1,14 +1,9 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.4.20",
+	"version": "1.4.21",
 	"description": "Common utilities",
-	"keywords": [
-		"utilities",
-		"functions",
-		"helpers",
-		"library"
-	],
+	"keywords": ["utilities", "functions", "helpers", "library"],
 	"exports": {
 		".": {
 			"types": "./src/autoindex.ts",
@@ -43,9 +38,6 @@
 	},
 	"decoupledDependents": "*",
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }
