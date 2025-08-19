@@ -32,7 +32,7 @@ cat >>"${GITHUB_STEP_SUMMARY}" <<-EOF
 	<summary>修改文件列表</summary>
 
 	\`\`\`log
-	' "$(git diff --name-only)" '
+	$(git diff --name-only)
 	\`\`\`
 
 	</details>
