@@ -2,10 +2,6 @@
 // @ts-ignore
 /* eslint-disable */
 
-/* re-export.ts */
-	// Identifiers
-	// References
-	export * from "@idlebox/errors";
 /* array/diff.ts */
 	// Identifiers
 	export type { IArrayUpdate } from "./array/diff.js";
@@ -44,9 +40,6 @@
 	export { nextWeek } from "./date/sibling.js";
 	export { nextMonth } from "./date/sibling.js";
 	export { nextYear } from "./date/sibling.js";
-/* string/pad2.ts */
-	// Identifiers
-	export { pad2 } from "./string/pad2.js";
 /* date/to-string.ts */
 	// Identifiers
 	export { humanDate } from "./date/to-string.js";
@@ -57,6 +50,18 @@
 /* debugging/inspect.ts */
 	// Identifiers
 	export { tryInspect } from "./debugging/inspect.js";
+/* debugging/object-with-name.ts */
+	// Identifiers
+	export type { NamedObject } from "./debugging/object-with-name.js";
+	export { objectName } from "./debugging/object-with-name.js";
+	export { nameObject } from "./debugging/object-with-name.js";
+	export type { MaybeNamed } from "./debugging/object-with-name.js";
+	export { assertObjectHasName } from "./debugging/object-with-name.js";
+	export type { NamedFunction } from "./debugging/object-with-name.js";
+	export type { MaybeNamedFunction } from "./debugging/object-with-name.js";
+	export { functionName } from "./debugging/object-with-name.js";
+	export { nameFunction } from "./debugging/object-with-name.js";
+	export { assertFunctionHasName } from "./debugging/object-with-name.js";
 /* debugging/serializable.ts */
 	// Identifiers
 	export { isScalar } from "./debugging/serializable.js";
@@ -64,55 +69,32 @@
 	export { isSerializable } from "./debugging/serializable.js";
 	export { getTypeOf } from "./debugging/serializable.js";
 	export { assertSerializable } from "./debugging/serializable.js";
+/* error/convert-unknown.ts */
+	// Identifiers
+	export { convertCaughtError } from "./error/convert-unknown.js";
+/* error/get-frame.ts */
+	// Identifiers
+	export { getErrorFrame } from "./error/get-frame.js";
+/* error/known.ts */
+	// Identifiers
+	export { KnownError } from "./error/known.js";
+/* error/pretty.nodejs.ts */
+	// Identifiers
+	export { setErrorLogRoot } from "./error/pretty.nodejs.js";
+	export type { IStructreStackLine } from "./error/pretty.nodejs.js";
+	export { parseStackLine } from "./error/pretty.nodejs.js";
+	export { prettyPrintError } from "./error/pretty.nodejs.js";
+	export { parseStackString } from "./error/pretty.nodejs.js";
+	export { prettyFormatStack } from "./error/pretty.nodejs.js";
+	export { prettyFormatError } from "./error/pretty.nodejs.js";
+/* error/pretty.vscode.ts */
+	// Identifiers
+	export { vscEscapeValue } from "./error/pretty.vscode.js";
 /* error/stack-trace.ts */
 	// Identifiers
 	export type { StackTraceHolder } from "./error/stack-trace.js";
 	export type { IWithStack } from "./error/stack-trace.js";
 	export { createStackTraceHolder } from "./error/stack-trace.js";
-/* error/get-frame.ts */
-	// Identifiers
-	export { getErrorFrame } from "./error/get-frame.js";
-/* error/convert-unknown.ts */
-	// Identifiers
-	export { convertCaughtError } from "./error/convert-unknown.js";
-/* platform/os.ts */
-	// Identifiers
-	export { hasProcess } from "./platform/os.js";
-	export { hasWindow } from "./platform/os.js";
-	export { hasGlobal } from "./platform/os.js";
-	export { isElectron } from "./platform/os.js";
-	export { isElectronSandbox } from "./platform/os.js";
-	export { isElectronRenderer } from "./platform/os.js";
-	export { isElectronMain } from "./platform/os.js";
-	export { isWindows } from "./platform/os.js";
-	export { isMacintosh } from "./platform/os.js";
-	export { isLinux } from "./platform/os.js";
-	export { isNative } from "./platform/os.js";
-	export { isNodeJs } from "./platform/os.js";
-	export { isWeb } from "./platform/os.js";
-	export { is64Bit } from "./platform/os.js";
-	export { sepList } from "./platform/os.js";
-	export { is32Bit } from "./platform/os.js";
-/* error/known.ts */
-	// Identifiers
-	export { KnownError } from "./error/known.js";
-/* path/isAbsolute.ts */
-	// Identifiers
-	export { isAbsolute } from "./path/isAbsolute.js";
-/* path/normalizePath.ts */
-	// Identifiers
-	export { PathKind } from "./path/normalizePath.js";
-	export type { IPathInfo } from "./path/normalizePath.js";
-	export { analyzePath } from "./path/normalizePath.js";
-	export { normalizePath } from "./path/normalizePath.js";
-	export { relativePath } from "./path/normalizePath.js";
-/* platform/globalObject.ts */
-	// Identifiers
-	export { globalObject } from "./platform/globalObject.js";
-	export { ensureGlobalObject } from "./platform/globalObject.js";
-/* error/pretty.vscode.ts */
-	// Identifiers
-	export { vscEscapeValue } from "./error/pretty.vscode.js";
 /* function/callback-list.async.ts */
 	// Identifiers
 	export type { MyAsyncCallback } from "./function/callback-list.async.js";
@@ -128,75 +110,88 @@
 /* function/noop.ts */
 	// Identifiers
 	export { noop } from "./function/noop.js";
-/* error/pretty.nodejs.ts */
+/* legacy/rename.ts */
 	// Identifiers
-	export { setErrorLogRoot } from "./error/pretty.nodejs.js";
-	export type { IStructreStackLine } from "./error/pretty.nodejs.js";
-	export { parseStackLine } from "./error/pretty.nodejs.js";
-	export { prettyPrintError } from "./error/pretty.nodejs.js";
-	export { parseStackString } from "./error/pretty.nodejs.js";
-	export { prettyFormatStack } from "./error/pretty.nodejs.js";
-	export { prettyFormatError } from "./error/pretty.nodejs.js";
+	export { toDisposable } from "./legacy/rename.js";
+	export { AsyncDisposable } from "./legacy/rename.js";
+	export { Disposable } from "./legacy/rename.js";
+	export { convertCatchedError } from "./legacy/rename.js";
+/* lifecycle/cancellation/driver.browser.ts */
+	// Identifiers
+/* lifecycle/cancellation/driver.common.ts */
+	// Identifiers
+/* lifecycle/cancellation/source.ts */
+	// Identifiers
+	export type { CancellationToken } from "./lifecycle/cancellation/source.js";
+	export { CancellationTokenSource } from "./lifecycle/cancellation/source.js";
+/* lifecycle/dispose/async-disposable.ts */
+	// Identifiers
+	export { EnhancedAsyncDisposable } from "./lifecycle/dispose/async-disposable.js";
+	export { UnorderedAsyncDisposable } from "./lifecycle/dispose/async-disposable.js";
 /* lifecycle/dispose/bridges/function.ts */
 	// Identifiers
 	export { functionToDisposable } from "./lifecycle/dispose/bridges/function.js";
 	export { disposerFunction } from "./lifecycle/dispose/bridges/function.js";
-/* lifecycle/event/type.ts */
-	// Identifiers
-	export type { IEventEmitter } from "./lifecycle/event/type.js";
-	export type { EventHandler } from "./lifecycle/event/type.js";
-	export type { EventRegister } from "./lifecycle/event/type.js";
-	export type { EventEmitterMap } from "./lifecycle/event/type.js";
-/* lifecycle/event/event.ts */
-	// Identifiers
-	export { Emitter } from "./lifecycle/event/event.js";
 /* lifecycle/dispose/bridges/native.ts */
 	// Identifiers
 	export { fromNativeDisposable } from "./lifecycle/dispose/bridges/native.js";
 	export { toNativeDisposable } from "./lifecycle/dispose/bridges/native.js";
+/* lifecycle/dispose/bridges/streams.ts */
+	// Identifiers
+	export { closableToDisposable } from "./lifecycle/dispose/bridges/streams.js";
+	export { endableToDisposable } from "./lifecycle/dispose/bridges/streams.js";
+/* lifecycle/dispose/debug.ts */
+	// Identifiers
 /* lifecycle/dispose/disposable.ts */
 	// Identifiers
 	export { DuplicateDisposeAction } from "./lifecycle/dispose/disposable.js";
 	export type { IDisposableEvents } from "./lifecycle/dispose/disposable.js";
 	export type { IDisposable } from "./lifecycle/dispose/disposable.js";
 	export type { IAsyncDisposable } from "./lifecycle/dispose/disposable.js";
-/* lifecycle/dispose/debug.ts */
-	// Identifiers
-/* lifecycle/dispose/disposedError.ts */
-	// Identifiers
-	export { Disposed } from "./lifecycle/dispose/disposedError.js";
-	export { DuplicateDisposed } from "./lifecycle/dispose/disposedError.js";
 /* lifecycle/dispose/disposableEvent.ts */
 	// Identifiers
 	export { addAnyKindOfListener } from "./lifecycle/dispose/disposableEvent.js";
 	export type { IShorthandEmitterObject } from "./lifecycle/dispose/disposableEvent.js";
 	export type { IEventEmitterObject } from "./lifecycle/dispose/disposableEvent.js";
 	export { addDisposableEventListener } from "./lifecycle/dispose/disposableEvent.js";
-/* platform/globalSingleton.ts */
+/* lifecycle/dispose/disposedError.ts */
 	// Identifiers
-	export { globalSingletonStrong } from "./platform/globalSingleton.js";
-	export { globalSingletonDelete } from "./platform/globalSingleton.js";
-	export { globalSingleton } from "./platform/globalSingleton.js";
-/* platform/globalSymbol.ts */
-	// Identifiers
-	export { createSymbol } from "./platform/globalSymbol.js";
-	export { deleteSymbol } from "./platform/globalSymbol.js";
-/* lifecycle/dispose/bridges/streams.ts */
-	// Identifiers
-	export { closableToDisposable } from "./lifecycle/dispose/bridges/streams.js";
-	export { endableToDisposable } from "./lifecycle/dispose/bridges/streams.js";
-/* lifecycle/event/memorized.ts */
-	// Identifiers
-	export { MemorizedEmitter } from "./lifecycle/event/memorized.js";
+	export { Disposed } from "./lifecycle/dispose/disposedError.js";
+	export { DuplicateDisposed } from "./lifecycle/dispose/disposedError.js";
 /* lifecycle/dispose/sync-disposable.ts */
 	// Identifiers
 	export { DisposableOnce } from "./lifecycle/dispose/sync-disposable.js";
 	export { EnhancedDisposable } from "./lifecycle/dispose/sync-disposable.js";
+/* lifecycle/event/event.ts */
+	// Identifiers
+	export { Emitter } from "./lifecycle/event/event.js";
+/* lifecycle/event/memorized.ts */
+	// Identifiers
+	export { MemorizedEmitter } from "./lifecycle/event/memorized.js";
+/* lifecycle/event/type.ts */
+	// Identifiers
+	export type { IEventEmitter } from "./lifecycle/event/type.js";
+	export type { EventHandler } from "./lifecycle/event/type.js";
+	export type { EventRegister } from "./lifecycle/event/type.js";
+	export type { EventEmitterMap } from "./lifecycle/event/type.js";
+/* lifecycle/global/global-lifecycle.ts */
+	// Identifiers
+	export { registerGlobalLifecycle } from "./lifecycle/global/global-lifecycle.js";
+	export { ensureDisposeGlobal } from "./lifecycle/global/global-lifecycle.js";
+	export { disposeGlobal } from "./lifecycle/global/global-lifecycle.js";
 /* log/logger.ts */
 	// Identifiers
 	export { ColorKind } from "./log/logger.js";
 	export type { WrappedConsoleOptions } from "./log/logger.js";
 	export { WrappedConsole } from "./log/logger.js";
+/* map-and-set/custom-set.ts */
+	// Identifiers
+	export type { Finder } from "./map-and-set/custom-set.js";
+	export { CustomSet } from "./map-and-set/custom-set.js";
+/* map-and-set/required-map.ts */
+	// Identifiers
+	export { RequiredMap } from "./map-and-set/required-map.js";
+	export { InstanceMap } from "./map-and-set/required-map.js";
 /* misc/assertNotNull.ts */
 	// Identifiers
 	export { assertNotNull } from "./misc/assertNotNull.js";
@@ -228,13 +223,16 @@
 	// Identifiers
 	export { isObjectSame } from "./object/objectSame.js";
 	export { isObjectSameRecursive } from "./object/objectSame.js";
-/* string/case-cast.ts */
+/* path/isAbsolute.ts */
 	// Identifiers
-	export { camelCase } from "./string/case-cast.js";
-	export { ucfirst } from "./string/case-cast.js";
-	export { lcfirst } from "./string/case-cast.js";
-	export { linux_case } from "./string/case-cast.js";
-	export { linux_case_hyphen } from "./string/case-cast.js";
+	export { isAbsolute } from "./path/isAbsolute.js";
+/* path/normalizePath.ts */
+	// Identifiers
+	export { PathKind } from "./path/normalizePath.js";
+	export type { IPathInfo } from "./path/normalizePath.js";
+	export { analyzePath } from "./path/normalizePath.js";
+	export { normalizePath } from "./path/normalizePath.js";
+	export { relativePath } from "./path/normalizePath.js";
 /* path/pathArray.ts */
 	// Identifiers
 	export { PathArrayWindows } from "./path/pathArray.js";
@@ -246,18 +244,60 @@
 /* platform/compile.ts */
 	// Identifiers
 	export { isProductionMode } from "./platform/compile.js";
-/* schedule/scheduler.ts */
+/* platform/globalObject.ts */
 	// Identifiers
-	export { scheduler } from "./schedule/scheduler.js";
+	export { globalObject } from "./platform/globalObject.js";
+	export { ensureGlobalObject } from "./platform/globalObject.js";
+/* platform/globalSingleton.ts */
+	// Identifiers
+	export { globalSingletonStrong } from "./platform/globalSingleton.js";
+	export { globalSingletonDelete } from "./platform/globalSingleton.js";
+	export { globalSingleton } from "./platform/globalSingleton.js";
+/* platform/globalSymbol.ts */
+	// Identifiers
+	export { createSymbol } from "./platform/globalSymbol.js";
+	export { deleteSymbol } from "./platform/globalSymbol.js";
+/* platform/os.ts */
+	// Identifiers
+	export { hasProcess } from "./platform/os.js";
+	export { hasWindow } from "./platform/os.js";
+	export { hasGlobal } from "./platform/os.js";
+	export { isElectron } from "./platform/os.js";
+	export { isElectronSandbox } from "./platform/os.js";
+	export { isElectronRenderer } from "./platform/os.js";
+	export { isElectronMain } from "./platform/os.js";
+	export { isWindows } from "./platform/os.js";
+	export { isMacintosh } from "./platform/os.js";
+	export { isLinux } from "./platform/os.js";
+	export { isNative } from "./platform/os.js";
+	export { isNodeJs } from "./platform/os.js";
+	export { isWeb } from "./platform/os.js";
+	export { is64Bit } from "./platform/os.js";
+	export { sepList } from "./platform/os.js";
+	export { is32Bit } from "./platform/os.js";
+/* promise/await-iterator.ts */
+	// Identifiers
+	export { awaitIterator } from "./promise/await-iterator.js";
 /* promise/deferred-promise.ts */
 	// Identifiers
 	export type { ValueCallback } from "./promise/deferred-promise.js";
 	export type { ProgressCallback } from "./promise/deferred-promise.js";
 	export type { IProgressHolder } from "./promise/deferred-promise.js";
 	export { DeferredPromise } from "./promise/deferred-promise.js";
+/* promise/promise-bool.ts */
+	// Identifiers
+	export { promiseBool } from "./promise/promise-bool.js";
 /* promise/promise-list.ts */
 	// Identifiers
 	export { PromiseCollection } from "./promise/promise-list.js";
+/* re-export.ts */
+	// Identifiers
+	// References
+	export * from "@idlebox/errors";
+/* reflection/classes/pointer.ts */
+	// Identifiers
+	export type { Ref } from "./reflection/classes/pointer.js";
+	export { Pointer } from "./reflection/classes/pointer.js";
 /* reflection/classes/singleton.ts */
 	// Identifiers
 	export { singletonSymbol } from "./reflection/classes/singleton.js";
@@ -267,10 +307,10 @@
 /* reflection/methods/bind.ts */
 	// Identifiers
 	export { bindThis } from "./reflection/methods/bind.js";
-/* schedule/local-type.ts */
+/* reflection/methods/memorize.ts */
 	// Identifiers
-	export type { TimeoutType } from "./schedule/local-type.js";
-	export type { IntervalType } from "./schedule/local-type.js";
+	export { memo } from "./reflection/methods/memorize.js";
+	export { forgetMemorized } from "./reflection/methods/memorize.js";
 /* schedule/extendable-timer.ts */
 	// Identifiers
 	export { ExtendableTimer } from "./schedule/extendable-timer.js";
@@ -278,60 +318,33 @@
 	// Identifiers
 	export { interval } from "./schedule/interval.js";
 	export { Interval } from "./schedule/interval.js";
+/* schedule/local-type.ts */
+	// Identifiers
+	export type { TimeoutType } from "./schedule/local-type.js";
+	export type { IntervalType } from "./schedule/local-type.js";
+/* schedule/scheduler.ts */
+	// Identifiers
+	export { scheduler } from "./schedule/scheduler.js";
 /* schedule/timeout.ts */
 	// Identifiers
 	export { timeout } from "./schedule/timeout.js";
 	export { sleep } from "./schedule/timeout.js";
 	export { raceTimeout } from "./schedule/timeout.js";
-/* string/concatType.generated.ts */
-	// Identifiers
-	export { concatStringType } from "./string/concatType.generated.js";
-/* map-and-set/custom-set.ts */
-	// Identifiers
-	export type { Finder } from "./map-and-set/custom-set.js";
-	export { CustomSet } from "./map-and-set/custom-set.js";
-/* map-and-set/required-map.ts */
-	// Identifiers
-	export { RequiredMap } from "./map-and-set/required-map.js";
-	export { InstanceMap } from "./map-and-set/required-map.js";
-/* lifecycle/dispose/async-disposable.ts */
-	// Identifiers
-	export { EnhancedAsyncDisposable } from "./lifecycle/dispose/async-disposable.js";
-	export { UnorderedAsyncDisposable } from "./lifecycle/dispose/async-disposable.js";
-/* lifecycle/global/global-lifecycle.ts */
-	// Identifiers
-	export { registerGlobalLifecycle } from "./lifecycle/global/global-lifecycle.js";
-	export { ensureDisposeGlobal } from "./lifecycle/global/global-lifecycle.js";
-	export { disposeGlobal } from "./lifecycle/global/global-lifecycle.js";
-/* legacy/rename.ts */
-	// Identifiers
-	export { toDisposable } from "./legacy/rename.js";
-	export { AsyncDisposable } from "./legacy/rename.js";
-	export { Disposable } from "./legacy/rename.js";
-	export { convertCatchedError } from "./legacy/rename.js";
-/* reflection/methods/memorize.ts */
-	// Identifiers
-	export { memo } from "./reflection/methods/memorize.js";
-	export { forgetMemorized } from "./reflection/methods/memorize.js";
-/* promise/await-iterator.ts */
-	// Identifiers
-	export { awaitIterator } from "./promise/await-iterator.js";
-/* lifecycle/cancellation/driver.browser.ts */
-	// Identifiers
-/* lifecycle/cancellation/driver.common.ts */
-	// Identifiers
-/* lifecycle/cancellation/source.ts */
-	// Identifiers
-	export type { CancellationToken } from "./lifecycle/cancellation/source.js";
-	export { CancellationTokenSource } from "./lifecycle/cancellation/source.js";
-/* promise/promise-bool.ts */
-	// Identifiers
-	export { promiseBool } from "./promise/promise-bool.js";
 /* state/simple-state-machine.ts */
 	// Identifiers
 	export type { IFsmRuleMap } from "./state/simple-state-machine.js";
 	export type { IStateChangeEvent } from "./state/simple-state-machine.js";
 	export { SimpleStateMachine } from "./state/simple-state-machine.js";
+/* string/case-cast.ts */
+	// Identifiers
+	export { camelCase } from "./string/case-cast.js";
+	export { ucfirst } from "./string/case-cast.js";
+	export { lcfirst } from "./string/case-cast.js";
+	export { linux_case } from "./string/case-cast.js";
+	export { linux_case_hyphen } from "./string/case-cast.js";
+/* string/concatType.generated.ts */
+	// Identifiers
+	export { concatStringType } from "./string/concatType.generated.js";
 /* string/escape-regexp.ts */
 	// Identifiers
 	export { escapeRegExp } from "./string/escape-regexp.js";
@@ -340,12 +353,12 @@
 	export { humanSizeSI } from "./string/human-bytes.js";
 	export { humanSize } from "./string/human-bytes.js";
 	export { humanSpeed } from "./string/human-bytes.js";
+/* string/pad2.ts */
+	// Identifiers
+	export { pad2 } from "./string/pad2.js";
 /* typing-helper/callback.ts */
 	// Identifiers
 	export type { ICommonCallback } from "./typing-helper/callback.js";
-/* typing-helper/literal.ts */
-	// Identifiers
-	export type { Primitive } from "./typing-helper/literal.js";
 /* typing-helper/deep.partial.ts */
 	// Identifiers
 	export type { DeepPartial } from "./typing-helper/deep.partial.js";
@@ -358,19 +371,6 @@
 /* typing-helper/deep.writable.ts */
 	// Identifiers
 	export type { DeepWriteable } from "./typing-helper/deep.writable.js";
-/* reflection/classes/pointer.ts */
+/* typing-helper/literal.ts */
 	// Identifiers
-	export type { Ref } from "./reflection/classes/pointer.js";
-	export { Pointer } from "./reflection/classes/pointer.js";
-/* debugging/object-with-name.ts */
-	// Identifiers
-	export type { NamedObject } from "./debugging/object-with-name.js";
-	export { objectName } from "./debugging/object-with-name.js";
-	export { nameObject } from "./debugging/object-with-name.js";
-	export type { MaybeNamed } from "./debugging/object-with-name.js";
-	export { assertObjectHasName } from "./debugging/object-with-name.js";
-	export type { NamedFunction } from "./debugging/object-with-name.js";
-	export type { MaybeNamedFunction } from "./debugging/object-with-name.js";
-	export { functionName } from "./debugging/object-with-name.js";
-	export { nameFunction } from "./debugging/object-with-name.js";
-	export { assertFunctionHasName } from "./debugging/object-with-name.js";
+	export type { Primitive } from "./typing-helper/literal.js";
