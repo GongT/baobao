@@ -8,7 +8,7 @@ import { basename } from 'node:path';
 import process from 'node:process';
 import { inspect } from 'node:util';
 
-const originalExit: (code?: number) => never = process.exit;
+const shutdown_immediate: (code?: number) => never = process.exit;
 const prefix = process.stderr.isTTY ? '' : `<${title()} ${process.pid}> `;
 
 function title() {
@@ -31,16 +31,16 @@ export function setExitCodeIfNot(exitCode: number) {
 
 let shuttingDown = 0;
 export function shutdown(exitCode: number): never {
-	_shutdown(exitCode);
+	_shutdown_graceful(exitCode);
 	throw new Exit(getCurrentCode());
 }
-function _shutdown(exitCode: number) {
+function _shutdown_graceful(exitCode: number) {
 	setExitCodeIfNot(exitCode);
 
 	if (!shuttingDown) {
 		shuttingDown = 1;
 		ensureDisposeGlobal().finally(() => {
-			originalExit(getCurrentCode());
+			shutdown_immediate(getCurrentCode());
 		});
 	} else {
 		shuttingDown++;
@@ -67,32 +67,41 @@ export function registerNodejsGlobalTypedErrorHandler(ErrorCls: ErrorConstructor
 	typed_error_handlers.set(ErrorCls, fn);
 }
 
-function uniqueErrorHandler(e: unknown, logger: IDebugOutput) {
+function _root_cause(e: Error) {
+	if (e.cause instanceof Error) {
+		return _root_cause(e.cause);
+	}
+	return e;
+}
+
+function uniqueErrorHandler(currentError: unknown, logger: IDebugOutput) {
 	if (!isProductionMode) logger.verbose?.(`uniqueErrorHandler:`);
-	if (!(e instanceof Error)) {
-		prettyPrintError(`${prefix}catch unexpect object`, new Error(`error object is ${typeof e} ${e ? (e as any).constructor?.name : 'unknown'}`));
-		throw originalExit(ExitCode.PROGRAM);
+	if (!(currentError instanceof Error)) {
+		prettyPrintError(
+			`${prefix}catch unexpect object`,
+			new Error(`error object is ${typeof currentError} ${currentError ? (currentError as any).constructor?.name : 'unknown'}`),
+		);
+		throw shutdown_immediate(ExitCode.PROGRAM);
 	}
 
-	if (e instanceof Exit) {
+	const rootCause = _root_cause(currentError);
+	if (rootCause instanceof Exit) {
 		if (!isProductionMode) logger.verbose?.(`  - skip exit object`);
-		if (!shuttingDown) {
-			_shutdown(e.code);
-		}
-		throw e;
+		if (!shuttingDown) _shutdown_graceful(rootCause.code);
+		throw rootCause;
 	}
 
 	try {
-		const catcher = typed_error_handlers.get(e.constructor as ErrorConstructor);
+		const catcher = typed_error_handlers.get(rootCause.constructor as ErrorConstructor);
 		if (catcher) {
 			if (!isProductionMode) logger.verbose?.(`  - call catcher ${functionName(catcher)}`);
-			catcher(e);
+			catcher(rootCause);
 			return;
 		}
 		for (const [Cls, fn] of inherit_error_handlers) {
 			if (!isProductionMode) logger.verbose?.(`  - call inherited catcher ${functionName(fn)}`);
-			if (e instanceof Cls) {
-				fn(e);
+			if (rootCause instanceof Cls) {
+				fn(rootCause);
 				return;
 			}
 		}
@@ -100,37 +109,45 @@ function uniqueErrorHandler(e: unknown, logger: IDebugOutput) {
 		prettyPrintError(`${prefix}error while handle error`, {
 			message: ee.message,
 			stack: ee.stack,
-			cause: e,
+			cause: rootCause,
 		});
 		return;
 	}
 
-	if (e instanceof InterruptError) {
+	if (rootCause instanceof InterruptError) {
 		if (!isProductionMode) logger.verbose?.(`  - shuttingDown = ${shuttingDown}`);
-		if (shuttingDown > 5) {
-			logger.output(`${prefix}Exiting immediately.`);
-			originalExit(ExitCode.INTERRUPT);
-		}
 
+		const signal = rootCause.signal;
+		if (signal === 'SIGINT') {
+			process.stderr.write(shuttingDown === 0 ? '\n' : '\r');
+		}
+		if (shuttingDown > 4) {
+			logger.output(`${prefix}Received ${signal} more than 5 times. Exiting immediately.`);
+			shutdown_immediate(ExitCode.INTERRUPT);
+		} else if (shuttingDown > 0) {
+			logger.output(`${prefix}Received ${signal} ${shuttingDown + 1} times.`);
+		} else {
+			logger.output(`${prefix}Received ${signal}. Exiting gracefully...`);
+		}
 		shutdown(ExitCode.INTERRUPT);
 	}
-	if (e instanceof UnhandledRejection) {
+	if (currentError instanceof UnhandledRejection) {
 		if (!isProductionMode) logger.verbose?.(`  - UnhandledRejection`);
-		if (e.cause instanceof Error) {
-			prettyPrintError(`${prefix}Unhandled Rejection`, e.cause);
+		if (rootCause !== currentError) {
+			prettyPrintError(`${prefix}Unhandled Rejection`, currentError.cause);
 		} else {
-			logger.output(`${prefix}Unhandled Rejection / error type unknown: ${inspect(e.cause)}`);
+			logger.output(`${prefix}Unhandled Rejection / error type unknown: ${inspect(currentError.cause)}`);
 		}
 		return;
 	}
-	if (e instanceof UncaughtException) {
+	if (currentError instanceof UncaughtException) {
 		if (!isProductionMode) logger.verbose?.(`  - UncaughtException`);
-		prettyPrintError(`${prefix}Uncaught Exception`, e.cause);
+		prettyPrintError(`${prefix}Uncaught Exception`, rootCause);
 		return;
 	}
 
 	if (!isProductionMode) logger.verbose?.(`  - common error`);
-	prettyPrintError(`${prefix}unhandled global exception`, e);
+	prettyPrintError(`${prefix}unhandled global exception`, currentError);
 	shutdown(ExitCode.PROGRAM);
 }
 
@@ -147,15 +164,15 @@ export function registerNodejsExitHandler(logger: IDebugOutput = { output: conso
 }
 function _real_register(logger: IDebugOutput) {
 	logger.verbose?.(`register nodejs exit handler: production=${isProductionMode}`);
-	process.on('SIGINT', () => {
-		logger.output(`\n${prefix}Received SIGINT. Exiting gracefully...`);
-		uniqueErrorHandler(new InterruptError('SIGINT'), logger);
-	});
 
-	process.on('SIGTERM', () => {
-		logger.output(`${prefix}Received SIGTERM. Exiting gracefully...`);
-		uniqueErrorHandler(new InterruptError('SIGTERM'), logger);
-	});
+	process.on('SIGINT', () => signal_handler('SIGINT'));
+	process.on('SIGTERM', () => signal_handler('SIGTERM'));
+
+	function signal_handler(signal: 'SIGINT' | 'SIGTERM') {
+		setImmediate(() => {
+			uniqueErrorHandler(new InterruptError(signal, signal_handler), logger);
+		});
+	}
 
 	process.on('beforeExit', (code) => {
 		// empty handler prevent real exit
@@ -164,7 +181,7 @@ function _real_register(logger: IDebugOutput) {
 			code = ExitCode.EXECUTION;
 			logger.output(`${prefix}beforeExit called, but process.exitCode has not been set, switch to ${code}`);
 		}
-		_shutdown(code);
+		_shutdown_graceful(code);
 	});
 
 	function finalThrow(e: UnhandledRejection | UncaughtException) {
@@ -173,17 +190,17 @@ function _real_register(logger: IDebugOutput) {
 
 			if (e.cause instanceof ErrorWithCode) {
 				if (!isProductionMode) logger.verbose?.(`finalThrow: got code: ${e.cause.code}`);
-				_shutdown(e.cause.code);
+				_shutdown_graceful(e.cause.code);
 			} else {
 				if (!isProductionMode) logger.verbose?.(`finalThrow: not got code: ${e.cause} `);
-				_shutdown(ExitCode.PROGRAM);
+				_shutdown_graceful(ExitCode.PROGRAM);
 			}
-		} catch (e: any) {
-			if (e instanceof Exit) {
+		} catch (ee: any) {
+			if (ee instanceof Exit) {
 				return;
 			}
-			prettyPrintError('Exception while handling error', e);
-			_shutdown(ExitCode.PROGRAM);
+			prettyPrintError('Exception while handling error', ee);
+			shutdown_immediate(ExitCode.PROGRAM);
 		}
 	}
 

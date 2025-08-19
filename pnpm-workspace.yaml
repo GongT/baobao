@@ -39,14 +39,12 @@ patchedDependencies:
   "@types/tar-stream": "patches/@types__tar-stream.patch"
 
 access: public
-always-auth: false
-fetch-retries: 1000
-network-concurrency: 3
-git-checks: false
-registry: https://registry.npmmirror.com/
+alwaysAuth: false
+fetchRetries: 1000
+networkConcurrency: 3
+gitChecks: false
 
 publishConfig:
-  registry: https://registry.npmjs.org/
-  prefer-offline: false
-  prefer-frozen-lockfile: false
-  git-checks: false
+  preferOffline: false
+  preferFrozenLockfile: false
+  gitChecks: false

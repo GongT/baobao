@@ -6,7 +6,7 @@ declare const global: any;
 /**
  * buy detect process.pid, is there any bundler mock this?
  */
-export const hasProcess = typeof process?.pid === 'number';
+export const hasProcess = typeof process !== 'undefined' && typeof process?.pid === 'number';
 export const hasWindow = typeof window !== 'undefined' && globalThis === window;
 export const hasGlobal = typeof global !== 'undefined' && globalThis === global;
 

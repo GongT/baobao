@@ -25,7 +25,7 @@
 		"indentStyle": "tab",
 		"formatWithErrors": false,
 		"lineEnding": "lf",
-		"lineWidth": 120,
+		"lineWidth": 165,
 		"useEditorconfig": false,
 	},
 	"linter": {
@@ -55,6 +55,7 @@
 				"noThisInStatic": "off",
 				"useLiteralKeys": "off",
 				"noArguments": "off",
+				"noBannedTypes": "off",
 			},
 			"correctness": {
 				"useImportExtensions": {
@@ -78,7 +79,6 @@
 			"enabled": true,
 			"quoteStyle": "single",
 			"trailingCommas": "all",
-			"lineWidth": 300,
 		},
 		"linter": {
 			"enabled": true,

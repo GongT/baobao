@@ -217,6 +217,9 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
+      yaml:
+        specifier: ^2.8.1
+        version: 2.8.1
     devDependencies:
       '@build-script/autoindex':
         specifier: workspace:^
@@ -296,9 +299,6 @@ importers:
       tiny-async-pool:
         specifier: ^2.1.0
         version: 2.1.0
-      yaml:
-        specifier: ^2.8.1
-        version: 2.8.1
     devDependencies:
       '@build-script/codegen':
         specifier: workspace:^
@@ -624,6 +624,9 @@ importers:
       debug:
         specifier: ^4.4.1
         version: 4.4.1(supports-color@8.1.1)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
     devDependencies:
       '@build-script/autoindex':
         specifier: workspace:^

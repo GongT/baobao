@@ -37,6 +37,7 @@
 	"typescript.preferences.importModuleSpecifierEnding": "js",
 	"files.readonlyInclude": {
 		"**/lib/**": true,
+		"**/autoindex.ts": true,
 	},
 	"cSpell.words": ["itypes", "mpis"],
 	"remote.autoForwardPorts": false

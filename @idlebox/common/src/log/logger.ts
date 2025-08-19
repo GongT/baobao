@@ -1,4 +1,4 @@
-import { nameFunction } from '../function/functionName.js';
+import { nameFunction } from '../debugging/object-with-name.js';
 import { isWeb } from '../platform/os.js';
 
 export enum ColorKind {

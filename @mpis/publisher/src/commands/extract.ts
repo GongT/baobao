@@ -1,6 +1,6 @@
 import { argv } from '@idlebox/args/default';
 import { logger } from '@idlebox/logger';
-import { emptyDir } from '@idlebox/node';
+import { emptyDir, shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { getDecompressed, repoRoot, tempDir } from '../common/constants.js';
 import { execPnpmMute } from '../common/exec.js';
@@ -28,4 +28,4 @@ await decompressTarGz(tgzFile, resultDirectory);
 
 logger.log`已解压到 relative<${resultDirectory}>`;
 
-process.exit(0);
+shutdown(0);

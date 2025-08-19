@@ -27,7 +27,8 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
-		"@idlebox/logger": "workspace:^"
+		"@idlebox/logger": "workspace:^",
+		"yaml": "^2.8.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

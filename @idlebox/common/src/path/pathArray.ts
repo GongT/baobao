@@ -1,5 +1,5 @@
 import { isWindows } from '../platform/os.js';
-import { ucfirst } from '../string/castCase.js';
+import { ucfirst } from '../string/case-cast.js';
 import { normalizePath } from './normalizePath.js';
 
 const isAbsolute = /^[a-z]:[/\\]/i;

@@ -1,4 +1,5 @@
 import { isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
+import { pause, type IPauseControl } from '@idlebox/dependency-graph';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -234,22 +235,23 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		return `${this._id} ${pid}`;
 	}
 
-	// private _is_paused = false;
-	// readonly [pause]: IPauseControl = { implements IPauseableObject
-	// 	isPaused: () => {
-	// 		return this._is_paused;
-	// 	},
-	// 	pause: async () => {
-	// 		if (this._is_paused) return;
-	// 		this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
-	// 		this.process.kill('SIGSTOP');
-	// 		this._is_paused = true;
-	// 	},
-	// 	resume: async () => {
-	// 		if (!this._is_paused) return;
-	// 		this.logger.verbose`send SIGCONT to ${this.process.pid}`;
-	// 		this.process.kill('SIGCONT');
-	// 		this._is_paused = false;
-	// 	},
-	// };
+	private _is_paused = false;
+	readonly [pause]: IPauseControl = {
+		// implements IPauseableObject
+		isPaused: () => {
+			return this._is_paused;
+		},
+		pause: async () => {
+			if (this._is_paused) return;
+			this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
+			this.process.kill('SIGSTOP');
+			this._is_paused = true;
+		},
+		resume: async () => {
+			if (!this._is_paused) return;
+			this.logger.verbose`send SIGCONT to ${this.process.pid}`;
+			this.process.kill('SIGCONT');
+			this._is_paused = false;
+		},
+	};
 }

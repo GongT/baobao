@@ -2,8 +2,9 @@ import { timeout } from '@idlebox/common';
 import type { ResultPromise } from 'execa';
 import { Job } from './job-graph.job.js';
 import { JobState } from './job-graph.lib.js';
+import { pause, type IPauseControl } from './pause-interface.js';
 
-export abstract class ChildProcessExecuter<T> extends Job<T>  {
+export abstract class ChildProcessExecuter<T> extends Job<T> {
 	private declare process: ResultPromise;
 
 	protected abstract _spawn(): ResultPromise;
@@ -15,22 +16,23 @@ export abstract class ChildProcessExecuter<T> extends Job<T>  {
 
 	/** 暂停机制，需要暂停整个进程组 */
 	private _is_paused = false;
-	// readonly [pause]: IPauseControl = { implements IPauseableObject
-	// 	isPaused: () => {
-	// 		return this._is_paused;
-	// 	},
-	// 	pause: async () => {
-	// 		if (this._is_paused) return;
-	// 		this.process.kill('SIGSTOP');
-	// 		this._is_paused = true;
-	// 	},
+	readonly [pause]: IPauseControl = {
+		// implements IPauseableObject
+		isPaused: () => {
+			return this._is_paused;
+		},
+		pause: async () => {
+			if (this._is_paused) return;
+			this.process.kill('SIGSTOP');
+			this._is_paused = true;
+		},
 
-	// 	resume: async () => {
-	// 		if (!this._is_paused) return;
-	// 		this.process.kill('SIGCONT');
-	// 		this._is_paused = false;
-	// 	},
-	// };
+		resume: async () => {
+			if (!this._is_paused) return;
+			this.process.kill('SIGCONT');
+			this._is_paused = false;
+		},
+	};
 
 	override async join() {
 		await this.process;

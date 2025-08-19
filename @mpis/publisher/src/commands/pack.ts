@@ -1,5 +1,6 @@
 import { argv } from '@idlebox/args/default';
 import { logger } from '@idlebox/logger';
+import { shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { getDecompressed } from '../common/constants.js';
 import { execPnpmMute } from '../common/exec.js';
@@ -23,7 +24,7 @@ await execPnpmMute(tempPackagePath, ['--silent', 'pack', '--out', outPath]);
 logger.log`已重新打包为 relative<${outPath}>`;
 
 console.log(outPath);
-process.exit(0);
+shutdown(0);
 
 function normalizeName(name: string): string {
 	return name.replace(/^@/, '').replace(/\//g, '-');

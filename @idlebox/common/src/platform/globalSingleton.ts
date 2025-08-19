@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/suspicious/noShadowRestrictedNames:  */
 
-import { functionName } from '../function/functionName.js';
+import { functionName } from '../debugging/object-with-name.js';
 import { ensureGlobalObject } from './globalObject.js';
 
 const singletonRegistry = ensureGlobalObject('@@idlebox/global-singleton', () => {

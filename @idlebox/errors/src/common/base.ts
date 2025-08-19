@@ -23,3 +23,31 @@ export class ErrorWithCode extends Error {
 		replaceStackTrace(this, boundary ?? this.constructor);
 	}
 }
+
+/**
+ * Error when something.cancel() is called
+ * @public
+ */
+export class CanceledError extends Error {
+	constructor() {
+		super('Canceled');
+	}
+
+	static is(e: unknown): e is CanceledError {
+		return e instanceof CanceledError;
+	}
+}
+
+/**
+ * Error when something timeout
+ * @public
+ */
+export class TimeoutError extends Error {
+	constructor(ms: number, what = 'no response') {
+		super(`Timeout: ${what} in ${ms}ms`);
+	}
+
+	static is(error: unknown): error is TimeoutError {
+		return error instanceof TimeoutError;
+	}
+}

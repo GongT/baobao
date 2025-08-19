@@ -14,6 +14,10 @@
 /* common/strings.ts */
 	// Identifiers
 	export { normalizePackageName } from "./common/strings.js";
+/* common/woskapce-yaml.ts */
+	// Identifiers
+	export type { IApplyPnpmWorkspaceOptions } from "./common/woskapce-yaml.js";
+	export { applyPublishWorkspace } from "./common/woskapce-yaml.js";
 /* workspace/common/types.ts */
 	// Identifiers
 	export { PackageManagerKind } from "./workspace/common/types.js";

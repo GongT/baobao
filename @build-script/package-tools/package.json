@@ -38,8 +38,7 @@
 		"semver": "^7.7.2",
 		"split-cmd": "^1.1.0",
 		"targz": "^1.0.1",
-		"tiny-async-pool": "^2.1.0",
-		"yaml": "^2.8.1"
+		"tiny-async-pool": "^2.1.0"
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",

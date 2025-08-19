@@ -1,7 +1,7 @@
 ### Hidden Files
 .*
-!.github/
 !.git*
+!.npm*
 !.pnpmfile.*
 
 ### Cache File
@@ -40,8 +40,6 @@ node_modules
 jspm_packages
 bower_components
 package-deps.json
-!common/config/rush/.npmrc
-!.npmignore
 
 ### Log Files
 *.log

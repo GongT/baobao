@@ -15,6 +15,8 @@
 /* common/base.ts */
 	// Identifiers
 	export { ErrorWithCode } from "./common/base.js";
+	export { CanceledError } from "./common/base.js";
+	export { TimeoutError } from "./common/base.js";
 /* common/application.ts */
 	// Identifiers
 	export { Exit } from "./common/application.js";

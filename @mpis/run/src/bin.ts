@@ -187,7 +187,8 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 
 	const graph = workersManager.finalize();
 	console.error('%s\n%s', graph.debugFormatGraph(), graph.debugFormatSummary());
-	logger.fatal`"${worker._id}" ${message}`;
+	logger.error`"${worker._id}" ${message}`;
+	shutdown(1);
 }
 
 let printTo: NodeJS.Timeout | undefined;

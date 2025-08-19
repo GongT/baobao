@@ -6,8 +6,6 @@
 	// Identifiers
 	export type { AsyncMainFunction } from "./asyncLoad.js";
 	export { executeMainFunction } from "./asyncLoad.js";
-/* preload.ts */
-	// Identifiers
 /* child_process/error.ts */
 	// Identifiers
 	export { checkChildProcessResult } from "./child_process/error.js";

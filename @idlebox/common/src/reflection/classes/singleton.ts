@@ -1,32 +1,41 @@
-import { hookClass } from './hookClass.js';
+import { definePrivateConstant } from '../../autoindex.js';
 
-export const singletonSymbol = Symbol('@gongt/singleton');
+export const singletonSymbol = Symbol('@idlebox/singleton');
 
 export enum SingletonType {
 	Throw = 0,
-	Return = 1,
+	ReturnSame = 1,
 }
 
-export function singleton(type: SingletonType = SingletonType.Return): ClassDecorator {
-	return (target: any): any => {
-		const hook = hookClass(target);
-		if (!hook.beforeConstruct) {
-			hook.beforeConstruct = [];
-		}
-		if (!hook.afterConstruct) {
-			hook.afterConstruct = [];
-		}
+type AnyClass = new (...args: any) => any;
 
-		hook.beforeConstruct.push((cls) => {
-			if (cls[singletonSymbol]) {
-				if (type === SingletonType.Return) {
-					return cls[singletonSymbol];
+/**
+ * 单例类修饰器
+ * @param type
+ * @returns
+ */
+export function singleton(type: SingletonType = SingletonType.ReturnSame) {
+	return <T extends AnyClass>(Class: T, ctx: ClassDecoratorContext): T => {
+		if (ctx.kind !== 'class') throw new Error(`this decorator can only be applied to classes`);
+
+		const name = ctx.name;
+		return new Proxy(Class, {
+			construct(target, args) {
+				const exists = (Class as any)[singletonSymbol];
+				if (exists) {
+					if (type === SingletonType.Throw) throw new Error(`can not recreate singleton class #${name}`);
+					return exists;
 				}
-				throw new Error(`Duplicate new singleton class [${target.name}]`);
-			}
-		});
-		hook.afterConstruct.push((obj) => {
-			target[singletonSymbol] = obj;
+				const instance = Reflect.construct(target, args);
+				return instance;
+			},
 		});
 	};
+}
+
+export function createSingleton<T>(Class: new () => T): T {
+	if (!(Class as any)[singletonSymbol]) {
+		definePrivateConstant(Class, singletonSymbol, new Class());
+	}
+	return (Class as any)[singletonSymbol];
 }

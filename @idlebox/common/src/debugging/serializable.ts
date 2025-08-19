@@ -32,11 +32,11 @@ export function isSerializable(value: any): SerializableKind {
 	const t = typeof value;
 	switch (t) {
 		case 'bigint':
-		// @ts-expect-error
 		case 'number':
 			if (Number.isNaN(value) || Number.POSITIVE_INFINITY === value || Number.NEGATIVE_INFINITY === value) {
 				return SerializableKind.Invalid;
 			}
+			return SerializableKind.Primitive;
 		case 'boolean':
 		case 'string':
 		case 'undefined':

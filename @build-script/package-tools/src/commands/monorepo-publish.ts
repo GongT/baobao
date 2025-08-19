@@ -1,14 +1,13 @@
-import { createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
+import { applyPublishWorkspace, createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { app, argv, CommandDefine, CSI, logger } from '@idlebox/cli';
 import { prettyPrintError } from '@idlebox/common';
 import { Job, JobGraphBuilder, JobState } from '@idlebox/dependency-graph';
-import { commandInPath, emptyDir, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
+import { commandInPath, emptyDir, setExitCodeIfNot, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
 import { FsNodeType, spawnReadonlyFileSystemWithCommand } from '@idlebox/unshare';
 import { execaNode } from 'execa';
 import { existsSync } from 'node:fs';
-import { copyFile, readFile } from 'node:fs/promises';
+import { copyFile } from 'node:fs/promises';
 import { dirname, relative, resolve } from 'node:path';
-import { parse as parseYaml, stringify } from 'yaml';
 import { pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind, type PackageManager } from '../common/package-manager/driver.abstract.js';
 import { PNPM } from '../common/package-manager/driver.pnpm.js';
@@ -221,17 +220,11 @@ async function prepareTempFolder(temp: string, pm: PackageManager) {
 
 	if (pm instanceof PNPM) {
 		const workspaceFile = resolve(pm.workspace.root, 'pnpm-workspace.yaml');
-		if (existsSync(workspaceFile)) {
-			const options = parseYaml(await readFile(workspaceFile, 'utf-8'), { keepSourceTokens: true });
-			const published = options['publishConfig'] || options['publish-config'];
-			if (published) {
-				Object.assign(options, published);
-				delete options['publishConfig'];
-				delete options['publish-config'];
-				options.packages = ['.'];
-				await writeFileIfChange(resolve(temp, 'pnpm-workspace.yaml'), stringify(options, {}));
-			}
-		}
+		await applyPublishWorkspace({
+			sourceFile: workspaceFile,
+			targetDir: temp,
+			isPublish: true,
+		});
 	}
 
 	await writeFileIfChange(resolve(temp, 'package.json'), '{}');
@@ -338,10 +331,9 @@ export async function main() {
 		}
 
 		console.log(`🎉 所有任务完成，共发布了 ${published.length} 个包`);
-		shutdown(0);
 	} catch (e: any) {
 		prettyPrintError(`发布过程中发生错误`, e);
-		shutdown(1);
+		setExitCodeIfNot(1);
 	} finally {
 		if (published.length > 0 && (await commandInPath('cnpm'))) {
 			await cnpmSyncNames(published, true);
@@ -350,4 +342,5 @@ export async function main() {
 			await clearNpmMetaCache(pm, published);
 		}
 	}
+	shutdown(0);
 }

@@ -6,9 +6,13 @@ summ() {
 	echo "$@" >>"${GITHUB_STEP_SUMMARY}"
 }
 
+x() {
+	echo "  + $*" >&2
+	"$@"
+}
 
-git config --global user.name "$(git log -n 1 --pretty=format:%an) (action bot)"
-git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
+x sudo git config --system user.name "$(git log -n 1 --pretty=format:%an) (action bot)"
+x sudo git config --system user.email "$(git log -n 1 --pretty=format:%ae)"
 
 summ -e "# 检测修改\n"
 

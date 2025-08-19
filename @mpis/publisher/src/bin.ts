@@ -1,7 +1,10 @@
 import { argv } from '@idlebox/args/default';
 import { Exit, prettyPrintError } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
+import { registerNodejsExitHandler } from '@idlebox/node';
 import { debugMode, projectPath } from './common/constants.js';
+
+registerNodejsExitHandler();
 
 if (debugMode) {
 	createRootLogger('publisher', EnableLogLevel.verbose);

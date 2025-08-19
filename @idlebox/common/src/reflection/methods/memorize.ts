@@ -1,29 +1,36 @@
-export const memorizeValueSymbol = Symbol('@gongt/memorizeValue');
+import { definePrivateConstant, nameObject } from '../../autoindex.js';
+
+const memoizeSymbol = Symbol('@gongt/memorize');
 
 /**
- * Decorate class method/getter
+ * Decorate class method
  *
- * remember first return value of method/getter, directlly return memorized value when call it again
+ * remember first return value of method, directly return memorized value when call it again
  */
-export const memo: MethodDecorator = <T>(_target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => {
-	const original: Function = (descriptor.value ? descriptor.value : descriptor.get) as any;
-	if (descriptor.set || typeof original !== 'function') {
-		throw new TypeError('@memo should only use on method, or getter. Not property and setter.');
-	}
+export function memo<T extends (...args: any[]) => any>(method: T, context: ClassMethodDecoratorContext): T {
+	context.addInitializer(function (this: any) {
+		definePrivateConstant(this, memoizeSymbol, {});
+	});
 
-	if (descriptor.get) {
-		descriptor.get = function memo_getter(this: any) {
-			const value = original.call(this, arguments);
-			Object.defineProperty(this, propertyKey, { value });
-			return value;
-		};
-	} else {
-		descriptor.value = function memo_method(this: any) {
-			const value = original.call(this, arguments);
-			Object.defineProperty(this, propertyKey, { value: () => value });
-			return value;
-		} as any;
-	}
+	const wrapMethod = nameObject(context.name.toString(), function (this: any, ...args: any) {
+		if (!this[memoizeSymbol][context.name]) {
+			const val = method.apply(this, args);
+			this[memoizeSymbol][context.name] = val;
+		}
+		return this[memoizeSymbol][context.name];
+	});
 
-	return descriptor;
-};
+	definePrivateConstant(wrapMethod, memoizeSymbol, true);
+	return wrapMethod as any;
+}
+
+/**
+ * remove memo from object
+ */
+export function forgetMemorized<T>(self: T, methodName: keyof T): void {
+	const method: any = self[methodName];
+	if (!method[memoizeSymbol]) {
+		throw new Error('Method is not decorated by @memo');
+	}
+	delete (self as any)[memoizeSymbol][methodName];
+}

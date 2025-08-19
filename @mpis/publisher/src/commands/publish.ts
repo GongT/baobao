@@ -1,7 +1,11 @@
 /** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
 
+import { applyPublishWorkspace } from '@build-script/monorepo-lib';
 import { argv } from '@idlebox/args/default';
-import { getDecompressed } from '../common/constants.js';
+import { logger } from '@idlebox/logger';
+import { shutdown } from '@idlebox/node';
+import { resolve } from 'node:path';
+import { getDecompressed, repoRoot, tempDir } from '../common/constants.js';
 import { execPnpmUser } from '../common/exec.js';
 import { makeTempPackage, reconfigurePackageJson } from '../common/shared-steps.js';
 
@@ -37,7 +41,20 @@ if (argv.unused().length > 0) {
 }
 
 await makeTempPackage();
-reconfigurePackageJson('pack');
+reconfigurePackageJson('publish');
 
 const tempPackagePath = getDecompressed();
+
+// TODO .npmrc
+const workspaceFile = resolve(repoRoot, 'pnpm-workspace.yaml');
+await applyPublishWorkspace({
+	isPublish: true,
+	sourceFile: workspaceFile,
+	targetDir: tempDir,
+});
+
+logger.success`🚀 准备完毕，即将向npm registry发送实际请求！`;
 await execPnpmUser(tempPackagePath, ['publish', ...publishArgs]);
+
+logger.success`✅ 发布成功！`;
+shutdown(0);
