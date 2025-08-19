@@ -42,15 +42,16 @@ EOF
 
 git add .
 
-MESSAGE="chore: update package versions [skip ci]"
-MESSAGE+=$'\n'
+CMFILE="${RUNNER_TEMP:-/tmp}/commit-message.txt"
+echo "chore: update package versions [skip ci]" >"$CMFILE"
+echo "" >>"$CMFILE"
 
 mapfile -t packages < <(find .package-tools/publish -name '*.tgz' | xargs -I {} basename {} .tgz)
 for pkg in "${packages[@]}"; do
 	summ "- ${pkg}"
-	MESSAGE+="$(printf " * %s\n" "${pkg}")"
+	printf " * %s\n" "${pkg}" >>"$CMFILE"
 done
 
-git commit -m "$MESSAGE"
+git commit -F "$CMFILE"
 git push
 echo "pushed!"
