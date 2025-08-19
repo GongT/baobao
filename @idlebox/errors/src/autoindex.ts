@@ -12,16 +12,16 @@
 /* codes/wellknown-exit-codes.ts */
 	// Identifiers
 	export { ExitCode } from "./codes/wellknown-exit-codes.js";
-/* common/base.ts */
-	// Identifiers
-	export { ErrorWithCode } from "./common/base.js";
-	export { CanceledError } from "./common/base.js";
-	export { TimeoutError } from "./common/base.js";
 /* common/application.ts */
 	// Identifiers
 	export { Exit } from "./common/application.js";
 	export { InterruptError } from "./common/application.js";
 	export { UsageError } from "./common/application.js";
+/* common/base.ts */
+	// Identifiers
+	export { ErrorWithCode } from "./common/base.js";
+	export { CanceledError } from "./common/base.js";
+	export { TimeoutError } from "./common/base.js";
 /* common/development.ts */
 	// Identifiers
 	export { ProgramError } from "./common/development.js";

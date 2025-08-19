@@ -18,14 +18,20 @@
 	// Identifiers
 	export type { IApplyPnpmWorkspaceOptions } from "./common/woskapce-yaml.js";
 	export { applyPublishWorkspace } from "./common/woskapce-yaml.js";
+/* workspace/common/create.ts */
+	// Identifiers
+	export { NotMonorepo } from "./workspace/common/create.js";
+	export { createWorkspaceOrPackage } from "./workspace/common/create.js";
+	export { createSimpleProject } from "./workspace/common/create.js";
+	export { createWorkspace } from "./workspace/common/create.js";
+/* workspace/common/deduplicate-dependency.ts */
+	// Identifiers
 /* workspace/common/types.ts */
 	// Identifiers
 	export { PackageManagerKind } from "./workspace/common/types.js";
 	export { WorkspaceKind } from "./workspace/common/types.js";
 	export type { IPackageInfo } from "./workspace/common/types.js";
 	export type { IPackageInfoRW } from "./workspace/common/types.js";
-/* workspace/common/deduplicate-dependency.ts */
-	// Identifiers
 /* workspace/drivers/lerna-nx.ts */
 	// Identifiers
 	export { lernaListProjects } from "./workspace/drivers/lerna-nx.js";
@@ -48,9 +54,3 @@
 	export { MonorepoWorkspace } from "./workspace/index.js";
 	export { SimplePackage } from "./workspace/index.js";
 	export type { IDecoupleMethod } from "./workspace/index.js";
-/* workspace/common/create.ts */
-	// Identifiers
-	export { NotMonorepo } from "./workspace/common/create.js";
-	export { createWorkspaceOrPackage } from "./workspace/common/create.js";
-	export { createSimpleProject } from "./workspace/common/create.js";
-	export { createWorkspace } from "./workspace/common/create.js";

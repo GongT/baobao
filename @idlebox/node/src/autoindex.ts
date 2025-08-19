@@ -17,46 +17,41 @@
 	export { spawnGetOutputSync } from "./child_process/execa.js";
 	export { spawnGetOutput } from "./child_process/execa.js";
 	export { spawnGetEverything } from "./child_process/execa.js";
-/* cli-io/output.ts */
-	// Identifiers
-	export { printLine } from "./cli-io/output.js";
 /* child_process/lateError.ts */
 	// Identifiers
 	export type { ISpawnOptions } from "./child_process/lateError.js";
 	export type { ExecaReturnValue } from "./child_process/lateError.js";
 	export { execLazyError } from "./child_process/lateError.js";
-/* fs/exists.ts */
-	// Identifiers
-	export { existsSync } from "./fs/exists.js";
-	export { exists } from "./fs/exists.js";
-	export { readFileIfExists } from "./fs/exists.js";
-/* environment/getEnvironment.ts */
-	// Identifiers
-	export type { IEnvironmentResult } from "./environment/getEnvironment.js";
-	export { getEnvironment } from "./environment/getEnvironment.js";
-	export { deleteEnvironment } from "./environment/getEnvironment.js";
-	export { cleanupEnvironment } from "./environment/getEnvironment.js";
-/* environment/pathEnvironment.ts */
-	// Identifiers
-	export { PATH_SEPARATOR } from "./environment/pathEnvironment.js";
-	export { PathEnvironment } from "./environment/pathEnvironment.js";
-/* environment/findBinary.ts */
-	// Identifiers
-	export { findBinary } from "./environment/findBinary.js";
 /* child_process/respawn.ts */
 	// Identifiers
 	export { spawnRecreateEventHandlers } from "./child_process/respawn.js";
 	export { trySpawnInScope } from "./child_process/respawn.js";
 	export { respawnInScope } from "./child_process/respawn.js";
+/* cli-io/output.ts */
+	// Identifiers
+	export { printLine } from "./cli-io/output.js";
 /* crypto/md5.ts */
 	// Identifiers
 	export { md5 } from "./crypto/md5.js";
 /* crypto/sha256.ts */
 	// Identifiers
 	export { sha256 } from "./crypto/sha256.js";
+/* environment/findBinary.ts */
+	// Identifiers
+	export { findBinary } from "./environment/findBinary.js";
+/* environment/getEnvironment.ts */
+	// Identifiers
+	export type { IEnvironmentResult } from "./environment/getEnvironment.js";
+	export { getEnvironment } from "./environment/getEnvironment.js";
+	export { deleteEnvironment } from "./environment/getEnvironment.js";
+	export { cleanupEnvironment } from "./environment/getEnvironment.js";
 /* environment/npmConfig.ts */
 	// Identifiers
 	export { getNpmConfigValue } from "./environment/npmConfig.js";
+/* environment/pathEnvironment.ts */
+	// Identifiers
+	export { PATH_SEPARATOR } from "./environment/pathEnvironment.js";
+	export { PathEnvironment } from "./environment/pathEnvironment.js";
 /* events/dumpEventEmitter.ts */
 	// Identifiers
 	export { dumpEventEmitterEmit } from "./events/dumpEventEmitter.js";
@@ -71,6 +66,11 @@
 	// Identifiers
 	export { ensureDirExists } from "./fs/ensureDir.js";
 	export { ensureParentExists } from "./fs/ensureDir.js";
+/* fs/exists.ts */
+	// Identifiers
+	export { existsSync } from "./fs/exists.js";
+	export { exists } from "./fs/exists.js";
+	export { readFileIfExists } from "./fs/exists.js";
 /* fs/tempFolder.ts */
 	// Identifiers
 	export { createTempFolder } from "./fs/tempFolder.js";
@@ -92,6 +92,9 @@
 /* log/terminal.ts */
 	// Identifiers
 	export { WrappedTerminalConsole } from "./log/terminal.js";
+/* path-resolve/findPackageRoot.ts */
+	// Identifiers
+	export { findPackageRoot } from "./path-resolve/findPackageRoot.js";
 /* path-resolve/findUp.ts */
 	// Identifiers
 	export type { IFindOptions } from "./path-resolve/findUp.js";
@@ -99,9 +102,6 @@
 	export { findUp } from "./path-resolve/findUp.js";
 	export { findUpUntilSync } from "./path-resolve/findUp.js";
 	export { findUpSync } from "./path-resolve/findUp.js";
-/* path-resolve/findPackageRoot.ts */
-	// Identifiers
-	export { findPackageRoot } from "./path-resolve/findPackageRoot.js";
 /* path-resolve/getAllUp.ts */
 	// Identifiers
 	export { getAllPathUpToRoot } from "./path-resolve/getAllUp.js";
@@ -123,10 +123,6 @@
 /* stream/blackHoleStream.ts */
 	// Identifiers
 	export { BlackHoleStream } from "./stream/blackHoleStream.js";
-/* stream/streamPromise.ts */
-	// Identifiers
-	export { streamPromise } from "./stream/streamPromise.js";
-	export { streamHasEnd } from "./stream/streamPromise.js";
 /* stream/collectingStream.ts */
 	// Identifiers
 	export { streamToBuffer } from "./stream/collectingStream.js";
@@ -143,3 +139,7 @@
 	export type { LogFunction } from "./stream/loggerStream.js";
 	export { LoggerStream } from "./stream/loggerStream.js";
 	export { HexDumpLoggerStream } from "./stream/loggerStream.js";
+/* stream/streamPromise.ts */
+	// Identifiers
+	export { streamPromise } from "./stream/streamPromise.js";
+	export { streamHasEnd } from "./stream/streamPromise.js";

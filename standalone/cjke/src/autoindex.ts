@@ -2,10 +2,6 @@
 // @ts-ignore
 /* eslint-disable */
 
-/* rollup.ts */
-	// Identifiers
-/* shim.lib.ts */
-	// Identifiers
 /* base.ts */
 	// Identifiers
 	export { emojiRegex } from "./base.js";
@@ -30,6 +26,10 @@
 	export { limitWidth } from "./limitWidth.js";
 	export { chunkText } from "./limitWidth.js";
 	export { boxText } from "./limitWidth.js";
+/* rollup.ts */
+	// Identifiers
+/* shim.lib.ts */
+	// Identifiers
 /* stringWidth.ts */
 	// Identifiers
 	export { stringWidth } from "./stringWidth.js";
