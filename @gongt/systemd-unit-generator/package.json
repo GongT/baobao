@@ -1,7 +1,7 @@
 {
 	"name": "@gongt/systemd-unit-generator",
 	"type": "module",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"description": "generate systemd unit file with type checking",
 	"keywords": ["generater", "systemd"],
 	"exports": {
