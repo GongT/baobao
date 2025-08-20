@@ -2,8 +2,8 @@ import { Exit } from '@idlebox/errors';
 import { nameObject, objectName } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder } from '../../error/stack-trace.js';
 import { functionToDisposable } from '../dispose/bridges/function.js';
-import { DuplicateDisposed } from '../dispose/disposedError.js';
 import type { IDisposable } from '../dispose/disposable.js';
+import { Disposed } from '../dispose/disposedError.js';
 import type { EventHandler, EventRegister, IEventEmitter } from './type.js';
 
 /**
@@ -158,7 +158,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 			this.fire =
 			this.handle =
 				() => {
-					throw new DuplicateDisposed(this, trace);
+					throw new Disposed('can not call # after event emitter disposed', trace);
 				};
 	}
 

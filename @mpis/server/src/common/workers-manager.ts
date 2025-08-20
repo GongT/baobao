@@ -30,7 +30,7 @@ class EventTranslate extends Job<string> {
 		await this.worker.execute();
 
 		this.logger.debug`worker execute() return | state = ${this._state}`;
-		if (this.mode === ModeKind.Watch) {
+		if (this.mode === ModeKind.Watch && !this.worker.hasDisposed) {
 			if (this.isFatalError()) return;
 
 			this.logger.warn`this is watcher, it should not quit!`;

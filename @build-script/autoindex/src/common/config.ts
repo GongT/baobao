@@ -1,6 +1,6 @@
 import { NotFoundError, ProjectConfig } from '@build-script/rushstack-config-loader';
 import type { IMyLogger } from '@idlebox/logger';
-import { findUpUntilSync } from '@idlebox/node';
+import { findUpUntilSync, shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { ConfigKind, schemaFile, type ICliArgs } from './cli.js';
 
@@ -36,7 +36,8 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 
 	const packageJsonFile = findUpUntilSync({ file: ['package.json', 'package.yaml'], from: context.project ?? process.cwd() });
 	if (!packageJsonFile) {
-		throw logger.fatal`无法找到项目根目录，请确保在正确的目录下运行。`;
+		logger.error`无法找到项目根目录，请确保在正确的目录下运行。`;
+		shutdown(1);
 	}
 	logger.debug`项目package: ${packageJsonFile}`;
 	const projectRoot = resolve(packageJsonFile, '..');
@@ -49,7 +50,8 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 
 		if (!context.project) {
 			if (!configFileData.project) {
-				throw logger.fatal`配置文件中未指定项目路径，必须传入参数`;
+				logger.error`配置文件中未指定项目路径，必须传入参数`;
+				shutdown(1);
 			}
 			context.project = configFileData.project;
 		}

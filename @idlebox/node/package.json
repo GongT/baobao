@@ -23,8 +23,7 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/errors": "workspace:^",
-		"execa": "^9.6.0",
-		"@idlebox/source-map-support": "workspace:^"
+		"execa": "^9.6.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

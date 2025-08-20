@@ -22,3 +22,5 @@ deleteDevelopmentFields();
 
 await writeBack();
 writeNpmFiles();
+
+logger.log`预发布钩子结束了`;

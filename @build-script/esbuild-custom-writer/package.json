@@ -20,7 +20,6 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^"
 	},
 	"devDependencies": {

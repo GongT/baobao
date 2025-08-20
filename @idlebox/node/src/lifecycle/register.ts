@@ -34,6 +34,9 @@ export function shutdown(exitCode: number): never {
 	_shutdown_graceful(exitCode);
 	throw new Exit(getCurrentCode());
 }
+export function isShuttingDown() {
+	return shuttingDown > 0;
+}
 function _shutdown_graceful(exitCode: number) {
 	setExitCodeIfNot(exitCode);
 
@@ -106,6 +109,7 @@ function uniqueErrorHandler(currentError: unknown, logger: IDebugOutput) {
 			}
 		}
 	} catch (ee: any) {
+		if (ee instanceof Exit) return;
 		prettyPrintError(`${prefix}error while handle error`, {
 			message: ee.message,
 			stack: ee.stack,

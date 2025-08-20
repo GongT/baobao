@@ -22,10 +22,7 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"dependencies": {
-		"comment-json": "^4.2.5",
-		"prettier": "^3.6.2"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",

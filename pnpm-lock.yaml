@@ -7,7 +7,7 @@ settings:
 overrides:
   ajv: ^8.17.1
 
-pnpmfileChecksum: sha256-iac0gTtagJABvc1Zkq3bwf9wvvvjeew2H4NBtcIWTOI=
+pnpmfileChecksum: sha256-QQ71ViA+eLberPampROqE0cAE6UDHkyFg49hDcTiZAU=
 
 patchedDependencies:
   '@types/tar-stream':
@@ -60,12 +60,12 @@ importers:
       glob:
         specifier: ^11.0.3
         version: 11.0.3
-      minimatch:
-        specifier: ^10.0.3
-        version: 10.0.3
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -82,9 +82,6 @@ importers:
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
 
   '@build-script/codegen':
     dependencies:
@@ -150,11 +147,57 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
-  '@build-script/esbuild-custom-writer':
+  '@build-script/depcheck':
     dependencies:
+      '@build-script/rushstack-config-loader':
+        specifier: workspace:^
+        version: link:../rushstack-config-loader
+      '@idlebox/chokidar':
+        specifier: workspace:^
+        version: link:../../@idlebox/chokidar
+      '@idlebox/cli':
+        specifier: workspace:^
+        version: link:../../@idlebox/cli
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
+      '@idlebox/node':
+        specifier: workspace:^
+        version: link:../../@idlebox/node
+      '@idlebox/source-map-support':
+        specifier: workspace:^
+        version: link:../../@idlebox/source-map-support
+      '@mpis/client':
+        specifier: workspace:^
+        version: link:../../@mpis/client
+      depcheck:
+        specifier: ^1.4.7
+        version: 1.4.7
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@build-script/single-dog-asset':
+        specifier: workspace:^
+        version: link:../single-dog-asset
+      '@idlebox/esbuild-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/esbuild-executer
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      '@mpis/run':
+        specifier: workspace:^
+        version: link:../../@mpis/run
+      '@types/node':
+        specifier: ^24.0.14
+        version: 24.0.14
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
+  '@build-script/esbuild-custom-writer':
+    dependencies:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
@@ -217,6 +260,9 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
+      '@idlebox/source-map-support':
+        specifier: workspace:^
+        version: link:../../@idlebox/source-map-support
       yaml:
         specifier: ^2.8.1
         version: 2.8.1
@@ -360,9 +406,6 @@ importers:
       ajv:
         specifier: ^8.17.1
         version: 8.17.1
-      ajv-errors:
-        specifier: ^3.0.0
-        version: 3.0.0
       import-meta-resolve:
         specifier: ^4.1.0
         version: 4.1.0
@@ -481,9 +524,6 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -497,9 +537,6 @@ importers:
 
   '@idlebox/chokidar':
     dependencies:
-      '@idlebox/common':
-        specifier: workspace:^
-        version: link:../common
       chokidar:
         specifier: ^4.0.3
         version: 4.0.3
@@ -547,9 +584,6 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
-      '@idlebox/cli-static-generator':
-        specifier: workspace:^
-        version: link:../cli-static-generator
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -559,12 +593,12 @@ importers:
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
+    optionalDependencies:
+      '@idlebox/cli-static-generator':
+        specifier: workspace:^
+        version: link:../cli-static-generator
 
   '@idlebox/cli-help-builder':
-    dependencies:
-      cjke-strings:
-        specifier: workspace:^
-        version: link:../../standalone/cjke
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -581,18 +615,18 @@ importers:
 
   '@idlebox/cli-static-generator':
     dependencies:
-      '@idlebox/args':
+      '@idlebox/common':
         specifier: workspace:^
-        version: link:../args
-      '@idlebox/cli-help-builder':
-        specifier: workspace:^
-        version: link:../cli-help-builder
+        version: link:../common
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../logger
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
+      '@idlebox/source-map-support':
+        specifier: workspace:^
+        version: link:../source-map-support
       esbuild:
         specifier: ^0.25.6
         version: 0.25.6
@@ -600,12 +634,9 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
-      '@idlebox/common':
+      '@idlebox/cli-help-builder':
         specifier: workspace:^
-        version: link:../common
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
+        version: link:../cli-help-builder
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -679,9 +710,9 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
-      '@types/execa':
-        specifier: npm:execa@^9.6.0
-        version: execa@9.6.0
+      '@idlebox/logger':
+        specifier: workspace:^
+        version: link:../logger
       dependency-graph:
         specifier: ^1.0.0
         version: 1.0.0
@@ -692,9 +723,6 @@ importers:
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../esbuild-executer
-      '@idlebox/logger':
-        specifier: workspace:^
-        version: link:../logger
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
@@ -707,6 +735,9 @@ importers:
       '@types/chai-as-promised':
         specifier: ^8.0.2
         version: 8.0.2
+      '@types/execa':
+        specifier: npm:execa@^9.6.0
+        version: execa@9.6.0
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
@@ -845,13 +876,6 @@ importers:
         version: 3.2.4(@types/node@24.0.14)
 
   '@idlebox/json-edit-biome':
-    dependencies:
-      comment-json:
-        specifier: ^4.2.5
-        version: 4.2.5
-      prettier:
-        specifier: ^3.6.2
-        version: 3.6.2
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -908,9 +932,6 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
-      '@idlebox/node':
-        specifier: workspace:^
-        version: link:../node
       debug:
         specifier: ^4.4.1
         version: 4.4.1(supports-color@8.1.1)
@@ -939,9 +960,6 @@ importers:
       '@idlebox/errors':
         specifier: workspace:^
         version: link:../errors
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       execa:
         specifier: ^9.6.0
         version: 9.6.0
@@ -1050,6 +1068,9 @@ importers:
       minimatch:
         specifier: ^10.0.3
         version: 10.0.3
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -1066,15 +1087,9 @@ importers:
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
 
   '@idlebox/unshare':
     dependencies:
-      '@idlebox/common':
-        specifier: 'workspace:'
-        version: link:../common
       '@idlebox/node':
         specifier: 'workspace:'
         version: link:../node
@@ -1085,6 +1100,9 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
+      '@idlebox/common':
+        specifier: 'workspace:'
+        version: link:../common
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1106,6 +1124,9 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@build-script/depcheck':
+        specifier: workspace:^
+        version: link:../../@build-script/depcheck
       '@build-script/esbuild-custom-writer':
         specifier: workspace:^
         version: link:../../@build-script/esbuild-custom-writer
@@ -1238,9 +1259,6 @@ importers:
       cjke-strings:
         specifier: workspace:^
         version: link:../../standalone/cjke
-      depcheck:
-        specifier: ^1.4.7
-        version: 1.4.7
       eslint:
         specifier: ^9.31.0
         version: 9.31.0
@@ -1307,12 +1325,12 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
+      '@idlebox/source-map-support':
+        specifier: workspace:^
+        version: link:../../@idlebox/source-map-support
       '@mpis/shared':
         specifier: workspace:^
         version: link:../shared
@@ -1326,6 +1344,9 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
+      '@idlebox/esbuild-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/esbuild-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1341,15 +1362,9 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
-      '@idlebox/node':
-        specifier: workspace:^
-        version: link:../../@idlebox/node
       '@mpis/client':
         specifier: workspace:^
         version: link:../client
-      execa:
-        specifier: ^9.6.0
-        version: 9.6.0
     devDependencies:
       '@build-script/single-dog-asset':
         specifier: workspace:^
@@ -1381,9 +1396,6 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
-      '@idlebox/json-edit':
-        specifier: workspace:^
-        version: link:../../@idlebox/json-edit
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
@@ -1399,9 +1411,6 @@ importers:
       '@rushstack/rig-package':
         specifier: ^0.5.3
         version: 0.5.3
-      execa:
-        specifier: ^9.6.0
-        version: 9.6.0
       split-cmd:
         specifier: ^1.1.0
         version: 1.1.0
@@ -1436,15 +1445,15 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
+      '@idlebox/source-map-support':
+        specifier: workspace:^
+        version: link:../../@idlebox/source-map-support
       execa:
         specifier: ^9.6.0
         version: 9.6.0
@@ -1455,6 +1464,9 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
+      '@idlebox/esbuild-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/esbuild-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1491,12 +1503,6 @@ importers:
       '@mpis/server':
         specifier: workspace:^
         version: link:../server
-      '@mpis/shared':
-        specifier: workspace:^
-        version: link:../shared
-      execa:
-        specifier: ^9.6.0
-        version: 9.6.0
       split-cmd:
         specifier: ^1.1.0
         version: 1.1.0
@@ -1522,9 +1528,6 @@ importers:
       '@idlebox/dependency-graph':
         specifier: workspace:^
         version: link:../../@idlebox/dependency-graph
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
@@ -1534,9 +1537,6 @@ importers:
       '@mpis/shared':
         specifier: workspace:^
         version: link:../shared
-      dependency-graph:
-        specifier: ^1.0.0
-        version: 1.0.0
       execa:
         specifier: ^9.6.0
         version: 9.6.0
@@ -1547,6 +1547,9 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
+      '@idlebox/esbuild-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/esbuild-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1608,9 +1611,9 @@ importers:
 
   standalone/7zip-bin-wrapper:
     dependencies:
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
+      7zip-bin:
+        specifier: ^5.2.0
+        version: 5.2.0
       iconv-lite:
         specifier: ^0.6.3
         version: 0.6.3
@@ -1618,9 +1621,6 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      7zip-bin:
-        specifier: ^5.2.0
-        version: 5.2.0
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
@@ -1639,9 +1639,6 @@ importers:
 
   standalone/cjke:
     dependencies:
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       ansi-regex:
         specifier: ^6.1.0
         version: 6.1.0
@@ -1655,6 +1652,9 @@ importers:
       '@build-script/single-dog-asset':
         specifier: workspace:^
         version: link:../../@build-script/single-dog-asset
+      '@idlebox/source-map-support':
+        specifier: workspace:^
+        version: link:../../@idlebox/source-map-support
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -2560,9 +2560,6 @@ packages:
     peerDependenciesMeta:
       ajv:
         optional: true
-
-  ajv-errors@3.0.0:
-    resolution: {integrity: sha512-V3wD15YHfHz6y0KdhYFjyy9vWtEVALT9UrxfN3zqlI6dMioHnJrqOYfyPKol3oqrnCM9uwkcdCwkJ0WUcbLMTQ==}
 
   ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
@@ -5104,8 +5101,6 @@ snapshots:
   ajv-draft-04@1.0.0(ajv@8.17.1):
     optionalDependencies:
       ajv: 8.17.1
-
-  ajv-errors@3.0.0: {}
 
   ajv-formats@3.0.1:
     dependencies:

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
-	await import('source-map-support/register.js');
+	await import('@idlebox/source-map-support/register.js');
 }
 
 Error.stackTraceLimit = Number.POSITIVE_INFINITY;

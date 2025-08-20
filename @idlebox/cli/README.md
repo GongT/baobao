@@ -11,7 +11,7 @@
 ### dynamic
 
 ```ts
-import { makeApplication, type ArgDefineMap } from '@idlebox/cli';
+import { makeApplication } from '@idlebox/cli';
 
 await makeApplication('some-cli', 'a tool for better life')
 	.dynamic(import.meta.dirname, 'commands/**/*.command.js');

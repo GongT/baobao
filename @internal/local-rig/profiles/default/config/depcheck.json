@@ -1,0 +1,5 @@
+{
+	"$schema": "../../../node_modules/@build-script/depcheck/depcheck.schema.json",
+	"excludeFiles": ["*.json", "*.ts", "**/test", "**/tests", "*.test.*", "*.devel.js", "*.generator.*"],
+	"ignoreDependencies": ["tslib", "@types/source-map-support"]
+}

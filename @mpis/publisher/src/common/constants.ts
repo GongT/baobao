@@ -4,7 +4,7 @@ import { prettyPrintError, registerGlobalLifecycle, toDisposable } from '@idlebo
 import { logger } from '@idlebox/logger';
 import { emptyDir, findUpUntilSync } from '@idlebox/node';
 import { rmSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname } from 'node:path';
 
 const wd = process.cwd();
 
@@ -25,7 +25,7 @@ export const isMonoRepo = !!findMonorepoRootSync(projectPath, gitDir);
 
 export const debugMode = argv.flag(['--debug', '-d']) > 0;
 
-export async function createTempFolder() {
+export async function recreateTempFolder() {
 	const tempFolder = `${projectPath}/.publisher`;
 	await emptyDir(tempFolder);
 
@@ -48,10 +48,8 @@ export async function createTempFolder() {
 		);
 	}
 	tempDir = tempFolder;
+
+	return tempFolder;
 }
 
 export let tempDir: string;
-
-export function getDecompressed() {
-	return resolve(tempDir, 'package');
-}

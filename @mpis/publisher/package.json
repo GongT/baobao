@@ -16,16 +16,17 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
+		"@build-script/monorepo-lib": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@build-script/monorepo-lib": "workspace:^",
 		"execa": "^9.6.0",
 		"tar": "^7.4.3"
 	},
 	"devDependencies": {
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

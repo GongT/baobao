@@ -26,14 +26,15 @@
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@mpis/shared": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
 		"execa": "^9.6.0",
 		"split2": "^4.2.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"

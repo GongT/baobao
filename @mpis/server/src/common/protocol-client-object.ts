@@ -75,7 +75,7 @@ export abstract class ProtocolClientObject {
 
 	protected emitSuccess(message: string, output?: string) {
 		if (this._onSuccess.hasDisposed) {
-			this.logger.warn`emitSuccess called after stop, ignoring`;
+			this.logger.debug`emitSuccess called after stop, ignoring`;
 			return;
 		}
 		this.last_event_message = message;

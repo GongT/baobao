@@ -24,10 +24,10 @@
 	"dependencies": {
 		"ansi-regex": "^6.1.0",
 		"emoji-regex": "^10.4.0",
-		"is-fullwidth-code-point": "^5.0.0",
-		"@idlebox/source-map-support": "workspace:^"
+		"is-fullwidth-code-point": "^5.0.0"
 	},
 	"devDependencies": {
+		"@idlebox/source-map-support": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

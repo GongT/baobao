@@ -28,7 +28,6 @@
 		"@idlebox/deepmerge": "workspace:^",
 		"@rushstack/rig-package": "^0.5.3",
 		"ajv": "^8.17.1",
-		"ajv-errors": "^3.0.0",
 		"import-meta-resolve": "^4.1.0"
 	},
 	"devDependencies": {

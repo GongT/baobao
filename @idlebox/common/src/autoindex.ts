@@ -148,6 +148,7 @@
 	export type { IDisposableEvents } from "./lifecycle/dispose/disposable.js";
 	export type { IDisposable } from "./lifecycle/dispose/disposable.js";
 	export type { IAsyncDisposable } from "./lifecycle/dispose/disposable.js";
+	export { AbstractEnhancedDisposable } from "./lifecycle/dispose/disposable.js";
 /* lifecycle/dispose/disposableEvent.ts */
 	// Identifiers
 	export { addAnyKindOfListener } from "./lifecycle/dispose/disposableEvent.js";

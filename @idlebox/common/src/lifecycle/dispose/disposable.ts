@@ -34,7 +34,6 @@ type _RType<Async extends boolean> = Async extends true ? Promise<void> : void;
 
 /**
  * 增强型Disposable
- * @internal
  */
 export abstract class AbstractEnhancedDisposable<Async extends boolean> implements IDisposableEvents {
 	protected readonly _onDisposeError = new Emitter<Error>();

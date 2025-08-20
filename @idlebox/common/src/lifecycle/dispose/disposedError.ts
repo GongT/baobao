@@ -46,8 +46,13 @@ export class DuplicateDisposed extends Error {
 
 	public async tryCreateConsoleWarning() {
 		console.error('DisposedWarning: duplicate dispose.');
-		console.error(' * first   dispose:\n ', isNodeJs ? prettyFormatError(this.previous, false) : this.previous);
-		console.error(' * current dispose:\n ', isNodeJs ? prettyFormatError(this, false) : this);
+		if (isNodeJs) {
+			console.error(' * first   dispose:\n%s', prettyFormatError(this.previous));
+			console.error(' * current dispose:\n%s', prettyFormatError(this));
+		} else {
+			console.error(' * first   dispose:%O', this.previous);
+			console.error(' * current dispose:%O', this);
+		}
 		console.error(' * Object: %s', this.inspectString);
 	}
 

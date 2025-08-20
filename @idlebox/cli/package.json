@@ -42,6 +42,9 @@
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"
 	},
+	"optionalDependencies": {
+		"@idlebox/cli-static-generator": "workspace:^"
+	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}

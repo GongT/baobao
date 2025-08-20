@@ -1,6 +1,6 @@
 import { createArgsReader } from '@idlebox/args';
 import { EnableLogLevel, logger } from '@idlebox/logger';
-import { findUpUntilSync } from '@idlebox/node';
+import { findUpUntilSync, shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
 
 export function printUsage() {
@@ -47,7 +47,8 @@ export async function parseArgs() {
 	} catch (e: any) {
 		printUsage();
 
-		throw logger.fatal(e.message);
+		logger.error(e.message);
+		shutdown(1);
 	}
 }
 async function _parseArgs(): Promise<ICliArgs> {
@@ -86,7 +87,8 @@ async function _parseArgs(): Promise<ICliArgs> {
 	}
 
 	if (absoluteImport && absoluteImport[0] !== '#') {
-		throw logger.fatal(`绝对导入路径必须以'#'开头: ${absoluteImport}`);
+		logger.error`绝对导入路径必须以'#'开头: long<${absoluteImport}>`;
+		shutdown(1);
 	}
 
 	if (stripTags.length === 0) {

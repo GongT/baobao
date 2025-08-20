@@ -114,7 +114,7 @@ export class CliApplicationHelp {
 			throw new Error(`Command '${command}' is already registered.`);
 		}
 		this.commands.set(command, cdef);
-		this.registerCommonArgs(cdef.commonArgs);
+		if (cdef.commonArgs) this.registerCommonArgs(cdef.commonArgs);
 	}
 
 	registerCommands(cdef: Record<string, ICommandDefine>) {

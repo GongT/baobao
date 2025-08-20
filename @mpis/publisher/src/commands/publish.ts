@@ -5,9 +5,9 @@ import { argv } from '@idlebox/args/default';
 import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
-import { getDecompressed, repoRoot, tempDir } from '../common/constants.js';
+import { recreateTempFolder, repoRoot, tempDir } from '../common/constants.js';
 import { execPnpmUser } from '../common/exec.js';
-import { makeTempPackage, reconfigurePackageJson } from '../common/shared-steps.js';
+import { buildPackageTarball, extractPackage, reconfigurePackageJson } from '../common/shared-steps.js';
 
 const publishArgs: string[] = [];
 
@@ -39,13 +39,18 @@ if (argv.single(['--registry'])) {
 if (argv.unused().length > 0) {
 	throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
 }
+// prepare
+await recreateTempFolder();
 
-await makeTempPackage();
-reconfigurePackageJson('publish');
+// 运行build、打包
+await buildPackageTarball();
 
-const tempPackagePath = getDecompressed();
+// 解压缩到一个临时文件夹，其中解压缩步骤会运行hook
+const extractDir = await extractPackage('publish-working-directory');
 
-// TODO .npmrc
+// 简单清理
+reconfigurePackageJson(extractDir);
+
 const workspaceFile = resolve(repoRoot, 'pnpm-workspace.yaml');
 await applyPublishWorkspace({
 	isPublish: true,
@@ -54,7 +59,7 @@ await applyPublishWorkspace({
 });
 
 logger.success`🚀 准备完毕，即将向npm registry发送实际请求！`;
-await execPnpmUser(tempPackagePath, ['publish', ...publishArgs]);
+await execPnpmUser(extractDir, ['publish', ...publishArgs]);
 
 logger.success`✅ 发布成功！`;
 shutdown(0);

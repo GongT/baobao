@@ -20,9 +20,7 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@mpis/client": "workspace:^",
-		"execa": "^9.6.0"
+		"@mpis/client": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

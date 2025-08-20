@@ -1,15 +1,33 @@
 {
-	"$schema": "../node_modules/@mpis/run/commands.schema.json",
+	"$schema": "../../../node_modules/@mpis/run/commands.schema.json",
 	"commands": {
 		"autoindex": {
-			"command": ["autoindex", "--config"]
+			"command": {
+				"package": "@build-script/autoindex",
+				"binary": "autoindex",
+				"arguments": ["--config"]
+			}
 		},
 
 		/**
 		 *
 		 */
 		"codegen": {
-			"command": ["codegen", "src"]
+			"command": {
+				"package": "@build-script/codegen",
+				"binary": "codegen",
+				"arguments": ["src"]
+			}
+		},
+
+		/**
+		 *
+		 */
+		"depcheck": {
+			"command": {
+				"package": "@build-script/depcheck",
+				"binary": "depcheck"
+			}
 		},
 
 		/**

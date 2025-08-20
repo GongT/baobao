@@ -21,22 +21,26 @@ interface MyOptions extends Options {
 }
 
 class OutputHandler extends Writable {
-	private _output: Buffer = Buffer.allocUnsafe(0);
+	private _output = '';
 
-	override _write(chunk: Buffer, _encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
-		this._output = Buffer.concat([this._output, chunk]);
+	constructor() {
+		super({ defaultEncoding: 'utf-8' });
+	}
+
+	override _write(chunk: Buffer | string, _encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
+		this._output += chunk.toString('utf-8');
 		callback();
 	}
 
 	clear() {
-		this._output = Buffer.allocUnsafe(0);
+		this._output = '';
 	}
 
 	/**
 	 * 这个输出只用于异常时显示，普通编译错误在onFailure中处理
 	 */
 	override toString() {
-		return this._output.toString('utf-8');
+		return this._output.toString();
 	}
 }
 
@@ -114,6 +118,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				this.emitStart();
 				break;
 			case BuildEvent.Success:
+				this.outputStream.clear();
 				this.emitSuccess(message.message, message.output);
 				break;
 			case BuildEvent.Failed:
@@ -177,7 +182,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			const process = await this.process;
 
 			if (this.hasDisposed) {
-				this.logger.warn`(after dispose) process quit with code ${process.exitCode}`;
+				this.logger.debug`(after dispose) process quit with code ${process.exitCode}`;
 				return;
 			}
 

@@ -1,5 +1,5 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { AsyncDisposable, Emitter, isWindows, PathArray } from '@idlebox/common';
+import { AsyncDisposable, Disposed, Emitter, isWindows, PathArray } from '@idlebox/common';
 import { CSI, logger, type IMyLogger } from '@idlebox/logger';
 import { getEnvironment, workingDirectory } from '@idlebox/node';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
@@ -117,7 +117,15 @@ class PnpmMonoRepo extends AsyncDisposable {
 			this._onStateChange.fireNoError();
 		});
 		exec.onTerminate(() => {
-			this._onStateChange.fireNoError();
+			try {
+				this._onStateChange.fireNoError();
+			} catch (e) {
+				if (e instanceof Disposed) {
+					// 不知道这里是不是真的需要触发 onStateChange
+					return;
+				}
+				throw e;
+			}
 		});
 
 		this.packageToWorker.set(project, exec);
@@ -146,10 +154,10 @@ class PnpmMonoRepo extends AsyncDisposable {
 		for (const [project, text] of this.errorMessages.entries()) {
 			const block = text.replace(/^\s*\n/, '').trimEnd();
 			const exec = this.packageToWorker.get(project)!;
-			output += buildLine(`[@mpis/monorepo] below is output in project ${project.packageJson.name}: ${exec.commandline.join(' ')}`);
+			output += buildLine(`[@mpis/monorepo] below is output in project ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m: ${exec.commandline.join(' ')}`);
 			output += workingDirectory.escapeVscodeCwd(project.absolute);
-			output += `\n${block}\n`.replace('\x1bc', '').replace(/^/gm, `${CSI}${barC}m ${CSI}0m `);
-			output += buildLine(`[@mpis/monorepo] ending output in project ${project.packageJson.name}`);
+			output += `\nwd: ${project.absolute}\n${block}\n`.replace('\x1bc', '').replace(/^/gm, `${CSI}${barC}m ${CSI}0m `);
+			output += buildLine(`[@mpis/monorepo] ending output in project ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m`);
 		}
 		if (output) {
 			output += workingDirectory.escapeVscodeCwd(process.cwd());

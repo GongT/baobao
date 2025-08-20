@@ -27,9 +27,7 @@
 		"@idlebox/node": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"@mpis/server": "workspace:^",
-		"@mpis/shared": "workspace:^",
 		"split-cmd": "^1.1.0",
-		"execa": "^9.6.0",
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {

@@ -21,9 +21,7 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"dependencies": {
-		"cjke-strings": "workspace:^"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",

@@ -82,6 +82,7 @@
 	// Identifiers
 	export { setExitCodeIfNot } from "./lifecycle/register.js";
 	export { shutdown } from "./lifecycle/register.js";
+	export { isShuttingDown } from "./lifecycle/register.js";
 	export { registerNodejsGlobalTypedErrorHandlerWithInheritance } from "./lifecycle/register.js";
 	export { registerNodejsGlobalTypedErrorHandler } from "./lifecycle/register.js";
 	export { registerNodejsExitHandler } from "./lifecycle/register.js";

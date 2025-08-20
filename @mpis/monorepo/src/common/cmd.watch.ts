@@ -1,7 +1,7 @@
 import { argv } from '@idlebox/args/default';
-import { prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
+import { InterruptError, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { shutdown } from '@idlebox/node';
+import { registerNodejsGlobalTypedErrorHandlerWithInheritance, shutdown } from '@idlebox/node';
 import { debugMode } from './args.js';
 import { startUi } from './user-interactive.js';
 import { createMonorepoObject } from './workspace.js';
@@ -18,6 +18,10 @@ export async function runWatch() {
 	registerGlobalLifecycle(repo);
 
 	startUi(repo);
+
+	registerNodejsGlobalTypedErrorHandlerWithInheritance(InterruptError, () => {
+		shutdown(0);
+	});
 
 	process.on('SIGPIPE', () => {
 		if (cls) process.stderr.write('\x1Bc');

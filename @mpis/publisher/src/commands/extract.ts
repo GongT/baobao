@@ -2,30 +2,37 @@ import { argv } from '@idlebox/args/default';
 import { logger } from '@idlebox/logger';
 import { emptyDir, shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
-import { getDecompressed, repoRoot, tempDir } from '../common/constants.js';
+import { recreateTempFolder, repoRoot, tempDir } from '../common/constants.js';
 import { execPnpmMute } from '../common/exec.js';
-import { makeTempPackage, reconfigurePackageJson } from '../common/shared-steps.js';
+import { buildPackageTarball, extractPackage, getCurrentProject, reconfigurePackageJson } from '../common/shared-steps.js';
 import { decompressTarGz } from '../common/tar.js';
 
 if (argv.unused().length > 0) {
 	throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
 }
 
-await makeTempPackage();
+// prepare
+await recreateTempFolder();
+const pkgJson = getCurrentProject();
 
-const pkgJson = reconfigurePackageJson('pack');
+// 运行build、打包
+await buildPackageTarball();
 
-const resultDirectory = resolve(repoRoot, '.publisher', pkgJson.name);
-await emptyDir(resultDirectory);
+// 解压缩到一个临时文件夹，其中解压缩步骤会运行hook
+const hookDir = await extractPackage('hook-working-directory');
 
-const tempPackagePath = getDecompressed();
-const tgzFile = resolve(tempDir, 'package.tgz');
-await execPnpmMute(tempPackagePath, ['--silent', 'pack', '--out', tgzFile]);
+// 简单清理
+reconfigurePackageJson(hookDir);
 
+// 重新运行pnpm pack
+const tgzFile = resolve(tempDir, 'will-publish-package.tgz');
+await execPnpmMute(hookDir, ['pack', '--out', tgzFile]);
 logger.debug`已重新打包为 relative<${tgzFile}>`;
 
+// 执行解压
+const resultDirectory = resolve(repoRoot, '.publisher', pkgJson.name);
+await emptyDir(resultDirectory);
 await decompressTarGz(tgzFile, resultDirectory);
-
-logger.log`已解压到 relative<${resultDirectory}>`;
+logger.success`已解压到 relative<${resultDirectory}>`;
 
 shutdown(0);

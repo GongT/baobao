@@ -3,6 +3,7 @@ import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { resolve } from 'node:path';
 import { currentProject } from './constants.js';
+import { execa } from 'execa';
 
 export let packageJson: IPackageJson;
 let exports: IFullExportsField;
@@ -29,7 +30,7 @@ export async function writeBack() {
 		// return;
 	}
 	const currentPackagePath = resolve(currentProject, 'package.json');
-	logger.success`写入到 long<${currentPackagePath}>`;
+	logger.log`写入到 relative<${currentPackagePath}>`;
 }
 
 export function getExportsField() {

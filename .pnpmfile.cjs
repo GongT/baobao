@@ -2,7 +2,7 @@ const { resolve, basename } = require('node:path');
 const { readFileSync } = require('node:fs');
 const { spawnSync } = require('node:child_process');
 
-const PROJECT_ROOT = resolve(__dirname, '../../..');
+// const PROJECT_ROOT = resolve(__dirname, '../../..');
 const myProjects = new Set();
 const knownTypesVersion = {};
 
@@ -53,12 +53,6 @@ function readPackage(packageJson, context) {
 
 	if (packageJson.name === '@internal/local-rig') {
 		addEverythingToDependency(packageJson);
-	}
-
-	const v = packageJson.dependencies?.['@gongt/fix-esm'];
-	if (v && !v.startsWith('workspace:')) {
-		console.error('replace fix-esm version from %s to local file', v);
-		packageJson.dependencies['@gongt/fix-esm'] = resolve(PROJECT_ROOT, '@gongt/fix-esm');
 	}
 
 	if (myProjects.has(packageJson.name)) return packageJson;

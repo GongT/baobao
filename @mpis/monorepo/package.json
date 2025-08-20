@@ -22,12 +22,10 @@
 		"@build-script/monorepo-lib": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@mpis/server": "workspace:^",
 		"@rushstack/rig-package": "^0.5.3",
-		"execa": "^9.6.0",
 		"@idlebox/source-map-support": "workspace:^",
 		"split-cmd": "^1.1.0"
 	},

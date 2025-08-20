@@ -17,7 +17,7 @@ export interface __CancellationToken {
 	onCancellationRequested(callback: EventHandler<void>): IDisposable;
 }
 
-/** @internal */
+/** @private */
 export interface CancellationDriver extends IDisposable {
 	readonly token: CancellationToken;
 	cancel(): void;

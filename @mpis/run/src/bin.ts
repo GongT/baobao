@@ -1,4 +1,4 @@
-import { humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
+import { functionToDisposable, humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
@@ -18,7 +18,7 @@ let execute_index = 0;
 const start = Date.now();
 registerGlobalLifecycle(
 	toDisposable(() => {
-		logger.info`Operation completed in ${humanDate.delta(Date.now() - start)} (${process.exitCode ? 'failed' : 'success'}).`;
+		logger.info`Operation completed in ${humanDate.delta(Date.now() - start)} (${process.exitCode !== 0 ? 'failed' : 'success'}).`;
 	}),
 );
 
@@ -78,6 +78,7 @@ switch (context.command) {
 // channelClient.displayName = `MpisRun`;
 
 async function executeBuild() {
+	let shuttingDown = false;
 	workersManager = new WorkersManager(context.watchMode ? ModeKind.Watch : ModeKind.Build);
 
 	initializeWorkers();
@@ -93,7 +94,7 @@ async function executeBuild() {
 
 		const times = `(+${humanDate.delta(w.time.executeStart!, w.time.executeEnd!)})`;
 
-		if (context.watchMode) {
+		if (context.watchMode && !shuttingDown) {
 			printFailedRunError(w, `unexpected exit in watch mode ${times}`);
 		} else if (!w.isSuccess) {
 			printFailedRunError(w, `failed to execute ${times}`);
@@ -118,6 +119,12 @@ async function executeBuild() {
 	await graph.startup();
 
 	logger.verbose`Startup returned.`;
+
+	registerGlobalLifecycle(
+		functionToDisposable(() => {
+			shuttingDown = true;
+		}),
+	);
 
 	reprintWatchModeError();
 }

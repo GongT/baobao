@@ -33,5 +33,3 @@
 /* stringWidth.ts */
 	// Identifiers
 	export { stringWidth } from "./stringWidth.js";
-/* test.ts */
-	// Identifiers

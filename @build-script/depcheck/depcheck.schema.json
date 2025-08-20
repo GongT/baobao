@@ -1,0 +1,32 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"title": "依赖检查选项",
+	"description": "此schema描述了使用 @build-script/depcheck 时可以在 config/depcheck.json 中配置的选项。",
+	"type": "object",
+
+	"additionalProperties": false,
+	"allowTrailingCommas": true,
+
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"excludeFiles": {
+			"description": "要排除的文件（pattern），例如: *.test.js",
+			"type": "array",
+			"items": { "type": "string" },
+			"default": ["*.json", "**/test", "**/tests", "*.test.*"]
+		},
+		"ignoreDependencies": {
+			"description": "要忽略的依赖名称，这些依赖的所有问题都会被忽略，默认: tslib",
+			"type": "array",
+			"items": { "type": "string" },
+			"default": ["tslib"]
+		},
+		"ignoreBinPackage": {
+			"description": "忽略具有 bin 入口的包，默认为false",
+			"type": "boolean",
+			"default": false
+		}
+	}
+}

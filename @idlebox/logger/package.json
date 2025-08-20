@@ -24,7 +24,6 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"@idlebox/node": "workspace:^",
 		"debug": "^4.4.1"
 	},
 	"devDependencies": {

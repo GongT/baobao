@@ -49,6 +49,14 @@ export function deleteDevelopmentFields() {
 		logger.debug`删除 publishConfig.packCommand`;
 		delete packageJson.publishConfig.packCommand;
 	}
+
+	// function removeDevDependency(name: string) {
+	// 	if (packageJson.devDependencies?.[name]) {
+	// 		logger.debug`删除 devDependencies.${name}`;
+	// 		delete packageJson.devDependencies[name];
+	// 	}
+	// }
+	packageJson.devDependencies = {};
 }
 
 /**
@@ -143,6 +151,6 @@ export function writeNpmFiles() {
 	const ignoreSource = resolve(sdaPath, 'package/npmignore');
 	const ignoreDist = resolve(currentProject, '.npmignore');
 
-	logger.debug`将 ${ignoreSource} 复制到 long<${ignoreDist}>`;
+	logger.log`将 relative<${ignoreSource}> 复制到 relative<${ignoreDist}>`;
 	cpSync(ignoreSource, ignoreDist);
 }

@@ -164,14 +164,20 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			commons = commonArgs;
 			return this;
 		},
-		async simple(command: ICommandDefine) {
-			if (command.commonArgs) this.withCommon(command.commonArgs);
-
+		async simple(command: Omit<ICommandDefine, 'description' | 'commonArgs' | 'isHidden'>, main: (args: ArgumentTypings.IArgsReaderApi) => Promise<void>) {
 			if (info.showHelp) {
-				this.getHelper();
-			} else {
+				const help = await this.getHelper();
+				console.error(help.help());
+				shutdown(0);
 			}
-			throw new NotImplementedError('simple');
+
+			consumeCommandArguments(command);
+
+			const result = await main(argv);
+
+			if (result !== undefined) {
+				logger.warn`main function retrun type is not void`;
+			}
 		},
 		async static(imports: Record<string, string>, helps: readonly ICommandDefineWithCommand[]) {
 			commands = helps;
@@ -282,7 +288,7 @@ function consumeArguments(defines: IArgDefineMap) {
 	}
 }
 
-function consumeCommandArguments(command?: ICommandDefine) {
+function consumeCommandArguments(command?: Pick<ICommandDefine, 'args' | 'commonArgs' | 'positional'>) {
 	if (!command) {
 		throw new UsageError(`program defect: command must not empty not`);
 	}

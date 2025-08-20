@@ -19,8 +19,7 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^"
+		"@idlebox/common": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",

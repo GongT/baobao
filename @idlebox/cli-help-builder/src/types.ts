@@ -20,7 +20,7 @@ export interface ICommandDefine {
 	/**
 	 * 通用命令行参数
 	 */
-	readonly commonArgs: Readonly<IArgDefineMap>;
+	readonly commonArgs?: Readonly<IArgDefineMap>;
 	/**
 	 * 是否有位置参数（默认false）
 	 */
