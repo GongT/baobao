@@ -3,7 +3,6 @@ import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { resolve } from 'node:path';
 import { currentProject } from './constants.js';
-import { execa } from 'execa';
 
 export let packageJson: IPackageJson;
 let exports: IFullExportsField;

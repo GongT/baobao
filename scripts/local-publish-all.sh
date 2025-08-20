@@ -4,6 +4,7 @@ shopt -s inherit_errexit extglob nullglob globstar lastpipe shift_verbose
 
 cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/.."
 
+mkdir -p .publisher
 cat <<-EOF >.publisher/pnpm-workspace.yaml
 	packages:
 	  - '*/package'
