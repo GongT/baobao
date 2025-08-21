@@ -9,6 +9,7 @@ echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
 
 mapfile -t packages < <(find . -name '*.tgz')
 for pkg in "${packages[@]}"; do
-	echo "Publishing $pkg..."
+	echo "::group::Publishing $pkg..."
 	pnpm publish "$pkg"
+	echo "::endgroup::"
 done

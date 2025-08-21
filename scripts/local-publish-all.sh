@@ -5,25 +5,6 @@ shopt -s inherit_errexit extglob nullglob globstar lastpipe shift_verbose
 cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/.."
 
 mkdir -p .publisher
-cat <<-EOF >.publisher/pnpm-workspace.yaml
-	packages:
-	  - '*/package'
-	  - '*/*/package'
-
-	enablePrePostScripts: false
-	hoistWorkspacePackages: true
-
-	onlyBuiltDependencies:
-	  - '@biomejs/biome'
-	  - esbuild
-
-	autoInstallPeers: false
-	nodeOptions: ''
-
-	hoist: false
-	hoistPattern:
-	  - ""
-EOF
 
 print_list() {
 	local C
@@ -52,9 +33,11 @@ run_in() {
 	"${EXEC[@]}"
 }
 
-mapfile -t DIRS < <(node @build-script/package-tools/load.js monorepo-list)
+mapfile -t DIRS < <(node @build-script/package-tools/load.js monorepo-list --relative)
 for DIR in "${DIRS[@]}"; do
 	run_in "${DIR}"
 done
 
-pnpm -C .publisher install --prefer-frozen-lockfile --prefer-offline
+print_list "${RUNNED[@]}"
+
+bash scripts/local-repo-install.sh
