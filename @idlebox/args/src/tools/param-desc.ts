@@ -1,4 +1,4 @@
-import type { ParamDefineCommand, ParamDefineFlag, ParamDefinePosition, ParameterDefinition } from '../types.js';
+import type { IParamDefineCommand, IParamDefineFlag, IParamDefinePosition, IParameterDefinition } from '../types.js';
 import { flagReg } from './tokenize.js';
 
 export type IParamDescFlag = {
@@ -19,22 +19,22 @@ export type IParamDescCmd = {
 };
 export type IParamDesc = IParamDescFlag | IParamDescRange | IParamDescCmd;
 
-function isNumberArray(definition: ParameterDefinition): definition is ParamDefinePosition {
+function isNumberArray(definition: IParameterDefinition): definition is IParamDefinePosition {
 	return Array.isArray(definition) && typeof definition[0] === 'number';
 }
 
-function isCommandDefine(definition: ParameterDefinition): definition is ParamDefineCommand {
+function isCommandDefine(definition: IParameterDefinition): definition is IParamDefineCommand {
 	return typeof definition === 'object' && 'level' in definition && 'commands' in definition;
 }
 
-export function normalizeParameterDescriptionRange(definition: ParameterDefinition): IParamDescRange {
+export function normalizeParameterDescriptionRange(definition: IParameterDefinition): IParamDescRange {
 	const r = normalizeParameterDescription(definition);
 	if (!isRange(r)) {
 		throw new TypeError(`expected range, but got: ${r.id}`);
 	}
 	return r;
 }
-export function normalizeParameterDescriptionFlag(definition: ParameterDefinition): IParamDescFlag {
+export function normalizeParameterDescriptionFlag(definition: IParameterDefinition): IParamDescFlag {
 	const r = normalizeParameterDescription(definition);
 	if (!isFlags(r)) {
 		throw new TypeError(`expected flags, but got: ${r.id}`);
@@ -42,11 +42,11 @@ export function normalizeParameterDescriptionFlag(definition: ParameterDefinitio
 	return r;
 }
 
-export function normalizeParameterDescription(definition: ParamDefineCommand): IParamDescCmd;
-export function normalizeParameterDescription(definition: ParamDefinePosition): IParamDescRange;
-export function normalizeParameterDescription(definition: ParamDefineFlag): IParamDescFlag;
-export function normalizeParameterDescription(definition: ParameterDefinition): IParamDesc;
-export function normalizeParameterDescription(definition: ParameterDefinition): IParamDesc {
+export function normalizeParameterDescription(definition: IParamDefineCommand): IParamDescCmd;
+export function normalizeParameterDescription(definition: IParamDefinePosition): IParamDescRange;
+export function normalizeParameterDescription(definition: IParamDefineFlag): IParamDescFlag;
+export function normalizeParameterDescription(definition: IParameterDefinition): IParamDesc;
+export function normalizeParameterDescription(definition: IParameterDefinition): IParamDesc {
 	if (isCommandDefine(definition)) {
 		if (definition.commands.length === 0 || definition.level < 1) {
 			throw new TypeError(`command definition must have at least one command and level must be >= 1`);

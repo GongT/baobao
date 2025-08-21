@@ -22,15 +22,19 @@ cat <<-EOF >pnpm-workspace.yaml
 	autoInstallPeers: false
 	nodeOptions: ''
 
-	hoist: false
-	hoistPattern:
-	  - ""
+	hoist: true
 
 	overrides:
 EOF
 for DIR in "${DIRS[@]}"; do
 	NAME=$(jq -rM '.name' "${DIR}/package.json")
 	echo "  '${NAME}': '${DIR}'" >>pnpm-workspace.yaml
+done
+
+echo "publicHoistPattern:" >>pnpm-workspace.yaml
+mapfile -t ALL_DEPS < <(pnpm ls -r --depth 0 --json | jq -r '.[].dependencies | select(.) | keys | .[]' | sort | uniq)
+for DEP in "${ALL_DEPS[@]}"; do
+	echo "  - '${DEP}'" >>pnpm-workspace.yaml
 done
 
 pnpm install --prefer-frozen-lockfile --prefer-offline

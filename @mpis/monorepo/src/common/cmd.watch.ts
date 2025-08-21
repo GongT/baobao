@@ -44,7 +44,7 @@ export async function runWatch() {
 			if (cls && !repo.hasDisposed) process.stderr.write('\x1Bc');
 			repo.printScreen();
 		}
-		prettyPrintError('watch mode error', e);
+		prettyPrintError('监视模式下有进程退出', e);
 		shutdown(1);
 	}
 

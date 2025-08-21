@@ -1,15 +1,18 @@
 import { mapSourcePosition } from '@idlebox/source-map-support';
 
-export { ArgumentError, ArgumentTypings } from '@idlebox/args';
+export { ArgumentError, createArgsReader, type IArgsReaderApi } from '@idlebox/args';
+
 export { argv } from '@idlebox/args/default';
+
 export {
 	CliApplicationHelp,
 	CommandDefine,
-	type IArgDefine as ArgDefine,
-	type IArgDefineMap as ArgDefineMap,
+	type IArgDefine,
+	type IArgDefineMap,
 	type ICommandDefine,
 	type ICommandDefineWithCommand,
 } from '@idlebox/cli-help-builder';
+
 export {
 	createDebug,
 	createLogger,

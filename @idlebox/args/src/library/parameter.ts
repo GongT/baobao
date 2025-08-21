@@ -1,8 +1,9 @@
 import type { InspectOptions } from 'node:util';
+import { ParamKind } from '../constants.js';
 import { die } from '../tools/assert.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
 import { isFlags, isRange, type IParamDesc } from '../tools/param-desc.js';
-import { ParamKind, type IParameter, type ParameterDefinition } from '../types.js';
+import type { IParameter, IParameterDefinition } from '../types.js';
 import { Conflict, StackTrace } from './errors.js';
 import type { TToken } from './token.js';
 
@@ -21,7 +22,7 @@ export class Parameter implements IParameter {
 		return this._definition.id;
 	}
 
-	get definition(): ParameterDefinition {
+	get definition(): IParameterDefinition {
 		if (isFlags(this._definition)) {
 			return this._definition.flags;
 		} else if (isRange(this._definition)) {

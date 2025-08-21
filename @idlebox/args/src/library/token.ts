@@ -1,7 +1,8 @@
 import type { InspectOptions } from 'node:util';
+import { TokenKind } from '../constants.js';
 import { die } from '../tools/assert.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
-import { type IValue, TokenKind, type IFlag, type IFlagValue, type IToken } from '../types.js';
+import type { IFlag, IFlagValue, IToken, IValue } from '../types.js';
 import type { Parameter } from './parameter.js';
 import type { ApplicationArguments } from './reader.app.js';
 
@@ -21,7 +22,15 @@ type MShared = Omit<IShared, 'kind'>;
 type NS<T> = Omit<T, keyof IShared>;
 
 type TAnyToken = FlagToken | ValueToken | BothToken | DoubleDashToken;
-export type TToken<Kind extends TokenKind | unknown = unknown> = Kind extends TokenKind.Flag ? FlagToken : Kind extends TokenKind.Value ? ValueToken : Kind extends TokenKind.Both ? BothToken : Kind extends TokenKind.DoubleDash ? DoubleDashToken : TAnyToken;
+export type TToken<Kind extends TokenKind | unknown = unknown> = Kind extends TokenKind.Flag
+	? FlagToken
+	: Kind extends TokenKind.Value
+		? ValueToken
+		: Kind extends TokenKind.Both
+			? BothToken
+			: Kind extends TokenKind.DoubleDash
+				? DoubleDashToken
+				: TAnyToken;
 
 abstract class BaseToken<T extends TokenKind = TokenKind> implements IShared {
 	public abstract readonly kind: T;

@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { split as splitCmd } from 'split-cmd';
+import { context } from './args.js';
 import { projectRoot, selfRoot } from './paths.js';
 
 interface IPackageBinary {
@@ -54,7 +55,7 @@ function watchModeCmd(command: string | readonly string[], watch?: string | read
 	return [...cmdArr, ...watch];
 }
 
-export function loadConfigFile(watchMode: boolean): IConfigFile {
+ function loadConfigFile(watchMode: boolean): IConfigFile {
 	const config = new ProjectConfig(projectRoot, undefined, logger);
 	const schemaFile = resolve(selfRoot, 'commands.schema.json');
 
@@ -236,3 +237,6 @@ function resolveCommandIsFile(config: ProjectConfig, command: string[]) {
 
 	command.splice(0, 1, process.execPath, r.effective);
 }
+
+export const config = loadConfigFile(context.watchMode);
+logger.verbose`loaded config file: ${config}`;

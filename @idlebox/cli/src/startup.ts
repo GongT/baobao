@@ -1,4 +1,4 @@
-import type { ArgumentTypings } from '@idlebox/args';
+import type { IArgsReaderApi, ISubArgsReaderApi } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import { CliApplicationHelp, type CommandDefine, type IArgDefineMap, type ICommandDefine, type ICommandDefineWithCommand } from '@idlebox/cli-help-builder';
 import { humanDate, NotImplementedError, registerGlobalLifecycle, SoftwareDefectError, toDisposable, UsageError, type IPackageJson } from '@idlebox/common';
@@ -164,7 +164,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			commons = commonArgs;
 			return this;
 		},
-		async simple(command: Omit<ICommandDefine, 'description' | 'commonArgs' | 'isHidden'>, main: (args: ArgumentTypings.IArgsReaderApi) => Promise<void>) {
+		async simple(command: Omit<ICommandDefine, 'description' | 'commonArgs' | 'isHidden'>, main: (args: IArgsReaderApi) => Promise<void>) {
 			if (info.showHelp) {
 				const help = await this.getHelper();
 				console.error(help.help());
@@ -249,7 +249,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 	};
 }
 
-async function execMain(file: string, subcmd: ArgumentTypings.ISubArgsReaderApi) {
+async function execMain(file: string, subcmd: ISubArgsReaderApi) {
 	logger.verbose`executing js file: ${mapSourceFile(file)}`;
 	const { main } = await import(file);
 	if (typeof main !== 'function') {

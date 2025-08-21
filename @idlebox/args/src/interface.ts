@@ -11,9 +11,14 @@ export function createArgsReader(argv: IArgumentList): IArgsReaderApi {
 	return new ApplicationArguments(argv);
 }
 
+export * from './constants.js';
 export * as ArgumentError from './library/errors.js';
 export { printTwoColumn } from './tools/table.js';
-export * as ArgumentTypings from './types.js';
+export type {
+	IArgsReaderApi,
+	IParameterDefinition,
+	ISubArgsReaderApi,
+} from './types.js';
 
 export function tokenize(argv: IArgumentList): IToken[] {
 	return _tokenize(argv).map((e) => e.valueOf());

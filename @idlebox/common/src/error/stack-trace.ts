@@ -1,6 +1,7 @@
 export interface StackTraceHolder {
 	readonly message: string;
 	readonly stack: string;
+	readonly stackOnly: string;
 	name: string;
 	toString(): string;
 }
@@ -37,6 +38,11 @@ class StackTraceHoldObject {
 
 	get stack() {
 		return this.holder.stack;
+	}
+
+	get stackOnly() {
+		const s: string = this.holder.stack;
+		return s.slice(s.indexOf('\n') + 1);
 	}
 }
 

@@ -2,7 +2,16 @@ import { createRootLogger, logger } from '@idlebox/logger';
 import { resolve } from 'node:path';
 import { currentProject } from './common/constants.js';
 import { readPackageJson, writeBack } from './common/package-json.js';
-import { deleteDevelopmentFields, ensureExportsPackageJson, makeInformationalFields, mirrorExportsAndMain, removeExportsTypes, removeLoaderFromExportsAndBin, writeNpmFiles } from './common/steps.js';
+import {
+	deleteDevelopmentFields,
+	ensureExportsPackageJson,
+	makeInformationalFields,
+	mirrorExportsAndMain,
+	removeExportsTypes,
+	removeLoaderFromExportsAndBin,
+	rewriteTsconfig,
+	writeNpmFiles,
+} from './common/steps.js';
 
 createRootLogger('prepublish-hook');
 logger.log`这是预发布钩子`;
@@ -22,5 +31,7 @@ deleteDevelopmentFields();
 
 await writeBack();
 writeNpmFiles();
+
+await rewriteTsconfig();
 
 logger.log`预发布钩子结束了`;

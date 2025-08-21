@@ -5,7 +5,7 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"types": ["node"],
-		"noEmitOnError": false
+		"noEmitOnError": false,
 	},
-	"exclude": ["**/*.generator.ts"]
+	"exclude": ["**/*.generator.ts"],
 }

@@ -1,5 +1,5 @@
+import { TokenKind } from '../constants.js';
 import type { IParamDescFlag } from '../tools/param-desc.js';
-import { TokenKind } from '../types.js';
 import { Unexpected } from './errors.js';
 import type { BothToken, DoubleDashToken, FlagToken, TToken, ValueToken } from './token.js';
 

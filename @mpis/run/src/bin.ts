@@ -1,26 +1,19 @@
-import { functionToDisposable, humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
+import { functionToDisposable, humanDate, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
-import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
+import { ProcessIPCClient } from '@mpis/server';
 import { rmSync } from 'node:fs';
 import { dumpConfig } from './commands/config.js';
-import { context, parseCliArgs } from './common/args.js';
-import { loadConfigFile } from './common/config-file.js';
+import { context } from './common/args.js';
+import { config } from './common/config-file.js';
+import { addBreakModeDebugCommands } from './common/interactive.js';
+import { initializeWorkers, workersManager } from './common/manager.js';
 import { projectRoot } from './common/paths.js';
+import { reprintWatchModeError } from './common/print-screen.js';
 import { initializeStdin, registerCommand } from './common/stdin.js';
 
 registerNodejsExitHandler();
-
-parseCliArgs();
-
-let execute_index = 0;
-const start = Date.now();
-registerGlobalLifecycle(
-	toDisposable(() => {
-		logger.info`Operation completed in ${humanDate.delta(Date.now() - start)} (${process.exitCode !== 0 ? 'failed' : 'success'}).`;
-	}),
-);
 
 registerCommand({
 	name: ['status', 's'],
@@ -31,13 +24,6 @@ registerCommand({
 process.title = `MpisRun`;
 
 logger.info`Running command "${context.command}" in ${projectRoot}`;
-
-const defaultNoClear = logger.debug.isEnabled || !process.stderr.isTTY;
-let workersManager: WorkersManager;
-
-const config = loadConfigFile(context.watchMode);
-logger.verbose`loaded config file: ${config}`;
-const errors = new Map<ProcessIPCClient, Error | null>();
 
 switch (context.command) {
 	case 'clean':
@@ -57,7 +43,7 @@ switch (context.command) {
 				logger.debug`build completed.`;
 				setExitCodeIfNot(0);
 			} catch (e: any) {
-				logger.error`failed ${context.command} project: ${e.message}`;
+				prettyPrintError(`failed ${context.command} project`, e);
 				shutdown(1);
 			}
 		}
@@ -69,17 +55,14 @@ switch (context.command) {
 		}
 		initializeStdin();
 		await executeBuild().catch((e: Error) => {
-			logger.error`failed ${context.command} project: ${e.message}`;
+			prettyPrintError(`failed ${context.command} project`, e);
 			shutdown(1);
 		});
 		break;
 }
 
-// channelClient.displayName = `MpisRun`;
-
 async function executeBuild() {
 	let shuttingDown = false;
-	workersManager = new WorkersManager(context.watchMode ? ModeKind.Watch : ModeKind.Build);
 
 	initializeWorkers();
 	const graph = workersManager.finalize();
@@ -111,8 +94,7 @@ async function executeBuild() {
 	channelClient.start();
 
 	if (context.breakMode) {
-		logger.warn`Break mode enabled, waiting for input command...`;
-		addDebugCommand();
+		addBreakModeDebugCommands();
 		return;
 	}
 	logger.verbose`Workers initialized, starting execution...`;
@@ -137,45 +119,6 @@ function executeClean() {
 	logger.success`Cleaned up ${config.clean.length} folders.`;
 }
 
-function initializeWorkers() {
-	let last: ProcessIPCClient | undefined;
-	for (const title of config.buildTitles) {
-		const cmds = config.build.get(title);
-		if (!cmds) throw logger.fatal`program state error, no build command "${title}"`;
-
-		if (!cmds.env['DEBUG']) cmds.env['DEBUG'] = '';
-		if (!cmds.env['DEBUG_LEVEL']) cmds.env['DEBUG_LEVEL'] = '';
-		const worker = new ProcessIPCClient(title.replace(/\s+/g, ''), cmds.command, cmds.cwd, cmds.env);
-
-		for (const path of config.additionalPaths) {
-			worker.pathvar.add(path);
-		}
-
-		worker.displayTitle = `run:${cmds.command[0]}`;
-
-		workersManager.addWorker(worker, last ? [last._id] : []);
-
-		let nodeFirstTime = true;
-		worker.onFailure((e) => {
-			errors.set(worker, e);
-			reprintWatchModeError(nodeFirstTime);
-			nodeFirstTime = false;
-			sendStatus();
-		});
-		worker.onSuccess(() => {
-			errors.set(worker, null);
-			if (nodeFirstTime) {
-				nodeFirstTime = false;
-			} else {
-				reprintWatchModeError();
-			}
-			sendStatus();
-		});
-
-		last = worker;
-	}
-}
-
 const cls = /\x1Bc/g;
 
 function printFailedRunError(worker: ProcessIPCClient, message: string) {
@@ -196,117 +139,4 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 	console.error('%s\n%s', graph.debugFormatGraph(), graph.debugFormatSummary());
 	logger.error`"${worker._id}" ${message}`;
 	shutdown(1);
-}
-
-let printTo: NodeJS.Timeout | undefined;
-function reprintWatchModeError(noClear?: boolean) {
-	if (printTo) clearTimeout(printTo);
-	printTo = setTimeout(() => {
-		printTo = undefined;
-
-		if (context.watchMode) {
-			if (!noClear && !defaultNoClear) process.stderr.write('\x1Bc');
-		}
-		const graph = workersManager.finalize();
-		console.error('%s\n%s', graph.debugFormatList(), graph.debugFormatSummary());
-		printAllErrors();
-	}, 50);
-}
-
-function addDebugCommand() {
-	registerCommand({
-		name: ['continue', 'c'],
-		description: '开始执行',
-		callback: () => {
-			workersManager.finalize().startup();
-		},
-	});
-	registerCommand({
-		name: ['debug'],
-		description: '切换调试模式（仅在启动前有效）',
-		callback: (text: string) => {
-			const [_, index, on_off] = text.split(/\s+/);
-			const list = workersManager._allWorkers as ProcessIPCClient[];
-			const worker = list[Number(index)];
-			if (!worker) {
-				logger.error`worker index out of range: ${index}`;
-				return;
-			}
-			if (on_off === 'on') {
-				worker.env['DEBUG'] = '*,-executer:*,-dispose:*';
-				worker.env['DEBUG_LEVEL'] = 'verbose';
-				logger.success`debug mode enabled for worker "${worker._id}"`;
-			} else if (on_off === 'off') {
-				worker.env['DEBUG'] = '';
-				worker.env['DEBUG_LEVEL'] = '';
-				logger.success`debug mode disabled for worker "${worker._id}"`;
-			} else {
-				logger.error`invalid argument: ${text}`;
-			}
-		},
-	});
-	// registerCommand({
-	// 	name: ['print', 'p'],
-	// 	description: '显示命令执行输出',
-	// 	callback: () => {
-	// 	},
-	// });
-}
-
-function sendStatus() {
-	const noError = errors.values().every((e) => !e);
-	if (noError) {
-		channelClient.success(`all ${workersManager.size()} workers completed successfully.`);
-	} else {
-		let errorCnt = 0;
-		const arr: string[] = [];
-		for (const [client, err] of errors.entries()) {
-			if (err) {
-				errorCnt++;
-				arr.push(client._id);
-			}
-		}
-		channelClient.failed(`mpis-run: ${arr.join(', ')} (${errorCnt} / ${workersManager.size()})`, formatAllErrors());
-	}
-}
-
-function formatAllErrors() {
-	const lines: string[] = [];
-	const colorEnabled = logger.colorEnabled;
-	let index = 0;
-	for (const [worker, error] of errors) {
-		if (error === null) continue;
-
-		index++;
-
-		let tag = '';
-		if (error.name !== 'Error') {
-			tag = ` (${error.name})`;
-		}
-		const banner = colorEnabled ? `\x1B[48;5;9m ERROR ${index} \x1B[0m` : `ERROR ${index}`;
-		lines.push(`\n${banner}${tag} ${worker._id}`);
-		if (error instanceof CompileError) {
-			lines.push(error.toString());
-		} else if (error instanceof Error) {
-			lines.push(prettyFormatError(error));
-		} else {
-			lines.push(`can not handle error: ${error}`);
-		}
-		lines.push(`\n${banner} ${worker._id}`);
-	}
-	return lines.join('\n');
-}
-
-function printAllErrors() {
-	execute_index++;
-	const execTip = `exec: ${execute_index} / ${humanDate.delta(Date.now() - start)}`;
-
-	const numFailed = [...errors.values().filter((e) => !!e)].length;
-	if (numFailed !== 0) {
-		console.error(formatAllErrors());
-
-		logger.error(`💥 ${numFailed} of ${workersManager.size()} worker failed (${execTip})`);
-	} else {
-		logger.success(`✅ no error in ${workersManager.size()} workers (${execTip})`);
-	}
 }

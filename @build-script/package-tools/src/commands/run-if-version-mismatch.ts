@@ -1,5 +1,5 @@
 import { createWorkspace } from '@build-script/monorepo-lib';
-import type { ArgumentTypings } from '@idlebox/cli';
+import type { IArgsReaderApi } from '@idlebox/cli';
 import { CommandDefine, logger } from '@idlebox/cli';
 import { checkChildProcessResult } from '@idlebox/node';
 import { execa } from 'execa';
@@ -34,7 +34,7 @@ export class Command extends CommandDefine {
 		},
 	};
 }
-export async function main(argv: ArgumentTypings.IArgsReaderApi) {
+export async function main(argv: IArgsReaderApi) {
 	const noCache = argv.flag(['--no-cache']) > 0;
 	const flushCache = argv.flag(['--flush']) > 0;
 	const onlyNewer = argv.flag(['--newer']) > 0;

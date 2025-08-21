@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: <explanation> */
 import type { IExportMap } from '@idlebox/common';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { cpSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -50,13 +51,26 @@ export function deleteDevelopmentFields() {
 		delete packageJson.publishConfig.packCommand;
 	}
 
-	// function removeDevDependency(name: string) {
-	// 	if (packageJson.devDependencies?.[name]) {
-	// 		logger.debug`删除 devDependencies.${name}`;
-	// 		delete packageJson.devDependencies[name];
-	// 	}
-	// }
-	packageJson.devDependencies = {};
+	function removeDevDependency(name: string) {
+		if (packageJson.devDependencies?.[name]) {
+			logger.debug`删除 devDependencies.${name}`;
+			delete packageJson.devDependencies[name];
+		}
+	}
+	if (packageJson.devDependencies) {
+		packageJson.devDependencies['@build-script/single-dog-asset'] = 'latest';
+		removeDevDependency('@internal/local-rig');
+		removeDevDependency('@internal/scripts');
+	}
+}
+
+export async function rewriteTsconfig() {
+	const tsconfigPath = resolve(currentProject, 'src/tsconfig.json');
+	const data = await loadJsonFile(tsconfigPath);
+
+	data.extends = '@build-script/single-dog-asset/package/tsconfig.json';
+	await writeJsonFileBack(data);
+	logger.log`修改tsconfig.json (extends)`;
 }
 
 /**

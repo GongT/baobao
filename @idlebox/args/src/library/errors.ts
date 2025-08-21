@@ -1,6 +1,6 @@
 import { ProgramError, UsageError } from '@idlebox/errors';
+import { ParamKind } from '../constants.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
-import { ParamKind } from '../types.js';
 import type { Parameter } from './parameter.js';
 import type { TToken } from './token.js';
 

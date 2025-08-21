@@ -171,6 +171,7 @@ export abstract class ProtocolClientObject {
 			}
 
 			this._onTerminate.fireNoError();
+			this._onTerminate.dispose();
 			this.logger.debug` ~ worker _execute() ending`;
 		}
 	}
@@ -216,7 +217,7 @@ export abstract class ProtocolClientObject {
 
 		await this._stop();
 
-		this._onTerminate.dispose();
+		// this._onTerminate.dispose(); -- execute退出时finally
 	}
 
 	private _disposed = false;

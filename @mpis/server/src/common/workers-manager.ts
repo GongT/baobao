@@ -34,7 +34,7 @@ class EventTranslate extends Job<string> {
 			if (this.isFatalError()) return;
 
 			this.logger.warn`this is watcher, it should not quit!`;
-			this.setState(JobState.ErrorExited, new UnrecoverableJobError(`watch worker "${this.name}" quited`));
+			this.setState(JobState.ErrorExited, new UnrecoverableJobError(`项目"${this.name}"的watch脚本在监视模式下未持续运行`));
 			return;
 		}
 

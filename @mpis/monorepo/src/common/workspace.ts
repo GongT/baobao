@@ -6,10 +6,11 @@ import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
-import { currentCommand } from '../bin.js';
+import { currentCommand } from './args.js';
 
 export async function createMonorepoObject() {
 	const workspace = await createWorkspace();
+	logger.debug`workspace: long<${workspace.root}>`;
 	const repo = new PnpmMonoRepo(logger, workspace);
 	await repo.initialize();
 	return repo;
@@ -51,6 +52,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 	async initialize() {
 		await this.workspace.decoupleDependencies();
 		const projects = await this.workspace.listPackages();
+		logger.debug`workspace: ${projects.length} packages.`;
 		for (const project of projects) {
 			if (!project.packageJson.name) continue;
 

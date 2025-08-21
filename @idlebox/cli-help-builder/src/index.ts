@@ -2,7 +2,8 @@ import { c, formatOptions } from './format.js';
 import { table } from './table.js';
 import type { IArgDefineMap, ICommandDefine } from './types.js';
 
-export * from './types.js';
+export { CommandDefine } from './command-define.js';
+export type * from './types.js';
 
 export class CliApplicationHelp {
 	private readonly commands = new Map<string, ICommandDefine>();

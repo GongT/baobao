@@ -36,6 +36,9 @@
 /* crypto/sha256.ts */
 	// Identifiers
 	export { sha256 } from "./crypto/sha256.js";
+/* debug/break.ts */
+	// Identifiers
+	export { debuggerBreakUserEntrypoint } from "./debug/break.js";
 /* environment/findBinary.ts */
 	// Identifiers
 	export { findBinary } from "./environment/findBinary.js";

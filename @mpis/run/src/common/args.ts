@@ -11,7 +11,7 @@ export function printUsage() {
 	// console.log('     init create config file if not');
 }
 
-export function parseCliArgs() {
+function parseCliArgs() {
 	const debugLevel = argv.flag(['-d', '--debug']);
 
 	const debugMode = debugLevel > 0;
@@ -75,8 +75,6 @@ export function parseCliArgs() {
 		dumpConfig,
 	};
 
-	context = r;
-
 	if (argv.unused().length) {
 		printUsage();
 		console.error('');
@@ -85,4 +83,4 @@ export function parseCliArgs() {
 	return r;
 }
 
-export let context: Readonly<ReturnType<typeof parseCliArgs>>;
+export const context: Readonly<ReturnType<typeof parseCliArgs>> = parseCliArgs();

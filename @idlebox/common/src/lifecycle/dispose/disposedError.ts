@@ -12,10 +12,11 @@ export class Disposed extends Error {
 	) {
 		super(message);
 		this.name = 'DisposedError';
+		delete (this as any).stack;
 	}
 
 	override get stack() {
-		return `${super.stack}\nDisposed at:\n${this.previous.stack}`;
+		return `${super.stack}\nit was disposed at:\n${this.previous.stackOnly}`;
 	}
 }
 
