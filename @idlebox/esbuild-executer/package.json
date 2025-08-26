@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/esbuild-executer",
 	"description": "A simple script to execute typescript file during development.",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"type": "module",
 	"bin": {
 		"es-node": "./loader/bin.js"

@@ -3,7 +3,7 @@
 	"description": "use unshare",
 	"keywords": ["unshare", "container", "spawn", "linux"],
 	"type": "module",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"exports": {
 		".": {
 			"source": "./src/autoindex.generated.ts",

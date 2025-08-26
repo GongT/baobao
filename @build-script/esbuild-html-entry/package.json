@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/esbuild-html-entry",
-	"version": "0.1.12",
+	"version": "0.1.13",
 	"type": "module",
 	"keywords": ["esbuild", "html"],
 	"exports": {
