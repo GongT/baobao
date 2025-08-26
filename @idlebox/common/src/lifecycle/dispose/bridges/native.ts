@@ -2,6 +2,7 @@ import type { IAsyncDisposable, IDisposable } from '../disposable.js';
 
 /**
  * 把原生的Disposable/AsyncDisposable对象转换为本包可以使用的版本
+ * 注意：返回的是同一个对象
  */
 export function fromNativeDisposable<T extends AsyncDisposable>(disposable: T): T & IAsyncDisposable;
 export function fromNativeDisposable<T extends Disposable>(disposable: T): T & IDisposable;

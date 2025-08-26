@@ -189,6 +189,9 @@
 	// Identifiers
 	export type { Finder } from "./map-and-set/custom-set.js";
 	export { CustomSet } from "./map-and-set/custom-set.js";
+/* map-and-set/object-map.ts */
+	// Identifiers
+	export { convertToMap } from "./map-and-set/object-map.js";
 /* map-and-set/required-map.ts */
 	// Identifiers
 	export { RequiredMap } from "./map-and-set/required-map.js";

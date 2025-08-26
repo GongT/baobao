@@ -15,7 +15,7 @@
 			"description": "要排除的文件（pattern），例如: *.test.js",
 			"type": "array",
 			"items": { "type": "string" },
-			"default": ["*.json", "**/test", "**/tests", "*.test.*"]
+			"default": ["*.json", "**/test", "**/tests", "*.test.*", ".*"]
 		},
 		"ignoreDependencies": {
 			"description": "要忽略的依赖名称，这些依赖的所有问题都会被忽略，默认: tslib",

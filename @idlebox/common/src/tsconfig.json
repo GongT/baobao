@@ -5,7 +5,6 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"stripInternal": true,
-		"target": "es2023",
 		"noEmitOnError": false
 	},
 	"exclude": ["**/*.generator.ts", "**/*.test.ts"]

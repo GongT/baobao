@@ -25,6 +25,7 @@
 	"devDependencies": {
 		"@build-script/autoindex": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/codegen": "workspace:^",
 		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/publisher": "workspace:^",

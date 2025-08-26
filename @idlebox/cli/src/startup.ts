@@ -62,7 +62,21 @@ function autoload(): IAppBasic {
 	return { name, description };
 }
 
-export function makeApplication({ name: binName, description, logPrefix }: IAppBasic = autoload()) {
+interface IApplicationHelper {
+	help(): string;
+	legend(): string;
+	usage(): string;
+}
+
+interface IApplicationEntry {
+	getHelper(command?: string): Promise<IApplicationHelper>;
+	withCommon(commonArgs: IArgDefineMap): this;
+	simple(command: Omit<ICommandDefine, 'description' | 'commonArgs' | 'isHidden'>, main: (args: IArgsReaderApi) => Promise<void>): Promise<void>;
+	static(imports: Record<string, string>, helps: readonly ICommandDefineWithCommand[]): Promise<void>;
+	dynamic(absRootDir: string, globs?: string | string[]): Promise<void>;
+}
+
+export function makeApplication({ name: binName, description, logPrefix }: IAppBasic = autoload()): IApplicationEntry {
 	assert.equal(typeof binName, 'string', 'name must be a string');
 	assert.equal(typeof description, 'string', 'description must be a string');
 

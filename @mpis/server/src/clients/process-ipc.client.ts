@@ -220,10 +220,10 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		process.kill(this.stopSignal);
 
 		try {
-			await Promise.race([process, timeout(5000, 'process did not exit in 5s')]);
+			await Promise.race([process, timeout(5000, 'process did not exit')]);
 		} catch (e: any) {
 			if (TimeoutError.is(e)) {
-				this.logger.error`process did not exit in 5s, force kill it: ${e.message}`;
+				this.logger.error`force killing process: ${e.message}`;
 				process.kill('SIGKILL');
 				return;
 			}

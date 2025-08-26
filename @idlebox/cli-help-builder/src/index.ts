@@ -5,7 +5,13 @@ import type { IArgDefineMap, ICommandDefine } from './types.js';
 export { CommandDefine } from './command-define.js';
 export type * from './types.js';
 
-export class CliApplicationHelp {
+export interface IApplicationHelp {
+	help(command?: string): string;
+	legend(): string;
+	usage(command?: string): string;
+}
+
+export class CliApplicationHelp implements IApplicationHelp {
 	private readonly commands = new Map<string, ICommandDefine>();
 	private readonly common_args: IArgDefineMap = {};
 	private hasCommonArgs = false;

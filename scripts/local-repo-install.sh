@@ -32,7 +32,7 @@ for DIR in "${DIRS[@]}"; do
 done
 
 echo "publicHoistPattern:" >>pnpm-workspace.yaml
-mapfile -t ALL_DEPS < <(pnpm ls -r --depth 0 --json | jq -r '.[].dependencies | select(.) | keys | .[]' | sort | uniq)
+mapfile -t ALL_DEPS < <(pnpm ls -r --depth 0 --json | jq -r '.[].dependencies | select(.name) | keys | .[]' | sort | uniq)
 for DEP in "${ALL_DEPS[@]}"; do
 	echo "  - '${DEP}'" >>pnpm-workspace.yaml
 done

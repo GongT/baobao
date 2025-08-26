@@ -88,6 +88,7 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	public _register(d: any, autoDereference?: boolean): any {
 		if (this._logger.enabled) this._logger(`register ${dispose_name(d)}`);
 		this.assertNotDisposed();
+		if (this._disposables.indexOf(d) !== -1) throw new Error(`disposable object ${dispose_name(d)} has already registed into "${dispose_name(this)}"`);
 		this._disposables.unshift(fromNativeDisposable(d));
 		if (autoDereference) {
 			(d as IDisposableEvents).onBeforeDispose(() => {

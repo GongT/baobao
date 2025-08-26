@@ -1,17 +1,27 @@
 import { escapeRegExp } from '@idlebox/common';
 import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
-import { dirname, isAbsolute, resolve } from 'node:path';
+import { dirname, extname, isAbsolute, resolve } from 'node:path';
 import type { ILogger } from '../common/output.js';
+import { typescriptAlertHeader } from './alert-header.js';
+import { knownFileExtensions, sourceCodeExtensions } from './constants.js';
 
 const endingQuote = /^}/;
-const hasJsSuffix = /\.[cm]?jsx?$/i;
 const hasTsSuffix = /\.[cm]?tsx?$/i;
+
+function renameExt(name: string) {
+	for (const ext of knownFileExtensions) {
+		if (name.endsWith(ext)) {
+			return `${name.slice(0, -ext.length)}.generated${ext}`;
+		}
+	}
+	return `${name}.generated.ts`;
+}
 
 export class FileBuilder {
 	protected _referData?: string[];
 	protected result: string[] = [];
-	public readonly absolutePath: string;
+	protected readonly absolutePath: string;
 
 	constructor(
 		// dirname of package.json
@@ -20,10 +30,8 @@ export class FileBuilder {
 		private readonly selfPath: string,
 		name: string,
 		public readonly logger: ILogger,
+		no_rename: boolean,
 	) {
-		if (hasJsSuffix.test(name)) {
-			throw new Error(`file name "${name}" should not have a .js suffix. Use .ts (or omit) instead`);
-		}
 		if (isAbsolute(name)) {
 			if (!name.startsWith('/')) {
 				throw new Error(`file name "${name}" should not be absolute.`); // windows drive
@@ -37,14 +45,13 @@ export class FileBuilder {
 			logger.warn(`output file "${name}" is not under the project root "${projectRoot}"`);
 		}
 
-		if (name.endsWith('.json')) {
-			name = name.slice(0, -5) + '.generated.json';
-		} else {
-			if (name.endsWith('.ts')) {
-				name = name.slice(0, -3);
-			}
+		if (!no_rename) {
+			name = renameExt(name);
 
-			name = `${name}.generated.ts`;
+			const ext = extname(name);
+			if (sourceCodeExtensions.includes(ext)) {
+				this.prepend(typescriptAlertHeader);
+			}
 		}
 
 		this.absolutePath = resolve(projectRoot, name);

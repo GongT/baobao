@@ -2,4 +2,6 @@
 
 import '@idlebox/source-map-support/register';
 
+process.title = `BsDepcheck`;
+
 await import('../lib/bin.js');

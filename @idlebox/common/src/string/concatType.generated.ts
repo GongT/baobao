@@ -12,6 +12,7 @@
  * 
  ******************************************************************************/
 
+
 export function concatStringType
 	<T0 extends string>
 		(t0: T0):

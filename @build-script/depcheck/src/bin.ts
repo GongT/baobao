@@ -55,6 +55,7 @@ async function init() {
 			'**/test',
 			'**/tests',
 			'*.test.*',
+			'.*',
 		],
 		ignoreMatches: [
 			// ignore dependencies that matches these globs

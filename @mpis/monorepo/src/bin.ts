@@ -29,8 +29,6 @@ registerGlobalLifecycle(
 logger.log`Running command: ${currentCommand}`;
 logger.log`working directory: ${process.cwd()}`;
 
-process.title = `MpisMonorepo`;
-
 switch (currentCommand) {
 	case 'build':
 		{

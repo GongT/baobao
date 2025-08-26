@@ -19,13 +19,14 @@ print_list() {
 
 RUNNED=()
 run_in() {
-	local DIR=$1
-	if grep -qF '"private"' "${DIR}/package.json"; then
-		RUNNED+=("skip private: ${DIR}")
+	local RDIR=$1
+	if grep -qF '"private"' "${RDIR:-.}/package.json"; then
+		RUNNED+=("skip private: ${RDIR}")
 		return
 	fi
+	echo "???? $RDIR"
 
-	EXEC=(pnpm -C "${DIR}" exec publisher extract)
+	EXEC=(pnpm -C "${RDIR}" exec publisher extract)
 
 	RUNNED+=("${EXEC[*]}")
 	print_list "${RUNNED[@]}"

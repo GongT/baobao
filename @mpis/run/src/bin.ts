@@ -21,8 +21,6 @@ registerCommand({
 	callback: () => reprintWatchModeError(),
 });
 
-process.title = `MpisRun`;
-
 logger.info`Running command "${context.command}" in ${projectRoot}`;
 
 switch (context.command) {

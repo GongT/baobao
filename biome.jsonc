@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -50,6 +50,17 @@
 				},
 				"noSubstr": "info",
 				"useAtIndex": "info",
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"patterns": [
+							{
+								"group":["**/autoindex.js","**/autoindex.generated.js"],
+								"message": "试图从index文件导入符号"
+							}
+						]
+					},
+				},
 			},
 			"complexity": {
 				"noThisInStatic": "off",

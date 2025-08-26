@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: <explanation> */
 import type { IExportMap } from '@idlebox/common';
-import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
+import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { cpSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -66,7 +66,8 @@ export function deleteDevelopmentFields() {
 
 export async function rewriteTsconfig() {
 	const tsconfigPath = resolve(currentProject, 'src/tsconfig.json');
-	const data = await loadJsonFile(tsconfigPath);
+	const data = await loadJsonFileIfExists(tsconfigPath);
+	if (!data) return;
 
 	data.extends = '@build-script/single-dog-asset/package/tsconfig.json';
 	await writeJsonFileBack(data);
