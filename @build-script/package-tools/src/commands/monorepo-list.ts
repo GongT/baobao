@@ -7,6 +7,9 @@ export class Command extends CommandDefine {
 	protected override readonly _help = '';
 	protected override readonly _arguments = {
 		'--verbose': { flag: true, description: '列出所有信息，而不仅是目录' },
+		'--has-name': { flag: true, description: '跳过没有 name 的包' },
+		'--has-version': { flag: true, description: '跳过没有 version 的包' },
+		'--no-private': { flag: true, description: '跳过 private=true 的包' },
 		'--json': { flag: true, description: '输出json（同时使--verbose和--relative无效）' },
 		'--relative': { flag: true, description: '输出相对路径（相对于monorepo根目录）' },
 	};
@@ -14,9 +17,20 @@ export class Command extends CommandDefine {
 
 export async function main() {
 	const repo = await createWorkspace();
-	const list = await repo.listPackages();
+	const _list = await repo.listPackages();
 
 	const isRelative = argv.flag(['--relative']) > 0;
+
+	const hasName = argv.flag(['--has-name']) > 0;
+	const hasVersion = argv.flag(['--has-version']) > 0;
+	const noPrivate = argv.flag(['--no-private']) > 0;
+
+	const list = _list.filter((e) => {
+		if (hasName && !e.packageJson.name) return false;
+		if (hasVersion && !e.packageJson.version) return false;
+		if (noPrivate && e.packageJson.private) return false;
+		return true;
+	});
 
 	if (argv.flag(['--json']) > 0) {
 		console.log(

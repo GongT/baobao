@@ -11,6 +11,7 @@
 /* common/import-package-json.ts */
 	// Identifiers
 	export { importPackageJson } from "./common/import-package-json.js";
+	export { loadPackageYaml } from "./common/import-package-json.js";
 /* common/strings.ts */
 	// Identifiers
 	export { normalizePackageName } from "./common/strings.js";
