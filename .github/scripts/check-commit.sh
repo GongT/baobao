@@ -29,7 +29,7 @@ echo "有修改，准备提交"
 cat >>"${GITHUB_STEP_SUMMARY}" <<-EOF
 	<details>
 
-	<summary>修改文件列表</summary>
+	<summary>本次git提交的文件列表</summary>
 
 	\`\`\`log
 	$(git diff --name-only)

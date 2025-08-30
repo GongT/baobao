@@ -135,22 +135,22 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 		}
 		this._onBeforeDispose.fireNoError();
 
-		let r: any;
-		try {
-			r = this._dispose(this._disposables);
-		} finally {
+		const r = this._dispose(this._disposables);
+		const cleanup = () => {
 			this._disposables.length = 0;
 			Object.freeze(this._disposables);
-
-			this._disposed = {
-				trace: createStackTraceHolder('disposed', this.dispose),
-				result: r,
-			};
-		}
-
+		};
 		if (r && 'then' in r) {
-			r.then(() => {});
+			r.finally(cleanup);
+		} else {
+			cleanup();
 		}
+
+		this._disposed = {
+			trace: createStackTraceHolder('disposed', this.dispose),
+			result: r,
+		};
+
 		return r;
 	}
 
