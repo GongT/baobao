@@ -18,6 +18,7 @@ export function dispose_name(disposable: IDisposable | IAsyncDisposable | AsyncD
 	);
 }
 function name_of_func(obj: any) {
+	if (!obj) return;
 	const name: string = obj.name;
 
 	if (

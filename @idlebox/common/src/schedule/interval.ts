@@ -1,3 +1,4 @@
+import { objectName } from '../autoindex.js';
 import type { IDisposable } from '../lifecycle/dispose/disposable.js';
 import { EnhancedDisposable } from '../lifecycle/dispose/sync-disposable.js';
 import { Emitter } from '../lifecycle/event/event.js';
@@ -15,6 +16,7 @@ export function interval(ms: number, action: () => void, unref = false) {
 	if (unref) (timer as any).unref();
 
 	return {
+		name: `interval(${ms}):${objectName(action)}`,
 		dispose: () => {
 			if (!timer) return;
 			clearInterval(timer);
@@ -37,7 +39,7 @@ export class Interval extends EnhancedDisposable {
 		private readonly ms: number,
 		private readonly unref = false,
 	) {
-		super();
+		super(`Interval(${ms})`);
 		this.fire = this.fire.bind(this);
 	}
 

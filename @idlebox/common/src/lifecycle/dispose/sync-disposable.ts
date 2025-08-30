@@ -1,3 +1,4 @@
+import { convertCaughtError } from '../../error/convert-unknown.js';
 import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
 import { dispose_name } from './debug.js';
 import { AbstractEnhancedDisposable, type IDisposable } from './disposable.js';
@@ -38,11 +39,10 @@ export class EnhancedDisposable extends AbstractEnhancedDisposable<false> implem
 				if (this._logger.enabled) this._logger(`dispose ${dispose_name(item)}`);
 				item.dispose();
 			} catch (e) {
-				if (e instanceof Error) {
-					this._onDisposeError.fire(e);
-				} else {
-					console.error('error during dispose, throw:', e);
-					this._onDisposeError.fire(new Error(`${e}`));
+				const ee = convertCaughtError(e);
+				this._onDisposeError.fire(ee);
+				if (!this._onDisposeError.listenerCount()) {
+					console.error('Unhandled error during dispose: %s', ee.stack);
 				}
 			}
 		}

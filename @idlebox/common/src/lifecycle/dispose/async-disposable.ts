@@ -1,4 +1,4 @@
-import { convertCaughtError } from '../../autoindex.js';
+import { convertCaughtError } from '../../error/convert-unknown.js';
 import { dispose_name } from './debug.js';
 import { AbstractEnhancedDisposable, type IAsyncDisposable } from './disposable.js';
 
@@ -13,7 +13,11 @@ export class EnhancedAsyncDisposable extends AbstractEnhancedDisposable<true> im
 				if (this._logger.enabled) this._logger(`dispose ${dispose_name(d)}`);
 				await d.dispose();
 			} catch (e) {
-				this._onDisposeError.fireNoError(convertCaughtError(e));
+				const ee = convertCaughtError(e);
+				this._onDisposeError.fire(ee);
+				if (!this._onDisposeError.listenerCount()) {
+					console.error('Unhandled error during dispose: %s', ee.stack);
+				}
 			}
 		}
 	}
