@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/typescript",
 	"type": "module",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"keywords": [],
 	"bin": {
 		"mpis-tsc": "./loader/bin.devel.js"

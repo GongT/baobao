@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/logger",
 	"type": "module",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "A simple logger module for my self use (nodejs).",
 	"exports": {
 		".": {

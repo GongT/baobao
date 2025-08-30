@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/run",
 	"type": "module",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"keywords": [],
 	"bin": {
 		"run": "./loader/bin.devel.js",

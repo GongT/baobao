@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/dependency-injection",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "manual dependency injection",
 	"keywords": ["di", "dependency injection"],
 	"exports": {
