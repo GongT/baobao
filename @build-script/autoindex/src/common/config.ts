@@ -1,7 +1,8 @@
 import { NotFoundError, ProjectConfig } from '@build-script/rushstack-config-loader';
+import { ExitCode } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, shutdown } from '@idlebox/node';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { ConfigKind, schemaFile, type ICliArgs } from './cli.js';
 
 interface IConfigFile {
@@ -25,13 +26,13 @@ export interface IContext {
 	verboseMode: boolean;
 }
 
-async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>, logger: IMyLogger) {
+async function loadConfigFile(configType: ConfigKind, configFile: string, context: Partial<IContext>, logger: IMyLogger) {
 	if (configType === ConfigKind.DISABLE) {
-		logger.debug`由于命令行参数，跳过配置文件: config/autoindex.json`;
+		logger.debug`由于命令行参数，跳过配置文件: ${configFile}`;
 		return;
 	}
 
-	logger.debug`即将加载配置文件: config/autoindex.json`;
+	logger.debug`即将加载配置文件: ${configFile}`;
 	logger.verbose`使用schema文件: ${schemaFile}`;
 
 	const packageJsonFile = findUpUntilSync({ file: ['package.json', 'package.yaml'], from: context.project ?? process.cwd() });
@@ -45,7 +46,7 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 	const config = new ProjectConfig(projectRoot, undefined, logger);
 
 	try {
-		const configFileData = config.loadSingleJson<IConfigFile>('autoindex', schemaFile);
+		const configFileData = config.loadSingleJson<IConfigFile>(basename(configFile, '.json'), schemaFile);
 		logger.verbose`内容: ${configFileData}`;
 
 		if (!context.project) {
@@ -70,7 +71,12 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 		if (configFileData.stripTags?.length) context.stripTags.push(...configFileData.stripTags);
 	} catch (e: unknown) {
 		if (e instanceof NotFoundError) {
-			logger.verbose`由于文件不存在，未使用配置文件（${e}）`;
+			if (configType === ConfigKind.REQUIRED) {
+				logger.error(`无法加载配置文件: ${e.message}`);
+				shutdown(ExitCode.USAGE);
+			} else {
+				logger.verbose`由于文件不存在，未使用配置文件（${e}）`;
+			}
 		} else {
 			throw e;
 		}
@@ -90,7 +96,7 @@ export async function createContext(args: ICliArgs, logger: IMyLogger): Promise<
 		verboseMode: args.verboseMode,
 	};
 
-	await loadConfigFile(args.configType, context, logger);
+	await loadConfigFile(args.configType, args.configFile, context, logger);
 
 	if (!context.outputFile) {
 		context.outputFile = './autoindex.generated';
@@ -98,7 +104,8 @@ export async function createContext(args: ICliArgs, logger: IMyLogger): Promise<
 	if (!context.project) {
 		if (args.configType === ConfigKind.IMPLICIT) {
 			// 如果是隐式配置，则必须在命令行中指定项目路径
-			logger.fatal`未指定项目路径，需要额外参数或在配置文件中指定`;
+			logger.error`未指定项目路径，需要额外参数或在配置文件中指定`;
+			shutdown(ExitCode.USAGE);
 		}
 	}
 

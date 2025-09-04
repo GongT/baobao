@@ -5,6 +5,6 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"types": ["node"],
-		"noEmit": true
-	}
+		"noEmit": true,
+	},
 }

@@ -26,4 +26,15 @@ export interface IPathSection {
 	TriggerLimitBurst?: MaybeArray<string>;
 }
 
-export const pathFields: readonly string[] = ['PathExists', 'PathExistsGlob', 'PathChanged', 'PathModified', 'DirectoryNotEmpty', 'Unit', 'MakeDirectory', 'DirectoryMode', 'TriggerLimitIntervalSec', 'TriggerLimitBurst'];
+export const pathFields: readonly string[] = [
+	'PathExists',
+	'PathExistsGlob',
+	'PathChanged',
+	'PathModified',
+	'DirectoryNotEmpty',
+	'Unit',
+	'MakeDirectory',
+	'DirectoryMode',
+	'TriggerLimitIntervalSec',
+	'TriggerLimitBurst',
+];

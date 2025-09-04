@@ -66,7 +66,8 @@ export class MemoryCacheController {
 			if (starting < current.end) continue;
 
 			const next = this.list[index + 1];
-			if (next && ending > next.start) throw new Error(`invalid buffer at ${hexNumber(starting)} with size ${length}:` + ` overlap with next at ${hexNumber(next.start)}`);
+			if (next && ending > next.start)
+				throw new Error(`invalid buffer at ${hexNumber(starting)} with size ${length}:` + ` overlap with next at ${hexNumber(next.start)}`);
 
 			this.list.splice(index + 1, 0, newItem);
 			this.merge(index + 1);

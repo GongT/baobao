@@ -9,7 +9,13 @@ if (!pkg) {
 }
 export const currentProject = dirname(pkg);
 
-const workspace = findUpUntilSync({ file: 'pnpm-workspace.yaml', from: currentProject });
+const realPkg = findUpUntilSync({ file: 'package.json', from: dirname(currentProject) });
+if (!realPkg) {
+	throw new Error('找不到真实包的 package.json');
+}
+export const realProject = dirname(realPkg);
+
+const workspace = findUpUntilSync({ file: 'pnpm-workspace.yaml', from: dirname(realProject) });
 if (!workspace) {
 	throw new Error('找不到 pnpm-workspace.yaml');
 }

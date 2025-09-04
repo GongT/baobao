@@ -3,33 +3,33 @@
 /* eslint-disable */
 
 /* base.ts */
-	// Identifiers
-	export { emojiRegex } from "./base.js";
-	export { emojiRegexStarting } from "./base.js";
-	export { emojiSimpleRegex } from "./base.js";
-	export type { SupportInfo } from "./base.js";
-	export { supports } from "./base.js";
+// Identifiers
+export { emojiRegex } from './base.js';
+export { emojiRegexStarting } from './base.js';
+export { emojiSimpleRegex } from './base.js';
+export type { SupportInfo } from './base.js';
+export { supports } from './base.js';
 /* combiningCharacters.ts */
-	// Identifiers
-	export { combiningCharactersRegex } from "./combiningCharacters.js";
-	export { isCombiningCharacters } from "./combiningCharacters.js";
+// Identifiers
+export { combiningCharactersRegex } from './combiningCharacters.js';
+export { isCombiningCharacters } from './combiningCharacters.js';
 /* escapeUnicode.ts */
-	// Identifiers
-	export { unicodeEscape } from "./escapeUnicode.js";
+// Identifiers
+export { unicodeEscape } from './escapeUnicode.js';
 /* firstCompleteChar.ts */
-	// Identifiers
-	export type { CodePointInfo } from "./firstCompleteChar.js";
-	export { readFirstCompleteChar } from "./firstCompleteChar.js";
+// Identifiers
+export type { CodePointInfo } from './firstCompleteChar.js';
+export { readFirstCompleteChar } from './firstCompleteChar.js';
 /* limitWidth.ts */
-	// Identifiers
-	export type { LimitResult } from "./limitWidth.js";
-	export { limitWidth } from "./limitWidth.js";
-	export { chunkText } from "./limitWidth.js";
-	export { boxText } from "./limitWidth.js";
+// Identifiers
+export type { LimitResult } from './limitWidth.js';
+export { limitWidth } from './limitWidth.js';
+export { chunkText } from './limitWidth.js';
+export { boxText } from './limitWidth.js';
 /* rollup.ts */
-	// Identifiers
+// Identifiers
 /* shim.lib.ts */
-	// Identifiers
+// Identifiers
 /* stringWidth.ts */
-	// Identifiers
-	export { stringWidth } from "./stringWidth.js";
+// Identifiers
+export { stringWidth } from './stringWidth.js';

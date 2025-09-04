@@ -145,7 +145,23 @@ export interface IExecProcessPropertiesOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#TimerSlackNSec= */
 	TimerSlackNSec?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#Personality= */
-	Personality?: 'the' | 'architecture' | 'identifiers' | 'arm64' | 'arm64-be' | 'arm' | 'arm-be' | 'x86' | 'x86-64' | 'ppc' | 'ppc-le' | 'ppc64' | 'ppc64-le' | 's390' | 's390x' | string;
+	Personality?:
+		| 'the'
+		| 'architecture'
+		| 'identifiers'
+		| 'arm64'
+		| 'arm64-be'
+		| 'arm'
+		| 'arm-be'
+		| 'x86'
+		| 'x86-64'
+		| 'ppc'
+		| 'ppc-le'
+		| 'ppc64'
+		| 'ppc64-le'
+		| 's390'
+		| 's390x'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#IgnoreSIGPIPE= */
 	IgnoreSIGPIPE?: MaybeArray<string>;
 }
@@ -197,7 +213,17 @@ export interface IExecSchedulingOptions {
 	IOSchedulingPriority?: MaybeArray<string>;
 }
 
-export const execSchedulingFields: readonly string[] = ['Nice', 'CPUSchedulingPolicy', 'CPUSchedulingPriority', 'CPUSchedulingResetOnFork', 'CPUAffinity', 'NUMAPolicy', 'NUMAMask', 'IOSchedulingClass', 'IOSchedulingPriority'];
+export const execSchedulingFields: readonly string[] = [
+	'Nice',
+	'CPUSchedulingPolicy',
+	'CPUSchedulingPriority',
+	'CPUSchedulingResetOnFork',
+	'CPUAffinity',
+	'NUMAPolicy',
+	'NUMAMask',
+	'IOSchedulingClass',
+	'IOSchedulingPriority',
+];
 
 export interface IExecSandboxingOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProtectSystem= */
@@ -364,7 +390,20 @@ export interface IExecLoggingAndStandardInputOutputOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardInput= */
 	StandardInput?: 'null' | 'tty' | 'tty-force' | 'tty-fail' | 'data' | 'file:path' | 'socket' | 'fd:name' | string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardOutput= */
-	StandardOutput?: 'inherit' | 'null' | 'tty' | 'journal' | 'kmsg' | 'journal+console' | 'kmsg+console' | 'file:path' | 'append:path' | 'truncate:path' | 'socket' | 'fd:name' | string;
+	StandardOutput?:
+		| 'inherit'
+		| 'null'
+		| 'tty'
+		| 'journal'
+		| 'kmsg'
+		| 'journal+console'
+		| 'kmsg+console'
+		| 'file:path'
+		| 'append:path'
+		| 'truncate:path'
+		| 'socket'
+		| 'fd:name'
+		| string;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardError= */
 	StandardError?: MaybeArray<string>;
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardInputText= */

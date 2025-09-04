@@ -25,7 +25,26 @@ type MaybeArray<T> = T | T[];
 type BooleanType = 'true' | 'false' | 'yes' | 'no' | '1' | '0' | 'on' | 'off';
 `;
 
-const types = ['automount', 'dnssd', 'device', 'exec', 'kill', 'link', 'mount', 'netdev', 'network', 'nspawn', 'path', 'resource-control', 'scope', 'service', 'socket', 'swap', 'timer', 'unit'];
+const types = [
+	'automount',
+	'dnssd',
+	'device',
+	'exec',
+	'kill',
+	'link',
+	'mount',
+	'netdev',
+	'network',
+	'nspawn',
+	'path',
+	'resource-control',
+	'scope',
+	'service',
+	'socket',
+	'swap',
+	'timer',
+	'unit',
+];
 for (const type of types) {
 	const outputFile = resolve(outDir, `${type}.ts`);
 

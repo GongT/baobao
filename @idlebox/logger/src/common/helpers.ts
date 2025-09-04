@@ -91,7 +91,7 @@ export function compile_match_regex(tag: string, invert = false): RegExp {
 		regs.push(`${escapeRegExp(comb.join(':'))}:\\*`);
 	}
 	regs.push(escapeRegExp(tag));
-	return new RegExp(`(?:^|,)(${invert ? '-' : ''})(${regs.join('|')})(?:$|,)`, 'i');
+	return new RegExp(`(?:^| )(${invert ? '-' : ''})(${regs.join('|')})(?:$| )`, 'i');
 }
 
 /**
@@ -124,7 +124,7 @@ export function match_disabled(tag: string, env = process.env.DEBUG || ''): numb
  * 调用debug模块的debug.enabled方法
  */
 export function debug_enabled(tag: string) {
-	if(!tag) return true;
+	if (!tag) return true;
 	return debug(tag).enabled;
 }
 
@@ -150,8 +150,8 @@ export let defaultLogLevel = (() => {
 	}
 
 	// DEBUG=xxx,verbose,xxx
-	// biome-ignore lint/performance/useTopLevelRegex:
-	const has_debug_verbose = /(?<=^|,)(verbose|debug)(?=$|,)/;
+	// biome-ignore lint/performance/useTopLevelRegex: a
+	const has_debug_verbose = /(?<=^| )(verbose|debug)(?=$| )/;
 	const setted = has_debug_verbose.exec(process.env.DEBUG || '');
 	if (setted) {
 		if (setted[0] === 'verbose') {
@@ -172,8 +172,10 @@ export let defaultLogLevel = (() => {
 				return EnableLogLevel.info;
 			case 'warn':
 				return EnableLogLevel.warn;
+			case 'error':
+				return EnableLogLevel.error;
 			default:
-				console.error('Invalid DEBUG_LEVEL: %s, using verbose.', process.env.DEBUG_LEVEL);
+				console.error('Invalid DEBUG_LEVEL: %s (allow: "", verbose, debug, info, warn, error), using verbose.', process.env.DEBUG_LEVEL);
 				return EnableLogLevel.verbose;
 		}
 	}

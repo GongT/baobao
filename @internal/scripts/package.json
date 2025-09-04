@@ -19,6 +19,7 @@
 	"devDependencies": {
 		"@build-script/rushstack-config-loader": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/depcheck": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",

@@ -55,7 +55,7 @@ function watchModeCmd(command: string | readonly string[], watch?: string | read
 	return [...cmdArr, ...watch];
 }
 
- function loadConfigFile(watchMode: boolean): IConfigFile {
+function loadConfigFile(watchMode: boolean): IConfigFile {
 	const config = new ProjectConfig(projectRoot, undefined, logger);
 	const schemaFile = resolve(selfRoot, 'commands.schema.json');
 

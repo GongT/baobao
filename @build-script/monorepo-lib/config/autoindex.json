@@ -3,5 +3,5 @@
 	"exclude": ["**/bins/**"],
 	"project": "src",
 	"stripTags": ["private"],
-	"output": "autoindex"
+	"output": "autoindex",
 }

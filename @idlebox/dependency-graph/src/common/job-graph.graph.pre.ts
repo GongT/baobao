@@ -111,7 +111,8 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 			if (schedule.length >= remainingSlots) break;
 		}
 
-		this.logger.debug`working: ${Array.from(this.working.values().map((e) => e.name)).join(', ')}, queue: ${notStart}, concurrency: ${this.graph.concurrency}, schedule to run: ${schedule.map((e) => e.name).join(', ')}`;
+		this.logger
+			.debug`working: ${Array.from(this.working.values().map((e) => e.name)).join(', ')}, queue: ${notStart}, concurrency: ${this.graph.concurrency}, schedule to run: ${schedule.map((e) => e.name).join(', ')}`;
 		if (schedule.length === 0) {
 			this.logger.verbose`nothing to do this time`;
 			return;

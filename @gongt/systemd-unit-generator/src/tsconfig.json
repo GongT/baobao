@@ -6,6 +6,6 @@
 		"rootDir": "./",
 		"lib": ["ESNext"],
 		"types": ["node"],
-		"noPropertyAccessFromIndexSignature": true
-	}
+		"noPropertyAccessFromIndexSignature": true,
+	},
 }

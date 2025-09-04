@@ -15,8 +15,14 @@ export function tryInspect(object: any): string {
 	if (object.inspect) {
 		return object.inspect();
 	}
-	if (object[Symbol.toStringTag]) {
-		return object[Symbol.toStringTag]();
+
+	const tst = object[Symbol.toStringTag];
+	if (tst) {
+		if (typeof tst === 'string') {
+			return tst;
+		} else if (typeof tst === 'function') {
+			return tst.call(object);
+		}
 	}
 	if (object.toJSON) {
 		return object.toJSON();

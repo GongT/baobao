@@ -1,6 +1,6 @@
 import { SoftwareDefectError } from '@idlebox/common';
 import { LogLevel } from './colors.js';
-import { createDebug } from './debug-fn.js';
+import { createDebug } from './create.function.js';
 import { defaultLogLevel, detectColorEnable } from './helpers.js';
 import { EnableLogLevel, type IMyDebugWithControl, type IMyLogger } from './types.js';
 

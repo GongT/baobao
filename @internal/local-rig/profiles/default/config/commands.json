@@ -5,8 +5,8 @@
 			"command": {
 				"package": "@build-script/autoindex",
 				"binary": "autoindex",
-				"arguments": ["--config"]
-			}
+				"arguments": ["--config"],
+			},
 		},
 
 		/**
@@ -16,8 +16,8 @@
 			"command": {
 				"package": "@build-script/codegen",
 				"binary": "codegen",
-				"arguments": ["src"]
-			}
+				"arguments": ["src"],
+			},
 		},
 
 		/**
@@ -26,8 +26,8 @@
 		"depcheck": {
 			"command": {
 				"package": "@build-script/depcheck",
-				"binary": "depcheck"
-			}
+				"binary": "depcheck",
+			},
 		},
 
 		/**
@@ -38,12 +38,12 @@
 			"command": {
 				"package": "@mpis/typescript",
 				"binary": "mpis-tsc",
-				"arguments": ["-p", "src"]
+				"arguments": ["-p", "src"],
 			},
 			"watch": ["-w"],
 			"cwd": ".",
-			"env": {}
-		}
+			"env": {},
+		},
 	},
-	"clean": ["lib"]
+	"clean": ["lib"],
 }

@@ -3,5 +3,5 @@
 	"project": "./src",
 	"output": "autoindex",
 	"exclude": ["**/*.internal.ts", "**/_*/**"],
-	"stripTags": ["private"]
+	"stripTags": ["private"],
 }

@@ -3,9 +3,9 @@
 	"type": "module",
 	"version": "0.0.50",
 	"exports": {
-		".": {
-			"default": "./lib/autoindex.generated.js"
-		},
+		".": "./lib/index.js",
+		"./react": "./lib/react/autoindex.generated.js",
+		"./dom": "./lib/dom/autoindex.generated.js",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -24,7 +24,12 @@
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^"
+		"@mpis/run": "workspace:^",
+		"@types/react": "^19.1.12",
+		"@types/react-dom": "^19.1.9"
+	},
+	"optionalDependencies": {
+		"react": "*"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

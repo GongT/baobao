@@ -5,7 +5,7 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"stripInternal": true,
-		"noEmitOnError": false
+		"noEmitOnError": false,
 	},
-	"exclude": ["**/*.generator.ts", "**/*.test.ts"]
+	"exclude": ["**/*.generator.ts", "**/*.test.ts"],
 }

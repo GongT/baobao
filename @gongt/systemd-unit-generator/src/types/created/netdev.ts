@@ -66,7 +66,21 @@ export interface INetdevBridgeSection {
 	MulticastIGMPVersion?: MaybeArray<string>;
 }
 
-export const netdevBridgeFields: readonly string[] = ['HelloTimeSec', 'MaxAgeSec', 'ForwardDelaySec', 'AgeingTimeSec', 'Priority', 'GroupForwardMask', 'DefaultPVID', 'MulticastQuerier', 'MulticastSnooping', 'VLANFiltering', 'VLANProtocol', 'STP', 'MulticastIGMPVersion'];
+export const netdevBridgeFields: readonly string[] = [
+	'HelloTimeSec',
+	'MaxAgeSec',
+	'ForwardDelaySec',
+	'AgeingTimeSec',
+	'Priority',
+	'GroupForwardMask',
+	'DefaultPVID',
+	'MulticastQuerier',
+	'MulticastSnooping',
+	'VLANFiltering',
+	'VLANProtocol',
+	'STP',
+	'MulticastIGMPVersion',
+];
 
 export interface INetdevVlanSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Id= */
@@ -213,7 +227,18 @@ export interface INetdevGeneveSection {
 	IPDoNotFragment?: MaybeArray<string>;
 }
 
-export const netdevGeneveFields: readonly string[] = ['Id', 'Remote', 'TOS', 'TTL', 'UDPChecksum', 'UDP6ZeroChecksumTx', 'UDP6ZeroChecksumRx', 'DestinationPort', 'FlowLabel', 'IPDoNotFragment'];
+export const netdevGeneveFields: readonly string[] = [
+	'Id',
+	'Remote',
+	'TOS',
+	'TTL',
+	'UDPChecksum',
+	'UDP6ZeroChecksumTx',
+	'UDP6ZeroChecksumRx',
+	'DestinationPort',
+	'FlowLabel',
+	'IPDoNotFragment',
+];
 
 export interface INetdevBareudpSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#DestinationPort= */
@@ -247,7 +272,18 @@ export interface INetdevL2tp_SectionOptionsOptions {
 	UDP6ZeroChecksumRx?: MaybeArray<string>;
 }
 
-export const netdevL2tp_SectionOptionsFields: readonly string[] = ['TunnelId', 'PeerTunnelId', 'Remote', 'Local', 'EncapsulationType', 'UDPSourcePort', 'UDPDestinationPort', 'UDPChecksum', 'UDP6ZeroChecksumTx', 'UDP6ZeroChecksumRx'];
+export const netdevL2tp_SectionOptionsFields: readonly string[] = [
+	'TunnelId',
+	'PeerTunnelId',
+	'Remote',
+	'Local',
+	'EncapsulationType',
+	'UDPSourcePort',
+	'UDPDestinationPort',
+	'UDPChecksum',
+	'UDP6ZeroChecksumTx',
+	'UDP6ZeroChecksumRx',
+];
 
 export interface INetdevL2tpsession_SectionOptionsOptions {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Name= */
@@ -489,7 +525,16 @@ export interface INetdevWireguardpeerSection {
 	RouteMetric?: MaybeArray<string>;
 }
 
-export const netdevWireguardpeerFields: readonly string[] = ['PublicKey', 'PresharedKey', 'PresharedKeyFile', 'AllowedIPs', 'Endpoint', 'PersistentKeepalive', 'RouteTable', 'RouteMetric'];
+export const netdevWireguardpeerFields: readonly string[] = [
+	'PublicKey',
+	'PresharedKey',
+	'PresharedKeyFile',
+	'AllowedIPs',
+	'Endpoint',
+	'PersistentKeepalive',
+	'RouteTable',
+	'RouteMetric',
+];
 
 export interface INetdevBondSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#Mode= */
@@ -605,7 +650,18 @@ export interface INetdevBatmanadvancedSection {
 	RoutingAlgorithm?: MaybeArray<string>;
 }
 
-export const netdevBatmanadvancedFields: readonly string[] = ['GatewayMode', 'Aggregation', 'BridgeLoopAvoidance', 'DistributedArpTable', 'Fragmentation', 'HopPenalty', 'OriginatorIntervalSec', 'GatewayBandwidthDown', 'GatewayBandwidthUp', 'RoutingAlgorithm'];
+export const netdevBatmanadvancedFields: readonly string[] = [
+	'GatewayMode',
+	'Aggregation',
+	'BridgeLoopAvoidance',
+	'DistributedArpTable',
+	'Fragmentation',
+	'HopPenalty',
+	'OriginatorIntervalSec',
+	'GatewayBandwidthDown',
+	'GatewayBandwidthUp',
+	'RoutingAlgorithm',
+];
 
 export interface INetdevIpoibSection {
 	/** @see https://www.freedesktop.org/software/systemd/man/systemd.netdev.html#PartitionKey= */

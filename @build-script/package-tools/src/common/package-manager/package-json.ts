@@ -33,7 +33,7 @@ export async function makePackageJsonOrderConsistence(root: string) {
 }
 
 const pkgCache: Record<string, IPackageJson> = {};
-export async function cachedPackageJson(path: string):Promise<IPackageJson> {
+export async function cachedPackageJson(path: string): Promise<IPackageJson> {
 	const exists = pkgCache[path];
 	if (exists) {
 		return exists;

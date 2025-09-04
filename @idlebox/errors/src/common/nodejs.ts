@@ -32,7 +32,7 @@ export const isTypeError = isFileTypeError;
 /**
  * 对文件夹readFile
  * 对文件readDir
- * 
+ *
  * 会导致这种错误
  */
 export function isFileTypeError(e: unknown): e is NodeException<LinuxErrorCode.EISDIR | LinuxErrorCode.ENOTDIR> {

@@ -17,7 +17,9 @@ export const decideExternal: esbuild.Plugin = {
 		}
 
 		if (basedir.includes('/node_modules/')) {
-			throw new Error('esbuild initialOptions.absWorkingDir is inside node_modules, maybe running in production code, that is not supported. if you installed this package from npm, please file an issue to it.');
+			throw new Error(
+				'esbuild initialOptions.absWorkingDir is inside node_modules, maybe running in production code, that is not supported. if you installed this package from npm, please file an issue to it.',
+			);
 		}
 
 		const resolver = new ModuleResolver(build.initialOptions.conditions || ['node', 'import', 'default']);

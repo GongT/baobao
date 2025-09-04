@@ -124,8 +124,29 @@ export const debug_commands: Record<string, IDebugCommand> = {
 		}
 		return relative(process.cwd(), s);
 	},
+	printable(data: unknown, color: boolean) {
+		if (typeof data !== 'string') {
+			if (data?.toString) {
+				data = data.toString();
+			} else {
+				return color_error(`printable<> need string or toString(), not ${typeof data}(${data?.constructor?.name})`, color);
+			}
+		}
+		return (data as string).replace(combinedSequence, '');
+	},
 };
 type DebugCommands = Record<string, (arg: unknown, color: boolean) => string>;
+const controlCharacters = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g; // 除了 \t \n \r 之外的控制字符
+const csiSequence = /\x1B\[[\x30–\x3F]*[\x20-\x2F]*[\x40-\x7E]/g; // ANSI CSI序列
+const oscSequence = /\x1B\][^\x1B\x07]*(\x1B\\|\x07)/g; // ANSI OSC序列
+const pmApcSequence = /\x1B[_^][^\x1B\x07]*\x1B\\/g; // ANSI PM/APC序列
+const dcsSequence = /\x1B[\x20-\x7E\x08-\x0D]*\x1B\\/g; // ANSI DCS序列
+const sosSequence = /\x1B[\s\S]+?\x1B\\/g; // ANSI SOS序列
+const otherC1 = /\x1B[\x80-\x9F]/g; // 其他C1控制字符
+const combinedSequence = new RegExp(
+	[csiSequence.source, oscSequence.source, pmApcSequence.source, dcsSequence.source, sosSequence.source, otherC1.source, controlCharacters.source].join('|'),
+	'g',
+);
 
 export function call_debug_command(command: keyof typeof debug_commands | string, arg: unknown, color: boolean): string {
 	const fn = (debug_commands as DebugCommands)[command];

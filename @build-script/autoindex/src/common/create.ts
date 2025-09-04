@@ -2,7 +2,7 @@ import { camelCase, ucfirst } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { ensureParentExists, relativePath, writeFileIfChange } from '@idlebox/node';
 import { ExportKind, IgnoreFiles, TypescriptProject, type IIdentifierResult, type ITypescriptFile } from '@idlebox/typescript-surface-analyzer';
-import { basename, dirname } from 'node:path';
+import { dirname } from 'node:path';
 import type TypeScriptApi from 'typescript';
 
 export function idToString(ts: typeof TypeScriptApi, id: TypeScriptApi.StringLiteral | TypeScriptApi.Identifier) {
@@ -90,7 +90,7 @@ export async function createIndex({
 	const input_files = [];
 	for (const file of list.sort(sort_file)) {
 		if (file.absolutePath === outputFileAbs) {
-			throw new Error(`override output file: ${outputFileAbs} (are you import xxx from ${basename(outputFileAbs)}?)`);
+			throw new Error(`override source file: ${outputFileAbs}`);
 		}
 
 		const path = importSpec(absoluteImport ?? indexDir, file.relativePath);

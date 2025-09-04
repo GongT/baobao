@@ -5,6 +5,6 @@
 		"outDir": "../lib",
 		"rootDir": "./",
 		"tsBuildInfoFile": "../lib/tsbuildinfo.json",
-		"types": ["node"]
-	}
+		"types": ["node"],
+	},
 }

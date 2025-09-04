@@ -55,10 +55,10 @@
 					"options": {
 						"patterns": [
 							{
-								"group":["**/autoindex.js","**/autoindex.generated.js"],
-								"message": "试图从index文件导入符号"
-							}
-						]
+								"group": ["**/autoindex.*", "**/*.autoindex.*"],
+								"message": "试图从index文件导入符号",
+							},
+						],
 					},
 				},
 			},
@@ -113,7 +113,7 @@
 			"includes": ["**/*.ts"],
 		},
 		{
-			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc"],
+			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc", "**/config/*.json"],
 			"json": {
 				"formatter": {
 					"trailingCommas": "all",
