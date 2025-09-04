@@ -1,6 +1,6 @@
 import process from 'node:process';
 import { PassThrough } from 'node:stream';
-import { create } from './create.js';
+import { create } from './create.logger.js';
 import { debug_enabled, defaultLogLevel } from './helpers.js';
 import { terminal } from './logger.global.js';
 import { EnableLogLevel, type IMyLogger } from './types.js';

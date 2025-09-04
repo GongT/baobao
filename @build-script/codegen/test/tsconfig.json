@@ -6,6 +6,6 @@
 		"rootDir": "./",
 		"types": ["node"],
 		"noEmit": true,
-		"paths": {}
-	}
+		"paths": {},
+	},
 }

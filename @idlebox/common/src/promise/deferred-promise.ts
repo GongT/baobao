@@ -1,6 +1,6 @@
 import { CanceledError, TimeoutError } from '@idlebox/errors';
-import type { TimeoutType } from '../autoindex.js';
 import type { IDisposable } from '../lifecycle/dispose/disposable.js';
+import type { TimeoutType } from '../schedule/local-type.js';
 import { scheduler } from '../schedule/scheduler.js';
 
 export type ValueCallback<T = any> = (value: T | Promise<T>) => void;

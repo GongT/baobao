@@ -3,8 +3,8 @@ import { findUpUntilSync } from '@idlebox/node';
 import assert, { AssertionError } from 'node:assert';
 import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { FsNodeType } from '../features/types.js';
 import { unshareReadonlyFileSystem } from '../features/respawn.js';
+import { FsNodeType } from '../features/types.js';
 
 console.log('before pid = %s', process.pid); // print "a not 1 number" and "1"
 
@@ -51,6 +51,6 @@ try {
 try {
 	writeFileSync(resolve(pkgRoot, '../.test.txt'), 'wont ok');
 	assert.fail('should not write file to parent directory');
-} catch (e) {
+} catch {
 	// correct
 }

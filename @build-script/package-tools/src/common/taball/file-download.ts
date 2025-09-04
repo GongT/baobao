@@ -110,7 +110,7 @@ function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 		const request = get(url, { headers }, (response) => {
 			logger.debug(`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}][${response.headers['content-length']} bytes]`);
 			if (response.statusCode === 200) {
-				const bytes = Number.parseInt(response.headers['content-length'] ?? '--');
+				const bytes = Number.parseInt(response.headers['content-length'] ?? '--', 10);
 
 				if (bytes > 5 * 1024 * 1024 && process.stderr.isTTY) {
 					let downloaded = 0;
@@ -140,7 +140,10 @@ function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 						break;
 				}
 				resolve(Object.assign(response, { stream }));
-			} else if ((response.statusCode === 302 || response.statusCode === 301 || response.statusCode === 303 || response.statusCode === 307 || response.statusCode === 308) && response.headers.location) {
+			} else if (
+				(response.statusCode === 302 || response.statusCode === 301 || response.statusCode === 303 || response.statusCode === 307 || response.statusCode === 308) &&
+				response.headers.location
+			) {
 				reject(new RedirectError(url, response.headers.location, response.statusCode));
 			} else {
 				reject(new HttpError(url, response.statusCode as number, response.statusMessage as string));

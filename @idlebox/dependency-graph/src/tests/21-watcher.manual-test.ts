@@ -41,6 +41,7 @@ export function readlineTestInit() {
 	});
 }
 
+const spaceDelimiter = /\s+/;
 async function readlineMain() {
 	while (!ended) {
 		const _line = await rl.question(`${inspect(dep.finalize())}\n全启动: auto\n控制worker: [start|succ|fail|quit0|quit1] number\n> `);
@@ -57,7 +58,7 @@ async function readlineMain() {
 			continue;
 		}
 
-		const [cmd, id] = line.split(/\s+/);
+		const [cmd, id] = line.split(spaceDelimiter);
 		const title = `${id}`;
 		const worker = programs.get(title);
 		if (!worker) {

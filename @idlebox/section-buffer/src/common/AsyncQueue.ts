@@ -132,8 +132,9 @@ export class LossyAsyncQueue<T = void> {
 		await immediate();
 		if (this.state.getName() === State.dispose) return;
 
-		const task = this.task!;
+		const task = this.task;
 		this.task = undefined;
+		if (!task) throw new Error(`internal state error: task is empty`);
 
 		this.state.change(Event.schedule);
 

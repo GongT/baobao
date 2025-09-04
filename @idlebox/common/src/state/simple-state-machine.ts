@@ -1,6 +1,6 @@
 import { Emitter } from '../lifecycle/event/event.js';
 
-export type IFsmRuleMap<StateType, EventType> = MapLike<StateType, MapLike<EventType, StateType>>;
+export type ISsmRuleMap<StateType, EventType> = MapLike<StateType, MapLike<EventType, StateType>>;
 
 type MapLike<K, V> = Pick<Map<K, V>, 'get' | 'has' | 'keys'>;
 
@@ -12,12 +12,12 @@ export interface IStateChangeEvent<StateType, EventType> {
 
 export class SimpleStateMachine<StateType, EventType> {
 	protected declare currentState: StateType;
-	protected readonly rules: IFsmRuleMap<StateType, EventType>;
+	protected readonly rules: ISsmRuleMap<StateType, EventType>;
 
 	private readonly _onStateChange = new Emitter<IStateChangeEvent<StateType, EventType>>();
 	public readonly onStateChange = this._onStateChange.register;
 
-	constructor(rules: IFsmRuleMap<StateType, EventType>, init_state: StateType) {
+	constructor(rules: ISsmRuleMap<StateType, EventType>, init_state: StateType) {
 		this.rules = rules;
 		this.moveTo(init_state);
 	}
@@ -33,7 +33,8 @@ export class SimpleStateMachine<StateType, EventType> {
 	}
 
 	change(event: EventType) {
-		const state = this.rules.get(this.currentState)!;
+		const state = this.rules.get(this.currentState);
+		if (!state) throw new Error(`no state "${this.currentState}"`);
 		const next = state.get(event);
 		if (typeof next === 'undefined') {
 			throw new Error(

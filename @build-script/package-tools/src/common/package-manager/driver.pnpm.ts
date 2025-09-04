@@ -32,7 +32,7 @@ class RegistryError extends Error {
 		super(error.summary || 'no error summary');
 
 		if (this.error.detail) {
-			this.stack = this.error.detail.trimEnd() + '\n' + this.stack;
+			this.stack = `${this.error.detail.trimEnd()}\n${this.stack}`;
 		}
 	}
 

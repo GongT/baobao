@@ -1,11 +1,12 @@
-/** biome-ignore-all lint/performance/useTopLevelRegex: <explanation> */
+/** biome-ignore-all lint/performance/useTopLevelRegex: no need */
 import type { IExportMap } from '@idlebox/common';
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
+import { execa } from 'execa';
 import { cpSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { currentProject } from './constants.js';
+import { currentProject, monorepoRoot, realProject } from './constants.js';
 import { getExportsField, packageJson } from './package-json.js';
 
 export function makeInformationalFields() {
@@ -168,4 +169,44 @@ export function writeNpmFiles() {
 
 	logger.log`将 relative<${ignoreSource}> 复制到 relative<${ignoreDist}>`;
 	cpSync(ignoreSource, ignoreDist);
+}
+
+export async function executePreBuild() {
+	logger.log`执行 @build-script/depcheck`;
+	const depcheckPath = fileURLToPath(import.meta.resolve('@build-script/depcheck/binary'));
+	const args = [depcheckPath];
+
+	if (logger.verbose.isEnabled) {
+		args.push('-dd');
+	} else if (logger.debug.isEnabled) {
+		args.push('-d');
+	}
+
+	logger.debug`node commandline<${args}>`;
+	await execa('node', args, {
+		stdio: 'inherit',
+		cwd: currentProject,
+	});
+
+	logger.log`执行 biome check`;
+	const biomePath = resolve(monorepoRoot, 'node_modules/.bin/biome');
+	const lintResult = await execa(biomePath, ['lint', '--diagnostic-level=warn'], {
+		stdio: ['ignore', 'pipe', 'pipe'],
+		cwd: realProject,
+		reject: false,
+		all: true,
+	});
+	if (lintResult.exitCode !== 0) {
+		logger.verbose`输出内容: printable<${lintResult.all}>`;
+		throw new Error(`biome lint发现问题，必须修正后再发布`);
+	}
+
+	const formatResult = await execa(biomePath, ['format', '--diagnostic-level=warn'], {
+		stdio: 'pipe',
+		cwd: realProject,
+		reject: false,
+	});
+	if (formatResult.exitCode !== 0) {
+		logger.error`biome format发现问题，应修复后再发布`;
+	}
 }

@@ -1,4 +1,4 @@
-import { definePrivateConstant } from '../../autoindex.js';
+import { definePrivateConstant } from '../../object/definePublicConstant.js';
 
 export const singletonSymbol = Symbol('@idlebox/singleton');
 

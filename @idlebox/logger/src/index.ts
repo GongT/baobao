@@ -1,6 +1,6 @@
 export { LogLevel, logTagColor } from './common/colors.js';
-export { all_logger_names } from './common/create.js';
-export { createDebug } from './common/debug-fn.js';
+export { all_logger_names } from './common/create.logger.js';
+export { createDebug } from './common/create.function.js';
 export {
 	detectColorEnable as color_enabled,
 	debug_enabled,

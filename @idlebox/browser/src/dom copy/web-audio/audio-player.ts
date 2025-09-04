@@ -81,7 +81,6 @@ export class MediaForPlayback {
 
 	public readonly id: number;
 
-	// biome-ignore lint/correctness/noUnusedPrivateClassMembers: bug
 	private static guid = 0;
 
 	constructor() {
@@ -248,6 +247,7 @@ export function disposeAudioElement(audio: HTMLAudioElement) {
 	}
 }
 
+// biome-ignore lint/suspicious/noTsIgnore: 可能用到
 // @ts-ignore
 // biome-ignore lint/correctness/noUnusedVariables: debug
 const mdevents = [

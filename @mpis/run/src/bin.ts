@@ -3,6 +3,7 @@ import { logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
 import { ProcessIPCClient } from '@mpis/server';
+import assert from 'node:assert/strict';
 import { rmSync } from 'node:fs';
 import { dumpConfig } from './commands/config.js';
 import { context } from './common/args.js';
@@ -73,7 +74,10 @@ async function executeBuild() {
 			return;
 		}
 
-		const times = `(+${humanDate.delta(w.time.executeStart!, w.time.executeEnd!)})`;
+		assert.ok(w.time.executeStart);
+		assert.ok(w.time.executeEnd);
+
+		const times = `(+${humanDate.delta(w.time.executeStart, w.time.executeEnd)})`;
 
 		if (context.watchMode && !shuttingDown) {
 			printFailedRunError(w, `unexpected exit in watch mode ${times}`);

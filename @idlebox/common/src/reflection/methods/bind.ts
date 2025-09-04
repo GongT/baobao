@@ -1,4 +1,4 @@
-import { nameObject } from '../../autoindex.js';
+import { nameObject } from '../../debugging/object-with-name.js';
 
 export function bindThis(method: Function, context: ClassMethodDecoratorContext) {
 	if (context.kind !== 'method') throw new Error(`this decorator can only be applied to classes`);

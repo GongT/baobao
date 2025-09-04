@@ -82,7 +82,7 @@ export async function generate(context: GenerateContext) {
 
 const moduleDeclaration = /^declare module ["'](?<name>[^"]+)["']/;
 const isVersionedIndex = /^ts.*\/index\.d\.ts/;
-const removeModules = ['fs', ''];
+// const removeModules = ['fs', ''];
 const hasIndent = /^\s+/;
 
 async function work(fname: string, input: string, output: FileBuilder) {
@@ -132,18 +132,19 @@ async function removeNoneNodejsProtocol(fname: string, input: string, output: Fi
 	const hasProtocol: string[] = [];
 	const noProtocol: string[] = [];
 
-	const isBlackList = blacklist_modules.some((item) => fname === `${item}.d.ts`);
+	// const isBlackList = blacklist_modules.some((item) => fname === `${item}.d.ts`);
 
 	for (let line of input.split('\n')) {
 		try {
 			if (moduleDeclaration.test(line)) {
-				const name = moduleDeclaration.exec(line)!.groups!.name;
+				const name = moduleDeclaration.exec(line)?.groups?.name;
+				if (!name) throw new Error('syntax error in source file');
 				if (name.startsWith('node:')) {
 					sm.change(PrEvent.NoProtocolHeader);
 				} else {
 					sm.change(PrEvent.ProtocolHeader);
 				}
-				line = line.replace(moduleDeclaration, (m0, p1: string) => {
+				line = line.replace(moduleDeclaration, (_m0, p1: string) => {
 					const id = p1.replace('node:', '');
 					let n = id;
 					if (blacklist_modules.includes(id)) {
@@ -197,21 +198,6 @@ async function removeNoneNodejsProtocol(fname: string, input: string, output: Fi
 	assert.equal(sm.getName(), PrState.Normal, `invalid ending state (protocol): ${fname}`);
 }
 
-const refPathReg = /^\/\/\/\s+<reference\s+path="(?<path>[^"]+)"/;
-function stripIndex(_fname: string, input: string, output: FileBuilder) {
-	for (const lines of input.split('\n')) {
-		const match = refPathReg.exec(lines);
-		if (match) {
-			const refPath = match.groups!.path;
-			const id = refPath.replace('.d.ts', '');
-			if (blacklist_modules.includes(id)) {
-				continue;
-			}
-		}
-		output.append(lines);
-	}
-}
-
 const importReplacer = new Map();
 enum IrState {
 	Normal = 'n',
@@ -260,20 +246,20 @@ function replace_imports(fname: string, text: string[]) {
 		} else if (sm.getName() === IrState.MultilineImport) {
 			if (tline.includes(' from ')) {
 				sm.change(IrEvent.FoundImportEnd);
-				line = line.replace(staticImportRegex, (m0, p1) => {
+				line = line.replace(staticImportRegex, (_m0, p1) => {
 					return ` from '${wrap(p1)}'`;
 				});
 			}
 		} else {
 			if (tline.startsWith('import ')) {
 				if (tline.includes(' = ')) {
-					line = line.replace(dynamicImportRegex, (m0, require, p1) => {
+					line = line.replace(dynamicImportRegex, (_m0, require, p1) => {
 						return `${require}('${wrap(p1)}')`;
 					});
 				} else if (!tline.includes(' from ')) {
 					sm.change(IrEvent.FoundImportStart);
 				} else {
-					line = line.replace(staticImportRegex, (m0, p1) => {
+					line = line.replace(staticImportRegex, (_m0, p1) => {
 						return ` from '${wrap(p1)}'`;
 					});
 				}
@@ -282,7 +268,7 @@ function replace_imports(fname: string, text: string[]) {
 					sm.change(IrEvent.FoundComment);
 				}
 			} else {
-				line = line.replace(dynamicImportRegex, (m0, require, p1) => {
+				line = line.replace(dynamicImportRegex, (_m0, require, p1) => {
 					return `${require}('${wrap(p1)}')`;
 				});
 			}

@@ -7,6 +7,7 @@
 		"depcheck": "./loader/bin.devel.js"
 	},
 	"exports": {
+		"./binary": "./loader/bin.devel.js",
 		"./package.json": "./package.json"
 	},
 	"scripts": {

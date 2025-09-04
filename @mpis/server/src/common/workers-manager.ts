@@ -2,7 +2,7 @@ import { Emitter, registerGlobalLifecycle } from '@idlebox/common';
 import { getPauseControl, Job, JobGraphBuilder, JobState, pause, UnrecoverableJobError } from '@idlebox/dependency-graph';
 import { createLogger } from '@idlebox/logger';
 import { inspect, type InspectOptionsStylized } from 'node:util';
-import { type ProtocolClientObject } from './protocol-client-object.js';
+import type { ProtocolClientObject } from './protocol-client-object.js';
 
 const MAX_STARTING = 4;
 
@@ -59,7 +59,7 @@ class EventTranslate extends Job<string> {
 	}
 
 	override [inspect.custom](_d: number, options: InspectOptionsStylized, ins: typeof inspect) {
-		return this.debugPrefix() + ' ' + ins(this.worker, options).trim();
+		return `${this.debugPrefix()} ${ins(this.worker, options).trim()}`;
 	}
 }
 

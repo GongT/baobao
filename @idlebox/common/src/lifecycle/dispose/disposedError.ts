@@ -1,8 +1,8 @@
-import { isNodeJs } from '../../autoindex.js';
 import { tryInspect } from '../../debugging/inspect.js';
 import { getErrorFrame } from '../../error/get-frame.js';
 import { prettyFormatError } from '../../error/pretty.nodejs.js';
 import type { StackTraceHolder } from '../../error/stack-trace.js';
+import { isNodeJs } from '../../platform/os.js';
 import { dispose_name } from './debug.js';
 
 export class Disposed extends Error {

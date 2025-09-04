@@ -24,7 +24,7 @@ export class TcpClient extends AbstractChannelClient {
 		const remote = this.remote.trim();
 		if (remote.includes(':')) {
 			const [host, port] = remote.split(':');
-			socket = createConnection({ port: Number.parseInt(port), host });
+			socket = createConnection({ port: Number.parseInt(port, 10), host });
 		} else {
 			socket = createConnection({ path: remote });
 		}

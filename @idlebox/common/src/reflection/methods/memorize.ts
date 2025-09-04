@@ -1,4 +1,5 @@
-import { definePrivateConstant, nameObject } from '../../autoindex.js';
+import { nameObject } from '../../debugging/object-with-name.js';
+import { definePrivateConstant } from '../../object/definePublicConstant.js';
 
 const memoizeSymbol = Symbol('@gongt/memorize');
 

@@ -9,8 +9,8 @@ export interface IOverlay {
 	target: string;
 }
 
-export interface IUser {}
-export interface IProcess {}
+export type IUser = {};
+export type IProcess = {};
 
 export interface IContainerOptions {
 	user?: IUser;

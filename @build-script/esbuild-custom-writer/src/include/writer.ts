@@ -71,10 +71,13 @@ export class CustomFileWriter implements Plugin {
 			if (result.errors.length) {
 				return;
 			}
+			if (!result.outputFiles) {
+				throw new Error('outputFiles is empty, `write` must = true.');
+			}
 
 			const list = [];
 
-			for (const efile of result.outputFiles!) {
+			for (const efile of result.outputFiles) {
 				const rel = relative(rootDir, efile.path);
 
 				const fileObj: IFile = {

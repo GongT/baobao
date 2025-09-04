@@ -48,7 +48,15 @@ export function isSerializable(value: any): SerializableKind {
 			if ('toJSON' in value || Symbol.toPrimitive in value) {
 				return SerializableKind.Manual;
 			}
-			if (value instanceof Map || value instanceof WeakMap || value instanceof Set || value instanceof WeakSet || value instanceof RegExp || value instanceof Promise || value === Math) {
+			if (
+				value instanceof Map ||
+				value instanceof WeakMap ||
+				value instanceof Set ||
+				value instanceof WeakSet ||
+				value instanceof RegExp ||
+				value instanceof Promise ||
+				value === Math
+			) {
 				return SerializableKind.Invalid;
 			}
 			if (typeof window === 'object') {

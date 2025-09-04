@@ -6,66 +6,66 @@
 			"cleanFiles": [
 				{
 					"sourcePath": "src",
-					"includeGlobs": ["**/*.generated.ts"]
-				}
+					"includeGlobs": ["**/*.generated.ts"],
+				},
 			],
 			"tasksByName": {
 				"track": {
 					"taskPlugin": {
 						"pluginName": "track",
 						"pluginPackage": "@internal/plugins",
-						"options": {}
-					}
+						"options": {},
+					},
 				},
 				"sanity": {
 					"taskPlugin": {
 						"pluginName": "check-project",
 						"pluginPackage": "@internal/plugins",
-						"options": {}
-					}
+						"options": {},
+					},
 				},
 				"codegen": {
 					"taskPlugin": {
-						"pluginPackage": "@build-script/heft-codegen-plugin"
-					}
+						"pluginPackage": "@build-script/heft-codegen-plugin",
+					},
 				},
 				"autoindex": {
 					"taskDependencies": ["codegen"],
 					"taskPlugin": {
-						"pluginPackage": "@build-script/heft-autoindex-plugin"
-					}
-				}
-			}
+						"pluginPackage": "@build-script/heft-autoindex-plugin",
+					},
+				},
+			},
 		},
 		"compile": {
 			"phaseDescription": "编译",
 			"phaseDependencies": ["generate"],
 			"cleanFiles": [
 				{
-					"sourcePath": "temp"
+					"sourcePath": "temp",
 				},
 				{
-					"sourcePath": "lib"
-				}
+					"sourcePath": "lib",
+				},
 			],
 			"tasksByName": {
 				"track": {
 					"taskPlugin": {
 						"pluginName": "track",
 						"pluginPackage": "@internal/plugins",
-						"options": {}
-					}
+						"options": {},
+					},
 				},
 				"typescript": {
 					"taskPlugin": {
 						"pluginPackage": "@build-script/heft-typescript-plugin",
 						"options": {
 							"project": "src/tsconfig.json",
-							"extension": ".js"
-						}
-					}
-				}
-			}
+							"extension": ".js",
+						},
+					},
+				},
+			},
 		},
 		"postprocess": {
 			"phaseDescription": "对编译结果进行后处理、正规化",
@@ -75,10 +75,10 @@
 					"taskPlugin": {
 						"pluginName": "track",
 						"pluginPackage": "@internal/plugins",
-						"options": {}
-					}
-				}
-			}
+						"options": {},
+					},
+				},
+			},
 		},
 		"build": {
 			"phaseDescription": "生成不可变的发布文件（例如打包）",
@@ -88,23 +88,23 @@
 				{
 					"sourcePath": ".",
 					"fileExtensions": [".tgz", ".log"],
-					"excludeGlobs": ["node_modules"]
+					"excludeGlobs": ["node_modules"],
 				},
 				{
 					"sourcePath": ".",
 					"includeGlobs": ["*-logs"],
-					"excludeGlobs": ["node_modules"]
-				}
+					"excludeGlobs": ["node_modules"],
+				},
 			],
 			"tasksByName": {
 				"track": {
 					"taskPlugin": {
 						"pluginName": "track",
 						"pluginPackage": "@internal/plugins",
-						"options": {}
-					}
-				}
-			}
+						"options": {},
+					},
+				},
+			},
 		},
 		"test": {
 			"phaseDescription": "执行测试（如有）",
@@ -122,19 +122,19 @@
 						"options": {
 							"interpreter": "bash",
 							"interpreterArgs": ["-c"],
-							"script": "if [[ -e eslint.config.js ]]; then eslint ; fi"
-						}
-					}
-				}
-			}
-		}
+							"script": "if [[ -e eslint.config.js ]]; then eslint ; fi",
+						},
+					},
+				},
+			},
+		},
 	},
 	"heftPlugins": [
 		{
-			"pluginPackage": "@build-script/heft-cls-plugin"
+			"pluginPackage": "@build-script/heft-cls-plugin",
 		},
 		{
-			"pluginPackage": "@build-script/heft-source-map-plugin"
-		}
-	]
+			"pluginPackage": "@build-script/heft-source-map-plugin",
+		},
+	],
 }

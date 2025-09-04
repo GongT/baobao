@@ -1,10 +1,13 @@
 import pkgJson from '../../package.json' with { type: 'json' };
 
-export const typescriptAlertHeader = `/* eslint-disable */
+export const typescriptAlertHeader = `
+
+// biome-ignore-all lint: generated file
+// biome-ignore-all assist: generated file
+// biome-ignore-all syntax: generated file
+/* eslint-disable */
 // @ts-ignore
-// biome-ignore-all lint
-// biome-ignore-all assist
-// biome-ignore-all syntax
+
 /******************************************************************************
  *  GENERATED FILE, DO NOT MODIFY
  *  这是生成的文件，千万不要修改
@@ -14,4 +17,4 @@ export const typescriptAlertHeader = `/* eslint-disable */
  * 
  ******************************************************************************/
 
-`;
+`.trim();

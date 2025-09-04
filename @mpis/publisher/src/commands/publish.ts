@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
-
 import { applyPublishWorkspace } from '@build-script/monorepo-lib';
 import { argv } from '@idlebox/args/default';
 import { logger } from '@idlebox/logger';
@@ -11,8 +9,9 @@ import { buildPackageTarball, extractPackage, reconfigurePackageJson } from '../
 
 const publishArgs: string[] = [];
 
-if (argv.single(['--access'])) {
-	publishArgs.push('--access', argv.single(['--access'])!);
+const access = argv.single(['--access']);
+if (access) {
+	publishArgs.push('--access', access);
 }
 if (argv.flag(['--dry-run']) > 0) {
 	publishArgs.push('--dry-run');
@@ -23,17 +22,20 @@ if (argv.flag(['--force']) > 0) {
 if (argv.flag(['--no-git-checks']) > 0) {
 	publishArgs.push('--no-git-checks');
 }
-if (argv.single(['--publish-branch'])) {
-	publishArgs.push('--publish-branch', argv.single(['--publish-branch'])!);
+const branch = argv.single(['--publish-branch']);
+if (branch) {
+	publishArgs.push('--publish-branch', branch);
 }
 if (argv.flag(['--report-summary']) > 0) {
 	publishArgs.push('--report-summary');
 }
-if (argv.single(['--tag'])) {
-	publishArgs.push('--tag', argv.single(['--tag'])!);
+const tag = argv.single(['--tag']);
+if (tag) {
+	publishArgs.push('--tag', tag);
 }
-if (argv.single(['--registry'])) {
-	publishArgs.push('--registry', argv.single(['--registry'])!);
+const registry = argv.single(['--registry']);
+if (registry) {
+	publishArgs.push('--registry', registry);
 }
 
 if (argv.unused().length > 0) {

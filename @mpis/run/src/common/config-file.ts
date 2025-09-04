@@ -55,7 +55,7 @@ function watchModeCmd(command: string | readonly string[], watch?: string | read
 	return [...cmdArr, ...watch];
 }
 
- function loadConfigFile(watchMode: boolean): IConfigFile {
+function loadConfigFile(watchMode: boolean): IConfigFile {
 	const config = new ProjectConfig(projectRoot, undefined, logger);
 	const schemaFile = resolve(selfRoot, 'commands.schema.json');
 
@@ -193,7 +193,8 @@ function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMo
 	const pkgJsonPath = fileURLToPath(config.resolve(`${cmd.package}/package.json`));
 	let title = item.title;
 	if (!title) {
-		title = cmd.package.split('/').pop();
+		// biome-ignore lint/style/noNonNullAssertion: split must have 0
+		title = cmd.package.split('/')[0]!;
 		if (cmd.binary && cmd.binary !== title) {
 			title += `:${cmd.binary}`;
 		}
@@ -212,7 +213,7 @@ function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMo
 	const binPath = resolve(pkgJsonPath, '..', binVal);
 
 	return {
-		title: title!,
+		title: title,
 		command: watchModeCmd([process.execPath, binPath, ...(cmd.arguments ?? [])], item.watch, watchMode),
 		cwd: resolve(projectRoot, item.cwd || '.'),
 		env: item.env ?? {},

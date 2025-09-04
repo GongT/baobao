@@ -5,6 +5,7 @@ import inspector from 'node:inspector';
  */
 export function debuggerBreakUserEntrypoint() {
 	if (inspector.url() && process.argv.find((e) => e.startsWith('--inspect-brk'))) {
+		// biome-ignore lint/suspicious/noDebugger: expect
 		debugger;
 	}
 }

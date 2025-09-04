@@ -66,8 +66,7 @@ function stringify(arg: any): string {
 		return arg.toString().trim();
 	}
 	if (arg === null || arg === undefined) {
-		// biome-ignore lint/style/useTemplate: <explanation>
-		return '' + arg;
+		return `${arg}`;
 	}
 	if (Array.isArray(arg) && typeof arg[0] === 'string') {
 		let r = '\n';

@@ -64,7 +64,17 @@ interface StrategyRequired {
 }
 
 function isPrimitive(value: any): value is Primitive {
-	return value === undefined || value === null || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint' || typeof value === 'function' || value instanceof RegExp || value instanceof Date;
+	return (
+		value === undefined ||
+		value === null ||
+		typeof value === 'string' ||
+		typeof value === 'number' ||
+		typeof value === 'boolean' ||
+		typeof value === 'bigint' ||
+		typeof value === 'function' ||
+		value instanceof RegExp ||
+		value instanceof Date
+	);
 }
 
 const defaults: StrategyRequired = {

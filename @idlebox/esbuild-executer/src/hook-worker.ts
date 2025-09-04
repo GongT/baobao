@@ -29,7 +29,7 @@ export async function initialize({ options, port, tsFile }: InitializeData) {
 			const { entryPoints, outDir } = createEntryMapping([tsFile, ...(options?.entries ?? [])]);
 			for (const entry of entryPoints) {
 				const from = pathToFileURL(resolvePath(outDir, entry.in)).toString();
-				// biome-ignore lint/style/useTemplate: <explanation>
+				// biome-ignore lint/style/useTemplate: 太长
 				const to = pathToFileURL(resolvePath(outDir, entry.out)).toString() + '.js';
 				logger.worker`  ${from} -> ${to}`;
 				inspectModeEntryMapping.set(from, to);

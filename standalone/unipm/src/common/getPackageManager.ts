@@ -26,7 +26,8 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 			if (typeof json.packageManager === 'string') {
 				for (const name of KNOWN_PACKAGE_MANAGER_NAMES) {
 					if (json.packageManager.toLowerCase().startsWith(name)) {
-						const PM = getPackageManagerByName(name)!;
+						const PM = getPackageManagerByName(name);
+						if (!PM) throw new Error(`package manager driver ${name} not found`);
 						return new PM(options.cwd);
 					}
 				}
@@ -119,7 +120,7 @@ async function askUserSelect(installed: PackageManager[]): Promise<PackageManage
 	let selection = -1;
 	await new Promise((resolve) => {
 		rl.on('line', (line) => {
-			selection = Number.parseInt(line);
+			selection = Number.parseInt(line, 10);
 			if (installed[selection]) {
 				resolve(selection);
 			} else {

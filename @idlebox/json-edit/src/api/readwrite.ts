@@ -27,7 +27,12 @@ function requireFile(data: any) {
 /**
  * attach file save path to "data" object
  */
-export async function createJsonFile<T = any, K = any>(data: T, saveAs: string, charset: BufferEncoding = DEFAULT_ENCODING, formatter?: IFormatter<K>): Promise<JsonEditObject<T, K>> {
+export async function createJsonFile<T = any, K = any>(
+	data: T,
+	saveAs: string,
+	charset: BufferEncoding = DEFAULT_ENCODING,
+	formatter?: IFormatter<K>,
+): Promise<JsonEditObject<T, K>> {
 	const newData = Object.assign({}, data);
 	setAttachedFile(newData, { originalPath: saveAs, encoding: charset, exists: false });
 	if (formatter) {
@@ -78,13 +83,18 @@ export async function writeJsonFile(file: string, data: any, charset: BufferEnco
 	const ret = await writeJsonFileBack(newData);
 
 	if (!getAttachedFile(data)) {
-		setAttachedFile(data, getAttachedFile(newData)!);
+		setAttachedFile(data, getAttachedFile(newData));
 	}
 
 	return ret;
 }
 
-export async function loadJsonFileIfExists<T = any, K = any>(file: string, defaultValue: T = {} as any, charset: BufferEncoding = DEFAULT_ENCODING, formatter?: IFormatter<K>): Promise<JsonEditObject<T, K>> {
+export async function loadJsonFileIfExists<T = any, K = any>(
+	file: string,
+	defaultValue: T = {} as any,
+	charset: BufferEncoding = DEFAULT_ENCODING,
+	formatter?: IFormatter<K>,
+): Promise<JsonEditObject<T, K>> {
 	file = abs(file);
 	if (await pathExists(file)) {
 		return loadJsonFile(file, charset);
@@ -100,7 +110,11 @@ export async function loadJsonFileIfExists<T = any, K = any>(file: string, defau
 	return newData as JsonEditObject<T, K>;
 }
 
-export async function loadJsonFile<T = any, K = any>(file: string, charset: BufferEncoding = DEFAULT_ENCODING, formatter?: IFormatter<K>): Promise<JsonEditObject<T, K>> {
+export async function loadJsonFile<T = any, K = any>(
+	file: string,
+	charset: BufferEncoding = DEFAULT_ENCODING,
+	formatter?: IFormatter<K>,
+): Promise<JsonEditObject<T, K>> {
 	file = abs(file);
 	const targetFile = await loadFile(file, charset);
 	const data: any = parse(targetFile.originalContent);

@@ -1,7 +1,5 @@
 #!/usr/bin/env node
-if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
-	await import('@idlebox/source-map-support/register.js');
-}
+import '@idlebox/source-map-support/register';
 
 Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 process.on('uncaughtException', (error, _origin) => {
@@ -17,9 +15,9 @@ process.on('unhandledRejection', (reason, promise) => {
 	console.error('[unhandledRejection]', promise);
 });
 
-await import('./lib/esm/index.mjs')
+await import('./lib/esm/index.js')
 	.then((e) => {
-		return e.default();
+		return e.main();
 	})
 	.catch((e) => {
 		console.error(e);

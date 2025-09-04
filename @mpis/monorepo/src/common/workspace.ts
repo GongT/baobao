@@ -20,6 +20,7 @@ export type IPnpmMonoRepo = PnpmMonoRepo;
 const colorReg = /\x1B\[[0-9;]+?m/g;
 const unclosedColorReg = /\x1B\[[^m]*$/g;
 
+const firstEmptyLine = /^\s*\n/;
 class PnpmMonoRepo extends AsyncDisposable {
 	private readonly workersManager: WorkersManager;
 	private readonly pathvar: PathArray;
@@ -154,7 +155,8 @@ class PnpmMonoRepo extends AsyncDisposable {
 		}
 
 		for (const [project, text] of this.errorMessages.entries()) {
-			const block = text.replace(/^\s*\n/, '').trimEnd();
+			const block = text.replace(firstEmptyLine, '').trimEnd();
+			// biome-ignore lint/style/noNonNullAssertion: no error if no worker
 			const exec = this.packageToWorker.get(project)!;
 			output += buildLine(`[@mpis/monorepo] below is output in project ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m: ${exec.commandline.join(' ')}`);
 			output += workingDirectory.escapeVscodeCwd(project.absolute);
@@ -215,7 +217,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 		} else {
 			graphTxt = graph.debugFormatGraph(depth);
 		}
-		return graphTxt + '\n' + graph.debugFormatSummary();
+		return `${graphTxt}\n${graph.debugFormatSummary()}`;
 	}
 
 	printScreen(short = false) {

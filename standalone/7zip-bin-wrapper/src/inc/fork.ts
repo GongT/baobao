@@ -1,5 +1,5 @@
 import { path7za as originalPath7za } from '7zip-bin';
-import { type ChildProcess, spawn, type SpawnOptions } from 'node:child_process';
+import { spawn, type ChildProcess, type SpawnOptions } from 'node:child_process';
 import { basename, dirname } from 'node:path';
 import { handleOutput, handleProgress, type IStatusReport } from './outputStreams.js';
 
@@ -139,7 +139,7 @@ function indentArgs(args: ReadonlyArray<string>) {
 		.join('\n');
 }
 
-export function StatusCodeError(status: number, signal: string, _cwd: string, cmd: string[]): ProgramError | null {
+export function StatusCodeError(status: number, signal: string, cwd: string, cmd: string[]): ProgramError | null {
 	if (status === 0 && !signal) {
 		return null;
 	}
@@ -152,7 +152,7 @@ ${indentArgs(cmd.slice(1))}
 		signal,
 		__programError: true,
 		__program,
-		__cwd: cmd[2]!,
+		__cwd: cwd,
 	});
 }
 

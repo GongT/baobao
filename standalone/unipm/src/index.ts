@@ -15,7 +15,7 @@ function getArgs() {
 }
 
 /** @internal */
-export default async function () {
+export async function main() {
 	const { cmd, args } = getArgs();
 
 	const packageJson = (await findUpUntil({ from: process.cwd(), file: 'package.json' })) || undefined;

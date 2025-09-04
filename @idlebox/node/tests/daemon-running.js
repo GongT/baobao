@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noRestrictedImports: testing */
 import { functionToDisposable, registerGlobalLifecycle, sleep } from '@idlebox/common';
 import { registerNodejsExitHandler } from '../lib/autoindex.js';
 

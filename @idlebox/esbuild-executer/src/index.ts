@@ -2,7 +2,15 @@ import { error } from 'node:console';
 import module from 'node:module';
 import { MessageChannel } from 'node:worker_threads';
 import { debugs, inspectEnabled, isTrue } from './common/cli.js';
-import type { IDebugMessage, IErrorMessage, IExecuteOptions, IImportedMessage, IInitializeMessage, ISourceMapMessage, IWarningMessage } from './common/message.types.js';
+import type {
+	IDebugMessage,
+	IErrorMessage,
+	IExecuteOptions,
+	IImportedMessage,
+	IInitializeMessage,
+	ISourceMapMessage,
+	IWarningMessage,
+} from './common/message.types.js';
 export type { IExecuteOptions };
 
 const schema = /^file:\/\//;

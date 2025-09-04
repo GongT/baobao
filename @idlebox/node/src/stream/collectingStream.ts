@@ -11,7 +11,7 @@ export function streamToBuffer(stream: NodeJS.ReadableStream, raw: boolean): Pro
 }
 
 export class RawCollectingStream extends Writable {
-	private buffer?: Buffer = Buffer.allocUnsafe(0);
+	private buffer: Buffer = Buffer.allocUnsafe(0);
 	private _promise?: Promise<Buffer>;
 
 	constructor(sourceStream?: NodeJS.ReadableStream) {
@@ -25,27 +25,28 @@ export class RawCollectingStream extends Writable {
 	}
 
 	override _write(chunk: Buffer, _encoding: string, callback: (error?: Error | null) => void): void {
-		this.buffer = Buffer.concat([this.buffer!, chunk]);
+		this.buffer = Buffer.concat([this.buffer, chunk]);
 		callback();
 	}
 
 	getOutput(): Buffer {
-		return this.buffer!;
+		return this.buffer;
 	}
 
 	promise(): Promise<Buffer> {
-		return this._promise
-			? this._promise
-			: (this._promise = streamPromise(this).then(() => {
-					const buffer = this.buffer!;
-					this.buffer = undefined;
-					return buffer;
-				}));
+		if (!this._promise) {
+			this._promise = streamPromise(this).then(() => {
+				const buffer = this.buffer;
+				this.buffer = Buffer.allocUnsafe(0);
+				return buffer;
+			});
+		}
+		return this._promise;
 	}
 }
 
 export class CollectingStream extends Writable {
-	private buffer? = '';
+	private buffer = '';
 	private _promise?: Promise<string>;
 
 	constructor(sourceStream?: NodeJS.ReadableStream) {
@@ -69,16 +70,17 @@ export class CollectingStream extends Writable {
 	}
 
 	getOutput() {
-		return this.buffer!;
+		return this.buffer;
 	}
 
 	promise(): Promise<string> {
-		return this._promise
-			? this._promise
-			: (this._promise = streamPromise(this).then(() => {
-					const buffer = this.buffer!;
-					this.buffer = undefined;
-					return buffer;
-				}));
+		if (!this._promise) {
+			this._promise = streamPromise(this).then(() => {
+				const buffer = this.buffer;
+				this.buffer = '';
+				return buffer;
+			});
+		}
+		return this._promise;
 	}
 }

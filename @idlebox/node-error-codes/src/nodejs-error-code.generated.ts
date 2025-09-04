@@ -1,8 +1,9 @@
+// biome-ignore-all lint: generated file
+// biome-ignore-all assist: generated file
+// biome-ignore-all syntax: generated file
 /* eslint-disable */
 // @ts-ignore
-// biome-ignore-all lint
-// biome-ignore-all assist
-// biome-ignore-all syntax
+
 /******************************************************************************
  *  GENERATED FILE, DO NOT MODIFY
  *  这是生成的文件，千万不要修改
@@ -144,14 +145,9 @@ export enum NodeErrorCode {
 	 * when an error occurs (and is caught) during the creation of the
 	 * context, for example, when the allocation fails or the maximum call stack
 	 * size is reached when the context is created.</p>
-	 * <p><a id="ERR_CRYPTO_ARGON2_NOT_SUPPORTED"></a></p>
-	 */
-	ERR_CONTEXT_NOT_INITIALIZED = 'ERR_CONTEXT_NOT_INITIALIZED',
-	/**
-	 * <p>Argon2 is not supported by the current version of OpenSSL being used.</p>
 	 * <p><a id="ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED"></a></p>
 	 */
-	ERR_CRYPTO_ARGON2_NOT_SUPPORTED = 'ERR_CRYPTO_ARGON2_NOT_SUPPORTED',
+	ERR_CONTEXT_NOT_INITIALIZED = 'ERR_CONTEXT_NOT_INITIALIZED',
 	/**
 	 * <p>An OpenSSL engine was requested (for example, through the <code>clientCertEngine</code> or
 	 * <code>privateKeyEngine</code> TLS options) that is not supported by the version of OpenSSL
@@ -302,15 +298,9 @@ export enum NodeErrorCode {
 	/**
 	 * <p>Key's Asymmetric Key Type is not registered for use in the
 	 * <a href="https://www.iana.org/assignments/jose/jose.xhtml#web-key-types">JSON Web Key Types Registry</a>.</p>
-	 * <p><a id="ERR_CRYPTO_KEM_NOT_SUPPORTED"></a></p>
-	 */
-	ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE = 'ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE',
-	/**
-	 * <p>Attempted to use KEM operations while Node.js was not compiled with
-	 * OpenSSL with KEM support.</p>
 	 * <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
 	 */
-	ERR_CRYPTO_KEM_NOT_SUPPORTED = 'ERR_CRYPTO_KEM_NOT_SUPPORTED',
+	ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE = 'ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE',
 	/**
 	 * <p>A crypto operation failed for an otherwise unspecified reason.</p>
 	 * <p><a id="ERR_CRYPTO_PBKDF2_ERROR"></a></p>

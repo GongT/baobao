@@ -36,6 +36,8 @@
 				"noExplicitAny": "off",
 				"noControlCharactersInRegex": "off",
 				"noImplicitAnyLet": "off",
+				"noConfusingVoidType": "off",
+				"noShadowRestrictedNames": "off",
 			},
 			"style": {
 				"noParameterAssign": "off",
@@ -48,6 +50,11 @@
 					"level": "off",
 					"options": { "syntax": "shorthand" },
 				},
+				"useNodejsImportProtocol": {
+					"fix": "safe",
+					"level": "error",
+					"options": {},
+				},
 				"noSubstr": "info",
 				"useAtIndex": "info",
 				"noRestrictedImports": {
@@ -55,10 +62,10 @@
 					"options": {
 						"patterns": [
 							{
-								"group":["**/autoindex.js","**/autoindex.generated.js"],
-								"message": "试图从index文件导入符号"
-							}
-						]
+								"group": ["**/autoindex.*", "**/*.autoindex.*"],
+								"message": "试图从index文件导入符号",
+							},
+						],
 					},
 				},
 			},
@@ -69,6 +76,11 @@
 				"noBannedTypes": "off",
 			},
 			"correctness": {
+				"useParseIntRadix": {
+					"fix": "safe",
+					"level": "error",
+					"options": {},
+				},
 				"useImportExtensions": {
 					"fix": "unsafe",
 					"level": "error",
@@ -76,6 +88,7 @@
 						"forceJsExtensions": true,
 					},
 				},
+				"noConstantCondition": "off",
 			},
 			"nursery": {},
 			"performance": {
@@ -113,10 +126,31 @@
 			"includes": ["**/*.ts"],
 		},
 		{
-			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc"],
-			"json": {
-				"formatter": {
-					"trailingCommas": "all",
+			"includes": ["**/*.generated.ts", "**/autoindex.ts"],
+			"linter": {
+				"enabled": false,
+			},
+			"formatter": {
+				"enabled": false,
+			},
+		},
+		{
+			"includes": ["**/*.test.ts", "**/tests/**/*.ts", "**/test/**/*.ts"],
+			"linter": {
+				"rules": {
+					"performance": "off",
+					"style": {
+						"noNonNullAssertion": "off",
+						"noRestrictedImports": "off",
+					},
+				},
+			},
+		},
+		{
+			"includes": ["**/*.generator.ts"],
+			"linter": {
+				"rules": {
+					"performance": "off",
 				},
 			},
 		},
@@ -125,6 +159,14 @@
 			"formatter": {
 				"expand": "auto",
 				"lineWidth": 300,
+			},
+		},
+		{
+			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc", "**/config/*.json", "!**/config/rig.json"],
+			"json": {
+				"formatter": {
+					"trailingCommas": "all",
+				},
 			},
 		},
 	],

@@ -2,19 +2,10 @@
  * assert value is not null or undefined or NaN
  * @public
  */
-export function assertNotNull<T>(val: T | null | undefined): T {
-	console.assert(val !== undefined && val !== null, 'AssertValue failed, got %s(%s).', typeof val, val);
-	return val!;
-}
-
-/**
- * assert value is not null or undefined or NaN
- * @throws Value is null or undefined
- * @public
- */
-export function throwNull<T>(val: T) {
-	if (val === undefined || val === null) {
-		return val!;
+export function assertNotNull<T>(val: T): NonNullable<T> {
+	if (val !== undefined && val !== null && !Number.isNaN(val)) {
+		return val;
+	} else {
+		throw new Error(`Assertion failed, got nullish value: ${typeof val}(${val}).`);
 	}
-	throw new Error(`Value is ${typeof val}`);
 }

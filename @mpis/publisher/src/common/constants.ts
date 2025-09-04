@@ -23,7 +23,7 @@ if (!gitDir) {
 export const repoRoot = dirname(gitDir);
 export const isMonoRepo = !!findMonorepoRootSync(projectPath, gitDir);
 
-export const debugMode = argv.flag(['--debug', '-d']) > 0;
+export const debugMode = argv.flag(['--debug', '-d']);
 
 export async function recreateTempFolder() {
 	const tempFolder = `${projectPath}/.publisher`;

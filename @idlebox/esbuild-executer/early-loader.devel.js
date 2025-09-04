@@ -4,7 +4,6 @@ import { resolve } from 'node:path';
 
 const built = resolve(import.meta.dirname, './lib/index.js');
 
-export let execute;
 if (!existsSync(built)) {
 	const p = spawnSync('tsc -p src --noCheck', {
 		stdio: 'inherit',
@@ -26,4 +25,4 @@ if (!existsSync(built)) {
 	}
 }
 
-execute = await import(built).then((m) => m.execute);
+export const execute = await import(built).then((m) => m.execute);

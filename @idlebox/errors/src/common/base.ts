@@ -2,6 +2,15 @@ function noop() {}
 
 const replaceStackTrace = Error.captureStackTrace ?? noop;
 
+export class NotError extends Error {
+	constructor(extra_message: string = '') {
+		super(`你不应该看到此消息: ${extra_message}`);
+	}
+	override get stack() {
+		return this.message;
+	}
+}
+
 /**
  * 应用程序退出
  * 此错误通常不需要输出到日志

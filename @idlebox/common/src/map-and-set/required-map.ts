@@ -13,9 +13,11 @@ export class RequiredMap<K, V> extends Map<K, V> {
 
 	public override get(id: K, def?: V): V {
 		if (super.has(id)) {
+			// biome-ignore lint/style/noNonNullAssertion: has
 			return super.get(id)!;
 		}
 		if (arguments.length === 2) {
+			// biome-ignore lint/style/noNonNullAssertion: 1
 			return def!;
 		}
 		throw new Error(`Unknown key {${id}} in map.`);
@@ -26,6 +28,7 @@ export class RequiredMap<K, V> extends Map<K, V> {
 	 */
 	public entry(id: K, init: (id: K) => V): V {
 		if (super.has(id)) {
+			// biome-ignore lint/style/noNonNullAssertion: has
 			return super.get(id)!;
 		}
 		const nv = init(id);
@@ -45,6 +48,7 @@ export abstract class InstanceMap<K, V> extends Map<K, V> {
 	 */
 	public override get(id: K): V {
 		if (super.has(id)) {
+			// biome-ignore lint/style/noNonNullAssertion: has
 			return super.get(id)!;
 		}
 		const nv = this.instance(id);

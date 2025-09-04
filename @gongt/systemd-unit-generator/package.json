@@ -29,6 +29,7 @@
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"

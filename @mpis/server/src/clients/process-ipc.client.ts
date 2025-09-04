@@ -155,12 +155,13 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			detached: process.pid === 1,
 		} satisfies MyOptions);
 		const [command, ...args] = this.commandline;
-		this.process = doExec(command, args);
+		const sub_process = doExec(command, args);
+		this.process = sub_process;
 
 		if (this.logger.verbose.isEnabled) {
 			for (const stream of ['stdout', 'stderr'] as const) {
 				const logger = this.logger.extend(stream[3]);
-				this.process[stream]?.on('data', (chunk: Buffer) => {
+				sub_process[stream].on('data', (chunk: Buffer) => {
 					if (logger.verbose.isEnabled) {
 						const debugTxt = chunk.toString('utf-8').trimEnd().replaceAll('\n', '\\n').replaceAll('\r', '\\r').replaceAll('\x1B', '\\e');
 
@@ -170,16 +171,16 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				});
 			}
 		} else {
-			this.process.stdout?.pipe(this.outputStream, { end: false });
-			this.process.stderr?.pipe(this.outputStream, { end: false });
+			sub_process.stdout.pipe(this.outputStream, { end: false });
+			sub_process.stderr.pipe(this.outputStream, { end: false });
 		}
 
-		this.process.on('message', this.onMessage);
+		sub_process.on('message', this.onMessage);
 
 		this._started = true;
 		try {
-			await Promise.all([streamPromise(this.process.stdout!), streamPromise(this.process.stderr!)]);
-			const process = await this.process;
+			await Promise.all([streamPromise(sub_process.stdout), streamPromise(sub_process.stderr)]);
+			const process = await sub_process;
 
 			if (this.hasDisposed) {
 				this.logger.debug`(after dispose) process quit with code ${process.exitCode}`;

@@ -51,6 +51,7 @@ export class CallbackList<Argument extends unknown[]> {
 		}
 		const found = this.list.indexOf(item);
 		if (found !== -1) {
+			// biome-ignore lint/style/noNonNullAssertion: already
 			return this.list.splice(found, 1)[0]!;
 		}
 		return null;

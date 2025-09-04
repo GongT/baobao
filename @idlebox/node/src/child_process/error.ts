@@ -16,15 +16,16 @@ interface IChildProcessStatus {
 	timedOut?: boolean;
 }
 
+const errorMessagePattern = /^Error: /;
 /** @throws */
 export function checkChildProcessResult(result: IChildProcessStatus): void {
 	const title = result.command ? `command [${result.command}] ` : 'child process ';
 
 	if (result.error) {
 		const msg: string = result.error.message || (result.error as any);
-		const e = new Error(`${title}failed to start: ${msg.replace(/^Error: /, '')}`);
+		const e = new Error(`${title}failed to start: ${msg.replace(errorMessagePattern, '')}`);
 		if (result.error.stack) {
-			const stack = result.error.stack.split(/\n/);
+			const stack = result.error.stack.split('\n');
 			stack.splice(0, 1, e.message);
 			e.stack = stack.join('\n');
 		}

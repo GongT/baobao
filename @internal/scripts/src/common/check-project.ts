@@ -3,6 +3,7 @@ import { parse } from 'comment-json';
 import { readFileSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { Assertion } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { createLogger, EnableLogLevel, type IMyLogger } from '@idlebox/logger';
 import { currentProject } from './constants.js';
@@ -12,7 +13,14 @@ import { getExportsField, packageJson, readPackageJson, writeBack } from './pack
 
 let errorRegistry: ErrorCollector;
 const assetPkgName = '@build-script/single-dog-asset';
-const very_basic_packages = ['@build-script/single-dog-asset', '@idlebox/itypes', '@internal/local-rig', '@internal/scripts', '@gongt/pnpm-instead-npm', '@idlebox/ensure-symlink'];
+const very_basic_packages = [
+	'@build-script/single-dog-asset',
+	'@idlebox/itypes',
+	'@internal/local-rig',
+	'@internal/scripts',
+	'@gongt/pnpm-instead-npm',
+	'@idlebox/ensure-symlink',
+];
 
 export async function executeProjectCheck() {
 	await readPackageJson();
@@ -31,11 +39,16 @@ export async function executeProjectCheck() {
 			logger.warn`   long<${notice}>`;
 		}
 	} catch (e: any) {
-		if (!(e instanceof CheckFail)) {
+		let ee: CheckFail;
+		if (e instanceof CheckFail) {
+			ee = e;
+		} else {
 			errorRegistry.with(resolve(currentProject, 'package.json')).emit(`意外错误: ${e.stack}`);
-			e = errorRegistry.getError();
+			const eee = errorRegistry.getError();
+			Assertion.ok(eee, 'error missing after adding');
+			ee = eee;
 		}
-		logger.error(`项目检查出错: ${e.message}`);
+		logger.error(`项目检查出错: ${ee.message}`);
 		await writeBack();
 		process.exitCode = 1;
 	}

@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/suspicious/noShadowRestrictedNames:  */
-
 import { functionName } from '../debugging/object-with-name.js';
 import { ensureGlobalObject } from './globalObject.js';
 

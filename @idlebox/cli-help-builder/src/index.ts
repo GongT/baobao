@@ -79,7 +79,8 @@ export class CliApplicationHelp implements IApplicationHelp {
 		const lines = [usage];
 
 		if (command) {
-			const cmd = this.commands.get(command)!;
+			const cmd = this.commands.get(command);
+			if (!cmd) throw new Error(`Command '${command}' is not registered.`);
 			const help = cmd.help;
 			if (help) {
 				lines.push(help);
@@ -93,7 +94,8 @@ export class CliApplicationHelp implements IApplicationHelp {
 		}
 
 		if (command) {
-			const cmd = this.commands.get(command)!;
+			const cmd = this.commands.get(command);
+			if (!cmd) throw new Error(`Command '${command}' is not registered.`);
 			const m = Array.from(Object.entries(cmd.args));
 			if (m.length) {
 				const tbl = table(this.arg_color, '    ');

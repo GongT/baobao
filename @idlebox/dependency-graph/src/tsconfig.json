@@ -6,7 +6,7 @@
 		"rootDir": "./",
 		"types": ["node"],
 		"noEmitOnError": false,
-		"stripInternal": true
+		"stripInternal": true,
 	},
-	"exclude": ["**/*.generator.ts"]
+	"exclude": ["**/*.generator.ts"],
 }

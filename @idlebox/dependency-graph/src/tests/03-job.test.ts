@@ -46,7 +46,7 @@ describe('job-graph', () => {
 		await jobs.startup();
 	}).timeout(slowMode ? Infinity : 3000);
 
-	it.only('error when job fail', async () => {
+	it('error when job fail', async () => {
 		const build = new JobGraphBuilder(2, logger.extend('job:error'));
 		const na = build.addNode(new SimpleJob('A', []));
 		const nb = build.addNode(new SimpleJob('B', ['A'], false));

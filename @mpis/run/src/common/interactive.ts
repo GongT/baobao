@@ -3,6 +3,7 @@ import type { ProcessIPCClient } from '@mpis/server';
 import { workersManager } from './manager.js';
 import { registerCommand } from './stdin.js';
 
+const spaces = /\s+/;
 export function addBreakModeDebugCommands() {
 	logger.warn`Break mode enabled, waiting for input command...`;
 
@@ -17,7 +18,7 @@ export function addBreakModeDebugCommands() {
 		name: ['debug'],
 		description: '切换调试模式（仅在启动前有效）',
 		callback: (text: string) => {
-			const [_, index, on_off] = text.split(/\s+/);
+			const [_, index, on_off] = text.split(spaces);
 			const list = workersManager._allWorkers as ProcessIPCClient[];
 			const worker = list[Number(index)];
 			if (!worker) {

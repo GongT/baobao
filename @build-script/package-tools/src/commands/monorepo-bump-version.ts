@@ -95,7 +95,7 @@ function options() {
 		excludeReg = new RegExp(`^(${regTxt.join('|')})$`);
 	}
 
-	const skip = Number.parseInt(argv.single(['--skip']) || '0');
+	const skip = Number.parseInt(argv.single(['--skip']) || '0', 10);
 	if (Number.isNaN(skip)) {
 		throw new Error('skip 不是数字');
 	}

@@ -68,7 +68,7 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
 		const prefix = result_messages[index] || '';
 		const postfix = result_messages[index + 1] || '';
 
-		if (prefix[prefix.length - 1] === '<' && postfix[0] === '>') {
+		if (prefix.at(-1) === '<' && postfix[0] === '>') {
 			const lastWord = lastWordReg.exec(prefix);
 			if (lastWord) {
 				const command = prefix.slice(lastWord.index, -1);

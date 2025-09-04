@@ -3,7 +3,7 @@ import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { isLinux, isPathContains, UsageError } from '@idlebox/common';
 import { printLine } from '@idlebox/node';
 import { FsNodeType, unshareReadonlyFileSystem } from '@idlebox/unshare';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';

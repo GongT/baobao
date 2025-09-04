@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
+/** biome-ignore-all lint/style/noNonNullAssertion: builder */
 import { basename, resolve } from 'node:path';
 import type { ProjectConfig } from '../common/config.js';
 

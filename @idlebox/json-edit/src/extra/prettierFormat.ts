@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import type { doc, Options as PrettierOptions } from 'prettier';
-import { format, type Options, resolveConfig } from 'prettier';
+import { format, resolveConfig, type Options } from 'prettier';
 import type { IFormatter } from '../api/types.js';
 import { pathExists } from '../tools/filesystem.js';
 
@@ -34,6 +34,7 @@ const defaultFormat: IInternalFormat = {
 	__embeddedInHtml: false,
 };
 
+const indentDetectionRegexp = /^\s+/m;
 export class PrettierFormat implements IFormatter<ICfg> {
 	constructor(private current: IInternalFormat = { ...defaultFormat }) {}
 
@@ -83,7 +84,7 @@ export class PrettierFormat implements IFormatter<ICfg> {
 	}
 
 	private learnFromString(text: string) {
-		const someLineHasIndent = /^\s+/m.exec(text)?.[0];
+		const someLineHasIndent = indentDetectionRegexp.exec(text)?.[0];
 
 		const config = this.current;
 

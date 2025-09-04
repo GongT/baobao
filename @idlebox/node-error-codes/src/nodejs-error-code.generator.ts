@@ -28,7 +28,7 @@ export async function generate(context: GenerateContext) {
 	function get_id(id: string) {
 		for (const section of body.miscs[0].miscs) {
 			if (section.name === id) {
-				return section.modules!;
+				return section.modules;
 			}
 		}
 		throw new Error(`missing section: ${id}`);

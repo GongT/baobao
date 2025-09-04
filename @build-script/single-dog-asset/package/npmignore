@@ -39,3 +39,6 @@ temp
 
 ### Examples
 /example
+
+### Private development declarations
+src/**/*.d.ts

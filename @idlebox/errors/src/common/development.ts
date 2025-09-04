@@ -20,3 +20,11 @@ export class SoftwareDefectError extends ProgramError {
 		this.name = 'SoftwareDefect';
 	}
 }
+
+export class Assertion extends SoftwareDefectError {
+	static ok(value: unknown, message: string = 'Assertion failed', boundary?: CallableFunction): asserts value {
+		if (!value) {
+			throw new SoftwareDefectError(`${message}: value should be truthy, got ${typeof value} (${value})`, boundary ?? Assertion.ok);
+		}
+	}
+}

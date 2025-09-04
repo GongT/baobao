@@ -181,7 +181,7 @@ export abstract class ProtocolClientObject {
 	}
 
 	protected [inspect.custom](depth: number, options: InspectOptionsStylized) {
-		return this._inspectDesc(options) + ' ' + this._inspect(depth, options);
+		return `${this._inspectDesc(options)} ${this._inspect(depth, options)}`;
 	}
 
 	protected _inspect(_depth: number, options: InspectOptionsStylized) {

@@ -9,6 +9,9 @@ const winLetter = /^[a-z]:[/\\]/i;
 // samba: \\xxx\yyy
 const doubleSlash = /^[/\\]{2}[^/\\]/i;
 
+const anySlash = /[/\\]/;
+const startingSlashes = /^[/\\]+/;
+
 export enum PathKind {
 	url = 0,
 	unc = 1,
@@ -36,8 +39,8 @@ export function analyzePath(p: string) {
 			url: u,
 		};
 	} else if (unc.test(p)) {
-		p = p.replace(unc, '').replace(/^[/\\]+/, '');
-		const i = /[///]/.exec(p)?.index ?? -1;
+		p = p.replace(unc, '').replace(startingSlashes, '');
+		const i = anySlash.exec(p)?.index ?? -1;
 		if (i <= 0) throw new Error(`invalid unc path: ${inp}`);
 
 		r = {
@@ -54,8 +57,8 @@ export function analyzePath(p: string) {
 			path: p.slice(3),
 		};
 	} else if (doubleSlash.test(p)) {
-		p = p.replace(/^[/\\]+/, '');
-		const i = /[///]/.exec(p)?.index ?? -1;
+		p = p.replace(startingSlashes, '');
+		const i = anySlash.exec(p)?.index ?? -1;
 		if (i <= 0) throw new Error(`invalid cifs url: ${inp}`);
 
 		r = {

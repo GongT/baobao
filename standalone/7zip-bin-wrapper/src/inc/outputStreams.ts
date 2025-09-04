@@ -59,7 +59,7 @@ class ProgressStream extends Transform {
 	override _transform(chunk: string, _encoding: BufferEncoding, callback: Function): void {
 		const match = matchExp.exec(chunk);
 		if (match) {
-			const percent = Number.parseInt(match[1]!);
+			const percent = Number.parseInt(match[1], 10);
 			if (!Number.isNaN(percent)) {
 				this.push({
 					progress: percent,

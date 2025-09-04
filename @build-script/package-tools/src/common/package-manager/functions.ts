@@ -89,7 +89,7 @@ export async function resolveNpm(versions: Map<string, string>) {
 	const total = versions.size;
 	const padto = total.toFixed(0).length;
 
-	const nc = Number.parseInt((await getNpmConfigValue('network-concurrency')) || '4');
+	const nc = Number.parseInt((await getNpmConfigValue('network-concurrency')) || '4', 10);
 
 	for await (const [packName, newVersion, currentVersion] of asyncPool(nc, [...versions.entries()], resolveNpmVersion)) {
 		versions.set(packName, newVersion);

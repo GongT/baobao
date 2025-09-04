@@ -41,11 +41,10 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 	}
 
 	static make<Data, T extends Job<Data>>(graph: JobGraph<Data, T>, logger: IMyLogger) {
-		let starter: Starter<Data, T>;
-		const promise = new Promise<void>((resolve, reject) => {
-			starter = new Starter(graph, logger, { resolve, reject });
-		});
-		return { starter: starter!, promise } as const;
+		const { promise, reject, resolve } = Promise.withResolvers<void>();
+		const starter = new Starter(graph, logger, { resolve, reject });
+
+		return { starter: starter, promise } as const;
 	}
 
 	override dispose() {
@@ -111,7 +110,8 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 			if (schedule.length >= remainingSlots) break;
 		}
 
-		this.logger.debug`working: ${Array.from(this.working.values().map((e) => e.name)).join(', ')}, queue: ${notStart}, concurrency: ${this.graph.concurrency}, schedule to run: ${schedule.map((e) => e.name).join(', ')}`;
+		this.logger
+			.debug`working: ${Array.from(this.working.values().map((e) => e.name)).join(', ')}, queue: ${notStart}, concurrency: ${this.graph.concurrency}, schedule to run: ${schedule.map((e) => e.name).join(', ')}`;
 		if (schedule.length === 0) {
 			this.logger.verbose`nothing to do this time`;
 			return;

@@ -1,18 +1,33 @@
-import type { IAutomountSection, IKillSection, IMountSection, IPathSection, IResourceControlSection, IScopeSection, IServiceSection, ISocketSection, ISwapSection, ITimerSection, IUnitInstallSection, IUnitUnitSection, __IExecAll } from './all.js';
+import type {
+	IAutomountOptions,
+	IExecFields,
+	IKillOptions,
+	IMountOptions,
+	IPathOptions,
+	IResourceControlOptions,
+	IScopeOptions,
+	IServiceOptions,
+	ISocketOptions,
+	ISwapOptions,
+	ITimerOptions,
+	IUnitInstallOptions,
+	IUnitOptions,
+} from './everything.generated.js';
 
-export type * from './all.js';
+export type * from './everything.generated.js';
+export { DocumentVersion } from './everything.generated.js';
 
 export interface ISystemdUnit {
-	Unit: IUnitUnitSection & UnknownFields;
-	Install?: IUnitInstallSection & UnknownFields;
-	Service?: IServiceSection & __IExecAll & IKillSection & IResourceControlSection & UnknownFields;
-	Socket?: ISocketSection & __IExecAll & IKillSection & UnknownFields;
-	Mount?: IMountSection & __IExecAll & IKillSection & UnknownFields;
-	Automount?: IAutomountSection & UnknownFields;
-	Swap?: ISwapSection & __IExecAll & IKillSection & UnknownFields;
-	Path?: IPathSection & UnknownFields;
-	Timer?: ITimerSection & UnknownFields;
-	Scope?: IScopeSection & UnknownFields;
+	Unit: IUnitOptions & UnknownFields;
+	Install?: IUnitInstallOptions & UnknownFields;
+	Service?: IServiceOptions & IExecFields & IKillOptions & IResourceControlOptions & UnknownFields;
+	Socket?: ISocketOptions & IExecFields & IKillOptions & UnknownFields;
+	Mount?: IMountOptions & IExecFields & IKillOptions & UnknownFields;
+	Automount?: IAutomountOptions & UnknownFields;
+	Swap?: ISwapOptions & IExecFields & IKillOptions & UnknownFields;
+	Path?: IPathOptions & UnknownFields;
+	Timer?: ITimerOptions & UnknownFields;
+	Scope?: IScopeOptions & UnknownFields;
 }
 
 export interface IUnknownSection {

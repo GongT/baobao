@@ -19,5 +19,9 @@ export function outside(container: string, files: readonly string[]) {
 }
 
 export function findNearestMountpoint(filesystem: readonly IMountInfo[], path: string) {
-	return filesystem.find((mnt) => inside(path, [mnt.target]))!;
+	const found = filesystem.find((mnt) => inside(path, [mnt.target]));
+	if (!found) {
+		throw new Error(`无法找到路径 ${path} 所在的挂载点（缺少root?）`);
+	}
+	return found;
 }

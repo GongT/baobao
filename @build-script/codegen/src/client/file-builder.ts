@@ -47,11 +47,6 @@ export class FileBuilder {
 
 		if (!no_rename) {
 			name = renameExt(name);
-
-			const ext = extname(name);
-			if (sourceCodeExtensions.includes(ext)) {
-				this.prepend(typescriptAlertHeader);
-			}
 		}
 
 		this.absolutePath = resolve(projectRoot, name);
@@ -73,21 +68,27 @@ export class FileBuilder {
 		}
 		return this._referData;
 	}
-	append(text: string) {
-		this.result.push(text);
-		return text;
+	append(...text: string[]) {
+		this.result.push(...text);
+		return text.join('\n');
 	}
 
-	prepend(text: string) {
-		this.result.unshift(text);
-		return text;
+	prepend(...text: string[]) {
+		this.result.unshift(...text);
+		return text.join('\n');
 	}
 
 	toString() {
-		if (this.result.at(-1) !== '') {
-			this.result.push('');
+		const result = this.result.slice();
+		if (result.at(-1) !== '') {
+			result.push('');
 		}
-		return this.result.join('\n');
+
+		const ext = extname(this.absolutePath);
+		if (sourceCodeExtensions.includes(ext)) {
+			result.unshift(typescriptAlertHeader, '\n');
+		}
+		return result.join('\n');
 	}
 
 	get size() {
@@ -181,18 +182,29 @@ export class FileBuilder {
 	 * @param exports 如果为true，则生成export语句
 	 * @returns 添加的import语句
 	 */
-	import(what: string | string[], where: string, exports = false): string {
+	import(what: string | string[], where: string | FileBuilder, exports = false): string {
 		let type = false;
 		if (Array.isArray(what)) {
 			if (what[0] === 'type') {
 				type = true;
 				what.shift();
 			}
-			what = what.join(', ');
+			if (what.length === 1 && what[0] === '*') {
+				what = '*';
+			} else {
+				what = `{ ${what.join(', ')} }`;
+			}
 		}
 
 		if (typeof where !== 'string') {
-			throw new TypeError(`import path must be a string, got ${typeof where}`);
+			if (where instanceof FileBuilder) {
+				where = relativePath(this.dirname, where.getAbsolutePath());
+				if (!where.startsWith('.')) {
+					where = `./${where}`;
+				}
+			} else {
+				throw new TypeError(`import path must be a string, got ${typeof where}`);
+			}
 		}
 
 		if (!where.startsWith('.')) {
@@ -211,9 +223,9 @@ export class FileBuilder {
 
 		const s = exports ? 'export' : 'import';
 		if (type) {
-			return this.prepend(`${s} type { ${what} } from '${where}';`);
+			return this.prepend(`${s} type ${what} from '${where}';`);
 		} else {
-			return this.prepend(`${s} { ${what} } from '${where}';`);
+			return this.prepend(`${s} ${what} from '${where}';`);
 		}
 	}
 
@@ -262,13 +274,13 @@ export class WrappedArray {
 	 *	获取数组的前几个元素
 	 */
 	begining(cnt: number | string) {
-		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? Number.parseInt(cnt) : cnt));
+		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? Number.parseInt(cnt, 10) : cnt));
 	}
 	/**
 	 *	获取数组的后几个元素
 	 */
 	ending(cnt: number | string) {
-		return new WrappedArray(this.array.slice(-(typeof cnt === 'string' ? Number.parseInt(cnt) : cnt)));
+		return new WrappedArray(this.array.slice(-(typeof cnt === 'string' ? Number.parseInt(cnt, 10) : cnt)));
 	}
 
 	/**

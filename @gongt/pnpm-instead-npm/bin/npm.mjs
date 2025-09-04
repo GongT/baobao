@@ -35,7 +35,6 @@ function should_use_npm(argv) {
 async function main() {
 	const argv = process.argv.slice(2);
 
-	let r;
 	if (should_use_npm(argv) || process.env.EXEC_BY_PNPM || process.env.INSTALL_RUN_LOCKFILE_PATH) {
 		// console.error('run npm');
 		const resolver = createRequire(import.meta.filename);
@@ -57,7 +56,7 @@ async function main() {
 	// console.error('run PNPM');
 	const pnpmBin = await which('pnpm');
 	// console.error('\x1B[2mexecute:', pnpmBin, ...argv, '\x1B[0m');
-	r = await execa(pnpmBin, [...argv], options);
+	const r = await execa(pnpmBin, [...argv], options);
 
 	if (r.signal) {
 		process.exit(1);

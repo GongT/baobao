@@ -1,6 +1,3 @@
-declare global {
-	interface ImportMeta {
-		env?: Record<string, string>;
-	}
-}
+/// <reference path="./meta.d.ts" />
+
 export const isProductionMode = import.meta.env?.['MODE'] === 'production';

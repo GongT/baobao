@@ -48,7 +48,10 @@ export class AsyncLock {
 	}
 
 	static protect(title: string, weak = false) {
-		return <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>): AsyncFun<T, A, R | undefined> => {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Protect(this: any, ...args: any) {
 				const lock = getLock(this);
 				const ok = lock.acquire(title, weak);
@@ -63,7 +66,10 @@ export class AsyncLock {
 	}
 
 	static start(title: string) {
-		return <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>): AsyncFun<T, A, R | undefined> => {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Start(this: any, ...args: any) {
 				const lock = getLock(this);
 				lock.acquire(title);
@@ -77,7 +83,10 @@ export class AsyncLock {
 	}
 
 	static finish(title: string) {
-		return <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>): AsyncFun<T, A, R | undefined> => {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Finish(this: any, ...args: any) {
 				const lock = getLock(this);
 				lock.require(title);
@@ -89,8 +98,12 @@ export class AsyncLock {
 		};
 	}
 
+	// biome-ignore lint/suspicious/useAdjacentOverloadSignatures: bug
 	static require(title: string) {
-		return <T, A extends any[], R>(original: AsyncFun<T, A, R | undefined>, _context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>): AsyncFun<T, A, R | undefined> => {
+		return <T, A extends any[], R>(
+			original: AsyncFun<T, A, R | undefined>,
+			_context: ClassMethodDecoratorContext<T, AsyncFun<T, A, R | undefined>>,
+		): AsyncFun<T, A, R | undefined> => {
 			async function asyncLock__Require(this: any, ...args: any) {
 				const lock = getLock(this);
 				lock.require(title);

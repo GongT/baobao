@@ -1,4 +1,4 @@
-import { objectName } from '../autoindex.js';
+import { objectName } from '../debugging/object-with-name.js';
 import type { IDisposable } from '../lifecycle/dispose/disposable.js';
 import { EnhancedDisposable } from '../lifecycle/dispose/sync-disposable.js';
 import { Emitter } from '../lifecycle/event/event.js';

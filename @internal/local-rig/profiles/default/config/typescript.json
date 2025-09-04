@@ -1,4 +1,4 @@
 {
 	"$schema": "https://developer.microsoft.com/json-schemas/heft/v0/typescript.schema.json",
-	"project": "src/tsconfig.json"
+	"project": "src/tsconfig.json",
 }

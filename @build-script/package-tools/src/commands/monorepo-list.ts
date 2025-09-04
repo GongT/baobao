@@ -36,7 +36,7 @@ export async function main() {
 		console.log(
 			JSON.stringify(
 				list.map((e) => {
-					const { packageJson, ...extras } = e;
+					const { packageJson: _, ...extras } = e;
 					return extras;
 				}),
 			),

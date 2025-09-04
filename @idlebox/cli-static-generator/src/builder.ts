@@ -1,3 +1,7 @@
+/**
+ * biome-ignore-all lint/performance/useTopLevelRegex: builder
+ *
+ */
 import type { CommandDefine } from '@idlebox/cli-help-builder';
 import { camelCase, ucfirst, type IPackageJson } from '@idlebox/common';
 import { findUpUntil, relativePath } from '@idlebox/node';

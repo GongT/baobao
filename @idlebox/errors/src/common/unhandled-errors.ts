@@ -14,7 +14,7 @@ class ProxiedError extends Error {
 		if (cause && 'stack' in cause) {
 			const stack = cause.stack;
 			if (typeof stack === 'string') {
-				return this.message + '\n' + removeFirstLine(cause.stack);
+				return `${this.message}\n${removeFirstLine(cause.stack)}`;
 			}
 		}
 		return `${this.message}\n  no stack available`;

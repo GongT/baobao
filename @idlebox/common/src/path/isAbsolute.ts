@@ -1,3 +1,4 @@
+const isAbsoluteReg = /^\/|^\\|^[a-z]:[\\/]|^[^:]{1,10}:\/\//i;
 /**
  * return true if a path is absolute:
  *   - /xxxx
@@ -7,5 +8,5 @@
  *   - http://
  */
 export function isAbsolute(path: string) {
-	return /^\/|^\\|^[a-z]:[\\/]|^[^:]{1,10}:\/\//i.test(path);
+	return isAbsoluteReg.test(path);
 }

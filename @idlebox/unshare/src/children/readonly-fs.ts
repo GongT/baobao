@@ -1,8 +1,8 @@
 import { commandInPathSync } from '@idlebox/node';
-import { execveOrSpawn } from '../autoindex.generated.js';
 import { CONTAINER_ENV_VAR_NAME } from '../common/constants.js';
 import { mountBinding, mountOverlay, mountTmpfs, recreateRootFilesystem, setVerbose } from '../common/mount.js';
 import { inside } from '../common/path-calc.js';
+import { execveOrSpawn } from '../features/execve.js';
 import type { IReadonlyOptions } from '../features/respawn.js';
 import { FsNodeType } from '../features/types.js';
 
@@ -12,7 +12,11 @@ export interface IReadonlyFilesystemPassingOptions {
 	argv: string[];
 }
 
-const { options, entryFile, argv } = JSON.parse(process.env[CONTAINER_ENV_VAR_NAME]!) as IReadonlyFilesystemPassingOptions;
+if (!process.env[CONTAINER_ENV_VAR_NAME]) {
+	throw new Error(`环境变量 ${CONTAINER_ENV_VAR_NAME} 未设置`);
+}
+
+const { options, entryFile, argv } = JSON.parse(process.env[CONTAINER_ENV_VAR_NAME]) as IReadonlyFilesystemPassingOptions;
 delete process.env[CONTAINER_ENV_VAR_NAME];
 // process.stderr.write(`=============== ${[entryFile, ...argv].join(' ')}\n`);
 // console.log(options);

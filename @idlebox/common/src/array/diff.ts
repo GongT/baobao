@@ -17,6 +17,7 @@ export function arrayDiff<T>(_before: readonly T[], after: readonly T[]) {
 	const del: T[] = [];
 	const same: T[] = [];
 	next: while (before.length) {
+		// biome-ignore lint/style/noNonNullAssertion: ?
 		const item = before.pop()!;
 		for (let j = add.length - 1; j >= 0; j--) {
 			if (item === add[j]) {

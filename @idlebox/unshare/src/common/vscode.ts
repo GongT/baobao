@@ -3,7 +3,7 @@ export function detectVsCode() {
 	if (!OPTS) return '';
 
 	const m = vscodeRemoteAttachScript.exec(OPTS);
-	if (m) return m[1]!;
+	if (m) return m[1];
 	return '';
 }
 const vscodeRemoteAttachScript = /--require (.+)\/data\/.+ms-vscode\.js-debug\//;

@@ -37,7 +37,11 @@ type TypeMatchInvalid = TypeMatchFileOnly | 'content';
 
 let root = process?.cwd?.() ?? window?.location?.domain ?? '/';
 export function setErrorLogRoot(_root: string) {
-	if (typeof process !== 'undefined' && process.stderr?.write?.call && (process.env?.VSCODE_SHELL_INTEGRATION || process.env?.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT)) {
+	if (
+		typeof process !== 'undefined' &&
+		process.stderr?.write?.call &&
+		(process.env?.VSCODE_SHELL_INTEGRATION || process.env?.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT)
+	) {
 		process.stderr.write(`\x1B]633;P;Cwd=${vscEscapeValue(_root)}\x07`);
 	}
 	root = _root;
@@ -85,8 +89,8 @@ function addLoc(ret: IStructreStackLine, m: Record<TypeMatchFileOnly, string>) {
 	ret.location = {
 		schema: m.schema?.replace(endingSlashes, '') ?? '',
 		path: path,
-		line: Number.parseInt(m.line),
-		column: Number.parseInt(m.column),
+		line: Number.parseInt(m.line, 10),
+		column: Number.parseInt(m.column, 10),
 		isAbsolute: isAbsolute(path),
 	};
 }
@@ -141,9 +145,9 @@ export function parseStackLine(line: string): IStructreStackLine {
 		addLoc(ret, mEval);
 
 		ret.eval = {
-			eval_column: Number.parseInt(mEval.eval_column),
+			eval_column: Number.parseInt(mEval.eval_column, 10),
 			eval_func: mEval.eval_func,
-			eval_line: Number.parseInt(mEval.eval_line),
+			eval_line: Number.parseInt(mEval.eval_line, 10),
 			funcs: [],
 		};
 		for (const item of line.matchAll(regEvalItem)) {
@@ -198,7 +202,9 @@ export function prettyPrintError<ErrorType extends IError = IError>(type: string
 	if (!notify_printed && e.stack && e.message !== e.stack) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
-		console.error('\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack, use env.PRETTY_ERROR_LOCATION to see print location\x1B[0m');
+		console.error(
+			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack, use env.PRETTY_ERROR_LOCATION to see print location\x1B[0m',
+		);
 	}
 }
 

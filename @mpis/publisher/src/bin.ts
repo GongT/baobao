@@ -7,7 +7,7 @@ import { debugMode, projectPath } from './common/constants.js';
 registerNodejsExitHandler();
 
 if (debugMode) {
-	createRootLogger('publisher', EnableLogLevel.verbose);
+	createRootLogger('publisher', debugMode === 1 ? EnableLogLevel.debug : EnableLogLevel.verbose);
 } else {
 	createRootLogger('publisher');
 }

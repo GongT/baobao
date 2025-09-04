@@ -19,7 +19,7 @@ function title() {
 }
 
 function getCurrentCode() {
-	return typeof process.exitCode === 'string' ? parseInt(process.exitCode) : process.exitCode || 0;
+	return typeof process.exitCode === 'string' ? parseInt(process.exitCode, 10) : process.exitCode || 0;
 }
 
 export function setExitCodeIfNot(exitCode: number) {

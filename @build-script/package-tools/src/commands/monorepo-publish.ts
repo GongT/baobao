@@ -252,7 +252,7 @@ export async function main() {
 
 	const projects = await workspace.listPackages();
 
-	let concurrency = Number.parseInt(argv.single(['--concurrency']) || '0') || 5;
+	let concurrency = Number.parseInt(argv.single(['--concurrency']) || '0', 10) || 5;
 	if (app.debug) {
 		concurrency = 1;
 		logger.warn`由于设置了--debug参数，运行模式改为单线程`;
