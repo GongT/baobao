@@ -10,7 +10,9 @@ const builtinModulesWithPrefix = builtinModules.map((m) => `node:${m}`);
 // const isAbsolute = /^[^.]/;
 // const isDistFile = /\.[mc]?js$/;
 const schema = /^file:\/\//;
-const selfReference = import.meta.resolve('#self-reference');
+// declare const CODEGEN_CLI: 'production' | 'development' | undefined;
+// const isProductionMode = typeof CODEGEN_CLI !== 'undefined' && CODEGEN_CLI === 'production';
+// const selfReference = isProductionMode ? import.meta.resolve('@build-script/codegen') : import.meta.resolve('#self-reference');
 const fileExtension = /\.ts$/;
 
 export type IOptions = esbuild.BuildOptions & { write: false; metafile: true };
@@ -18,11 +20,7 @@ const compiledMemory = new Map<string, Uint8Array>();
 const sourceMapMemory = new Map<string, any>();
 
 export async function createEsbuildContext(absInputFile: string, packageFile: string, logger: ILogger) {
-	const bannerCode = [
-		`const require = (await import("node:module")).createRequire(import.meta.dirname);`,
-		`import { Logger } from '${selfReference}';`,
-		`const logger = Logger('${logger.title}');`,
-	];
+	const bannerCode = [`const require = (await import("node:module")).createRequire(import.meta.dirname);`];
 
 	const files = new Set<string>();
 	function removeMemory() {
@@ -33,6 +31,7 @@ export async function createEsbuildContext(absInputFile: string, packageFile: st
 	}
 
 	const pkgJson = JSON.parse(readFileSync(packageFile, 'utf-8'));
+	const dependencies = Object.keys(pkgJson.dependencies ?? {});
 	const devDependencies = Object.keys(pkgJson.devDependencies ?? {});
 
 	const plugin: esbuild.Plugin = {
@@ -82,7 +81,7 @@ export async function createEsbuildContext(absInputFile: string, packageFile: st
 		sourcemap: 'linked',
 		// sourceRoot: '@@@@@/', //
 		entryPoints: [absInputFile],
-		external: [...builtinModules, ...builtinModulesWithPrefix, '@build-script/codegen', ...devDependencies],
+		external: [...builtinModules, ...builtinModulesWithPrefix, '@swc/*', 'typescript', ...dependencies, ...devDependencies],
 		absWorkingDir: dirname(packageFile),
 		format: 'esm',
 		platform: 'node',
@@ -153,18 +152,22 @@ export function registerModuleLoader() {
 	}
 
 	module.registerHooks({
-		// resolve(specifier, context, nextResolve) {
-		// 	if (context.importAttributes.my_loader === 'compiled') {
-		// 		logger.verbose(`resolve ${specifier}`);
-		// 		const [path] = specifier.split('?');
-		// 		if (!compiledMemory.has(path)) {
-		// 			throw new Error(`module not found in compiled memory: ${specifier}`);
-		// 		}
-		// 		return nextResolve(path, context);
-		// 	}
-		// 	logger.verbose(`try resolve: ${specifier}`);
-		// 	return nextResolve(specifier, context);
-		// },
+		resolve(specifier, context, nextResolve) {
+			if (context.importAttributes?.type === 'memory') {
+				const [path] = specifier.split('?');
+				if (!compiledMemory.has(path)) {
+					throw new Error(`module not found in compiled memory: ${specifier}`);
+				}
+				return {
+					url: `file://${path}?_=${Date.now()}`,
+					shortCircuit: true,
+					format: 'module',
+					importAttributes: { type: 'module', my_loader: 'compiled' },
+				};
+			}
+			logger.verbose(`try resolve: ${specifier}`);
+			return nextResolve(specifier, context);
+		},
 		load(url, context, nextLoad) {
 			if (context.importAttributes?.my_loader === 'compiled') {
 				const [path] = url.replace(schema, '').split('?');
@@ -175,9 +178,9 @@ export function registerModuleLoader() {
 					shortCircuit: true,
 				};
 			}
-			logger.verbose(`try load ${context.format}: ${url}`);
+			logger.verbose(`try load (fmt=${context.format}): ${url}`);
 			try {
-				return nextLoad(url, context);
+				return nextLoad(url);
 			} catch (e) {
 				const r = manualLoad(logger, url, context);
 				if (!r) throw e;

@@ -33,6 +33,10 @@ export abstract class BaseExecuter {
 					type: 'error',
 					message: err.message,
 				},
+				{
+					type: 'debug',
+					message: err.stack || '<no stack trace available>',
+				},
 			],
 			error: err,
 			userWatchFiles: new Set(),

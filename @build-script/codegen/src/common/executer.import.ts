@@ -8,6 +8,7 @@ import { BaseExecuter, type IGenerateResult } from './executer.base.js';
 import { colorMode, createCollectLogger, type ILogMessage } from './shared.js';
 
 // const generatorSuffix = /\.generator\.ts$/;
+const errorNameReg = /^(\w+): (.+)$/;
 
 function interop(mdl: any) {
 	return mdl?.default ?? mdl;
@@ -25,9 +26,9 @@ export class ImportExecuter extends BaseExecuter {
 
 		let gen: GeneratorBody;
 		try {
-			gen = interop(await import(`${compiledFile}?t=${Date.now()}`, { with: { my_loader: 'compiled' } }));
+			gen = interop(await import(compiledFile, { with: { type: 'memory' } }));
 		} catch (e: any) {
-			return this.errorResult(new Error(`failed import compiled file: ${e.message}`));
+			return this.errorResult(e);
 		}
 
 		if (typeof gen.generate !== 'function') {
@@ -52,10 +53,16 @@ export class ImportExecuter extends BaseExecuter {
 					break;
 				}
 			}
-			let [name, message] = lines.shift().split(': ');
-			if (!message) {
-				message = name;
+			const firstLine = lines.shift();
+			const match = errorNameReg.exec(firstLine);
+
+			let message, name;
+			if (!match) {
+				message = firstLine;
 				name = 'Error';
+			} else {
+				name = match[1];
+				message = match[2];
 			}
 
 			const stack = colorMode ? prettyFormatStack(lines) : lines;
