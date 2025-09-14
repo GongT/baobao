@@ -122,6 +122,7 @@ export function registerModuleLoader() {
 	const logger = Logger('loader');
 
 	const activated = install({
+		force: true,
 		retrieveSourceMap(source) {
 			if (source.includes('?')) {
 				logger.verbose(`source map: ${source}`);
