@@ -1,7 +1,16 @@
 import type { IArgsReaderApi, ISubArgsReaderApi } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import { CliApplicationHelp, type CommandDefine, type IArgDefineMap, type ICommandDefine, type ICommandDefineWithCommand } from '@idlebox/cli-help-builder';
-import { humanDate, NotImplementedError, registerGlobalLifecycle, SoftwareDefectError, toDisposable, UsageError, type IPackageJson } from '@idlebox/common';
+import {
+	ExitCode,
+	humanDate,
+	NotImplementedError,
+	registerGlobalLifecycle,
+	SoftwareDefectError,
+	toDisposable,
+	UsageError,
+	type IPackageJson,
+} from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, shutdown } from '@idlebox/node';
 import { hasInstalledSourceMapSupport } from '@idlebox/source-map-support';
@@ -68,12 +77,14 @@ interface IApplicationHelper {
 	usage(): string;
 }
 
+type InitFunc = (argv: IArgsReaderApi, command?: ISubArgsReaderApi) => void | Promise<void>;
 interface IApplicationEntry {
 	getHelper(command?: string): Promise<IApplicationHelper>;
 	withCommon(commonArgs: IArgDefineMap): this;
 	simple(command: Omit<ICommandDefine, 'description' | 'commonArgs' | 'isHidden'>, main: (args: IArgsReaderApi) => Promise<void>): Promise<void>;
 	static(imports: Record<string, string>, helps: readonly ICommandDefineWithCommand[]): Promise<void>;
 	dynamic(absRootDir: string, globs?: string | string[]): Promise<void>;
+	initialize(callback: InitFunc): this;
 }
 
 export function makeApplication({ name: binName, description, logPrefix }: IAppBasic = autoload()): IApplicationEntry {
@@ -134,6 +145,16 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 
 	let commons: IArgDefineMap | undefined;
 	let commands: readonly ICommandDefineWithCommand[];
+	const initializeCallbacks: Array<InitFunc> = [];
+	async function initializeIfNeeded(command?: ISubArgsReaderApi) {
+		const list = initializeCallbacks.slice();
+		initializeCallbacks.length = 0;
+		Object.freeze(initializeCallbacks);
+
+		for (const cb of list) {
+			await cb(argv, command);
+		}
+	}
 
 	return {
 		async getHelper(command?: string) {
@@ -178,6 +199,10 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			commons = commonArgs;
 			return this;
 		},
+		initialize(cb) {
+			initializeCallbacks.push(cb);
+			return this;
+		},
 		async simple(command: Omit<ICommandDefine, 'description' | 'commonArgs' | 'isHidden'>, main: (args: IArgsReaderApi) => Promise<void>) {
 			if (info.showHelp) {
 				const help = await this.getHelper();
@@ -187,6 +212,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 
 			consumeCommandArguments(command);
 
+			await initializeIfNeeded();
 			const result = await main(argv);
 
 			if (result !== undefined) {
@@ -217,6 +243,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			if (commons) consumeArguments(commons);
 			consumeCommandArguments(commands.find((cmd) => cmd.command === commandName));
 
+			await initializeIfNeeded(subcmd);
 			await execMain(entryFile, subcmd);
 		},
 		async dynamic(absRootDir: string, globs: string | string[] = ['*.js']) {
@@ -233,6 +260,11 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 
 				known_commands.push(base);
 				importMap[base] = path;
+			}
+
+			if (known_commands.length === 0) {
+				logger.error`can not found any command file in relative<${absRootDir}> by globs "${globs.join('", "')}"`;
+				shutdown(ExitCode.PROGRAM);
 			}
 
 			const subcmd = argv.command(known_commands);
@@ -258,6 +290,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			if (commons) consumeArguments(commons);
 			consumeCommandArguments(commands.find((cmd) => cmd.command === commandName));
 
+			await initializeIfNeeded(subcmd);
 			await execMain(importMap[commandName], subcmd);
 		},
 	};
