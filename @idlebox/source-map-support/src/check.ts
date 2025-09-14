@@ -30,8 +30,10 @@ const duplicate = Symbol.for('@idlebox/source-map-support');
 
 const globalObj = globalThis as any;
 
-export function recordDuplicate() {
+export function recordDuplicate(is_forced: boolean) {
 	if (hasInstalledSourceMapSupport()) {
+		if (is_forced) return; // ignore if forced
+
 		const thisTime = createStackTraceHolder('stacktrace', install);
 		prettyPrintError('@idlebox/source-map-support duplicate call to install()', {
 			cause: globalObj[duplicate],

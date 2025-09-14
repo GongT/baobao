@@ -9,13 +9,13 @@ export interface Options extends SMSOptions {
 	ignore?: boolean;
 }
 
-export function install(options?: Options) {
-	if (options?.ignore && hasInstalledSourceMapSupport()) {
+export function install({ ignore = false, force = false, ...options }: Options = {}) {
+	if (ignore && hasInstalledSourceMapSupport()) {
 		return false;
 	}
-	recordDuplicate();
+	recordDuplicate(force);
 
-	if (options?.force) {
+	if (force) {
 		installHook(options);
 		return true;
 	}
