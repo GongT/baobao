@@ -382,7 +382,6 @@ export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorTyp
 	return prettyFormatStack(stackLines, boundary).join('\n');
 }
 
-let alert = false;
 function formatFileLine(schema: string | undefined, file: string, row?: number, col?: number) {
 	let rel = file;
 
@@ -399,11 +398,11 @@ function formatFileLine(schema: string | undefined, file: string, row?: number, 
 			if (rel[0] === '.') {
 				schema = '';
 			}
-		} catch (e: any) {
-			if (!alert) {
-				alert = true;
-				console.error('pretty print error: failed calc relative path ("%s" to "%s"):\n\x1B[2mFormat%s\x1B[0m', root, file, e.stack);
-			}
+		} catch {
+			// if (!alert) {
+			// 	alert = true;
+			// 	console.error('pretty print failed parse line: \n\x1B[2mFormat%s\x1B[0m', e.stack);
+			// }
 			rel = file;
 		}
 	}
