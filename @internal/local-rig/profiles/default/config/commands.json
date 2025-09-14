@@ -23,6 +23,17 @@
 		/**
 		 *
 		 */
+		"codegen:production": {
+			"command": {
+				"package": "@build-script/codegen",
+				"binary": "loader/bin.js",
+				"arguments": ["src"],
+			},
+		},
+
+		/**
+		 *
+		 */
 		"depcheck": {
 			"command": {
 				"package": "@build-script/depcheck",

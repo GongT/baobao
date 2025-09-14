@@ -16,7 +16,7 @@ const tools: Record<string, string> = {
 	tsc: 'typescript/bin/tsc',
 	eslint: 'eslint/bin/eslint.js',
 	biome: '@biomejs/biome/bin/biome',
-	publisher: '@mpis/publisher/loader/bin.devel.js',
+	publisher: '@mpis/publisher/loader/bin.js',
 	depcheck: '@build-script/depcheck/loader/bin.devel.js',
 	'mpis-run': '@mpis/run/loader/bin.devel.js',
 	codegen: '@build-script/codegen/loader/bin.devel.js',

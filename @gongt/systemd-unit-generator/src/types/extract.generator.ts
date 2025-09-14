@@ -139,7 +139,7 @@ export async function generate(builder: GenerateContext) {
 					}
 					current_section = undefined;
 				}
-				logger.debug(line);
+				builder.logger.debug(line);
 				sm.change(Event.FoundSection);
 				current_section = {
 					content: [],
@@ -156,7 +156,7 @@ export async function generate(builder: GenerateContext) {
 				continue;
 			} else if (last_state >= State.SectionBody) {
 				if (nameLine.test(line)) {
-					logger.debug(line);
+					builder.logger.debug(line);
 					sm.change(Event.FoundVariable);
 				} else {
 					sm.change(Event.FoundText);
@@ -199,7 +199,7 @@ export async function generate(builder: GenerateContext) {
 		typeOutFile.append(prefix);
 
 		if (sections.length === 0) {
-			logger.error(`no sections found for type ${type}`);
+			builder.logger.error(`no sections found for type ${type}`);
 		}
 
 		const sectionNames = new Map<string, string>();

@@ -77,6 +77,7 @@ export async function commitChanges(pkgJson: IPackageJson) {
 	const commitMessage = `release: ${pkgJson.name} v${pkgJson.version}`;
 
 	try {
+		await execMute(projectPath, [git, 'add', '.']);
 		await execMute(projectPath, [git, 'commit', '.', '-m', commitMessage]);
 		logger.success`✅ 已提交变更到git`;
 	} catch (err: any) {
