@@ -1,7 +1,6 @@
 import { findMonorepoRootSync } from '@build-script/monorepo-lib';
-import { argv } from '@idlebox/args/default';
+import { argv, logger } from '@idlebox/cli';
 import { prettyPrintError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
 import { emptyDir, findUpUntilSync } from '@idlebox/node';
 import { rmSync } from 'node:fs';
 import { dirname } from 'node:path';

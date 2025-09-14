@@ -1,10 +1,10 @@
 {
 	"name": "@mpis/publisher",
 	"type": "module",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"keywords": [],
 	"bin": {
-		"publisher": "./loader/bin.devel.js"
+		"publisher": "./loader/bin.js"
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",
@@ -17,17 +17,17 @@
 	},
 	"dependencies": {
 		"@build-script/monorepo-lib": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
-		"@idlebox/args": "workspace:^",
+		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
 		"execa": "^9.6.0",
 		"tar": "^7.4.3"
 	},
 	"devDependencies": {
-		"@idlebox/esbuild-executer": "workspace:^",
+		"@build-script/codegen": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"
@@ -36,7 +36,10 @@
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	},
 	"sideEffects": false
 }

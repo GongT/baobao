@@ -1,9 +1,10 @@
-import type { IPackageJson } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
+import { type IPackageJson } from '@idlebox/common';
+import { commandInPath } from '@idlebox/node';
 import { mkdirSync, readFileSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { projectPath, tempDir } from './constants.js';
-import { execPnpmMute, execPnpmUser } from './exec.js';
+import { execMute, execPnpmMute, execPnpmUser } from './exec.js';
 import { decompressTarGz } from './tar.js';
 
 export function getCurrentProject(): IPackageJson {
@@ -11,7 +12,7 @@ export function getCurrentProject(): IPackageJson {
 	return JSON.parse(txt);
 }
 
-export function reconfigurePackageJson(name: string) {
+export function reconfigurePackageJson(name: string): IPackageJson {
 	const packagePath = resolve(tempDir, name, 'package.json');
 	const pkgJson = JSON.parse(readFileSync(packagePath, 'utf-8'));
 
@@ -64,4 +65,21 @@ export async function extractPackage(output: string, sourceTgz = resolve(tempDir
 	unlinkSync(target_nm);
 
 	return tempPackagePath;
+}
+
+export async function commitChanges(pkgJson: IPackageJson) {
+	const git = await commandInPath('git');
+	if (!git) {
+		logger.warn`未找到git命令，跳过提交`;
+		return;
+	}
+
+	const commitMessage = `release: ${pkgJson.name} v${pkgJson.version}`;
+
+	try {
+		await execMute(projectPath, [git, 'commit', '.', '-m', commitMessage]);
+		logger.success`✅ 已提交变更到git`;
+	} catch (err: any) {
+		logger.warn`🍴 提交变更失败: ${err.message}`;
+	}
 }
