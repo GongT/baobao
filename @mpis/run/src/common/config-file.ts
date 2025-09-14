@@ -1,7 +1,8 @@
 import { ProjectConfig } from '@build-script/rushstack-config-loader';
+import { ExitCode } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { findUpUntilSync } from '@idlebox/node';
-import { readFileSync } from 'node:fs';
+import { findUpUntilSync, shutdown } from '@idlebox/node';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { split as splitCmd } from 'split-cmd';
@@ -91,7 +92,17 @@ function loadConfigFile(watchMode: boolean): IConfigFile {
 		if (typeof item === 'string') {
 			const found = input.commands[item];
 			if (!found) {
-				logger.fatal`command ${input.build.indexOf(item)} "${item}" not found in "commands" list<${Object.keys(input.commands)}>`;
+				const files = [];
+				const info = config.getJsonConfigInfo('commands');
+				if (info.project.exists) {
+					files.push(info.project.path);
+				}
+				if (info.rig.exists) {
+					files.push(info.rig.path);
+				}
+				logger.info`config files list<${files}>`;
+				logger.error`command ${input.build.indexOf(item)} "${item}" not found in "commands" list<${Object.keys(input.commands)}>`;
+				shutdown(ExitCode.USAGE);
 			}
 			item = found;
 		}
@@ -201,16 +212,28 @@ function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMo
 	}
 
 	const pkg = JSON.parse(readFileSync(pkgJsonPath, 'utf-8'));
-	const type1 = typeof pkg.bin === 'string';
-	const type2 = !!cmd.binary;
-	if (type1 && type2) {
+	const typeStr = typeof pkg.bin === 'string';
+	const typeMap = !!cmd.binary;
+	if (typeStr && typeMap) {
 		throw new Error(`"${pkgJsonPath}" "bin" field is string, can not specify "binary" in "commands.json".`);
-	} else if (!type1 && !type2) {
+	} else if (!typeStr && !typeMap) {
 		throw new Error(`"${pkgJsonPath}" "bin" field is not string, must specify "binary" in "commands.json".`);
 	}
 
-	const binVal = type1 ? pkg.bin : pkg.bin[cmd.binary as string];
-	const binPath = resolve(pkgJsonPath, '..', binVal);
+	let binPath: string;
+	const binVal = typeStr ? pkg.bin : pkg.bin[cmd.binary as string];
+	if (binVal) {
+		binPath = resolve(pkgJsonPath, '..', binVal);
+	} else if (typeMap && cmd.binary) {
+		const path = resolve(pkgJsonPath, '..', cmd.binary);
+		if (existsSync(path)) {
+			binPath = path;
+		} else {
+			throw new Error(`"${pkgJsonPath}" "bin" field has no key "${cmd.binary}"; and "${path}" not looks like a file.`);
+		}
+	} else {
+		throw new Error(`"${pkgJsonPath}" "bin" field has no key "${cmd.binary}".`);
+	}
 
 	return {
 		title: title,
