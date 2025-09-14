@@ -1,15 +1,15 @@
 {
 	"name": "@idlebox/cli-static-generator",
 	"type": "module",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"bin": {
 		"make-cli": "./loader/bin.js"
 	},
 	"exports": {
 		".": {
-			"source": "./src/builder.ts",
-			"types": "./src/builder.ts",
-			"default": "./lib/builder.js"
+			"source": "./src/api.ts",
+			"types": "./src/api.ts",
+			"default": "./lib/api.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -25,20 +25,30 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/logger": "workspace:^",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
+		"@idlebox/args": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
-		"esbuild": "^0.25.6"
+		"@rollup/plugin-commonjs": "^28.0.6",
+		"@rollup/plugin-node-resolve": "^16.0.1",
+		"@rollup/plugin-swc": "^0.4.0",
+		"acorn-walk": "^8.3.4",
+		"magic-string": "^0.30.19",
+		"rollup": "^4.50.1"
 	},
 	"devDependencies": {
-		"@idlebox/cli-help-builder": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/cli-help-builder": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
+		"@types/acorn": "npm:acorn@^8.15.0",
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

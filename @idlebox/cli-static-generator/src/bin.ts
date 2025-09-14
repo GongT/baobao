@@ -2,9 +2,11 @@ import { createRootLogger, logger } from '@idlebox/logger';
 import { findUpUntil, writeFileIfChange } from '@idlebox/node';
 import { statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { makeIndexFile } from './builder.js';
+import { useLogger } from './common/logger.js';
+import { makeIndexFile } from './common/make-index-file.js';
 
 createRootLogger('');
+useLogger(logger);
 
 let project = process.argv[2];
 if (!project) {
