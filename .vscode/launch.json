@@ -10,7 +10,8 @@
 			"name": "Attach NodeJS",
 			"port": 9229,
 			"cwd": "${workspaceFolder}",
-			"skipFiles": ["<node_internals>/**", "${workspaceFolder}/@idlebox/common/src/lifecycle/event/event.ts"],
+			// "skipFiles": ["<node_internals>/**", "${workspaceFolder}/@idlebox/common/src/lifecycle/event/event.ts"],
+			"skipFiles": [],
 		},
 		{
 			"type": "extensionHost",

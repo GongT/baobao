@@ -15,9 +15,10 @@ ignoredOptionalDependencies:
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - esbuild
+  - '@swc/core'
 
-autoInstallPeers: false
-nodeOptions: ''
+# autoInstallPeers: false
+strictPeerDependencies: true
 
 hoist: false
 publicHoistPattern:
@@ -33,11 +34,12 @@ overrides:
 saveWorkspaceProtocol: rolling
 savePrefix: '^'
 ignoreWorkspaceCycles: true
-
+nodeOptions: ''
 
 patchedDependencies:
   "@types/tar-stream": "patches/@types__tar-stream.patch"
 
+# npm config
 access: public
 alwaysAuth: false
 fetchRetries: 1000
