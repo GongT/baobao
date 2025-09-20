@@ -41,6 +41,13 @@ export interface IEventEmitter<T = unknown> extends IDisposable {
 	 * @param callback 回调函数
 	 */
 	once(callback: EventHandler<T>): IDisposable;
+
+	/**
+	 * 创建一个等待下次触发的promise
+	 */
+	wait(): Promise<T>;
+
+	readonly hasDisposed: boolean;
 }
 
 export type EventHandler<T> = (data: T) => void;
@@ -48,6 +55,8 @@ export type EventHandler<T> = (data: T) => void;
 export interface EventRegister<T> {
 	(callback: EventHandler<T>): IDisposable;
 	once(callback: EventHandler<T>): IDisposable;
+	wait(): IDisposable;
+	readonly hasDisposed: boolean;
 }
 
 export type EventEmitterMap<T extends Record<string, unknown>> = {

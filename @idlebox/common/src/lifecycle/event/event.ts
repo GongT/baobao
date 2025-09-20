@@ -14,7 +14,19 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	private executing = false;
 	private _something_change_during_call = false;
 
-	constructor(public readonly displayName?: string) {}
+	constructor(public readonly displayName?: string) {
+		this.handle = Object.defineProperties(this.handle.bind(this), {
+			once: {
+				get: () => this.once.bind(this),
+			},
+			wait: {
+				get: () => this.wait.bind(this),
+			},
+			hasDisposed: {
+				get: () => this._disposed,
+			},
+		});
+	}
 
 	public listenerCount() {
 		return this._callbacks?.length ?? 0;
@@ -59,14 +71,11 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	}
 
 	get register(): EventRegister<T> {
-		return Object.assign(this.handle.bind(this), {
-			once: this.once.bind(this),
-			wait: this.wait.bind(this),
-		});
+		return this.handle as any;
 	}
 
 	get event(): EventRegister<T> {
-		return this.register;
+		return this.handle as any;
 	}
 
 	/**
