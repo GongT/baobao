@@ -12,7 +12,6 @@ export class DisposedError extends Error {
 	) {
 		super(message, { cause: previous });
 		this.name = 'DisposedError';
-		delete (this as any).stack;
 	}
 
 	// override get stack() {
