@@ -174,7 +174,7 @@
 	export { addDisposableEventListener } from "./lifecycle/dispose/disposableEvent.js";
 /* lifecycle/dispose/disposedError.ts */
 	// Identifiers
-	export { Disposed } from "./lifecycle/dispose/disposedError.js";
+	export { DisposedError } from "./lifecycle/dispose/disposedError.js";
 	export { DuplicateDisposed } from "./lifecycle/dispose/disposedError.js";
 /* lifecycle/dispose/sync-disposable.ts */
 	// Identifiers

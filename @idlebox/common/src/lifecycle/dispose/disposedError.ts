@@ -5,29 +5,29 @@ import type { StackTraceHolder } from '../../error/stack-trace.js';
 import { isNodeJs } from '../../platform/os.js';
 import { dispose_name } from './debug.js';
 
-export class Disposed extends Error {
+export class DisposedError extends Error {
 	constructor(
 		message = 'Object has been disposed',
-		private readonly previous: StackTraceHolder,
+		public readonly previous: StackTraceHolder,
 	) {
-		super(message);
+		super(message, { cause: previous });
 		this.name = 'DisposedError';
 		delete (this as any).stack;
 	}
 
-	override get stack() {
-		return `${super.stack}\nit was disposed at:\n${this.previous.stackOnly}`;
-	}
+	// override get stack() {
+	// 	return `${super.stack}\nit was disposed at:\n${this.previous.stackOnly}`;
+	// }
 }
 
 /**
  * Error when call dispose() twice
  */
-export class DuplicateDisposed extends Error {
+export class DuplicateDisposed extends DisposedError {
 	public readonly inspectString: string;
 	constructor(
-		object: any,
-		private readonly previous: StackTraceHolder,
+		public readonly object: any,
+		previous: StackTraceHolder,
 	) {
 		const old = Error.stackTraceLimit;
 		Error.stackTraceLimit = Number.MAX_SAFE_INTEGER;
@@ -36,7 +36,7 @@ export class DuplicateDisposed extends Error {
 		const inspectString = tryInspect(object);
 		const name = dispose_name(object, inspectString);
 
-		super(`Object [${name}] has already disposed ${stacks}.`);
+		super(`Object [${name}] has already disposed ${stacks}.`, previous);
 		this.name = 'DuplicateDisposedError';
 		this.inspectString = inspectString;
 

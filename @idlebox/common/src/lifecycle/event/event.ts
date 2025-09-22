@@ -3,7 +3,7 @@ import { nameObject, objectName } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder } from '../../error/stack-trace.js';
 import { functionToDisposable } from '../dispose/bridges/function.js';
 import type { IDisposable } from '../dispose/disposable.js';
-import { Disposed } from '../dispose/disposedError.js';
+import { DisposedError } from '../dispose/disposedError.js';
 import type { EventHandler, EventRegister, IEventEmitter } from './type.js';
 
 /**
@@ -94,6 +94,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 				const index = callbacks.indexOf(callback);
 				if (index === -1) return;
 				if (this.executing) {
+					this._something_change_during_call = true;
 					callbacks[index] = undefined;
 				} else {
 					callbacks.splice(index, 1);
@@ -162,13 +163,19 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 		this._waittings = undefined;
 
 		const trace = createStackTraceHolder('disposed');
-		this.requireNotExecuting =
-			this.fireNoError =
-			this.fire =
-			this.handle =
-				() => {
-					throw new Disposed('can not call # after event emitter disposed', trace);
-				};
+
+		const makeUnCallable = (name: string) => {
+			Object.assign(this, {
+				[name]() {
+					throw new DisposedError(`can not call Emitter#${name}() after event emitter disposed`, trace);
+				},
+			});
+		};
+
+		makeUnCallable('fire');
+		makeUnCallable('fireNoError');
+		makeUnCallable('handle');
+		makeUnCallable('requireNotExecuting');
 	}
 
 	readonly [Symbol.dispose] = this.dispose;
