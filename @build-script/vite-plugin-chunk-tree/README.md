@@ -1,8 +1,12 @@
 # Vite chunks 手动拆分依赖包的插件
 
+指定的依赖包**和它的依赖**会被拆分到单独的chunk中。
+
 **目前仅支持pnpm monorepo**
 
 ### 使用
+
+更多参数参考代码: [src/index.ts](./src/index.ts)
 
 ```ts
 import { splitVendorPlugin } from "@build-script/vite-plugin-chunk-tree";
@@ -28,7 +32,9 @@ export default defineConfig(async (config) => {
 
 
 
-### rollup 也可以用（不是作为插件）
+### rollup 也可以用
+
+> 也能作为插件使用，用法和vite一样，但不支持dedup参数
 
 ```ts
 import { createManualChunks } from "@build-script/vite-plugin-split-vendor";

@@ -8,6 +8,9 @@ TypeScript代码和工具库
 * [codegen](@build-script/codegen) 用ts编写简单的代码生成器
 * [package-tools](@build-script/package-tools) npm包管理与发布辅助工具集合
 * [rushstack-config-loader](@build-script/rushstack-config-loader) 用于加载[riggable config](https://www.npmjs.com/package/@rushstack/rig-package)的库
+* [monorepo-lib](@build-script/monorepo-lib) monorepo操作工具
+* [depcheck](@build-script/depcheck) 检查package.json中未使用或缺失的依赖
+* [vite-plugin-chunk-tree](@build-script/vite-plugin-chunk-tree) vite（和rollup）根据依赖**树**生成chunks
 
 ## @idlebox - 函数库
 
@@ -17,6 +20,10 @@ TypeScript代码和工具库
 * [node](@idlebox/node) nodejs函数库
 * [browser](@idlebox/browser) 浏览器函数库
 * [dependency-graph](@idlebox/dependency-graph) [dependency-graph](https://www.npmjs.com/package/dependency-graph)的包装
+* [deepmerge](@idlebox/deepmerge) 完全自定义的深拷贝
+* [dependency-graph](@idlebox/dependency-graph) 基于[dependency-graph](https://www.npmjs.com/package/dependency-graph)的执行依赖图
+* [dependency-injection](@idlebox/dependency-injection) 简单的依赖注入器，纯手工 无反射、装饰器，支持异步初始化
+* [source-map-support](@idlebox/source-map-support) 分情况加载 [source-map-support](https://www.npmjs.com/package/source-map-support)
 
 ----
 CLI程序辅助库
@@ -24,12 +31,16 @@ CLI程序辅助库
 * [args](@idlebox/args) 命令行参数解析
 * [logger](@idlebox/logger) 简单日志
 * [chokidar](@idlebox/chokidar) 文件监控
+* [cli](@idlebox/cli) 命令行程序基础设施（`args`+`logger`+`registerNodejsExitHandler (from @idlebox/node)`）
+* [cli-help-builder](@idlebox/cli-help-builder) 命令行程序帮助信息构建
+* [cli-static-generator](@idlebox/cli-static-generator) 静态子命令定义生成器
+* [unshare](@idlebox/unshare) 容器化运行器
 
 ----
 文件系统和代码工具
 
 * [ensure-symlink](@idlebox/ensure-symlink) 确保符号链接存在且内容正确
-* [esbuild-executer](@idlebox/esbuild-executer) TypeScript文件执行器，优化monorepo
+* [esbuild-executer](@idlebox/esbuild-executer) TypeScript文件执行器，优化monorepo，相当于简易版[vite-node](https://www.npmjs.com/package/vite-node)
 * [ignore-edit](@idlebox/ignore-edit) 编辑`.gitignore`、`.npmignore`等忽略文件
 * [json-edit](@idlebox/json-edit) 编辑`jsonc`文件
 * [json-extends-loader](@idlebox/json-extends-loader) 加载带有`extends`的`jsonc`文件（比如tsconfig）
@@ -70,4 +81,4 @@ CLI程序辅助库
 ## 独立包
 
 * [cjke](standalone/cjke) 计算汉字和emoji的宽度
-* [unipm](standalone/unipm) 自动选择包管理器安装依赖（pnpm、yarn、npm）
+* [unpm](standalone/unipm) 自动选择包管理器安装依赖（pnpm、yarn、npm、rush）
