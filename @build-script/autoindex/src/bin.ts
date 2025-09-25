@@ -68,6 +68,7 @@ async function main() {
 			absoluteImport: context.absoluteImport,
 			stripTags: context.stripTags,
 			extraExcludes: context.excludePatterns,
+			banner: context.banner,
 		});
 
 		r.watchFiles.push(...configFiles);

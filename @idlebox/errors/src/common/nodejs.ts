@@ -1,7 +1,7 @@
 import { NodeErrorCode } from '@idlebox/node-error-codes';
 import { LinuxErrorCode } from '../codes/linux-error-codes.js';
 
-type NodeException<T extends string = any> = NodeJS.ErrnoException & { code: T };
+type NodeException<T extends string = any> = /*NodeJS.ErrnoException &*/ { code: T };
 
 export interface OpenSSLException extends Error {
 	opensslErrorStack?: string;

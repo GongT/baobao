@@ -17,7 +17,11 @@ if (process.env.PNPM_CALL_RECURSIVE) {
 	module.exports.hooks = {};
 }
 
+let inited = false;
 function init() {
+	if (inited) return;
+	inited = true;
+
 	const cmds = [];
 	cmds.push(process.execPath);
 	if (!process.execPath.includes('/@pnpm/')) {
@@ -47,7 +51,9 @@ function init() {
 
 	console.error('\x1B[38;5;10m[%s]: there are %d projects in workspace.\x1B[0m', basename(__filename), projects.length);
 
-	for (const { path } of projects) {
+	for (const { path, name } of projects) {
+		if (!name) continue;
+
 		const p = resolve(path, 'package.json');
 		const val = loadJsonSync(p);
 		if (val.name) {
@@ -70,7 +76,7 @@ function addEverythingToDependency(rigPkg) {
 }
 
 function readPackage(packageJson, context) {
-	if (myProjects.size === 0) init();
+	init();
 
 	if (packageJson.name === '@internal/local-rig') {
 		addEverythingToDependency(packageJson);
@@ -80,12 +86,21 @@ function readPackage(packageJson, context) {
 		packageJson.dependencies['@swc/core'] = 'latest';
 	}
 
-	if (myProjects.has(packageJson.name)) return packageJson;
+	if (myProjects.has(packageJson.name)) return readMyPackage(packageJson);
 
 	if (packageJson.dependencies) lockDep(packageJson.dependencies, context);
 	if (packageJson.devDependencies) lockDep(packageJson.devDependencies, context);
 
 	if (packageJson.peerDependencies) packageJson.peerDependencies = undefined;
+
+	return packageJson;
+}
+
+function readMyPackage(packageJson) {
+	if (!findDep(packageJson, '@types/node')) {
+		if (!packageJson.devDependencies) packageJson.devDependencies = {};
+		packageJson.devDependencies['@types/node'] = 'workspace:@idlebox/itypes@*';
+	}
 
 	return packageJson;
 }
@@ -104,4 +119,11 @@ function lockDep(deps, _context) {
 
 function loadJsonSync(f) {
 	return JSON.parse(readFileSync(f, 'utf-8'));
+}
+
+function findDep(packageJson, name) {
+	const dep = packageJson.dependencies?.[name];
+	if (dep) return dep;
+
+	return packageJson.devDependencies?.[name];
 }

@@ -1,8 +1,8 @@
 import { argv } from '@idlebox/args/default';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { resolve } from 'node:path';
-import { currentProject } from './common/constants.js';
 import { readPackageJson, writeBack } from './common/package-json.js';
+import { currentProject } from './common/paths/current.js';
 import {
 	deleteDevelopmentFields,
 	ensureExportsPackageJson,

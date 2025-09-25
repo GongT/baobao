@@ -2,6 +2,7 @@ import { NotFoundError, ProjectConfig } from '@build-script/rushstack-config-loa
 import { ExitCode } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, shutdown } from '@idlebox/node';
+import { readFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
 import { ConfigKind, schemaFile, type ICliArgs } from './cli.js';
 
@@ -12,6 +13,7 @@ interface IConfigFile {
 	exclude?: string[];
 	stripTags?: string[];
 	absolute?: string;
+	banner?: string;
 }
 
 export interface IContext {
@@ -24,6 +26,7 @@ export interface IContext {
 	stripTags: string[];
 	project: string;
 	verboseMode: boolean;
+	banner: string;
 }
 
 async function loadConfigFile(configType: ConfigKind, configFile: string, context: Partial<IContext>, logger: IMyLogger) {
@@ -69,6 +72,21 @@ async function loadConfigFile(configType: ConfigKind, configFile: string, contex
 
 		if (!context.stripTags) context.stripTags = [];
 		if (configFileData.stripTags?.length) context.stripTags.push(...configFileData.stripTags);
+
+		if (configFileData.banner) {
+			if (context.banner) context.banner += '\n';
+			let banner = configFileData.banner;
+			if (banner.startsWith('@')) {
+				const info = config.getFileInfo(banner.slice(1));
+				if (!info.effective) {
+					logger.error`无法加载banner文件: ${banner}`;
+					shutdown(1);
+				}
+
+				banner = await readFile(info.effective, 'utf-8');
+			}
+			context.banner += banner;
+		}
 	} catch (e: unknown) {
 		if (e instanceof NotFoundError) {
 			if (configType === ConfigKind.REQUIRED) {
@@ -94,6 +112,7 @@ export async function createContext(args: ICliArgs, logger: IMyLogger): Promise<
 		stripTags: args.skipTags,
 		project: args.project,
 		verboseMode: args.verboseMode,
+		banner: '',
 	};
 
 	await loadConfigFile(args.configType, args.configFile, context, logger);

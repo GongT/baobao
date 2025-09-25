@@ -43,6 +43,14 @@ export function decoupleDependencies(logger: IMyLogger, projects: readonly IPack
 
 	for (const project of projects) {
 		decoupleDependenciesProject(logger, project, global_removes.get(project.packageJson.name) ?? [], global_removes.get('*') ?? []);
+
+		if (project.packageJson.additionalDependencies) {
+			for (const dep of project.packageJson.additionalDependencies) {
+				if (project.devDependencies.includes(dep)) continue;
+				project.devDependencies.push(dep);
+			}
+		}
+
 		logger.verbose`workspace dependencies list<${project.devDependencies}>`;
 	}
 }
@@ -80,9 +88,14 @@ function decoupleDependenciesProject(logger: IMyLogger, project: IPackageInfoRW,
 			logger.verbose`decouple: force delete all dependencies from ${project.packageJson.name}`;
 			dependencies.clear();
 			productions.clear();
+		} else if (removes === 'dev') {
+			dependencies.clear();
+			for (const item of productions) {
+				dependencies.add(item);
+			}
 		} else {
 			const pkgFile = resolve(project.absolute, 'package.json');
-			logger.fatal`decoupledDependencies in long<${pkgFile}> must be an array, or "*", got "${removes}"`;
+			logger.fatal`decoupledDependencies in long<${pkgFile}> must be an array, or "*"/"dev", got "${removes}"`;
 		}
 	} else {
 		const pkgFile = resolve(project.absolute, 'package.json');
@@ -91,5 +104,6 @@ function decoupleDependenciesProject(logger: IMyLogger, project: IPackageInfoRW,
 
 	project.devDependencies = Array.from(dependencies);
 	project.dependencies = Array.from(productions);
-	logger.debug`decouple: finished: ${project.devDependencies.length} remains`;
+
+	logger.debug`decouple: finished: ${project.devDependencies.length + project.dependencies.length} remains`;
 }

@@ -5,8 +5,8 @@ import { relativePath, shutdown } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import packageJson from '../package.json' with { type: 'json' };
-import { globalNodeModules, monorepoRoot } from './common/constants.js';
 import { listPnpm } from './common/monorepo.js';
+import { globalNodeModules, monorepoRoot } from './common/paths/root.js';
 import { ensureSymLinkSync } from './common/pre-post-inc.js';
 
 createRootLogger('post-install', EnableLogLevel.verbose);

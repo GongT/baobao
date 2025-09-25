@@ -220,9 +220,13 @@ class PnpmMonoRepo extends AsyncDisposable {
 		return `${graphTxt}\n${graph.debugFormatSummary()}`;
 	}
 
-	printScreen(short = false) {
+	printScreen(short = false, listAbove = false) {
 		let r = this.formatErrors();
-		r += this.dump(0, short);
+		if (listAbove) {
+			r = this.dump(0, short) + r;
+		} else {
+			r += this.dump(0, short);
+		}
 		console.error(r);
 	}
 }

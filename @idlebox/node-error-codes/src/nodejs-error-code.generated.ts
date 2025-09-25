@@ -144,9 +144,29 @@ export enum NodeErrorCode {
 	 * when an error occurs (and is caught) during the creation of the
 	 * context, for example, when the allocation fails or the maximum call stack
 	 * size is reached when the context is created.</p>
-	 * <p><a id="ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED"></a></p>
+	 * <p><a id="ERR_CPU_PROFILE_ALREADY_STARTED"></a></p>
 	 */
 	ERR_CONTEXT_NOT_INITIALIZED = 'ERR_CONTEXT_NOT_INITIALIZED',
+	/**
+	 * <p>The CPU profile with the given name is already started.</p>
+	 * <p><a id="ERR_CPU_PROFILE_NOT_STARTED"></a></p>
+	 */
+	ERR_CPU_PROFILE_ALREADY_STARTED = 'ERR_CPU_PROFILE_ALREADY_STARTED',
+	/**
+	 * <p>The CPU profile with the given name is not started.</p>
+	 * <p><a id="ERR_CPU_PROFILE_TOO_MANY"></a></p>
+	 */
+	ERR_CPU_PROFILE_NOT_STARTED = 'ERR_CPU_PROFILE_NOT_STARTED',
+	/**
+	 * <p>There are too many CPU profiles being collected.</p>
+	 * <p><a id="ERR_CRYPTO_ARGON2_NOT_SUPPORTED"></a></p>
+	 */
+	ERR_CPU_PROFILE_TOO_MANY = 'ERR_CPU_PROFILE_TOO_MANY',
+	/**
+	 * <p>Argon2 is not supported by the current version of OpenSSL being used.</p>
+	 * <p><a id="ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED"></a></p>
+	 */
+	ERR_CRYPTO_ARGON2_NOT_SUPPORTED = 'ERR_CRYPTO_ARGON2_NOT_SUPPORTED',
 	/**
 	 * <p>An OpenSSL engine was requested (for example, through the <code>clientCertEngine</code> or
 	 * <code>privateKeyEngine</code> TLS options) that is not supported by the version of OpenSSL
@@ -297,9 +317,15 @@ export enum NodeErrorCode {
 	/**
 	 * <p>Key's Asymmetric Key Type is not registered for use in the
 	 * <a href="https://www.iana.org/assignments/jose/jose.xhtml#web-key-types">JSON Web Key Types Registry</a>.</p>
-	 * <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
+	 * <p><a id="ERR_CRYPTO_KEM_NOT_SUPPORTED"></a></p>
 	 */
 	ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE = 'ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE',
+	/**
+	 * <p>Attempted to use KEM operations while Node.js was not compiled with
+	 * OpenSSL with KEM support.</p>
+	 * <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
+	 */
+	ERR_CRYPTO_KEM_NOT_SUPPORTED = 'ERR_CRYPTO_KEM_NOT_SUPPORTED',
 	/**
 	 * <p>A crypto operation failed for an otherwise unspecified reason.</p>
 	 * <p><a id="ERR_CRYPTO_PBKDF2_ERROR"></a></p>
@@ -974,6 +1000,8 @@ export enum NodeErrorCode {
 	 * <p>A Node.js API that consumes <code>file:</code> URLs (such as certain functions in the
 	 * <a href="fs.html"><code>fs</code></a> module) encountered a file URL with an incompatible path. The exact
 	 * semantics for determining whether a path can be used is platform-dependent.</p>
+	 * <p>The thrown error object includes an <code>input</code> property that contains the URL object
+	 * of the invalid <code>file:</code> URL.</p>
 	 * <p><a id="ERR_INVALID_HANDLE_TYPE"></a></p>
 	 */
 	ERR_INVALID_FILE_URL_PATH = 'ERR_INVALID_FILE_URL_PATH',
@@ -1115,8 +1143,8 @@ export enum NodeErrorCode {
 	 */
 	ERR_INVALID_URL = 'ERR_INVALID_URL',
 	/**
-	 * <p>An invalid URLPattern was passed to the <a href="url.html#the-whatwg-url-api">WHATWG</a> [<code>URLPattern</code>
-	 * constructor][<code>new URLPattern(input)</code>] to be parsed.</p>
+	 * <p>An invalid URLPattern was passed to the <a href="url.html#the-whatwg-url-api">WHATWG</a>
+	 * <a href="url.html#new-urlpatternstring-baseurl-options"><code>URLPattern</code> constructor</a> to be parsed.</p>
 	 * <p><a id="ERR_INVALID_URL_SCHEME"></a></p>
 	 */
 	ERR_INVALID_URL_PATTERN = 'ERR_INVALID_URL_PATTERN',
@@ -1213,9 +1241,15 @@ export enum NodeErrorCode {
 	 * <p>The V8 platform used by this instance of Node.js does not support creating
 	 * Workers. This is caused by lack of embedder support for Workers. In particular,
 	 * this error will not occur with standard builds of Node.js.</p>
-	 * <p><a id="ERR_MODULE_NOT_FOUND"></a></p>
+	 * <p><a id="ERR_MODULE_LINK_MISMATCH"></a></p>
 	 */
 	ERR_MISSING_PLATFORM_FOR_WORKER = 'ERR_MISSING_PLATFORM_FOR_WORKER',
+	/**
+	 * <p>A module can not be linked because the same module requests in it are not
+	 * resolved to the same module.</p>
+	 * <p><a id="ERR_MODULE_NOT_FOUND"></a></p>
+	 */
+	ERR_MODULE_LINK_MISMATCH = 'ERR_MODULE_LINK_MISMATCH',
 	/**
 	 * <p>A module file could not be resolved by the ECMAScript modules loader while
 	 * attempting an <code>import</code> operation or when loading the program entry point.</p>

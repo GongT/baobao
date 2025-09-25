@@ -1,15 +1,14 @@
 import { ProjectConfig } from '@build-script/rushstack-config-loader';
-import { parse } from 'comment-json';
-import { readFileSync, realpathSync } from 'node:fs';
-import { resolve } from 'node:path';
-
 import { Assertion } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { createLogger, EnableLogLevel, type IMyLogger } from '@idlebox/logger';
-import { currentProject } from './constants.js';
+import { parse } from 'comment-json';
+import { readFileSync, realpathSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { CheckFail, ErrorCollector } from './error-collecter.js';
 import { ObjectChecker } from './object-checker.js';
 import { getExportsField, packageJson, readPackageJson, writeBack } from './package-json.js';
+import { currentProject } from './paths/current.js';
 
 let errorRegistry: ErrorCollector;
 const assetPkgName = '@build-script/single-dog-asset';

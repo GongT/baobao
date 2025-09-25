@@ -6,6 +6,8 @@
  * https://github.com/GongT/baobao
  * 
  ******************************************************************************/
+/// <reference types="debug" />
+/// <reference path="../config/global.d.ts" />
 
 // biome-ignore-all lint: generated file
 // biome-ignore-all assist: generated file
@@ -263,6 +265,7 @@
 /* platform/compile.ts */
 	// Identifiers
 	export { isProductionMode } from "./platform/compile.js";
+	export { isBuildMode } from "./platform/compile.js";
 /* platform/globalObject.ts */
 	// Identifiers
 	export { globalObject } from "./platform/globalObject.js";

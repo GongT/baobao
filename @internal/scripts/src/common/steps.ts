@@ -3,11 +3,12 @@ import type { IExportMap } from '@idlebox/common';
 import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { execa } from 'execa';
-import { cpSync } from 'node:fs';
+import { cpSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { currentProject, monorepoRoot, realProject } from './constants.js';
 import { getExportsField, packageJson } from './package-json.js';
+import { currentProject, realProject } from './paths/current.js';
+import { monorepoRoot } from './paths/root.js';
 
 export function makeInformationalFields() {
 	function make(field: string, value: any) {
@@ -172,21 +173,26 @@ export function writeNpmFiles() {
 }
 
 export async function executePreBuild() {
-	logger.log`执行 @build-script/depcheck`;
-	const depcheckPath = fileURLToPath(import.meta.resolve('@build-script/depcheck/binary'));
-	const args = [depcheckPath];
+	const rigFile = resolve(currentProject, 'config/rig.json');
+	if (existsSync(rigFile)) {
+		logger.log`执行 @build-script/depcheck`;
+		const depcheckPath = fileURLToPath(import.meta.resolve('@build-script/depcheck/binary'));
+		const args = [depcheckPath];
 
-	if (logger.verbose.isEnabled) {
-		args.push('-dd');
-	} else if (logger.debug.isEnabled) {
-		args.push('-d');
+		if (logger.verbose.isEnabled) {
+			args.push('-dd');
+		} else if (logger.debug.isEnabled) {
+			args.push('-d');
+		}
+
+		logger.debug`node commandline<${args}>`;
+		await execa('node', args, {
+			stdio: 'inherit',
+			cwd: currentProject,
+		});
+	} else {
+		logger.log`未找到 rig.json，跳过 @build-script/depcheck`;
 	}
-
-	logger.debug`node commandline<${args}>`;
-	await execa('node', args, {
-		stdio: 'inherit',
-		cwd: currentProject,
-	});
 
 	logger.log`执行 biome check`;
 	const biomePath = resolve(monorepoRoot, 'node_modules/.bin/biome');

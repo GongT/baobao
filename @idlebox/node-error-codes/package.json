@@ -28,6 +28,7 @@
 		"@types/node": "^24.0.14",
 		"@build-script/codegen": "workspace:^"
 	},
+	"decoupledDependencies": "*",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}

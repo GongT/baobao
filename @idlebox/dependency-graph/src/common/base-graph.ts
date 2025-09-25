@@ -217,6 +217,14 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 		};
 		const result = [];
 		const leafs = this.graph.entryNodes();
+		// for (const name of this.graph.overallOrder()) {
+		// const node = this.getNodeByName(name);
+		// if (!node.dependencies.size) continue;
+		// result.push(node.customInspect());
+		// if (depth === 0) continue;
+		// result.push(...drawDepOne(name, 1));
+		// }
+
 		for (const name of leafs) {
 			result.push(this.getNodeByName(name).customInspect());
 

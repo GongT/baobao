@@ -139,6 +139,10 @@ export interface IPackageJson {
 	 * Array of package names that add this package to it's `decoupledDependencies`.
 	 */
 	decoupledDependents: string | string[];
+	/**
+	 * Array of package names that will be added to this package's `devDependencies` when resolve build order.
+	 */
+	additionalDependencies: string[];
 	/* My Addons End */
 
 	[field: string]: any;

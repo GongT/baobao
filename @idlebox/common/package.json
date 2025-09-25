@@ -37,7 +37,7 @@
 		"debug": "^4.4.1",
 		"tslib": "^2.8.1"
 	},
-	"decoupledDependencies": "*",
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}

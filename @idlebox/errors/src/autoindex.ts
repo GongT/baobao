@@ -6,7 +6,7 @@
  * https://github.com/GongT/baobao
  * 
  ******************************************************************************/
-
+/// <reference types="node" />
 // biome-ignore-all lint: generated file
 // biome-ignore-all assist: generated file
 /* eslint-disable */
@@ -52,5 +52,3 @@
 	// Identifiers
 	export { UnhandledRejection } from "./common/unhandled-errors.js";
 	export { UncaughtException } from "./common/unhandled-errors.js";
-/* export-typings.ts */
-	// Identifiers

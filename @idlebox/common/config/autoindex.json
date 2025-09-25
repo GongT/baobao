@@ -4,4 +4,5 @@
 	"output": "autoindex",
 	"exclude": ["**/*.internal.ts", "**/_*/**"],
 	"stripTags": ["private"],
+	"banner": "@config/prefix.ts",
 }

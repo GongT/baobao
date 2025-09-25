@@ -8,7 +8,9 @@ export const headerComments = `
  * https://github.com/GongT/baobao
  * 
  ******************************************************************************/
+`.trim();
 
+export const linterInstructions = `
 // biome-ignore-all lint: generated file
 // biome-ignore-all assist: generated file
 /* eslint-disable */

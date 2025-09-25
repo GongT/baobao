@@ -7,7 +7,7 @@ settings:
 overrides:
   ajv: ^8.17.1
 
-pnpmfileChecksum: sha256-12JGvO4k52sCS6IWWiZlqu1ybUGhaqzHqvpyIp63+94=
+pnpmfileChecksum: sha256-82oPJHq0oPxwg6x7R0lKoutGqpUJ59ehd49N5LehroA=
 
 patchedDependencies:
   '@types/tar-stream':
@@ -483,6 +483,9 @@ importers:
 
   '@build-script/single-dog-asset':
     devDependencies:
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../../@idlebox/itypes
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -648,6 +651,9 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/node':
+        specifier: workspace:@idlebox/empty@*
+        version: link:../empty
       '@types/react':
         specifier: ^19.1.12
         version: 19.1.13
@@ -828,6 +834,9 @@ importers:
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../itypes
 
   '@idlebox/deepmerge':
     devDependencies:
@@ -930,6 +939,12 @@ importers:
         specifier: ^24.0.14
         version: 24.3.3
 
+  '@idlebox/empty':
+    devDependencies:
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../itypes
+
   '@idlebox/ensure-symlink':
     devDependencies:
       '@mpis/run':
@@ -954,6 +969,9 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../itypes
 
   '@idlebox/esbuild-executer':
     dependencies:
@@ -1019,6 +1037,9 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: 'link:'
 
   '@idlebox/json-edit':
     dependencies:
@@ -1232,6 +1253,9 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../itypes
       nodejs-types:
         specifier: npm:@types/node@=24.0.14
         version: '@types/node@24.0.14'
@@ -1394,6 +1418,9 @@ importers:
       '@idlebox/dependency-injection':
         specifier: workspace:^
         version: link:../../@idlebox/dependency-injection
+      '@idlebox/empty':
+        specifier: workspace:^
+        version: link:../../@idlebox/empty
       '@idlebox/ensure-symlink':
         specifier: workspace:^
         version: link:../../@idlebox/ensure-symlink
@@ -1472,6 +1499,9 @@ importers:
       '@mpis/typescript':
         specifier: workspace:^
         version: link:../../@mpis/typescript
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../../@idlebox/itypes
       cjke-strings:
         specifier: workspace:^
         version: link:../../standalone/cjke
@@ -1886,6 +1916,9 @@ importers:
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../../@idlebox/itypes
       chai:
         specifier: ^5.2.1
         version: 5.3.3

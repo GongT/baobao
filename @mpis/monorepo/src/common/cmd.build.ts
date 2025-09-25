@@ -2,6 +2,7 @@ import { argv } from '@idlebox/args/default';
 import { prettyPrintError } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { isShuttingDown, setExitCodeIfNot, shutdown } from '@idlebox/node';
+import { CompileError } from '@mpis/server';
 import { debugMode } from './args.js';
 import { createMonorepoObject } from './workspace.js';
 
@@ -44,9 +45,18 @@ export async function runBuild() {
 		// completed = true;
 		setExitCodeIfNot(0);
 	} catch (error: any) {
-		repo.printScreen();
+		if (process.stderr.isTTY) {
+			process.stderr.write('\x1Bc');
+		} else {
+			console.error('='.repeat(process.stderr.columns || 80));
+		}
+		repo.printScreen(false, true);
 
-		prettyPrintError('monorepo build', error);
+		if (!logger.debug.isEnabled && error instanceof CompileError) {
+			logger.error`编译失败: ${error.message}`;
+		} else {
+			prettyPrintError('monorepo build', error);
+		}
 		shutdown(1);
 	}
 }

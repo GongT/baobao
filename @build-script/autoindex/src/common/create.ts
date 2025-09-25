@@ -4,7 +4,7 @@ import { ensureParentExists, relativePath, writeFileIfChange } from '@idlebox/no
 import { ExportKind, IgnoreFiles, TypescriptProject, type IIdentifierResult, type ITypescriptFile } from '@idlebox/typescript-surface-analyzer';
 import { dirname } from 'node:path';
 import type TypeScriptApi from 'typescript';
-import { headerComments } from './modify-comment.js';
+import { headerComments, linterInstructions } from './modify-comment.js';
 
 export function idToString(ts: typeof TypeScriptApi, id: TypeScriptApi.StringLiteral | TypeScriptApi.Identifier) {
 	if (ts.isIdentifier(id)) {
@@ -22,6 +22,7 @@ export interface ICreateIndexContext {
 	outputFileAbs: string;
 	logger: IMyLogger;
 	verbose?: boolean;
+	banner?: string;
 }
 
 export function createStandaloneIgnore(logger: IMyLogger, outputFileAbs: string, extraExcludes?: readonly string[]) {
@@ -62,6 +63,7 @@ export async function createIndex({
 	absoluteImport,
 	extraExcludes = [],
 	stripTags = ['internal'],
+	banner = '',
 }: ICreateIndexContext): Promise<IRet> {
 	if (!project.options.rootDir || !project.options.configFilePath) {
 		logger.error('%o', project.options);
@@ -86,7 +88,7 @@ export async function createIndex({
 	logger.debug('rootDir: %s', project.options.rootDir);
 	logger.debug('configFilePath: %s', project.options.configFilePath);
 	logger.debug('index dir: %s', indexDir);
-	const header = [headerComments];
+	const header = [headerComments, banner, linterInstructions];
 	const content = [];
 	const input_files = [];
 	for (const file of list.sort(sort_file)) {
