@@ -24,12 +24,12 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/node": "workspace:",
+		"@idlebox/node": "workspace:^",
 		"execa": "^9.6.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
-		"@idlebox/common": "workspace:",
+		"@idlebox/common": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"

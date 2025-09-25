@@ -231,7 +231,8 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 				shutdown(0);
 			}
 			if (!subcmd?.value) {
-				throw new UsageError(`missing command, use --help/-h to see available commands`);
+				logger.error(`missing command, use --help/-h to see available commands`);
+				shutdown(ExitCode.USAGE);
 			}
 			const commandName = subcmd.value;
 
@@ -283,7 +284,8 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			}
 
 			if (!subcmd?.value) {
-				throw new UsageError(`missing command, use --help/-h to see available commands`);
+				logger.error(`missing command, use --help/-h to see available commands`);
+				shutdown(ExitCode.USAGE);
 			}
 			const commandName = subcmd.value;
 

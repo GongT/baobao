@@ -11,7 +11,6 @@ export const headerComments = `
 
 // biome-ignore-all lint: generated file
 // biome-ignore-all assist: generated file
-// biome-ignore-all syntax: generated file
 /* eslint-disable */
 // @ts-ignore
 `.trim();

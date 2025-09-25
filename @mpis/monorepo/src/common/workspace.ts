@@ -1,5 +1,5 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { AsyncDisposable, Disposed, Emitter, isWindows, PathArray } from '@idlebox/common';
+import { AsyncDisposable, DisposedError, Emitter, isWindows, PathArray } from '@idlebox/common';
 import { CSI, logger, type IMyLogger } from '@idlebox/logger';
 import { getEnvironment, workingDirectory } from '@idlebox/node';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
@@ -123,7 +123,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 			try {
 				this._onStateChange.fireNoError();
 			} catch (e) {
-				if (e instanceof Disposed) {
+				if (e instanceof DisposedError) {
 					// 不知道这里是不是真的需要触发 onStateChange
 					return;
 				}

@@ -106,13 +106,13 @@ export abstract class PackageManager {
 		const scope = await this.getScope();
 		if (scope) {
 			const { stdout } = await this._execGetOut(cwd, ['config', 'get', `${scope}:${key}`]);
-			logger.debug('$ npm config get %s:%s -> %s', scope, key, stdout);
+			logger.debug('$ %s config get %s:%s -> %s (cwd: %s)', this.binary, scope, key, stdout, cwd);
 			if (`${stdout}` !== 'undefined') {
 				return stdout;
 			}
 		}
 		const { stdout } = await this._execGetOut(cwd, ['config', 'get', key]);
-		logger.debug('$ npm config get %s -> %s', key, stdout);
+		logger.debug('$ %s config get %s -> %s (cwd: %s)', this.binary, key, stdout, cwd);
 		return stdout === 'undefined' ? undefined : stdout;
 	}
 

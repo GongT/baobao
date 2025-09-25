@@ -14,7 +14,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	private executing = false;
 	private _something_change_during_call = false;
 
-	constructor(public readonly displayName?: string) {
+	constructor(public readonly displayName: string = 'AnonymousEmitter') {
 		this.handle = Object.defineProperties(this.handle.bind(this), {
 			once: {
 				get: () => this.once.bind(this),
@@ -80,6 +80,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 
 	/**
 	 * 添加监听器
+	 * 这个实例方法已经bind过
 	 */
 	handle(callback: EventHandler<T>): IDisposable {
 		this.requireNotExecuting();
@@ -167,7 +168,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 		const makeUnCallable = (name: string) => {
 			Object.assign(this, {
 				[name]() {
-					throw new DisposedError(`can not call Emitter#${name}() after event emitter disposed`, trace);
+					throw new DisposedError(`can not call ${this.displayName}#${name}() after event emitter disposed`, trace);
 				},
 			});
 		};

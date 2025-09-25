@@ -1,4 +1,4 @@
-import { createStackTraceHolder, Disposed, Emitter, SimpleStateMachine, type IStateChangeEvent, type StackTraceHolder } from '@idlebox/common';
+import { createStackTraceHolder, DisposedError, Emitter, SimpleStateMachine, type IStateChangeEvent, type StackTraceHolder } from '@idlebox/common';
 
 function immediate() {
 	return new Promise<void>((resolve) => {
@@ -155,7 +155,7 @@ export class LossyAsyncQueue<T = void> {
 	}
 
 	pushQueue(arg: T) {
-		if (this.disposed) throw new Disposed('async queue was disposed', this.disposed);
+		if (this.disposed) throw new DisposedError('async queue was disposed', this.disposed);
 
 		// console.log('[AsyncQueue] queue: promise=%s, state=%s', !!this._promise, this.state.getName());
 

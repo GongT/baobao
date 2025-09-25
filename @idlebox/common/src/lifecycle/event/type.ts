@@ -27,12 +27,18 @@ export interface IEventEmitter<T = unknown> extends IDisposable {
 
 	/**
 	 * 注册本事件的新回调
+	 * 这个实例方法已经bind过
 	 * @param callback 回调函数
+	 */
+	handle(callback: EventHandler<T>): IDisposable;
+
+	/**
+	 * @alias handle
 	 */
 	readonly register: EventRegister<T>;
 
 	/**
-	 * @alias register AI喜欢用event
+	 * @alias handle AI喜欢用event
 	 */
 	readonly event: EventRegister<T>;
 
@@ -52,6 +58,9 @@ export interface IEventEmitter<T = unknown> extends IDisposable {
 
 export type EventHandler<T> = (data: T) => void;
 
+/**
+ * 所有方法都已经bind了
+ */
 export interface EventRegister<T> {
 	(callback: EventHandler<T>): IDisposable;
 	once(callback: EventHandler<T>): IDisposable;

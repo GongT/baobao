@@ -1,17 +1,10 @@
 {
-	"name": "@idlebox/node-error-codes",
-	"description": "A collection of Node.js error codes and their descriptions.",
+	"name": "@build-script/vite-plugin-chunk-tree",
+	"private": true,
 	"type": "module",
-	"version": "0.1.9",
-	"exports": {
-		".": {
-			"source": "./src/nodejs-error-code.generated.ts",
-			"types": "./src/nodejs-error-code.generated.ts",
-			"default": "./lib/nodejs-error-code.generated.js"
-		},
-		"./package.json": "./package.json"
-	},
-	"sideEffects": false,
+	"version": "0.0.1",
+	"license": "MIT",
+	"description": "A vite/rollup plugin to split dependency tree into chunks.",
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -21,14 +14,26 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
+	"exports": {
+		".": "./lib/index.js",
+		"./package.json": "./package.json"
+	},
+	"dependencies": {
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"execa": "^9.6.0"
+	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14",
-		"@build-script/codegen": "workspace:^"
+		"rollup": "^4.50.0",
+		"typescript": "^5.8.3",
+		"vite": "^7.1.7"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }
