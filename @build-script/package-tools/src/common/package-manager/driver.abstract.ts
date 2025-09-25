@@ -103,16 +103,21 @@ export abstract class PackageManager {
 	}
 
 	private async _get_config(cwd: string, key: string) {
+		let binary = this.binary;
+		if (key === 'cache') {
+			binary = 'npm';
+		}
+
 		const scope = await this.getScope();
 		if (scope) {
-			const { stdout } = await this._execGetOut(cwd, ['config', 'get', `${scope}:${key}`]);
-			logger.debug('$ %s config get %s:%s -> %s (cwd: %s)', this.binary, scope, key, stdout, cwd);
+			const { stdout } = await this._execGetOut(cwd, ['config', 'get', `${scope}:${key}`], true, binary);
+			logger.debug('$ %s config get %s:%s -> %s (cwd: %s)', binary, scope, key, stdout, cwd);
 			if (`${stdout}` !== 'undefined') {
 				return stdout;
 			}
 		}
-		const { stdout } = await this._execGetOut(cwd, ['config', 'get', key]);
-		logger.debug('$ %s config get %s -> %s (cwd: %s)', this.binary, key, stdout, cwd);
+		const { stdout } = await this._execGetOut(cwd, ['config', 'get', key], true, binary);
+		logger.debug('$ %s config get %s -> %s (cwd: %s)', binary, key, stdout, cwd);
 		return stdout === 'undefined' ? undefined : stdout;
 	}
 
@@ -129,8 +134,8 @@ export abstract class PackageManager {
 		}
 	}
 
-	protected async _execGetOut(cwd: string, cmds: string[], reject = true) {
-		const result = await execa(this.binary, cmds, {
+	protected async _execGetOut(cwd: string, cmds: string[], reject = true, binary = this.binary) {
+		const result = await execa(binary, cmds, {
 			stdio: ['ignore', 'pipe', 'pipe'],
 			cwd: cwd,
 			reject: reject,

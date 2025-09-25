@@ -1,7 +1,7 @@
 import { createWorkspace } from '@build-script/monorepo-lib';
 import { CommandDefine, logger } from '@idlebox/cli';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
-import { NPM } from '../common/package-manager/driver.npm.js';
+import { createPackageManager } from '../common/package-manager/package-manager.js';
 
 export class Command extends CommandDefine {
 	protected override readonly _usage = '';
@@ -11,8 +11,8 @@ export class Command extends CommandDefine {
 
 export async function main() {
 	const workspace = await createWorkspace();
-	const packageManager = new NPM(PackageManagerUsageKind.Read, workspace);
-	const cache = await packageManager.createCacheHandler();
+	const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
+	const cache = await pm.createCacheHandler();
 
 	const list = await workspace.listPackages();
 
