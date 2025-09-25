@@ -44,6 +44,8 @@ export async function runBuild() {
 		// completed = true;
 		setExitCodeIfNot(0);
 	} catch (error: any) {
+		repo.printScreen();
+
 		prettyPrintError('monorepo build', error);
 		shutdown(1);
 	}

@@ -1,3 +1,1 @@
-/// <reference path="./meta.d.ts" />
-
-export const isProductionMode = import.meta.env?.['MODE'] === 'production';
+export const isProductionMode: boolean = import.meta.env?.['MODE'] === 'production';

@@ -10,3 +10,7 @@ declare namespace NodeJS {
 	type Signals = string;
 	interface ErrnoException extends Error {}
 }
+
+declare interface ImportMeta {
+	env?: Record<string, string>;
+}

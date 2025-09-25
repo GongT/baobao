@@ -4,11 +4,36 @@ run-name: ${{ github.actor }} 提交了一个新的节点版本 🚀
 on:
   push:
     branches: ['master']
+  workflow_dispatch:
 
 jobs:
+  cache:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[checkpoint] ') || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: 安装pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: 安装Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'pnpm'
+
+      - name: 安装依赖
+        run: |
+          pnpm install
+
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[checkpoint] ')
+    if: contains(github.event.head_commit.message, '[checkpoint] ') || github.event_name == 'workflow_dispatch'
+    needs: cache
     steps:
       - uses: actions/checkout@v3
         with:
