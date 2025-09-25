@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/itypes",
 	"type": "module",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"description": "some global variables copied from @types/node or dom",
 	"keywords": ["Typescript", "console", "type", "typings"],
 	"scripts": {

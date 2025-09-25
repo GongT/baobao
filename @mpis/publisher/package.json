@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/publisher",
 	"type": "module",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"keywords": [],
 	"bin": {
 		"publisher": "./loader/bin.js"
@@ -36,10 +36,7 @@
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	},
 	"sideEffects": false
 }

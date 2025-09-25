@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/cli-static-generator",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"bin": {
 		"make-cli": "./loader/bin.js"
 	},
@@ -46,9 +46,6 @@
 		"@types/node": "^24.0.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

@@ -2,7 +2,7 @@
 	"name": "@idlebox/errors",
 	"description": "A collection of my errors.",
 	"type": "module",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",

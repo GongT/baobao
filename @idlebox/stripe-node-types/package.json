@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/stripe-node-types",
 	"type": "module",
-	"version": "24.0.14-patch.0",
+	"version": "24.0.14",
 	"exports": {
 		"./package.json": "./package.json"
 	},
