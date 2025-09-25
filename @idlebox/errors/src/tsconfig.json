@@ -4,7 +4,6 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"],
 	},
 	// "files": ["preload.ts"],
 	// "include": ["**/*.ts"],
