@@ -59,7 +59,8 @@ class PnpmMonoRepo extends AsyncDisposable {
 
 			const exec = this.makeExecuter(this.mode === ModeKind.Watch, project);
 			if (exec) {
-				this.workersManager.addWorker(exec, project.devDependencies);
+				const all_deps = new Set<string>([...project.devDependencies, ...project.dependencies]);
+				this.workersManager.addWorker(exec, Array.from(all_deps));
 			} else {
 				this.workersManager.addEmptyNode(project.packageJson.name);
 			}
@@ -101,7 +102,9 @@ class PnpmMonoRepo extends AsyncDisposable {
 		env[isWindows ? 'Path' : 'PATH'] = this.forkPath(project).toString();
 
 		const exec = new ProcessIPCClient(project.packageJson.name, cmds, project.absolute, env, logger); // TODO: env add Path
-		exec.displayTitle = cmds[0];
+		if (cmds[0] !== 'mpis-run') {
+			exec.displayTitle += `[${cmds[0]}]`;
+		}
 
 		exec.onFailure((e) => {
 			if (e instanceof CompileError) {

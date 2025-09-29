@@ -6,7 +6,6 @@
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",
-			"types": "./src/autoindex.ts",
 			"default": "./lib/autoindex.js"
 		},
 		"./package.json": "./package.json"

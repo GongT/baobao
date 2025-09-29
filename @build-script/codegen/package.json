@@ -8,7 +8,6 @@
 	"exports": {
 		".": {
 			"source": "./src/plugin.ts",
-			"types": "./src/plugin.ts",
 			"default": "./lib/plugin.js"
 		},
 		"./package.json": "./package.json"

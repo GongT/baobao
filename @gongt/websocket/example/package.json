@@ -1,0 +1,25 @@
+{
+	"type": "module",
+	"private": true,
+	"exports": {
+		".": "./lib/autoindex.generated.js",
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepack": "",
+		"build": "tsc -p src",
+		"watch": "tsc -p src -w",
+		"clean": "",
+		"prepublishOnly": "internal-prepublish-deny",
+		"test": "websocket-compiler --input ./lib/server/server-events.js --output ./src/client/server.generated.ts"
+	},
+	"dependencies": {
+		"@gongt/websocket": "workspace:^",
+		"@gongt/websocket-compiler": "workspace:^"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^"
+	}
+}

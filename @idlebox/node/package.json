@@ -5,7 +5,6 @@
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",
-			"types": "./src/autoindex.ts",
 			"default": "./lib/autoindex.js"
 		},
 		"./package.json": "./package.json"
@@ -31,7 +30,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^24.0.14"
 	},
-	"decoupledDependencies": "*",
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}

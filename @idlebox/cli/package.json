@@ -5,12 +5,10 @@
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"types": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./builder": {
 			"source": "./src/builder.ts",
-			"types": "./src/builder.ts",
 			"default": "./lib/builder.js"
 		},
 		"./package.json": "./package.json"
@@ -39,11 +37,15 @@
 		"@idlebox/source-map-support": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@idlebox/cli-static-generator": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^24.0.14"
 	},
-	"optionalDependencies": {
+	"peerDependencies": {
 		"@idlebox/cli-static-generator": "workspace:^"
+	},
+	"peerDependenciesMeta": {
+		"@idlebox/cli-static-generator": {
+			"optional": true
+		}
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

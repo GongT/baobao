@@ -97,7 +97,11 @@ function readPackage(packageJson, context) {
 }
 
 function readMyPackage(packageJson) {
-	if (!findDep(packageJson, '@types/node')) {
+	if (findDep(packageJson, '@types/node')) {
+		if (packageJson.dependencies['@types/node']) {
+			console.error('\x1B[38;5;11m[%s] @types/node in dependencies.\x1B[0m', packageJson.name);
+		}
+	} else {
 		if (!packageJson.devDependencies) packageJson.devDependencies = {};
 		packageJson.devDependencies['@types/node'] = 'workspace:@idlebox/itypes@*';
 	}

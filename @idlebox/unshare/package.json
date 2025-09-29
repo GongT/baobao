@@ -7,7 +7,6 @@
 	"exports": {
 		".": {
 			"source": "./src/autoindex.generated.ts",
-			"types": "./src/autoindex.generated.ts",
 			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"

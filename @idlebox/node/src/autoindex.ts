@@ -84,9 +84,11 @@
 	export { existsSync } from "./fs/exists.js";
 	export { exists } from "./fs/exists.js";
 	export { readFileIfExists } from "./fs/exists.js";
-/* fs/tempFolder.ts */
+/* fs/temp.lifecycle.ts */
 	// Identifiers
-	export { createTempFolder } from "./fs/tempFolder.js";
+	export { createTempFolder } from "./fs/temp.lifecycle.js";
+	export { createTempFile } from "./fs/temp.lifecycle.js";
+	export { cancelDeleteTempfile } from "./fs/temp.lifecycle.js";
 /* fs/weiteChanged.ts */
 	// Identifiers
 	export { writeFileIfChangeSync } from "./fs/weiteChanged.js";

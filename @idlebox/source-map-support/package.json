@@ -4,12 +4,10 @@
 	"version": "0.0.13",
 	"exports": {
 		".": {
-			"types": "./src/index.ts",
 			"source": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./register": {
-			"types": "./src/register.ts",
 			"source": "./src/register.ts",
 			"default": "./lib/register.js"
 		},

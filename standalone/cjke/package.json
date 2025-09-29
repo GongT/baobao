@@ -7,7 +7,6 @@
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",
-			"types": "./src/autoindex.ts",
 			"default": "./lib/autoindex.js"
 		},
 		"./package.json": "./package.json"
@@ -36,6 +35,7 @@
 		"chai": "^5.2.1",
 		"mocha": "^11.7.1"
 	},
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

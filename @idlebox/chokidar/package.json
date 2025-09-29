@@ -5,8 +5,7 @@
 	"exports": {
 		".": {
 			"source": "./src/main.ts",
-			"default": "./lib/main.js",
-			"types": "./src/main.ts"
+			"default": "./lib/main.js"
 		},
 		"./package.json": "./package.json"
 	},

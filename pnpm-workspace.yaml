@@ -3,6 +3,8 @@ packages:
   - '@mpis/*'
   - '@build-script/*'
   - '@gongt/*'
+  - '@gongt/*/example'
+  - '@gongt/*/examples/*'
   - '@idlebox/*'
   - '@internal/*'
   - standalone/*

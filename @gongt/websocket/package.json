@@ -1,0 +1,41 @@
+{
+	"name": "@gongt/websocket",
+	"type": "module",
+	"version": "0.0.51",
+	"exports": {
+		".": "./lib/shared/interface.js",
+		"./server": "./lib/server/index.js",
+		"./client": "./lib/client/index.js",
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/common": "workspace:^",
+		"socket.io-client": "^4.8.1"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^24.0.14"
+	},
+	"peerDependencies": {
+		"@gongt/websocket-compiler": "workspace:^"
+	},
+	"peerDependenciesMeta": {
+		"@gongt/websocket-compiler": {
+			"optional": true
+		}
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
+}

@@ -54,7 +54,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	public readonly outputStream = new OutputHandler();
 	public readonly pathvar;
 	public readonly commandline: readonly string[];
-	public displayTitle: string;
+	private _displayTitle: string;
 
 	constructor(
 		id: string,
@@ -64,7 +64,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		logger?: IMyLogger,
 	) {
 		super(id, logger);
-		this.displayTitle = id;
+		this._displayTitle = id;
 
 		if (typeof commandline === 'string') {
 			this.commandline = splitCmd(commandline);
@@ -97,6 +97,13 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		}
 
 		this.onMessage = this.onMessage.bind(this);
+	}
+
+	set displayTitle(title: string) {
+		this._displayTitle = title;
+	}
+	get displayTitle() {
+		return this._displayTitle;
 	}
 
 	static is(obj: any): obj is ProcessIPCClient {
@@ -136,7 +143,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			...this.env,
 			PATH: this.pathvar.toString(),
 			BUILD_PROTOCOL_SERVER: 'ipc:nodejs',
-			BUILD_PROTOCOL_TITLE: this.displayTitle,
+			BUILD_PROTOCOL_TITLE: this._displayTitle,
 		};
 
 		this.logger.log`spawning | commandline<${this.commandline}>`;
@@ -237,8 +244,14 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	// }
 
 	override _inspectDesc(options: InspectOptionsStylized) {
-		const pid = this.process?.pid ? `[pid=${options.stylize(this.process.pid.toString(), 'number')}]` : options.stylize('not started', 'undefined');
-		return `${this._id} ${pid}`;
+		if (this.process?.pid) {
+			const pidStyle = this.process.exitCode === null ? 'number' : 'undefined';
+			const pid = `[pid=${options.stylize(this.process.pid.toString(), pidStyle)}]`;
+			return `${this._id} ${pid}`;
+		} else {
+			const ns = options.stylize('not started', 'undefined');
+			return `${this._id} ${ns}`;
+		}
 	}
 
 	private _is_paused = false;

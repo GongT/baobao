@@ -32,7 +32,7 @@ export interface IAsyncInitializeProtocol {
 }
 
 export interface IInjectable extends IAsyncInitializeProtocol {
-	// readonly __brand?: unique symbol;
+	readonly __brand?: unique symbol;
 }
 export type IInjectableClass<T extends IInjectable = IInjectable> = abstract new (...v: any) => T;
 

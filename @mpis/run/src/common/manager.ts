@@ -49,7 +49,9 @@ export function initializeWorkers() {
 function sendStatus() {
 	const noError = errors.values().every((e) => !e);
 	if (noError) {
-		channelClient.success(`all ${workersManager.size()} workers completed successfully.`);
+		if (workersManager.size() === errors.size) {
+			channelClient.success(`all ${workersManager.size()} workers completed successfully.`);
+		}
 	} else {
 		let errorCnt = 0;
 		const arr: string[] = [];

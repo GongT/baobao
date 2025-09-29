@@ -8,7 +8,6 @@
 	},
 	"exports": {
 		".": {
-			"types": "./src/autoindex.ts",
 			"source": "./src/autoindex.ts",
 			"default": "./lib/autoindex.js"
 		},

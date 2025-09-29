@@ -4,7 +4,6 @@
 	"version": "0.0.28",
 	"exports": {
 		".": {
-			"types": "./src/api.ts",
 			"source": "./src/api.ts",
 			"default": "./lib/api.js"
 		},

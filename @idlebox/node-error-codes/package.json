@@ -6,7 +6,6 @@
 	"exports": {
 		".": {
 			"source": "./src/nodejs-error-code.generated.ts",
-			"types": "./src/nodejs-error-code.generated.ts",
 			"default": "./lib/nodejs-error-code.generated.js"
 		},
 		"./package.json": "./package.json"

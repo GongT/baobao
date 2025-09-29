@@ -3,6 +3,7 @@ import { prettyPrintError } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { isShuttingDown, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { CompileError } from '@mpis/server';
+import { url } from 'node:inspector';
 import { debugMode } from './args.js';
 import { createMonorepoObject } from './workspace.js';
 
@@ -13,9 +14,10 @@ export async function runBuild() {
 	}
 
 	const hasCi = process.env.CI;
+	const activeOutput = !debugMode && !hasCi && !url();
 	const repo = await createMonorepoObject();
 
-	if (!debugMode && !hasCi) {
+	if (activeOutput) {
 		repo.onStateChange(() => {
 			if (isShuttingDown()) return;
 			if (process.stderr.isTTY) process.stderr.write('\x1Bc');
@@ -45,7 +47,7 @@ export async function runBuild() {
 		// completed = true;
 		setExitCodeIfNot(0);
 	} catch (error: any) {
-		if (process.stderr.isTTY) {
+		if (activeOutput) {
 			process.stderr.write('\x1Bc');
 		} else {
 			console.error('='.repeat(process.stderr.columns || 80));
