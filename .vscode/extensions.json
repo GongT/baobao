@@ -1,13 +1,9 @@
 {
 	"recommendations": [
 		"streetsidesoftware.code-spell-checker",
-		"editorconfig.editorconfig",
 		"biomejs.biome",
-		"rbuckton.tsserver-live-reload",
 		"wix.vscode-import-cost",
-		"RushStack.rushstack",
 		"rbuckton.tsserver-live-reload",
-		"esbenp.prettier-vscode",
 	],
 	"unwantedRecommendations": [
 		"hookyqr.beautify",
