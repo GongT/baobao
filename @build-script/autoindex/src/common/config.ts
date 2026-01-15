@@ -1,7 +1,9 @@
 import { NotFoundError, ProjectConfig } from '@build-script/rushstack-config-loader';
+import { ExitCode } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
-import { findUpUntilSync } from '@idlebox/node';
-import { resolve } from 'node:path';
+import { findUpUntilSync, shutdown } from '@idlebox/node';
+import { readFile } from 'node:fs/promises';
+import { basename, resolve } from 'node:path';
 import { ConfigKind, schemaFile, type ICliArgs } from './cli.js';
 
 interface IConfigFile {
@@ -11,6 +13,7 @@ interface IConfigFile {
 	exclude?: string[];
 	stripTags?: string[];
 	absolute?: string;
+	banner?: string;
 }
 
 export interface IContext {
@@ -23,20 +26,22 @@ export interface IContext {
 	stripTags: string[];
 	project: string;
 	verboseMode: boolean;
+	banner: string;
 }
 
-async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>, logger: IMyLogger) {
+async function loadConfigFile(configType: ConfigKind, configFile: string, context: Partial<IContext>, logger: IMyLogger) {
 	if (configType === ConfigKind.DISABLE) {
-		logger.debug`由于命令行参数，跳过配置文件: config/autoindex.json`;
+		logger.debug`由于命令行参数，跳过配置文件: ${configFile}`;
 		return;
 	}
 
-	logger.debug`即将加载配置文件: config/autoindex.json`;
+	logger.debug`即将加载配置文件: ${configFile}`;
 	logger.verbose`使用schema文件: ${schemaFile}`;
 
-	const packageJsonFile = findUpUntilSync({ file: 'package.json', from: context.project ?? process.cwd() });
+	const packageJsonFile = findUpUntilSync({ file: ['package.json', 'package.yaml'], from: context.project ?? process.cwd() });
 	if (!packageJsonFile) {
-		throw logger.fatal`无法找到项目根目录，请确保在正确的目录下运行。`;
+		logger.error`无法找到项目根目录，请确保在正确的目录下运行。`;
+		shutdown(1);
 	}
 	logger.debug`项目package: ${packageJsonFile}`;
 	const projectRoot = resolve(packageJsonFile, '..');
@@ -44,12 +49,13 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 	const config = new ProjectConfig(projectRoot, undefined, logger);
 
 	try {
-		const configFileData = config.loadSingleJson<IConfigFile>('autoindex', schemaFile);
+		const configFileData = config.loadSingleJson<IConfigFile>(basename(configFile, '.json'), schemaFile);
 		logger.verbose`内容: ${configFileData}`;
 
 		if (!context.project) {
 			if (!configFileData.project) {
-				throw logger.fatal`配置文件中未指定项目路径，必须传入参数`;
+				logger.error`配置文件中未指定项目路径，必须传入参数`;
+				shutdown(1);
 			}
 			context.project = configFileData.project;
 		}
@@ -66,9 +72,29 @@ async function loadConfigFile(configType: ConfigKind, context: Partial<IContext>
 
 		if (!context.stripTags) context.stripTags = [];
 		if (configFileData.stripTags?.length) context.stripTags.push(...configFileData.stripTags);
+
+		if (configFileData.banner) {
+			if (context.banner) context.banner += '\n';
+			let banner = configFileData.banner;
+			if (banner.startsWith('@')) {
+				const info = config.getFileInfo(banner.slice(1));
+				if (!info.effective) {
+					logger.error`无法加载banner文件: ${banner}`;
+					shutdown(1);
+				}
+
+				banner = await readFile(info.effective, 'utf-8');
+			}
+			context.banner += banner;
+		}
 	} catch (e: unknown) {
 		if (e instanceof NotFoundError) {
-			logger.verbose`由于文件不存在，未使用配置文件（${e.message}）`;
+			if (configType === ConfigKind.REQUIRED) {
+				logger.error(`无法加载配置文件: ${e.message}`);
+				shutdown(ExitCode.USAGE);
+			} else {
+				logger.verbose`由于文件不存在，未使用配置文件（${e}）`;
+			}
 		} else {
 			throw e;
 		}
@@ -86,9 +112,10 @@ export async function createContext(args: ICliArgs, logger: IMyLogger): Promise<
 		stripTags: args.skipTags,
 		project: args.project,
 		verboseMode: args.verboseMode,
+		banner: '',
 	};
 
-	await loadConfigFile(args.configType, context, logger);
+	await loadConfigFile(args.configType, args.configFile, context, logger);
 
 	if (!context.outputFile) {
 		context.outputFile = './autoindex.generated';
@@ -96,7 +123,8 @@ export async function createContext(args: ICliArgs, logger: IMyLogger): Promise<
 	if (!context.project) {
 		if (args.configType === ConfigKind.IMPLICIT) {
 			// 如果是隐式配置，则必须在命令行中指定项目路径
-			logger.fatal`未指定项目路径，需要额外参数或在配置文件中指定`;
+			logger.error`未指定项目路径，需要额外参数或在配置文件中指定`;
+			shutdown(ExitCode.USAGE);
 		}
 	}
 

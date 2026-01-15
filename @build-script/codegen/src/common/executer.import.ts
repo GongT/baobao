@@ -1,12 +1,14 @@
 import { prettyFormatStack } from '@idlebox/common';
 import { writeFileIfChangeSync } from '@idlebox/node';
-import { basename, relative } from 'node:path';
+import { mkdirSync } from 'node:fs';
+import { basename, dirname, relative } from 'node:path';
 import { Context } from '../client/generate-context.js';
 import type { GeneratorBody } from './code-generator.js';
 import { BaseExecuter, type IGenerateResult } from './executer.base.js';
 import { colorMode, createCollectLogger, type ILogMessage } from './shared.js';
 
 // const generatorSuffix = /\.generator\.ts$/;
+const errorNameReg = /^(\w+): (.+)$/;
 
 function interop(mdl: any) {
 	return mdl?.default ?? mdl;
@@ -22,9 +24,12 @@ export class ImportExecuter extends BaseExecuter {
 		const logger = createCollectLogger(outputs, this.logger);
 		const ctx = new Context(this.sourceFileAbs, logger, this.projectRoot);
 
-		const gen: GeneratorBody = interop(
-			await import(`${compiledFile}?t=${Date.now()}`, { with: { my_loader: 'compiled' } })
-		);
+		let gen: GeneratorBody;
+		try {
+			gen = interop(await import(compiledFile, { with: { type: 'memory' } }));
+		} catch (e: any) {
+			return this.errorResult(e);
+		}
 
 		if (typeof gen.generate !== 'function') {
 			return this.errorResult(new Error(`module ${this.sourceFileAbs} must export "generate" function`));
@@ -48,10 +53,16 @@ export class ImportExecuter extends BaseExecuter {
 					break;
 				}
 			}
-			let [name, message] = lines.shift().split(': ');
-			if (!message) {
-				message = name;
+			const firstLine = lines.shift();
+			const match = errorNameReg.exec(firstLine);
+
+			let message, name;
+			if (!match) {
+				message = firstLine;
 				name = 'Error';
+			} else {
+				name = match[1];
+				message = match[2];
 			}
 
 			const stack = colorMode ? prettyFormatStack(lines) : lines;
@@ -75,6 +86,7 @@ export class ImportExecuter extends BaseExecuter {
 		let numChange = 0;
 		this.logger.debug(`emit ${files.length} files`);
 		for (const { content, path } of files) {
+			mkdirSync(dirname(path), { recursive: true });
 			const ch = writeFileIfChangeSync(path, content);
 			if (ch) {
 				this.logger.log(`write file: ${relative(this.projectRoot, path)}`);

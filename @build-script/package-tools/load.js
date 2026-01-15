@@ -1,12 +1,7 @@
 #!/usr/bin/env node
 
-if (!process.execArgv.some((e) => e.startsWith('--inspect'))) {
-	const { install } = await import('source-map-support');
-	install();
-}
+import '@idlebox/source-map-support/register';
 
-import { registerNodejsExitHandler } from '@idlebox/node';
-
-registerNodejsExitHandler();
+process.title = `PkgTool`;
 
 await import('./lib/main.js');

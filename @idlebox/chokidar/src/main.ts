@@ -28,13 +28,16 @@ export class WatchHelper implements IWatchHelper {
 
 	constructor(
 		private readonly watcher: FSWatcher,
-		private readonly onChange: IReloadFunction
+		private readonly onChange: IReloadFunction,
 	) {
 		this.handler = this.handler.bind(this);
 
 		this.cwd = watcher.options.cwd;
 	}
 
+	/**
+	 * 设置监听哪些事件
+	 */
 	listen(item: (typeof allowedEvents)[number]) {
 		if (!allowedEvents.includes(item)) {
 			throw new Error(`not allowed watcher event name: ${item}`);
@@ -42,11 +45,15 @@ export class WatchHelper implements IWatchHelper {
 
 		log('listen: %s [previous %d]', item, this.watcher.listenerCount(item));
 		if (this.watcher.listenerCount(item) === 0) {
-			this.watcher.addListener(item, (ch) => {
-				this.lowlevel_handler(ch, item);
+			this.watcher.addListener(item, (...args) => {
+				this.lowlevel_handler(args[0], item);
 			});
 		}
 	}
+
+	/**
+	 * 取消监听指定事件
+	 */
 	unlisten(item: (typeof allowedEvents)[number]) {
 		if (!allowedEvents.includes(item)) {
 			throw new Error(`not allowed watcher event name: ${item}`);
@@ -72,7 +79,7 @@ export class WatchHelper implements IWatchHelper {
 		this.state = s;
 	}
 
-	private lowlevel_handler(path: string, event: WatchEventKind) {
+	private lowlevel_handler(path: string|undefined, event: WatchEventKind) {
 		log('file changes: %s', path);
 		if (path) {
 			this.changes.add(path);
@@ -128,10 +135,16 @@ export class WatchHelper implements IWatchHelper {
 			});
 	}
 
+	/**
+	 * 判断是否没有监听到任何文件
+	 */
 	get empty() {
 		return Object.keys(this.watcher.getWatched()).length === 0;
 	}
 
+	/**
+	 * 获取监听文件数量
+	 */
 	get size() {
 		let sum = 0;
 		for (const item of Object.values(this.watcher.getWatched())) {
@@ -140,6 +153,9 @@ export class WatchHelper implements IWatchHelper {
 		return sum;
 	}
 
+	/**
+	 * 替换原有监听文件列表
+	 */
 	async replace(newList: readonly string[]) {
 		const newSet = new Set(newList);
 		for (const item of this.trackedFiles) {
@@ -166,6 +182,9 @@ export class WatchHelper implements IWatchHelper {
 	addWatch = deprecate(this.add.bind(this), 'use add instead of addWatch');
 	delWatch = deprecate(this.delete.bind(this), 'use delete instead of delWatch');
 
+	/**
+	 * 添加文件到监听列表
+	 */
 	add(files: string | readonly string[]) {
 		// console.log('[watch:add] %s', files)
 		if (typeof files === 'string') {
@@ -178,6 +197,9 @@ export class WatchHelper implements IWatchHelper {
 		this.watcher.add(files as string[]);
 	}
 
+	/**
+	 * 从监听列表删除文件
+	 */
 	delete(files: string | readonly string[]) {
 		// console.log('[watch:del] %s', files)
 		if (typeof files === 'string') {
@@ -190,20 +212,32 @@ export class WatchHelper implements IWatchHelper {
 		this.watcher.unwatch(files as string[]);
 	}
 
+	/**
+	 * 取消所有监听
+	 */
 	reset() {
 		this.watcher.unwatch([...this.trackedFiles]);
 		this.trackedFiles.clear();
 		this.watcher.unwatch(this.watches);
 	}
 
+	/**
+	 * 获取加入监听的文件
+	 */
 	get expectedWatches() {
 		return [...this.trackedFiles];
 	}
 
+	/**
+	 * 获取加入监听的文件数量
+	 */
 	get trackingSize() {
 		return this.trackedFiles.size;
 	}
 
+	/**
+	 * 获取成功注册监听器的文件列表
+	 */
 	get watches(): string[] {
 		const list = [];
 		for (const [folder, files] of Object.entries(this.watcher.getWatched())) {

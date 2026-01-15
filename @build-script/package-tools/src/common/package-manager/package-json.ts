@@ -1,6 +1,6 @@
+import { logger } from '@idlebox/cli';
 import type { IPackageJson } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
-import { logger } from '@idlebox/logger';
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { inc } from 'semver';
@@ -24,7 +24,13 @@ function sort(object: any): any {
 
 export async function makePackageJsonOrderConsistence(root: string) {
 	const filepath = resolve(root, 'package.json');
-	const data = JSON.parse(await readFile(filepath, 'utf-8'));
+	const data: IPackageJson = JSON.parse(await readFile(filepath, 'utf-8'));
+	delete (data as any).devDependencies;
+
+	rewritePackageVersions(data.dependencies);
+	rewritePackageVersions(data.optionalDependencies);
+	rewritePackageVersions(data.peerDependencies);
+
 	const json = sort(data);
 	await writeFile(filepath, JSON.stringify(json, null, 2), 'utf-8');
 
@@ -32,7 +38,7 @@ export async function makePackageJsonOrderConsistence(root: string) {
 }
 
 const pkgCache: Record<string, IPackageJson> = {};
-export async function cachedPackageJson(path: string) {
+export async function cachedPackageJson(path: string): Promise<IPackageJson> {
 	const exists = pkgCache[path];
 	if (exists) {
 		return exists;
@@ -53,4 +59,16 @@ export async function increaseVersion(pkg: IPackageJson, current: string) {
 	const ch = await writeJsonFileBack(pkg);
 	logger.debug('package.json回写: %s', ch);
 	return v;
+}
+
+const caretVersion = /^\^(\d+\.\d+)\.\d+/;
+function rewritePackageVersions(deps: Record<string, string>) {
+	if (!deps) return;
+
+	for (const [k, v] of Object.entries(deps)) {
+		const m = caretVersion.exec(v);
+		if (m) {
+			deps[k] = `^${m[1]}.*`;
+		}
+	}
 }

@@ -18,6 +18,7 @@ registerCommand({
 	callback: printHelp,
 });
 
+const anySpace = /\s/;
 export function initializeStdin() {
 	if (!process.stdin.isTTY) {
 		return;
@@ -29,7 +30,7 @@ export function initializeStdin() {
 
 		logger.debug`recv: ${text}`;
 
-		const firstWord = text.split(/\s/, 1)[0];
+		const firstWord = text.split(anySpace, 1)[0];
 
 		for (const command of stdinCommands) {
 			let match = false;

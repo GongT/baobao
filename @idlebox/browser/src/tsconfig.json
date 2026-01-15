@@ -4,6 +4,7 @@
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"lib": ["ESNext", "DOM"]
-	}
+		"lib": ["ESNext", "DOM"],
+		"jsx": "preserve",
+	},
 }

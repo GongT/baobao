@@ -1,26 +1,37 @@
 import { escapeRegExp } from '@idlebox/common';
+import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
-import { extname, isAbsolute, resolve } from 'node:path';
+import { dirname, extname, isAbsolute, resolve } from 'node:path';
 import type { ILogger } from '../common/output.js';
+import { typescriptAlertHeader } from './alert-header.js';
+import { knownFileExtensions, sourceCodeExtensions } from './constants.js';
 
 const endingQuote = /^}/;
-const hasJsSuffix = /\.[cm]?jsx?$/i;
+const hasTsSuffix = /\.[cm]?tsx?$/i;
+
+function renameExt(name: string) {
+	for (const ext of knownFileExtensions) {
+		if (name.endsWith(ext)) {
+			return `${name.slice(0, -ext.length)}.generated${ext}`;
+		}
+	}
+	return `${name}.generated.ts`;
+}
 
 export class FileBuilder {
 	protected _referData?: string[];
 	protected result: string[] = [];
-	public readonly absolutePath: string;
-	public readonly relativePath: string;
+	protected readonly absolutePath: string;
 
 	constructor(
+		// dirname of package.json
 		protected readonly projectRoot: string,
+		// the generator.ts file absolute
 		private readonly selfPath: string,
 		name: string,
 		public readonly logger: ILogger,
+		no_rename: boolean,
 	) {
-		if (hasJsSuffix.test(name)) {
-			throw new Error(`file name "${name}" should not have a .js suffix. Use .ts (or omit) instead`);
-		}
 		if (isAbsolute(name)) {
 			if (!name.startsWith('/')) {
 				throw new Error(`file name "${name}" should not be absolute.`); // windows drive
@@ -34,16 +45,19 @@ export class FileBuilder {
 			logger.warn(`output file "${name}" is not under the project root "${projectRoot}"`);
 		}
 
-		const ext = extname(name) || '.ts';
-
-		if (name.endsWith(ext)) {
-			name = name.slice(0, -ext.length);
+		if (!no_rename) {
+			name = renameExt(name);
 		}
 
-		name = `${name}.generated${ext}`;
-
-		this.relativePath = name;
 		this.absolutePath = resolve(projectRoot, name);
+	}
+
+	get dirname() {
+		return dirname(this.absolutePath);
+	}
+
+	getAbsolutePath() {
+		return this.absolutePath;
 	}
 
 	get referData() {
@@ -54,21 +68,27 @@ export class FileBuilder {
 		}
 		return this._referData;
 	}
-	append(text: string) {
-		this.result.push(text);
-		return text;
+	append(...text: string[]) {
+		this.result.push(...text);
+		return text.join('\n');
 	}
 
-	prepend(text: string) {
-		this.result.unshift(text);
-		return text;
+	prepend(...text: string[]) {
+		this.result.unshift(...text);
+		return text.join('\n');
 	}
 
 	toString() {
-		if (this.result.at(-1) !== '') {
-			this.result.push('');
+		const result = this.result.slice();
+		if (result.at(-1) !== '') {
+			result.push('');
 		}
-		return this.result.join('\n');
+
+		const ext = extname(this.absolutePath);
+		if (sourceCodeExtensions.includes(ext)) {
+			result.unshift(typescriptAlertHeader, '\n');
+		}
+		return result.join('\n');
 	}
 
 	get size() {
@@ -155,21 +175,65 @@ export class FileBuilder {
 		return new WrappedArray(r);
 	}
 
-	import(what: string[], where: string): string;
-	import(type: true, what: string[], where: string): string;
-	import(type: boolean | string[], what: string | string[], where?: string): string {
-		if (typeof type !== 'boolean') {
-			where = what as string;
-			what = type;
-			type = false;
-		}
+	/**
+	 * 在文件开头生成一个import语句
+	 * @param what 如果是数组，则用逗号连接
+	 * 	第一个元素是“type”，则生成 import type { 逗号连接的数组 }。
+	 *  除了type之外，如果只有一项，且开头是*，则生成 import {what[0]}
+	 * 
+	 * 字符串直接放到import后面，只有字符串可以同时导入default和named
+	 * 
+	 * @param where 文件路径，后缀自动从.ts[x]改成.js，如果是绝对路径，则自动转换成相对于当前生成结果文件。
+	 * @param exports 如果为true，则生成export语句，而不是import
+	 * @returns 添加的import语句
+	 */
+	import(what: string | string[], where: string | FileBuilder, exports = false): string {
+		let type = false;
 		if (Array.isArray(what)) {
-			what = what.join(', ');
+			if (what[0] === 'type') {
+				type = true;
+				what.shift();
+			}
+			if (what.length === 1 && what[0][0] === '*') {
+				what = what[0];
+			} else {
+				what = `{ ${what.join(', ')} }`;
+			}
 		}
+
+		if (typeof where !== 'string') {
+			if (where instanceof FileBuilder) {
+				where = relativePath(this.dirname, where.getAbsolutePath());
+				if (!where.startsWith('.')) {
+					where = `./${where}`;
+				}
+			} else {
+				throw new TypeError(`import path must be a string, got ${typeof where}`);
+			}
+		}
+
+		if (!where.startsWith('.')) {
+			if (where.startsWith('#')) {
+				// is ok
+			} else if (isAbsolute(where)) {
+				where = relativePath(this.dirname, where);
+				if (!where.startsWith('.')) {
+					where = `./${where}`;
+				}
+			} else {
+				throw new Error(`import path "${where}" should starts with . or #`);
+			}
+		}
+
+		if (hasTsSuffix.test(where)) {
+			where = where.replace(hasTsSuffix, '.js');
+		}
+
+		const s = exports ? 'export' : 'import';
 		if (type) {
-			return this.prepend(`import type { ${what} } from '${where}';`);
+			return this.prepend(`${s} type ${what} from '${where}';`);
 		} else {
-			return this.prepend(`import { ${what} } from '${where}';`);
+			return this.prepend(`${s} ${what} from '${where}';`);
 		}
 	}
 
@@ -218,13 +282,13 @@ export class WrappedArray {
 	 *	获取数组的前几个元素
 	 */
 	begining(cnt: number | string) {
-		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? Number.parseInt(cnt) : cnt));
+		return new WrappedArray(this.array.slice(0, typeof cnt === 'string' ? Number.parseInt(cnt, 10) : cnt));
 	}
 	/**
 	 *	获取数组的后几个元素
 	 */
 	ending(cnt: number | string) {
-		return new WrappedArray(this.array.slice(-(typeof cnt === 'string' ? Number.parseInt(cnt) : cnt)));
+		return new WrappedArray(this.array.slice(-(typeof cnt === 'string' ? Number.parseInt(cnt, 10) : cnt)));
 	}
 
 	/**

@@ -1,6 +1,10 @@
-import { findUpUntil } from '@idlebox/node';
+import { findUpUntil, registerNodejsExitHandler, shutdown } from '@idlebox/node';
 import { getPackageManager } from './common/getPackageManager.js';
 import { formatPackageJson } from './local/formatPackageJson.js';
+
+process.exitCode = 1;
+registerNodejsExitHandler();
+await main();
 
 function getArgs() {
 	const args = process.argv.slice(2);
@@ -15,13 +19,17 @@ function getArgs() {
 }
 
 /** @internal */
-export default async function () {
+export async function main() {
 	const { cmd, args } = getArgs();
 
 	const packageJson = (await findUpUntil({ from: process.cwd(), file: 'package.json' })) || undefined;
 
 	// console.error('finding package manager');
-	const pm = await getPackageManager({ packageJson });
+	const pm = await getPackageManager({
+		ask: process.stdout.isTTY,
+		packageJson,
+		cwd: process.cwd(),
+	});
 	// console.error('detected package manager: %s', pm.friendlyName);
 
 	const requirePackage = () => {
@@ -66,4 +74,6 @@ export default async function () {
 		requirePackage();
 		await pm.invokeCli(cmd, ...args);
 	}
+
+	shutdown(0);
 }

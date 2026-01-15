@@ -16,7 +16,7 @@ export abstract class BaseExecuter {
 	constructor(
 		protected readonly projectRoot: string,
 		protected readonly sourceFileAbs: string, // xxx.generator.ts
-		protected readonly logger: ILogger
+		protected readonly logger: ILogger,
 	) {}
 
 	get hasMemoResult() {
@@ -33,6 +33,10 @@ export abstract class BaseExecuter {
 					type: 'error',
 					message: err.message,
 				},
+				{
+					type: 'debug',
+					message: err.stack || '<no stack trace available>',
+				},
 			],
 			error: err,
 			userWatchFiles: new Set(),
@@ -46,7 +50,7 @@ export abstract class BaseExecuter {
 		try {
 			this.result = await this._execute(scriptFile);
 		} catch (e: any) {
-			this.logger.warn(`_execute() should not throw: ${e.message}`);
+			this.logger.warn(`_execute() should not throw: ${e.stack || e.message}`);
 			this.result = {
 				outputs: [e.message],
 				userWatchFiles: new Set(),

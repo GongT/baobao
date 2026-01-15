@@ -8,12 +8,7 @@ import { parse } from 'comment-json';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { isAbsolute, resolve } from 'node:path';
-import {
-	cloneAttachedFieldsInto,
-	getAttachedFile,
-	setAttachedFile,
-	setAttachedFormatter,
-} from '../tools/attachData.js';
+import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormatter } from '../tools/attachData.js';
 import { checkChange, loadFile, pathExists, saveFile } from '../tools/filesystem.js';
 import { createDefaultFormatter } from '../tools/formatter.js';
 import { stringifyJsonText } from './format.js';
@@ -74,11 +69,7 @@ export async function writeJsonFileBack(data: any): Promise<boolean> {
 /**
  * check if `data` is same with content of `file`, if not, overwrite `file`
  */
-export async function writeJsonFile(
-	file: string,
-	data: any,
-	charset: BufferEncoding = DEFAULT_ENCODING,
-): Promise<boolean> {
+export async function writeJsonFile(file: string, data: any, charset: BufferEncoding = DEFAULT_ENCODING): Promise<boolean> {
 	file = abs(file);
 	const newData = Object.assign({}, data);
 	cloneAttachedFieldsInto(data, newData);
@@ -92,7 +83,7 @@ export async function writeJsonFile(
 	const ret = await writeJsonFileBack(newData);
 
 	if (!getAttachedFile(data)) {
-		setAttachedFile(data, getAttachedFile(newData)!);
+		setAttachedFile(data, getAttachedFile(newData));
 	}
 
 	return ret;

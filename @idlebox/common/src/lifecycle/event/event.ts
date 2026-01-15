@@ -1,114 +1,111 @@
-import { AppExit } from '../../error-wellknown/exit.error.js';
-import type { IDisposable } from '../dispose/lifecycle.js';
-
-export type EventHandler<T> = (data: T) => void;
-
-export type EventRegister<T> = ((callback: EventHandler<T>) => IDisposable) & {
-	once(callback: EventHandler<T>): IDisposable;
-};
-
-type DeferFn = () => void;
+import { Exit } from '@idlebox/errors';
+import { nameObject, objectName } from '../../debugging/object-with-name.js';
+import { createStackTraceHolder } from '../../error/stack-trace.js';
+import { functionToDisposable } from '../dispose/bridges/function.js';
+import type { IDisposable } from '../dispose/disposable.js';
+import { DisposedError } from '../dispose/disposedError.js';
+import type { EventHandler, EventRegister, IEventEmitter } from './type.js';
 
 /**
- * 事件注册对象
  * @public
  */
-export class Emitter<T> implements IDisposable {
-	protected readonly _callbacks: EventHandler<T>[] = [];
+export class Emitter<T = unknown> implements IEventEmitter<T> {
+	protected _callbacks?: (EventHandler<T> | undefined)[];
 	private executing = false;
+	private _something_change_during_call = false;
 
-	constructor(public readonly displayName?: string) {}
-
-	/**
-	 * @returns 当前注册回调数量
-	 */
-	public listenerCount() {
-		return this._callbacks.length;
+	constructor(public readonly displayName: string = 'AnonymousEmitter') {
+		this.handle = Object.defineProperties(this.handle.bind(this), {
+			once: {
+				get: () => this.once.bind(this),
+			},
+			wait: {
+				get: () => this.wait.bind(this),
+			},
+			hasDisposed: {
+				get: () => this._disposed,
+			},
+		});
 	}
 
-	/**
-	 * 触发本事件
-	 * @param data 回调数据
-	 */
+	public listenerCount() {
+		return this._callbacks?.length ?? 0;
+	}
+
 	public fire(data: T) {
 		this.requireNotExecuting();
+		if (!this._callbacks) return;
+
 		this.executing = true;
 		try {
 			for (const callback of this._callbacks) {
-				callback(data);
+				callback?.(data);
 			}
 		} finally {
-			this.doDefer();
 			this.executing = false;
+			if (this._something_change_during_call) {
+				this.checkDeleted();
+			}
 		}
 	}
 
-	/**
-	 * 与 `fire()`相同，但是忽略任何错误，并且即便出错也继续执行全部callback
-	 */
 	public fireNoError(data: T) {
 		this.requireNotExecuting();
+		if (!this._callbacks) return;
+
 		this.executing = true;
 		for (const callback of this._callbacks) {
 			try {
-				callback(data);
+				callback?.(data);
 			} catch (e) {
-				if (e instanceof AppExit) {
-					continue;
+				if (e instanceof Exit) {
+					break;
 				}
-				console.error('Error ignored: %s', e instanceof Error ? e.message : e);
+				console.error('Emitter.fireNoError: error ignored: %s', e instanceof Error ? e.stack : e);
 			}
 		}
-		this.doDefer();
 		this.executing = false;
+		if (this._something_change_during_call) {
+			this.checkDeleted();
+		}
 	}
 
 	get register(): EventRegister<T> {
-		return Object.assign(this.handle.bind(this), {
-			once: this.once.bind(this),
-		});
+		return this.handle as any;
 	}
 
-	/**
-	 * AI喜欢用event()
-	 * @alias register
-	 */
 	get event(): EventRegister<T> {
-		return this.register;
+		return this.handle as any;
 	}
 
 	/**
-	 * 注册本事件的新回调
-	 * @param callback 回调函数
+	 * 添加监听器
+	 * 这个实例方法已经bind过
 	 */
 	handle(callback: EventHandler<T>): IDisposable {
 		this.requireNotExecuting();
-		let disposed = false;
-		this._callbacks.unshift((e) => {
-			if (!disposed) callback(e);
-		});
-		const realDispose = () => {
-			const index = this._callbacks.indexOf(callback);
-			if (index !== -1) {
-				this._callbacks.splice(index, 1);
-			}
-		};
 
-		const dispose = () => {
-			disposed = true;
-			if (this.executing) {
-				this.defer(realDispose);
-			} else {
-				realDispose();
-			}
-		};
+		if (!this._callbacks) this._callbacks = [];
 
-		return { dispose };
+		const callbacks = this._callbacks;
+		callbacks.unshift(callback);
+
+		return functionToDisposable(
+			nameObject(`removeListener(${objectName(callback)})`, () => {
+				const index = callbacks.indexOf(callback);
+				if (index === -1) return;
+				if (this.executing) {
+					this._something_change_during_call = true;
+					callbacks[index] = undefined;
+				} else {
+					callbacks.splice(index, 1);
+				}
+			}),
+		);
 	}
 
 	/**
-	 * 注册一次性回调
-	 * @param callback 回调函数
+	 * 添加一次性监听器
 	 */
 	once(callback: EventHandler<T>): IDisposable {
 		this.requireNotExecuting();
@@ -119,30 +116,70 @@ export class Emitter<T> implements IDisposable {
 		return disposable;
 	}
 
-	private defers: DeferFn[] = [];
-	public defer(fn: DeferFn) {
-		this.defers.push(fn);
-	}
-	private doDefer() {
-		for (const fn of this.defers) {
-			fn();
-		}
-		this.defers.length = 0;
+	/**
+	 * 创建一个等待下次触发的promise
+	 */
+	private _waittings?: Set<Function>;
+	wait(): Promise<T> {
+		return new Promise((resolve, reject) => {
+			if (!this._waittings) this._waittings = new Set<Function>();
+			this._waittings.add(reject);
+			this.once((data) => {
+				resolve(data);
+			});
+		});
 	}
 
-	[Symbol.dispose]() {
-		this.dispose();
+	private checkDeleted() {
+		if (!this._callbacks) return;
+
+		for (let i = this._callbacks.length - 1; i >= 0; i--) {
+			if (this._callbacks[i] === undefined) {
+				this._callbacks.splice(i, 1);
+			}
+		}
 	}
+
+	private _disposed = false;
+	public get hasDisposed() {
+		return this._disposed;
+	}
+
+	/**
+	 * 运行过程中可以dispose，本次运行仍然会继续到最后
+	 * 但立即不能再次调用类似handle的方法
+	 */
 	dispose() {
-		this.requireNotExecuting();
-		this._callbacks.length = 0;
-		this.fireNoError =
-			this.fire =
-			this.handle =
-				() => {
-					throw new Error('Event is disposed');
-				};
+		if (this._disposed) return;
+		this._disposed = true;
+
+		this._callbacks = undefined;
+
+		if (this._waittings) {
+			for (const rej of this._waittings) {
+				rej(new Error('disposed'));
+			}
+		}
+
+		this._waittings = undefined;
+
+		const trace = createStackTraceHolder('disposed');
+
+		const makeUnCallable = (name: string) => {
+			Object.assign(this, {
+				[name]() {
+					throw new DisposedError(`can not call ${this.displayName}#${name}() after event emitter disposed`, trace);
+				},
+			});
+		};
+
+		makeUnCallable('fire');
+		makeUnCallable('fireNoError');
+		makeUnCallable('handle');
+		makeUnCallable('requireNotExecuting');
 	}
+
+	readonly [Symbol.dispose] = this.dispose;
 
 	private requireNotExecuting() {
 		if (this.executing) {

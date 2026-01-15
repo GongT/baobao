@@ -1,6 +1,6 @@
 {
 	"name": "@idlebox/ensure-symlink",
-	"version": "1.0.33",
+	"version": "1.0.38",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
 	"exports": {
 		".": {
@@ -19,11 +19,12 @@
 	},
 	"devDependencies": {
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"monorepo": true,
 	"type": "module",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

@@ -1,7 +1,6 @@
 import { ApplicationArguments } from './library/reader.app.js';
 import { tokenize as _tokenize } from './tools/tokenize.js';
 import type { IArgsReaderApi, IArgumentList, IToken } from './types.js';
-export * from './types.js'
 
 /**
  * 创建一个ArgsReader
@@ -12,9 +11,14 @@ export function createArgsReader(argv: IArgumentList): IArgsReaderApi {
 	return new ApplicationArguments(argv);
 }
 
+export * from './constants.js';
 export * as ArgumentError from './library/errors.js';
 export { printTwoColumn } from './tools/table.js';
-export * as ArgumentTypings from './types.js';
+export type {
+	IArgsReaderApi,
+	IParameterDefinition,
+	ISubArgsReaderApi,
+} from './types.js';
 
 export function tokenize(argv: IArgumentList): IToken[] {
 	return _tokenize(argv).map((e) => e.valueOf());

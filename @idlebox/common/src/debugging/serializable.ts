@@ -2,20 +2,7 @@ declare const window: any;
 declare const EventTarget: any;
 declare const Element: any;
 
-type ScalarTypes =
-	| bigint
-	| number
-	| number
-	| boolean
-	| boolean
-	| string
-	| string
-	| symbol
-	| undefined
-	| null
-	| Date
-	| RegExp
-	| Function;
+type ScalarTypes = bigint | number | number | boolean | boolean | string | string | symbol | undefined | null | Date | RegExp | Function;
 
 export function isScalar(value: any): value is ScalarTypes {
 	switch (typeof value) {
@@ -28,14 +15,7 @@ export function isScalar(value: any): value is ScalarTypes {
 		case 'function':
 			return true;
 		case 'object':
-			return (
-				value === null ||
-				value instanceof Date ||
-				value instanceof Boolean ||
-				value instanceof String ||
-				value instanceof Number ||
-				value instanceof RegExp
-			);
+			return value === null || value instanceof Date || value instanceof Boolean || value instanceof String || value instanceof Number || value instanceof RegExp;
 		default:
 			return false;
 	}
@@ -52,11 +32,11 @@ export function isSerializable(value: any): SerializableKind {
 	const t = typeof value;
 	switch (t) {
 		case 'bigint':
-		// @ts-expect-error
 		case 'number':
 			if (Number.isNaN(value) || Number.POSITIVE_INFINITY === value || Number.NEGATIVE_INFINITY === value) {
 				return SerializableKind.Invalid;
 			}
+			return SerializableKind.Primitive;
 		case 'boolean':
 		case 'string':
 		case 'undefined':

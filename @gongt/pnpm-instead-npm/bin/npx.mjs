@@ -19,7 +19,6 @@ const options = {
 async function main() {
 	const argv = process.argv.slice(2);
 
-	let r;
 	if (process.env.EXEC_BY_PNPM || process.env.INSTALL_RUN_LOCKFILE_PATH) {
 		// console.error('run npx');
 		const resolver = createRequire(import.meta.filename);
@@ -41,7 +40,7 @@ async function main() {
 	// console.error('run PNPX');
 	const pnpxBin = await which('pnpx');
 	// console.error('\x1B[2mexecute:', pnpmBin, ...argv, '\x1B[0m');
-	r = await execa(pnpxBin, [...argv], options);
+	const r = await execa(pnpxBin, [...argv], options);
 
 	if (r.signal) {
 		process.exit(1);

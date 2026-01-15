@@ -1,10 +1,9 @@
 import { findMonorepoRootSync } from '@build-script/monorepo-lib';
-import { argv } from '@idlebox/args/default';
-import { registerGlobalLifecycle, toDisposable } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { argv, logger } from '@idlebox/cli';
+import { prettyPrintError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { emptyDir, findUpUntilSync } from '@idlebox/node';
 import { rmSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname } from 'node:path';
 
 const wd = process.cwd();
 
@@ -23,9 +22,9 @@ if (!gitDir) {
 export const repoRoot = dirname(gitDir);
 export const isMonoRepo = !!findMonorepoRootSync(projectPath, gitDir);
 
-export const debugMode = argv.flag(['--debug', '-d']) > 0;
+export const debugMode = argv.flag(['--debug', '-d']);
 
-export async function createTempFolder() {
+export async function recreateTempFolder() {
 	const tempFolder = `${projectPath}/.publisher`;
 	await emptyDir(tempFolder);
 
@@ -36,7 +35,11 @@ export async function createTempFolder() {
 			toDisposable(() => {
 				if (!process.exitCode) {
 					logger.verbose`Cleaning up temporary folder.`;
-					rmSync(tempFolder, { recursive: true, force: true });
+					try {
+						rmSync(tempFolder, { recursive: true, force: true });
+					} catch (e: any) {
+						prettyPrintError('failed cleanup temporary folder', e);
+					}
 				} else {
 					logger.warn`Temporary folder not cleaned up due to non-zero exit code.`;
 				}
@@ -44,10 +47,8 @@ export async function createTempFolder() {
 		);
 	}
 	tempDir = tempFolder;
+
+	return tempFolder;
 }
 
 export let tempDir: string;
-
-export function getDecompressed() {
-	return resolve(tempDir, 'package');
-}

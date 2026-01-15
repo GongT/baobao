@@ -1,13 +1,13 @@
 {
 	"name": "unipm",
 	"type": "module",
-	"version": "1.1.33",
+	"version": "1.1.44",
 	"exports": {
 		"./package.json": "./package.json"
 	},
 	"bin": {
-		"unipm": "./bin.mjs",
-		"unpm": "./bin.mjs"
+		"unipm": "./bin.js",
+		"unpm": "./bin.js"
 	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
@@ -23,21 +23,21 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.0",
+		"execa": "^9.6.1",
 		"json5": "^2.2.3",
-		"pacote": "^21.0.0",
-		"source-map-support": "^0.5.21"
+		"pacote": "^21.0.4",
+		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
-		"@types/node": "^24.0.14",
+		"@types/node": "^25.0.8",
 		"@types/pacote": "^11.1.8"
 	},
 	"monorepo": true,
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

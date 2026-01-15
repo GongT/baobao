@@ -129,7 +129,7 @@ function _deepmerge(a: any, b: any, keypath: KeyType[], options: StrategyRequire
 		return objMerged;
 	}
 
-	let copy: any = {};
+	const copy: any = {};
 	const keys = new Set([...Object.getOwnPropertyNames(a), ...Object.getOwnPropertyNames(b ?? {})]);
 	for (const key of keys) {
 		copy[key] = _deepmerge(a[key], b?.[key], [...keypath, key], options);

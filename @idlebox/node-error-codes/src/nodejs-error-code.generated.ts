@@ -1,18 +1,19 @@
+// biome-ignore-all lint: generated file
+// biome-ignore-all assist: generated file
 /* eslint-disable */
 // @ts-ignore
-// biome-ignore-all lint
-// biome-ignore-all assist
-// biome-ignore-all syntax
+
 /******************************************************************************
  *  GENERATED FILE, DO NOT MODIFY
  *  这是生成的文件，千万不要修改
  * 
- * @build-script/codegen 1.0.2 - The Simple Code Generater
+ * @build-script/codegen - The Simple Code Generater
  * https://github.com/GongT/baobao
  * 
  ******************************************************************************/
 
-export enum NodeError {
+
+export enum NodeErrorCode {
 	/**
 	 * <p>Used when an operation has been aborted (typically using an <code>AbortController</code>).</p>
 	 * <p>APIs <em>not</em> using <code>AbortSignal</code>s typically do not raise an error with this code.</p>
@@ -53,9 +54,15 @@ export enum NodeError {
 	/**
 	 * <p>An attempt was made to register something that is not a function as an
 	 * <code>AsyncHooks</code> callback.</p>
-	 * <p><a id="ERR_ASYNC_TYPE"></a></p>
+	 * <p><a id="ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED"></a></p>
 	 */
 	ERR_ASYNC_CALLBACK = 'ERR_ASYNC_CALLBACK',
+	/**
+	 * <p>An operation related to module loading is customized by an asynchronous loader
+	 * hook that never settled the promise before the loader thread exits.</p>
+	 * <p><a id="ERR_ASYNC_TYPE"></a></p>
+	 */
+	ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED = 'ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED',
 	/**
 	 * <p>The type of an asynchronous resource was invalid. Users are also able
 	 * to define their own types if using the public embedder API.</p>
@@ -143,9 +150,29 @@ export enum NodeError {
 	 * when an error occurs (and is caught) during the creation of the
 	 * context, for example, when the allocation fails or the maximum call stack
 	 * size is reached when the context is created.</p>
-	 * <p><a id="ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED"></a></p>
+	 * <p><a id="ERR_CPU_PROFILE_ALREADY_STARTED"></a></p>
 	 */
 	ERR_CONTEXT_NOT_INITIALIZED = 'ERR_CONTEXT_NOT_INITIALIZED',
+	/**
+	 * <p>The CPU profile with the given name is already started.</p>
+	 * <p><a id="ERR_CPU_PROFILE_NOT_STARTED"></a></p>
+	 */
+	ERR_CPU_PROFILE_ALREADY_STARTED = 'ERR_CPU_PROFILE_ALREADY_STARTED',
+	/**
+	 * <p>The CPU profile with the given name is not started.</p>
+	 * <p><a id="ERR_CPU_PROFILE_TOO_MANY"></a></p>
+	 */
+	ERR_CPU_PROFILE_NOT_STARTED = 'ERR_CPU_PROFILE_NOT_STARTED',
+	/**
+	 * <p>There are too many CPU profiles being collected.</p>
+	 * <p><a id="ERR_CRYPTO_ARGON2_NOT_SUPPORTED"></a></p>
+	 */
+	ERR_CPU_PROFILE_TOO_MANY = 'ERR_CPU_PROFILE_TOO_MANY',
+	/**
+	 * <p>Argon2 is not supported by the current version of OpenSSL being used.</p>
+	 * <p><a id="ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED"></a></p>
+	 */
+	ERR_CRYPTO_ARGON2_NOT_SUPPORTED = 'ERR_CRYPTO_ARGON2_NOT_SUPPORTED',
 	/**
 	 * <p>An OpenSSL engine was requested (for example, through the <code>clientCertEngine</code> or
 	 * <code>privateKeyEngine</code> TLS options) that is not supported by the version of OpenSSL
@@ -296,9 +323,15 @@ export enum NodeError {
 	/**
 	 * <p>Key's Asymmetric Key Type is not registered for use in the
 	 * <a href="https://www.iana.org/assignments/jose/jose.xhtml#web-key-types">JSON Web Key Types Registry</a>.</p>
-	 * <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
+	 * <p><a id="ERR_CRYPTO_KEM_NOT_SUPPORTED"></a></p>
 	 */
 	ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE = 'ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE',
+	/**
+	 * <p>Attempted to use KEM operations while Node.js was not compiled with
+	 * OpenSSL with KEM support.</p>
+	 * <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
+	 */
+	ERR_CRYPTO_KEM_NOT_SUPPORTED = 'ERR_CRYPTO_KEM_NOT_SUPPORTED',
 	/**
 	 * <p>A crypto operation failed for an otherwise unspecified reason.</p>
 	 * <p><a id="ERR_CRYPTO_PBKDF2_ERROR"></a></p>
@@ -492,8 +525,10 @@ export enum NodeError {
 	 */
 	ERR_FS_EISDIR = 'ERR_FS_EISDIR',
 	/**
-	 * <p>An attempt has been made to read a file whose size is larger than the maximum
-	 * allowed size for a <code>Buffer</code>.</p>
+	 * <p>An attempt was made to read a file larger than the supported 2 GiB limit for
+	 * <code>fs.readFile()</code>. This is not a limitation of <code>Buffer</code>, but an internal I/O constraint.
+	 * For handling larger files, consider using <code>fs.createReadStream()</code> to read the
+	 * file in chunks.</p>
 	 * <p><a id="ERR_FS_WATCH_QUEUE_OVERFLOW"></a></p>
 	 */
 	ERR_FS_FILE_TOO_LARGE = 'ERR_FS_FILE_TOO_LARGE',
@@ -971,6 +1006,8 @@ export enum NodeError {
 	 * <p>A Node.js API that consumes <code>file:</code> URLs (such as certain functions in the
 	 * <a href="fs.html"><code>fs</code></a> module) encountered a file URL with an incompatible path. The exact
 	 * semantics for determining whether a path can be used is platform-dependent.</p>
+	 * <p>The thrown error object includes an <code>input</code> property that contains the URL object
+	 * of the invalid <code>file:</code> URL.</p>
 	 * <p><a id="ERR_INVALID_HANDLE_TYPE"></a></p>
 	 */
 	ERR_INVALID_FILE_URL_PATH = 'ERR_INVALID_FILE_URL_PATH',
@@ -1112,8 +1149,8 @@ export enum NodeError {
 	 */
 	ERR_INVALID_URL = 'ERR_INVALID_URL',
 	/**
-	 * <p>An invalid URLPattern was passed to the <a href="url.html#the-whatwg-url-api">WHATWG</a> [<code>URLPattern</code>
-	 * constructor][<code>new URLPattern(input)</code>] to be parsed.</p>
+	 * <p>An invalid URLPattern was passed to the <a href="url.html#the-whatwg-url-api">WHATWG</a>
+	 * <a href="url.html#new-urlpatternstring-baseurl-options"><code>URLPattern</code> constructor</a> to be parsed.</p>
 	 * <p><a id="ERR_INVALID_URL_SCHEME"></a></p>
 	 */
 	ERR_INVALID_URL_PATTERN = 'ERR_INVALID_URL_PATTERN',
@@ -1210,9 +1247,15 @@ export enum NodeError {
 	 * <p>The V8 platform used by this instance of Node.js does not support creating
 	 * Workers. This is caused by lack of embedder support for Workers. In particular,
 	 * this error will not occur with standard builds of Node.js.</p>
-	 * <p><a id="ERR_MODULE_NOT_FOUND"></a></p>
+	 * <p><a id="ERR_MODULE_LINK_MISMATCH"></a></p>
 	 */
 	ERR_MISSING_PLATFORM_FOR_WORKER = 'ERR_MISSING_PLATFORM_FOR_WORKER',
+	/**
+	 * <p>A module can not be linked because the same module requests in it are not
+	 * resolved to the same module.</p>
+	 * <p><a id="ERR_MODULE_NOT_FOUND"></a></p>
+	 */
+	ERR_MODULE_LINK_MISMATCH = 'ERR_MODULE_LINK_MISMATCH',
 	/**
 	 * <p>A module file could not be resolved by the ECMAScript modules loader while
 	 * attempting an <code>import</code> operation or when loading the program entry point.</p>
@@ -1332,9 +1375,9 @@ export enum NodeError {
 	 */
 	ERR_PACKAGE_PATH_NOT_EXPORTED = 'ERR_PACKAGE_PATH_NOT_EXPORTED',
 	/**
-	 * <p>When <code>strict</code> set to <code>true</code>, thrown by <a href="util.html#utilparseargsconfig"><code>util.parseArgs()</code></a> if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&lt;boolean&gt;</a>
-	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a>, or if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a>
-	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&lt;boolean&gt;</a>.</p>
+	 * <p>When <code>strict</code> set to <code>true</code>, thrown by <a href="util.html#utilparseargsconfig"><code>util.parseArgs()</code></a> if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&lt;boolean&gt;</a>
+	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&lt;string&gt;</a>, or if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&lt;string&gt;</a>
+	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&lt;boolean&gt;</a>.</p>
 	 * <p><a id="ERR_PARSE_ARGS_UNEXPECTED_POSITIONAL"></a></p>
 	 */
 	ERR_PARSE_ARGS_INVALID_OPTION_VALUE = 'ERR_PARSE_ARGS_INVALID_OPTION_VALUE',
@@ -1365,9 +1408,19 @@ export enum NodeError {
 	 * <a href="cli.html#--disable-protomode"><code>--disable-proto=throw</code></a>. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf"><code>Object.getPrototypeOf</code></a> and
 	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf"><code>Object.setPrototypeOf</code></a> should be used to get and set the prototype of an
 	 * object.</p>
-	 * <p><a id="ERR_QUIC_APPLICATION_ERROR"></a></p>
+	 * <p><a id="ERR_PROXY_INVALID_CONFIG"></a></p>
 	 */
 	ERR_PROTO_ACCESS = 'ERR_PROTO_ACCESS',
+	/**
+	 * <p>Failed to proxy a request because the proxy configuration is invalid.</p>
+	 * <p><a id="ERR_PROXY_TUNNEL"></a></p>
+	 */
+	ERR_PROXY_INVALID_CONFIG = 'ERR_PROXY_INVALID_CONFIG',
+	/**
+	 * <p>Failed to establish proxy tunnel when <code>NODE_USE_ENV_PROXY</code> or <code>--use-env-proxy</code> is enabled.</p>
+	 * <p><a id="ERR_QUIC_APPLICATION_ERROR"></a></p>
+	 */
+	ERR_PROXY_TUNNEL = 'ERR_PROXY_TUNNEL',
 	/**
 	 * <p>A QUIC application error occurred.</p>
 	 * <p><a id="ERR_QUIC_CONNECTION_FAILED"></a></p>
@@ -1963,22 +2016,22 @@ export enum NodeError {
 	 */
 	ERR_WORKER_INVALID_EXEC_ARGV = 'ERR_WORKER_INVALID_EXEC_ARGV',
 	/**
-	 * <p>The destination thread threw an error while processing a message sent via <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a>.</p>
+	 * <p>The destination thread threw an error while processing a message sent via <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a>.</p>
 	 * <p><a id="ERR_WORKER_MESSAGING_FAILED"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_ERRORED = 'ERR_WORKER_MESSAGING_ERRORED',
 	/**
-	 * <p>The thread requested in <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>
+	 * <p>The thread requested in <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>
 	 * <p><a id="ERR_WORKER_MESSAGING_SAME_THREAD"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_FAILED = 'ERR_WORKER_MESSAGING_FAILED',
 	/**
-	 * <p>The thread id requested in <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is the current thread id.</p>
+	 * <p>The thread id requested in <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is the current thread id.</p>
 	 * <p><a id="ERR_WORKER_MESSAGING_TIMEOUT"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_SAME_THREAD = 'ERR_WORKER_MESSAGING_SAME_THREAD',
 	/**
-	 * <p>Sending a message via <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> timed out.</p>
+	 * <p>Sending a message via <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> timed out.</p>
 	 * <p><a id="ERR_WORKER_NOT_RUNNING"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_TIMEOUT = 'ERR_WORKER_MESSAGING_TIMEOUT',
@@ -2415,7 +2468,7 @@ export enum NodeError {
 	ERR_ZLIB_BINDING_CLOSED = 'ERR_ZLIB_BINDING_CLOSED',
 }
 
-export enum OpenSSLError {
+export enum OpenSSLErrorCode {
 	/**
 	 * <p>The certificate is not yet valid: the notBefore date is after the current time.</p>
 	 * <p><a id="CERT_HAS_EXPIRED"></a></p>

@@ -1,9 +1,2 @@
+registry=https://registry.npmjs.org/
 access=public
-always-auth=false
-fetch-retries=1000
-network-concurrency=3
-prefer-offline=false
-prefer-frozen-lockfile=false
-git-checks=false
-
-registry=https://registry.npmjs.org

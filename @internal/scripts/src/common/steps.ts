@@ -1,12 +1,14 @@
-/** biome-ignore-all lint/performance/useTopLevelRegex: <explanation> */
-import { type IExportMap } from '@idlebox/common';
+/** biome-ignore-all lint/performance/useTopLevelRegex: no need */
+import type { IExportMap } from '@idlebox/common';
+import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
-import { cpSync } from 'node:fs';
+import { execa } from 'execa';
+import { cpSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { currentProject, monorepoRoot } from './constants.js';
-import { isPublish } from './constants.publish.js';
 import { getExportsField, packageJson } from './package-json.js';
+import { currentProject, realProject } from './paths/current.js';
+import { monorepoRoot } from './paths/root.js';
 
 export function makeInformationalFields() {
 	function make(field: string, value: any) {
@@ -50,6 +52,28 @@ export function deleteDevelopmentFields() {
 		logger.debug`删除 publishConfig.packCommand`;
 		delete packageJson.publishConfig.packCommand;
 	}
+
+	function removeDevDependency(name: string) {
+		if (packageJson.devDependencies?.[name]) {
+			logger.debug`删除 devDependencies.${name}`;
+			delete packageJson.devDependencies[name];
+		}
+	}
+	if (packageJson.devDependencies) {
+		packageJson.devDependencies['@build-script/single-dog-asset'] = 'latest';
+		removeDevDependency('@internal/local-rig');
+		removeDevDependency('@internal/scripts');
+	}
+}
+
+export async function rewriteTsconfig() {
+	const tsconfigPath = resolve(currentProject, 'src/tsconfig.json');
+	const data = await loadJsonFileIfExists(tsconfigPath);
+	if (!data) return;
+
+	data.extends = '@build-script/single-dog-asset/package/tsconfig.json';
+	await writeJsonFileBack(data);
+	logger.log`修改tsconfig.json (extends)`;
 }
 
 /**
@@ -144,12 +168,51 @@ export function writeNpmFiles() {
 	const ignoreSource = resolve(sdaPath, 'package/npmignore');
 	const ignoreDist = resolve(currentProject, '.npmignore');
 
-	logger.debug`将 ${ignoreSource} 复制到 long<${ignoreDist}>`;
+	logger.log`将 relative<${ignoreSource}> 复制到 relative<${ignoreDist}>`;
 	cpSync(ignoreSource, ignoreDist);
+}
 
-	const tcSource = resolve(monorepoRoot, isPublish ? '.npmrc-publish' : '.npmrc');
-	const rcDist = resolve(currentProject, '.npmrc');
+export async function executePreBuild() {
+	const rigFile = resolve(currentProject, 'config/rig.json');
+	if (existsSync(rigFile)) {
+		logger.log`执行 @build-script/depcheck`;
+		const depcheckPath = fileURLToPath(import.meta.resolve('@build-script/depcheck/binary'));
+		const args = [depcheckPath];
 
-	logger.debug`将 ${tcSource} 复制到 ${rcDist}`;
-	cpSync(tcSource, rcDist);
+		if (logger.verbose.isEnabled) {
+			args.push('-dd');
+		} else if (logger.debug.isEnabled) {
+			args.push('-d');
+		}
+
+		logger.debug`node commandline<${args}>`;
+		await execa('node', args, {
+			stdio: 'inherit',
+			cwd: currentProject,
+		});
+	} else {
+		logger.log`未找到 rig.json，跳过 @build-script/depcheck`;
+	}
+
+	logger.log`执行 biome check`;
+	const biomePath = resolve(monorepoRoot, 'node_modules/.bin/biome');
+	const lintResult = await execa(biomePath, ['lint', '--diagnostic-level=warn'], {
+		stdio: ['ignore', 'pipe', 'pipe'],
+		cwd: realProject,
+		reject: false,
+		all: true,
+	});
+	if (lintResult.exitCode !== 0) {
+		logger.verbose`输出内容: printable<${lintResult.all}>`;
+		throw new Error(`biome lint发现问题，必须修正后再发布`);
+	}
+
+	const formatResult = await execa(biomePath, ['format', '--diagnostic-level=warn'], {
+		stdio: 'pipe',
+		cwd: realProject,
+		reject: false,
+	});
+	if (formatResult.exitCode !== 0) {
+		logger.error`biome format发现问题，应修复后再发布`;
+	}
 }

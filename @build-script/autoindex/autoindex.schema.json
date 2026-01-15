@@ -45,6 +45,10 @@
 			"type": "string",
 			"description": "是否使用绝对导入路径，设置一个绝对路径前缀。默认使用相对路径。"
 		},
+		"banner": {
+			"type": "string",
+			"description": "要添加到生成文件顶部的横幅文本，在顶部警告注释之后。可以包含多行。默认不添加横幅。"
+		},
 		"watch": {
 			"type": "object",
 			"description": "监视选项",

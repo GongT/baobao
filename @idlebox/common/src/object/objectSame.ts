@@ -1,4 +1,4 @@
-import { isArraySame } from '../array/arraySame.js';
+import { isArraySame } from '../array/is-same.js';
 
 /**
  * Should ensure a and b is none-null before call this

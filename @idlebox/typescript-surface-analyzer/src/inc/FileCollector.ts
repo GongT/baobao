@@ -1,12 +1,10 @@
-/** biome-ignore-all lint/suspicious/noAssignInExpressions: <explanation> */
-
 import type { IMyLogger } from '@idlebox/logger';
 import { getSourceRoot } from '@idlebox/tsconfig-loader';
 import { relative } from 'node:path';
 import type TypeScriptApi from 'typescript';
 import { showFile } from './logger.js';
-import { type IResolveResult, MapResolver } from './MapResolver.js';
-import { ExportKind, type ITypescriptFile, TokenCollector } from './TokenCollector.js';
+import { MapResolver, type IResolveResult } from './MapResolver.js';
+import { ExportKind, TokenCollector, type ITypescriptFile } from './TokenCollector.js';
 import type { ApiHost } from './tsapi.helpers.js';
 
 export class FileCollector {
@@ -35,7 +33,9 @@ export class FileCollector {
 		}
 
 		for (const sourceFile of sourceFiles) {
-			const collector = this.sources.get(sourceFile)!;
+			const collector = this.sources.get(sourceFile);
+			if (!collector) throw new Error('internal error: collector not found');
+
 			this.logger.debug`-> ${collector.relativePath} <-`;
 
 			this.ts.forEachChild(sourceFile, (node: TypeScriptApi.Node) => {
@@ -67,6 +67,7 @@ export class FileCollector {
 			try {
 				if (node.moduleSpecifier) {
 					// export {a, b, c} from 'xxxx';
+					// biome-ignore lint/complexity/noCommaOperator: use global eval
 					// biome-ignore lint/security/noGlobalEval: 必定是字符串字面值，除非目标代码写错了，暂不考虑这种情况
 					const path: string = (0, eval)(node.moduleSpecifier.getText());
 					const ref = this.resolver.resolve(collect.absolutePath, path);
@@ -83,8 +84,7 @@ export class FileCollector {
 					logger.verbose`  convert to ${reference}`;
 				}
 			} catch (e: any) {
-				this.logger
-					.error`===================\n${e}\nLINE: long<${node.getText()}>\n long<${showFile(node)}>\n===================`;
+				this.logger.error`===================\n${e}\nLINE: long<${node.getText()}>\n long<${showFile(node)}>\n===================`;
 				return;
 			}
 
@@ -114,9 +114,7 @@ export class FileCollector {
 		if (this.ts.isExportAssignment(node)) {
 			// export default VALUE
 			logger.debug(' * found ExportAssignment');
-			const id: TypeScriptApi.Identifier | undefined = this.ts.isIdentifier(node.expression)
-				? node.expression
-				: undefined;
+			const id: TypeScriptApi.Identifier | undefined = this.ts.isIdentifier(node.expression) ? node.expression : undefined;
 
 			collect.setDefault(id, node, ExportKind.Variable);
 
@@ -132,10 +130,7 @@ export class FileCollector {
 			logger.debug(' * found ModuleDeclaration');
 			// export namespace|module
 			if (this.ts.isStringLiteral(node.name)) {
-				this.logger.error(
-					'only .d.ts can use <export namespace|module "name">, and analyzer do not support this.',
-					showFile(node),
-				);
+				this.logger.error('only .d.ts can use <export namespace|module "name">, and analyzer do not support this.', showFile(node));
 			} else {
 				collect.add(node.name, node, ExportKind.Variable);
 			}
@@ -143,18 +138,12 @@ export class FileCollector {
 			return;
 		}
 
-		let _isEnumDeclaration = false;
-		let _isClassDeclaration = false;
-		let _isInterfaceDeclaration = false;
-		let _isFunctionDeclaration = false;
-		let _isTypeAliasDeclaration = false;
-		if (
-			(_isEnumDeclaration = this.ts.isEnumDeclaration(node)) || // export enum XXX { ... }
-			(_isClassDeclaration = this.ts.isClassDeclaration(node)) || // export class XXX {}
-			(_isInterfaceDeclaration = this.ts.isInterfaceDeclaration(node)) || // export interface XXX {}
-			(_isFunctionDeclaration = this.ts.isFunctionDeclaration(node)) || // export function XXX {}
-			(_isTypeAliasDeclaration = this.ts.isTypeAliasDeclaration(node)) // export type x = ...
-		) {
+		const _isEnumDeclaration = this.ts.isEnumDeclaration(node); // export enum XXX { ... }
+		const _isClassDeclaration = this.ts.isClassDeclaration(node); // export class XXX {}
+		const _isInterfaceDeclaration = this.ts.isInterfaceDeclaration(node); // export interface XXX {}
+		const _isFunctionDeclaration = this.ts.isFunctionDeclaration(node); // export function XXX {}
+		const _isTypeAliasDeclaration = this.ts.isTypeAliasDeclaration(node); // export type x = ...
+		if (_isEnumDeclaration || _isClassDeclaration || _isInterfaceDeclaration || _isFunctionDeclaration || _isTypeAliasDeclaration) {
 			logger.verbose(' * found %s', this.ts.SyntaxKind[node.kind]);
 
 			let type = ExportKind.Unknown;

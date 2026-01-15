@@ -1,0 +1,14 @@
+{
+	"$schema": "../../../@mpis/run/commands.schema.json",
+	"build": ["autoindex.react", "autoindex.dom", "typescript"],
+	"commands": {
+		"autoindex.react": {
+			"title": "autoindex(react)",
+			"command": ["autoindex", "--config-name", "autoindex.react", "-CC"],
+		},
+		"autoindex.dom": {
+			"title": "autoindex(dom)",
+			"command": ["autoindex", "--config-name", "autoindex.dom", "-CC"],
+		},
+	},
+}

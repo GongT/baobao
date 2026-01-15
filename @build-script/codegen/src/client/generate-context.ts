@@ -1,13 +1,10 @@
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
 import type { ILogger } from '../common/output.js';
-import { typescriptAlertHeader } from './alert-header.js';
 import { FileBuilder } from './file-builder.js';
 
 export interface IGenerateContext extends Context {}
 
 export type GenerateContext = Omit<IGenerateContext, 'emitFiles'>;
-
-const isSourceFile = /\.tsx?$/i;
 
 export class Context {
 	private readonly files: FileBuilder[] = [];
@@ -29,6 +26,9 @@ export class Context {
 	 */
 	watchFiles(...files: string[]) {
 		for (const file of files) {
+			if (typeof file !== 'string') {
+				throw new TypeError(`Expected string, got ${typeof file}`);
+			}
 			this._watchFiles.add(file);
 		}
 	}
@@ -48,11 +48,12 @@ export class Context {
 	/**
 	 * 创建一个文件
 	 * @param name 文件名，如果以/开头，则表示相对于项目根目录的路径，如果以.开头，则表示相对于源文件的路径
+	 * @param no_rename 启用后不会增加.generated和.ts
 	 */
-	file(name: string) {
-		const writer = new FileBuilder(this.projectRoot, this.sourceFile, name, this.logger);
+	file(name: string, no_rename: boolean = false) {
+		const writer = new FileBuilder(this.projectRoot, this.sourceFile, name, this.logger, no_rename);
 
-		if (this.files.some((file) => file.absolutePath === writer.absolutePath)) {
+		if (this.files.some((file) => file.getAbsolutePath() === writer.getAbsolutePath())) {
 			throw new Error(`File ${name} already exists in the context.`);
 		}
 
@@ -63,11 +64,9 @@ export class Context {
 	/** @internal */
 	__commit() {
 		return this.files.map((file) => {
-			const path = file.absolutePath;
-			let content = file.toString();
-			if (isSourceFile.test(path)) {
-				content = typescriptAlertHeader + content;
-			}
+			const path = file.getAbsolutePath();
+			const content = file.toString();
+
 			return { path, content };
 		});
 	}

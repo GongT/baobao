@@ -1,4 +1,4 @@
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { PathEnvironment } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { gt } from 'semver';
@@ -12,13 +12,14 @@ interface IResult {
 	changedFiles: string[];
 	hasChange: boolean;
 	remoteVersion?: string;
+	packageJsonDiff?: string;
 }
 
 interface IDetectOptions {
 	forcePrivate?: boolean;
 }
 
-export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions): Promise<IResult> {
+export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions = {}): Promise<IResult> {
 	const packageJson = await pm.loadPackageJson();
 	logger.debug('修改检测 | 包名: %s', packageJson.name);
 	if (!packageJson.name) {
@@ -47,7 +48,7 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 
 	if (!remotePackage || gt(packageJson.version, remotePackage.version)) {
 		logger.debug('本地版本 (%s) 已经大于远程版本 (%s)，无需进一步检测', packageJson.version, remotePackage?.version);
-		return { changedFiles: ['package.json'], hasChange: false, remoteVersion: remotePackage?.version };
+		return { changedFiles: ['package.json'], hasChange: false, remoteVersion: remotePackage?.version, packageJsonDiff: '"version" already mismatch' };
 	}
 	logger.debug('本地版本 (%s) 小于或等于远程版本 (%s)，尝试检测更改...', packageJson.version, remotePackage.version);
 
@@ -72,5 +73,11 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 	const changedFiles = await gitrepo.commitChanges();
 	logger.verbose`  changed files: list<${changedFiles}>`;
 
-	return { changedFiles, hasChange: changedFiles.length > 0, remoteVersion: remotePackage.version };
+	let packageJsonDiff = '';
+	if (changedFiles.includes('package.json')) {
+		packageJsonDiff = await gitrepo.fileDiff('package.json');
+		logger.debug(`    - package.json 文件的修改:\n${packageJsonDiff}`);
+	}
+
+	return { changedFiles, hasChange: changedFiles.length > 0, remoteVersion: remotePackage.version, packageJsonDiff };
 }

@@ -1,14 +1,13 @@
 {
 	"name": "@build-script/monorepo-lib",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.14",
 	"bin": {
 		"find-monorepo-root": "./loader/find-monorepo-root.devel.js",
 		"list-monorepo-projects": "./loader/list-monorepo-projects.devel.js"
 	},
 	"exports": {
 		".": {
-			"types": "./src/autoindex.ts",
 			"source": "./src/autoindex.ts",
 			"default": "./lib/autoindex.js"
 		},
@@ -27,7 +26,9 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
-		"@idlebox/logger": "workspace:^"
+		"@idlebox/logger": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
+		"yaml": "^2.8.2"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
@@ -35,9 +36,10 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

@@ -1,6 +1,6 @@
 import process from 'node:process';
 import { PassThrough } from 'node:stream';
-import { create } from './create.js';
+import { create } from './create.logger.js';
 import { debug_enabled, defaultLogLevel } from './helpers.js';
 import { terminal } from './logger.global.js';
 import { EnableLogLevel, type IMyLogger } from './types.js';
@@ -11,11 +11,7 @@ import { EnableLogLevel, type IMyLogger } from './types.js';
  * @param pipeTo 默认是 process.stderr
  * @returns
  */
-export function createLogger(
-	tag: string,
-	color_enabled: boolean | undefined = undefined,
-	pipeTo: undefined | NodeJS.WritableStream = process.stderr,
-): IMyLogger {
+export function createLogger(tag: string, color_enabled: boolean | undefined = undefined, pipeTo: undefined | NodeJS.WritableStream = process.stderr): IMyLogger {
 	const stream = new PassThrough();
 	if (pipeTo) {
 		Object.assign(stream, { isTTY: (pipeTo as any).isTTY });

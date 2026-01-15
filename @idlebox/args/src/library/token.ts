@@ -1,7 +1,8 @@
 import type { InspectOptions } from 'node:util';
+import { TokenKind } from '../constants.js';
 import { die } from '../tools/assert.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
-import { IValue, TokenKind, type IFlag, type IFlagValue, type IToken } from '../types.js';
+import type { IFlag, IFlagValue, IToken, IValue } from '../types.js';
 import type { Parameter } from './parameter.js';
 import type { ApplicationArguments } from './reader.app.js';
 

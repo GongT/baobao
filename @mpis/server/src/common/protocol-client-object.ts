@@ -1,6 +1,6 @@
-import { AsyncDisposable, Emitter } from '@idlebox/common';
-import { createLogger, type IMyLogger } from '@idlebox/logger';
-import { inspect } from 'node:util';
+import { Emitter } from '@idlebox/common';
+import { createLogger, CSI, type IMyLogger } from '@idlebox/logger';
+import { inspect, type InspectOptionsStylized } from 'node:util';
 import { CompileError } from './error.js';
 
 export enum State {
@@ -28,42 +28,44 @@ interface SuccessEvent {
 	output?: string;
 }
 
-export abstract class ProtocolClientObject extends AsyncDisposable {
+/**
+ * 编译事件源
+ */
+export abstract class ProtocolClientObject {
 	protected readonly logger: IMyLogger;
 	private _state = State.NOT_EXECUTE;
 	private _running = false;
 	private readonly timings: Timings = {};
+	protected last_event_message = '';
 
 	/**
 	 * 编译开始时反复触发
 	 */
-	private readonly _onStart = this._register(new Emitter<void>());
+	private readonly _onStart = new Emitter<void>();
 	public readonly onStart = this._onStart.event;
 
 	/**
 	 * 编译成功时反复触发
 	 */
-	private readonly _onSuccess = this._register(new Emitter<SuccessEvent>());
+	private readonly _onSuccess = new Emitter<SuccessEvent>();
 	public readonly onSuccess = this._onSuccess.event;
 
 	/**
 	 * 编译出错时反复触发
 	 */
-	private readonly _onFailure = this._register(new Emitter<Error>());
+	private readonly _onFailure = new Emitter<Error>();
 	public readonly onFailure = this._onFailure.event;
 
 	/**
 	 * 子线程退出后触发一次
 	 */
-	private readonly _onTerminate = this._register(new Emitter<void>());
+	private readonly _onTerminate = new Emitter<void>();
 	public readonly onTerminate = this._onTerminate.event;
 
 	constructor(
 		public readonly _id: string,
 		logger?: IMyLogger,
 	) {
-		super(_id);
-
 		this.logger = logger ?? createLogger(`protocol:${_id}`);
 
 		if (_id.includes(' ')) {
@@ -72,6 +74,11 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	}
 
 	protected emitSuccess(message: string, output?: string) {
+		if (this._onSuccess.hasDisposed) {
+			this.logger.debug`emitSuccess called after stop, ignoring`;
+			return;
+		}
+		this.last_event_message = message;
 		this.logger.success`built: ${message}\n`;
 		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_SUCCEED;
@@ -82,14 +89,24 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	protected emitFailure(message: Error): void;
 	protected emitFailure(message: string, output?: string): void;
 	protected emitFailure(e: string | Error, output?: string) {
-		if (e instanceof Error && !(e instanceof CompileError)) {
-			const ee = new CompileError(this._id, e.message, output);
-			ee.stack = ee.message + '\n' + e.stack?.slice(e.message.length + 1);
-			e = ee;
-		} else {
-			e = new CompileError(this._id, e.toString(), output);
+		if (this._onFailure.hasDisposed) {
+			this.logger.warn`emitFailure called after stop, ignoring`;
+			return;
 		}
-		this.logger.error`failed: long<${e.message}>`;
+
+		if (e instanceof Error) {
+			if (e instanceof CompileError) {
+				//
+			} else {
+				const ee = new CompileError(e.message, output);
+				ee.stack = `${ee.message}\n${e.stack?.slice(e.message.length + 1)}`;
+				e = ee;
+			}
+		} else {
+			e = new CompileError(e.toString(), output);
+		}
+		this.logger.error`failed: [${e.name}] long<${e.message}>`;
+		this.last_event_message = e.message;
 		this.timings.lastCompile = Date.now();
 		this._state = State.COMPILE_FAILED;
 		this._onFailure.fireNoError(e);
@@ -97,10 +114,16 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 	}
 
 	protected emitStart() {
+		if (this._onStart.hasDisposed) {
+			this.logger.warn`emitStart called after stop, ignoring`;
+			return;
+		}
+
 		if (this._state === State.EXECUTING) {
 			this.timings.firstStart = Date.now();
 		}
 		this.logger.debug`emit event: start building...`;
+		this.last_event_message = '';
 		this._state = State.COMPILE_STARTED;
 		this._onStart.fireNoError();
 	}
@@ -147,11 +170,8 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 				this.emitSuccess('build exited without error');
 			}
 
-			if (this.hasDisposed) {
-				this.logger.verbose` ~ disposed, not firing events other than terminate`;
-			} else {
-				this._onTerminate.fireNoError();
-			}
+			this._onTerminate.fireNoError();
+			this._onTerminate.dispose();
 			this.logger.debug` ~ worker _execute() ending`;
 		}
 	}
@@ -160,12 +180,54 @@ export abstract class ProtocolClientObject extends AsyncDisposable {
 		return this._running;
 	}
 
-	protected [inspect.custom]() {
-		return this._inspect();
+	protected [inspect.custom](depth: number, options: InspectOptionsStylized) {
+		return `${this._inspectDesc(options)} ${this._inspect(depth, options)}`;
 	}
 
-	public _inspect() {
-		return `[Worker ${State[this.state]} (${this._running ? 'running' : 'stopped'}) ${this._id}]`;
+	protected _inspect(_depth: number, options: InspectOptionsStylized) {
+		if (!this.last_event_message) return '';
+
+		let colorS = ' ';
+		let colorE = ' ';
+		if (options.colors) {
+			colorE = `${CSI}0m`;
+			if (this._state === State.COMPILE_SUCCEED) {
+				colorS = `${CSI}38;5;10m`;
+			} else {
+				colorS = `${CSI}38;5;9m`;
+			}
+		}
+		return `{${colorS}${this.last_event_message}${colorE}}`;
+	}
+
+	protected _inspectDesc(options: InspectOptionsStylized) {
+		return `[${options.stylize(this._id, 'special')}] ${CSI}2;3m(${State[this.state]})${CSI}0m`;
+	}
+
+	protected abstract _stop(): Promise<void>;
+
+	private stopped = false;
+	async stop() {
+		if (this.stopped) return;
+		this.stopped = true;
+
+		this._onStart.dispose();
+		this._onSuccess.dispose();
+		this._onFailure.dispose();
+
+		await this._stop();
+
+		// this._onTerminate.dispose(); -- execute退出时finally
+	}
+
+	private _disposed = false;
+	public get hasDisposed() {
+		return this._disposed;
+	}
+	dispose() {
+		if (this._disposed) return;
+		this._disposed = true;
+		return this.stop();
 	}
 
 	/**

@@ -36,7 +36,7 @@ describe('custom class', () => {
 				}
 				return undefined;
 			},
-			special: new Map([[CustomClass, (left, right) => new CustomClass(left.value + ' ' + right.value)]]),
+			special: new Map([[CustomClass, (left, right) => new CustomClass(`${left.value} ${right.value}`)]]),
 		};
 
 		const result = deepmerge({ a: new CustomClass('Hello') }, { a: new CustomClass('World') }, customStrategy);

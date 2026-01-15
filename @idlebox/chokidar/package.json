@@ -1,12 +1,11 @@
 {
 	"name": "@idlebox/chokidar",
 	"type": "module",
-	"version": "0.1.4",
+	"version": "0.1.11",
 	"exports": {
 		".": {
 			"source": "./src/main.ts",
-			"default": "./lib/main.js",
-			"types": "./src/main.ts"
+			"default": "./lib/main.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -20,19 +19,18 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"chokidar": "^4.0.3",
-		"debug": "^4.4.1"
+		"chokidar": "^5.0.0",
+		"debug": "^4.4.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
 		"@types/debug": "^4.1.12",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

@@ -22,8 +22,8 @@ export class Rush extends PackageManager {
 	readonly syncCommand: string = 'update';
 	override showCommand = '';
 
-	private rushRoot?: string;
-	private subPackageManager?: string;
+	private declare rushRoot: string;
+	private declare subPackageManager: string;
 
 	async _detect(sub = false): Promise<boolean> {
 		const found = await findUpUntil({ from: this.cwd, file: 'rush.json' });
@@ -87,7 +87,7 @@ export class Rush extends PackageManager {
 	override async init() {
 		await super.init();
 
-		const data = await loadJsonFile(resolve(this.rushRoot!, 'rush.json'));
+		const data = await loadJsonFile(resolve(this.rushRoot, 'rush.json'));
 		const pkg = require(resolve(this.cwd, 'package.json'));
 
 		const alreadyExists = data.projects.some(({ packageName }: any) => {
@@ -99,7 +99,7 @@ export class Rush extends PackageManager {
 
 		data.projects.push({
 			packageName: pkg.name,
-			projectFolder: relative(this.rushRoot!, this.cwd),
+			projectFolder: relative(this.rushRoot, this.cwd),
 			shouldPublish: !pkg.private,
 		});
 	}
@@ -111,7 +111,7 @@ export class Rush extends PackageManager {
 			}
 
 			const aa = [cmd, ...args].filter((v) => !!v);
-			return this._invoke(this.subPackageManager!, aa);
+			return this._invoke(this.subPackageManager, aa);
 		}
 		return super.invokeCli(cmd, ...args);
 	}

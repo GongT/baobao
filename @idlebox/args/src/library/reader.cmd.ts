@@ -1,7 +1,8 @@
 import type { InspectOptionsStylized, inspect as node_inspect } from 'node:util';
+import { ParamKind } from '../constants.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
 import { normalizeParameterDescription } from '../tools/param-desc.js';
-import { ParamKind, type ISubArgsReaderApi, type ParamDefineCommand, type ParamDefineFlag } from '../types.js';
+import type { ISubArgsReaderApi, IParamDefineCommand, IParamDefineFlag } from '../types.js';
 import { UnexpectedCommand } from './errors.js';
 import type { Parameter } from './parameter.js';
 import type { ApplicationArguments } from './reader.app.js';
@@ -17,7 +18,7 @@ export class CommandArguments<T extends string = string> implements ISubArgsRead
 		public readonly positional_base_index: number,
 		private readonly parameter: Parameter,
 	) {
-		const def = this.parameter.definition as ParamDefineCommand;
+		const def = this.parameter.definition as IParamDefineCommand;
 
 		const token = parameter.tokens[0] as ValueToken;
 		this.value = token.value as T;
@@ -25,10 +26,10 @@ export class CommandArguments<T extends string = string> implements ISubArgsRead
 		this.level = def.level;
 	}
 
-	single(name: ParamDefineFlag): string | undefined {
+	single(name: IParamDefineFlag): string | undefined {
 		return this.parent.single(name);
 	}
-	multiple(name: ParamDefineFlag): string[] {
+	multiple(name: IParamDefineFlag): string[] {
 		return this.parent.multiple(name);
 	}
 	at(index: number): string | undefined {
@@ -37,7 +38,7 @@ export class CommandArguments<T extends string = string> implements ISubArgsRead
 	range(index: number, maxCount?: number): string[] {
 		return this.parent.range(this.positional_base_index + index, maxCount);
 	}
-	flag(name: ParamDefineFlag): number {
+	flag(name: IParamDefineFlag): number {
 		return this.parent.flag(name);
 	}
 	command<T extends string>(commands: readonly T[]): ISubArgsReaderApi<T> | undefined {
@@ -75,7 +76,7 @@ export class CommandArguments<T extends string = string> implements ISubArgsRead
 
 		if (depth < 0) return name;
 
-		const def = this.parameter.definition as ParamDefineCommand;
+		const def = this.parameter.definition as IParamDefineCommand;
 		const pobject = {
 			level: def.level,
 			commands: def.commands.join(', '),

@@ -1,11 +1,10 @@
 {
 	"name": "@mpis/client",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.13",
 	"keywords": [],
 	"exports": {
 		".": {
-			"types": "./src/api.ts",
 			"source": "./src/api.ts",
 			"default": "./lib/api.js"
 		},
@@ -26,19 +25,22 @@
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@mpis/shared": "workspace:^",
-		"execa": "^9.6.0",
+		"@idlebox/source-map-support": "workspace:^",
+		"execa": "^9.6.1",
 		"split2": "^4.2.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
+	"decoupledDependencies": ["@idlebox/args"],
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

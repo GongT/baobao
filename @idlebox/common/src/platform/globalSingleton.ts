@@ -1,6 +1,4 @@
-/** biome-ignore-all lint/suspicious/noShadowRestrictedNames:  */
-
-import { functionName } from '../function/functionName.js';
+import { functionName } from '../debugging/object-with-name.js';
 import { ensureGlobalObject } from './globalObject.js';
 
 const singletonRegistry = ensureGlobalObject('@@idlebox/global-singleton', () => {
@@ -27,16 +25,14 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor?: 
 			object = target;
 		} else if (constructor) {
 			object = constructor();
-			if (object === undefined)
-				throw new TypeError(`singleton constructor (${functionName(constructor)}) returned undefined.`);
+			if (object === undefined) throw new TypeError(`singleton constructor (${functionName(constructor)}) returned undefined.`);
 		} else {
 			throw new TypeError(`singleton (${String(symbol)}) is not defined and no constructor provided.`);
 		}
 		singletonRegistry.set(symbol, object);
 	} else if (object === undefined && constructor) {
 		object = constructor();
-		if (object === undefined)
-			throw new TypeError(`singleton constructor (${functionName(constructor)}) returned undefined.`);
+		if (object === undefined) throw new TypeError(`singleton constructor (${functionName(constructor)}) returned undefined.`);
 		singletonRegistry.set(symbol, object);
 	}
 	return object;

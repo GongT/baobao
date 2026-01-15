@@ -1,17 +1,17 @@
-import type { ISubArgsReaderApi, ParamDefineFlag } from '../types.js';
+import type { ISubArgsReaderApi, IParamDefineFlag } from '../types.js';
 
 export interface IArgsReaderApiBase {
 	/**
 	 * 获取单一参数（最多只能有1个）
 	 * @param name 参数定义，或别名
 	 */
-	single(name: ParamDefineFlag): string | undefined;
+	single(name: IParamDefineFlag): string | undefined;
 
 	/**
 	 * 获取任意数量参数
 	 * @param name 参数定义，或别名
 	 */
-	multiple(name: ParamDefineFlag): string[];
+	multiple(name: IParamDefineFlag): string[];
 
 	/**
 	 * 获取位置参数
@@ -34,7 +34,7 @@ export interface IArgsReaderApiBase {
 	 *
 	 * @param name 参数定义，或别名
 	 */
-	flag(name: ParamDefineFlag): number;
+	flag(name: IParamDefineFlag): number;
 
 	/**
 	 * 创建子命令分析器

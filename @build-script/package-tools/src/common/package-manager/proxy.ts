@@ -1,5 +1,5 @@
 import { escapeRegExp } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { getEnvironment } from '@idlebox/node';
 import type { IPackageManager } from './package-manager.js';
 
@@ -50,7 +50,7 @@ export function getProxyValue(url: string) {
 				logger.verbose(`  hit equals`);
 				return '';
 			}
-			const domainEnding = npPart[0] === '.' ? npPart : '.' + npPart;
+			const domainEnding = npPart[0] === '.' ? npPart : `.${npPart}`;
 			if (domain.endsWith(domainEnding)) {
 				logger.verbose(`  hit ending: ${domainEnding}`);
 				return '';

@@ -1,12 +1,9 @@
-import { argv } from '@idlebox/args/default';
 import { humanDate, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
-import { registerNodejsExitHandler } from '@idlebox/node';
-import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
-import { runBuild } from './common/cmd.build.js';
-import { runList } from './common/cmd.list.js';
-import { runWatch } from './common/cmd.watch.js';
+import { debuggerBreakUserEntrypoint, registerNodejsExitHandler, setExitCodeIfNot } from '@idlebox/node';
+import { currentCommand, debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
 
+debuggerBreakUserEntrypoint();
 registerNodejsExitHandler();
 
 let level = EnableLogLevel.auto;
@@ -29,29 +26,34 @@ registerGlobalLifecycle(
 	}),
 );
 
-const cmd = argv.command(['build', 'watch', 'clean', 'list', 'ls']);
-if (!cmd) {
-	printUsage();
-	logger.fatal`No command specified.`;
-	process.exit(1);
-}
-export const currentCommand = cmd.value;
+logger.log`Running command: ${currentCommand}`;
+logger.log`working directory: ${process.cwd()}`;
 
-logger.log`Running command: ${cmd.value}`;
-
-process.title = `MpisMonorepo`;
-
-switch (cmd.value) {
+switch (currentCommand) {
 	case 'build':
-		await runBuild();
+		{
+			const { runBuild } = await import('./common/cmd.build.js');
+			await runBuild();
+			setExitCodeIfNot(0);
+		}
 		break;
 	case 'watch':
-		await runWatch();
+		{
+			const { runWatch } = await import('./common/cmd.watch.js');
+			await runWatch();
+			setExitCodeIfNot(0);
+		}
 		break;
 	case 'list':
 	case 'ls':
-		await runList();
+		{
+			const { runList } = await import('./common/cmd.list.js');
+			await runList();
+			setExitCodeIfNot(0);
+		}
 		break;
 	case 'clean':
 		throw new Error('The "clean" command is not implemented yet.');
+	default:
+		throw new Error(`impossible: invalid command`);
 }

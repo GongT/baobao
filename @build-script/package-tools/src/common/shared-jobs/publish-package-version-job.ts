@@ -1,4 +1,4 @@
-import { logger } from '@idlebox/logger';
+import { logger } from '@idlebox/cli';
 import { exists } from '@idlebox/node';
 import { copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';

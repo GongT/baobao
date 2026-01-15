@@ -21,7 +21,7 @@ export class Tag {
 	constructor(public readonly $elem: CheerElement) {
 		this.kind = $elem[0].tagName === 'script' ? TagKind.script : TagKind.link;
 		this.field = this.kind === TagKind.link ? 'href' : 'src';
-		this.src = $elem.attr(this.field)!;
+		this.src = $elem.attr(this.field) ?? '';
 		this.$elem.attr(`data-${this.field}`, this.src);
 		this.unuse();
 	}
@@ -59,7 +59,7 @@ export class TagCollection {
 	constructor(
 		public readonly $html: CheerioAPI,
 		private readonly commonRoot: string,
-		public readonly htmlSource: string
+		public readonly htmlSource: string,
 	) {}
 
 	get size() {

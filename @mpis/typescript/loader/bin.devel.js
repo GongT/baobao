@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-import { execute } from '@idlebox/esbuild-executer';
+process.title = `MpisTsc`;
+
+import { execute } from '@idlebox/esbuild-executer/early-loader.js';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 

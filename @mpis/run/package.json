@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/run",
 	"type": "module",
-	"version": "0.0.4",
+	"version": "0.0.16",
 	"keywords": [],
 	"bin": {
 		"run": "./loader/bin.devel.js",
@@ -27,21 +27,18 @@
 		"@idlebox/node": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"@mpis/server": "workspace:^",
-		"@mpis/shared": "workspace:^",
-		"execa": "^9.6.0",
-		"source-map-support": "^0.5.21"
+		"split-cmd": "^1.1.0",
+		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
-	"decoupledDependencies": "*",
+	"decoupledDependents": ["*"],
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
-	}
+		"packCommand": ["publisher", "pack"]
+	},
+	"sideEffects": false
 }

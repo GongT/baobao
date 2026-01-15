@@ -1,0 +1,32 @@
+{
+	"name": "@idlebox/stripe-node-types",
+	"type": "module",
+	"version": "24.0.14",
+	"exports": {
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@idlebox/common": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@idlebox/esbuild-executer": "workspace:^",
+		"@build-script/codegen": "workspace:^",
+		"nodejs-types": "npm:@types/node@^25.0.8",
+		"undici-types": "npm:undici-types@*"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"],
+		"directory": "lib"
+	}
+}

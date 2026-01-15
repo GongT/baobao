@@ -1,4 +1,5 @@
-import { isWindows, lcfirst, PathArray, timeout } from '@idlebox/common';
+import { isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
+import { pause, type IPauseControl } from '@idlebox/dependency-graph';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -6,11 +7,13 @@ import type { Options, ResultPromise } from 'execa';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { Writable } from 'node:stream';
-import { ProtocolClientObject, State } from '../common/protocol-client-object.js';
+import type { InspectOptionsStylized } from 'node:util';
+import { split as splitCmd } from 'split-cmd';
+import { ProtocolClientObject } from '../common/protocol-client-object.js';
 
 interface MyOptions extends Options {
 	cwd: string;
-	stdio: ['inherit', 'pipe', 'pipe', 'ipc'];
+	stdio: ['ignore', 'pipe', 'pipe', 'ipc'];
 	env: Record<string, string>;
 	reject: false;
 	ipc: true;
@@ -18,42 +21,56 @@ interface MyOptions extends Options {
 }
 
 class OutputHandler extends Writable {
-	private _output: Buffer = Buffer.allocUnsafe(0);
+	private _output = '';
 
-	override _write(chunk: Buffer, _encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
-		this._output = Buffer.concat([this._output, chunk]);
+	constructor() {
+		super({ defaultEncoding: 'utf-8' });
+	}
+
+	override _write(chunk: Buffer | string, _encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
+		this._output += chunk.toString('utf-8');
 		callback();
 	}
 
 	clear() {
-		this._output = Buffer.allocUnsafe(0);
+		this._output = '';
 	}
 
 	/**
 	 * 这个输出只用于异常时显示，普通编译错误在onFailure中处理
 	 */
 	override toString() {
-		return this._output.toString('utf-8');
+		return this._output.toString();
 	}
 }
 
+/**
+ * 创建一个node进程，它会发送事件过来
+ */
 export class ProcessIPCClient extends ProtocolClientObject {
 	private declare process: ResultPromise<MyOptions>;
 	public stopSignal: NodeJS.Signals = 'SIGINT';
 	private _started = false;
 	public readonly outputStream = new OutputHandler();
 	public readonly pathvar;
-	public displayTitle: string;
+	public readonly commandline: readonly string[];
+	private _displayTitle: string;
 
 	constructor(
 		id: string,
-		public readonly commandline: readonly string[] | string,
+		commandline: readonly string[] | string,
 		public readonly cwd: string,
 		public readonly env: Record<string, string>,
 		logger?: IMyLogger,
 	) {
 		super(id, logger);
-		this.displayTitle = id;
+		this._displayTitle = id;
+
+		if (typeof commandline === 'string') {
+			this.commandline = splitCmd(commandline);
+		} else {
+			this.commandline = commandline;
+		}
 
 		const pathVarName = isWindows ? 'Path' : 'PATH';
 		if (env[pathVarName]) {
@@ -82,6 +99,13 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		this.onMessage = this.onMessage.bind(this);
 	}
 
+	set displayTitle(title: string) {
+		this._displayTitle = title;
+	}
+	get displayTitle() {
+		return this._displayTitle;
+	}
+
 	static is(obj: any): obj is ProcessIPCClient {
 		return obj instanceof ProcessIPCClient;
 	}
@@ -101,6 +125,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				this.emitStart();
 				break;
 			case BuildEvent.Success:
+				this.outputStream.clear();
 				this.emitSuccess(message.message, message.output);
 				break;
 			case BuildEvent.Failed:
@@ -118,7 +143,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			...this.env,
 			PATH: this.pathvar.toString(),
 			BUILD_PROTOCOL_SERVER: 'ipc:nodejs',
-			BUILD_PROTOCOL_TITLE: this.displayTitle,
+			BUILD_PROTOCOL_TITLE: this._displayTitle,
 		};
 
 		this.logger.log`spawning | commandline<${this.commandline}>`;
@@ -128,31 +153,24 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 		const doExec = execa({
 			cwd: this.cwd,
-			stdio: ['inherit', 'pipe', 'pipe', 'ipc'],
+			stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
 			ipc: true,
 			env: env,
 			reject: false,
 			buffer: false,
 			maxBuffer: 10,
+			detached: process.pid === 1,
 		} satisfies MyOptions);
-		if (typeof this.commandline === 'string') {
-			this.process = doExec({ shell: true })(this.commandline);
-		} else {
-			const [command, ...args] = this.commandline;
-			this.process = doExec(command, args);
-		}
+		const [command, ...args] = this.commandline;
+		const sub_process = doExec(command, args);
+		this.process = sub_process;
 
 		if (this.logger.verbose.isEnabled) {
 			for (const stream of ['stdout', 'stderr'] as const) {
 				const logger = this.logger.extend(stream[3]);
-				this.process[stream]!.on('data', (chunk: Buffer) => {
+				sub_process[stream].on('data', (chunk: Buffer) => {
 					if (logger.verbose.isEnabled) {
-						const debugTxt = chunk
-							.toString('utf-8')
-							.trimEnd()
-							.replaceAll('\n', '\\n')
-							.replaceAll('\r', '\\r')
-							.replaceAll('\x1B', '\\e');
+						const debugTxt = chunk.toString('utf-8').trimEnd().replaceAll('\n', '\\n').replaceAll('\r', '\\r').replaceAll('\x1B', '\\e');
 
 						logger.verbose`${debugTxt}`;
 					}
@@ -160,19 +178,19 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				});
 			}
 		} else {
-			this.process.stdout!.pipe(this.outputStream, { end: false });
-			this.process.stderr!.pipe(this.outputStream, { end: false });
+			sub_process.stdout.pipe(this.outputStream, { end: false });
+			sub_process.stderr.pipe(this.outputStream, { end: false });
 		}
 
-		this.process.on('message', this.onMessage);
+		sub_process.on('message', this.onMessage);
 
 		this._started = true;
 		try {
-			await Promise.all([streamPromise(this.process.stdout!), streamPromise(this.process.stderr!)]);
-			const process = await this.process;
+			await Promise.all([streamPromise(sub_process.stdout), streamPromise(sub_process.stderr)]);
+			const process = await sub_process;
 
 			if (this.hasDisposed) {
-				this.logger.warn`(after dispose) process quit with code ${process.exitCode}`;
+				this.logger.debug`(after dispose) process quit with code ${process.exitCode}`;
 				return;
 			}
 
@@ -181,19 +199,14 @@ export class ProcessIPCClient extends ProtocolClientObject {
 				this.logger.debug`process exit, exitCode: ${process.exitCode}, signal: ${process.signal}`;
 				this.logger.verbose`${process}`;
 
-				let m = process.exitCode
-					? `process quited with code ${process.exitCode}`
-					: `process killed by signal ${process.signal}`;
+				const m = process.exitCode ? `process "${this._id}" quited with code ${process.exitCode}` : `process "${this._id}" killed by signal ${process.signal}`;
 				return this.emitFailure(m, output);
 			}
 
 			if (process.failed) {
 				this.logger.warn`process can not start: ${process.message}`;
 				this.logger.verbose`${process}`;
-				return this.emitFailure(
-					`process can not start: ${lcfirst(process.message || '*no message*')}`,
-					this.outputStream.toString(),
-				);
+				return this.emitFailure(`process "${this._id}" can not start: ${lcfirst(process.message || '*no message*')}`, this.outputStream.toString());
 			}
 
 			this.logger.debug`process quited with code ${process.exitCode}`;
@@ -202,10 +215,10 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		}
 	}
 
-	override async dispose() {
-		await super.dispose();
-
-		if (!this.process || !this._started) return;
+	protected override async _stop() {
+		if (!this.process || !this._started) {
+			return;
+		}
 
 		this.logger.debug`sending ${this.stopSignal} to ${this._id}`;
 
@@ -214,10 +227,50 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 		process.kill(this.stopSignal);
 
-		await Promise.race([process, timeout(5000, 'process did not exit in 5s')]);
+		try {
+			await Promise.race([process, timeout(5000, 'process did not exit')]);
+		} catch (e: any) {
+			if (TimeoutError.is(e)) {
+				this.logger.error`force killing process: ${e.message}`;
+				process.kill('SIGKILL');
+				return;
+			}
+			throw e;
+		}
 	}
 
-	override _inspect() {
-		return `[Process ${this.process?.pid ?? 'not started'} ${State[this.state]}]`;
+	// override _inspect(_d: number, options: InspectOptionsStylized) {
+	// 	return `${id} { ${options.stylize(this.last_event_message, 'string')} }`;
+	// }
+
+	override _inspectDesc(options: InspectOptionsStylized) {
+		if (this.process?.pid) {
+			const pidStyle = this.process.exitCode === null ? 'number' : 'undefined';
+			const pid = `[pid=${options.stylize(this.process.pid.toString(), pidStyle)}]`;
+			return `${this._id} ${pid}`;
+		} else {
+			const ns = options.stylize('not started', 'undefined');
+			return `${this._id} ${ns}`;
+		}
 	}
+
+	private _is_paused = false;
+	readonly [pause]: IPauseControl = {
+		// implements IPauseableObject
+		isPaused: () => {
+			return this._is_paused;
+		},
+		pause: async () => {
+			if (this._is_paused) return;
+			this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
+			this.process.kill('SIGSTOP');
+			this._is_paused = true;
+		},
+		resume: async () => {
+			if (!this._is_paused) return;
+			this.logger.verbose`send SIGCONT to ${this.process.pid}`;
+			this.process.kill('SIGCONT');
+			this._is_paused = false;
+		},
+	};
 }

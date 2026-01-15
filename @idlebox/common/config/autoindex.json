@@ -2,4 +2,7 @@
 	"$schema": "../../../@build-script/autoindex/autoindex.schema.json",
 	"project": "./src",
 	"output": "autoindex",
+	"exclude": ["**/*.internal.ts", "**/_*/**"],
+	"stripTags": ["private"],
+	"banner": "@config/prefix.ts",
 }

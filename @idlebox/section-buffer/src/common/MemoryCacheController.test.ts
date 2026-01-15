@@ -74,21 +74,21 @@ describe('MemoryCacheController', () => {
 		const tbuff = Buffer.alloc(10);
 
 		// over flow size
-		expect(() => mm.push(slice(50 * mb - 1, 2))).toThrowError(/invalid buffer/);
-		expect(() => mm.push(slice(0, 50 * mb + 1))).toThrowError(/invalid buffer/);
+		expect(() => mm.push(slice(50 * mb - 1, 2))).toThrow(/invalid buffer/);
+		expect(() => mm.push(slice(0, 50 * mb + 1))).toThrow(/invalid buffer/);
 
 		// invalid args
-		expect(() => mm.push({ start: 0, length: 0, buffer: Buffer.allocUnsafe(0) })).toThrowError(/invalid buffer/);
-		expect(() => mm.push({ start: -1, length: 10, buffer: tbuff })).toThrowError(/invalid buffer/);
-		expect(() => mm.push({ start: 0, length: 11, buffer: tbuff })).toThrowError(/invalid buffer/);
+		expect(() => mm.push({ start: 0, length: 0, buffer: Buffer.allocUnsafe(0) })).toThrow(/invalid buffer/);
+		expect(() => mm.push({ start: -1, length: 10, buffer: tbuff })).toThrow(/invalid buffer/);
+		expect(() => mm.push({ start: 0, length: 11, buffer: tbuff })).toThrow(/invalid buffer/);
 
 		mm.push(slice(0, 10 * mb));
 		mm.push(slice(40 * mb, 10 * mb));
 
 		// overlap
-		expect(() => mm.push(slice(9 * mb, 2 * mb))).toThrowError(/invalid buffer/);
-		expect(() => mm.push(slice(39 * mb, 2 * mb))).toThrowError(/invalid buffer/);
-		expect(() => mm.push(slice(45 * mb, mb))).toThrowError(/invalid buffer/);
+		expect(() => mm.push(slice(9 * mb, 2 * mb))).toThrow(/invalid buffer/);
+		expect(() => mm.push(slice(39 * mb, 2 * mb))).toThrow(/invalid buffer/);
+		expect(() => mm.push(slice(45 * mb, mb))).toThrow(/invalid buffer/);
 	});
 
 	describe('puch holes', () => {
@@ -138,10 +138,10 @@ describe('MemoryCacheController', () => {
 			const mm = new MemoryCacheController(100);
 			mm.push({ start: 50, length: 40, buffer: Buffer.allocUnsafe(40) });
 
-			expect(() => mm.punchHole({ start: 40, length: 51 })).toThrowError('on data');
-			expect(() => mm.punchHole({ start: 89, length: 95 })).toThrowError('on data');
-			expect(() => mm.punchHole({ start: 0, length: 100 })).toThrowError('on data');
-			expect(() => mm.punchHole({ start: 60, length: 10 })).toThrowError('on data');
+			expect(() => mm.punchHole({ start: 40, length: 51 })).toThrow('on data');
+			expect(() => mm.punchHole({ start: 89, length: 95 })).toThrow('on data');
+			expect(() => mm.punchHole({ start: 0, length: 100 })).toThrow('on data');
+			expect(() => mm.punchHole({ start: 60, length: 10 })).toThrow('on data');
 
 			expect(() => mm.check()).not.toThrow();
 		});

@@ -1,7 +1,8 @@
-import { relativePath } from '@idlebox/node';
+import { isNotExistsError, type IPackageJson } from '@idlebox/common';
+import { normalizePath, relativePath } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { execJson } from '../../common/exec.js';
-import { importPackageJson } from '../../common/import-package-json.js';
+import { importPackageJson, loadPackageYaml } from '../../common/import-package-json.js';
 import type { IPackageInfoRW } from '../common/types.js';
 
 interface IPnpmListReturnElement {
@@ -13,14 +14,19 @@ interface IPnpmListReturnElement {
 
 export async function pnpmListProjects(projectRoot: string) {
 	const ret: IPackageInfoRW[] = [];
-	const defs: IPnpmListReturnElement[] = await execJson(
-		['pnpm', 'recursive', 'ls', '--depth=-1', '--json'],
-		projectRoot,
-	);
+	const defs: IPnpmListReturnElement[] = await execJson(['pnpm', 'recursive', 'ls', '--depth=-1', '--json'], projectRoot);
 	const allNames = defs.map((d) => d.name);
 	for (const { name, path } of defs) {
-		const pkgFile = resolve(path, 'package.json');
-		const pkg = await importPackageJson(pkgFile);
+		let pkg: IPackageJson | undefined;
+		try {
+			pkg = await loadPackageYaml(resolve(path, 'package.yaml'));
+		} catch (e) {
+			if (!isNotExistsError(e)) {
+				throw e;
+			}
+		}
+
+		if (!pkg) pkg = await importPackageJson(resolve(path, 'package.json'));
 		const allDep = {};
 		if (pkg.dependencies) {
 			Object.assign(allDep, pkg.dependencies);
@@ -29,7 +35,7 @@ export async function pnpmListProjects(projectRoot: string) {
 			Object.assign(allDep, pkg.devDependencies);
 		}
 		ret.push({
-			absolute: path,
+			absolute: normalizePath(path),
 			relative: relativePath(projectRoot, path),
 			name: name,
 			dependencies: filter(allNames, pkg.dependencies),

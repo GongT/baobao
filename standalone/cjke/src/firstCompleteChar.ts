@@ -1,4 +1,4 @@
-import { everything, ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, type SupportInfo } from './base.js';
+import { ansiRegexStarting, emojiRegexStarting, emojiSimpleRegex, everything, type SupportInfo } from './base.js';
 import { combiningCharactersRegexStarting, isCombiningCharacters } from './combiningCharacters.js';
 import { isFullwidthCodePointLibrary } from './shim.lib.js';
 
@@ -13,7 +13,7 @@ export function readFirstCompleteChar(str: string, supports: SupportInfo = every
 	if (!str) {
 		return { data: '', width: 0, length: 0, visible: false };
 	}
-	const code = str.codePointAt(0)!;
+	const code = str.codePointAt(0) ?? -1;
 	let ret: CodePointInfo;
 
 	if (code <= 0xff) {
@@ -32,7 +32,8 @@ export function readFirstCompleteChar(str: string, supports: SupportInfo = every
 		ret = commonSingleChar(str, code);
 	} else if (isCombiningCharacters(code)) {
 		// handle multiple combine char
-		const allChars = str.match(combiningCharactersRegexStarting)!;
+		const allChars = str.match(combiningCharactersRegexStarting);
+		if (!allChars) throw new Error('unreachable');
 
 		return {
 			data: allChars[0],
@@ -75,9 +76,11 @@ export function readFirstCompleteChar(str: string, supports: SupportInfo = every
 	}
 
 	// look ahead for combining chars
-	const nextCode = str.codePointAt(ret.length)!;
+	const nextCode = str.codePointAt(ret.length) ?? -1;
 	if (isCombiningCharacters(nextCode)) {
-		const m = str.slice(ret.length).match(combiningCharactersRegexStarting)!;
+		const m = str.slice(ret.length).match(combiningCharactersRegexStarting);
+		if (!m) throw new Error('unreachable');
+
 		ret.data += m[0];
 		ret.length += m[0].length;
 		if (!supports.combining) {

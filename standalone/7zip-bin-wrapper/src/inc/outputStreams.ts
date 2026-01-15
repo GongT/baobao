@@ -59,7 +59,7 @@ class ProgressStream extends Transform {
 	override _transform(chunk: string, _encoding: BufferEncoding, callback: Function): void {
 		const match = matchExp.exec(chunk);
 		if (match) {
-			const percent = Number.parseInt(match[1]!);
+			const percent = Number.parseInt(match[1], 10);
 			if (!Number.isNaN(percent)) {
 				this.push({
 					progress: percent,
@@ -81,11 +81,7 @@ export function handleOutput(stream: NodeJS.ReadableStream) {
 }
 
 export function handleProgress(stream: NodeJS.ReadableStream, message: boolean) {
-	return transformOutputEncode(stream)
-		.pipe(new BackspaceNewlineStream())
-		.pipe(split2())
-		.pipe(new FilterStream())
-		.pipe(new ProgressStream(message));
+	return transformOutputEncode(stream).pipe(new BackspaceNewlineStream()).pipe(split2()).pipe(new FilterStream()).pipe(new ProgressStream(message));
 }
 
 export class LoggerStream extends Transform {

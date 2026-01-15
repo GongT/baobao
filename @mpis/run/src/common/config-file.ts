@@ -1,9 +1,12 @@
 import { ProjectConfig } from '@build-script/rushstack-config-loader';
+import { ExitCode } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { findUpUntilSync } from '@idlebox/node';
-import { readFileSync } from 'node:fs';
+import { findUpUntilSync, shutdown } from '@idlebox/node';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { split as splitCmd } from 'split-cmd';
+import { context } from './args.js';
 import { projectRoot, selfRoot } from './paths.js';
 
 interface IPackageBinary {
@@ -27,41 +30,33 @@ interface IConfigFileInput {
 
 export interface ICommand {
 	title: string;
-	command: string | readonly string[];
+	command: readonly string[];
 	cwd: string;
 	env: Record<string, string>;
 }
 export interface IConfigFile {
 	buildTitles: readonly string[];
 	build: ReadonlyMap<string, ICommand>;
+	unusedBuild: Record<string, ICommand>;
 	clean: readonly string[];
 	additionalPaths: readonly string[];
 }
 
-function watchModeCmd(
-	command: string | readonly string[],
-	watch?: string | readonly string[] | boolean,
-	watchMode?: boolean,
-): string | readonly string[] {
+function watchModeCmd(command: string | readonly string[], watch?: string | readonly string[] | boolean, watchMode?: boolean): readonly string[] {
+	const cmdArr = typeof command === 'string' ? splitCmd(command) : command;
+
 	if (!watchMode) {
-		return command;
+		return cmdArr;
 	}
 	if (typeof watch === 'boolean') {
 		throw new Error(`Invalid watch value: ${watch}. Expected string or array.`);
 	}
 
-	if (typeof command === 'string') {
-		if (!watch) watch = '-w';
-
-		return `${command} ${watch}`;
-	} else {
-		if (!watch) watch = ['-w'];
-
-		return [...command, ...watch];
-	}
+	if (!watch) watch = ['-w'];
+	return [...cmdArr, ...watch];
 }
 
-export function loadConfigFile(watchMode: boolean): IConfigFile {
+function loadConfigFile(watchMode: boolean): IConfigFile {
 	const config = new ProjectConfig(projectRoot, undefined, logger);
 	const schemaFile = resolve(selfRoot, 'commands.schema.json');
 
@@ -72,6 +67,11 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 		array(left, right, keyPath) {
 			switch (keyPath[0]) {
 				case 'build':
+					if (Array.isArray(right)) {
+						return right;
+					} else {
+						return left;
+					}
 				case 'clean': {
 					if (!Array.isArray(right)) {
 						return left;
@@ -87,19 +87,22 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 
 	const buildMap = new Map<string, ICommand>();
 	const buildTitles: string[] = [];
-	function set(cmd: ICommand) {
-		if (buildMap.has(cmd.title)) {
-			throw new Error(`duplicate command "${cmd.title}", rename it before continue`);
-		}
-		buildMap.set(cmd.title, cmd);
-		buildTitles.push(cmd.title);
-	}
 
 	for (let item of input.build) {
 		if (typeof item === 'string') {
 			const found = input.commands[item];
 			if (!found) {
-				logger.fatal`command ${input.build.indexOf(item)} "${item}" not found in "commands" list<${Object.keys(input.commands)}>`;
+				const files = [];
+				const info = config.getJsonConfigInfo('commands');
+				if (info.project.exists) {
+					files.push(info.project.path);
+				}
+				if (info.rig.exists) {
+					files.push(info.rig.path);
+				}
+				logger.info`config files list<${files}>`;
+				logger.error`command ${input.build.indexOf(item)} "${item}" not found in "commands" list<${Object.keys(input.commands)}>`;
+				shutdown(ExitCode.USAGE);
 			}
 			item = found;
 		}
@@ -119,31 +122,30 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 			continue;
 		}
 
-		const cmd = item.command;
-		if (Array.isArray(cmd)) {
-			const copy = cmd.slice();
-			resolveCommandIsFile(config, copy);
-			set({
-				title: item.title ?? guessTitle(cmd),
-				command: watchModeCmd(copy, item.watch, watchMode),
-				cwd: resolve(projectRoot, item.cwd || '.'),
-				env: item.env ?? {},
-			});
-		} else if (typeof cmd === 'object' && 'package' in cmd) {
-			const obj = parsePackagedBinary(config, item, watchMode);
-			set(obj);
-		} else {
-			throw TypeError(`Invalid command type: ${typeof cmd}. Expected string or array or object.`);
+		const cmd = resolveCommand(config, item, watchMode);
+
+		if (buildMap.has(cmd.title)) {
+			throw new Error(`duplicate command "${cmd.title}", rename it before continue`);
 		}
+		buildMap.set(cmd.title, cmd);
+		buildTitles.push(cmd.title);
+	}
+
+	const unused: Record<string, ICommand> = {};
+	for (const [name, item] of Object.entries(input.commands)) {
+		const title = item.title ?? name;
+		if (buildMap.has(title)) {
+			continue;
+		}
+
+		unused[title] = resolveCommand(config, item, watchMode);
 	}
 
 	const additionalPaths: string[] = [];
 	if (config.rigConfig.rigFound) {
 		const nmPath = findUpUntilSync({ file: 'node_modules', from: config.rigConfig.getResolvedProfileFolder() });
 		if (!nmPath) {
-			throw new Error(
-				`Failed to find "node_modules" folder in rig profile "${config.rigConfig.getResolvedProfileFolder()}".`,
-			);
+			throw new Error(`Failed to find "node_modules" folder in rig profile "${config.rigConfig.getResolvedProfileFolder()}".`);
 		}
 		additionalPaths.push(resolve(nmPath, '.bin'));
 	}
@@ -160,9 +162,29 @@ export function loadConfigFile(watchMode: boolean): IConfigFile {
 	return {
 		buildTitles,
 		build: buildMap,
+		unusedBuild: unused,
 		clean,
 		additionalPaths: additionalPaths.toReversed(),
 	};
+}
+
+function resolveCommand(config: ProjectConfig, input: ICommandInput, watchMode: boolean): ICommand {
+	const cmd = input.command;
+	if (Array.isArray(cmd)) {
+		const copy = cmd.slice();
+		resolveCommandIsFile(config, copy);
+		return {
+			title: input.title ?? guessTitle(cmd),
+			command: watchModeCmd(copy, input.watch, watchMode),
+			cwd: resolve(projectRoot, input.cwd || '.'),
+			env: input.env ?? {},
+		};
+	} else if (typeof cmd === 'object' && 'package' in cmd) {
+		const obj = parsePackagedBinary(config, input, watchMode);
+		return obj;
+	} else {
+		throw TypeError(`Invalid command type: ${typeof cmd}. Expected string or array or object.`);
+	}
 }
 
 function guessTitle(command: string | readonly string[]): string {
@@ -182,26 +204,39 @@ function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMo
 	const pkgJsonPath = fileURLToPath(config.resolve(`${cmd.package}/package.json`));
 	let title = item.title;
 	if (!title) {
-		title = cmd.package.split('/').pop();
+		// biome-ignore lint/style/noNonNullAssertion: split must have 0
+		title = cmd.package.split('/')[0]!;
 		if (cmd.binary && cmd.binary !== title) {
 			title += `:${cmd.binary}`;
 		}
 	}
 
 	const pkg = JSON.parse(readFileSync(pkgJsonPath, 'utf-8'));
-	const type1 = typeof pkg.bin === 'string';
-	const type2 = !!cmd.binary;
-	if (type1 && type2) {
+	const typeStr = typeof pkg.bin === 'string';
+	const typeMap = !!cmd.binary;
+	if (typeStr && typeMap) {
 		throw new Error(`"${pkgJsonPath}" "bin" field is string, can not specify "binary" in "commands.json".`);
-	} else if (!type1 && !type2) {
+	} else if (!typeStr && !typeMap) {
 		throw new Error(`"${pkgJsonPath}" "bin" field is not string, must specify "binary" in "commands.json".`);
 	}
 
-	const binVal = type1 ? pkg.bin : pkg.bin[cmd.binary as string];
-	const binPath = resolve(pkgJsonPath, '..', binVal);
+	let binPath: string;
+	const binVal = typeStr ? pkg.bin : pkg.bin[cmd.binary as string];
+	if (binVal) {
+		binPath = resolve(pkgJsonPath, '..', binVal);
+	} else if (typeMap && cmd.binary) {
+		const path = resolve(pkgJsonPath, '..', cmd.binary);
+		if (existsSync(path)) {
+			binPath = path;
+		} else {
+			throw new Error(`"${pkgJsonPath}" "bin" field has no key "${cmd.binary}"; and "${path}" not looks like a file.`);
+		}
+	} else {
+		throw new Error(`"${pkgJsonPath}" "bin" field has no key "${cmd.binary}".`);
+	}
 
 	return {
-		title: title!,
+		title: title,
 		command: watchModeCmd([process.execPath, binPath, ...(cmd.arguments ?? [])], item.watch, watchMode),
 		cwd: resolve(projectRoot, item.cwd || '.'),
 		env: item.env ?? {},
@@ -226,3 +261,6 @@ function resolveCommandIsFile(config: ProjectConfig, command: string[]) {
 
 	command.splice(0, 1, process.execPath, r.effective);
 }
+
+export const config = loadConfigFile(context.watchMode);
+logger.verbose`loaded config file: ${config}`;

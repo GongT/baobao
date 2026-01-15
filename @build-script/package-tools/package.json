@@ -1,7 +1,8 @@
 {
 	"name": "@build-script/package-tools",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.16",
+	"description": "A Node.js package managing tool",
 	"bin": {
 		"package-tools": "./load.js",
 		"njspkg": "./load.js"
@@ -20,42 +21,43 @@
 	},
 	"dependencies": {
 		"@build-script/monorepo-lib": "workspace:^",
-		"@idlebox/args": "workspace:^",
+		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/dependency-graph": "workspace:^",
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
-		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"cacache": "^19.0.1",
-		"@idlebox/dependency-graph": "workspace:^",
-		"execa": "^9.6.0",
-		"make-fetch-happen": "^14.0.3",
-		"minimatch": "^10.0.3",
-		"npm-registry-fetch": "^18.0.2",
-		"pacote": "^21.0.0",
-		"semver": "^7.7.2",
+		"@idlebox/source-map-support": "workspace:^",
+		"@idlebox/unshare": "workspace:^",
+		"cacache": "^20.0.3",
+		"execa": "^9.6.1",
+		"make-fetch-happen": "^15.0.3",
+		"minimatch": "^10.1.1",
+		"npm-registry-fetch": "^19.1.1",
+		"pacote": "^21.0.4",
+		"semver": "^7.7.3",
 		"split-cmd": "^1.1.0",
-		"source-map-support": "^0.5.21",
 		"targz": "^1.0.1",
 		"tiny-async-pool": "^2.1.0"
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/cli-static-generator": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
-		"@types/cacache": "^19.0.0",
+		"@types/cacache": "^20.0.0",
 		"@types/global-agent": "^3.0.0",
-		"@types/node": "^24.0.14",
-		"@types/npm-registry-fetch": "^8.0.8",
-		"@types/request": "^2.48.12",
-		"@types/semver": "^7.7.0",
+		"@types/node": "^25.0.8",
+		"@types/npm-registry-fetch": "^8.0.9",
+		"@types/request": "^2.48.13",
+		"@types/semver": "^7.7.1",
 		"@types/targz": "^1.0.5",
 		"@types/tiny-async-pool": "^2.0.3",
 		"@types/tinycolor2": "^1.4.6"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

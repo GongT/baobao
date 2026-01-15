@@ -6,7 +6,7 @@ export type InitFunc<O, T> = (this: O) => T;
  * @public
  */
 export function initOnRead<O, T extends keyof O>(target: any, propertyKey: T, init: InitFunc<O, O[T]>) {
-	if (target.hasOwnProperty(propertyKey)) {
+	if (Object.hasOwn(target, propertyKey)) {
 		return;
 	}
 	Object.defineProperty(target, propertyKey, {

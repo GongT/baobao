@@ -4,7 +4,8 @@
  */
 export function objectPath(obj: object, path: string): any {
 	path.split('.').every((name) => {
-		return (obj = (obj as any)[name]);
+		obj = (obj as any)[name];
+		return !!obj;
 	});
 	return obj;
 }
@@ -26,6 +27,7 @@ export class ObjectPath {
 	public get(path: readonly KeyType[]) {
 		if (path.length === 0) throw new Error('path must not be empty');
 		const rest = path.slice();
+		// biome-ignore lint/style/noNonNullAssertion: slice
 		const last = rest.pop()!;
 
 		let cursor = this.object;
@@ -42,6 +44,7 @@ export class ObjectPath {
 	public exists(path: readonly KeyType[]) {
 		if (path.length === 0) throw new Error('path must not be empty');
 		const rest = path.slice();
+		// biome-ignore lint/style/noNonNullAssertion: slice
 		const last = rest.pop()!;
 
 		let cursor = this.object;
@@ -64,6 +67,7 @@ export class ObjectPath {
 		if (path.length === 0) throw new Error('path must not be empty');
 		function walkSet(cursor: any) {
 			const rest = path.slice();
+			// biome-ignore lint/style/noNonNullAssertion: 100%
 			const last = rest.pop()!;
 
 			for (const [index, name] of rest.entries()) {
@@ -81,6 +85,7 @@ export class ObjectPath {
 		}
 		function walkDelete(cursor: any) {
 			const rest = path.slice();
+			// biome-ignore lint/style/noNonNullAssertion: slice
 			const last = rest.pop()!;
 			const objects = [];
 			for (const name of rest) {

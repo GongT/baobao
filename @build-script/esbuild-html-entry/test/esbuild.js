@@ -47,7 +47,7 @@ async function main() {
 const rootDir = resolve(fileURLToPath(import.meta.url), '..');
 process.chdir(rootDir);
 
-main().catch((e) => {
+main().catch((_e) => {
 	// console.error(e);
 	process.exit(1);
 });

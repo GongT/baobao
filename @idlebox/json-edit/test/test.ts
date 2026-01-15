@@ -1,14 +1,6 @@
 import { existsSync, mkdirSync, unlink } from 'node:fs';
 import { resolve } from 'node:path';
-import {
-	insertKeyAlphabet,
-	loadJsonFile,
-	parseJsonText,
-	reformatJson,
-	writeJsonFile,
-	writeJsonFileBack,
-	writeJsonFileBackForce,
-} from '../src/index.js';
+import { insertKeyAlphabet, loadJsonFile, parseJsonText, reformatJson, writeJsonFile, writeJsonFileBack, writeJsonFileBackForce } from '../src/index.js';
 
 console.log('\x1Bc==== 运行测试程序 ====');
 

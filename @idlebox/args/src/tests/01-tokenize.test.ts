@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { before, describe } from 'mocha';
+import { TokenKind } from '../constants.js';
 import type { TToken } from '../library/token.js';
 import { tokenize } from '../tools/tokenize.js';
-import { TokenKind } from '../types.js';
 
 const args = [
 	'value', // 1

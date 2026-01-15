@@ -68,9 +68,7 @@ class ModuleResolver {
 	}
 
 	private _resolve(id: string, importer: string, prod: boolean, symlink: boolean) {
-		return fileURLToPath(
-			moduleResolve(id, pathToFileURL(importer), prod ? this.prodConditions : this.conditions, symlink),
-		);
+		return fileURLToPath(moduleResolve(id, pathToFileURL(importer), prod ? this.prodConditions : this.conditions, symlink));
 	}
 
 	private _external(id: string, importer: string) {

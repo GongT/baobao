@@ -1,28 +1,26 @@
+import { findUpUntil } from '@idlebox/node';
 import { createInterface } from 'node:readline';
-import {
-	getPackageManagerByName,
-	KNOWN_PACKAGE_MANAGER_NAMES,
-	KNOWN_PACKAGE_MANAGERS,
-} from './getPackageManagerByName.js';
+import { getPackageManagerByName, KNOWN_PACKAGE_MANAGER_NAMES, KNOWN_PACKAGE_MANAGERS } from './getPackageManagerByName.js';
 import type { PackageManager } from './packageManager.js';
 
 export interface IGetPackageManagerOptions {
 	cwd: string;
 	packageJson?: string;
-	default: 'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto';
-	ask: boolean;
+	default?: 'npm' | 'yarn' | 'rush' | 'cnpm' | 'auto';
+	ask?: boolean;
 }
 
-export async function getPackageManager(_options?: Partial<IGetPackageManagerOptions>): Promise<PackageManager> {
-	const options: IGetPackageManagerOptions = Object.assign(
-		{},
-		{
-			cwd: process.cwd(),
-			default: 'auto',
-			ask: true,
-		},
-		_options || {}
-	);
+const def: IGetPackageManagerOptions = {
+	cwd: '',
+	default: 'auto',
+	ask: true,
+};
+
+export async function getPackageManager(_options?: IGetPackageManagerOptions): Promise<PackageManager> {
+	const options: IGetPackageManagerOptions = Object.assign({}, def);
+	if (_options) {
+		Object.assign(options, _options);
+	}
 
 	if (options.packageJson) {
 		try {
@@ -30,12 +28,21 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 			if (typeof json.packageManager === 'string') {
 				for (const name of KNOWN_PACKAGE_MANAGER_NAMES) {
 					if (json.packageManager.toLowerCase().startsWith(name)) {
-						const PM = getPackageManagerByName(name)!;
+						const PM = getPackageManagerByName(name);
+						if (!PM) throw new Error(`package manager driver ${name} not found`);
 						return new PM(options.cwd);
 					}
 				}
 			}
 		} catch {}
+	}
+
+	const found = await findBySignalFile(options.cwd);
+	if (found) {
+		const PM = getPackageManagerByName(found);
+		if (PM) {
+			return new PM(options.cwd);
+		}
 	}
 
 	const packageManagers: PackageManager[] = KNOWN_PACKAGE_MANAGERS.map((Manager) => {
@@ -67,7 +74,7 @@ export async function getPackageManager(_options?: Partial<IGetPackageManagerOpt
 				return pm.exists().then((found) => {
 					return found ? pm : undefined;
 				});
-			})
+			}),
 		)
 	).filter((e) => !!e) as PackageManager[];
 
@@ -123,7 +130,7 @@ async function askUserSelect(installed: PackageManager[]): Promise<PackageManage
 	let selection = -1;
 	await new Promise((resolve) => {
 		rl.on('line', (line) => {
-			selection = Number.parseInt(line);
+			selection = Number.parseInt(line, 10);
 			if (installed[selection]) {
 				resolve(selection);
 			} else {
@@ -136,4 +143,21 @@ async function askUserSelect(installed: PackageManager[]): Promise<PackageManage
 	rl.close();
 
 	return installed[selection];
+}
+
+async function findBySignalFile(cwd: string) {
+	if (await findUpUntil({ file: ['rush.json'], from: cwd })) {
+		return 'rush';
+	}
+	if (await findUpUntil({ file: ['pnpm-lock.yaml', 'package.yaml', 'pnpm-workspace.yaml'], from: cwd })) {
+		return 'pnpm';
+	}
+	if (await findUpUntil({ file: ['yarn.lock'], from: cwd })) {
+		return 'yarn';
+	}
+	if (await findUpUntil({ file: ['package-lock.json'], from: cwd })) {
+		return 'npm';
+	}
+
+	return undefined;
 }

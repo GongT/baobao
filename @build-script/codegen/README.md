@@ -15,9 +15,9 @@ codegen ./root1 ./root2 ... ./rootN [--watch] [--debug]
 
 ### 生成器写法
 ```ts
-import type { GenerateContext } from '@build-script/codegen';
+import type { GenerateContext, ILogger } from '@build-script/codegen';
 
-export async function generate(builder: GenerateContext) {
+export async function generate(builder: GenerateContext, logger: ILogger) {
 	logger.info('Generating code...');
 	return 'console.log("Hello, world!");';
 }
@@ -34,7 +34,7 @@ export async function dispose() {
 import type { GenerateContext, ILogger } from '@build-script/codegen';
 
 class Generator {
-	async generate(builder: GenerateContext) {}
+	async generate(builder: GenerateContext, logger: ILogger) {}
 
 	/** optional */
 	async dispose() {}

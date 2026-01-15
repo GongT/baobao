@@ -1,13 +1,14 @@
 ### Hidden Files
 .*
 !/.*
-!.gitignore
-!.npmignore
+!.git*
+!.npm*
+!.pnpmfile.*
 
 ### Cache File
 *.tsbuildinfo
 .rpt2_cache/
-/.vscode/local-history
+node-compile-cache/
 
 ### Temp Files
 *.lock
@@ -15,20 +16,37 @@ temp/
 tmp/
 *.temp
 *.tmp
+/.vscode/local-history
+.node-package-tools
+*.generator.js
+.package-tools/
+.publisher/
 
 ### Build Result
-/dist
-/lib
+dist/
+lib/
 *.tgz
 /build-*
 tsdoc-metadata.json
+
+### Mistake
+**/src/**/*.d.ts
+!**/src/global.d.ts
+!**/src/globals.d.ts
+!**/src/export.d.ts
+!**/src/exports.d.ts
+!**/src/interface.d.ts
+!**/src/types.d.ts
+!**/src/typing.d.ts
+!**/src/typings.d.ts
+**/src/**/*.js
+**/src/**/*.map
 
 ### Package Manager
 node_modules
 jspm_packages
 bower_components
 package-deps.json
-/package.json
 
 ### Log Files
 *.log
@@ -40,3 +58,6 @@ yarn-error.log*
 *.generated.*
 c_cpp_properties.json
 vcpkg_installed
+_*.ts
+tsconfig.everything.json
+.nx

@@ -1,9 +1,9 @@
 import { path7za as originalPath7za } from '7zip-bin';
-import { type ChildProcess, spawn, type SpawnOptions } from 'node:child_process';
+import { spawn, type ChildProcess, type SpawnOptions } from 'node:child_process';
 import { basename, dirname } from 'node:path';
 import { handleOutput, handleProgress, type IStatusReport } from './outputStreams.js';
 
-const path7za = originalPath7za.replace(/\.asar([\/\\])/, (_m0, sp) => {
+const path7za = originalPath7za.replace(/\.asar([/\\])/, (_m0, sp) => {
 	return `.asar.unpacked${sp}`;
 });
 
@@ -26,7 +26,7 @@ function buildArgs(args: string[]) {
 	return outputArgs.concat(
 		args.filter((item) => {
 			return !item.startsWith('-bs');
-		})
+		}),
 	);
 }
 
@@ -139,7 +139,7 @@ function indentArgs(args: ReadonlyArray<string>) {
 		.join('\n');
 }
 
-export function StatusCodeError(status: number, signal: string, _cwd: string, cmd: string[]): ProgramError | null {
+export function StatusCodeError(status: number, signal: string, cwd: string, cmd: string[]): ProgramError | null {
 	if (status === 0 && !signal) {
 		return null;
 	}
@@ -147,16 +147,13 @@ export function StatusCodeError(status: number, signal: string, _cwd: string, cm
     Command = ${cmd[0]}
 ${indentArgs(cmd.slice(1))}
 `;
-	return Object.assign(
-		new Error(signal ? `Program exit by signal "${signal}"` : `Program exit with code "${status}"`),
-		{
-			status,
-			signal,
-			__programError: true,
-			__program,
-			__cwd: cmd[2]!,
-		}
-	);
+	return Object.assign(new Error(signal ? `Program exit by signal "${signal}"` : `Program exit with code "${status}"`), {
+		status,
+		signal,
+		__programError: true,
+		__program,
+		__cwd: cwd,
+	});
 }
 
 export function processQuitPromise(cp: ChildProcess): Promise<void> {

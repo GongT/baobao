@@ -16,12 +16,7 @@ export function suite_simple(name: string, args: readonly string[], tester: (rea
 		try {
 			tester(reader);
 		} catch (e) {
-			debugger;
-			console.log(
-				'[simple suite] [%s] after failed, dump the reader:\n',
-				name,
-				inspect(reader, { colors: true, depth: 10, compact: false }),
-			);
+			console.log('[simple suite] [%s] after failed, dump the reader:\n', name, inspect(reader, { colors: true, depth: 10, compact: false }));
 			throw e;
 		}
 	});
@@ -37,11 +32,7 @@ export function suite_steps(args: readonly string[], register: (it: RegisterIt) 
 			try {
 				fn(reader);
 			} catch (e) {
-				debugger;
-				console.log(
-					'[test suite] after failed, dump the reader:\n%s',
-					inspect(reader, { colors: true, depth: 10, compact: false }),
-				);
+				console.log('[test suite] after failed, dump the reader:\n%s', inspect(reader, { colors: true, depth: 10, compact: false }));
 				throw e;
 			}
 		});

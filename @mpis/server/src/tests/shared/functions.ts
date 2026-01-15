@@ -1,5 +1,9 @@
+import { createRootLogger, EnableLogLevel, set_default_log_level } from '@idlebox/logger';
 import { InputTestClient } from '../../clients/test-input.client.js';
 import { TestClient } from '../../clients/test.client.js';
+
+createRootLogger('test', EnableLogLevel.verbose);
+set_default_log_level(EnableLogLevel.verbose);
 
 let flip_id = 0;
 export function test_flipping(starting = 2000, interval = 2000, building = 1000) {

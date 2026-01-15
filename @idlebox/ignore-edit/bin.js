@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const { install } = import('source-map-support');
-install();
+import '@idlebox/source-map-support/register';
 
 await import('./lib/bin.js');

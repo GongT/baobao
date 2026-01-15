@@ -7,8 +7,8 @@ export function lrelative(from: string, to: string) {
 	if (!isAbsolute(to)) {
 		throw new Error(`lrelative: to is not absolute: ${to}`);
 	}
-	const fa = from.split(/[\/\\]/g).filter((e) => e);
-	const ta = to.split(/[\/\\]/g).filter((e) => e);
+	const fa = from.split(/[/\\]/g).filter((e) => e);
+	const ta = to.split(/[/\\]/g).filter((e) => e);
 	const f = ta.pop();
 	while (fa[0] === ta[0]) {
 		fa.shift();

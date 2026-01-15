@@ -2,31 +2,58 @@ const { resolve, basename } = require('node:path');
 const { readFileSync } = require('node:fs');
 const { spawnSync } = require('node:child_process');
 
-const PROJECT_ROOT = resolve(__dirname, '../../..');
+// const PROJECT_ROOT = resolve(__dirname, '../../..');
 const myProjects = new Set();
 const knownTypesVersion = {};
 
 module.exports = {
 	hooks: {
+		// preResolution,
 		readPackage,
 	},
 };
 
+if (process.env.PNPM_CALL_RECURSIVE) {
+	module.exports.hooks = {};
+}
+
+let inited = false;
 function init() {
-	const cmds = [process.argv0, require.main.filename, 'multi', 'ls', '--json', '--depth=-1'];
+	if (inited) return;
+	inited = true;
+
+	const cmds = [];
+	cmds.push(process.execPath);
+	if (!process.execPath.includes('/@pnpm/')) {
+		cmds.push(require.main.filename);
+	}
+	cmds.push('multi', 'ls', '--json', '--depth=-1');
 	console.error(`\x1B[2m+ ${cmds.join(' ')}\x1B[0m`);
 	const result = spawnSync(cmds[0], cmds.slice(1), {
 		encoding: 'utf8',
 		stdio: ['ignore', 'pipe', 'inherit'],
+		env: {
+			PNPM_CALL_RECURSIVE: '1',
+		},
 	});
 	if (result.error) {
 		throw result.error;
 	}
-	const projects = JSON.parse(result.stdout);
 
-	console.log('\x1B[38;5;10m[%s]: there are %d projects in workspace.\x1B[0m', basename(__filename), projects.length);
+	const output = result.stdout.toString().trim();
 
-	for (const { path } of projects) {
+	try {
+		JSON.parse(output);
+	} catch (e) {
+		throw new Error(`pnpm ls输出不是json (${e.message})\n---------------------------------\n${output}\n---------------------------------`);
+	}
+	const projects = JSON.parse(output);
+
+	console.error('\x1B[38;5;10m[%s]: there are %d projects in workspace.\x1B[0m', basename(__filename), projects.length);
+
+	for (const { path, name } of projects) {
+		if (!name) continue;
+
 		const p = resolve(path, 'package.json');
 		const val = loadJsonSync(p);
 		if (val.name) {
@@ -49,19 +76,19 @@ function addEverythingToDependency(rigPkg) {
 }
 
 function readPackage(packageJson, context) {
-	if (myProjects.size === 0) init();
+	init();
 
 	if (packageJson.name === '@internal/local-rig') {
 		addEverythingToDependency(packageJson);
 	}
 
-	const v = packageJson.dependencies?.['@gongt/fix-esm'];
-	if (v && !v.startsWith('workspace:')) {
-		console.error('replace fix-esm version from %s to local file', v);
-		packageJson.dependencies['@gongt/fix-esm'] = resolve(PROJECT_ROOT, '@gongt/fix-esm');
+	if (packageJson.name === '@rollup/plugin-swc') {
+		packageJson.dependencies['@swc/core'] = 'latest';
 	}
 
-	if (myProjects.has(packageJson.name)) return packageJson;
+	if (myProjects.has(packageJson.name) || packageJson._example) {
+		return addNodejsShimTypes(packageJson);
+	}
 
 	if (packageJson.dependencies) lockDep(packageJson.dependencies, context);
 	if (packageJson.devDependencies) lockDep(packageJson.devDependencies, context);
@@ -71,7 +98,20 @@ function readPackage(packageJson, context) {
 	return packageJson;
 }
 
-function lockDep(deps, context) {
+function addNodejsShimTypes(packageJson) {
+	if (findDep(packageJson, '@types/node')) {
+		if (packageJson.dependencies['@types/node']) {
+			console.error('\x1B[38;5;11m[%s] @types/node in dependencies.\x1B[0m', packageJson.name);
+		}
+	} else {
+		if (!packageJson.devDependencies) packageJson.devDependencies = {};
+		packageJson.devDependencies['@types/node'] = 'workspace:@idlebox/itypes@*';
+	}
+
+	return packageJson;
+}
+
+function lockDep(deps, _context) {
 	for (const [name, version] of Object.entries(deps)) {
 		if (name.startsWith('@types/')) {
 			if (knownTypesVersion[name]) {
@@ -85,4 +125,11 @@ function lockDep(deps, context) {
 
 function loadJsonSync(f) {
 	return JSON.parse(readFileSync(f, 'utf-8'));
+}
+
+function findDep(packageJson, name) {
+	const dep = packageJson.dependencies?.[name];
+	if (dep) return dep;
+
+	return packageJson.devDependencies?.[name];
 }

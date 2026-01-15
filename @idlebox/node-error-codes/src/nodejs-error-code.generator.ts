@@ -28,12 +28,12 @@ export async function generate(context: GenerateContext) {
 	function get_id(id: string) {
 		for (const section of body.miscs[0].miscs) {
 			if (section.name === id) {
-				return section.modules!;
+				return section.modules;
 			}
 		}
 		throw new Error(`missing section: ${id}`);
 	}
-	content += 'export enum NodeError {\n';
+	content += 'export enum NodeErrorCode {\n';
 	for (const err of get_id('node.js_error_codes')) {
 		content += line(err.textRaw, err.desc, false);
 	}
@@ -43,7 +43,7 @@ export async function generate(context: GenerateContext) {
 	}
 	content += '}\n\n';
 
-	content += 'export enum OpenSSLError {\n';
+	content += 'export enum OpenSSLErrorCode {\n';
 	for (const section of get_id('openssl_error_codes')) {
 		for (const err of (section as any).modules) {
 			content += line(err.textRaw, err.desc, false);

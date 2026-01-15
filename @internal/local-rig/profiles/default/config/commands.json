@@ -1,16 +1,44 @@
 {
-	"$schema": "../node_modules/@mpis/run/commands.schema.json",
-	"build": ["autoindex", "codegen", "typescript"],
+	"$schema": "../../../node_modules/@mpis/run/commands.schema.json",
 	"commands": {
 		"autoindex": {
-			"command": ["autoindex", "--config"]
+			"command": {
+				"package": "@build-script/autoindex",
+				"binary": "autoindex",
+				"arguments": ["--config"],
+			},
 		},
 
 		/**
 		 *
 		 */
 		"codegen": {
-			"command": ["codegen", "src"]
+			"command": {
+				"package": "@build-script/codegen",
+				"binary": "codegen",
+				"arguments": ["src"],
+			},
+		},
+
+		/**
+		 *
+		 */
+		"codegen:production": {
+			"command": {
+				"package": "@build-script/codegen",
+				"binary": "loader/bin.js",
+				"arguments": ["src"],
+			},
+		},
+
+		/**
+		 *
+		 */
+		"depcheck": {
+			"command": {
+				"package": "@build-script/depcheck",
+				"binary": "depcheck",
+			},
 		},
 
 		/**
@@ -21,12 +49,12 @@
 			"command": {
 				"package": "@mpis/typescript",
 				"binary": "mpis-tsc",
-				"arguments": ["-p", "src"]
+				"arguments": ["-p", "src"],
 			},
 			"watch": ["-w"],
 			"cwd": ".",
-			"env": {}
-		}
+			"env": {},
+		},
 	},
-	"clean": ["lib"]
+	"clean": ["lib"],
 }

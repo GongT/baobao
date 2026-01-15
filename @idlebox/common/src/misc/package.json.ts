@@ -74,6 +74,8 @@ export function resolveExportPath(exportField: string | IExportCondition, condit
 // export function resolveImport(exports:IFullExportsField, file:string,platform:string, condition: string){
 // }
 
+type PackageManagers = 'pnpm' | 'npm' | 'yarn' | string;
+
 export interface IPackageJson {
 	name: string;
 	version: string;
@@ -91,6 +93,7 @@ export interface IPackageJson {
 	files: string[];
 	bin: StringOr<Record<string, string>>;
 	man: MaybeArray<string>;
+	packageManager: `${PackageManagers}@${string}`;
 	directories: {
 		bin: string;
 		man: string;
@@ -136,6 +139,10 @@ export interface IPackageJson {
 	 * Array of package names that add this package to it's `decoupledDependencies`.
 	 */
 	decoupledDependents: string | string[];
+	/**
+	 * Array of package names that will be added to this package's `devDependencies` when resolve build order.
+	 */
+	additionalDependencies: string[];
 	/* My Addons End */
 
 	[field: string]: any;

@@ -1,29 +1,17 @@
-/**
- * Auto bind `this` to class method
- */
-export const bindThis: MethodDecorator = <T>(
-	_target: Object,
-	propertyKey: string | symbol,
-	descriptor: TypedPropertyDescriptor<T>
-) => {
-	const oldFunc = descriptor.value;
-	if (typeof oldFunc === 'function') {
-		return {
-			enumerable: true,
-			configurable: true,
-			get: function (this: any) {
-				delete this[propertyKey];
+import { nameObject } from '../../debugging/object-with-name.js';
 
-				const fn = oldFunc.bind(this);
-				Object.defineProperty(this, propertyKey, {
-					value: fn,
-					writable: false,
-					enumerable: true,
-					configurable: false,
-				});
-				return fn;
-			},
-		};
+export function bindThis(method: Function, context: ClassMethodDecoratorContext) {
+	if (context.kind !== 'method') throw new Error(`this decorator can only be applied to classes`);
+
+	if (context.static) throw new TypeError('this decorator not supported on static methods.');
+	if (context.private) {
+		return nameObject(`${context.name.toString()}.bounded`, function (this: any, ...args: any[]) {
+			return method.apply(this, args);
+		});
+	} else {
+		context.addInitializer(function (this: any) {
+			this[context.name] = nameObject(`${context.name.toString()}.bounded`, method.bind(this));
+		});
+		return undefined;
 	}
-	throw new TypeError('@bindThis can only use with method, but not property.');
-};
+}

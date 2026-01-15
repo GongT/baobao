@@ -1,13 +1,12 @@
 {
 	"name": "@idlebox/json-edit-biome",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.8",
 	"description": "biomejs formatter for @idlebox/json-edit.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"types": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./package.json": "./package.json"
@@ -22,17 +21,13 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"dependencies": {
-		"comment-json": "^4.2.5",
-		"prettier": "^3.6.2"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
-		"@types/node": "^24.0.14",
-		"source-map-support": "^0.5.21",
+		"@types/node": "^25.0.8",
+		"@idlebox/source-map-support": "workspace:^",
 		"tslib": "^2.8.1"
 	},
 	"publishConfig": {

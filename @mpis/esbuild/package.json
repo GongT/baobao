@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/esbuild",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.11",
 	"keywords": [],
 	"exports": {
 		".": {
@@ -20,22 +20,21 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@mpis/client": "workspace:^",
-		"execa": "^9.6.0"
+		"@mpis/client": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/typescript": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
-		"esbuild": "^0.25.6"
+		"@types/node": "^25.0.8",
+		"esbuild": "^0.27.2"
 	},
 	"peerDependencies": {
 		"esbuild": ">=0.24.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

@@ -1,5 +1,8 @@
 import type { BuildEvent, IMessageObject } from '../types.js';
 
+/**
+ * @deprecated
+ */
 export function make_message(event: BuildEvent, title: string, message: string, output?: string): IMessageObject {
 	return {
 		__brand__: 'BPCM' as any,

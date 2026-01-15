@@ -1,19 +1,20 @@
-import { logger } from '@idlebox/logger';
-import { CommandDefine } from '../common/functions/cli.js';
+import { createWorkspace } from '@build-script/monorepo-lib';
+import { CommandDefine, logger } from '@idlebox/cli';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = '';
-	protected override _description = '从npm缓存中删除关于本monorepo的数据，以便安装最新版本';
-	protected override _help = '';
+	protected override readonly _usage = '';
+	protected override readonly _description = '从npm缓存中删除关于本monorepo的数据，以便安装最新版本';
+	protected override readonly _help = '';
 }
 
 export async function main() {
-	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
-	const cache = await packageManager.createCacheHandler();
+	const workspace = await createWorkspace();
+	const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
+	const cache = await pm.createCacheHandler();
 
-	const list = await packageManager.workspace.listPackages();
+	const list = await workspace.listPackages();
 
 	logger.log('删除%d个项目在 %s 的npm缓存', list.length, cache.path);
 	for (const data of list) {

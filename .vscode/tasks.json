@@ -40,6 +40,23 @@
 			},
 		},
 		{
+			"label": "（交互式）格式化代码",
+			"icon": {
+				"id": "code",
+				"color": "terminal.ansiYellow",
+			},
+			"type": "shell",
+			"command": "node",
+			"args": ["loader/bin.js", "--cwd", "${workspaceFolder}"],
+			"options": {
+				"cwd": "${workspaceFolder}/@build-script/biomejs-step-by-step",
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"clear": true,
+			},
+		},
+		{
 			"label": "格式化代码",
 			"icon": {
 				"id": "code",

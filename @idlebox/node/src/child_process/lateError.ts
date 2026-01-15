@@ -2,10 +2,7 @@ import { execa, type Options as ExecaOptions, type Result } from 'execa';
 import { printLine } from '../cli-io/output.js';
 import { checkChildProcessResult } from './error.js';
 
-export type ISpawnOptions = Omit<
-	ExecaOptions,
-	'lines' | 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr' | 'verbose'
-> & {
+export type ISpawnOptions = Omit<ExecaOptions, 'lines' | 'reject' | 'stdio' | 'encoding' | 'all' | 'stderr' | 'verbose'> & {
 	verbose?: boolean;
 };
 type ISpawnConst = {
@@ -17,9 +14,7 @@ type ISpawnConst = {
 
 type ConvStdout<T extends ISpawnOptions> = T['stdout'] extends 'inherit' ? Omit<T, 'stdout'> & { stdout: 'pipe' } : T;
 
-export type ExecaReturnValue<options extends ISpawnOptions> = Result<
-	ConvStdout<Omit<options, 'verbose'>> & ISpawnConst
->;
+export type ExecaReturnValue<options extends ISpawnOptions> = Result<ConvStdout<Omit<options, 'verbose'>> & ISpawnConst>;
 
 type NoStdio = Omit<ISpawnOptions, 'stdio'> & { stdio?: never };
 
@@ -27,11 +22,7 @@ type NoStdio = Omit<ISpawnOptions, 'stdio'> & { stdio?: never };
  * 运行命令，如果出错，则输出缓冲的stderr（如果stdout是inherit，也同时输出stdout）
  * 如果程序正常结束，则程序向stderr输出的内容直接丢弃（如果stdout是inherit，也同时丢弃）
  */
-export function execLazyError<T extends NoStdio = NoStdio>(
-	cmd: string,
-	args: string[],
-	spawnOptions: T
-): Promise<ExecaReturnValue<T>> {
+export function execLazyError<T extends NoStdio = NoStdio>(cmd: string, args: string[], spawnOptions: T): Promise<ExecaReturnValue<T>> {
 	let all = false;
 	let { stdout, verbose, ...others } = spawnOptions;
 

@@ -1,5 +1,6 @@
 import { startChokidar } from '@idlebox/chokidar';
 import { createRootLogger, logger } from '@idlebox/logger';
+import { shutdown } from '@idlebox/node';
 import type { IgnoreFiles } from '@idlebox/typescript-surface-analyzer';
 import { channelClient } from '@mpis/client';
 import { glob } from 'glob';
@@ -46,15 +47,17 @@ async function main() {
 
 		const rootDir = command.options.rootDir;
 		if (!rootDir) {
-			throw logger.fatal('无法确定rootDir，请添加tsconfig.json中的compilerOptions.rootDir设置。');
+			logger.error('无法确定rootDir，请添加tsconfig.json中的compilerOptions.rootDir设置。');
+			shutdown(1);
 		}
 
 		logger.debug('rootDir=%s', rootDir);
 
-		const outputFile = resolve(rootDir, context.outputFile + '.ts');
+		const outputFile = resolve(rootDir, `${context.outputFile}.ts`);
 
 		if (!outputFile.startsWith(rootDir)) {
-			throw logger.fatal(`输出文件 ${outputFile} 路径异常，离开rootDir`);
+			logger.error`输出文件 long<${outputFile}> 路径异常，离开rootDir`;
+			shutdown(1);
 		}
 
 		const r = await createIndex({
@@ -65,6 +68,7 @@ async function main() {
 			absoluteImport: context.absoluteImport,
 			stripTags: context.stripTags,
 			extraExcludes: context.excludePatterns,
+			banner: context.banner,
 		});
 
 		r.watchFiles.push(...configFiles);

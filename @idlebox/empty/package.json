@@ -1,0 +1,13 @@
+{
+	"name": "@idlebox/empty",
+	"type": "module",
+	"version": "1.0.0",
+	"main": "index.js",
+	"description": "An empty package as a placeholder for types",
+	"scripts": {
+		"build": "",
+		"clean": "",
+		"test": "",
+		"watch": ""
+	}
+}

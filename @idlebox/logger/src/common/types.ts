@@ -37,3 +37,5 @@ export type IMyLogger = {
 	readonly tag: string;
 	readonly colorEnabled: boolean;
 };
+
+export type IDebugCommand = (object: unknown, color: boolean) => string;

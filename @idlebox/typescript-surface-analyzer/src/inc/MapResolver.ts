@@ -13,24 +13,26 @@ interface IExternalResolve {
 }
 export type IResolveResult = ILocalResolve | IExternalResolve;
 
+const jsFileExtensionRegex = /\.js$/;
+const leadingSlashRegex = /^\//;
 export class MapResolver {
 	constructor(
 		private readonly root: string,
-		private readonly map?: Record<string, string[]>
+		private readonly map?: Record<string, string[]>,
 	) {}
 
 	/**
 	 * TODO: 需要node exports resolve
-	 * @param source 
-	 * @param target 
-	 * @returns 
+	 * @param source
+	 * @param target
+	 * @returns
 	 */
 	private _resolve(source: string, target: string): string {
 		const base = basename(target);
 		const dir = dirname(target);
 		const fileToTry = [base, `${base}.ts`, `${base}.tsx`];
 		if (base.endsWith('.js')) {
-			const bb = base.replace(/\.js$/, '');
+			const bb = base.replace(jsFileExtensionRegex, '');
 			fileToTry.push(`${bb}.ts`, `${bb}.tsx`);
 		}
 
@@ -47,7 +49,7 @@ export class MapResolver {
 				}
 
 				for (const to of tos) {
-					const mapped = `${to}/${dir.slice(from.length)}`.replace('//', '/').replace(/^\//, '');
+					const mapped = `${to}/${dir.slice(from.length)}`.replace('//', '/').replace(leadingSlashRegex, '');
 
 					const found = this.findOne(resolve(this.root, mapped), fileToTry);
 					if (found) {

@@ -1,4 +1,9 @@
 {
+	"[yaml]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2,
+		"editor.autoIndent": "advanced",
+	},
 	"files.associations": {
 		"*.json": "jsonc",
 	},
@@ -7,6 +12,8 @@
 		"**/pnpm-lock.yaml": true,
 		"**/temp/**": true,
 		"*/*/lib": true,
+		"**/*.generated.ts": true,
+		"**/autoindex.ts": true,
 		"*/*/.npmrc": true,
 		"common/autoinstallers/*/lib": true,
 		"**/.rush/**": true,
@@ -17,7 +24,11 @@
 		".package-tools/**": true,
 		"**/._*": true,
 		"**/.debug/**": true,
+		"**/.publisher/**": true,
 	},
+	"biome.lsp.bin": "./node_modules/.bin/biome",
+	"biome.requireConfiguration": true,
+	"typescript.preferences.organizeImports": { "typeOrder": "last", "unicodeCollation": "ordinal" },
 	"typescript.tsdk": "./node_modules/typescript/lib",
 	"[json][json5][jsonc][typescript][typescriptreact][javascript]": {
 		"editor.defaultFormatter": "biomejs.biome",
@@ -33,9 +44,10 @@
 	"typescript.preferences.importModuleSpecifierEnding": "js",
 	"files.readonlyInclude": {
 		"**/lib/**": true,
+		"**/node_modules/**": true,
+		"**/*.generated.ts": true,
+		"**/autoindex.ts": true,
 	},
-	"cSpell.words": [
-		"itypes",
-		"mpis"
-	],
+	"cSpell.words": ["itypes", "mpis"],
+	"remote.autoForwardPorts": false
 }

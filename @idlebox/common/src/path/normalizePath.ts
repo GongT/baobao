@@ -1,13 +1,16 @@
 // network full url: schema://xxxxx
 const schema = /^[a-z]{2,}:\/\//i;
 // unc: \?\UNC\
-const unc = /^[\/\\]{1,2}\?[\/\\]UNC[\/\\]/i;
+const unc = /^[/\\]{1,2}\?[/\\]UNC[/\\]/i;
 // win32 special: \?\c:\
-const winSp = /^[\/\\]{1,2}\?[\/\\]([a-z]:[\/\\])/i;
+const winSp = /^[/\\]{1,2}\?[/\\]([a-z]:[/\\])/i;
 // basic win: d:\path
-const winLetter = /^[a-z]:[\/\\]/i;
+const winLetter = /^[a-z]:[/\\]/i;
 // samba: \\xxx\yyy
-const doubleSlash = /^[\/\\]{2}[^\/\\]/i;
+const doubleSlash = /^[/\\]{2}[^/\\]/i;
+
+const anySlash = /[/\\]/;
+const startingSlashes = /^[/\\]+/;
 
 export enum PathKind {
 	url = 0,
@@ -36,8 +39,8 @@ export function analyzePath(p: string) {
 			url: u,
 		};
 	} else if (unc.test(p)) {
-		p = p.replace(unc, '').replace(/^[\/\\]+/, '');
-		const i = /[\///]/.exec(p)?.index ?? -1;
+		p = p.replace(unc, '').replace(startingSlashes, '');
+		const i = anySlash.exec(p)?.index ?? -1;
 		if (i <= 0) throw new Error(`invalid unc path: ${inp}`);
 
 		r = {
@@ -54,8 +57,8 @@ export function analyzePath(p: string) {
 			path: p.slice(3),
 		};
 	} else if (doubleSlash.test(p)) {
-		p = p.replace(/^[\/\\]+/, '');
-		const i = /[\///]/.exec(p)?.index ?? -1;
+		p = p.replace(startingSlashes, '');
+		const i = anySlash.exec(p)?.index ?? -1;
 		if (i <= 0) throw new Error(`invalid cifs url: ${inp}`);
 
 		r = {
@@ -110,10 +113,7 @@ export function normalizePath(p: string) {
 export function relativePath(from: string, to: string) {
 	const r1 = analyzePath(from);
 	const r2 = analyzePath(to);
-	if (r1.kind !== r2.kind)
-		throw new Error(
-			`cannot relative path between different kind: "${PathKind[r1.kind]}::${from}" * "${PathKind[r2.kind]}::${to}"`
-		);
+	if (r1.kind !== r2.kind) throw new Error(`cannot relative path between different kind\n * "${PathKind[r1.kind]}::${from}"\n * "${PathKind[r2.kind]}::${to}"`);
 
 	if (r1.prefix !== r2.prefix) return to;
 

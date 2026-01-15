@@ -1,11 +1,10 @@
 {
 	"name": "@idlebox/browser",
 	"type": "module",
-	"version": "0.0.41",
+	"version": "0.0.51",
 	"exports": {
-		".": {
-			"default": "./lib/autoindex.generated.js"
-		},
+		"./react": "./lib/react/autoindex.generated.js",
+		"./dom": "./lib/dom/autoindex.generated.js",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -19,14 +18,18 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"source-map-support": "^0.5.21"
+		"@idlebox/common": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0"
+		"@types/react": "^19.2.8",
+		"@types/react-dom": "^19.2.3",
+		"@types/node": "workspace:@idlebox/empty@*"
+	},
+	"optionalDependencies": {
+		"react": "*"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

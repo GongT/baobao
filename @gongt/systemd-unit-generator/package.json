@@ -1,7 +1,7 @@
 {
 	"name": "@gongt/systemd-unit-generator",
 	"type": "module",
-	"version": "0.0.9",
+	"version": "0.0.18",
 	"description": "generate systemd unit file with type checking",
 	"keywords": ["generater", "systemd"],
 	"exports": {
@@ -25,14 +25,14 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"execa": "^9.6.0"
+		"execa": "^9.6.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

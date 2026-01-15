@@ -1,5 +1,4 @@
-import { prettyPrintError } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
+import { CSI, logger } from '@idlebox/cli';
 import { execLazyError, exists } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { isVerbose } from '../functions/cli.js';
@@ -33,7 +32,7 @@ class RegistryError extends Error {
 		super(error.summary || 'no error summary');
 
 		if (this.error.detail) {
-			this.stack = this.error.detail;
+			this.stack = `${this.error.detail.trimEnd()}\n${this.stack}`;
 		}
 	}
 
@@ -95,13 +94,28 @@ export class PNPM extends PackageManager {
 						version: dupVer,
 					};
 				}
+			} else if (!(e instanceof Error)) {
+				throw logger.fatal('pnpm publish failed, unknown error', e);
 			}
 
-			logger.warn`publish long<${pack}> error: ${e}`;
-			console.error(all);
-			prettyPrintError(`${this.binary} ${cmds.join(' ')}`, e);
+			const cmdstr = `command: ${this.binary} ${cmds.join(' ')}`;
 
-			throw e;
+			logger.warn`publish long<${pack}> failed`;
+			logger.warn`  - command: long<${cmdstr}>`;
+			logger.warn`  - wd: long<${cwd}>`;
+			console.error(`${CSI}2m${all}${CSI}0m`);
+
+			// prettyPrintError(`publish package`, {
+			// 	message: `${e.message}\ncommand: ${this.binary} ${cmds.join(' ')}\nworking dir: ${cwd}`,
+			// 	stack: e.stack,
+			// });
+
+			const ee = Object.create(null);
+			ee.name = 'NpmError';
+			ee.message = `${e.message}\n${cmdstr}\nworking dir: ${cwd}`;
+			ee.stack = e.stack?.split('\n').splice(0, 1, e.message).join('\n') ?? `${e.message}\n  no stack trace`;
+
+			throw ee;
 		}
 
 		return {

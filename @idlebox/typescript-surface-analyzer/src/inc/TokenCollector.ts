@@ -68,12 +68,7 @@ export class TokenCollector implements ITypescriptFile {
 		this.identifiers.set(name, { node, id, kind });
 	}
 
-	addRef(
-		id: TypeScriptApi.ModuleExportName,
-		node: TypeScriptApi.Node,
-		reference: IResolveResult & WithOriginal,
-		kind = ExportKind.Unknown,
-	) {
+	addRef(id: TypeScriptApi.ModuleExportName, node: TypeScriptApi.Node, reference: IResolveResult & WithOriginal, kind = ExportKind.Unknown) {
 		const name = ApiHost.idToString(id);
 		if (this.identifiers.has(name)) this.logger.debug('duplicate exported identifier: %s', ApiHost.idToString(id));
 

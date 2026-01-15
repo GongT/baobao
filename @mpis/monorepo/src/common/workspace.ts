@@ -1,22 +1,26 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { AsyncDisposable, Emitter, isWindows, PathArray } from '@idlebox/common';
-import { logger, type IMyLogger } from '@idlebox/logger';
-import { getEnvironment } from '@idlebox/node';
+import { AsyncDisposable, DisposedError, Emitter, isWindows, PathArray } from '@idlebox/common';
+import { CSI, logger, type IMyLogger } from '@idlebox/logger';
+import { getEnvironment, workingDirectory } from '@idlebox/node';
 import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
-import { currentCommand } from '../bin.js';
+import { currentCommand } from './args.js';
 
 export async function createMonorepoObject() {
 	const workspace = await createWorkspace();
+	logger.debug`workspace: long<${workspace.root}>`;
 	const repo = new PnpmMonoRepo(logger, workspace);
 	await repo.initialize();
 	return repo;
 }
 
 export type IPnpmMonoRepo = PnpmMonoRepo;
+const colorReg = /\x1B\[[0-9;]+?m/g;
+const unclosedColorReg = /\x1B\[[^m]*$/g;
 
+const firstEmptyLine = /^\s*\n/;
 class PnpmMonoRepo extends AsyncDisposable {
 	private readonly workersManager: WorkersManager;
 	private readonly pathvar: PathArray;
@@ -27,6 +31,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 	public readonly onStateChange = this._onStateChange.event;
 
 	private readonly mode: ModeKind;
+	private readonly packageToWorker = new Map<IPackageInfo, ProcessIPCClient>();
 
 	constructor(
 		public readonly logger: IMyLogger,
@@ -43,20 +48,21 @@ class PnpmMonoRepo extends AsyncDisposable {
 
 		this.mode = currentCommand === 'watch' ? ModeKind.Watch : ModeKind.Build;
 		this.workersManager = new WorkersManager(this.mode, logger);
-		this.workersManager._register(this);
 	}
 
 	async initialize() {
 		await this.workspace.decoupleDependencies();
 		const projects = await this.workspace.listPackages();
+		logger.debug`workspace: ${projects.length} packages.`;
 		for (const project of projects) {
 			if (!project.packageJson.name) continue;
 
 			const exec = this.makeExecuter(this.mode === ModeKind.Watch, project);
 			if (exec) {
-				this.workersManager.addWorker(exec, project.devDependencies);
+				const all_deps = new Set<string>([...project.devDependencies, ...project.dependencies]);
+				this.workersManager.addWorker(exec, Array.from(all_deps));
 			} else {
-				this.workersManager.addEmptyWorker(project.packageJson.name);
+				this.workersManager.addEmptyNode(project.packageJson.name);
 			}
 		}
 	}
@@ -66,19 +72,18 @@ class PnpmMonoRepo extends AsyncDisposable {
 	}
 
 	async startup() {
-		this.workersManager.finalize();
+		const graph = this.workersManager.finalize();
 		// this.dump();
-		await this.workersManager.startup();
+		graph._register(this);
+		await graph.startup();
 	}
 
 	private makeExecuter(watchMode: boolean, project: IPackageInfo): undefined | ProcessIPCClient {
 		if (project.packageJson.scripts?.watch === undefined) {
-			this.logger
-				.fatal`project ${project.packageJson.name} does not have a "watch" script. If it doesn't need, specify a empty string.`;
+			this.logger.fatal`project ${project.packageJson.name} does not have a "watch" script. If it doesn't need, specify a empty string.`;
 		}
 		if (project.packageJson.scripts?.build === undefined) {
-			this.logger
-				.fatal`project ${project.packageJson.name} does not have a "build" script. If it doesn't need, specify a empty string.`;
+			this.logger.fatal`project ${project.packageJson.name} does not have a "build" script. If it doesn't need, specify a empty string.`;
 		}
 		const script = watchMode ? project.packageJson.scripts.watch : project.packageJson.scripts.build;
 
@@ -97,11 +102,13 @@ class PnpmMonoRepo extends AsyncDisposable {
 		env[isWindows ? 'Path' : 'PATH'] = this.forkPath(project).toString();
 
 		const exec = new ProcessIPCClient(project.packageJson.name, cmds, project.absolute, env, logger); // TODO: env add Path
-		exec.displayTitle = cmds[0];
+		if (cmds[0] !== 'mpis-run') {
+			exec.displayTitle += `[${cmds[0]}]`;
+		}
 
 		exec.onFailure((e) => {
 			if (e instanceof CompileError) {
-				this.errorMessages.set(project, e.message + '\n' + (e.output ?? 'no output from process'));
+				this.errorMessages.set(project, `${e.message}\n${e.output ?? 'no output from process'}`);
 			} else {
 				this.errorMessages.set(project, e.stack || e.message);
 			}
@@ -116,8 +123,19 @@ class PnpmMonoRepo extends AsyncDisposable {
 			this._onStateChange.fireNoError();
 		});
 		exec.onTerminate(() => {
-			this._onStateChange.fireNoError();
+			try {
+				this._onStateChange.fireNoError();
+			} catch (e) {
+				if (e instanceof DisposedError) {
+					// 不知道这里是不是真的需要触发 onStateChange
+					return;
+				}
+				throw e;
+			}
 		});
+
+		this.packageToWorker.set(project, exec);
+
 		return exec;
 	}
 
@@ -125,11 +143,31 @@ class PnpmMonoRepo extends AsyncDisposable {
 		if (this.errorMessages.size === 0) return '';
 		let output = '';
 
-		const flush_line = ' '.repeat(process.stderr.columns || 80);
+		const lWidth = process.stderr.columns || 80;
+
+		const barC = '48;5;185';
+		const textC = '38;5;13';
+
+		function buildLine(txt: string) {
+			let psize = 4 + 2 + txt.replace(colorReg, '').length + 2;
+			if (psize >= lWidth) {
+				txt = txt.slice(Math.max(lWidth - 20), 20).replace(unclosedColorReg, '');
+				psize = 4 + 2 + txt.replace(colorReg, '').length + 2;
+			}
+			return `\n${CSI}${barC}m    ${CSI}0;${textC}m  ${txt}  ${CSI}0${barC}m${' '.repeat(lWidth - psize)}${CSI}0m\n`;
+		}
+
 		for (const [project, text] of this.errorMessages.entries()) {
-			output += `\n\x1B[48;5;1m${flush_line}\r    \x1B[0;38;5;9;1m  below is output of ${project.packageJson.name}  \x1B[0m\n`;
-			output += text;
-			output += `\x1B[48;5;1m${flush_line}\r    \x1B[0;38;5;9;1m  ending output of ${project.packageJson.name}  \x1B[0m\n`;
+			const block = text.replace(firstEmptyLine, '').trimEnd();
+			// biome-ignore lint/style/noNonNullAssertion: no error if no worker
+			const exec = this.packageToWorker.get(project)!;
+			output += buildLine(`[@mpis/monorepo] below is output in project ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m: ${exec.commandline.join(' ')}`);
+			output += workingDirectory.escapeVscodeCwd(project.absolute);
+			output += `\nwd: ${project.absolute}\n${block}\n`.replace('\x1bc', '').replace(/^/gm, `${CSI}${barC}m ${CSI}0m `);
+			output += buildLine(`[@mpis/monorepo] ending output in project ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m`);
+		}
+		if (output) {
+			output += workingDirectory.escapeVscodeCwd(process.cwd());
 		}
 		return output;
 	}
@@ -162,17 +200,36 @@ class PnpmMonoRepo extends AsyncDisposable {
 		return pathvar;
 	}
 
-	dump(depth: number = 0) {
+	dump(depth: number = 0, short = false) {
+		const graph = this.workersManager.finalize();
+		let graphTxt: string;
 		if (depth <= 0) {
-			return this.workersManager.formatDebugList();
+			if (short) {
+				const result = [];
+				for (const name of graph.overallOrder) {
+					const node = graph.getNodeByName(name);
+					if (node.isBlocking()) {
+						result.push(node.customInspect());
+					}
+				}
+				result.push(graph.debugFormatSummary());
+				return result.join('\n');
+			} else {
+				graphTxt = graph.debugFormatList();
+			}
 		} else {
-			return this.workersManager.formatDebugGraph(depth);
+			graphTxt = graph.debugFormatGraph(depth);
 		}
+		return `${graphTxt}\n${graph.debugFormatSummary()}`;
 	}
 
-	printScreen() {
+	printScreen(short = false, listAbove = false) {
 		let r = this.formatErrors();
-		r += this.dump();
+		if (listAbove) {
+			r = this.dump(0, short) + r;
+		} else {
+			r += this.dump(0, short);
+		}
 		console.error(r);
 	}
 }

@@ -1,24 +1,24 @@
-import type { IPackageInfo } from '@build-script/monorepo-lib';
+import { createWorkspace, type IPackageInfo } from '@build-script/monorepo-lib';
+import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
-import { logger } from '@idlebox/logger';
 import { resolve } from 'node:path';
-import { argv, CommandDefine } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { resolveNpm, splitAliasVersion, splitPackageSpecSimple } from '../common/package-manager/functions.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 
 export class Command extends CommandDefine {
-	protected override _usage = '';
-	protected override _description = '更新monorepo中各个项目的所有依赖版本';
-	protected override _help = '被更新的包必须没有或者用^作为前缀';
+	protected override readonly _usage = '';
+	protected override readonly _description = '更新monorepo中各个项目的所有依赖版本';
+	protected override readonly _help = '被更新的包必须没有或者用^作为前缀';
 }
 
 export async function main() {
-	const dryRun = argv.flag('--dry') > 0;
-	const skipUpdate = argv.flag('--skip-update') > 0;
+	const dryRun = argv.flag(['--dry']) > 0;
+	const skipUpdate = argv.flag(['--skip-update']) > 0;
 
-	const packageManager = await createPackageManager(PackageManagerUsageKind.Read);
-	const projects = await packageManager.workspace.listPackages();
+	const workspace = await createWorkspace();
+	const packageManager = await createPackageManager(PackageManagerUsageKind.Read, workspace);
+	const projects = await workspace.listPackages();
 
 	logger.log('Collecting local project versions:');
 	const alldeps: Record<string, string> = {};

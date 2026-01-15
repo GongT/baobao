@@ -1,13 +1,17 @@
 import type { ChildProcess } from 'node:child_process';
 import { EventEmitter } from 'node:events';
-import { type IToRun, processPromise, processQuitPromise } from './fork.js';
+import { processPromise, processQuitPromise, type IToRun } from './fork.js';
 import type { IStatusReport } from './outputStreams.js';
+
+interface IState {
+	readonly promise: Promise<void>;
+	readonly cp: ChildProcess;
+}
 
 /** @extern */
 export class I7zHandler extends EventEmitter {
-	private _promise?: Promise<void>;
+	private state?: IState;
 	private _timer?: NodeJS.Immediate;
-	private cp?: ChildProcess;
 
 	/** @internal */
 	constructor(private readonly toRun: IToRun) {
@@ -20,20 +24,23 @@ export class I7zHandler extends EventEmitter {
 	}
 
 	private _start() {
-		if (this._promise) {
-			return;
+		if (this.state) {
+			return this.state;
 		}
 		this.hold();
-		this.cp = this.toRun.execute(
+		const cp = this.toRun.execute(
 			(data) => {
 				this.emit('output', data);
 			},
 			(status) => {
 				this.emit('progress', status);
-			}
+			},
 		);
 
-		this._promise = processPromise(this.cp, this.commandline, this.cwd).catch((e) => e);
+		const promise = processPromise(cp, this.commandline, this.cwd).catch((e) => e);
+
+		this.state = { promise, cp };
+		return this.state;
 	}
 
 	override on(event: 'progress', cb: (progress: IStatusReport) => void): this;
@@ -43,7 +50,7 @@ export class I7zHandler extends EventEmitter {
 	}
 
 	hold() {
-		if (this._promise) {
+		if (this.state) {
 			throw new Error('You cannot hold after leaved the event loop which created this object.');
 		}
 		if (this._timer) {
@@ -53,8 +60,8 @@ export class I7zHandler extends EventEmitter {
 	}
 
 	async cancel(): Promise<void> {
-		if (this._promise) {
-			return processQuitPromise(this.cp!);
+		if (this.state) {
+			return processQuitPromise(this.state.cp);
 		}
 		return this.hold();
 	}
@@ -68,10 +75,8 @@ export class I7zHandler extends EventEmitter {
 	}
 
 	promise(): Promise<void> {
-		if (!this._promise) {
-			this._start();
-		}
-		return Promise.resolve(this._promise).then((e: any) => {
+		const state = this.state ?? this._start();
+		return Promise.resolve(state.promise).then((e: any) => {
 			if (e instanceof Error) {
 				throw e;
 			}

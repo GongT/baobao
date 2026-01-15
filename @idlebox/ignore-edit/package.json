@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/ignore-edit",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.11",
 	"description": "api for modify .*ignore files",
 	"keywords": ["gitignore", "ignorefile"],
 	"exports": {
@@ -23,14 +23,13 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"source-map-support": "^0.5.21"
+		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

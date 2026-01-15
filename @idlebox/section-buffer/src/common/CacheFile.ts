@@ -46,7 +46,7 @@ export class FileStructureError extends Error {
 
 	constructor(
 		e: Error,
-		public readonly file: string
+		public readonly file: string,
 	) {
 		super(`corrupted state file: ${e.message}`);
 		this.stack = e.stack ?? e.message;
@@ -58,7 +58,7 @@ export class FileDataError extends Error {
 
 	constructor(
 		e: Error,
-		public readonly file: string
+		public readonly file: string,
 	) {
 		super(`incomplete state file: ${e.message}`);
 		this.stack = e.stack ?? e.message;
@@ -295,7 +295,7 @@ export class HashError extends Error {
 	constructor(
 		public readonly offset: string,
 		public readonly want: string,
-		public readonly got: string
+		public readonly got: string,
 	) {
 		super(`hash mismatch @${offset}\n\twant ${want}\n\tgot  ${got}`);
 	}

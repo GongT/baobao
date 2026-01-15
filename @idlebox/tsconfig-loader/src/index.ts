@@ -95,16 +95,12 @@ export function getOutputRoot(command: TypeScriptApi.ParsedCommandLine | TypeScr
  * @returns
  */
 export function getProjectConfigFile(command: TypeScriptApi.ParsedCommandLine | TypeScriptApi.CompilerOptions): string {
-	const options: TypeScriptApi.CompilerOptions = command.raw
-		? (command as TypeScriptApi.ParsedCommandLine).options
-		: (command as TypeScriptApi.CompilerOptions);
+	const options: TypeScriptApi.CompilerOptions = command.raw ? (command as TypeScriptApi.ParsedCommandLine).options : (command as TypeScriptApi.CompilerOptions);
 	return options.configFilePath as string;
 }
 
 function getRoot(command: TypeScriptApi.ParsedCommandLine | TypeScriptApi.CompilerOptions, type: 'outDir' | 'rootDir') {
-	const options: TypeScriptApi.CompilerOptions = command.options
-		? (command as TypeScriptApi.ParsedCommandLine).options
-		: (command as TypeScriptApi.CompilerOptions);
+	const options: TypeScriptApi.CompilerOptions = command.options ? (command as TypeScriptApi.ParsedCommandLine).options : (command as TypeScriptApi.CompilerOptions);
 	let ret = options[type];
 	if (!ret && options.configFilePath) {
 		ret = dirname(options.configFilePath as string);

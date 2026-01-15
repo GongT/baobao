@@ -1,7 +1,9 @@
+import { prettyFormatError } from '@idlebox/common';
 import debug from 'debug';
 import process from 'node:process';
+import { debug_commands } from './debug.commands.js';
 import { terminal } from './logger.global.js';
-import { EnableLogLevel } from './types.js';
+import { EnableLogLevel, type IDebugCommand } from './types.js';
 
 /**
  * 判断 字符串是否为“真值”
@@ -69,7 +71,7 @@ export function detectColorEnable(stream: IWritableStream = process.stderr): boo
 }
 
 export function escapeRegExp(str: string) {
-	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+	return str.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
 }
 
 /**
@@ -81,15 +83,15 @@ export function compile_match_regex(tag: string, invert = false): RegExp {
 	const parts = tag.split(':');
 	parts.pop();
 
-	let regs = ['\\*'];
+	const regs = ['\\*'];
 
-	let comb = [];
+	const comb = [];
 	for (const part of parts) {
 		comb.push(part);
 		regs.push(`${escapeRegExp(comb.join(':'))}:\\*`);
 	}
 	regs.push(escapeRegExp(tag));
-	return new RegExp(`(?:^|,)(${invert ? '-' : ''})(${regs.join('|')})(?:$|,)`, 'i');
+	return new RegExp(`(?:^| )(${invert ? '-' : ''})(${regs.join('|')})(?:$| )`, 'i');
 }
 
 /**
@@ -122,6 +124,7 @@ export function match_disabled(tag: string, env = process.env.DEBUG || ''): numb
  * 调用debug模块的debug.enabled方法
  */
 export function debug_enabled(tag: string) {
+	if (!tag) return true;
 	return debug(tag).enabled;
 }
 
@@ -147,8 +150,8 @@ export let defaultLogLevel = (() => {
 	}
 
 	// DEBUG=xxx,verbose,xxx
-	// biome-ignore lint/performance/useTopLevelRegex:
-	const has_debug_verbose = /(?<=^|,)(verbose|debug)(?=$|,)/;
+	// biome-ignore lint/performance/useTopLevelRegex: a
+	const has_debug_verbose = /(?<=^| )(verbose|debug)(?=$| )/;
 	const setted = has_debug_verbose.exec(process.env.DEBUG || '');
 	if (setted) {
 		if (setted[0] === 'verbose') {
@@ -169,8 +172,10 @@ export let defaultLogLevel = (() => {
 				return EnableLogLevel.info;
 			case 'warn':
 				return EnableLogLevel.warn;
+			case 'error':
+				return EnableLogLevel.error;
 			default:
-				console.error('Invalid DEBUG_LEVEL: %s, using verbose.', process.env.DEBUG_LEVEL);
+				console.error('Invalid DEBUG_LEVEL: %s (allow: "", verbose, debug, info, warn, error), using verbose.', process.env.DEBUG_LEVEL);
 				return EnableLogLevel.verbose;
 		}
 	}
@@ -182,4 +187,33 @@ export let defaultLogLevel = (() => {
  */
 export function set_default_log_level(level: EnableLogLevel) {
 	defaultLogLevel = level;
+}
+
+type ErrorAction = 'stack' | 'message' | 'stack-pretty' | 'inspect' | IDebugCommand;
+const actions = {
+	stack(e: Error, _color: boolean) {
+		return e.stack || e.message || e?.toString() || '*unknown error*';
+	},
+	message(e: Error, _color: boolean) {
+		return e.message || e?.toString() || '*unknown error*';
+	},
+	['stack-pretty']: (e: Error, _color: boolean) => {
+		return prettyFormatError(e);
+	},
+};
+export let current_error_action = actions.stack;
+export function set_error_action(action: ErrorAction) {
+	switch (action) {
+		case 'stack':
+		case 'message':
+		case 'stack-pretty':
+			current_error_action = actions[action];
+			break;
+		case 'inspect':
+			current_error_action = debug_commands.inspect;
+			break;
+		default:
+			current_error_action = action;
+			break;
+	}
 }

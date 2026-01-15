@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/esbuild-html-entry",
-	"version": "0.1.5",
+	"version": "0.1.16",
 	"type": "module",
 	"keywords": ["esbuild", "html"],
 	"exports": {
@@ -21,17 +21,18 @@
 	},
 	"dependencies": {
 		"@idlebox/node": "workspace:^",
-		"cheerio": "^1.1.0"
+		"cheerio": "^1.1.2"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
+		"@types/node": "^25.0.8",
 		"domhandler": "^5.0.3",
-		"esbuild": "^0.25.6"
+		"esbuild": "^0.27.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

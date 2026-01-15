@@ -1,40 +1,62 @@
-import { tryInspect } from '../../debugging/tryInspect.js';
-import { getErrorFrame } from '../../error/getFrame.js';
-import { prettyFormatError } from '../../error/pretty.js';
-import type { StackTraceHolder } from '../../error/stackTrace.js';
+import { tryInspect } from '../../debugging/inspect.js';
+import { getErrorFrame } from '../../error/get-frame.js';
+import { prettyFormatError } from '../../error/pretty.nodejs.js';
+import type { StackTraceHolder } from '../../error/stack-trace.js';
+import { isNodeJs } from '../../platform/os.js';
+import { dispose_name } from './debug.js';
+
+export class DisposedError extends Error {
+	constructor(
+		message = 'Object has been disposed',
+		public readonly previous: StackTraceHolder,
+	) {
+		super(message, { cause: previous });
+		this.name = 'DisposedError';
+	}
+
+	// override get stack() {
+	// 	return `${super.stack}\nit was disposed at:\n${this.previous.stackOnly}`;
+	// }
+}
 
 /**
  * Error when call dispose() twice
  */
-export class DisposedError extends Error {
+export class DuplicateDisposed extends DisposedError {
 	public readonly inspectString: string;
 	constructor(
-		object: any,
-		public readonly previous: StackTraceHolder,
+		public readonly object: any,
+		previous: StackTraceHolder,
 	) {
-		const insp = tryInspect(object);
+		const old = Error.stackTraceLimit;
+		Error.stackTraceLimit = Number.MAX_SAFE_INTEGER;
+		const stacks = getErrorFrame(previous, 2);
 
-		const old = (Error as any).stackTraceLimit;
-		(Error as any).stackTraceLimit = Number.MAX_SAFE_INTEGER;
+		const inspectString = tryInspect(object);
+		const name = dispose_name(object, inspectString);
 
-		super(`Object [${insp}] has already disposed ${getErrorFrame(previous, 2)}.`);
+		super(`Object [${name}] has already disposed ${stacks}.`, previous);
+		this.name = 'DuplicateDisposedError';
+		this.inspectString = inspectString;
 
-		(Error as any).stackTraceLimit = old;
-
-		this.inspectString = insp;
-		this.name = 'Warning';
+		Error.stackTraceLimit = old;
 
 		this.tryCreateConsoleWarning().catch(() => {});
 	}
 
 	public async tryCreateConsoleWarning() {
 		console.error('DisposedWarning: duplicate dispose.');
-		console.error(' * first   dispose:\n%s', prettyFormatError(this.previous, false));
-		console.error(' * current dispose:\n%s', prettyFormatError(this, false));
+		if (isNodeJs) {
+			console.error(' * first   dispose:\n%s', prettyFormatError(this.previous));
+			console.error(' * current dispose:\n%s', prettyFormatError(this));
+		} else {
+			console.error(' * first   dispose:%O', this.previous);
+			console.error(' * current dispose:%O', this);
+		}
 		console.error(' * Object: %s', this.inspectString);
 	}
-}
 
-export function isDisposedError(error: any): boolean {
-	return error instanceof DisposedError;
+	is(other: unknown): other is DuplicateDisposed {
+		return other instanceof DuplicateDisposed;
+	}
 }

@@ -4,7 +4,7 @@ import { shutdown } from '@idlebox/node';
 import { createMonorepoObject } from './workspace.js';
 
 export async function runList() {
-	const depth = parseInt(argv.single(['--depth']) || '0');
+	const depth = parseInt(argv.single(['--depth']) || '0', 10);
 	if (argv.unused().length) {
 		logger.error`Unknown arguments: ${argv.unused().join(', ')}`;
 		return shutdown(1);

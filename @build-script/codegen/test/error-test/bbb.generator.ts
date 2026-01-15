@@ -3,7 +3,7 @@ import { randomString, throwError } from '../common/test-lib.js';
 
 logger.warn('global init from bbb...');
 
-export function generate(ctx: GenerateContext) {
+export function generate(_ctx: GenerateContext) {
 	aaa();
 
 	logger.info('Hello from bbb...');

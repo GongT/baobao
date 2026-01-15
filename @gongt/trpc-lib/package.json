@@ -1,0 +1,40 @@
+{
+	"name": "@gongt/trpc-lib",
+	"version": "1.0.0",
+	"description": "A tRPC library",
+	"keywords": ["trpc", "socket.io", "api-extractor"],
+	"sideEffects": false,
+	"exports": {
+		"./server": "./lib/server/index.js",
+		"./client": "./lib/client/index.js",
+		"./package.json": "./package.json"
+	},
+	"bin": {
+		"trpc-api-extractor": "./loader/extract.js"
+	},
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@trpc/server": "^11.8.1",
+		"@idlebox/source-map-support": "workspace:^"
+	},
+	"devDependencies": {
+		"@build-script/codegen": "workspace:^",
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@types/node": "^25.0.8"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
+}

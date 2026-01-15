@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.1/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -23,9 +23,10 @@
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
-		"formatWithErrors": true,
+		"formatWithErrors": false,
 		"lineEnding": "lf",
-		"lineWidth": 120,
+		"lineWidth": 165,
+		"useEditorconfig": false,
 	},
 	"linter": {
 		"enabled": true,
@@ -34,22 +35,52 @@
 			"suspicious": {
 				"noExplicitAny": "off",
 				"noControlCharactersInRegex": "off",
+				"noImplicitAnyLet": "off",
+				"noConfusingVoidType": "off",
+				"noShadowRestrictedNames": "off",
 			},
 			"style": {
-				"noArguments": "off",
 				"noParameterAssign": "off",
 				"noNonNullAssertion": "warn",
 				"useShorthandFunctionType": "off",
-				"useShorthandArrayType": "off",
 				"noUselessElse": "off",
 				"noUnusedTemplateLiteral": "off",
 				"noDefaultExport": "error",
+				"useConsistentArrayType": {
+					"level": "off",
+					"options": { "syntax": "shorthand" },
+				},
+				"useNodejsImportProtocol": {
+					"fix": "safe",
+					"level": "error",
+					"options": {},
+				},
+				"noSubstr": "info",
+				"useAtIndex": "info",
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"patterns": [
+							{
+								"group": ["**/autoindex.*", "**/*.autoindex.*"],
+								"message": "试图从index文件导入符号",
+							},
+						],
+					},
+				},
 			},
 			"complexity": {
 				"noThisInStatic": "off",
 				"useLiteralKeys": "off",
+				"noArguments": "off",
+				"noBannedTypes": "off",
 			},
 			"correctness": {
+				"useParseIntRadix": {
+					"fix": "safe",
+					"level": "error",
+					"options": {},
+				},
 				"useImportExtensions": {
 					"fix": "unsafe",
 					"level": "error",
@@ -57,11 +88,9 @@
 						"forceJsExtensions": true,
 					},
 				},
+				"noConstantCondition": "off",
 			},
-			"nursery": {
-				"noSubstr": "info",
-				"useAtIndex": "info",
-			},
+			"nursery": {},
 			"performance": {
 				"useTopLevelRegex": "info",
 				"noDelete": "off",
@@ -94,10 +123,46 @@
 	},
 	"overrides": [
 		{
-			"includes": ["*.ts"],
+			"includes": ["**/*.ts"],
 		},
 		{
-			"includes": ["tsconfig.json", "tsconfig.*.json", ".vscode/*.json", "*.jsonc"],
+			"includes": ["**/*.generated.ts", "**/autoindex.ts"],
+			"linter": {
+				"enabled": false,
+			},
+			"formatter": {
+				"enabled": false,
+			},
+		},
+		{
+			"includes": ["**/*.test.ts", "**/tests/**/*.ts", "**/test/**/*.ts"],
+			"linter": {
+				"rules": {
+					"performance": "off",
+					"style": {
+						"noNonNullAssertion": "off",
+						"noRestrictedImports": "off",
+					},
+				},
+			},
+		},
+		{
+			"includes": ["**/*.generator.ts"],
+			"linter": {
+				"rules": {
+					"performance": "off",
+				},
+			},
+		},
+		{
+			"includes": ["**/package.json"],
+			"formatter": {
+				"expand": "auto",
+				"lineWidth": 300,
+			},
+		},
+		{
+			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc", "**/config/*.json", "!**/config/rig.json"],
 			"json": {
 				"formatter": {
 					"trailingCommas": "all",

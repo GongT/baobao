@@ -1,0 +1,50 @@
+{
+	"name": "@idlebox/cli-static-generator",
+	"type": "module",
+	"version": "0.0.7",
+	"bin": {
+		"make-cli": "./loader/bin.js"
+	},
+	"exports": {
+		".": {
+			"source": "./src/api.ts",
+			"default": "./lib/api.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"test": "mocha --require @idlebox/source-map-support/register --bail lib/tests",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/common": "workspace:^",
+		"@idlebox/logger": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@idlebox/args": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
+		"@rollup/plugin-commonjs": "^29.0.0",
+		"@rollup/plugin-node-resolve": "^16.0.3",
+		"@rollup/plugin-swc": "^0.4.0",
+		"acorn-walk": "^8.3.4",
+		"magic-string": "^0.30.21",
+		"rollup": "^4.55.1"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@idlebox/cli-help-builder": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@types/acorn": "npm:acorn@^8.15.0",
+		"@types/node": "^25.0.8"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
+}

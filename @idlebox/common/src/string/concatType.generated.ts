@@ -1,16 +1,17 @@
+// biome-ignore-all lint: generated file
+// biome-ignore-all assist: generated file
 /* eslint-disable */
 // @ts-ignore
-// biome-ignore-all lint
-// biome-ignore-all assist
-// biome-ignore-all syntax
+
 /******************************************************************************
  *  GENERATED FILE, DO NOT MODIFY
  *  这是生成的文件，千万不要修改
  * 
- * @build-script/codegen 1.0.2 - The Simple Code Generater
+ * @build-script/codegen - The Simple Code Generater
  * https://github.com/GongT/baobao
  * 
  ******************************************************************************/
+
 
 export function concatStringType
 	<T0 extends string>

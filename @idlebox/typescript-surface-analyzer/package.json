@@ -1,13 +1,12 @@
 {
 	"name": "@idlebox/typescript-surface-analyzer",
-	"version": "0.0.23",
+	"version": "0.0.33",
 	"type": "module",
 	"description": "Api and CLI tool for collect export information in typescript project",
 	"keywords": [],
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"types": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./package.json": "./package.json"
@@ -26,16 +25,15 @@
 	"dependencies": {
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
-		"minimatch": "^10.0.3"
+		"minimatch": "^10.1.1",
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
 		"@types/minimatch": "^6.0.0",
-		"@types/node": "^24.0.14",
-		"typescript": "^5.8.3"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

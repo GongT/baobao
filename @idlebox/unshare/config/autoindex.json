@@ -1,0 +1,6 @@
+{
+	"$schema": "../../../@build-script/autoindex/autoindex.schema.json",
+	"project": "./src",
+	"exclude": ["**/common/**/*.ts", "**/children/**/*.ts"],
+	"output": "autoindex.generated",
+}

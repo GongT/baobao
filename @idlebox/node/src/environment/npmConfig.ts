@@ -5,7 +5,7 @@ import { spawnGetOutput } from '../child_process/execa.js';
 export async function getNpmConfigValue(field: string): Promise<string> {
 	const env_name = `npm_config_${linux_case(field)}`;
 	if (typeof process.env[env_name] === 'string') {
-		return process.env[env_name]!;
+		return process.env[env_name];
 	}
 
 	return await spawnGetOutput({

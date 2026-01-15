@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/esbuild-executer",
 	"description": "A simple script to execute typescript file during development.",
-	"version": "0.0.3",
+	"version": "0.0.9",
 	"type": "module",
 	"bin": {
 		"es-node": "./loader/bin.js"
@@ -26,32 +26,32 @@
 	},
 	"keywords": ["typescript", "esbuild", "executer", "runner"],
 	"scripts": {
-		"prepack": "rimraf lib && tsc -p src",
+		"prepack": "rimraf lib && mpis-tsc -p src",
+		"build": "mpis-tsc -p src",
+		"watch": "mpis-tsc -p src -w",
 		"clean": "rimraf lib",
-		"build": "tsc -p src",
-		"watch": "",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"debug": "^4.4.1",
-		"esbuild": "^0.25.6",
-		"import-meta-resolve": "^4.1.0",
-		"source-map-support": "^0.5.21",
-		"tslib": "^2.8.1"
+		"debug": "^4.4.3",
+		"esbuild": "^0.27.2",
+		"import-meta-resolve": "^4.2.0",
+		"tslib": "^2.8.1",
+		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/typescript": "workspace:^",
-		"@types/node": "^24.0.14",
-		"@types/source-map-support": "^0.5.10",
-		"rimraf": "^6.0.1",
-		"typescript": "^5.8.3"
+		"@types/node": "^25.0.8",
+		"rimraf": "^6.1.2",
+		"typescript": "^5.9.3"
 	},
 	"decoupledDependencies": ["@mpis/typescript"],
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

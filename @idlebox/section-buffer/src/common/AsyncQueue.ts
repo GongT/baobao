@@ -1,11 +1,4 @@
-import {
-	createStackTraceHolder,
-	DisposedError,
-	Emitter,
-	type IStateChangeEvent,
-	SimpleStateMachine,
-	type StackTraceHolder,
-} from '@idlebox/common';
+import { createStackTraceHolder, DisposedError, Emitter, SimpleStateMachine, type IStateChangeEvent, type StackTraceHolder } from '@idlebox/common';
 
 function immediate() {
 	return new Promise<void>((resolve) => {
@@ -139,8 +132,9 @@ export class LossyAsyncQueue<T = void> {
 		await immediate();
 		if (this.state.getName() === State.dispose) return;
 
-		const task = this.task!;
+		const task = this.task;
 		this.task = undefined;
+		if (!task) throw new Error(`internal state error: task is empty`);
 
 		this.state.change(Event.schedule);
 
@@ -161,7 +155,7 @@ export class LossyAsyncQueue<T = void> {
 	}
 
 	pushQueue(arg: T) {
-		if (this.disposed) throw new DisposedError(this, this.disposed);
+		if (this.disposed) throw new DisposedError('async queue was disposed', this.disposed);
 
 		// console.log('[AsyncQueue] queue: promise=%s, state=%s', !!this._promise, this.state.getName());
 

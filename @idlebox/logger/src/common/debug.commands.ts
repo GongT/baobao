@@ -1,11 +1,13 @@
 import { relative } from 'node:path';
 import { formatWithOptions, inspect } from 'node:util';
+import { Cdim, Cdimita, CFgreen, CFred, Cita, Crst, NCF, NCita } from './ansi.js';
+import type { IDebugCommand } from './types.js';
 
 const STRING_MAX_LENGTH = 128;
 
 function color_error(message: string, color: boolean) {
 	if (color) {
-		return `\x1B[38;5;9m<inspect**${message}**>\x1B[39m`;
+		return `${CFred}<inspect**${message}**>${NCF}`;
 	} else {
 		return `<inspect**${message}**>`;
 	}
@@ -33,7 +35,7 @@ function isSyncIterable(obj: unknown): obj is Iterable<unknown> {
 	return typeof obj === 'object' && obj !== null && Symbol.iterator in obj;
 }
 
-const debug_commands = {
+export const debug_commands: Record<string, IDebugCommand> = {
 	inspect(object: unknown, color: boolean) {
 		return inspect(object, options(color));
 	},
@@ -41,24 +43,30 @@ const debug_commands = {
 		if (typeof s !== 'string') {
 			return color_error(`can not stripe ${typeof s}`, color);
 		}
-		if (s.length > 100) {
+		let str = s;
+		str = str.replace(/\n/g, '\\n');
+		str = str.replace(/\r/g, '\\r');
+		str = str.replace(/\t/g, '\\t');
+		str = str.replace(/\x1B/g, '\\e');
+		if (str.length > STRING_MAX_LENGTH) {
+			const chars = `(${str.length.toFixed(0)} chars)`;
 			if (color) {
-				return `\x1B[38;5;10m"${s.slice(0, STRING_MAX_LENGTH - 3)}..."\x1B[39m`;
+				return `"${CFgreen}${str.slice(0, STRING_MAX_LENGTH - chars.length - 3)}...${NCF} ${chars}"`;
 			} else {
-				return `"${s.slice(0, STRING_MAX_LENGTH - 3)}..."`;
+				return `"${CFgreen}${str}${NCF}"`;
 			}
 		} else {
-			return s;
+			return str;
 		}
 	},
 	list(items: unknown, color: boolean) {
 		if (!isSyncIterable(items)) {
 			return color_error(`list<> need iterable value, not ${typeof items}(${items?.constructor?.name})`, color);
 		}
-		const postfix = color ? '\x1B[0m' : '';
+		const postfix = color ? Crst : '';
 		let index = 0;
 		const lines: string[] = [];
-		const prefix = color ? '\x1B[2m' : '';
+		const prefix = color ? Cdim : '';
 		for (const item of items) {
 			if (Array.isArray(item)) {
 				if (item.length === 2) {
@@ -78,19 +86,19 @@ const debug_commands = {
 		}
 
 		if (lines.length === 0) {
-			const prefix = color ? '\x1B[3;2m' : '';
-			return ':\n' + prefix + '  - <list is empty>' + postfix;
+			const prefix = color ? Cdimita : '';
+			return `:\n${prefix}  - <list is empty>${postfix}`;
 		}
-		return ':\n' + lines.join('\n');
+		return `:\n${lines.join('\n')}`;
 	},
 	commandline(cmds: unknown, color: boolean) {
 		if (Array.isArray(cmds)) {
-			const prefix = color ? '\x1B[2m' : '';
-			const postfix = color ? '\x1B[0m' : '';
+			const prefix = color ? Cdim : '';
+			const postfix = color ? Crst : '';
 			return prefix + cmds.map((s) => JSON.stringify(s)).join(' ') + postfix;
 		} else if (typeof cmds === 'string') {
-			const prefix = color ? '\x1B[2;3m' : '';
-			const postfix = color ? '\x1B[0m' : '';
+			const prefix = color ? Cdimita : '';
+			const postfix = color ? Crst : '';
 			return prefix + cmds + postfix;
 		} else {
 			return color_error(`commandline<> need string or array, not ${typeof cmds}`, color);
@@ -105,9 +113,9 @@ const debug_commands = {
 			}
 		}
 		if (color) {
-			return `\x1B[3m${s}\x1B[23m`;
+			return `${Cita}${s}${NCita}`;
 		} else {
-			return s;
+			return s as string;
 		}
 	},
 	relative(s: unknown, color: boolean) {
@@ -116,14 +124,31 @@ const debug_commands = {
 		}
 		return relative(process.cwd(), s);
 	},
+	printable(data: unknown, color: boolean) {
+		if (typeof data !== 'string') {
+			if (data?.toString) {
+				data = data.toString();
+			} else {
+				return color_error(`printable<> need string or toString(), not ${typeof data}(${data?.constructor?.name})`, color);
+			}
+		}
+		return (data as string).replace(combinedSequence, '');
+	},
 };
 type DebugCommands = Record<string, (arg: unknown, color: boolean) => string>;
+const controlCharacters = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g; // 除了 \t \n \r 之外的控制字符
+const csiSequence = /\x1B\[[\x30–\x3F]*[\x20-\x2F]*[\x40-\x7E]/g; // ANSI CSI序列
+const oscSequence = /\x1B\][^\x1B\x07]*(\x1B\\|\x07)/g; // ANSI OSC序列
+const pmApcSequence = /\x1B[_^][^\x1B\x07]*\x1B\\/g; // ANSI PM/APC序列
+const dcsSequence = /\x1B[\x20-\x7E\x08-\x0D]*\x1B\\/g; // ANSI DCS序列
+const sosSequence = /\x1B[\s\S]+?\x1B\\/g; // ANSI SOS序列
+const otherC1 = /\x1B[\x80-\x9F]/g; // 其他C1控制字符
+const combinedSequence = new RegExp(
+	[csiSequence.source, oscSequence.source, pmApcSequence.source, dcsSequence.source, sosSequence.source, otherC1.source, controlCharacters.source].join('|'),
+	'g',
+);
 
-export function call_debug_command(
-	command: keyof typeof debug_commands | string,
-	arg: unknown,
-	color: boolean,
-): string {
+export function call_debug_command(command: keyof typeof debug_commands | string, arg: unknown, color: boolean): string {
 	const fn = (debug_commands as DebugCommands)[command];
 	if (!fn) {
 		return color_error(`unknown command ${command}`, color);

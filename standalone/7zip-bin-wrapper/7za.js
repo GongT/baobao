@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const path7za = require('7zip-bin').path7za.replace(/\.asar([\/\\])/, (m0, sp) => {
+const path7za = require('7zip-bin').path7za.replace(/\.asar([/\\])/, (_m0, sp) => {
 	return `.asar.unpacked${sp}`;
 });
 

@@ -14,7 +14,7 @@ export interface IInternalFileFull extends IInternalFile {
 export function pathExists(file: string) {
 	return access(file).then(
 		() => true,
-		() => false
+		() => false,
 	);
 }
 

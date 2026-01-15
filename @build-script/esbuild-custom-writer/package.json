@@ -1,6 +1,6 @@
 {
 	"name": "@build-script/esbuild-custom-writer",
-	"version": "0.1.4",
+	"version": "0.1.15",
 	"type": "module",
 	"keywords": ["esbuild"],
 	"exports": {
@@ -20,17 +20,17 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
-		"esbuild": "^0.25.6"
+		"@types/node": "^25.0.8",
+		"esbuild": "^0.27.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

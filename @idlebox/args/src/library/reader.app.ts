@@ -1,19 +1,9 @@
 import type { InspectOptions, InspectOptionsStylized, inspect as node_inspect } from 'node:util';
+import { ParamKind, type TokenKind } from '../constants.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
-import {
-	normalizeParameterDescription,
-	normalizeParameterDescriptionFlag,
-	normalizeParameterDescriptionRange,
-} from '../tools/param-desc.js';
+import { normalizeParameterDescription, normalizeParameterDescriptionFlag, normalizeParameterDescriptionRange } from '../tools/param-desc.js';
 import { tokenize } from '../tools/tokenize.js';
-import {
-	ParamKind,
-	TokenKind,
-	type IArgsReaderApi,
-	type IArgumentList,
-	type ISubArgsReaderApi,
-	type ParamDefineFlag,
-} from '../types.js';
+import type { IArgsReaderApi, IArgumentList, ISubArgsReaderApi, IParamDefineFlag } from '../types.js';
 import { Unexpected, UnexpectedCommand } from './errors.js';
 import { isDoubleDash, isValue, matchFlagByFlags, matchOptionByFlags } from './match.js';
 import { ParameterHolder } from './parameter.holder.js';
@@ -53,20 +43,20 @@ export class ApplicationArguments implements IArgsReaderApi {
 		this.doubleDash = this.arguments.findIndex((token) => isDoubleDash(token));
 	}
 
-	single(name: ParamDefineFlag): string | undefined {
+	single(name: IParamDefineFlag): string | undefined {
 		const result = this.match_values(name);
 		if (result.length > 1) {
 			throw new Unexpected(result[1], `expected single value.`);
 		}
 		return result[0]?.value;
 	}
-	multiple(name: ParamDefineFlag): string[] {
+	multiple(name: IParamDefineFlag): string[] {
 		const result = this.match_values(name);
 
 		return result.map((e) => e.value);
 	}
 
-	private match_values(name: ParamDefineFlag): TToken<TokenKind.Value | TokenKind.Both>[] {
+	private match_values(name: IParamDefineFlag): TToken<TokenKind.Value | TokenKind.Both>[] {
 		const desc = normalizeParameterDescriptionFlag(name);
 		const parameter = this.parameters.singleton(desc);
 
@@ -88,7 +78,7 @@ export class ApplicationArguments implements IArgsReaderApi {
 		return result;
 	}
 
-	flag(name: ParamDefineFlag): number {
+	flag(name: IParamDefineFlag): number {
 		const desc = normalizeParameterDescriptionFlag(name);
 		const parameter = this.parameters.singleton(desc);
 		const matched = matchFlagByFlags(this.arguments, desc);

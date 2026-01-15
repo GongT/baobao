@@ -29,7 +29,7 @@ if (isLinux) {
 export function statSyncTry(file: string) {
 	try {
 		return statSync(file);
-	} catch (e) {
+	} catch (_e) {
 		return undefined;
 	}
 }

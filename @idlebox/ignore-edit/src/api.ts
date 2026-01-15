@@ -1,7 +1,7 @@
+import { arrayUniqueReference } from '@idlebox/common';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { arrayUniqueReference } from '@idlebox/common';
 
 export const unscoped = Symbol('unscoped');
 const filePath = Symbol('file-path');
@@ -48,7 +48,7 @@ export function stringify(data: IIgnoreFile): string {
 }
 
 /** @deprecated */
-export function saveFileSync(data: IIgnoreFile, saveAs: string = data[filePath]!) {
+export function saveFileSync(data: IIgnoreFile, saveAs = data[filePath]) {
 	if (!saveAs) {
 		throw new Error('not opened by loadFile(), use saveAs');
 	}
@@ -60,7 +60,7 @@ export function saveFileSync(data: IIgnoreFile, saveAs: string = data[filePath]!
 	return false;
 }
 
-export async function saveFile(data: IIgnoreFile, saveAs: string = data[filePath]!) {
+export async function saveFile(data: IIgnoreFile, saveAs = data[filePath]) {
 	if (!saveAs) {
 		throw new Error('not opened by loadFile(), use saveAs');
 	}
@@ -72,7 +72,7 @@ export async function saveFile(data: IIgnoreFile, saveAs: string = data[filePath
 	return false;
 }
 
-function isEmptyLine(line: string | symbol) {
+function isEmptyLine(line: undefined | string | symbol) {
 	if (typeof line === 'symbol') {
 		if (line.description === EMPTYLINE) {
 			return true;
@@ -83,7 +83,7 @@ function isEmptyLine(line: string | symbol) {
 }
 
 function trimLastEmptyLines(lines: (string | symbol)[]) {
-	while (isEmptyLine(lines.at(-1)!)) {
+	while (isEmptyLine(lines.at(-1))) {
 		lines.pop();
 	}
 }
@@ -105,7 +105,7 @@ function wrapProxy(instance: IIgnoreFileData, content: string): IIgnoreFile {
 			sections.push(section);
 			instance[section] = current;
 		} else if (!line) {
-			if (current.length > 0 && !isEmptyLine(current.at(-1)!)) {
+			if (current.length > 0 && !isEmptyLine(current.at(-1))) {
 				current.push(emptyLine());
 			}
 		} else {

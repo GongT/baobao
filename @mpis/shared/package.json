@@ -1,11 +1,10 @@
 {
 	"name": "@mpis/shared",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.8",
 	"keywords": [],
 	"exports": {
 		".": {
-			"types": "./src/index.ts",
 			"source": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
@@ -24,9 +23,10 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

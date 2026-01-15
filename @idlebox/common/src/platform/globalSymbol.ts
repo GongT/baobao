@@ -12,14 +12,15 @@ const symbolRegistry = ensureGlobalObject('@@idlebox/global-symbol', () => {
  */
 export function createSymbol(category: string, name: string): symbol {
 	if (symbolRegistry[category]?.[name]) {
-		return symbolRegistry[category]?.[name]!;
+		return symbolRegistry[category][name];
 	}
 	if (!symbolRegistry[category]) {
 		symbolRegistry[category] = {};
 	}
-	const c = symbolRegistry[category]!;
+	const c = symbolRegistry[category];
 
-	return (c[name] = Symbol(name));
+	c[name] = Symbol(name);
+	return c[name];
 }
 
 /**
@@ -28,7 +29,7 @@ export function createSymbol(category: string, name: string): symbol {
  */
 export function deleteSymbol(category: string, name: string) {
 	if (symbolRegistry[category]?.[name]) {
-		const c = symbolRegistry[category]!;
+		const c = symbolRegistry[category];
 		delete c[name];
 		if (Object.keys(c).length === 0) {
 			delete symbolRegistry[category];

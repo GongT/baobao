@@ -29,7 +29,7 @@ export async function initialize({ options, port, tsFile }: InitializeData) {
 			const { entryPoints, outDir } = createEntryMapping([tsFile, ...(options?.entries ?? [])]);
 			for (const entry of entryPoints) {
 				const from = pathToFileURL(resolvePath(outDir, entry.in)).toString();
-				// biome-ignore lint/style/useTemplate: <explanation>
+				// biome-ignore lint/style/useTemplate: 太长
 				const to = pathToFileURL(resolvePath(outDir, entry.out)).toString() + '.js';
 				logger.worker`  ${from} -> ${to}`;
 				inspectModeEntryMapping.set(from, to);
@@ -50,11 +50,7 @@ export async function initialize({ options, port, tsFile }: InitializeData) {
 	}
 }
 
-export async function resolve(
-	specifier: string,
-	context: ResolveHookContext,
-	nextResolve: NextResolve
-): Promise<ResolveFnOutput> {
+export async function resolve(specifier: string, context: ResolveHookContext, nextResolve: NextResolve): Promise<ResolveFnOutput> {
 	logger.hook`<${compiledFiles ? 'runtime' : 'compile'}> resolve: ${specifier} (${context.importAttributes.type})`;
 	if (!compiledFiles) {
 		// 编译没有完成时，插件正在尝试分析路径

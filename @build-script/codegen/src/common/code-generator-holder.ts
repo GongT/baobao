@@ -113,9 +113,9 @@ class GeneratorHolder {
 			}
 
 			this.logger.debug(`  - new: ${rel}`);
-			const packagejson = findUpUntilSync({ file: 'package.json', from: abs });
+			const packagejson = findUpUntilSync({ file: ['package.json', 'package.yaml'], from: abs });
 			if (!packagejson) {
-				throw new Error(`failed find package.json for ${abs}`);
+				throw new Error(`failed find package.json|yaml for ${abs}`);
 			}
 			this.knownPackageJsons.add(packagejson);
 
@@ -196,9 +196,7 @@ class GeneratorHolder {
 			// no op, just waiting for all tasks to finish
 		}
 
-		this.logger.log(
-			`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`,
-		);
+		this.logger.log(`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`);
 
 		if (result.errors.length) {
 			this.logger.boom(`generate fail: ${result.errors.length} errors`);

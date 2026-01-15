@@ -1,6 +1,6 @@
 import { logger } from '@idlebox/logger';
 import { execLazyError } from '@idlebox/node';
-import { monorepoRoot } from './constants.js';
+import { monorepoRoot } from './paths/root.js';
 
 export interface IPackageInfo {
 	name: string;

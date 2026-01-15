@@ -3,8 +3,8 @@ import { promiseBool } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { execa } from 'execa';
 import { resolve } from 'node:path';
-import { monorepoRoot } from './common/constants.js';
 import { listPnpm } from './common/monorepo.js';
+import { monorepoRoot } from './common/paths/root.js';
 
 const debug = argv.flag(['--debug', '-d']);
 createRootLogger('check', debug > 1 ? EnableLogLevel.verbose : debug > 0 ? EnableLogLevel.debug : EnableLogLevel.auto);
@@ -22,7 +22,7 @@ for (const { path } of list) {
 
 	const args: string[] = [];
 	if (debug > 0) {
-		args.push('-' + 'd'.repeat(debug));
+		args.push(`-${'d'.repeat(debug)}`);
 	}
 
 	const promise = execa(checkerScript, args, {

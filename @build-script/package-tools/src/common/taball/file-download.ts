@@ -1,5 +1,5 @@
+import { logger } from '@idlebox/cli';
 import { sleep } from '@idlebox/common';
-import { logger } from '@idlebox/logger';
 import { exists, streamPromise } from '@idlebox/node';
 import { createWriteStream } from 'node:fs';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
@@ -18,13 +18,13 @@ export async function downloadFileCached(url: string, file: string) {
 	const metadata = `${file}.meta.json`;
 	logger.debug`下载文件:\n    地址: long<${url}>\n    保存到: long<${file}>`;
 	let meta: IMetaInfo | undefined;
-	if (await exists(metadata)) {
+	if ((await exists(metadata)) && (await exists(file))) {
 		try {
 			meta = JSON.parse(await readFile(metadata, 'utf-8'));
 		} catch {}
 
 		if (meta?.url === url) {
-			logger.log('     -> 已经下载');
+			logger.debug('     -> 已经下载');
 			return file;
 		}
 	}
@@ -108,19 +108,15 @@ function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 		logger.debug(`[http] 请求 ${url}`);
 
 		const request = get(url, { headers }, (response) => {
-			logger.debug(
-				`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}][${response.headers['content-length']} bytes]`,
-			);
+			logger.debug(`[http] 响应 ${response.statusCode} [encoding: ${response.headers['content-encoding']}][${response.headers['content-length']} bytes]`);
 			if (response.statusCode === 200) {
-				const bytes = Number.parseInt(response.headers['content-length'] ?? '--');
+				const bytes = Number.parseInt(response.headers['content-length'] ?? '--', 10);
 
 				if (bytes > 5 * 1024 * 1024 && process.stderr.isTTY) {
 					let downloaded = 0;
 					response.on('data', (bs) => {
 						downloaded += bs.length;
-						process.stderr.write(
-							`\x1B[2mdownload: ${downloaded} of ${bytes} bytes (${Math.round((downloaded / bytes) * 100)}%)\x1B[0m\r`,
-						);
+						process.stderr.write(`\x1B[2mdownload: ${downloaded} of ${bytes} bytes (${Math.round((downloaded / bytes) * 100)}%)\x1B[0m\r`);
 					});
 					response.on('end', () => {
 						process.stderr.write('\x1B[K');
@@ -145,11 +141,7 @@ function send_request(url: string, headers: OutgoingHttpHeaders): Promise<any> {
 				}
 				resolve(Object.assign(response, { stream }));
 			} else if (
-				(response.statusCode === 302 ||
-					response.statusCode === 301 ||
-					response.statusCode === 303 ||
-					response.statusCode === 307 ||
-					response.statusCode === 308) &&
+				(response.statusCode === 302 || response.statusCode === 301 || response.statusCode === 303 || response.statusCode === 307 || response.statusCode === 308) &&
 				response.headers.location
 			) {
 				reject(new RedirectError(url, response.headers.location, response.statusCode));

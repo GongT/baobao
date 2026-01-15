@@ -6,7 +6,7 @@ import { invalid_function } from './data.test.js';
 class Test {
 	constructor(public value: string) {}
 	[custom](b: Test, _keypath: string) {
-		return this.value + ' ' + b.value;
+		return `${this.value} ${b.value}`;
 	}
 }
 

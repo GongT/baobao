@@ -3,7 +3,6 @@ export function die(message: string): never {
 	console.error(`defects in "@idlebox/args"`);
 	console.error(message);
 	console.error(`====================================================`);
-	debugger;
 	process.exit(1);
 }
 

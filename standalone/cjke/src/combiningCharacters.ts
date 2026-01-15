@@ -1,9 +1,7 @@
-export const combiningCharactersRegex =
-	/[\u{0300}-\u{036F}]|[\u{1AB0}-\u{1AFF}]|[\u{1DC0}-\u{1DFF}]|[\u{20D0}-\u{20FF}]|[\u{FE20}-\u{FE2F}]/gu;
+export const combiningCharactersRegex = /[\u{0300}-\u{036F}]|[\u{1AB0}-\u{1AFF}]|[\u{1DC0}-\u{1DFF}]|[\u{20D0}-\u{20FF}]|[\u{FE20}-\u{FE2F}]/gu;
 
 /** @internal */
-export const combiningCharactersRegexStarting =
-	/^([\u{0300}-\u{036F}]|[\u{1AB0}-\u{1AFF}]|[\u{1DC0}-\u{1DFF}]|[\u{20D0}-\u{20FF}]|[\u{FE20}-\u{FE2F}])+/gu;
+export const combiningCharactersRegexStarting = /^([\u{0300}-\u{036F}]|[\u{1AB0}-\u{1AFF}]|[\u{1DC0}-\u{1DFF}]|[\u{20D0}-\u{20FF}]|[\u{FE20}-\u{FE2F}])+/gu;
 
 export function isCombiningCharacters(code: number) {
 	return (

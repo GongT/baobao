@@ -1,6 +1,6 @@
 export { LogLevel, logTagColor } from './common/colors.js';
-export { all_logger_names } from './common/create.js';
-export { createDebug } from './common/debug-fn.js';
+export { all_logger_names } from './common/create.logger.js';
+export { createDebug } from './common/create.function.js';
 export {
 	detectColorEnable as color_enabled,
 	debug_enabled,
@@ -8,6 +8,7 @@ export {
 	match_disabled,
 	match_enabled,
 	set_default_log_level,
+	set_error_action,
 } from './common/helpers.js';
 export { createLogger } from './common/logger.create.js';
 export {
@@ -19,5 +20,8 @@ export {
 	type IMyDebug,
 	type IMyDebugWithControl,
 	type IMyLogger,
+	type IDebugCommand,
 } from './common/types.js';
 export { createLogFile } from './printers/file.js';
+
+export { CSI } from './common/ansi.js';

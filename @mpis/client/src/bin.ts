@@ -1,13 +1,13 @@
 import { argv } from '@idlebox/args/default';
 import { execa } from 'execa';
-import { basename } from 'path';
+import { basename } from 'node:path';
 import { listenOutputStream } from './api.js';
 
-const stdinMode = argv.flag('--stdin') > 0;
-const startSignal = argv.single('--start') || '';
-const finishSignal = argv.single('--finish');
-const errorSignal = argv.single('--error');
-const successSignal = argv.single('--success');
+const stdinMode = argv.flag(['--stdin']) > 0;
+const startSignal = argv.single(['--start']) || '';
+const finishSignal = argv.single(['--finish']);
+const errorSignal = argv.single(['--error']);
+const successSignal = argv.single(['--success']);
 
 if (!finishSignal) {
 	console.error('the --finish signal must be provided.');

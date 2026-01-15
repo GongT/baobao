@@ -1,0 +1,39 @@
+{
+	"name": "@build-script/vite-plugin-chunk-tree",
+	"private": true,
+	"type": "module",
+	"version": "0.0.1",
+	"license": "MIT",
+	"description": "A vite/rollup plugin to split dependency tree into chunks.",
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"exports": {
+		".": "./lib/index.js",
+		"./package.json": "./package.json"
+	},
+	"dependencies": {
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"execa": "^9.6.1"
+	},
+	"devDependencies": {
+		"@build-script/single-dog-asset": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@types/node": "^25.0.8",
+		"rollup": "^4.55.1",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	},
+	"sideEffects": false
+}

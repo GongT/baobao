@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
+/** biome-ignore-all lint/style/noNonNullAssertion: builder */
 import { basename, resolve } from 'node:path';
 import type { ProjectConfig } from '../common/config.js';
 
@@ -6,7 +6,7 @@ import type TApiExtractor from '@microsoft/api-extractor';
 
 /**
  * 读取 heft/api-extractor.json 配置文件内容
- * @returns 
+ * @returns
  */
 export async function apiExtractor(config: ProjectConfig): Promise<TApiExtractor.IConfigFile | undefined> {
 	const file = config.rigConfig.tryResolveConfigFilePath('config/api-extractor.json');

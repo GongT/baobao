@@ -34,13 +34,13 @@ class CacheFileReader extends AsyncDisposable {
 
 	constructor(
 		private readonly fd: fs.FileHandle,
-		private readonly stat: Stats
+		private readonly stat: Stats,
 	) {
 		super();
 		this._register(
 			toDisposable(() => {
 				fd.close();
-			})
+			}),
 		);
 		if (!stat.isFile()) {
 			throw new Error('not a regular file');

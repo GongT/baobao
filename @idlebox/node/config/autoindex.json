@@ -1,4 +1,5 @@
 {
 	"$schema": "../../../@build-script/autoindex/autoindex.schema.json",
-	"project": "./src"
+	"project": "./src",
+	"output": "autoindex",
 }

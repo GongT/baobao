@@ -27,20 +27,18 @@ temp
 /etc
 
 ### Tests
-/tests
-/test
-lib/**/test/
-lib/**/tests/
-lib/**/*.test.*
-lib/**/test.*
+**/test/**
+**/tests/**
+**/*.test.*
 
 ### Temp Files
 *.jsc
 *.realtime-compile.*
 *.realtime-compile.*.map
-lib/chunk-*
+**/*.tsbuildinfo
 
 ### Examples
 /example
 
-!lib/**/*
+### Private development declarations
+src/**/*.d.ts

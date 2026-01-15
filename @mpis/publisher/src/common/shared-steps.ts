@@ -1,21 +1,25 @@
-import { logger } from '@idlebox/logger';
-import { readFileSync, symlinkSync, writeFileSync } from 'node:fs';
+import { logger } from '@idlebox/cli';
+import { type IPackageJson } from '@idlebox/common';
+import { commandInPath } from '@idlebox/node';
+import { mkdirSync, readFileSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { createTempFolder, getDecompressed, projectPath, tempDir } from './constants.js';
-import { execPnpm, execPnpmUser } from './exec.js';
+import { projectPath, tempDir } from './constants.js';
+import { execMute, execPnpmMute, execPnpmUser } from './exec.js';
 import { decompressTarGz } from './tar.js';
 
-export function reconfigurePackageJson(mode: 'pack' | 'publish') {
-	const packagePath = resolve(tempDir, 'package/package.json');
+export function getCurrentProject(): IPackageJson {
+	const txt = readFileSync(resolve(projectPath, 'package.json'), 'utf-8');
+	return JSON.parse(txt);
+}
+
+export function reconfigurePackageJson(name: string): IPackageJson {
+	const packagePath = resolve(tempDir, name, 'package.json');
 	const pkgJson = JSON.parse(readFileSync(packagePath, 'utf-8'));
 
 	if (pkgJson.scripts) {
 		delete pkgJson.scripts.prepublishHook;
 
-		const lifecycles =
-			mode === 'pack'
-				? ['prepack', 'prepare', 'postpack']
-				: ['prepublishOnly', 'prepack', 'prepare', 'postpack', 'publish', 'postpublish'];
+		const lifecycles = ['prepublishOnly', 'prepack', 'prepare', 'postpack'];
 
 		for (const lifecycle of lifecycles) {
 			if (pkgJson.scripts[lifecycle]) {
@@ -24,31 +28,59 @@ export function reconfigurePackageJson(mode: 'pack' | 'publish') {
 			delete pkgJson.scripts[lifecycle];
 		}
 	}
+
+	// TODO: sort
+
 	writeFileSync(packagePath, JSON.stringify(pkgJson, null, 2));
 	return pkgJson;
 }
 
-export async function makeTempPackage() {
-	await createTempFolder();
-
-	const tempPackagePath = getDecompressed();
-
+export async function buildPackageTarball() {
 	const sourceTgz = resolve(tempDir, 'pnpm-packed-simple.tgz');
 
 	logger.log`使用pnpm构建并打包……`;
-	await execPnpm(['--silent', 'pack', '--out', sourceTgz]);
+	await execPnpmMute(projectPath, ['pack', '--out', sourceTgz]);
 
 	logger.debug`已打包为 relative<${sourceTgz}>`;
+	return sourceTgz;
+}
 
-	await decompressTarGz(sourceTgz, tempDir);
+export async function extractPackage(output: string, sourceTgz = resolve(tempDir, 'pnpm-packed-simple.tgz')) {
+	const tempPackagePath = resolve(tempDir, output);
+	mkdirSync(tempPackagePath, { recursive: false });
+
+	await decompressTarGz(sourceTgz, tempPackagePath);
 
 	logger.debug`已解压到 relative<${tempPackagePath}>`;
 
 	const nm = resolve(projectPath, 'node_modules');
+	const target_nm = resolve(tempPackagePath, 'node_modules');
 	logger.verbose`symlink: long<${nm}>`;
-	symlinkSync(nm, resolve(tempPackagePath, 'node_modules'));
+	symlinkSync(nm, target_nm);
 
 	logger.log`执行prepublishHook……`;
-	await execPnpmUser(tempPackagePath, ['run', '--silent', '--if-present', 'prepublishHook']);
+	await execPnpmUser(tempPackagePath, ['run', '--if-present', 'prepublishHook']);
 	logger.success`prepublishHook成功完成`;
+
+	unlinkSync(target_nm);
+
+	return tempPackagePath;
+}
+
+export async function commitChanges(pkgJson: IPackageJson) {
+	const git = await commandInPath('git');
+	if (!git) {
+		logger.warn`未找到git命令，跳过提交`;
+		return;
+	}
+
+	const commitMessage = `release: ${pkgJson.name} v${pkgJson.version}`;
+
+	try {
+		await execMute(projectPath, [git, 'add', '.']);
+		await execMute(projectPath, [git, 'commit', '.', '-m', commitMessage]);
+		logger.success`✅ 已提交变更到git`;
+	} catch (err: any) {
+		logger.warn`🍴 提交变更失败: ${err.message}`;
+	}
 }

@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/monorepo",
 	"type": "module",
-	"version": "0.0.2",
+	"version": "0.0.12",
 	"keywords": [],
 	"bin": {
 		"build-manager": "./loader/bin.devel.js"
@@ -22,13 +22,11 @@
 		"@build-script/monorepo-lib": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@mpis/server": "workspace:^",
-		"@rushstack/rig-package": "^0.5.3",
-		"execa": "^9.6.0",
-		"source-map-support": "^0.5.21",
+		"@rushstack/rig-package": "^0.6.0",
+		"@idlebox/source-map-support": "workspace:^",
 		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
@@ -37,9 +35,10 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@mpis/typescript": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

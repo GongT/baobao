@@ -37,8 +37,6 @@ console.log('----------------');
 logger.fatal`wow, ${l} doge! ${o}!`;
 logger.fatal('wow, such %s! %o?', l, o);
 
-// @ts-ignore
 console.log('----------------');
 
-// @ts-ignore
 logger.error`this not happen`;

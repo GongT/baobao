@@ -1,31 +1,57 @@
-import { argv } from '@idlebox/args/default';
-import { logger } from '@idlebox/logger';
-import { emptyDir } from '@idlebox/node';
+import { argv, CommandDefine, logger } from '@idlebox/cli';
+import { emptyDir, shutdown, workingDirectory } from '@idlebox/node';
 import { resolve } from 'node:path';
-import { getDecompressed, repoRoot, tempDir } from '../common/constants.js';
+import { recreateTempFolder, repoRoot, tempDir } from '../common/constants.js';
 import { execPnpmMute } from '../common/exec.js';
-import { makeTempPackage, reconfigurePackageJson } from '../common/shared-steps.js';
+import { buildPackageTarball, extractPackage, getCurrentProject, reconfigurePackageJson } from '../common/shared-steps.js';
 import { decompressTarGz } from '../common/tar.js';
 
-if (argv.unused().length > 0) {
-	throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
+export class Command extends CommandDefine {
+	protected override _usage: string = '';
+	protected override _description: string = '解压缩当前项目的tgz包';
+	protected override _help: string = `
+extract命令会执行以下步骤：
+1. 解压缩tgz包到临时文件夹
+2. 运行hook
+3. 清理package.json
+4. 解压到指定目录
+
+`;
+	protected override _arguments = {
+		'--out': { flag: false, usage: true, description: '输出路径，默认为 ./.publisher/%s/' },
+	};
 }
 
-await makeTempPackage();
+export const main = async () => {
+	const output = argv.single(['--out']);
 
-const pkgJson = reconfigurePackageJson('pack');
+	if (argv.unused().length > 0) {
+		throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
+	}
 
-const resultDirectory = resolve(repoRoot, '.publisher', pkgJson.name);
-await emptyDir(resultDirectory);
+	// prepare
+	await recreateTempFolder();
+	const pkgJson = getCurrentProject();
 
-const tempPackagePath = getDecompressed();
-const tgzFile = resolve(tempDir, 'package.tgz');
-await execPnpmMute(tempPackagePath, ['--silent', 'pack', '--out', tgzFile]);
+	// 运行build、打包
+	await buildPackageTarball();
 
-logger.debug`已重新打包为 relative<${tgzFile}>`;
+	// 解压缩到一个临时文件夹，其中解压缩步骤会运行hook
+	const hookDir = await extractPackage('hook-working-directory');
 
-await decompressTarGz(tgzFile, resultDirectory);
+	// 简单清理
+	reconfigurePackageJson(hookDir);
 
-logger.log`已解压到 relative<${resultDirectory}>`;
+	// 重新运行pnpm pack
+	const tgzFile = resolve(tempDir, 'will-publish-package.tgz');
+	await execPnpmMute(hookDir, ['pack', '--out', tgzFile]);
+	logger.debug`已重新打包为 relative<${tgzFile}>`;
 
-process.exit(0);
+	// 执行解压
+	const resultDirectory = output ? resolve(workingDirectory.cwd(), output) : resolve(repoRoot, '.publisher', pkgJson.name);
+	await emptyDir(resultDirectory);
+	await decompressTarGz(tgzFile, resultDirectory);
+	logger.success`已解压到 relative<${resultDirectory}>`;
+
+	shutdown(0);
+};

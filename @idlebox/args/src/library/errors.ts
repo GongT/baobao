@@ -1,7 +1,7 @@
-import { die } from '../tools/assert.js';
+import { ProgramError, UsageError } from '@idlebox/errors';
+import { ParamKind } from '../constants.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
-import { ParamKind } from '../types.js';
-import { Parameter } from './parameter.js';
+import type { Parameter } from './parameter.js';
 import type { TToken } from './token.js';
 
 function matchPos(index: number, arg?: TToken, param?: Parameter) {
@@ -14,88 +14,76 @@ function matchPos(index: number, arg?: TToken, param?: Parameter) {
 	return false;
 }
 
-export abstract class BaseError extends Error {
+/**
+ * 程序错误
+ */
+abstract class AbstractParameterError extends ProgramError {
 	protected abstract _getMessage(): string;
 	protected abstract explain(): string;
 	private readonly _stackObject: StackTrace;
 
-	constructor(skip = 1) {
-		super(`unknown argument error (you should not see this)`);
-
-		this.name = this.constructor.name;
-		this._stackObject = new StackTrace(undefined, 1 + skip);
-
-		// delete (this as any).message;
-		// delete (this as any).stack;
-
-		Object.defineProperties(this, {
-			message: {
-				configurable: false,
-				enumerable: true,
-				get: () => {
-					return this.getMessage();
-				},
-			},
-			stack: {
-				configurable: false,
-				enumerable: true,
-				get: () => {
-					return this.getMessage() + '\n' + this.getStack();
-				},
-			},
-		});
-	}
-
-	private getMessage() {
-		return `${this.name}: ${this._getMessage()}\n${this.explain()}`;
-	}
-
-	/**
-	 * 此方法不会执行
-	 * @deprecated 知道是ArgumentError，应该使用`getStack()`方法获取堆栈信息
-	 */
-	override get stack() {
-		die('shadowed function got called.');
-
-		// @ts-expect-error
-		return this.getStack();
-	}
-
-	/**
-	 * 此方法不会执行
-	 * @deprecated 知道是ArgumentError，应该使用`getMessage()`方法获取信息
-	 */
-	override get message() {
-		die('shadowed function got called.');
-
-		// @ts-expect-error
-		return this.getMessage();
-	}
-
-	getStack() {
-		return this._stackObject.getStack();
-	}
-}
-
-abstract class AbstractParameterError extends BaseError {
 	constructor(
 		public readonly parameter: Parameter,
 		skip = 1,
 	) {
-		super(skip + 1);
+		super('--you should not see this--');
+
+		this.name = this.constructor.name;
+		this._stackObject = new StackTrace(undefined, 1 + skip);
+
+		delete (this as any).message;
+		delete (this as any).stack;
+	}
+
+	/**
+	 * 此方法不会执行
+	 */
+	override get stack() {
+		return `${this.message}\n${this._stackObject.getStack()}`;
+	}
+
+	/**
+	 * 此方法不会执行
+	 */
+	override get message() {
+		return `${this.name}: ${this._getMessage()}\n${this.explain()}`;
 	}
 }
 
-abstract class AbstractArgumentError extends BaseError {
+/**
+ * 输入错误
+ */
+abstract class AbstractArgumentError extends UsageError {
 	public override readonly name: string;
+
+	protected abstract _getMessage(): string;
+	private readonly _stackObject: StackTrace;
 
 	constructor(
 		public readonly token: TToken,
 		skip = 1,
 	) {
-		super(skip + 1);
+		super('--you should not see this--');
 
 		this.name = this.constructor.name;
+		this._stackObject = new StackTrace(undefined, 1 + skip);
+
+		delete (this as any).message;
+		delete (this as any).stack;
+	}
+
+	/**
+	 * 此方法不会执行
+	 */
+	override get stack() {
+		return `${this.message}\n${this._stackObject.getStack()}`;
+	}
+
+	/**
+	 * 此方法不会执行
+	 */
+	override get message() {
+		return `${this.name}: ${this._getMessage()}\n${this.explain()}`;
 	}
 
 	get parser() {
@@ -201,7 +189,7 @@ export class StackTrace {
 	}
 
 	getStack() {
-		let s = this.stack
+		const s = this.stack
 			.split('\n')
 			.slice(this.skip + 1)
 			.join('\n');

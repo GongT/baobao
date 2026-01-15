@@ -1,4 +1,4 @@
-import { sleep, timeout, toDisposable } from '@idlebox/common';
+import { sleep, timeout } from '@idlebox/common';
 import { ProtocolClientObject } from '../common/protocol-client-object.js';
 
 type IQuit = {
@@ -20,11 +20,16 @@ export class TestClient extends ProtocolClientObject {
 		super(title);
 
 		this._run = this._run.bind(this);
-		this._register(
-			toDisposable(() => {
-				return this._dispose_process();
-			}),
-		);
+	}
+
+	protected override async _stop() {
+		// not support
+		this._dispose_process();
+	}
+
+	override dispose() {
+		this._dispose_process();
+		return super.dispose();
 	}
 
 	protected override async _execute() {

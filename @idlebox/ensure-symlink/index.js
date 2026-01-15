@@ -51,7 +51,7 @@ export function ensureLinkTargetSync(target, symlink) {
 		}
 		unlinkSync(symlink);
 	}
-	mkdirSync(dirname(symlink), { recursive: tru });
+	mkdirSync(dirname(symlink), { recursive: true });
 	symlinkSync(target, symlink, 'junction');
 	return true;
 }
