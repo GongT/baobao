@@ -1,6 +1,6 @@
 {
 	"name": "@gongt/pnpm-instead-npm",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"description": "symlink npm to pnpm, always install with pnpm",
 	"keywords": ["package manager", "pnpm", "npm"],
 	"bin": {

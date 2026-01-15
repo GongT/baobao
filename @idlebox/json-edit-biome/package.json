@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/json-edit-biome",
 	"type": "module",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "biomejs formatter for @idlebox/json-edit.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"exports": {

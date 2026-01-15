@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/codegen",
 	"type": "module",
-	"version": "1.0.15",
+	"version": "1.0.16",
 	"bin": {
 		"codegen": "./loader/bin.devel.js"
 	},

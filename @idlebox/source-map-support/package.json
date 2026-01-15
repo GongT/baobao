@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/source-map-support",
 	"type": "module",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
