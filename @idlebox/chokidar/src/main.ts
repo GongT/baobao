@@ -45,8 +45,8 @@ export class WatchHelper implements IWatchHelper {
 
 		log('listen: %s [previous %d]', item, this.watcher.listenerCount(item));
 		if (this.watcher.listenerCount(item) === 0) {
-			this.watcher.addListener(item, (ch) => {
-				this.lowlevel_handler(ch, item);
+			this.watcher.addListener(item, (...args) => {
+				this.lowlevel_handler(args[0], item);
 			});
 		}
 	}
@@ -79,7 +79,7 @@ export class WatchHelper implements IWatchHelper {
 		this.state = s;
 	}
 
-	private lowlevel_handler(path: string, event: WatchEventKind) {
+	private lowlevel_handler(path: string|undefined, event: WatchEventKind) {
 		log('file changes: %s', path);
 		if (path) {
 			this.changes.add(path);

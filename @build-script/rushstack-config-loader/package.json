@@ -25,19 +25,19 @@
 		"@idlebox/json-extends-loader": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
 		"@idlebox/deepmerge": "workspace:^",
-		"@rushstack/rig-package": "^0.5.3",
+		"@rushstack/rig-package": "^0.6.0",
 		"ajv": "^8.17.1",
-		"import-meta-resolve": "^4.1.0"
+		"import-meta-resolve": "^4.2.0"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@microsoft/api-extractor": "^7.52.8",
+		"@microsoft/api-extractor": "^7.55.2",
 		"@mpis/run": "workspace:^",
-		"@rushstack/heft": "^0.74.0",
-		"@rushstack/heft-typescript-plugin": "^0.9.8",
+		"@rushstack/heft": "^1.1.7",
+		"@rushstack/heft-typescript-plugin": "^1.1.7",
 		"@rushstack/terminal": "latest",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

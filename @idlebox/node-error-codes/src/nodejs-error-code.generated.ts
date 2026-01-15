@@ -54,9 +54,15 @@ export enum NodeErrorCode {
 	/**
 	 * <p>An attempt was made to register something that is not a function as an
 	 * <code>AsyncHooks</code> callback.</p>
-	 * <p><a id="ERR_ASYNC_TYPE"></a></p>
+	 * <p><a id="ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED"></a></p>
 	 */
 	ERR_ASYNC_CALLBACK = 'ERR_ASYNC_CALLBACK',
+	/**
+	 * <p>An operation related to module loading is customized by an asynchronous loader
+	 * hook that never settled the promise before the loader thread exits.</p>
+	 * <p><a id="ERR_ASYNC_TYPE"></a></p>
+	 */
+	ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED = 'ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED',
 	/**
 	 * <p>The type of an asynchronous resource was invalid. Users are also able
 	 * to define their own types if using the public embedder API.</p>
@@ -1369,9 +1375,9 @@ export enum NodeErrorCode {
 	 */
 	ERR_PACKAGE_PATH_NOT_EXPORTED = 'ERR_PACKAGE_PATH_NOT_EXPORTED',
 	/**
-	 * <p>When <code>strict</code> set to <code>true</code>, thrown by <a href="util.html#utilparseargsconfig"><code>util.parseArgs()</code></a> if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&lt;boolean&gt;</a>
-	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a>, or if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a>
-	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&lt;boolean&gt;</a>.</p>
+	 * <p>When <code>strict</code> set to <code>true</code>, thrown by <a href="util.html#utilparseargsconfig"><code>util.parseArgs()</code></a> if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&lt;boolean&gt;</a>
+	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&lt;string&gt;</a>, or if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&lt;string&gt;</a>
+	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&lt;boolean&gt;</a>.</p>
 	 * <p><a id="ERR_PARSE_ARGS_UNEXPECTED_POSITIONAL"></a></p>
 	 */
 	ERR_PARSE_ARGS_INVALID_OPTION_VALUE = 'ERR_PARSE_ARGS_INVALID_OPTION_VALUE',
@@ -2010,22 +2016,22 @@ export enum NodeErrorCode {
 	 */
 	ERR_WORKER_INVALID_EXEC_ARGV = 'ERR_WORKER_INVALID_EXEC_ARGV',
 	/**
-	 * <p>The destination thread threw an error while processing a message sent via <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a>.</p>
+	 * <p>The destination thread threw an error while processing a message sent via <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a>.</p>
 	 * <p><a id="ERR_WORKER_MESSAGING_FAILED"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_ERRORED = 'ERR_WORKER_MESSAGING_ERRORED',
 	/**
-	 * <p>The thread requested in <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>
+	 * <p>The thread requested in <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>
 	 * <p><a id="ERR_WORKER_MESSAGING_SAME_THREAD"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_FAILED = 'ERR_WORKER_MESSAGING_FAILED',
 	/**
-	 * <p>The thread id requested in <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is the current thread id.</p>
+	 * <p>The thread id requested in <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is the current thread id.</p>
 	 * <p><a id="ERR_WORKER_MESSAGING_TIMEOUT"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_SAME_THREAD = 'ERR_WORKER_MESSAGING_SAME_THREAD',
 	/**
-	 * <p>Sending a message via <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> timed out.</p>
+	 * <p>Sending a message via <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> timed out.</p>
 	 * <p><a id="ERR_WORKER_NOT_RUNNING"></a></p>
 	 */
 	ERR_WORKER_MESSAGING_TIMEOUT = 'ERR_WORKER_MESSAGING_TIMEOUT',

@@ -31,17 +31,17 @@
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
 		"@mpis/client": "workspace:^",
-		"comment-json": "^4.2.5",
-		"glob": "^11.0.3",
+		"comment-json": "^4.5.1",
+		"glob": "^13.0.0",
 		"tslib": "^2.8.1",
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"decoupledDependencies": ["@build-script/rushstack-config-loader", "@idlebox/args"],
 	"publishConfig": {

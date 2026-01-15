@@ -19,7 +19,7 @@
 	},
 	"devDependencies": {
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"monorepo": true,
 	"type": "module",

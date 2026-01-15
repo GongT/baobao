@@ -22,14 +22,14 @@
 		"@idlebox/args": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@mpis/client": "workspace:^",
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"peerDependencies": {
 		"typescript": "^5.8.3"

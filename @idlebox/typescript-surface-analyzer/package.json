@@ -25,15 +25,15 @@
 	"dependencies": {
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
-		"minimatch": "^10.0.3",
-		"typescript": "^5.8.3"
+		"minimatch": "^10.1.1",
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/minimatch": "^6.0.0",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

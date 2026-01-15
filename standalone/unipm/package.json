@@ -23,16 +23,16 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.0",
+		"execa": "^9.6.1",
 		"json5": "^2.2.3",
-		"pacote": "^21.0.0",
+		"pacote": "^21.0.4",
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
+		"@types/node": "^25.0.8",
 		"@types/pacote": "^11.1.8"
 	},
 	"monorepo": true,

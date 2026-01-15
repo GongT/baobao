@@ -24,8 +24,8 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/react": "^19.1.12",
-		"@types/react-dom": "^19.1.9",
+		"@types/react": "^19.2.8",
+		"@types/react-dom": "^19.2.3",
 		"@types/node": "workspace:@idlebox/empty@*"
 	},
 	"optionalDependencies": {

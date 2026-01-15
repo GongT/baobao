@@ -21,16 +21,16 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.0"
+		"execa": "^9.6.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
-		"rollup": "^4.50.0",
-		"typescript": "^5.8.3",
-		"vite": "^7.1.7"
+		"@types/node": "^25.0.8",
+		"rollup": "^4.55.1",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

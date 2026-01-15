@@ -37,7 +37,7 @@
 		"@idlebox/source-map-support": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@idlebox/cli-static-generator": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"peerDependencies": {
 		"@idlebox/cli-static-generator": "workspace:^"

@@ -23,14 +23,14 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"debug": "^4.4.1"
+		"debug": "^4.4.3"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/debug": "^4.1.12",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

@@ -20,21 +20,21 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@biomejs/js-api": "^3.0.0",
-		"@biomejs/wasm-nodejs": "^2.2.2",
+		"@biomejs/js-api": "^4.0.0",
+		"@biomejs/wasm-nodejs": "^2.3.11",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/chokidar": "workspace:^",
 		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
-		"execa": "^9.6.0"
+		"execa": "^9.6.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^24.0.14",
-		"typescript": "^5.8.3"
+		"@types/node": "^25.0.8",
+		"typescript": "^5.9.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

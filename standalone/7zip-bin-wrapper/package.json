@@ -19,7 +19,7 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"iconv-lite": "^0.6.3",
+		"iconv-lite": "^0.7.2",
 		"7zip-bin": "^5.2.0",
 		"split2": "^4.2.0"
 	},
@@ -27,7 +27,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
+		"@types/node": "^25.0.8",
 		"@types/split2": "^4.2.3"
 	},
 	"publishConfig": {

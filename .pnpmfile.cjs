@@ -86,7 +86,9 @@ function readPackage(packageJson, context) {
 		packageJson.dependencies['@swc/core'] = 'latest';
 	}
 
-	if (myProjects.has(packageJson.name)) return readMyPackage(packageJson);
+	if (myProjects.has(packageJson.name) || packageJson._example) {
+		return addNodejsShimTypes(packageJson);
+	}
 
 	if (packageJson.dependencies) lockDep(packageJson.dependencies, context);
 	if (packageJson.devDependencies) lockDep(packageJson.devDependencies, context);
@@ -96,7 +98,7 @@ function readPackage(packageJson, context) {
 	return packageJson;
 }
 
-function readMyPackage(packageJson) {
+function addNodejsShimTypes(packageJson) {
 	if (findDep(packageJson, '@types/node')) {
 		if (packageJson.dependencies['@types/node']) {
 			console.error('\x1B[38;5;11m[%s] @types/node in dependencies.\x1B[0m', packageJson.name);

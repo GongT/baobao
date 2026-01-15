@@ -21,8 +21,8 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
-		"execa": "^9.6.0",
-		"tar": "^7.4.3"
+		"execa": "^9.6.1",
+		"tar": "^7.5.2"
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
@@ -30,7 +30,7 @@
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"exports": {
 		"./package.json": "./package.json"

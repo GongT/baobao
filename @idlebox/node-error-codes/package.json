@@ -24,7 +24,7 @@
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
+		"@types/node": "^25.0.8",
 		"@build-script/codegen": "workspace:^"
 	},
 	"decoupledDependencies": "*",

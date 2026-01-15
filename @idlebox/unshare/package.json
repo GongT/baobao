@@ -24,14 +24,14 @@
 	},
 	"dependencies": {
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.0"
+		"execa": "^9.6.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

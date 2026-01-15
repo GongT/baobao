@@ -23,17 +23,17 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"comment-json": "^4.2.5",
-		"prettier": "^3.6.2"
+		"comment-json": "^4.5.1",
+		"prettier": "^3.7.4"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14",
+		"@types/node": "^25.0.8",
 		"@idlebox/source-map-support": "workspace:^",
 		"tslib": "^2.8.1",
-		"vite-node": "^3.2.4"
+		"vite-node": "^5.2.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

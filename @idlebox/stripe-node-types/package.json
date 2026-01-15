@@ -22,7 +22,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@build-script/codegen": "workspace:^",
-		"nodejs-types": "npm:@types/node@=24.0.14",
+		"nodejs-types": "npm:@types/node@^25.0.8",
 		"undici-types": "npm:undici-types@*"
 	},
 	"publishConfig": {

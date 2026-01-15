@@ -18,13 +18,13 @@
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"execa": "^9.6.0",
-		"npm": "^11.4.2",
-		"which": "^5.0.0"
+		"execa": "^9.6.1",
+		"npm": "^11.7.0",
+		"which": "^6.0.0"
 	},
 	"devDependencies": {
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"exports": {
 		"./package.json": "./package.json"

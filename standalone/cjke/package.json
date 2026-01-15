@@ -21,19 +21,19 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"ansi-regex": "^6.1.0",
-		"emoji-regex": "^10.4.0",
-		"is-fullwidth-code-point": "^5.0.0"
+		"ansi-regex": "^6.2.2",
+		"emoji-regex": "^10.6.0",
+		"is-fullwidth-code-point": "^5.1.0"
 	},
 	"devDependencies": {
 		"@idlebox/source-map-support": "workspace:^",
 		"@build-script/single-dog-asset": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/chai": "^5.2.2",
+		"@types/chai": "^5.2.3",
 		"@types/mocha": "^10.0.10",
-		"chai": "^5.2.1",
-		"mocha": "^11.7.1"
+		"chai": "^6.2.2",
+		"mocha": "^11.7.5"
 	},
 	"decoupledDependencies": "dev",
 	"publishConfig": {

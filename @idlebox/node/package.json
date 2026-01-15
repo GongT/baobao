@@ -22,13 +22,13 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/errors": "workspace:^",
-		"execa": "^9.6.0"
+		"execa": "^9.6.1"
 	},
 	"devDependencies": {
 		"@build-script/single-dog-asset": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"decoupledDependencies": "dev",
 	"publishConfig": {

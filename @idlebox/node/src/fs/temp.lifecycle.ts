@@ -23,8 +23,8 @@ export function createTempFolder(fullPath: string): IDisposable {
 	};
 }
 
-export function createTempFile(fullPath: string) {
-	if (existsSync(fullPath)) {
+export function createTempFile(fullPath: string, force: boolean = false) {
+	if (!force && existsSync(fullPath)) {
 		throw new Error(`temp file already exists: ${fullPath}`);
 	}
 

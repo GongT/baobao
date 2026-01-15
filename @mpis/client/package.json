@@ -28,7 +28,7 @@
 		"@idlebox/logger": "workspace:^",
 		"@mpis/shared": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
-		"execa": "^9.6.0",
+		"execa": "^9.6.1",
 		"split2": "^4.2.0"
 	},
 	"devDependencies": {
@@ -36,7 +36,7 @@
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^24.0.14"
+		"@types/node": "^25.0.8"
 	},
 	"decoupledDependencies": ["@idlebox/args"],
 	"publishConfig": {
