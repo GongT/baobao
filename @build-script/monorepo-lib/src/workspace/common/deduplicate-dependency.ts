@@ -17,7 +17,6 @@ export function decoupleDependencies(logger: IMyLogger, projects: readonly IPack
 	}
 	global_removes.set('*', []);
 
-
 	/** 检查反向依赖解除 */
 	for (const { packageJson, absolute: absolutePath } of projects) {
 		const add_if_not = (r: string) => {

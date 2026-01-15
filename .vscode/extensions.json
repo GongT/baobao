@@ -1,15 +1,4 @@
 {
-	"recommendations": [
-		"streetsidesoftware.code-spell-checker",
-		"biomejs.biome",
-		"wix.vscode-import-cost",
-		"rbuckton.tsserver-live-reload",
-	],
-	"unwantedRecommendations": [
-		"hookyqr.beautify",
-		"esbenp.prettier-vscode",
-		"ms-mssql.mssql",
-		"firefox-devtools.vscode-firefox-debug",
-		"dbaeumer.vscode-eslint",
-	],
+	"recommendations": ["streetsidesoftware.code-spell-checker", "biomejs.biome", "wix.vscode-import-cost", "rbuckton.tsserver-live-reload"],
+	"unwantedRecommendations": ["hookyqr.beautify", "esbenp.prettier-vscode", "ms-mssql.mssql", "firefox-devtools.vscode-firefox-debug", "dbaeumer.vscode-eslint"],
 }

@@ -49,5 +49,5 @@
 		"**/autoindex.ts": true,
 	},
 	"cSpell.words": ["itypes", "mpis"],
-	"remote.autoForwardPorts": false
+	"remote.autoForwardPorts": false,
 }

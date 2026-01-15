@@ -2,5 +2,5 @@
 	"$schema": "../../../@build-script/autoindex/autoindex.schema.json",
 	"project": "./src",
 	"output": "autoindex",
-	"banner": "/// <reference types=\"node\" />"
+	"banner": "/// <reference types=\"node\" />",
 }

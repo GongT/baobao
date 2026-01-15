@@ -1,5 +1,5 @@
 import { logger } from '@idlebox/cli';
-import { type IPackageJson } from '@idlebox/common';
+import type { IPackageJson } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
 import { mkdirSync, readFileSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';

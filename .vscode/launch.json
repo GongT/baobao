@@ -26,10 +26,7 @@
 			"request": "launch",
 			"name": "启动扩展 - vscode-auto-extensions",
 			"runtimeExecutable": "${execPath}",
-			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-auto-extensions",
-				"${workspaceFolder}/@gongt/vscode-auto-extensions/.test",
-			],
+			"args": ["--extensionDevelopmentPath=${workspaceFolder}/@gongt/vscode-auto-extensions", "${workspaceFolder}/@gongt/vscode-auto-extensions/.test"],
 			"outFiles": ["${workspaceFolder}/@gongt/vscode-auto-extensions/lib/**/*.js"],
 		},
 	],

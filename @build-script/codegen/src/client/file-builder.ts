@@ -180,9 +180,9 @@ export class FileBuilder {
 	 * @param what 如果是数组，则用逗号连接
 	 * 	第一个元素是“type”，则生成 import type { 逗号连接的数组 }。
 	 *  除了type之外，如果只有一项，且开头是*，则生成 import {what[0]}
-	 * 
+	 *
 	 * 字符串直接放到import后面，只有字符串可以同时导入default和named
-	 * 
+	 *
 	 * @param where 文件路径，后缀自动从.ts[x]改成.js，如果是绝对路径，则自动转换成相对于当前生成结果文件。
 	 * @param exports 如果为true，则生成export语句，而不是import
 	 * @returns 添加的import语句

@@ -3,10 +3,10 @@
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
-		"useIgnoreFile": true,
+		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": true,
+		"ignoreUnknown": true
 	},
 	"assist": {
 		"enabled": true,
@@ -16,9 +16,9 @@
 				"organizeImports": "off",
 				"useSortedKeys": "off",
 				"useSortedProperties": "off",
-				"useSortedAttributes": "on",
-			},
-		},
+				"useSortedAttributes": "on"
+			}
+		}
 	},
 	"formatter": {
 		"enabled": true,
@@ -26,7 +26,7 @@
 		"formatWithErrors": false,
 		"lineEnding": "lf",
 		"lineWidth": 165,
-		"useEditorconfig": false,
+		"useEditorconfig": false
 	},
 	"linter": {
 		"enabled": true,
@@ -37,7 +37,7 @@
 				"noControlCharactersInRegex": "off",
 				"noImplicitAnyLet": "off",
 				"noConfusingVoidType": "off",
-				"noShadowRestrictedNames": "off",
+				"noShadowRestrictedNames": "off"
 			},
 			"style": {
 				"noParameterAssign": "off",
@@ -48,12 +48,14 @@
 				"noDefaultExport": "error",
 				"useConsistentArrayType": {
 					"level": "off",
-					"options": { "syntax": "shorthand" },
+					"options": {
+						"syntax": "shorthand"
+					}
 				},
 				"useNodejsImportProtocol": {
 					"fix": "safe",
 					"level": "error",
-					"options": {},
+					"options": {}
 				},
 				"noSubstr": "info",
 				"useAtIndex": "info",
@@ -63,76 +65,76 @@
 						"patterns": [
 							{
 								"group": ["**/autoindex.*", "**/*.autoindex.*"],
-								"message": "试图从index文件导入符号",
-							},
-						],
-					},
-				},
+								"message": "试图从index文件导入符号"
+							}
+						]
+					}
+				}
 			},
 			"complexity": {
 				"noThisInStatic": "off",
 				"useLiteralKeys": "off",
 				"noArguments": "off",
-				"noBannedTypes": "off",
+				"noBannedTypes": "off"
 			},
 			"correctness": {
 				"useParseIntRadix": {
 					"fix": "safe",
 					"level": "error",
-					"options": {},
+					"options": {}
 				},
 				"useImportExtensions": {
 					"fix": "unsafe",
 					"level": "error",
 					"options": {
-						"forceJsExtensions": true,
-					},
+						"forceJsExtensions": true
+					}
 				},
-				"noConstantCondition": "off",
+				"noConstantCondition": "off"
 			},
 			"nursery": {},
 			"performance": {
 				"useTopLevelRegex": "info",
-				"noDelete": "off",
+				"noDelete": "off"
 			},
-			"security": {},
-		},
+			"security": {}
+		}
 	},
 	"javascript": {
 		"formatter": {
 			"enabled": true,
 			"quoteStyle": "single",
-			"trailingCommas": "all",
+			"trailingCommas": "all"
 		},
 		"linter": {
-			"enabled": true,
-		},
+			"enabled": true
+		}
 	},
 	"json": {
 		"parser": {
 			"allowTrailingCommas": true,
-			"allowComments": true,
+			"allowComments": true
 		},
 		"formatter": {
 			"enabled": true,
-			"trailingCommas": "none",
+			"trailingCommas": "none"
 		},
 		"linter": {
-			"enabled": true,
-		},
+			"enabled": true
+		}
 	},
 	"overrides": [
 		{
-			"includes": ["**/*.ts"],
+			"includes": ["**/*.ts"]
 		},
 		{
 			"includes": ["**/*.generated.ts", "**/autoindex.ts"],
 			"linter": {
-				"enabled": false,
+				"enabled": false
 			},
 			"formatter": {
-				"enabled": false,
-			},
+				"enabled": false
+			}
 		},
 		{
 			"includes": ["**/*.test.ts", "**/tests/**/*.ts", "**/test/**/*.ts"],
@@ -141,41 +143,41 @@
 					"performance": "off",
 					"style": {
 						"noNonNullAssertion": "off",
-						"noRestrictedImports": "off",
-					},
-				},
-			},
+						"noRestrictedImports": "off"
+					}
+				}
+			}
 		},
 		{
 			"includes": ["**/*.generator.ts"],
 			"linter": {
 				"rules": {
-					"performance": "off",
-				},
-			},
+					"performance": "off"
+				}
+			}
 		},
 		{
 			"includes": ["**/package.json"],
 			"formatter": {
 				"expand": "auto",
-				"lineWidth": 300,
-			},
+				"lineWidth": 300
+			}
 		},
 		{
 			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc", "**/config/*.json", "!**/config/rig.json"],
 			"json": {
 				"formatter": {
-					"trailingCommas": "all",
-				},
-			},
-		},
+					"trailingCommas": "all"
+				}
+			}
+		}
 	],
 	"css": {
 		"formatter": {
-			"enabled": true,
+			"enabled": true
 		},
 		"linter": {
-			"enabled": true,
-		},
-	},
+			"enabled": true
+		}
+	}
 }
