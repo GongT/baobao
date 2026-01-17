@@ -1,5 +1,7 @@
 # BAOBAO
 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FGongT%2Fbaobao.svg?type=large&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2FGongT%2Fbaobao?ref=badge_large&issueType=license)
+
 TypeScript代码和工具库
 
 ## @build-script - 构建生成相关工具
@@ -19,7 +21,6 @@ TypeScript代码和工具库
 * [common](@idlebox/common) 通用函数库
 * [node](@idlebox/node) nodejs函数库
 * [browser](@idlebox/browser) 浏览器函数库
-* [dependency-graph](@idlebox/dependency-graph) [dependency-graph](https://www.npmjs.com/package/dependency-graph)的包装
 * [deepmerge](@idlebox/deepmerge) 完全自定义的深拷贝
 * [dependency-graph](@idlebox/dependency-graph) 基于[dependency-graph](https://www.npmjs.com/package/dependency-graph)的执行依赖图
 * [dependency-injection](@idlebox/dependency-injection) 简单的依赖注入器，纯手工 无反射、装饰器，支持异步初始化

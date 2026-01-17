@@ -11,23 +11,28 @@
 ### 基础依赖关系图
 
 ```typescript
-import { SimpleDependencyGraph } from '@idlebox/dependency-graph';
 
-const graph = SimpleDependencyGraph.from([
-	{
-		name: 'a',
-		dependencies: ['b', 'c'],
-		reference: {}
-	},
-	{
-		name: 'b',
-		dependencies: ['c'],
-		reference: {}
-	},
-	{
-		name: 'c',
-		dependencies: ['a'],
-		reference: {}
-	}
-]);
+```
+
+### 运行依赖关系图
+
+```typescript
+import { JobGraphBuilder, Job } from '@idlebox/dependency-graph';
+
+class CleanJob extends Job {
+	async override async _execute() {}
+}
+class BuildJob extends Job {
+	async override async _execute() {}
+}
+class PublishJob extends Job {
+	async override async _execute() {}
+}
+
+const graph = new JobGraphBuilder();
+graph.addNode(new CleanJob("清理", []));
+graph.addNode(new BuildJob("编译", ["清理"]));
+graph.addNode(new PublishJob("发布", ["编译"]));
+
+await graph.startup();
 ```
