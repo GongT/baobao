@@ -2,12 +2,19 @@ name: 发布新版本
 run-name: ${{ github.actor }} 提交了一个新的节点版本 🚀
 
 permissions:
+  id-token: write
   contents: read
 
 on:
   push:
     branches: ['master']
   workflow_dispatch:
+    inputs:
+      skip_check:
+        description: 跳过“检测修改并提交”步骤
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   cache:
@@ -57,6 +64,7 @@ jobs:
         with:
           node-version: 'latest'
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: 安装依赖
         run: |
@@ -70,7 +78,17 @@ jobs:
           pnpm run build
 
       - name: 检测修改并提交
+        if: "!inputs.skip_check"
         run: source .github/scripts/check-commit.sh
 
       - name: 发布新版本
-        run: source .github/scripts/publish-all.sh
+        if: "!inputs.skip_check"
+        run: |
+          export NODE_AUTH_TOKEN=''
+          source .github/scripts/publish-all-tarball.sh
+      
+      - name: 发布新版本（跳过检测）
+        if: "inputs.skip_check"
+        run: |
+          export NODE_AUTH_TOKEN=''
+          source .github/scripts/publish-all-source.sh

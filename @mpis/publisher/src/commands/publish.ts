@@ -25,7 +25,7 @@ publish命令会执行以下步骤：
 		'--publish-branch': { flag: false, description: '添加 --publish-branch，默认为“master”' },
 		'--report-summary': { flag: true, description: '添加 --report-summary' },
 		'--tag': { flag: false, description: '添加 --tag，默认为“latest”' },
-		'--no-git': { flag: false, description: '发布后不进行git commit' },
+		'--no-git': { flag: true, description: '发布后不进行git commit' },
 		'--registry': { flag: false, description: '指定自定义的npm registry URL' },
 	};
 }
@@ -74,6 +74,7 @@ export async function main() {
 
 	// 解压缩到一个临时文件夹，其中解压缩步骤会运行hook
 	const extractDir = await extractPackage('publish-working-directory');
+	logger.log`临时文件目录: long<${extractDir}>`;
 
 	// 简单清理
 	const pkgJson = reconfigurePackageJson(extractDir);

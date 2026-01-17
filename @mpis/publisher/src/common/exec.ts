@@ -21,7 +21,7 @@ export function execPnpm(args: string[] = []) {
 export function execPnpmUser(cwd: string, args: string[] = []) {
 	logger.debug`执行命令: pnpm commandline<${args}>`;
 	return execa('pnpm', args, {
-		stdio: ['inherit', process.stderr, 'inherit'],
+		stdio: 'inherit',
 		cwd,
 		buffer: false,
 		env,
