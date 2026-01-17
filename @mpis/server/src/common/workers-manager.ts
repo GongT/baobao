@@ -1,4 +1,4 @@
-import { Emitter, registerGlobalLifecycle } from '@idlebox/common';
+import { Emitter } from '@idlebox/common';
 import { getPauseControl, Job, JobGraphBuilder, JobState, pause, UnrecoverableJobError } from '@idlebox/dependency-graph';
 import { createLogger } from '@idlebox/logger';
 import { inspect, type InspectOptionsStylized } from 'node:util';
@@ -93,7 +93,7 @@ export class WorkersManager extends JobGraphBuilder<string, EventTranslate> {
 
 	protected override _finalize() {
 		const graph = super._finalize();
-		registerGlobalLifecycle(graph);
+		// registerGlobalLifecycle(graph);
 		// registerNodejsExitHandler();
 		graph._register(this._onTerminate);
 		return graph;

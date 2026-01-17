@@ -1,5 +1,5 @@
 import { argv } from '@idlebox/args/default';
-import { InterruptError, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
+import { InterruptError, prettyPrintError, registerGlobalLifecycle, type IDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { registerNodejsGlobalTypedErrorHandlerWithInheritance, shutdown } from '@idlebox/node';
 import { debugMode } from './args.js';
@@ -12,6 +12,7 @@ export async function runWatch() {
 		return shutdown(1);
 	}
 
+	let statePrinterDisposable: IDisposable;
 	const repo = await createMonorepoObject();
 	const cls = process.stderr.isTTY && !debugMode;
 
@@ -20,6 +21,8 @@ export async function runWatch() {
 	startUi(repo);
 
 	registerNodejsGlobalTypedErrorHandlerWithInheritance(InterruptError, () => {
+		console.error(' -- Interrupted.');
+		statePrinterDisposable?.dispose();
 		shutdown(0);
 	});
 
@@ -30,7 +33,7 @@ export async function runWatch() {
 	});
 
 	if (!debugMode) {
-		repo.onStateChange(() => {
+		statePrinterDisposable = repo.onStateChange(() => {
 			if (cls && !repo.hasDisposed) process.stderr.write('\x1Bc');
 			logger.info`State changed, printing current state...`;
 			repo.printScreen(true);

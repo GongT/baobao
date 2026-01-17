@@ -5,7 +5,7 @@ import type { IPnpmMonoRepo } from './workspace.js';
 export async function startUi(_repo: IPnpmMonoRepo) {
 	registerGlobalLifecycle(
 		toDisposable(async () => {
-			logger.error`(not error, not implemented) Exiting...`;
+			logger.error`NotImpl: (this is not an error) Exiting...`;
 		}),
 	);
 }

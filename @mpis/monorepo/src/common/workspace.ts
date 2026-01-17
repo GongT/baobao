@@ -74,7 +74,7 @@ class PnpmMonoRepo extends AsyncDisposable {
 	async startup() {
 		const graph = this.workersManager.finalize();
 		// this.dump();
-		graph._register(this);
+		this._register(graph);
 		await graph.startup();
 	}
 
