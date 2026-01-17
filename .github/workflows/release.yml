@@ -1,6 +1,9 @@
 name: 发布新版本
 run-name: ${{ github.actor }} 提交了一个新的节点版本 🚀
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ['master']
@@ -36,6 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, '[checkpoint] ') || github.event_name == 'workflow_dispatch'
     needs: cache
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
         with:
@@ -68,6 +73,4 @@ jobs:
         run: source .github/scripts/check-commit.sh
 
       - name: 发布新版本
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: source .github/scripts/publish-all.sh
