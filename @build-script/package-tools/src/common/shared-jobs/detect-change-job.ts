@@ -48,7 +48,7 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 
 	if (!remotePackage || gt(packageJson.version, remotePackage.version)) {
 		logger.debug('本地版本 (%s) 已经大于远程版本 (%s)，无需进一步检测', packageJson.version, remotePackage?.version);
-		return { changedFiles: ['package.json'], hasChange: false, remoteVersion: remotePackage?.version, packageJsonDiff: '"version" already mismatch' };
+		return { changedFiles: ['package.json'], hasChange: false, remoteVersion: remotePackage?.version, packageJsonDiff: `短路检测: "version" 本地为 ${packageJson.version}, 远程版本为 ${remotePackage?.version}` };
 	}
 	logger.debug('本地版本 (%s) 小于或等于远程版本 (%s)，尝试检测更改...', packageJson.version, remotePackage.version);
 
