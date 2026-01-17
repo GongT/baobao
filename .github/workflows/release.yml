@@ -29,17 +29,19 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           run_install: false
-          version: 'latest'
+          version: 10.28.0 # pnpm版本号
 
       - name: 安装Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: 25 # node版本号
+          check-latest: true
           cache: 'pnpm'
 
       - name: 安装依赖
         run: |
-          pnpm install
+          pnpm --global install npm@latest
+          pnpm install --frozen-lockfile
           pnpm store prune --force
 
   build:
@@ -48,6 +50,8 @@ jobs:
     needs: cache
     permissions:
       contents: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -57,19 +61,22 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           run_install: false
-          version: 'latest'
+          version: 10.28.0 # pnpm版本号
 
       - name: 安装Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: 25 # node版本号
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
 
       - name: 安装依赖
         run: |
           git clean -ffdx
-          pnpm install
+          pnpm --global install npm@latest
+          which npm
+          npm --version
+          pnpm install --frozen-lockfile
           pnpm store prune --force
 
       - name: 执行构建
@@ -78,17 +85,13 @@ jobs:
           pnpm run build
 
       - name: 检测修改并提交
-        if: "!inputs.skip_check"
+        # if: "!inputs.skip_check"
         run: source .github/scripts/check-commit.sh
 
+      # - name: 跳过检测打包
+      #   if: "inputs.skip_check"
+      #   run: pnpm run ???
+
       - name: 发布新版本
-        if: "!inputs.skip_check"
-        run: |
-          export NODE_AUTH_TOKEN=''
-          source .github/scripts/publish-all-tarball.sh
+        run: source .github/scripts/publish-all-tarball.sh
       
-      - name: 发布新版本（跳过检测）
-        if: "inputs.skip_check"
-        run: |
-          export NODE_AUTH_TOKEN=''
-          source .github/scripts/publish-all-source.sh

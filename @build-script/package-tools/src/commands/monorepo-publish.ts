@@ -2,6 +2,7 @@ import { applyPublishWorkspace, createWorkspace, normalizePackageName, type IPac
 import { app, argv, CommandDefine, CSI, logger } from '@idlebox/cli';
 import { prettyPrintError } from '@idlebox/common';
 import { Job, JobGraphBuilder, JobState } from '@idlebox/dependency-graph';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { commandInPath, emptyDir, setExitCodeIfNot, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
 import { FsNodeType, spawnReadonlyFileSystemWithCommand } from '@idlebox/unshare';
 import { execaNode } from 'execa';
@@ -250,6 +251,8 @@ export async function main() {
 	const pm = await createPackageManager(PackageManagerUsageKind.Write, workspace, zipDir);
 	await prepareTempFolder(zipDir, pm);
 
+	const tempPackageJson = await loadJsonFile(resolve(zipDir, 'package.json'));
+
 	const projects = await workspace.listPackages();
 
 	let concurrency = Number.parseInt(argv.single(['--concurrency']) || '0', 10) || 5;
@@ -317,6 +320,16 @@ export async function main() {
 		packageToPublish.push({ name: node.name, pack });
 	}
 	console.log(`✅ 打包阶段结束，有 ${packageToPublish.length} 个包需要发布`);
+
+	const scripts = tempPackageJson.scripts ?? {};
+
+	for (const { name, pack } of packageToPublish) {
+		scripts[`publish:${name}`] = `npm publish ${pack} --access public --no-git-checks`;
+	}
+	scripts['publish'] = "pnpm run '/^publish:.*/'";
+
+	tempPackageJson.scripts = scripts;
+	await writeJsonFileBack(tempPackageJson);
 
 	if (opts.dryRun) {
 		console.log(`中断并退出（--dry）`);
