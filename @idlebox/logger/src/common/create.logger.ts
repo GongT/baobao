@@ -79,13 +79,16 @@ function syncEnabled(opt: IPass, tag: string, currentLevel: EnableLogLevel) {
 		 *    否则启用 >warn 级别
 		 * - 如果DEBUG中存在tag:$level，则启用 tag:$level 单个级别
 		 *
+		 * root-logger默认是手动控制
+		 * 
 		 * TODO !!
 		 */
 		+tag;
 		currentLevel = defaultLogLevel;
 	}
 
-	// 手动控制（root-logger默认是手动控制）
+	/** 手动控制 */
+
 	for (const i of [opt.error, opt.warn, opt.info, opt.log, opt.success, opt.debug, opt.verbose]) {
 		i.enable();
 	}

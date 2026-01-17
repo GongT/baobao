@@ -16,6 +16,11 @@ export class Command extends CommandDefine {
 			flag: true,
 			description: '也将devDependencies中的包添加到references中',
 		},
+		'--force': {
+			usage: true,
+			flag: true,
+			description: '强制修改，忽略git状态',
+		},
 	};
 }
 
@@ -27,13 +32,16 @@ interface IReference {
 
 export async function main() {
 	const includeDev = argv.flag(['--dev']) > 0;
+	const force = argv.flag(['--force']) > 0;
 
 	const repo = await createWorkspace();
 
-	try {
-		await repo.requireGitClean();
-	} catch (e: any) {
-		logger.fatal(e.message);
+	if (!force) {
+		try {
+			await repo.requireGitClean();
+		} catch (e: any) {
+			logger.fatal(e.message);
+		}
 	}
 
 	const list = await repo.listPackages();

@@ -1,9 +1,7 @@
 import { createWorkspace, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { argv } from '@idlebox/cli';
-import { CommandDefine } from '@idlebox/cli';
+import { argv, CommandDefine, logger } from '@idlebox/cli';
 import type { DeepReadonly, IPackageJson } from '@idlebox/common';
 import { ensureLinkTargetSync } from '@idlebox/ensure-symlink';
-import { logger } from '@idlebox/cli';
 import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
@@ -16,16 +14,16 @@ export class Command extends CommandDefine {
 		'--from': {
 			usage: true,
 			flag: false,
-			description: '将<value>视为各个项目的直接依赖 (必须是至少一个项目的依赖，否则找不到)',
+			description: '将外部依赖视为直接依赖 (必须是至少一个项目的依赖，否则找不到)',
 		},
 		'--transparent': {
 			flag: false,
-			description: '将<value>的所有直接依赖视为此项目的直接依赖',
+			description: '将workspace中其他项目的依赖视为此项目的',
 		},
 		'--recursive': {
 			usage: true,
 			flag: true,
-			description: '在每个项目中运行，而非当前项目',
+			description: '在workspace的每个项目中分别运行此命令',
 		},
 	};
 }
@@ -35,9 +33,21 @@ interface BinaryDefine {
 	readonly absolutePath: string;
 }
 interface IJobContext {
+	/**
+	 * 连接到哪里（接收者）
+	 */
 	readonly packageRoot: string;
-	readonly deps: readonly BinaryDefine[];
-	readonly globalDeps: readonly BinaryDefine[];
+	/**
+	 * 当前项目依赖
+	 */
+	readonly direct: readonly BinaryDefine[];
+	/**
+	 * 命令行要求的外部依赖
+	 */
+	readonly manual: readonly BinaryDefine[];
+	/**
+	 * workspace中其他项目依赖
+	 */
 	readonly monorepo: readonly BinaryDefine[];
 }
 
@@ -70,25 +80,25 @@ export async function main() {
 		}
 	}
 
-	const locals = await createBins(workspace, localPackages);
-	const globals = await createBins(workspace, [...additionalPackages]);
+	const locals = await collectBinaryByName(workspace, localPackages);
+	const globals = await collectBinaryByName(workspace, [...additionalPackages]);
 
 	if (recursiveMode) {
 		for (const pkg of projectList) {
-			const current = await createBins(workspace, depNames(pkg.packageJson));
+			const current = await collectBinaryByName(workspace, depNames(pkg.packageJson));
 			await execute({
-				deps: current,
-				globalDeps: globals,
+				direct: current,
+				manual: globals,
 				monorepo: locals,
 				packageRoot: pkg.absolute,
 			});
 		}
 	} else {
 		const pkg = await workspace.getNearestPackage(process.cwd());
-		const current = await createBins(workspace, depNames(pkg.packageJson));
+		const current = await collectBinaryByName(workspace, depNames(pkg.packageJson));
 		await execute({
-			deps: current,
-			globalDeps: globals,
+			direct: current,
+			manual: globals,
 			monorepo: locals,
 			packageRoot: pkg.absolute,
 		});
@@ -96,14 +106,15 @@ export async function main() {
 }
 
 async function execute(ctx: IJobContext) {
-	logger.log`linking binaries in project long<${ctx.packageRoot}>`;
-
 	const final = new Map<string, string>();
-	for (const list of [ctx.globalDeps, ctx.deps, ctx.monorepo]) {
+	for (const list of [ctx.manual, ctx.monorepo, ctx.direct]) {
 		for (const bin of list) {
 			final.set(bin.name, bin.absolutePath);
 		}
 	}
+
+	logger.log`linking ${final.size} binaries in project long<${ctx.packageRoot}>`;
+	logger.verbose`mappinglist<${final}>`;
 
 	const dry = argv.flag(['--dry']) > 0;
 	const bindir = resolve(ctx.packageRoot, 'node_modules/.bin');
@@ -135,20 +146,31 @@ function depNames(pkgJson: DeepReadonly<IPackageJson>) {
 	return r;
 }
 
-async function createBins(workspace: MonorepoWorkspace, names: string[]) {
-	const bins: BinaryDefine[] = [];
-	const packageList = workspace.listPackages();
+/**
+ * 收集指定名称的二进制文件
+ */
+async function collectBinaryByName(workspace: MonorepoWorkspace, names: string[]) {
+	if(names.length === 0) return [];
 
-	for (const want of names) {
-		for (const proj of await packageList) {
+	const bins: BinaryDefine[] = [];
+	const packageList = await workspace.listPackages();
+
+	for (const proj of packageList) {
+		for (const want of names) {
 			if (proj.name === want) {
-				makeBinMap(bins, proj.absolute, proj.packageJson);
+				binariesInPackage(bins, proj.absolute, proj.packageJson);
 			}
 			const deps = depNames(proj.packageJson);
 			if (deps.includes(want)) {
 				const depRoot = resolve(proj.absolute, 'node_modules', want);
-				const pkgJson: IPackageJson = JSON.parse(readFileSync(resolve(depRoot, 'package.json'), 'utf-8'));
-				makeBinMap(bins, depRoot, pkgJson);
+				let pkgJson: IPackageJson;
+				try{
+					pkgJson = JSON.parse(readFileSync(resolve(depRoot, 'package.json'), 'utf-8'));
+				} catch (e) {
+					logger.warn`dependency ${want} is invalid (in ${proj.name}), skipping: ${e}`;
+					continue;
+				}
+				binariesInPackage(bins, depRoot, pkgJson);
 			}
 		}
 	}
@@ -156,7 +178,7 @@ async function createBins(workspace: MonorepoWorkspace, names: string[]) {
 	return bins;
 }
 
-function makeBinMap(result: BinaryDefine[], absolute: string, json: DeepReadonly<IPackageJson>) {
+function binariesInPackage(result: BinaryDefine[], absolute: string, json: DeepReadonly<IPackageJson>) {
 	if (!json.bin) return;
 
 	let bins: Record<string, string> = {};

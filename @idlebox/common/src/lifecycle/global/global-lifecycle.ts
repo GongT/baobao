@@ -2,7 +2,7 @@ import { globalSingletonStrong } from '../../platform/globalSingleton.js';
 import { createSymbol } from '../../platform/globalSymbol.js';
 import { UnorderedAsyncDisposable, type EnhancedAsyncDisposable } from '../dispose/async-disposable.js';
 import { _debug_dispose } from '../dispose/debug.js';
-import type { IAsyncDisposable, IDisposable } from '../dispose/disposable.js';
+import type { IAsyncDisposable, IDisposable, IDisposableEvents } from '../dispose/disposable.js';
 
 const symbol = createSymbol('lifecycle', 'application');
 
@@ -15,8 +15,10 @@ const logger = _debug_dispose.extend('global');
 /**
  * Add object into global disposable store, it will be dispose when call to `disposeGlobal`
  */
-export function registerGlobalLifecycle(object: IDisposable | IAsyncDisposable) {
-	globalSingletonStrong(symbol, create)._register(object);
+export function registerGlobalLifecycle(object: (IDisposable | IAsyncDisposable) & IDisposableEvents, autoDereference: true): void;
+export function registerGlobalLifecycle(object: IDisposable | IAsyncDisposable): void;
+export function registerGlobalLifecycle(object: IDisposable | IAsyncDisposable, autoDereference?: boolean) {
+	globalSingletonStrong(symbol, create)._register(object as any, autoDereference);
 }
 
 /**

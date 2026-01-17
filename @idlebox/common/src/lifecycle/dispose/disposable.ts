@@ -3,7 +3,7 @@ import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack
 import { Emitter } from '../event/event.js';
 import type { EventRegister } from '../event/type.js';
 import { fromNativeDisposable } from './bridges/native.js';
-import { _debug_dispose, dispose_name } from './debug.js';
+import { _debug_dispose, dispose_name, forgetParent, rememberParent } from './debug.js';
 import { DuplicateDisposed } from './disposedError.js';
 
 export enum DuplicateDisposeAction {
@@ -95,13 +95,20 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 				this._unregister(d);
 			});
 		}
+
+		rememberParent(d, this);
+
 		return d;
 	}
 
 	public _unregister(d: _Type<Async>) {
 		if (this._logger.enabled) this._logger(`unregister ${dispose_name(d)}`);
 		this.assertNotDisposed();
-		return this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
+		const rmOk = this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
+
+		if (rmOk) forgetParent(d, this);
+
+		return rmOk;
 	}
 
 	protected readonly duplicateDispose: DuplicateDisposeAction = DuplicateDisposeAction.Warning;
