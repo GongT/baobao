@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} 提交了一个新的节点版本 🚀
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 on:
   push:
@@ -21,26 +21,23 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, '[checkpoint] ') || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v6
 
       - name: 安装pnpm
         uses: pnpm/action-setup@v4
         with:
-          run_install: false
-          version: 10.28.0 # pnpm版本号
-
-      - name: 安装Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 25 # node版本号
-          check-latest: true
-          cache: 'pnpm'
+          standalone: true
+          cache: true
 
       - name: 安装依赖
         run: |
+          pnpm env use --global latest
           pnpm --global install npm@latest
+
+          printf "node version: %s (%s)\n" "$(node --version)" "$(command -v node)"
+          printf "npm version: %s (%s)\n" "$(npm --version)" "$(command -v npm)"
+          printf "pnpm version: %s (%s)\n" "$(pnpm --version)" "$(command -v pnpm)"
+
           pnpm install --frozen-lockfile
           pnpm store prune --force
 
@@ -48,34 +45,26 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, '[checkpoint] ') || github.event_name == 'workflow_dispatch'
     needs: cache
-    permissions:
-      contents: write
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    # env:
+    #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 4
+      - uses: actions/checkout@v6
 
       - name: 安装pnpm
         uses: pnpm/action-setup@v4
         with:
-          run_install: false
-          version: 10.28.0 # pnpm版本号
-
-      - name: 安装Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 25 # node版本号
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
+          standalone: true
+          cache: true
 
       - name: 安装依赖
         run: |
-          git clean -ffdx
+          pnpm env use --global latest
           pnpm --global install npm@latest
-          which npm
-          npm --version
+
+          printf "node version: %s (%s)\n" "$(node --version)" "$(command -v node)"
+          printf "npm version: %s (%s)\n" "$(npm --version)" "$(command -v npm)"
+          printf "pnpm version: %s (%s)\n" "$(pnpm --version)" "$(command -v pnpm)"
+
           pnpm install --frozen-lockfile
           pnpm store prune --force
 
