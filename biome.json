@@ -128,15 +128,6 @@
 			"includes": ["**/*.ts"]
 		},
 		{
-			"includes": ["**/*.generated.ts", "**/autoindex.ts"],
-			"linter": {
-				"enabled": false
-			},
-			"formatter": {
-				"enabled": false
-			}
-		},
-		{
 			"includes": ["**/*.test.ts", "**/tests/**/*.ts", "**/test/**/*.ts"],
 			"linter": {
 				"rules": {
@@ -157,10 +148,12 @@
 			}
 		},
 		{
-			"includes": ["**/package.json"],
+			"includes": ["**/*.generated.ts", "**/autoindex.ts"],
+			"linter": {
+				"enabled": false
+			},
 			"formatter": {
-				"expand": "auto",
-				"lineWidth": 300
+				"enabled": false
 			}
 		},
 		{
@@ -168,6 +161,18 @@
 			"json": {
 				"formatter": {
 					"trailingCommas": "all"
+				}
+			}
+		},
+		{
+			"includes": ["**/package.json"],
+			"formatter": {
+				"expand": "auto",
+				"lineWidth": 300
+			},
+			"json": {
+				"formatter": {
+					"trailingCommas": "none"
 				}
 			}
 		}
