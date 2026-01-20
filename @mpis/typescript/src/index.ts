@@ -35,8 +35,8 @@ const projAbs = resolve(process.cwd(), project);
 const packageFile = findUpUntilSync({ from: projAbs, file: 'package.json' });
 if (!packageFile) throw new Error(`Could not find package.json in the project directory: ${projAbs}`);
 
-// console.log('Using TypeScript compiler:', tscPath);
-// console.log('packageFile=', packageFile);
+// console.error('Using TypeScript compiler:', tscPath);
+// console.error('packageFile=', packageFile);
 
 const { default: packageJson } = await import(packageFile, { with: { type: 'json' } });
 const title = packageJson.name.replace('@', '').replace('/', ':');
@@ -55,12 +55,13 @@ hookCurrentProcessOutput({
 argv.flag(['--preserveWatchOutput']);
 
 const rebuild = argv.unused();
-if (buildArg) rebuild.push('--build', buildArg);
-if (projectArg) rebuild.push('--project', projectArg);
+if (buildArg) rebuild.unshift('--build', buildArg);
+if (projectArg) rebuild.unshift('--project', projectArg);
 
 process.argv.push(...rebuild);
 process.argv.push('--preserveWatchOutput');
 
-// console.log(`+ ${process.argv.join(' ')}`);
+// console.error(`+ ${process.argv.join(' ')}`);
+// console.error(`> ${process.cwd()}`);
 
 await import(tscPath);
