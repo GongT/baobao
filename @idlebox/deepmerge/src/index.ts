@@ -26,6 +26,9 @@ export const custom = Symbol('idlebox/deepmerge/custom');
 export interface MergeStrategy {
 	/**
 	 * 合并简单值
+	 *
+	 * 默认: 如果right不为undefined，则使用right，否则使用left
+	 *
 	 * @param left a中的值
 	 * @param right b中的值
 	 */
@@ -33,15 +36,20 @@ export interface MergeStrategy {
 
 	/**
 	 * 合并数组
+	 *
+	 * 默认: 直接使用b中的数组，丢弃a的
+	 *
 	 * @param left a中的值
-	 * @param right b中的值
-	 * @returns 合并后的值，如果为undefined，则返回right
+	 * @param right b中的值，它不一定是数组
+	 * @returns 合并后的值，如果为undefined，则返回(right ?? left)
 	 */
 	array?: MergeFn<Array<any>>;
 
 	/**
 	 * 合并普通对象
 	 * 其中left一定是其他合并函数无法处理的object类型
+	 *
+	 * 默认: 普通深复制
 	 *
 	 * @param left a中的值
 	 * @param right b中的值
@@ -89,6 +97,10 @@ const defaults: StrategyRequired = {
 
 /**
  * 深复制并合并两个对象，原对象不会修改（当然，无法限制options传入的回调）。
+ * 
+ * 并且其中的对象引用完全依赖传入的options。
+ * 
+ * 对返回值进行写操作可能产生意外影响。
  */
 export function deepmerge<A, B = any>(a: A, b: B, options?: MergeStrategy): A & B {
 	return _deepmerge(a, b, [], { ...defaults, ...options });

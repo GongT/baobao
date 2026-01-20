@@ -1,4 +1,4 @@
-import { createLogger, logger, type IMyLogger } from '@idlebox/logger';
+import { createLogger, type IMyLogger } from '@idlebox/logger';
 import { execLazyError, findUpUntil, normalizePath } from '@idlebox/node';
 import { dirname, resolve } from 'node:path';
 import { decoupleDependencies } from './common/deduplicate-dependency.js';
@@ -108,7 +108,7 @@ export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
 			return;
 		}
 
-		const list = await getWorkspaceList(this.root, this.workspaceKind);
+		const list = await getWorkspaceList(this.root, this.workspaceKind, this.logger);
 		for (const pkg of list) {
 			this.cachedList.set(pkg.name, pkg);
 		}
@@ -137,7 +137,7 @@ export class SimplePackage extends WorkspaceBase {
 
 export type IDecoupleMethod = (projects: readonly IPackageInfoRW[]) => Promise<void>;
 
-function getWorkspaceList(root: string, workspaceKind: WorkspaceKind): Promise<IPackageInfoRW[]> {
+function getWorkspaceList(root: string, workspaceKind: WorkspaceKind, logger: IMyLogger): Promise<IPackageInfoRW[]> {
 	logger.verbose`listing packages by ${WorkspaceKind[workspaceKind]} in long<${root}>`;
 	switch (workspaceKind) {
 		case WorkspaceKind.PnpmWorkspace:

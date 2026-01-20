@@ -14,6 +14,8 @@ import { projectRoot } from './common/paths.js';
 import { reprintWatchModeError } from './common/print-screen.js';
 import { initializeStdin, registerCommand } from './common/stdin.js';
 
+const cls = /\x1Bc/g;
+
 registerNodejsExitHandler();
 
 registerCommand({
@@ -120,8 +122,6 @@ function executeClean() {
 	}
 	logger.success`Cleaned up ${config.clean.length} folders.`;
 }
-
-const cls = /\x1Bc/g;
 
 function printFailedRunError(worker: ProcessIPCClient, message: string) {
 	if (context.watchMode && process.stderr.isTTY) process.stderr.write('\x1Bc');

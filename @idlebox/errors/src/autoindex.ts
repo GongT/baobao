@@ -29,6 +29,9 @@
 	export { UsageError } from "./common/application.js";
 /* common/base.ts */
 	// Identifiers
+	export { humanReadable } from "./common/base.js";
+	export type { IHumanReadable } from "./common/base.js";
+	export { isHumanReadableError } from "./common/base.js";
 	export { NotError } from "./common/base.js";
 	export { ErrorWithCode } from "./common/base.js";
 	export { CanceledError } from "./common/base.js";

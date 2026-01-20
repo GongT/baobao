@@ -50,4 +50,9 @@
 	},
 	"cSpell.words": ["itypes", "mpis"],
 	"remote.autoForwardPorts": false,
+	"github.copilot.chat.commitMessageGeneration.instructions": [
+		{
+			"file": ".github/copilot-instructions/commit-message.md"
+		}
+	],
 }

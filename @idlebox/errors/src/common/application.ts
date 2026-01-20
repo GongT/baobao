@@ -1,5 +1,5 @@
 import { ExitCode } from '../codes/wellknown-exit-codes.js';
-import { ErrorWithCode } from './base.js';
+import { ErrorWithCode, humanReadable } from './base.js';
 
 /**
  * 程序因为正常运行结束而退出
@@ -22,6 +22,10 @@ export class InterruptError extends ErrorWithCode {
 	) {
 		super(`interrupt by signal ${signal}`, ExitCode.INTERRUPT, boundary);
 	}
+
+	override [humanReadable]() {
+		return `程序被信号 ${this.signal} 异常中断`;
+	}
 }
 
 /**
@@ -30,5 +34,9 @@ export class InterruptError extends ErrorWithCode {
 export class UsageError extends ErrorWithCode {
 	constructor(message: string, boundary?: CallableFunction) {
 		super(message, ExitCode.USAGE, boundary);
+	}
+
+	override [humanReadable]() {
+		return `参数错误: ${this.message}\n  - 此为非程序性错误，使用 --help 查看帮助`;
 	}
 }

@@ -80,6 +80,8 @@ export async function main() {
 		}
 	}
 
+	logger.verbose`additional packages: list<${additionalPackages}>`;
+
 	const locals = await collectBinaryByName(workspace, localPackages);
 	const globals = await collectBinaryByName(workspace, [...additionalPackages]);
 
@@ -114,7 +116,9 @@ async function execute(ctx: IJobContext) {
 	}
 
 	logger.log`linking ${final.size} binaries in project long<${ctx.packageRoot}>`;
-	logger.verbose`mappinglist<${final}>`;
+	logger.verbose`manual list<${ctx.manual.map((b) => b.name)}>`;
+	logger.verbose`monorepo list<${ctx.monorepo.map((b) => b.name)}>`;
+	logger.verbose`direct list<${ctx.direct.map((b) => b.name)}>`;
 
 	const dry = argv.flag(['--dry']) > 0;
 	const bindir = resolve(ctx.packageRoot, 'node_modules/.bin');
@@ -150,7 +154,7 @@ function depNames(pkgJson: DeepReadonly<IPackageJson>) {
  * 收集指定名称的二进制文件
  */
 async function collectBinaryByName(workspace: MonorepoWorkspace, names: string[]) {
-	if(names.length === 0) return [];
+	if (names.length === 0) return [];
 
 	const bins: BinaryDefine[] = [];
 	const packageList = await workspace.listPackages();
@@ -164,7 +168,7 @@ async function collectBinaryByName(workspace: MonorepoWorkspace, names: string[]
 			if (deps.includes(want)) {
 				const depRoot = resolve(proj.absolute, 'node_modules', want);
 				let pkgJson: IPackageJson;
-				try{
+				try {
 					pkgJson = JSON.parse(readFileSync(resolve(depRoot, 'package.json'), 'utf-8'));
 				} catch (e) {
 					logger.warn`dependency ${want} is invalid (in ${proj.name}), skipping: ${e}`;
