@@ -33,6 +33,7 @@ export class Command extends CommandDefine {
 
 class BuildPackageJob extends Job<void> {
 	private shouldPublish = '';
+	public initialVersion = true;
 
 	constructor(
 		name: string,
@@ -200,8 +201,10 @@ class BuildPackageJob extends Job<void> {
 			this.log(`       📦 ${relative(this.workspace.root, this.shouldPublish)}`);
 
 			if (remoteVersion) {
+				this.initialVersion = false;
 				this.log(`    🎈 即将发布新版本 "${localVersion}" 以更新远程版本 "${remoteVersion}"\n`);
 			} else {
+				this.initialVersion = true;
 				this.log(`    🎈 即将发布初始版本 "${localVersion}"\n`);
 			}
 
@@ -310,14 +313,14 @@ export async function main() {
 	}
 	await graph.startup();
 
-	const packageToPublish: { name: string; pack: string }[] = [];
+	const packageToPublish: { name: string; pack: string; initial: boolean }[] = [];
 	for (const id of graph.overallOrder) {
 		const node = graph.getNodeByName(id);
 		if (!(node instanceof BuildPackageJob)) continue;
 
 		const pack = node.getPackagePath();
 		if (!pack) continue;
-		packageToPublish.push({ name: node.name, pack });
+		packageToPublish.push({ name: node.name, pack, initial: node.initialVersion });
 	}
 	console.log(`✅ 打包阶段结束，有 ${packageToPublish.length} 个包需要发布`);
 
@@ -334,6 +337,17 @@ export async function main() {
 	if (opts.dryRun) {
 		console.log(`中断并退出（--dry）`);
 		throw shutdown(0);
+	}
+
+	if (packageToPublish.some((item) => item.initial)) {
+		if (process.env.CI) {
+			console.log(`❌ 发现初始版本，CI环境下无法输入npm一次性密码。`);
+			throw shutdown(1);
+		}
+		if (!process.stdin.isTTY) {
+			console.log(`❌ 发现初始版本，当前为非交互式终端，无法输入npm一次性密码。`);
+			throw shutdown(1);
+		}
 	}
 
 	const w = packageToPublish.length.toFixed(0).length;
