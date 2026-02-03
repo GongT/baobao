@@ -47,7 +47,7 @@ alwaysAuth: false
 fetchRetries: 1000
 networkConcurrency: 3
 gitChecks: false
-registry: https://registry.npmmirror.com/
+registry: https://registry.npmjs.org/
 
 publishConfig:
   preferOffline: false

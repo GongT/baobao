@@ -1,6 +1,6 @@
 {
 	"name": "@gongt/trpc-lib",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"description": "A tRPC library",
 	"keywords": ["trpc", "socket.io", "api-extractor"],
 	"sideEffects": false,

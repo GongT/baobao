@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/esbuild",
 	"type": "module",
-	"version": "0.0.12",
+	"version": "0.0.14",
 	"keywords": [],
 	"exports": {
 		".": {
