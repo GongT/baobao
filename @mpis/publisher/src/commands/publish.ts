@@ -27,6 +27,7 @@ publish命令会执行以下步骤：
 		'--tag': { flag: false, description: '添加 --tag，默认为“latest”' },
 		'--no-git': { flag: true, description: '发布后不进行git commit' },
 		'--registry': { flag: false, description: '指定自定义的npm registry URL' },
+		'--otp': { flag: false, description: '' },
 	};
 }
 
@@ -62,8 +63,22 @@ export async function main() {
 
 	const noGit = argv.flag(['--no-git']) > 0;
 
+	const otp = argv.single(['--otp']);
+
 	if (argv.unused().length > 0) {
 		throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
+	}
+
+	if (otp) {
+		publishArgs.push('--otp', otp);
+	} else if (!process.stdin.isTTY) {
+		logger.fatal`🚨 NPM当前要求使用二步验证发布包。但当前为非交互式终端，需使用 --otp 参数提供一次性密码。`;
+	} else {
+		if (process.env.BROWSER) {
+			logger.debug`BROWSER=${process.env.BROWSER}`;
+		} else {
+			logger.warn`BROWSER 环境变量未设置，无法预期行为，最好设置它。`;
+		}
 	}
 
 	// prepare
@@ -86,14 +101,13 @@ export async function main() {
 		targetDir: tempDir,
 	});
 
-	logger.success`🚀 准备完毕，即将向npm registry发送实际请求！`;
-
 	if (registry) {
 		publishArgs.push('--registry', registry);
 	} else if (configRegistry) {
 		publishArgs.push('--registry', configRegistry);
 	}
 
+	logger.success`🚀 准备完毕，即将向npm registry发送实际请求！`;
 	await execPnpmUser(extractDir, ['publish', ...publishArgs]);
 
 	logger.success`✅ 发布成功！`;

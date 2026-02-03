@@ -67,9 +67,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -82,6 +82,15 @@ importers:
       '@types/node':
         specifier: ^25.0.8
         version: 25.0.8
+
+  '@build-script/baseline-rig':
+    devDependencies:
+      '@types/node':
+        specifier: workspace:@idlebox/itypes@*
+        version: link:../../@idlebox/itypes
+      prettier:
+        specifier: ^3.7.4
+        version: 3.7.4
 
   '@build-script/biomejs-step-by-step':
     dependencies:
@@ -116,9 +125,9 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -168,9 +177,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -223,9 +232,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -248,9 +257,9 @@ importers:
         specifier: workspace:^
         version: link:../../@idlebox/node
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -273,9 +282,9 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -316,9 +325,9 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../autoindex
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -392,12 +401,12 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
     devDependencies:
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../codegen
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../single-dog-asset
       '@idlebox/cli-static-generator':
         specifier: workspace:^
         version: link:../../@idlebox/cli-static-generator
@@ -456,9 +465,9 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -481,15 +490,6 @@ importers:
         specifier: ^25.0.8
         version: 25.0.8
 
-  '@build-script/single-dog-asset':
-    devDependencies:
-      '@types/node':
-        specifier: workspace:@idlebox/itypes@*
-        version: link:../../@idlebox/itypes
-      prettier:
-        specifier: ^3.7.4
-        version: 3.7.4
-
   '@build-script/vite-plugin-chunk-tree':
     dependencies:
       '@idlebox/common':
@@ -502,9 +502,9 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../single-dog-asset
+        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -552,12 +552,12 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -583,12 +583,12 @@ importers:
         specifier: ^11.8.1
         version: 11.8.1
     devDependencies:
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -608,9 +608,9 @@ importers:
         specifier: workspace:^
         version: link:../../standalone/cjke
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -642,9 +642,9 @@ importers:
         specifier: workspace:^
         version: link:../common
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -674,9 +674,9 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -711,9 +711,9 @@ importers:
         specifier: workspace:^
         version: link:../source-map-support
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/cli-static-generator':
         specifier: workspace:^
         version: link:../cli-static-generator
@@ -726,9 +726,9 @@ importers:
 
   '@idlebox/cli-help-builder':
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -775,9 +775,9 @@ importers:
         specifier: ^4.55.1
         version: 4.55.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/cli-help-builder':
         specifier: workspace:^
         version: link:../cli-help-builder
@@ -809,12 +809,12 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@idlebox/itypes':
         specifier: workspace:^
         version: link:../itypes
@@ -836,9 +836,9 @@ importers:
 
   '@idlebox/deepmerge':
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -870,9 +870,9 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../esbuild-executer
@@ -916,9 +916,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../esbuild-executer
@@ -956,9 +956,9 @@ importers:
         specifier: workspace:^
         version: link:../node-error-codes
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -987,9 +987,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1015,9 +1015,9 @@ importers:
         specifier: workspace:^
         version: link:../source-map-support
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1046,9 +1046,9 @@ importers:
         specifier: ^3.7.4
         version: 3.7.4
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -1070,9 +1070,9 @@ importers:
 
   '@idlebox/json-edit-biome':
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -1104,9 +1104,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1129,9 +1129,9 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1157,9 +1157,9 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1172,12 +1172,12 @@ importers:
 
   '@idlebox/node-error-codes':
     devDependencies:
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1194,9 +1194,9 @@ importers:
         specifier: workspace:^
         version: link:../common
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1222,9 +1222,9 @@ importers:
         specifier: ^0.5.21
         version: 0.5.21
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1234,12 +1234,12 @@ importers:
 
   '@idlebox/stripe-node-types':
     devDependencies:
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
@@ -1262,9 +1262,9 @@ importers:
 
   '@idlebox/tsconfig-loader':
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1293,9 +1293,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1318,9 +1318,9 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
@@ -1342,6 +1342,9 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/biomejs-step-by-step':
         specifier: workspace:^
         version: link:../../@build-script/biomejs-step-by-step
@@ -1366,9 +1369,6 @@ importers:
       '@build-script/rushstack-config-loader':
         specifier: workspace:^
         version: link:../../@build-script/rushstack-config-loader
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@build-script/vite-plugin-chunk-tree':
         specifier: workspace:^
         version: link:../../@build-script/vite-plugin-chunk-tree
@@ -1516,15 +1516,15 @@ importers:
 
   '@internal/scripts':
     devDependencies:
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/depcheck':
         specifier: workspace:^
         version: link:../../@build-script/depcheck
       '@build-script/rushstack-config-loader':
         specifier: workspace:^
         version: link:../../@build-script/rushstack-config-loader
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@idlebox/args':
         specifier: workspace:^
         version: link:../../@idlebox/args
@@ -1586,9 +1586,9 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1611,9 +1611,9 @@ importers:
         specifier: workspace:^
         version: link:../client
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1660,9 +1660,9 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1703,12 +1703,12 @@ importers:
         specifier: ^7.5.2
         version: 7.5.2
     devDependencies:
+      '@build-script/baseline-rig':
+        specifier: workspace:^
+        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@build-script/single-dog-asset':
-        specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1752,9 +1752,9 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1789,9 +1789,9 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1810,9 +1810,9 @@ importers:
 
   '@mpis/shared':
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1838,9 +1838,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1866,9 +1866,9 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1894,9 +1894,9 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../../@idlebox/source-map-support
@@ -1946,9 +1946,9 @@ importers:
         specifier: ^21.0.4
         version: 21.0.4
     devDependencies:
-      '@build-script/single-dog-asset':
+      '@build-script/baseline-rig':
         specifier: workspace:^
-        version: link:../../@build-script/single-dog-asset
+        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -2756,72 +2756,72 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@swc/core-darwin-arm64@1.15.8':
-    resolution: {integrity: sha512-M9cK5GwyWWRkRGwwCbREuj6r8jKdES/haCZ3Xckgkl8MUQJZA3XB7IXXK1IXRNeLjg6m7cnoMICpXv1v1hlJOg==}
+  '@swc/core-darwin-arm64@1.15.11':
+    resolution: {integrity: sha512-QoIupRWVH8AF1TgxYyeA5nS18dtqMuxNwchjBIwJo3RdwLEFiJq6onOx9JAxHtuPwUkIVuU2Xbp+jCJ7Vzmgtg==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@swc/core-darwin-x64@1.15.8':
-    resolution: {integrity: sha512-j47DasuOvXl80sKJHSi2X25l44CMc3VDhlJwA7oewC1nV1VsSzwX+KOwE5tLnfORvVJJyeiXgJORNYg4jeIjYQ==}
+  '@swc/core-darwin-x64@1.15.11':
+    resolution: {integrity: sha512-S52Gu1QtPSfBYDiejlcfp9GlN+NjTZBRRNsz8PNwBgSE626/FUf2PcllVUix7jqkoMC+t0rS8t+2/aSWlMuQtA==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [darwin]
 
-  '@swc/core-linux-arm-gnueabihf@1.15.8':
-    resolution: {integrity: sha512-siAzDENu2rUbwr9+fayWa26r5A9fol1iORG53HWxQL1J8ym4k7xt9eME0dMPXlYZDytK5r9sW8zEA10F2U3Xwg==}
+  '@swc/core-linux-arm-gnueabihf@1.15.11':
+    resolution: {integrity: sha512-lXJs8oXo6Z4yCpimpQ8vPeCjkgoHu5NoMvmJZ8qxDyU99KVdg6KwU9H79vzrmB+HfH+dCZ7JGMqMF//f8Cfvdg==}
     engines: {node: '>=10'}
     cpu: [arm]
     os: [linux]
 
-  '@swc/core-linux-arm64-gnu@1.15.8':
-    resolution: {integrity: sha512-o+1y5u6k2FfPYbTRUPvurwzNt5qd0NTumCTFscCNuBksycloXY16J8L+SMW5QRX59n4Hp9EmFa3vpvNHRVv1+Q==}
+  '@swc/core-linux-arm64-gnu@1.15.11':
+    resolution: {integrity: sha512-chRsz1K52/vj8Mfq/QOugVphlKPWlMh10V99qfH41hbGvwAU6xSPd681upO4bKiOr9+mRIZZW+EfJqY42ZzRyA==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@swc/core-linux-arm64-musl@1.15.8':
-    resolution: {integrity: sha512-koiCqL09EwOP1S2RShCI7NbsQuG6r2brTqUYE7pV7kZm9O17wZ0LSz22m6gVibpwEnw8jI3IE1yYsQTVpluALw==}
+  '@swc/core-linux-arm64-musl@1.15.11':
+    resolution: {integrity: sha512-PYftgsTaGnfDK4m6/dty9ryK1FbLk+LosDJ/RJR2nkXGc8rd+WenXIlvHjWULiBVnS1RsjHHOXmTS4nDhe0v0w==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@swc/core-linux-x64-gnu@1.15.8':
-    resolution: {integrity: sha512-4p6lOMU3bC+Vd5ARtKJ/FxpIC5G8v3XLoPEZ5s7mLR8h7411HWC/LmTXDHcrSXRC55zvAVia1eldy6zDLz8iFQ==}
+  '@swc/core-linux-x64-gnu@1.15.11':
+    resolution: {integrity: sha512-DKtnJKIHiZdARyTKiX7zdRjiDS1KihkQWatQiCHMv+zc2sfwb4Glrodx2VLOX4rsa92NLR0Sw8WLcPEMFY1szQ==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@swc/core-linux-x64-musl@1.15.8':
-    resolution: {integrity: sha512-z3XBnbrZAL+6xDGAhJoN4lOueIxC/8rGrJ9tg+fEaeqLEuAtHSW2QHDHxDwkxZMjuF/pZ6MUTjHjbp8wLbuRLA==}
+  '@swc/core-linux-x64-musl@1.15.11':
+    resolution: {integrity: sha512-mUjjntHj4+8WBaiDe5UwRNHuEzLjIWBTSGTw0JT9+C9/Yyuh4KQqlcEQ3ro6GkHmBGXBFpGIj/o5VMyRWfVfWw==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@swc/core-win32-arm64-msvc@1.15.8':
-    resolution: {integrity: sha512-djQPJ9Rh9vP8GTS/Df3hcc6XP6xnG5c8qsngWId/BLA9oX6C7UzCPAn74BG/wGb9a6j4w3RINuoaieJB3t+7iQ==}
+  '@swc/core-win32-arm64-msvc@1.15.11':
+    resolution: {integrity: sha512-ZkNNG5zL49YpaFzfl6fskNOSxtcZ5uOYmWBkY4wVAvgbSAQzLRVBp+xArGWh2oXlY/WgL99zQSGTv7RI5E6nzA==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [win32]
 
-  '@swc/core-win32-ia32-msvc@1.15.8':
-    resolution: {integrity: sha512-/wfAgxORg2VBaUoFdytcVBVCgf1isWZIEXB9MZEUty4wwK93M/PxAkjifOho9RN3WrM3inPLabICRCEgdHpKKQ==}
+  '@swc/core-win32-ia32-msvc@1.15.11':
+    resolution: {integrity: sha512-6XnzORkZCQzvTQ6cPrU7iaT9+i145oLwnin8JrfsLG41wl26+5cNQ2XV3zcbrnFEV6esjOceom9YO1w9mGJByw==}
     engines: {node: '>=10'}
     cpu: [ia32]
     os: [win32]
 
-  '@swc/core-win32-x64-msvc@1.15.8':
-    resolution: {integrity: sha512-GpMePrh9Sl4d61o4KAHOOv5is5+zt6BEXCOCgs/H0FLGeii7j9bWDE8ExvKFy2GRRZVNR1ugsnzaGWHKM6kuzA==}
+  '@swc/core-win32-x64-msvc@1.15.11':
+    resolution: {integrity: sha512-IQ2n6af7XKLL6P1gIeZACskSxK8jWtoKpJWLZmdXTDj1MGzktUy4i+FvpdtxFmJWNavRWH1VmTr6kAubRDHeKw==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [win32]
 
-  '@swc/core@1.15.8':
-    resolution: {integrity: sha512-T8keoJjXaSUoVBCIjgL6wAnhADIb09GOELzKg10CjNg+vLX48P93SME6jTfte9MZIm5m+Il57H3rTSk/0kzDUw==}
+  '@swc/core@1.15.11':
+    resolution: {integrity: sha512-iLmLTodbYxU39HhMPaMUooPwO/zqJWvsqkrXv1ZI38rMb048p6N7qtAtTp37sw9NzSrvH6oli8EdDygo09IZ/w==}
     engines: {node: '>=10'}
     peerDependencies:
       '@swc/helpers': '*'
@@ -5350,7 +5350,7 @@ snapshots:
   '@rollup/plugin-swc@0.4.0(rollup@4.55.1)':
     dependencies:
       '@rollup/pluginutils': 5.3.0(rollup@4.55.1)
-      '@swc/core': 1.15.8
+      '@swc/core': 1.15.11
       smob: 1.5.0
     optionalDependencies:
       rollup: 4.55.1
@@ -5581,51 +5581,51 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@swc/core-darwin-arm64@1.15.8':
+  '@swc/core-darwin-arm64@1.15.11':
     optional: true
 
-  '@swc/core-darwin-x64@1.15.8':
+  '@swc/core-darwin-x64@1.15.11':
     optional: true
 
-  '@swc/core-linux-arm-gnueabihf@1.15.8':
+  '@swc/core-linux-arm-gnueabihf@1.15.11':
     optional: true
 
-  '@swc/core-linux-arm64-gnu@1.15.8':
+  '@swc/core-linux-arm64-gnu@1.15.11':
     optional: true
 
-  '@swc/core-linux-arm64-musl@1.15.8':
+  '@swc/core-linux-arm64-musl@1.15.11':
     optional: true
 
-  '@swc/core-linux-x64-gnu@1.15.8':
+  '@swc/core-linux-x64-gnu@1.15.11':
     optional: true
 
-  '@swc/core-linux-x64-musl@1.15.8':
+  '@swc/core-linux-x64-musl@1.15.11':
     optional: true
 
-  '@swc/core-win32-arm64-msvc@1.15.8':
+  '@swc/core-win32-arm64-msvc@1.15.11':
     optional: true
 
-  '@swc/core-win32-ia32-msvc@1.15.8':
+  '@swc/core-win32-ia32-msvc@1.15.11':
     optional: true
 
-  '@swc/core-win32-x64-msvc@1.15.8':
+  '@swc/core-win32-x64-msvc@1.15.11':
     optional: true
 
-  '@swc/core@1.15.8':
+  '@swc/core@1.15.11':
     dependencies:
       '@swc/counter': 0.1.3
       '@swc/types': 0.1.25
     optionalDependencies:
-      '@swc/core-darwin-arm64': 1.15.8
-      '@swc/core-darwin-x64': 1.15.8
-      '@swc/core-linux-arm-gnueabihf': 1.15.8
-      '@swc/core-linux-arm64-gnu': 1.15.8
-      '@swc/core-linux-arm64-musl': 1.15.8
-      '@swc/core-linux-x64-gnu': 1.15.8
-      '@swc/core-linux-x64-musl': 1.15.8
-      '@swc/core-win32-arm64-msvc': 1.15.8
-      '@swc/core-win32-ia32-msvc': 1.15.8
-      '@swc/core-win32-x64-msvc': 1.15.8
+      '@swc/core-darwin-arm64': 1.15.11
+      '@swc/core-darwin-x64': 1.15.11
+      '@swc/core-linux-arm-gnueabihf': 1.15.11
+      '@swc/core-linux-arm64-gnu': 1.15.11
+      '@swc/core-linux-arm64-musl': 1.15.11
+      '@swc/core-linux-x64-gnu': 1.15.11
+      '@swc/core-linux-x64-musl': 1.15.11
+      '@swc/core-win32-arm64-msvc': 1.15.11
+      '@swc/core-win32-ia32-msvc': 1.15.11
+      '@swc/core-win32-x64-msvc': 1.15.11
 
   '@swc/counter@0.1.3': {}
 
