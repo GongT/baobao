@@ -4,7 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"@build-script/rush-tools": "latest",
-		"@build-script/single-dog-asset": "latest",
+		"@build-script/baseline-rig": "latest",
 		"@build-script/package-tools": "latest"
 	}
 }

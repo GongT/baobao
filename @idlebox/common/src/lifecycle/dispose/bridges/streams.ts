@@ -3,11 +3,11 @@ import type { IAsyncDisposable } from '../disposable.js';
 
 type ClosableAsync = {
 	close(): Promise<any>;
-	close(cb: (e?: Error) => void): void;
+	close(cb: (e?: Error) => void): any;
 };
 
 /**
- * Convert "dispose function" to disposable object
+ * Convert "close()"-able object to disposable
  * @public
  */
 export function closableToDisposable<T extends ClosableAsync>(closable: T): IAsyncDisposable {
@@ -17,12 +17,12 @@ export function closableToDisposable<T extends ClosableAsync>(closable: T): IAsy
 		get displayName() {
 			return `closable(${objectName(closable) || 'unknown'})`;
 		},
-		dispose() {
+		dispose(): Promise<void> {
 			if (promised) {
-				return closable.close();
+				return Promise.resolve(closable.close()).then(() => undefined);
 			} else {
 				return new Promise<void>((resolve, reject) => {
-					return closable.close((error) => {
+					closable.close((error) => {
 						if (error) {
 							reject(error);
 						} else {
@@ -37,11 +37,11 @@ export function closableToDisposable<T extends ClosableAsync>(closable: T): IAsy
 
 type EndableAsync = {
 	end(): Promise<any>;
-	end(cb: (e?: Error) => void): void;
+	end(cb: (e?: Error) => void): any;
 };
 
 /**
- * Convert "dispose function" to disposable object
+ * Convert "end()"-able object to disposable
  * @public
  */
 export function endableToDisposable<T extends EndableAsync>(endable: T): IAsyncDisposable {
@@ -51,9 +51,9 @@ export function endableToDisposable<T extends EndableAsync>(endable: T): IAsyncD
 		get displayName() {
 			return `endable(${objectName(endable) || 'unknown'})`;
 		},
-		dispose() {
+		dispose(): Promise<void> {
 			if (promised) {
-				return endable.end();
+				return Promise.resolve(endable.end()).then(() => undefined);
 			} else {
 				return new Promise<void>((resolve, reject) => {
 					return endable.end((error) => {

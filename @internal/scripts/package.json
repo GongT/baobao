@@ -18,7 +18,7 @@
 	"private": true,
 	"devDependencies": {
 		"@build-script/rushstack-config-loader": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/depcheck": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",

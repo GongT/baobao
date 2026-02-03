@@ -43,7 +43,7 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@mpis/typescript": "workspace:^",
 		"@types/node": "^25.0.8",
 		"rimraf": "^6.1.2",

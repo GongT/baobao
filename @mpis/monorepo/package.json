@@ -30,7 +30,7 @@
 		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

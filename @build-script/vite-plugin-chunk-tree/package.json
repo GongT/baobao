@@ -24,7 +24,7 @@
 		"execa": "^9.6.1"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.0.8",

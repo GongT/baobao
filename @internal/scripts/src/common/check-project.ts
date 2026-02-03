@@ -11,9 +11,9 @@ import { getExportsField, packageJson, readPackageJson, writeBack } from './pack
 import { currentProject } from './paths/current.js';
 
 let errorRegistry: ErrorCollector;
-const assetPkgName = '@build-script/single-dog-asset';
+const assetPkgName = '@build-script/baseline-rig';
 const very_basic_packages = [
-	'@build-script/single-dog-asset',
+	'@build-script/baseline-rig',
 	'@idlebox/itypes',
 	'@internal/local-rig',
 	'@internal/scripts',

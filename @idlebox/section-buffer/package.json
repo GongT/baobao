@@ -22,7 +22,7 @@
 		"@idlebox/common": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/heft-jest": "^1.0.6",

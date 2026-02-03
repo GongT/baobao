@@ -18,7 +18,7 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@idlebox/common": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@build-script/codegen": "workspace:^",

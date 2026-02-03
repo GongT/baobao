@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"@types/execa": "npm:execa@^9.6.1",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

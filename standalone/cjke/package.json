@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"@idlebox/source-map-support": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/chai": "^5.2.3",

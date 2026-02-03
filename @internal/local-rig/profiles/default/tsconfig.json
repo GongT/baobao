@@ -1,5 +1,5 @@
 {
-	"extends": "../../node_modules/@build-script/single-dog-asset/package/tsconfig.json",
+	"extends": "../../node_modules/@build-script/baseline-rig/package/tsconfig.json",
 	"compilerOptions": {
 		/*
 		"typeRoots": ["../node_modules/@types", "../node_modules"],

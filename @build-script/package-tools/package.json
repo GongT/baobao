@@ -42,7 +42,7 @@
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/cli-static-generator": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

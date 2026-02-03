@@ -60,7 +60,7 @@ export function deleteDevelopmentFields() {
 		}
 	}
 	if (packageJson.devDependencies) {
-		packageJson.devDependencies['@build-script/single-dog-asset'] = 'latest';
+		packageJson.devDependencies['@build-script/baseline-rig'] = 'latest';
 		removeDevDependency('@internal/local-rig');
 		removeDevDependency('@internal/scripts');
 	}
@@ -71,7 +71,7 @@ export async function rewriteTsconfig() {
 	const data = await loadJsonFileIfExists(tsconfigPath);
 	if (!data) return;
 
-	data.extends = '@build-script/single-dog-asset/package/tsconfig.json';
+	data.extends = '@build-script/baseline-rig/package/tsconfig.json';
 	await writeJsonFileBack(data);
 	logger.log`修改tsconfig.json (extends)`;
 }
@@ -163,7 +163,7 @@ function modifyLoaderInString(str: string): string {
  * 写入npmignore和npmrc
  */
 export function writeNpmFiles() {
-	const sdaPath = dirname(fileURLToPath(import.meta.resolve('@build-script/single-dog-asset/package.json')));
+	const sdaPath = dirname(fileURLToPath(import.meta.resolve('@build-script/baseline-rig/package.json')));
 
 	const ignoreSource = resolve(sdaPath, 'package/npmignore');
 	const ignoreDist = resolve(currentProject, '.npmignore');

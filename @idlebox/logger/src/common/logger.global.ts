@@ -13,13 +13,17 @@ const symbol = Symbol.for('@idlebox/logger/global/terminal');
 /**
  * 作为logger导出，必须在程序入口调用过 createGlobalLogger() 才能使用
  */
-export let terminal: IMyLogger = globalObject[symbol];
+export let terminal: IMyLogger;
 
 /**
  * 创建root-logger，随后logger变量可用
  */
 export function createGlobalLogger(tag: string, defaultLevel: EnableLogLevel = EnableLogLevel.auto): void {
-	if (terminal) throw new Error('global logger already created');
+	terminal = globalObject[symbol];
+	if (terminal) {
+		terminal.error`global logger already created`;
+		return;
+	}
 
 	terminal = create(tag, undefined, stream);
 	globalObject[symbol] = terminal;

@@ -23,7 +23,7 @@
 		"@mpis/client": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/typescript": "workspace:^",
 		"@mpis/run": "workspace:^",

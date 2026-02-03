@@ -31,7 +31,7 @@
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/single-dog-asset": "workspace:^",
+		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.0.8"
