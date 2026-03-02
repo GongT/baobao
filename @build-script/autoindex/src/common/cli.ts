@@ -100,11 +100,6 @@ async function _parseArgs(): Promise<ICliArgs> {
 		logger.enable(EnableLogLevel.debug);
 	}
 
-	if (argv.unused().length) {
-		logger.error`未知的命令行参数: ${argv.unused().join(', ')}`;
-		shutdown(ExitCode.USAGE);
-	}
-
 	if (absoluteImport && absoluteImport[0] !== '#') {
 		logger.error`绝对导入路径必须以'#'开头: long<${absoluteImport}>`;
 		shutdown(ExitCode.USAGE);
@@ -116,6 +111,11 @@ async function _parseArgs(): Promise<ICliArgs> {
 
 	const projVal = argv.range(0, 1)[0];
 	const project = projVal ? resolve(process.cwd(), projVal) : undefined;
+
+	if (argv.unused().length) {
+		logger.error`未知的命令行参数: ${argv.unused().join(', ')}`;
+		shutdown(ExitCode.USAGE);
+	}
 
 	return {
 		configType,
