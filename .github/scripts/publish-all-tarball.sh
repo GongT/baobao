@@ -21,7 +21,7 @@ for pkg in "${packages[@]}"; do
 		:
 	else
 		summ "  * $pkg 失败"
-		printf "::error title=%s::%s\n\n" "failed to publish" "$pkg"
+		printf "::error title=%s::%s\n\n" "failed to publish" "$(basename "$pkg" .tgz)"
 		ERRORS+=1
 	fi
 	echo "::endgroup::"

@@ -81,7 +81,12 @@ export async function commitChanges(pkgJson: IPackageJson) {
 		await execMute(projectPath, [git, 'commit', '.', '-m', commitMessage]);
 		logger.success`✅ 已提交变更到git`;
 	} catch (err: any) {
-		logger.warn`🍴 提交变更失败:`;
-		console.error('\x1B[2m%s\x1B[0m\n', err.message);
+		if (err.message.includes('nothing to commit') || err.message.includes('no changes added to commit')) {
+			logger.warn`🍴 git: 没有变更`;
+			return;
+		} else {
+			logger.error`🍴 提交变更失败:`;
+			console.error('\x1B[2m%s\x1B[0m\n', err.message);
+		}
 	}
 }
