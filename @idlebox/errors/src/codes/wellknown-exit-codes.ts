@@ -15,6 +15,11 @@ export enum ExitCode {
 	USAGE = 3,
 
 	/**
+	 * 未处理的超时
+	 */
+	TIMEOUT = 4,
+
+	/**
 	 * 由于程序代码不完善导致的错误
 	 */
 	PROGRAM = 66,

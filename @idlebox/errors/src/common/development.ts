@@ -1,30 +1,24 @@
 import { ExitCode } from '../codes/wellknown-exit-codes.js';
-import { ErrorWithCode } from './base.js';
+import { ErrorWithCode, type IErrorOptions } from './base.js';
 
 export abstract class ProgramError extends ErrorWithCode {
-	constructor(message: string, boundary?: CallableFunction) {
-		super(message, ExitCode.PROGRAM, boundary);
+	constructor(message: string, opts?: IErrorOptions) {
+		super(message, ExitCode.PROGRAM, opts);
 	}
 }
 
-export class NotImplementedError extends ProgramError {
-	constructor(message: string, boundary?: CallableFunction) {
-		super(message, boundary);
-		this.name = 'NotImplemented';
-	}
-}
+export class NotImplementedError extends ProgramError {}
 
-export class SoftwareDefectError extends ProgramError {
-	constructor(message: string, boundary?: CallableFunction) {
-		super(message, boundary);
-		this.name = 'SoftwareDefect';
-	}
-}
+export class SoftwareDefectError extends ProgramError {}
 
 export class Assertion extends SoftwareDefectError {
-	static ok(value: unknown, message: string = 'Assertion failed', boundary?: CallableFunction): asserts value {
+	static ok(value: unknown, message: string = 'Assertion failed', opts?: IErrorOptions): asserts value {
 		if (!value) {
-			throw new SoftwareDefectError(`${message}: value should be truthy, got ${typeof value} (${value})`, boundary ?? Assertion.ok);
+			if (!opts?.boundary) {
+				if (!opts) opts = {};
+				opts.boundary = Assertion.ok;
+			}
+			throw new SoftwareDefectError(`${message}: value should be truthy, got ${typeof value} (${value})`, opts);
 		}
 	}
 }

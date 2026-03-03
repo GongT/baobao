@@ -1,6 +1,22 @@
+import { ExitCode } from '../codes/wellknown-exit-codes.js';
+
 function noop() {}
 
 const replaceStackTrace = Error.captureStackTrace ?? noop;
+
+export interface IErrorOptions {
+	/**
+	 * stack属性的边界函数
+	 * @see {Error.captureStackTrace}
+	 */
+	boundary?: CallableFunction;
+
+	/**
+	 * cause属性的值
+	 * @see {Error.cause}
+	 */
+	cause?: unknown;
+}
 
 export const humanReadable = Symbol('humanReadable');
 export interface IHumanReadable {
@@ -11,38 +27,40 @@ export function isHumanReadableError(error: unknown): error is IHumanReadable {
 	return error instanceof Object && humanReadable in error;
 }
 
-export class NotError extends Error implements IHumanReadable {
-	constructor(extra_message: string = '') {
-		super(`你不应该看到此消息: ${extra_message}`);
+/**
+ * 利用try...catch统一接口，或是用于分支条件等，未发生错误的情况
+ */
+export class NotError implements IHumanReadable {
+	constructor(public readonly extra_message: string = '') {}
+
+	get stack() {
+		throw new Error(`NotError 未被正确捕获 [hint: ${this.extra_message}]`);
 	}
-	override get stack() {
-		return this.message;
+	get message() {
+		throw new Error(`NotError 未被正确捕获 [hint: ${this.extra_message}]`);
 	}
 
 	[humanReadable]() {
-		return '你不应该看到此消息。你无需尝试处理该错误，请联系开发者。';
+		return `你不应该看到此消息。你无需尝试处理该错误，请联系开发者。[hint: ${this.extra_message}]`;
 	}
 }
 
 /**
- * 应用程序退出
- * 此错误通常不需要输出到日志
  * @abstract
  */
 export class ErrorWithCode extends Error implements IHumanReadable {
 	constructor(
 		message: string,
 		public readonly code: number,
-		boundary?: CallableFunction,
+		opts?: IErrorOptions,
 	) {
-		const { stackTraceLimit } = Error;
-		Error.stackTraceLimit = 0;
-		super(message);
-		Error.stackTraceLimit = stackTraceLimit;
+		super(message, opts);
 
-		this.name = this.constructor.name;
+		replaceStackTrace(this, opts?.boundary ?? this.constructor);
+	}
 
-		replaceStackTrace(this, boundary ?? this.constructor);
+	public override get name() {
+		return this.constructor.name;
 	}
 
 	[humanReadable]() {
@@ -56,20 +74,22 @@ export class ErrorWithCode extends Error implements IHumanReadable {
 	}
 }
 
+Object.setPrototypeOf(ErrorWithCode.prototype, Error.prototype);
+
 /**
  * Error when something.cancel() is called
  * @public
  */
-export class CanceledError extends Error implements IHumanReadable {
-	constructor() {
-		super('Canceled');
+export class CanceledError extends ErrorWithCode implements IHumanReadable {
+	constructor(opts?: IErrorOptions) {
+		super('Canceled', ExitCode.INTERRUPT, opts);
 	}
 
 	static is(e: unknown): e is CanceledError {
 		return e instanceof CanceledError;
 	}
 
-	[humanReadable]() {
+	override [humanReadable]() {
 		return '操作已应用户要求而取消';
 	}
 }
@@ -78,20 +98,23 @@ export class CanceledError extends Error implements IHumanReadable {
  * Error when something timeout
  * @public
  */
-export class TimeoutError extends Error implements IHumanReadable {
+export class TimeoutError extends ErrorWithCode implements IHumanReadable {
+	private readonly what?: string;
+
 	constructor(
 		private readonly ms: number,
 		private readonly why = 'no response',
-		private readonly what?: string,
+		opts?: IErrorOptions & { what?: string },
 	) {
-		super(`Timeout: ${why} in ${ms}ms${what ? ` (when ${what})` : ''}`);
+		super(`Timeout: ${why} in ${ms}ms${opts?.what ? ` (when ${opts.what})` : ''}`, ExitCode.TIMEOUT, opts);
+		this.what = opts?.what;
 	}
 
 	static is(error: unknown): error is TimeoutError {
 		return error instanceof TimeoutError;
 	}
 
-	[humanReadable]() {
+	override [humanReadable]() {
 		return `操作超时: ${this.what ? this.what : '操作没有说明'}\n  - 时长: ${this.ms}ms\n  - 原因: ${this.why}`;
 	}
 }

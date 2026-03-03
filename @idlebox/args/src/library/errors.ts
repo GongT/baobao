@@ -28,15 +28,12 @@ abstract class AbstractParameterError extends ProgramError {
 	) {
 		super('--you should not see this--');
 
-		this.name = this.constructor.name;
 		this._stackObject = new StackTrace(undefined, 1 + skip);
-
-		delete (this as any).message;
-		delete (this as any).stack;
 	}
 
 	/**
 	 * 此方法不会执行
+	 * @ts-expect-error
 	 */
 	override get stack() {
 		return `${this.message}\n${this._stackObject.getStack()}`;
@@ -44,6 +41,7 @@ abstract class AbstractParameterError extends ProgramError {
 
 	/**
 	 * 此方法不会执行
+	 * @ts-expect-error
 	 */
 	override get message() {
 		return `${this.name}: ${this._getMessage()}\n${this.explain()}`;
@@ -54,8 +52,6 @@ abstract class AbstractParameterError extends ProgramError {
  * 输入错误
  */
 abstract class AbstractArgumentError extends UsageError {
-	public override readonly name: string;
-
 	protected abstract _getMessage(): string;
 	private readonly _stackObject: StackTrace;
 
@@ -65,7 +61,6 @@ abstract class AbstractArgumentError extends UsageError {
 	) {
 		super('--you should not see this--');
 
-		this.name = this.constructor.name;
 		this._stackObject = new StackTrace(undefined, 1 + skip);
 
 		delete (this as any).message;

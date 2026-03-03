@@ -78,7 +78,7 @@ export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
 	 * @returns
 	 */
 	public async getNearestPackage(from: string) {
-		const pkgJsonFile = await findUpUntil({ from, top: this.root, file: 'package.json' });
+		const pkgJsonFile = await findUpUntil({ from, top: this.root, file: ['package.json', 'package.yaml', 'package.yml'] });
 		if (!pkgJsonFile) {
 			throw new Error(`缺少package.json文件: ${from}`);
 		}

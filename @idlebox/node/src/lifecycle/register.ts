@@ -174,7 +174,7 @@ function _real_register(logger: IDebugOutput) {
 
 	function signal_handler(signal: 'SIGINT' | 'SIGTERM') {
 		setImmediate(() => {
-			uniqueErrorHandler(new InterruptError(signal, signal_handler), logger);
+			uniqueErrorHandler(new InterruptError(signal, { boundary: signal_handler }), logger);
 		});
 	}
 

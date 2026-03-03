@@ -4,44 +4,39 @@
 		"editor.tabSize": 2,
 		"editor.autoIndent": "advanced",
 	},
-	"files.associations": {
-		"*.json": "jsonc",
+	"[markdown]": {
+		// "editor.defaultFormatter": ""
 	},
-	"search.exclude": {
-		"**/node_modules/**/*": true,
-		"**/pnpm-lock.yaml": true,
-		"**/temp/**": true,
-		"*/*/lib": true,
-		"**/*.generated.ts": true,
-		"**/autoindex.ts": true,
-		"*/*/.npmrc": true,
-		"common/autoinstallers/*/lib": true,
-		"**/.rush/**": true,
-		"**/*.api.json": true,
-		"**/*.api.md": true,
-		"**/package-public.d.ts": true,
-		"project-impact-graph.yaml": true,
-		".package-tools/**": true,
-		"**/._*": true,
-		"**/.debug/**": true,
-		"**/.publisher/**": true,
-	},
-	"biome.lsp.bin": "./node_modules/.bin/biome",
-	"biome.requireConfiguration": true,
-	"typescript.preferences.organizeImports": { "typeOrder": "last", "unicodeCollation": "ordinal" },
-	"typescript.tsdk": "./node_modules/typescript/lib",
 	"[json][json5][jsonc][typescript][typescriptreact][javascript]": {
 		"editor.defaultFormatter": "biomejs.biome",
 	},
 	"[css][scss]": {
 		"editor.defaultFormatter": "vscode.css-language-features",
 	},
-	"[markdown]": {
-		// "editor.defaultFormatter": ""
+	"files.associations": {
+		"*.json": "jsonc",
 	},
-	"json.schemaDownload.enable": true,
-	"typescript.preferences.preferTypeOnlyAutoImports": true,
-	"typescript.preferences.importModuleSpecifierEnding": "js",
+	"search.exclude": {
+		"**/node_modules/**": true,
+		"**/pnpm-lock.yaml": true,
+		"**/temp/**": true,
+		"*/*/lib": true,
+		"**/*.generated.ts": true,
+		"*/*/.npmrc": true,
+		"**/*.api.json": true,
+		"**/*.api.md": true,
+		"**/package-public.d.ts": true,
+		"project-impact-graph.yaml": true,
+		".package-tools/**": true,
+		"**/._*": true,
+		"**/.*/**": true,
+	},
+	"biome.lsp.bin": "./node_modules/.bin/biome",
+	"biome.requireConfiguration": true,
+	"js/ts.preferences.organizeImports": { "typeOrder": "last", "unicodeCollation": "ordinal" },
+	"js/ts.tsdk.path": "./node_modules/typescript/lib",
+	"js/ts.preferences.preferTypeOnlyAutoImports": true,
+	"js/ts.preferences.importModuleSpecifierEnding": "js",
 	"files.readonlyInclude": {
 		"**/lib/**": true,
 		"**/node_modules/**": true,
@@ -55,4 +50,5 @@
 			"file": ".github/copilot-instructions/commit-message.md"
 		}
 	],
+	"json.schemaDownload.enable": true,
 }

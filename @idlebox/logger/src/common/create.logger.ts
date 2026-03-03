@@ -30,7 +30,7 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 		stream,
 		fatal: function fatal(messages, ...args) {
 			log_fatal(messages as any, ...args);
-			throw new SoftwareDefectError(`logger.fatal has been called`, fatal);
+			throw new SoftwareDefectError(`logger.fatal has been called`, { boundary: fatal });
 		},
 		error,
 		warn,
@@ -80,7 +80,7 @@ function syncEnabled(opt: IPass, tag: string, currentLevel: EnableLogLevel) {
 		 * - 如果DEBUG中存在tag:$level，则启用 tag:$level 单个级别
 		 *
 		 * root-logger默认是手动控制
-		 * 
+		 *
 		 * TODO !!
 		 */
 		+tag;

@@ -29,6 +29,7 @@
 	export { UsageError } from "./common/application.js";
 /* common/base.ts */
 	// Identifiers
+	export type { IErrorOptions } from "./common/base.js";
 	export { humanReadable } from "./common/base.js";
 	export type { IHumanReadable } from "./common/base.js";
 	export { isHumanReadableError } from "./common/base.js";
