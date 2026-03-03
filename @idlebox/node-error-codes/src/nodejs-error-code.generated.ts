@@ -1995,9 +1995,16 @@ export enum NodeErrorCode {
 	ERR_WASI_ALREADY_STARTED = 'ERR_WASI_ALREADY_STARTED',
 	/**
 	 * <p>The WASI instance has not been started.</p>
-	 * <p><a id="ERR_WEBASSEMBLY_RESPONSE"></a></p>
+	 * <p><a id="ERR_WEBASSEMBLY_NOT_SUPPORTED"></a></p>
 	 */
 	ERR_WASI_NOT_STARTED = 'ERR_WASI_NOT_STARTED',
+	/**
+	 * <p>A feature requiring WebAssembly was used, but WebAssembly is not supported or
+	 * has been disabled in the current environment (for example, when running with
+	 * <code>--jitless</code>).</p>
+	 * <p><a id="ERR_WEBASSEMBLY_RESPONSE"></a></p>
+	 */
+	ERR_WEBASSEMBLY_NOT_SUPPORTED = 'ERR_WEBASSEMBLY_NOT_SUPPORTED',
 	/**
 	 * <p>The <code>Response</code> that has been passed to <code>WebAssembly.compileStreaming</code> or to
 	 * <code>WebAssembly.instantiateStreaming</code> is not a valid WebAssembly response.</p>
@@ -2291,7 +2298,7 @@ export enum NodeErrorCode {
 	ERR_MANIFEST_UNKNOWN_ONERROR = 'ERR_MANIFEST_UNKNOWN_ONERROR',
 	/**
 	 * <p>This error code was replaced by <a href="#err_missing_transferable_in_transfer_list"><code>ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST</code></a>
-	 * in Node.js v15.0.0, because it is no longer accurate as other types of
+	 * in Node.js 15.0.0, because it is no longer accurate as other types of
 	 * transferable objects also exist now.</p>
 	 * <p><a id="ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST"></a></p>
 	 * @deprecated
