@@ -146,7 +146,11 @@ function uniqueErrorHandler(currentError: unknown, logger: IDebugOutput) {
 	}
 	if (currentError instanceof UncaughtException) {
 		if (!isProductionMode) logger.verbose?.(`  - UncaughtException`);
-		prettyPrintError(`${prefix}Uncaught Exception`, rootCause);
+		if (rootCause !== currentError) {
+			prettyPrintError(`${prefix}Unhandled Exception`, currentError.cause);
+		} else {
+			logger.output(`${prefix}Unhandled Exception / error type unknown: ${inspect(currentError.cause)}`);
+		}
 		return;
 	}
 

@@ -93,15 +93,17 @@
 /* error/pretty.nodejs.ts */
 	// Identifiers
 	export { setErrorLogRoot } from "./error/pretty.nodejs.js";
-	export type { IStructreStackLine } from "./error/pretty.nodejs.js";
-	export { parseStackLine } from "./error/pretty.nodejs.js";
 	export { prettyPrintError } from "./error/pretty.nodejs.js";
-	export { parseStackString } from "./error/pretty.nodejs.js";
 	export { prettyFormatStack } from "./error/pretty.nodejs.js";
 	export { prettyFormatError } from "./error/pretty.nodejs.js";
 /* error/pretty.vscode.ts */
 	// Identifiers
 	export { vscEscapeValue } from "./error/pretty.vscode.js";
+/* error/stack-parser.v8.ts */
+	// Identifiers
+	export { parseStackString } from "./error/stack-parser.v8.js";
+	export type { IStructreStackLine } from "./error/stack-parser.v8.js";
+	export { parseStackLine } from "./error/stack-parser.v8.js";
 /* error/stack-trace.ts */
 	// Identifiers
 	export type { StackTraceHolder } from "./error/stack-trace.js";
