@@ -22,9 +22,9 @@ export interface IPackageInfo {
 	readonly absolute: string;
 	readonly relative: string;
 
-	/** 仅有工作区(workspace:*)依赖，不包devDependencies */
+	/** 仅有工作区(workspace:*)依赖 | 不包devDependencies */
 	readonly dependencies: readonly string[];
-	/** 仅有工作区(workspace:*)依赖，同时包含所有dependencies */
+	/** 仅有工作区(workspace:*)依赖 | 同时包含所有dependencies */
 	readonly devDependencies: readonly string[];
 
 	readonly packageJson: DeepReadonly<IPackageJson>;

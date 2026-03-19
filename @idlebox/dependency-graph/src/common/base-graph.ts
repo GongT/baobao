@@ -2,6 +2,7 @@ import { AsyncDisposable, Emitter, EnhancedAsyncDisposable, functionToDisposable
 import { createLogger, type IMyLogger } from '@idlebox/logger';
 import { DepGraph } from 'dependency-graph';
 import { inspect, type InspectContext, type InspectOptions } from 'node:util';
+import { makeReverse } from './reverse.js';
 
 export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposable {
 	protected abstract readonly _dependencies: Set<string>;
@@ -195,14 +196,16 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 	 * │  └─ dddd
 	 * └─ cccc
 	 */
-	debugFormatGraph(depth = Infinity) {
+	debugFormatGraph(depth = Infinity, reverse = false) {
+		const graph = reverse ? makeReverse(this.graph) : this.graph;
+
 		const indent = (lines: string[], isLast: boolean) => {
 			const c = isLast ? '  ' : '│ ';
 			return lines.map((line) => `${c}${line}`);
 		};
 		const drawDepOne = (name: string, level: number) => {
 			const result: string[] = [];
-			const data = this.graph.directDependenciesOf(name);
+			const data = graph.directDependenciesOf(name);
 			for (const dep of data) {
 				const isLast = data.indexOf(dep) === data.length - 1;
 				const c = isLast ? '└─' : '├─';
@@ -216,14 +219,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 			return result;
 		};
 		const result = [];
-		const leafs = this.graph.entryNodes();
-		// for (const name of this.graph.overallOrder()) {
-		// const node = this.getNodeByName(name);
-		// if (!node.dependencies.size) continue;
-		// result.push(node.customInspect());
-		// if (depth === 0) continue;
-		// result.push(...drawDepOne(name, 1));
-		// }
+		const leafs = graph.entryNodes();
 
 		for (const name of leafs) {
 			result.push(this.getNodeByName(name).customInspect());

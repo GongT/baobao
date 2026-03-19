@@ -4,7 +4,8 @@
 	"version": "0.0.18",
 	"keywords": [],
 	"bin": {
-		"build-manager": "./loader/bin.devel.js"
+		"build-manager": "./loader/bin.devel.js",
+		"mpis-build": "./loader/bin.devel.js"
 	},
 	"exports": {
 		"./package.json": "./package.json"

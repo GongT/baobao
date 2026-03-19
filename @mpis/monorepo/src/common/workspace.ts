@@ -6,7 +6,7 @@ import { CompileError, ModeKind, ProcessIPCClient, WorkerClientState, WorkersMan
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
-import { currentCommand } from './args.js';
+import { currentCommand } from '../bin.js';
 
 export async function createMonorepoObject() {
 	const workspace = await createWorkspace();
@@ -20,9 +20,16 @@ export type IPnpmMonoRepo = PnpmMonoRepo;
 const colorReg = /\x1B\[[0-9;]+?m/g;
 const unclosedColorReg = /\x1B\[[^m]*$/g;
 
+interface IDumpOptions {
+	readonly depth?: number;
+	readonly summary?: boolean;
+	readonly short?: boolean;
+	readonly reverse?: boolean;
+}
+
 const firstEmptyLine = /^\s*\n/;
 class PnpmMonoRepo extends EnhancedAsyncDisposable {
-	private readonly workersManager: WorkersManager;
+	public readonly workersManager: WorkersManager;
 	private readonly pathvar: PathArray;
 	private readonly errorMessages = new Map<IPackageInfo, string>();
 	private readonly rigConfig = new Map<IPackageInfo, IRigConfig>(); // TODO: 太重了
@@ -35,7 +42,7 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 
 	constructor(
 		public readonly logger: IMyLogger,
-		protected readonly workspace: MonorepoWorkspace,
+		public readonly workspace: MonorepoWorkspace,
 	) {
 		super('PnpmMonoRepo');
 
@@ -223,7 +230,7 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 		return Math.floor((100 * completed) / count);
 	}
 
-	dump(depth: number = 0, short = false) {
+	dump({ depth = 0, short = false, summary = true, reverse = false }: IDumpOptions = {}) {
 		const graph = this.workersManager.finalize();
 		let graphTxt: string;
 		if (depth <= 0) {
@@ -235,23 +242,25 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 						result.push(node.customInspect());
 					}
 				}
-				result.push(graph.debugFormatSummary());
+				if (summary) result.push(graph.debugFormatSummary());
 				return result.join('\n');
 			} else {
 				graphTxt = graph.debugFormatList();
 			}
 		} else {
-			graphTxt = graph.debugFormatGraph(depth);
+			graphTxt = graph.debugFormatGraph(depth, reverse);
 		}
+		if (!summary) return graphTxt;
+
 		return `${graphTxt}\n${graph.debugFormatSummary()}`;
 	}
 
 	printScreen(short = false, listAbove = false) {
 		let r = this.formatErrors();
 		if (listAbove) {
-			r = this.dump(0, short) + r;
+			r = this.dump({ short }) + r;
 		} else {
-			r += this.dump(0, short);
+			r += this.dump({ short });
 		}
 		console.error(r);
 	}
