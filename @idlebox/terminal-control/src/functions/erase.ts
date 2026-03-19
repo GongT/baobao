@@ -3,7 +3,7 @@ import { CSI } from '../constants/sequence.js';
 /**
  * 全屏消除
  * 光标不会移动
- * 
+ *
  * @param scrollback 如果为 true，则同时清除滚动缓冲区，否则仅清除当前可见屏幕
  */
 export function all(scrollback = false) {

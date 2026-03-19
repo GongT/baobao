@@ -97,9 +97,9 @@ const defaults: StrategyRequired = {
 
 /**
  * 深复制并合并两个对象，原对象不会修改（当然，无法限制options传入的回调）。
- * 
+ *
  * 并且其中的对象引用完全依赖传入的options。
- * 
+ *
  * 对返回值进行写操作可能产生意外影响。
  */
 export function deepmerge<A, B = any>(a: A, b: B, options?: MergeStrategy): A & B {

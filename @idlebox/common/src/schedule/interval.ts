@@ -1,4 +1,4 @@
-import { inspectSymbol } from '../autoindex.js';
+import { inspectSymbol } from '../debugging/inspect.js';
 import { objectName } from '../debugging/object-with-name.js';
 import type { IDisposable } from '../lifecycle/dispose/disposable.js';
 import { EnhancedDisposable } from '../lifecycle/dispose/sync-disposable.js';

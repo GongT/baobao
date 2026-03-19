@@ -47,8 +47,8 @@
 	"remote.autoForwardPorts": false,
 	"github.copilot.chat.commitMessageGeneration.instructions": [
 		{
-			"file": ".github/copilot-instructions/commit-message.md"
-		}
+			"file": ".github/copilot-instructions/commit-message.md",
+		},
 	],
 	"json.schemaDownload.enable": true,
 }
