@@ -60,8 +60,9 @@
 	export { getTimeStamp } from "./date/unix.js";
 	export { fromTimeStamp } from "./date/unix.js";
 /* debugging/inspect.ts */
-	// Identifiers (2)
+	// Identifiers (3)
 	export { inspectSymbol } from "./debugging/inspect.js";
+	export { defineInspectMethod } from "./debugging/inspect.js";
 	export { tryInspect } from "./debugging/inspect.js";
 /* debugging/object-with-name.ts */
 	// Identifiers (10)

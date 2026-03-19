@@ -1,3 +1,5 @@
+import { defineInspectMethod } from '@idlebox/common';
+import type { InspectContext } from 'node:util';
 import { Cdim, Crst, CSI, NCdim } from './ansi.js';
 import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
 import { call_debug_command, debug_commands, nodeFormat } from './debug.commands.js';
@@ -49,7 +51,9 @@ export function createDebug({ tag, level, color_enabled, color_entire_line = fal
 		},
 	);
 
-	return r;
+	return defineInspectMethod(r, (_depth: number, context: InspectContext) => {
+		return `[${context.stylize('Debug', 'special')} "${context.stylize(tag, 'string')}" ${context.stylize(LogLevel[level], 'undefined')} ${context.stylize(r.isEnabled ? 'enabled' : 'disabled', 'boolean')}]`;
+	});
 }
 
 interface IWriteLineOptions {

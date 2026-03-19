@@ -1,3 +1,4 @@
+import { defineInspectMethod } from '../../../debugging/inspect.js';
 import { functionName, nameObject } from '../../../debugging/object-with-name.js';
 import { dispose_name } from '../debug.js';
 import type { IAsyncDisposable, IDisposable } from '../disposable.js';
@@ -7,12 +8,17 @@ import type { IAsyncDisposable, IDisposable } from '../disposable.js';
  * @public
  */
 export function functionToDisposable<RT>(fn: () => RT): RT extends Promise<any> ? IAsyncDisposable : IDisposable {
-	return {
-		get displayName() {
-			return `disposeFn(${functionName(fn)})`;
+	return defineInspectMethod(
+		{
+			get displayName() {
+				return `disposeFn(${functionName(fn)})`;
+			},
+			dispose: fn,
+		} as any,
+		(_depth, options) => {
+			return options.stylize(`[FunctionDisposable ${functionName(fn)}]`, 'special');
 		},
-		dispose: fn,
-	} as any;
+	);
 }
 
 /**

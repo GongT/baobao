@@ -1,3 +1,4 @@
+import { defineInspectMethod } from '../../debugging/inspect.js';
 import type { MaybeNamed } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
 import { Emitter } from '../event/event.js';
@@ -57,13 +58,25 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			this.displayName = displayName;
 		}
 
-		this._logger = _debug_dispose.extend(this.displayName || 'disposable');
+		this._logger = defineInspectMethod(_debug_dispose.extend(this.displayName || 'disposable'), () => {
+			return `[Function debug]`;
+		});
 
 		this._onPostDispose.handle(() => {
 			this._onPostDispose.dispose();
 		});
 		this._disposables.push(this._onBeforeDispose);
 		this._disposables.push(this._onDisposeError);
+
+		if (
+			this.constructor.name === 'EnhancedAsyncDisposable' ||
+			this.constructor.name === 'UnorderedAsyncDisposable' ||
+			this.constructor.name === 'EnhancedDisposable'
+		) {
+			defineInspectMethod(this, (_depth: number, options: any) => {
+				return options.stylize(`[${this.displayName}]`, 'special');
+			});
+		}
 	}
 
 	/**

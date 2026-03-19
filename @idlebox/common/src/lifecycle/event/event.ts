@@ -1,5 +1,5 @@
 import { Exit } from '@idlebox/errors';
-import { inspectSymbol } from '../../debugging/inspect.js';
+import { defineInspectMethod, inspectSymbol } from '../../debugging/inspect.js';
 import { nameObject, objectName } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder } from '../../error/stack-trace.js';
 import { functionToDisposable } from '../dispose/bridges/function.js';
@@ -28,6 +28,9 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 			hasDisposed: {
 				get: () => this._disposed,
 			},
+		});
+		defineInspectMethod(this.handle, (_depth, options) => {
+			return options.stylize(`[EmitterRegister ${this.displayName}]`, 'special');
 		});
 	}
 
@@ -185,11 +188,13 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	readonly [Symbol.dispose] = this.dispose;
 
 	[inspectSymbol](_depth: number, options: any) {
-		let r = `[${options.stylize(this.constructor.name, 'special')}`;
+		let r = `${options.stylize(this.constructor.name, 'name')} {`;
 		if (this.displayName !== anonymousName) {
-			r += ` ${options.stylize(this.displayName, 'string')}`;
+			r += ` ${options.stylize(this.displayName, 'string')},`;
 		}
-		r += ` ${options.stylize(this.listenerCount(), 'number')}]`;
+		r += ` listeners: ${options.stylize(this.listenerCount(), 'number')}`;
+
+		r += ' }';
 		return r;
 	}
 

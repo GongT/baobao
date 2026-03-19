@@ -1,4 +1,5 @@
-import { SoftwareDefectError } from '@idlebox/common';
+import { defineInspectMethod, SoftwareDefectError } from '@idlebox/common';
+import type { InspectContext } from 'node:util';
 import { LogLevel } from './colors.js';
 import { createDebug } from './create.function.js';
 import { defaultLogLevel, detectColorEnable } from './helpers.js';
@@ -30,7 +31,7 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 		throw new SoftwareDefectError(`logger.fatal has been called`, { boundary: fatal });
 	}
 
-	return {
+	const result = {
 		tag,
 		stream,
 		fatal,
@@ -57,6 +58,11 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 			}
 		},
 	};
+
+	return defineInspectMethod(result, (_depth: number, context: InspectContext) => {
+		if (_depth < 0) return `${context.stylize(`[Logger ${tag}]`, 'special')}`;
+		return `${context.stylize('Logger', 'name')} { "${context.stylize(tag, 'string')}" ${context.stylize(EnableLogLevel[currentLevel], 'undefined')} }`;
+	});
 }
 
 interface IPass {

@@ -1,3 +1,4 @@
+import { defineInspectMethod } from '../../../debugging/inspect.js';
 import { objectName } from '../../../debugging/object-with-name.js';
 import type { IAsyncDisposable } from '../disposable.js';
 
@@ -13,26 +14,31 @@ type ClosableAsync = {
 export function closableToDisposable<T extends ClosableAsync>(closable: T): IAsyncDisposable {
 	const promised = closable.close.length === 0;
 
-	return {
-		get displayName() {
-			return `closable(${objectName(closable) || 'unknown'})`;
-		},
-		dispose(): Promise<void> {
-			if (promised) {
-				return Promise.resolve(closable.close()).then(() => undefined);
-			} else {
-				return new Promise<void>((resolve, reject) => {
-					closable.close((error) => {
-						if (error) {
-							reject(error);
-						} else {
-							resolve();
-						}
+	return defineInspectMethod(
+		{
+			get displayName() {
+				return `closable(${objectName(closable) || 'unknown'})`;
+			},
+			dispose(): Promise<void> {
+				if (promised) {
+					return Promise.resolve(closable.close()).then(() => undefined);
+				} else {
+					return new Promise<void>((resolve, reject) => {
+						closable.close((error) => {
+							if (error) {
+								reject(error);
+							} else {
+								resolve();
+							}
+						});
 					});
-				});
-			}
+				}
+			},
 		},
-	};
+		(_depth, options) => {
+			return options.stylize(`[ClosableDisposable ${objectName(closable) || 'unknown'}]`, 'special');
+		},
+	);
 }
 
 type EndableAsync = {
@@ -47,24 +53,29 @@ type EndableAsync = {
 export function endableToDisposable<T extends EndableAsync>(endable: T): IAsyncDisposable {
 	const promised = endable.end.length === 0;
 
-	return {
-		get displayName() {
-			return `endable(${objectName(endable) || 'unknown'})`;
-		},
-		dispose(): Promise<void> {
-			if (promised) {
-				return Promise.resolve(endable.end()).then(() => undefined);
-			} else {
-				return new Promise<void>((resolve, reject) => {
-					return endable.end((error) => {
-						if (error) {
-							reject(error);
-						} else {
-							resolve();
-						}
+	return defineInspectMethod(
+		{
+			get displayName() {
+				return `endable(${objectName(endable) || 'unknown'})`;
+			},
+			dispose(): Promise<void> {
+				if (promised) {
+					return Promise.resolve(endable.end()).then(() => undefined);
+				} else {
+					return new Promise<void>((resolve, reject) => {
+						return endable.end((error) => {
+							if (error) {
+								reject(error);
+							} else {
+								resolve();
+							}
+						});
 					});
-				});
-			}
+				}
+			},
 		},
-	};
+		(_depth, options) => {
+			return options.stylize(`[EndableDisposable ${objectName(endable) || 'unknown'}]`, 'special');
+		},
+	);
 }

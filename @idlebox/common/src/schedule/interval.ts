@@ -1,3 +1,4 @@
+import { inspectSymbol } from '../autoindex.js';
 import { objectName } from '../debugging/object-with-name.js';
 import type { IDisposable } from '../lifecycle/dispose/disposable.js';
 import { EnhancedDisposable } from '../lifecycle/dispose/sync-disposable.js';
@@ -60,5 +61,16 @@ export class Interval extends EnhancedDisposable {
 	override dispose() {
 		if (this.timer) this.timer.dispose();
 		return super.dispose();
+	}
+
+	[inspectSymbol](depth: number, options: any, inspect: any) {
+		if (depth < 0) {
+			return options.stylize(`[Interval ${this.ms}ms]`, 'special');
+		}
+		let r = `${options.stylize(this.constructor.name, 'name')} ${options.stylize(`${this.ms}`, 'number')}ms`;
+		const padding = ' '.repeat(2);
+		const inner = inspect(this._emitter, options, inspect).replace(/\n/g, `\n${padding}`);
+		r += ` {\n${padding}onTick: ${inner}\n}`;
+		return r;
 	}
 }
