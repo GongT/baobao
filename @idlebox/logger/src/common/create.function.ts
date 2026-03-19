@@ -1,7 +1,7 @@
 import { Cdim, Crst, CSI, NCdim } from './ansi.js';
 import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
 import { call_debug_command, debug_commands, nodeFormat } from './debug.commands.js';
-import { current_error_action } from './helpers.js';
+import { current_error_action, escapeRegExp } from './helpers.js';
 import type { IMyDebug, IMyDebugWithControl } from './types.js';
 
 interface IDebugOptions {
@@ -59,7 +59,7 @@ interface IWriteLineOptions {
 	level: LogLevel;
 }
 
-const lastWordReg = /\b[a-z_]+<$/i;
+const commandsReg = new RegExp(`(${Object.keys(debug_commands).map(escapeRegExp).join('|')})<$`);
 
 function format_template(messages: TemplateStringsArray, args: unknown[], color: boolean) {
 	const result_messages: string[] = messages.slice();
@@ -69,9 +69,10 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
 		const postfix = result_messages[index + 1] || '';
 
 		if (prefix.at(-1) === '<' && postfix[0] === '>') {
-			const lastWord = lastWordReg.exec(prefix);
+			// 处理类似 relative<xxx> 的命令
+			const lastWord = commandsReg.exec(prefix);
 			if (lastWord) {
-				const command = prefix.slice(lastWord.index, -1);
+				const command = prefix.slice(lastWord.index, -1); // remove '<'
 				const result = call_debug_command(command, arg, color);
 
 				result_messages[index] = prefix.slice(0, lastWord.index);
@@ -102,7 +103,7 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
 	let ret = '';
 	while (result_messages.length || result_args.length) {
 		const message = result_messages.shift();
-		if (message) ret += message;
+		if (message) ret += message.replace('，', ', ');
 		const arg = result_args.shift();
 		if (arg) ret += arg;
 	}

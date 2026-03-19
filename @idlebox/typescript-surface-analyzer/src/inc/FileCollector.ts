@@ -70,18 +70,13 @@ export class FileCollector {
 					// biome-ignore lint/complexity/noCommaOperator: use global eval
 					// biome-ignore lint/security/noGlobalEval: 必定是字符串字面值，除非目标代码写错了，暂不考虑这种情况
 					const path: string = (0, eval)(node.moduleSpecifier.getText());
-					const ref = this.resolver.resolve(collect.absolutePath, path);
+					reference = this.resolver.resolve(collect.absolutePath, path);
 
-					if (ref) {
-						reference = ref;
-					} else {
-						reference = { type: 'dependency', name: path };
-					}
-					logger.verbose`  resolved as ${reference}`;
+					logger.verbose`     resolved as ${reference}`;
 				} else {
 					// export {a, b, c};
 					reference = this.resolver.convert(collect.absolutePath);
-					logger.verbose`  convert to ${reference}`;
+					logger.verbose`     convert to ${reference}`;
 				}
 			} catch (e: any) {
 				this.logger.error`===================\n${e}\nLINE: long<${node.getText()}>\n long<${showFile(node)}>\n===================`;
@@ -91,11 +86,13 @@ export class FileCollector {
 			if (node.exportClause) {
 				if (this.ts.isNamespaceExport(node.exportClause)) {
 					// export * as a from 'X';
-					collect.addRef(node.exportClause.name, node, reference, ExportKind.Variable);
+					const nameAs = node.exportClause.name;
+					logger.verbose`     is NamespaceExport: ${nameAs.getText()}`;
+					collect.addRef(node.exportClause.name, node, { ...reference, id: nameAs }, node.isTypeOnly ? ExportKind.Type : ExportKind.Variable);
 				} else {
 					// export {a as b, c} from 'X';
 					for (const item of node.exportClause.elements) {
-						collect.addRef(item.name, node, { ...reference, id: item.propertyName }, ExportKind.Unknown);
+						collect.addRef(item.name, node, { ...reference, id: item.propertyName }, item.isTypeOnly ? ExportKind.Type : ExportKind.Unknown);
 					}
 				}
 			} else {

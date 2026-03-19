@@ -28,7 +28,8 @@
 		"@mpis/client": "workspace:^",
 		"@mpis/server": "workspace:^",
 		"split-cmd": "^1.1.0",
-		"@idlebox/source-map-support": "workspace:^"
+		"@idlebox/source-map-support": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/baseline-rig": "workspace:^",

@@ -1,3 +1,4 @@
+/** @deprecated use inspectSymbol from @idlebox/common */
 export const customInspectSymbol = Symbol.for('nodejs.util.inspect.custom');
 
 export function wrapStyle(active: boolean | undefined, prefix: string, value: string, suffix: string) {

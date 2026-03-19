@@ -1,9 +1,9 @@
 import { Emitter } from '@idlebox/common';
 import { createLogger, CSI, type IMyLogger } from '@idlebox/logger';
-import { inspect, type InspectOptionsStylized } from 'node:util';
+import { inspect, type InspectContext } from 'node:util';
 import { CompileError } from './error.js';
 
-export enum State {
+export enum WorkerClientState {
 	// 没有启动
 	NOT_EXECUTE,
 	// 启动了，但第一个start还没有发生
@@ -33,7 +33,7 @@ interface SuccessEvent {
  */
 export abstract class ProtocolClientObject {
 	protected readonly logger: IMyLogger;
-	private _state = State.NOT_EXECUTE;
+	private _state = WorkerClientState.NOT_EXECUTE;
 	private _running = false;
 	private readonly timings: Timings = {};
 	protected last_event_message = '';
@@ -81,7 +81,7 @@ export abstract class ProtocolClientObject {
 		this.last_event_message = message;
 		this.logger.success`built: ${message}\n`;
 		this.timings.lastCompile = Date.now();
-		this._state = State.COMPILE_SUCCEED;
+		this._state = WorkerClientState.COMPILE_SUCCEED;
 		this._onSuccess.fireNoError({ message, output });
 		// this._onFinally.fireNoError();
 	}
@@ -108,7 +108,7 @@ export abstract class ProtocolClientObject {
 		this.logger.error`failed: [${e.name}] long<${e.message}>`;
 		this.last_event_message = e.message;
 		this.timings.lastCompile = Date.now();
-		this._state = State.COMPILE_FAILED;
+		this._state = WorkerClientState.COMPILE_FAILED;
 		this._onFailure.fireNoError(e);
 		// this._onFinally.fireNoError();
 	}
@@ -119,12 +119,12 @@ export abstract class ProtocolClientObject {
 			return;
 		}
 
-		if (this._state === State.EXECUTING) {
+		if (this._state === WorkerClientState.EXECUTING) {
 			this.timings.firstStart = Date.now();
 		}
 		this.logger.debug`emit event: start building...`;
 		this.last_event_message = '';
-		this._state = State.COMPILE_STARTED;
+		this._state = WorkerClientState.COMPILE_STARTED;
 		this._onStart.fireNoError();
 	}
 
@@ -137,7 +137,7 @@ export abstract class ProtocolClientObject {
 	}
 
 	get isSuccess() {
-		return this._state === State.COMPILE_SUCCEED;
+		return this._state === WorkerClientState.COMPILE_SUCCEED;
 	}
 
 	/**
@@ -145,7 +145,7 @@ export abstract class ProtocolClientObject {
 	 * 不会抛出异常
 	 */
 	public async execute() {
-		if (this._state !== State.NOT_EXECUTE) {
+		if (this._state !== WorkerClientState.NOT_EXECUTE) {
 			this.logger.fatal` ! worker already started`;
 			return;
 		}
@@ -153,7 +153,7 @@ export abstract class ProtocolClientObject {
 		this.timings.executeStart = Date.now();
 		this.logger.debug` ~ worker _execute()`;
 		this._running = true;
-		this._state = State.EXECUTING;
+		this._state = WorkerClientState.EXECUTING;
 
 		try {
 			await this._execute();
@@ -165,7 +165,7 @@ export abstract class ProtocolClientObject {
 			this.timings.executeEnd = Date.now();
 			this._running = false;
 
-			if (this.state !== State.COMPILE_FAILED && this.state !== State.COMPILE_SUCCEED) {
+			if (this.state !== WorkerClientState.COMPILE_FAILED && this.state !== WorkerClientState.COMPILE_SUCCEED) {
 				this.logger.verbose` ~ unknown state, emitting success`;
 				this.emitSuccess('build exited without error');
 			}
@@ -176,22 +176,25 @@ export abstract class ProtocolClientObject {
 		}
 	}
 
+	/**
+	 * 工作进程是否运行中
+	 */
 	get running() {
 		return this._running;
 	}
 
-	protected [inspect.custom](depth: number, options: InspectOptionsStylized) {
+	protected [inspect.custom](depth: number, options: InspectContext) {
 		return `${this._inspectDesc(options)} ${this._inspect(depth, options)}`;
 	}
 
-	protected _inspect(_depth: number, options: InspectOptionsStylized) {
+	protected _inspect(_depth: number, options: InspectContext) {
 		if (!this.last_event_message) return '';
 
 		let colorS = ' ';
 		let colorE = ' ';
 		if (options.colors) {
 			colorE = `${CSI}0m`;
-			if (this._state === State.COMPILE_SUCCEED) {
+			if (this._state === WorkerClientState.COMPILE_SUCCEED) {
 				colorS = `${CSI}38;5;10m`;
 			} else {
 				colorS = `${CSI}38;5;9m`;
@@ -200,8 +203,8 @@ export abstract class ProtocolClientObject {
 		return `{${colorS}${this.last_event_message}${colorE}}`;
 	}
 
-	protected _inspectDesc(options: InspectOptionsStylized) {
-		return `[${options.stylize(this._id, 'special')}] ${CSI}2;3m(${State[this.state]})${CSI}0m`;
+	protected _inspectDesc(options: InspectContext) {
+		return `[${options.stylize(this._id, 'special')}] ${CSI}2;3m(${WorkerClientState[this.state]})${CSI}0m`;
 	}
 
 	protected abstract _stop(): Promise<void>;

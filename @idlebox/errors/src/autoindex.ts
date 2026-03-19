@@ -13,22 +13,22 @@
 // @ts-ignore
 
 /* codes/linux-error-codes.ts */
-	// Identifiers
+	// Identifiers (1)
 	export { LinuxErrorCode } from "./codes/linux-error-codes.js";
 /* codes/nodejs-re-export.ts */
-	// Identifiers
+	// Identifiers (2)
 	export { NodeErrorCode } from "./codes/nodejs-re-export.js";
 	export { OpenSSLErrorCode } from "./codes/nodejs-re-export.js";
 /* codes/wellknown-exit-codes.ts */
-	// Identifiers
+	// Identifiers (1)
 	export { ExitCode } from "./codes/wellknown-exit-codes.js";
 /* common/application.ts */
-	// Identifiers
+	// Identifiers (3)
 	export { Exit } from "./common/application.js";
 	export { InterruptError } from "./common/application.js";
 	export { UsageError } from "./common/application.js";
 /* common/base.ts */
-	// Identifiers
+	// Identifiers (8)
 	export type { IErrorOptions } from "./common/base.js";
 	export { humanReadable } from "./common/base.js";
 	export type { IHumanReadable } from "./common/base.js";
@@ -38,13 +38,13 @@
 	export { CanceledError } from "./common/base.js";
 	export { TimeoutError } from "./common/base.js";
 /* common/development.ts */
-	// Identifiers
+	// Identifiers (4)
 	export { ProgramError } from "./common/development.js";
 	export { NotImplementedError } from "./common/development.js";
 	export { SoftwareDefectError } from "./common/development.js";
 	export { Assertion } from "./common/development.js";
 /* common/nodejs.ts */
-	// Identifiers
+	// Identifiers (7)
 	export type { OpenSSLException } from "./common/nodejs.js";
 	export { isModuleResolutionError } from "./common/nodejs.js";
 	export { isNotExistsError } from "./common/nodejs.js";
@@ -53,6 +53,6 @@
 	export { isFileTypeError } from "./common/nodejs.js";
 	export { isNodeError } from "./common/nodejs.js";
 /* common/unhandled-errors.ts */
-	// Identifiers
+	// Identifiers (2)
 	export { UnhandledRejection } from "./common/unhandled-errors.js";
 	export { UncaughtException } from "./common/unhandled-errors.js";

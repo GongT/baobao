@@ -1,9 +1,9 @@
-import { AsyncDisposable, Emitter, toDisposable } from '@idlebox/common';
+import { AsyncDisposable, Emitter, EnhancedAsyncDisposable, functionToDisposable } from '@idlebox/common';
 import { createLogger, type IMyLogger } from '@idlebox/logger';
 import { DepGraph } from 'dependency-graph';
-import { inspect, type InspectOptions, type InspectOptionsStylized } from 'node:util';
+import { inspect, type InspectContext, type InspectOptions } from 'node:util';
 
-export abstract class AbstractBaseNode<State = any> extends AsyncDisposable {
+export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposable {
 	protected abstract readonly _dependencies: Set<string>;
 
 	protected declare _state: State;
@@ -18,7 +18,7 @@ export abstract class AbstractBaseNode<State = any> extends AsyncDisposable {
 		super(`${new.target.name} ${name}`);
 		this._state = initState;
 		this._register(
-			toDisposable(() => {
+			functionToDisposable(() => {
 				if (this.imm) {
 					clearImmediate(this.imm);
 				}
@@ -74,7 +74,7 @@ export abstract class AbstractBaseNode<State = any> extends AsyncDisposable {
 		return '○';
 	}
 
-	[inspect.custom](_d: number, _options: InspectOptionsStylized, _ins: typeof inspect) {
+	[inspect.custom](_d: number, _options: InspectContext, _ins: typeof inspect) {
 		const ss = this.translateState?.() ?? this._state;
 		return `${this.debugPrefix()} [${this.displayName}] ${ss}`;
 	}

@@ -90,7 +90,7 @@ export async function createIndex({
 	logger.debug('index dir: %s', indexDir);
 	const header = [headerComments, banner, linterInstructions];
 	const content = [];
-	const input_files = [];
+	const input_files = list.map((file) => file.absolutePath);
 	for (const file of list.sort(sort_file)) {
 		if (file.absolutePath === outputFileAbs) {
 			throw new Error(`override source file: ${outputFileAbs}`);
@@ -100,19 +100,23 @@ export async function createIndex({
 		content.push(`/* ${file.relativePath} */`);
 
 		if (file.identifiers) {
-			content.push('\t// Identifiers');
+			content.push(`\t// Identifiers (${file.identifiers.size})`);
 			for (const def of file.identifiers.values()) {
+				const id = idToString(ts, def.id);
+
 				if (def.reference) {
-					if (!def.reference.id && def.reference.type === 'file') {
-						// 从本包另一个文件export，并且没有改名（x as y）
+					if (!def.reference.id && def.reference.type === 'file' && input_files.includes(def.reference.absolute)) {
+						// 从本包另一个文件export，并且没有改名（x as y），且目标文件没有被忽略
+						content.push(`\t// export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}";`);
 						continue;
 					}
 				}
-				content.push(`\texport ${typeTag(def)}{ ${idToString(ts, def.id)} } from "${path}";`);
+
+				content.push(`\texport ${typeTag(def)}{ ${id} } from "${path}";`);
 			}
 		}
 		if (file.references.length) {
-			content.push('\t// References');
+			content.push(`\t// References (${file.references.length})`);
 			for (const { reference } of file.references) {
 				if (reference.type === 'file') {
 					content.push(`\texport * from "${importSpec(indexDir, reference.relativeFromRoot)}";`);

@@ -35,3 +35,4 @@ export function install({ ignore = false, force = false, ...options }: Options =
 }
 
 export { hasInspector, hasInstalledSourceMapSupport } from './check.js';
+export { convertToSourcePath } from './reflect.js';

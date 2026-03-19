@@ -1,7 +1,7 @@
 import { DeferredPromise, registerGlobalLifecycle, sleep, toDisposable } from '@idlebox/common';
 import { createLogger, EnableLogLevel } from '@idlebox/logger';
 import { createInterface, type Interface } from 'node:readline/promises';
-import { ProtocolClientObject, State } from '../common/protocol-client-object.js';
+import { ProtocolClientObject, WorkerClientState } from '../common/protocol-client-object.js';
 import type { WorkersManager } from '../common/workers-manager.js';
 
 let rl: Interface;
@@ -115,7 +115,7 @@ export class InputTestClient extends ProtocolClientObject {
 	private _auto = false;
 	auto_success() {
 		this._auto = true;
-		if (this.state === State.COMPILE_STARTED) {
+		if (this.state === WorkerClientState.COMPILE_STARTED) {
 			this.test_succ();
 		}
 	}

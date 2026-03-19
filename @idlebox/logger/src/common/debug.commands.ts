@@ -122,7 +122,12 @@ export const debug_commands: Record<string, IDebugCommand> = {
 		if (typeof s !== 'string') {
 			return color_error(`relative<> need string, not ${typeof s}(${s?.constructor?.name})`, color);
 		}
-		return relative(process.cwd(), s);
+		const r = relative(process.cwd(), s);
+		if (r.startsWith('.')) {
+			return r;
+		} else {
+			return `./${r}`;
+		}
 	},
 	printable(data: unknown, color: boolean) {
 		if (typeof data !== 'string') {

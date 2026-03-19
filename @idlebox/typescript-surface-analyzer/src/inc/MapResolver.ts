@@ -1,6 +1,16 @@
 import { existsSync } from 'node:fs';
 import { basename, dirname, extname, relative, resolve } from 'node:path';
 
+const inspectSymbol = Symbol.for('nodejs.util.inspect.custom');
+function addCustomInspect<T>(object: T, inspectFn: (this: T, depth: number, options: any) => string) {
+	Object.defineProperty(object, inspectSymbol, {
+		value: inspectFn,
+		enumerable: false,
+		configurable: true,
+		writable: true,
+	});
+}
+
 interface ILocalResolve {
 	type: 'file';
 	absolute: string;
@@ -62,26 +72,42 @@ export class MapResolver {
 		return '';
 	}
 
-	resolve(source: string, target: string): IResolveResult | null {
+	resolve(source: string, target: string): IResolveResult {
 		const found = this._resolve(source, target);
 		if (found) {
-			return {
+			const r: ILocalResolve = {
 				type: 'file',
 				absolute: found,
 				relative: relative(dirname(source), found),
 				relativeFromRoot: relative(this.root, found),
 			};
+
+			addCustomInspect(r, function () {
+				return `File<${this.relativeFromRoot}>`;
+			});
+			return r;
+		} else {
+			const r: IExternalResolve = { type: 'dependency', name: target };
+			addCustomInspect(r, function () {
+				return `Dependency<${this.name}>`;
+			});
+			return r;
 		}
-		return null;
 	}
 
 	convert(absolute: string): IResolveResult {
-		return {
+		const r: ILocalResolve = {
 			type: 'file',
 			absolute: absolute,
 			relative: basename(absolute, extname(absolute)),
 			relativeFromRoot: relative(this.root, absolute),
 		};
+
+		addCustomInspect(r, function () {
+			return `File<${this.relativeFromRoot}>`;
+		});
+
+		return r;
 	}
 
 	require(source: string, target: string): IResolveResult {

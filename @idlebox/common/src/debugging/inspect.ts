@@ -1,4 +1,4 @@
-const inspect = Symbol.for('nodejs.util.inspect.custom'); // high version node
+export const inspectSymbol = Symbol.for('nodejs.util.inspect.custom'); // high version node
 
 /**
  * try to call `inspect` method of an object, if not exists, call `toString`.
@@ -9,8 +9,8 @@ export function tryInspect(object: any): string {
 		return JSON.stringify(object);
 	}
 
-	if (object[inspect]) {
-		return object[inspect]();
+	if (object[inspectSymbol]) {
+		return object[inspectSymbol]();
 	}
 	if (object.inspect) {
 		return object.inspect();

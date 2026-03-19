@@ -25,13 +25,15 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 
 	syncEnabled({ error, warn, info, log, success, debug, verbose }, tag, currentLevel);
 
+	function fatal(messages: string | TemplateStringsArray, ...args: any[]): never {
+		log_fatal(messages as any, ...args);
+		throw new SoftwareDefectError(`logger.fatal has been called`, { boundary: fatal });
+	}
+
 	return {
 		tag,
 		stream,
-		fatal: function fatal(messages, ...args) {
-			log_fatal(messages as any, ...args);
-			throw new SoftwareDefectError(`logger.fatal has been called`, { boundary: fatal });
-		},
+		fatal,
 		error,
 		warn,
 		info,

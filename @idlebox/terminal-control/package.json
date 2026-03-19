@@ -1,0 +1,40 @@
+{
+	"name": "@idlebox/terminal-control",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "Terminal control (clear screen, cursor control, progress bars, etc.)",
+	"keywords": [],
+	"exports": {
+		".": {
+			"source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/common": "workspace:^"
+	},
+	"devDependencies": {
+		"@build-script/baseline-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^25.0.8",
+		"typescript": "^5.9.3"
+	},
+	"peerDependencies": {
+		"typescript": "^5.8.2"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	},
+	"sideEffects": false
+}

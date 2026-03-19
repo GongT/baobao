@@ -13,33 +13,33 @@
 // @ts-ignore
 
 /* base.ts */
-	// Identifiers
+	// Identifiers (5)
 	export { emojiRegex } from "./base.js";
 	export { emojiRegexStarting } from "./base.js";
 	export { emojiSimpleRegex } from "./base.js";
 	export type { SupportInfo } from "./base.js";
 	export { supports } from "./base.js";
 /* combiningCharacters.ts */
-	// Identifiers
+	// Identifiers (2)
 	export { combiningCharactersRegex } from "./combiningCharacters.js";
 	export { isCombiningCharacters } from "./combiningCharacters.js";
 /* escapeUnicode.ts */
-	// Identifiers
+	// Identifiers (1)
 	export { unicodeEscape } from "./escapeUnicode.js";
 /* firstCompleteChar.ts */
-	// Identifiers
+	// Identifiers (2)
 	export type { CodePointInfo } from "./firstCompleteChar.js";
 	export { readFirstCompleteChar } from "./firstCompleteChar.js";
 /* limitWidth.ts */
-	// Identifiers
+	// Identifiers (4)
 	export type { LimitResult } from "./limitWidth.js";
 	export { limitWidth } from "./limitWidth.js";
 	export { chunkText } from "./limitWidth.js";
 	export { boxText } from "./limitWidth.js";
 /* rollup.ts */
-	// Identifiers
+	// Identifiers (0)
 /* shim.lib.ts */
-	// Identifiers
+	// Identifiers (0)
 /* stringWidth.ts */
-	// Identifiers
+	// Identifiers (1)
 	export { stringWidth } from "./stringWidth.js";

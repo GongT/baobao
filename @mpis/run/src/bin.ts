@@ -1,6 +1,7 @@
 import { functionToDisposable, humanDate, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
+import { terminal } from '@idlebox/terminal-control';
 import { channelClient } from '@mpis/client';
 import { ProcessIPCClient } from '@mpis/server';
 import assert from 'node:assert/strict';
@@ -36,6 +37,7 @@ switch (context.command) {
 			break;
 		}
 		{
+			terminal.progress.indeterminate();
 			if (context.withCleanup) executeClean();
 
 			try {
@@ -54,6 +56,7 @@ switch (context.command) {
 			dumpConfig(config);
 			break;
 		}
+		terminal.progress.indeterminate();
 		initializeStdin();
 		await executeBuild().catch((e: Error) => {
 			prettyPrintError(`failed ${context.command} project`, e);

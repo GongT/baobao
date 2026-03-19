@@ -31,6 +31,7 @@ CLI程序辅助库
 
 * [args](@idlebox/args) 命令行参数解析
 * [logger](@idlebox/logger) 简单日志
+* [terminal-control](@idlebox/terminal-control) 终端控制（清屏、光标控制、进度条等）
 * [chokidar](@idlebox/chokidar) 文件监控
 * [cli](@idlebox/cli) 命令行程序基础设施（`args`+`logger`+`registerNodejsExitHandler (from @idlebox/node)`）
 * [cli-help-builder](@idlebox/cli-help-builder) 命令行程序帮助信息构建

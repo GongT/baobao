@@ -3,58 +3,30 @@
 # 使用方式
 
 ```text id="usage"
+package-tools - A Node.js package managing tool
+
 Usage:
-    njspkg [通用参数] <命令> [命令参数]
+    package-tools [通用参数] <命令> [命令参数]
 
 通用参数:
-  --quiet: 减少输出
-  --registry <value>: npm服务器，默认从.npmrc读取(必须有schema://)
-  --dist-tag <value>: 需要从服务器读取时使用的tag，默认为"latest"
-  --package <value>: 实际操作前，更改当前目录（此文件夹应包含package.json）
-  --json: 输出json格式（部分命令支持）
-  --help: 显示帮助信息
+    --registry <value>     npm服务器，默认从.npmrc读取(必须有schema://)
+    --dist-tag <value>     需要从服务器读取时使用的tag，默认为"latest"
+    --package <value>      实际操作前，更改当前目录（此文件夹应包含package.json）
+    --debug, -d            增加输出（最多2个）
+    --quiet, -s, --silent  减少输出
+    --help, -h             显示帮助信息
 
-detect-package-change --bump --json 本地运行npm pack并与npm上的最新版本对比差异
-  --bump: 当发现更改时更新package.json，增加版本号0.0.1
-
-monorepo-bump-version 在monorepo中按照依赖顺序分别运行detect-package-change
-  --skip <value>: 跳过前N-1个包（从第N个包开始运行）
-  --allow-private: 即使private=true也执行
-  --exclude <value>: 排除指定的包
-
-monorepo-cnpm-sync 调用cnpm sync命令
-  需要在PATH中存在cnpm命令
-
-monorepo-invalid 从npm缓存中删除关于本monorepo的数据，以便安装最新版本
-  
-
-monorepo-list --verbose --json --relative 列出所有项目目录
-  --verbose: 列出所有信息，而不仅是目录
-  --json: 输出json（同时使--verbose和--relative无效）
-  --relative: 输出相对路径（相对于monorepo根目录）
-
-monorepo-publish --verbose / --silent --dry 在monorepo中按照依赖顺序发布修改过的包
-  --verbose: 列出所有信息，而不仅是目录
-  --dry: 仅检查修改，不发布（仍会修改version字段）
-  --debug: 运行后不要删除临时文件和目录
-  --skip <value>: 跳过前N-1个包（从第N个包开始运行）
-  --private <value>: 即使private=true也执行
-
-monorepo-tsconfig --dev 为所有项目的 tsconfig.json 添加 references 字段
-  查找tsconfig.json和src/tsconfig.json
-      如果不在这里，可以在package.json中设置exports['./tsconfig.json'] = './xxxx'
-  --dev: 也将devDependencies中的包添加到references中
-
-monorepo-upgrade 更新monorepo中各个项目的所有依赖版本
-  被更新的包必须没有或者用^作为前缀
-
-run-if-version-mismatch --no-cache --flush -- command to run 如果版本号改变，则运行命令
-  如果package.json中的version与npm上的版本(latest)不一致，则运行命令
-    注意: 命令行中的"--"是必须的
-  
-  --no-cache: 禁用缓存
-  --flush: 程序成功退出时自动删除npm缓存
-  --newer: 只有在本地版本号大于远程版本号时才运行（默认只要不同就运行）
+全部命令:
+ * detect-package-change    本地运行npm pack并与npm上的最新版本对比差异
+ * monorepo-bump-version    在monorepo中按照依赖顺序分别运行detect-package-change
+ * monorepo-cnpm-sync       调用cnpm sync命令
+ * monorepo-invalid         从npm缓存中删除关于本monorepo的数据，以便安装最新版本
+ * monorepo-link-binaries   将monorepo中每个项目的bins连接到当前项目的 ./node_modules/.bin
+ * monorepo-list            列出所有项目目录
+ * monorepo-publish         在monorepo中按照依赖顺序发布修改过的包
+ * monorepo-tsconfig        为所有项目的 tsconfig.json 添加 references 字段
+ * monorepo-upgrade         更新monorepo中各个项目的所有依赖版本
+ * run-if-version-mismatch  如果版本号改变，则运行命令
 ```
 
 

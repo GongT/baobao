@@ -27,6 +27,7 @@
 		"@mpis/server": "workspace:^",
 		"@rushstack/rig-package": "^0.6.0",
 		"@idlebox/source-map-support": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^",
 		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {

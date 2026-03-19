@@ -1,8 +1,8 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { AsyncDisposable, DisposedError, Emitter, isWindows, PathArray } from '@idlebox/common';
+import { DisposedError, Emitter, EnhancedAsyncDisposable, isWindows, PathArray } from '@idlebox/common';
 import { CSI, logger, type IMyLogger } from '@idlebox/logger';
 import { getEnvironment, workingDirectory } from '@idlebox/node';
-import { CompileError, ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
+import { CompileError, ModeKind, ProcessIPCClient, WorkerClientState, WorkersManager } from '@mpis/server';
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
@@ -21,7 +21,7 @@ const colorReg = /\x1B\[[0-9;]+?m/g;
 const unclosedColorReg = /\x1B\[[^m]*$/g;
 
 const firstEmptyLine = /^\s*\n/;
-class PnpmMonoRepo extends AsyncDisposable {
+class PnpmMonoRepo extends EnhancedAsyncDisposable {
 	private readonly workersManager: WorkersManager;
 	private readonly pathvar: PathArray;
 	private readonly errorMessages = new Map<IPackageInfo, string>();
@@ -139,6 +139,17 @@ class PnpmMonoRepo extends AsyncDisposable {
 		return exec;
 	}
 
+	hasWorkerFailed() {
+		return this.packageToWorker.values().some((item) => !item.isSuccess);
+	}
+
+	hasWorkerNotComplete() {
+		return this.packageToWorker.values().some((item) => {
+			const state = item.state;
+			return state !== WorkerClientState.COMPILE_SUCCEED && state !== WorkerClientState.COMPILE_FAILED;
+		});
+	}
+
 	formatErrors() {
 		if (this.errorMessages.size === 0) return '';
 		let output = '';
@@ -198,6 +209,18 @@ class PnpmMonoRepo extends AsyncDisposable {
 		pathvar.add(resolve(info.absolute, 'node_modules/.bin'), true, true);
 
 		return pathvar;
+	}
+
+	getProgress(includeFailed = true) {
+		const count = this.packageToWorker.size;
+		const completed = this.packageToWorker
+			.values()
+			.filter((item) => {
+				const state = item.state;
+				return state === WorkerClientState.COMPILE_SUCCEED || (includeFailed && state === WorkerClientState.COMPILE_FAILED);
+			})
+			.toArray().length;
+		return Math.floor((100 * completed) / count);
 	}
 
 	dump(depth: number = 0, short = false) {

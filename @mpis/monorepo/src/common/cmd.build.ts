@@ -1,7 +1,8 @@
 import { argv } from '@idlebox/args/default';
-import { prettyPrintError } from '@idlebox/common';
+import { functionToDisposable, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { isShuttingDown, setExitCodeIfNot, shutdown } from '@idlebox/node';
+import { terminal } from '@idlebox/terminal-control';
 import { CompileError } from '@mpis/server';
 import { url } from 'node:inspector';
 import { debugMode } from './args.js';
@@ -20,25 +21,19 @@ export async function runBuild() {
 	if (activeOutput) {
 		repo.onStateChange(() => {
 			if (isShuttingDown()) return;
-			if (process.stderr.isTTY) process.stderr.write('\x1Bc');
+			if (process.stderr.isTTY) {
+				terminal.erase.all(true);
+				terminal.progress.update(repo.getProgress());
+			}
 			repo.printScreen();
 		});
 	}
 
-	// let completed = false;
-	// registerGlobalLifecycle(
-	// 	toDisposable(() => {
-	// 		if (debugMode || hasCi) {
-	// 			repo.printScreen();
-	// 		} else {
-	// 			if (process.stderr.isTTY) process.stderr.write('\x1Bc');
-	// 			repo.printScreen();
-	// 		}
-	// 		if (!completed && !process.exitCode) {
-	// 			process.exitCode = 1;
-	// 		}
-	// 	}),
-	// );
+	registerGlobalLifecycle(
+		functionToDisposable(() => {
+			terminal.progress.clear();
+		}),
+	);
 
 	try {
 		await repo.startup();
@@ -48,7 +43,7 @@ export async function runBuild() {
 		setExitCodeIfNot(0);
 	} catch (error: any) {
 		if (activeOutput) {
-			process.stderr.write('\x1Bc');
+			terminal.reset();
 		} else {
 			console.error('='.repeat(process.stderr.columns || 80));
 		}

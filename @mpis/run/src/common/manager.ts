@@ -3,7 +3,7 @@ import { channelClient } from '@mpis/client';
 import { ModeKind, ProcessIPCClient, WorkersManager } from '@mpis/server';
 import { context } from './args.js';
 import { config } from './config-file.js';
-import { errors, formatAllErrors, reprintWatchModeError } from './print-screen.js';
+import { formatAllErrors, overallState, reprintWatchModeError, updateMiscState } from './print-screen.js';
 
 export const workersManager = new WorkersManager(context.watchMode ? ModeKind.Watch : ModeKind.Build);
 
@@ -26,14 +26,21 @@ export function initializeWorkers() {
 		workersManager.addWorker(worker, last ? [last._id] : []);
 
 		let nodeFirstTime = true;
+		worker.onStart(() => {
+			overallState.busyWorkers.add(worker._id);
+			overallState.startedWorkers.add(worker._id);
+			updateMiscState();
+		});
 		worker.onFailure((e) => {
-			errors.set(worker, e);
+			overallState.busyWorkers.delete(worker._id);
+			overallState.errors.set(worker._id, e);
 			reprintWatchModeError(nodeFirstTime);
 			nodeFirstTime = false;
 			sendStatus();
 		});
 		worker.onSuccess(() => {
-			errors.set(worker, null);
+			overallState.busyWorkers.delete(worker._id);
+			overallState.errors.delete(worker._id);
 			if (nodeFirstTime) {
 				nodeFirstTime = false;
 			} else {
@@ -47,20 +54,12 @@ export function initializeWorkers() {
 }
 
 function sendStatus() {
-	const noError = errors.values().every((e) => !e);
-	if (noError) {
-		if (workersManager.size() === errors.size) {
+	if (overallState.errors.size === 0) {
+		if (workersManager.size() === overallState.startedWorkers.size) {
 			channelClient.success(`all ${workersManager.size()} workers completed successfully.`);
-		}
+		} // else not all started
 	} else {
-		let errorCnt = 0;
-		const arr: string[] = [];
-		for (const [client, err] of errors.entries()) {
-			if (err) {
-				errorCnt++;
-				arr.push(client._id);
-			}
-		}
-		channelClient.failed(`mpis-run: ${arr.join(', ')} (${errorCnt} / ${workersManager.size()})`, formatAllErrors());
+		const arr = overallState.errors.keys().toArray();
+		channelClient.failed(`mpis-run: ${arr.join(', ')} (${overallState.errors.size} / ${workersManager.size()})`, formatAllErrors());
 	}
 }

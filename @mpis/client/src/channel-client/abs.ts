@@ -1,4 +1,4 @@
-import { AsyncDisposable, Emitter } from '@idlebox/common';
+import { Emitter, EnhancedAsyncDisposable } from '@idlebox/common';
 import { createLogger, type IMyLogger } from '@idlebox/logger';
 import { BuildEvent, type IMessageObject } from '@mpis/shared';
 import { readFileSync } from 'node:fs';
@@ -29,7 +29,7 @@ function getDefaultTitle(): string {
 	return 'unknown';
 }
 
-export abstract class AbstractChannelClient extends AsyncDisposable {
+export abstract class AbstractChannelClient extends EnhancedAsyncDisposable {
 	private cstate = ConnectionState.Disconnected;
 	protected connecting?: Promise<any>;
 	private queuedMessage?: IUserMessageObject;

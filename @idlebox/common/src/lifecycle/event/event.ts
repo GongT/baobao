@@ -1,10 +1,13 @@
 import { Exit } from '@idlebox/errors';
+import { inspectSymbol } from '../../debugging/inspect.js';
 import { nameObject, objectName } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder } from '../../error/stack-trace.js';
 import { functionToDisposable } from '../dispose/bridges/function.js';
 import type { IDisposable } from '../dispose/disposable.js';
 import { DisposedError } from '../dispose/disposedError.js';
 import type { EventHandler, EventRegister, IEventEmitter } from './type.js';
+
+const anonymousName = 'AnonymousEmitter';
 
 /**
  * @public
@@ -14,7 +17,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	private executing = false;
 	private _something_change_during_call = false;
 
-	constructor(public readonly displayName: string = 'AnonymousEmitter') {
+	constructor(public readonly displayName: string = anonymousName) {
 		this.handle = Object.defineProperties(this.handle.bind(this), {
 			once: {
 				get: () => this.once.bind(this),
@@ -180,6 +183,15 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	}
 
 	readonly [Symbol.dispose] = this.dispose;
+
+	[inspectSymbol](_depth: number, options: any) {
+		let r = `[${options.stylize(this.constructor.name, 'special')}`;
+		if (this.displayName !== anonymousName) {
+			r += ` ${options.stylize(this.displayName, 'string')}`;
+		}
+		r += ` ${options.stylize(this.listenerCount(), 'number')}]`;
+		return r;
+	}
 
 	private requireNotExecuting() {
 		if (this.executing) {
