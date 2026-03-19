@@ -35,7 +35,6 @@
 		"@types/node": "^25.0.8",
 		"@types/pacote": "^11.1.8"
 	},
-	"monorepo": true,
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

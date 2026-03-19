@@ -1,23 +1,46 @@
 import { execa } from 'execa';
 import { appendFileSync, globSync, readFileSync } from 'node:fs';
-import { basename } from 'node:path';
+import { copyFile, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { chdir } from 'node:process';
 import { Writable } from 'node:stream';
 
 const summaryPath = process.env.GITHUB_STEP_SUMMARY;
 const logFileMatcher = /A complete log of this run can be found in:(.+)$/gm;
+const cnpmSyncWaitList: Promise<any>[] = [];
+const SP = {
+	Publish: 0,
+	Result: 1,
+	CNpm: 2,
+} as const;
+const postSummary: string[][] = [];
+let postOutput = '';
 
-function appendSummary(content: string) {
-	if (!summaryPath) return;
-	appendFileSync(summaryPath, content);
+function summary(id: number, content: string) {
+	if (!postSummary[id]) {
+		postSummary[id] = [];
+	}
+
+	if (content.startsWith('#')) {
+		postSummary[id].push('\n');
+	}
+	postSummary[id].push(content);
 }
 
-chdir('.package-tools/publish');
-
 async function main() {
+	chdir('.package-tools/publish');
+
+	process.env.LC_ALL = 'C.UTF-8';
+
+	console.log('::group::运行环境');
+	console.log('当前目录: %s', process.cwd());
+	console.log('环境变量: %o', process.env);
+	console.log('::endgroup::');
+
 	const files = globSync('**/*.tgz');
 
-	appendSummary('\n## 发布包\n');
+	summary(SP.Publish, `## 发布 ${files.length} 个包`);
 
 	let notOk = 0;
 	for (const item of files) {
@@ -25,13 +48,36 @@ async function main() {
 		if (!ok) notOk++;
 	}
 
-	appendSummary(`\n## 发布结果\n失败数量: ${notOk}\n`);
+	summary(SP.Result, `## 发布结果\n失败数量: ${notOk}`);
 	if (notOk === 0) {
 		console.log('所有包发布成功 🎉');
 	} else {
 		console.log('有 %d 个包发布失败 ❌', notOk);
 	}
+
+	await Promise.race([Promise.allSettled(cnpmSyncWaitList), sleep(5000)]);
+	console.log('cnpm同步已发出');
+
 	return notOk;
+}
+
+async function syncCnpm(name: string) {
+	const r = await execa({
+		stdio: 'pipe',
+		reject: false,
+		all: true,
+	})`cpnpm sync ${name}`;
+
+	if (r.exitCode === 0) {
+		summary(SP.CNpm, `* 同步成功: ${name}`);
+	} else {
+		summary(SP.CNpm, `* 同步出错: ${name}`);
+		postOutput += `::group::cnpm 同步 ${name} 失败\n${r.all.trim()}\n::endgroup::\n`;
+	}
+}
+
+function sleep(ms: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export class CollectingStream extends Writable {
@@ -51,10 +97,18 @@ export class CollectingStream extends Writable {
 	}
 }
 
-async function publishItem(item: string) {
-	console.log('::group::发布文件 %s ...', item);
+async function runOnce(file: string) {
+	const tmpDir = await mkdtemp(join(tmpdir(), 'publish-tmp-'));
+	console.log('解压文件 %s 到临时目录 %s', file, tmpDir);
 
-	const pkgName = basename(item, '.tgz');
+	await execa({
+		reject: true,
+		stdio: 'inherit',
+	})`tar -xf ${file} -C ${tmpDir}`;
+	await copyFile('.npmrc', join(tmpDir, '.npmrc'));
+
+	const pkgTxt = readFileSync(join(tmpDir, 'package', 'package.json'), 'utf-8');
+	const pkgJson = JSON.parse(pkgTxt);
 
 	const p = execa({
 		reject: false,
@@ -63,47 +117,98 @@ async function publishItem(item: string) {
 		stderr: 'pipe',
 		all: true,
 		encoding: 'utf8',
-	})`npm publish --access public --tag latest ${item}`;
+		cwd: join(tmpDir, 'package'),
+	})`npm publish --access public --tag latest`;
 
-	p.all.pipe(process.stderr);
-	const output = p.all.pipe(new CollectingStream());
+	p.all.pipe(process.stderr, { end: false });
+	const output = p.all.pipe(new CollectingStream(), { end: true });
 
 	const res = await p;
 
+	await rm(tmpDir, { force: true, recursive: true }).catch((e) => {
+		console.error('删除临时目录失败', e.message);
+	});
+
 	console.log('程序退出，返回 %d', res.exitCode);
-	console.log('::endgroup::');
 
 	if (res.exitCode === 0) {
-		return true;
+		cnpmSyncWaitList.push(syncCnpm(pkgJson.name));
+
+		return { success: true, debugInfo: '', output: output.getOutput() };
 	}
 
-	appendSummary(`* ${pkgName} 失败`);
-	console.log('::error title=%s 发布失败::%s\n', pkgName, `npm publish 返回 ${res.exitCode}`);
+	console.log('::error title=%s @ v%s 发布失败::%s\n', pkgJson.name, pkgJson.version, `npm publish 返回 ${res.exitCode}`);
+	summary(SP.Publish, `* 失败: ${pkgJson.name} @ v${pkgJson.version}`);
 
-	const outputStr = output.getOutput();
-	const match = logFileMatcher.exec(outputStr);
+	let debugInfo = '---------- package.json:';
+	debugInfo += pkgTxt.trim();
+	debugInfo += '\n';
+
+	return { success: false, debugInfo, output: output.getOutput() };
+}
+
+async function publishItem(item: string) {
+	let success = false;
+	let output = '';
+	let debugInfo = '';
+	for (let i = 0; i < 5; i++) {
+		const isretry = i > 0 ? `[第${i}次重试]` : '';
+		console.log('::group::%s发布文件 %s ...', isretry, item);
+		const r = await runOnce(item);
+		console.log('::endgroup::');
+
+		success = r.success;
+		output = r.output;
+		debugInfo = r.debugInfo;
+		if (success) {
+			return true;
+		}
+
+		// TODO: 重复版本号错误
+	}
+
+	const match = logFileMatcher.exec(output);
+	console.log('::group::     详细信息');
+
+	console.log(debugInfo);
+
 	if (match) {
 		const logFilePath = match[1].trim();
 
-		console.log('::group::     详细输出信息 (%s)', logFilePath);
 		try {
 			const content = readFileSync(logFilePath, 'utf-8');
+			console.log('---------- 日志文件 (%s)', logFilePath);
 			console.log(content);
 		} catch (e) {
 			console.log('无法读取日志文件: %s', e);
 		}
-		console.log('::endgroup::');
 	} else {
 		console.log(`似乎不是npm问题，无法确定错误原因`);
 	}
-	return false;
+	console.log('::endgroup::');
+	return success;
+}
+
+function addPostSummary() {
+	if (!summaryPath) return;
+
+	let content = '';
+	for (const lines of postSummary) {
+		if (!lines || lines.length === 0) continue;
+		content += lines.join('\n');
+		content += '\n';
+	}
+	appendFileSync(summaryPath, content);
 }
 
 main()
-	.then((code) => {
-		process.exit(code);
-	})
 	.catch((e) => {
 		console.error('发布过程中发生错误: %s', e);
-		process.exit(1);
+		console.log('::error title=发布过程中发生错误::%s\n', e.message);
+		return 1;
+	})
+	.then((rCode) => {
+		console.error(postOutput);
+		addPostSummary();
+		process.exit(rCode);
 	});

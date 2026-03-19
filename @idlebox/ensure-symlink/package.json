@@ -21,7 +21,6 @@
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.0.8"
 	},
-	"monorepo": true,
 	"type": "module",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

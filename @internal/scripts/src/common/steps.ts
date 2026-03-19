@@ -27,7 +27,7 @@ export function makeInformationalFields() {
 	make('author', 'GongT <admin@gongt.me>');
 	make('repository', {
 		type: 'git',
-		url: 'https://github.com/GongT/baobao',
+		url: 'git+https://github.com/GongT/baobao.git',
 		directory: relativePath(monorepoRoot, currentProject).replace(hiddenSuffix, ''),
 	});
 

@@ -58,9 +58,7 @@ jobs:
       - name: 安装依赖
         run: |
           bash .github/scripts/post-pnpm-install.sh
-
           pnpm install --frozen-lockfile
-          pnpm store prune --force
 
       - name: 执行构建
         run: |
@@ -76,4 +74,6 @@ jobs:
       #   run: pnpm run ???
 
       - name: 发布新版本
-        run: node --experimental-strip-types .github/scripts/publish-all-tarball.ts
+        run: |
+          pnpm add -g cnpm
+          node --experimental-strip-types .github/scripts/publish-all-tarball.ts

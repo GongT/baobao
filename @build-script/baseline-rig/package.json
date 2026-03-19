@@ -17,5 +17,8 @@
 		"./package.json": "./package.json"
 	},
 	"type": "module",
-	"sideEffects": false
+	"sideEffects": false,
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
 }
