@@ -76,4 +76,4 @@ jobs:
       #   run: pnpm run ???
 
       - name: 发布新版本
-        run: source .github/scripts/publish-all-tarball.sh
+        run: node --experimental-strip-types .github/scripts/publish-all-tarball.ts

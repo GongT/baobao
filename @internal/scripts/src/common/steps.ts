@@ -1,7 +1,8 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: no need */
 import type { IExportMap } from '@idlebox/common';
-import { loadJsonFileIfExists, writeJsonFileBack } from '@idlebox/json-edit';
+import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
+import { relativePath } from '@idlebox/node';
 import { execa } from 'execa';
 import { cpSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -9,6 +10,8 @@ import { fileURLToPath } from 'node:url';
 import { getExportsField, packageJson } from './package-json.js';
 import { currentProject, realProject } from './paths/current.js';
 import { monorepoRoot } from './paths/root.js';
+
+const hiddenSuffix = /(\/|\\|^)\..+$/;
 
 export function makeInformationalFields() {
 	function make(field: string, value: any) {
@@ -22,7 +25,11 @@ export function makeInformationalFields() {
 	logger.log`设置 package.json 的信息字段`;
 	make('license', 'MIT');
 	make('author', 'GongT <admin@gongt.me>');
-	make('repository', 'https://github.com/GongT/baobao');
+	make('repository', {
+		type: 'git',
+		url: 'https://github.com/GongT/baobao',
+		directory: relativePath(monorepoRoot, currentProject).replace(hiddenSuffix, ''),
+	});
 
 	if (!Object.hasOwn(packageJson, 'description')) {
 		logger.warn`package.json中缺少 description`;
@@ -33,9 +40,17 @@ export function makeInformationalFields() {
 }
 
 export function deleteDevelopmentFields() {
-	if (packageJson.scripts?.test) {
-		logger.debug`删除test脚本`;
+	if (packageJson.scripts?.test || packageJson.scripts?.lint) {
+		logger.debug`删除test&lint脚本`;
 		delete packageJson.scripts.test;
+		delete packageJson.scripts.lint;
+	}
+
+	for (const [key, value] of Object.entries(packageJson.scripts || {})) {
+		if (!value.trim()) {
+			logger.debug`删除空脚本 ${key}`;
+			delete packageJson.scripts[key];
+		}
 	}
 
 	if (packageJson.decoupledDependencies) {
@@ -68,12 +83,14 @@ export function deleteDevelopmentFields() {
 
 export async function rewriteTsconfig() {
 	const tsconfigPath = resolve(currentProject, 'src/tsconfig.json');
-	const data = await loadJsonFileIfExists(tsconfigPath);
-	if (!data) return;
+	if (!existsSync(tsconfigPath)) return;
+
+	const data = await loadJsonFile(tsconfigPath);
 
 	data.extends = '@build-script/baseline-rig/package/tsconfig.json';
+	logger.log`修改tsconfig.json (.extends)`;
+
 	await writeJsonFileBack(data);
-	logger.log`修改tsconfig.json (extends)`;
 }
 
 /**

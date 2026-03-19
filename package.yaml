@@ -13,4 +13,5 @@ scripts:
 devDependencies:
   '@biomejs/biome': 2.2.0
   typescript: ^5.8.3
+  execa: ^9.6.1
 packageManager: pnpm@10.28.0
