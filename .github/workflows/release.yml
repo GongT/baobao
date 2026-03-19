@@ -76,4 +76,5 @@ jobs:
       - name: 发布新版本
         run: |
           pnpm add -g cnpm
+          export CNPM_BIM=$(command -v cnpm)
           node --experimental-strip-types .github/scripts/publish-all-tarball.ts

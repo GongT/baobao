@@ -42,14 +42,18 @@ EOF
 
 git add .
 
+mapfile -t package_files < <(find .package-tools/publish -name '*.tgz')
+
 CMFILE="${RUNNER_TEMP:-/tmp}/commit-message.txt"
-echo "chore: 🤖 update package versions [skip ci]" >"$CMFILE"
+echo "chore: 🤖 update ${#package_files[@]} packages version. [skip ci]" >"$CMFILE"
 echo "" >>"$CMFILE"
 
-mapfile -t packages < <(find .package-tools/publish -name '*.tgz' | xargs -I {} basename {} .tgz)
-for pkg in "${packages[@]}"; do
-	summ "- ${pkg}"
-	printf " * %s\n" "${pkg}" >>"$CMFILE"
+for file in "${package_files[@]}"; do
+	PKG_JSON=$(tar -xf "$file" -O package/package.json)
+	PKG_NAME=$(echo "$PKG_JSON" | jq -r '.name')
+	PKG_VERSION=$(echo "$PKG_JSON" | jq -r '.version')
+	summ "- ${PKG_NAME} @ v${PKG_VERSION}"
+	printf "[%s] v%s\n" "${PKG_NAME}" "${PKG_VERSION}" >>"$CMFILE"
 done
 
 git commit -F "$CMFILE"

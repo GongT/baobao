@@ -15,7 +15,14 @@ const SP = {
 	CNpm: 2,
 } as const;
 const postSummary: string[][] = [];
+const cnpmBin = process.env.CNPM_BIN;
 let postOutput = '';
+
+summary(SP.CNpm, '# cnpm同步');
+if (!cnpmBin) {
+	summary(SP.CNpm, '未找到cnpm，跳过同步');
+	postOutput += '未找到cnpm，跳过同步\n';
+}
 
 function summary(id: number, content: string) {
 	if (!postSummary[id]) {
@@ -41,6 +48,7 @@ async function main() {
 	const files = globSync('**/*.tgz');
 
 	summary(SP.Publish, `## 发布 ${files.length} 个包`);
+	summary(SP.Result, `## 发布结果`);
 
 	let notOk = 0;
 	for (const item of files) {
@@ -48,7 +56,7 @@ async function main() {
 		if (!ok) notOk++;
 	}
 
-	summary(SP.Result, `## 发布结果\n失败数量: ${notOk}`);
+	summary(SP.Result, `\n失败数量: ${notOk}`);
 	if (notOk === 0) {
 		console.log('所有包发布成功 🎉');
 	} else {
@@ -62,11 +70,13 @@ async function main() {
 }
 
 async function syncCnpm(name: string) {
+	if (!cnpmBin) return;
+
 	const r = await execa({
 		stdio: 'pipe',
 		reject: false,
 		all: true,
-	})`cpnpm sync ${name}`;
+	})`${cnpmBin} sync ${name}`;
 
 	if (r.exitCode === 0) {
 		summary(SP.CNpm, `* 同步成功: ${name}`);
@@ -97,7 +107,7 @@ export class CollectingStream extends Writable {
 	}
 }
 
-async function runOnce(file: string) {
+async function runOnce(file: string, isFirstAttempt: boolean) {
 	const tmpDir = await mkdtemp(join(tmpdir(), 'publish-tmp-'));
 	console.log('解压文件 %s 到临时目录 %s', file, tmpDir);
 
@@ -109,6 +119,8 @@ async function runOnce(file: string) {
 
 	const pkgTxt = readFileSync(join(tmpDir, 'package', 'package.json'), 'utf-8');
 	const pkgJson = JSON.parse(pkgTxt);
+
+	console.log('包名: %s\n版本: %s\nURL: https://www.npmjs.com/package/%s', pkgJson.name, pkgJson.version, pkgJson.name);
 
 	const p = execa({
 		reject: false,
@@ -134,11 +146,14 @@ async function runOnce(file: string) {
 	if (res.exitCode === 0) {
 		cnpmSyncWaitList.push(syncCnpm(pkgJson.name));
 
+		summary(SP.Publish, `* ✅ 成功: ${pkgJson.name} @ v${pkgJson.version}`);
 		return { success: true, debugInfo: '', output: output.getOutput() };
 	}
 
+	if (isFirstAttempt) {
+		summary(SP.Publish, `* ❌ 失败: ${pkgJson.name} @ v${pkgJson.version}`);
+	}
 	console.log('::error title=%s @ v%s 发布失败::%s\n', pkgJson.name, pkgJson.version, `npm publish 返回 ${res.exitCode}`);
-	summary(SP.Publish, `* 失败: ${pkgJson.name} @ v${pkgJson.version}`);
 
 	let debugInfo = '---------- package.json:';
 	debugInfo += pkgTxt.trim();
@@ -154,7 +169,7 @@ async function publishItem(item: string) {
 	for (let i = 0; i < 5; i++) {
 		const isretry = i > 0 ? `[第${i}次重试]` : '';
 		console.log('::group::%s发布文件 %s ...', isretry, item);
-		const r = await runOnce(item);
+		const r = await runOnce(item, i === 0);
 		console.log('::endgroup::');
 
 		success = r.success;
@@ -166,6 +181,8 @@ async function publishItem(item: string) {
 
 		// TODO: 重复版本号错误
 	}
+
+	summary(SP.Result, `* ${item}`);
 
 	const match = logFileMatcher.exec(output);
 	console.log('::group::     详细信息');
