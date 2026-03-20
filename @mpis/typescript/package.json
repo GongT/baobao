@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/typescript",
 	"type": "module",
-	"version": "0.0.20",
+	"version": "0.0.22",
 	"keywords": [],
 	"bin": {
 		"mpis-tsc": "./loader/bin.devel.js"
@@ -36,10 +36,7 @@
 		"typescript": "^5.8.3"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	},
 	"sideEffects": false
 }
