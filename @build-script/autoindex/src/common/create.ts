@@ -104,10 +104,15 @@ export async function createIndex({
 			for (const def of file.identifiers.values()) {
 				const id = idToString(ts, def.id);
 
-				if (def.reference) {
-					if (!def.reference.id && def.reference.type === 'file' && input_files.includes(def.reference.absolute)) {
-						// 从本包另一个文件export，并且没有改名（x as y），且目标文件没有被忽略
-						content.push(`\t// export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}";`);
+				if (def.reference?.type === 'file') {
+					if (!def.reference.id) {
+						// 从本包另一个文件export，且没有改名（x as y）
+						content.push(`\t// export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}" # no rename`);
+						continue;
+					}
+					if (!input_files.includes(def.reference.absolute)) {
+						// 从本包另一个文件export，且目标文件被忽略
+						content.push(`\t// export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}" # file ignored`);
 						continue;
 					}
 				}

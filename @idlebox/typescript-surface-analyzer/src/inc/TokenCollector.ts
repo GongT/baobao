@@ -5,6 +5,7 @@ import type { IResolveResult } from './MapResolver.js';
 import { ApiHost } from './tsapi.helpers.js';
 
 import type { IMyLogger } from '@idlebox/logger';
+import { relative } from 'node:path';
 import type { inspect as utilsInspect } from 'node:util';
 
 export interface WithOriginal {
@@ -85,6 +86,16 @@ export class TokenCollector implements ITypescriptFile {
 	setDefault(id: undefined | TypeScriptApi.Identifier, node: TypeScriptApi.Node, kind: ExportKind) {
 		if (this._defaultExport) this.logger.error('duplicate exported identifier: default');
 		this._defaultExport = { id, node, kind };
+	}
+
+	get relativeToCwd() {
+		const r = relative(process.cwd(), this.absolutePath).replace(/\\/g, '/');
+		return r.startsWith('.') ? r : `./${r}`;
+	}
+
+	createHumanReadableLocation(node: TypeScriptApi.Node) {
+		const pos = this.sourceFile.getLineAndCharacterOfPosition(node.getStart());
+		return `${this.relativeToCwd}:${pos.line + 1}:${pos.character + 1}`;
 	}
 
 	get defaultExport() {

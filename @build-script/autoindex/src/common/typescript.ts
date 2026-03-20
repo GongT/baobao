@@ -4,6 +4,7 @@ import { existsSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type TypeScriptApi from 'typescript';
 import type { IContext } from './config.js';
+import { selfVersion } from './modify-comment.js';
 import { getTypescript } from './tsconfig-loader.js';
 
 export async function loadTypescript(context: IContext) {
@@ -20,7 +21,7 @@ export async function loadTypescript(context: IContext) {
 	}
 
 	const ts: typeof TypeScriptApi = await getTypescript(tsconfigFile, logger);
-	logger.log('typescript version: %s', ts.version);
+	logger.log('typescript version: %s; autoindex version: %s', ts.version, selfVersion);
 
 	return {
 		ts,

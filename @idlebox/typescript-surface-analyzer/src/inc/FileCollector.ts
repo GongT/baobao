@@ -84,15 +84,34 @@ export class FileCollector {
 			}
 
 			if (node.exportClause) {
+				const nodeDefaultType = node.isTypeOnly ? ExportKind.Type : ExportKind.Unknown;
 				if (this.ts.isNamespaceExport(node.exportClause)) {
 					// export * as a from 'X';
 					const nameAs = node.exportClause.name;
 					logger.verbose`     is NamespaceExport: ${nameAs.getText()}`;
-					collect.addRef(node.exportClause.name, node, { ...reference, id: nameAs }, node.isTypeOnly ? ExportKind.Type : ExportKind.Variable);
+					collect.addRef(node.exportClause.name, node, { ...reference, id: nameAs }, nodeDefaultType);
 				} else {
-					// export {a as b, c} from 'X';
-					for (const item of node.exportClause.elements) {
-						collect.addRef(item.name, node, { ...reference, id: item.propertyName }, item.isTypeOnly ? ExportKind.Type : ExportKind.Unknown);
+					// NamedExports
+					if (node.moduleSpecifier) {
+						// export {a as b, c} from 'X';
+						// 重新导出可以直接用“as”前面的名字
+						for (const item of node.exportClause.elements) {
+							collect.addRef(item.name, node, { ...reference, id: item.propertyName }, item.isTypeOnly ? ExportKind.Type : nodeDefaultType);
+						}
+					} else {
+						// export { a as b, c };
+						/**
+						 * TODO: 未实现，当前这种export必须使用 a as b 的形式，否则reference.id为空，在autoindex的表现就是它被忽略
+						 * 这种情况只能在当前文件里找了，需要实现当前文件上下文
+						 * 同时类型导出 export type {} / export {type A} 支持前向引用（实际可以认为都支持）
+						 */
+						for (const item of node.exportClause.elements) {
+							collect.addRef(item.name, node, { ...reference, id: item.propertyName }, item.isTypeOnly ? ExportKind.Type : nodeDefaultType);
+							if (!item.propertyName) {
+								const loc = collect.createHumanReadableLocation(item.name);
+								this.logger.warn`Attention: \`export { ${item.name.getText()} };\` can not resolve correctly now (file: ${loc})`;
+							}
+						}
 					}
 				}
 			} else {

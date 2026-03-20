@@ -16,3 +16,5 @@ export const linterInstructions = `
 /* eslint-disable */
 // @ts-ignore
 `.trim();
+
+export const selfVersion = pkgJson.version;
