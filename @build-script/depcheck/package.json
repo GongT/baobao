@@ -35,7 +35,7 @@
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8",
+		"@types/node": "^25.5.0",
 		"typescript": "^5.9.3"
 	},
 	"publishConfig": {

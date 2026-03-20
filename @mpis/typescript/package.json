@@ -22,6 +22,7 @@
 		"@idlebox/args": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@mpis/client": "workspace:^",
+		"split2": "^4.2.0",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
@@ -29,13 +30,16 @@
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8"
+		"@types/node": "^25.5.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5.8.3"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	},
 	"sideEffects": false
 }

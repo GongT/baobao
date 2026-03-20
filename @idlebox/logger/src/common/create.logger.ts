@@ -45,8 +45,8 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 
 		colorEnabled: color_enabled,
 
-		enable(newMaxLevel: EnableLogLevel) {
-			currentLevel = newMaxLevel;
+		enable(newLevel: EnableLogLevel) {
+			currentLevel = newLevel;
 			syncEnabled({ error, warn, info, log, success, debug, verbose }, tag, currentLevel);
 		},
 
@@ -86,10 +86,6 @@ function syncEnabled(opt: IPass, tag: string, currentLevel: EnableLogLevel) {
 		 *        - 否则启用 >log 级别
 		 *    否则启用 >warn 级别
 		 * - 如果DEBUG中存在tag:$level，则启用 tag:$level 单个级别
-		 *
-		 * root-logger默认是手动控制
-		 *
-		 * TODO !!
 		 */
 		+tag;
 		currentLevel = defaultLogLevel;

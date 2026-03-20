@@ -1,7 +1,7 @@
 import { argv } from '@idlebox/args/default';
 import { execa } from 'execa';
 import { basename } from 'node:path';
-import { listenOutputStream } from './api.js';
+import { listenOnStream } from './api.js';
 
 const stdinMode = argv.flag(['--stdin']) > 0;
 const startSignal = argv.single(['--start']) || '';
@@ -58,7 +58,7 @@ const finishRegex = new RegExp(finishSignal, 'iv');
 const errorRegex = errorSignal ? new RegExp(errorSignal, 'imv') : undefined;
 const successRegex = successSignal ? new RegExp(successSignal, 'imv') : undefined;
 
-listenOutputStream(reading_stream, {
+listenOnStream(reading_stream, {
 	title,
 	start: startRegex,
 	stop: finishRegex,

@@ -25,14 +25,14 @@
 		"@idlebox/node": "workspace:^",
 		"execa": "^9.6.1",
 		"json5": "^2.2.3",
-		"pacote": "^21.0.4",
+		"pacote": "^21.5.0",
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
 		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8",
+		"@types/node": "^25.5.0",
 		"@types/pacote": "^11.1.8"
 	},
 	"publishConfig": {

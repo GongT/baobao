@@ -8,6 +8,7 @@ import type {
 	IExecuteOptions,
 	IImportedMessage,
 	IInitializeMessage,
+	IQuitMessage,
 	ISourceMapMessage,
 	IWarningMessage,
 } from './common/message.types.js';
@@ -26,8 +27,9 @@ export async function execute(tsFile: string, options?: IExecuteOptions) {
 	const sourceMaps = new Map<string, any>();
 	await registerSourceMap(sourceMaps);
 
+	let uncaughtException: any = null;
 	const { port1, port2 } = new MessageChannel();
-	port1.on('message', (data: ISourceMapMessage | IDebugMessage | IWarningMessage | IInitializeMessage | IErrorMessage) => {
+	port1.on('message', (data: ISourceMapMessage | IDebugMessage | IQuitMessage | IWarningMessage | IInitializeMessage | IErrorMessage) => {
 		if (data.type === 'source-map') {
 			debugMap(`received source map for: ${data.fileUrl}`);
 			sourceMaps.set(data.fileUrl, JSON.parse(Buffer.from(data.sourceMap).toString('utf-8')));
@@ -37,6 +39,15 @@ export async function execute(tsFile: string, options?: IExecuteOptions) {
 			error(data.message);
 		} else if (data.type === 'initialize' || data.type === 'error') {
 			// empty
+		} else if (data.type === 'quit') {
+			debugs.master('received quit message, exiting process');
+			if (uncaughtException) {
+				process.nextTick(() => {
+					throw uncaughtException;
+				});
+			} else {
+				process.exit(process.exitCode);
+			}
 		} else {
 			debugs.master(`unknown message type: ${JSON.stringify(data)}`);
 		}
@@ -68,7 +79,15 @@ export async function execute(tsFile: string, options?: IExecuteOptions) {
 	debugs.master('worker is ready!');
 
 	process.argv[1] = entryFileUrl;
-	const exports = await import(entryFileUrl);
+
+	let exports: any;
+	try {
+		exports = await import(entryFileUrl);
+	} catch (e) {
+		uncaughtException = e;
+		port1.postMessage({ type: 'quit' });
+		return;
+	}
 
 	port1.postMessage({ type: 'imported', quit: !options?.entries?.length } satisfies IImportedMessage);
 

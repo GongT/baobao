@@ -1,4 +1,5 @@
 import debug from 'debug';
+import inspector from 'node:inspector';
 import type { IDebugMessage } from './message.types.js';
 
 export function isTrue(key: string) {
@@ -18,4 +19,17 @@ export const debugs = {
 	master: debug('executer:master'),
 } satisfies Record<IDebugMessage['kind'] | 'master', debug.Debugger>;
 
-export const inspectEnabled = process.execArgv.some((e) => e.startsWith('--inspect'));
+function isInspectArg(arg: string) {
+	for (const inspectArg of ['--inspect', '--inspect-brk', '--inspect-port', '--inspect-wait']) {
+		if (arg === inspectArg) {
+			return true;
+		}
+		if (arg.startsWith(`${inspectArg}=`)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+const hasInspect = process.env.INSPECTOR_MODE || inspector.url() || process.execArgv.some(isInspectArg);
+export const inspectEnabled = !!hasInspect;

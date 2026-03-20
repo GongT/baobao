@@ -1,7 +1,9 @@
 import { createWorkspace, type IPackageInfo } from '@build-script/monorepo-lib';
 import { argv, CommandDefine, logger } from '@idlebox/cli';
+import { isNotExistsError, type IPackageJson } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { resolve } from 'node:path';
+import { loadYaml, writeYaml } from '../common/functions/yaml-tool.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { resolveNpm, splitAliasVersion, splitPackageSpecSimple } from '../common/package-manager/functions.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
@@ -36,7 +38,28 @@ export async function main() {
 	logger.log('Write changed files:');
 	let hasSomeChange = 0;
 	for (const project of projects) {
-		const packageJson = await loadJsonFile(resolve(project.absolute, 'package.json'));
+		let packageJson: IPackageJson;
+		let jsonMode = true;
+		const json_file_path = resolve(project.absolute, 'package.json');
+		try {
+			packageJson = await loadJsonFile(json_file_path);
+		} catch (e) {
+			logger.verbose`read relative<${json_file_path}> failed: ${e ? (e as any).code : e}`;
+			if (!isNotExistsError(e)) {
+				throw e;
+			}
+
+			try {
+				packageJson = await loadYaml(resolve(project.absolute, 'package.yaml'));
+				jsonMode = false;
+				logger.debug`found and using package.yaml.`;
+			} catch (ee) {
+				if (isNotExistsError(ee)) {
+					throw e;
+				}
+				throw ee;
+			}
+		}
 
 		let numChange = 0;
 		numChange += update(project, packageJson.dependencies, map);
@@ -47,7 +70,7 @@ export async function main() {
 			continue;
 		}
 
-		const changed = await writeJsonFileBack(packageJson);
+		const changed = jsonMode ? await writeJsonFileBack(packageJson) : await writeYaml(packageJson);
 
 		if (changed) {
 			logger.log(`  * ${project.name} -  ${numChange} change${numChange > 1 ? 's' : ''}`);

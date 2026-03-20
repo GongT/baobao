@@ -11,7 +11,7 @@ scripts:
   check: node @internal/scripts/loader/repo-check-all.js
   clean: node @internal/scripts/loader/repo-clean.js
 devDependencies:
-  '@biomejs/biome': 2.2.0
-  typescript: ^5.8.3
+  "@biomejs/biome": ^2.4.8
+  typescript: ^5.9.3
   execa: ^9.6.1
 packageManager: pnpm@10.28.0

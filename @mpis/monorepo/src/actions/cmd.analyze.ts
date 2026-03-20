@@ -4,7 +4,7 @@ import { argv } from '@idlebox/args/default';
 import type { DeepReadonly, IPackageJson } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
-import { createMonorepoObject } from './workspace.js';
+import { createMonorepoObject } from '../common/workspace.js';
 
 type NamePair = readonly [string, string];
 const outerScope: string[] = [];

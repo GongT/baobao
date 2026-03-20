@@ -30,8 +30,8 @@
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/debug": "^4.1.12",
-		"@types/node": "^25.0.8"
+		"@types/debug": "^4.1.13",
+		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

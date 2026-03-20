@@ -29,7 +29,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/publisher": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/debug": "^4.1.12"
+		"@types/debug": "^4.1.13"
 	},
 	"dependencies": {
 		"@idlebox/errors": "workspace:^",

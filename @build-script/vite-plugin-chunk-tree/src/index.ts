@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { isAbsolute, resolve } from 'node:path';
-import type { GetManualChunk, Plugin } from 'rollup';
+import type { GetManualChunk, Plugin as RollupPlugin } from 'rollup';
 import type { Plugin as VitePlugin } from 'vite';
+import type { CodeSplittingGroup } from 'vite/types/internal/rollupTypeCompat.js';
 import { packageRoot } from './inc/constants.js';
 import { getNode, hasMultipleVersion } from './inc/flatten.js';
 import { pickupPackage } from './inc/helper.js';
@@ -19,6 +20,7 @@ function pickupAll(picked: Set<string>, ...names: (string | RegExp)[]) {
 
 interface ManualChunkWorker {
 	callback: GetManualChunk;
+	readonly groups: readonly CodeSplittingGroup[];
 	readonly vendorPackages: Set<string>;
 }
 
@@ -103,6 +105,9 @@ export function createManualChunks({ chunks, internalChunk = '_lib', customerChu
 
 	return {
 		callback: manualChunksCallback,
+		get groups() {
+			return []; // TODO
+		},
 		vendorPackages: vendorPackages,
 	};
 }
@@ -122,7 +127,7 @@ interface IExtraOptions extends IOptions {
 	dedupe?: readonly string[];
 }
 
-export function splitVendorPlugin(options: IExtraOptions): Plugin {
+export function splitVendorPlugin(options: IExtraOptions): RollupPlugin {
 	const chunkTool = createManualChunks(options);
 
 	const packageJson = JSON.parse(readFileSync(resolve(packageRoot, 'package.json'), 'utf-8'));
@@ -132,7 +137,15 @@ export function splitVendorPlugin(options: IExtraOptions): Plugin {
 	const plugin: VitePlugin = {
 		name: `${prefix}split-vendor`,
 		outputOptions(options) {
-			options.manualChunks = chunkTool.callback;
+			// TODO: 更新到 options.codeSplitting？
+			options.manualChunks = chunkTool.callback as any;
+
+			/*
+			if (typeof options.codeSplitting !== 'object') options.codeSplitting = {};
+			if (!options.codeSplitting.groups) options.codeSplitting.groups = [];
+
+			options.codeSplitting.groups.push(...chunkTool.groups);
+*/
 			chunkTool.vendorPackages.clear();
 		},
 	};
@@ -181,5 +194,5 @@ export function splitVendorPlugin(options: IExtraOptions): Plugin {
 		};
 	}
 
-	return plugin;
+	return plugin as RollupPlugin;
 }

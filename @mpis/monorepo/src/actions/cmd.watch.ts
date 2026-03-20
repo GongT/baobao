@@ -3,9 +3,9 @@ import { InterruptError, prettyPrintError, registerGlobalLifecycle, type IDispos
 import { logger } from '@idlebox/logger';
 import { registerNodejsGlobalTypedErrorHandlerWithInheritance, shutdown } from '@idlebox/node';
 import { terminal, type ITitleControl } from '@idlebox/terminal-control';
-import { debugMode } from './args.js';
-import { startUi } from './user-interactive.js';
-import { createMonorepoObject } from './workspace.js';
+import { debugMode } from '../common/args.js';
+import { startUi } from '../common/user-interactive.js';
+import { createMonorepoObject } from '../common/workspace.js';
 
 let titleControl: ITitleControl | undefined;
 function setTitle(title: string) {
@@ -17,18 +17,20 @@ function setTitle(title: string) {
 }
 
 export async function runWatch() {
+	const debugChild = argv.flag('--child-verbose') > 0;
+
 	if (argv.unused().length) {
 		logger.error`Unknown arguments: ${argv.unused().join(', ')}`;
 		return shutdown(1);
 	}
 
 	let statePrinterDisposable: IDisposable | undefined;
-	const repo = await createMonorepoObject();
+	const repo = await createMonorepoObject({ debugChildren: debugChild });
 	const term = process.stderr.isTTY && !debugMode;
 
-	registerGlobalLifecycle(repo);
+	const userControl = startUi(repo);
 
-	startUi(repo);
+	registerGlobalLifecycle(repo);
 
 	registerNodejsGlobalTypedErrorHandlerWithInheritance(InterruptError, () => {
 		console.error(' -- Interrupted.');
@@ -46,6 +48,8 @@ export async function runWatch() {
 
 	if (!debugMode) {
 		statePrinterDisposable = repo.onStateChange(() => {
+			if (userControl.pause) return;
+
 			if (!repo.disposed && term) {
 				terminal.reset();
 				const p = repo.getProgress();
@@ -73,7 +77,7 @@ export async function runWatch() {
 		if (term) setTitle('启动');
 		await repo.startup();
 	} catch (e: any) {
-		if (debugMode) {
+		if (debugMode && !userControl.pause) {
 			if (!repo.disposed && term) {
 				terminal.reset();
 			}
@@ -83,9 +87,11 @@ export async function runWatch() {
 		shutdown(1);
 	}
 
-	if (!repo.disposed && term) {
-		setTitle('监视');
-		terminal.reset();
+	if (!userControl.pause) {
+		if (!repo.disposed && term) {
+			setTitle('监视');
+			terminal.reset();
+		}
+		repo.printScreen();
 	}
-	repo.printScreen();
 }

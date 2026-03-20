@@ -7,12 +7,17 @@ import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
 import { currentCommand } from '../bin.js';
+import { StringCollect } from './string-collect.js';
 
-export async function createMonorepoObject() {
+interface IOptions {
+	readonly debugChildren?: boolean;
+}
+
+export async function createMonorepoObject(options?: IOptions) {
 	const workspace = await createWorkspace();
 	logger.debug`workspace: long<${workspace.root}>`;
 	const repo = new PnpmMonoRepo(logger, workspace);
-	await repo.initialize();
+	await repo.initialize(options);
 	return repo;
 }
 
@@ -32,6 +37,7 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 	public readonly workersManager: WorkersManager;
 	private readonly pathvar: PathArray;
 	private readonly errorMessages = new Map<IPackageInfo, string>();
+	private readonly debugOutputs = new StringCollect<IPackageInfo>();
 	private readonly rigConfig = new Map<IPackageInfo, IRigConfig>(); // TODO: 太重了
 
 	private readonly _onStateChange = this._register(new Emitter<void>());
@@ -57,14 +63,20 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 		this.workersManager = new WorkersManager(this.mode, logger);
 	}
 
-	async initialize() {
+	async initialize({ debugChildren = false }: IOptions = {}) {
 		await this.workspace.decoupleDependencies();
 		const projects = await this.workspace.listPackages();
 		logger.debug`workspace: ${projects.length} packages.`;
 		for (const project of projects) {
 			if (!project.packageJson.name) continue;
 
-			const exec = this.makeExecuter(this.mode === ModeKind.Watch, project);
+			const addEnvs: Record<string, string> = {};
+			if (debugChildren) {
+				addEnvs['DEBUG_LEVEL'] = 'verbose';
+				addEnvs['DEBUG'] = '* -executer:* -dispose:*';
+			}
+
+			const exec = this.makeExecuter(this.mode === ModeKind.Watch, project, addEnvs);
 			if (exec) {
 				const all_deps = new Set<string>([...project.devDependencies, ...project.dependencies]);
 				this.workersManager.addWorker(exec, Array.from(all_deps));
@@ -85,7 +97,7 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 		await graph.startup();
 	}
 
-	private makeExecuter(watchMode: boolean, project: IPackageInfo): undefined | ProcessIPCClient {
+	private makeExecuter(watchMode: boolean, project: IPackageInfo, addEnvs: Record<string, string> = {}): undefined | ProcessIPCClient {
 		if (project.packageJson.scripts?.watch === undefined) {
 			this.logger.fatal`project ${project.packageJson.name} does not have a "watch" script. If it doesn't need, specify a empty string.`;
 		}
@@ -105,7 +117,7 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 		}
 		const logger = this.logger.extend(project.name);
 
-		const env: Record<string, string> = {};
+		const env: Record<string, string> = { ...addEnvs };
 		env[isWindows ? 'Path' : 'PATH'] = this.forkPath(project).toString();
 
 		const exec = new ProcessIPCClient(project.packageJson.name, cmds, project.absolute, env, logger); // TODO: env add Path
@@ -114,22 +126,29 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 		}
 
 		exec.onFailure((e) => {
+			const output = (e as CompileError).output ?? '## onFailure: no output from process ##';
+			this.debugOutputs.append(project, output);
 			if (e instanceof CompileError) {
-				this.errorMessages.set(project, `${e.message}\n${e.output ?? 'no output from process'}`);
+				this.errorMessages.set(project, `${e.message}\n${output}`);
 			} else {
 				this.errorMessages.set(project, e.stack || e.message);
 			}
 			this._onStateChange.fireNoError();
 		});
-		exec.onSuccess(() => {
+		exec.onSuccess((e) => {
+			const output = e.output ?? '## onSuccess: no output from process ##';
+			this.debugOutputs.append(project, output);
+
 			this.errorMessages.delete(project);
 			this._onStateChange.fireNoError();
 		});
 		exec.onStart(() => {
+			this.debugOutputs.clear(project);
 			this.errorMessages.delete(project);
 			this._onStateChange.fireNoError();
 		});
 		exec.onTerminate(() => {
+			this.debugOutputs.append(project, '## onTerminate: process terminated ##');
 			try {
 				this._onStateChange.fireNoError();
 			} catch (e) {
@@ -155,6 +174,25 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 			const state = item.state;
 			return state !== WorkerClientState.COMPILE_SUCCEED && state !== WorkerClientState.COMPILE_FAILED;
 		});
+	}
+
+	/**
+	 * @internal
+	 */
+	_debugWorker(project: IPackageInfo) {
+		return this.packageToWorker.get(project);
+	}
+
+	/**
+	 * @internal
+	 */
+	_debugGetOutput(project: IPackageInfo): string | undefined {
+		const worker = this.packageToWorker.get(project);
+		return worker?.outputStream.toString();
+	}
+
+	getErrors(): ReadonlyMap<IPackageInfo, string> {
+		return this.errorMessages;
 	}
 
 	formatErrors() {

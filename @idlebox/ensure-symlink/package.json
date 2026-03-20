@@ -19,7 +19,7 @@
 	},
 	"devDependencies": {
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8"
+		"@types/node": "^25.5.0"
 	},
 	"type": "module",
 	"publishConfig": {

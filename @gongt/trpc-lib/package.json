@@ -24,7 +24,7 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@trpc/server": "^11.8.1",
+		"@trpc/server": "^11.13.4",
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
@@ -32,7 +32,7 @@
 		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8"
+		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

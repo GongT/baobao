@@ -32,7 +32,7 @@
 		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8"
+		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

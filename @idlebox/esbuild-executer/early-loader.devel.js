@@ -1,10 +1,29 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
+import inspector from 'node:inspector';
 import { resolve } from 'node:path';
 
 const built = resolve(import.meta.dirname, './lib/index.js');
 
-if (!existsSync(built)) {
+function isInspectArg(arg) {
+	for (const inspectArg of ['--inspect', '--inspect-brk', '--inspect-port', '--inspect-wait']) {
+		if (arg === inspectArg) {
+			return true;
+		}
+		if (arg.startsWith(`${inspectArg}=`)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+const hasInspect = inspector.url() || process.execArgv.some(isInspectArg);
+if (hasInspect) {
+	process.env.INSPECTOR_MODE = '1';
+	console.error('force rebuilding executer!');
+}
+
+if (!existsSync(built) || hasInspect) {
 	const p = spawnSync('tsc -p src --noCheck', {
 		stdio: 'inherit',
 		shell: true,

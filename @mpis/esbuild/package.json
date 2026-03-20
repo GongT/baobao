@@ -27,11 +27,11 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/typescript": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8",
-		"esbuild": "^0.27.2"
+		"@types/node": "^25.5.0",
+		"esbuild": "=0.27.3"
 	},
 	"peerDependencies": {
-		"esbuild": ">=0.24.0"
+		"esbuild": ">=0.27.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

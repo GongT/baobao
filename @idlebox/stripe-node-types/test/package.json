@@ -1,7 +1,0 @@
-{
-	"name": "test",
-	"dependencies": {
-		"@types/node": "../lib",
-		"typescript": "^5.9.2"
-	}
-}

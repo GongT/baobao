@@ -1,9 +1,10 @@
 import { createArgsReader } from '@idlebox/args';
 import { findUpUntilSync } from '@idlebox/node';
-import { channelClient, hookCurrentProcessOutput } from '@mpis/client';
+import { channelClient, hookCurrentProcessOutput, listenOnStream } from '@mpis/client';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import split2 from 'split2';
 
 const tsPkgJsonPath = fileURLToPath(import.meta.resolve('typescript/package.json'));
 const tsPkgJson = JSON.parse(readFileSync(tsPkgJsonPath, 'utf-8'));
@@ -31,7 +32,8 @@ if (!project) {
 	throw new Error('No project specified. Use --build or --project to specify a TypeScript project.');
 }
 
-const projAbs = resolve(process.cwd(), project);
+const wd = process.cwd();
+const projAbs = resolve(wd, project);
 const packageFile = findUpUntilSync({ from: projAbs, file: 'package.json' });
 if (!packageFile) throw new Error(`Could not find package.json in the project directory: ${projAbs}`);
 
@@ -42,14 +44,68 @@ const { default: packageJson } = await import(packageFile, { with: { type: 'json
 const title = packageJson.name.replace('@', '').replace('/', ':');
 
 channelClient.start();
+const tscBluePrint = /^(\s*)\x1B\[96m/;
+const lookLikePath = /^(.+\.tsx?)(:\d+:\d+)/i;
+
 hookCurrentProcessOutput({
-	title: `tsc:${title}`,
-	start: matchStartLine,
-	stop: matchEndingLine,
-	isFailed(stop_line) {
-		return !stop_line.includes('Found 0 errors');
+	injection(kind) {
+		if (kind === 'stderr') {
+			return undefined;
+		}
+
+		const splitStream = split2((line) => {
+			const nline = replaceLine(line);
+			// biome-ignore lint/style/useTemplate: nl
+			return nline + '\n';
+		});
+
+		listenOnStream(splitStream, {
+			title: `tsc:${title}`,
+			start: matchStartLine,
+			stop: matchEndingLine,
+			isFailed(stop_line) {
+				return !stop_line.includes('Found 0 errors');
+			},
+		});
+
+		return splitStream;
 	},
 });
+
+function replaceLine(line: string) {
+	if (!line) return line;
+
+	if (tscBluePrint.test(line)) {
+		return replaceColorLine(line);
+	} else if (lookLikePath.test(line)) {
+		return replaceMonoLine(line);
+	}
+	return line;
+}
+
+function replaceColorLine(line: string) {
+	const match = tscBluePrint.exec(line);
+	if (!match) return line;
+
+	const beforeEnding = line.indexOf('\x1B', match[0].length) - 1;
+	if (beforeEnding < 0) return line;
+
+	const rest = line.slice(beforeEnding);
+
+	let filePath = line.slice(match[0].length, beforeEnding);
+	filePath = resolve(wd, filePath);
+
+	return `${match[0]}${filePath}${rest}`;
+}
+
+function replaceMonoLine(line: string) {
+	const replaced = line.replace(lookLikePath, (_match, file, rowcol) => {
+		const absPath = resolve(wd, file);
+		return `${absPath}${rowcol}`;
+	});
+
+	return replaced;
+}
 
 // console.log('output hooked');
 argv.flag(['--preserveWatchOutput']);

@@ -21,15 +21,15 @@
 	},
 	"dependencies": {
 		"@idlebox/node": "workspace:^",
-		"cheerio": "^1.1.2"
+		"cheerio": "^1.2.0"
 	},
 	"devDependencies": {
 		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8",
-		"domhandler": "^5.0.3",
-		"esbuild": "^0.27.2"
+		"@types/node": "^25.5.0",
+		"domhandler": "^6.0.1",
+		"esbuild": "=0.27.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

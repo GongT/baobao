@@ -27,11 +27,11 @@
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.0.8",
-		"comment-json": "^4.5.1",
+		"@types/node": "^25.5.0",
+		"comment-json": "^4.6.2",
 		"execa": "^9.6.1",
 		"typescript": "^5.9.3",
-		"vite-node": "^5.2.0"
+		"vite-node": "^6.0.0"
 	},
 	"exports": {
 		"./package.json": "./package.json"

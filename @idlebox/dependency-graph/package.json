@@ -33,7 +33,7 @@
 		"@mpis/run": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@types/chai-as-promised": "^8.0.2",
-		"@types/node": "^25.0.8",
+		"@types/node": "^25.5.0",
 		"chai": "^6.2.2",
 		"chai-as-promised": "^8.0.2",
 		"mocha": "^11.7.5"

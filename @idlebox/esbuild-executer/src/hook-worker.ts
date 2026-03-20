@@ -14,9 +14,19 @@ export type NextLoad = (url: string, context?: Partial<LoadHookContext>) => P<Lo
 
 let compiledFiles: undefined | Map<string, Uint8Array>;
 let inspectModeEntryMapping: undefined | Map<string, string>;
+export let messagePort: MessagePort | null = null;
 
 export async function initialize({ options, port, tsFile }: InitializeData) {
 	registerLogger(port);
+	messagePort = port;
+
+	port.on('message', (data) => {
+		// handle messages
+		if (data?.type === 'quit') {
+			logger.worker`receive quit message`;
+			port.postMessage({ type: 'quit' });
+		}
+	});
 
 	let entryFileUrl: string = tsFile;
 	try {
@@ -59,13 +69,18 @@ export async function resolve(specifier: string, context: ResolveHookContext, ne
 		return r;
 	}
 
-	let absolute: string = specifier;
-	if (absolute.startsWith('.') && context.parentURL) {
-		absolute = new URL(absolute, context.parentURL).href;
+	let absolute: string = '';
+	if (specifier.startsWith('.') && context.parentURL) {
+		absolute = new URL(specifier, context.parentURL).href;
 		logger.hook`    turn to absolute: ${absolute}`;
+	} else if (specifier.startsWith('file:')) {
+		absolute = specifier;
+		logger.hook`    originally absolute`;
+	} else {
+		// logger.hook`    non-relative and non-file specifier, skip resolve: ${specifier}`;
 	}
 
-	const inspectEntry = inspectModeEntryMapping?.get(absolute);
+	const inspectEntry = absolute && inspectModeEntryMapping?.get(absolute);
 	if (inspectEntry) {
 		logger.hook`    found inspect mode entry!`;
 		absolute = inspectEntry;
@@ -80,7 +95,13 @@ export async function resolve(specifier: string, context: ResolveHookContext, ne
 		};
 	}
 
-	return nextResolve(specifier, context);
+	logger.hook`   - default resolve: ${specifier} | ${context.parentURL}`;
+	try {
+		return await nextResolve(specifier, context);
+	} catch (e: any) {
+		logger.error`default resolve failed: ${e.message}`;
+		throw e;
+	}
 }
 
 export function load(url: string, context: LoadHookContext, nextLoad: NextLoad): P<LoadFnOutput> {

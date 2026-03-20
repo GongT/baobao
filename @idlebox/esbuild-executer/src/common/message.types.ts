@@ -30,6 +30,9 @@ export interface IInitializeMessage {
 	readonly type: 'initialize';
 	readonly entryFileUrl: string;
 }
+export interface IQuitMessage {
+	readonly type: 'quit';
+}
 export interface IImportedMessage {
 	readonly type: 'imported';
 	readonly quit: boolean;

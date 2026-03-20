@@ -129,10 +129,7 @@ export function debug_enabled(tag: string) {
 }
 
 /**
- * 当指定tag开启时，应该输出它的什么级别
- * tag关闭时始终默认error
- *
- * 只有新创建的受此影响，且不影响root-logger，也不影响.extend
+ * [当指定tag开启时] 应该输出它的什么级别
  */
 export let defaultLogLevel = (() => {
 	if (process.argv.includes('--verbose')) {
@@ -151,7 +148,7 @@ export let defaultLogLevel = (() => {
 
 	// DEBUG=xxx,verbose,xxx
 	// biome-ignore lint/performance/useTopLevelRegex: a
-	const has_debug_verbose = /(?<=^| )(verbose|debug)(?=$| )/;
+	const has_debug_verbose = /(?<=^| |,)(verbose|debug)(?=$| |,)/;
 	const setted = has_debug_verbose.exec(process.env.DEBUG || '');
 	if (setted) {
 		if (setted[0] === 'verbose') {

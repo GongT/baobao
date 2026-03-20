@@ -5,8 +5,8 @@ import { isShuttingDown, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { terminal } from '@idlebox/terminal-control';
 import { CompileError } from '@mpis/server';
 import { url } from 'node:inspector';
-import { debugMode } from './args.js';
-import { createMonorepoObject } from './workspace.js';
+import { debugMode } from '../common/args.js';
+import { createMonorepoObject } from '../common/workspace.js';
 
 export async function runBuild() {
 	if (argv.unused().length) {

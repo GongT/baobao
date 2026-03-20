@@ -28,7 +28,7 @@ export function createGlobalLogger(tag: string, defaultLevel: EnableLogLevel = E
 	terminal = create(tag, undefined, stream);
 	globalObject[symbol] = terminal;
 
-	terminal.enable(defaultLevel || EnableLogLevel.log);
+	terminal.enable(defaultLevel);
 
 	if (terminal.verbose.isEnabled) {
 		terminal.verbose`verbose is enabled`;

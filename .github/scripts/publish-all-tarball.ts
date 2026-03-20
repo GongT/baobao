@@ -1,8 +1,8 @@
 import { execa } from 'execa';
 import { appendFileSync, globSync, readFileSync } from 'node:fs';
-import { copyFile, mkdtemp, rm } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { chdir } from 'node:process';
 import { Writable } from 'node:stream';
 
@@ -36,6 +36,8 @@ function summary(id: number, content: string) {
 }
 
 async function main() {
+	const failedDir = resolve(process.cwd(), '.package-tools/failed');
+	await mkdir(failedDir, { recursive: true });
 	chdir('.package-tools/publish');
 
 	process.env.LC_ALL = 'C.UTF-8';
@@ -53,7 +55,12 @@ async function main() {
 	let notOk = 0;
 	for (const item of files) {
 		const ok = await publishItem(item);
-		if (!ok) notOk++;
+		if (!ok) {
+			await copyFile(item, join(failedDir, item)).catch((e) => {
+				console.error('复制文件失败: %s', e);
+			});
+			notOk++;
+		}
 	}
 
 	summary(SP.Result, `\n失败数量: ${notOk}`);

@@ -17,7 +17,7 @@ function parseCliArgs() {
 	const debugMode = debugLevel > 0;
 	const verboseMode = debugLevel > 1;
 
-	let level = EnableLogLevel.log;
+	let level = EnableLogLevel.auto;
 	if (verboseMode) {
 		level = EnableLogLevel.verbose;
 	} else if (debugMode) {

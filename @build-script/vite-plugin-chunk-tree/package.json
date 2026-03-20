@@ -27,10 +27,10 @@
 		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.0.8",
-		"rollup": "^4.55.1",
+		"@types/node": "^25.5.0",
+		"rollup": "^4.59.0",
 		"typescript": "^5.9.3",
-		"vite": "^7.3.1"
+		"vite": "^8.0.1"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

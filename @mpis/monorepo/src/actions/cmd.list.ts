@@ -2,7 +2,7 @@ import { argv } from '@idlebox/args/default';
 import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { spawn } from 'node:child_process';
-import { createMonorepoObject } from './workspace.js';
+import { createMonorepoObject } from '../common/workspace.js';
 
 export async function runList() {
 	const reverse = argv.flag(['--reverse', '-r']) > 0;

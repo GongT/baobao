@@ -81,7 +81,7 @@ export abstract class AbstractChannelClient extends EnhancedAsyncDisposable {
 	private async send(message: IUserMessageObject) {
 		try {
 			if (this.cstate === ConnectionState.Connected) {
-				this.logger.debug`emit: ${message.event}()`;
+				this.logger.debug`emit buildstate: ${message.event}()`;
 				await this._send({
 					...message,
 					__brand__: messageBrand,
@@ -89,7 +89,7 @@ export abstract class AbstractChannelClient extends EnhancedAsyncDisposable {
 					pid: process.pid,
 				});
 			} else {
-				this.logger.debug`(${ConnectionState[this.cstate]}) will emit: ${message.event}()`;
+				this.logger.debug`(${ConnectionState[this.cstate]}) will emit buildstate: ${message.event}()`;
 				this.queuedMessage = message;
 
 				if (this.cstate === ConnectionState.Disconnected) {
@@ -156,6 +156,6 @@ export class VoidClient extends AbstractChannelClient {
 	protected override async _disconnect(): Promise<void> {}
 	protected override async _connect(): Promise<void> {}
 	protected override _send(message: IMessageObject): void {
-		this.logger.warn`VoidClient: sending: \x1B[38;5;11m${message.event}\x1B[39m message=[${message.message}] output=stripe<${message.output}>`;
+		this.logger.warn`VoidClient: sending: \x1B[1;38;5;11m${message.event}\x1B[39m message=[${message.message}] output=stripe<${message.output ?? ''}>`;
 	}
 }
