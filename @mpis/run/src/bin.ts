@@ -132,7 +132,11 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 	const text = worker.outputStream.toString().trimEnd().replace(cls, '');
 
 	if (text) {
-		console.error('\n\x1B[48;5;1m%s\r\x1B[48;5;1m    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `[@mpis/run] below is output of ${worker._id}`);
+		console.error(
+			'\n\x1B[48;5;1m%s\r\x1B[48;5;1m    \x1B[0;38;5;9;1m  %s  \x1B[0m',
+			' '.repeat(process.stderr.columns || 80),
+			`[@mpis/run] below is output of ${worker._id}`,
+		);
 
 		console.error('\x1B[48;5;1m \x1B[0m commandline: %s', worker.commandline.join(' '));
 		console.error('\x1B[48;5;1m \x1B[0m workdir: %s', worker.cwd);

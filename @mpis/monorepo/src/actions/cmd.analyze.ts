@@ -1,4 +1,4 @@
-import { type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
+import type { IPackageInfo, MonorepoWorkspace } from '@build-script/monorepo-lib';
 import type { ISubArgsReaderApi } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import type { DeepReadonly, IPackageJson } from '@idlebox/common';

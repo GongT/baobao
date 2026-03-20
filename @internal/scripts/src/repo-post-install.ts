@@ -35,6 +35,8 @@ for (const { path } of await listPnpm()) {
 	linkTools(path);
 }
 
+shutdown(0);
+
 function linkTools(projRoot: string) {
 	logger.log`link tools inside long<${projRoot}>`;
 	const localNodeModules = resolve(monorepoRoot, projRoot, 'node_modules');

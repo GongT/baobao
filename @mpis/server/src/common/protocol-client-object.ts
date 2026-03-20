@@ -34,7 +34,7 @@ interface SuccessEvent {
 export abstract class ProtocolClientObject {
 	protected readonly logger: IMyLogger;
 	private _state = WorkerClientState.NOT_EXECUTE;
-	private _running = false;
+	private _backend_running = false;
 	private readonly timings: Timings = {};
 	protected last_event_message = '';
 
@@ -140,6 +140,10 @@ export abstract class ProtocolClientObject {
 		return this._state === WorkerClientState.COMPILE_SUCCEED;
 	}
 
+	get isFail() {
+		return this._state === WorkerClientState.COMPILE_FAILED;
+	}
+
 	/**
 	 * 执行逻辑
 	 * 不会抛出异常
@@ -152,7 +156,7 @@ export abstract class ProtocolClientObject {
 
 		this.timings.executeStart = Date.now();
 		this.logger.debug` ~ worker _execute()`;
-		this._running = true;
+		this._backend_running = true;
 		this._state = WorkerClientState.EXECUTING;
 
 		try {
@@ -163,7 +167,7 @@ export abstract class ProtocolClientObject {
 			this.emitFailure(e);
 		} finally {
 			this.timings.executeEnd = Date.now();
-			this._running = false;
+			this._backend_running = false;
 
 			if (this.state !== WorkerClientState.COMPILE_FAILED && this.state !== WorkerClientState.COMPILE_SUCCEED) {
 				this.logger.verbose` ~ unknown state, emitting success`;
@@ -179,8 +183,13 @@ export abstract class ProtocolClientObject {
 	/**
 	 * 工作进程是否运行中
 	 */
+	get backendRunning() {
+		return this._backend_running;
+	}
+
+	/** @deprecated */
 	get running() {
-		return this._running;
+		return this._backend_running;
 	}
 
 	protected [inspect.custom](depth: number, options: InspectContext) {

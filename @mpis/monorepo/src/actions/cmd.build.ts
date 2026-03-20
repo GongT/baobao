@@ -28,6 +28,22 @@ export async function runBuild() {
 			repo.printScreen();
 		});
 	}
+	if (hasCi) {
+		repo.onStateChange((project) => {
+			if (isShuttingDown()) return;
+
+			const worker = repo._debugWorker(project);
+			if (!worker) {
+				console.error(`[impossible] Worker for project ${project.name} not found`);
+				return;
+			}
+			if (worker.isSuccess || worker.isFail) {
+				console.log(`::group::${worker.isSuccess ? '✅' : '❌'} ${worker.displayTitle}`);
+				console.log(worker.outputStream.toString().trim());
+				console.log(`::endgroup::`);
+			}
+		});
+	}
 
 	registerGlobalLifecycle(
 		functionToDisposable(() => {

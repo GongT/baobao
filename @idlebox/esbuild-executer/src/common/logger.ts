@@ -1,3 +1,4 @@
+import inspector from 'node:inspector';
 import { inspect } from 'node:util';
 import type { MessagePort } from 'node:worker_threads';
 import { debugs, inspectEnabled } from './cli.js';
@@ -55,7 +56,7 @@ export const logger = {
 } as const;
 
 function inspect_output(tag: string, message: readonly string[], ...args: any[]) {
-	console.error(`[%s] %s`, tag, template(message, args));
+	inspector.console.error(`[%s] %s`, tag, template(message, args));
 }
 
 if (inspectEnabled) {

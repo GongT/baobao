@@ -220,7 +220,7 @@ export async function executePreBuild() {
 		all: true,
 	});
 	if (lintResult.exitCode !== 0) {
-		logger.verbose`输出内容: printable<${lintResult.all}>`;
+		logger.warn`输出内容:\nprintable<${lintResult.all}>`;
 		throw new Error(`biome lint发现问题，必须修正后再发布`);
 	}
 

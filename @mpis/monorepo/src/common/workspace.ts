@@ -40,7 +40,7 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 	private readonly debugOutputs = new StringCollect<IPackageInfo>();
 	private readonly rigConfig = new Map<IPackageInfo, IRigConfig>(); // TODO: 太重了
 
-	private readonly _onStateChange = this._register(new Emitter<void>());
+	private readonly _onStateChange = this._register(new Emitter<IPackageInfo>());
 	public readonly onStateChange = this._onStateChange.event;
 
 	private readonly mode: ModeKind;
@@ -133,24 +133,24 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 			} else {
 				this.errorMessages.set(project, e.stack || e.message);
 			}
-			this._onStateChange.fireNoError();
+			this._onStateChange.fireNoError(project);
 		});
 		exec.onSuccess((e) => {
 			const output = e.output ?? '## onSuccess: no output from process ##';
 			this.debugOutputs.append(project, output);
 
 			this.errorMessages.delete(project);
-			this._onStateChange.fireNoError();
+			this._onStateChange.fireNoError(project);
 		});
 		exec.onStart(() => {
 			this.debugOutputs.clear(project);
 			this.errorMessages.delete(project);
-			this._onStateChange.fireNoError();
+			this._onStateChange.fireNoError(project);
 		});
 		exec.onTerminate(() => {
 			this.debugOutputs.append(project, '## onTerminate: process terminated ##');
 			try {
-				this._onStateChange.fireNoError();
+				this._onStateChange.fireNoError(project);
 			} catch (e) {
 				if (e instanceof DisposedError) {
 					// 不知道这里是不是真的需要触发 onStateChange

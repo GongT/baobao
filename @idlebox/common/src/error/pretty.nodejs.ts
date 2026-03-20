@@ -10,11 +10,7 @@ const window = globalObject.window;
 
 let errorRootPath = process?.cwd?.() ?? window?.location?.domain ?? '/';
 export function setErrorLogRoot(_root: string) {
-	if (
-		typeof process !== 'undefined' &&
-		process.stderr?.write?.call &&
-		(process.env?.VSCODE_SHELL_INTEGRATION || process.env?.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT)
-	) {
+	if (process?.stderr?.write?.call && (process.env?.VSCODE_SHELL_INTEGRATION || process.env?.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT)) {
 		process.stderr.write(`\x1B]633;P;Cwd=${vscEscapeValue(_root)}\x07`);
 	}
 	errorRootPath = _root;
@@ -254,7 +250,7 @@ class Formatter {
 
 			const color = fn_name ? (isNodeModule ? '14;2' : '14') : '8';
 			ret = `\x1b[0m  at \x1b[38;5;${color}m`;
-			if (fn_alias && fn_name && fn_name.startsWith('Object.')) {
+			if (fn_alias && fn_name?.startsWith('Object.')) {
 				ret += `${fn_alias} [export]`;
 			} else {
 				ret += this.formatFunctionName(fn_name, fn_alias);

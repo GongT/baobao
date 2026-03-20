@@ -27,7 +27,6 @@ export async function execute(tsFile: string, options?: IExecuteOptions) {
 	const sourceMaps = new Map<string, any>();
 	await registerSourceMap(sourceMaps);
 
-	let uncaughtException: any = null;
 	const { port1, port2 } = new MessageChannel();
 	port1.on('message', (data: ISourceMapMessage | IDebugMessage | IQuitMessage | IWarningMessage | IInitializeMessage | IErrorMessage) => {
 		if (data.type === 'source-map') {
@@ -39,15 +38,6 @@ export async function execute(tsFile: string, options?: IExecuteOptions) {
 			error(data.message);
 		} else if (data.type === 'initialize' || data.type === 'error') {
 			// empty
-		} else if (data.type === 'quit') {
-			debugs.master('received quit message, exiting process');
-			if (uncaughtException) {
-				process.nextTick(() => {
-					throw uncaughtException;
-				});
-			} else {
-				process.exit(process.exitCode);
-			}
 		} else {
 			debugs.master(`unknown message type: ${JSON.stringify(data)}`);
 		}
@@ -80,14 +70,7 @@ export async function execute(tsFile: string, options?: IExecuteOptions) {
 
 	process.argv[1] = entryFileUrl;
 
-	let exports: any;
-	try {
-		exports = await import(entryFileUrl);
-	} catch (e) {
-		uncaughtException = e;
-		port1.postMessage({ type: 'quit' });
-		return;
-	}
+	const exports = await import(entryFileUrl);
 
 	port1.postMessage({ type: 'imported', quit: !options?.entries?.length } satisfies IImportedMessage);
 

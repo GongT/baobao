@@ -2,9 +2,8 @@ import { DependencyInjector } from './core.js';
 import { createInjectToken, getClassMeta, type GetLeadingNonServiceArgs, type IInjectableClass, type InjectableToken } from './types.js';
 
 type NotAllowStaticParam<T, K> = `Cannot use static parameter in registerSingletonService, class: ${T & string}, parameter: ${K & string}`;
-type MayInjectableToken<T extends IInjectableClass> = GetLeadingNonServiceArgs<ConstructorParameters<T>> extends []
-	? InjectableToken<T>
-	: NotAllowStaticParam<T, GetLeadingNonServiceArgs<ConstructorParameters<T>>>;
+type MayInjectableToken<T extends IInjectableClass> =
+	GetLeadingNonServiceArgs<ConstructorParameters<T>> extends [] ? InjectableToken<T> : NotAllowStaticParam<T, GetLeadingNonServiceArgs<ConstructorParameters<T>>>;
 
 class GlobalDependencyInjector extends DependencyInjector {
 	registerSingletonService<T extends IInjectableClass>(Class: T): MayInjectableToken<T> {

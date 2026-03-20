@@ -44,9 +44,8 @@ export abstract class PackageManager {
 	}
 
 	public async pack(saveAs: string) {
-		logger.verbose`打包项目: long<${this.projectPath}> -> long<${saveAs}>`;
-
 		const pkg = await this.loadPackageJson();
+		logger.log`打包项目 (${pkg.publishConfig?.['packCommand'] ? 'custom' : 'default'}): relative<${this.projectPath}> -> relative<${saveAs}>`;
 		if (pkg.publishConfig?.['packCommand']) {
 			const cmds = typeof pkg.publishConfig['packCommand'] === 'string' ? splitCmd(pkg.publishConfig['packCommand']) : pkg.publishConfig['packCommand'];
 
@@ -54,7 +53,7 @@ export abstract class PackageManager {
 				logger.fatal`publishConfig.packCommand必须是字符串或字符串数组, 但实际是: ${typeof pkg.publishConfig['packCommand']}`;
 			}
 
-			logger.debug`使用自定义打包命令: ${Array.from(cmds)}`;
+			logger.verbose` - 自定义打包命令: ${Array.from(cmds)}`;
 
 			const [cmd, ...args] = cmds;
 			await execLazyError(cmd, [...args, '--out', saveAs], {

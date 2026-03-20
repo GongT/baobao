@@ -1,6 +1,7 @@
 import { argv } from '@idlebox/args/default';
 import { promiseBool } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
+import { shutdown } from '@idlebox/node';
 import { execa } from 'execa';
 import { resolve } from 'node:path';
 import { listPnpm } from './common/monorepo.js';
@@ -41,7 +42,9 @@ for (const { path } of list) {
 }
 
 if (errors) {
-	logger.fatal`${errors} 个包存在问题`;
+	logger.error`${errors} 个包存在问题`;
+	shutdown(1);
 } else {
 	logger.success`所有包检查通过！`;
+	shutdown(0);
 }
