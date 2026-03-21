@@ -3,4 +3,5 @@
 	"project": "./src",
 	"output": "autoindex",
 	"banner": "/// <reference types=\"node\" />",
+	"exclude": ["**/type-shim.ts"],
 }

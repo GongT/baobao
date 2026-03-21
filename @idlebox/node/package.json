@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node",
 	"type": "module",
-	"version": "1.4.27",
+	"version": "1.4.28",
 	"exports": {
 		".": {
 			"source": "./src/autoindex.ts",

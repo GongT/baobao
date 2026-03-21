@@ -395,8 +395,9 @@
 	// Identifiers (1)
 	export type { DeepNonNullable } from "./typing-helper/deep.required.js";
 /* typing-helper/deep.writable.ts */
-	// Identifiers (1)
+	// Identifiers (2)
 	export type { DeepWriteable } from "./typing-helper/deep.writable.js";
+	export type { Writeable } from "./typing-helper/deep.writable.js";
 /* typing-helper/literal.ts */
 	// Identifiers (1)
 	export type { Primitive } from "./typing-helper/literal.js";

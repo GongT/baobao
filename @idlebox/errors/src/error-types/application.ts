@@ -1,5 +1,7 @@
 import { ExitCode } from '../codes/wellknown-exit-codes.js';
-import { ErrorWithCode, humanReadable, type IErrorOptions } from './base.js';
+import { ErrorWithCode } from '../common/base.js';
+import { humanReadable } from '../common/human-readable.js';
+import type { IErrorOptions } from '../common/type.js';
 
 /**
  * 程序因为正常运行结束而退出
@@ -30,6 +32,7 @@ export class InterruptError extends ErrorWithCode {
 
 /**
  * 由于错误的参数、配置导致错误
+ * 非程序问题
  */
 export class UsageError extends ErrorWithCode {
 	constructor(message: string, opts?: IErrorOptions) {

@@ -22,37 +22,53 @@
 /* codes/wellknown-exit-codes.ts */
 	// Identifiers (1)
 	export { ExitCode } from "./codes/wellknown-exit-codes.js";
-/* common/application.ts */
-	// Identifiers (3)
-	export { Exit } from "./common/application.js";
-	export { InterruptError } from "./common/application.js";
-	export { UsageError } from "./common/application.js";
 /* common/base.ts */
-	// Identifiers (8)
-	export type { IErrorOptions } from "./common/base.js";
-	export { humanReadable } from "./common/base.js";
-	export type { IHumanReadable } from "./common/base.js";
-	export { isHumanReadableError } from "./common/base.js";
-	export { NotError } from "./common/base.js";
-	export { ErrorWithCode } from "./common/base.js";
-	export { CanceledError } from "./common/base.js";
-	export { TimeoutError } from "./common/base.js";
-/* common/development.ts */
-	// Identifiers (4)
-	export { ProgramError } from "./common/development.js";
-	export { NotImplementedError } from "./common/development.js";
-	export { SoftwareDefectError } from "./common/development.js";
-	export { Assertion } from "./common/development.js";
-/* common/nodejs.ts */
-	// Identifiers (7)
-	export type { OpenSSLException } from "./common/nodejs.js";
-	export { isModuleResolutionError } from "./common/nodejs.js";
-	export { isNotExistsError } from "./common/nodejs.js";
-	export { isExistsError } from "./common/nodejs.js";
-	export { isTypeError } from "./common/nodejs.js";
-	export { isFileTypeError } from "./common/nodejs.js";
-	export { isNodeError } from "./common/nodejs.js";
-/* common/unhandled-errors.ts */
 	// Identifiers (2)
-	export { UnhandledRejection } from "./common/unhandled-errors.js";
-	export { UncaughtException } from "./common/unhandled-errors.js";
+	export { ErrorWithCode } from "./common/base.js";
+	export { TypeErrorWithCode } from "./common/base.js";
+/* common/human-readable.ts */
+	// Identifiers (3)
+	export { humanReadable } from "./common/human-readable.js";
+	export type { IHumanReadable } from "./common/human-readable.js";
+	export { isHumanReadable } from "./common/human-readable.js";
+/* common/not-error.ts */
+	// Identifiers (1)
+	export { NotError } from "./common/not-error.js";
+/* common/type.ts */
+	// Identifiers (1)
+	export type { IErrorOptions } from "./common/type.js";
+/* common/v8.ts */
+	// Identifiers (0)
+/* error-types/application.ts */
+	// Identifiers (3)
+	export { Exit } from "./error-types/application.js";
+	export { InterruptError } from "./error-types/application.js";
+	export { UsageError } from "./error-types/application.js";
+/* error-types/dependency.ts */
+	// Identifiers (2)
+	export { DependencyError } from "./error-types/dependency.js";
+	export { ChildProcessExitError } from "./error-types/dependency.js";
+/* error-types/development.ts */
+	// Identifiers (5)
+	export { ProgramError } from "./error-types/development.js";
+	export { NotImplementedError } from "./error-types/development.js";
+	export { SoftwareDefectError } from "./error-types/development.js";
+	export { Assertion } from "./error-types/development.js";
+	export { VariableTypeError } from "./error-types/development.js";
+/* error-types/nodejs.ts */
+	// Identifiers (7)
+	export type { OpenSSLException } from "./error-types/nodejs.js";
+	export { isModuleResolutionError } from "./error-types/nodejs.js";
+	export { isNotExistsError } from "./error-types/nodejs.js";
+	export { isExistsError } from "./error-types/nodejs.js";
+	export { isTypeError } from "./error-types/nodejs.js";
+	export { isFileTypeError } from "./error-types/nodejs.js";
+	export { isNodeError } from "./error-types/nodejs.js";
+/* error-types/nodejs.unhandled.ts */
+	// Identifiers (2)
+	export { UnhandledRejection } from "./error-types/nodejs.unhandled.js";
+	export { UncaughtException } from "./error-types/nodejs.unhandled.js";
+/* error-types/tools.ts */
+	// Identifiers (2)
+	export { CanceledError } from "./error-types/tools.js";
+	export { TimeoutError } from "./error-types/tools.js";

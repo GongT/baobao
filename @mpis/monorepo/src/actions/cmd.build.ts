@@ -38,9 +38,12 @@ export async function runBuild() {
 				return;
 			}
 			if (worker.isSuccess || worker.isFail) {
-				console.log(`::group::${worker.isSuccess ? '✅' : '❌'} ${worker.displayTitle}`);
-				console.log(worker.outputStream.toString().trim());
-				console.log(`::endgroup::`);
+				const output = worker.outputStream.toString().trim();
+				if (output) {
+					console.log(`::group::${worker.isSuccess ? '✅' : '❌'} ${worker.displayTitle}`);
+					console.log(output);
+					console.log(`::endgroup::`);
+				}
 			}
 		});
 	}
