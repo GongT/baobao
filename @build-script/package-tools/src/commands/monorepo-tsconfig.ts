@@ -132,7 +132,8 @@ export async function main() {
 	const rootTsconfig = resolve(repo.root, 'tsconfig.everything.json');
 	const references: IReference[] = [];
 	for (const tsconfig of configAbsMap.values()) {
-		references.push({ path: relativePath(repo.root, tsconfig) });
+		const p = relativePath(repo.root, tsconfig);
+		references.push({ path: p.startsWith('.') ? p : `./${p}` });
 	}
 	await writeJsonFile(rootTsconfig, {
 		compilerOptions: {
@@ -142,6 +143,8 @@ export async function main() {
 			module: 'ESNext',
 			target: 'ESNext',
 		},
+		include: [],
+		files: [],
 		references,
 	});
 }
