@@ -1,4 +1,4 @@
-import { nameFunction } from '../debugging/object-with-name.js';
+import { nameObject } from '../debugging/object-with-name.js';
 
 export type MyCallback<Argument extends unknown[]> = (...param: Argument) => boolean | undefined | void;
 
@@ -37,7 +37,7 @@ export class CallbackList<Argument extends unknown[]> {
 			throw new Error("Can not add callback when it's running.");
 		}
 		if (name) {
-			nameFunction(name, item);
+			nameObject(name, item);
 		}
 		return this.list.push(item);
 	}

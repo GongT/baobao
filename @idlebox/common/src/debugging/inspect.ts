@@ -7,6 +7,14 @@ export function defineInspectMethod<T>(obj: T, method: (this: T, depth: number, 
 	return obj;
 }
 
+let nativeInspect: Function | undefined;
+try {
+	/** @ts-expect-error */
+	import('node:util').then(({ inspect }) => {
+		nativeInspect = inspect;
+	});
+} catch {}
+
 /**
  * try to call `inspect` method of an object, if not exists, call `toString`.
  * @returns {string}
@@ -15,6 +23,8 @@ export function tryInspect(object: any): string;
 /** @internal */
 export function tryInspect(object: any, options: any): string;
 export function tryInspect(object: any, options?: any): string {
+	if (nativeInspect) return nativeInspect(object, options);
+
 	if (!object || typeof object !== 'object') {
 		return JSON.stringify(object);
 	}
@@ -30,10 +40,10 @@ export function tryInspect(object: any, options?: any): string {
 				},
 			};
 		}
-		return object[inspectSymbol](options.depth, options, tryInspect);
+		return _s(object[inspectSymbol](options.depth, options, tryInspect));
 	}
 	if (object.inspect) {
-		return object.inspect();
+		return _s(object.inspect());
 	}
 
 	const tst = object[Symbol.toStringTag];
@@ -45,10 +55,22 @@ export function tryInspect(object: any, options?: any): string {
 		}
 	}
 	if (object.toJSON) {
-		return object.toJSON();
+		return _s(object.toJSON());
 	}
 	if (object.constructor?.name) {
 		return `unknown: ${object.constructor.name}`;
 	}
 	return `unknown: ${object}`;
+}
+
+function _s(s: any) {
+	if (typeof s === 'string') {
+		return s;
+	} else {
+		try {
+			return JSON.stringify(s);
+		} catch {
+			return String(s);
+		}
+	}
 }

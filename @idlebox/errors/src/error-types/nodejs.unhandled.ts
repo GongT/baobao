@@ -1,7 +1,4 @@
-/**
- *
- */
-class ProxiedError extends Error {
+export abstract class ProxiedError extends Error {
 	declare cause: any;
 
 	constructor(prefix: string, original: unknown) {

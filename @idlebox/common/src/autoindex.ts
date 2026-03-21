@@ -83,15 +83,16 @@
 	export { isSerializable } from "./debugging/serializable.js";
 	export { getTypeOf } from "./debugging/serializable.js";
 	export { assertSerializable } from "./debugging/serializable.js";
+/* error/cause.ts */
+	// Identifiers (2)
+	export { getRootCause } from "./error/cause.js";
+	export { getCauseStack } from "./error/cause.js";
 /* error/convert-unknown.ts */
 	// Identifiers (1)
 	export { convertCaughtError } from "./error/convert-unknown.js";
 /* error/get-frame.ts */
 	// Identifiers (1)
 	export { getErrorFrame } from "./error/get-frame.js";
-/* error/known.ts */
-	// Identifiers (1)
-	export { KnownError } from "./error/known.js";
 /* error/pretty.nodejs.ts */
 	// Identifiers (4)
 	export { setErrorLogRoot } from "./error/pretty.nodejs.js";
@@ -180,7 +181,7 @@
 /* lifecycle/dispose/disposedError.ts */
 	// Identifiers (2)
 	export { DisposedError } from "./lifecycle/dispose/disposedError.js";
-	export { DuplicateDisposed } from "./lifecycle/dispose/disposedError.js";
+	export { DuplicateDisposedError } from "./lifecycle/dispose/disposedError.js";
 /* lifecycle/dispose/sync-disposable.ts */
 	// Identifiers (2)
 	export { DisposableOnce } from "./lifecycle/dispose/sync-disposable.js";
@@ -284,7 +285,7 @@
 	export { createSymbol } from "./platform/globalSymbol.js";
 	export { deleteSymbol } from "./platform/globalSymbol.js";
 /* platform/os.ts */
-	// Identifiers (16)
+	// Identifiers (17)
 	export { hasProcess } from "./platform/os.js";
 	export { hasWindow } from "./platform/os.js";
 	export { hasGlobal } from "./platform/os.js";
@@ -299,6 +300,7 @@
 	export { isNodeJs } from "./platform/os.js";
 	export { isWeb } from "./platform/os.js";
 	export { is64Bit } from "./platform/os.js";
+	export { isV8 } from "./platform/os.js";
 	export { sepList } from "./platform/os.js";
 	export { is32Bit } from "./platform/os.js";
 /* promise/await-iterator.ts */

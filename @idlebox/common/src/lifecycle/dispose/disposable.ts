@@ -1,3 +1,4 @@
+import { definePublicConstant } from '../../autoindex.js';
 import { defineInspectMethod } from '../../debugging/inspect.js';
 import type { MaybeNamed } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
@@ -5,7 +6,7 @@ import { Emitter } from '../event/event.js';
 import type { EventRegister } from '../event/type.js';
 import { fromNativeDisposable } from './bridges/native.js';
 import { _debug_dispose, dispose_name, forgetParent, rememberParent } from './debug.js';
-import { DuplicateDisposed } from './disposedError.js';
+import { DuplicateDisposedError } from './disposedError.js';
 
 export enum DuplicateDisposeAction {
 	Disable = 0,
@@ -37,14 +38,20 @@ type _RType<Async extends boolean> = Async extends true ? Promise<void> : void;
  * 增强型Disposable
  */
 export abstract class AbstractEnhancedDisposable<Async extends boolean> implements IDisposableEvents {
-	protected readonly _onDisposeError = new Emitter<Error>();
-	public readonly onDisposeError: EventRegister<Error> = this._onDisposeError.register;
+	protected readonly _onDisposeError;
+	public readonly onDisposeError;
+	protected readonly _onBeforeDispose;
+	public readonly onBeforeDispose;
+	protected readonly _onPostDispose;
+	public readonly onPostDispose;
 
-	protected readonly _onBeforeDispose = new Emitter<void>();
-	public readonly onBeforeDispose: EventRegister<void> = this._onBeforeDispose.register;
+	/** settings */
+	protected readonly duplicateDispose: DuplicateDisposeAction = DuplicateDisposeAction.Warning;
 
-	protected readonly _onPostDispose = new Emitter<void>();
-	public readonly onPostDispose: EventRegister<void> = this._onPostDispose.register;
+	/**
+	 * the "DisposableStack"
+	 */
+	protected readonly _disposables: _Type<Async>[] = [];
 
 	/** for debug */
 	public readonly displayName?: string;
@@ -62,21 +69,12 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			return `[Function debug]`;
 		});
 
-		this._onPostDispose.handle(() => {
-			this._onPostDispose.dispose();
-		});
-		this._disposables.push(this._onBeforeDispose);
-		this._disposables.push(this._onDisposeError);
-
-		if (
-			this.constructor.name === 'EnhancedAsyncDisposable' ||
-			this.constructor.name === 'UnorderedAsyncDisposable' ||
-			this.constructor.name === 'EnhancedDisposable'
-		) {
-			defineInspectMethod(this, (_depth: number, options: any) => {
-				return options.stylize(`[${this.displayName}]`, 'special');
-			});
-		}
+		this._onDisposeError = this._register(new Emitter<Error>(`${this.displayName}:errorEvent`));
+		this.onDisposeError = this._onDisposeError.register;
+		this._onBeforeDispose = this._register(new Emitter<void>(`${this.displayName}:beforeEvent`));
+		this.onBeforeDispose = this._onBeforeDispose.register;
+		this._onPostDispose = new Emitter<void>(`${this.displayName}:postEvent`);
+		this.onPostDispose = this._onPostDispose.register;
 	}
 
 	/**
@@ -84,14 +82,9 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	 */
 	public assertNotDisposed() {
 		if (this._disposed) {
-			throw new DuplicateDisposed(this, this._disposed.trace);
+			throw new DuplicateDisposedError(this, this._disposed.trace);
 		}
 	}
-
-	/**
-	 * the "DisposableStack"
-	 */
-	protected readonly _disposables: _Type<Async>[] = [];
 
 	/**
 	 * register a disposable object
@@ -124,7 +117,6 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 		return rmOk;
 	}
 
-	protected readonly duplicateDispose: DuplicateDisposeAction = DuplicateDisposeAction.Warning;
 	private _disposed?: {
 		trace: StackTraceHolder;
 		result: _RType<Async>;
@@ -138,6 +130,7 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	public get hasDisposed() {
 		return !!this._disposed;
 	}
+
 	/**
 	 * 释放相关资源
 	 */
@@ -145,31 +138,34 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 		if (this._disposed) {
 			if (this.duplicateDispose === DuplicateDisposeAction.Allow) return this._disposed.result;
 
-			const dupErr = new DuplicateDisposed(this, this._disposed.trace);
+			const dupErr = new DuplicateDisposedError(this, this._disposed.trace);
+			dupErr.consoleWarning();
 			if (this.duplicateDispose === DuplicateDisposeAction.Disable) {
 				throw dupErr;
 			} else {
-				console.warn(dupErr);
 				return this._disposed.result;
 			}
 		}
 		this._onBeforeDispose.fireNoError();
 
 		const r = this._dispose(this._disposables);
+		const trace = createStackTraceHolder('disposed', this.dispose);
 		const cleanup = () => {
-			this._disposables.length = 0;
-			Object.freeze(this._disposables);
+			definePublicConstant(this, '_disposed', {
+				// 记录 disposed 状态，顺便也记录调用栈
+				trace: trace,
+				result: r,
+			});
+
+			Object.assign(this, { _disposables: null });
+			this._onPostDispose.fireNoError();
+			this._onPostDispose.dispose();
 		};
 		if (r && 'then' in r) {
 			r.finally(cleanup);
 		} else {
 			cleanup();
 		}
-
-		this._disposed = {
-			trace: createStackTraceHolder('disposed', this.dispose),
-			result: r,
-		};
 
 		return r;
 	}
@@ -180,3 +176,13 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 
 	protected abstract _dispose(disposables: readonly _Type<Async>[]): _RType<Async>;
 }
+
+defineInspectMethod(AbstractEnhancedDisposable.prototype, function (this: any, _depth: number, options: any) {
+	if (
+		this.constructor.name === 'EnhancedAsyncDisposable' ||
+		this.constructor.name === 'UnorderedAsyncDisposable' ||
+		this.constructor.name === 'EnhancedDisposable'
+	) {
+		return options.stylize(`[${this.constructor.name} ${this.displayName}]`, 'special');
+	}
+});

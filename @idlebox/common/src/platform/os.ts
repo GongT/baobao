@@ -59,5 +59,7 @@ if (hasWindow && !hasProcess) {
 	}
 }
 
+export const isV8 = (isNative && typeof process.versions?.v8 === 'string') || (() => new Error('test').stack?.includes(' at '))() || false;
+
 export const sepList = isWindows ? ';' : ':';
 export const is32Bit = !is64Bit;

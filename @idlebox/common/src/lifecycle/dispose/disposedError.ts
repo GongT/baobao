@@ -1,17 +1,17 @@
+import { ErrorWithCode, ExitCode } from '@idlebox/errors';
 import { tryInspect } from '../../debugging/inspect.js';
-import { getErrorFrame } from '../../error/get-frame.js';
 import { prettyFormatError } from '../../error/pretty.nodejs.js';
 import type { StackTraceHolder } from '../../error/stack-trace.js';
-import { isNodeJs } from '../../platform/os.js';
+import { isV8 } from '../../platform/os.js';
 import { dispose_name } from './debug.js';
 
-export class DisposedError extends Error {
+export class DisposedError extends ErrorWithCode {
 	constructor(
 		message = 'Object has been disposed',
 		public readonly previous: StackTraceHolder,
+		boundary?: CallableFunction,
 	) {
-		super(message, { cause: previous });
-		this.name = 'DisposedError';
+		super(message, ExitCode.DUPLICATE, { cause: previous, boundary });
 	}
 
 	// override get stack() {
@@ -19,44 +19,51 @@ export class DisposedError extends Error {
 	// }
 }
 
+const lineStart = /^/gm;
+
 /**
  * Error when call dispose() twice
  */
-export class DuplicateDisposed extends DisposedError {
-	public readonly inspectString: string;
+export class DuplicateDisposedError extends DisposedError {
 	constructor(
 		public readonly object: any,
 		previous: StackTraceHolder,
 	) {
 		const old = Error.stackTraceLimit;
 		Error.stackTraceLimit = Number.MAX_SAFE_INTEGER;
-		const stacks = getErrorFrame(previous, 2);
 
-		const inspectString = tryInspect(object);
-		const name = dispose_name(object, inspectString);
+		const name = dispose_name(object, 'UnknownDisposable');
 
-		super(`Object [${name}] has already disposed ${stacks}.`, previous);
-		this.name = 'DuplicateDisposedError';
-		this.inspectString = inspectString;
+		super(`Object [${name}] has already disposed`, previous);
 
 		Error.stackTraceLimit = old;
-
-		this.tryCreateConsoleWarning().catch(() => {});
 	}
 
-	public async tryCreateConsoleWarning() {
-		console.error('DisposedWarning: duplicate dispose.');
-		if (isNodeJs) {
-			console.error(' * first   dispose:\n%s', prettyFormatError(this.previous));
-			console.error(' * current dispose:\n%s', prettyFormatError(this));
-		} else {
-			console.error(' * first   dispose:%O', this.previous);
-			console.error(' * current dispose:%O', this);
+	public consoleWarning() {
+		try {
+			if (isV8) {
+				console.error('\x1B[48;5;1m  DisposedWarning  \x1B[0m DUPLICATE DISPOSE');
+				const colorBlock = `\x1B[48;5;238m \x1B[0m `;
+				console.error('\x1B[48;5;14m ● \x1B[0;38;5;4m first   dispose\x1B[0m');
+				console.error(prettyFormatError(this.previous, false).replace(lineStart, colorBlock));
+				console.error('\x1B[48;5;14m ● \x1B[0;38;5;4m current dispose\x1B[0m');
+				console.error(prettyFormatError(this, false).replace(lineStart, colorBlock));
+				console.error('\x1B[48;5;14m ● \x1B[0;38;5;4m the object\x1B[0m');
+				console.error(tryInspect(this.object, { colors: true }).replace(lineStart, colorBlock));
+				console.error('');
+			} else {
+				console.error('[DisposedWarning] DUPLICATE DISPOSE');
+				console.error(' * first   dispose:%O', this.previous);
+				console.error(' * current dispose:%O', this);
+				console.error(' * the object: %O', this.object);
+			}
+		} catch (e) {
+			console.error('Failed to create console warning for duplicate dispose', e);
+			console.error('');
 		}
-		console.error(' * Object: %s', this.inspectString);
 	}
 
-	is(other: unknown): other is DuplicateDisposed {
-		return other instanceof DuplicateDisposed;
+	is(other: unknown): other is DuplicateDisposedError {
+		return other instanceof DuplicateDisposedError;
 	}
 }

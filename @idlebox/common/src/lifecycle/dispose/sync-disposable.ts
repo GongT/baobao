@@ -2,7 +2,7 @@ import { convertCaughtError } from '../../error/convert-unknown.js';
 import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
 import { dispose_name } from './debug.js';
 import { AbstractEnhancedDisposable, type IDisposable } from './disposable.js';
-import { DuplicateDisposed } from './disposedError.js';
+import { DuplicateDisposedError } from './disposedError.js';
 
 /**
  * 简单版手动disposable
@@ -15,7 +15,8 @@ export abstract class DisposableOnce implements IDisposable {
 	}
 	public dispose(): void {
 		if (this._disposed) {
-			console.warn(new DuplicateDisposed(this, this._disposed).message);
+			const w = new DuplicateDisposedError(this, this._disposed);
+			w.consoleWarning();
 			return;
 		}
 		this._disposed = createStackTraceHolder('disposed', this.dispose);

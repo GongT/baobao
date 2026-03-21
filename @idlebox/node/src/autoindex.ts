@@ -93,15 +93,20 @@
 	// Identifiers (2)
 	export { writeFileIfChangeSync } from "./fs/weiteChanged.js";
 	export { writeFileIfChange } from "./fs/weiteChanged.js";
-/* lifecycle/register.ts */
-	// Identifiers (7)
-	export { setExitCodeIfNot } from "./lifecycle/register.js";
-	export { shutdown } from "./lifecycle/register.js";
-	export { isShuttingDown } from "./lifecycle/register.js";
-	export { registerNodejsGlobalTypedErrorHandlerWithInheritance } from "./lifecycle/register.js";
-	export { registerNodejsGlobalTypedErrorHandler } from "./lifecycle/register.js";
-	export { registerNodejsExitHandler } from "./lifecycle/register.js";
-	export { die } from "./lifecycle/register.js";
+/* lifecycle/custom-error-handlers.ts */
+	// Identifiers (3)
+	export { registerNodejsGlobalTypedErrorHandlerWithInheritance } from "./lifecycle/custom-error-handlers.js";
+	export { deleteNodejsGlobalTypedErrorHandler } from "./lifecycle/custom-error-handlers.js";
+	export { registerNodejsGlobalTypedErrorHandler } from "./lifecycle/custom-error-handlers.js";
+/* lifecycle/process-shutdown.ts */
+	// Identifiers (3)
+	export { setExitCodeIfNot } from "./lifecycle/process-shutdown.js";
+	export { shutdown } from "./lifecycle/process-shutdown.js";
+	export { isShuttingDown } from "./lifecycle/process-shutdown.js";
+/* lifecycle/unhandled.ts */
+	// Identifiers (2)
+	export { registerNodejsExitHandler } from "./lifecycle/unhandled.js";
+	export { die } from "./lifecycle/unhandled.js";
 /* lifecycle/workingDirectory.ts */
 	// Identifiers (1)
 	export { workingDirectory } from "./lifecycle/workingDirectory.js";

@@ -65,7 +65,8 @@
 	export { isFileTypeError } from "./error-types/nodejs.js";
 	export { isNodeError } from "./error-types/nodejs.js";
 /* error-types/nodejs.unhandled.ts */
-	// Identifiers (2)
+	// Identifiers (3)
+	export { ProxiedError } from "./error-types/nodejs.unhandled.js";
 	export { UnhandledRejection } from "./error-types/nodejs.unhandled.js";
 	export { UncaughtException } from "./error-types/nodejs.unhandled.js";
 /* error-types/tools.ts */
