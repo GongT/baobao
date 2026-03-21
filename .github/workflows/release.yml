@@ -1,5 +1,5 @@
-name: 发布新版本
-run-name: ${{ github.actor }} 提交了一个新版本 🚀
+name: release
+run-name: 发布新版本 🚀
 
 permissions:
   id-token: write

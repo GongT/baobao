@@ -1,3 +1,5 @@
+import { sleep } from '@idlebox/common';
+import { shutdown } from '@idlebox/node';
 import { execa } from 'execa';
 import { monorepoRoot } from './common/paths/root.js';
 
@@ -56,11 +58,20 @@ console.log('没有运行中的任务，继续发布流程。');
 await spawn`gh workflow run release.yml --json`;
 
 console.log('已启动！');
-const runs2 = await getRuns();
+let tryCnt = 3;
+await sleep(3000);
+while (tryCnt-- > 0) {
+	const runs = await getRuns();
 
-const running2 = runs2.filter((run) => run.status === 'in_progress');
-if (running2.length > 0) {
-	console.log('运行中的任务: %s', running2[0].url);
-} else {
-	console.log('没有运行中的任务，可能是启动失败了，请检查！');
+	const running = runs.filter((run) => run.status === 'in_progress');
+	if (running.length > 0) {
+		console.log('运行中的任务: %s', running[0].url);
+		shutdown(0);
+	} else {
+		console.log('暂未启动任务，请稍等...');
+		await sleep(5000);
+	}
 }
+
+console.log('没有运行中的任务，可能是启动失败了，请检查！');
+shutdown(1);
