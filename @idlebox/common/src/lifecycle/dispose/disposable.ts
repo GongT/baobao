@@ -1,7 +1,7 @@
-import { definePublicConstant } from '../../autoindex.js';
 import { defineInspectMethod } from '../../debugging/inspect.js';
 import type { MaybeNamed } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
+import { definePublicConstant } from '../../object/definePublicConstant.js';
 import { Emitter } from '../event/event.js';
 import type { EventRegister } from '../event/type.js';
 import { fromNativeDisposable } from './bridges/native.js';

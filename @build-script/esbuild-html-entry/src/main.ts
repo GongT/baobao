@@ -65,7 +65,7 @@ export class HtmlEntryPlugin {
 			}
 			debug('\x1b[38;5;14m ✔ %s\x1b[0m', jsBundle);
 
-			const sourceFile = output.entryPoint.substring(NAMESPACE.length + 1);
+			const sourceFile = output.entryPoint.slice(NAMESPACE.length + 1);
 			debug('   * sourceFile:', sourceFile);
 
 			const entry = this.cache.get(sourceFile);

@@ -9,11 +9,6 @@ overrides:
 
 pnpmfileChecksum: sha256-9XeTsWPtcnTvXfS88sAeADE0XUWlhVVvtaoBXSsRDfA=
 
-patchedDependencies:
-  '@types/tar-stream':
-    hash: e6dbdda1359b873459b308f07f4c2182e06b284e0abd51e04320b0a5ac8fd4b6
-    path: patches/@types__tar-stream.patch
-
 importers:
 
   .:
@@ -6057,9 +6052,9 @@ snapshots:
   '@types/tar-fs@2.0.4':
     dependencies:
       '@types/node': 25.5.0
-      '@types/tar-stream': 3.1.4(patch_hash=e6dbdda1359b873459b308f07f4c2182e06b284e0abd51e04320b0a5ac8fd4b6)
+      '@types/tar-stream': 3.1.4
 
-  '@types/tar-stream@3.1.4(patch_hash=e6dbdda1359b873459b308f07f4c2182e06b284e0abd51e04320b0a5ac8fd4b6)':
+  '@types/tar-stream@3.1.4':
     dependencies:
       '@types/node': 25.5.0
 

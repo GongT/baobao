@@ -15,8 +15,7 @@ type DeepWriteableMap<K, V> = Map<DeepWriteable<K>, DeepWriteable<V>>;
 type DeepWriteableSet<T> = Set<DeepWriteable<T>>;
 type DeepWriteableObject<T> = { -readonly [K in keyof T]: DeepWriteable<T[K]> };
 
-
-export type Writeable<T> =  T extends Primitive
+export type Writeable<T> = T extends Primitive
 	? T
 	: T extends ReadonlyArray<infer U>
 		? Array<U>

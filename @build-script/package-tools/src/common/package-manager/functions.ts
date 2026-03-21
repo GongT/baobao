@@ -44,10 +44,10 @@ async function resolveNpmVersion([packageName, currentVersion]: [string, string]
 	}
 
 	if (currentVersion.startsWith('npm:')) {
-		packageReference = currentVersion.substring(4);
+		packageReference = currentVersion.slice(4);
 		const vsplit = packageReference.lastIndexOf('@');
 		if (vsplit > 1) {
-			packageReference = packageReference.substring(0, vsplit);
+			packageReference = packageReference.slice(0, vsplit);
 		}
 	} else if (currentVersion.includes('/')) {
 		console.error('[npm:resolve] version of "%s: %s" is not supported', packageName, currentVersion);

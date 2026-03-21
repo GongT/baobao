@@ -113,7 +113,7 @@ function update(project: IPackageInfo, target: Record<string, string>, map: Map<
 
 		if (currVer.startsWith('npm:')) {
 			// package alias
-			const [alias] = splitPackageSpecSimple(currVer.substring(4));
+			const [alias] = splitPackageSpecSimple(currVer.slice(4));
 			newVer = map.get(alias);
 			if (!newVer) {
 				// console.log('  - no version [%s] current [%s]', item, target[item]);

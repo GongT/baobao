@@ -121,7 +121,7 @@ export abstract class WrappedConsole {
 				return;
 			}
 
-			args.splice(pos, 0, (isWeb ? ' %o' : ' %j').repeat(args.length - pos).substr(1));
+			args.splice(pos, 0, (isWeb ? ' %o' : ' %j').repeat(args.length - pos).slice(1));
 		} else {
 			args[pos] = '';
 		}

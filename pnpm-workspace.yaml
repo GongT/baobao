@@ -38,8 +38,8 @@ savePrefix: '^'
 ignoreWorkspaceCycles: true
 nodeOptions: ''
 
-patchedDependencies:
-  "@types/tar-stream": "patches/@types__tar-stream.patch"
+# patchedDependencies:
+  # "@types/tar-stream": "patches/@types__tar-stream.patch"
 
 # npm config
 access: public
