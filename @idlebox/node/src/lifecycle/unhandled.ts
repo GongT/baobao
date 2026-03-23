@@ -59,7 +59,7 @@ function uniqueErrorHandler(caughtError: unknown) {
 	try {
 		const catcher = getHandlerOnError(effectiveError);
 		if (catcher) {
-			if (!isProductionMode) logger.verbose?.(`  - call catcher ${objectName(catcher)}`);
+			if (!isProductionMode) logger.verbose?.(`  - call catcher "${objectName(catcher) || 'anonymous function'}" for error "${effectiveError.message}"`);
 			catcher(effectiveError);
 			return;
 		}

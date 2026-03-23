@@ -107,12 +107,12 @@ export async function createIndex({
 				if (def.reference?.type === 'file') {
 					if (!def.reference.id) {
 						// 从本包另一个文件export，且没有改名（x as y）
-						content.push(`\t// export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}" # no rename`);
+						content.push(`\t/* export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}" # no rename ${def.reference.relativeFromRoot} */`);
 						continue;
 					}
 					if (!input_files.includes(def.reference.absolute)) {
 						// 从本包另一个文件export，且目标文件被忽略
-						content.push(`\t// export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}" # file ignored`);
+						content.push(`\t/* export ${typeTag(def)}{ ${id} } from "${def.reference.relativeFromRoot}" # file ignored ${def.reference.relativeFromRoot} */`);
 						continue;
 					}
 				}
@@ -124,9 +124,9 @@ export async function createIndex({
 			content.push(`\t// References (${file.references.length})`);
 			for (const { reference } of file.references) {
 				if (reference.type === 'file') {
-					content.push(`\texport * from "${importSpec(indexDir, reference.relativeFromRoot)}";`);
+					content.push(`\texport * from "${importSpec(indexDir, reference.relativeFromRoot)}"; /* ${reference.relativeFromRoot} */`);
 				} else {
-					content.push(`\texport * from "${reference.name}";`);
+					content.push(`\texport * from "${reference.name}"; /* reexport from node_modules */`);
 				}
 			}
 		}

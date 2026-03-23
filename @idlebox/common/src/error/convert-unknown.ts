@@ -1,6 +1,10 @@
+import { Exit } from '@idlebox/errors';
 import { getErrorFrame } from './get-frame.js';
 
 export function convertCaughtError(e: unknown): Error {
+	if (e instanceof Exit) {
+		throw e;
+	}
 	if (e instanceof Error) {
 		return e;
 	}

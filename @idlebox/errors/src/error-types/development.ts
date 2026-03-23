@@ -1,5 +1,5 @@
 import { ExitCode } from '../codes/wellknown-exit-codes.js';
-import { ErrorWithCode } from '../common/base.js';
+import { ErrorWithCode, TypeErrorWithCode } from '../common/base.js';
 import type { IErrorOptions } from '../common/type.js';
 
 /**
@@ -36,7 +36,7 @@ interface IVariableTypeErrorOptions extends IErrorOptions {
 	variableName?: string;
 }
 
-export class VariableTypeError extends ProgramError {
+export class VariableTypeError extends TypeErrorWithCode {
 	public readonly ExpectedClass?: Function;
 
 	constructor(
@@ -59,3 +59,5 @@ export class VariableTypeError extends ProgramError {
 		super(`${object}的类型${message}`, opts);
 	}
 }
+
+export class InvalidStateError extends ProgramError {}
