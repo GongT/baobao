@@ -19,8 +19,6 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/browser-ant-design": "workspace:^",
-		"@idlebox/browser-react": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^"
 	},

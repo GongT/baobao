@@ -33,7 +33,7 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0",
-		"typescript": "^5.9.3"
+		"typescript": "^6.0.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

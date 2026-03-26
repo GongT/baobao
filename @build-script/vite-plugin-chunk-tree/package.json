@@ -27,7 +27,7 @@
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"rollup": "^4.59.0",
-		"typescript": "^5.9.3",
+		"typescript": "^6.0.2",
 		"vite": "^8.0.1"
 	},
 	"publishConfig": {

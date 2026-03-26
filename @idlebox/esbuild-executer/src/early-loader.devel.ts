@@ -1,6 +1,6 @@
 import esbuild from 'esbuild';
 import { mkdirSync, rmdirSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 const rootDir = resolve(import.meta.dirname, '..');
 const indexFile = 'src/index.ts';
@@ -75,11 +75,13 @@ function get(file: string) {
 
 const entryCompiled = get(indexFile);
 const lock = `${entryCompiled}.lock`;
+const lockDir = dirname(lock);
+mkdirSync(lockDir, { recursive: true });
 
 for (let i = 0; i < 10; i++) {
 	// 每个循环等待500ms，最多等待5秒
 	try {
-		mkdirSync(lock, { recursive: true });
+		mkdirSync(lock);
 		break;
 	} catch (e) {
 		if ((e as any).code === 'EEXIST') {

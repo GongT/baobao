@@ -30,7 +30,7 @@
 		"@types/node": "^25.5.0",
 		"comment-json": "^4.6.2",
 		"execa": "^9.6.1",
-		"typescript": "^5.9.3",
+		"typescript": "^6.0.2",
 		"vite-node": "^6.0.0"
 	},
 	"exports": {

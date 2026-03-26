@@ -25,7 +25,7 @@
 		"@build-script/rushstack-config-loader": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"split2": "^4.2.0",
-		"typescript": "^5.9.3"
+		"typescript": "^6.0.2"
 	},
 	"devDependencies": {
 		"@idlebox/esbuild-executer": "workspace:^",
@@ -34,7 +34,7 @@
 		"@types/node": "^25.5.0"
 	},
 	"peerDependencies": {
-		"typescript": "^5.8.3"
+		"typescript": "^6.0.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
