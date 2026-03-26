@@ -1,0 +1,41 @@
+{
+	"name": "@idlebox/browser-react",
+	"type": "module",
+	"version": "0.0.1",
+	"exports": {
+		".": "./lib/autoindex.generated.js",
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {
+		"@idlebox/browser": "workspace:^",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/logger": "workspace:^",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
+		"react-router": "^7.13.2"
+	},
+	"devDependencies": {
+		"@internal/local-rig": "workspace:^",
+		"@mpis/run": "workspace:^",
+		"@types/node": "workspace:@idlebox/empty@*",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@types/react-router": "^5.1.20"
+	},
+	"publishConfig": {
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
+	}
+}

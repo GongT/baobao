@@ -166,7 +166,7 @@ export function registerModuleLoader() {
 					importAttributes: { type: 'module', my_loader: 'compiled' },
 				};
 			}
-			logger.verbose(`try resolve: ${specifier}`);
+			logger.verbose(`try resolve: ${specifier} | ${context.parentURL}`);
 			return nextResolve(specifier, context);
 		},
 		load(url, context, nextLoad) {

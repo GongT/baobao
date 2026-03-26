@@ -1,4 +1,4 @@
-import { EnableLogLevel, set_default_log_level } from '@idlebox/logger';
+import { EnableLogLevel, set_default_log_level } from '@idlebox/logger/browser';
 import { LocalStorageObject, StorageKey } from '../storage/local-storage.js';
 
 interface IDevStore {

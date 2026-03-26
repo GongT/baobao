@@ -4,11 +4,9 @@ import { createLoggerObject } from '../common/logger.create.js';
 import { createGlobalLogger } from '../common/logger.global.js';
 import type { IInstrestedConsole } from '../common/types.js';
 import { EnableLogLevel } from '../loglevels/loglevel.js';
-import { NodejsOutput } from '../outputs/nodejs.js';
 import type { ILoggerOptions } from './share.js';
 
 export * from './share.js';
-export { NodejsOutput };
 export const consoleCompatible = /*@__PURE__*/ consoleCompatibleInternal.bind(undefined, {});
 
 const defaultConsole = {

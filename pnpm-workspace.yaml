@@ -6,7 +6,6 @@ packages:
   - '@gongt/*/example'
   - '@gongt/*/examples/*'
   - '@idlebox/*'
-  - '!@idlebox/browser*'
   - '@internal/*'
   - standalone/*
 

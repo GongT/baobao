@@ -1,11 +1,9 @@
 import { defineInspectMethod } from '@idlebox/common';
-import assert from 'node:assert';
-import type { InspectContext } from 'node:util';
 import { call_debug_command, debug_commands, nodeFormat } from '../functions/builtin-commands.js';
 import { Cdim, Crst, CSI, NCdim } from './ansi.js';
 import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
 import { current_error_action, escapeRegExp } from './helpers.js';
-import type { ILineWriter, IMyDebug, IMyDebugWithControl } from './types.js';
+import type { ILineWriter, IMyDebug, IMyDebugWithControl, InspectContext } from './types.js';
 
 interface IDebugOptions {
 	tag: string;
@@ -41,7 +39,7 @@ export function createDebug({ tag, level, colorEnabled, colorWholeLine = false, 
 		write_line = write_line_colored_tag(lineOpt);
 	}
 
-	assert.equal(typeof writer, 'function', 'writer must be a function');
+	// assert.equal(typeof writer, 'function', 'writer must be a function');
 
 	const r = Object.defineProperties(
 		(m: any, ...args: unknown[]) => {

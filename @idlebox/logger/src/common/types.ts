@@ -6,7 +6,7 @@ import type { EnableLogLevel } from '../loglevels/loglevel.js';
 export type NodeJSReadableStream = NodeJS.ReadableStream;
 
 /** @ts-ignore */
-export type InspectOptions = import('node:util').InspectOptions;
+export type InspectContext = import('node:util').InspectContext;
 
 export type IMyDebug<T = void> = (message: TemplateStringsArray | string, ...args: readonly any[]) => T;
 
@@ -64,7 +64,7 @@ export type ILineWriter = (message: string) => any;
 
 interface UnsupportedMethods {
 	/** @deprecated 模拟console对象不支持此方法 */
-	dir(item?: any, options?: InspectOptions): void;
+	dir(item?: any, options?: InspectContext): void;
 	/** @deprecated 模拟console对象不支持此方法 */
 	/** @deprecated 模拟console对象不支持此方法 */
 	table(tabularData?: any, properties?: string[]): void;

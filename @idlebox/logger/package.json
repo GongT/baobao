@@ -7,6 +7,7 @@
 		".": {
 			"source": "./src/_environments/node.ts",
 			"types": "./src/_environments/node.ts",
+			"browser": "./lib/_environments/browser.js",
 			"node": "./lib/_environments/node.js",
 			"default": "./lib/_environments/browser.js"
 		},

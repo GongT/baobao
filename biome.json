@@ -64,7 +64,7 @@
 					"options": {
 						"patterns": [
 							{
-								"group": ["**/autoindex.*", "**/*.autoindex.*", "**/../_*/**"],
+								"group": ["**/autoindex.*", "**/*.autoindex.*"],
 								"message": "试图从index文件导入符号"
 							}
 						]
@@ -95,7 +95,9 @@
 						}
 					}
 				},
-				"noConstantCondition": "off"
+				"noConstantCondition": "off",
+				"useExhaustiveDependencies": "off",
+				"useHookAtTopLevel": "off"
 			},
 			"nursery": {},
 			"performance": {

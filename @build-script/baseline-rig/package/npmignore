@@ -1,14 +1,15 @@
 ### PackageManager
 *.tgz
 yarn.lock
-node_modules
-jspm_modules
-config
+node_modules/
+jspm_modules/
+config/
 .npm*
 
 ### Development Entry Points
 *.devel.*
 *.devel/
+*.generator.*
 
 ### Hidden Files
 .*
@@ -17,7 +18,7 @@ _*
 ### Temp Files
 package-deps.json
 *.log
-temp
+temp/
 
 ### Build Source
 /build-script.json
@@ -28,15 +29,15 @@ temp
 /etc
 
 ### Tests
-**/test/**
-**/tests/**
-**/*.test.*
+test/**
+tests/**
+*.test.*
 
 ### Temp Files
 *.jsc
 *.realtime-compile.*
 *.realtime-compile.*.map
-**/*.tsbuildinfo
+*.tsbuildinfo
 
 ### Examples
 /example

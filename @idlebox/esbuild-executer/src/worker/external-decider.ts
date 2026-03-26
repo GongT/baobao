@@ -203,6 +203,7 @@ class ModuleResolver {
 				logger.resolve`       -> (generate) not present`;
 				withGenerate = '';
 			} else {
+				// generater 必须用真实路径，否则无法缓存
 				withGenerate = await this.checkExternal(withGenerate, logger);
 				logger.resolve`       -> (generate) ${withGenerate}`;
 			}

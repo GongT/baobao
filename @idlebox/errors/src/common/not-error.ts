@@ -1,6 +1,7 @@
 import { humanReadable, type IHumanReadable } from './human-readable.js';
 
 /**
+ * 没有/不是错误
  * 利用try...catch统一接口，或是用于分支条件等，未发生错误的情况
  */
 export class NotError implements IHumanReadable {
