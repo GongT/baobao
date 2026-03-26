@@ -4,6 +4,7 @@ scripts:
   postinstall: node @internal/scripts/loader/repo-post-install.js
   pretty: biome check --diagnostic-level=warn --unsafe
   build: node @mpis/monorepo/loader/bin.devel.js build
+  rebuild: bash scripts/simple-clean.sh ; node @mpis/monorepo/loader/bin.devel.js build
   watch: node @mpis/monorepo/loader/bin.devel.js watch
   publish-everything: node @build-script/package-tools/load.js monorepo-publish --concurrency 1
   package-tools: node @build-script/package-tools/load.js

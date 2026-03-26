@@ -5,14 +5,14 @@
 	"description": "A simple logger module for my self use (nodejs).",
 	"exports": {
 		".": {
-			"source": "./src/_environments/node.ts",
-			"types": "./src/_environments/node.ts",
-			"browser": "./lib/_environments/browser.js",
-			"node": "./lib/_environments/node.js",
-			"default": "./lib/_environments/browser.js"
+			"source": "./src/environments/node.ts",
+			"types": "./src/environments/node.ts",
+			"browser": "./lib/environments/browser.js",
+			"node": "./lib/environments/node.js",
+			"default": "./lib/environments/browser.js"
 		},
-		"./node": "./lib/_environments/node.js",
-		"./browser": "./lib/_environments/browser.js",
+		"./node": "./lib/environments/node.js",
+		"./browser": "./lib/environments/browser.js",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,

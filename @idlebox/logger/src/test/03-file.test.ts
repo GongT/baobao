@@ -1,4 +1,4 @@
-import { createLogFile, createRootLogger, EnableLogLevel, logger } from '../_environments/node.js';
+import { createLogFile, createRootLogger, EnableLogLevel, logger } from '../environments/node.js';
 
 createRootLogger('wow', EnableLogLevel.verbose, createLogFile('test.log'));
 

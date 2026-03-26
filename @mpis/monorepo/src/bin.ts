@@ -19,7 +19,7 @@ if (helpMode) {
 	shutdown(0);
 }
 
-const cmd = argv.command(['build', 'watch', 'clean', 'list', 'ls', 'dot', 'analyze']);
+const cmd = argv.command(['build', 'rebuild', 'watch', 'clean', 'list', 'ls', 'dot', 'analyze']);
 if (!cmd) {
 	printUsage();
 	logger.error`No command specified`;
@@ -38,6 +38,8 @@ logger.log`Running command: ${currentCommand}`;
 logger.log`working directory: ${process.cwd()}`;
 
 switch (currentCommand) {
+	case 'rebuild':
+		throw new Error('The "rebuild" command is not implemented yet.');
 	case 'build':
 		{
 			const { runBuild } = await import('./actions/cmd.build.js');

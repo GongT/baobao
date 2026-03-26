@@ -1,4 +1,4 @@
-import { createRootLogger, logger } from '../_environments/node.js';
+import { createRootLogger, logger } from '../environments/node.js';
 
 createRootLogger('wow');
 
