@@ -1,5 +1,5 @@
 import { prettyFormatStack } from '@idlebox/common';
-import { CSI } from '@idlebox/logger';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { inspect } from 'node:util';
 import { AbstractBaseNode } from './base-graph.js';
 import { JobState, UnrecoverableJobError } from './job-graph.lib.js';

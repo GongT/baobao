@@ -8,8 +8,11 @@
 	},
 	"exports": {
 		".": {
-			"source": "./src/autoindex.ts",
-			"default": "./lib/autoindex.js"
+			"esbuild": {
+				"generate": "./src/generate.devel.ts"
+			},
+			"source": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},

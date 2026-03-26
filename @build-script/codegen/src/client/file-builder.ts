@@ -2,7 +2,7 @@ import { escapeRegExp } from '@idlebox/common';
 import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
 import { dirname, extname, isAbsolute, resolve } from 'node:path';
-import type { ILogger } from '../common/output.js';
+import type { ISimpleLogger } from '../common/shared.js';
 import { typescriptAlertHeader } from './alert-header.js';
 import { knownFileExtensions, sourceCodeExtensions } from './constants.js';
 
@@ -29,7 +29,7 @@ export class FileBuilder {
 		// the generator.ts file absolute
 		private readonly selfPath: string,
 		name: string,
-		public readonly logger: ILogger,
+		public readonly logger: ISimpleLogger,
 		no_rename: boolean,
 	) {
 		if (isAbsolute(name)) {

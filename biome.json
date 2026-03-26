@@ -64,7 +64,7 @@
 					"options": {
 						"patterns": [
 							{
-								"group": ["**/autoindex.*", "**/*.autoindex.*"],
+								"group": ["**/autoindex.*", "**/*.autoindex.*", "**/../_*/**"],
 								"message": "试图从index文件导入符号"
 							}
 						]

@@ -29,6 +29,7 @@
 		"@idlebox/node": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/unshare": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^",
 		"cacache": "^20.0.4",
 		"execa": "^9.6.1",
 		"make-fetch-happen": "^15.0.5",

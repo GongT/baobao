@@ -1,9 +1,10 @@
 import { applyPublishWorkspace, createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { app, argv, CommandDefine, CSI, logger } from '@idlebox/cli';
+import { app, argv, CommandDefine, logger } from '@idlebox/cli';
 import { prettyPrintError } from '@idlebox/common';
 import { Job, JobGraphBuilder, JobState } from '@idlebox/dependency-graph';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { commandInPath, emptyDir, setExitCodeIfNot, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { FsNodeType, spawnReadonlyFileSystemWithCommand } from '@idlebox/unshare';
 import { execaNode } from 'execa';
 import { existsSync } from 'node:fs';

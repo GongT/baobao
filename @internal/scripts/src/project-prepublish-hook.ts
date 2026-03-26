@@ -13,6 +13,7 @@ import {
 	mirrorExportsAndMain,
 	removeExportsTypes,
 	removeLoaderFromExportsAndBin,
+	removeLowlevels,
 	rewriteTsconfig,
 	writeNpmFiles,
 } from './common/steps.js';
@@ -45,6 +46,7 @@ await executePreBuild();
 makeInformationalFields();
 removeExportsTypes();
 removeLoaderFromExportsAndBin();
+removeLowlevels();
 
 mirrorExportsAndMain();
 ensureExportsPackageJson();

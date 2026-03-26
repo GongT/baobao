@@ -45,7 +45,7 @@ export class Pauser<Data, T extends Job<Data>> extends AsyncDisposable {
 	}
 
 	override async dispose() {
-		if (this.hasDisposed) return;
+		if (this.disposed) return;
 		return super.dispose();
 	}
 

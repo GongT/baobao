@@ -1,8 +1,9 @@
 import { ProjectConfig } from '@build-script/rushstack-config-loader';
-import { CSI, logger } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { realpathSync } from 'node:fs';
-import { projectRoot } from '../common/paths.js';
 import type { ICommand, IConfigFile } from '../common/config-file.js';
+import { projectRoot } from '../common/paths.js';
 
 export function dumpConfig(config: IConfigFile) {
 	const buildObject: Record<string, ICommand> = {};

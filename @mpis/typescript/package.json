@@ -20,7 +20,9 @@
 	},
 	"dependencies": {
 		"@idlebox/args": "workspace:^",
+		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
+		"@build-script/rushstack-config-loader": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"split2": "^4.2.0",
 		"typescript": "^5.9.3"

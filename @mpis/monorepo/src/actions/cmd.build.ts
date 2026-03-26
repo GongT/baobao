@@ -2,7 +2,7 @@ import { argv } from '@idlebox/args/default';
 import { functionToDisposable, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { isShuttingDown, setExitCodeIfNot, shutdown } from '@idlebox/node';
-import { terminal } from '@idlebox/terminal-control';
+import { terminal } from '@idlebox/terminal-control/default';
 import { CompileError } from '@mpis/server';
 import { url } from 'node:inspector';
 import { debugMode } from '../common/args.js';

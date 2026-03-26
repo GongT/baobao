@@ -1,5 +1,6 @@
-import { CSI, logger } from '@idlebox/cli';
+import { logger } from '@idlebox/cli';
 import { execLazyError, exists } from '@idlebox/node';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { resolve } from 'node:path';
 import { isVerbose } from '../functions/cli.js';
 import { PackageManager, type IUploadResult } from './driver.abstract.js';

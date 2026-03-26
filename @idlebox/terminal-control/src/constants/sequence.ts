@@ -18,3 +18,7 @@ export const ST: string = '\x1b\\';
  * Application Program Command
  */
 export const APC: string = '\x1b_';
+/**
+ * Device Status Report
+ */
+export const DSR = `${CSI}6n`;

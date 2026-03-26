@@ -1,10 +1,9 @@
 import { argv } from '@idlebox/args/default';
 import { humanDate, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
-import { debuggerBreakUserEntrypoint, registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
+import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
 
-debuggerBreakUserEntrypoint();
 registerNodejsExitHandler();
 
 let level = EnableLogLevel.auto;

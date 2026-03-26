@@ -10,6 +10,7 @@
 			"source": "./src/plugin.ts",
 			"default": "./lib/plugin.js"
 		},
+		"./development": "./src.devel/index.ts",
 		"./package.json": "./package.json"
 	},
 	"scripts": {

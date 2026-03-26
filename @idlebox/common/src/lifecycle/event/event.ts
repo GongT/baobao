@@ -25,7 +25,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 			wait: {
 				get: () => this.wait.bind(this),
 			},
-			hasDisposed: {
+			disposed: {
 				get: () => this._disposed,
 			},
 		});
@@ -147,7 +147,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	}
 
 	private _disposed = false;
-	public get hasDisposed() {
+	public get disposed() {
 		return this._disposed;
 	}
 
@@ -169,7 +169,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 
 		this._waittings = undefined;
 
-		const trace = createStackTraceHolder('disposed');
+		const trace = createStackTraceHolder('disposed', this.dispose);
 
 		const makeUnCallable = (name: string) => {
 			Object.assign(this, {

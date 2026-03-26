@@ -2,14 +2,21 @@ import { ExitCode } from '../codes/wellknown-exit-codes.js';
 import { ErrorWithCode } from '../common/base.js';
 import { humanReadable } from '../common/human-readable.js';
 import type { IErrorOptions } from '../common/type.js';
+import type { Signals } from './nodejs.js';
 
 /**
  * 程序因为正常运行结束而退出
- * catch到此错误时应直接重新抛出，不应做其他处理
+ * catch到此错误时应直接重新抛出，不应做其他处理（也不应该忽略）
  */
 export class Exit extends ErrorWithCode {
 	constructor(code: number, opts?: IErrorOptions) {
 		super(`process exit with code ${code}`, code, opts);
+	}
+}
+
+export class Quit extends Exit {
+	constructor(opts?: IErrorOptions) {
+		super(ExitCode.SUCCESS, opts);
 	}
 }
 
@@ -19,7 +26,7 @@ export class Exit extends ErrorWithCode {
  */
 export class InterruptError extends ErrorWithCode {
 	constructor(
-		public readonly signal: NodeJS.Signals,
+		public readonly signal: Signals,
 		opts?: IErrorOptions,
 	) {
 		super(`interrupt by signal ${signal}`, ExitCode.INTERRUPT, opts);

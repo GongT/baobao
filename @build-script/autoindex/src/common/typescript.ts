@@ -8,7 +8,7 @@ import { selfVersion } from './modify-comment.js';
 import { getTypescript } from './tsconfig-loader.js';
 
 export async function loadTypescript(context: IContext) {
-	let tsconfigFile: string = context.project;
+	let tsconfigFile: string = resolve(process.cwd(), context.project);
 	if (statSync(tsconfigFile).isDirectory()) {
 		tsconfigFile = resolve(tsconfigFile, 'tsconfig.json');
 		if (!existsSync(tsconfigFile)) {

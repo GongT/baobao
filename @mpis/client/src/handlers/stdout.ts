@@ -62,6 +62,7 @@ export function listenOnStream(stream: NodeJS.ReadableStream, options: IOptions)
 			if (!started) return;
 			emit_start();
 		} else {
+			// 没有开始signal - 只要有输出就说明开始
 			started = true;
 			emit_start();
 		}

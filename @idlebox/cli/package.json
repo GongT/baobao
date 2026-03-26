@@ -30,6 +30,7 @@
 		"@idlebox/cli-help-builder": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {

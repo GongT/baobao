@@ -1,7 +1,13 @@
+/** biome-ignore-all lint/suspicious/noTsIgnore: ignore none node environment */
+
 import { NodeErrorCode } from '@idlebox/node-error-codes';
 import { LinuxErrorCode } from '../codes/linux-error-codes.js';
 
-type NodeException<T extends string = any> = /*NodeJS.ErrnoException &*/ { code: T };
+/** @ts-ignore */
+export type NodeException<T extends LinuxErrorCode | NodeErrorCode = any> = NodeJS.ErrnoException & { code: T };
+
+/** @ts-ignore */
+export type Signals = NodeJS.Signals;
 
 export interface OpenSSLException extends Error {
 	opensslErrorStack?: string;

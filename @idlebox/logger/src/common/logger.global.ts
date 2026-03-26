@@ -1,39 +1,34 @@
 import { globalObject } from '@idlebox/common';
-import process from 'node:process';
-import { PassThrough } from 'node:stream';
+import type { EnableLogLevel } from '../loglevels/loglevel.js';
 import { create } from './create.logger.js';
-import { EnableLogLevel, type IMyLogger } from './types.js';
-
-const stream = new PassThrough();
-stream.pipe(process.stderr);
-Object.assign(stream, { isTTY: process.stderr.isTTY });
+import type { IInstrestedConsole, IMyLogger } from './types.js';
 
 const symbol = Symbol.for('@idlebox/logger/global/terminal');
 
 /**
  * 作为logger导出，必须在程序入口调用过 createGlobalLogger() 才能使用
  */
-export let terminal: IMyLogger;
+export let globalLogger: IMyLogger;
 
 /**
  * 创建root-logger，随后logger变量可用
  */
-export function createGlobalLogger(tag: string, defaultLevel: EnableLogLevel = EnableLogLevel.auto): void {
-	terminal = globalObject[symbol];
-	if (terminal) {
-		terminal.error`global logger already created`;
+export function createGlobalLogger(console: IInstrestedConsole, tag: string, defaultLevel: EnableLogLevel): void {
+	globalLogger = globalObject[symbol];
+	if (globalLogger) {
+		globalLogger.error`global logger already created`;
 		return;
 	}
 
-	terminal = create(tag, undefined, stream);
-	globalObject[symbol] = terminal;
+	globalLogger = create(console, tag);
+	globalObject[symbol] = globalLogger;
 
-	terminal.enable(defaultLevel);
+	globalLogger.enable(defaultLevel);
 
-	if (terminal.verbose.isEnabled) {
-		terminal.verbose`verbose is enabled`;
+	if (globalLogger.verbose.isEnabled) {
+		globalLogger.verbose`verbose is enabled`;
 	} else {
-		terminal.debug`debug is enabled`;
+		globalLogger.debug`debug is enabled`;
 	}
 	return;
 }

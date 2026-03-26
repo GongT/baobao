@@ -1,4 +1,4 @@
-import { DeferredPromise, registerGlobalLifecycle, sleep, toDisposable } from '@idlebox/common';
+import { DeferredPromise, functionToDisposable, registerGlobalLifecycle, sleep } from '@idlebox/common';
 import { createLogger, EnableLogLevel } from '@idlebox/logger';
 import { createInterface, type Interface } from 'node:readline/promises';
 import { ProtocolClientObject, WorkerClientState } from '../common/protocol-client-object.js';
@@ -6,7 +6,7 @@ import type { WorkersManager } from '../common/workers-manager.js';
 
 let rl: Interface;
 let ended = false;
-const logger = createLogger('repl', true);
+const logger = createLogger('repl', { colors: true });
 logger.enable(EnableLogLevel.verbose);
 
 export function readlineTestInit(manager: WorkersManager) {
@@ -19,7 +19,7 @@ export function readlineTestInit(manager: WorkersManager) {
 	});
 
 	registerGlobalLifecycle(
-		toDisposable(() => {
+		functionToDisposable(() => {
 			ended = true;
 			rl.close();
 		}),

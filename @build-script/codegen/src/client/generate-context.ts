@@ -1,5 +1,5 @@
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
-import type { ILogger } from '../common/output.js';
+import type { ISimpleLogger } from '../common/shared.js';
 import { FileBuilder } from './file-builder.js';
 
 export interface IGenerateContext extends Context {}
@@ -12,7 +12,7 @@ export class Context {
 
 	constructor(
 		public readonly sourceFile: string, // absolute
-		public readonly logger: ILogger,
+		public readonly logger: ISimpleLogger,
 		public readonly projectRoot: string,
 	) {}
 

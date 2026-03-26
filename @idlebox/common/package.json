@@ -6,8 +6,12 @@
 	"keywords": ["utilities", "functions", "helpers", "library"],
 	"exports": {
 		".": {
-			"source": "./src/autoindex.ts",
-			"default": "./lib/autoindex.js"
+			"esbuild": {
+				"early-loader": "./src/early-loader.devel.ts",
+				"generate": "./src/generate.devel.ts"
+			},
+			"source": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},

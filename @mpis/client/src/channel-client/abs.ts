@@ -29,7 +29,16 @@ function getDefaultTitle(): string {
 	return 'unknown';
 }
 
-export abstract class AbstractChannelClient extends EnhancedAsyncDisposable {
+export interface IChannelClient {
+	success(message: string, output?: string): Promise<void>;
+	failed(message: string, output: string): Promise<void>;
+	start(): Promise<void>;
+
+	friendlyTitle: string;
+	readonly logger: IMyLogger;
+}
+
+export abstract class AbstractChannelClient extends EnhancedAsyncDisposable implements IChannelClient {
 	private cstate = ConnectionState.Disconnected;
 	protected connecting?: Promise<any>;
 	private queuedMessage?: IUserMessageObject;
@@ -150,12 +159,12 @@ export abstract class AbstractChannelClient extends EnhancedAsyncDisposable {
 export class VoidClient extends AbstractChannelClient {
 	constructor() {
 		super();
-		this.logger.debug;
+		this.logger.verbose`VoidClient created, all messages will be logged but not sent.`;
 	}
 
 	protected override async _disconnect(): Promise<void> {}
 	protected override async _connect(): Promise<void> {}
 	protected override _send(message: IMessageObject): void {
-		this.logger.warn`VoidClient: sending: \x1B[1;38;5;11m${message.event}\x1B[39m message=[${message.message}] output=stripe<${message.output ?? ''}>`;
+		this.logger.warn`VoidClient: sending: \x1B[1;38;5;11m${message.event}\x1B[39m message=[${message.message}] output=${message.output?.length ?? 0} chars.`;
 	}
 }

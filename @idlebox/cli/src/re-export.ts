@@ -16,15 +16,15 @@ export {
 export {
 	createDebug,
 	createLogger,
-	CSI,
 	EnableLogLevel,
 	logger,
-	LogLevel,
 	type IDebugCommand,
 	type IMyDebug,
 	type IMyDebugWithControl,
 	type IMyLogger,
 } from '@idlebox/logger';
+
+export { terminal } from '@idlebox/terminal-control/default';
 
 export function mapSourceFile(file: string): string {
 	return mapSourcePosition({ source: file, column: 0, line: 1 }).source;

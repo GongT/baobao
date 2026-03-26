@@ -1,5 +1,4 @@
 import { isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
-import { pause, type IPauseControl } from '@idlebox/dependency-graph';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -22,8 +21,9 @@ interface MyOptions extends Options {
 
 class OutputHandler extends Writable {
 	private _output = '';
+	private _last_output = '';
 
-	constructor() {
+	constructor(private readonly logger: IMyLogger) {
 		super({ defaultEncoding: 'utf-8' });
 	}
 
@@ -33,6 +33,8 @@ class OutputHandler extends Writable {
 	}
 
 	clear() {
+		this.logger.verbose`clear output buffer.`;
+		this._last_output = this._output;
 		this._output = '';
 	}
 
@@ -40,8 +42,23 @@ class OutputHandler extends Writable {
 	 * 这个输出只用于异常时显示，普通编译错误在onFailure中处理
 	 */
 	override toString() {
-		return this._output.toString();
+		return this._output || this._last_output;
 	}
+
+	/**
+	 * 记录clear之前的输出，唯一用途是watch下成功后异常退出时能看到过程
+	 */
+	getLastOutput() {
+		return this._last_output;
+	}
+}
+
+interface IProcessState {
+	started: boolean;
+	failedExecute: boolean;
+	pid?: number;
+	exitCode?: number;
+	signal?: NodeJS.Signals;
 }
 
 /**
@@ -50,8 +67,8 @@ class OutputHandler extends Writable {
 export class ProcessIPCClient extends ProtocolClientObject {
 	private declare process: ResultPromise<MyOptions>;
 	public stopSignal: NodeJS.Signals = 'SIGINT';
-	private _started = false;
-	public readonly outputStream = new OutputHandler();
+	private readonly p_status: IProcessState = { started: false, failedExecute: false };
+	public readonly outputStream;
 	public readonly pathvar;
 	public readonly commandline: readonly string[];
 	private _displayTitle: string;
@@ -97,6 +114,14 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		}
 
 		this.onMessage = this.onMessage.bind(this);
+		this.outputStream = new OutputHandler(this.logger);
+	}
+
+	/**
+	 * 当前IPC所代表的进程的状态
+	 */
+	get targetState(): Readonly<IProcessState> {
+		return this.p_status;
 	}
 
 	set displayTitle(title: string) {
@@ -137,7 +162,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	}
 
 	protected override async _execute() {
-		if (this._started) throw new Error('process already spawned');
+		if (this.p_status.started) throw new Error('process already spawned');
 
 		const env = {
 			...this.env,
@@ -158,12 +183,14 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			env: env,
 			reject: false,
 			buffer: false,
-			maxBuffer: 10,
 			detached: process.pid === 1,
 		} satisfies MyOptions);
 		const [command, ...args] = this.commandline;
 		const sub_process = doExec(command, args);
+
 		this.process = sub_process;
+		this.p_status.pid = sub_process.pid;
+		this.p_status.started = true;
 
 		if (this.logger.verbose.isEnabled) {
 			for (const stream of ['stdout', 'stderr'] as const) {
@@ -172,7 +199,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 					if (logger.verbose.isEnabled) {
 						const debugTxt = chunk.toString('utf-8').trimEnd().replaceAll('\n', '\\n').replaceAll('\r', '\\r').replaceAll('\x1B', '\\e');
 
-						logger.verbose`${debugTxt}`;
+						logger.verbose`<${stream}> ${debugTxt}`;
 					}
 					this.outputStream.write(chunk);
 				});
@@ -184,15 +211,18 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 		sub_process.on('message', this.onMessage);
 
-		this._started = true;
 		try {
 			await Promise.all([streamPromise(sub_process.stdout), streamPromise(sub_process.stderr)]);
 			const process = await sub_process;
+			this.p_status.started = false;
 
-			if (this.hasDisposed) {
+			if (this.disposed) {
 				this.logger.debug`(after dispose) process quit with code ${process.exitCode}`;
 				return;
 			}
+
+			this.p_status.exitCode = process.exitCode;
+			this.p_status.signal = process.signal;
 
 			if (process.exitCode || process.signal) {
 				const output = this.outputStream.toString();
@@ -204,19 +234,24 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			}
 
 			if (process.failed) {
+				// 由于reject=false，只有spawn失败才会到这里
+				this.p_status.failedExecute = true;
 				this.logger.warn`process can not start: ${process.message}`;
 				this.logger.verbose`${process}`;
 				return this.emitFailure(`process "${this._id}" can not start: ${lcfirst(process.message || '*no message*')}`, this.outputStream.toString());
 			}
 
 			this.logger.debug`process quited with code ${process.exitCode}`;
-		} finally {
-			this._started = false;
+		} catch (e) {
+			// 和进程无关的错误
+			this.p_status.failedExecute = true;
+			this.p_status.started = false;
+			return this.emitFailure(`process "${this._id}" failed: ${(e as any)?.message || '*no message*'}`, this.outputStream.toString());
 		}
 	}
 
 	protected override async _stop() {
-		if (!this.process || !this._started) {
+		if (!this.process || !this.p_status.started) {
 			return;
 		}
 
@@ -254,23 +289,24 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		}
 	}
 
-	private _is_paused = false;
-	readonly [pause]: IPauseControl = {
-		// implements IPauseableObject
-		isPaused: () => {
-			return this._is_paused;
-		},
-		pause: async () => {
-			if (this._is_paused) return;
-			this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
-			this.process.kill('SIGSTOP');
-			this._is_paused = true;
-		},
-		resume: async () => {
-			if (!this._is_paused) return;
-			this.logger.verbose`send SIGCONT to ${this.process.pid}`;
-			this.process.kill('SIGCONT');
-			this._is_paused = false;
-		},
-	};
+	// TODO: 恢复运行的逻辑有问题，需要排查
+	// private _is_paused = false;
+	// readonly [pause]: IPauseControl = {
+	// 	// implements IPauseableObject
+	// 	isPaused: () => {
+	// 		return this._is_paused;
+	// 	},
+	// 	pause: async () => {
+	// 		if (this._is_paused) return;
+	// 		this.logger.verbose`send SIGSTOP to ${this.process.pid}`;
+	// 		this.process.kill('SIGSTOP');
+	// 		this._is_paused = true;
+	// 	},
+	// 	resume: async () => {
+	// 		if (!this._is_paused) return;
+	// 		this.logger.verbose`send SIGCONT to ${this.process.pid}`;
+	// 		this.process.kill('SIGCONT');
+	// 		this._is_paused = false;
+	// 	},
+	// };
 }

@@ -4,9 +4,14 @@
 	"version": "1.4.29",
 	"exports": {
 		".": {
-			"source": "./src/autoindex.ts",
-			"default": "./lib/autoindex.js"
+			"esbuild": {
+				"early-loader": "./src/early-loader.devel.ts",
+				"generate": "./src/generate.devel.ts"
+			},
+			"source": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
+		"./test": "./ne.ts",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -26,6 +31,7 @@
 	},
 	"devDependencies": {
 		"@build-script/baseline-rig": "workspace:^",
+		"@build-script/autoindex": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0"

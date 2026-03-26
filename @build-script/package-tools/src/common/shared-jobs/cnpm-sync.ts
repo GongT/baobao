@@ -1,5 +1,6 @@
-import { CSI, logger } from '@idlebox/cli';
+import { logger } from '@idlebox/cli';
 import { checkChildProcessResult, printLine } from '@idlebox/node';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { execa } from 'execa';
 import { isQuiet } from '../functions/cli.js';
 

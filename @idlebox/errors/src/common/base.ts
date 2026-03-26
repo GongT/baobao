@@ -33,9 +33,20 @@ export class ErrorWithCode extends Error implements IHumanReadable {
 	}
 }
 
-export class TypeErrorWithCode extends ErrorWithCode {}
-
 /**
- * 假装继承自 TypeError
+ * 同时具有Error和TypeError特征的错误类型
  */
-Object.setPrototypeOf(TypeErrorWithCode.prototype, TypeError.prototype);
+export class TypeErrorWithCode extends ErrorWithCode {
+	static override [Symbol.hasInstance](instance: any) {
+		if (typeof instance !== 'object' || !instance) {
+			return false;
+		}
+		if (instance instanceof TypeError) {
+			return true;
+		}
+		if (Function.prototype[Symbol.hasInstance].call(this, instance)) {
+			return true;
+		}
+		return false;
+	}
+}

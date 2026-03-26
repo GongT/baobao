@@ -1,28 +1,28 @@
 import { defineInspectMethod, SoftwareDefectError } from '@idlebox/common';
 import type { InspectContext } from 'node:util';
+import { EnableLogLevel } from '../loglevels/loglevel.js';
 import { LogLevel } from './colors.js';
 import { createDebug } from './create.function.js';
-import { defaultLogLevel, detectColorEnable } from './helpers.js';
-import { EnableLogLevel, type IMyDebugWithControl, type IMyLogger } from './types.js';
+import { defaultLogLevel } from './helpers.js';
+import { loggersRegistry, loggersRegistrySet } from './registry.js';
+import type { IInstrestedConsole, IMyDebugWithControl, IMyLogger } from './types.js';
 
-const seen_loggers = new Set<string>();
-export const all_logger_names: ReadonlySet<string> = seen_loggers;
+export function create(console: IInstrestedConsole, tag: string, defaultLevel = EnableLogLevel.auto, color_enabled: boolean = true): IMyLogger {
+	const exists = loggersRegistry?.get(tag);
+	if (exists) return exists;
 
-export function create(tag: string, color_enabled: undefined | boolean, stream: NodeJS.ReadWriteStream, defaultLevel = EnableLogLevel.auto): IMyLogger {
+	const colorEnabled = color_enabled && console.colorEnabled;
 	let currentLevel = defaultLevel;
-	seen_loggers.add(tag);
 
-	if (color_enabled === undefined) color_enabled = detectColorEnable(stream);
+	const log_fatal = createDebug({ tag, colorEnabled, level: LogLevel.fatal, writer: console.error, colorWholeLine: true });
 
-	const log_fatal = createDebug({ tag, color_enabled, level: LogLevel.fatal, stream, color_entire_line: true });
-
-	const error = createDebug({ tag, color_enabled, level: LogLevel.error, stream });
-	const success = createDebug({ tag, color_enabled, level: LogLevel.success, stream });
-	const warn = createDebug({ tag, color_enabled, level: LogLevel.warn, stream });
-	const info = createDebug({ tag, color_enabled, level: LogLevel.info, stream });
-	const log = createDebug({ tag, color_enabled, level: LogLevel.log, stream });
-	const debug = createDebug({ tag, color_enabled, level: LogLevel.debug, stream, color_entire_line: true });
-	const verbose = createDebug({ tag, color_enabled, level: LogLevel.verbose, stream, color_entire_line: true });
+	const error = createDebug({ tag, colorEnabled, level: LogLevel.error, writer: console.error });
+	const success = createDebug({ tag, colorEnabled, level: LogLevel.success, writer: console.log });
+	const warn = createDebug({ tag, colorEnabled, level: LogLevel.warn, writer: console.warn });
+	const info = createDebug({ tag, colorEnabled, level: LogLevel.info, writer: console.info });
+	const log = createDebug({ tag, colorEnabled, level: LogLevel.log, writer: console.log });
+	const debug = createDebug({ tag, colorEnabled, level: LogLevel.debug, writer: console.debug, colorWholeLine: true });
+	const verbose = createDebug({ tag, colorEnabled, level: LogLevel.verbose, writer: console.debug, colorWholeLine: true });
 
 	syncEnabled({ error, warn, info, log, success, debug, verbose }, tag, currentLevel);
 
@@ -33,7 +33,7 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 
 	const result = {
 		tag,
-		stream,
+		console,
 		fatal,
 		error,
 		warn,
@@ -43,7 +43,7 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 		debug,
 		verbose,
 
-		colorEnabled: color_enabled,
+		colorEnabled: colorEnabled,
 
 		enable(newLevel: EnableLogLevel) {
 			currentLevel = newLevel;
@@ -52,12 +52,14 @@ export function create(tag: string, color_enabled: undefined | boolean, stream: 
 
 		extend: (newTag: string) => {
 			if (tag) {
-				return create(`${tag}:${newTag}`, color_enabled, stream, currentLevel);
+				return create(console, `${tag}:${newTag}`, currentLevel, colorEnabled);
 			} else {
-				return create(newTag, color_enabled, stream, currentLevel);
+				return create(console, newTag, currentLevel, colorEnabled);
 			}
 		},
 	};
+
+	loggersRegistrySet(result);
 
 	return defineInspectMethod(result, (_depth: number, context: InspectContext) => {
 		if (_depth < 0) return `${context.stylize(`[Logger ${tag}]`, 'special')}`;

@@ -1,8 +1,9 @@
 import { createWriteStream } from 'node:fs';
 import { resolve } from 'node:path';
 import { Transform, type TransformCallback } from 'node:stream';
+import { NodejsOutput } from '../outputs/nodejs.js';
 
-export function createLogFile(filePath: string): NodeJS.WritableStream {
+export function createLogFile(filePath: string): NodejsOutput {
 	const file = resolve(process.cwd(), filePath);
 	console.log(`Creating log file: ${file}`);
 	const target = createWriteStream(file, { autoClose: true, encoding: 'utf-8', flush: true });
@@ -18,7 +19,7 @@ export function createLogFile(filePath: string): NodeJS.WritableStream {
 	const filter = new ColorRemoveStream();
 	filter.pipe(target, { end: true });
 
-	return filter;
+	return new NodejsOutput({ stream: filter, colorEnabled: false });
 }
 
 class ColorRemoveStream extends Transform {

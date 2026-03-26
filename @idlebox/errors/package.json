@@ -5,8 +5,12 @@
 	"version": "0.1.19",
 	"exports": {
 		".": {
-			"source": "./src/autoindex.ts",
-			"default": "./lib/autoindex.js"
+			"esbuild": {
+				"early-loader": "./src/early-loader.devel.ts",
+				"generate": "./src/generate.devel.ts"
+			},
+			"source": "./src/autoindex.generated.ts",
+			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -25,10 +29,12 @@
 	},
 	"devDependencies": {
 		"@build-script/baseline-rig": "workspace:^",
+		"@build-script/autoindex": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"decoupledDependencies": ["@build-script/autoindex"]
 }

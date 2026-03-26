@@ -1,12 +1,12 @@
 import { startChokidar, type IWatchHelper } from '@idlebox/chokidar';
 import { registerGlobalLifecycle } from '@idlebox/common';
+import { logger as glogger } from '@idlebox/logger';
 import { globSync } from 'glob';
 import { generatorHolder } from './code-generator-holder.js';
 import { IgnoreFiles } from './ignore-files.js';
-import { Logger } from './output.js';
 import { debugMode } from './shared.js';
 
-const logger = Logger('watcher');
+const logger = glogger.extend('watcher');
 
 export function startWatchMode(roots: readonly string[]) {
 	const watcher = createWatch(handleFileChanges);

@@ -7,29 +7,37 @@ export interface IExecuteOptions {
 	 */
 	readonly entries?: readonly string[];
 }
+export enum DebugMessageKind {
+	import = 'hook',
+	esbuild = 'esbuild',
+	worker = 'worker',
+	resolve = 'resolve',
+	output = 'output',
+	error = 'error',
+}
+
 export interface ISourceMapMessage {
 	readonly type: 'source-map';
 	readonly fileUrl: string;
 	readonly sourceMap: Uint8Array;
 }
 export interface IDebugMessage {
-	readonly type: 'debug';
+	readonly type: 'outputs';
 	readonly message: string;
-	readonly kind: 'import' | 'esbuild' | 'worker' | 'resolve' | 'output';
+	readonly kind: DebugMessageKind;
 }
-export interface IWarningMessage {
-	readonly type: 'warning';
-	readonly message: string;
-}
-export interface IErrorMessage {
-	readonly type: 'error';
-	readonly message: string;
-	readonly stack: string;
-}
-export interface IInitializeMessage {
-	readonly type: 'initialize';
-	readonly entryFileUrl: string;
-}
+export type IInitializeMessage =
+	| {
+			readonly type: 'initialize';
+			readonly success: true;
+			readonly entryFileUrl: string;
+	  }
+	| {
+			readonly type: 'initialize';
+			readonly success: false;
+			readonly message: string;
+			readonly stack: string;
+	  };
 export interface IQuitMessage {
 	readonly type: 'quit';
 }

@@ -2,6 +2,7 @@
 	"$schema": "../../../node_modules/@mpis/run/commands.schema.json",
 	"commands": {
 		"autoindex": {
+			"title": "Automatic Indexing",
 			"command": {
 				"package": "@build-script/autoindex",
 				"binary": "autoindex",
@@ -13,6 +14,7 @@
 		 *
 		 */
 		"codegen": {
+			"title": "Code Generation",
 			"command": {
 				"package": "@build-script/codegen",
 				"binary": "codegen",
@@ -24,6 +26,7 @@
 		 *
 		 */
 		"codegen:production": {
+			"title": "Code Generation (Production)",
 			"command": {
 				"package": "@build-script/codegen",
 				"binary": "loader/bin.js",
@@ -35,6 +38,7 @@
 		 *
 		 */
 		"depcheck": {
+			"title": "Check Dependencies",
 			"command": {
 				"package": "@build-script/depcheck",
 				"binary": "depcheck",
@@ -49,7 +53,6 @@
 			"command": {
 				"package": "@mpis/typescript",
 				"binary": "mpis-tsc",
-				"arguments": ["-p", "src"],
 			},
 			"watch": ["-w"],
 			"cwd": ".",

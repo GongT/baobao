@@ -1,5 +1,4 @@
-import type { ILogger } from './output.js';
-import { ExecuteReason, type ILogMessage } from './shared.js';
+import { ExecuteReason, type ILogMessage, type ISimpleLogger } from './shared.js';
 
 export interface IGenerateResult {
 	outputs: ILogMessage[];
@@ -16,7 +15,7 @@ export abstract class BaseExecuter {
 	constructor(
 		protected readonly projectRoot: string,
 		protected readonly sourceFileAbs: string, // xxx.generator.ts
-		protected readonly logger: ILogger,
+		protected readonly logger: ISimpleLogger,
 	) {}
 
 	get hasMemoResult() {

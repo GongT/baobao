@@ -10,7 +10,7 @@ import { DuplicateDisposedError } from './disposedError.js';
 export abstract class DisposableOnce implements IDisposable {
 	private _disposed?: StackTraceHolder;
 
-	public get hasDisposed() {
+	public get disposed() {
 		return !!this._disposed;
 	}
 	public dispose(): void {
@@ -32,20 +32,36 @@ export abstract class DisposableOnce implements IDisposable {
  * 完整版disposable类
  * 可以继承
  * 也可以直接用（相当于一个DisposableStack）
+ *
+ * 抛出异常的行为会延迟到所有资源都尝试释放完毕之后，因此显然只会抛出其中一个异常给dispose()的调用者
+ * 每一个资源释放失败，都会分别触发onDisposeError事件，如果此事件存在监听器，则最后不会抛出异常（处非监听器本身重新抛出）
+ * 不支持在dispose过程中添加onError事件监听器
+ *
  */
 export class EnhancedDisposable extends AbstractEnhancedDisposable<false> implements IDisposable {
 	protected override _dispose(disposables: readonly IDisposable[]): void {
+		const hasListener = this._onDisposeError.listenerCount() > 0;
+
+		let lastError = null;
 		for (const item of disposables.values()) {
 			try {
 				if (this._logger.enabled) this._logger(`dispose ${dispose_name(item)}`);
 				item.dispose();
 			} catch (e) {
-				const ee = convertCaughtError(e);
-				this._onDisposeError.fire(ee);
-				if (!this._onDisposeError.listenerCount()) {
-					console.error('Unhandled error during dispose: %s', ee.stack);
+				if (hasListener) {
+					try {
+						this._onDisposeError.fire(convertCaughtError(e));
+					} catch (e) {
+						lastError = e;
+					}
+				} else {
+					lastError = e;
 				}
 			}
+		}
+
+		if (lastError) {
+			throw lastError;
 		}
 	}
 

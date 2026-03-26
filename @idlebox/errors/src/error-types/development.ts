@@ -56,7 +56,7 @@ export class VariableTypeError extends TypeErrorWithCode {
 		}
 		message += Actual.name;
 
-		super(`${object}的类型${message}`, opts);
+		super(`${object}的类型${message}`, ExitCode.PROGRAM, opts);
 	}
 }
 

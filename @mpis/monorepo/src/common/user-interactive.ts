@@ -4,7 +4,7 @@ import { createInterface, type Interface } from 'node:readline/promises';
 import { inspect } from 'node:util';
 import type { IPnpmMonoRepo } from './workspace.js';
 
-const logger = createLogger('user', true);
+const logger = createLogger('user', { colors: true });
 logger.enable(EnableLogLevel.verbose);
 
 class UserControl {

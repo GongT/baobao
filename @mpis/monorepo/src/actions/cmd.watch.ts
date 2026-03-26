@@ -2,7 +2,7 @@ import { argv } from '@idlebox/args/default';
 import { InterruptError, prettyPrintError, registerGlobalLifecycle, type IDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { registerNodejsGlobalTypedErrorHandlerWithInheritance, shutdown } from '@idlebox/node';
-import { terminal, type ITitleControl } from '@idlebox/terminal-control';
+import { terminal, type ITitleControl } from '@idlebox/terminal-control/default';
 import { debugMode } from '../common/args.js';
 import { startUi } from '../common/user-interactive.js';
 import { createMonorepoObject } from '../common/workspace.js';

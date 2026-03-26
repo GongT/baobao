@@ -125,10 +125,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 	}
 
 	const coreLog = logger.extend('nodejs');
-	registerNodejsExitHandler({
-		output: coreLog.log,
-		verbose: coreLog.verbose,
-	});
+	registerNodejsExitHandler(coreLog);
 
 	if (logger.debug.isEnabled) {
 		const startTime = Date.now();

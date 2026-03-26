@@ -4,14 +4,19 @@ import type { IAsyncDisposable } from '../disposable.js';
 
 type ClosableAsync =
 	| {
+			closed?: boolean;
 			close(): Promise<any>;
 	  }
 	| {
+			closed?: boolean;
 			close(cb: (e?: Error) => void): any;
 	  };
 
 /**
  * Convert "close()"-able object to disposable
+ *
+ * FIXME: 关闭事件不同步
+ *
  * @public
  */
 export function closableToDisposable<T extends ClosableAsync>(closable: T): IAsyncDisposable {
@@ -43,14 +48,19 @@ export function closableToDisposable<T extends ClosableAsync>(closable: T): IAsy
 
 type EndableAsync =
 	| {
+			ended?: boolean;
 			end(): Promise<any>;
 	  }
 	| {
+			ended?: boolean;
 			end(cb: (e?: Error) => void): any;
 	  };
 
 /**
  * Convert "end()"-able object to disposable
+ *
+ * FIXME: 关闭事件不同步
+ *
  * @public
  */
 export function endableToDisposable<T extends EndableAsync>(endable: T): IAsyncDisposable {

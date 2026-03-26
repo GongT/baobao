@@ -1,55 +1,88 @@
 import { defineInspectMethod } from '@idlebox/common';
+import assert from 'node:assert';
 import type { InspectContext } from 'node:util';
+import { call_debug_command, debug_commands, nodeFormat } from '../functions/builtin-commands.js';
 import { Cdim, Crst, CSI, NCdim } from './ansi.js';
 import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
-import { call_debug_command, debug_commands, nodeFormat } from './debug.commands.js';
 import { current_error_action, escapeRegExp } from './helpers.js';
-import type { IMyDebug, IMyDebugWithControl } from './types.js';
+import type { ILineWriter, IMyDebug, IMyDebugWithControl } from './types.js';
 
 interface IDebugOptions {
 	tag: string;
 	level: LogLevel;
-	color_enabled: boolean;
-	color_entire_line?: boolean;
-	stream?: NodeJS.WritableStream;
+	colorEnabled: boolean;
+	colorWholeLine?: boolean;
+	writer: ILineWriter;
 	enabled?: boolean;
 }
-export function createDebug({ tag, level, color_enabled, color_entire_line = false, stream = process.stdout, enabled = true }: IDebugOptions): IMyDebugWithControl {
+
+/**
+ * 创建一个debug函数
+ * 在浏览器中必须指定stream
+ */
+export function createDebug({ tag, level, colorEnabled, colorWholeLine = false, writer, enabled = true }: IDebugOptions): IMyDebugWithControl {
 	const color = logTagColor[level];
 	const lineOpt = {
 		tag: tag ? tag : `${LogLevel[level][0].toUpperCase()}`,
-		stream,
+		writer,
 		color,
 		level,
 	};
 
 	let write_line: IMyDebug;
-	if (!color_enabled) {
+	if (!colorEnabled) {
 		write_line = write_line_monolithic({
 			...lineOpt,
 			tag: tag ? tag : `$$`,
 		});
-	} else if (color_entire_line) {
+	} else if (colorWholeLine) {
 		write_line = write_line_colored_line(lineOpt);
 	} else {
 		write_line = write_line_colored_tag(lineOpt);
 	}
 
-	const r = Object.assign(
+	assert.equal(typeof writer, 'function', 'writer must be a function');
+
+	const r = Object.defineProperties(
 		(m: any, ...args: unknown[]) => {
-			if (!r.isEnabled) return;
+			if (!enabled) return;
 			write_line(m, ...args);
 		},
 		{
-			enable: () => {
-				r.isEnabled = true;
+			displayName: {
+				get() {
+					return `writeLine:${LogLevel[level]}|${enabled ? 'enabled' : 'disabled'}`;
+				},
+				configurable: false,
 			},
-			disable: () => {
-				r.isEnabled = false;
+			enable: {
+				value: function enable() {
+					enabled = true;
+				},
+				configurable: false,
+				writable: false,
 			},
-			isEnabled: enabled,
+			disable: {
+				value: function disable() {
+					enabled = false;
+				},
+				configurable: false,
+				writable: false,
+			},
+			isEnabled: {
+				get() {
+					return enabled;
+				},
+				configurable: false,
+			},
+			writeLine: {
+				value: writer,
+				enumerable: false,
+				configurable: false,
+				writable: false,
+			},
 		},
-	);
+	) as IMyDebugWithControl;
 
 	return defineInspectMethod(r, (_depth: number, context: InspectContext) => {
 		return `[${context.stylize('Debug', 'special')} "${context.stylize(tag, 'string')}" ${context.stylize(LogLevel[level], 'undefined')} ${context.stylize(r.isEnabled ? 'enabled' : 'disabled', 'boolean')}]`;
@@ -58,7 +91,7 @@ export function createDebug({ tag, level, color_enabled, color_entire_line = fal
 
 interface IWriteLineOptions {
 	tag: string;
-	stream: NodeJS.WritableStream;
+	writer: ILineWriter;
 	color: string;
 	level: LogLevel;
 }
@@ -118,7 +151,7 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
 /**
  * TAG带颜色
  */
-function write_line_colored_tag({ tag, stream, color }: IWriteLineOptions) {
+function write_line_colored_tag({ tag, writer, color }: IWriteLineOptions) {
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
 		const head = `[${CSI}${color}m${tag}${Crst}]`;
 		let body: string;
@@ -128,14 +161,14 @@ function write_line_colored_tag({ tag, stream, color }: IWriteLineOptions) {
 			body = format_template(messages, args, true);
 		}
 
-		write(stream, head, body);
+		write(writer, head, body);
 	};
 }
 
 /**
  * 整行带颜色
  */
-function write_line_colored_line({ tag, stream, color }: IWriteLineOptions) {
+function write_line_colored_line({ tag, writer, color }: IWriteLineOptions) {
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
 		const head = `${CSI}${color}m[${tag}]`;
 		let body: string;
@@ -146,14 +179,14 @@ function write_line_colored_line({ tag, stream, color }: IWriteLineOptions) {
 		}
 		body += Crst;
 
-		write(stream, head, body);
+		write(writer, head, body);
 	};
 }
 
 /**
  * 不带颜色
  */
-function write_line_monolithic({ tag, level, stream }: IWriteLineOptions) {
+function write_line_monolithic({ tag, level, writer }: IWriteLineOptions) {
 	const lvlStr = logLevelPaddingStr[level];
 	const head = `[${tag}/${lvlStr}]`;
 
@@ -166,14 +199,14 @@ function write_line_monolithic({ tag, level, stream }: IWriteLineOptions) {
 			body = format_template(messages, args, false);
 		}
 
-		write(stream, head, body);
+		write(writer, head, body);
 	};
 }
 
-function write(stream: NodeJS.WritableStream, head: string, body: string) {
+function write(writer: ILineWriter, head: string, body: string) {
 	if (body[0] === '[') {
-		stream.write(`${head}${body}\n`);
+		writer(`${head}${body}`);
 	} else {
-		stream.write(`${head} ${body}\n`);
+		writer(`${head} ${body}`);
 	}
 }

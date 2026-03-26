@@ -262,5 +262,8 @@ function resolveCommandIsFile(config: ProjectConfig, command: string[]) {
 	command.splice(0, 1, process.execPath, r.effective);
 }
 
-export const config = loadConfigFile(context.watchMode);
-logger.verbose`loaded config file: ${config}`;
+export let config: IConfigFile;
+export function loadConfig() {
+	config = loadConfigFile(context().watchMode);
+	logger.verbose`loaded config file: ${config}`;
+}

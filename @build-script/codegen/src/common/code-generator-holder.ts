@@ -1,11 +1,11 @@
 import { Emitter } from '@idlebox/common';
+import { logger, type IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
 import { readFileSync } from 'node:fs';
 import { basename, dirname, relative } from 'node:path';
 import asyncPool from 'tiny-async-pool';
 import { CodeGenerator } from './code-generator.js';
-import { Logger, type ILogger } from './output.js';
 import { ExecuteReason, formatResult } from './shared.js';
 
 export interface IResult {
@@ -40,7 +40,7 @@ function nextTick() {
 class GeneratorCollection {
 	private readonly generators = new Set<CodeGenerator>();
 
-	constructor(private readonly logger: ILogger) {}
+	constructor(private readonly logger: IMyLogger) {}
 
 	add(gen: CodeGenerator) {
 		if (this.has(gen.id)) {
@@ -86,7 +86,7 @@ class GeneratorHolder {
 	private readonly generators;
 	private readonly _onComplete = new Emitter<void>();
 	public readonly onComplete = this._onComplete.register;
-	private readonly logger = Logger('project');
+	private readonly logger = logger.extend('project');
 	private readonly knownPackageJsons = new Set<string>();
 
 	constructor() {
@@ -124,13 +124,13 @@ class GeneratorHolder {
 		}
 
 		for (const [abs, packagejson] of absToPackge.entries()) {
-			let logger: ILogger;
+			let logger: IMyLogger;
 
 			if (knownPackage.size > 1) {
 				const name = JSON.parse(readFileSync(packagejson, 'utf-8')).name;
-				logger = Logger(name).wrap(basename(abs, '.generator.ts'));
+				logger = this.logger.extend(`${name}${basename(abs, '.generator.ts')}`);
 			} else {
-				logger = Logger(basename(abs, '.generator.ts'));
+				logger = this.logger.extend(basename(abs, '.generator.ts'));
 			}
 			const gen = new CodeGenerator(dirname(packagejson), abs, logger);
 
@@ -199,9 +199,9 @@ class GeneratorHolder {
 		this.logger.log(`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`);
 
 		if (result.errors.length) {
-			this.logger.boom(`generate fail: ${result.errors.length} errors`);
+			this.logger.error(`💥💥💥 generate fail: ${result.errors.length} errors`);
 		} else {
-			this.logger.checked(`generate success.`);
+			this.logger.success(`✅✅✅ generate success.`);
 		}
 
 		const msg = formatResult(result);

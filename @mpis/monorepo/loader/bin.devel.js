@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { execute } from '@idlebox/esbuild-executer/early-loader.js';
+import { execute } from '@idlebox/esbuild-executer';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 

@@ -1,4 +1,4 @@
-export const CSI = '\x1b[';
+import { CSI } from '@idlebox/terminal-control/constants';
 
 export const Crst = `${CSI}0m`;
 
@@ -17,3 +17,8 @@ export const CFgreen = `${CSI}38;5;10m`;
 export const CFyellow = `${CSI}38;5;11m`;
 export const CFblue = `${CSI}38;5;14m`;
 export const CFred = `${CSI}38;5;9m`;
+
+/**
+ * @deprecated
+ */
+export { CSI };

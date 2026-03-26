@@ -1,5 +1,5 @@
-import { isWindows, sepList } from '@idlebox/common';
-import type { Options as AsyncOptions, Result as AsyncResult, SyncOptions, SyncResult } from 'execa';
+import { isWindows, sepList, type IAsyncDisposable, type IDisposableEvents } from '@idlebox/common';
+import type { Options as AsyncOptions, Result as AsyncResult, Result, ResultPromise, SyncOptions, SyncResult } from 'execa';
 import { execa, execaSync } from 'execa';
 import { checkChildProcessResult } from './error.js';
 
@@ -37,6 +37,7 @@ function handleError<T extends SyncResult<SyncOptions> | AsyncResult<AsyncOption
 	return result;
 }
 
+/** @deprecated */
 export function spawnWithoutOutputSync({ exec, cwd, env, addonPath }: ICommand): void {
 	const [cmd, ...args] = exec;
 	const opts: SyncOptions = {
@@ -49,6 +50,7 @@ export function spawnWithoutOutputSync({ exec, cwd, env, addonPath }: ICommand):
 	checkChildProcessResult(execaSync(cmd, args, opts));
 }
 
+/** @deprecated */
 export async function spawnWithoutOutput({ exec, cwd, env, addonPath }: ICommand) {
 	const [cmd, ...args] = exec;
 	const opts: AsyncOptions = {
@@ -62,6 +64,7 @@ export async function spawnWithoutOutput({ exec, cwd, env, addonPath }: ICommand
 	handleError(e);
 }
 
+/** @deprecated */
 export function spawnGetOutputSync({ exec, cwd, env, addonPath }: ICommand) {
 	const [cmd, ...args] = exec;
 	const opts: SyncOptions = {
@@ -77,6 +80,7 @@ export function spawnGetOutputSync({ exec, cwd, env, addonPath }: ICommand) {
 	return result.stdout as string;
 }
 
+/** @deprecated */
 export async function spawnGetOutput({ exec, cwd, env, addonPath }: ICommand) {
 	const [cmd, ...args] = exec;
 	const opts: AsyncOptions = {
@@ -98,6 +102,7 @@ type EveryOut = {
 	stderr: string;
 	all: string;
 };
+/** @deprecated */
 export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand): Promise<EveryOut> {
 	const [cmd, ...args] = exec;
 
@@ -115,5 +120,35 @@ export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand
 		all: result.all,
 		stdout: result.stdout,
 		stderr: result.stderr,
+	};
+}
+
+export type SpawnMethod<T extends AsyncOptions> = SpawnMethodTemplate<T> | SpawnMethodArray<T>;
+export type AddonResultPromise<T extends AsyncOptions> = ResultPromise<T> & IDisposableEvents & IAsyncDisposable;
+
+export class SpawnHelper<T extends AsyncOptions> {
+	readonly spawn: SpawnMethod<T>;
+	constructor(public readonly options: T) {
+		this.spawn = createSpawnMethod(this.options);
+	}
+
+	extend<O extends AsyncOptions>(options: O): SpawnHelper<T & O> {
+		return new SpawnHelper({
+			...this.options,
+			...options,
+		});
+	}
+}
+
+type TemplateExpressionItem = string | number | Result | SyncResult;
+type TemplateExpression = TemplateExpressionItem | readonly TemplateExpressionItem[];
+
+type SpawnMethodTemplate<T extends AsyncOptions> = (...commandline: TemplateString) => AddonResultPromise<T>;
+type SpawnMethodArray<T extends AsyncOptions> = (program: string, argument?: string[]) => AddonResultPromise<T>;
+type TemplateString = readonly [TemplateStringsArray, ...(readonly TemplateExpression[])];
+
+function createSpawnMethod<T extends AsyncOptions>(_options: T): SpawnMethod<T> {
+	return (_commandline: string | TemplateStringsArray, _args: TemplateExpression, ..._template: TemplateExpression[]): AddonResultPromise<T> => {
+		throw new Error('not implemented');
 	};
 }

@@ -27,6 +27,7 @@
 	"dependencies": {
 		"@types/source-map-support": "^0.5.10",
 		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
 		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {

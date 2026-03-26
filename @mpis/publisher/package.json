@@ -4,7 +4,7 @@
 	"version": "0.0.19",
 	"keywords": [],
 	"bin": {
-		"publisher": "./loader/bin.js"
+		"publisher": "./loader/bin.devel.js"
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",

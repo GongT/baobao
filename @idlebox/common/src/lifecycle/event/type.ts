@@ -53,7 +53,7 @@ export interface IEventEmitter<T = unknown> extends IDisposable {
 	 */
 	wait(): Promise<T>;
 
-	readonly hasDisposed: boolean;
+	readonly disposed: boolean;
 }
 
 export type EventHandler<T> = (data: T) => void;
@@ -65,7 +65,7 @@ export interface EventRegister<T> {
 	(callback: EventHandler<T>): IDisposable;
 	once(callback: EventHandler<T>): IDisposable;
 	wait(): IDisposable;
-	readonly hasDisposed: boolean;
+	readonly disposed: boolean;
 }
 
 export type EventEmitterMap<T extends Record<string, unknown>> = {

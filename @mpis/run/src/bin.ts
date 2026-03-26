@@ -1,44 +1,53 @@
 import { functionToDisposable, humanDate, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
-import { terminal } from '@idlebox/terminal-control';
+import { terminal } from '@idlebox/terminal-control/default';
 import { channelClient } from '@mpis/client';
 import { ProcessIPCClient } from '@mpis/server';
 import assert from 'node:assert/strict';
 import { rmSync } from 'node:fs';
+import { inspect } from 'node:util';
 import { dumpConfig } from './commands/config.js';
 import { context } from './common/args.js';
-import { config } from './common/config-file.js';
+import { config, loadConfig } from './common/config-file.js';
 import { addBreakModeDebugCommands } from './common/interactive.js';
 import { initializeWorkers, workersManager } from './common/manager.js';
 import { projectRoot } from './common/paths.js';
-import { reprintWatchModeError } from './common/print-screen.js';
+import { initializeScreen, printOutput, reprintWatchModeError } from './common/print-screen.js';
 import { initializeStdin, registerCommand } from './common/stdin.js';
 
 const cls = /\x1Bc/g;
 
 registerNodejsExitHandler();
 
+loadConfig();
+initializeScreen();
+
 registerCommand({
 	name: ['status', 's'],
 	description: '显示当前状态',
 	callback: () => reprintWatchModeError(),
 });
+registerCommand({
+	name: ['output', 'o'],
+	description: '显示输出',
+	callback: printOutput,
+});
 
-logger.info`Running command "${context.command}" in ${projectRoot}`;
+logger.info`Running command "${context().command}" in ${projectRoot}`;
 
-switch (context.command) {
+switch (context().command) {
 	case 'clean':
 		executeClean();
 		break;
 	case 'build':
-		if (context.dumpConfig) {
+		if (context().dumpConfig) {
 			dumpConfig(config);
 			break;
 		}
 		{
 			terminal.progress.indeterminate();
-			if (context.withCleanup) executeClean();
+			if (context().withCleanup) executeClean();
 
 			try {
 				await executeBuild();
@@ -46,20 +55,20 @@ switch (context.command) {
 				logger.debug`build completed.`;
 				setExitCodeIfNot(0);
 			} catch (e: any) {
-				prettyPrintError(`failed ${context.command} project`, e);
+				prettyPrintError(`failed ${context().command} project`, e);
 				shutdown(1);
 			}
 		}
 		break;
 	case 'watch':
-		if (context.dumpConfig) {
+		if (context().dumpConfig) {
 			dumpConfig(config);
 			break;
 		}
 		terminal.progress.indeterminate();
 		initializeStdin();
 		await executeBuild().catch((e: Error) => {
-			prettyPrintError(`failed ${context.command} project`, e);
+			prettyPrintError(`failed ${context().command} project`, e);
 			shutdown(1);
 		});
 		break;
@@ -84,7 +93,7 @@ async function executeBuild() {
 
 		const times = `(+${humanDate.delta(w.time.executeStart, w.time.executeEnd)})`;
 
-		if (context.watchMode && !shuttingDown) {
+		if (context().watchMode && !shuttingDown) {
 			printFailedRunError(w, `unexpected exit in watch mode ${times}`);
 		} else if (!w.isSuccess) {
 			printFailedRunError(w, `failed to execute ${times}`);
@@ -100,7 +109,7 @@ async function executeBuild() {
 
 	channelClient.start();
 
-	if (context.breakMode) {
+	if (context().breakMode) {
 		addBreakModeDebugCommands();
 		return;
 	}
@@ -127,26 +136,46 @@ function executeClean() {
 }
 
 function printFailedRunError(worker: ProcessIPCClient, message: string) {
-	if (context.watchMode && process.stderr.isTTY) process.stderr.write('\x1Bc');
+	terminal.resetIf(context().watchMode && !logger.debug.isEnabled);
 
-	const text = worker.outputStream.toString().trimEnd().replace(cls, '');
+	let text = worker.outputStream.toString().trimEnd().replace(cls, '');
 
-	if (text) {
-		console.error(
-			'\n\x1B[48;5;1m%s\r\x1B[48;5;1m    \x1B[0;38;5;9;1m  %s  \x1B[0m',
-			' '.repeat(process.stderr.columns || 80),
-			`[@mpis/run] below is output of ${worker._id}`,
-		);
-
-		console.error('\x1B[48;5;1m \x1B[0m commandline: %s', worker.commandline.join(' '));
-		console.error('\x1B[48;5;1m \x1B[0m workdir: %s', worker.cwd);
-
-		console.error(text);
-
-		console.error('\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m\n', ' '.repeat(process.stderr.columns || 80), `[@mpis/run] ending output of ${worker._id}`);
-	} else {
-		console.error('\n\x1B[48;5;1m%s\r    \x1B[0;38;5;9;1m  %s  \x1B[0m', ' '.repeat(process.stderr.columns || 80), `[@mpis/run] no output from ${worker._id}`);
+	if (!text) {
+		text = `Worker "${worker._id}" does not have any output.`;
+		text = inspect(worker, { colors: true });
 	}
+
+	console.error(
+		'\n\x1B[48;5;1m%s\r\x1B[48;5;1m    \x1B[0;38;5;9;1m  %s  \x1B[0m',
+		' '.repeat(process.stderr.columns || 80),
+		`[@mpis/run] below is output of "${worker._id}"`,
+	);
+
+	console.error('\x1B[48;5;1m \x1B[0m commandline: %s', worker.commandline.join(' '));
+	console.error('\x1B[48;5;1m \x1B[0m workdir: %s', worker.cwd);
+
+	let specialState = '';
+	if (worker.targetState.signal) {
+		specialState = `target was killed by signal ${worker.targetState.signal}`;
+	} else if (worker.targetState.exitCode) {
+		specialState = `target exited with code ${worker.targetState.exitCode}`;
+	} else if (!worker.targetState.failedExecute) {
+		specialState = `target failed to spawn`;
+	} else if (!worker.targetState.started) {
+		specialState = `target failed to (or not) start`;
+	}
+	if (specialState) {
+		console.error('\x1B[48;5;1m \x1B[0;38;5;11m \u26A0 %s\x1b[0m', specialState);
+	}
+
+	console.error('');
+	console.error(text.trim());
+
+	console.error(
+		'\n\x1B[48;5;1m%s\r\x1B[48;5;1m    \x1B[0;38;5;9;1m  %s  \x1B[0m',
+		' '.repeat(process.stderr.columns || 80),
+		`[@mpis/run] ending output of "${worker._id}"`,
+	);
 
 	const graph = workersManager.finalize();
 	console.error('%s\n%s', graph.debugFormatGraph(), graph.debugFormatSummary());

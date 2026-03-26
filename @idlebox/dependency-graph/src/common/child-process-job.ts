@@ -2,7 +2,6 @@ import { timeout } from '@idlebox/common';
 import type { ResultPromise } from 'execa';
 import { Job } from './job-graph.job.js';
 import { JobState } from './job-graph.lib.js';
-import { pause, type IPauseControl } from './pause-interface.js';
 
 export abstract class ChildProcessExecuter<T> extends Job<T> {
 	private declare process: ResultPromise;
@@ -14,25 +13,26 @@ export abstract class ChildProcessExecuter<T> extends Job<T> {
 		await this.process;
 	}
 
+	// TODO: 恢复运行的逻辑有问题，需要排查
 	/** 暂停机制，需要暂停整个进程组 */
-	private _is_paused = false;
-	readonly [pause]: IPauseControl = {
-		// implements IPauseableObject
-		isPaused: () => {
-			return this._is_paused;
-		},
-		pause: async () => {
-			if (this._is_paused) return;
-			this.process.kill('SIGSTOP');
-			this._is_paused = true;
-		},
+	// private _is_paused = false;
+	// readonly [pause]: IPauseControl = {
+	// 	// implements IPauseableObject
+	// 	isPaused: () => {
+	// 		return this._is_paused;
+	// 	},
+	// 	pause: async () => {
+	// 		if (this._is_paused) return;
+	// 		this.process.kill('SIGSTOP');
+	// 		this._is_paused = true;
+	// 	},
 
-		resume: async () => {
-			if (!this._is_paused) return;
-			this.process.kill('SIGCONT');
-			this._is_paused = false;
-		},
-	};
+	// 	resume: async () => {
+	// 		if (!this._is_paused) return;
+	// 		this.process.kill('SIGCONT');
+	// 		this._is_paused = false;
+	// 	},
+	// };
 
 	override async join() {
 		await this.process;
@@ -53,7 +53,8 @@ export abstract class ChildProcessExecuter<T> extends Job<T> {
 	//////////////////////////////
 	public override translateState(): string {
 		if (!this.process) return 'not-spawn';
-		const pause = this._is_paused ? ' /paused/ ' : ' ';
+		// const pause = this._is_paused ? ' /paused/ ' : ' ';
+		const pause = ' ';
 		return `[pid=${this.process.pid}]${pause}${this._state}`;
 	}
 }

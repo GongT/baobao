@@ -6,7 +6,5 @@
 		"rootDir": "./",
 		"types": ["node"],
 	},
-	// "files": ["preload.ts"],
-	// "include": ["**/*.ts"],
-	"exclude": ["**/*.generator.ts"],
+	"exclude": ["**/*.generator.ts", "**/*.test.ts"],
 }

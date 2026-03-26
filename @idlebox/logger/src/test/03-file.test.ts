@@ -1,9 +1,6 @@
-import { createGlobalLogger } from '../common/logger.global.js';
-import { createLogFile, logger } from '../index.js';
+import { createLogFile, createRootLogger, EnableLogLevel, logger } from '../_environments/node.js';
 
-createGlobalLogger('wow');
-
-logger.stream.pipe(createLogFile('test.log'));
+createRootLogger('wow', EnableLogLevel.verbose, createLogFile('test.log'));
 
 const l = 'such';
 const o = { hello: 'world' };

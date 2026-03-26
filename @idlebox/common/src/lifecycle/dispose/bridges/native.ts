@@ -14,11 +14,9 @@ export function fromNativeDisposable(disposable: any): any {
 	return disposable as any;
 }
 
-export function toNativeDisposable(disposable: IAsyncDisposable): AsyncDisposable;
-export function toNativeDisposable(disposable: IDisposable): Disposable;
-export function toNativeDisposable(disposable: any): any {
-	if (!('dispose' in disposable)) {
-		Object.assign(disposable, { dispose: disposable[Symbol.asyncDispose] ?? disposable[Symbol.dispose] });
-	}
-	return disposable as any;
+export function toNativeDisposableAsync(disposable: IAsyncDisposable): AsyncDisposable {
+	return Object.assign(disposable, { [Symbol.asyncDispose]: disposable.dispose }) as any;
+}
+export function toNativeDisposableSync(disposable: IDisposable): Disposable {
+	return Object.assign(disposable, { [Symbol.dispose]: disposable.dispose }) as any;
 }

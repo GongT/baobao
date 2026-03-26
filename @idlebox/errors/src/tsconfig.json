@@ -1,11 +1,9 @@
 {
 	"extends": "@internal/local-rig/profiles/default/tsconfig.json",
+	"exclude": ["**/*.generator.ts", "**/*.test.ts", "**/*.test.tsx", "**/*.devel.ts"],
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
 	},
-	// "files": ["preload.ts"],
-	// "include": ["**/*.ts"],
-	"exclude": ["**/*.generator.ts"],
 }

@@ -1,7 +1,8 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { argv, CommandDefine, CSI, logger } from '@idlebox/cli';
+import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { humanDate } from '@idlebox/common';
 import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { makeRe } from 'minimatch';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';

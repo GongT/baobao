@@ -1,4 +1,6 @@
 export enum ExitCode {
+	SUCCESS = 0,
+
 	/**
 	 * 运行时发生各种无法预料的错误，例如网络突然断开等
 	 */

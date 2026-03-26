@@ -1,9 +1,11 @@
+import { logger as glogger } from '@idlebox/logger';
 import { install } from '@idlebox/source-map-support';
 import esbuild from 'esbuild';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import module, { builtinModules, createRequire, findPackageJSON, type LoadFnOutput, type LoadHookContext } from 'node:module';
 import { basename, dirname } from 'node:path';
-import { Logger, type ILogger } from './output.js';
+import { fileURLToPath } from 'node:url';
+import { debugMode, verboseMode, type ISimpleLogger } from './shared.js';
 
 const builtinModulesWithPrefix = builtinModules.map((m) => `node:${m}`);
 
@@ -19,7 +21,7 @@ export type IOptions = esbuild.BuildOptions & { write: false; metafile: true };
 const compiledMemory = new Map<string, Uint8Array>();
 const sourceMapMemory = new Map<string, any>();
 
-export async function createEsbuildContext(absInputFile: string, packageFile: string, logger: ILogger) {
+export async function createEsbuildContext(absInputFile: string, packageFile: string, logger: ISimpleLogger) {
 	const bannerCode = [`const require = (await import("node:module")).createRequire(import.meta.dirname);`];
 
 	const files = new Set<string>();
@@ -115,14 +117,11 @@ export async function createEsbuildContext(absInputFile: string, packageFile: st
 	});
 }
 
-import { fileURLToPath } from 'node:url';
-import { debugMode, verboseMode } from './shared.js';
 export function registerModuleLoader() {
-	const logger = Logger('loader');
+	const logger = glogger.extend('loader');
 
 	const activated = install({
-		force: true,
-		retrieveSourceMap(source) {
+		retrieveSourceMap: function fromCodegenLoader(source) {
 			if (source.includes('?')) {
 				logger.verbose(`source map: ${source}`);
 				const [path] = source.replace(schema, '').split('?');
@@ -143,6 +142,8 @@ export function registerModuleLoader() {
 						}
 					}
 				}
+			} else {
+				logger.verbose(`no source map for: ${source}`);
 			}
 			return null;
 		},
@@ -190,7 +191,7 @@ export function registerModuleLoader() {
 	});
 }
 
-function manualLoad(logger: ILogger, url: string, context: LoadHookContext): undefined | LoadFnOutput {
+function manualLoad(logger: ISimpleLogger, url: string, context: LoadHookContext): undefined | LoadFnOutput {
 	const path = fileURLToPath(url);
 	if (!existsSync(path)) {
 		logger.error(`manual load missing file: ${url}`);

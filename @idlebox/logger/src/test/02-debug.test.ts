@@ -1,7 +1,6 @@
-import { createGlobalLogger } from '../common/logger.global.js';
-import { logger } from '../index.js';
+import { createRootLogger, logger } from '../_environments/node.js';
 
-createGlobalLogger('wow');
+createRootLogger('wow');
 
 const l = 'such';
 const o = { hello: 'world' };

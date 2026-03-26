@@ -1,6 +1,6 @@
 import { deepmerge, type MergeStrategy } from '@idlebox/deepmerge';
 import { loadInheritedJson, NotFoundError } from '@idlebox/json-extends-loader';
-import { type IRigConfig, RigConfig } from '@rushstack/rig-package';
+import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { resolve as importResolve } from 'import-meta-resolve';
 import { existsSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -185,9 +185,13 @@ export class ProjectConfig {
 
 		let result: any;
 		if (files.rig.exists) {
+			this.logger.debug(`加载 rig 配置: ${files.rig.path}`);
 			result = loadInheritedJson(files.rig.path);
+		} else {
+			this.logger.debug(`没有 rig 配置: ${files.rig.path}`);
 		}
 		if (files.project.exists) {
+			this.logger.debug(`加载 project 配置: ${files.project.path}`);
 			const child = loadInheritedJson(files.project.path);
 			if (result) {
 				result = deepmerge(result, child, customMerge);
@@ -195,6 +199,7 @@ export class ProjectConfig {
 				result = child;
 			}
 		} else if (result) {
+			this.logger.debug(`没有 project 配置: ${files.project.path}`);
 			// nothing to do
 		} else {
 			throw new Error(`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`);

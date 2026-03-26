@@ -95,7 +95,7 @@ class CacheFileReader extends AsyncDisposable {
 
 	isEOF() {
 		// console.error('isEOF: %s | %s', this._cursor, this.stat.size);
-		if (this.hasDisposed) return true;
+		if (this.disposed) return true;
 
 		if (this._cursor === this.stat.size) {
 			return true;

@@ -1,25 +1,26 @@
 import { humanDate, prettyFormatError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { terminal, type ITitleControl } from '@idlebox/terminal-control';
+import { terminal, type ITitleControl } from '@idlebox/terminal-control/default';
 import { CompileError } from '@mpis/server';
 import { context } from './args.js';
 import { workersManager } from './manager.js';
 
-let printTmr: NodeJS.Timeout | undefined;
-const defaultNoClear = logger.debug.isEnabled || !process.stderr.isTTY;
 export const overallState = {
 	errors: new Map<string, Error | null>(),
 	busyWorkers: new Set<string>(),
 	startedWorkers: new Set<string>(),
 };
 
+let printTmr: NodeJS.Timeout | undefined;
 let titleControl: ITitleControl | undefined;
-if (!defaultNoClear) {
-	registerGlobalLifecycle(terminal.title);
-	registerGlobalLifecycle(terminal.progress);
 
-	titleControl = terminal.title.addComponent();
-	terminal.title.addComponent().update(`run: ${process.env.npm_lifecycle_event || context.command}`);
+export function initializeScreen() {
+	const defaultNoClear = logger.debug.isEnabled || !process.stderr.isTTY;
+
+	if (!defaultNoClear) {
+		titleControl = terminal.title.addComponent();
+		terminal.title.addComponent().update(`run: ${process.env.npm_lifecycle_event || context().command}`);
+	}
 }
 
 export function updateMiscState() {
@@ -49,10 +50,8 @@ export function reprintWatchModeError(noClear?: boolean) {
 
 		const graph = workersManager.finalize();
 
-		if (context.watchMode) {
-			if (!noClear && !defaultNoClear) {
-				terminal.reset();
-			}
+		if (context().watchMode && !noClear) {
+			terminal.resetIf(!logger.debug.isEnabled);
 		}
 
 		console.error('%s\n%s', graph.debugFormatList(), graph.debugFormatSummary());
@@ -109,3 +108,7 @@ registerGlobalLifecycle(
 		logger.info`Operation completed in ${humanDate.delta(Date.now() - start)} (${process.exitCode !== 0 ? 'failed' : 'success'}).`;
 	}),
 );
+
+export function printOutput(name: string) {
+	console.log(`printing output of ${name}`);
+}

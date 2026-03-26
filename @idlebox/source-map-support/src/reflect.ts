@@ -2,6 +2,9 @@ import { convertCaughtError } from '@idlebox/common';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+/**
+ * 根据.js文件路径，读取对应的.js.map文件，并返回sourceRoot和sources[0]解析后的绝对路径（源文件所在位置）
+ */
 export function convertToSourcePath(filePath: string, required = false): string {
 	let mapFile = `${filePath}.map`;
 	if (mapFile.startsWith('file://')) {

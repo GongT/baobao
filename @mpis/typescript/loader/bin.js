@@ -2,4 +2,4 @@
 
 process.title = `MpisTsc`;
 
-import '../lib/index.js';
+import '../lib/tsc.js';

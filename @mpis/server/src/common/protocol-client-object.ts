@@ -1,5 +1,6 @@
 import { Emitter } from '@idlebox/common';
-import { createLogger, CSI, type IMyLogger } from '@idlebox/logger';
+import { createLogger, type IMyLogger } from '@idlebox/logger';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { inspect, type InspectContext } from 'node:util';
 import { CompileError } from './error.js';
 
@@ -74,7 +75,7 @@ export abstract class ProtocolClientObject {
 	}
 
 	protected emitSuccess(message: string, output?: string) {
-		if (this._onSuccess.hasDisposed) {
+		if (this._onSuccess.disposed) {
 			this.logger.debug`emitSuccess called after stop, ignoring`;
 			return;
 		}
@@ -89,7 +90,7 @@ export abstract class ProtocolClientObject {
 	protected emitFailure(message: Error): void;
 	protected emitFailure(message: string, output?: string): void;
 	protected emitFailure(e: string | Error, output?: string) {
-		if (this._onFailure.hasDisposed) {
+		if (this._onFailure.disposed) {
 			this.logger.warn`emitFailure called after stop, ignoring`;
 			return;
 		}
@@ -114,7 +115,7 @@ export abstract class ProtocolClientObject {
 	}
 
 	protected emitStart() {
-		if (this._onStart.hasDisposed) {
+		if (this._onStart.disposed) {
 			this.logger.warn`emitStart called after stop, ignoring`;
 			return;
 		}
@@ -233,7 +234,7 @@ export abstract class ProtocolClientObject {
 	}
 
 	private _disposed = false;
-	public get hasDisposed() {
+	public get disposed() {
 		return this._disposed;
 	}
 	dispose() {

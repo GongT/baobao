@@ -5,12 +5,11 @@ import type { Context } from '../client/generate-context.js';
 import type { BaseExecuter, IGenerateResult } from './executer.base.js';
 import { ImportExecuter } from './executer.import.js';
 import { createEsbuildContext, type IOptions } from './module-loading-transpile.js';
-import type { ILogger } from './output.js';
-import { ExecuteReason } from './shared.js';
+import { ExecuteReason, type ISimpleLogger } from './shared.js';
 
 export interface GeneratorBody {
-	generate(builder: Context, logger: ILogger): Promise<string | undefined>;
-	dispose?(logger: ILogger): Promise<any>;
+	generate(builder: Context, logger: ISimpleLogger): Promise<string | undefined>;
+	dispose?(logger: ISimpleLogger): Promise<any>;
 }
 
 export class CodeGenerator {
@@ -24,7 +23,7 @@ export class CodeGenerator {
 	constructor(
 		private readonly buildFolder: string, // path to nearest package.json folder
 		private readonly entryFileAbs: string, // absolute path of *.generator.ts
-		public readonly logger: ILogger,
+		public readonly logger: ISimpleLogger,
 	) {
 		this.id = entryFileAbs;
 
@@ -122,7 +121,7 @@ export class CodeGenerator {
 	}
 }
 
-function printEsbuildErrors(logger: ILogger, result: esbuild.BuildResult) {
+function printEsbuildErrors(logger: ISimpleLogger, result: esbuild.BuildResult) {
 	if (result.errors.length === 0 && result.warnings.length === 0) {
 		logger.debug(`generator script compiled success: ${result.outputFiles?.[0].hash}`);
 		return false;

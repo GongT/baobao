@@ -82,7 +82,7 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 	}
 
 	changeConcurrency(c: number) {
-		if (this.bootstrap.starter.hasDisposed) return;
+		if (this.bootstrap.starter.disposed) return;
 		if (this.concurrency === c) return;
 		this.concurrency = c;
 
@@ -95,13 +95,13 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 	private async onNodeChange(node: T) {
 		this.logger.debug`node has change: ${node.name} -> ${node.state}`;
 		if (node.isFatalError()) {
-			if (this.bootstrap.starter.hasDisposed) {
+			if (this.bootstrap.starter.disposed) {
 				// how to send?
 			} else {
 			}
 			this.stop();
 		}
-		if (this.bootstrap.starter.hasDisposed) {
+		if (this.bootstrap.starter.disposed) {
 			this.newEventCounter++;
 		}
 	}
@@ -126,7 +126,7 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 			}
 		}
 
-		if (!this.bootstrap.starter.hasDisposed) {
+		if (!this.bootstrap.starter.disposed) {
 			statistics.phase = '<starting> ';
 		} else if (this.stopped === 1) {
 			statistics.phase = '<shutdown> ';

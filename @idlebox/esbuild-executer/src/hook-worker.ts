@@ -1,10 +1,10 @@
 import type { LoadFnOutput, LoadHookContext, ResolveFnOutput, ResolveHookContext } from 'node:module';
 import { resolve as resolvePath } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { inspectEnabled } from './common/cli.js';
-import { compileFile, createEntryMapping } from './common/compiler.js';
-import { logger, registerLogger } from './common/logger.js';
-import type { IErrorMessage, IInitializeMessage, InitializeData } from './common/message.types.js';
+import type { IInitializeMessage, InitializeData } from './common/message.types.js';
+import { inspectEnabled } from './master/cli.js';
+import { compileFile, createEntryMapping } from './worker/compiler.js';
+import { logger, registerLogger } from './worker/logger.js';
 
 type P<T> = T | Promise<T>;
 
@@ -54,9 +54,9 @@ export async function initialize({ options, port, tsFile }: InitializeData) {
 
 		logger.worker`initialized | entry file: ${entryFileUrl}`;
 
-		port.postMessage({ type: 'initialize', entryFileUrl: entryFileUrl } satisfies IInitializeMessage);
+		port.postMessage({ type: 'initialize', success: true, entryFileUrl: entryFileUrl } satisfies IInitializeMessage);
 	} catch (e: any) {
-		port.postMessage({ type: 'error', message: e.message, stack: e.stack } satisfies IErrorMessage);
+		port.postMessage({ type: 'initialize', success: false, message: e.message, stack: e.stack } satisfies IInitializeMessage);
 	}
 }
 

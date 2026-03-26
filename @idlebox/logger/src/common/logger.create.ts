@@ -1,31 +1,29 @@
-import process from 'node:process';
-import { PassThrough } from 'node:stream';
+import { EnableLogLevel } from '../loglevels/loglevel.js';
 import { create } from './create.logger.js';
 import { debug_enabled, defaultLogLevel } from './helpers.js';
-import { terminal } from './logger.global.js';
-import { EnableLogLevel, type IMyLogger } from './types.js';
+import { globalLogger } from './logger.global.js';
+import type { IInstrestedConsole, IMyLogger } from './types.js';
+
+export interface ILoggerOptionsReq {
+	readonly colors?: boolean;
+	readonly console: IInstrestedConsole;
+}
 
 /**
  * 创建一个新的logger实例
- * @param color_enabled 默认自动
- * @param pipeTo 默认是 process.stderr
+ * @param tag logger的tag，类似 "app:db:insert"
+ * @param colors 是否启用颜色，默认启用
  * @returns
  */
-export function createLogger(tag: string, color_enabled: boolean | undefined = undefined, pipeTo: undefined | NodeJS.WritableStream = process.stderr): IMyLogger {
-	const stream = new PassThrough();
-	if (pipeTo) {
-		Object.assign(stream, { isTTY: (pipeTo as any).isTTY });
-		stream.pipe(pipeTo);
-	}
-
+export function createLoggerObject(tag: string, { colors = true, console }: ILoggerOptionsReq): IMyLogger {
 	let level = EnableLogLevel.error;
 	if (debug_enabled(tag)) {
 		level = defaultLogLevel;
 	}
 
-	const logger = create(tag, color_enabled, stream, level);
+	const logger = create(console, tag, level, colors);
 
-	(terminal || logger).verbose`logger "${tag}" created, level = ${EnableLogLevel[level]}`;
+	(globalLogger || logger).verbose`logger "${tag}" created, level = ${EnableLogLevel[level]}`;
 
 	return logger;
 }

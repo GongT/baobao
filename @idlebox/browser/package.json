@@ -5,7 +5,13 @@
 	"exports": {
 		"./react": "./lib/react/autoindex.generated.js",
 		"./dom": "./lib/dom/autoindex.generated.js",
+		"./antd": "./lib/ant-design/autoindex.generated.js",
 		"./package.json": "./package.json"
+	},
+	"imports": {
+		"#react": "./react/autoindex.generated.js",
+		"#dom": "./dom/autoindex.generated.js",
+		"#ant-design": "./ant-design/autoindex.generated.js"
 	},
 	"sideEffects": false,
 	"scripts": {
@@ -18,15 +24,20 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^"
+		"@ant-design/icons": "^6.1.0",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/logger": "workspace:^",
+		"antd": "^6.3.4",
+		"react-router": "^7.13.2"
 	},
 	"devDependencies": {
 		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
+		"@types/node": "workspace:@idlebox/empty@*",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"@types/node": "workspace:@idlebox/empty@*"
+		"@types/react-router": "^5.1.20"
 	},
 	"optionalDependencies": {
 		"react": "*"

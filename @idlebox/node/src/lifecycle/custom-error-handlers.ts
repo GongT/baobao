@@ -1,4 +1,4 @@
-import type { MyCallback } from '@idlebox/common';
+import type { LinuxErrorCode, MyCallback, NodeErrorCode, NodeException } from '@idlebox/common';
 import { Exit } from '@idlebox/errors';
 
 const accurate_handler = Symbol('uncaught/handler/accurate');
@@ -74,4 +74,18 @@ export function registerNodejsGlobalTypedErrorHandler<E extends Error>(ErrorCls:
 		writable: true,
 		value: fn,
 	});
+}
+
+const codeHandlers = new Map<string, MyCallback<[NodeException]>>();
+
+export function registerNodejsGlobalErrorCodeHandler(code: LinuxErrorCode | NodeErrorCode, fn: MyCallback<[NodeException]>) {
+	if (codeHandlers.has(code)) {
+		throw new Error(`duplicate register uncaught handler for code "${code}"`);
+	}
+	codeHandlers.set(code, fn);
+}
+
+/** @internal */
+export function getCodehandler(error: NodeException) {
+	return codeHandlers.get(error.code);
 }

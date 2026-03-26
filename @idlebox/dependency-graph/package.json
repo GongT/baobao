@@ -29,6 +29,7 @@
 		"@types/execa": "npm:execa@^9.6.1",
 		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@idlebox/node": "workspace:^",

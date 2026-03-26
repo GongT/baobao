@@ -6,8 +6,20 @@
 	"keywords": [],
 	"exports": {
 		".": {
-			"source": "./src/index.ts",
-			"default": "./lib/index.js"
+			"source": "./src/api.ts",
+			"default": "./lib/api.js"
+		},
+		"./default": {
+			"source": "./src/default-instance.ts",
+			"default": "./lib/default-instance.js"
+		},
+		"./host": {
+			"source": "./src/host-instance.ts",
+			"default": "./lib/host-instance.js"
+		},
+		"./constants": {
+			"source": "./src/constants.ts",
+			"default": "./lib/constants.js"
 		},
 		"./package.json": "./package.json"
 	},

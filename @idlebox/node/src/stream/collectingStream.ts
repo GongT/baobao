@@ -33,6 +33,10 @@ export class RawCollectingStream extends Writable {
 		return this.buffer;
 	}
 
+	clear() {
+		this.buffer = Buffer.allocUnsafe(0);
+	}
+
 	promise(): Promise<Buffer> {
 		if (!this._promise) {
 			this._promise = streamPromise(this).then(() => {
@@ -67,6 +71,10 @@ export class CollectingStream extends Writable {
 		}
 		this.buffer += chunk.toString(encoding);
 		callback();
+	}
+
+	clear() {
+		this.buffer = '';
 	}
 
 	getOutput() {

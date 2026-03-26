@@ -9,8 +9,12 @@ function getCurrentCode() {
 	return typeof process.exitCode === 'string' ? parseInt(process.exitCode, 10) : process.exitCode || 0;
 }
 
+/**
+ * 如果没有退出码或者为0，则设为 exitCode
+ * 如果yie为非0，则不修改
+ */
 export function setExitCodeIfNot(exitCode: number) {
-	if (exitCode || typeof process.exitCode !== 'number') {
+	if (!process.exitCode) {
 		process.exitCode = exitCode;
 		globalThis.process.exitCode = exitCode;
 	}

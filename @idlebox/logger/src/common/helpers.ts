@@ -1,9 +1,9 @@
 import { prettyFormatError } from '@idlebox/common';
 import debug from 'debug';
-import process from 'node:process';
-import { debug_commands } from './debug.commands.js';
-import { terminal } from './logger.global.js';
-import { EnableLogLevel, type IDebugCommand } from './types.js';
+import { debug_commands } from '../functions/builtin-commands.js';
+import { EnableLogLevel } from '../loglevels/loglevel.js';
+import { globalLogger } from './logger.global.js';
+import type { IDebugCommand } from './types.js';
 
 /**
  * 判断 字符串是否为“真值”
@@ -24,50 +24,9 @@ export function is_string_truthy(value: string | undefined) {
 	} else if (value === '0' || value === 'false' || value === 'off' || value === 'no' || value === 'disabled') {
 		return false;
 	} else {
-		terminal.warn`invalid boolean string: ${value}, assuming false.`;
+		globalLogger.warn`invalid boolean string: ${value}, assuming false.`;
 		return false;
 	}
-}
-
-interface IWritableStream extends NodeJS.WritableStream {
-	colorEnabled?: boolean;
-	isTTY?: boolean;
-}
-
-function _colorEnabled(stream: IWritableStream): boolean {
-	const colorArg = process.argv.find((e) => e.startsWith('--color=') || e === '--color' || e === '-c');
-	const noColorArg = process.argv.includes('--no-color');
-
-	// 命令行顶级优先
-	if (colorArg) return true;
-	if (noColorArg) return false;
-
-	// 环境变量
-	if (process.env.NO_COLOR || process.env.NODE_DISABLE_COLORS === '1') {
-		/**
-		 * https://force-color.org/
-		 * https://nodejs.org/docs/latest/api/cli.html#node_disable_colors1
-		 */
-		return false;
-	} else if (process.env.FORCE_COLOR) {
-		return true;
-	}
-
-	// 检测其他可能
-	if (stream.isTTY) {
-		return true;
-	}
-
-	// TODO
-
-	return false;
-}
-
-export function detectColorEnable(stream: IWritableStream = process.stderr): boolean {
-	if (stream.colorEnabled === undefined) {
-		stream.colorEnabled = _colorEnabled(stream);
-	}
-	return stream.colorEnabled;
 }
 
 export function escapeRegExp(str: string) {

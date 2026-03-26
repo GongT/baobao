@@ -24,6 +24,7 @@
 		"@idlebox/dependency-graph": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^",
 		"@mpis/shared": "workspace:^",
 		"execa": "^9.6.1",
 		"split-cmd": "^1.1.0"

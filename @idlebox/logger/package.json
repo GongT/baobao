@@ -5,9 +5,12 @@
 	"description": "A simple logger module for my self use (nodejs).",
 	"exports": {
 		".": {
-			"source": "./src/index.ts",
-			"default": "./lib/index.js"
+			"source": "./src/_environments/node.ts",
+			"node": "./lib/_environments/node.js",
+			"default": "./lib/_environments/browser.js"
 		},
+		"./node": "./lib/_environments/node.js",
+		"./browser": "./lib/_environments/browser.js",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -16,13 +19,14 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"test": "mocha --bail lib/tests",
+		"test": "mocha --bail lib/test",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^",
 		"debug": "^4.4.3"
 	},
 	"devDependencies": {
@@ -30,7 +34,8 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/debug": "^4.1.13",
-		"@types/node": "^25.5.0"
+		"@types/node": "^25.5.0",
+		"mocha": "^11.7.5"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

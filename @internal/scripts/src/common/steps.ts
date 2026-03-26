@@ -176,6 +176,18 @@ function modifyLoaderInString(str: string): string {
 	return str;
 }
 
+export function removeLowlevels() {
+	const exports = getExportsField();
+	for (const [key, define] of Object.entries(exports) as [string, IExportMap][]) {
+		for (const condition of Object.keys(define)) {
+			if (condition.startsWith('esbuild:')) {
+				logger.log`删除exports.${key}.${condition}`;
+				delete define[condition];
+			}
+		}
+	}
+}
+
 /**
  * 写入npmignore和npmrc
  */

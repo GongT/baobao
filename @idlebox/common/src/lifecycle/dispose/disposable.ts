@@ -2,6 +2,7 @@ import { defineInspectMethod } from '../../debugging/inspect.js';
 import type { MaybeNamed } from '../../debugging/object-with-name.js';
 import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
 import { definePublicConstant } from '../../object/definePublicConstant.js';
+import { isPromiseLike } from '../../promise/is-promise.js';
 import { Emitter } from '../event/event.js';
 import type { EventRegister } from '../event/type.js';
 import { fromNativeDisposable } from './bridges/native.js';
@@ -15,10 +16,14 @@ export enum DuplicateDisposeAction {
 }
 
 /** @public */
-export interface IDisposableEvents {
-	onDisposeError: EventRegister<Error>;
-	onBeforeDispose: EventRegister<void>;
-	readonly hasDisposed: boolean;
+export interface IDisposableEvents extends IBackReferenceDisposableEvent {
+	readonly onDisposeError: EventRegister<Error>;
+	readonly onPostDispose: EventRegister<void>;
+	readonly disposed: boolean;
+}
+
+export interface IBackReferenceDisposableEvent {
+	readonly onBeforeDispose: EventRegister<void>;
 }
 
 /** @public */
@@ -69,9 +74,9 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			return `[Function debug]`;
 		});
 
-		this._onDisposeError = this._register(new Emitter<Error>(`${this.displayName}:errorEvent`));
+		this._onDisposeError = new Emitter<Error>(`${this.displayName}:errorEvent`);
 		this.onDisposeError = this._onDisposeError.register;
-		this._onBeforeDispose = this._register(new Emitter<void>(`${this.displayName}:beforeEvent`));
+		this._onBeforeDispose = new Emitter<void>(`${this.displayName}:beforeEvent`);
 		this.onBeforeDispose = this._onBeforeDispose.register;
 		this._onPostDispose = new Emitter<void>(`${this.displayName}:postEvent`);
 		this.onPostDispose = this._onPostDispose.register;
@@ -90,14 +95,14 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	 * register a disposable object
 	 */
 	public _register<T extends _Type<Async>>(d: T): T;
-	public _register<T extends _Type<Async> & IDisposableEvents>(d: T, autoDereference?: boolean): T;
+	public _register<T extends _Type<Async> & IBackReferenceDisposableEvent>(d: T, autoDereference?: boolean): T;
 	public _register(d: any, autoDereference?: boolean): any {
 		if (this._logger.enabled) this._logger(`register ${dispose_name(d)}`);
 		this.assertNotDisposed();
 		if (this._disposables.indexOf(d) !== -1) throw new Error(`disposable object ${dispose_name(d)} has already registed into "${dispose_name(this)}"`);
 		this._disposables.unshift(fromNativeDisposable(d));
 		if (autoDereference) {
-			(d as IDisposableEvents).onBeforeDispose(() => {
+			(d as IBackReferenceDisposableEvent).onBeforeDispose(() => {
 				this._unregister(d);
 			});
 		}
@@ -124,11 +129,9 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	public get disposed() {
 		return !!this._disposed;
 	}
-	/**
-	 * @deprecated use disposed
-	 */
-	public get hasDisposed() {
-		return !!this._disposed;
+
+	public get disposing() {
+		return this._onBeforeDispose.disposed && !this._disposed;
 	}
 
 	/**
@@ -147,9 +150,9 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			}
 		}
 		this._onBeforeDispose.fireNoError();
-
-		const r = this._dispose(this._disposables);
+		this._onBeforeDispose.dispose();
 		const trace = createStackTraceHolder('disposed', this.dispose);
+
 		const cleanup = () => {
 			definePublicConstant(this, '_disposed', {
 				// 记录 disposed 状态，顺便也记录调用栈
@@ -160,8 +163,18 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			Object.assign(this, { _disposables: null });
 			this._onPostDispose.fireNoError();
 			this._onPostDispose.dispose();
+			this._onDisposeError.dispose();
 		};
-		if (r && 'then' in r) {
+
+		let r: _RType<Async>;
+		try {
+			r = this._dispose(this._disposables);
+		} catch (e) {
+			cleanup();
+			throw e;
+		}
+
+		if (isPromiseLike(r)) {
 			r.finally(cleanup);
 		} else {
 			cleanup();

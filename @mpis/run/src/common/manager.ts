@@ -5,9 +5,11 @@ import { context } from './args.js';
 import { config } from './config-file.js';
 import { formatAllErrors, overallState, reprintWatchModeError, updateMiscState } from './print-screen.js';
 
-export const workersManager = new WorkersManager(context.watchMode ? ModeKind.Watch : ModeKind.Build);
+export let workersManager: WorkersManager;
 
 export function initializeWorkers() {
+	workersManager = new WorkersManager(context().watchMode ? ModeKind.Watch : ModeKind.Build);
+
 	let last: ProcessIPCClient | undefined;
 	for (const title of config.buildTitles) {
 		const cmds = config.build.get(title);

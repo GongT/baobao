@@ -1,6 +1,6 @@
 import { install } from '@idlebox/source-map-support';
 
-install({ environment: 'node', ignore: true });
+install({ environment: 'node' });
 
 export interface IApp {
 	readonly debug: boolean;

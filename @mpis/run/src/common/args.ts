@@ -1,4 +1,5 @@
 import { argv } from '@idlebox/args/default';
+import { UsageError } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 
 export function printUsage() {
@@ -29,7 +30,7 @@ function parseCliArgs() {
 	const command = argv.command(['build', 'watch', 'clean', 'config']);
 	if (!command) {
 		printUsage();
-		throw logger.fatal`No command provided. Please specify a command to run.`;
+		throw new UsageError(`No command provided. Please specify a command to run.`);
 	}
 
 	const watchMode = command.value === 'watch';
@@ -83,4 +84,11 @@ function parseCliArgs() {
 	return r;
 }
 
-export const context: Readonly<ReturnType<typeof parseCliArgs>> = parseCliArgs();
+let _context: Readonly<ReturnType<typeof parseCliArgs>>;
+
+export function context() {
+	if (!_context) {
+		_context = parseCliArgs();
+	}
+	return _context;
+}

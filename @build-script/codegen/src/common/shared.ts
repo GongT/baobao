@@ -1,7 +1,7 @@
 import { createArgsReader } from '@idlebox/args';
 import { relativePath } from '@idlebox/common';
+import type { IMyLoggerMethods } from '@idlebox/logger';
 import type { IResult } from './code-generator-holder.js';
-import type { ILogger } from './output.js';
 
 const argv = createArgsReader(process.argv.slice(2));
 export const watchMode = argv.flag(['-w', '--watch']) > 0;
@@ -17,14 +17,16 @@ export enum ExecuteReason {
 	NeedExecute = 2,
 }
 
-export const knownLevels = ['error', 'notice', 'warn', 'success', 'info', 'log', 'debug', 'verbose', 'die'] as const;
+export const knownLevels = ['error', 'success', 'warn', 'info', 'log', 'debug', 'verbose', 'fatal'] as const;
 export interface ILogMessage {
 	readonly type: (typeof knownLevels)[number];
 	readonly message: string;
 }
 
-export function createCollectLogger(outputs: ILogMessage[], pipe: ILogger): ILogger {
-	const child: ILogger = {} as any;
+export type ISimpleLogger = Record<keyof IMyLoggerMethods, (message: string) => void>;
+
+export function createCollectLogger(outputs: ILogMessage[], pipe: ISimpleLogger): ISimpleLogger {
+	const child: ISimpleLogger = {} as any;
 	for (const key of knownLevels) {
 		child[key] = (message: string) => {
 			pipe[key](message);

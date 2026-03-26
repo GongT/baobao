@@ -29,8 +29,8 @@ export function sleep(ms: number, unref = false): Promise<void> {
 	});
 }
 
-export function raceTimeout<T>(ms: number, p: PromiseLike<T>): PromiseLike<T>;
-export function raceTimeout<T>(ms: number, message: string, p: PromiseLike<T>): PromiseLike<T>;
+export function raceTimeout<T>(ms: number, p: PromiseLike<T>): Promise<T>;
+export function raceTimeout<T>(ms: number, message: string, p: PromiseLike<T>): Promise<T>;
 
 /**
  * race the promise with timeout

@@ -1,7 +1,8 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { DisposedError, Emitter, EnhancedAsyncDisposable, isWindows, PathArray } from '@idlebox/common';
-import { CSI, logger, type IMyLogger } from '@idlebox/logger';
+import { logger, type IMyLogger } from '@idlebox/logger';
 import { getEnvironment, workingDirectory } from '@idlebox/node';
+import { CSI } from '@idlebox/terminal-control/constants';
 import { CompileError, ModeKind, ProcessIPCClient, WorkerClientState, WorkersManager } from '@mpis/server';
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { dirname, resolve } from 'node:path';
