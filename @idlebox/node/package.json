@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node",
 	"type": "module",
-	"version": "1.4.29",
+	"version": "1.4.30",
 	"exports": {
 		".": {
 			"esbuild": {
