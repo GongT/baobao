@@ -5,12 +5,8 @@
 	"description": "generate systemd unit file with type checking",
 	"keywords": ["generater", "systemd"],
 	"exports": {
-		".": {
-			"default": "./lib/index.js"
-		},
-		"./tools": {
-			"default": "./lib/tools/index.js"
-		},
+		".": "./lib/index.js",
+		"./tools": "./lib/tools/index.js",
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,
@@ -28,7 +24,6 @@
 		"execa": "^9.6.1"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

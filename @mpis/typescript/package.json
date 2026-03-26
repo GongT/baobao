@@ -28,7 +28,6 @@
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

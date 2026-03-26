@@ -7,18 +7,22 @@
 	"exports": {
 		".": {
 			"source": "./src/api.ts",
+			"types": "./src/api.ts",
 			"default": "./lib/api.js"
 		},
 		"./default": {
 			"source": "./src/default-instance.ts",
+			"types": "./src/default-instance.ts",
 			"default": "./lib/default-instance.js"
 		},
 		"./host": {
 			"source": "./src/host-instance.ts",
+			"types": "./src/host-instance.ts",
 			"default": "./lib/host-instance.js"
 		},
 		"./constants": {
 			"source": "./src/constants.ts",
+			"types": "./src/constants.ts",
 			"default": "./lib/constants.js"
 		},
 		"./package.json": "./package.json"
@@ -36,7 +40,6 @@
 		"@idlebox/common": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0",

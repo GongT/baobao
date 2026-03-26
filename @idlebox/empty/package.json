@@ -9,5 +9,8 @@
 		"clean": "",
 		"test": "",
 		"watch": ""
+	},
+	"exports": {
+		"./package.json": "./package.json"
 	}
 }

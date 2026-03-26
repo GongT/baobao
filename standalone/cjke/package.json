@@ -31,7 +31,6 @@
 	},
 	"devDependencies": {
 		"@idlebox/source-map-support": "workspace:^",
-		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/autoindex": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

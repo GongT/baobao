@@ -5,6 +5,7 @@
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
+			"types": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./builder": {
@@ -34,7 +35,6 @@
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@idlebox/cli-static-generator": "workspace:^",

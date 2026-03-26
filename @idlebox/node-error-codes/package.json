@@ -6,6 +6,7 @@
 	"exports": {
 		".": {
 			"source": "./src/nodejs-error-code.generated.ts",
+			"types": "./src/nodejs-error-code.generated.ts",
 			"default": "./lib/nodejs-error-code.generated.js"
 		},
 		"./package.json": "./package.json"
@@ -21,7 +22,6 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",

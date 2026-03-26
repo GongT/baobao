@@ -7,6 +7,7 @@
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
+			"types": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./package.json": "./package.json"
@@ -29,7 +30,6 @@
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/minimatch": "^6.0.0",

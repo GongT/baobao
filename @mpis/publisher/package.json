@@ -26,7 +26,6 @@
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
-		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

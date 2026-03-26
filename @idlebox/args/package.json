@@ -5,6 +5,7 @@
 	"exports": {
 		".": {
 			"source": "./src/interface.ts",
+			"types": "./src/interface.ts",
 			"default": "./lib/interface.js"
 		},
 		"./default": {
@@ -29,7 +30,6 @@
 		"cjke-strings": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/chai": "^5.2.3",

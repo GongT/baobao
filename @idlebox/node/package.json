@@ -30,7 +30,6 @@
 		"execa": "^9.6.1"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/autoindex": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@internal/local-rig": "workspace:^",

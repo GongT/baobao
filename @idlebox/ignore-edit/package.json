@@ -5,9 +5,7 @@
 	"description": "api for modify .*ignore files",
 	"keywords": ["gitignore", "ignorefile"],
 	"exports": {
-		".": {
-			"default": "./lib/api.js"
-		},
+		".": "./lib/api.js",
 		"./package.json": "./package.json"
 	},
 	"bin": "bin.js",
@@ -26,7 +24,6 @@
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"

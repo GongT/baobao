@@ -32,7 +32,6 @@
 		"@idlebox/terminal-control": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0"

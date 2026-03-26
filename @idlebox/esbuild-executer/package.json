@@ -10,10 +10,7 @@
 		"node": ">=18.19.0 < 20 || >=20.6.0"
 	},
 	"exports": {
-		".": {
-			"types": "./src/index.ts",
-			"default": "./loader/index.devel.js"
-		},
+		".": "./loader/index.devel.js",
 		"./register": "./lib/hook-worker.js",
 		"./lib/hook-worker.js": "./lib/hook-worker.js",
 		"./package.json": "./package.json"
@@ -39,7 +36,6 @@
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/typescript": "workspace:^",
 		"@types/node": "^25.5.0",

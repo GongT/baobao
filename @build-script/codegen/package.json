@@ -8,6 +8,7 @@
 	"exports": {
 		".": {
 			"source": "./src/plugin.ts",
+			"types": "./src/plugin.ts",
 			"default": "./lib/plugin.js"
 		},
 		"./package.json": "./package.json"
@@ -40,7 +41,6 @@
 		"tslib": "^2.8.1"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

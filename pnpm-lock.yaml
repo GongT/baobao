@@ -65,9 +65,6 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -123,9 +120,6 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -178,9 +172,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -233,9 +224,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -258,9 +246,6 @@ importers:
         specifier: workspace:^
         version: link:../../@idlebox/node
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -283,9 +268,6 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -326,9 +308,6 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../autoindex
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -408,9 +387,6 @@ importers:
         specifier: ^2.8.2
         version: 2.8.2
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../codegen
@@ -472,9 +448,6 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -509,9 +482,6 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -559,9 +529,6 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
@@ -590,9 +557,6 @@ importers:
         specifier: ^11.13.4
         version: 11.13.4
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
@@ -615,9 +579,6 @@ importers:
         specifier: workspace:^
         version: link:../../standalone/cjke
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -652,9 +613,6 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -692,9 +650,6 @@ importers:
         specifier: workspace:^
         version: link:../terminal-control
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/cli-static-generator':
         specifier: workspace:^
         version: link:../cli-static-generator
@@ -707,9 +662,6 @@ importers:
 
   '@idlebox/cli-help-builder':
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -756,9 +708,6 @@ importers:
         specifier: ^4.59.0
         version: 4.59.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/cli-help-builder':
         specifier: workspace:^
         version: link:../cli-help-builder
@@ -790,9 +739,6 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
@@ -817,9 +763,6 @@ importers:
 
   '@idlebox/deepmerge':
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -851,9 +794,6 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../esbuild-executer
@@ -900,9 +840,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../esbuild-executer
@@ -943,9 +880,6 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -983,9 +917,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1011,9 +942,6 @@ importers:
         specifier: workspace:^
         version: link:../source-map-support
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1042,9 +970,6 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -1066,9 +991,6 @@ importers:
 
   '@idlebox/json-edit-biome':
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -1100,9 +1022,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1128,9 +1047,6 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1162,9 +1078,6 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1177,9 +1090,6 @@ importers:
 
   '@idlebox/node-error-codes':
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
@@ -1199,9 +1109,6 @@ importers:
         specifier: workspace:^
         version: link:../common
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1230,9 +1137,6 @@ importers:
         specifier: ^0.5.21
         version: 0.5.21
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1246,9 +1150,6 @@ importers:
         specifier: workspace:^
         version: link:../common
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1264,9 +1165,6 @@ importers:
 
   '@idlebox/tsconfig-loader':
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1295,9 +1193,6 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1320,9 +1215,6 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
@@ -1585,9 +1477,6 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1610,9 +1499,6 @@ importers:
         specifier: workspace:^
         version: link:../client
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1662,9 +1548,6 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1705,9 +1588,6 @@ importers:
         specifier: ^7.5.11
         version: 7.5.11
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
@@ -1757,9 +1637,6 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1797,9 +1674,6 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1818,9 +1692,6 @@ importers:
 
   '@mpis/shared':
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1855,9 +1726,6 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/esbuild-executer':
         specifier: workspace:^
         version: link:../../@idlebox/esbuild-executer
@@ -1883,9 +1751,6 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1914,9 +1779,6 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../../@idlebox/source-map-support
@@ -1966,9 +1828,6 @@ importers:
         specifier: ^21.5.0
         version: 21.5.0
     devDependencies:
-      '@build-script/baseline-rig':
-        specifier: workspace:^
-        version: link:../../@build-script/baseline-rig
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig

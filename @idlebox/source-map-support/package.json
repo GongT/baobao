@@ -5,6 +5,7 @@
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
+			"types": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./register": {
@@ -31,7 +32,6 @@
 		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0"
 	},

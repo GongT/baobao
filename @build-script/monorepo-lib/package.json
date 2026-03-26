@@ -34,7 +34,6 @@
 		"yaml": "^2.8.2"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/autoindex": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",

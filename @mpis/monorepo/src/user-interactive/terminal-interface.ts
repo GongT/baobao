@@ -1,12 +1,16 @@
 import { convertCaughtError, InterruptError, prettyPrintError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createLogger, EnableLogLevel } from '@idlebox/logger';
+import { registerNodejsGlobalTypedErrorHandlerWithInheritance, shutdown } from '@idlebox/node';
+import { terminal, type ITitleControl } from '@idlebox/terminal-control/default';
 import { createInterface, type Interface } from 'node:readline/promises';
 import { inspect } from 'node:util';
-import type { IPnpmMonoRepo } from './workspace.js';
+import type { IPnpmMonoRepo } from '../common/workspace.js';
+import { createStatePrinter } from './state-printer.js';
 
 const logger = createLogger('user', { colors: true });
 logger.enable(EnableLogLevel.verbose);
 
+export type { UserControl as IUserControl };
 class UserControl {
 	private _pause = false;
 	private _quit = false;
@@ -32,8 +36,25 @@ class UserControl {
 	}
 }
 
+let titleControl: ITitleControl | undefined;
+export function setTitle(title: string) {
+	if (!titleControl) {
+		titleControl = terminal.title.addComponent();
+	}
+	titleControl.update(title);
+}
+
 export function startUi(repo: IPnpmMonoRepo) {
 	const controller = new UserControl();
+
+	const statePrinterDisposable = createStatePrinter(repo, controller);
+
+	registerNodejsGlobalTypedErrorHandlerWithInheritance(InterruptError, () => {
+		console.error(' -- Interrupted.');
+		statePrinterDisposable?.dispose();
+		shutdown(0);
+	});
+
 	if (!process.stdin.isTTY) {
 		logger.info`非交互式环境，跳过用户界面`;
 		return controller;

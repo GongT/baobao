@@ -6,7 +6,7 @@ export interface ITitleControl extends IDisposable {
 }
 
 export class Title implements IDisposable {
-	private readonly parts: Array<{ order: number; value: string }> = [];
+	private readonly parts: Array<{ order: number; value: string; dispose(): void }> = [];
 
 	constructor(private readonly stream: NodeJS.WritableStream) {}
 
@@ -16,12 +16,22 @@ export class Title implements IDisposable {
 
 		if (this.parts.length === 0) return;
 
+		for (const { dispose } of this.parts) {
+			dispose();
+		}
+
 		this.parts.length = 0;
 		this.flush();
 	}
 
 	public addComponent(order: number = -1): ITitleControl {
-		const self = { order, value: '' };
+		const self = {
+			order,
+			value: '',
+			dispose: () => {
+				control.revoke();
+			},
+		};
 		if (order >= 0) {
 			const insertAfterIndex = this.parts.findLastIndex(({ order: partOrder }) => {
 				return order >= partOrder;
@@ -77,5 +87,5 @@ export class Title implements IDisposable {
 		}
 	}
 
-	public readonly dispose = this.flush;
+	public readonly dispose = this.clear;
 }

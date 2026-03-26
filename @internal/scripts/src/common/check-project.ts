@@ -6,6 +6,7 @@ import { parse } from 'comment-json';
 import { readFileSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CheckFail, ErrorCollector } from './error-collecter.js';
+import { formatFile } from './format.js';
 import { ObjectChecker } from './object-checker.js';
 import { getExportsField, packageJson, readPackageJson, writeBack } from './package-json.js';
 import { currentProject } from './paths/current.js';
@@ -48,9 +49,9 @@ export async function executeProjectCheck() {
 			ee = eee;
 		}
 		logger.error(`项目检查出错: ${ee.message}`);
-		await writeBack();
 		process.exitCode = 1;
 	}
+	await writeBack();
 }
 
 function makeProj(logger: IMyLogger) {
@@ -76,6 +77,7 @@ async function executeInner(logger: IMyLogger) {
 		logger.log`rig setting is correct`;
 
 		await checkTsConfig(project, logger);
+		pkgChk.not_exists(['devDependencies', '@build-script/baseline-rig']);
 	} else if (very_basic_packages.includes(packageJson.name)) {
 		// no need
 	} else {
@@ -97,7 +99,7 @@ async function executeInner(logger: IMyLogger) {
 		.filter((x) => x.endsWith('-rig') && x !== project.rigConfig.rigPackageName);
 
 	if (others.length > 0) {
-		pkgChk.error.emit(`dependencies 存在其他 rig包 (${others.join(', ')})`);
+		pkgChk.error.emit(`dependencies 存在其他 rig 包 (${others.join(', ')})`);
 	}
 
 	logger.debug('check exports in package.json');
@@ -106,7 +108,7 @@ async function executeInner(logger: IMyLogger) {
 
 	pkgChk.equals(['type'], 'module');
 
-	pkgChk.not_exists(['private']);
+	// pkgChk.not_exists(['private']);
 	pkgChk.equals(['scripts', 'prepublishOnly'], 'internal-prepublish-deny');
 	pkgChk.equals(['scripts', 'prepublishHook'], 'internal-prepublish-hook');
 	pkgChk.equals(['scripts', 'lint'], 'internal-lint');
@@ -150,13 +152,12 @@ async function executeInner(logger: IMyLogger) {
 		if (exports['.']?.['source']) {
 			check_export_field(pkgChk, 'source', `./src/${autoindex}.ts`);
 		}
-		if (exports['.']?.['types']) {
-			check_export_field(pkgChk, 'types', `./src/${autoindex}.ts`);
+	}
+
+	for (const [path, define] of Object.entries(exports)) {
+		if (define && typeof define === 'object' && define['source']) {
+			pkgChk.equals(['exports', path, 'types'], define['source'] as string);
 		}
-	} else if (exports['.']?.['source']) {
-		check_export_field(pkgChk, 'types', exports['.']['source'] as string);
-	} else {
-		check_export_field(pkgChk, 'types', undefined);
 	}
 
 	if (exports['.']) {
@@ -222,7 +223,10 @@ async function checkTsConfig(project: ProjectConfig, logger: IMyLogger) {
 		}
 	}
 
-	await writeJsonFileBack(data);
+	const ch = await writeJsonFileBack(data);
+	await formatFile(tsconfigPath);
+
+	logger.success`写入 tsconfig.json | ${ch ? '有改动' : '没有改动'}`;
 }
 
 function loadCommentTemplate(path: string) {

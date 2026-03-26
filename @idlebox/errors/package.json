@@ -28,7 +28,6 @@
 		"@idlebox/node-error-codes": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/autoindex": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^"

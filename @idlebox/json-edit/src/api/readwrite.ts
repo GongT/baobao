@@ -36,12 +36,12 @@ export async function createJsonFile<T = any, K = any>(
 	const newData = Object.assign({}, data);
 	setAttachedFile(newData, { originalPath: saveAs, encoding: charset, exists: false });
 	if (formatter) {
-		setAttachedFormatter(data, formatter);
+		setAttachedFormatter(newData, formatter);
 	} else {
 		const format = await createDefaultFormatter(undefined, saveAs);
-		setAttachedFormatter(data, format);
+		setAttachedFormatter(newData, format);
 	}
-	return newData as JsonEditObject<T>;
+	return newData as JsonEditObject<T, K>;
 }
 
 /**

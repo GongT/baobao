@@ -5,6 +5,7 @@
 	"exports": {
 		".": {
 			"source": "./src/main.ts",
+			"types": "./src/main.ts",
 			"default": "./lib/main.js"
 		},
 		"./package.json": "./package.json"
@@ -23,7 +24,6 @@
 		"debug": "^4.4.3"
 	},
 	"devDependencies": {
-		"@build-script/baseline-rig": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/debug": "^4.1.13",
