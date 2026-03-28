@@ -1,4 +1,5 @@
 import { NotImplementedError, type IPackageJson } from '@idlebox/common';
+import { logger, type IMyLogger } from '@idlebox/logger';
 import { exists, findUpUntil } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { basename, dirname, resolve } from 'node:path';
@@ -57,7 +58,7 @@ export async function createSimpleProject(cwd = process.cwd()) {
 	});
 }
 
-export async function createWorkspace(cwd = process.cwd()): Promise<MonorepoWorkspace> {
+export async function createWorkspace(cwd = process.cwd(), _logger: IMyLogger = logger): Promise<MonorepoWorkspace> {
 	const file = await findMonorepoRoot(cwd);
 
 	if (!file) {
@@ -103,10 +104,13 @@ export async function createWorkspace(cwd = process.cwd()): Promise<MonorepoWork
 			throw new NotImplementedError(`Not implement: ${basename(file, '.json')} 的支持`);
 	}
 
-	return new MonorepoWorkspace({
-		root: projectRoot,
-		packageManagerKind,
-		workspaceKind,
-		temp: resolve(projectRoot, temp),
-	});
+	return new MonorepoWorkspace(
+		{
+			root: projectRoot,
+			packageManagerKind,
+			workspaceKind,
+			temp: resolve(projectRoot, temp),
+		},
+		_logger.extend('workspace'),
+	);
 }

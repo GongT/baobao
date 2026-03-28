@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import split2 from 'split2';
 import { loadConfig } from './common/config.js';
 
-createRootLogger('tsc');
+createRootLogger('mpis:tsc');
 
 const tsPkgJsonPath = fileURLToPath(import.meta.resolve('typescript/package.json'));
 const tsPkgJson = JSON.parse(readFileSync(tsPkgJsonPath, 'utf-8'));

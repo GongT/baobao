@@ -30,7 +30,7 @@ class SimpleDependencyGraph<T> extends AbstractBaseGraph<SimpleNode<T>> {
 }
 
 export class SimpleDependencyBuilder<T> extends AbstractGraphBuilder<SimpleNode<T>, SimpleDependencyGraph<T>> {
-	constructor(logger: IMyLogger = createLogger('simple-graph:anonymouse')) {
+	constructor(logger: IMyLogger = createLogger('graph:anonymouse')) {
 		super(logger);
 	}
 

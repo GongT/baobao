@@ -2,6 +2,9 @@ import { argv } from '@idlebox/args/default';
 import { UsageError } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 
+let debugMode: boolean;
+let verboseMode: boolean;
+
 export function printUsage() {
 	console.log('Usage: my-cli <command>');
 	console.log();
@@ -12,11 +15,11 @@ export function printUsage() {
 	// console.log('     init create config file if not');
 }
 
-function parseCliArgs() {
+export function initializeLogger() {
 	const debugLevel = argv.flag(['-d', '--debug']);
 
-	const debugMode = debugLevel > 0;
-	const verboseMode = debugLevel > 1;
+	debugMode = debugLevel > 0;
+	verboseMode = debugLevel > 1;
 
 	let level = EnableLogLevel.auto;
 	if (verboseMode) {
@@ -25,8 +28,10 @@ function parseCliArgs() {
 		level = EnableLogLevel.debug;
 	}
 
-	createRootLogger('', level);
+	createRootLogger('mpis:run', level);
+}
 
+function parseCliArgs() {
 	const command = argv.command(['build', 'watch', 'clean', 'config']);
 	if (!command) {
 		printUsage();

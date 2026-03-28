@@ -11,16 +11,19 @@ if (globalThis.__ts_resolver_installed__) {
 		throw new Error('Loop detected in loader.ts');
 	}
 
+	console.error(`current argv = %s`, process.execArgv);
+	console.error(`current NODE_OPTIONS = %s`, process.env.NODE_OPTIONS);
+
 	const NODE_OPTIONS = `${process.env.NODE_OPTIONS || ''} --experimental-transform-types --disable-warning=ExperimentalWarning`;
 	if (process.execve) {
-		log('replacing process with NODE_OPTIONS: %s', NODE_OPTIONS);
+		console.error('replacing process with NODE_OPTIONS: %s', NODE_OPTIONS);
 		process.execve(process.execPath, [process.argv[0], ...process.execArgv, ...process.argv.slice(1)], {
 			...process.env,
 			_PREVENT_LOOP_: '1',
 			NODE_OPTIONS,
 		});
 	} else {
-		log('relaunching process with NODE_OPTIONS: %s', NODE_OPTIONS);
+		console.error('relaunching process with NODE_OPTIONS: %s', NODE_OPTIONS);
 		const { execa } = await import('execa');
 		const r = await execa(process.execPath, [...process.execArgv, ...process.argv.slice(1)], {
 			stdio: 'inherit',

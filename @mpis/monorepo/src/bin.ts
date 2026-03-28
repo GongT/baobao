@@ -13,7 +13,7 @@ if (verboseMode) {
 } else if (debugMode) {
 	level = EnableLogLevel.debug;
 }
-createRootLogger('', level);
+createRootLogger('mpis:repo', level);
 
 if (helpMode) {
 	printUsage();

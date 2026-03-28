@@ -63,7 +63,7 @@ export abstract class AbstractChannelClient extends EnhancedAsyncDisposable impl
 	set friendlyTitle(title: string) {
 		if (this._title === title) return;
 		this._title = title;
-		this.logger = createLogger(`mpis:${title}`);
+		this.logger = createLogger(`mpis:client:${title}`);
 	}
 
 	success(message: string, output?: string) {

@@ -7,7 +7,7 @@ import { inspect } from 'node:util';
 import type { IPnpmMonoRepo } from '../common/workspace.js';
 import { createStatePrinter } from './state-printer.js';
 
-const logger = createLogger('user', { colors: true });
+const logger = createLogger('mpis:user', { colors: true });
 logger.enable(EnableLogLevel.verbose);
 
 export type { UserControl as IUserControl };

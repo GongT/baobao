@@ -6,7 +6,7 @@ export class NodejsIpcClient extends AbstractChannelClient {
 		super();
 
 		if (typeof process.send !== 'function') {
-			throw new Error('process.send is not a function, this is not a valid child process');
+			throw new Error(`process.send is not a function, this is not a valid child process (BUILD_PROTOCOL_SERVER=${process.env.BUILD_PROTOCOL_SERVER})`);
 		}
 	}
 

@@ -67,7 +67,7 @@ export abstract class ProtocolClientObject {
 		public readonly _id: string,
 		logger?: IMyLogger,
 	) {
-		this.logger = logger ?? createLogger(`protocol:${_id}`);
+		this.logger = logger ?? createLogger(`mpis:protocol:${_id}`);
 
 		if (_id.includes(' ')) {
 			this.logger.warn(`title contains space`);

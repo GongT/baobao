@@ -165,16 +165,24 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		if (this.p_status.started) throw new Error('process already spawned');
 
 		const env = {
+			NODE_OPTIONS: process.env.NODE_OPTIONS || '',
 			...this.env,
 			PATH: this.pathvar.toString(),
 			BUILD_PROTOCOL_SERVER: 'ipc:nodejs',
 			BUILD_PROTOCOL_TITLE: this._displayTitle,
 		};
 
+		for (const item of process.execArgv) {
+			if (env.NODE_OPTIONS.includes(item)) continue;
+
+			env.NODE_OPTIONS += ` ${JSON.stringify(item)}`;
+		}
+
 		this.logger.log`spawning | commandline<${this.commandline}>`;
 		this.logger.debug`working directory: long<${this.cwd}>`;
 		this.logger.debug`path variable: long<${this.pathvar.toString()}>`;
 		this.logger.debug`environment variable: ${this.env}`;
+		this.logger.debug`NODE_OPTIONS: ${env.NODE_OPTIONS}`;
 
 		const doExec = execa({
 			cwd: this.cwd,

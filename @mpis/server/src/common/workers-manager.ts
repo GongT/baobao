@@ -74,7 +74,7 @@ export class WorkersManager extends JobGraphBuilder<string, EventTranslate> {
 
 	constructor(
 		public readonly mode: ModeKind,
-		private readonly _logger = createLogger('workers'),
+		private readonly _logger = createLogger('mpis:workers'),
 	) {
 		super(MAX_STARTING, _logger.extend('master'));
 	}

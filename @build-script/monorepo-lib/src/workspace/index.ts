@@ -1,4 +1,4 @@
-import { createLogger, type IMyLogger } from '@idlebox/logger';
+import { type IMyLogger } from '@idlebox/logger';
 import { execLazyError, findUpUntil, normalizePath } from '@idlebox/node';
 import { dirname, resolve } from 'node:path';
 import { decoupleDependencies } from './common/deduplicate-dependency.js';
@@ -51,7 +51,7 @@ export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
 
 	constructor(
 		result: IAnalyzeResult,
-		protected readonly logger: IMyLogger = createLogger('workspace'),
+		protected readonly logger: IMyLogger,
 	) {
 		if (result.packageManagerKind === PackageManagerKind.Unknown) {
 			throw new Error('packageManagerKind cannot be Unknown');

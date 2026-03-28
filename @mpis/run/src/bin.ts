@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { rmSync } from 'node:fs';
 import { inspect } from 'node:util';
 import { dumpConfig } from './commands/config.js';
-import { context } from './common/args.js';
+import { context, initializeLogger } from './common/args.js';
 import { config, loadConfig } from './common/config-file.js';
 import { addBreakModeDebugCommands } from './common/interactive.js';
 import { initializeWorkers, workersManager } from './common/manager.js';
@@ -19,6 +19,14 @@ import { initializeStdin, registerCommand } from './common/stdin.js';
 const cls = /\x1Bc/g;
 
 registerNodejsExitHandler();
+
+initializeLogger();
+
+logger.debug`commandline: commandline<${process.argv}>`;
+logger.debug`working directory: long<${process.cwd()}>`;
+logger.debug`NODE_OPTIONS: long<${process.env.NODE_OPTIONS}>`;
+logger.debug`execArgv: long<${process.execArgv}>`;
+logger.debug`nodejs version: long<${process.version}>`;
 
 loadConfig();
 initializeScreen();

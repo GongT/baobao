@@ -6,7 +6,7 @@ import type { WorkersManager } from '../common/workers-manager.js';
 
 let rl: Interface;
 let ended = false;
-const logger = createLogger('repl', { colors: true });
+const logger = createLogger('mpis:repl', { colors: true });
 logger.enable(EnableLogLevel.verbose);
 
 export function readlineTestInit(manager: WorkersManager) {

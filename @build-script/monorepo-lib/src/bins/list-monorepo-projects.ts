@@ -1,6 +1,9 @@
+import { createRootLogger, logger } from '@idlebox/logger';
 import { createWorkspace } from '../workspace/common/create.js';
 
-const w = await createWorkspace();
+createRootLogger('monorepo:lib');
+
+const w = await createWorkspace(process.cwd(), logger);
 const projects = await w.listPackages();
 
 const dump = projects.map((p) => {
