@@ -1,10 +1,7 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import { execute } from '@idlebox/esbuild-executer';
-import { resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import '@idlebox/native-executer/register';
 
 process.title = `MpisPub`;
 
-const entryPoint = resolve(import.meta.dirname, '../src/bin.ts');
-await execute(pathToFileURL(entryPoint).href);
+await import('../src/bin.ts');

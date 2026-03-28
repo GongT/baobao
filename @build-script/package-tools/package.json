@@ -4,8 +4,8 @@
 	"version": "0.0.26",
 	"description": "A Node.js package managing tool",
 	"bin": {
-		"package-tools": "./load.js",
-		"njspkg": "./load.js"
+		"package-tools": "./bins/load.devel.js",
+		"njspkg": "./bins/load.devel.js"
 	},
 	"exports": {
 		"./package.json": "./package.json"

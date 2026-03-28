@@ -31,7 +31,6 @@
 		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",

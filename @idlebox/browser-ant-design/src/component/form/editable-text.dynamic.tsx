@@ -19,12 +19,5 @@ export function EditableField(props: IEditFieldProps) {
 		props.onChange?.(value);
 		props.onSubmit?.(props.id, value);
 	}
-	return (
-		<EditableText
-			style={{ display: 'flex', ...(props.style || {}) }}
-			value={value}
-			onChange={setValue}
-			onSubmit={commit}
-		/>
-	);
+	return <EditableText onChange={setValue} onSubmit={commit} style={{ display: 'flex', ...(props.style || {}) }} value={value} />;
 }

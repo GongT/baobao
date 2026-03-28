@@ -4,19 +4,7 @@ import { AbstractEditableInput, type IEdiableInputProps, type IEditableInputProp
 
 type IEditableSelectProps = Omit<IEdiableInputProps<string> & SelectProps, 'renderText' | 'renderInput'>;
 
-export function EditableSelect({
-	className,
-	style,
-	editing,
-	defaultValue,
-	id,
-	value,
-	onChange,
-	onCancel,
-	onSubmit,
-	onEditing,
-	...props
-}: IEditableSelectProps) {
+export function EditableSelect({ className, style, editing, defaultValue, id, value, onChange, onCancel, onSubmit, onEditing, ...props }: IEditableSelectProps) {
 	const renderText = ({ value }: { value: string }) => {
 		const option = props.options?.find((opt) => opt.value === value);
 		return <Typography.Text>{option ? option.label : '?'}</Typography.Text>;
@@ -25,9 +13,9 @@ export function EditableSelect({
 	function renderInput({ finishEditing, submit, onChange, value }: IEditableInputProps<any>) {
 		return (
 			<>
-				<Select style={{ flex: 1 }} {...props} value={value} onChange={onChange} />
-				<Button onClick={submit} icon={<CheckOutlined />} variant="text" />
-				<Button onClick={finishEditing} icon={<CloseOutlined />} variant="text" />
+				<Select style={{ flex: 1 }} {...props} onChange={onChange} value={value} />
+				<Button icon={<CheckOutlined />} onClick={submit} variant="text" />
+				<Button icon={<CloseOutlined />} onClick={finishEditing} variant="text" />
 			</>
 		);
 	}
@@ -35,17 +23,17 @@ export function EditableSelect({
 	return (
 		<AbstractEditableInput
 			className={className}
-			style={style}
-			editing={editing}
 			defaultValue={defaultValue}
+			editing={editing}
 			id={id}
-			value={value}
-			onChange={onChange}
 			onCancel={onCancel}
-			onSubmit={onSubmit}
+			onChange={onChange}
 			onEditing={onEditing}
-			renderText={renderText}
+			onSubmit={onSubmit}
 			renderInput={renderInput}
+			renderText={renderText}
+			style={style}
+			value={value}
 		/>
 	);
 }

@@ -1,8 +1,8 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import { execute } from '@idlebox/esbuild-executer';
+import '@idlebox/native-executer/register';
 
 process.title = `BsCodegen`;
 
 Object.assign(globalThis, { CODEGEN_CLI: 'development' });
-await execute(import.meta.resolve('../src/loader.ts'), { entries: [import.meta.resolve('../src/plugin.ts')] });
+await import('../src/loader.js');

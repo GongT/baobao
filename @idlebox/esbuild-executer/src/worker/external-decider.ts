@@ -6,9 +6,13 @@ import { moduleResolve } from 'import-meta-resolve';
 import assert from 'node:assert';
 import { realpath } from 'node:fs/promises';
 import { builtinModules, findPackageJSON } from 'node:module';
-import { dirname, relative } from 'node:path';
+import { dirname, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { isMainThread } from 'node:worker_threads';
+import { earlyLoaderState } from '../common/early-loader-bridge.js';
 import { logger as syncLogger, type ILogger } from './logger.js';
+
+assert.equal(isMainThread, false, '主线程不应该加载这个模块');
 
 const notRelative = /^[^.]/;
 const nmReg = /\/node_modules\//g;
@@ -44,6 +48,18 @@ export const decideExternal: esbuild.Plugin = {
 				if (extraHiddenModules.includes(args.path)) {
 					return { path: args.path, external: true };
 				}
+				if (args.path === '@idlebox/esbuild-executer') {
+					let path = earlyLoaderState.mainEntry;
+					if (path) {
+						logger.resolve`  ✓ special: ${path}`;
+					} else {
+						logger.resolve`  ✓ external (no early loader)`;
+						const pkg = findPackageJSON(import.meta.url);
+						assert.ok(pkg, `where am i? ${import.meta.dirname}`);
+						path = resolve(pkg, '..', 'src/index.ts');
+					}
+					return { path: path, external: true };
+				}
 
 				logger.resolve`  * kind: ${args.kind}`;
 				logger.resolve`  * importer: ${args.importer || '\x1B[38;5;166m???\x1B[0m'}`;
@@ -72,6 +88,11 @@ export const decideExternal: esbuild.Plugin = {
 				logger.flush();
 			}
 		});
+
+		// build.onLoad({ filter: anyFile }, async (args) => {
+		// 	syncLogger.error`load: ${args.path}`;
+		// 	return null;
+		// });
 	},
 };
 
@@ -267,7 +288,7 @@ class ModuleResolver {
 		const p = await execaNode(generater, {
 			stdio: ['ignore', 'pipe', 'pipe'],
 			reject: false,
-			encoding: 'buffer',
+			encoding: 'utf8',
 			cwd: dirname(generater),
 			nodeOptions: [],
 			timeout: 30000,
@@ -275,7 +296,7 @@ class ModuleResolver {
 
 		if (p.failed) {
 			logger.resolve`${p.shortMessage}`;
-			const stderr = Buffer.from(p.stderr).toString('utf-8') || '<no stderr>';
+			const stderr = p.stderr || '<no stderr>';
 
 			throw new LoadResult({
 				warnings: [
@@ -289,7 +310,9 @@ class ModuleResolver {
 			});
 		}
 
-		return Buffer.from(p.stdout);
+		// const code = replaceConstant(p.stdout, pathToFileURL(generater).href);
+
+		return Buffer.from(p.stdout, 'utf8');
 	}
 }
 

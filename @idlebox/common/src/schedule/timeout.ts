@@ -1,4 +1,5 @@
 import { TimeoutError } from '@idlebox/errors';
+import { createStackTraceHolder } from '../error/stack-trace.js';
 import { isNodeJs } from '../platform/os.js';
 
 /**
@@ -6,10 +7,13 @@ import { isNodeJs } from '../platform/os.js';
  *            can not set to `true` on other platform (will throw "unref is not function" error).
  * @returns promise reject with TimeoutError after specific time
  */
-export function timeout(ms: number, error = 'no response', unref = false): Promise<never> {
+export function timeout(ms: number, error?: string, boundary?: Function, unref?: boolean): Promise<never>;
+export function timeout(ms: number, error: string = 'no response', boundary: Function = timeout, unref = false): Promise<never> {
+	const s = createStackTraceHolder('', boundary);
+
 	return new Promise((_, reject) => {
 		const timer = setTimeout(() => {
-			reject(new TimeoutError(ms, error));
+			reject(new TimeoutError(ms, error, s));
 		}, ms);
 		if (unref) (timer as any).unref();
 	});
@@ -42,8 +46,8 @@ export function raceTimeout<T>(ms: number, message: string, p: PromiseLike<T>): 
  */
 export function raceTimeout<T>(ms: number, message_or_p: string | PromiseLike<T>, p?: PromiseLike<T>): Promise<T> {
 	if (p) {
-		return Promise.race([p, timeout(ms, message_or_p as string, isNodeJs)]);
+		return Promise.race([p, timeout(ms, message_or_p as string, raceTimeout, isNodeJs)]);
 	} else {
-		return Promise.race([message_or_p as PromiseLike<T>, timeout(ms, undefined, isNodeJs)]);
+		return Promise.race([message_or_p as PromiseLike<T>, timeout(ms, undefined, raceTimeout, isNodeJs)]);
 	}
 }

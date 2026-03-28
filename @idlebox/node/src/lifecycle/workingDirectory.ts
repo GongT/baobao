@@ -23,7 +23,7 @@ const wd = {
 		wd.patchGlobal = noop;
 	},
 	escapeVscodeCwd,
-	isVscodeShellIntegration: process.env.VSCODE_SHELL_INTEGRATION || process.env.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT,
+	isVscodeShellIntegration: Boolean(process.env.VSCODE_SHELL_INTEGRATION || process.env.VSCODE_SHELL_INTEGRATION_SHELL_SCRIPT),
 };
 
 export const workingDirectory: Readonly<typeof wd> = wd;

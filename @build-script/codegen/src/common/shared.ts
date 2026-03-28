@@ -1,6 +1,5 @@
 import { createArgsReader } from '@idlebox/args';
-import { relativePath } from '@idlebox/common';
-import type { IMyLoggerMethods } from '@idlebox/logger';
+import { prettyFormatError, relativePath } from '@idlebox/common';
 import type { IResult } from './code-generator-holder.js';
 
 const argv = createArgsReader(process.argv.slice(2));
@@ -8,6 +7,7 @@ export const watchMode = argv.flag(['-w', '--watch']) > 0;
 export const debugMode = argv.flag(['-d', '--debug']) > 0;
 export const verboseMode = argv.flag(['-d', '--debug']) > 1;
 export const showHelp = argv.flag(['-h', '--help']) > 0;
+export const serialMode = argv.flag(['-S', '--serial']) > 0;
 export const colorMode = process.stderr.isTTY;
 export const remainingArgs = argv.unused();
 
@@ -15,28 +15,6 @@ export enum ExecuteReason {
 	NoNeed = 0,
 	NeedCompile = 1,
 	NeedExecute = 2,
-}
-
-export const knownLevels = ['error', 'success', 'warn', 'info', 'log', 'debug', 'verbose', 'fatal'] as const;
-export interface ILogMessage {
-	readonly type: (typeof knownLevels)[number];
-	readonly message: string;
-}
-
-export type ISimpleLogger = Record<keyof IMyLoggerMethods, (message: string) => void>;
-
-export function createCollectLogger(outputs: ILogMessage[], pipe: ISimpleLogger): ISimpleLogger {
-	const child: ISimpleLogger = {} as any;
-	for (const key of knownLevels) {
-		child[key] = (message: string) => {
-			pipe[key](message);
-			outputs.push({
-				type: key,
-				message: message,
-			});
-		};
-	}
-	return child;
 }
 
 export function formatResult(result: IResult) {
@@ -58,7 +36,7 @@ export function formatResult(result: IResult) {
 		const loc = rel.startsWith('..') ? source : rel;
 		msgs.push(`\x1B[2m${line}\r-- ${loc} \x1B[0m`);
 		for (const error of errors) {
-			msgs.push(error.stack ?? error.message);
+			msgs.push(prettyFormatError(error));
 			msgs.push('');
 		}
 	}

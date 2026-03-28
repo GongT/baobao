@@ -80,6 +80,10 @@ function red(s: string) {
 	return isNative ? `\x1B[38;5;9m${s}\x1B[0m` : s;
 }
 
+function unparsedLine(line: string) {
+	return `\x1B[48;5;9m${line}\x1B[0m`
+}
+
 /**
  * Format a stack trace for display.
  * @param stackLines The stack lines to format.
@@ -215,7 +219,7 @@ class Formatter {
 		}
 		if (line.invalid) {
 			if (this.messageEnded) {
-				return red(line.toString());
+				return unparsedLine(line.toString().trim());
 			}
 			return line.toString();
 		}

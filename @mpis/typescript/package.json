@@ -28,7 +28,6 @@
 		"typescript": "^6.0.2"
 	},
 	"devDependencies": {
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"

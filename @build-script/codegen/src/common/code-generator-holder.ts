@@ -1,12 +1,14 @@
-import { Emitter } from '@idlebox/common';
+import { convertCaughtError, Emitter } from '@idlebox/common';
 import { logger, type IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync } from '@idlebox/node';
 import { channelClient } from '@mpis/client';
+import { glob, type GlobOptionsWithFileTypesFalse } from 'glob';
 import { readFileSync } from 'node:fs';
+import { realpath } from 'node:fs/promises';
 import { basename, dirname, relative } from 'node:path';
 import asyncPool from 'tiny-async-pool';
-import { CodeGenerator } from './code-generator.js';
-import { ExecuteReason, formatResult } from './shared.js';
+import type { BaseExecuter } from './executer.base.js';
+import { ExecuteReason, formatResult, serialMode } from './shared.js';
 
 export interface IResult {
 	/**
@@ -37,16 +39,16 @@ function nextTick() {
 	});
 }
 
-class GeneratorCollection {
-	private readonly generators = new Set<CodeGenerator>();
+class Collection {
+	private readonly generators = new Set<BaseExecuter>();
 
 	constructor(private readonly logger: IMyLogger) {}
 
-	add(gen: CodeGenerator) {
-		if (this.has(gen.id)) {
-			throw new Error(`Generator with id ${gen.id} already exists.`);
+	add(gen: BaseExecuter) {
+		if (this.has(gen.sourceFile)) {
+			throw new Error(`Generator with id ${gen.sourceFile} already exists.`);
 		}
-		gen.onDispose(() => {
+		gen.onBeforeDispose(() => {
 			this.generators.delete(gen);
 		});
 		this.generators.add(gen);
@@ -59,8 +61,8 @@ class GeneratorCollection {
 	async shrink(ids: Set<string>) {
 		const ps = [];
 		for (const gen of this.generators.values()) {
-			if (ids.has(gen.id)) continue;
-			this.logger.debug(`  - dispose: ${relative(process.cwd(), gen.id)}`);
+			if (ids.has(gen.sourceFile)) continue;
+			this.logger.debug(`  - dispose: ${relative(process.cwd(), gen.sourceFile)}`);
 			ps.push(gen.dispose());
 		}
 
@@ -68,11 +70,11 @@ class GeneratorCollection {
 	}
 
 	has(id: string) {
-		return this.generators.values().some((e) => e.id === id);
+		return this.generators.values().some((e) => e.sourceFile === id);
 	}
 
 	keys() {
-		return this.generators.values().map((e) => e.id);
+		return this.generators.values().map((e) => e.sourceFile);
 	}
 	values() {
 		return this.generators.values();
@@ -82,29 +84,54 @@ class GeneratorCollection {
 	}
 }
 
-class GeneratorHolder {
+export class GeneratorHolder {
 	private readonly generators;
 	private readonly _onComplete = new Emitter<void>();
 	public readonly onComplete = this._onComplete.register;
 	private readonly logger = logger.extend('project');
-	private readonly knownPackageJsons = new Set<string>();
+	private readonly knownPackageJsonList = new Set<string>();
 
-	constructor() {
-		this.generators = new GeneratorCollection(this.logger);
+	constructor(
+		public readonly roots: readonly string[],
+		private readonly Executer: new (...args: ConstructorParameters<typeof BaseExecuter>) => BaseExecuter,
+	) {
+		this.generators = new Collection(this.logger);
 	}
 
 	get size() {
 		return this.generators.size;
 	}
 
-	async configureCodeGenerators(files: string[]) {
-		this.logger.debug(`(re)configure generators (${files.length}):`);
-		const used = new Set<string>();
+	private async matchAll() {
+		const allFiles: string[] = [];
+		for (const root of this.roots) {
+			const globOptions: GlobOptionsWithFileTypesFalse = {
+				cwd: root,
+				absolute: true,
+				ignore: ['node_modules/**'],
+			};
+			const files = await glob('**/*.generator.ts', globOptions);
+			allFiles.push(...files);
+		}
+		return await Promise.all(
+			allFiles.map((file) => {
+				return realpath(file);
+			}),
+		);
+	}
+
+	async configureCodeGenerators() {
+		const files = new Set(await this.matchAll());
+
+		this.logger.debug(`(re)configure generators (${files.size}):`);
+
+		/**
+		 * 添加新的
+		 */
 		const knownPackage = new Set<string>();
-		const absToPackge = new Map<string, string>();
+		const absToPackage = new Map<string, string>();
 
 		for (const abs of files) {
-			used.add(abs);
 			const rel = relative(process.cwd(), abs);
 
 			if (this.generators.has(abs)) {
@@ -117,25 +144,30 @@ class GeneratorHolder {
 			if (!packagejson) {
 				throw new Error(`failed find package.json|yaml for ${abs}`);
 			}
-			this.knownPackageJsons.add(packagejson);
+			this.knownPackageJsonList.add(packagejson);
 
-			absToPackge.set(abs, packagejson);
+			absToPackage.set(abs, packagejson);
 			knownPackage.add(packagejson);
 		}
 
-		for (const [abs, packagejson] of absToPackge.entries()) {
+		for (const [abs, packagejson] of absToPackage.entries()) {
 			let logger: IMyLogger;
 
 			if (knownPackage.size > 1) {
 				const name = JSON.parse(readFileSync(packagejson, 'utf-8')).name;
-				logger = this.logger.extend(`${name}${basename(abs, '.generator.ts')}`);
+				logger = this.logger.extend(`${name}:${basename(abs, '.generator.ts')}`);
 			} else {
 				logger = this.logger.extend(basename(abs, '.generator.ts'));
 			}
-			const gen = new CodeGenerator(dirname(packagejson), abs, logger);
+			const gen = new this.Executer(abs, { projectRoot: dirname(packagejson) }, logger);
 
 			this.generators.add(gen);
 		}
+
+		/**
+		 * 删除旧的
+		 */
+		await this.generators.shrink(files);
 
 		this.logger.debug(`${this.generators.size} generator registed`);
 	}
@@ -150,10 +182,10 @@ class GeneratorHolder {
 			const reason = gen.shouldExecute(trigger);
 			if (reason === ExecuteReason.NoNeed) continue;
 
-			toBeExec.push({
-				generator: gen,
-				reason,
-			});
+			toBeExec.push(gen);
+			if (reason === ExecuteReason.NeedCompile) {
+				await gen.build();
+			}
 		}
 		const result: IResult = {
 			count: this.generators.size,
@@ -173,12 +205,12 @@ class GeneratorHolder {
 
 		channelClient.start();
 
-		async function execute({ generator, reason }: { generator: CodeGenerator; reason: ExecuteReason }) {
+		async function execute(generator: BaseExecuter) {
 			try {
-				generator.logger.verbose(`<pool> task started (${ExecuteReason[reason]}).`);
+				generator.logger.verbose(`<pool> task started.`);
 
 				await nextTick();
-				const gr = await generator.compileRun(reason);
+				const gr = await generator.execute();
 				if (gr.changes) {
 					result.success += gr.changes;
 				} else {
@@ -186,13 +218,13 @@ class GeneratorHolder {
 				}
 
 				generator.logger.verbose('<pool> task finished.');
-			} catch (err: any) {
-				generator.logger.verbose('<pool> task errored.');
-				result.errors.push({ error: err, source: generator.id });
+			} catch (err) {
+				generator.logger.debug('<pool> task errored.');
+				result.errors.push({ error: convertCaughtError(err), source: generator.sourceFile });
 			}
 		}
 
-		for await (const _ of asyncPool(4, toBeExec, execute)) {
+		for await (const _ of asyncPool(serialMode ? 1 : 4, toBeExec, execute)) {
 			// no op, just waiting for all tasks to finish
 		}
 
@@ -222,7 +254,7 @@ class GeneratorHolder {
 		const files = new Set<string>(this.generators.keys());
 
 		for (const gen of this.generators.values()) {
-			for (const file of gen.relatedFiles()) {
+			for (const file of gen.watchingFiles(false)) {
 				files.add(file);
 			}
 		}
@@ -234,5 +266,3 @@ class GeneratorHolder {
 		await this.generators.dispose();
 	}
 }
-
-export const generatorHolder = new GeneratorHolder();

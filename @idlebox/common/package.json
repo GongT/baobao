@@ -6,10 +6,7 @@
 	"keywords": ["utilities", "functions", "helpers", "library"],
 	"exports": {
 		".": {
-			"esbuild": {
-				"early-loader": "./src/early-loader.devel.ts",
-				"generate": "./src/generate.devel.ts"
-			},
+			"early-loader": "./src/generate.devel.ts",
 			"source": "./src/autoindex.generated.ts",
 			"default": "./lib/autoindex.generated.js"
 		},
@@ -28,7 +25,6 @@
 	"devDependencies": {
 		"@build-script/autoindex": "workspace:^",
 		"@build-script/codegen": "workspace:^",
-		"@idlebox/itypes": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/publisher": "workspace:^",
 		"@mpis/run": "workspace:^",
@@ -36,6 +32,7 @@
 	},
 	"dependencies": {
 		"@idlebox/errors": "workspace:^",
+		"@idlebox/itypes": "workspace:^",
 		"debug": "^4.4.3",
 		"tslib": "^2.8.1"
 	},

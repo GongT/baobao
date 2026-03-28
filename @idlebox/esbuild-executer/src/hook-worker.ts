@@ -1,104 +1,100 @@
+/**
+ * 本文件是nodejs的 module.register worker
+ *
+ * 启动后会调用一次 initialize 方法，然后 node运行时 执行每个 import语句 时会调用 resolve、load 方法
+ */
+
 import type { LoadFnOutput, LoadHookContext, ResolveFnOutput, ResolveHookContext } from 'node:module';
-import { resolve as resolvePath } from 'node:path';
-import { pathToFileURL } from 'node:url';
-import type { IInitializeMessage, InitializeData } from './common/message.types.js';
-import { inspectEnabled } from './master/cli.js';
-import { compileFile, createEntryMapping } from './worker/compiler.js';
-import { logger, registerLogger } from './worker/logger.js';
+import { isTypeOf, type IAddFileResponse, type IImportOptions, type InitializeData } from './common/message.types.js';
+import { debounceRefresh } from './worker/alive.js';
+import { _set_init_staff, postMessage } from './worker/bridge.js';
+import { compileFile } from './worker/compiler.js';
+import { logger } from './worker/logger.js';
+import { compiledFiles } from './worker/post-process.js';
 
 type P<T> = T | Promise<T>;
 
 export type NextResolve = (specifier: string, context?: Partial<ResolveHookContext>) => P<ResolveFnOutput>;
-
 export type NextLoad = (url: string, context?: Partial<LoadHookContext>) => P<LoadFnOutput>;
 
-let compiledFiles: undefined | Map<string, Uint8Array>;
-let inspectModeEntryMapping: undefined | Map<string, string>;
-export let messagePort: MessagePort | null = null;
+export async function initialize(input: InitializeData) {
+	_set_init_staff(input);
 
-export async function initialize({ options, port, tsFile }: InitializeData) {
-	registerLogger(port);
-	messagePort = port;
-
-	port.on('message', (data) => {
-		// handle messages
-		if (data?.type === 'quit') {
-			logger.worker`receive quit message`;
-			port.postMessage({ type: 'quit' });
+	input.port.on('message', (data) => {
+		if (isTypeOf(data, 'compile')) {
+			addSourceFile(data.tsFile, data.options);
+		} else if (isTypeOf(data, 'ping')) {
+			postMessage({ type: 'pong', id: data.id });
+		} else if (isTypeOf(data, 'quit')) {
+			process.exit(0);
+		} else {
+			throw new Error(`unknown message type: ${data?.type ?? JSON.stringify(data)}`);
 		}
 	});
 
-	let entryFileUrl: string = tsFile;
+	postMessage({ type: 'initialize' });
+}
+
+/**
+ *
+ */
+async function addSourceFile(tsFileUrl: string, options: IImportOptions) {
 	try {
-		logger.worker`initialize worker with options: ${tsFile}, ${options}`;
-		compiledFiles = await compileFile(tsFile, options, port);
-
-		if (inspectEnabled) {
-			logger.worker`inspect mode enabled, entry mapping:`;
-			inspectModeEntryMapping = new Map();
-			const { entryPoints, outDir } = createEntryMapping([tsFile, ...(options?.entries ?? [])]);
-			for (const entry of entryPoints) {
-				const from = pathToFileURL(resolvePath(outDir, entry.in)).toString();
-				// biome-ignore lint/style/useTemplate: 太长
-				const to = pathToFileURL(resolvePath(outDir, entry.out)).toString() + '.js';
-				logger.worker`  ${from} -> ${to}`;
-				inspectModeEntryMapping.set(from, to);
-			}
-			const shouldFoundEntry = inspectModeEntryMapping.get(tsFile);
-
-			if (!shouldFoundEntry) {
-				throw new Error(`inspect mode entry file not found: ${tsFile}`);
-			}
-			entryFileUrl = shouldFoundEntry;
-		}
-
-		logger.worker`initialized | entry file: ${entryFileUrl}`;
-
-		port.postMessage({ type: 'initialize', success: true, entryFileUrl: entryFileUrl } satisfies IInitializeMessage);
+		logger.worker`initialize worker with options: ${tsFileUrl}, ${options}`;
+		// const { result, outDir, ancestor } =
+		await compileFile(tsFileUrl, options);
 	} catch (e: any) {
-		port.postMessage({ type: 'initialize', success: false, message: e.message, stack: e.stack } satisfies IInitializeMessage);
+		postMessage({
+			type: 'compiled',
+			tsFile: tsFileUrl,
+			success: false,
+			message: e.message,
+			stack: e.stack,
+			options: options,
+		} satisfies IAddFileResponse);
 	}
 }
 
 export async function resolve(specifier: string, context: ResolveHookContext, nextResolve: NextResolve): Promise<ResolveFnOutput> {
-	logger.hook`<${compiledFiles ? 'runtime' : 'compile'}> resolve: ${specifier} (${context.importAttributes.type})`;
-	if (!compiledFiles) {
-		// 编译没有完成时，插件正在尝试分析路径
-		const r = await nextResolve(specifier, context);
-		logger.hook`resolved default: ${r}`;
-		return r;
+	if (!specifier.startsWith('file:') && specifier.includes(':')) {
+		return await nextResolve(specifier, context);
 	}
 
-	let absolute: string = '';
+	logger.hook`try resolve: ${specifier}`;
+
+	let absoluteUrl: string = '';
 	if (specifier.startsWith('.') && context.parentURL) {
-		absolute = new URL(specifier, context.parentURL).href;
-		logger.hook`    turn to absolute: ${absolute}`;
+		absoluteUrl = new URL(specifier, context.parentURL).toString();
+		logger.hook`    turn to absolute: ${absoluteUrl}`;
 	} else if (specifier.startsWith('file:')) {
-		absolute = specifier;
+		absoluteUrl = specifier;
 		logger.hook`    originally absolute`;
 	} else {
-		// logger.hook`    non-relative and non-file specifier, skip resolve: ${specifier}`;
+		logger.hook`    non-relative and non-file`;
+		logger.hook`   - default resolve: ${specifier} | ${context.parentURL}`;
 	}
 
-	const inspectEntry = absolute && inspectModeEntryMapping?.get(absolute);
-	if (inspectEntry) {
-		logger.hook`    found inspect mode entry!`;
-		absolute = inspectEntry;
+	if (absoluteUrl) {
+		const compiled = compiledFiles.get(absoluteUrl);
+		if (compiled) {
+			debounceRefresh();
+			logger.hook`    resolve result: ${compiled.kind}:${compiled.fileUrl}`;
+			return {
+				url: compiled.fileUrl,
+				format: 'module',
+				shortCircuit: true,
+			};
+		} else {
+			logger.hook`    not found in compiled files`;
+		}
+		logger.hook`   - default resolve: ${specifier}`;
 	}
 
-	if (absolute && compiledFiles.has(absolute)) {
-		logger.hook`    resolve memory result: ${absolute}`;
-		return {
-			url: absolute,
-			format: 'module',
-			shortCircuit: true,
-		};
-	}
-
-	logger.hook`   - default resolve: ${specifier} | ${context.parentURL}`;
 	try {
 		return await nextResolve(specifier, context);
 	} catch (e: any) {
+		compiledFiles.dump();
+
 		logger.error`default resolve failed: ${e.message}`;
 		throw e;
 	}
@@ -106,25 +102,18 @@ export async function resolve(specifier: string, context: ResolveHookContext, ne
 
 export function load(url: string, context: LoadHookContext, nextLoad: NextLoad): P<LoadFnOutput> {
 	logger.hook`try load: ${url} (${context.importAttributes.type})`;
-	if (!compiledFiles) {
-		// esbuild plugin is loading package.json
-		return nextLoad(url, context);
-	}
 
 	const data = compiledFiles.get(url);
-	if (data) {
+	if (data?.kind === 'virtual') {
 		logger.hook`    load from memory`;
+		debounceRefresh();
 		return {
 			format: 'module',
-			source: data,
+			source: data.content,
 			shortCircuit: true,
 		};
-		// } else {
-		// 	const knowns = [...compiledFiles.keys()];
-		// 	logger.hook(`not found this module (${knowns.length}): ${url}`);
-		// 	for (const k of knowns) {
-		// 		logger.hook(`  - ${k}`);
-		// 	}
+	} else {
+		//
 	}
 	return nextLoad(url, context);
 }

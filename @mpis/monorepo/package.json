@@ -32,10 +32,10 @@
 		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@mpis/typescript": "workspace:^",
+		"test": "./test",
 		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {

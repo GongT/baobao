@@ -38,9 +38,7 @@ export function useDebounce<T extends CallableFunction>(action: T, delay: number
  * 创建一个防抖函数，延时可变
  * @returns 返回一个函数，第一个参数为延时毫秒数，后续参数为传递给 action 的参数
  */
-export function useDebounceDynamic<Args extends any[], Ret>(
-	action: (...args: Args) => Ret,
-): (delay: number, ...args: Args) => void {
+export function useDebounceDynamic<Args extends any[], Ret>(action: (...args: Args) => Ret): (delay: number, ...args: Args) => void {
 	const timeoutRef = useRef<number>(0);
 	const callback = useLatestCallback(action);
 

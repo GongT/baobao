@@ -1,0 +1,120 @@
+{
+  "inputs": {
+    "common/share-lib.ts": {
+      "bytes": 300,
+      "imports": [
+        {
+          "path": "node:crypto",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node:worker_threads",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "tsfile.ts": {
+      "bytes": 141,
+      "imports": [
+        {
+          "path": "common/share-lib.ts",
+          "kind": "import-statement",
+          "original": "./common/share-lib.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "common/worker.ts": {
+      "bytes": 76,
+      "imports": [
+        {
+          "path": "common/share-lib.ts",
+          "kind": "import-statement",
+          "original": "./share-lib.js"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "entry_tsfile_AWF6UEF5.virtual.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 318
+    },
+    "entry_tsfile_AWF6UEF5.virtual.js": {
+      "imports": [
+        {
+          "path": "chunk_JRVEOFWN.virtual.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "x1"
+      ],
+      "entryPoint": "tsfile.ts",
+      "inputs": {
+        "tsfile.ts": {
+          "bytesInOutput": 73
+        }
+      },
+      "bytes": 311
+    },
+    "entry_worker_3SGBGWHC.virtual.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 225
+    },
+    "entry_worker_3SGBGWHC.virtual.js": {
+      "imports": [
+        {
+          "path": "chunk_JRVEOFWN.virtual.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [],
+      "entryPoint": "common/worker.ts",
+      "inputs": {
+        "common/worker.ts": {
+          "bytesInOutput": 39
+        }
+      },
+      "bytes": 251
+    },
+    "chunk_JRVEOFWN.virtual.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 644
+    },
+    "chunk_JRVEOFWN.virtual.js": {
+      "imports": [
+        {
+          "path": "node:crypto",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node:worker_threads",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "createWorker",
+        "x"
+      ],
+      "inputs": {
+        "common/share-lib.ts": {
+          "bytesInOutput": 287
+        }
+      },
+      "bytes": 477
+    }
+  }
+}

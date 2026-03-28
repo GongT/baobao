@@ -5,10 +5,7 @@
 	"version": "0.1.20",
 	"exports": {
 		".": {
-			"esbuild": {
-				"early-loader": "./src/early-loader.devel.ts",
-				"generate": "./src/generate.devel.ts"
-			},
+			"early-loader": "./src/generate.devel.ts",
 			"source": "./src/autoindex.generated.ts",
 			"default": "./lib/autoindex.generated.js"
 		},

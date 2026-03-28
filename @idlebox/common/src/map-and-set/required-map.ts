@@ -37,6 +37,10 @@ export class RequiredMap<K, V> extends Map<K, V> {
 	}
 }
 
+if (Map.prototype.getOrInsert) {
+	RequiredMap.prototype.get = Map.prototype.getOrInsert as any;
+}
+
 /**
  * A map that holds instances, automatically create new instance
  */
@@ -55,4 +59,10 @@ export abstract class InstanceMap<K, V> extends Map<K, V> {
 		super.set(id, nv);
 		return nv;
 	}
+}
+
+if (typeof Map.prototype.getOrInsertComputed === 'function') {
+	RequiredMap.prototype.get = function (this: InstanceMap<any, any>, id: any): any {
+		return this.getOrInsertComputed(id, (k) => this.instance(k));
+	};
 }

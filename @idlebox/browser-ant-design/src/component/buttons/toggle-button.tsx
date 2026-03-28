@@ -20,7 +20,7 @@ export function ToggleButton({ icon, text, title, ...props }: IToggleButtonProps
 	const vtitle = title?.[value ? 0 : 1];
 
 	return (
-		<Button {...extra} icon={vicon} title={vtitle} onClick={() => setValue(!value)}>
+		<Button {...extra} icon={vicon} onClick={() => setValue(!value)} title={vtitle}>
 			{vtext ?? vtitle}
 		</Button>
 	);

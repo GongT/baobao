@@ -1,0 +1,11 @@
+{
+	"name": "test-pkg",
+	"type": "module",
+	"private": true,
+	"exports": {
+		".": {
+			"early-loader": "./gen.devel.ts",
+			"default": "./index.ts"
+		}
+	}
+}

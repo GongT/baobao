@@ -1,7 +1,7 @@
 import { isAbsolute } from '../path/isAbsolute.js';
 
-const padding = /^(?<padding> {4})at /.source;
-const func_call = /(?<func_name>(?:(?:async|new) )?[^/\\\s]+) (?:\[as (?<func_alias>[^\]]+)] )?/.source;
+const padding = /^(?<padding> {4})at (?:(?:async|new) )?/.source;
+const func_call = /(?<func_name>[^/\\\s]+) (?:\[as (?<func_alias>[^\]]+)] )?/.source;
 //                              xxxx.yyyyy [as eval]
 const line_column = /(?::(?<line>\d+))?(?::(?<column>\d+))?/.source;
 const locationEsm = /(?<schema>node:|file:\/\/|https?:\/\/)?(?<path2>[^:]+)/.source;

@@ -44,7 +44,7 @@ export async function makeIndexFile(root_dir: string, globs: readonly string[], 
 	const obj = convertCommandsToJson(output);
 	const json = JSON.stringify(obj, null, '\t');
 
-	unlinkSync(tempEntryFile);
+	if (!process.env.WRITE_COMPILE_RESULT) unlinkSync(tempEntryFile);
 
 	return `import type { ICommandDefineWithCommand } from '${typeFrom}';
 export const cli_commands: readonly ICommandDefineWithCommand[] = ${json};
@@ -65,7 +65,7 @@ function convertCommandsToJson(commands: IExports) {
 			continue;
 		}
 		if (typeof Class !== 'function' || !(Class.prototype instanceof CommandDefine)) {
-			errors.push(`命令 "${command}" 类型定义不正确: Command 应继承 CommandDefine`);
+			errors.push(`命令 "${command}" 类型定义不正确: Command 应继承 CommandDefine，但实际类型为 ${Class.name} / ${Class.prototype.constructor.name}`);
 			continue;
 		}
 		// console.log(`command: ${command}, class: ${JSON.stringify(obj.toJSON())}`);

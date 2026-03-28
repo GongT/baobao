@@ -37,16 +37,7 @@ const useStyles = makeStyles({
 	button: {},
 });
 
-export function FileButton({
-	onChange,
-	id,
-	className,
-	children = '选择文件',
-	value,
-	icon = <UploadOutlined />,
-	accept,
-	...props
-}: IFileButtonProps) {
+export function FileButton({ onChange, id, className, children = '选择文件', value, icon = <UploadOutlined />, accept, ...props }: IFileButtonProps) {
 	const classes = useStyles();
 
 	function onBeforeUpload(file: FileType) {
@@ -58,8 +49,8 @@ export function FileButton({
 	}
 
 	return (
-		<Upload fileList={[]} beforeUpload={onBeforeUpload} onRemove={handleRemove} disabled={props.disabled}>
-			<Button id={id} className={mergeClasses(className, classes.button)} {...props} icon={icon}>
+		<Upload beforeUpload={onBeforeUpload} disabled={props.disabled} fileList={[]} onRemove={handleRemove}>
+			<Button className={mergeClasses(className, classes.button)} id={id} {...props} icon={icon}>
 				{children}
 			</Button>
 		</Upload>

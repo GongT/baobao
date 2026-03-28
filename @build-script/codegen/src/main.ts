@@ -1,20 +1,18 @@
 import { UsageError, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { glob, type GlobOptionsWithFileTypesFalse } from 'glob';
 import { existsSync } from 'node:fs';
 import { findPackageJSON } from 'node:module';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { generatorHolder } from './common/code-generator-holder.js';
+import { GeneratorHolder } from './common/code-generator-holder.js';
+import { ImportExecuter } from './common/executer.import.js';
+import { SpawnExecuter } from './common/executer.spawn.js';
 import { shutdown } from './common/lifecycle.js';
-import { registerModuleLoader } from './common/module-loading-transpile.js';
 import { remainingArgs, showHelp, watchMode } from './common/shared.js';
 import { startWatchMode } from './common/watch-mode.js';
 
 export async function main() {
 	Error.stackTraceLimit = Number.MAX_SAFE_INTEGER;
-	registerModuleLoader();
-	registerGlobalLifecycle(generatorHolder);
 
 	if (showHelp) {
 		console.log('usage: $0 [--watch] ...root-dirs');
@@ -51,9 +49,8 @@ export async function main() {
 		}
 	}
 
-	for (const root of roots) {
-		await configure(root);
-	}
+	const generatorHolder = new GeneratorHolder([...roots.values()], watchMode ? SpawnExecuter : ImportExecuter);
+	registerGlobalLifecycle(generatorHolder);
 
 	if (watchMode) {
 		logger.debug('execute generators in watch mode.');
@@ -63,23 +60,13 @@ export async function main() {
 			shutdown(0);
 		});
 
-		startWatchMode([...roots]);
+		startWatchMode(generatorHolder);
 	} else {
 		logger.debug('execute generators in build mode.');
 
+		await generatorHolder.configureCodeGenerators();
 		const result = await generatorHolder.executeAll();
 
 		await shutdown(result.errors.length);
 	}
-}
-
-async function configure(path: string) {
-	const globOptions: GlobOptionsWithFileTypesFalse = {
-		cwd: path,
-		absolute: true,
-		ignore: ['node_modules/**'],
-	};
-	const files = await glob('**/*.generator.ts', globOptions);
-
-	await generatorHolder.configureCodeGenerators(files);
 }

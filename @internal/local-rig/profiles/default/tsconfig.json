@@ -1,12 +1,17 @@
 {
-	"extends": "../../node_modules/@build-script/baseline-rig/package/tsconfig.json",
+	"extends": "../../../../@build-script/baseline-rig/package/tsconfig.json",
 	// "exclude": ["**/*.generator.ts", "**/*.test.ts", "**/*.test.tsx", "**/*.devel.ts"],
 	"compilerOptions": {
+		"customConditions": ["source", "import", "default"],
+		"lib": ["ESNext"],
+		"types": [
+			"platform", // 在 .pnpmfiles.js 里替换成了 @types/node 或 DOM
+			"itypes", // @idlebox/itypes
+		],
 		/*
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		// "types": ["node"],
 		*/
 	},
 }

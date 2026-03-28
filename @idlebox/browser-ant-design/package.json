@@ -29,13 +29,10 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "workspace:@idlebox/empty@*",
+		"@types/web": "^0.0.344",
 		"@types/react": "^19.2.14"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }

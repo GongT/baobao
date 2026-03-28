@@ -9,8 +9,6 @@ import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
 
-process.env.COREPACK_ENABLE_STRICT = '0';
-
 export class Command extends CommandDefine {
 	protected override readonly _usage = '';
 	protected override readonly _description = '本地运行npm pack并与npm上的最新版本对比差异';
@@ -23,6 +21,7 @@ export class Command extends CommandDefine {
 }
 
 export async function main() {
+	process.env.COREPACK_ENABLE_STRICT = '0';
 	const unshareFrom = argv.single(['--unshare']);
 	const autoInc = argv.flag(['--bump']) > 0;
 	const jsonOutput = argv.flag(['--json']) > 0 || !process.stdout.isTTY;

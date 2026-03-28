@@ -1,12 +1,11 @@
 import { DeferredPromise } from '../promise/deferred-promise.js';
-import type { TimeoutType } from './local-type.js';
 
 /**
  * 反复推迟的 setTimeout
  */
 export class ExtendableTimer {
 	private readonly dfd = new DeferredPromise<void>();
-	private tmr?: TimeoutType;
+	public tmr?: ITimeoutType;
 
 	constructor(private readonly durationMs: number) {}
 

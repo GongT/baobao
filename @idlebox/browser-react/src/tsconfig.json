@@ -1,11 +1,10 @@
 {
-	"extends": "@internal/local-rig/profiles/default/tsconfig.json",
+	"extends": "@internal/local-rig/profiles/default/tsconfig.web.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"lib": ["ESNext", "DOM"],
-		"types": ["react"],
+		"types": ["react", "platform", "itypes"],
 		"jsx": "react-jsx",
 	},
 	"exclude": ["**/*.generator.ts"],

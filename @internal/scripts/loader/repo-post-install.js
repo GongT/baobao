@@ -1,11 +1,9 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import { execute } from '@idlebox/esbuild-executer';
-import { basename, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import '@idlebox/native-executer/register';
+import { basename } from 'node:path';
 
-const prefixFile = resolve(import.meta.dirname, '../src/common/execute-prefix.ts');
-await execute(pathToFileURL(prefixFile).href);
+await import('../src/common/execute-prefix.ts');
 
-const entryPoint = resolve(import.meta.dirname, '../src', `${basename(import.meta.filename, '.js')}.ts`);
-await execute(pathToFileURL(entryPoint).href);
+const entryPoint = import.meta.resolve(`../src/${basename(import.meta.filename, '.js')}.ts`);
+await import(entryPoint);

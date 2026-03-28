@@ -24,10 +24,10 @@ function reorder_exports() {
 		if (Object.keys(item).length === 1 && item.default) return item.default;
 		const { lowlevel, source, types, esbuild, default: def, ...rest } = item;
 		return {
+			...(types ? { types } : {}),
 			...(lowlevel ? { lowlevel } : {}),
 			...(esbuild ? { esbuild } : {}),
 			...(source ? { source } : {}),
-			...(types ? { types } : {}),
 			...rest,
 			...(def ? { default: def } : {}),
 		};

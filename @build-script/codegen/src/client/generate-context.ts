@@ -1,10 +1,12 @@
 import { loadInheritedJson } from '@idlebox/json-extends-loader';
-import type { ISimpleLogger } from '../common/shared.js';
+import type { IMyLogger } from '@idlebox/logger';
 import { FileBuilder } from './file-builder.js';
 
 export interface IGenerateContext extends Context {}
 
 export type GenerateContext = Omit<IGenerateContext, 'emitFiles'>;
+
+export type IGenerateFunction = (ctx: GenerateContext, logger: IMyLogger) => Promise<string | undefined>;
 
 export class Context {
 	private readonly files: FileBuilder[] = [];
@@ -12,7 +14,7 @@ export class Context {
 
 	constructor(
 		public readonly sourceFile: string, // absolute
-		public readonly logger: ISimpleLogger,
+		public readonly logger: IMyLogger,
 		public readonly projectRoot: string,
 	) {}
 
@@ -20,6 +22,7 @@ export class Context {
 	 * 将文件添加到监听列表中，如果任意文件发生更改，生成器将重新运行
 	 *
 	 * *注意: 如果需要监听文件夹，则必须以 / 结尾*
+	 * 
 	 * 所有源代码（自身和 import() 的文件）将自动添加到列表中，不需要手动添加
 	 *
 	 * @param files 要添加到监听列表的文件

@@ -12,16 +12,7 @@ interface IConfirmProps {
 	cancelText?: string;
 	passthrough?: boolean;
 }
-export function ConfirmButton({
-	children,
-	title,
-	position,
-	disabled,
-	description,
-	okText,
-	cancelText = '放弃',
-	passthrough,
-}: IConfirmProps) {
+export function ConfirmButton({ children, title, position, disabled, description, okText, cancelText = '放弃', passthrough }: IConfirmProps) {
 	const [open, setOpen] = useState(false);
 
 	const defer = useAsync(title);
@@ -46,19 +37,19 @@ export function ConfirmButton({
 	});
 	return (
 		<Popconfirm
-			title={title}
-			description={description}
-			okText={okText}
 			cancelText={cancelText}
-			open={open}
-			onOpenChange={setOpen}
-			onConfirm={originalClick ? handleConfirm : undefined}
-			showCancel={!defer.loading}
+			description={description}
 			okButtonProps={{
 				danger: true,
 				disabled: defer.loading || disabled,
 			}}
+			okText={okText}
+			onConfirm={originalClick ? handleConfirm : undefined}
+			onOpenChange={setOpen}
+			open={open}
 			placement={position}
+			showCancel={!defer.loading}
+			title={title}
 		>
 			{child}
 		</Popconfirm>

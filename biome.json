@@ -37,7 +37,8 @@
 				"noControlCharactersInRegex": "off",
 				"noImplicitAnyLet": "off",
 				"noConfusingVoidType": "off",
-				"noShadowRestrictedNames": "off"
+				"noShadowRestrictedNames": "off",
+				"noTsIgnore": "off"
 			},
 			"style": {
 				"noParameterAssign": "off",
@@ -83,18 +84,7 @@
 					"level": "error",
 					"options": {}
 				},
-				"useImportExtensions": {
-					"fix": "unsafe",
-					"level": "error",
-					"options": {
-						"forceJsExtensions": false,
-						"extensionMappings": {
-							"ts": "js",
-							"tsx": "js",
-							"json": "json"
-						}
-					}
-				},
+				"useImportExtensions": "off",
 				"noConstantCondition": "off",
 				"useExhaustiveDependencies": "off",
 				"useHookAtTopLevel": "off"
@@ -104,7 +94,8 @@
 				"useTopLevelRegex": "info",
 				"noDelete": "off"
 			},
-			"security": {}
+			"security": {},
+			"a11y": "info"
 		}
 	},
 	"javascript": {

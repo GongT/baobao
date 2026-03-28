@@ -10,4 +10,9 @@ export interface IErrorOptions {
 	 * @see {Error.cause}
 	 */
 	cause?: unknown;
+
+	/**
+	 * 替换stack
+	 */
+	stack?: string;
 }

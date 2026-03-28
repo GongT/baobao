@@ -12,7 +12,7 @@ export function HashString(props: { children: string | string[]; length?: number
 	style.whiteSpace = 'nowrap';
 
 	return (
-		<Typography.Text title={v} style={style}>
+		<Typography.Text style={style} title={v}>
 			{v.slice(0, left)}
 			<span style={{ userSelect: 'none', margin: '0 0.2em' }}>...</span>
 			<span style={{ overflow: 'hidden', height: 1, width: 1, display: 'inline-block' }}>{v.slice(left, -right)}</span>
@@ -23,7 +23,7 @@ export function HashString(props: { children: string | string[]; length?: number
 
 export function renderObjectId(v: string) {
 	return (
-		<Typography.Text title={v} style={{ whiteSpace: 'nowrap', fontFamily: 'monospace' }}>
+		<Typography.Text style={{ whiteSpace: 'nowrap', fontFamily: 'monospace' }} title={v}>
 			<span style={{ userSelect: 'none', fontWeight: 'bold' }}>$</span>
 			<HashString style={{ fontStyle: 'italic' }}>{v}</HashString>
 		</Typography.Text>

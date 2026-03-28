@@ -1,40 +1,56 @@
 import { startChokidar, type IWatchHelper } from '@idlebox/chokidar';
-import { registerGlobalLifecycle } from '@idlebox/common';
+import { convertCaughtError, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger as glogger } from '@idlebox/logger';
 import { globSync } from 'glob';
-import { generatorHolder } from './code-generator-holder.js';
+import type { GeneratorHolder } from './code-generator-holder.js';
 import { IgnoreFiles } from './ignore-files.js';
+import { shutdown } from './lifecycle.js';
 import { debugMode } from './shared.js';
 
 const logger = glogger.extend('watcher');
 
-export function startWatchMode(roots: readonly string[]) {
-	const watcher = createWatch(handleFileChanges);
+export function startWatchMode(generatorHolder: GeneratorHolder) {
+	const watcher = createWatch((changes) => runOnce(generatorHolder, changes));
 
 	const folders = globSync(
-		roots.map((p) => `${p}/**/`),
-		{ ignore: ['node_modules/**'] },
+		generatorHolder.roots.map((p) => `${p}/**/`),
+		{ ignore: ['**/node_modules/**', '**/node_modules/**'] },
 	);
 	watcher.add(folders);
+	runOnce(generatorHolder).finally(() => {
+		logger.log(`👀 starting watch mode on ${folders.length} folders.`);
+	});
 
-	syncFilesToWatcher(watcher);
+	syncFilesToWatcher(generatorHolder, watcher);
 }
 
-async function handleFileChanges(changes: string[]) {
-	if (debugMode) {
-		logger.warn('file changes:');
-		for (const change of changes) {
-			logger.debug(change);
+async function runOnce(generatorHolder: GeneratorHolder, changes?: readonly string[]) {
+	try {
+		await generatorHolder.configureCodeGenerators();
+
+		if (changes) {
+			logger.info`changes detected: ${changes.length} files changed.`;
+			if (debugMode) {
+				logger.warn('file changes:');
+				for (const change of changes) {
+					logger.debug(change);
+				}
+			}
+			await generatorHolder.executeRelated(new Set(changes));
+		} else {
+			logger.info`executing all code generators.`;
+			await generatorHolder.executeAll();
 		}
+	} catch (e) {
+		prettyPrintError('监视模式中出现未预料异常', convertCaughtError(e));
+		shutdown(66);
 	}
-
-	await generatorHolder.executeRelated(new Set(changes));
 }
 
-function syncFilesToWatcher(watcher: IWatchHelper) {
+function syncFilesToWatcher(generatorHolder: GeneratorHolder, watcher: IWatchHelper) {
 	generatorHolder.onComplete(() => {
-		const towatch = generatorHolder.getAllWatchingFiles();
-		watcher.add(towatch);
+		const watches = generatorHolder.getAllWatchingFiles();
+		watcher.add(watches);
 
 		notifyWatching(watcher);
 	});
@@ -56,12 +72,14 @@ function notifyWatching(watcher: IWatchHelper) {
 		const notModuleCount = watching.filter((e) => !e.includes('/node_modules/')).length;
 		logger.log(`👀 watching ${watching.length} files for change (${notModuleCount} in project).`);
 
-		const line = '='.repeat(process.stderr.columns || 80);
-		console.error('\x1B[2m%s\r== watching files ', line);
-		for (const item of watching) {
-			console.error(item);
+		if (logger.verbose.isEnabled) {
+			const line = '='.repeat(process.stderr.columns || 80);
+			console.error('\x1B[2m%s\r== watching files ', line);
+			for (const item of watching) {
+				console.error(item);
+			}
+			console.error('%s\x1B[0m', line);
 		}
-		console.error('%s\x1B[0m', line);
 	}, 1000);
 }
 
@@ -71,11 +89,15 @@ function createWatch(runPass: (changes: string[]) => Promise<void>) {
 	watch_ignore.add('**/.*');
 
 	const watcher = startChokidar(runPass, {
-		// ignoreInitial: true,
-		watchingEvents: ['add', 'change', 'unlink', 'addDir', 'ready'],
+		ignoreInitial: true,
+		watchingEvents: ['add', 'change', 'unlink', 'addDir'],
 		ignored: (path) => {
 			const r = watch_ignore.ignore(path);
-			// if (r) console.log('[ignore] \x1B[%sm%s => %s\x1B[0m', r ? '38;5;9' : '0', path, r);
+			if (r) {
+				logger.debug('[ignore] %s', path);
+			} else {
+				// logger.verbose('[watch ] %s', path);
+			}
 			return r;
 		},
 	});

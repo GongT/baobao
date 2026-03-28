@@ -12,7 +12,7 @@ export const EllipsisMiddle: React.FC<IProps> = ({ suffix, children }) => {
 	const start = children.slice(0, children.length - suffix);
 	const suffixText = children.slice(-suffix).trim();
 	return (
-		<Typography.Text style={{ maxWidth: '100%' }} ellipsis={{ suffix: suffixText }}>
+		<Typography.Text ellipsis={{ suffix: suffixText }} style={{ maxWidth: '100%' }}>
 			{start}
 		</Typography.Text>
 	);

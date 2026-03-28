@@ -9,8 +9,6 @@ import { distTagInput } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 
-process.env.COREPACK_ENABLE_STRICT = '0';
-
 export class Command extends CommandDefine {
 	protected override readonly _usage = `\x1B[38;5;9m--\x1B[0m command to run`;
 	protected override readonly _description = '如果版本号改变，则运行命令';
@@ -35,6 +33,7 @@ export class Command extends CommandDefine {
 	};
 }
 export async function main(argv: IArgsReaderApi) {
+	process.env.COREPACK_ENABLE_STRICT = '0';
 	const noCache = argv.flag(['--no-cache']) > 0;
 	const flushCache = argv.flag(['--flush']) > 0;
 	const onlyNewer = argv.flag(['--newer']) > 0;

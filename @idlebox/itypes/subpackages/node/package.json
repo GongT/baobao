@@ -1,0 +1,19 @@
+{
+	"name": "@idlebox/itypes-node",
+	"type": "module",
+	"version": "0.0.2",
+	"description": "node export of @idlebox/itypes",
+	"scripts": {
+		"build": "",
+		"watch": "",
+		"clean": ""
+	},
+	"devDependencies": {
+		"@idlebox/itypes": "workspace:latest"
+	},
+	"types": "./node_modules/@idlebox/itypes/lib.node.d.ts",
+	"exports": {
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false
+}

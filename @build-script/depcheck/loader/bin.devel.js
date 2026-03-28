@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import { execute } from '@idlebox/esbuild-executer';
+import '@idlebox/native-executer/register';
 
 process.title = `BsDepcheck`;
 
-await execute(import.meta.resolve('../src/bin.ts'));
+await import('../src/bin.ts');

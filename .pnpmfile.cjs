@@ -82,12 +82,25 @@ function readPackage(packageJson, context) {
 		addEverythingToDependency(packageJson);
 	}
 
-	if (packageJson.name === '@rollup/plugin-swc') {
-		packageJson.dependencies['@swc/core'] = 'latest';
-	}
+	// if (packageJson.name === '@rollup/plugin-swc') {
+	// 	packageJson.dependencies['@swc/core'] = 'latest';
+	// }
 
 	if (myProjects.has(packageJson.name) || packageJson._example) {
-		return addNodejsShimTypes(packageJson);
+		for (const name of Object.keys(packageJson.dependencies || {})) {
+			if (name === '@types/source-map-support') continue;
+
+			if (name.startsWith('@types/')) {
+				throw new Error(`\x1B[38;5;11m[${packageJson.name}] "${name}" is in production dependencies.\x1B[0m`);
+			}
+		}
+		addNodejsShimTypes(packageJson);
+
+		if(packageJson.bin && packageJson.name !== '@idlebox/native-executer') {
+			packageJson.devDependencies['@idlebox/native-executer'] = 'workspace:^';
+		}
+
+		return packageJson;
 	}
 
 	if (packageJson.dependencies) lockDep(packageJson.dependencies, context);
@@ -98,15 +111,53 @@ function readPackage(packageJson, context) {
 	return packageJson;
 }
 
+const veryBasicProjects = ['@internal/local-rig', '@internal/scripts', '@idlebox/itypes', '@build-script/baseline-rig'];
 function addNodejsShimTypes(packageJson) {
-	if (findDep(packageJson, '@types/node')) {
-		if (packageJson.dependencies['@types/node']) {
-			console.error('\x1B[38;5;11m[%s] @types/node in dependencies.\x1B[0m', packageJson.name);
-		}
+	if (!packageJson.devDependencies) packageJson.devDependencies = {};
+
+	let resolvedVersion, itypesKind;
+	const nodejsTypesVer = findDep(packageJson, '@types/node');
+	const webTypesVer = findDep(packageJson, '@types/web');
+	if (veryBasicProjects.includes(packageJson.name)) {
+		return packageJson;
+	} else if (nodejsTypesVer) {
+		// 项目依赖nodejs环境
+		if (!nodejsTypesVer.startsWith('^')) throw new Error(`\x1B[38;5;11m[${packageJson.name}] "@types/node" version should start with "^".\x1B[0m`);
+
+		resolvedVersion = `npm:@types/node@${nodejsTypesVer}`;
+		itypesKind = `node`;
+	} else if (webTypesVer) {
+		// 项目依赖web/DOM环境
+		if (!webTypesVer.startsWith('^')) throw new Error(`\x1B[38;5;11m[${packageJson.name}] "@types/web" version should start with "^".\x1B[0m`);
+
+		delete packageJson.devDependencies['@types/web'];
+		resolvedVersion = `npm:@types/web@${webTypesVer}`;
+		itypesKind = `dom`;
 	} else {
-		if (!packageJson.devDependencies) packageJson.devDependencies = {};
-		packageJson.devDependencies['@types/node'] = 'workspace:@idlebox/itypes@*';
+		// 纯js库，不依赖任何运行时环境
+		resolvedVersion = `workspace:@idlebox/empty@^`;
+		itypesKind = `bare`;
 	}
+	itypesKind = `workspace:@idlebox/itypes-${itypesKind}@^`;
+
+	if (webTypesVer && nodejsTypesVer) {
+		throw new Error(`\x1B[38;5;11m[${packageJson.name}] should not depend on both "@types/node" and "@types/web".\x1B[0m`);
+	}
+
+	// if (findDep(packageJson, '@idlebox/itypes')) {
+	// 	// 已经依赖了 @idlebox/itypes，说明它不依赖任何特定环境
+	// 	// 实际只有 @idlebox/common 一个包是这种情况
+	// 	resolvedVersion = `workspace:@idlebox/empty@^`;
+	// 	itypesKind = `workspace:@idlebox/empty@^`;
+	// }
+
+	// 所有可以加载的地方全替换，防止第三方依赖安装了不兼容的版本
+	packageJson.devDependencies['@typescript/lib-dom'] = resolvedVersion;
+	packageJson.devDependencies['@types/node'] = resolvedVersion;
+
+	// 实际只生效（期望）
+	packageJson.devDependencies['@types/platform'] = resolvedVersion;
+	packageJson.devDependencies['@types/itypes'] = itypesKind;
 
 	return packageJson;
 }

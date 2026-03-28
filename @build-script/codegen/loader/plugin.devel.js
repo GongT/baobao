@@ -1,2 +1,3 @@
-// 实际会从内存加载
-export * from '../src/plugin.js';
+import '@idlebox/native-executer/register';
+
+export * from '../src/plugin.ts';

@@ -4,7 +4,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 export async function generate(_builder: FileBuilder, logger: IOutputShim) {
-	const pkgFile = path.resolve(__dirname, '../../package.json');
+	const pkgFile = path.resolve(import.meta.dirname, '../../package.json');
 	const pkg = JSON.parse(fs.readFileSync(pkgFile, 'utf-8'));
 
 	logger.log(`package info = ${pkg.name} @ ${pkg.version}`);

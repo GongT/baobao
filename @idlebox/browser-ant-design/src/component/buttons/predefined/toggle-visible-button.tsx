@@ -8,10 +8,7 @@ type IToggleVisibleButtonQuickProps = Omit<IToggleVisibleButtonProps, 'id'> & {
 	readonly id: string;
 };
 
-export function ToggleVisibleButton({
-	onChange,
-	...props
-}: IToggleVisibleButtonQuickProps | IToggleVisibleButtonProps) {
+export function ToggleVisibleButton({ onChange, ...props }: IToggleVisibleButtonQuickProps | IToggleVisibleButtonProps) {
 	const p = props as IToggleVisibleButtonQuickProps;
 	if (typeof p.onVisible === 'function') {
 		const onVis = p.onVisible;
@@ -26,14 +23,13 @@ export function ToggleVisibleButton({
 
 	return (
 		<ToggleButton
-			variant="outlined"
 			color="default"
 			type="default"
+			variant="outlined"
 			{...props}
-			// biome-ignore lint/correctness/useJsxKeyInIterable: 这不是数组
 			icon={[<EyeInvisibleOutlined />, <EyeOutlined />]}
-			title={['隐藏', '显示']}
 			onChange={onChange}
+			title={['隐藏', '显示']}
 		/>
 	);
 }

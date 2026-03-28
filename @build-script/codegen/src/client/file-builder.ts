@@ -2,9 +2,9 @@ import { escapeRegExp } from '@idlebox/common';
 import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
 import { dirname, extname, isAbsolute, resolve } from 'node:path';
-import type { ISimpleLogger } from '../common/shared.js';
 import { typescriptAlertHeader } from './alert-header.js';
 import { knownFileExtensions, sourceCodeExtensions } from './constants.js';
+import type { IMyLogger } from '@idlebox/logger';
 
 const endingQuote = /^}/;
 const hasTsSuffix = /\.[cm]?tsx?$/i;
@@ -29,7 +29,7 @@ export class FileBuilder {
 		// the generator.ts file absolute
 		private readonly selfPath: string,
 		name: string,
-		public readonly logger: ISimpleLogger,
+		public readonly logger: IMyLogger,
 		no_rename: boolean,
 	) {
 		if (isAbsolute(name)) {
@@ -42,7 +42,7 @@ export class FileBuilder {
 		}
 
 		if (!name.startsWith(projectRoot)) {
-			logger.warn(`output file "${name}" is not under the project root "${projectRoot}"`);
+			logger.warn`output file "${name}" is not under the project root ${projectRoot}`;
 		}
 
 		if (!no_rename) {

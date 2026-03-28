@@ -85,7 +85,7 @@ export async function buildOutput(targetRoot: string, files: readonly string[], 
 			},
 			plugins: [
 				nodeResolvePlugin({
-					exportConditions: ['import', 'node', 'default'],
+					exportConditions: ['import', 'node', 'source', 'default'],
 					allowExportsFolderMapping: false,
 					dedupe: [],
 					extensions: ['.js', '.ts'],

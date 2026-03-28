@@ -1,6 +1,6 @@
 import { EditOutlined } from '@ant-design/icons';
-import { dontChangeControlled } from '@idlebox/browser-react';
 import { makeStyles } from '@griffel/react';
+import { dontChangeControlled } from '@idlebox/browser-react';
 import { Typography } from 'antd';
 import { useEffect } from 'react';
 import type { IAntdCustomInputProps } from '../../common/custom-input.js';
@@ -44,7 +44,8 @@ const useStyles = makeStyles({
 });
 
 export function AbstractEditableInput<T>({ id, className, style, ...props }: IEdiableInputProps<T>) {
-	const defaultValue = props.defaultValue ?? props.value!;
+	const defaultValue = props.defaultValue ?? props.value;
+	if (defaultValue === undefined) throw new Error('defaultValue or value is required');
 	const [managedValue, setValue] = dontChangeControlled(props);
 	const [editing, setEditing] = dontChangeControlled<boolean>({
 		value: props.editing,
@@ -81,6 +82,8 @@ export function AbstractEditableInput<T>({ id, className, style, ...props }: IEd
 	}
 
 	function cancel() {
+		const defaultValue = props.defaultValue ?? props.value;
+		if (defaultValue === undefined) throw new Error('defaultValue or value is required for canceling');
 		setValue(defaultValue);
 		props.onCancel?.();
 		finishEditing();
@@ -95,13 +98,13 @@ export function AbstractEditableInput<T>({ id, className, style, ...props }: IEd
 		});
 
 		return (
-			<div id={id} className={className} style={style}>
+			<div className={className} id={id} style={style}>
 				{child}
 			</div>
 		);
 	} else {
 		return (
-			<div id={id} className={className} style={style} onClick={startEditing}>
+			<div className={className} id={id} onClick={startEditing} style={style}>
 				{props.renderText ? props.renderText({ value: managedValue }) : defaultRenderInput({ value: managedValue })}
 				<EditOutlined />
 			</div>

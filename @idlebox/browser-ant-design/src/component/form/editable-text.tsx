@@ -77,11 +77,13 @@ export function EditableText({ inputRef, id, suffix, placeholder, className, sty
 
 	if (editing) {
 		return (
-			<div id={id} className={className} style={style}>
+			<div className={className} id={id} style={style}>
 				<Input
-					ref={inputRef}
 					autoFocus
+					onChange={handleChange}
+					onKeyUp={handleKeyUp}
 					placeholder={placeholder}
+					ref={inputRef}
 					suffix={
 						<>
 							{suffix}
@@ -89,14 +91,12 @@ export function EditableText({ inputRef, id, suffix, placeholder, className, sty
 						</>
 					}
 					value={text}
-					onChange={handleChange}
-					onKeyUp={handleKeyUp}
 				/>
 			</div>
 		);
 	} else {
 		return (
-			<div id={id} className={className} style={style} onClick={startEditing}>
+			<div className={className} id={id} onClick={startEditing} style={style}>
 				<Typography.Text>{text}</Typography.Text>
 				<EditOutlined />
 			</div>

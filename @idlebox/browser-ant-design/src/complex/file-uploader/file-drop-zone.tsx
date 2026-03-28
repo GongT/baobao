@@ -97,8 +97,7 @@ export function FileDropZone({
 	const [totalFiles, setTotalFiles] = useState(0);
 	const [currentFile, setCurrentFile] = useState(0);
 	const [stage, setUploadStage] = useState(UploadStage.Finished);
-	const acceptUpload =
-		(state.state === DropControlState.Idle || state.state === DropControlState.Error) && !formProps.disabled;
+	const acceptUpload = (state.state === DropControlState.Idle || state.state === DropControlState.Error) && !formProps.disabled;
 	const disableDrop = state.state === DropControlState.Success && !formProps.disabled;
 
 	listenOnAbort(aborter, () => {

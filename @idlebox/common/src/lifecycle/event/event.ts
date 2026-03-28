@@ -1,6 +1,7 @@
-import { Exit } from '@idlebox/errors';
 import { defineInspectMethod, inspectSymbol } from '../../debugging/inspect.js';
 import { nameObject, objectName } from '../../debugging/object-with-name.js';
+import { convertCaughtError } from '../../error/convert-unknown.js';
+import { prettyPrintError } from '../../error/pretty.nodejs.js';
 import { createStackTraceHolder } from '../../error/stack-trace.js';
 import { functionToDisposable } from '../dispose/bridges/function.js';
 import type { IDisposable } from '../dispose/disposable.js';
@@ -9,15 +10,27 @@ import type { EventHandler, EventRegister, IEventEmitter } from './type.js';
 
 const anonymousName = 'AnonymousEmitter';
 
+enum FireErrorAction {
+	Throw = 0,
+	Delay = 1,
+	Ignore = 2,
+	PrintIgnore = 3,
+}
+
 /**
  * @public
  */
 export class Emitter<T = unknown> implements IEventEmitter<T> {
-	protected _callbacks?: (EventHandler<T> | undefined)[];
+	protected readonly _callbacks: (EventHandler<T> | undefined)[] = [];
 	private executing = false;
 	private _something_change_during_call = false;
 
-	constructor(public readonly displayName: string = anonymousName) {
+	static readonly EAction = FireErrorAction;
+
+	constructor(
+		public readonly displayName: string = anonymousName,
+		private readonly onErrorDefault: FireErrorAction = FireErrorAction.Throw,
+	) {
 		this.handle = Object.defineProperties(this.handle.bind(this), {
 			once: {
 				get: () => this.once.bind(this),
@@ -35,17 +48,69 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	}
 
 	public listenerCount() {
-		return this._callbacks?.length ?? 0;
+		return this._callbacks.length;
 	}
 
-	public fire(data: T) {
+	private __fireThrow(data: T) {
+		for (const callback of this._callbacks) {
+			callback?.(data);
+		}
+	}
+	private __fireDelay(data: T) {
+		const errors: Error[] = [];
+		for (const callback of this._callbacks) {
+			try {
+				callback?.(data);
+			} catch (e) {
+				errors.push(convertCaughtError(e));
+			}
+		}
+		return errors;
+	}
+	private __fireIgnore(data: T) {
+		for (const callback of this._callbacks) {
+			try {
+				callback?.(data);
+			} catch {}
+		}
+	}
+	private __firePrintIgnore(data: T) {
+		for (const callback of this._callbacks) {
+			try {
+				callback?.(data);
+			} catch (e) {
+				const ee = convertCaughtError(e);
+				prettyPrintError('error while handling event', ee);
+			}
+		}
+	}
+
+	/**
+	 * @param data
+	 * @param error {Emitter.EAction} 如何处理错误
+	 *  - Throw: 默认行为，遇到错误立即抛出，后续监听器不再被调用
+	 *  - Delay: 等所有监听器都调用完后，如果有错误则抛出AggregateError，包含所有错误
+	 *  - Ignore: 忽略所有错误，继续调用全部监听器
+	 *  - PrintIgnore: 忽略所有错误，但打印错误信息
+	 * @returns
+	 */
+	public fire(data: T, error = this.onErrorDefault) {
 		this.requireNotExecuting();
-		if (!this._callbacks) return;
+		if (!this._callbacks.length) return;
 
 		this.executing = true;
 		try {
-			for (const callback of this._callbacks) {
-				callback?.(data);
+			if (error === FireErrorAction.Throw) {
+				this.__fireThrow(data);
+			} else if (error === FireErrorAction.Delay) {
+				const errors = this.__fireDelay(data);
+				if (errors.length) {
+					throw new AggregateError(errors, 'multiple errors while handling event');
+				}
+			} else if (error === FireErrorAction.Ignore) {
+				this.__fireIgnore(data);
+			} else if (error === FireErrorAction.PrintIgnore) {
+				this.__firePrintIgnore(data);
 			}
 		} finally {
 			this.executing = false;
@@ -55,25 +120,9 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 		}
 	}
 
+	/** @deprecated use fire(data, Emitter.Error.Ignore) */
 	public fireNoError(data: T) {
-		this.requireNotExecuting();
-		if (!this._callbacks) return;
-
-		this.executing = true;
-		for (const callback of this._callbacks) {
-			try {
-				callback?.(data);
-			} catch (e) {
-				if (e instanceof Exit) {
-					break;
-				}
-				console.error('Emitter.fireNoError: error ignored: %s', e instanceof Error ? e.stack : e);
-			}
-		}
-		this.executing = false;
-		if (this._something_change_during_call) {
-			this.checkDeleted();
-		}
+		this.fire(data, FireErrorAction.Ignore);
 	}
 
 	get register(): EventRegister<T> {
@@ -91,20 +140,17 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	handle(callback: EventHandler<T>): IDisposable {
 		this.requireNotExecuting();
 
-		if (!this._callbacks) this._callbacks = [];
-
-		const callbacks = this._callbacks;
-		callbacks.unshift(callback);
+		this._callbacks.unshift(callback);
 
 		return functionToDisposable(
 			nameObject(`removeListener(${objectName(callback)})`, () => {
-				const index = callbacks.indexOf(callback);
+				const index = this._callbacks.indexOf(callback);
 				if (index === -1) return;
 				if (this.executing) {
 					this._something_change_during_call = true;
-					callbacks[index] = undefined;
+					this._callbacks[index] = undefined;
 				} else {
-					callbacks.splice(index, 1);
+					this._callbacks.splice(index, 1);
 				}
 			}),
 		);
@@ -159,7 +205,8 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 		if (this._disposed) return;
 		this._disposed = true;
 
-		this._callbacks = undefined;
+		this._callbacks.length = 0;
+		Object.assign(this, { _callbacks: null });
 
 		if (this._waittings) {
 			for (const rej of this._waittings) {

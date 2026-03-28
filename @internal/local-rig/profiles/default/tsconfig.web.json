@@ -1,0 +1,12 @@
+{
+	"extends": "./tsconfig.json",
+	// "exclude": ["**/*.generator.ts", "**/*.test.ts", "**/*.test.tsx", "**/*.devel.ts"],
+	"compilerOptions": {
+		"customConditions": ["source", "browser", "import", "default"],
+		/*
+		"typeRoots": ["../node_modules/@types", "../node_modules"],
+		"outDir": "../lib",
+		"rootDir": "./",
+		*/
+	},
+}

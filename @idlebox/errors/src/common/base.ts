@@ -2,6 +2,9 @@ import { humanReadable, type IHumanReadable } from './human-readable.js';
 import type { IErrorOptions } from './type.js';
 import { captureStackTrace } from './v8.js';
 
+const noneSpaceStart = /^\S/;
+const firstLine = /^[^\n]+/;
+
 /**
  * 最基本的错误类型
  * 其他所有错误的基类
@@ -15,7 +18,21 @@ export class ErrorWithCode extends Error implements IHumanReadable {
 	) {
 		super(message, opts);
 
-		captureStackTrace(this, opts?.boundary ?? this.constructor);
+		if (opts?.stack) {
+			const s = opts.stack;
+			Object.defineProperty(this, 'stack', {
+				get() {
+					if (noneSpaceStart.test(s)) {
+						// 如果stack的第一行不是以空白开头，说明它可能是一个完整的stack字符串，此时替换其中第一行
+						return s.replace(firstLine, message);
+					} else {
+						return `${this.message}\n${s}`;
+					}
+				},
+			});
+		} else {
+			captureStackTrace(this, opts?.boundary ?? this.constructor);
+		}
 	}
 
 	public override get name() {

@@ -21,11 +21,7 @@ humanDate.setLocaleFormatter({
 
 export function renderTimestamp(ts: number) {
 	const date = fromTimeStamp(ts);
-	return (
-		<Typography.Text title={humanDate.datetime(date)}>
-			{humanDate.deltaTiny(Date.now(), date.getTime())}前
-		</Typography.Text>
-	);
+	return <Typography.Text title={humanDate.datetime(date)}>{humanDate.deltaTiny(Date.now(), date.getTime())}前</Typography.Text>;
 }
 
 export function renderDate(mdate: Date | number | string) {
@@ -38,9 +34,5 @@ export function renderDate(mdate: Date | number | string) {
 	if (Number.isNaN(date.getTime())) {
 		return <Typography.Text title={`${mdate}`}>数据无效</Typography.Text>;
 	}
-	return (
-		<Typography.Text title={humanDate.datetime(date)}>
-			{humanDate.deltaTiny(Date.now(), date.getTime())}前
-		</Typography.Text>
-	);
+	return <Typography.Text title={humanDate.datetime(date)}>{humanDate.deltaTiny(Date.now(), date.getTime())}前</Typography.Text>;
 }

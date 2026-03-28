@@ -8,7 +8,7 @@ export async function generate(context: GenerateContext) {
 		allowHigherVersions: true,
 		browsers: ['defaults', 'fully supports wasm', 'fully supports cryptography'].join(' and '),
 	});
-	
+
 	list.append('export const browserlistSupport =');
 	list.append(`\t${regexp.toString()};`);
 }

@@ -1,5 +1,5 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import { execute } from '@idlebox/esbuild-executer';
+import '@idlebox/native-executer/register';
 
-await execute(import.meta.resolve('../src/bins/list-monorepo-projects.ts'));
+await import('../src/bins/list-monorepo-projects.ts');

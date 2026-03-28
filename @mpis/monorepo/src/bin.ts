@@ -1,3 +1,4 @@
+import type { ISubArgsReaderApi } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import { humanDate, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
@@ -19,7 +20,7 @@ if (helpMode) {
 	shutdown(0);
 }
 
-const cmd = argv.command(['build', 'rebuild', 'watch', 'clean', 'list', 'ls', 'dot', 'analyze']);
+const cmd = argv.command(['build', 'rebuild', 'watch', 'clean', 'list', 'ls', 'dot', 'analyze', 'test']);
 if (!cmd) {
 	printUsage();
 	logger.error`No command specified`;
@@ -34,50 +35,65 @@ registerGlobalLifecycle(
 	}),
 );
 
-logger.log`Running command: ${currentCommand}`;
-logger.log`working directory: ${process.cwd()}`;
+main(cmd); // no catch, use global handler
 
-switch (currentCommand) {
-	case 'rebuild':
-		throw new Error('The "rebuild" command is not implemented yet.');
-	case 'build':
-		{
-			const { runBuild } = await import('./actions/cmd.build.js');
-			await runBuild();
-			setExitCodeIfNot(0);
+async function main(cmd: ISubArgsReaderApi) {
+	logger.log`Running command: ${currentCommand}`;
+	logger.log`Working directory: ${process.cwd()}`;
+
+	try {
+		switch (currentCommand) {
+			case 'test':
+				{
+					const { runTest } = await import('./actions/cmd.test-job.js');
+					await runTest();
+					setExitCodeIfNot(0);
+				}
+				break;
+			case 'rebuild':
+				throw new Error('The "rebuild" command is not implemented yet.');
+			case 'build':
+				{
+					const { runBuild } = await import('./actions/cmd.build.js');
+					await runBuild();
+					setExitCodeIfNot(0);
+				}
+				break;
+			case 'watch':
+				{
+					const { runWatch } = await import('./actions/cmd.watch.js');
+					await runWatch();
+					setExitCodeIfNot(0);
+				}
+				break;
+			case 'list':
+			case 'ls':
+				{
+					const { runList } = await import('./actions/cmd.list.js');
+					await runList();
+					setExitCodeIfNot(0);
+				}
+				break;
+			case 'clean':
+				throw new Error('The "clean" command is not implemented yet.');
+			case 'dot':
+				{
+					const { runDot } = await import('./actions/cmd.dot.js');
+					await runDot();
+					setExitCodeIfNot(0);
+				}
+				break;
+			case 'analyze':
+				{
+					const { runAnalyze } = await import('./actions/cmd.analyze.js');
+					await runAnalyze(cmd);
+					setExitCodeIfNot(0);
+				}
+				break;
+			default:
+				throw new Error(`impossible: invalid command`);
 		}
-		break;
-	case 'watch':
-		{
-			const { runWatch } = await import('./actions/cmd.watch.js');
-			await runWatch();
-			setExitCodeIfNot(0);
-		}
-		break;
-	case 'list':
-	case 'ls':
-		{
-			const { runList } = await import('./actions/cmd.list.js');
-			await runList();
-			setExitCodeIfNot(0);
-		}
-		break;
-	case 'clean':
-		throw new Error('The "clean" command is not implemented yet.');
-	case 'dot':
-		{
-			const { runDot } = await import('./actions/cmd.dot.js');
-			await runDot();
-			setExitCodeIfNot(0);
-		}
-		break;
-	case 'analyze':
-		{
-			const { runAnalyze } = await import('./actions/cmd.analyze.js');
-			await runAnalyze(cmd);
-			setExitCodeIfNot(0);
-		}
-		break;
-	default:
-		throw new Error(`impossible: invalid command`);
+	} catch (e) {
+		console.error(e);
+	}
 }

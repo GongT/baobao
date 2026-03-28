@@ -37,20 +37,8 @@ const useStyles = makeStyles({
 export const FileDropZoneLine = forwardRef<HTMLDivElement, IAdditionalProps>((props: IAdditionalProps, ref) => {
 	const classes = useStyles();
 
-	const {
-		aborter,
-		hover,
-		percent,
-		state,
-		error,
-		type,
-		stage,
-		disabled,
-		currentFile,
-		totalFiles,
-		idleText,
-		...additionalProps
-	} = props as IUploaderUiProps & IAdditionalProps;
+	const { aborter, hover, percent, state, error, type, stage, disabled, currentFile, totalFiles, idleText, ...additionalProps } = props as IUploaderUiProps &
+		IAdditionalProps;
 
 	const { what, icon } = uploaderProps[type];
 
@@ -73,28 +61,26 @@ export const FileDropZoneLine = forwardRef<HTMLDivElement, IAdditionalProps>((pr
 	if (state === DropControlState.Idle) {
 		message =
 			idleText === false ? null : (
-				<Typography.Text className={mergeClasses(classes.idleText, disabled ? classes.textDisabled : undefined)}>
-					点击或拖拽{what}到此处上传
-				</Typography.Text>
+				<Typography.Text className={mergeClasses(classes.idleText, disabled ? classes.textDisabled : undefined)}>点击或拖拽{what}到此处上传</Typography.Text>
 			);
 		switch (hover) {
 			case HoverState.None:
 				button = (
-					<Button icon={icon} variant="solid" color="primary" disabled={disabled}>
+					<Button color="primary" disabled={disabled} icon={icon} variant="solid">
 						上传{what}
 					</Button>
 				);
 				break;
 			case HoverState.WillAccept:
 				button = (
-					<Button icon={icon} variant="solid" color="green" disabled={disabled}>
+					<Button color="green" disabled={disabled} icon={icon} variant="solid">
 						松开上传
 					</Button>
 				);
 				break;
 			case HoverState.WillReject:
 				body = (
-					<Button icon={<CloseOutlined />} variant="solid" color="danger" disabled>
+					<Button color="danger" disabled icon={<CloseOutlined />} variant="solid">
 						错误文件
 					</Button>
 				);
@@ -115,15 +101,15 @@ export const FileDropZoneLine = forwardRef<HTMLDivElement, IAdditionalProps>((pr
 				message = `正在上传${what}`;
 		}
 		button = (
-			<Button icon={<CloseOutlined />} variant="solid" color="danger" loading onClick={handleCancelUpload}>
+			<Button color="danger" icon={<CloseOutlined />} loading onClick={handleCancelUpload} variant="solid">
 				取消上传
 			</Button>
 		);
-		body = <Progress className={classes.progress} type="line" percent={percent} />;
+		body = <Progress className={classes.progress} percent={percent} type="line" />;
 	} else if (state === DropControlState.PostProcessing) {
 		message = `请稍候……`;
 		button = (
-			<Button variant="solid" color="primary" loading onClick={handleCancelUpload}>
+			<Button color="primary" loading onClick={handleCancelUpload} variant="solid">
 				处理中
 			</Button>
 		);
@@ -131,17 +117,17 @@ export const FileDropZoneLine = forwardRef<HTMLDivElement, IAdditionalProps>((pr
 		// effect
 		message = '';
 		button = (
-			<Button variant="solid" color="green" loading onClick={handleCancelUpload}>
+			<Button color="green" loading onClick={handleCancelUpload} variant="solid">
 				已完成
 			</Button>
 		);
-		body = <Progress className={classes.progress} type="line" percent={percent} />;
+		body = <Progress className={classes.progress} percent={percent} type="line" />;
 	} else {
 		body = <Typography.Text className={classes.text}>上传失败: {error?.message}</Typography.Text>;
 	}
 
 	return (
-		<Flex className={classes.container} justify="space-between" align="center" {...additionalProps} ref={ref}>
+		<Flex align="center" className={classes.container} justify="space-between" {...additionalProps} ref={ref}>
 			{button}
 			<Typography.Text className={classes.text}>{message}</Typography.Text>
 			{body}

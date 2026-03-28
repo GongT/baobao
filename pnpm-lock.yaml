@@ -7,7 +7,7 @@ settings:
 overrides:
   ajv: ^8.17.1
 
-pnpmfileChecksum: sha256-9XeTsWPtcnTvXfS88sAeADE0XUWlhVVvtaoBXSsRDfA=
+pnpmfileChecksum: sha256-emxpXohamsmFF3yXu7uVCw04OoV3T9BlU8KY/mt0EXY=
 
 importers:
 
@@ -68,24 +68,30 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
     devDependencies:
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@build-script/baseline-rig':
     devDependencies:
-      '@types/node':
-        specifier: workspace:@idlebox/itypes@*
-        version: link:../../@idlebox/itypes
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -123,12 +129,24 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -150,6 +168,9 @@ importers:
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
@@ -159,9 +180,6 @@ importers:
       '@mpis/client':
         specifier: workspace:^
         version: link:../../@mpis/client
-      esbuild:
-        specifier: '=0.27.3'
-        version: 0.27.3
       glob:
         specifier: ^13.0.6
         version: 13.0.6
@@ -175,24 +193,27 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       '@types/source-map':
         specifier: npm:source-map@^0.6.1
         version: source-map@0.6.1
-      execa:
-        specifier: ^9.6.1
-        version: 9.6.1
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -227,18 +248,27 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -255,9 +285,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       esbuild:
         specifier: '=0.27.3'
         version: 0.27.3
@@ -277,9 +316,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       domhandler:
         specifier: ^6.0.1
         version: 6.0.1
@@ -311,18 +359,27 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../autoindex
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@build-script/package-tools':
     dependencies:
@@ -396,6 +453,9 @@ importers:
       '@idlebox/cli-static-generator':
         specifier: workspace:^
         version: link:../../@idlebox/cli-static-generator
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -408,12 +468,18 @@ importers:
       '@types/global-agent':
         specifier: ^3.0.0
         version: 3.0.0
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
       '@types/npm-registry-fetch':
         specifier: ^8.0.9
         version: 8.0.9
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       '@types/request':
         specifier: ^2.48.13
         version: 2.48.13
@@ -429,6 +495,9 @@ importers:
       '@types/tinycolor2':
         specifier: ^1.4.6
         version: 1.4.6
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@build-script/rushstack-config-loader':
     dependencies:
@@ -469,9 +538,18 @@ importers:
       '@rushstack/terminal':
         specifier: latest
         version: 0.16.0(@types/node@25.5.0)
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@build-script/vite-plugin-chunk-tree':
     dependencies:
@@ -491,9 +569,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       rollup:
         specifier: ^4.59.0
         version: 4.59.0
@@ -516,12 +603,24 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@gongt/systemd-unit-generator':
     dependencies:
@@ -541,9 +640,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@gongt/trpc-lib':
     dependencies:
@@ -563,15 +671,27 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/args':
     dependencies:
@@ -594,12 +714,21 @@ importers:
       '@types/chai':
         specifier: ^5.2.3
         version: 5.2.3
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       chai:
         specifier: ^6.2.2
         version: 6.2.2
@@ -622,9 +751,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-dom@^
+        version: link:../itypes/subpackages/dom
       '@types/node':
-        specifier: workspace:@idlebox/empty@*
-        version: link:../empty
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
+      '@types/platform':
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
+      '@typescript/lib-dom':
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
       browserslist-useragent-regexp:
         specifier: ^4.1.3
         version: 4.1.3
@@ -666,12 +804,21 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-dom@^
+        version: link:../itypes/subpackages/dom
       '@types/node':
-        specifier: workspace:@idlebox/empty@*
-        version: link:../empty
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
+      '@types/platform':
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14
+      '@typescript/lib-dom':
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
 
   '@idlebox/browser-react':
     dependencies:
@@ -700,9 +847,15 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-dom@^
+        version: link:../itypes/subpackages/dom
       '@types/node':
-        specifier: workspace:@idlebox/empty@*
-        version: link:../empty
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
+      '@types/platform':
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14
@@ -712,6 +865,9 @@ importers:
       '@types/react-router':
         specifier: ^5.1.20
         version: 5.1.20
+      '@typescript/lib-dom':
+        specifier: npm:@types/web@^0.0.344
+        version: '@types/web@0.0.344'
 
   '@idlebox/chokidar':
     dependencies:
@@ -731,9 +887,18 @@ importers:
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/cli':
     dependencies:
@@ -765,9 +930,18 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/cli-help-builder':
     devDependencies:
@@ -777,9 +951,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/cli-static-generator':
     dependencies:
@@ -820,6 +1003,9 @@ importers:
       '@idlebox/cli-help-builder':
         specifier: workspace:^
         version: link:../cli-help-builder
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -829,15 +1015,27 @@ importers:
       '@types/acorn':
         specifier: npm:acorn@^8.16.0
         version: acorn@8.16.0
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/common':
     dependencies:
       '@idlebox/errors':
         specifier: workspace:^
         version: link:../errors
+      '@idlebox/itypes':
+        specifier: workspace:^
+        version: link:../itypes
       debug:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
@@ -851,9 +1049,6 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@idlebox/itypes':
-        specifier: workspace:^
-        version: link:../itypes
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -866,9 +1061,18 @@ importers:
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-bare@^
+        version: link:../itypes/subpackages/bare
       '@types/node':
-        specifier: workspace:@idlebox/itypes@*
-        version: link:../itypes
+        specifier: workspace:@idlebox/empty@^
+        version: link:../empty
+      '@types/platform':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../empty
+      '@typescript/lib-dom':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../empty
 
   '@idlebox/deepmerge':
     devDependencies:
@@ -878,9 +1082,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       chai:
         specifier: ^6.2.2
         version: 6.2.2
@@ -903,9 +1116,6 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../esbuild-executer
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
@@ -924,9 +1134,18 @@ importers:
       '@types/execa':
         specifier: npm:execa@^9.6.1
         version: execa@9.6.1
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       chai:
         specifier: ^6.2.2
         version: 6.2.2
@@ -949,9 +1168,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../esbuild-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -961,24 +1177,51 @@ importers:
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/empty':
     devDependencies:
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-bare@^
+        version: link:../itypes/subpackages/bare
       '@types/node':
-        specifier: workspace:@idlebox/itypes@*
-        version: link:../itypes
+        specifier: workspace:@idlebox/empty@^
+        version: 'link:'
+      '@types/platform':
+        specifier: workspace:@idlebox/empty@^
+        version: 'link:'
+      '@typescript/lib-dom':
+        specifier: workspace:@idlebox/empty@^
+        version: 'link:'
 
   '@idlebox/ensure-symlink':
     devDependencies:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/errors':
     dependencies:
@@ -995,9 +1238,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-bare@^
+        version: link:../itypes/subpackages/bare
       '@types/node':
-        specifier: workspace:@idlebox/itypes@*
-        version: link:../itypes
+        specifier: workspace:@idlebox/empty@^
+        version: link:../empty
+      '@types/platform':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../empty
+      '@typescript/lib-dom':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../empty
 
   '@idlebox/esbuild-executer':
     dependencies:
@@ -1022,25 +1274,43 @@ importers:
       import-meta-resolve:
         specifier: ^4.2.0
         version: 4.2.0
+      source-map-js:
+        specifier: ^1.2.1
+        version: 1.2.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/typescript':
         specifier: workspace:^
         version: link:../../@mpis/typescript
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       rimraf:
         specifier: ^6.1.3
         version: 6.1.3
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
+      why-is-node-running:
+        specifier: ^3.2.2
+        version: 3.2.2
 
   '@idlebox/ignore-edit':
     dependencies:
@@ -1051,24 +1321,87 @@ importers:
         specifier: workspace:^
         version: link:../source-map-support
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/itypes':
     devDependencies:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
-      '@types/node':
-        specifier: workspace:@idlebox/itypes@*
+
+  '@idlebox/itypes/subpackages/bare':
+    devDependencies:
+      '@idlebox/itypes':
+        specifier: workspace:latest
+        version: link:../..
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-bare@^
         version: 'link:'
+      '@types/node':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+      '@types/platform':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+      '@typescript/lib-dom':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+
+  '@idlebox/itypes/subpackages/dom':
+    devDependencies:
+      '@idlebox/itypes':
+        specifier: workspace:latest
+        version: link:../..
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-bare@^
+        version: link:../bare
+      '@types/node':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+      '@types/platform':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+      '@typescript/lib-dom':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+
+  '@idlebox/itypes/subpackages/node':
+    devDependencies:
+      '@idlebox/itypes':
+        specifier: workspace:latest
+        version: link:../..
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-bare@^
+        version: link:../bare
+      '@types/node':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+      '@types/platform':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
+      '@typescript/lib-dom':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../../empty
 
   '@idlebox/json-edit':
     dependencies:
@@ -1088,9 +1421,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1109,9 +1451,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1137,12 +1488,21 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
       '@types/object-path':
         specifier: ^0.11.4
         version: 0.11.4
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/logger':
     dependencies:
@@ -1165,12 +1525,61 @@ importers:
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       mocha:
         specifier: ^11.7.5
         version: 11.7.5
+
+  '@idlebox/native-executer':
+    dependencies:
+      debug:
+        specifier: ^4.4.3
+        version: 4.4.3(supports-color@8.1.1)
+      execa:
+        specifier: ^9.6.1
+        version: 9.6.1
+      import-meta-resolve:
+        specifier: ^4.2.0
+        version: 4.2.0
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      '@mpis/typescript':
+        specifier: workspace:^
+        version: link:../../@mpis/typescript
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
+      '@types/node':
+        specifier: npm:@types/node@^25.5.0
+        version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      rimraf:
+        specifier: ^6.1.3
+        version: 6.1.3
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
 
   '@idlebox/node':
     dependencies:
@@ -1193,9 +1602,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/node-error-codes':
     devDependencies:
@@ -1208,9 +1626,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/section-buffer':
     dependencies:
@@ -1227,9 +1654,18 @@ importers:
       '@types/heft-jest':
         specifier: ^1.0.6
         version: 1.0.6
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/source-map-support':
     dependencies:
@@ -1249,9 +1685,18 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/terminal-control':
     dependencies:
@@ -1265,9 +1710,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -1280,9 +1734,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -1308,12 +1771,21 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/minimatch':
         specifier: ^6.0.0
         version: 6.0.0
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@idlebox/unshare':
     dependencies:
@@ -1333,9 +1805,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@internal/local-rig':
     devDependencies:
@@ -1441,6 +1922,15 @@ importers:
       '@idlebox/itypes':
         specifier: workspace:^
         version: link:../../@idlebox/itypes
+      '@idlebox/itypes-bare':
+        specifier: workspace:^
+        version: link:../../@idlebox/itypes/subpackages/bare
+      '@idlebox/itypes-dom':
+        specifier: workspace:^
+        version: link:../../@idlebox/itypes/subpackages/dom
+      '@idlebox/itypes-node':
+        specifier: workspace:^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@idlebox/json-edit':
         specifier: workspace:^
         version: link:../../@idlebox/json-edit
@@ -1453,6 +1943,9 @@ importers:
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
@@ -1504,9 +1997,6 @@ importers:
       '@mpis/typescript':
         specifier: workspace:^
         version: link:../../@mpis/typescript
-      '@types/node':
-        specifier: workspace:@idlebox/itypes@*
-        version: link:../../@idlebox/itypes
       cjke-strings:
         specifier: workspace:^
         version: link:../../standalone/cjke
@@ -1540,15 +2030,15 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
       '@idlebox/json-edit':
         specifier: workspace:^
         version: link:../../@idlebox/json-edit
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
@@ -1595,18 +2085,27 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@mpis/esbuild':
     dependencies:
@@ -1626,9 +2125,18 @@ importers:
       '@mpis/typescript':
         specifier: workspace:^
         version: link:../typescript
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       esbuild:
         specifier: '=0.27.3'
         version: 0.27.3
@@ -1666,9 +2174,9 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1678,9 +2186,21 @@ importers:
       '@mpis/typescript':
         specifier: workspace:^
         version: link:../typescript
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      test:
+        specifier: ./test
+        version: link:test
 
   '@mpis/publisher':
     dependencies:
@@ -1709,18 +2229,27 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@mpis/run':
     dependencies:
@@ -1755,15 +2284,24 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@mpis/server':
     dependencies:
@@ -1792,18 +2330,24 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@idlebox/esbuild-executer':
-        specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       why-is-node-running:
         specifier: ^3.2.2
         version: 3.2.2
@@ -1816,9 +2360,18 @@ importers:
       '@mpis/run':
         specifier: workspace:^
         version: link:../run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   '@mpis/typescript':
     dependencies:
@@ -1844,18 +2397,27 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
     devDependencies:
-      '@idlebox/esbuild-executer':
+      '@idlebox/native-executer':
         specifier: workspace:^
-        version: link:../../@idlebox/esbuild-executer
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   standalone/7zip-bin-wrapper:
     dependencies:
@@ -1869,18 +2431,30 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
       '@types/split2':
         specifier: ^4.2.3
         version: 4.2.3
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
   standalone/cjke:
     dependencies:
@@ -1909,12 +2483,21 @@ importers:
       '@types/chai':
         specifier: ^5.2.3
         version: 5.2.3
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-bare@^
+        version: link:../../@idlebox/itypes/subpackages/bare
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
       '@types/node':
-        specifier: workspace:@idlebox/itypes@*
-        version: link:../../@idlebox/itypes
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../@idlebox/empty
+      '@types/platform':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../@idlebox/empty
+      '@typescript/lib-dom':
+        specifier: workspace:@idlebox/empty@^
+        version: link:../../@idlebox/empty
       chai:
         specifier: ^6.2.2
         version: 6.2.2
@@ -1946,18 +2529,30 @@ importers:
         specifier: ^21.5.0
         version: 21.5.0
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
       '@mpis/run':
         specifier: workspace:^
         version: link:../../@mpis/run
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
-        specifier: ^25.5.0
+        specifier: npm:@types/node@^25.5.0
         version: 25.5.0
       '@types/pacote':
         specifier: ^11.1.8
         version: 11.1.8
+      '@types/platform':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^25.5.0
+        version: '@types/node@25.5.0'
 
 packages:
 
@@ -3064,99 +3659,6 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@swc/core-darwin-arm64@1.15.21':
-    resolution: {integrity: sha512-SA8SFg9dp0qKRH8goWsax6bptFE2EdmPf2YRAQW9WoHGf3XKM1bX0nd5UdwxmC5hXsBUZAYf7xSciCler6/oyA==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@swc/core-darwin-x64@1.15.21':
-    resolution: {integrity: sha512-//fOVntgowz9+V90lVsNCtyyrtbHp3jWH6Rch7MXHXbcvbLmbCTmssl5DeedUWLLGiAAW1wksBdqdGYOTjaNLw==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [darwin]
-
-  '@swc/core-linux-arm-gnueabihf@1.15.21':
-    resolution: {integrity: sha512-meNI4Sh6h9h8DvIfEc0l5URabYMSuNvyisLmG6vnoYAS43s8ON3NJR8sDHvdP7NJTrLe0q/x2XCn6yL/BeHcZg==}
-    engines: {node: '>=10'}
-    cpu: [arm]
-    os: [linux]
-
-  '@swc/core-linux-arm64-gnu@1.15.21':
-    resolution: {integrity: sha512-QrXlNQnHeXqU2EzLlnsPoWEh8/GtNJLvfMiPsDhk+ht6Xv8+vhvZ5YZ/BokNWSIZiWPKLAqR0M7T92YF5tmD3g==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [glibc]
-
-  '@swc/core-linux-arm64-musl@1.15.21':
-    resolution: {integrity: sha512-8/yGCMO333ultDaMQivE5CjO6oXDPeeg1IV4sphojPkb0Pv0i6zvcRIkgp60xDB+UxLr6VgHgt+BBgqS959E9g==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [musl]
-
-  '@swc/core-linux-ppc64-gnu@1.15.21':
-    resolution: {integrity: sha512-ucW0HzPx0s1dgRvcvuLSPSA/2Kk/VYTv9st8qe1Kc22Gu0Q0rH9+6TcBTmMuNIp0Xs4BPr1uBttmbO1wEGI49Q==}
-    engines: {node: '>=10'}
-    cpu: [ppc64]
-    os: [linux]
-    libc: [glibc]
-
-  '@swc/core-linux-s390x-gnu@1.15.21':
-    resolution: {integrity: sha512-ulTnOGc5I7YRObE/9NreAhQg94QkiR5qNhhcUZ1iFAYjzg/JGAi1ch+s/Ixe61pMIr8bfVrF0NOaB0f8wjaAfA==}
-    engines: {node: '>=10'}
-    cpu: [s390x]
-    os: [linux]
-    libc: [glibc]
-
-  '@swc/core-linux-x64-gnu@1.15.21':
-    resolution: {integrity: sha512-D0RokxtM+cPvSqJIKR6uja4hbD+scI9ezo95mBhfSyLUs9wnPPl26sLp1ZPR/EXRdYm3F3S6RUtVi+8QXhT24Q==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [glibc]
-
-  '@swc/core-linux-x64-musl@1.15.21':
-    resolution: {integrity: sha512-nER8u7VeRfmU6fMDzl1NQAbbB/G7O2avmvCOwIul1uGkZ2/acbPH+DCL9h5+0yd/coNcxMBTL6NGepIew+7C2w==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [musl]
-
-  '@swc/core-win32-arm64-msvc@1.15.21':
-    resolution: {integrity: sha512-+/AgNBnjYugUA8C0Do4YzymgvnGbztv7j8HKSQLvR/DQgZPoXQ2B3PqB2mTtGh/X5DhlJWiqnunN35JUgWcAeQ==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [win32]
-
-  '@swc/core-win32-ia32-msvc@1.15.21':
-    resolution: {integrity: sha512-IkSZj8PX/N4HcaFhMQtzmkV8YSnuNoJ0E6OvMwFiOfejPhiKXvl7CdDsn1f4/emYEIDO3fpgZW9DTaCRMDxaDA==}
-    engines: {node: '>=10'}
-    cpu: [ia32]
-    os: [win32]
-
-  '@swc/core-win32-x64-msvc@1.15.21':
-    resolution: {integrity: sha512-zUyWso7OOENB6e1N1hNuNn8vbvLsTdKQ5WKLgt/JcBNfJhKy/6jmBmqI3GXk/MyvQKd5SLvP7A0F36p7TeDqvw==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [win32]
-
-  '@swc/core@1.15.21':
-    resolution: {integrity: sha512-fkk7NJcBscrR3/F8jiqlMptRHP650NxqDnspBMrRe5d8xOoCy9MLL5kOBLFXjFLfMo3KQQHhk+/jUULOMlR1uQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      '@swc/helpers': '*'
-    peerDependenciesMeta:
-      '@swc/helpers':
-        optional: true
-
-  '@swc/counter@0.1.3':
-    resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
-
-  '@swc/types@0.1.26':
-    resolution: {integrity: sha512-lyMwd7WGgG79RS7EERZV3T8wMdmPq3xwyg+1nmAM64kIhx5yl+juO2PYIHb7vTiPgPCj8LYjsNV2T5wiQHUEaw==}
-
   '@trpc/server@11.13.4':
     resolution: {integrity: sha512-SZmLwi43KSp1D3jp2aPuzqhC644gIy87hgFuD9xWCTwFspH9Pr5DO2/JmpWjCqybTG2fTuKYzxFYLUGjTY5LGg==}
 
@@ -3305,6 +3807,9 @@ packages:
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
+
+  '@types/web@0.0.344':
+    resolution: {integrity: sha512-5CqToBLlIpnOfqd7KDOTC5aHWvc5XykMruv1h+FGl2MHSvZIxHjxt0WKNJspoGVHf95n8e88jMBATPFBhKRyLQ==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -6300,12 +6805,9 @@ snapshots:
   '@rollup/plugin-swc@0.4.0(rollup@4.59.0)':
     dependencies:
       '@rollup/pluginutils': 5.3.0(rollup@4.59.0)
-      '@swc/core': 1.15.21
       smob: 1.5.0
     optionalDependencies:
       rollup: 4.59.0
-    transitivePeerDependencies:
-      - '@swc/helpers'
 
   '@rollup/pluginutils@5.3.0(rollup@4.59.0)':
     dependencies:
@@ -6536,66 +7038,6 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@swc/core-darwin-arm64@1.15.21':
-    optional: true
-
-  '@swc/core-darwin-x64@1.15.21':
-    optional: true
-
-  '@swc/core-linux-arm-gnueabihf@1.15.21':
-    optional: true
-
-  '@swc/core-linux-arm64-gnu@1.15.21':
-    optional: true
-
-  '@swc/core-linux-arm64-musl@1.15.21':
-    optional: true
-
-  '@swc/core-linux-ppc64-gnu@1.15.21':
-    optional: true
-
-  '@swc/core-linux-s390x-gnu@1.15.21':
-    optional: true
-
-  '@swc/core-linux-x64-gnu@1.15.21':
-    optional: true
-
-  '@swc/core-linux-x64-musl@1.15.21':
-    optional: true
-
-  '@swc/core-win32-arm64-msvc@1.15.21':
-    optional: true
-
-  '@swc/core-win32-ia32-msvc@1.15.21':
-    optional: true
-
-  '@swc/core-win32-x64-msvc@1.15.21':
-    optional: true
-
-  '@swc/core@1.15.21':
-    dependencies:
-      '@swc/counter': 0.1.3
-      '@swc/types': 0.1.26
-    optionalDependencies:
-      '@swc/core-darwin-arm64': 1.15.21
-      '@swc/core-darwin-x64': 1.15.21
-      '@swc/core-linux-arm-gnueabihf': 1.15.21
-      '@swc/core-linux-arm64-gnu': 1.15.21
-      '@swc/core-linux-arm64-musl': 1.15.21
-      '@swc/core-linux-ppc64-gnu': 1.15.21
-      '@swc/core-linux-s390x-gnu': 1.15.21
-      '@swc/core-linux-x64-gnu': 1.15.21
-      '@swc/core-linux-x64-musl': 1.15.21
-      '@swc/core-win32-arm64-msvc': 1.15.21
-      '@swc/core-win32-ia32-msvc': 1.15.21
-      '@swc/core-win32-x64-msvc': 1.15.21
-
-  '@swc/counter@0.1.3': {}
-
-  '@swc/types@0.1.26':
-    dependencies:
-      '@swc/counter': 0.1.3
-
   '@trpc/server@11.13.4': {}
 
   '@tufjs/canonical-json@2.0.0': {}
@@ -6762,6 +7204,8 @@ snapshots:
   '@types/tinycolor2@1.4.6': {}
 
   '@types/tough-cookie@4.0.5': {}
+
+  '@types/web@0.0.344': {}
 
   '@types/yargs-parser@21.0.3': {}
 

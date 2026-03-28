@@ -161,6 +161,19 @@ function _real_register() {
 	}
 	process.setUncaughtExceptionCaptureCallback(uncaughtExceptionHandle);
 
+	if (process.listenerCount('uncaughtException') > 0) {
+		logger.log(
+			`${prefix}Warning: there are already ${process.listenerCount('uncaughtException')} uncaughtException handlers registered, which may interfere with this module's ability to handle uncaught exceptions properly.`,
+		);
+	}
+	const originalOn = process.on;
+	process.on = (event: string, listener: any) => {
+		if (event === 'uncaughtException') {
+			logger.log(`${prefix}Warning: attempt to register another uncaughtException handler, which is not allowed and will be ignored.`);
+		}
+		return originalOn.call(process, event, listener);
+	};
+
 	process.on('unhandledRejection', (reason, promise) => {
 		callHandler(new UnhandledRejection(reason, promise));
 	});

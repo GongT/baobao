@@ -9,7 +9,8 @@ export function defineInspectMethod<T>(obj: T, method: (this: T, depth: number, 
 
 let nativeInspect: Function | undefined;
 try {
-	/** @ts-expect-error */
+	// biome-ignore lint/suspicious/noTsIgnore: 不一定有 @types/node 所以不一定会报错，不能expect-error
+	// @ts-ignore
 	import('node:util').then(({ inspect }) => {
 		nativeInspect = inspect;
 	});

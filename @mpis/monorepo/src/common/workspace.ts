@@ -100,10 +100,10 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 
 	private makeExecuter(watchMode: boolean, project: IPackageInfo, addEnvs: Record<string, string> = {}): undefined | ProcessIPCClient {
 		if (project.packageJson.scripts?.watch === undefined) {
-			this.logger.fatal`project ${project.packageJson.name} does not have a "watch" script. If it doesn't need, specify a empty string.`;
+			this.logger.error`project long<${project.absolute}>/package.json does not have a "watch" script. If it doesn't need, specify a empty string.`;
 		}
 		if (project.packageJson.scripts?.build === undefined) {
-			this.logger.fatal`project ${project.packageJson.name} does not have a "build" script. If it doesn't need, specify a empty string.`;
+			this.logger.error`project long<${project.absolute}>/package.json does not have a "build" script. If it doesn't need, specify a empty string.`;
 		}
 		const script = watchMode ? project.packageJson.scripts.watch : project.packageJson.scripts.build;
 
@@ -114,7 +114,7 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 
 		const cmds = splitCmd(script);
 		if (!cmds.length) {
-			this.logger.fatal`project ${project.packageJson.name} script "${script}" is invalid.`;
+			this.logger.error`project long<${project.absolute}>/package.json script "${script}" is invalid.`;
 		}
 		const logger = this.logger.extend(project.name);
 

@@ -1,19 +1,12 @@
+import assert from 'node:assert';
 import inspector from 'node:inspector';
 import { inspect } from 'node:util';
-import type { MessagePort } from 'node:worker_threads';
+import { isMainThread } from 'node:worker_threads';
 import { enables } from '../common/env.js';
-import { DebugMessageKind, type IDebugMessage } from '../common/message.types.js';
-import { inspectEnabled } from './env.js';
+import { DebugMessageKind } from '../common/message.types.js';
+import { inspectMode, postMessage } from './bridge.js';
 
-let log_port: MessagePort;
-
-export function registerLogger(port: MessagePort) {
-	log_port = port;
-}
-
-function post(message: IDebugMessage) {
-	log_port.postMessage(message);
-}
+assert.equal(isMainThread, false, '主线程不应该加载这个模块');
 
 type TemplateFunction = (message: readonly string[], ...args: any[]) => void;
 export type ILogger = Record<DebugMessageKind, TemplateFunction>;
@@ -24,13 +17,14 @@ function create_one(kind: DebugMessageKind): TemplateFunction {
 		if (!enables[kind]) {
 			return;
 		}
-		post({ type: 'outputs', message: template(message, args), kind } satisfies IDebugMessage);
+		postMessage({ type: 'outputs', message: template(message, args), kind });
 	};
 }
 
 export const logger: ILogger & { buffer(): IBufferLogger } = {
 	[DebugMessageKind.worker]: create_one(DebugMessageKind.worker),
-	[DebugMessageKind.import]: create_one(DebugMessageKind.import),
+	[DebugMessageKind.hook]: create_one(DebugMessageKind.hook),
+	[DebugMessageKind.verbose]: create_one(DebugMessageKind.verbose),
 	[DebugMessageKind.esbuild]: create_one(DebugMessageKind.esbuild),
 	[DebugMessageKind.resolve]: create_one(DebugMessageKind.resolve),
 	[DebugMessageKind.output]: create_one(DebugMessageKind.output),
@@ -42,7 +36,7 @@ function inspect_output(tag: string, message: readonly string[], ...args: any[])
 	inspector.console.log(`[%s] %s`, tag, template(message, args));
 }
 
-if (inspectEnabled) {
+if (inspectMode) {
 	// 调试器存在时，不管 DEBUG 是什么，都向调试器输出
 	for (const kind of Object.values(DebugMessageKind) as DebugMessageKind[]) {
 		const original = logger[kind];
@@ -91,11 +85,12 @@ function buffer(): IBufferLogger {
 
 	const r: IBufferLogger = {
 		[DebugMessageKind.worker]: create_buffer(DebugMessageKind.worker),
-		[DebugMessageKind.import]: create_buffer(DebugMessageKind.import),
+		[DebugMessageKind.hook]: create_buffer(DebugMessageKind.hook),
 		[DebugMessageKind.esbuild]: create_buffer(DebugMessageKind.esbuild),
 		[DebugMessageKind.resolve]: create_buffer(DebugMessageKind.resolve),
 		[DebugMessageKind.output]: create_buffer(DebugMessageKind.output),
 		[DebugMessageKind.error]: create_buffer(DebugMessageKind.error),
+		[DebugMessageKind.verbose]: create_buffer(DebugMessageKind.verbose),
 		flush() {
 			for (const [method, strings, args] of buffer) {
 				logger[method](strings, ...args);

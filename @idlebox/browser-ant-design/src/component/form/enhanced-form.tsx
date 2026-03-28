@@ -54,9 +54,7 @@ export function useEnhancedForm<T>(require: boolean = true): IEnhancedForm<T> | 
 	return form;
 }
 
-export interface IEnhancedFormProps<T>
-	extends PropsWithChildren,
-		Omit<FormProps, 'children' | 'initialValues' | 'form' | 'id' | 'form'> {
+export interface IEnhancedFormProps<T> extends PropsWithChildren, Omit<FormProps, 'children' | 'initialValues' | 'form' | 'id' | 'form'> {
 	readonly id: string;
 	load(id: string): Promise<T>;
 	defaults(): T;
@@ -151,13 +149,7 @@ export function EnhancedForm<T = Record<string, any>>({
 
 	return (
 		<formContext.Provider value={eform}>
-			<Form
-				disabled={defer.disabled}
-				initialValues={defaults() as any}
-				{...formProps}
-				form={form}
-				onFinish={handle_submit}
-			>
+			<Form disabled={defer.disabled} initialValues={defaults() as any} {...formProps} form={form} onFinish={handle_submit}>
 				{children}
 			</Form>
 		</formContext.Provider>

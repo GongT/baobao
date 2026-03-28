@@ -21,7 +21,6 @@
 		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/depcheck": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"@idlebox/esbuild-executer": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/logger": "workspace:^",

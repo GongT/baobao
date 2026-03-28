@@ -31,12 +31,7 @@ interface IBasicBundle extends PropsWithChildren {
 /**
  * 包含禁用、加载和错误状态
  */
-export function BasicStateProvider({
-	children,
-	error = StateInheritMode.Slave,
-	loading = StateInheritMode.Slave,
-	disabled = StateInheritMode.Slave,
-}: IBasicBundle) {
+export function BasicStateProvider({ children, error = StateInheritMode.Slave, loading = StateInheritMode.Slave, disabled = StateInheritMode.Slave }: IBasicBundle) {
 	const value = {} as React.ContextType<typeof basicContext>;
 
 	const inherit = error || loading || disabled;

@@ -7,7 +7,7 @@
 		{
 			"type": "node",
 			"request": "attach",
-			"name": "Attach NodeJS",
+			"name": "Attach NodeJS (9229)",
 			"port": 9229,
 			"cwd": "${workspaceFolder}",
 			// "skipFiles": ["<node_internals>/**", "${workspaceFolder}/@idlebox/common/src/lifecycle/event/event.ts"],

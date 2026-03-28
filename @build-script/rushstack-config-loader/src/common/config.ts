@@ -166,8 +166,10 @@ export class ProjectConfig {
 		try {
 			validateSchema(data, schemaFile);
 		} catch (e: unknown) {
-			if (e instanceof ValidationError) {
-				e.message = `invalid JSON: ${e.message}\n  - schema file: "${schemaFile}"\n  - effective: "${tryRealPath(files.effective)}"\n  - project file: ${files.project.path}\n  - rig file: ${tryRealPath(files.rig.path)}`;
+			if (e instanceof Error) {
+				if (e instanceof ValidationError) {
+					e.message = `invalid JSON: ${e.message}\n  - schema file: "${schemaFile}"\n  - effective: "${tryRealPath(files.effective)}"\n  - project file: ${files.project.path}\n  - rig file: ${tryRealPath(files.rig.path)}`;
+				}
 			}
 			throw e;
 		}

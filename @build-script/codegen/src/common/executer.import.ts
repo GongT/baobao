@@ -1,107 +1,33 @@
-import { prettyFormatStack } from '@idlebox/common';
-import { writeFileIfChangeSync } from '@idlebox/node';
-import { mkdirSync } from 'node:fs';
-import { basename, dirname, relative } from 'node:path';
-import { Context } from '../client/generate-context.js';
-import type { GeneratorBody } from './code-generator.js';
-import { BaseExecuter, type IGenerateResult } from './executer.base.js';
-import { colorMode, createCollectLogger, type ILogMessage } from './shared.js';
+import { Assertion } from '@idlebox/common';
+import { callGenerateFunction } from '../client/call-generate-function.js';
+import type { IGenerateFunction } from '../client/generate-context.js';
+import { BaseExecuter } from './executer.base.js';
+import type { IGenerateResult } from './spawn/messages.js';
 
 // const generatorSuffix = /\.generator\.ts$/;
-const errorNameReg = /^(\w+): (.+)$/;
-
-function interop(mdl: any) {
-	return mdl?.default ?? mdl;
-}
-
-export const executerFile = 'src/common/executer.import.ts';
 
 export class ImportExecuter extends BaseExecuter {
-	async _execute(compiledFile: string): Promise<IGenerateResult> {
-		const outputs: ILogMessage[] = [];
-		let success: boolean;
+	protected override systemWatchingFiles = [];
+	private generate_function?: IGenerateFunction;
 
-		const logger = createCollectLogger(outputs, this.logger);
-		const ctx = new Context(this.sourceFileAbs, logger, this.projectRoot);
-
-		let gen: GeneratorBody;
-		try {
-			gen = interop(await import(compiledFile, { with: { type: 'memory' } }));
-		} catch (e: any) {
-			return this.errorResult(e);
-		}
-
+	protected override async _rebuild() {
+		Assertion.ok(!this.generate_function, '只有非watch使用ImportExecuter，此时不可能重新编译');
+		const gen = await import(this.sourceFile);
 		if (typeof gen.generate !== 'function') {
-			return this.errorResult(new Error(`module ${this.sourceFileAbs} must export "generate" function`));
+			throw new Error(`module ${this.sourceFile} must export "generate" function`);
 		}
 
-		try {
-			const defaultOutput = await gen.generate(ctx, logger);
-			success = true;
+		this.generate_function = gen.generate;
+	}
 
-			if (defaultOutput) {
-				const base = basename(this.sourceFileAbs);
-				const newFile = ctx.file(base.replace('.generator.', '.'));
-				newFile.append(defaultOutput);
-			}
-		} catch (e: any) {
-			const lines = [];
-			for (const line of e.stack.split('\n')) {
-				lines.push(line);
+	protected override async _execute(): Promise<IGenerateResult> {
+		Assertion.ok(this.generate_function, 'generate_function should not be null');
 
-				if (line.includes(executerFile)) {
-					break;
-				}
-			}
-			const firstLine = lines.shift();
-			const match = errorNameReg.exec(firstLine);
-
-			let message, name;
-			if (!match) {
-				message = firstLine;
-				name = 'Error';
-			} else {
-				name = match[1];
-				message = match[2];
-			}
-
-			const stack = colorMode ? prettyFormatStack(lines) : lines;
-
-			const ee = new Error(`failed execute generator: ${message}`);
-			ee.name = name;
-			ee.stack = `${name}: ${message}\n${stack.join('\n')}`;
-
-			return this.errorResult(ee);
-		} finally {
-			if (gen) {
-				gen.dispose?.(logger);
-			}
-		}
-
-		if (ctx.size === 0) {
-			return this.errorResult(new Error(`generate function return undefined, and no files emitted`));
-		}
-
-		const files = ctx.__commit();
-		let numChange = 0;
-		this.logger.debug(`emit ${files.length} files`);
-		for (const { content, path } of files) {
-			mkdirSync(dirname(path), { recursive: true });
-			const ch = writeFileIfChangeSync(path, content);
-			if (ch) {
-				this.logger.log(`write file: ${relative(this.projectRoot, path)}`);
-				numChange++;
-			} else {
-				this.logger.verbose(`unchanged file: ${relative(this.projectRoot, path)}`);
-			}
-		}
-
-		return {
-			outputs,
-			changes: numChange,
-			totalFiles: ctx.size,
-			success,
-			userWatchFiles: ctx.watchingFiles,
-		};
+		return callGenerateFunction({
+			projectRoot: this.options.projectRoot,
+			sourceFile: this.sourceFile,
+			logger: this.logger,
+			generate: this.generate_function,
+		});
 	}
 }

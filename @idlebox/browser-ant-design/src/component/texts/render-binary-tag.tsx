@@ -2,13 +2,8 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Tag } from 'antd';
 import type React from 'react';
 
-export function renderBinaryTag(
-	yes: string,
-	no: string,
-	yesIcon: React.ReactNode = <CheckOutlined />,
-	noIcon: React.ReactNode = <CloseOutlined />,
-) {
-	return (confirm: any) => <BinaryTag confirm={confirm} no={no} yes={yes} yesIcon={yesIcon} noIcon={noIcon} />;
+export function renderBinaryTag(yes: string, no: string, yesIcon: React.ReactNode = <CheckOutlined />, noIcon: React.ReactNode = <CloseOutlined />) {
+	return (confirm: any) => <BinaryTag confirm={confirm} no={no} noIcon={noIcon} yes={yes} yesIcon={yesIcon} />;
 }
 
 interface Props {
@@ -18,22 +13,16 @@ interface Props {
 	noIcon?: React.ReactNode;
 	confirm: any;
 }
-export function BinaryTag({
-	yes = '是',
-	no = '否',
-	yesIcon = <CheckOutlined />,
-	noIcon = <CloseOutlined />,
-	confirm,
-}: Props) {
+export function BinaryTag({ yes = '是', no = '否', yesIcon = <CheckOutlined />, noIcon = <CloseOutlined />, confirm }: Props) {
 	if (confirm) {
 		return (
-			<Tag icon={yesIcon} color="success">
+			<Tag color="success" icon={yesIcon}>
 				{yes}
 			</Tag>
 		);
 	} else {
 		return (
-			<Tag icon={noIcon} color="warning">
+			<Tag color="warning" icon={noIcon}>
 				{no}
 			</Tag>
 		);

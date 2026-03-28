@@ -1,6 +1,6 @@
 {
 	"$schema": "../../../@build-script/autoindex/autoindex.schema.json",
 	"project": "./src",
-	"banner": "/// <reference types=\"node\" />",
+	// "banner": "/// <reference types=\"node\" />",
 	"exclude": ["**/type-shim.ts"],
 }

@@ -15,7 +15,7 @@ export function FormArrayCounter({ name, ...pass }: ICounterProps) {
 			{() => {
 				// console.log('fields', fields);
 				return (
-					<Form.Item key="conter" noStyle name="length">
+					<Form.Item key="conter" name="length" noStyle>
 						<FormTextField {...pass} />
 					</Form.Item>
 				);

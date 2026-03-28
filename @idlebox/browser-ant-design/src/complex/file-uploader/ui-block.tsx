@@ -11,8 +11,7 @@ interface IAdditionalProps {
 
 export const FileDropZoneBlock = forwardRef<HTMLDivElement, IAdditionalProps>((props: IAdditionalProps, ref) => {
 	const classes = useStyles();
-	const { aborter, hover, percent, state, error, type, stage, disabled, currentFile, totalFiles, ...additionalProps } =
-		props as IUploaderUiProps;
+	const { aborter, hover, percent, state, error, type, stage, disabled, currentFile, totalFiles, ...additionalProps } = props as IUploaderUiProps;
 
 	const { what, icon } = uploaderProps[type];
 
@@ -78,7 +77,7 @@ export const FileDropZoneBlock = forwardRef<HTMLDivElement, IAdditionalProps>((p
 		body = (
 			<>
 				<div className={classes.icon}>
-					<Progress type="circle" size="small" percent={percent} />
+					<Progress percent={percent} size="small" type="circle" />
 				</div>
 				<div className={classes.first}>{message}</div>
 				<div className={classes.action}>
@@ -92,7 +91,7 @@ export const FileDropZoneBlock = forwardRef<HTMLDivElement, IAdditionalProps>((p
 		body = (
 			<>
 				<div className={classes.icon}>
-					<Progress type="circle" size="small" />
+					<Progress size="small" type="circle" />
 				</div>
 				<div className={classes.first}>处理中，请稍候</div>
 			</>
@@ -101,11 +100,11 @@ export const FileDropZoneBlock = forwardRef<HTMLDivElement, IAdditionalProps>((p
 		body = (
 			<>
 				<div className={classes.icon}>
-					<Progress type="circle" size="small" percent={percent} />
+					<Progress percent={percent} size="small" type="circle" />
 				</div>
 				<div className={classes.first}>{what}上传成功</div>
 				<div className={classes.action}>
-					<Button variant="outlined" color="orange" icon={<RollbackOutlined />} onClick={handleDelete}>
+					<Button color="orange" icon={<RollbackOutlined />} onClick={handleDelete} variant="outlined">
 						放弃
 					</Button>
 				</div>
@@ -115,7 +114,7 @@ export const FileDropZoneBlock = forwardRef<HTMLDivElement, IAdditionalProps>((p
 		body = (
 			<>
 				<div className={classes.icon}>
-					<Progress type="circle" size="small" percent={percent} status="exception" />
+					<Progress percent={percent} size="small" status="exception" type="circle" />
 				</div>
 				<div className={classes.first}>{what}上传失败</div>
 				<div className={classes.second}>{error?.message}</div>
@@ -129,7 +128,7 @@ export const FileDropZoneBlock = forwardRef<HTMLDivElement, IAdditionalProps>((p
 	const className = mergeClasses(classes.container, classes[styleState], ...ex);
 
 	return (
-		<Flex className={className} vertical justify="center" align="center" {...additionalProps} ref={ref}>
+		<Flex align="center" className={className} justify="center" vertical {...additionalProps} ref={ref}>
 			{body}
 		</Flex>
 	);

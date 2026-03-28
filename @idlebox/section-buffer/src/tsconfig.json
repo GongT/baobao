@@ -1,10 +1,9 @@
 {
-	"extends": "@internal/local-rig/profiles/default/tsconfig.json",
+	"extends": "@internal/local-rig/profiles/default/tsconfig.node.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"],
 	},
 	"exclude": ["__create_index.generated.ts"],
 }

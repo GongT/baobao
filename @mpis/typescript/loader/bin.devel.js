@@ -1,11 +1,8 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-process.title = `MpisTsc`;
-
-import { execute } from '@idlebox/esbuild-executer';
-import { resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import '@idlebox/native-executer/register';
 
 process.exitCode = 1;
-const entryPoint = resolve(import.meta.dirname, '../src/tsc.ts');
-await execute(pathToFileURL(entryPoint).href);
+process.title = `MpisTsc`;
+
+await import('../src/tsc.ts');

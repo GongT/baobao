@@ -17,6 +17,12 @@
 		"@mpis/run": "workspace:^"
 	},
 	"exports": {
+		".": {
+			"types": "./lib.es.d.ts"
+		},
+		"./node": { "types": "./lib.node.d.ts" },
+		"./dom": { "types": "./lib.dom.d.ts" },
+		"./bare": { "types": "./lib.bare.d.ts" },
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {

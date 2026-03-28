@@ -26,7 +26,7 @@ export interface INotificationOptions extends IOptions {
 	content: ReactNode;
 }
 
-interface IOptionsBase {}
+type IOptionsBase = {};
 
 interface IOptions extends IOptionsBase {
 	/**

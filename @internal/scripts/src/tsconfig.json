@@ -1,10 +1,10 @@
 {
-	"extends": "../node_modules/@build-script/baseline-rig/package/tsconfig.json",
+	"extends": "../../local-rig/profiles/default/tsconfig.node.json",
 	"compilerOptions": {
 		"typeRoots": ["../node_modules/@types", "../node_modules"],
 		"outDir": "../lib",
 		"rootDir": "./",
-		"types": ["node"],
 		"noEmit": true,
+		"types": ["node"],
 	},
 }

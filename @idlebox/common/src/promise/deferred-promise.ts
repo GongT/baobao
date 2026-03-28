@@ -1,6 +1,5 @@
 import { CanceledError, TimeoutError } from '@idlebox/errors';
 import type { IDisposable } from '../lifecycle/dispose/disposable.js';
-import type { TimeoutType } from '../schedule/local-type.js';
 import { scheduler } from '../schedule/scheduler.js';
 
 export type ValueCallback<T = any> = (value: T | Promise<T>) => void;
@@ -143,16 +142,16 @@ export class DeferredPromise<T, PT = any> {
 		};
 	}
 
-	#timer?: TimeoutType;
+	private timer?: ITimeoutType;
 	#cancel_timeout() {
-		if (this.#timer) {
-			clearTimeout(this.#timer);
-			this.#timer = undefined;
+		if (this.timer) {
+			clearTimeout(this.timer);
+			this.timer = undefined;
 		}
 	}
 	timeout(ms: number) {
 		if (this.settled) throw new Error('no more timeout after settled');
-		this.#timer = setTimeout(() => {
+		this.timer = setTimeout(() => {
 			this.error(new TimeoutError(ms, 'promise not settled'));
 		}, ms);
 
