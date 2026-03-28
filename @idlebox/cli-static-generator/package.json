@@ -25,10 +25,10 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
+		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/args": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
 		"@rollup/plugin-commonjs": "^29.0.2",
 		"@rollup/plugin-node-resolve": "^16.0.3",
@@ -45,6 +45,9 @@
 		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	}
 }

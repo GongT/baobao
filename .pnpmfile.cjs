@@ -1,6 +1,7 @@
 const { resolve, basename } = require('node:path');
 const { readFileSync } = require('node:fs');
 const { spawnSync } = require('node:child_process');
+const assert = require('node:assert');
 
 // const PROJECT_ROOT = resolve(__dirname, '../../..');
 const myProjects = new Set();
@@ -82,9 +83,10 @@ function readPackage(packageJson, context) {
 		addEverythingToDependency(packageJson);
 	}
 
-	// if (packageJson.name === '@rollup/plugin-swc') {
-	// 	packageJson.dependencies['@swc/core'] = 'latest';
-	// }
+	if (packageJson.name === '@rollup/plugin-swc') {
+		assert.ok(packageJson.peerDependencies['@swc/core']);
+		packageJson.dependencies['@swc/core'] = packageJson.peerDependencies['@swc/core'];
+	}
 
 	if (myProjects.has(packageJson.name) || packageJson._example) {
 		for (const name of Object.keys(packageJson.dependencies || {})) {
@@ -96,7 +98,7 @@ function readPackage(packageJson, context) {
 		}
 		addNodejsShimTypes(packageJson);
 
-		if(packageJson.bin && packageJson.name !== '@idlebox/native-executer') {
+		if (packageJson.bin && packageJson.name !== '@idlebox/native-executer') {
 			packageJson.devDependencies['@idlebox/native-executer'] = 'workspace:^';
 		}
 
