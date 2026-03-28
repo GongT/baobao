@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/itypes",
 	"type": "module",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"description": "some global variables copied from @types/node or dom",
 	"keywords": ["Typescript", "console", "type", "typings"],
 	"scripts": {
@@ -20,9 +20,15 @@
 		".": {
 			"types": "./lib.es.d.ts"
 		},
-		"./node": { "types": "./lib.node.d.ts" },
-		"./dom": { "types": "./lib.dom.d.ts" },
-		"./bare": { "types": "./lib.bare.d.ts" },
+		"./node": {
+			"types": "./lib.node.d.ts"
+		},
+		"./dom": {
+			"types": "./lib.dom.d.ts"
+		},
+		"./bare": {
+			"types": "./lib.bare.d.ts"
+		},
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {

@@ -2,7 +2,7 @@
 	"name": "@idlebox/errors",
 	"description": "A collection of my errors.",
 	"type": "module",
-	"version": "0.1.20",
+	"version": "0.1.21",
 	"exports": {
 		".": {
 			"early-loader": "./src/generate.devel.ts",

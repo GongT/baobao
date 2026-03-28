@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/depcheck",
 	"type": "module",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"keywords": ["depcheck"],
 	"bin": {
 		"depcheck": "./loader/bin.devel.js"

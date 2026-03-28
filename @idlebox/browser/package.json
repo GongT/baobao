@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/browser",
 	"type": "module",
-	"version": "0.0.57",
+	"version": "0.0.58",
 	"exports": {
 		".": "./lib/autoindex.generated.js",
 		"./react": "./re-exports/react.js",
@@ -32,9 +32,6 @@
 		"react": "*"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	}
 }
