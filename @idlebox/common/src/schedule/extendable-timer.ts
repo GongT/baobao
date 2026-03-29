@@ -5,7 +5,7 @@ import { DeferredPromise } from '../promise/deferred-promise.js';
  */
 export class ExtendableTimer {
 	private readonly dfd = new DeferredPromise<void>();
-	public tmr?: ITimeoutType;
+	private tmr?: ITimeoutType;
 
 	constructor(private readonly durationMs: number) {}
 

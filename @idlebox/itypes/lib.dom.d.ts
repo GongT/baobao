@@ -6,3 +6,5 @@
 /// <reference path="./lib.es.d.ts" />
 
 /// <reference path="./typings/v8-error.d.ts" />
+
+export {};

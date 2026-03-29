@@ -4,3 +4,5 @@
 
 /// <reference types="node" />
 /// <reference path="./lib.es.d.ts" />
+
+export {};

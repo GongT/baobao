@@ -77,7 +77,9 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 
 	/** for debug */
 	public readonly displayName?: string;
-	protected readonly _logger;
+
+	/** @ts-ignore 禁止不使用debug库的项目报错 */
+	protected readonly _logger: import('debug').Debugger;
 
 	constructor(displayName?: string) {
 		if (displayName !== undefined) {

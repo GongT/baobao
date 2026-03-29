@@ -7,3 +7,5 @@
 /// <reference path="./typings/console.d.ts" />
 /// <reference path="./typings/url.d.ts" />
 /// <reference path="./typings/v8-error.d.ts" />
+
+export {};
