@@ -11,7 +11,7 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"prettier": "^3.8.1"
+		"@biomejs/biome": "^2.4.8"
 	},
 	"exports": {
 		"./package.json": "./package.json"

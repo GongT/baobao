@@ -1,0 +1,186 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"recommended": true,
+			"source": {
+				"organizeImports": "off",
+				"useSortedKeys": "off",
+				"useSortedProperties": "off",
+				"useSortedAttributes": "on"
+			}
+		}
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"formatWithErrors": false,
+		"lineEnding": "lf",
+		"lineWidth": 165,
+		"useEditorconfig": false
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "off",
+				"noControlCharactersInRegex": "off",
+				"noImplicitAnyLet": "off",
+				"noConfusingVoidType": "off",
+				"noShadowRestrictedNames": "off",
+				"noTsIgnore": "off"
+			},
+			"style": {
+				"noParameterAssign": "off",
+				"noNonNullAssertion": "warn",
+				"useShorthandFunctionType": "off",
+				"noUselessElse": "off",
+				"noUnusedTemplateLiteral": "off",
+				"noDefaultExport": "error",
+				"useConsistentArrayType": {
+					"level": "off",
+					"options": {
+						"syntax": "shorthand"
+					}
+				},
+				"useNodejsImportProtocol": {
+					"fix": "safe",
+					"level": "error",
+					"options": {}
+				},
+				"noSubstr": "info",
+				"useAtIndex": "info",
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"patterns": [
+							{
+								"group": ["**/autoindex.*", "**/*.autoindex.*"],
+								"message": "试图从index文件导入符号"
+							}
+						]
+					}
+				}
+			},
+			"complexity": {
+				"noThisInStatic": "off",
+				"useLiteralKeys": "off",
+				"noArguments": "off",
+				"noBannedTypes": "off"
+			},
+			"correctness": {
+				"useParseIntRadix": {
+					"fix": "safe",
+					"level": "error",
+					"options": {}
+				},
+				"useImportExtensions": "off",
+				"noConstantCondition": "off",
+				"useExhaustiveDependencies": "off",
+				"useHookAtTopLevel": "off"
+			},
+			"nursery": {},
+			"performance": {
+				"useTopLevelRegex": "info",
+				"noDelete": "off"
+			},
+			"security": {},
+			"a11y": "info"
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"enabled": true,
+			"quoteStyle": "single",
+			"trailingCommas": "all"
+		},
+		"linter": {
+			"enabled": true
+		}
+	},
+	"json": {
+		"parser": {
+			"allowTrailingCommas": true,
+			"allowComments": true
+		},
+		"formatter": {
+			"enabled": true,
+			"trailingCommas": "none"
+		},
+		"linter": {
+			"enabled": true
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.ts"]
+		},
+		{
+			"includes": ["**/*.test.ts", "**/tests/**/*.ts", "**/test/**/*.ts"],
+			"linter": {
+				"rules": {
+					"performance": "off",
+					"style": {
+						"noNonNullAssertion": "off",
+						"noRestrictedImports": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["**/*.generator.ts"],
+			"linter": {
+				"rules": {
+					"performance": "off"
+				}
+			}
+		},
+		{
+			"includes": ["**/*.generated.ts", "**/autoindex.ts"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": false
+			}
+		},
+		{
+			"includes": ["**/tsconfig.json", "**/tsconfig.*.json", "**/.vscode/*.json", "**/*.jsonc", "**/config/*.json", "!**/config/rig.json"],
+			"json": {
+				"formatter": {
+					"trailingCommas": "all"
+				}
+			}
+		},
+		{
+			"includes": ["**/package.json"],
+			"formatter": {
+				"expand": "auto",
+				"lineWidth": 300
+			},
+			"json": {
+				"formatter": {
+					"trailingCommas": "none"
+				}
+			}
+		}
+	],
+	"css": {
+		"formatter": {
+			"enabled": true
+		},
+		"linter": {
+			"enabled": true
+		}
+	}
+}
