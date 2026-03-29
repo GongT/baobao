@@ -6,7 +6,9 @@
 	"scripts": {
 		"build": "",
 		"watch": "",
-		"clean": ""
+		"clean": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
 		"@idlebox/itypes": "workspace:latest"

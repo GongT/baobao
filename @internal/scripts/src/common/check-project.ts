@@ -14,8 +14,7 @@ import { currentProject } from './paths/current.js';
 let errorRegistry: ErrorCollector;
 const assetPkgName = '@build-script/baseline-rig';
 const very_basic_packages = [
-	'@build-script/baseline-rig',
-	'@idlebox/itypes',
+	assetPkgName,
 	'@internal/local-rig',
 	'@internal/scripts',
 	'@gongt/pnpm-instead-npm',
@@ -65,6 +64,10 @@ function makeProj(logger: IMyLogger) {
 	return project;
 }
 
+function isVeryBasic(name: string) {
+	return very_basic_packages.includes(name) || name.startsWith('@idlebox/itypes');
+}
+
 async function executeInner(logger: IMyLogger) {
 	const notice: string[] = [];
 	const pkgPath = resolve(currentProject, 'package.json');
@@ -77,8 +80,8 @@ async function executeInner(logger: IMyLogger) {
 		logger.log`rig setting is correct`;
 
 		await checkTsConfig(project, logger);
-		pkgChk.not_exists(['devDependencies', '@build-script/baseline-rig']);
-	} else if (very_basic_packages.includes(packageJson.name)) {
+		pkgChk.not_exists(['devDependencies', assetPkgName]);
+	} else if (isVeryBasic(packageJson.name)) {
 		// no need
 	} else {
 		errorRegistry.with(`${currentProject}/config/rig.json`).emit(`invalid rig setting`);
@@ -86,7 +89,7 @@ async function executeInner(logger: IMyLogger) {
 	}
 
 	pkgChk.hasField(['devDependencies']);
-	if (!very_basic_packages.includes(assetPkgName)) {
+	if (!isVeryBasic(assetPkgName)) {
 		if (project.rigConfig.rigPackageName !== packageJson.name) {
 			pkgChk.hasField(['devDependencies', project.rigConfig.rigPackageName]);
 		}

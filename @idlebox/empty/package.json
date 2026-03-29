@@ -8,7 +8,9 @@
 		"build": "",
 		"clean": "",
 		"test": "",
-		"watch": ""
+		"watch": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"exports": {
 		"./package.json": "./package.json"

@@ -6,9 +6,11 @@
 	"scripts": {
 		"build": "",
 		"watch": "",
-		"clean": ""
+		"clean": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"devDependencies": {
+	"dependencies": {
 		"@idlebox/itypes": "workspace:latest"
 	},
 	"types": "./node_modules/@idlebox/itypes/lib.bare.d.ts",

@@ -75,8 +75,10 @@ export function deleteDevelopmentFields() {
 		}
 	}
 	if (packageJson.devDependencies) {
-		packageJson.devDependencies['@build-script/baseline-rig'] = 'latest';
-		removeDevDependency('@internal/local-rig');
+		if (packageJson.devDependencies['@internal/local-rig']) {
+			packageJson.devDependencies['@build-script/baseline-rig'] = 'latest';
+			removeDevDependency('@internal/local-rig');
+		}
 		removeDevDependency('@internal/scripts');
 	}
 }
