@@ -28,6 +28,10 @@ temp/
 ### Api Extractor
 /etc
 
+### AI
+CLAUDE.md
+*.prompt.md
+
 ### Tests
 test/**
 tests/**
