@@ -186,6 +186,10 @@ async function publishItem(item: string) {
 			return true;
 		}
 
+		if (r.output.includes('"repository.url" is')) {
+			// provenance
+			break;
+		}
 		// TODO: 重复版本号错误
 	}
 

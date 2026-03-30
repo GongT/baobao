@@ -28,8 +28,6 @@
 		"**/package-public.d.ts": true,
 		"project-impact-graph.yaml": true,
 		".package-tools/**": true,
-		"**/._*": true,
-		"**/.*/**": true,
 	},
 	"biome.lsp.bin": "./node_modules/.bin/biome",
 	"biome.requireConfiguration": true,
