@@ -43,7 +43,7 @@
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
-	"decoupledDependencies": ["@build-script/rushstack-config-loader", "@idlebox/args"],
+	"decoupledDependencies": "*",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

@@ -32,9 +32,18 @@ if (cachedFiles.some(isPackageJson)) {
 	await $x`git add pnpm-lock.yaml`;
 }
 
+const jsFileReg = /\.([tj]sx?|[mc][tj]s|jsonc?)$/i;
+const jsFiles = cachedFiles.filter((file) => jsFileReg.test(file));
+const shFileReg = /\.(sh)$/i;
+const shFiles = cachedFiles.filter((file) => shFileReg.test(file));
+
 logger.info`⌛ 运行代码格式化工具`;
-for (const chunk of arrayChunk(cachedFiles, 10)) {
+for (const chunk of arrayChunk(jsFiles, 10)) {
 	await $`pnpm exec biome check --fix --unsafe ${chunk}`;
+	await $`git add ${chunk}`;
+}
+for (const chunk of arrayChunk(shFiles, 10)) {
+	await $`shfmt -w -s -ln bash ${chunk}`;
 	await $`git add ${chunk}`;
 }
 

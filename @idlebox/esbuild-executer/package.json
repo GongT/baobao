@@ -48,7 +48,6 @@
 		"typescript": "^6.0.2",
 		"why-is-node-running": "^3.2.2"
 	},
-	"decoupledDependencies": ["@mpis/typescript"],
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

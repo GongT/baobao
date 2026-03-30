@@ -32,6 +32,5 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	},
-	"decoupledDependencies": ["@build-script/autoindex"]
+	}
 }
