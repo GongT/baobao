@@ -5,8 +5,8 @@
 	"keywords": [],
 	"exports": {
 		".": {
-			"source": "./src/api.ts",
 			"types": "./src/api.ts",
+			"source": "./src/api.ts",
 			"default": "./lib/api.js"
 		},
 		"./package.json": "./package.json"

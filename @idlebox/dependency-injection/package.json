@@ -6,8 +6,8 @@
 	"keywords": ["di", "dependency injection"],
 	"exports": {
 		".": {
-			"source": "./src/index.ts",
 			"types": "./src/index.ts",
+			"source": "./src/index.ts",
 			"default": "./lib/index.js"
 		},
 		"./package.json": "./package.json"

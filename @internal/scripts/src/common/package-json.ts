@@ -22,10 +22,10 @@ function reorder_exports() {
 	function reorder_one(item: IExportCondition | string): IExportCondition | string {
 		if (typeof item === 'string') return item;
 		if (Object.keys(item).length === 1 && item.default) return item.default;
-		const { lowlevel, source, types, esbuild, default: def, ...rest } = item;
+		const { 'early-loader': lowlevel, source, types, esbuild, default: def, ...rest } = item;
 		return {
+			...(lowlevel ? { 'early-loader': lowlevel } : {}),
 			...(types ? { types } : {}),
-			...(lowlevel ? { lowlevel } : {}),
 			...(esbuild ? { esbuild } : {}),
 			...(source ? { source } : {}),
 			...rest,

@@ -5,8 +5,8 @@
 	"version": "0.1.17",
 	"exports": {
 		".": {
-			"source": "./src/nodejs-error-code.generated.ts",
 			"types": "./src/nodejs-error-code.generated.ts",
+			"source": "./src/nodejs-error-code.generated.ts",
 			"default": "./lib/nodejs-error-code.generated.js"
 		},
 		"./package.json": "./package.json"

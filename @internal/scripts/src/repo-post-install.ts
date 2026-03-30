@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
-import { relativePath, shutdown } from '@idlebox/node';
-import { existsSync } from 'node:fs';
+import { relativePath, shutdown, writeFileIfChangeSync } from '@idlebox/node';
+import assert from 'node:assert';
+import { chmodSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import packageJson from '../package.json' with { type: 'json' };
 import { listPnpm } from './common/monorepo.js';
@@ -22,6 +23,22 @@ const tools: Record<string, string> = {
 	codegen: '@build-script/codegen/loader/bin.devel.js',
 	autoindex: '@build-script/autoindex/loader/bin.devel.js',
 };
+
+const gitHooks = resolve(monorepoRoot, '.git', 'hooks');
+const preCommit = resolve(gitHooks, 'pre-commit');
+assert.ok(process.env.NODE?.endsWith('pnpm'), 'not running by pnpm');
+const ch = writeFileIfChangeSync(
+	preCommit,
+	`#!/bin/sh
+
+${process.env.NODE} run hook:pre-commit
+`,
+);
+
+if (ch) {
+	console.log('pre-commit hook created');
+	chmodSync(preCommit, 0o755);
+}
 
 for (const [tool, path] of Object.entries(packageJson.bin)) {
 	tools[tool] = join(packageJson.name, path);

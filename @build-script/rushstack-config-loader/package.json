@@ -4,8 +4,8 @@
 	"version": "0.0.37",
 	"exports": {
 		".": {
-			"source": "./src/api.ts",
 			"types": "./src/api.ts",
+			"source": "./src/api.ts",
 			"default": "./lib/api.js"
 		},
 		"./heft-plugin": "./lib/api-heft-plugin.js",

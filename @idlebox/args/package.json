@@ -4,11 +4,12 @@
 	"version": "0.0.27",
 	"exports": {
 		".": {
-			"source": "./src/interface.ts",
 			"types": "./src/interface.ts",
+			"source": "./src/interface.ts",
 			"default": "./lib/interface.js"
 		},
 		"./default": {
+			"types": "./src/default.ts",
 			"source": "./src/default.ts",
 			"default": "./lib/default.js"
 		},

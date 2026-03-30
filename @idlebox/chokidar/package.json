@@ -4,8 +4,8 @@
 	"version": "0.1.17",
 	"exports": {
 		".": {
-			"source": "./src/main.ts",
 			"types": "./src/main.ts",
+			"source": "./src/main.ts",
 			"default": "./lib/main.js"
 		},
 		"./package.json": "./package.json"

@@ -13,13 +13,7 @@ import { currentProject } from './paths/current.js';
 
 let errorRegistry: ErrorCollector;
 const assetPkgName = '@build-script/baseline-rig';
-const very_basic_packages = [
-	assetPkgName,
-	'@internal/local-rig',
-	'@internal/scripts',
-	'@gongt/pnpm-instead-npm',
-	'@idlebox/ensure-symlink',
-];
+const very_basic_packages = [assetPkgName, '@internal/local-rig', '@internal/scripts', '@gongt/pnpm-instead-npm', '@idlebox/ensure-symlink', '@idlebox/empty'];
 
 export async function executeProjectCheck() {
 	await readPackageJson();
@@ -64,7 +58,7 @@ function makeProj(logger: IMyLogger) {
 	return project;
 }
 
-function isVeryBasic(name: string) {
+function checkVeryBasic(name: string) {
 	return very_basic_packages.includes(name) || name.startsWith('@idlebox/itypes');
 }
 
@@ -72,42 +66,47 @@ async function executeInner(logger: IMyLogger) {
 	const notice: string[] = [];
 	const pkgPath = resolve(currentProject, 'package.json');
 	logger.debug`check project long<${pkgPath}>`;
+	const isVeryBasic = checkVeryBasic(packageJson.name);
 
 	const project = makeProj(logger);
-	const pkgChk = new ObjectChecker(logger, errorRegistry.with(pkgPath), packageJson);
+	const error = errorRegistry.with(pkgPath);
+	const pkgChk = new ObjectChecker(logger, error, packageJson);
 
+	logger.debug(`rig: ${project.rigConfig.rigPackageName}, profile: ${project.rigConfig.rigProfile}`);
 	if (project.rigConfig.rigFound && project.rigConfig.rigPackageName === '@internal/local-rig') {
 		logger.log`rig setting is correct`;
 
 		await checkTsConfig(project, logger);
-		pkgChk.not_exists(['devDependencies', assetPkgName]);
-	} else if (isVeryBasic(packageJson.name)) {
+	} else if (isVeryBasic) {
 		// no need
 	} else {
 		errorRegistry.with(`${currentProject}/config/rig.json`).emit(`invalid rig setting`);
 		return notice;
 	}
 
-	pkgChk.hasField(['devDependencies']);
-	if (!isVeryBasic(assetPkgName)) {
-		if (project.rigConfig.rigPackageName !== packageJson.name) {
-			pkgChk.hasField(['devDependencies', project.rigConfig.rigPackageName]);
-		}
-		pkgChk.hasField(['devDependencies', assetPkgName]);
-		logger.debug(`${assetPkgName}: ${packageJson.devDependencies[assetPkgName]}`);
+	if (project.rigConfig.rigPackageName === packageJson.name) {
+		pkgChk.equals(['devDependencies', assetPkgName], 'workspace:^');
+	} else if (!isVeryBasic) {
+		pkgChk.equals(['devDependencies', project.rigConfig.rigPackageName], 'workspace:^');
+		pkgChk.not_exists(['devDependencies', assetPkgName]);
 	}
 
-	const others = Object.keys(packageJson.devDependencies)
-		.concat(Object.keys(packageJson.dependencies || {}))
-		.filter((x) => x.endsWith('-rig') && x !== project.rigConfig.rigPackageName);
+	if (packageJson.devDependencies) {
+		const others = Object.keys(packageJson.devDependencies)
+			.concat(Object.keys(packageJson.dependencies || {}))
+			.filter((x) => x.endsWith('-rig') && x !== project.rigConfig.rigPackageName);
 
-	if (others.length > 0) {
-		pkgChk.error.emit(`dependencies 存在其他 rig 包 (${others.join(', ')})`);
+		if (others.length > 0) {
+			pkgChk.error.emit(`dependencies 存在其他 rig 包 (${others.join(', ')})`);
+		}
 	}
 
 	logger.debug('check exports in package.json');
 
-	const denyFields = ['license', 'author', 'repository', 'typings', 'types', 'main', 'module'];
+	const denyFields = ['license', 'author', 'repository', 'typings', 'main', 'module'];
+	if (!packageJson.name.startsWith('@idlebox/itypes-')) {
+		denyFields.push('types');
+	}
 
 	pkgChk.equals(['type'], 'module');
 
@@ -163,8 +162,13 @@ async function executeInner(logger: IMyLogger) {
 		}
 	}
 
-	if (exports['.']) {
-		pkgChk.exists(['exports', '.', 'default']);
+	if (!isVeryBasic) {
+		if (!packageJson.exports && !packageJson.bin) {
+			error.emit(`exports and bin must exists at least one`);
+		}
+		if (!packageJson.bin) {
+			pkgChk.exists(['exports', '.', 'default']);
+		}
 	}
 
 	check_export_field(pkgChk, 'import', undefined);
@@ -213,8 +217,8 @@ async function checkTsConfig(project: ProjectConfig, logger: IMyLogger) {
 
 	const checker = new ObjectChecker(logger, errorObject, data);
 
-	const extendsValue = `${project.rigConfig.rigPackageName}/${project.rigConfig.relativeProfileFolderPath}/tsconfig.json`;
-	checker.equals(['extends'], extendsValue);
+	const extendsBaseValue = `${project.rigConfig.rigPackageName}/${project.rigConfig.relativeProfileFolderPath}`;
+	checker.equals(['extends'], [`${extendsBaseValue}/tsconfig.json`, `${extendsBaseValue}/tsconfig.node.json`, `${extendsBaseValue}/tsconfig.web.json`]);
 
 	for (const [field, value] of Object.entries(templateOptions)) {
 		if (Array.isArray(value)) {

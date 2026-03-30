@@ -3,19 +3,20 @@
 	"type": "module",
 	"version": "0.0.3",
 	"description": "node export of @idlebox/itypes",
+	"types": "./node_modules/@idlebox/itypes/lib.bare.d.ts",
+	"exports": {
+		"./package.json": "./package.json"
+	},
 	"scripts": {
 		"build": "",
 		"watch": "",
 		"clean": "",
 		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"devDependencies": {
+	"dependencies": {
 		"@idlebox/itypes": "workspace:latest"
-	},
-	"types": "./node_modules/@idlebox/itypes/lib.node.d.ts",
-	"exports": {
-		"./package.json": "./package.json"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

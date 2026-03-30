@@ -33,15 +33,21 @@ export class ObjectChecker {
 		this.object.set(path, undefined);
 	}
 
-	equals(path: readonly KeyType[], want: Primitive) {
-		if (want === undefined) {
+	equals(path: readonly KeyType[], wants: Primitive | Primitive[]) {
+		if (wants === undefined) {
 			return this.not_exists(path);
 		}
 		const data = this.object.get(path);
-		if (data === want) return;
+		if (Array.isArray(wants)) {
+			if (wants.includes(data)) return;
+			this.error.emit(`field \`${format_path(path)}\` must be one of ${JSON.stringify(wants)}, got ${JSON.stringify(data)}`);
+			return;
+		} else if (data === wants) {
+			return;
+		}
 
-		this.error.emit(`field \`${format_path(path)}\` must be ${JSON.stringify(want)}, got ${JSON.stringify(data)}`);
-		this.object.set(path, want);
+		this.error.emit(`field \`${format_path(path)}\` must be ${JSON.stringify(wants)}, got ${JSON.stringify(data)}`);
+		this.object.set(path, wants);
 	}
 
 	hasField(path: readonly KeyType[]) {

@@ -5,6 +5,7 @@
 	"exports": {
 		".": {
 			"early-loader": "./src/generate.devel.ts",
+			"types": "./src/autoindex.generated.ts",
 			"source": "./src/autoindex.generated.ts",
 			"default": "./lib/autoindex.generated.js"
 		},

@@ -6,6 +6,7 @@
 	"version": "0.0.13",
 	"exports": {
 		".": {
+			"types": "./src/autoindex.generated.ts",
 			"source": "./src/autoindex.generated.ts",
 			"default": "./lib/autoindex.generated.js"
 		},

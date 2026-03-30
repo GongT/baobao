@@ -6,23 +6,23 @@
 	"keywords": [],
 	"exports": {
 		".": {
-			"source": "./src/api.ts",
 			"types": "./src/api.ts",
+			"source": "./src/api.ts",
 			"default": "./lib/api.js"
 		},
 		"./default": {
-			"source": "./src/default-instance.ts",
 			"types": "./src/default-instance.ts",
+			"source": "./src/default-instance.ts",
 			"default": "./lib/default-instance.js"
 		},
 		"./host": {
-			"source": "./src/host-instance.ts",
 			"types": "./src/host-instance.ts",
+			"source": "./src/host-instance.ts",
 			"default": "./lib/host-instance.js"
 		},
 		"./constants": {
-			"source": "./src/constants.ts",
 			"types": "./src/constants.ts",
+			"source": "./src/constants.ts",
 			"default": "./lib/constants.js"
 		},
 		"./package.json": "./package.json"

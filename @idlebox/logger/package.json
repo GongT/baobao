@@ -5,8 +5,8 @@
 	"description": "A simple logger module for my self use (nodejs).",
 	"exports": {
 		".": {
-			"source": "./src/environments/node.ts",
 			"types": "./src/environments/node.ts",
+			"source": "./src/environments/node.ts",
 			"browser": "./lib/environments/browser.js",
 			"node": "./lib/environments/node.js",
 			"default": "./lib/environments/browser.js"

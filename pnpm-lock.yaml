@@ -1112,6 +1112,9 @@ importers:
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../logger
+      '@idlebox/terminal-control':
+        specifier: workspace:latest
+        version: link:../terminal-control
       dependency-graph:
         specifier: ^1.0.0
         version: 1.0.0
@@ -1119,9 +1122,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
-      '@idlebox/terminal-control':
-        specifier: workspace:^
-        version: link:../terminal-control
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1369,10 +1369,11 @@ importers:
         version: link:../../../empty
 
   '@idlebox/itypes/subpackages/dom':
-    devDependencies:
+    dependencies:
       '@idlebox/itypes':
         specifier: workspace:latest
         version: link:../..
+    devDependencies:
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-bare@^
         version: link:../bare
@@ -1387,10 +1388,11 @@ importers:
         version: link:../../../empty
 
   '@idlebox/itypes/subpackages/node':
-    devDependencies:
+    dependencies:
       '@idlebox/itypes':
         specifier: workspace:latest
         version: link:../..
+    devDependencies:
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-bare@^
         version: link:../bare

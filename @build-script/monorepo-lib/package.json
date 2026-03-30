@@ -9,8 +9,8 @@
 	"exports": {
 		".": {
 			"early-loader": "./src/generate.devel.ts",
-			"source": "./src/autoindex.generated.ts",
 			"types": "./src/autoindex.generated.ts",
+			"source": "./src/autoindex.generated.ts",
 			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
