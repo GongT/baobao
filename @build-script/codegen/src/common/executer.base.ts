@@ -49,7 +49,7 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 		}
 
 		try {
-			this.result = await raceTimeout(1500, this._execute());
+			this.result = await raceTimeout(30000, this._execute());
 		} catch (ee: any) {
 			const e = convertCaughtError(ee);
 			this.result = {

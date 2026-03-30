@@ -3,7 +3,7 @@
 	"type": "module",
 	"version": "0.0.3",
 	"description": "dom export of @idlebox/itypes",
-	"types": "./node_modules/@idlebox/itypes/lib.bare.d.ts",
+	"types": "./node_modules/@idlebox/itypes/lib.dom.d.ts",
 	"exports": {
 		"./package.json": "./package.json"
 	},
