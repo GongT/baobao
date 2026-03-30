@@ -28,7 +28,7 @@
 		"typescript": "^6.0.2"
 	},
 	"peerDependencies": {
-		"typescript": "^5.8.2"
+		"typescript": "^6.0.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
