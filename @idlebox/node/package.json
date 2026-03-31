@@ -29,7 +29,6 @@
 	},
 	"devDependencies": {
 		"@build-script/autoindex": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0"
 	},

@@ -26,16 +26,15 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
-		"@idlebox/node": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/logger": "workspace:^",
+		"@idlebox/node": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
 		"yaml": "^2.8.2"
 	},
 	"devDependencies": {
 		"@build-script/autoindex": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {

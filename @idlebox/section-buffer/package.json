@@ -21,7 +21,6 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/heft-jest": "^1.0.6",
 		"@types/node": "^25.5.0"
 	},

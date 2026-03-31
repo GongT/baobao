@@ -27,11 +27,10 @@
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
-		"@types/web": "^0.0.344",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"@types/react-router": "^5.1.20"
+		"@types/react-router": "^5.1.20",
+		"@types/web": "^0.0.344"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

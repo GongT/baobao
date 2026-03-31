@@ -29,7 +29,6 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"vite-node": "^6.0.0"
 	},

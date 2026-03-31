@@ -16,7 +16,6 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
 	"type": "module",

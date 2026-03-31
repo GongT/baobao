@@ -21,12 +21,10 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"dependencies": {},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
-		"@types/node": "^25.5.0",
 		"@idlebox/source-map-support": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^25.5.0",
 		"mocha": "^11.7.5"
 	},
 	"publishConfig": {

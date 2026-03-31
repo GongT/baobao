@@ -31,8 +31,8 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/typescript-surface-analyzer": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
+		"@idlebox/typescript-surface-analyzer": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"comment-json": "^4.6.2",
 		"glob": "^13.0.6",
@@ -40,7 +40,6 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
 	"decoupledDependents": "*",

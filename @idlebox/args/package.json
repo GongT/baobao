@@ -31,14 +31,13 @@
 		"cjke-strings": "workspace:^"
 	},
 	"devDependencies": {
+		"@idlebox/source-map-support": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/chai": "^5.2.3",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^25.5.0",
 		"chai": "^6.2.2",
-		"mocha": "^11.7.5",
-		"@idlebox/source-map-support": "workspace:^"
+		"mocha": "^11.7.5"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

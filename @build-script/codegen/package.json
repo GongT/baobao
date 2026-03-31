@@ -42,7 +42,6 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"@types/source-map": "npm:source-map@^0.6.1",
 		"typescript": "^6.0.2"

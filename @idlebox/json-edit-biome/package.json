@@ -22,10 +22,8 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"dependencies": {},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {

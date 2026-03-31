@@ -23,7 +23,6 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"domhandler": "^6.0.1",
 		"esbuild": "=0.27.3"

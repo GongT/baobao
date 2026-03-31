@@ -28,13 +28,12 @@
 		"dependency-graph": "^1.0.0"
 	},
 	"devDependencies": {
-		"@types/execa": "npm:execa@^9.6.1",
-		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@types/chai-as-promised": "^8.0.2",
-		"@types/node": "^25.5.0",
 		"@idlebox/source-map-support": "workspace:^",
+		"@internal/local-rig": "workspace:^",
+		"@types/chai-as-promised": "^8.0.2",
+		"@types/execa": "npm:execa@^9.6.1",
+		"@types/node": "^25.5.0",
 		"chai": "^6.2.2",
 		"chai-as-promised": "^8.0.2",
 		"mocha": "^11.7.5"

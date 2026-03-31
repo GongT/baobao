@@ -19,13 +19,12 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"iconv-lite": "^0.7.2",
 		"7zip-bin": "^5.2.0",
+		"iconv-lite": "^0.7.2",
 		"split2": "^4.2.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"@types/split2": "^4.2.3"
 	},

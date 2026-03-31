@@ -19,17 +19,16 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
+		"@build-script/rushstack-config-loader": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@build-script/rushstack-config-loader": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"split2": "^4.2.0",
 		"typescript": "^6.0.2"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
 	"peerDependencies": {

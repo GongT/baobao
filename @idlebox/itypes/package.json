@@ -13,9 +13,6 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"devDependencies": {
-		"@mpis/run": "workspace:^"
-	},
 	"exports": {
 		".": {
 			"types": "./lib.es.d.ts"

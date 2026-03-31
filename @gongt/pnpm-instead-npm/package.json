@@ -23,7 +23,6 @@
 		"which": "^6.0.1"
 	},
 	"devDependencies": {
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
 	"exports": {

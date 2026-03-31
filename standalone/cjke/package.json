@@ -28,10 +28,9 @@
 		"is-fullwidth-code-point": "^5.1.0"
 	},
 	"devDependencies": {
-		"@idlebox/source-map-support": "workspace:^",
 		"@build-script/autoindex": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/chai": "^5.2.3",
 		"@types/mocha": "^10.0.10",
 		"chai": "^6.2.2",

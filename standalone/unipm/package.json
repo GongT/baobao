@@ -23,14 +23,13 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/node": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
 		"execa": "^9.6.1",
 		"json5": "^2.2.3",
-		"pacote": "^21.5.0",
-		"@idlebox/source-map-support": "workspace:^"
+		"pacote": "^21.5.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"@types/pacote": "^11.1.8"
 	},

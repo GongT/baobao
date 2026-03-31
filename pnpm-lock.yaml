@@ -77,9 +77,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -196,9 +193,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -227,9 +221,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -258,9 +249,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -310,9 +298,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -404,9 +389,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/cacache':
         specifier: ^20.0.1
         version: 20.0.1
@@ -474,9 +456,6 @@ importers:
       '@microsoft/api-extractor':
         specifier: ^7.57.7
         version: 7.57.7(@types/node@25.5.0)
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@rushstack/heft':
         specifier: ^1.2.7
         version: 1.2.7(@types/node@25.5.0)
@@ -511,9 +490,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -551,9 +527,6 @@ importers:
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../../@idlebox/native-executer
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -582,9 +555,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -610,9 +580,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -641,9 +608,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/chai':
         specifier: ^5.2.3
         version: 5.2.3
@@ -684,9 +648,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-dom@^
         version: link:../itypes/subpackages/dom
@@ -737,9 +698,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-dom@^
         version: link:../itypes/subpackages/dom
@@ -783,9 +741,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-dom@^
         version: link:../itypes/subpackages/dom
@@ -820,9 +775,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
@@ -893,9 +845,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -954,9 +903,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/acorn':
         specifier: npm:acorn@^8.16.0
         version: acorn@8.16.0
@@ -997,9 +943,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
@@ -1021,9 +964,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1067,9 +1007,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/chai-as-promised':
         specifier: ^8.0.2
         version: 8.0.2
@@ -1110,9 +1047,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
@@ -1146,9 +1080,6 @@ importers:
 
   '@idlebox/ensure-symlink':
     devDependencies:
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1174,9 +1105,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-bare@^
         version: link:../itypes/subpackages/bare
@@ -1205,9 +1133,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1221,11 +1146,7 @@ importers:
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
 
-  '@idlebox/itypes':
-    devDependencies:
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
+  '@idlebox/itypes': {}
 
   '@idlebox/itypes/subpackages/bare':
     dependencies:
@@ -1296,9 +1217,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1320,9 +1238,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1351,9 +1266,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1385,9 +1297,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/debug':
         specifier: ^4.1.13
         version: 4.1.13
@@ -1459,9 +1368,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1483,9 +1389,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1511,9 +1414,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/heft-jest':
         specifier: ^1.0.6
         version: 1.0.6
@@ -1570,9 +1470,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1594,9 +1491,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1634,9 +1528,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1668,9 +1559,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1942,9 +1830,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -1976,9 +1861,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -2034,9 +1916,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -2083,9 +1962,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -2181,9 +2057,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -2202,9 +2075,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -2248,9 +2118,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -2282,9 +2149,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
@@ -2322,9 +2186,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/chai':
         specifier: ^5.2.3
         version: 5.2.3
@@ -2380,9 +2241,6 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
-      '@mpis/run':
-        specifier: workspace:^
-        version: link:../../@mpis/run
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node

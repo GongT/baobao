@@ -27,14 +27,13 @@
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
-		"@mpis/shared": "workspace:^",
 		"@idlebox/source-map-support": "workspace:^",
+		"@mpis/shared": "workspace:^",
 		"execa": "^9.6.1",
 		"split2": "^4.2.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {

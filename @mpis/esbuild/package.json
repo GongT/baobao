@@ -20,13 +20,12 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
 		"@idlebox/args": "workspace:^",
+		"@idlebox/common": "workspace:^",
 		"@mpis/client": "workspace:^"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"esbuild": "=0.27.3"
 	},

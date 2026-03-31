@@ -24,10 +24,10 @@
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
 		"execa": "^9.6.1"
 	},
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}
