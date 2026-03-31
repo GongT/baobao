@@ -3,7 +3,7 @@
 	"tags": ["-lintignore"],
 	"entry": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}", "**/*.*"],
 	"project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
-	"ignoreDependencies": [".*-rig", "@types/.*"],
+	"ignoreDependencies": [".*-rig", "@types/.*", "@mpis/esbuild"],
 	"ignoreBinaries": ["internal-.*", "mpis-.*", "cnpm", "systemd-.*", "systemctl", "journalctl", "unshare"],
 	"exclude": ["duplicates", "unresolved"],
 	"workspaces": {

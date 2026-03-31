@@ -3,9 +3,6 @@
 	"description": "A simple script to execute typescript file during development.",
 	"version": "0.0.18",
 	"type": "module",
-	"engines": {
-		"node": ">=18.19.0 < 20 || >=20.6.0"
-	},
 	"exports": {
 		".": "./src/index.ts",
 		"./register": "./src/register.ts",
@@ -31,6 +28,7 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
+		"@mpis/esbuild": "workspace:^",
 		"@types/node": "^25.5.0",
 		"typescript": "^6.0.2"
 	},

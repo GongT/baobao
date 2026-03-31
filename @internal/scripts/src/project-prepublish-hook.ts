@@ -30,6 +30,7 @@ registerNodejsGlobalTypedErrorHandler(ExecaError, (err) => {
 	shutdown(1);
 });
 
+process.exitCode = 0;
 logger.log`这是预发布钩子`;
 
 const currentPackagePath = resolve(currentProject, 'package.json');
@@ -58,26 +59,34 @@ mirrorExportsAndMain();
 ensureExportsPackageJson();
 deleteDevelopmentFields();
 
-const hasPrepublishHook = [];
-for (const name of Object.keys(packageJson['scripts'] || {})) {
+const scripts = packageJson['scripts'] || {};
+let hasPrepublishHook = 0;
+for (const name of Object.keys(scripts)) {
 	if (!name.startsWith('prepublishHook:')) continue;
-	hasPrepublishHook.push(name);
-}
-if (hasPrepublishHook.length) {
-	logger.debug`执行预发布钩子：${hasPrepublishHook.join(', ')}`;
-	await execa('pnpm', ['run', 'prepublishHook:*'], {
-		stdio: 'inherit',
-		cwd: currentProject,
-	});
-	for (const name of hasPrepublishHook) {
-		delete packageJson['scripts'][name];
-	}
+	hasPrepublishHook++;
 }
 
 await writeBack();
 writeNpmFiles();
 
 await rewriteTsconfig();
+
+if (hasPrepublishHook) {
+	logger.info`执行自定义钩子 ${hasPrepublishHook} 个`;
+	await execa('pnpm', ['run', '/^prepublishHook:.+/'], {
+		stdio: 'inherit',
+		cwd: currentProject,
+	});
+
+	await readPackageJson();
+	for (const name of Object.keys(scripts)) {
+		if (!name.startsWith('prepublishHook:')) continue;
+		delete packageJson['scripts'][name];
+	}
+	await writeBack();
+} else {
+	logger.log`没有自定义钩子`;
+}
 
 if (process.exitCode === 0) {
 	logger.success`预发布钩子结束了`;

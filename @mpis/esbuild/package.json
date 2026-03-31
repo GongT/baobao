@@ -3,6 +3,9 @@
 	"type": "module",
 	"version": "0.0.19",
 	"keywords": [],
+	"bin": {
+		"mpis-esbuild": "./loader/bin.devel.js"
+	},
 	"exports": {
 		".": "./lib/index.js",
 		"./package.json": "./package.json"
@@ -18,6 +21,7 @@
 	},
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
+		"@idlebox/args": "workspace:^",
 		"@mpis/client": "workspace:^"
 	},
 	"devDependencies": {

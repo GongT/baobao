@@ -1,15 +1,18 @@
+import { argv } from '@idlebox/args/default';
 import { isModuleResolutionError } from '@idlebox/common';
 import { channelClient } from '@mpis/client';
 import type esbuild from 'esbuild';
 import { createRequire } from 'node:module';
+import { resolve } from 'node:path';
 
 type Opt = esbuild.BuildOptions & ({ watch?: esbuild.WatchOptions } | { serve?: esbuild.ServeOptions });
 
 type OptionOrFunc = Opt | (() => Opt | Promise<Opt>);
+export type { esbuild };
 
 function loadLocalEsbuild(): typeof esbuild | null {
 	try {
-		const require = createRequire(process.argv[1]);
+		const require = createRequire(resolve(process.cwd(), 'index.js'));
 		return require('esbuild');
 	} catch (error) {
 		if (isModuleResolutionError(error)) {
@@ -21,6 +24,8 @@ function loadLocalEsbuild(): typeof esbuild | null {
 }
 
 export async function defineEsbuild(title: string, options: OptionOrFunc): Promise<esbuild.BuildContext> {
+	const watchMode = argv.flag(['-w', '--watch']);
+
 	const esb: typeof esbuild = loadLocalEsbuild() || (await import('esbuild').then((m) => m.default || m));
 
 	channelClient.friendlyTitle = title;
@@ -28,6 +33,13 @@ export async function defineEsbuild(title: string, options: OptionOrFunc): Promi
 	if (typeof options === 'function') {
 		options = await options();
 	}
+
+	options = {
+		logLevel: 'info',
+		format: 'esm',
+		sourcemap: 'linked',
+		...options,
+	};
 
 	if (!options.plugins) options.plugins = [];
 
@@ -61,14 +73,22 @@ export async function defineEsbuild(title: string, options: OptionOrFunc): Promi
 
 	const ctx = await esb.context(options);
 
-	if (process.argv.includes('--watch') || process.argv.includes('-w')) {
+	if (watchMode) {
+		console.log('Entering watch mode...');
 		if ('serve' in options) {
 			await ctx.serve(options.serve);
 		} else {
 			await ctx.watch((options as any).watch);
 		}
+		process.on('beforeExit', async () => {
+			console.log('Exiting...');
+			await ctx.dispose();
+			process.exit(0);
+		});
 	} else {
+		console.log('Building...');
 		await ctx.rebuild();
+		await ctx.dispose();
 	}
 
 	return ctx;

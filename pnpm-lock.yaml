@@ -1422,6 +1422,9 @@ importers:
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
+      '@mpis/esbuild':
+        specifier: workspace:^
+        version: link:../../@mpis/esbuild
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1957,6 +1960,9 @@ importers:
 
   '@mpis/esbuild':
     dependencies:
+      '@idlebox/args':
+        specifier: workspace:^
+        version: link:../../@idlebox/args
       '@idlebox/common':
         specifier: workspace:^
         version: link:../../@idlebox/common
@@ -1964,6 +1970,9 @@ importers:
         specifier: workspace:^
         version: link:../client
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
