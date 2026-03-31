@@ -31,6 +31,7 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
+		"@idlebox/source-map-support": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/minimatch": "^6.0.0",
 		"@types/node": "^25.5.0"

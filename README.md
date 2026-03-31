@@ -11,7 +11,6 @@ TypeScript代码和工具库
 * [package-tools](@build-script/package-tools) npm包管理与发布辅助工具集合
 * [rushstack-config-loader](@build-script/rushstack-config-loader) 用于加载[riggable config](https://www.npmjs.com/package/@rushstack/rig-package)的库
 * [monorepo-lib](@build-script/monorepo-lib) monorepo操作工具
-* [depcheck](@build-script/depcheck) 检查package.json中未使用或缺失的依赖
 * [vite-plugin-chunk-tree](@build-script/vite-plugin-chunk-tree) vite（和rollup）根据依赖**树**生成chunks
 
 ## @idlebox - 函数库
@@ -42,7 +41,7 @@ CLI程序辅助库
 文件系统和代码工具
 
 * [ensure-symlink](@idlebox/ensure-symlink) 确保符号链接存在且内容正确
-* [esbuild-executer](@idlebox/esbuild-executer) TypeScript文件执行器，优化monorepo，相当于简易版[vite-node](https://www.npmjs.com/package/vite-node)
+* [native-executer](@idlebox/native-executer) TypeScript文件执行器
 * [ignore-edit](@idlebox/ignore-edit) 编辑`.gitignore`、`.npmignore`等忽略文件
 * [json-edit](@idlebox/json-edit) 编辑`jsonc`文件
 * [json-extends-loader](@idlebox/json-extends-loader) 加载带有`extends`的`jsonc`文件（比如tsconfig）

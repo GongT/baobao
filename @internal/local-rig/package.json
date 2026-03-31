@@ -12,9 +12,7 @@
 	},
 	"private": true,
 	"devDependencies": {
-		"@eslint/js": "^10.0.1",
-		"eslint": "^10.0.3",
 		"typescript": "^6.0.2",
-		"typescript-eslint": "^8.57.1"
+		"knip": "^6.1.1"
 	}
 }

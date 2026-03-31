@@ -24,6 +24,7 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
+		"@build-script/codegen": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/web": "^0.0.344",
 		"browserslist-useragent-regexp": "^4.1.3"

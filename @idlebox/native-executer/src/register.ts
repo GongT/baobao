@@ -39,5 +39,11 @@ if (globalThis.__ts_resolver_installed__) {
 	throw new Error('Failed to relaunch process with experimental transform types');
 } else {
 	log('registering resolver...');
+
+	if (process.execArgv.includes('--inspect')) {
+		const ins = await import('node:inspector');
+		ins.waitForDebugger();
+	}
+
 	await import('./loader.hooks.ts');
 }

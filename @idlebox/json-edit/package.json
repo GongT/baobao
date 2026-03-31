@@ -31,8 +31,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0",
-		"@idlebox/source-map-support": "workspace:^",
-		"tslib": "^2.8.1",
 		"vite-node": "^6.0.0"
 	},
 	"publishConfig": {

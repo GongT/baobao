@@ -27,19 +27,19 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/cli-help-builder": "workspace:^",
+		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/terminal-control": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^"
+		"@idlebox/source-map-support": "workspace:^",
+		"@idlebox/terminal-control": "workspace:^"
 	},
 	"devDependencies": {
-		"@idlebox/source-map-support": "workspace:^",
-		"@internal/local-rig": "workspace:^",
 		"@idlebox/cli-static-generator": "workspace:^",
-		"@types/node": "^25.5.0"
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^25.5.0",
+		"mocha": "^11.7.5"
 	},
 	"peerDependencies": {
 		"@idlebox/cli-static-generator": "workspace:^"

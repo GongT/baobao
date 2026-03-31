@@ -201,7 +201,8 @@ function guessTitle(command: string | readonly string[]): string {
 function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMode: boolean): ICommand {
 	const cmd = item.command as IPackageBinary;
 
-	const pkgJsonPath = fileURLToPath(config.resolve(`${cmd.package}/package.json`));
+	const pkgRootPath = fileURLToPath(config.resolvePackageRoot(cmd.package));
+	const pkgJsonPath = resolve(pkgRootPath, 'package.json');
 	let title = item.title;
 	if (!title) {
 		// biome-ignore lint/style/noNonNullAssertion: split must have 0

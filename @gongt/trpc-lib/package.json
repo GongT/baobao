@@ -22,13 +22,9 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@trpc/server": "^11.13.4",
 		"@idlebox/source-map-support": "workspace:^"
 	},
 	"devDependencies": {
-		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
 		"@types/node": "^25.5.0"

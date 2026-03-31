@@ -30,6 +30,7 @@
 	"peerDependencies": {
 		"typescript": "^6.0.2"
 	},
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

@@ -15,10 +15,9 @@ createRootLogger('post-install', EnableLogLevel.verbose);
 logger.log`modules dir: long<${globalNodeModules}>`;
 const tools: Record<string, string> = {
 	tsc: 'typescript/bin/tsc',
-	eslint: 'eslint/bin/eslint.js',
 	biome: '@biomejs/biome/bin/biome',
 	publisher: '@mpis/publisher/loader/bin.js',
-	depcheck: '@build-script/depcheck/loader/bin.devel.js',
+	knip: 'knip/bin/knip.js',
 	'mpis-run': '@mpis/run/loader/bin.devel.js',
 	codegen: '@build-script/codegen/loader/bin.devel.js',
 	autoindex: '@build-script/autoindex/loader/bin.devel.js',

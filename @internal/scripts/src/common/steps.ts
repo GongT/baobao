@@ -2,7 +2,7 @@
 import type { IExportMap } from '@idlebox/common';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
-import { relativePath } from '@idlebox/node';
+import { relativePath, setExitCodeIfNot } from '@idlebox/node';
 import { execa } from 'execa';
 import { cpSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -203,47 +203,43 @@ export function writeNpmFiles() {
 	cpSync(ignoreSource, ignoreDist);
 }
 
-export async function executePreBuild() {
+export async function executePreBuild(details = true) {
+	let failed = 0;
 	const rigFile = resolve(currentProject, 'config/rig.json');
 	if (existsSync(rigFile)) {
-		logger.log`执行 @build-script/depcheck`;
-		const depcheckPath = fileURLToPath(import.meta.resolve('@build-script/depcheck/binary'));
-		const args = [depcheckPath];
+		logger.log`执行 knip`;
+		const args = ['pnpm', 'exec'];
 
-		if (logger.verbose.isEnabled) {
-			args.push('-dd');
-		} else if (logger.debug.isEnabled) {
-			args.push('-d');
-		}
+		args.push('knip', '--no-gitignore', '--no-config-hints', '--no-progress', '--config', resolve(monorepoRoot, 'knip.json'), '--directory', currentProject);
 
-		logger.debug`node commandline<${args}>`;
-		await execa('node', args, {
-			stdio: 'inherit',
+		logger.debug`commandline<${args}>`;
+		const r = await execa({
+			stdio: details ? 'inherit' : 'ignore',
 			cwd: currentProject,
-		});
+			reject: false,
+		})`${args}`;
+
+		if (r.failed) {
+			logger.error`knip发现问题，应修复后再发布: commandline<${args}>`;
+			setExitCodeIfNot(1);
+			failed++;
+		}
 	} else {
-		logger.log`未找到 rig.json，跳过 @build-script/depcheck`;
+		logger.warn`未找到 rig.json，跳过 knip`;
 	}
 
 	logger.log`执行 biome check`;
 	const biomePath = resolve(monorepoRoot, 'node_modules/.bin/biome');
-	const lintResult = await execa(biomePath, ['lint', '--diagnostic-level=warn'], {
-		stdio: ['ignore', 'pipe', 'pipe'],
+	const r = await execa(biomePath, ['check', '--diagnostic-level=warn'], {
+		stdio: details ? 'inherit' : 'ignore',
 		cwd: realProject,
 		reject: false,
-		all: true,
 	});
-	if (lintResult.exitCode !== 0) {
-		logger.warn`输出内容:\nprintable<${lintResult.all}>`;
-		throw new Error(`biome lint发现问题，必须修正后再发布`);
+	if (r.failed) {
+		logger.error`biome format发现问题，应修复后再发布`;
+		setExitCodeIfNot(1);
+		failed++;
 	}
 
-	const formatResult = await execa(biomePath, ['format', '--diagnostic-level=warn'], {
-		stdio: 'pipe',
-		cwd: realProject,
-		reject: false,
-	});
-	if (formatResult.exitCode !== 0) {
-		logger.error`biome format发现问题，应修复后再发布`;
-	}
+	return failed;
 }

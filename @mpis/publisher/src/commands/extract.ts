@@ -2,7 +2,7 @@ import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { emptyDir, shutdown, workingDirectory } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { recreateTempFolder, repoRoot, tempDir } from '../common/constants.js';
-import { execPnpmMute } from '../common/exec.js';
+import { execPnpmMute, registerLogError } from '../common/exec.js';
 import { buildPackageTarball, extractPackage, getCurrentProject, reconfigurePackageJson } from '../common/shared-steps.js';
 import { decompressTarGz } from '../common/tar.js';
 
@@ -28,6 +28,8 @@ export const main = async () => {
 	if (argv.unused().length > 0) {
 		throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
 	}
+
+	registerLogError();
 
 	// prepare
 	await recreateTempFolder();

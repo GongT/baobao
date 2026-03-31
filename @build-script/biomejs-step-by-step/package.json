@@ -22,7 +22,6 @@
 	"dependencies": {
 		"@biomejs/js-api": "^4.0.0",
 		"@biomejs/wasm-nodejs": "^2.4.8",
-		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/chokidar": "workspace:^",
 		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",

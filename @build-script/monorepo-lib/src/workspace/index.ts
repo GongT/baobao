@@ -1,4 +1,4 @@
-import { type IMyLogger } from '@idlebox/logger';
+import type { IMyLogger } from '@idlebox/logger';
 import { execLazyError, findUpUntil, normalizePath } from '@idlebox/node';
 import { dirname, resolve } from 'node:path';
 import { decoupleDependencies } from './common/deduplicate-dependency.js';

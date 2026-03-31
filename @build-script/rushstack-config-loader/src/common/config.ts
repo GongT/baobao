@@ -1,4 +1,5 @@
 import { deepmerge, type MergeStrategy } from '@idlebox/deepmerge';
+import { isModuleResolutionError, NodeErrorCode } from '@idlebox/errors';
 import { loadInheritedJson, NotFoundError } from '@idlebox/json-extends-loader';
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
 import { resolve as importResolve } from 'import-meta-resolve';
@@ -6,8 +7,8 @@ import { existsSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { validateSchema, ValidationError } from './ajv.js';
-import { isModuleResolutionError } from './functions.js';
 import type { IMyLogger } from './logger.js';
+import { resolvePackageRoot } from './resolve.js';
 
 /**
  * 主类，通用项目配置文件加载器
@@ -45,6 +46,20 @@ export class ProjectConfig {
 			return pkg.default;
 		}
 		return pkg;
+	}
+
+	resolvePackageRoot(packageName: string): string {
+		let r = resolvePackageRoot(packageName, this.currentPackageUrl);
+		if (r) return r;
+
+		if (this.rigPackageUrl) {
+			r = resolvePackageRoot(packageName, this.rigPackageUrl);
+			if (r) return r;
+		}
+
+		const e = new Error(`Cannot find package '${packageName}' from '${this.currentPackageUrl}' (rig=${this.rigPackageUrl})`) as NodeJS.ErrnoException;
+		e.code = NodeErrorCode.MODULE_NOT_FOUND;
+		throw e;
 	}
 
 	resolve(packageName: string): string {

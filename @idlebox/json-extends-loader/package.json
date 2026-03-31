@@ -26,8 +26,7 @@
 	"dependencies": {
 		"@idlebox/deepmerge": "workspace:^",
 		"comment-json": "^4.6.2",
-		"object-path": "^0.11.8",
-		"tslib": "^2.8.1"
+		"object-path": "^0.11.8"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
@@ -35,6 +34,7 @@
 		"@types/node": "^25.5.0",
 		"@types/object-path": "^0.11.4"
 	},
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}

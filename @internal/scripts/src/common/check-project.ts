@@ -10,6 +10,7 @@ import { formatFile } from './format.js';
 import { ObjectChecker } from './object-checker.js';
 import { getExportsField, packageJson, readPackageJson, writeBack } from './package-json.js';
 import { currentProject } from './paths/current.js';
+import { executePreBuild } from './steps.js';
 
 let errorRegistry: ErrorCollector;
 const assetPkgName = '@build-script/baseline-rig';
@@ -25,9 +26,14 @@ export async function executeProjectCheck() {
 	try {
 		const notices = await executeInner(logger);
 
+		const failed = await executePreBuild(false);
+		if (failed) {
+			errorRegistry.with(resolve(currentProject, 'package.json')).emit('check failed');
+		}
+
 		errorRegistry.throwIfErrors();
 
-		logger.success('检查没有问题');
+		logger.success('检查没有问题\n\n');
 		for (const notice of notices) {
 			logger.warn`   long<${notice}>`;
 		}

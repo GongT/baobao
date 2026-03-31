@@ -3,7 +3,7 @@ import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { commandInPathSync, shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { recreateTempFolder, repoRoot, tempDir } from '../common/constants.js';
-import { execMute, execPnpmUser } from '../common/exec.js';
+import { execMute, execPnpmUser, registerLogError } from '../common/exec.js';
 import { buildPackageTarball, commitChanges, extractPackage, reconfigurePackageJson } from '../common/shared-steps.js';
 
 export class Command extends CommandDefine {
@@ -80,6 +80,8 @@ export async function main() {
 			logger.warn`BROWSER 环境变量未设置，无法预期行为，最好设置它。`;
 		}
 	}
+
+	registerLogError();
 
 	// prepare
 	await recreateTempFolder();

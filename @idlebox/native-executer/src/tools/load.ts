@@ -69,7 +69,7 @@ function myLoad(url: string, context: LoadHookContext, defaultLoad: NextLoad): L
 					Object.assign(e, data, { message });
 					Object.defineProperty(e, 'stack', {
 						get() {
-							return data.stack.replace(/^.+\n/, message + '\n');
+							return data.stack.replace(/^.+\n/, `${message}\n`);
 						},
 					});
 

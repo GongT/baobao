@@ -5,10 +5,12 @@ import { verboseLines } from './collect.ts';
 import { isModuleNotFoundError, throwIt } from './share.ts';
 import { log, tryExtensions, type NextResolve } from './types.ts';
 
-function maybeResolve(specifier: string, parent: URL, conditions: Set<string>): string | undefined {
+function maybeResolve1(specifier: string, parent: URL, conditions: Set<string>): string | undefined {
 	try {
 		const r = moduleResolve(specifier, parent, conditions);
-		if (r) return r.href;
+		if (r) {
+			return r.href;
+		}
 	} catch {}
 	return;
 }
@@ -57,6 +59,7 @@ function myResolve(specifier: string, context: ResolveHookContext, defaultResolv
 		throw new Error(`not imple: f1=${f1}, f2=${f2}`);
 	}
 
+	log.resolve(`[EL][resolve]       fallback module resolve`);
 	// 然后尝试过时的文件扩展名方式
 	return throwIt(resolveWithFileTypes(specifier, context.parentURL, conditions, defaultResolve));
 }
@@ -115,4 +118,13 @@ function wrapResolve(original: ResolveHookSync): ResolveHookSync {
 	};
 }
 
+function wrapResolveInner(original: typeof maybeResolve1): typeof maybeResolve1 {
+	return (specifier, parent, conditions) => {
+		const r = original(specifier, parent, conditions);
+		log.resolve('[EL][resolve]     custom "%s" → %s / [%s]', specifier, r, Array.from(conditions).join(', '));
+		return r;
+	};
+}
+
+const maybeResolve = log.resolve.enabled ? wrapResolveInner(maybeResolve1) : maybeResolve1;
 export const resolveFunction = log.resolve.enabled ? wrapResolve(myResolve) : myResolve;

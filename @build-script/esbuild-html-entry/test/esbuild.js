@@ -1,4 +1,4 @@
-import { ESBuildHtmlEntry } from '@gongt/esbuild-html-entry';
+import { ESBuildHtmlEntry } from '../lib/main.js';
 import esbuild from 'esbuild';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';

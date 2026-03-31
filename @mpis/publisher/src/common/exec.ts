@@ -1,11 +1,19 @@
 import { logger } from '@idlebox/cli';
 import { convertCaughtError } from '@idlebox/common';
+import { registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
 import { execa, ExecaError } from 'execa';
 import { projectPath } from './constants.js';
 
 const env = {
 	DEBUG_LEVEL: logger.verbose.isEnabled ? 'verbose' : logger.debug.isEnabled ? 'debug' : undefined,
 };
+
+export function registerLogError() {
+	registerNodejsGlobalTypedErrorHandler(ExecaError, (err) => {
+		logger.error`执行命令失败: commandline<${err.command}>\n    wd: long<${err.cwd}>`;
+		shutdown(1);
+	});
+}
 
 export function execPnpm(args: string[] = []) {
 	logger.debug`执行命令: pnpm commandline<${args}>`;

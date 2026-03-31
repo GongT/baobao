@@ -81,7 +81,7 @@ function red(s: string) {
 }
 
 function unparsedLine(line: string) {
-	return `\x1B[48;5;9m${line}\x1B[0m`
+	return `\x1B[48;5;9m${line}\x1B[0m`;
 }
 
 /**

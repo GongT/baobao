@@ -25,29 +25,6 @@
 		/**
 		 *
 		 */
-		"codegen:production": {
-			"title": "Code Generation (Production)",
-			"command": {
-				"package": "@build-script/codegen",
-				"binary": "loader/bin.js",
-				"arguments": ["src"],
-			},
-		},
-
-		/**
-		 *
-		 */
-		"depcheck": {
-			"title": "Check Dependencies",
-			"command": {
-				"package": "@build-script/depcheck",
-				"binary": "depcheck",
-			},
-		},
-
-		/**
-		 *
-		 */
 		"typescript": {
 			"title": "Compile TypeScript",
 			"command": {

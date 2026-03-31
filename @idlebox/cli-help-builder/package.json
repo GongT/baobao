@@ -25,7 +25,9 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.5.0"
+		"@types/node": "^25.5.0",
+		"@idlebox/source-map-support": "workspace:^",
+		"mocha": "^11.7.5"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

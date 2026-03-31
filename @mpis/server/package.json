@@ -33,8 +33,7 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@mpis/run": "workspace:^",
-		"@types/node": "^25.5.0",
-		"why-is-node-running": "^3.2.2"
+		"@types/node": "^25.5.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

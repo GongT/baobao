@@ -6,7 +6,7 @@ logger.warn('global init from bbb...');
 export function generate(ctx: GenerateContext) {
 	ctx.logger.warn('Hello from bbb...');
 
-	ctx.watchFiles('./source.txt')
+	ctx.watchFiles('./source.txt');
 
 	return `console.log("1234");
 

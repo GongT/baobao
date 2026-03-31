@@ -33,9 +33,9 @@
 	"exports": {
 		"./package.json": "./package.json"
 	},
+	"decoupledDependents": "*",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},
-	"decoupledDependencies": "*",
 	"sideEffects": false
 }

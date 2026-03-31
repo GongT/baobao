@@ -6,17 +6,20 @@ scripts:
   build: node @mpis/monorepo/loader/bin.devel.js build
   rebuild: bash scripts/simple-clean.sh ; node @mpis/monorepo/loader/bin.devel.js build
   watch: node @mpis/monorepo/loader/bin.devel.js watch
-  package-tools: node @build-script/package-tools/bins/load.js
+  package-tools: node @build-script/package-tools/bins/load.devel.js
+  monorepo: node @mpis/monorepo/loader/bin.devel.js
   link: >-
-    node @build-script/package-tools/bins/load.js monorepo-link-binaries
+    node @build-script/package-tools/bins/load.devel.js monorepo-link-binaries
     --recursive
   check: node @internal/scripts/loader/repo-check-all.js
   clean: node @internal/scripts/loader/repo-clean.js
-  'hook:pre-commit': node @internal/scripts/loader/repo-hook-pre-commit.js
+  hook:pre-commit: node @internal/scripts/loader/repo-hook-pre-commit.js
   remote-publish: node @internal/scripts/loader/remote-publish.js
 devDependencies:
   '@biomejs/biome': ^2.4.8
+  '@types/node': ^25.5.0
   browserslist: ^4.28.1
   execa: ^9.6.1
+  knip: ^6.1.1
   typescript: ^6.0.2
 packageManager: pnpm@10.33.0
