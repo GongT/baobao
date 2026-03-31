@@ -7,7 +7,7 @@ settings:
 overrides:
   ajv: ^8.17.1
 
-pnpmfileChecksum: sha256-jel/g8K+qws/sA8hfX7L4f3RvsEJolACMPQnJzOCFLs=
+pnpmfileChecksum: sha256-TLFEk6GM0DsjxkNC9/RNWppxfAfxaWJjUuNkTDVQu1s=
 
 importers:
 
@@ -6686,6 +6686,7 @@ snapshots:
     dependencies:
       '@rushstack/heft-config-file': 0.20.3(@types/node@25.5.0)
       '@rushstack/node-core-library': 5.20.3(@types/node@25.5.0)
+      '@types/rushstack__terminal': '@rushstack/terminal@0.22.3(@types/node@25.5.0)'
       '@types/tapable': 1.0.6
       semver: 7.5.4
       tapable: 1.1.3

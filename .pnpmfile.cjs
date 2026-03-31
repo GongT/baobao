@@ -88,6 +88,11 @@ function readPackage(packageJson, context) {
 		packageJson.dependencies['@swc/core'] = packageJson.peerDependencies['@swc/core'];
 	}
 
+	if (packageJson.name === '@rushstack/heft-typescript-plugin') {
+		assert.equal(packageJson.dependencies?.['@rushstack/terminal'], undefined, '外部依赖更新，应检查是否还缺少"@rushstack/terminal"依赖');
+		packageJson.dependencies['@types/rushstack__terminal'] = `npm:@rushstack/terminal@*`;
+	}
+
 	if (myProjects.has(packageJson.name) || packageJson._example) {
 		for (const name of Object.keys(packageJson.dependencies || {})) {
 			if (name === '@types/source-map-support') continue;
