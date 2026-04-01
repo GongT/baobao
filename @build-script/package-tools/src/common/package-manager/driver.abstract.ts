@@ -1,5 +1,5 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
-import { logger as defaultLogger } from '@idlebox/cli';
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
@@ -31,7 +31,7 @@ export abstract class PackageManager {
 		public readonly usageKind: PackageManagerUsageKind,
 		public readonly workspace: WorkspaceBase,
 		subdir = process.cwd(),
-		public readonly logger = defaultLogger,
+		public readonly logger: IMyLogger = defaultLogger,
 	) {
 		this.configTemp = new TempWorkingFolder(this.workspace, 'package-manager', logger, true);
 		this.projectPath = resolve(workspace.root, subdir);

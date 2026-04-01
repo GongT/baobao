@@ -1,4 +1,4 @@
-import { logger as defaultLogger } from '@idlebox/cli';
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { sleep } from '@idlebox/common';
 import { exists, streamPromise } from '@idlebox/node';
 import { createWriteStream } from 'node:fs';
@@ -15,7 +15,7 @@ interface IMetaInfo {
 }
 
 export class FileDownloader {
-	constructor(public readonly logger = defaultLogger) {}
+	constructor(public readonly logger: IMyLogger = defaultLogger) {}
 
 	public async download(url: string, file: string) {
 		const metadata = `${file}.meta.json`;

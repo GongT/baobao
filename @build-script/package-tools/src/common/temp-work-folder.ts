@@ -1,5 +1,5 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
-import { logger as defaultLogger } from '@idlebox/cli';
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { registerGlobalLifecycle } from '@idlebox/common';
 import { writeJsonFile } from '@idlebox/json-edit';
 import { emptyDir } from '@idlebox/node';
@@ -17,7 +17,7 @@ export class TempWorkingFolder {
 	constructor(
 		private readonly workspace: WorkspaceBase,
 		name: string,
-		public readonly logger = defaultLogger,
+		public readonly logger: IMyLogger = defaultLogger,
 		__internal_isChild = false,
 	) {
 		if (!__internal_isChild) {
