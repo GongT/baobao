@@ -44,6 +44,11 @@ export class Interval extends EnhancedDisposable {
 		this.fire = this.fire.bind(this);
 	}
 
+	reset() {
+		this.timer?.dispose();
+		this.timer = interval(this.ms, this.fire, this.unref);
+	}
+
 	fire() {
 		this._emitter.fire();
 	}
@@ -56,6 +61,7 @@ export class Interval extends EnhancedDisposable {
 	pause() {
 		if (!this.timer) return;
 		this.timer.dispose();
+		this.timer = undefined;
 	}
 
 	override dispose() {

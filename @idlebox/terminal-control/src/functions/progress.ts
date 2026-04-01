@@ -1,10 +1,26 @@
-import type { IDisposable } from '@idlebox/common';
+import { noop, type IDisposable } from '@idlebox/common';
 import { OSC, ST } from '../constants/sequence.js';
 
-export class Progress implements IDisposable {
+interface IProgress extends IDisposable {
+	update(percent: number): void;
+	indeterminate(): void;
+	error(percent: number): void;
+	warning(percent: number): void;
+	dispose(): void;
+	clear(): void;
+}
+
+export class Progress implements IProgress {
 	private active = false;
 
 	constructor(private readonly stream: NodeJS.WritableStream) {}
+
+	private disable() {
+		this.update = noop;
+		this.indeterminate = noop;
+		this.error = noop;
+		this.warning = noop;
+	}
 
 	public clear() {
 		if (!this.active) return;
@@ -31,5 +47,16 @@ export class Progress implements IDisposable {
 
 	public dispose() {
 		this.clear();
+		this.disable();
 	}
+}
+
+export class DisabledProgress implements IProgress {
+	public readonly disable = noop;
+	public readonly clear = noop;
+	public readonly update = noop;
+	public readonly indeterminate = noop;
+	public readonly error = noop;
+	public readonly warning = noop;
+	public readonly dispose = noop;
 }

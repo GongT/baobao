@@ -1,4 +1,4 @@
-import { prettyFormatError } from '@idlebox/common';
+import { globalObject, isNodeJs, prettyFormatError } from '@idlebox/common';
 import debug from 'debug';
 import { debug_commands } from '../functions/builtin-commands.js';
 import { EnableLogLevel } from '../loglevels/loglevel.js';
@@ -90,7 +90,10 @@ export function debug_enabled(tag: string) {
 /**
  * [当指定tag开启时] 应该输出它的什么级别
  */
-export let defaultLogLevel = (() => {
+export let defaultLogLevel: EnableLogLevel = isNodeJs ? detectNode() : detectEnv(localStorage);
+
+function detectNode(): EnableLogLevel {
+	const process: typeof import('node:process') = globalObject['process'];
 	if (process.argv.includes('--verbose')) {
 		// 参数中含有 --verbose 时，设置默认日志级别
 		return EnableLogLevel.verbose;
@@ -104,11 +107,14 @@ export let defaultLogLevel = (() => {
 			return EnableLogLevel.debug;
 		}
 	}
+	return detectEnv(process.env);
+}
 
+function detectEnv(env: Record<string, string | undefined>): EnableLogLevel {
 	// DEBUG=xxx,verbose,xxx
 	// biome-ignore lint/performance/useTopLevelRegex: a
 	const has_debug_verbose = /(?<=^| |,)(verbose|debug)(?=$| |,)/;
-	const setted = has_debug_verbose.exec(process.env.DEBUG || '');
+	const setted = has_debug_verbose.exec(env.DEBUG || '');
 	if (setted) {
 		if (setted[0] === 'verbose') {
 			return EnableLogLevel.verbose;
@@ -117,7 +123,7 @@ export let defaultLogLevel = (() => {
 		}
 	} else {
 		// 直接通过 DEBUG_LEVEL 设置
-		switch (process.env.DEBUG_LEVEL || '') {
+		switch (env.DEBUG_LEVEL || '') {
 			case '':
 				return EnableLogLevel.log;
 			case 'verbose':
@@ -135,7 +141,7 @@ export let defaultLogLevel = (() => {
 				return EnableLogLevel.verbose;
 		}
 	}
-})();
+}
 
 /**
  * 手动设置默认日志级别

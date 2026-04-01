@@ -4,7 +4,7 @@ import { createLogger } from '@idlebox/logger';
 import { inspect, type InspectOptionsStylized } from 'node:util';
 import type { ProtocolClientObject } from './protocol-client-object.js';
 
-const MAX_STARTING = 4;
+const MAX_STARTING = process.env.CI ? 10 : 3;
 
 class EventTranslate extends Job<string> {
 	constructor(
@@ -77,6 +77,7 @@ export class WorkersManager extends JobGraphBuilder<string, EventTranslate> {
 		private readonly _logger = createLogger('mpis:workers'),
 	) {
 		super(MAX_STARTING, _logger.extend('master'));
+		this.logger.info`manager in ${mode} mode, concurrency = ${MAX_STARTING}.`;
 	}
 
 	protected override getChildLogger(node: EventTranslate) {

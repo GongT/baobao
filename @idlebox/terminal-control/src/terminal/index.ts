@@ -7,7 +7,7 @@ import * as sequence from '../constants/sequence.js';
 import { AlternativeScreen } from '../functions/alternative.js';
 import { Cursor } from '../functions/cursor.js';
 import { Erase } from '../functions/erase.js';
-import { Progress } from '../functions/progress.js';
+import { DisabledProgress, Progress } from '../functions/progress.js';
 import { Title } from '../functions/title.js';
 import { Geometry } from './geometry.js';
 
@@ -56,7 +56,11 @@ export class Terminal extends EnhancedDisposable {
 			return new Erase(this.stream);
 		});
 		defineAsGetter(Terminal.prototype, 'progress', function (this: Terminal) {
-			return this._register(new Progress(this.stream));
+			if (this.isTTY) {
+				return this._register(new Progress(this.stream));
+			} else {
+				return new DisabledProgress();
+			}
 		});
 		defineAsGetter(Terminal.prototype, 'title', function (this: Terminal) {
 			return this._register(new Title(this.stream));

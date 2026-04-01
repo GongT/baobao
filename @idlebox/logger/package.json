@@ -17,8 +17,6 @@
 			"default": "./lib/environments/node.js"
 		},
 		"./browser": {
-			"types": "./src/environments/browser.ts",
-			"source": "./src/environments/browser.ts",
 			"default": "./lib/environments/browser.js"
 		},
 		"./package.json": "./package.json"
