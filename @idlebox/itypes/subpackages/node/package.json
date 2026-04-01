@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/itypes-node",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "node export of @idlebox/itypes",
 	"types": "./node_modules/@idlebox/itypes/lib.node.d.ts",
 	"exports": {
