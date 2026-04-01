@@ -1,6 +1,8 @@
 import { moduleResolve } from 'import-meta-resolve';
+import { realpathSync } from 'node:fs';
 import { isBuiltin, type ResolveFnOutput, type ResolveHookContext, type ResolveHookSync } from 'node:module';
 import { extname, isAbsolute } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { verboseLines } from './collect.ts';
 import { isModuleNotFoundError, throwIt } from './share.ts';
 import { log, tryExtensions, type NextResolve } from './types.ts';
@@ -15,7 +17,22 @@ function maybeResolve1(specifier: string, parent: URL, conditions: Set<string>):
 	return;
 }
 
+const hasNodeModules = /[/\\]node_modules[/\\]/i;
+
 function myResolve(specifier: string, context: ResolveHookContext, defaultResolve: NextResolve): ResolveFnOutput {
+	let originalResult: ResolveFnOutput | undefined;
+	let originalError: Error | undefined;
+	try {
+		originalResult = defaultResolve(specifier, context);
+	} catch (e: any) {
+		originalError = e;
+	}
+
+	const originalReturn = () => {
+		if (originalResult) return originalResult;
+		else throw originalError;
+	};
+
 	if (
 		context.importAttributes?.type ||
 		!context.parentURL ||
@@ -25,20 +42,32 @@ function myResolve(specifier: string, context: ResolveHookContext, defaultResolv
 		!context.conditions.includes('import')
 	) {
 		// 特殊类型、main（似乎不可能）、内置模块、data URL，直接默认解析
-		return defaultResolve(specifier, context);
+		return originalReturn();
 	}
 
 	if (specifier.startsWith('#')) {
 		// 私有路径，目前不知道怎么加扩展名
-		return defaultResolve(specifier, context);
+		return originalReturn();
+	}
+
+	if (specifier[0] === '.' || specifier.startsWith('file://') || specifier.startsWith('/') || isAbsolute(specifier)) {
+		// 相对路径、绝对文件路径，只进行直接解析，用多种扩展名，肯定用不到 source 条件
+		if (specifier[0] !== '.') {
+			if (specifier.startsWith('file://')) {
+				specifier = fileURLToPath(specifier);
+			}
+			const real = realpathSync(specifier);
+			if (hasNodeModules.test(real)) {
+				// 绝对路径里面有 node_modules，说明是外部依赖，不支持非js文件
+				return originalReturn();
+			} else {
+				specifier = `file://${real}`; // 这样对吗？
+			}
+		}
+		return throwIt(resolveWithFileTypes(specifier, context.parentURL, context.conditions, defaultResolve));
 	}
 
 	const conditions = [...context.conditions, 'source'];
-
-	if (specifier.startsWith('.') || specifier.startsWith('file://') || specifier.startsWith('/') || isAbsolute(specifier)) {
-		// 相对路径、绝对文件路径，只进行直接解析，用多种扩展名
-		return throwIt(resolveWithFileTypes(specifier, context.parentURL, conditions, defaultResolve));
-	}
 
 	/** 剩下的大概率是modules导入 */
 
@@ -47,6 +76,11 @@ function myResolve(specifier: string, context: ResolveHookContext, defaultResolv
 	const f2 = maybeResolve(specifier, new URL(context.parentURL), new Set(conditions));
 	if (f1 && f1 !== f2) {
 		log.generate(`to generate:\nf1=${f1}\nf2=${f2}`);
+		const real = realpathSync(fileURLToPath(f1));
+		if (hasNodeModules.test(real)) {
+			log.generate(`  ! f1 is in node_modules, fallback to default resolve`);
+			return originalReturn();
+		}
 		return {
 			url: `${f1}#generate`,
 			shortCircuit: true,
@@ -61,7 +95,11 @@ function myResolve(specifier: string, context: ResolveHookContext, defaultResolv
 
 	log.resolve(`[EL][resolve]       fallback module resolve`);
 	// 然后尝试过时的文件扩展名方式
-	return throwIt(resolveWithFileTypes(specifier, context.parentURL, conditions, defaultResolve));
+	const r = throwIt(resolveWithFileTypes(specifier, context.parentURL, conditions, defaultResolve));
+	if (hasNodeModules.test(r.url)) {
+		return originalReturn();
+	}
+	return r;
 }
 
 function resolveWithFileTypes(specifier: string, parentUrl: string, conditions: string[], defaultResolve: NextResolve): ResolveFnOutput | Error {
