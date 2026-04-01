@@ -1,5 +1,5 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
-import { logger } from '@idlebox/cli';
+import { logger as defaultLogger } from '@idlebox/cli';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
@@ -31,8 +31,9 @@ export abstract class PackageManager {
 		public readonly usageKind: PackageManagerUsageKind,
 		public readonly workspace: WorkspaceBase,
 		subdir = process.cwd(),
+		public readonly logger = defaultLogger,
 	) {
-		this.configTemp = new TempWorkingFolder(this.workspace, 'package-manager', true);
+		this.configTemp = new TempWorkingFolder(this.workspace, 'package-manager', logger, true);
 		this.projectPath = resolve(workspace.root, subdir);
 		if (!this.projectPath.startsWith(workspace.root)) {
 			throw new Error(`project "${this.projectPath}" is outside the workspace root`);
@@ -45,15 +46,15 @@ export abstract class PackageManager {
 
 	public async pack(saveAs: string) {
 		const pkg = await this.loadPackageJson();
-		logger.log`打包项目 (${pkg.publishConfig?.['packCommand'] ? 'custom' : 'default'}): relative<${this.projectPath}> -> relative<${saveAs}>`;
+		this.logger.log`打包项目 (${pkg.publishConfig?.['packCommand'] ? 'custom' : 'default'}): relative<${this.projectPath}> -> relative<${saveAs}>`;
 		if (pkg.publishConfig?.['packCommand']) {
 			const cmds = typeof pkg.publishConfig['packCommand'] === 'string' ? splitCmd(pkg.publishConfig['packCommand']) : pkg.publishConfig['packCommand'];
 
 			if (!Array.isArray(cmds)) {
-				logger.fatal`publishConfig.packCommand必须是字符串或字符串数组, 但实际是: ${typeof pkg.publishConfig['packCommand']}`;
+				this.logger.fatal`publishConfig.packCommand必须是字符串或字符串数组, 但实际是: ${typeof pkg.publishConfig['packCommand']}`;
 			}
 
-			logger.verbose` - 自定义打包命令: ${Array.from(cmds)}`;
+			this.logger.verbose` - 自定义打包命令: ${Array.from(cmds)}`;
 
 			const [cmd, ...args] = cmds;
 			await execLazyError(cmd, [...args, '--out', saveAs], {
@@ -110,25 +111,25 @@ export abstract class PackageManager {
 		const scope = await this.getScope();
 		if (scope) {
 			const { stdout } = await this._execGetOut(cwd, ['config', 'get', `${scope}:${key}`], true, binary);
-			logger.debug('$ %s config get %s:%s -> %s (cwd: %s)', binary, scope, key, stdout, cwd);
+			this.logger.debug('$ %s config get %s:%s -> %s (cwd: %s)', binary, scope, key, stdout, cwd);
 			if (`${stdout}` !== 'undefined') {
 				return stdout;
 			}
 		}
 		const { stdout } = await this._execGetOut(cwd, ['config', 'get', key], true, binary);
-		logger.debug('$ %s config get %s -> %s (cwd: %s)', binary, key, stdout, cwd);
+		this.logger.debug('$ %s config get %s -> %s (cwd: %s)', binary, key, stdout, cwd);
 		return stdout === 'undefined' ? undefined : stdout;
 	}
 
 	protected abstract _uploadTarball(pack: string, cwd: string): Promise<IUploadResult>;
 	public async uploadTarball(pack: string, cwd: string = this.projectPath) {
-		logger.debug(`上传压缩包: ${pack}`);
+		this.logger.debug(`上传压缩包: ${pack}`);
 		try {
 			const r = await this._uploadTarball(pack, cwd);
-			logger.debug`    发布成功: ${r.name} @ ${r.version} [${r.published}]`;
+			this.logger.debug`    发布成功: ${r.name} @ ${r.version} [${r.published}]`;
 			return r;
 		} catch (e: any) {
-			logger.debug`    tarball发布失败`;
+			this.logger.debug`    tarball发布失败`;
 			throw e;
 		}
 	}
@@ -161,14 +162,14 @@ export abstract class PackageManager {
 		if (!this._cachedReg) {
 			switch (registryInput) {
 				case 'detect':
-					logger.debug(`检测registry地址: ${registryInput}`);
+					this.logger.debug(`检测registry地址: ${registryInput}`);
 					this._cachedReg = await this.getConfig('registry');
 					break;
 				default:
 					if (!registryInput.startsWith('https://')) {
 						throw new Error(`不支持的--registry协议: ${registryInput}`);
 					}
-					logger.debug('使用命令行提供的registry地址 (%s)', registryInput);
+					this.logger.debug('使用命令行提供的registry地址 (%s)', registryInput);
 					this._cachedReg = registryInput;
 			}
 		}
@@ -183,7 +184,7 @@ export abstract class PackageManager {
 			const path = await this.getConfig('cache');
 			if (!path) throw new Error('npm config get cache返回为空');
 
-			this._cache_handler = new NpmCacheHandler(this, registry, path);
+			this._cache_handler = new NpmCacheHandler(this, registry, path, this.logger);
 		}
 		return this._cache_handler;
 	}

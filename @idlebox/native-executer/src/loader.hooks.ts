@@ -1,5 +1,6 @@
 import assert from 'node:assert';
 import { registerHooks } from 'node:module';
+import { collectingFiles } from './tools/collect.ts';
 import { loadFunction } from './tools/load.ts';
 import { resolveFunction } from './tools/resolve.ts';
 import { log } from './tools/types.ts';
@@ -15,6 +16,7 @@ globalThis.__ts_resolver_installed__ = {
 	dispose() {
 		registed.deregister();
 	},
+	files: collectingFiles,
 };
 log.main('loader hooks installed');
 

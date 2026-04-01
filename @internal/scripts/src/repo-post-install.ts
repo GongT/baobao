@@ -16,7 +16,7 @@ logger.log`modules dir: long<${globalNodeModules}>`;
 const tools: Record<string, string> = {
 	tsc: 'typescript/bin/tsc',
 	biome: '@biomejs/biome/bin/biome',
-	publisher: '@mpis/publisher/loader/bin.js',
+	publisher: '@mpis/publisher/loader/bin.devel.js',
 	knip: 'knip/bin/knip.js',
 	'mpis-run': '@mpis/run/loader/bin.devel.js',
 	codegen: '@build-script/codegen/loader/bin.devel.js',

@@ -1,5 +1,5 @@
 import { AsyncDisposable, Emitter, EnhancedAsyncDisposable, functionToDisposable } from '@idlebox/common';
-import { createLogger, type IMyLogger } from '@idlebox/logger';
+import { createLogger, logger as defaultLogger, type IMyLogger } from '@idlebox/logger';
 import { DepGraph } from 'dependency-graph';
 import { inspect, type InspectContext, type InspectOptions } from 'node:util';
 import { makeReverse } from './reverse.js';
@@ -10,11 +10,14 @@ export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposa
 	protected declare _state: State;
 	private readonly _onStateChange = new Emitter<State>();
 	public readonly onStateChange = this._onStateChange.register;
-	protected declare readonly logger: IMyLogger;
 
 	constructor(
 		public readonly name: string,
 		initState: State,
+		/**
+		 * 如果不传，会在addNode时创建一个
+		 */
+		public readonly logger: IMyLogger = undefined as any,
 	) {
 		super(`${new.target.name} ${name}`);
 		this._state = initState;
@@ -99,7 +102,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 	public readonly onAnyStateChange = this._anyStateChange.register;
 	constructor(
 		nodesIt: Iterable<T>,
-		protected readonly logger: IMyLogger,
+		protected readonly logger: IMyLogger = defaultLogger,
 	) {
 		super(logger.tag);
 
@@ -297,7 +300,9 @@ export abstract class AbstractGraphBuilder<T extends AbstractBaseNode, GT extend
 			throw new Error('依赖图已结束注册，不能再添加新的节点或依赖关系');
 		}
 
-		Object.assign(node, { logger: this.getChildLogger(node) });
+		if (!node.logger) {
+			Object.assign(node, { logger: this.getChildLogger(node) });
+		}
 
 		if (this.logger.verbose.isEnabled) {
 			this.logger.verbose`依赖：${[...node.dependencies].join(', ')}`;

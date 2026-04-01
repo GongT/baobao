@@ -1,4 +1,4 @@
-import { logger } from '@idlebox/cli';
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { sleep, type IPackageJson } from '@idlebox/common';
 import { get as cacheGet, rm as cacheRm } from 'cacache';
 import { rm } from 'node:fs/promises';
@@ -8,7 +8,7 @@ import { json as npmFetchJson } from 'npm-registry-fetch';
 import { DEFAULT_NPM_REGISTRY } from '../package-manager/constant.js';
 import type { IPackageManager } from '../package-manager/package-manager.js';
 import { getProxyValue } from '../package-manager/proxy.js';
-import { downloadFileCached } from '../taball/file-download.js';
+import { FileDownloader } from '../taball/file-download.js';
 import { self_package_name, self_package_repository, self_package_version } from '../version.generated.js';
 import { escapePackageNameToFilename } from './escape-package-path.js';
 
@@ -44,17 +44,18 @@ export class NpmCacheHandler {
 		private readonly pm: IPackageManager,
 		private readonly registry: string,
 		public readonly path: string,
+		public readonly logger = defaultLogger,
 	) {
 		this.cache_path = resolve(path, '_cacache');
 	}
 
 	deleteMetadata(name: string) {
-		return deleteNpmCache(this.cache_path, name, this.registry);
+		return deleteNpmCache(this.cache_path, name, this.registry, this.logger);
 	}
 
 	async fetchMetadata(name: string, cacheMode = CacheMode.Normal) {
 		const registry = await this.pm.getNpmRegistry();
-		return fetchNpmWithCache(this.cache_path, name, registry, { mode: cacheMode });
+		return fetchNpmWithCache(this.cache_path, name, registry, { mode: cacheMode, logger: this.logger });
 	}
 
 	async fetchVersion(name: string, distTag = 'latest', cacheMode = CacheMode.Normal) {
@@ -64,7 +65,7 @@ export class NpmCacheHandler {
 		}
 		const version = getVersion(json, distTag);
 		if (!version) {
-			logger.warn(` ! 找不到版本信息(${name}@${distTag})`);
+			this.logger.warn(` ! 找不到版本信息(${name}@${distTag})`);
 			return;
 		}
 		return version;
@@ -80,7 +81,7 @@ export class NpmCacheHandler {
 		if (!r) {
 			throw new Error(`无此版本: ${name} = ${distTag}`);
 		}
-		return await downloadFileCached(r.dist.tarball, this.getTarballFile(name, distTag));
+		return await new FileDownloader(this.logger).download(r.dist.tarball, this.getTarballFile(name, distTag));
 	}
 
 	public deleteTarball(name: string, distTag: string) {
@@ -110,16 +111,18 @@ export enum CacheMode {
 interface IMyOpts {
 	mode?: CacheMode;
 	maxRetry?: number;
+	logger?: IMyLogger;
 }
 const defOpt: Required<IMyOpts> = {
 	mode: CacheMode.Normal,
 	maxRetry: 3,
+	logger: defaultLogger,
 };
 
 export async function fetchNpmWithCache(path: string, name: string, registry: string, _options?: IMyOpts) {
-	logger.debug(`   * npm-registry-fetch: ${registry} :: ${name}`);
+	const { logger, ...options }: Required<IMyOpts> = Object.assign({}, defOpt, _options);
 
-	const options: Required<IMyOpts> = Object.assign({}, defOpt, _options);
+	logger.debug(`   * npm-registry-fetch: ${registry} :: ${name}`);
 
 	let _try_cnt = 0;
 	let retry = options.maxRetry;
@@ -130,7 +133,7 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 		_try_cnt++;
 		retry--;
 		try {
-			const proxy = getProxyValue(registry);
+			const proxy = getProxyValue(registry, logger);
 			json = (await npmFetchJson(name, {
 				cache: path,
 				registry: registry,
@@ -172,7 +175,7 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 	return json;
 }
 
-async function deleteNpmCache(path: string, name: string, registry?: string) {
+async function deleteNpmCache(path: string, name: string, registry?: string, logger: IMyLogger = defaultLogger) {
 	const require = createRequire(import.meta.url);
 	const cacheKey = require('make-fetch-happen/lib/cache/key.js');
 	const registries = new Set([DEFAULT_NPM_REGISTRY, 'https://registry.npmmirror.com/']);

@@ -1,4 +1,3 @@
-import { logger } from '@idlebox/cli';
 import { PathEnvironment } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { gt } from 'semver';
@@ -21,7 +20,8 @@ interface IDetectOptions {
 
 export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions = {}): Promise<IResult> {
 	const packageJson = await pm.loadPackageJson();
-	logger.debug('修改检测 | 包名: %s', packageJson.name);
+
+	pm.logger.debug('修改检测 | 包名: %s', packageJson.name);
 	if (!packageJson.name) {
 		throw new Error(`${pm.projectPath}/package.json 中缺少 name 字段`);
 	}
@@ -38,16 +38,16 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 	}
 
 	if (packageJson.private && !options.forcePrivate) {
-		logger.debug('检测到私有包，禁止运行');
+		pm.logger.debug('检测到私有包，禁止运行');
 		return { changedFiles: [], hasChange: false };
 	}
 
 	const remotePackage = await cache.fetchVersion(packageJson.name, distTagInput);
-	logger.debug(' -> npm 远程版本 = %s', remotePackage?.version);
-	logger.debug(' -> package.json 本地版本 = %s', packageJson.version);
+	pm.logger.debug(' -> npm 远程版本 = %s', remotePackage?.version);
+	pm.logger.debug(' -> package.json 本地版本 = %s', packageJson.version);
 
 	if (!remotePackage || gt(packageJson.version, remotePackage.version)) {
-		logger.debug('本地版本 (%s) 已经大于远程版本 (%s)，无需进一步检测', packageJson.version, remotePackage?.version);
+		pm.logger.debug('本地版本 (%s) 已经大于远程版本 (%s)，无需进一步检测', packageJson.version, remotePackage?.version);
 		return {
 			changedFiles: ['package.json'],
 			hasChange: false,
@@ -55,33 +55,33 @@ export async function executeChangeDetect(pm: IPackageManager, options: IDetectO
 			packageJsonDiff: `短路检测: "version" 本地为 ${packageJson.version}, 远程版本为 ${remotePackage?.version}`,
 		};
 	}
-	logger.debug('本地版本 (%s) 小于或等于远程版本 (%s)，尝试检测更改...', packageJson.version, remotePackage.version);
+	pm.logger.debug('本地版本 (%s) 小于或等于远程版本 (%s)，尝试检测更改...', packageJson.version, remotePackage.version);
 
 	const tarball = await cache.downloadTarball(packageJson.name, distTagInput);
 
-	const tempFolder = new TempWorkingFolder(pm.workspace, 'package-change-detect');
+	const tempFolder = new TempWorkingFolder(pm.workspace, 'package-change-detect', pm.logger);
 	const workingRoot = tempFolder.resolve('working');
 	await workingRoot.unpack(tarball);
 	await makePackageJsonOrderConsistence(workingRoot.path);
 
-	const gitrepo = new GitWorkingTree(workingRoot.path);
+	const gitrepo = new GitWorkingTree(workingRoot.path, pm.logger);
 	await gitrepo.init();
 
 	const pack = await pm.pack(tempFolder.joinpath('local-pack.tgz'));
-	logger.verbose('  --> %s', pack);
+	pm.logger.verbose('  --> %s', pack);
 
 	await workingRoot.unpack(pack);
-	logger.verbose('  unpacked successfully');
+	pm.logger.verbose('  unpacked successfully');
 
 	await makePackageJsonOrderConsistence(workingRoot.path);
 
 	const changedFiles = await gitrepo.commitChanges();
-	logger.verbose`  changed files: list<${changedFiles}>`;
+	pm.logger.verbose`  changed files: list<${changedFiles}>`;
 
 	let packageJsonDiff = '';
 	if (changedFiles.includes('package.json')) {
 		packageJsonDiff = await gitrepo.fileDiff('package.json');
-		logger.debug(`    - package.json 文件的修改:\n${packageJsonDiff}`);
+		pm.logger.debug(`    - package.json 文件的修改:\n${packageJsonDiff}`);
 	}
 
 	return { changedFiles, hasChange: changedFiles.length > 0, remoteVersion: remotePackage.version, packageJsonDiff };

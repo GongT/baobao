@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.5.23",
+	"version": "1.5.24",
 	"description": "Common utilities",
 	"keywords": ["utilities", "functions", "helpers", "library"],
 	"exports": {
@@ -34,6 +34,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@types/debug": "^4.1.13"
 	},
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}

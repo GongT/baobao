@@ -23,6 +23,7 @@ function myLoad(url: string, context: LoadHookContext, defaultLoad: NextLoad): L
 			env: {
 				...process.env,
 				PROTOCOL_MAGIC: protocolMagic,
+				NODE_OPTIONS: '',
 			},
 		});
 

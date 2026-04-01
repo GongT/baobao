@@ -1,4 +1,5 @@
 import { prettyFormatStack } from '@idlebox/common';
+import type { IMyLogger } from '@idlebox/logger';
 import { CSI } from '@idlebox/terminal-control/constants';
 import { inspect } from 'node:util';
 import { AbstractBaseNode } from './base-graph.js';
@@ -9,8 +10,8 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 	protected override _dependencies: Set<string>;
 	private _last_attach?: AttachT | Error;
 
-	constructor(name: string, dependencies: readonly string[]) {
-		super(name, JobState.NotStarted);
+	constructor(name: string, dependencies: readonly string[], logger?: IMyLogger) {
+		super(name, JobState.NotStarted, logger);
 		this._dependencies = new Set(dependencies);
 	}
 

@@ -1,7 +1,7 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
+import { logger as defaultLogger } from '@idlebox/cli';
 import { registerGlobalLifecycle } from '@idlebox/common';
 import { writeJsonFile } from '@idlebox/json-edit';
-import { logger } from '@idlebox/cli';
 import { emptyDir } from '@idlebox/node';
 import { randomBytes } from 'node:crypto';
 import { rmSync } from 'node:fs';
@@ -17,6 +17,7 @@ export class TempWorkingFolder {
 	constructor(
 		private readonly workspace: WorkspaceBase,
 		name: string,
+		public readonly logger = defaultLogger,
 		__internal_isChild = false,
 	) {
 		if (!__internal_isChild) {
@@ -27,7 +28,7 @@ export class TempWorkingFolder {
 	}
 
 	resolve(p0: string, ...paths: string[]) {
-		return new TempWorkingFolder(this.workspace, this.joinpath(p0, ...paths), true);
+		return new TempWorkingFolder(this.workspace, this.joinpath(p0, ...paths), this.logger, true);
 	}
 
 	joinpath(p0: string, ...paths: string[]) {
@@ -39,7 +40,7 @@ export class TempWorkingFolder {
 	}
 
 	async mkdir() {
-		logger.debug('临时工作目录: %s', this.path);
+		this.logger.debug`临时工作目录: long<${this.path}>`;
 		await mkdir(this.path, { recursive: true });
 		this._exists = true;
 	}
@@ -66,15 +67,15 @@ export class TempWorkingFolder {
 	}
 
 	unpack(tarball: string, dest = '.') {
-		return decompressPack(tarball, resolve(this.path, dest));
+		return decompressPack(tarball, resolve(this.path, dest), this.logger);
 	}
 
 	dispose() {
 		if (!isDebugMode) {
-			logger.debug('  * 删除临时目录: %s', this.path);
+			this.logger.debug`  * 删除临时目录: long<${this.path}>`;
 			rmSync(this.path, { force: true, recursive: true });
 		} else {
-			logger.debug('  * 由于是调试模式，不删除临时文件夹: %s', this.path);
+			this.logger.debug`  * 由于是调试模式，不删除临时文件夹: long<${this.path}>`;
 		}
 	}
 }

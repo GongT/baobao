@@ -54,7 +54,7 @@ export class CollectingStream extends Writable {
 	private _promise?: Promise<string>;
 
 	constructor(sourceStream?: NodeJS.ReadableStream) {
-		super();
+		super({ objectMode: true }); // object is string
 		if (sourceStream) {
 			sourceStream.pipe(this);
 			sourceStream.on('error', (e) => {
@@ -63,12 +63,10 @@ export class CollectingStream extends Writable {
 		}
 	}
 
+	/**
+	 * chunk其实是string
+	 */
 	override _write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
-		if (!encoding) {
-			encoding = 'utf8';
-		} else if ((encoding as any) === 'buffer' || encoding === 'binary') {
-			encoding = 'utf8';
-		}
 		this.buffer += chunk.toString(encoding);
 		callback();
 	}

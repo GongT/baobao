@@ -11,8 +11,16 @@
 			"node": "./lib/environments/node.js",
 			"default": "./lib/environments/browser.js"
 		},
-		"./node": "./lib/environments/node.js",
-		"./browser": "./lib/environments/browser.js",
+		"./node": {
+			"types": "./src/environments/node.ts",
+			"source": "./src/environments/node.ts",
+			"default": "./lib/environments/node.js"
+		},
+		"./browser": {
+			"types": "./src/environments/browser.ts",
+			"source": "./src/environments/browser.ts",
+			"default": "./lib/environments/browser.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"sideEffects": false,

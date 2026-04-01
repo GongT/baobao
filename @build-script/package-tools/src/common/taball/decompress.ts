@@ -1,11 +1,11 @@
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { convertCatchedError } from '@idlebox/common';
-import { logger } from '@idlebox/cli';
 import { existsSync, unlinkSync } from 'node:fs';
 import tgz from 'targz';
 
 const packageFolder = /^package\//;
 
-export async function decompressPack(src: string, dest: string) {
+export async function decompressPack(src: string, dest: string, logger: IMyLogger = defaultLogger) {
 	logger.debug(`解压文件: ${src}\n\u3000\u3000目录: ${dest}`);
 	await new Promise<void>((resolve, reject) => {
 		if (!existsSync(src)) {

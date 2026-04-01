@@ -15,3 +15,13 @@ export function ensureGlobalObject<T>(symbol: string, constructor: () => T): T {
 	}
 	return globalObject[sm];
 }
+
+export function ensureGlobalObjectSingleton<T>(symbol: string, constructor: () => T): T {
+	const sm = Symbol.for(symbol);
+	if (!Object.hasOwn(globalObject, sm)) {
+		globalObject[sm] = constructor();
+	} else {
+		throw new Error(`global object ${symbol} initialized twice`);
+	}
+	return globalObject[sm];
+}

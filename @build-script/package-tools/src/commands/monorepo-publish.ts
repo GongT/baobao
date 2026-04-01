@@ -1,9 +1,9 @@
 import { applyPublishWorkspace, createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
-import { app, argv, CommandDefine, logger } from '@idlebox/cli';
+import { app, argv, CommandDefine, createLogger, logger, NodejsOutput, type IMyLogger } from '@idlebox/cli';
 import { prettyPrintError } from '@idlebox/common';
 import { Job, JobGraphBuilder, JobState } from '@idlebox/dependency-graph';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
-import { commandInPath, emptyDir, setExitCodeIfNot, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
+import { CollectingStream, commandInPath, emptyDir, setExitCodeIfNot, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
 import { CSI } from '@idlebox/terminal-control/constants';
 import { FsNodeType, spawnReadonlyFileSystemWithCommand } from '@idlebox/unshare';
 import { execaNode } from 'execa';
@@ -35,6 +35,8 @@ export class Command extends CommandDefine {
 class BuildPackageJob extends Job<void> {
 	private shouldPublish = '';
 	public initialVersion = true;
+	public override readonly logger: IMyLogger;
+	private readonly collector;
 
 	constructor(
 		name: string,
@@ -45,17 +47,28 @@ class BuildPackageJob extends Job<void> {
 	) {
 		super(name, deps);
 
+		const collector = new CollectingStream();
+		const stream = new NodejsOutput({
+			stream: collector,
+			colorEnabled: logger.colorEnabled,
+		});
+
+		this.collector = collector;
+		this.logger = createLogger('pub', { colors: false, console: stream });
+
 		this.detect = unshareExecuter ? this.unsharedDetect : this.sharedDetect;
 		this.pack = unshareExecuter ? this.unsharedPack : this.sharedPack;
 	}
 
-	private readonly logText: string[] = [];
-	log(text: string) {
-		this.logText.push(text);
-	}
 	flushLog() {
-		console.log(this.logText.join('\n'));
-		this.logText.length = 0;
+		const output = this.collector.getOutput();
+		this.collector.clear();
+		return output;
+	}
+
+	log(message: string) {
+		// biome-ignore lint/style/useTemplate: too simple
+		this.collector.write(message + '\n');
 	}
 
 	getPackagePath() {
@@ -167,7 +180,7 @@ class BuildPackageJob extends Job<void> {
 		try {
 			this.log(`    🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
-			const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute);
+			const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute, this.logger);
 			const { changedFiles, hasChange, remoteVersion, packageJsonDiff } = await this.detect(pm);
 			const shouldPublish = hasChange || changedFiles.length > 0;
 			let localVersion = this.project.packageJson.version;
@@ -259,10 +272,15 @@ export async function main() {
 
 	const projects = await workspace.listPackages();
 
-	let concurrency = Number.parseInt(argv.single(['--concurrency']) || '0', 10) || 5;
-	if (app.debug) {
-		concurrency = 1;
-		logger.warn`由于设置了--debug参数，运行模式改为单线程`;
+	let concurrency = Number.parseInt(argv.single(['--concurrency']) || '-1', 10);
+	if (concurrency <= 0) {
+		if (app.debug) {
+			concurrency = 1;
+			logger.warn`由于设置了--debug参数，运行模式默认为单线程，设置 --concurrency 参数可改变此设置`;
+		} else {
+			concurrency = process.env.CI ? 10 : 3;
+			logger.info`使用默认并发数 ${concurrency}`;
+		}
 	}
 	const builder = new JobGraphBuilder(concurrency, logger);
 
@@ -290,8 +308,8 @@ export async function main() {
 		job.onStateChange(() => {
 			if (job.isStopped()) {
 				indexDisplay++;
-				console.log(`${CSI}K📦 [${indexDisplay.toFixed(0).padStart(width)}/${shouldPublishProjects.length}] ${project.name}`);
-				job.flushLog();
+				const output = job.flushLog();
+				process.stderr.write(`\n${CSI}K📦 [${indexDisplay.toFixed(0).padStart(width)}/${shouldPublishProjects.length}] ${project.name}\n${output}\n`);
 
 				const e = job.getLastError();
 				if (e) {

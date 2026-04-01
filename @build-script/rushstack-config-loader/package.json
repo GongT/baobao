@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/rushstack-config-loader",
 	"type": "module",
-	"version": "0.0.37",
+	"version": "0.0.38",
 	"exports": {
 		".": {
 			"types": "./src/api.ts",
@@ -36,7 +36,6 @@
 		"@rushstack/heft-typescript-plugin": "^1.3.2",
 		"@types/node": "^25.5.0"
 	},
-	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

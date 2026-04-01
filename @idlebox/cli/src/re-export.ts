@@ -18,11 +18,13 @@ export {
 	createLogger,
 	EnableLogLevel,
 	logger,
+	NodejsOutput,
+	type IAbstractConsole,
 	type IDebugCommand,
 	type IMyDebug,
 	type IMyDebugWithControl,
 	type IMyLogger,
-} from '@idlebox/logger';
+} from '@idlebox/logger/node';
 
 export { terminal } from '@idlebox/terminal-control/default';
 

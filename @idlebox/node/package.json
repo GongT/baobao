@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node",
 	"type": "module",
-	"version": "1.4.31",
+	"version": "1.4.32",
 	"exports": {
 		".": {
 			"early-loader": "./src/generate.devel.ts",
@@ -32,6 +32,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0"
 	},
+	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}

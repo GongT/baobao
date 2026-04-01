@@ -1,7 +1,7 @@
 import { DuplicateDisposeAction, EnhancedAsyncDisposable, functionToDisposable, SoftwareDefectError } from '@idlebox/common';
-import { EnableLogLevel, type IMyLogger } from '@idlebox/logger';
+import { EnableLogLevel, logger, type IMyLogger } from '@idlebox/logger';
 import { CollectingStream } from '@idlebox/node';
-import { execaNode } from 'execa';
+import { execaNode, type ExecaError } from 'execa';
 import { fileURLToPath } from 'node:url';
 import { BaseExecuter } from './executer.base.js';
 import { colorMode, debugMode, verboseMode } from './shared.js';
@@ -27,7 +27,7 @@ class Session extends EnhancedAsyncDisposable {
 			stderr: 'pipe',
 			stdout: 'pipe',
 			ipc: true,
-			verbose: undefined,
+			verbose: verboseMode ? 'short' : undefined,
 			reject: false,
 			cancelSignal: abortController.signal,
 			gracefulCancel: true,
@@ -38,7 +38,7 @@ class Session extends EnhancedAsyncDisposable {
 				DEBUG_LEVEL: EnableLogLevel[verboseMode ? EnableLogLevel.verbose : debugMode ? EnableLogLevel.debug : EnableLogLevel.info],
 				FORCE_COLOR: colorMode ? '1' : '0',
 			},
-			nodeOptions: ['--experimental-transform-types', '--disable-warning=ExperimentalWarning', '--import', '@idlebox/native-executer/loader'],
+			nodeOptions: ['--experimental-transform-types', '--disable-warning=ExperimentalWarning', '--import', import.meta.resolve('@idlebox/native-executer/loader')],
 		})`${executerFile} ${generaterFile}`;
 
 		super(`process:${process.pid}`);
@@ -73,8 +73,17 @@ class Session extends EnhancedAsyncDisposable {
 		try {
 			const data: any = await this.process.getOneMessage({ filter: getTypeFilter(type) });
 			return data;
-		} catch (e) {
-			if (this.process.exitCode || this.process.signalCode || !this.process.connected) await this.process;
+		} catch (e: any) {
+			if (this.process.exitCode || this.process.signalCode || !this.process.connected) {
+				logger.error`process ${this.process.pid} died unexpectedly`;
+				let e: ExecaError;
+				try {
+					e = (await this.process) as any;
+				} catch (ee: any) {
+					e = ee;
+				}
+				logger.error`   die message: long<${e.all ?? e.stderr ?? e.stdout ?? e.shortMessage}>`;
+			}
 			throw e;
 		}
 	}

@@ -16,7 +16,7 @@ x sudo git config --system user.email "$(git log -n 1 --pretty=format:%ae)"
 
 summ -e "# 检测修改\n"
 
-node @build-script/package-tools/bins/load.js monorepo-publish --dry
+node @build-script/package-tools/bins/load.devel.js monorepo-publish --dry
 
 if [[ -z "$(git status --porcelain)" ]]; then
 	summ "* 没有修改"

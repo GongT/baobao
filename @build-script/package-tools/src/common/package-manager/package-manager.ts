@@ -1,4 +1,5 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { commandInPath, PathEnvironment } from '@idlebox/node';
 import type { PackageManager, PackageManagerUsageKind } from './driver.abstract.js';
 import { NPM } from './driver.npm.js';
@@ -7,13 +8,18 @@ import { reconfigureProxyWithNpmrc } from './proxy.js';
 
 export type IPackageManager = PackageManager;
 
-type PackageManagerConstructor = new (usage: PackageManagerUsageKind, workspace: WorkspaceBase, subdir?: string) => IPackageManager;
+type PackageManagerConstructor = new (usage: PackageManagerUsageKind, workspace: WorkspaceBase, subdir?: string, logger?: IMyLogger) => IPackageManager;
 
 let pmCls: PackageManagerConstructor | undefined;
 
-export async function createPackageManager(usage: PackageManagerUsageKind, workspace: WorkspaceBase, subdir?: string): Promise<IPackageManager> {
+export async function createPackageManager(
+	usage: PackageManagerUsageKind,
+	workspace: WorkspaceBase,
+	subdir?: string,
+	logger: IMyLogger = defaultLogger,
+): Promise<IPackageManager> {
 	if (pmCls) {
-		return new pmCls(usage, workspace, subdir);
+		return new pmCls(usage, workspace, subdir, logger);
 	}
 
 	const supports: Record<string, PackageManagerConstructor> = { pnpm: PNPM, npm: NPM };
@@ -22,7 +28,7 @@ export async function createPackageManager(usage: PackageManagerUsageKind, works
 			continue;
 		}
 
-		const pm = new Cls(usage, workspace, subdir);
+		const pm = new Cls(usage, workspace, subdir, logger);
 
 		await reconfigureProxyWithNpmrc(pm);
 

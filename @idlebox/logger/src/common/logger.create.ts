@@ -7,6 +7,7 @@ import type { IInstrestedConsole, IMyLogger } from './types.js';
 export interface ILoggerOptionsReq {
 	readonly colors?: boolean;
 	readonly console: IInstrestedConsole;
+	readonly level?: EnableLogLevel;
 }
 
 /**
@@ -15,15 +16,17 @@ export interface ILoggerOptionsReq {
  * @param colors 是否启用颜色，默认启用
  * @returns
  */
-export function createLoggerObject(tag: string, { colors = true, console }: ILoggerOptionsReq): IMyLogger {
-	let level = EnableLogLevel.error;
-	if (debug_enabled(tag)) {
-		level = defaultLogLevel;
+export function createLoggerObject(tag: string, { colors = true, console, level }: ILoggerOptionsReq): IMyLogger {
+	let logLevel = EnableLogLevel.error;
+	if (level !== undefined) {
+		logLevel = level;
+	} else if (debug_enabled(tag)) {
+		logLevel = defaultLogLevel;
 	}
 
-	const logger = create(console, tag, level, colors);
+	const logger = create(console, tag, logLevel, colors);
 
-	(globalLogger || logger).verbose`logger "${tag}" created, level = ${EnableLogLevel[level]}`;
+	(globalLogger || logger).verbose`logger "${tag}" created, level = ${EnableLogLevel[logLevel]}`;
 
 	return logger;
 }

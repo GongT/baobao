@@ -1,5 +1,5 @@
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { escapeRegExp } from '@idlebox/common';
-import { logger } from '@idlebox/cli';
 import { getEnvironment } from '@idlebox/node';
 import type { IPackageManager } from './package-manager.js';
 
@@ -13,7 +13,7 @@ function makeRe(str: string) {
 	return new RegExp(`^${reTxt}$`, 'i');
 }
 
-export function getProxyValue(url: string) {
+export function getProxyValue(url: string, logger: IMyLogger = defaultLogger): string {
 	const proxyValue = process.env.http_proxy;
 	if (!proxyValue) {
 		return '';
@@ -65,21 +65,21 @@ export function getProxyValue(url: string) {
 export async function reconfigureProxyWithNpmrc(pm: IPackageManager) {
 	if (proxy_override_by_env) return;
 
-	logger.debug('通过npm设置代理服务器:');
+	pm.logger.debug('通过npm设置代理服务器:');
 	const p = await pm.getConfig('proxy');
 	const np = await pm.getConfig('noproxy');
 
 	if (p) {
-		logger.debug(`   * proxy server = ${p}`);
+		pm.logger.debug(`   * proxy server = ${p}`);
 	}
 	if (np) {
-		logger.debug(`   * no_proxy = ${np}`);
+		pm.logger.debug(`   * no_proxy = ${np}`);
 	}
 
 	applyEnv(p || '', np || '');
 }
 
-export function configureProxyFromEnvironment() {
+export function configureProxyFromEnvironment(logger: IMyLogger = defaultLogger) {
 	// bootstrap({
 	// 	environmentVariableNamespace: '',
 	// 	forceGlobalAgent: true,

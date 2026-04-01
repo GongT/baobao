@@ -1,4 +1,4 @@
-import { logger } from '@idlebox/cli';
+import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { commandInPath, execLazyError, exists } from '@idlebox/node';
 import { rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -12,38 +12,41 @@ export async function requireGitInPath() {
 }
 
 export class GitWorkingTree {
-	constructor(public readonly path: string) {}
+	constructor(
+		public readonly path: string,
+		public readonly logger: IMyLogger = defaultLogger,
+	) {}
 
 	protected _exec(cmds: string[]) {
 		return execLazyError('git', cmds, { cwd: this.path, verbose: isVerbose });
 	}
 
 	async init() {
-		logger.debug('初始化git工作区: %s', this.path);
+		this.logger.debug('初始化git工作区: %s', this.path);
 		const gitDir = resolve(this.path, '.git');
 		if (await exists(gitDir)) {
-			logger.debug('   - 删除已有.git文件夹');
+			this.logger.debug('   - 删除已有.git文件夹');
 			await rm(gitDir, { recursive: true, force: true });
 		}
 		await this._exec(['init']);
 		await this._exec(['add', '.']);
 		await this._exec(['commit', '-m', 'Init']);
-		logger.debug('(初始化完成)');
+		this.logger.debug('(初始化完成)');
 	}
 
 	async commitChanges() {
-		logger.debug('检测文件更改:');
+		this.logger.debug('检测文件更改:');
 
 		const { stdout: testOut } = await this._exec(['status']);
 		const statusOut = testOut.toString().trim();
 		if (statusOut.includes('nothing to commit, working tree clean')) {
-			logger.debug('    git工作区状态: 干净');
+			this.logger.debug('    git工作区状态: 干净');
 			return [];
 		}
 		// if (isDebugMode) {
 		// 	await execa('git', ['diff'], { cwd: this.path, stdio: ['ignore', 2, 2] });
 		// }
-		logger.debug('    git工作区状态: 有修改');
+		this.logger.debug('    git工作区状态: 有修改');
 
 		await this._exec(['add', '.']);
 		await this._exec(['commit', '-m', 'DetectChangedFiles']);
@@ -61,7 +64,7 @@ export class GitWorkingTree {
 		}
 		const files = lines.slice(titleLine + 1);
 
-		logger.debug('    文件更改: %d 个 (%s%s)', files.length, files.slice(0, 5).join(', '), files.length > 5 ? ' ...' : '');
+		this.logger.debug('    文件更改: %d 个 (%s%s)', files.length, files.slice(0, 5).join(', '), files.length > 5 ? ' ...' : '');
 
 		return files.map((item) => {
 			return item.replace('Would remove ', '');
@@ -70,7 +73,7 @@ export class GitWorkingTree {
 
 	async fileDiff(file: string) {
 		const { stdout } = await this._exec(['diff', '--color=never', '-U0', `HEAD~1`, file]);
-		logger.verbose(stdout.trimEnd());
+		this.logger.verbose(stdout.trimEnd());
 		const lines = stdout.toString().trim().split('\n').slice(4);
 
 		let diff = formatChangeSideBySide('Published', 'Local');
