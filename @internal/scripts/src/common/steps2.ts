@@ -1,10 +1,10 @@
+import { raceTimeoutWithRetry } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { overrideImportFile } from '@idlebox/native-executer';
 import { existsSync, shutdown } from '@idlebox/node';
 import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { raceTimeoutWithRetry } from '../../../../@idlebox/common/src/schedule/timeout.js';
 import { getExportsField, packageJson } from './package-json.js';
 import { currentProject } from './paths/current.js';
 import { monorepoRoot } from './paths/root.js';
@@ -34,7 +34,7 @@ export async function executePrepublishHooks() {
 	}
 }
 
-async function writeLlmsFields(docUrl) {
+async function writeLlmsFields(docUrl: string) {
 	await writeFile(
 		resolve(currentProject, 'llms.md'),
 		`# ${packageJson.name}

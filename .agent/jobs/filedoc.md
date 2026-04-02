@@ -12,7 +12,7 @@ Don't read comment in this file, it's for human only.
 <!-- - [@idlebox/browser-ant-design](../../@idlebox/browser-ant-design) -->
 <!-- - [@idlebox/browser-react](../../@idlebox/browser-react) -->
 - [@idlebox/common](../../@idlebox/common) and [@idlebox/errors](../../@idlebox/errors) at once, as `@idlebox/common`
-<!-- - [@idlebox/node](../../@idlebox/node) -->
+- [@idlebox/node](../../@idlebox/node)
 
 # repository plan
 
@@ -25,6 +25,8 @@ Don't read comment in this file, it's for human only.
 1. commit docs changes, with commit message: `docs: update API documents for {list of packages with changes, separated by comma}`, no "what is change". don't push.
 
 # package document plan
+
+Each package is unrelated to others, so we can run this plan in parallel, and the job is easy, a small model or agent can handle it.
 
 1. for each non-git-ignored typescript file inside `src/`
 	1. calculate the state location: `src/` -> `document location`, `.ts` -> `.md`
@@ -46,6 +48,8 @@ Don't read comment in this file, it's for human only.
 
 
 # how to write a document file
+
+Each file will be simple, a small model can handle it.
 
 1. don't read old document content
 2. read the source file and it's imported source files. 
