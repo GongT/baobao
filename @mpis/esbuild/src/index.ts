@@ -1,9 +1,10 @@
 import { argv } from '@idlebox/args/default';
-import { isModuleResolutionError } from '@idlebox/common';
+import { convertCaughtError, definePrivateConstant, isModuleResolutionError } from '@idlebox/common';
 import { channelClient } from '@mpis/client';
 import type esbuild from 'esbuild';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
+import { inspect, type InspectContext } from 'node:util';
 
 type Opt = esbuild.BuildOptions & ({ watch?: esbuild.WatchOptions } | { serve?: esbuild.ServeOptions });
 
@@ -26,8 +27,6 @@ function loadLocalEsbuild(): typeof esbuild | null {
 export async function defineEsbuild(title: string, options: OptionOrFunc): Promise<esbuild.BuildContext> {
 	const watchMode = argv.flag(['-w', '--watch']);
 
-	const esb: typeof esbuild = loadLocalEsbuild() || (await import('esbuild').then((m) => m.default || m));
-
 	channelClient.friendlyTitle = title;
 
 	if (typeof options === 'function') {
@@ -35,7 +34,7 @@ export async function defineEsbuild(title: string, options: OptionOrFunc): Promi
 	}
 
 	options = {
-		logLevel: 'info',
+		logLevel: 'silent',
 		format: 'esm',
 		sourcemap: 'linked',
 		...options,
@@ -71,25 +70,54 @@ export async function defineEsbuild(title: string, options: OptionOrFunc): Promi
 		},
 	});
 
-	const ctx = await esb.context(options);
+	const ctx = await initialize(options);
 
-	if (watchMode) {
-		console.log('Entering watch mode...');
-		if ('serve' in options) {
-			await ctx.serve(options.serve);
+	try {
+		if (watchMode) {
+			console.log('Entering watch mode...');
+			if ('serve' in options) {
+				await ctx.serve(options.serve);
+			} else {
+				await ctx.watch((options as any).watch);
+			}
+			process.on('beforeExit', async () => {
+				console.log('Exiting...');
+				await ctx.dispose();
+				process.exit(0);
+			});
 		} else {
-			await ctx.watch((options as any).watch);
-		}
-		process.on('beforeExit', async () => {
-			console.log('Exiting...');
+			console.log('Building...');
+			await ctx.rebuild();
 			await ctx.dispose();
-			process.exit(0);
-		});
-	} else {
-		console.log('Building...');
-		await ctx.rebuild();
-		await ctx.dispose();
+		}
+	} catch (error) {
+		const err = convertCaughtError(error);
+		channelClient.failed('esbuild build failed', err.stack || 'no stack');
+		throw err;
 	}
-
 	return ctx;
+}
+
+async function initialize(options: esbuild.BuildOptions) {
+	try {
+		const esb: typeof esbuild = loadLocalEsbuild() || (await import('esbuild').then((m) => m.default || m));
+		return await esb.context(options);
+	} catch (error) {
+		const err = convertCaughtError(error);
+
+		let information = `Failed to initialize esbuild.`;
+
+		for (const item of options.plugins ?? []) {
+			definePrivateConstant(item, inspect.custom, (_: any, context: InspectContext) => {
+				return context.stylize(`[Plugin: ${item.name}]`, 'special');
+			});
+		}
+
+		information += `\nOptions: ${inspect(options, { depth: 8, colors: true })}`;
+
+		information += `\n${err.stack || 'no stack'}`;
+
+		channelClient.failed('esbuild initialize failed', information);
+		throw err;
+	}
 }

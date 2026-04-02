@@ -4,14 +4,23 @@
 	"version": "0.0.19",
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts",
-		"./register": "./src/register.ts",
-		"./loader": "./src/loader.hooks.ts",
+		".": "./lib/exports.js",
+		"./register": {
+			"types": "./src/register-if-not.ts",
+			"default": "./lib.devel/register-if-not.js"
+		},
+		"./register/respawn": {
+			"types": "./src/register-or-respawn.ts",
+			"default": "./lib.devel/register-or-respawn.js"
+		},
 		"./package.json": "./package.json"
+	},
+	"imports": {
+		"#generate-prefix": "./lib.devel/generate-prefix.js"
 	},
 	"keywords": ["typescript", "executer", "runner"],
 	"scripts": {
-		"prepublishHook:update-exports": "node ./scripts/update-exports.js",
+		"prepublishHook:update-exports": "./scripts/update-exports.js",
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
@@ -30,6 +39,7 @@
 		"@internal/local-rig": "workspace:^",
 		"@mpis/esbuild": "workspace:^",
 		"@types/node": "^25.5.0",
+		"esbuild": "^0.27.3",
 		"typescript": "^6.0.2"
 	},
 	"publishConfig": {

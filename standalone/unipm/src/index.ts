@@ -75,5 +75,6 @@ export async function main() {
 		await pm.invokeCli(cmd, ...args);
 	}
 
+	process.exitCode = 0;
 	shutdown(0);
 }

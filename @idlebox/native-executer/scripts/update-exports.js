@@ -1,13 +1,10 @@
-import { appendFileSync, readFileSync, writeFileSync } from 'node:fs';
+import { packageJson } from '@internal/scripts';
+import { appendFileSync, rmSync } from 'node:fs';
 
-const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+packageJson.exports['./register'] = './lib/register-if-not.js';
+packageJson.exports['./register/respawn'] = './lib/register-or-respawn.js';
+packageJson.imports['#generate-prefix'] = './lib/generate-prefix.js';
 
-for (const [key, value] of Object.entries(pkg.exports)) {
-	if (key.endsWith('.json')) continue;
-	if (typeof value !== 'string') continue;
-
-	pkg.exports[key] = value.replace(/\.ts$/, '.js').replace('src/', 'lib/');
-}
-
-writeFileSync('package.json', JSON.stringify(pkg, null, 2), 'utf8');
 appendFileSync('.npmignore', 'scripts/\n');
+
+rmSync('./lib/tools', { recursive: true, force: true });

@@ -27,7 +27,7 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0",
-		"esbuild": "=0.27.3"
+		"esbuild": "^0.27.3"
 	},
 	"peerDependencies": {
 		"esbuild": ">=0.27.2"

@@ -1,12 +1,13 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: no need */
 import type { IExportMap } from '@idlebox/common';
-import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
+import { loadJsonFile } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { relativePath, setExitCodeIfNot } from '@idlebox/node';
 import { execa } from 'execa';
-import { cpSync, existsSync } from 'node:fs';
+import { appendFileSync, cpSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeAsPlainJson } from './format.js';
 import { getExportsField, packageJson } from './package-json.js';
 import { currentProject, realProject } from './paths/current.js';
 import { monorepoRoot } from './paths/root.js';
@@ -92,7 +93,7 @@ export async function rewriteTsconfig() {
 	data.extends = '@build-script/baseline-rig/package/tsconfig.json';
 	logger.log`修改tsconfig.json (.extends)`;
 
-	await writeJsonFileBack(data);
+	await writeAsPlainJson(tsconfigPath, data);
 }
 
 /**
@@ -133,6 +134,11 @@ export function mirrorExportsAndMain() {
 		logger.log`将exports[.]同步到main`;
 		packageJson.main = main;
 	}
+	const types = exports['.']?.types;
+	if (types) {
+		logger.log`将exports[.]同步到types`;
+		packageJson.types = types;
+	}
 }
 
 /**
@@ -140,16 +146,16 @@ export function mirrorExportsAndMain() {
  */
 export function removeLoaderFromExportsAndBin() {
 	const exports = getExportsField();
-	for (const pathRef of Object.values(exports)) {
-		if (pathRef.import) pathRef.import = modifyLoaderInString(pathRef.import);
-		if (pathRef.default) pathRef.default = modifyLoaderInString(pathRef.default);
+	for (const [pubPath, pathRef] of Object.entries(exports)) {
+		if (pathRef.import) pathRef.import = modifyLoaderInString(pathRef.import, `exports.${pubPath}.import`);
+		if (pathRef.default) pathRef.default = modifyLoaderInString(pathRef.default, `exports.${pubPath}.default`);
 	}
 	if (typeof packageJson.bin === 'object') {
 		for (const key of Object.keys(packageJson.bin)) {
-			packageJson.bin[key] = modifyLoaderInString(packageJson.bin[key]);
+			packageJson.bin[key] = modifyLoaderInString(packageJson.bin[key], `bin.${key}`);
 		}
 	} else if (typeof packageJson.bin === 'string') {
-		packageJson.bin = modifyLoaderInString(packageJson.bin);
+		packageJson.bin = modifyLoaderInString(packageJson.bin, 'bin');
 	}
 
 	if (packageJson.imports) {
@@ -158,22 +164,22 @@ export function removeLoaderFromExportsAndBin() {
 				continue;
 			}
 
-			packageJson.imports[key] = modifyLoaderInString(value);
+			packageJson.imports[key] = modifyLoaderInString(value, `imports.${key}`);
 		}
 	}
 }
-function modifyLoaderInString(str: string): string {
+function modifyLoaderInString(str: string, debug_title: string): string {
 	if (!str.startsWith('./')) {
 		str = `./${str}`;
 	}
-	if (str.startsWith('./loader/')) {
-		if (str.endsWith('.devel.js')) {
-			logger.log`从 ${str} 删除 .devel.js 后缀`;
-			str = str.replace(/\.devel\.js$/, '.js');
-		} else {
-			logger.log`替换 ${str} 为 ./lib`;
-			str = str.replace(/^\.\/loader/, './lib');
-		}
+	if (str.endsWith('.devel.js')) {
+		logger.debug`[${debug_title}] 从 ${str} 删除 .devel.js 后缀`;
+		str = str.replace(/\.devel\.js$/, '.js');
+	} else if (str.startsWith('./loader/')) {
+		logger.debug`[${debug_title}] 替换 ${str} 为 ./lib`;
+		str = str.replace(/^\.\/loader/, './lib');
+	} else {
+		logger.debug`[${debug_title}] 不需要修改 ${str}`;
 	}
 	return str;
 }
@@ -183,7 +189,7 @@ export function removeLowlevels() {
 	for (const [key, define] of Object.entries(exports) as [string, IExportMap][]) {
 		for (const condition of Object.keys(define)) {
 			if (condition.startsWith('esbuild:')) {
-				logger.log`删除exports.${key}.${condition}`;
+				logger.debug`删除exports.${key}.${condition}`;
 				delete define[condition];
 			}
 		}
@@ -199,8 +205,13 @@ export function writeNpmFiles() {
 	const ignoreSource = resolve(sdaPath, 'package/npmignore');
 	const ignoreDist = resolve(currentProject, '.npmignore');
 
-	logger.log`将 relative<${ignoreSource}> 复制到 relative<${ignoreDist}>`;
-	cpSync(ignoreSource, ignoreDist);
+	if (existsSync(ignoreDist)) {
+		logger.log`将 relative<${ignoreSource}> 追加到 relative<${ignoreDist}>`;
+		appendFileSync(ignoreDist, readFileSync(ignoreSource));
+	} else {
+		logger.log`将 relative<${ignoreSource}> 复制到 relative<${ignoreDist}>`;
+		cpSync(ignoreSource, ignoreDist);
+	}
 }
 
 export async function executePreBuild(details = true) {
@@ -228,17 +239,30 @@ export async function executePreBuild(details = true) {
 		logger.warn`未找到 rig.json，跳过 knip`;
 	}
 
-	logger.log`执行 biome check`;
 	const biomePath = resolve(monorepoRoot, 'node_modules/.bin/biome');
-	const r = await execa(biomePath, ['check', '--diagnostic-level=warn'], {
+
+	logger.log`执行 biome format --write`;
+	const r1 = await execa(biomePath, ['format', '--write'], {
 		stdio: details ? 'inherit' : 'ignore',
 		cwd: realProject,
 		reject: false,
 	});
-	if (r.failed) {
+	if (r1.failed) {
 		logger.error`biome format发现问题，应修复后再发布`;
 		setExitCodeIfNot(1);
 		failed++;
+	} else {
+		logger.log`执行 biome check`;
+		const r2 = await execa(biomePath, ['check'], {
+			stdio: details ? 'inherit' : 'ignore',
+			cwd: realProject,
+			reject: false,
+		});
+		if (r2.failed) {
+			logger.error`biome check发现问题，应修复后再发布`;
+			setExitCodeIfNot(1);
+			failed++;
+		}
 	}
 
 	return failed;

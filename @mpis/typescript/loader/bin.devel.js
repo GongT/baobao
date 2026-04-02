@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import '@idlebox/native-executer/register';
+import '@idlebox/native-executer/register/respawn';
 
 process.exitCode = 1;
 process.title = `MpisTsc`;

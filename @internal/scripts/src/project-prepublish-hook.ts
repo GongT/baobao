@@ -1,10 +1,12 @@
 import { argv } from '@idlebox/args/default';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
-import { registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
-import { execa, ExecaError } from 'execa';
+import { overrideImportFile } from '@idlebox/native-executer';
+import { existsSync, registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
+import { ExecaError } from 'execa';
 import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { listPnpm } from './common/monorepo.js';
-import { packageJson, readPackageJson, writeBack } from './common/package-json.js';
+import { packageJson, readPackageJson, writeBackPackageJson } from './common/package-json.js';
 import { currentProject } from './common/paths/current.js';
 import {
 	deleteDevelopmentFields,
@@ -59,34 +61,33 @@ mirrorExportsAndMain();
 ensureExportsPackageJson();
 deleteDevelopmentFields();
 
-const scripts = packageJson['scripts'] || {};
-let hasPrepublishHook = 0;
-for (const name of Object.keys(scripts)) {
-	if (!name.startsWith('prepublishHook:')) continue;
-	hasPrepublishHook++;
+// 执行自定义的 prepublishHook: 钩子
+const hooks = Object.keys(packageJson['scripts'] || {}).filter((name) => name.startsWith('prepublishHook:'));
+if (hooks.length) {
+	const entryFile = pathToFileURL(resolve(import.meta.dirname, 'exports.ts'));
+	const hiddenFile = pathToFileURL(resolve(import.meta.dirname, '../exports.js'));
+	overrideImportFile(hiddenFile, entryFile);
+	for (const name of hooks) {
+		const script = packageJson['scripts'][name];
+		delete packageJson['scripts'][name];
+
+		const absoluteFile = resolve(currentProject, script);
+		if (!existsSync(absoluteFile)) {
+			logger.error`预发布钩子脚本 ${name} 文件不存在！ (relative<${absoluteFile}>)`;
+			shutdown(1);
+		}
+
+		logger.info`执行自定义 prepublishHook: 钩子 (${name} -> relative<${absoluteFile}>)`;
+		await import(absoluteFile);
+	}
+} else {
+	logger.log`没有自定义 prepublishHook: 钩子`;
 }
 
-await writeBack();
+await writeBackPackageJson();
 writeNpmFiles();
 
 await rewriteTsconfig();
-
-if (hasPrepublishHook) {
-	logger.info`执行自定义钩子 ${hasPrepublishHook} 个`;
-	await execa('pnpm', ['run', '/^prepublishHook:.+/'], {
-		stdio: 'inherit',
-		cwd: currentProject,
-	});
-
-	await readPackageJson();
-	for (const name of Object.keys(scripts)) {
-		if (!name.startsWith('prepublishHook:')) continue;
-		delete packageJson['scripts'][name];
-	}
-	await writeBack();
-} else {
-	logger.log`没有自定义钩子`;
-}
 
 if (process.exitCode === 0) {
 	logger.success`预发布钩子结束了`;

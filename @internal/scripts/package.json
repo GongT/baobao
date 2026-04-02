@@ -4,6 +4,13 @@
 	"version": "0.0.0",
 	"description": "",
 	"license": "WTFPL",
+	"exports": {
+		".": {
+			"types": "./src/exports.ts",
+			"default": "./exports.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"bin": {
 		"internal-prepublish-hook": "./loader/project-prepublish-hook.js",
 		"internal-lint": "./loader/project-lint.js",
@@ -19,19 +26,18 @@
 	"devDependencies": {
 		"@build-script/rushstack-config-loader": "workspace:^",
 		"@build-script/baseline-rig": "workspace:^",
+		"@idlebox/native-executer": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/args": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@internal/local-rig": "workspace:^",
+		"unipm": "workspace:^",
 		"@types/node": "^25.5.0",
 		"comment-json": "^4.6.2",
 		"execa": "^9.6.1",
 		"typescript": "^6.0.2",
 		"vite-node": "^6.0.0"
-	},
-	"exports": {
-		"./package.json": "./package.json"
 	}
 }

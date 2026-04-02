@@ -2,7 +2,6 @@
 
 import '@idlebox/native-executer/register/respawn';
 
-process.title = `BsCodegen`;
+process.title = `unipm`;
 
-Object.assign(globalThis, { CODEGEN_CLI: 'development' });
-await import('../src/loader.js');
+await import('../src/index.ts');

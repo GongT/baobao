@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import '@idlebox/native-executer/register';
+import '@idlebox/native-executer/register/respawn';
 import { execaNode } from 'execa';
 import { resolve } from 'node:path';
 

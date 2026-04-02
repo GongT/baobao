@@ -33,7 +33,7 @@ const scriptFields: readonly string[] = [
 ];
 
 const packageJsonSort: readonly string[] = [
-	// pnpm
+	// pnpm special field
 	'workspaces',
 
 	// basic
@@ -56,45 +56,38 @@ const packageJsonSort: readonly string[] = [
 	// environment validation
 	'engines',
 	'engineStrict',
+	'packageManager',
 	'os',
 	'cpu',
 
-	// entry points
+	// module load entry points
 	'main',
 	'module',
+	'types',
+	'typings',
 	'esnext',
 	'es2015',
 	'esm',
 	'browser',
 	'exports',
-	'bin',
+	'imports',
+	'typesVersions',
 	'directories',
 
-	// third party tool
+	// third party entry
 	'umd:main',
 	'flow:main',
 	'jsnext:main',
-	'unpkg',
-	'bolt',
-	'module-browser',
-	'browserslist',
-	'react-native',
 
-	// entry:typescript
-	'typings',
-	'types',
-	'typesVersions',
+	// bins entry
+	'bin',
 
-	// tree-shaking
-	'sideEffects',
-
-	// information
-	'man',
-	'source',
-
-	// development fields
-	'packageManager',
+	// scripts
 	'scripts',
+
+	...dependenciesFields,
+
+	// configs
 	'config',
 	'publishConfig',
 	'private',
@@ -102,7 +95,9 @@ const packageJsonSort: readonly string[] = [
 	'repository',
 	'preferGlobal',
 
-	...dependenciesFields,
+	// information
+	'man',
+	'source',
 
 	// miscs
 	'monorepo',
@@ -110,7 +105,15 @@ const packageJsonSort: readonly string[] = [
 	'dist',
 	'readme',
 
-	// wellknown config fields
+	// wellknown/third party config fields
+	'unpkg',
+	'bolt',
+	'module-browser',
+	'browserslist',
+	'react-native',
+	//  - tree-shaking
+	'sideEffects',
+
 	'jspm',
 	'eslintConfig',
 	'prettier',
@@ -218,11 +221,12 @@ function sortExports(exports: any) {
 		}
 		return ret;
 	}
-	const { default: defaultVal, node, import: importVal, require, types, typings, typescript, ...other } = exports;
+	const { default: defaultVal, 'early-loader': lowlevel, source, esbuild, node, import: importVal, require, types, ...other } = exports;
 	return {
-		typescript,
+		['early-loader']: lowlevel,
 		types,
-		typings,
+		source,
+		esbuild,
 		...other,
 		node,
 		require,
@@ -257,7 +261,7 @@ export function reformatPackageJson(packageJson: any): typeof packageJson {
 	const existsKeys = Object.keys(packageJson);
 
 	const unknownKeys = arrayDiff(packageJsonSort, existsKeys).add;
-	if (process.stderr.isTTY) console.error('Unknown keys in package.json: %s ...', unknownKeys.slice(0, 3).join(', '));
+	if (process.stderr.isTTY && unknownKeys.length) console.error('Unknown keys in package.json: "%s"...', unknownKeys.join('", "'));
 
 	for (const key of packageJsonSort) {
 		if (!(key in packageJson)) continue;

@@ -69,7 +69,7 @@ export async function writeJsonFileBack(data: any): Promise<boolean> {
 /**
  * check if `data` is same with content of `file`, if not, overwrite `file`
  */
-export async function writeJsonFile(file: string, data: any, charset: BufferEncoding = DEFAULT_ENCODING): Promise<boolean> {
+export async function writeJsonFile(file: string | URL, data: any, charset: BufferEncoding = DEFAULT_ENCODING): Promise<boolean> {
 	file = abs(file);
 	const newData = Object.assign({}, data);
 	cloneAttachedFieldsInto(data, newData);
@@ -90,7 +90,7 @@ export async function writeJsonFile(file: string, data: any, charset: BufferEnco
 }
 
 export async function loadJsonFileIfExists<T = any, K = any>(
-	file: string,
+	file: string | URL,
 	defaultValue: T = {} as any,
 	charset: BufferEncoding = DEFAULT_ENCODING,
 	formatter?: IFormatter<K>,
@@ -111,7 +111,7 @@ export async function loadJsonFileIfExists<T = any, K = any>(
 }
 
 export async function loadJsonFile<T = any, K = any>(
-	file: string,
+	file: string | URL,
 	charset: BufferEncoding = DEFAULT_ENCODING,
 	formatter?: IFormatter<K>,
 ): Promise<JsonEditObject<T, K>> {
@@ -132,20 +132,25 @@ export function parseJsonText(text: string): any {
 	return parse(text);
 }
 
-function abs(p: string) {
+function abs(p: string | URL): string {
+	if (p instanceof URL) {
+		p = p.pathname;
+	} else if (p.startsWith('file://')) {
+		p = p.slice(7);
+	}
 	if (isAbsolute(p)) {
 		return p;
 	}
 	return resolve(process.cwd(), p);
 }
 
-export async function readCommentJsonFile(file: string, charset: BufferEncoding = DEFAULT_ENCODING): Promise<any> {
+export async function readCommentJsonFile(file: string | URL, charset: BufferEncoding = DEFAULT_ENCODING): Promise<any> {
 	file = abs(file);
 	const data = await readFile(file, charset);
 	return parse(data, undefined, true);
 }
 
-export function readCommentJsonFileSync(file: string, charset: BufferEncoding = DEFAULT_ENCODING): any {
+export function readCommentJsonFileSync(file: string | URL, charset: BufferEncoding = DEFAULT_ENCODING): any {
 	file = abs(file);
 	const data = readFileSync(file, charset);
 	return parse(data, undefined, true);

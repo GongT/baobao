@@ -8,7 +8,7 @@ import { resolve } from 'node:path';
 import { CheckFail, ErrorCollector } from './error-collecter.js';
 import { formatFile } from './format.js';
 import { ObjectChecker } from './object-checker.js';
-import { getExportsField, packageJson, readPackageJson, writeBack } from './package-json.js';
+import { getExportsField, packageJson, readPackageJson, writeBackPackageJson } from './package-json.js';
 import { currentProject } from './paths/current.js';
 import { executePreBuild } from './steps.js';
 
@@ -50,7 +50,7 @@ export async function executeProjectCheck() {
 		logger.error(`项目检查出错: ${ee.message}`);
 		process.exitCode = 1;
 	}
-	await writeBack();
+	await writeBackPackageJson();
 }
 
 function makeProj(logger: IMyLogger) {

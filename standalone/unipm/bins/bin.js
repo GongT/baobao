@@ -2,4 +2,4 @@
 import '@idlebox/source-map-support/register';
 
 process.title = `unipm`;
-await import('./lib/index.js');
+await import('../lib/index.js');

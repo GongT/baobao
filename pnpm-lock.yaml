@@ -16,6 +16,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.8
         version: 2.4.8
+      '@internal/scripts':
+        specifier: workspace:^
+        version: link:@internal/scripts
       '@types/node':
         specifier: ^25.5.0
         version: 25.5.0
@@ -234,7 +237,7 @@ importers:
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
       esbuild:
-        specifier: '=0.27.3'
+        specifier: ^0.27.3
         version: 0.27.3
 
   '@build-script/esbuild-html-entry':
@@ -265,7 +268,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       esbuild:
-        specifier: '=0.27.3'
+        specifier: ^0.27.3
         version: 0.27.3
 
   '@build-script/monorepo-lib':
@@ -1346,6 +1349,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      esbuild:
+        specifier: ^0.27.3
+        version: 0.27.3
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -1796,6 +1802,9 @@ importers:
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
+      unipm:
+        specifier: workspace:^
+        version: link:../../standalone/unipm
       vite-node:
         specifier: ^6.0.0
         version: 6.0.0(@types/node@25.5.0)
@@ -1874,7 +1883,7 @@ importers:
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
       esbuild:
-        specifier: '=0.27.3'
+        specifier: ^0.27.3
         version: 0.27.3
 
   '@mpis/monorepo':

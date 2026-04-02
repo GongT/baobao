@@ -6,8 +6,8 @@
 		"./package.json": "./package.json"
 	},
 	"bin": {
-		"unipm": "./bin.js",
-		"unpm": "./bin.js"
+		"unipm": "./bins/bin.devel.js",
+		"unpm": "./bins/bin.devel.js"
 	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",

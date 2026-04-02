@@ -1,6 +1,6 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import '@idlebox/native-executer/register';
+import '@idlebox/native-executer/register/respawn';
 
 process.title = `BsAutoindex`;
 

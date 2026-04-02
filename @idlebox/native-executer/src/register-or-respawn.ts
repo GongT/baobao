@@ -1,9 +1,9 @@
 import debug from 'debug';
 
 const log = debug('executer');
-if (globalThis.__ts_resolver_installed__) {
+if (Object.hasOwn(globalThis, Symbol.for('native-executer'))) {
 	// nothing to do
-	log('resolver already installed before register.ts');
+	log('resolver already installed before register-if-not.ts');
 } else if (!process.execArgv.includes('--experimental-transform-types') && !process.env.NODE_OPTIONS?.includes('--experimental-transform-types')) {
 	if (process.env._PREVENT_LOOP_) {
 		console.error(process.execArgv);
@@ -38,12 +38,5 @@ if (globalThis.__ts_resolver_installed__) {
 
 	throw new Error('Failed to relaunch process with experimental transform types');
 } else {
-	log('registering resolver...');
-
-	if (process.execArgv.includes('--inspect')) {
-		const ins = await import('node:inspector');
-		ins.waitForDebugger();
-	}
-
-	await import('./loader.hooks.ts');
+	await import('./register-if-not.ts');
 }

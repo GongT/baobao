@@ -7,7 +7,7 @@
 			"command": {
 				"package": "@mpis/esbuild",
 				"binary": "mpis-esbuild",
-				"arguments": ["scripts/build.ts"],
+				"arguments": ["scripts/mpis-build.js"],
 			},
 		},
 	},

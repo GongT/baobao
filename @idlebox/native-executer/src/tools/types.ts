@@ -3,7 +3,7 @@ import type { LoadHookSync, ResolveHookSync } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
 export const tryExtensions = ['.ts'];
-export const runPrefixFile = fileURLToPath(import.meta.resolve('./generate-prefix.ts'));
+export const runPrefixFile = fileURLToPath(import.meta.resolve('#generate-prefix'));
 
 export type NextResolve = Parameters<ResolveHookSync>[2];
 export type NextLoad = Parameters<LoadHookSync>[2];
