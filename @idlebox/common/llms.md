@@ -3,7 +3,7 @@
 
 `@idlebox/common` 是一个通用 TypeScript 工具函数库，提供数组操作、日期格式化、调试辅助、错误处理、事件系统、生命周期/资源管理 (Disposable)、路径处理、平台检测、Promise 工具、反射、定时器等功能。`@idlebox/errors` 提供错误类型体系和错误代码枚举，与 `@idlebox/common` 深度集成。
 
-### array/chunk
+### File: array/chunk.ts
 
 ##### arrayChunk
 
@@ -24,7 +24,7 @@ for (const chunk of arrayChunk([1, 2, 3, 4, 5], 2)) {
 }
 ```
 
-### array/diff
+### File: array/diff.ts
 
 ##### arrayDiff
 
@@ -47,7 +47,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 // result.add = ['d'], result.del = ['a'], result.same = ['b', 'c']
 ```
 
-### array/is-same
+### File: array/is-same.ts
 
 ##### isArraySame
 
@@ -55,7 +55,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 **类型:** `<T>(a1: readonly T[], a2: readonly T[]) => boolean`
 
-### array/normalize
+### File: array/normalize.ts
 
 ##### normalizeArray
 
@@ -63,7 +63,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 **类型:** `<T>(input: T | T[]) => T[]`
 
-### array/sort-alpha
+### File: array/sort-alpha.ts
 
 ##### sortByString
 
@@ -71,7 +71,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 **类型:** `(a: string, b: string) => number`
 
-### array/unique
+### File: array/unique.ts
 
 ##### arrayUnique
 
@@ -91,13 +91,13 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 **类型:** `<T>(idFactory?: IUniqueIdFactory<T>) => (item: T) => boolean`
 
-### date/consts
+### File: date/consts.ts
 
 ##### oneSecond / oneMinute / oneHour / oneDay / oneWeek
 
-以毫秒为单位的时间常量: `oneSecond=1000`，`oneMinute=60000`，`oneHour=1440000`，`oneDay=86400000`，`oneWeek=604800000`。
+以毫秒为单位的时间常量: `oneSecond=1000`，`oneMinute=60000`，`oneHour=3600000`，`oneDay=86400000`，`oneWeek=604800000`。
 
-### date/is-invalid
+### File: date/is-invalid.ts
 
 ##### isDateInvalid
 
@@ -105,19 +105,19 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 **类型:** `(date: Date) => boolean`
 
-### date/sibling
+### File: date/sibling.ts
 
 ##### nextSecond / nextMinute / nextHour / nextDay / nextWeek / nextMonth / nextYear
 
 对 `Date` 对象就地加减指定单位数量。签名: `(d: Date, n?: number) => Date`
 
-### date/to-string
+### File: date/to-string.ts
 
 ##### humanDate
 
 日期/时间格式化工具集合 (namespace)，包含 `time`、`date`、`datetime`、`deltaTiny`、`delta`、`setLocaleFormatter` 方法。
 
-### date/unix
+### File: date/unix.ts
 
 ##### getTimeStamp
 
@@ -127,7 +127,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 将 Unix 时间戳 (秒) 转换为 `Date`。**类型:** `(timestamp: number) => Date`
 
-### debugging/inspect
+### File: debugging/inspect.ts
 
 ##### inspectSymbol
 
@@ -141,7 +141,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 尝试将对象转换为可读字符串，依次尝试多种方式。**类型:** `(object: any) => string`
 
-### debugging/object-with-name
+### File: debugging/object-with-name.ts
 
 ##### objectName
 
@@ -159,7 +159,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 获取函数名，无名称时返回 `'<anonymous>'`。**类型:** `(func: Function) => string`
 
-### debugging/serializable
+### File: debugging/serializable.ts
 
 ##### isScalar
 
@@ -181,7 +181,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 断言对象可序列化，发现不可序列化值则抛出 `TypeError`。**类型:** `(value: any) => void`
 
-### error/cause
+### File: error/cause.ts
 
 ##### getRootCause
 
@@ -191,19 +191,19 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 返回完整 cause 链数组。**类型:** `(e: Error) => Error[]`
 
-### error/convert-unknown
+### File: error/convert-unknown.ts
 
 ##### convertCaughtError
 
 将 `catch` 捕获的任意值转换为 `Error`。`Exit` 错误会被重新抛出。**类型:** `(e: unknown) => Error`
 
-### error/get-frame
+### File: error/get-frame.ts
 
 ##### getErrorFrame
 
 从 `Error.stack` 中取出第 N 帧字符串。**类型:** `(e: IWithStack, frame: number, downIfEmpty?: boolean) => string`
 
-### error/pretty.nodejs
+### File: error/pretty.nodejs.ts
 
 ##### setErrorLogRoot
 
@@ -221,13 +221,13 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 格式化错误为字符串。**类型:** `<E>(e: E, withMessage?: boolean) => string`
 
-### error/pretty.vscode
+### File: error/pretty.vscode.ts
 
 ##### vscEscapeValue
 
 对字符串进行 VSCode Shell Integration 协议转义。**类型:** `(input: string) => string`
 
-### error/stack-parser.v8
+### File: error/stack-parser.v8.ts
 
 ##### parseStackLine
 
@@ -237,37 +237,37 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 解析完整多行 stack trace。**类型:** `(stack: string) => IStructreStackLine[]`
 
-### error/stack-trace
+### File: error/stack-trace.ts
 
 ##### createStackTraceHolder
 
 创建保存当前调用堆栈的对象。**类型:** `(message: string, boundary?: any) => StackTraceHolder`
 
-### function/callback-list
+### File: function/callback-list.ts
 
 ##### CallbackList
 
 管理同步回调列表的类，回调返回 `false` 时中止执行。成员: `add`、`remove`、`run`、`reset`、`count`。
 
-### function/callback-list.async
+### File: function/callback-list.async.ts
 
 ##### AsyncCallbackList
 
 异步逐一执行回调的列表类，回调返回 `true` 时中止。成员: `add`、`remove`、`run`、`reset`、`count`。
 
-### function/callback-list.delay
+### File: function/callback-list.delay.ts
 
 ##### MemorizedOnceCallbackList
 
 运行后记忆参数，后续添加的回调立即被调用的回调列表。成员: `add`、`run`、`count`。
 
-### function/noop
+### File: function/noop.ts
 
 ##### noop
 
 空函数。**类型:** `() => void`
 
-### iterate/merge-iterable
+### File: iterate/merge-iterable.ts
 
 ##### mergeIterables
 
@@ -285,7 +285,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 交错合并多个同步/异步可迭代对象。
 
-### lifecycle/cancellation/source
+### File: lifecycle/cancellation/source.ts
 
 ##### CancellationToken
 
@@ -295,7 +295,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 取消令牌控制端。成员: `token`、`cancel()`、`dispose()`。
 
-### lifecycle/dispose/async-disposable
+### File: lifecycle/dispose/async-disposable.ts
 
 ##### EnhancedAsyncDisposable
 
@@ -305,7 +305,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 并发释放所有资源且忽略错误的异步 Disposable。
 
-### lifecycle/dispose/bridges/function
+### File: lifecycle/dispose/bridges/function.ts
 
 ##### functionToDisposable
 
@@ -315,7 +315,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 将 Disposable 对象转换为普通函数，适合 React `useEffect` 返回值。
 
-### lifecycle/dispose/bridges/native
+### File: lifecycle/dispose/bridges/native.ts
 
 ##### fromNativeDisposable
 
@@ -325,7 +325,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 将本包 Disposable 转换为原生格式。
 
-### lifecycle/dispose/bridges/streams
+### File: lifecycle/dispose/bridges/streams.ts
 
 ##### closableToDisposable
 
@@ -335,7 +335,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 将有 `end()` 方法的对象转换为 `IAsyncDisposable`。
 
-### lifecycle/dispose/disposable
+### File: lifecycle/dispose/disposable.ts
 
 ##### IDisposable
 
@@ -353,19 +353,19 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 重复 dispose 行为枚举: `Disable`(0)、`Warning`(1)、`Allow`(2)。
 
-### lifecycle/dispose/disposableEvent
+### File: lifecycle/dispose/disposableEvent.ts
 
 ##### addDisposableEventListener
 
 为事件发射器添加可 dispose 的监听器。
 
-### lifecycle/dispose/disposedError
+### File: lifecycle/dispose/disposedError.ts
 
 ##### DuplicateDisposedError
 
 重复 dispose 时的错误，包含 `consoleWarning()` 方法输出彩色警告。
 
-### lifecycle/dispose/sync-disposable
+### File: lifecycle/dispose/sync-disposable.ts
 
 ##### DisposableOnce
 
@@ -375,19 +375,19 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 完整同步 Disposable 类，实现 `[Symbol.dispose]`，参见 `AbstractEnhancedDisposable`。
 
-### lifecycle/event/event
+### File: lifecycle/event/event.ts
 
 ##### Emitter
 
 事件发射器类。成员: `handle`、`once`、`wait`、`fire`、`register`/`event`、`listenerCount`、`disposed`、`dispose`。`fire` 错误策略: `EAction.Throw`/`Delay`/`Ignore`/`PrintIgnore`。
 
-### lifecycle/event/memorized
+### File: lifecycle/event/memorized.ts
 
 ##### MemorizedEmitter
 
 记忆上次 `fire` 数据的 Emitter，新监听器注册时立即调用一次。额外成员: `forget()`。
 
-### lifecycle/event/type
+### File: lifecycle/event/type.ts
 
 ##### EventHandler
 
@@ -405,7 +405,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 将类型映射转为 Emitter map 类型。
 
-### lifecycle/global/global-lifecycle
+### File: lifecycle/global/global-lifecycle.ts
 
 ##### registerGlobalLifecycle
 
@@ -419,7 +419,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 安全版 `disposeGlobal`，重复调用不抛错。
 
-### log/logger
+### File: log/logger.ts
 
 ##### WrappedConsole
 
@@ -429,19 +429,19 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 颜色模式枚举: `DISABLE`(0)、`TERMINAL`(1)、`WEB`(2)、`DETECT`(3)。
 
-### map-and-set/custom-set
+### File: map-and-set/custom-set.ts
 
 ##### CustomSet
 
 使用自定义比较函数的 Set 抽象基类。成员: `has`、`add`、`addAll`、`delete`、`deleteAll`、`clear`、`length`、`toArray`。
 
-### map-and-set/object-map
+### File: map-and-set/object-map.ts
 
 ##### convertToMap
 
 将普通对象转换为 `Map`。**类型:** `<K, V>(object: Record<K, V>) => Map<K, V>`
 
-### map-and-set/required-map
+### File: map-and-set/required-map.ts
 
 ##### RequiredMap
 
@@ -451,13 +451,13 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 `get()` 在键不存在时自动创建实例的 Map 抽象基类，需实现 `instance(key)`。
 
-### misc/assertNotNull
+### File: misc/assertNotNull.ts
 
 ##### assertNotNull
 
 断言值非 null/undefined/NaN，返回 `NonNullable<T>`。
 
-### misc/package.json
+### File: misc/package.json.ts
 
 ##### IPackageJson
 
@@ -471,7 +471,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 根据条件列表解析导出路径。
 
-### object/definePublicConstant
+### File: object/definePublicConstant.ts
 
 ##### definePublicConstant
 
@@ -481,13 +481,13 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 定义不可修改的私有属性 (non-enumerable)。
 
-### object/initOnRead
+### File: object/initOnRead.ts
 
 ##### initOnRead
 
 在 prototype 上定义懒初始化属性，首次访问时执行并缓存。
 
-### object/objectPath
+### File: object/objectPath.ts
 
 ##### objectPath
 
@@ -497,7 +497,7 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 基于路径数组对对象进行读写操作的工具类。成员: `get`、`exists`、`set`。
 
-### object/objectSame
+### File: object/objectSame.ts
 
 ##### isObjectSame
 
@@ -507,13 +507,13 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 深度递归比较两个对象是否完全相同。
 
-### path/isAbsolute
+### File: path/isAbsolute.ts
 
 ##### isAbsolute
 
 判断路径是否为绝对路径 (支持 Unix、Windows、UNC、URL)。
 
-### path/normalizePath
+### File: path/normalizePath.ts
 
 ##### PathKind
 
@@ -531,25 +531,25 @@ Node.js 自定义 inspect 的 Symbol: `Symbol.for('nodejs.util.inspect.custom')`
 
 计算两个同类型路径之间的相对路径。
 
-### path/pathArray
+### File: path/pathArray.ts
 
 ##### PathArray / PathArrayPosix / PathArrayWindows
 
 PATH 环境变量格式处理工具类，根据平台自动选择。成员: `add`、`delete`、`has`、`toString`、`toArray`、`joinpath`、`clear`、`size`。
 
-### path/pathCalc
+### File: path/pathCalc.ts
 
 ##### isPathContains
 
 检查两个路径是否存在父子关系。
 
-### platform/compile
+### File: platform/compile.ts
 
 ##### isProductionMode / isBuildMode
 
 编译时环境检测变量，读取 `import.meta.env`。
 
-### platform/globalObject
+### File: platform/globalObject.ts
 
 ##### globalObject
 
@@ -559,7 +559,7 @@ PATH 环境变量格式处理工具类，根据平台自动选择。成员: `add
 
 获取或创建全局对象上的属性。
 
-### platform/globalSingleton
+### File: platform/globalSingleton.ts
 
 ##### globalSingletonStrong
 
@@ -573,7 +573,7 @@ PATH 环境变量格式处理工具类，根据平台自动选择。成员: `add
 
 从全局注册表删除键。
 
-### platform/globalSymbol
+### File: platform/globalSymbol.ts
 
 ##### createSymbol
 
@@ -583,7 +583,7 @@ PATH 环境变量格式处理工具类，根据平台自动选择。成员: `add
 
 删除全局 Symbol。
 
-### platform/os
+### File: platform/os.ts
 
 ##### hasProcess / hasWindow / hasGlobal
 
@@ -601,43 +601,43 @@ Electron 环境检测。
 
 当前平台的 PATH 分隔符。
 
-### promise/await-iterator
+### File: promise/await-iterator.ts
 
 ##### awaitIterator
 
 将 Iterator 转换为 Promise，resolve 返回最后一个值。
 
-### promise/deferred-promise
+### File: promise/deferred-promise.ts
 
 ##### DeferredPromise
 
 可延迟 resolve/reject 的 Promise 容器，支持进度通知和超时。静态方法: `DeferredPromise.wrap(prev)`。
 
-### promise/is-promise
+### File: promise/is-promise.ts
 
 ##### isPromiseLike
 
 判断值是否为 `PromiseLike`。
 
-### promise/promise-bool
+### File: promise/promise-bool.ts
 
 ##### promiseBool
 
 Promise 转布尔: resolve→true，reject→false (丢弃错误)。
 
-### promise/promise-list
+### File: promise/promise-list.ts
 
 ##### PromiseCollection
 
 以字符串 ID 管理 DeferredPromise 集合。成员: `create`、`has`、`done`、`error`、`dispose`、`size`。
 
-### reflection/classes/pointer
+### File: reflection/classes/pointer.ts
 
 ##### Pointer
 
 创建透明 Proxy，所有操作代理到 `ref.reference` 的对象。
 
-### reflection/classes/singleton
+### File: reflection/classes/singleton.ts
 
 ##### singleton
 
@@ -647,13 +647,13 @@ Promise 转布尔: resolve→true，reject→false (丢弃错误)。
 
 手动创建并缓存类的单例实例。
 
-### reflection/methods/bind
+### File: reflection/methods/bind.ts
 
 ##### bindThis
 
 方法装饰器，自动将方法 bind 到实例。
 
-### reflection/methods/memorize
+### File: reflection/methods/memorize.ts
 
 ##### memo
 
@@ -663,13 +663,13 @@ Promise 转布尔: resolve→true，reject→false (丢弃错误)。
 
 清除 `@memo` 装饰的方法缓存。
 
-### schedule/extendable-timer
+### File: schedule/extendable-timer.ts
 
 ##### ExtendableTimer
 
 可反复推迟触发的定时器 (防抖)。成员: `start`、`renew`、`cancel`、`p`、`dispose`。
 
-### schedule/interval
+### File: schedule/interval.ts
 
 ##### interval
 
@@ -679,13 +679,13 @@ Promise 转布尔: resolve→true，reject→false (丢弃错误)。
 
 可暂停/恢复的定时器类。成员: `onTick`、`resume`、`pause`、`reset`、`fire`。
 
-### schedule/scheduler
+### File: schedule/scheduler.ts
 
 ##### scheduler
 
 跨平台微任务调度: Node.js 用 `process.nextTick`，浏览器用 `queueMicrotask`。
 
-### schedule/timeout
+### File: schedule/timeout.ts
 
 ##### timeout
 
@@ -699,25 +699,25 @@ Promise 转布尔: resolve→true，reject→false (丢弃错误)。
 
 与超时竞争的 Promise。
 
-### state/simple-state-machine
+### File: state/simple-state-machine.ts
 
 ##### SimpleStateMachine
 
 简单状态机，基于规则映射驱动状态转移，触发 `onStateChange` 事件。
 
-### string/case-cast
+### File: string/case-cast.ts
 
 ##### camelCase / ucfirst / lcfirst / linux_case / linux_case_hyphen
 
 字符串大小写转换工具函数。
 
-### string/escape-regexp
+### File: string/escape-regexp.ts
 
 ##### escapeRegExp
 
 对字符串中的正则特殊字符进行转义。
 
-### string/human-bytes
+### File: string/human-bytes.ts
 
 ##### humanSize
 
@@ -727,37 +727,37 @@ Promise 转布尔: resolve→true，reject→false (丢弃错误)。
 
 字节数转可读字符串 (SI 前缀 1000)，如 `1.50GB`。
 
-### string/pad2
+### File: string/pad2.ts
 
 ##### pad2
 
 数字填充为两位字符串，不足补 `'0'`，用于时间格式化。
 
-### typing-helper/callback
+### File: typing-helper/callback.ts
 
 ##### ICommonCallback
 
 Node.js 风格错误优先回调接口。
 
-### typing-helper/deep.partial
+### File: typing-helper/deep.partial.ts
 
 ##### DeepPartial
 
 深度将所有属性变为可选。
 
-### typing-helper/deep.readonly
+### File: typing-helper/deep.readonly.ts
 
 ##### DeepReadonly
 
 深度将所有属性变为只读。
 
-### typing-helper/deep.required
+### File: typing-helper/deep.required.ts
 
 ##### DeepNonNullable
 
 深度去除所有属性的 null/undefined。
 
-### typing-helper/deep.writable
+### File: typing-helper/deep.writable.ts
 
 ##### DeepWriteable
 
@@ -767,25 +767,25 @@ Node.js 风格错误优先回调接口。
 
 浅层去除 `readonly` 修饰符。
 
-### typing-helper/literal
+### File: typing-helper/literal.ts
 
 ##### Primitive
 
 基本类型联合，用于深度类型工具的递归终止。
 
-### codes/linux-error-codes
+### File: codes/linux-error-codes.ts
 
 ##### LinuxErrorCode
 
 Linux POSIX 标准错误代码枚举，值为字符串形式，可与 `ErrnoException.code` 配合使用。
 
-### codes/wellknown-exit-codes
+### File: codes/wellknown-exit-codes.ts
 
 ##### ExitCode
 
 常见进程退出码枚举: `SUCCESS`(0)、`EXECUTION`(1)、`INTERRUPT`(2)、`USAGE`(3)、`TIMEOUT`(4)、`INVALID_STATE`(5)、`PROGRAM`(66)、`RESOURCE`(100)、`DUPLICATE`(101)、`UNKNOWN`(233)。
 
-### common/base
+### File: common/base.ts
 
 ##### ErrorWithCode
 
@@ -795,7 +795,7 @@ Linux POSIX 标准错误代码枚举，值为字符串形式，可与 `ErrnoExce
 
 同时满足 `instanceof TypeError` 和 `instanceof ErrorWithCode` 的错误类型。
 
-### common/human-readable
+### File: common/human-readable.ts
 
 ##### humanReadable
 
@@ -809,19 +809,19 @@ Linux POSIX 标准错误代码枚举，值为字符串形式，可与 `ErrnoExce
 
 判断值是否实现 `IHumanReadable`。
 
-### common/not-error
+### File: common/not-error.ts
 
 ##### NotError
 
 "没有错误"的特殊对象，用于 try/catch 接口的非错误分支传递。
 
-### common/type
+### File: common/type.ts
 
 ##### IErrorOptions
 
 自定义错误构造选项: `boundary`、`cause`、`stack`。
 
-### error-types/application
+### File: error-types/application.ts
 
 ##### Exit
 
@@ -839,7 +839,7 @@ SIGINT/SIGTERM 中断错误。
 
 参数/配置错误。
 
-### error-types/dependency
+### File: error-types/dependency.ts
 
 ##### DependencyError
 
@@ -849,7 +849,7 @@ SIGINT/SIGTERM 中断错误。
 
 子进程意外退出错误，含 `pid`、`commandline`、`exitCode`、`signal` 等字段。
 
-### error-types/development
+### File: error-types/development.ts
 
 ##### ProgramError
 
@@ -867,7 +867,7 @@ SIGINT/SIGTERM 中断错误。
 
 变量类型错误。
 
-### error-types/nodejs
+### File: error-types/nodejs.ts
 
 ##### NodeException
 
@@ -877,7 +877,7 @@ SIGINT/SIGTERM 中断错误。
 
 Node.js 错误类型判断函数。
 
-### error-types/nodejs.unhandled
+### File: error-types/nodejs.unhandled.ts
 
 ##### UnhandledRejection
 
@@ -887,7 +887,7 @@ Node.js 错误类型判断函数。
 
 未捕获异常包装错误。
 
-### error-types/tools
+### File: error-types/tools.ts
 
 ##### CanceledError
 
