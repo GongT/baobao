@@ -1,36 +1,79 @@
-<!-- commit: 9d5f3183dbb672ece9dfbf325a5be682b4e709a1 -->
+<!-- commit: 3ae33e89014be7739281a583ea7419f205c6a052 -->
+
+package.json 文件的类型定义和解析工具
 
 ##### IPackageJson
 
-`package.json` 文件结构的完整类型定义接口，覆盖所有标准字段及自定义扩展字段。
+`interface` - 完整的 package.json 类型定义, 包含所有标准字段及一些自定义扩展字段
 
-**类型:** `interface IPackageJson`
-
-包含: `name`、`version`、`main`、`exports`、`dependencies`、`scripts` 等标准 npm 字段。
+常用字段: `name`, `version`, `main`, `module`, `exports`, `dependencies`, `devDependencies` 等
 
 自定义扩展字段:
-- `decoupledDependencies` — 构建顺序解析时忽略的依赖
-- `decoupledDependents` — 把本包加入其 `decoupledDependencies` 的包名列表
-- `additionalDependencies` — 构建顺序解析时额外的 devDependencies
-
----
+- `decoupledDependencies`: 构建顺序解析时需要移除的依赖列表
+- `decoupledDependents`: 将当前包加入指定包的 `decoupledDependencies` 列表
+- `additionalDependencies`: 构建顺序解析时额外添加的 `devDependencies`
+- `llms` / `llmsFull`: LLM 相关描述字段
 
 ##### IPackageJsonNpmDist
 
-npm registry 下载包时附带的 `dist` 字段类型定义。
+`interface` - npm registry 返回的 `dist` 字段类型, 包含 `integrity`, `shasum`, `tarball`, `fileCount`, `unpackedSize`, `signatures`, `size`
 
----
+##### IExportCondition
+
+`interface` - package.json `exports` 字段中的条件导出对象
+
+支持的条件: `node`, `node-addons`, `browser`, `require`, `import`, `types`, `default` 及自定义平台
+
+##### IExportMap
+
+`interface` - 路径映射形式的 exports, key 为以 `.` 开头的导出路径
+
+##### IFullExportsField
+
+`interface` - 标准化后的完整 exports 字段, 所有路径均映射到 `IExportCondition`
+
+##### IExportsField
+
+`type` = `string | IExportCondition | IExportMap`
+
+exports 字段的所有可能类型
+
+##### IImportsField
+
+`type` = `IExportCondition | IExportMap`
+
+imports 字段的所有可能类型
 
 ##### parseExportsField
 
-解析 `package.json` 的 `exports` 字段，返回规范化后的 `IFullExportsField` (所有路径都有显式条件对象)。
+解析 package.json 的 `exports` 字段为标准化的 `IFullExportsField` 格式
 
-**类型:** `(exports: IExportsField) => IFullExportsField`
+- `exports`: `IExportsField` - 原始 exports 字段值
+- 返回: `IFullExportsField` - 标准化后的路径到条件导出的映射
 
----
+```typescript
+// 字符串形式
+parseExportsField('./index.js')
+// => { '.': { default: './index.js' } }
+
+// 条件导出形式
+parseExportsField({ import: './index.mjs', require: './index.cjs' })
+// => { '.': { import: './index.mjs', require: './index.cjs' } }
+
+// 路径映射形式
+parseExportsField({ '.': './index.js', './utils': './utils.js' })
+// => { '.': { default: './index.js' }, './utils': { default: './utils.js' } }
+```
 
 ##### resolveExportPath
 
-根据条件列表解析 `exports` 中的某个条件路径。
+根据给定的条件列表解析导出路径
 
-**类型:** `(exportField: string | IExportCondition, condition: readonly string[]) => string | undefined`
+- `exportField`: `string | IExportCondition` - 单个导出条件对象或字符串
+- `condition`: `readonly string[]` - 条件优先级列表(如 `['import', 'default']`)
+- 返回: `string | undefined` - 解析后的文件路径, 无匹配则返回 `undefined`
+
+```typescript
+resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 'default'])
+// => './index.mjs'
+```
