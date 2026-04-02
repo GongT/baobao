@@ -1,4 +1,9 @@
 {
+	"$schema": "https://context7.com/schema/context7.json",
 	"url": "https://context7.com/gongt/baobao",
-	"public_key": "pk_uIV9ImJMrN4MreLlG3xti"
+	"public_key": "pk_uIV9ImJMrN4MreLlG3xti",
+	"projectTitle": "抱抱库╰(*°▽°*)╯",
+	"description": "TypeScript 工具库集合，包含构建工具、函数库、CLI 辅助等",
+	"folders": ["@idlebox", "@build-script", "@gongt", "@mpis"],
+	"rules": ["read llms.md in each packages for more details. don't read any other files.", "if no such file, then just ignore this package."]
 }
