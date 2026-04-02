@@ -130,6 +130,12 @@ export interface IPackageJson {
 
 	dist: IPackageJsonNpmDist;
 
+	[field: string]: any;
+
+	/** other well-known fields */
+	llms: string;
+	llmsFull: string;
+
 	/* My Addons */
 	/**
 	 * Array of dependencies that will remove from dependencies and devDependencies when resolving build order.
@@ -144,8 +150,6 @@ export interface IPackageJson {
 	 */
 	additionalDependencies: string[];
 	/* My Addons End */
-
-	[field: string]: any;
 }
 
 export interface IPackageJsonNpmDist {

@@ -1,12 +1,10 @@
 import { argv } from '@idlebox/args/default';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
-import { overrideImportFile } from '@idlebox/native-executer';
-import { existsSync, registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
+import { registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
 import { ExecaError } from 'execa';
 import { resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
 import { listPnpm } from './common/monorepo.js';
-import { packageJson, readPackageJson, writeBackPackageJson } from './common/package-json.js';
+import { readPackageJson, writeBackPackageJson } from './common/package-json.js';
 import { currentProject } from './common/paths/current.js';
 import {
 	deleteDevelopmentFields,
@@ -20,6 +18,7 @@ import {
 	rewriteTsconfig,
 	writeNpmFiles,
 } from './common/steps.js';
+import { checkDocumentExists, executePrepublishHooks } from './common/steps2.js';
 
 const debug = argv.flag(['--debug', '-d']);
 createRootLogger(
@@ -61,28 +60,9 @@ mirrorExportsAndMain();
 ensureExportsPackageJson();
 deleteDevelopmentFields();
 
-// 执行自定义的 prepublishHook: 钩子
-const hooks = Object.keys(packageJson['scripts'] || {}).filter((name) => name.startsWith('prepublishHook:'));
-if (hooks.length) {
-	const entryFile = pathToFileURL(resolve(import.meta.dirname, 'exports.ts'));
-	const hiddenFile = pathToFileURL(resolve(import.meta.dirname, '../exports.js'));
-	overrideImportFile(hiddenFile, entryFile);
-	for (const name of hooks) {
-		const script = packageJson['scripts'][name];
-		delete packageJson['scripts'][name];
+await checkDocumentExists();
 
-		const absoluteFile = resolve(currentProject, script);
-		if (!existsSync(absoluteFile)) {
-			logger.error`预发布钩子脚本 ${name} 文件不存在！ (relative<${absoluteFile}>)`;
-			shutdown(1);
-		}
-
-		logger.info`执行自定义 prepublishHook: 钩子 (${name} -> relative<${absoluteFile}>)`;
-		await import(absoluteFile);
-	}
-} else {
-	logger.log`没有自定义 prepublishHook: 钩子`;
-}
+await executePrepublishHooks();
 
 await writeBackPackageJson();
 writeNpmFiles();

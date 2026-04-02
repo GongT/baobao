@@ -5,5 +5,5 @@
 	"projectTitle": "抱抱库╰(*°▽°*)╯",
 	"description": "TypeScript 工具库集合，包含构建工具、函数库、CLI 辅助等",
 	"folders": ["@idlebox", "@build-script", "@gongt", "@mpis"],
-	"rules": ["read llms.md in each packages for more details. don't read any other files.", "if no such file, then just ignore this package."]
+	"rules": ["read llms.txt/llms.md in each packages for more details. don't read any other files.", "if no such file, then just ignore this package."]
 }

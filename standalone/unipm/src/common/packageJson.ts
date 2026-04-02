@@ -114,6 +114,9 @@ const packageJsonSort: readonly string[] = [
 	//  - tree-shaking
 	'sideEffects',
 
+	'llms',
+	'llmsFull',
+
 	'jspm',
 	'eslintConfig',
 	'prettier',

@@ -19,6 +19,10 @@ Must follow:
 	- for example, for typescript, see [this](./languages/typescript.md).
 - never reformat code files before write, run your tools instead.
 
+# When write commit message:
+
+- follow [commit message rules](./commit-message.md).
+
 # Memory
 
 This is not a forced rule.

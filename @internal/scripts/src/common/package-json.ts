@@ -22,6 +22,8 @@ export async function readPackageJson() {
 export async function writeBackPackageJson() {
 	(packageJson.exports as IExportMap)['./package.json'] = './package.json';
 
+	simplifyExportsField(exports);
+
 	const ch = await writeAsPlainJson(resolve(currentProject, 'package.json'), packageJson);
 	packageJson = null as any;
 
@@ -47,4 +49,12 @@ async function findUnpmBin() {
 	const pkgJson = await loadJsonFile(pkgJsonPath);
 	const binRel = pkgJson.bin.unipm;
 	return resolve(pkgJsonPath, '..', binRel);
+}
+function simplifyExportsField(exports: IFullExportsField) {
+	for (const key in exports) {
+		const value = exports[key];
+		if (typeof value === 'object' && 'default' in value && Object.keys(value).length === 1) {
+			exports[key] = value.default as any;
+		}
+	}
 }
