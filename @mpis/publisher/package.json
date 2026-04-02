@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/publisher",
 	"type": "module",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"keywords": [],
 	"bin": {
 		"publisher": "./loader/bin.devel.js"

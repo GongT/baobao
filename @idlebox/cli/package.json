@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/cli",
 	"type": "module",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"exports": {
 		".": {
 			"types": "./src/index.ts",
