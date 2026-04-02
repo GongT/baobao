@@ -16,7 +16,7 @@
 		"./package.json": "./package.json"
 	},
 	"imports": {
-		"#generate-prefix": "./lib.devel/generate-prefix.js"
+		"#generate-prefix": "./lib/generate-prefix.js"
 	},
 	"keywords": ["typescript", "executer", "runner"],
 	"scripts": {
