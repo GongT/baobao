@@ -452,6 +452,9 @@ importers:
       import-meta-resolve:
         specifier: ^4.2.0
         version: 4.2.0
+      yaml:
+        specifier: ^2.8.2
+        version: 2.8.2
     devDependencies:
       '@internal/local-rig':
         specifier: workspace:^
@@ -603,7 +606,7 @@ importers:
         version: link:../errors
       cjke-strings:
         specifier: workspace:^
-        version: link:../../standalone/cjke
+        version: link:../../standalone/cjke-strings
     devDependencies:
       '@idlebox/source-map-support':
         specifier: workspace:^
@@ -1750,7 +1753,7 @@ importers:
         version: link:../../@mpis/typescript
       cjke-strings:
         specifier: workspace:^
-        version: link:../../standalone/cjke
+        version: link:../../standalone/cjke-strings
       knip:
         specifier: ^6.1.1
         version: 6.1.1
@@ -2120,6 +2123,9 @@ importers:
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
+      yaml:
+        specifier: ^2.8.2
+        version: 2.8.2
     devDependencies:
       '@idlebox/native-executer':
         specifier: workspace:^
@@ -2174,7 +2180,7 @@ importers:
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
 
-  standalone/cjke:
+  standalone/cjke-strings:
     dependencies:
       ansi-regex:
         specifier: ^6.2.2

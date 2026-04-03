@@ -10,6 +10,8 @@ import { validateSchema, ValidationError } from './ajv.js';
 import type { IMyLogger } from './logger.js';
 import { resolvePackageRoot } from './resolve.js';
 
+const jsonExt = /\.json$/i;
+
 /**
  * 主类，通用项目配置文件加载器
  */
@@ -31,13 +33,24 @@ export class ProjectConfig {
 	) {
 		this.rigConfig = rigConfig || RigConfig.loadForProjectFolder({ projectFolderPath: projectFolder });
 		if (this.rigConfig.rigFound) {
-			this.rigPackageUrl = pathToFileURL(resolve(this.rigConfig.getResolvedProfileFolder(), '../../package.json')).toString();
+			this.rigPackageUrl = this.packageJsonOrYamlUrl(resolve(this.rigConfig.getResolvedProfileFolder(), '../../package.json'));
 		}
 		this.projectFolder = this.rigConfig.projectFolderPath;
-		this.currentPackageUrl = pathToFileURL(resolve(this.projectFolder, 'package.json')).toString();
+		this.currentPackageUrl = this.packageJsonOrYamlUrl(resolve(this.projectFolder, 'package.json'));
 
 		this.resolve = this.resolve.bind(this);
 		this.import = this.import.bind(this);
+	}
+
+	private packageJsonOrYamlUrl(path: string): string {
+		if (existsSync(path)) {
+			return pathToFileURL(path).toString();
+		}
+		const yamlPath = path.replace(jsonExt, '.yaml');
+		if (existsSync(yamlPath)) {
+			return pathToFileURL(yamlPath).toString();
+		}
+		throw new NotFoundError(path, `Neither ${path} nor ${yamlPath} exists.`);
 	}
 
 	async import<T = any>(packageName: string): Promise<T> {
@@ -219,7 +232,7 @@ export class ProjectConfig {
 			this.logger.debug(`没有 project 配置: ${files.project.path}`);
 			// nothing to do
 		} else {
-			throw new Error(`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`);
+			throw new NotFoundError(`No config file found for "${name}.json".\n  * project file: ${files.project.path}\n  * rig file: ${tryRealPath(files.rig.path)}`);
 		}
 		this._read_json_validate(result, files, schemaFile);
 		return result;

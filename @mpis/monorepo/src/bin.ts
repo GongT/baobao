@@ -1,6 +1,6 @@
 import type { ISubArgsReaderApi } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
-import { humanDate, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
+import { convertCaughtError, humanDate, prettyPrintError, registerGlobalLifecycle, toDisposable } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { debugMode, helpMode, printUsage, verboseMode } from './common/args.js';
@@ -94,6 +94,6 @@ async function main(cmd: ISubArgsReaderApi) {
 				throw new Error(`impossible: invalid command`);
 		}
 	} catch (e) {
-		console.error(e);
+		prettyPrintError('发生未知错误', convertCaughtError(e));
 	}
 }

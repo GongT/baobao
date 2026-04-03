@@ -6,7 +6,8 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import split2 from 'split2';
-import { loadConfig } from './common/config.js';
+import { loadConfig, loadFile } from './common/config.js';
+import { packageJsonValidNames } from './common/types.js';
 
 createRootLogger('mpis:tsc');
 
@@ -51,7 +52,7 @@ if (!project) {
 }
 
 const projAbs = resolve(wd, project);
-const packageFile = findUpUntilSync({ from: projAbs, file: 'package.json' });
+const packageFile = findUpUntilSync({ from: projAbs, file: [...packageJsonValidNames] });
 if (!packageFile) throw new Error(`Could not find package.json in the project directory: ${projAbs}`);
 
 if (!config) config = await loadConfig(wd, logger);
@@ -59,8 +60,8 @@ if (!config) config = await loadConfig(wd, logger);
 // console.error('Using TypeScript compiler:', tscPath);
 // console.error('packageFile=', packageFile);
 
-const { default: packageJson } = await import(packageFile, { with: { type: 'json' } });
-const title = packageJson.name.replace('@', '').replace('/', ':');
+const packageJson = await loadFile(packageFile);
+const title = packageJson.name?.replace('@', '').replace('/', ':') ?? 'no name package';
 
 channelClient.start();
 const tscBluePrint = /^(\s*)\x1B\[96m/;
@@ -128,6 +129,7 @@ function replaceMonoLine(line: string) {
 
 // console.log('output hooked');
 argv.flag(['--preserveWatchOutput']);
+argv.flag(['--debug', '-d']);
 
 const rebuild = argv.unused();
 if (buildArg) {
@@ -140,7 +142,11 @@ if (buildArg) {
 }
 
 process.argv.push(...rebuild);
-process.argv.push('--preserveWatchOutput');
+
+if (!process.stderr.isTTY) {
+	logger.debug`输出不是TTY，启用 --preserveWatchOutput 以保持输出完整性`;
+	process.argv.push('--preserveWatchOutput');
+}
 
 logger.verbose`commandline<${process.argv}>`;
 

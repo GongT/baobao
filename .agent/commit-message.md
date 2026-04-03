@@ -27,10 +27,9 @@ information about changes that don't belong to any package, if applicable
 
 # A good commit message example
 
-```
-[@idlebox/node] 修复 README 中的一个拼写错误
-[@build-script/monorepo-lib] 添加对 package.yaml 的支持
 
-更新 README，添加新的使用示例
-修复了一个workflow.ts中的bug
-```
+	[@idlebox/node] 修复 README 中的一个拼写错误
+	[@build-script/monorepo-lib] 添加对 package.yaml 的支持
+
+	更新 README，添加新的使用示例
+	修复了一个workflow.ts中的bug

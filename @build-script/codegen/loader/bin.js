@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
 
-import '@idlebox/native-executer/loader';
+import '@idlebox/native-executer/register';
 
 await import('@idlebox/source-map-support/register');
 

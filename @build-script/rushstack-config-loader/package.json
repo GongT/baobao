@@ -27,7 +27,8 @@
 		"@idlebox/tsconfig-loader": "workspace:^",
 		"@rushstack/rig-package": "^0.6.0",
 		"ajv": "^8.18.0",
-		"import-meta-resolve": "^4.2.0"
+		"import-meta-resolve": "^4.2.0",
+		"yaml": "^2.8.2"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",

@@ -1,6 +1,15 @@
 /** biome-ignore-all lint/suspicious/noDebugger: debug file */
 
-import { ensureGlobalObject, isProductionMode, objectName, prettyPrintError } from '@idlebox/common';
+import {
+	convertCaughtError,
+	createSymbol,
+	dumpDisposableStack,
+	ensureGlobalObject,
+	globalSingletonStrong,
+	isProductionMode,
+	objectName,
+	prettyPrintError,
+} from '@idlebox/common';
 import { ErrorWithCode, Exit, ExitCode, InterruptError, isNodeError, ProxiedError, UncaughtException, UnhandledRejection, UsageError } from '@idlebox/errors';
 import { syncBuiltinESMExports } from 'node:module';
 import { basename } from 'node:path';
@@ -20,6 +29,17 @@ function title() {
 
 function hasCode(e: unknown): e is ErrorWithCode {
 	return typeof (e as any)?.code === 'number';
+}
+
+function dumpGlobalDispose() {
+	try {
+		const global_life_cycle = createSymbol('lifecycle', 'application');
+		const globalLifecycle = globalSingletonStrong(global_life_cycle);
+
+		if (globalLifecycle) dumpDisposableStack(globalLifecycle as any);
+	} catch (e) {
+		prettyPrintError('Error while dumping global lifecycle', convertCaughtError(e));
+	}
 }
 
 /**
@@ -94,9 +114,11 @@ function uniqueErrorHandler(caughtError: unknown) {
 		}
 		if (shuttingDownCounter > 4) {
 			logger.log(`${prefix}Received ${signal} more than 5 times. Exiting immediately.`);
+			dumpGlobalDispose();
 			shutdown_immediate(ExitCode.INTERRUPT);
 		} else if (shuttingDownCounter > 0) {
 			logger.log(`${prefix}Received ${signal} ${shuttingDownCounter + 1} times.`);
+			dumpGlobalDispose();
 		} else {
 			logger.log(`${prefix}Received ${signal}. Exiting gracefully...`);
 		}

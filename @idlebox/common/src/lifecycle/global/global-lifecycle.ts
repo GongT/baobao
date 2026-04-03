@@ -2,12 +2,15 @@ import { globalSingletonStrong } from '../../platform/globalSingleton.js';
 import { createSymbol } from '../../platform/globalSymbol.js';
 import { UnorderedAsyncDisposable, type EnhancedAsyncDisposable } from '../dispose/async-disposable.js';
 import { _debug_dispose } from '../dispose/debug.js';
-import type { IAsyncDisposable, IDisposable, IDisposableEvents } from '../dispose/disposable.js';
+import { DuplicateDisposeAction, type IAsyncDisposable, type IDisposable, type IDisposableEvents } from '../dispose/disposable.js';
 
 const symbol = createSymbol('lifecycle', 'application');
 
 function create(): EnhancedAsyncDisposable {
-	return new UnorderedAsyncDisposable('global');
+	class GlobalLifecycleHost extends UnorderedAsyncDisposable {
+		protected override duplicateDispose = DuplicateDisposeAction.Allow;
+	}
+	return new GlobalLifecycleHost('global-lifecycle');
 }
 
 const logger = _debug_dispose.extend('global');

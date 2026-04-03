@@ -3,7 +3,10 @@ import type { IErrorOptions } from './type.js';
 import { captureStackTrace } from './v8.js';
 
 const noneSpaceStart = /^\S/;
-const firstLine = /^[^\n]+/;
+
+/** @internal */
+export const firstLine = /^[^\n]+/;
+export const firstLineWithEol = /^[^\n]+\n/;
 
 /**
  * 最基本的错误类型

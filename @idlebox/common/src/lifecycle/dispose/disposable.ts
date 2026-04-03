@@ -247,3 +247,30 @@ defineInspectMethod(AbstractEnhancedDisposable.prototype, function (this: any, _
 		return options.stylize(`[${this.constructor.name} ${this.displayName}]`, 'special');
 	}
 });
+
+export function dumpDisposableStack(disposable: AbstractEnhancedDisposable<any>) {
+	console.error(`== Dumping disposable stack for ${disposable.constructor.name}`);
+	// biome-ignore lint/performance/useTopLevelRegex: never call
+	const lSpace = / {3}$/;
+
+	function inner(disposable: AbstractEnhancedDisposable<any>, level: number) {
+		const color = disposable.disposed ? '2' : disposable.disposing ? '1' : disposable.disposed === undefined ? '3' : '0';
+		const pad = '  '.repeat(level);
+		const _privateStacks: AbstractEnhancedDisposable<any>[] = (disposable as any)._disposables;
+
+		let _r = `\x1B[${color}m`;
+		_r += `${pad.replace(lSpace, ' - ')}. ${dispose_name(disposable)}`;
+		_r += `${pad}| disposing: ${disposable.disposing}, disposed: ${disposable.disposed}`;
+
+		if (_privateStacks) {
+			console.error(`${pad}| %s registered:`, _privateStacks.length);
+			for (const d of _privateStacks) {
+				inner(d, level + 1);
+			}
+		} else {
+			console.error(`${pad}| not enhanced disposable`);
+		}
+	}
+
+	inner(disposable, 0);
+}

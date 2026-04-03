@@ -1,4 +1,4 @@
-import { DuplicateDisposeAction, EnhancedAsyncDisposable, functionToDisposable, SoftwareDefectError } from '@idlebox/common';
+import { DuplicateDisposeAction, EnhancedAsyncDisposable, functionToDisposable, raceTimeout, SoftwareDefectError } from '@idlebox/common';
 import { EnableLogLevel, logger, type IMyLogger } from '@idlebox/logger';
 import { CollectingStream } from '@idlebox/node';
 import { execaNode, type ExecaError } from 'execa';
@@ -38,7 +38,7 @@ class Session extends EnhancedAsyncDisposable {
 				DEBUG_LEVEL: EnableLogLevel[verboseMode ? EnableLogLevel.verbose : debugMode ? EnableLogLevel.debug : EnableLogLevel.info],
 				FORCE_COLOR: colorMode ? '1' : '0',
 			},
-			nodeOptions: ['--experimental-transform-types', '--disable-warning=ExperimentalWarning', '--import', import.meta.resolve('@idlebox/native-executer/loader')],
+			nodeOptions: ['--experimental-transform-types', '--disable-warning=ExperimentalWarning', '--import', import.meta.resolve('@idlebox/native-executer/register')],
 		})`${executerFile} ${generaterFile}`;
 
 		super(`process:${process.pid}`);
@@ -106,7 +106,12 @@ class Session extends EnhancedAsyncDisposable {
 	}
 
 	async initialize() {
-		return await this.recvOne('initialize');
+		try {
+			return await raceTimeout(2000, this.recvOne('initialize'));
+		} catch (e) {
+			logger.error`process ${this.process.pid} failed handshake`;
+			throw e;
+		}
 	}
 }
 
@@ -119,10 +124,14 @@ export class SpawnExecuter extends BaseExecuter {
 		this.logger.warn`restarting generater process...`;
 		await this.session?.dispose();
 
+		logger.info`starting generater process`;
+
 		const session = new Session(this.options.projectRoot, this.sourceFile, this.logger);
 		this.session = session;
 
 		const r = await session.initialize();
+
+		logger.info`  - generater process started`;
 
 		this.systemWatchingFiles = r.files;
 

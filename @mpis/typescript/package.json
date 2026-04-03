@@ -25,7 +25,8 @@
 		"@idlebox/node": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"split2": "^4.2.0",
-		"typescript": "^6.0.2"
+		"typescript": "^6.0.2",
+		"yaml": "^2.8.2"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",

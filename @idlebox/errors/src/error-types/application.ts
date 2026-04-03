@@ -1,5 +1,5 @@
 import { ExitCode } from '../codes/wellknown-exit-codes.js';
-import { ErrorWithCode } from '../common/base.js';
+import { ErrorWithCode, firstLine } from '../common/base.js';
 import { humanReadable } from '../common/human-readable.js';
 import type { IErrorOptions } from '../common/type.js';
 import type { Signals } from './nodejs.js';
@@ -10,7 +10,24 @@ import type { Signals } from './nodejs.js';
  */
 export class Exit extends ErrorWithCode {
 	constructor(code: number, opts?: IErrorOptions) {
-		super(`process exit with code ${code}`, code, opts);
+		super('programatic exit', code, opts);
+	}
+
+	static TRACE_CONSTRUCTION = false;
+
+	override get stack() {
+		let r = `程序按要求退出，返回值为${this.code}。你不应看到此错误：说明有try-catch捕获此异常后未重新抛出。`;
+		r += (new Error().stack || '').replace(firstLine, '此日志产生于：');
+		r += (this.stack || '').replace(firstLine, '错误对象构造于：');
+		return r;
+	}
+
+	override get message() {
+		return this.stack;
+	}
+
+	override [humanReadable]() {
+		return this.stack;
 	}
 }
 

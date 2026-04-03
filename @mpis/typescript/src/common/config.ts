@@ -1,8 +1,10 @@
 import { NotFoundError, ProjectConfig } from '@build-script/rushstack-config-loader';
 import type { IMyLogger } from '@idlebox/logger';
-import { findPackageJSON } from 'node:module';
-import { dirname, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { findUpUntil } from '@idlebox/node';
+import { readFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { parse } from 'yaml';
+import { packageJsonValidNames } from './types.js';
 
 interface IConfigFile {
 	readonly project?: string;
@@ -10,14 +12,14 @@ interface IConfigFile {
 }
 
 export async function loadConfig(hintLocation: string, logger: IMyLogger): Promise<IConfigFile | undefined> {
-	const pkgJsonFile = findPackageJSON(pathToFileURL(resolve(hintLocation, 'package.json')));
+	const pkgJsonFile = await findUpUntil({ file: [...packageJsonValidNames], from: hintLocation, resolveSymlink: true });
 	if (!pkgJsonFile) {
 		logger.debug`通过 long<${hintLocation}> 未找到package.json，无法加载配置`;
 		return;
 	}
 
 	try {
-		logger.verbose`项目package: ${pkgJsonFile}`;
+		logger.debug`项目package: ${pkgJsonFile}`;
 		const config = new ProjectConfig(dirname(pkgJsonFile), undefined, {
 			debug: logger.verbose,
 			error: logger.warn,
@@ -32,10 +34,19 @@ export async function loadConfig(hintLocation: string, logger: IMyLogger): Promi
 		};
 	} catch (e: unknown) {
 		if (e instanceof NotFoundError) {
-			logger.verbose`由于文件不存在，未使用配置文件（${e}）`;
+			logger.debug`由于文件不存在，未使用配置文件（${e}）`;
 		} else {
 			throw e;
 		}
 	}
 	return;
+}
+
+export async function loadFile(jsonOrYaml: string) {
+	const data = await readFile(jsonOrYaml, 'utf-8');
+	if (jsonOrYaml.endsWith('.json')) {
+		return JSON.parse(data);
+	} else {
+		return parse(data);
+	}
 }

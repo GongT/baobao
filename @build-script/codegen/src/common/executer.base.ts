@@ -31,7 +31,7 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 
 		Object.assign(globalThis, { logger: this.logger });
 
-		await raceTimeout(1500, this._rebuild(!this.built));
+		await raceTimeout(10000, this._rebuild(!this.built));
 
 		this.built = true;
 
