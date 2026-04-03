@@ -13,8 +13,9 @@ export async function executePrepublishHooks() {
 	// 执行自定义的 prepublishHook: 钩子
 	const hooks = Object.keys(packageJson['scripts'] || {}).filter((name) => name.startsWith('prepublishHook:'));
 	if (hooks.length) {
-		const entryFile = pathToFileURL(resolve(import.meta.dirname, 'exports.ts'));
-		const hiddenFile = pathToFileURL(resolve(import.meta.dirname, '../exports.js'));
+		const entryFile = pathToFileURL(resolve(import.meta.dirname, '../exports.ts'));
+		const hiddenFile = pathToFileURL(resolve(import.meta.dirname, '../../exports.js'));
+		logger.debug`覆盖导入文件: ${hiddenFile.href} -> ${entryFile.href}`;
 		overrideImportFile(hiddenFile, entryFile);
 		for (const name of hooks) {
 			const script = packageJson['scripts'][name];
