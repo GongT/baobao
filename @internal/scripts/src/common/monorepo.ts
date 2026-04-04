@@ -14,7 +14,12 @@ async function execJson(cmds: string[], cwd: string) {
 	return JSON.parse(p.stdout);
 }
 
+let listCache: IPackageInfo[];
 export async function listPnpm(projectRoot: string = monorepoRoot): Promise<IPackageInfo[]> {
+	if (listCache) {
+		return listCache;
+	}
 	logger.debug('使用pnpm命令列出项目');
-	return await execJson(['pnpm', 'recursive', 'ls', '--depth=-1', '--json'], projectRoot);
+	listCache = await execJson(['pnpm', 'recursive', 'ls', '--depth=-1', '--json'], projectRoot);
+	return listCache;
 }

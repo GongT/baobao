@@ -3,6 +3,8 @@
 - deny importing builtin modules without 'node:' prefix.
 - always use promise instead of callback API. For example, use `node:fs/promises` instead of `node:fs`.
 - perfer using `import process from 'node:process'` instead of using global `process`.
+- always use name `kind` for other language's `type`. for example, `FruitKind` instead of `FruitType`, `{ messageKind: SomeEnum }` instead of `{ messageType: SomeEnum }`.
+- never use spawn methods from `node:process`, use `execa` instead.
 
 ## import
 
@@ -61,9 +63,13 @@ try {} catch (e) {
 
 ## logging
 
-Use loggers from `@idlebox/logger` instead of `console` if `@idlebox/logger` is available as a dependency. otherwise `debug`, if still not available, fallback to `console`.
+Use loggers from `@idlebox/logger` instead of `console` if `@idlebox/logger` is available as a dependency. otherwise `debug`, if still not available, fallback to `console.error`.
 
 check usage before use them.
+
+We follow the convention of using standard error for logging, and standard output for normal output, like most linux command line tools. `@idlebox/logger` and `debug` both write to standard error.
+
+Use `console.log` instead of `process.stdout.write` for normal output.
 
 ## online resources
 

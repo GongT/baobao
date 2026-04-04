@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
 import { relativePath, shutdown, writeFileIfChangeSync } from '@idlebox/node';
 import assert from 'node:assert';
 import { chmodSync, existsSync } from 'node:fs';
@@ -9,8 +9,6 @@ import packageJson from '../package.json' with { type: 'json' };
 import { listPnpm } from './common/monorepo.js';
 import { globalNodeModules, monorepoRoot } from './common/paths/root.js';
 import { ensureSymLinkSync } from './common/pre-post-inc.js';
-
-createRootLogger('post-install', EnableLogLevel.verbose);
 
 logger.log`modules dir: long<${globalNodeModules}>`;
 const tools: Record<string, string> = {

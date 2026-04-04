@@ -15,6 +15,7 @@ scripts:
   clean: node @internal/scripts/loader/repo-clean.js
   hook:pre-commit: node @internal/scripts/loader/repo-hook-pre-commit.js
   remote-publish: node @internal/scripts/loader/remote-publish.js
+  agent-tool: node @internal/scripts/loader/agent-tool.js
 devDependencies:
   '@biomejs/biome': ^2.4.8
   '@types/node': ^25.5.0

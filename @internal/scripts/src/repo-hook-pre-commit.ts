@@ -1,10 +1,8 @@
 import { arrayChunk } from '@idlebox/common';
-import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { execa } from 'execa';
 import { monorepoRoot } from './common/paths/root.js';
-
-createRootLogger('pre-commit', EnableLogLevel.verbose);
 
 const $x = execa({
 	cwd: monorepoRoot,

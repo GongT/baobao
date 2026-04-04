@@ -5,6 +5,7 @@ import { existsSync, shutdown } from '@idlebox/node';
 import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { listPnpm } from './monorepo.js';
 import { getExportsField, packageJson } from './package-json.js';
 import { currentProject } from './paths/current.js';
 import { monorepoRoot } from './paths/root.js';
@@ -85,4 +86,16 @@ export async function checkDocumentExists() {
 	logger.success`文档 llms.md 存在！`;
 
 	await writeLlmsFields(docUrl);
+}
+
+export async function checkWorkspaceDependencies() {
+	const packages = await listPnpm();
+	const findByName = (name: string) => packages.find((pkg) => pkg.name === name);
+	for (const name of Object.keys(packageJson.dependencies || {})) {
+		const pkg = findByName(name);
+		if (pkg?.private) {
+			logger.error`production 依赖 ${name} 是本地依赖，但是一个私有包！`;
+			shutdown(1);
+		}
+	}
 }

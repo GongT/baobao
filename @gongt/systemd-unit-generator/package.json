@@ -1,5 +1,6 @@
 {
 	"name": "@gongt/systemd-unit-generator",
+	"private": true,
 	"type": "module",
 	"version": "0.0.27",
 	"description": "generate systemd unit file with type checking",

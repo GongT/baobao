@@ -1,5 +1,6 @@
 packages:
   - .
+  - .opencode/tools
   - '@mpis/*'
   - '@build-script/*'
   - '@gongt/*'

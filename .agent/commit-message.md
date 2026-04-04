@@ -25,6 +25,10 @@ information about changes that don't belong to any package, if applicable
 
 1. Don't menthion file names, function names, variable names, or any specific code symbols in the package change description.
 
+# additional notice
+
+Write the commit message to `.git/COMMIT_EDITMSG` file if user did not specify what to do, eg. request you do a commit, or ask you print them out.
+
 # A good commit message example
 
 

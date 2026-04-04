@@ -1,5 +1,4 @@
-import { argv } from '@idlebox/args/default';
-import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
 import { registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
 import { ExecaError } from 'execa';
 import { resolve } from 'node:path';
@@ -18,13 +17,7 @@ import {
 	rewriteTsconfig,
 	writeNpmFiles,
 } from './common/steps.js';
-import { checkDocumentExists, executePrepublishHooks } from './common/steps2.js';
-
-const debug = argv.flag(['--debug', '-d']);
-createRootLogger(
-	'prepublish-hook',
-	(process.env.DEBUG_LEVEL as any) || (debug > 1 ? EnableLogLevel.verbose : debug > 0 ? EnableLogLevel.debug : EnableLogLevel.auto),
-);
+import { checkDocumentExists, checkWorkspaceDependencies, executePrepublishHooks } from './common/steps2.js';
 
 registerNodejsGlobalTypedErrorHandler(ExecaError, (err) => {
 	logger.error`执行命令失败: commandline<${err.command}>\n    wd: long<${err.cwd}>`;
@@ -59,6 +52,8 @@ removeLowlevels();
 mirrorExportsAndMain();
 ensureExportsPackageJson();
 deleteDevelopmentFields();
+
+await checkWorkspaceDependencies();
 
 await checkDocumentExists();
 

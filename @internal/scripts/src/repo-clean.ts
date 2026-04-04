@@ -1,13 +1,9 @@
-import { argv } from '@idlebox/args/default';
 import { escapeRegExp } from '@idlebox/common';
-import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { execa } from 'execa';
 import { rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { monorepoRoot } from './common/paths/root.js';
-
-createRootLogger('clean', argv.flag(['-d', '--debug']) ? EnableLogLevel.verbose : EnableLogLevel.log);
 
 const gitClean = await execa({
 	cwd: monorepoRoot,

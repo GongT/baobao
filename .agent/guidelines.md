@@ -3,30 +3,32 @@
 Must follow:
 - [locale rules](./locale.md)
 - never use any version number other than command output or webfetch result. for example:
-	- if you need to install `react`, then you must run `pnpm add react`, never edit `package.json` directly to add things like `"react": "^1.2.3"`.
-- this project uses `pnpm` and `pnpx`, disallow using `npm` and `npx` or any other package manager.
+	- if you need to install `react` in a nodejs project, then you must run `pnpm add react`, never edit `package.json` directly to add things like `"react": "^1.2.3"`.
+	- this rule always applies in any project, any language.
+	- when adding packages, don't use version limit, for example, `poetry add torch` instead of `poetry add torch@1.2.3`.
+- findout which package manager is used before installing. never execute different package manager in the same project. for example, if you find `pnpm-lock.yaml`, then you should use `pnpm` or `pnpx`, run `npm` or `yarn` may damage the project. Fail if you finally not able to find any package manager, never assume "not set is using the default one".
+	- this project uses `pnpm` and `pnpx`.
 
 # When programming language of user question is unclear:
 
 - Inspect current workspace, assume the question is about that.
-- If still unclear, ask user to specify the programming language.
+- If still unclear, ask user to specify the programming language, and recommend to write a AGENTS.md for clarify.
 
 # When write workspace code files:
 
-- inline examples do not need to follow this rule.
+- examples do not need to follow this rule.
 - follow [code style rules](./coding-style.md).
 - for each language, see files in [languages](./languages) directory for specific rules, skip if file does not exist.
 	- for example, for typescript, see [this](./languages/typescript.md).
-- never reformat code files before write, run your tools instead.
 
-# When write commit message:
+# When something unclear, buggy or conflicting:
 
-- follow [commit message rules](./commit-message.md).
+Warning at end of work, never assume or change the code by yourself.
 
-# Memory
+If it blocks the work, ask user for clarification.
 
-This is not a forced rule.
+example:
 
-you can summarize all used rules file into file(s), put it into memory storage, preventing read file everytime.
-
-also be careful don't mix different job's rules together, writing code and create commit message may have different rules.
+- you saw some code reading `gh-pages` folder, but there are only `gh-docs`:
+	- continue your work by using `gh-docs`
+	- say: Warning! in path/to/xxx.ts, you are reading `gh-pages`, it's likely a typo, should be `gh-docs`?

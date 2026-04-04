@@ -1,14 +1,10 @@
-import { argv } from '@idlebox/args/default';
 import { promiseBool } from '@idlebox/common';
-import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
+import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { execa } from 'execa';
 import { resolve } from 'node:path';
 import { listPnpm } from './common/monorepo.js';
 import { monorepoRoot } from './common/paths/root.js';
-
-const debug = argv.flag(['--debug', '-d']);
-createRootLogger('check', debug > 1 ? EnableLogLevel.verbose : debug > 0 ? EnableLogLevel.debug : EnableLogLevel.auto);
 
 const list = await listPnpm();
 logger.log`checking ${list.length} packages...`;

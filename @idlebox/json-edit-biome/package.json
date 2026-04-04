@@ -1,5 +1,6 @@
 {
 	"name": "@idlebox/json-edit-biome",
+	"private": true,
 	"type": "module",
 	"version": "0.0.16",
 	"description": "biomejs formatter for @idlebox/json-edit.",
