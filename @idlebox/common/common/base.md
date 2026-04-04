@@ -1,27 +1,29 @@
-<!-- commit: 9d5f3183dbb672ece9dfbf325a5be682b4e709a1 -->
+<!-- commit:d0614317d3f15abe08550bb0fd5c2d4b9d0a100b -->
 
-##### ErrorWithCode
+## 错误基类
 
-所有自定义错误的基类，在标准 `Error` 基础上增加 `code` 属性。
+此模块是 `@idlebox/errors` 私有包的内容，通过 `@idlebox/common` 导出。
 
-**类型:** `class ErrorWithCode extends Error implements IHumanReadable`
+#### ErrorWithCode
 
-构造函数: `constructor(message: string, code: number, opts?: IErrorOptions)`
+最基本的错误类型，所有自定义错误的基类。携带数字类型的错误码 `code`。
 
-- `opts.boundary` — stack trace 边界函数
-- `opts.cause` — 原始 cause
-- `opts.stack` — 替换完整的 stack 字符串
+```typescript
+class ErrorWithCode extends Error {
+  constructor(message: string, code: number, opts?: IErrorOptions);
+  readonly code: number;
+  get name(): string;  // 返回构造函数名称
+}
+```
 
-成员:
-- `code: number` — 错误代码
-- `name` — 返回构造函数名
+**参数说明**
+- `opts.stack` — 提供自定义 stack 字符串时，会替换默认的堆栈追踪
+- `opts.boundary` — 自定义 `captureStackTrace` 的边界函数，默认为构造函数本身
 
-实现 `IHumanReadable` 接口，有默认的 `[humanReadable]()` 实现。
+#### TypeErrorWithCode
 
----
+同时具有 `Error` 和 `TypeError` 特征的错误类型，`instanceof TypeError` 检查会返回 `true`。
 
-##### TypeErrorWithCode
-
-同时具有 `Error` 和 `TypeError` 特征的错误类型，`instanceof TypeError` 检查返回 `true`。
-
-**类型:** `class TypeErrorWithCode extends ErrorWithCode`
+```typescript
+class TypeErrorWithCode extends ErrorWithCode {}
+```

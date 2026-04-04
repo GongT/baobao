@@ -1,39 +1,46 @@
-<!-- commit: 9d5f3183dbb672ece9dfbf325a5be682b4e709a1 -->
+<!-- commit:d0614317d3f15abe08550bb0fd5c2d4b9d0a100b -->
 
-##### Exit
+## 应用级错误类型
 
-程序正常退出时抛出的错误。捕获到此错误时应直接重新抛出，不做其他处理。
+此模块是 `@idlebox/errors` 私有包的内容，通过 `@idlebox/common` 导出。
 
-**类型:** `class Exit extends ErrorWithCode`
+#### Exit
 
-构造函数: `constructor(code: number, opts?: IErrorOptions)`
+程序正常退出的错误信号。捕获到此错误时应直接重新抛出，不做其他处理。
 
----
+```typescript
+class Exit extends ErrorWithCode {
+  constructor(code: number, opts?: IErrorOptions);
+}
+```
 
-##### Quit
+#### Quit
 
-`Exit` 的子类，退出码为 `ExitCode.SUCCESS` (0)。
+`Exit` 的子类，使用 `ExitCode.SUCCESS`（0）退出。
 
-**类型:** `class Quit extends Exit`
+```typescript
+class Quit extends Exit {
+  constructor(opts?: IErrorOptions);
+}
+```
 
----
+#### InterruptError
 
-##### InterruptError
+由 `SIGINT`（Ctrl+C）或 `SIGTERM` 信号引起的中断错误。
 
-程序因收到 SIGINT 或 SIGTERM 信号而中断。
+```typescript
+class InterruptError extends ErrorWithCode {
+  constructor(signal: Signals, opts?: IErrorOptions);
+  readonly signal: Signals;
+}
+```
 
-**类型:** `class InterruptError extends ErrorWithCode`
+#### UsageError
 
-构造函数: `constructor(signal: Signals, opts?: IErrorOptions)`
+由于错误的参数或配置导致的错误（非程序 bug），通常对应 `ExitCode.USAGE`。
 
-- `signal` — 触发中断的信号名
-
----
-
-##### UsageError
-
-因参数或配置错误导致的错误 (非程序问题)。
-
-**类型:** `class UsageError extends ErrorWithCode`
-
-构造函数: `constructor(message: string, opts?: IErrorOptions)`
+```typescript
+class UsageError extends ErrorWithCode {
+  constructor(message: string, opts?: IErrorOptions);
+}
+```

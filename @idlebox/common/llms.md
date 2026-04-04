@@ -1,9 +1,9 @@
 # Usage
-<!-- last update: 2026-04-03 -->
+<!-- last update: 2026-04-04 -->
 
-通用 TypeScript 工具库, 提供数组/日期/字符串操作、错误处理体系、生命周期管理(Disposable/Event/Cancellation)、Promise 工具、平台检测、调度器、反射装饰器、类型工具等基础设施; 同时集成了结构化错误类型(Exit/Timeout/Canceled/NodeException等)和错误码定义
+通用 TypeScript 工具库，提供数组/日期/字符串操作、错误处理体系、生命周期管理（Disposable/Event/Cancellation）、Promise 工具、平台检测、调度器、反射工具、类型工具等基础设施；同时集成了结构化错误类型（Exit/Timeout/Canceled/NodeException 等）和错误码定义（NodeErrorCode/OpenSSLErrorCode）。
 
-### File: array/chunk.ts
+<!-- File: array/chunk.md -->
 
 ##### arrayChunk
 
@@ -24,7 +24,7 @@ for (const chunk of arrayChunk([1, 2, 3, 4, 5], 2)) {
 }
 ```
 
-### File: array/diff.ts
+<!-- File: array/diff.md -->
 
 ##### arrayDiff
 
@@ -47,7 +47,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 // result.add = ['d'], result.del = ['a'], result.same = ['b', 'c']
 ```
 
-### File: array/is-same.ts
+<!-- File: array/is-same.md -->
 
 ##### isArraySame
 
@@ -61,7 +61,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 **返回:** 两个数组长度相同且每个对应位置元素严格相等 (`===`) 时返回 `true`，否则返回 `false`。
 
-### File: array/normalize.ts
+<!-- File: array/normalize.md -->
 
 ##### normalizeArray
 
@@ -74,7 +74,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 **返回:** 若 `input` 已是数组则原样返回；若是单个值则包裹为单元素数组；若是 `undefined` 则返回 `[]`。
 
-### File: array/sort-alpha.ts
+<!-- File: array/sort-alpha.md -->
 
 ##### sortByString
 
@@ -88,7 +88,7 @@ const result = arrayDiff(['a', 'b', 'c'], ['b', 'c', 'd']);
 // ['apple', 'banana', 'cherry']
 ```
 
-### File: array/unique.ts
+<!-- File: array/unique.md -->
 
 ##### arrayUnique
 
@@ -121,7 +121,7 @@ const filter = uniqueFilter<{ id: number }>(item => String(item.id));
 const result = [...arr1, ...arr2].filter(filter);
 ```
 
-### File: codes/linux-error-codes.ts
+<!-- File: codes/linux-error-codes.md -->
 
 ##### LinuxErrorCode
 
@@ -133,7 +133,11 @@ Linux POSIX 标准错误代码枚举，值为字符串形式的错误码名称 (
 
 常见值: `EPERM`、`ENOENT`、`EACCES`、`EEXIST`、`EISDIR`、`ENOTDIR`、`ECONNREFUSED`、`ETIMEDOUT` 等。
 
-### File: codes/wellknown-exit-codes.ts
+<!-- File: codes/nodejs-re-export.md -->
+
+将 `@idlebox/node-error-codes` 的 `NodeErrorCode` 和 `OpenSSLErrorCode` 重新导出，作为 `@idlebox/errors`（进而 `@idlebox/common`）的一部分。
+
+<!-- File: codes/wellknown-exit-codes.md -->
 
 ##### ExitCode
 
@@ -152,35 +156,37 @@ Linux POSIX 标准错误代码枚举，值为字符串形式的错误码名称 (
 | `DUPLICATE` (101) | 重复操作 |
 | `UNKNOWN` (233) | 未曾设想的错误 |
 
-### File: common/base.ts
+<!-- File: common/base.md -->
 
-##### ErrorWithCode
+## 错误基类
 
-所有自定义错误的基类，在标准 `Error` 基础上增加 `code` 属性。
+此模块是 `@idlebox/errors` 私有包的内容，通过 `@idlebox/common` 导出。
 
-**类型:** `class ErrorWithCode extends Error implements IHumanReadable`
+#### ErrorWithCode
 
-构造函数: `constructor(message: string, code: number, opts?: IErrorOptions)`
+最基本的错误类型，所有自定义错误的基类。携带数字类型的错误码 `code`。
 
-- `opts.boundary` — stack trace 边界函数
-- `opts.cause` — 原始 cause
-- `opts.stack` — 替换完整的 stack 字符串
+```typescript
+class ErrorWithCode extends Error {
+  constructor(message: string, code: number, opts?: IErrorOptions);
+  readonly code: number;
+  get name(): string;  // 返回构造函数名称
+}
+```
 
-成员:
-- `code: number` — 错误代码
-- `name` — 返回构造函数名
+**参数说明**
+- `opts.stack` — 提供自定义 stack 字符串时，会替换默认的堆栈追踪
+- `opts.boundary` — 自定义 `captureStackTrace` 的边界函数，默认为构造函数本身
 
-实现 `IHumanReadable` 接口，有默认的 `[humanReadable]()` 实现。
+#### TypeErrorWithCode
 
----
+同时具有 `Error` 和 `TypeError` 特征的错误类型，`instanceof TypeError` 检查会返回 `true`。
 
-##### TypeErrorWithCode
+```typescript
+class TypeErrorWithCode extends ErrorWithCode {}
+```
 
-同时具有 `Error` 和 `TypeError` 特征的错误类型，`instanceof TypeError` 检查返回 `true`。
-
-**类型:** `class TypeErrorWithCode extends ErrorWithCode`
-
-### File: common/human-readable.ts
+<!-- File: common/human-readable.md -->
 
 ##### humanReadable
 
@@ -208,7 +214,7 @@ interface IHumanReadable {
 
 **类型:** `(error: unknown) => error is IHumanReadable`
 
-### File: common/not-error.ts
+<!-- File: common/not-error.md -->
 
 ##### NotError
 
@@ -220,19 +226,7 @@ interface IHumanReadable {
 
 注意: 此对象不是真正的 `Error`，访问其 `stack` 或 `message` 属性会抛出错误，提示开发者未正确捕获。
 
-### File: common/type-shim.ts
-
-Node.js 类型兼容层
-
-##### ChildProcess
-
-`type` - 等同于 `import('node:child_process').ChildProcess`, 用于跨平台类型引用
-
-##### SignalsType
-
-`type` - 等同于 `NodeJS.Signals`, 用于跨平台类型引用
-
-### File: common/type.ts
+<!-- File: common/type.md -->
 
 ##### IErrorOptions
 
@@ -244,7 +238,23 @@ Node.js 类型兼容层
 | `cause` | `unknown?` | 错误的 cause |
 | `stack` | `string?` | 替换 stack 字符串 |
 
-### File: date/consts.ts
+<!-- File: common/type-shim.md -->
+
+Node.js 类型兼容层
+
+##### ChildProcess
+
+`type` - 等同于 `import('node:child_process').ChildProcess`, 用于跨平台类型引用
+
+##### SignalsType
+
+`type` - 等同于 `NodeJS.Signals`, 用于跨平台类型引用
+
+<!-- File: common/v8.md -->
+
+此文件为 `@internal` 实现，对 `Error.captureStackTrace` 进行了安全封装（若不存在则使用空函数），不导出公开 API。
+
+<!-- File: date/consts.md -->
 
 常用时间常量, 单位为毫秒(ms)
 
@@ -278,7 +288,7 @@ Node.js 类型兼容层
 
 1周对应的毫秒数
 
-### File: date/is-invalid.ts
+<!-- File: date/is-invalid.md -->
 
 ##### isDateInvalid
 
@@ -286,7 +296,7 @@ Node.js 类型兼容层
 
 **类型:** `(date: Date) => boolean`
 
-### File: date/sibling.ts
+<!-- File: date/sibling.md -->
 
 ##### nextSecond / nextMinute / nextHour / nextDay / nextWeek / nextMonth / nextYear
 
@@ -305,7 +315,7 @@ nextDay(d, 7); // d 变为 2024-01-08
 nextMonth(d, -1); // d 变为 2023-12-08
 ```
 
-### File: date/to-string.ts
+<!-- File: date/to-string.md -->
 
 ##### humanDate
 
@@ -329,7 +339,7 @@ nextMonth(d, -1); // d 变为 2023-12-08
 **humanDate.setLocaleFormatter(formatter)**
 设置各时间单位的格式化函数 (ms/s/m/h/d)，用于本地化输出。参数为 `Partial<IFormatters>`。
 
-### File: date/unix.ts
+<!-- File: date/unix.md -->
 
 ##### getTimeStamp
 
@@ -345,7 +355,7 @@ nextMonth(d, -1); // d 变为 2023-12-08
 
 **类型:** `(timestamp: number) => Date`
 
-### File: debugging/inspect.ts
+<!-- File: debugging/inspect.md -->
 
 ##### inspectSymbol
 
@@ -375,7 +385,7 @@ Node.js 自定义 inspect 方法的 Symbol，值为 `Symbol.for('nodejs.util.ins
 
 **类型:** `(object: any) => string`
 
-### File: debugging/object-with-name.ts
+<!-- File: debugging/object-with-name.md -->
 
 ##### objectName
 
@@ -413,7 +423,7 @@ Node.js 自定义 inspect 方法的 Symbol，值为 `Symbol.for('nodejs.util.ins
 
 **类型:** `(func: Function) => string`
 
-### File: debugging/serializable.ts
+<!-- File: debugging/serializable.md -->
 
 ##### isScalar
 
@@ -458,47 +468,198 @@ Node.js 自定义 inspect 方法的 Symbol，值为 `Symbol.for('nodejs.util.ins
 
 **类型:** `(value: any) => void`
 
-### File: error-types/application.ts
+<!-- File: error/cause.md -->
 
-##### Exit
+##### getRootCause
 
-程序正常退出时抛出的错误。捕获到此错误时应直接重新抛出，不做其他处理。
+递归沿 `cause` 链向下，返回最终根因错误。
 
-**类型:** `class Exit extends ErrorWithCode`
-
-构造函数: `constructor(code: number, opts?: IErrorOptions)`
+**类型:** `(e: Error) => Error`
 
 ---
 
-##### Quit
+##### getCauseStack
 
-`Exit` 的子类，退出码为 `ExitCode.SUCCESS` (0)。
+返回从 `e` 开始的完整 cause 链数组，顺序为从外到内。
 
-**类型:** `class Quit extends Exit`
+**类型:** `(e: Error) => Error[]`
+
+<!-- File: error/convert-unknown.md -->
+
+##### convertCaughtError
+
+将 `catch` 捕获的任意值转换为 `Error` 对象。
+
+**类型:** `(e: unknown) => Error`
+
+若捕获到 `Exit` 错误，会直接重新抛出 (不应被包装)。若捕获到非 `Error` 值，会打印警告并包装为新的 `Error`。
+
+<!-- File: error/get-frame.md -->
+
+##### getErrorFrame
+
+从 `Error.stack` 中取出第 N 帧的字符串。
+
+**类型:** `(e: IWithStack, frame: number, downIfEmpty?: boolean) => string`
+
+**参数:**
+- `e` — 含有 `stack` 属性的对象
+- `frame` — 帧索引 (0-based，跳过第一行消息行)
+- `downIfEmpty` — 若指定帧为空时，向下查找最近非空帧，默认 `false`
+
+**返回:** 找到的帧字符串；若超出范围且未开启 `downIfEmpty` 则返回 `''`。
+
+<!-- File: error/pretty.nodejs.md -->
+
+##### setErrorLogRoot
+
+设置错误堆栈格式化时使用的根目录，用于将绝对路径转换为相对路径。在 VSCode Shell Integration 环境中会同时发送 `Cwd` 序列。
+
+**类型:** `(root: string) => void`
 
 ---
 
-##### InterruptError
+##### prettyPrintError
 
-程序因收到 SIGINT 或 SIGTERM 信号而中断。
+在控制台以格式化方式打印错误对象 (含分隔线、cause 链)。仅在 Node.js 环境有完整效果。
 
-**类型:** `class InterruptError extends ErrorWithCode`
+设置环境变量 `DISABLE_PRETTY_ERROR=yes` 可禁用格式化，`PRETTY_ERROR_LOCATION` 可同时打印调用位置。
 
-构造函数: `constructor(signal: Signals, opts?: IErrorOptions)`
-
-- `signal` — 触发中断的信号名
+**类型:** `<ErrorType>(type: string, e: ErrorType) => void`
 
 ---
 
-##### UsageError
+##### prettyFormatStack
 
-因参数或配置错误导致的错误 (非程序问题)。
+将一组堆栈行字符串格式化为带颜色的可读数组。
 
-**类型:** `class UsageError extends ErrorWithCode`
+**类型:** `(stackLines: readonly string[]) => string[]`
 
-构造函数: `constructor(message: string, opts?: IErrorOptions)`
+---
 
-### File: error-types/dependency.ts
+##### prettyFormatError
+
+格式化错误对象为字符串。
+
+**类型:** `<ErrorType>(e: ErrorType, withMessage?: boolean) => string`
+
+**参数:**
+- `e` — 错误对象
+- `withMessage` — 是否包含错误消息行，默认 `true`
+
+<!-- File: error/pretty.vscode.md -->
+
+##### vscEscapeValue
+
+对字符串进行 VSCode Shell Integration 协议的转义:
+- 反斜杠 → `\\`
+- 分号 → `\x3b`
+- ASCII 码 <0x20 的控制字符 → `\xXX`
+
+当字符串长度 ≥2000 时自动切换为快速模式 (仅处理反斜杠和分号)。
+
+**类型:** `(input: string) => string`
+
+<!-- File: error/stack-parser.v8.md -->
+
+##### parseStackLine
+
+解析一行 V8 格式的 stack trace 字符串，返回结构化的 `IStructreStackLine` 对象，包含 `func`、`location`、`eval` 等字段。
+
+**类型:** `(line: string) => IStructreStackLine`
+
+---
+
+##### parseStackString
+
+解析完整的 stack trace 字符串 (多行)，返回 `IStructreStackLine[]`。
+
+**类型:** `(stack: string) => IStructreStackLine[]`
+
+---
+
+##### IStructreStackLine
+
+解析后的堆栈行结构:
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `invalid` | `boolean?` | 是否解析失败 |
+| `special` | `boolean?` | 特殊标记行 |
+| `toString()` | `() => string` | 原始行内容 |
+| `func` | `{name, alias?}?` | 函数名信息 |
+| `location` | `{path, schema, line, column, isAbsolute}?` | 文件位置 |
+| `eval` | `{eval_func, eval_line, eval_column, funcs}?` | eval 来源 |
+
+<!-- File: error/stack-trace.md -->
+
+##### createStackTraceHolder
+
+创建一个保存当前调用堆栈的对象，用于后续调试或错误追踪。仅在 V8 引擎下有完整效果；非 V8 环境会打印警告并回退到标准 `Error`。
+
+**类型:** `(message: string, boundary?: any) => StackTraceHolder`
+
+**参数:**
+- `message` — 堆栈标记信息
+- `boundary` — stack trace 的边界函数，该函数及其以上帧会从 stack 中排除
+
+**返回:** `StackTraceHolder` 对象:
+
+| 成员 | 说明 |
+|---|---|
+| `message` | 构造时传入的消息 |
+| `stack` | 完整堆栈字符串 |
+| `stackOnly` | 去掉第一行 (消息行) 的堆栈 |
+| `name` | 可设置的名称 |
+
+<!-- File: error-types/application.md -->
+
+## 应用级错误类型
+
+此模块是 `@idlebox/errors` 私有包的内容，通过 `@idlebox/common` 导出。
+
+#### Exit
+
+程序正常退出的错误信号。捕获到此错误时应直接重新抛出，不做其他处理。
+
+```typescript
+class Exit extends ErrorWithCode {
+  constructor(code: number, opts?: IErrorOptions);
+}
+```
+
+#### Quit
+
+`Exit` 的子类，使用 `ExitCode.SUCCESS`（0）退出。
+
+```typescript
+class Quit extends Exit {
+  constructor(opts?: IErrorOptions);
+}
+```
+
+#### InterruptError
+
+由 `SIGINT`（Ctrl+C）或 `SIGTERM` 信号引起的中断错误。
+
+```typescript
+class InterruptError extends ErrorWithCode {
+  constructor(signal: Signals, opts?: IErrorOptions);
+  readonly signal: Signals;
+}
+```
+
+#### UsageError
+
+由于错误的参数或配置导致的错误（非程序 bug），通常对应 `ExitCode.USAGE`。
+
+```typescript
+class UsageError extends ErrorWithCode {
+  constructor(message: string, opts?: IErrorOptions);
+}
+```
+
+<!-- File: error-types/dependency.md -->
 
 ##### DependencyError
 
@@ -525,7 +686,7 @@ Node.js 自定义 inspect 方法的 Symbol，值为 `Symbol.for('nodejs.util.ins
 | `signal` | 退出信号 |
 | `process` | `ChildProcess` 实例 |
 
-### File: error-types/development.ts
+<!-- File: error-types/development.md -->
 
 ##### ProgramError
 
@@ -578,7 +739,7 @@ Node.js 自定义 inspect 方法的 Symbol，值为 `Symbol.for('nodejs.util.ins
 
 **类型:** `class InvalidStateError extends ProgramError`
 
-### File: error-types/nodejs.ts
+<!-- File: error-types/nodejs.md -->
 
 ##### NodeException
 
@@ -628,7 +789,7 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 
 **类型:** `(e: unknown) => e is NodeException`
 
-### File: error-types/nodejs.unhandled.ts
+<!-- File: error-types/nodejs.unhandled.md -->
 
 ##### ProxiedError
 
@@ -658,7 +819,7 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 
 构造函数: `constructor(error: Error)`
 
-### File: error-types/tools.ts
+<!-- File: error-types/tools.md -->
 
 ##### CanceledError
 
@@ -688,151 +849,7 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 **静态方法:**
 - `TimeoutError.is(error)` — 判断是否为 `TimeoutError`
 
-### File: error/cause.ts
-
-##### getRootCause
-
-递归沿 `cause` 链向下，返回最终根因错误。
-
-**类型:** `(e: Error) => Error`
-
----
-
-##### getCauseStack
-
-返回从 `e` 开始的完整 cause 链数组，顺序为从外到内。
-
-**类型:** `(e: Error) => Error[]`
-
-### File: error/convert-unknown.ts
-
-##### convertCaughtError
-
-将 `catch` 捕获的任意值转换为 `Error` 对象。
-
-**类型:** `(e: unknown) => Error`
-
-若捕获到 `Exit` 错误，会直接重新抛出 (不应被包装)。若捕获到非 `Error` 值，会打印警告并包装为新的 `Error`。
-
-### File: error/get-frame.ts
-
-##### getErrorFrame
-
-从 `Error.stack` 中取出第 N 帧的字符串。
-
-**类型:** `(e: IWithStack, frame: number, downIfEmpty?: boolean) => string`
-
-**参数:**
-- `e` — 含有 `stack` 属性的对象
-- `frame` — 帧索引 (0-based，跳过第一行消息行)
-- `downIfEmpty` — 若指定帧为空时，向下查找最近非空帧，默认 `false`
-
-**返回:** 找到的帧字符串；若超出范围且未开启 `downIfEmpty` 则返回 `''`。
-
-### File: error/pretty.nodejs.ts
-
-##### setErrorLogRoot
-
-设置错误堆栈格式化时使用的根目录，用于将绝对路径转换为相对路径。在 VSCode Shell Integration 环境中会同时发送 `Cwd` 序列。
-
-**类型:** `(root: string) => void`
-
----
-
-##### prettyPrintError
-
-在控制台以格式化方式打印错误对象 (含分隔线、cause 链)。仅在 Node.js 环境有完整效果。
-
-设置环境变量 `DISABLE_PRETTY_ERROR=yes` 可禁用格式化，`PRETTY_ERROR_LOCATION` 可同时打印调用位置。
-
-**类型:** `<ErrorType>(type: string, e: ErrorType) => void`
-
----
-
-##### prettyFormatStack
-
-将一组堆栈行字符串格式化为带颜色的可读数组。
-
-**类型:** `(stackLines: readonly string[]) => string[]`
-
----
-
-##### prettyFormatError
-
-格式化错误对象为字符串。
-
-**类型:** `<ErrorType>(e: ErrorType, withMessage?: boolean) => string`
-
-**参数:**
-- `e` — 错误对象
-- `withMessage` — 是否包含错误消息行，默认 `true`
-
-### File: error/pretty.vscode.ts
-
-##### vscEscapeValue
-
-对字符串进行 VSCode Shell Integration 协议的转义:
-- 反斜杠 → `\\`
-- 分号 → `\x3b`
-- ASCII 码 <0x20 的控制字符 → `\xXX`
-
-当字符串长度 ≥2000 时自动切换为快速模式 (仅处理反斜杠和分号)。
-
-**类型:** `(input: string) => string`
-
-### File: error/stack-parser.v8.ts
-
-##### parseStackLine
-
-解析一行 V8 格式的 stack trace 字符串，返回结构化的 `IStructreStackLine` 对象，包含 `func`、`location`、`eval` 等字段。
-
-**类型:** `(line: string) => IStructreStackLine`
-
----
-
-##### parseStackString
-
-解析完整的 stack trace 字符串 (多行)，返回 `IStructreStackLine[]`。
-
-**类型:** `(stack: string) => IStructreStackLine[]`
-
----
-
-##### IStructreStackLine
-
-解析后的堆栈行结构:
-
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `invalid` | `boolean?` | 是否解析失败 |
-| `special` | `boolean?` | 特殊标记行 |
-| `toString()` | `() => string` | 原始行内容 |
-| `func` | `{name, alias?}?` | 函数名信息 |
-| `location` | `{path, schema, line, column, isAbsolute}?` | 文件位置 |
-| `eval` | `{eval_func, eval_line, eval_column, funcs}?` | eval 来源 |
-
-### File: error/stack-trace.ts
-
-##### createStackTraceHolder
-
-创建一个保存当前调用堆栈的对象，用于后续调试或错误追踪。仅在 V8 引擎下有完整效果；非 V8 环境会打印警告并回退到标准 `Error`。
-
-**类型:** `(message: string, boundary?: any) => StackTraceHolder`
-
-**参数:**
-- `message` — 堆栈标记信息
-- `boundary` — stack trace 的边界函数，该函数及其以上帧会从 stack 中排除
-
-**返回:** `StackTraceHolder` 对象:
-
-| 成员 | 说明 |
-|---|---|
-| `message` | 构造时传入的消息 |
-| `stack` | 完整堆栈字符串 |
-| `stackOnly` | 去掉第一行 (消息行) 的堆栈 |
-| `name` | 可设置的名称 |
-
-### File: function/callback-list.async.ts
+<!-- File: function/callback-list.async.md -->
 
 ##### AsyncCallbackList
 
@@ -850,7 +867,7 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 | `reset()` | `() => void` | 清空列表 |
 | `count()` | `() => number` | 返回列表长度 |
 
-### File: function/callback-list.delay.ts
+<!-- File: function/callback-list.delay.md -->
 
 ##### MemorizedOnceCallbackList
 
@@ -866,7 +883,7 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 | `run(...args)` | `(...args) => void` | 执行所有已注册回调并记忆参数 |
 | `count()` | `() => number` | 返回列表长度 |
 
-### File: function/callback-list.ts
+<!-- File: function/callback-list.md -->
 
 ##### CallbackList
 
@@ -887,7 +904,7 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 | `reset()` | `() => void` | 清空列表 |
 | `count()` | `() => number` | 返回列表长度 |
 
-### File: function/noop.ts
+<!-- File: function/noop.md -->
 
 ##### noop
 
@@ -895,7 +912,11 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 
 **类型:** `() => void`
 
-### File: iterate/merge-iterable.ts
+<!-- File: generate.devel.md -->
+
+此文件为开发辅助脚本，用于触发 `@build-script/autoindex` 自动生成 index 文件。不导出任何公开符号。
+
+<!-- File: iterate/merge-iterable.md -->
 
 ##### mergeIterables
 
@@ -927,7 +948,7 @@ OpenSSL 错误接口，包含 `opensslErrorStack`、`function`、`library`、`re
 
 **类型:** `<T>(...iterables: (Iterable<T> | AsyncIterable<T>)[]) => AsyncGenerator<T>`
 
-### File: legacy/rename.ts
+<!-- File: legacy/rename.md -->
 
 已废弃的导出别名
 
@@ -940,7 +961,15 @@ Type: typeof EnhancedDisposable -->
 <!-- convertCatchedError is deprecated
 Type: typeof convertCaughtError -->
 
-### File: lifecycle/cancellation/source.ts
+<!-- File: lifecycle/cancellation/driver.browser.md -->
+
+此文件为 `@internal` 实现，不导出公开符号。`CancellationDriverBrowser` 是基于浏览器 `AbortController` 的取消令牌驱动实现，供 `CancellationTokenSource` 内部使用。
+
+<!-- File: lifecycle/cancellation/driver.common.md -->
+
+此文件为 `@internal` 实现，不导出公开符号。`CancellationDriverCommon` 是基于 `Emitter` 的通用取消令牌驱动实现，供 `CancellationTokenSource` 内部使用。
+
+<!-- File: lifecycle/cancellation/source.md -->
 
 ##### CancellationToken
 
@@ -975,7 +1004,7 @@ doWork(source.token);
 source.cancel();
 ```
 
-### File: lifecycle/dispose/async-disposable.ts
+<!-- File: lifecycle/dispose/async-disposable.md -->
 
 ##### EnhancedAsyncDisposable
 
@@ -995,7 +1024,7 @@ dispose 时按注册顺序逆序释放所有资源。所有资源释放完毕后
 
 继承自 `EnhancedAsyncDisposable`。
 
-### File: lifecycle/dispose/bridges/function.ts
+<!-- File: lifecycle/dispose/bridges/function.md -->
 
 ##### functionToDisposable
 
@@ -1022,7 +1051,7 @@ useEffect(() => {
 }, []);
 ```
 
-### File: lifecycle/dispose/bridges/native.ts
+<!-- File: lifecycle/dispose/bridges/native.md -->
 
 ##### fromNativeDisposable
 
@@ -1048,7 +1077,7 @@ useEffect(() => {
 
 **类型:** `(disposable: IDisposable) => Disposable`
 
-### File: lifecycle/dispose/bridges/streams.ts
+<!-- File: lifecycle/dispose/bridges/streams.md -->
 
 ##### closableToDisposable
 
@@ -1064,66 +1093,11 @@ useEffect(() => {
 
 **类型:** `<T extends EndableAsync>(endable: T) => IAsyncDisposable`
 
-### File: lifecycle/dispose/disposable.ts
+<!-- File: lifecycle/dispose/debug.md -->
 
-##### IDisposable
+此文件为 `@internal` 实现，不导出公开符号。提供 dispose 调试工具，包括 `DEBUG=dispose` 日志输出和父子关系追踪（`rememberParent` / `forgetParent`）。
 
-最基本的同步 disposable 接口。
-
-```typescript
-interface IDisposable {
-  dispose(): void;
-}
-```
-
----
-
-##### IAsyncDisposable
-
-支持异步释放的 disposable 接口。
-
-```typescript
-interface IAsyncDisposable {
-  dispose(): void | Promise<void>;
-}
-```
-
----
-
-##### AbstractEnhancedDisposable
-
-增强型 Disposable 抽象基类，提供完整的资源管理基础设施。
-
-**类型:** `abstract class AbstractEnhancedDisposable<Async extends boolean>`
-
-成员:
-
-| 成员 | 类型 | 说明 |
-|---|---|---|
-| `disposed` | `boolean` | 是否已完成 dispose |
-| `disposing` | `boolean` | 是否正在 dispose 中 |
-| `displayName` | `string?` | 调试用名称 |
-| `onDisposeError` | `EventRegister<Error>` | dispose 中发生错误时的事件 |
-| `onBeforeDispose` | `EventRegister<void>` | 即将 dispose 时的事件 |
-| `onPostDispose` | `EventRegister<void>` | dispose 完成后的事件 |
-| `dispose()` | `() => void \| Promise<void>` | 释放所有资源 |
-| `_register(d)` | `(d) => d` | 注册子资源，返回同一对象 |
-| `_unregister(d)` | `(d) => boolean` | 取消注册子资源 |
-| `assertNotDisposed()` | `() => void` | 断言尚未 dispose |
-
----
-
-##### DuplicateDisposeAction
-
-重复 dispose 时的行为枚举:
-
-| 值 | 行为 |
-|---|---|
-| `Disable` (0) | 抛出错误 |
-| `Warning` (1) | 打印警告 (默认) |
-| `Allow` (2) | 允许重复，返回同一结果 |
-
-### File: lifecycle/dispose/disposableEvent.ts
+<!-- File: lifecycle/dispose/disposableEvent.md -->
 
 ##### addDisposableEventListener
 
@@ -1135,7 +1109,105 @@ interface IAsyncDisposable {
 - `IEventEmitterObject`: 有 `addListener` / `removeListener`
 - `IShorthandEmitterObject`: 有 `on` / `off`
 
-### File: lifecycle/dispose/disposedError.ts
+<!-- File: lifecycle/dispose/disposable.md -->
+
+## 增强型 Disposable 基础设施
+
+提供带生命周期管理、事件通知、重复 dispose 保护的可销毁对象基类。
+
+#### DuplicateDisposeAction
+
+控制重复调用 `dispose()` 时的行为。
+
+```typescript
+enum DuplicateDisposeAction {
+  Disable = 0,  // 抛出错误
+  Warning = 1,  // 打印警告（默认）
+  Allow = 2,    // 允许重复调用，直接返回
+}
+```
+
+#### IDisposable
+
+同步可销毁对象的接口。
+
+```typescript
+interface IDisposable {
+  dispose(): void;
+}
+```
+
+#### IAsyncDisposable
+
+异步可销毁对象的接口，`dispose()` 可返回 Promise。
+
+```typescript
+interface IAsyncDisposable {
+  dispose(): void | Promise<void>;
+}
+```
+
+#### IDisposableEvents
+
+具有生命周期事件的 Disposable 接口。
+
+```typescript
+interface IDisposableEvents {
+  readonly onBeforeDispose: EventRegister<void>;
+  readonly onDisposeError: EventRegister<Error>;
+  readonly onPostDispose: EventRegister<void>;
+  readonly disposed: boolean;
+}
+```
+
+#### AbstractEnhancedDisposable
+
+增强型 Disposable 抽象基类，同时实现 `IDisposableEvents`。
+
+支持同步和异步两种模式（由泛型参数 `Async extends boolean` 控制）。
+
+##### constructor
+
+```typescript
+new AbstractEnhancedDisposable<Async>(displayName?: string);
+```
+
+`displayName` 用于调试日志，不传时自动从类名推断。
+
+| 成员 | 类型 | 说明 |
+|------|------|------|
+| `displayName` | `string \| undefined` | 调试用名称 |
+| `disposed` | `boolean` | 是否已完成 dispose |
+| `disposing` | `boolean` | 是否正在 dispose 中（已开始但未完成）|
+| `onBeforeDispose` | `EventRegister<void>` | dispose 开始前触发 |
+| `onDisposeError` | `EventRegister<Error>` | dispose 抛出异常时触发 |
+| `onPostDispose` | `EventRegister<void>` | dispose 完成后触发 |
+| `dispose()` | `void \| Promise<void>` | 销毁此对象及其注册的子 disposable |
+| `assertNotDisposed()` | `void` | 断言未被 dispose，否则抛出 `DuplicateDisposedError` |
+| `_register(d)` | `T` | 注册子 disposable，dispose 时自动销毁 |
+| `_unregister(d)` | `boolean` | 取消注册子 disposable |
+| `duplicateDispose` | `DuplicateDisposeAction` | (protected) 重复 dispose 行为，默认 `Warning` |
+| `_dispose(disposables)` | `void \| Promise<void>` | (protected abstract) 子类实现的销毁逻辑 |
+
+**示例**
+```typescript
+class MyService extends EnhancedDisposable {
+  private readonly timer = this._register(new SomeDisposable());
+}
+const svc = new MyService();
+svc.onBeforeDispose(() => console.log('即将销毁'));
+svc.dispose();
+```
+
+#### dumpDisposableStack
+
+将 Disposable 树结构打印到 `console.error`，用于调试。
+
+```typescript
+function dumpDisposableStack(disposable: AbstractEnhancedDisposable<any>): void;
+```
+
+<!-- File: lifecycle/dispose/disposedError.md -->
 
 ##### DuplicateDisposedError
 
@@ -1151,7 +1223,7 @@ interface IAsyncDisposable {
 | `consoleWarning()` | `() => void` | 在控制台打印彩色警告信息 |
 | `previous` | `StackTraceHolder` | 第一次 dispose 时的 stack |
 
-### File: lifecycle/dispose/sync-disposable.ts
+<!-- File: lifecycle/dispose/sync-disposable.md -->
 
 ##### DisposableOnce
 
@@ -1176,7 +1248,7 @@ interface IAsyncDisposable {
 
 实现了 `[Symbol.dispose]`，兼容 `using` 语法。参见 `AbstractEnhancedDisposable` 的成员文档。
 
-### File: lifecycle/event/event.ts
+<!-- File: lifecycle/event/event.md -->
 
 ##### Emitter
 
@@ -1207,7 +1279,7 @@ interface IAsyncDisposable {
 - `Ignore` — 忽略所有错误
 - `PrintIgnore` — 打印错误但继续执行
 
-### File: lifecycle/event/memorized.ts
+<!-- File: lifecycle/event/memorized.md -->
 
 ##### MemorizedEmitter
 
@@ -1223,7 +1295,7 @@ interface IAsyncDisposable {
 |---|---|
 | `forget()` | 清除记忆的数据 |
 
-### File: lifecycle/event/type.ts
+<!-- File: lifecycle/event/type.md -->
 
 ##### EventHandler
 
@@ -1256,35 +1328,47 @@ interface EventRegister<T> {
 
 将类型映射转换为 Emitter map 类型: `{ [K in keyof T]: Emitter<T[K]> }`
 
-### File: lifecycle/global/global-lifecycle.ts
+<!-- File: lifecycle/global/global-lifecycle.md -->
 
-##### registerGlobalLifecycle
+## 全局生命周期管理
 
-将对象注册到全局 disposable 容器，在 `disposeGlobal()` 时统一释放。
+提供应用级全局 Disposable 容器，统一管理需要在应用退出时销毁的资源。
 
-**类型:** `(object: IDisposable | IAsyncDisposable, autoDereference?: boolean) => void`
+#### registerGlobalLifecycle
 
-**参数:**
-- `object` — 要注册的 disposable 对象
-- `autoDereference` — 若对象 dispose 时自动从全局容器中注销
+将对象注册到全局 Disposable 容器，应用退出时（调用 `disposeGlobal`）自动销毁。
 
----
+```typescript
+function registerGlobalLifecycle(object: IDisposable | IAsyncDisposable): void;
+function registerGlobalLifecycle(
+  object: (IDisposable | IAsyncDisposable) & IDisposableEvents,
+  autoDereference: true
+): void;
+```
 
-##### disposeGlobal
+**参数说明**
+当 `autoDereference` 为 `true` 时，对象自身 dispose 后会自动从全局容器中移除，需要对象同时实现 `IDisposableEvents`。
 
-释放全局 disposable 容器。需要用户手动调用。重复调用会抛出错误，可使用 `ensureDisposeGlobal()` 代替。
+#### disposeGlobal
 
-**类型:** `() => Promise<void>`
+销毁全局 Disposable 容器中的所有注册对象。
 
----
+```typescript
+function disposeGlobal(): Promise<void>;
+```
 
-##### ensureDisposeGlobal
+**特殊说明**
+重复调用会抛出错误。如需安全调用请使用 `ensureDisposeGlobal`。
 
-与 `disposeGlobal` 相同，但重复调用不会抛错。
+#### ensureDisposeGlobal
 
-**类型:** `() => Promise<void>`
+与 `disposeGlobal` 相同，但重复调用不抛出错误。
 
-### File: log/logger.ts
+```typescript
+function ensureDisposeGlobal(): Promise<void>;
+```
+
+<!-- File: log/logger.md -->
 
 ##### WrappedConsole
 
@@ -1314,7 +1398,7 @@ interface EventRegister<T> {
 | `WEB` (2) | 浏览器 console 颜色 |
 | `DETECT` (3) | 自动检测 |
 
-### File: map-and-set/custom-set.ts
+<!-- File: map-and-set/custom-set.md -->
 
 ##### CustomSet
 
@@ -1337,7 +1421,7 @@ interface EventRegister<T> {
 | `length` | `number` | 元素数量 |
 | `toArray()` | `() => Type[]` | 转换为数组 |
 
-### File: map-and-set/object-map.ts
+<!-- File: map-and-set/object-map.md -->
 
 ##### convertToMap
 
@@ -1345,7 +1429,7 @@ interface EventRegister<T> {
 
 **类型:** `<K extends string, V>(object: Record<K, V>) => Map<K, V>`
 
-### File: map-and-set/required-map.ts
+<!-- File: map-and-set/required-map.md -->
 
 ##### RequiredMap
 
@@ -1371,7 +1455,7 @@ interface EventRegister<T> {
 
 需要继承并实现 `instance(key: K): V` 方法，该方法在键不存在时被调用来创建值。
 
-### File: misc/assertNotNull.ts
+<!-- File: misc/assertNotNull.md -->
 
 ##### assertNotNull
 
@@ -1381,7 +1465,7 @@ interface EventRegister<T> {
 
 **返回:** 原值 (类型变窄为 `NonNullable<T>`)
 
-### File: misc/package.json.ts
+<!-- File: misc/package.json.md -->
 
 package.json 文件的类型定义和解析工具
 
@@ -1461,7 +1545,38 @@ resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 
 // => './index.mjs'
 ```
 
-### File: object/definePublicConstant.ts
+<!-- File: nodejs-error-code.generated.md -->
+
+## NodeErrorCode / OpenSSLErrorCode
+
+从 [Node.js 官方错误文档](https://nodejs.org/api/errors.html) 自动提取生成的枚举，包含所有 Node.js 和 OpenSSL 错误代码字符串常量。
+
+此模块是 `@idlebox/node-error-codes` 私有包的内容，作为 `@idlebox/common` 的一部分导出。
+
+#### NodeErrorCode
+
+包含 Node.js 所有内置错误代码的枚举，例如：
+
+```typescript
+enum NodeErrorCode {
+  ABORT_ERR = 'ABORT_ERR',
+  ERR_ACCESS_DENIED = 'ERR_ACCESS_DENIED',
+  ERR_INVALID_ARG_TYPE = 'ERR_INVALID_ARG_TYPE',
+  // ... 共100+个错误代码
+}
+```
+
+每个枚举成员的 JSDoc 注释来自 Node.js 官方文档，包含该错误的详细说明。已废弃的遗留错误代码标记了 `@deprecated`。
+
+#### OpenSSLErrorCode
+
+包含 OpenSSL 错误代码的枚举，格式同 `NodeErrorCode`。
+
+<!-- File: nodejs-error-code.generator.md -->
+
+此为代码生成器，不导出面向用户的公开 API。从 [Node.js 错误 API 文档](https://nodejs.org/api/errors.json) 下载并解析错误代码列表，生成 `NodeErrorCode` 和 `OpenSSLErrorCode` 枚举文件。
+
+<!-- File: object/definePublicConstant.md -->
 
 ##### definePublicConstant
 
@@ -1477,7 +1592,7 @@ resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 
 
 **类型:** `(object: any, propertyKey: string | symbol, value: any) => void`
 
-### File: object/initOnRead.ts
+<!-- File: object/initOnRead.md -->
 
 ##### initOnRead
 
@@ -1492,7 +1607,7 @@ resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 
 
 若属性已存在则跳过。
 
-### File: object/objectPath.ts
+<!-- File: object/objectPath.md -->
 
 ##### objectPath
 
@@ -1519,7 +1634,11 @@ resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 
 | `exists(path)` | 判断路径末尾的 key 是否存在 |
 | `set(path, value)` | 设置值，若 `value` 为 `undefined` 则删除并清理空对象 |
 
-### File: object/objectSame.ts
+<!-- File: object/objectPath.test.md -->
+
+此为测试文件，不导出公开 API。用于验证 `ObjectPath` 类的 `get` 和 `set` 行为。
+
+<!-- File: object/objectSame.md -->
 
 ##### isObjectSame
 
@@ -1535,7 +1654,7 @@ resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 
 
 **类型:** `(a: any, b: any) => boolean`
 
-### File: path/isAbsolute.ts
+<!-- File: path/isAbsolute.md -->
 
 ##### isAbsolute
 
@@ -1543,7 +1662,7 @@ resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 
 
 **类型:** `(path: string) => boolean`
 
-### File: path/normalizePath.ts
+<!-- File: path/normalizePath.md -->
 
 ##### PathKind
 
@@ -1582,7 +1701,7 @@ resolveExportPath({ import: './index.mjs', require: './index.cjs' }, ['import', 
 
 **类型:** `(from: string, to: string) => string`
 
-### File: path/pathArray.ts
+<!-- File: path/pathArray.md -->
 
 ##### PathArrayPosix
 
@@ -1617,7 +1736,7 @@ Windows 版 PATH 数组工具类，大小写不敏感，分隔符为 `;`。
 | `clear()` | 清空 |
 | `size` | 元素数量 |
 
-### File: path/pathCalc.ts
+<!-- File: path/pathCalc.md -->
 
 ##### isPathContains
 
@@ -1632,7 +1751,7 @@ Windows 版 PATH 数组工具类，大小写不敏感，分隔符为 `;`。
 
 **返回:** 若 `parent` 是 `child` 的父目录则返回 `true`。
 
-### File: platform/compile.ts
+<!-- File: platform/compile.md -->
 
 ##### isProductionMode
 
@@ -1648,7 +1767,7 @@ Windows 版 PATH 数组工具类，大小写不敏感，分隔符为 `;`。
 
 **类型:** `boolean`
 
-### File: platform/globalObject.ts
+<!-- File: platform/globalObject.md -->
 
 ##### globalObject
 
@@ -1672,7 +1791,7 @@ Windows 版 PATH 数组工具类，大小写不敏感，分隔符为 `;`。
 
 **类型:** `<T>(symbol: string, constructor: () => T) => T`
 
-### File: platform/globalSingleton.ts
+<!-- File: platform/globalSingleton.md -->
 
 ##### globalSingletonStrong
 
@@ -1698,7 +1817,7 @@ Windows 版 PATH 数组工具类，大小写不敏感，分隔符为 `;`。
 
 **类型:** `(symbol: symbol | string) => void`
 
-### File: platform/globalSymbol.ts
+<!-- File: platform/globalSymbol.md -->
 
 ##### createSymbol
 
@@ -1714,7 +1833,7 @@ Windows 版 PATH 数组工具类，大小写不敏感，分隔符为 `;`。
 
 **类型:** `(category: string, name: string) => void`
 
-### File: platform/os.ts
+<!-- File: platform/os.md -->
 
 ##### hasProcess / hasWindow / hasGlobal
 
@@ -1743,7 +1862,7 @@ Electron 环境检测布尔值。
 
 **类型:** `string`
 
-### File: promise/await-iterator.ts
+<!-- File: promise/await-iterator.md -->
 
 ##### awaitIterator
 
@@ -1753,7 +1872,7 @@ Electron 环境检测布尔值。
 
 **类型:** `<T>(generator: Iterator<T>) => Promise<T>`
 
-### File: promise/deferred-promise.ts
+<!-- File: promise/deferred-promise.md -->
 
 ##### DeferredPromise
 
@@ -1783,7 +1902,7 @@ Electron 环境检测布尔值。
 **静态方法:**
 - `DeferredPromise.wrap(prev)` — 将普通 Promise 包装为 DeferredPromise
 
-### File: promise/is-promise.ts
+<!-- File: promise/is-promise.md -->
 
 ##### isPromiseLike
 
@@ -1791,7 +1910,7 @@ Electron 环境检测布尔值。
 
 **类型:** `(object: unknown) => object is PromiseLike<unknown>`
 
-### File: promise/promise-bool.ts
+<!-- File: promise/promise-bool.md -->
 
 ##### promiseBool
 
@@ -1799,7 +1918,7 @@ Electron 环境检测布尔值。
 
 **类型:** `(p: Promise<any>) => Promise<boolean>`
 
-### File: promise/promise-list.ts
+<!-- File: promise/promise-list.md -->
 
 ##### PromiseCollection
 
@@ -1818,7 +1937,7 @@ Electron 环境检测布尔值。
 | `dispose()` | 以 `CanceledError` reject 所有待处理 Promise |
 | `size()` | 返回待处理数量 |
 
-### File: promise/race-first.ts
+<!-- File: promise/race-first.md -->
 
 Promise 竞争工具: 返回第一个成功的结果
 
@@ -1836,7 +1955,11 @@ const result = await raceFirstSuccess([
 ]);
 ```
 
-### File: reflection/classes/pointer.ts
+<!-- File: re-export.md -->
+
+此文件将 `@idlebox/errors` 的所有导出重新导出到 `@idlebox/common`。包含的符号请参见 `common/base.md`、`codes/nodejs-re-export.md`、`error-types/application.md` 等各子文档。
+
+<!-- File: reflection/classes/pointer.md -->
 
 ##### Pointer
 
@@ -1855,7 +1978,7 @@ const proxy = Pointer(ref);
 ref.reference = newService; // proxy 自动切换目标
 ```
 
-### File: reflection/classes/singleton.ts
+<!-- File: reflection/classes/singleton.md -->
 
 ##### singleton
 
@@ -1880,7 +2003,7 @@ ref.reference = newService; // proxy 自动切换目标
 
 **类型:** `<T>(Class: new () => T) => T`
 
-### File: reflection/methods/bind.ts
+<!-- File: reflection/methods/bind.md -->
 
 ##### bindThis
 
@@ -1898,7 +2021,7 @@ class Foo {
 }
 ```
 
-### File: reflection/methods/memorize.ts
+<!-- File: reflection/methods/memorize.md -->
 
 ##### memo
 
@@ -1916,7 +2039,7 @@ class Foo {
 
 若方法未使用 `@memo` 装饰则抛出错误。
 
-### File: schedule/extendable-timer.ts
+<!-- File: schedule/extendable-timer.md -->
 
 ##### ExtendableTimer
 
@@ -1946,7 +2069,7 @@ input.on('change', () => timer.renew());
 await timer.p; // 500ms 无输入后触发
 ```
 
-### File: schedule/interval.ts
+<!-- File: schedule/interval.md -->
 
 ##### interval
 
@@ -1979,7 +2102,7 @@ await timer.p; // 500ms 无输入后触发
 | `reset()` | 重新启动计时 |
 | `fire()` | 立即触发一次 onTick |
 
-### File: schedule/scheduler.ts
+<!-- File: schedule/scheduler.md -->
 
 ##### scheduler
 
@@ -1987,7 +2110,7 @@ await timer.p; // 500ms 无输入后触发
 
 **类型:** `(task: Function) => void`
 
-### File: schedule/timeout.ts
+<!-- File: schedule/timeout.md -->
 
 超时与延时相关工具
 
@@ -2041,7 +2164,7 @@ const data = await raceTimeout(5000, '请求超时', fetchData());
 const data = await raceTimeoutWithRetry(3000, 3, () => fetch(url).then(r => r.json()));
 ```
 
-### File: state/simple-state-machine.ts
+<!-- File: state/simple-state-machine.md -->
 
 ##### SimpleStateMachine
 
@@ -2064,7 +2187,7 @@ const data = await raceTimeoutWithRetry(3000, 3, () => fetch(url).then(r => r.js
 
 `IStateChangeEvent` 包含 `from`、`to`、`reason` 字段。
 
-### File: string/case-cast.ts
+<!-- File: string/case-cast.md -->
 
 ##### camelCase
 
@@ -2104,7 +2227,7 @@ const data = await raceTimeoutWithRetry(3000, 3, () => fetch(url).then(r => r.js
 
 **类型:** `(str: string) => string`
 
-### File: string/concatType.generated.ts
+<!-- File: string/concatType.generated.md -->
 
 类型安全的字符串拼接函数(生成文件)
 
@@ -2120,7 +2243,11 @@ const result = concatStringType('hello', '-', 'world');
 // 类型为 'hello-world', 值也是 'hello-world'
 ```
 
-### File: string/escape-regexp.ts
+<!-- File: string/concatType.generator.md -->
+
+此文件为代码生成器，不导出面向用户的公开 API。`concatStringType.generator.ts` 使用 `@build-script/codegen` 生成多个重载版本的 `concatStringType` 函数，支持最多 20 个泛型字符串参数，返回其拼接后的字面量类型。
+
+<!-- File: string/escape-regexp.md -->
 
 ##### escapeRegExp
 
@@ -2128,7 +2255,7 @@ const result = concatStringType('hello', '-', 'world');
 
 **类型:** `(str: string) => string`
 
-### File: string/human-bytes.ts
+<!-- File: string/human-bytes.md -->
 
 ##### humanSize
 
@@ -2150,7 +2277,7 @@ const result = concatStringType('hello', '-', 'world');
 
 **类型:** `(bytes: number, fixed?: number) => string`
 
-### File: string/pad2.ts
+<!-- File: string/pad2.md -->
 
 ##### pad2
 
@@ -2158,7 +2285,11 @@ const result = concatStringType('hello', '-', 'world');
 
 **类型:** `(s: number) => string`
 
-### File: typing-helper/callback.ts
+<!-- File: tsconfig.md -->
+
+此为 TypeScript 配置文件，不包含可文档化的公开 API。配置了 `stripInternal: true`（排除 `@internal` 标记的符号）并排除 `*.generator.ts` 和 `*.test.ts` 文件。
+
+<!-- File: typing-helper/callback.md -->
 
 ##### ICommonCallback
 
@@ -2171,7 +2302,7 @@ interface ICommonCallback<T> {
 }
 ```
 
-### File: typing-helper/deep.partial.ts
+<!-- File: typing-helper/deep.partial.md -->
 
 ##### DeepPartial
 
@@ -2179,7 +2310,7 @@ interface ICommonCallback<T> {
 
 **类型:** `type DeepPartial<T>`
 
-### File: typing-helper/deep.readonly.ts
+<!-- File: typing-helper/deep.readonly.md -->
 
 ##### DeepReadonly
 
@@ -2187,7 +2318,7 @@ interface ICommonCallback<T> {
 
 **类型:** `type DeepReadonly<T>`
 
-### File: typing-helper/deep.required.ts
+<!-- File: typing-helper/deep.required.md -->
 
 ##### DeepNonNullable
 
@@ -2195,7 +2326,7 @@ interface ICommonCallback<T> {
 
 **类型:** `type DeepNonNullable<T>`
 
-### File: typing-helper/deep.writable.ts
+<!-- File: typing-helper/deep.writable.md -->
 
 ##### DeepWriteable
 
@@ -2211,7 +2342,7 @@ interface ICommonCallback<T> {
 
 **类型:** `type Writeable<T>`
 
-### File: typing-helper/literal.ts
+<!-- File: typing-helper/literal.md -->
 
 ##### Primitive
 

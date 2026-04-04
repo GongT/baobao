@@ -1,27 +1,39 @@
-<!-- commit: 9d5f3183dbb672ece9dfbf325a5be682b4e709a1 -->
+<!-- commit:d0614317d3f15abe08550bb0fd5c2d4b9d0a100b -->
 
-##### registerGlobalLifecycle
+## 全局生命周期管理
 
-将对象注册到全局 disposable 容器，在 `disposeGlobal()` 时统一释放。
+提供应用级全局 Disposable 容器，统一管理需要在应用退出时销毁的资源。
 
-**类型:** `(object: IDisposable | IAsyncDisposable, autoDereference?: boolean) => void`
+#### registerGlobalLifecycle
 
-**参数:**
-- `object` — 要注册的 disposable 对象
-- `autoDereference` — 若对象 dispose 时自动从全局容器中注销
+将对象注册到全局 Disposable 容器，应用退出时（调用 `disposeGlobal`）自动销毁。
 
----
+```typescript
+function registerGlobalLifecycle(object: IDisposable | IAsyncDisposable): void;
+function registerGlobalLifecycle(
+  object: (IDisposable | IAsyncDisposable) & IDisposableEvents,
+  autoDereference: true
+): void;
+```
 
-##### disposeGlobal
+**参数说明**
+当 `autoDereference` 为 `true` 时，对象自身 dispose 后会自动从全局容器中移除，需要对象同时实现 `IDisposableEvents`。
 
-释放全局 disposable 容器。需要用户手动调用。重复调用会抛出错误，可使用 `ensureDisposeGlobal()` 代替。
+#### disposeGlobal
 
-**类型:** `() => Promise<void>`
+销毁全局 Disposable 容器中的所有注册对象。
 
----
+```typescript
+function disposeGlobal(): Promise<void>;
+```
 
-##### ensureDisposeGlobal
+**特殊说明**
+重复调用会抛出错误。如需安全调用请使用 `ensureDisposeGlobal`。
 
-与 `disposeGlobal` 相同，但重复调用不会抛错。
+#### ensureDisposeGlobal
 
-**类型:** `() => Promise<void>`
+与 `disposeGlobal` 相同，但重复调用不抛出错误。
+
+```typescript
+function ensureDisposeGlobal(): Promise<void>;
+```

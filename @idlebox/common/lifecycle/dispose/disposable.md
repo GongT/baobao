@@ -1,8 +1,24 @@
-<!-- commit: 9d5f3183dbb672ece9dfbf325a5be682b4e709a1 -->
+<!-- commit:d0614317d3f15abe08550bb0fd5c2d4b9d0a100b -->
 
-##### IDisposable
+## 增强型 Disposable 基础设施
 
-最基本的同步 disposable 接口。
+提供带生命周期管理、事件通知、重复 dispose 保护的可销毁对象基类。
+
+#### DuplicateDisposeAction
+
+控制重复调用 `dispose()` 时的行为。
+
+```typescript
+enum DuplicateDisposeAction {
+  Disable = 0,  // 抛出错误
+  Warning = 1,  // 打印警告（默认）
+  Allow = 2,    // 允许重复调用，直接返回
+}
+```
+
+#### IDisposable
+
+同步可销毁对象的接口。
 
 ```typescript
 interface IDisposable {
@@ -10,11 +26,9 @@ interface IDisposable {
 }
 ```
 
----
+#### IAsyncDisposable
 
-##### IAsyncDisposable
-
-支持异步释放的 disposable 接口。
+异步可销毁对象的接口，`dispose()` 可返回 Promise。
 
 ```typescript
 interface IAsyncDisposable {
@@ -22,37 +36,62 @@ interface IAsyncDisposable {
 }
 ```
 
----
+#### IDisposableEvents
 
-##### AbstractEnhancedDisposable
+具有生命周期事件的 Disposable 接口。
 
-增强型 Disposable 抽象基类，提供完整的资源管理基础设施。
+```typescript
+interface IDisposableEvents {
+  readonly onBeforeDispose: EventRegister<void>;
+  readonly onDisposeError: EventRegister<Error>;
+  readonly onPostDispose: EventRegister<void>;
+  readonly disposed: boolean;
+}
+```
 
-**类型:** `abstract class AbstractEnhancedDisposable<Async extends boolean>`
+#### AbstractEnhancedDisposable
 
-成员:
+增强型 Disposable 抽象基类，同时实现 `IDisposableEvents`。
+
+支持同步和异步两种模式（由泛型参数 `Async extends boolean` 控制）。
+
+##### constructor
+
+```typescript
+new AbstractEnhancedDisposable<Async>(displayName?: string);
+```
+
+`displayName` 用于调试日志，不传时自动从类名推断。
 
 | 成员 | 类型 | 说明 |
-|---|---|---|
+|------|------|------|
+| `displayName` | `string \| undefined` | 调试用名称 |
 | `disposed` | `boolean` | 是否已完成 dispose |
-| `disposing` | `boolean` | 是否正在 dispose 中 |
-| `displayName` | `string?` | 调试用名称 |
-| `onDisposeError` | `EventRegister<Error>` | dispose 中发生错误时的事件 |
-| `onBeforeDispose` | `EventRegister<void>` | 即将 dispose 时的事件 |
-| `onPostDispose` | `EventRegister<void>` | dispose 完成后的事件 |
-| `dispose()` | `() => void \| Promise<void>` | 释放所有资源 |
-| `_register(d)` | `(d) => d` | 注册子资源，返回同一对象 |
-| `_unregister(d)` | `(d) => boolean` | 取消注册子资源 |
-| `assertNotDisposed()` | `() => void` | 断言尚未 dispose |
+| `disposing` | `boolean` | 是否正在 dispose 中（已开始但未完成）|
+| `onBeforeDispose` | `EventRegister<void>` | dispose 开始前触发 |
+| `onDisposeError` | `EventRegister<Error>` | dispose 抛出异常时触发 |
+| `onPostDispose` | `EventRegister<void>` | dispose 完成后触发 |
+| `dispose()` | `void \| Promise<void>` | 销毁此对象及其注册的子 disposable |
+| `assertNotDisposed()` | `void` | 断言未被 dispose，否则抛出 `DuplicateDisposedError` |
+| `_register(d)` | `T` | 注册子 disposable，dispose 时自动销毁 |
+| `_unregister(d)` | `boolean` | 取消注册子 disposable |
+| `duplicateDispose` | `DuplicateDisposeAction` | (protected) 重复 dispose 行为，默认 `Warning` |
+| `_dispose(disposables)` | `void \| Promise<void>` | (protected abstract) 子类实现的销毁逻辑 |
 
----
+**示例**
+```typescript
+class MyService extends EnhancedDisposable {
+  private readonly timer = this._register(new SomeDisposable());
+}
+const svc = new MyService();
+svc.onBeforeDispose(() => console.log('即将销毁'));
+svc.dispose();
+```
 
-##### DuplicateDisposeAction
+#### dumpDisposableStack
 
-重复 dispose 时的行为枚举:
+将 Disposable 树结构打印到 `console.error`，用于调试。
 
-| 值 | 行为 |
-|---|---|
-| `Disable` (0) | 抛出错误 |
-| `Warning` (1) | 打印警告 (默认) |
-| `Allow` (2) | 允许重复，返回同一结果 |
+```typescript
+function dumpDisposableStack(disposable: AbstractEnhancedDisposable<any>): void;
+```
