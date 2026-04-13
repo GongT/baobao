@@ -1,4 +1,5 @@
 import { escapeRegExp } from '@idlebox/common';
+import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { execa } from 'execa';
 import { rmSync } from 'node:fs';

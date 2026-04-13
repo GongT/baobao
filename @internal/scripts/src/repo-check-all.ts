@@ -3,6 +3,7 @@ import { logger } from '@idlebox/logger';
 import { shutdown } from '@idlebox/node';
 import { execa } from 'execa';
 import { resolve } from 'node:path';
+import { debug } from './common/execute-prefix.js';
 import { listPnpm } from './common/monorepo.js';
 import { monorepoRoot } from './common/paths/root.js';
 

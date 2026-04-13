@@ -4,5 +4,5 @@ import { registerNodejsExitHandler } from '@idlebox/node';
 
 registerNodejsExitHandler();
 
-const debug = argv.flag(['--debug', '-d']);
+export const debug = argv.flag(['--debug', '-d']);
 createRootLogger('scripts', debug > 1 ? EnableLogLevel.verbose : debug > 0 ? EnableLogLevel.debug : EnableLogLevel.auto);
