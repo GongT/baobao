@@ -75,14 +75,14 @@ class Session extends EnhancedAsyncDisposable {
 			return data;
 		} catch (e: any) {
 			if (this.process.exitCode || this.process.signalCode || !this.process.connected) {
-				logger.error`process ${this.process.pid} died unexpectedly`;
+				logger.error`process ${this.process.pid} died unexpectedly: ${this.process.exitCode}, signal: ${this.process.signalCode}, connected: ${this.process.connected}`;
 				let e: ExecaError;
 				try {
 					e = (await this.process) as any;
 				} catch (ee: any) {
 					e = ee;
 				}
-				logger.error`   die message: long<${e.all ?? e.stderr ?? e.stdout ?? e.shortMessage}>`;
+				logger.error`   die message: long<${e.all ?? e.stderr ?? e.stdout ?? e.shortMessage ?? 'no message'}>`;
 			}
 			throw e;
 		}

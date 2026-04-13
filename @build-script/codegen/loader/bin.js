@@ -1,8 +1,6 @@
-#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
+#!/usr/bin/env node
 
-import '@idlebox/native-executer/register';
-
-await import('@idlebox/source-map-support/register');
+import '@idlebox/source-map-support/register';
 
 process.title = `BsCodegen`;
 

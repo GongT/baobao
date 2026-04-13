@@ -1,4 +1,4 @@
-import { isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
+import { isLinux, isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -9,6 +9,8 @@ import { Writable } from 'node:stream';
 import type { InspectOptionsStylized } from 'node:util';
 import { split as splitCmd } from 'split-cmd';
 import { ProtocolClientObject } from '../common/protocol-client-object.js';
+
+const vscodeDebugRegex = /\s*--require.+bootloader\.js\s*/;
 
 interface MyOptions extends Options {
 	cwd: string;
@@ -175,14 +177,16 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		for (const item of process.execArgv) {
 			if (env.NODE_OPTIONS.includes(item)) continue;
 
-			env.NODE_OPTIONS += ` ${JSON.stringify(item)}`;
+			env.NODE_OPTIONS += ` ${item}`;
 		}
+
+		env.NODE_OPTIONS = env.NODE_OPTIONS.replace(vscodeDebugRegex, ' ');
 
 		this.logger.log`spawning | commandline<${this.commandline}>`;
 		this.logger.debug`working directory: long<${this.cwd}>`;
-		this.logger.debug`path variable: long<${this.pathvar.toString()}>`;
-		this.logger.debug`environment variable: ${this.env}`;
-		this.logger.debug`NODE_OPTIONS: ${env.NODE_OPTIONS}`;
+		this.logger.verbose`path variable: long<${this.pathvar.toString()}>`;
+		this.logger.verbose`environment variable: ${this.env}`;
+		this.logger.verbose`NODE_OPTIONS: ${env.NODE_OPTIONS}`;
 
 		const doExec = execa({
 			cwd: this.cwd,
@@ -193,8 +197,15 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			buffer: false,
 			detached: process.pid === 1,
 		} satisfies MyOptions);
-		const [command, ...args] = this.commandline;
-		const sub_process = doExec(command, args);
+
+		let sub_process;
+		if (process.pid === 1 || !isLinux || process.env.CI) {
+			this.logger.debug`running as PID 1 or CI or not on Linux, will not use unshare.`;
+			sub_process = doExec`${this.commandline}`;
+		} else {
+			this.logger.debug`running as PID ${process.pid}, will use unshare to create a new PID namespace.`;
+			sub_process = doExec`unshare --map-current-user --pid --mount-proc --fork ${this.commandline}`;
+		}
 
 		this.process = sub_process;
 		this.p_status.pid = sub_process.pid;
