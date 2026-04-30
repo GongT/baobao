@@ -10,8 +10,8 @@ function getCurrentCode() {
 }
 
 /**
- * 如果没有退出码或者为0，则设为 exitCode
- * 如果yie为非0，则不修改
+ * 如果 process.exitCode 为0或undefined，则设为 参数exitCode 的值
+ * 如果当前 process.exitCode 为非0，则不修改
  */
 export function setExitCodeIfNot(exitCode: number) {
 	if (!process.exitCode) {

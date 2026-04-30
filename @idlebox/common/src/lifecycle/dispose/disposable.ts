@@ -254,21 +254,36 @@ export function dumpDisposableStack(disposable: AbstractEnhancedDisposable<any>)
 	const lSpace = / {3}$/;
 
 	function inner(disposable: AbstractEnhancedDisposable<any>, level: number) {
-		const color = disposable.disposed ? '2' : disposable.disposing ? '1' : disposable.disposed === undefined ? '3' : '0';
 		const pad = '  '.repeat(level);
 		const _privateStacks: AbstractEnhancedDisposable<any>[] = (disposable as any)._disposables;
-
-		let _r = `\x1B[${color}m`;
-		_r += `${pad.replace(lSpace, ' - ')}. ${dispose_name(disposable)}`;
-		_r += `${pad}| disposing: ${disposable.disposing}, disposed: ${disposable.disposed}`;
+		let color;
+		if (disposable.disposed) {
+			color = '2';
+		} else if (disposable.disposing) {
+			color = '1';
+		} else if (disposable.disposed === undefined) {
+			color = '3';
+		} else {
+			color = '0';
+		}
+		let _r = `${pad.replace(lSpace, ' - ')}. ${dispose_name(disposable)} | `;
 
 		if (_privateStacks) {
-			console.error(`${pad}| %s registered:`, _privateStacks.length);
+			_r += `disposing: ${disposable.disposing}, disposed: ${disposable.disposed}, ${_privateStacks.length} registered:`;
+
+			console.error(`\x1B[${color}m%s\x1B[0m`, _r);
 			for (const d of _privateStacks) {
 				inner(d, level + 1);
 			}
 		} else {
-			console.error(`${pad}| not enhanced disposable`);
+			_r += `not enhanced disposable`;
+			if (disposable.disposing !== undefined) {
+				_r += `, disposing: ${disposable.disposing}`;
+			}
+			if (disposable.disposed !== undefined) {
+				_r += `, disposed: ${disposable.disposed}`;
+			}
+			console.error(`\x1B[${color}m%s\x1B[0m`, _r);
 		}
 	}
 

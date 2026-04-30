@@ -8,17 +8,25 @@ import type { IAsyncDisposable, IDisposable } from '../disposable.js';
  * @public
  */
 export function functionToDisposable<RT>(fn: () => RT): RT extends Promise<any> ? IAsyncDisposable : IDisposable {
-	return defineInspectMethod(
-		{
-			get displayName() {
-				return `disposeFn(${functionName(fn)})`;
-			},
-			dispose: fn,
-		} as any,
-		(_depth, options) => {
-			return options.stylize(`[FunctionDisposable ${functionName(fn)}]`, 'special');
+	const r = {
+		get displayName() {
+			return `disposeFn(${functionName(fn)})`;
 		},
-	);
+		disposed: false,
+		disposing: false,
+		dispose: async () => {
+			if (r.disposing) return;
+			r.disposing = true;
+			try {
+				await fn();
+			} finally {
+				r.disposed = true;
+			}
+		},
+	};
+	return defineInspectMethod(r, (_depth, options) => {
+		return options.stylize(`[FunctionDisposable ${functionName(fn)}]`, 'special');
+	});
 }
 
 /**
