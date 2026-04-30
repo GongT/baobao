@@ -313,7 +313,7 @@ export async function main() {
 
 				const e = job.getLastError();
 				if (e) {
-					prettyPrintError(`job failed for ${project.name}`, e);
+					prettyPrintError(`发布操作失败，项目:${project.name}`, e);
 				}
 			}
 

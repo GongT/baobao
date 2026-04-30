@@ -91,7 +91,7 @@ function myLoad(url: string, context: LoadHookContext, defaultLoad: NextLoad): L
 		}
 
 		const stderr = p.stderr.replace(eachLineStart, '\x1B[48;5;9m \x1B[0m ');
-		const ee = new Error(`无法判断发生了什么，以下为stderr的内容:\n==========================\n${stderr}\n==========================\n\n`);
+		const ee = new Error(`无法判断发生了什么，以下为stderr的内容:\n==========================\n${stderr}\n==========================`);
 		ee.stack = ee.message;
 		throw ee;
 	} else {

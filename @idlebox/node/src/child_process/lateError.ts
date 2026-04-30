@@ -22,7 +22,7 @@ type NoStdio = Omit<ISpawnOptions, 'stdio'> & { stdio?: never };
  * 运行命令，如果出错，则输出缓冲的stderr（如果stdout是inherit，也同时输出stdout）
  * 如果程序正常结束，则程序向stderr输出的内容直接丢弃（如果stdout是inherit，也同时丢弃）
  */
-export function execLazyError<T extends NoStdio = NoStdio>(cmd: string, args: string[], spawnOptions: T): Promise<ExecaReturnValue<T>> {
+export async function execLazyError<T extends NoStdio = NoStdio>(cmd: string, args: string[], spawnOptions: T): Promise<ExecaReturnValue<T>> {
 	let all = false;
 	let { stdout, verbose, ...others } = spawnOptions;
 
@@ -49,40 +49,54 @@ export function execLazyError<T extends NoStdio = NoStdio>(cmd: string, args: st
 		stderr: 'pipe',
 		all: all,
 		encoding: 'utf8',
-		reject: false,
+		reject: false, // 必须！
 	};
-	return execa(cmd, args, opt).then((ret) => {
-		try {
-			checkChildProcessResult(ret);
-		} catch (e: any) {
-			if (process.stderr.isTTY) {
-				console.error('');
-				printLine();
-				console.error('\x1B[38;5;9mcommand failed execute: %s', e.message);
-				console.error('\x1B[2m$ "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
-				console.error('\x1B[2mcwd: %s\x1B[0m', opt.cwd ?? process.cwd());
-			}
-			if (all && ret.all) {
-				console.error('\x1B[2m<vvvvv stdout+stderr vvvvv>\x1B[0m');
-				console.error(ret.all);
-				console.error('\x1B[2m<^^^^^ stdout+stderr ^^^^^>\x1B[0m');
-			} else {
-				console.error('\x1B[2m<vvvvv stderr vvvvv>\x1B[0m');
-				console.error(ret.stderr);
-				console.error('\x1B[2m<^^^^^ stderr ^^^^^>\x1B[0m');
-			}
-			if (process.stderr.isTTY) {
-				printLine();
-			}
-			Object.defineProperties(e, {
-				stderr: { enumerable: false, value: ret.stderr },
-				stdout: { enumerable: false, value: ret.stdout },
-				all: { enumerable: false, value: ret.all },
-			});
-			throw e;
+	const ret = await execa(cmd, args, opt);
+	try {
+		checkChildProcessResult(ret);
+	} catch (e: any) {
+		if (process.stderr.isTTY) {
+			console.error('');
+			printLine();
+			console.error('\x1B[38;5;9mcommand failed execute: %s', e.message);
+			console.error('\x1B[2m$ "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
+			console.error('\x1B[2mcwd: %s\x1B[0m', opt.cwd ?? process.cwd());
 		}
-		return ret as any;
-	});
+		if (all && ret.all) {
+			console.error('\x1B[2m<vvvvv stdout+stderr vvvvv>\x1B[0m');
+			console.error(outputToString(ret.all, 'stdout+stderr'));
+			console.error('\x1B[2m<^^^^^ stdout+stderr ^^^^^>\x1B[0m');
+		} else {
+			console.error('\x1B[2m<vvvvv stderr vvvvv>\x1B[0m');
+			console.error(outputToString(ret.stderr, 'stderr'));
+			console.error('\x1B[2m<^^^^^ stderr ^^^^^>\x1B[0m');
+		}
+		if (process.stderr.isTTY) {
+			printLine();
+		}
+		Object.defineProperties(e, {
+			stderr: { enumerable: false, value: ret.stderr },
+			stdout: { enumerable: false, value: ret.stdout },
+			all: { enumerable: false, value: ret.all },
+		});
+		throw e;
+	}
+	return ret as any;
+}
+
+function outputToString(output: Result['stderr'], title: string): string {
+	if (!output) {
+		return `\x1B[38;5;11m<缺少${title}输出>\x1B[0m`;
+	} else if (typeof output === 'string' || ArrayBuffer.isView(output)) {
+		return output.toString().trim() || `\x1B[38;5;11m<${title}输出为空>\x1B[0m`;
+	} else if (Array.isArray(output)) {
+		if (output.length === 0) {
+			return `\x1B[38;5;11m<${title}输出为空>\x1B[0m`;
+		}
+		return output.join('\n').trim();
+	} else {
+		return `\x1B[38;5;11m<无法识别的${title}输出格式>\x1B[0m`;
+	}
 }
 
 // // test:

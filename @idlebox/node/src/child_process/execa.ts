@@ -29,10 +29,10 @@ function sanitizeEnv(env?: ProcessEnv, addonPath?: string[]) {
 
 function handleError<T extends SyncResult<SyncOptions> | AsyncResult<AsyncOptions>>(result: T): T {
 	if (result.exitCode !== 0) {
-		throw new Error(`command exit with code ${result.exitCode}`);
+		throw new Error(`程序以状态 ${result.exitCode} 退出`);
 	}
 	if (result.signal) {
-		throw new Error(`command killed by signal ${result.signal}`);
+		throw new Error(`程序被信号 ${result.signal} 终止`);
 	}
 	return result;
 }

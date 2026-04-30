@@ -1,6 +1,6 @@
 import { relativePath } from '../path/normalizePath.js';
 import { globalObject } from '../platform/globalObject.js';
-import { isNative } from '../platform/os.js';
+import { isNative, isNodeJs } from '../platform/os.js';
 import { vscEscapeValue } from './pretty.vscode.js';
 import { parseStackLine, type IStructreStackLine } from './stack-parser.v8.js';
 import { createStackTraceHolder } from './stack-trace.js';
@@ -47,34 +47,36 @@ export function prettyPrintError<ErrorType extends IError = IError>(type: string
 		cause = (cause as IError).cause;
 	}
 
-	const structured = [];
 	if (isSelfPrint()) {
+		const structured = [];
 		structured.push({
 			special: true,
 			toString() {
-				return '== Above error was printed at:';
+				return '== 以上错误输出于:';
 			},
 		});
 
 		const selfStack = createStackTraceHolder('111', prettyPrintError);
 		const stackLines = selfStack.stack.split(/\n/g).slice(1);
 		structured.push(...stackLines.map(parseStackLine));
-	}
 
-	const formatter = new Formatter();
-	const txt = structured.filter(formatter.skipSomeFrame).map(formatter.translateFunction).map(formatter.stringifyLine).join('\n');
-	console.error(txt);
+		const formatter = new Formatter();
+		const txt = structured.filter(formatter.skipSomeFrame).map(formatter.translateFunction).map(formatter.stringifyLine).join('\n');
+		console.error(txt.trim() || '**无有效栈信息，无法定位输出位置**');
+	}
 
 	console.error(line);
 
 	if (!notify_printed && e.stack && e.message !== e.stack) {
 		// console.log(JSON.stringify(e.stack), JSON.stringify(e.message));
 		notify_printed = true;
-		console.error(
-			'\x1B[2muse env.DISABLE_PRETTY_ERROR=yes / window.DISABLE_PRETTY_ERROR=true to see original error stack, use env.PRETTY_ERROR_LOCATION to see print location\x1B[0m',
-		);
+		console.error(notifyMessage);
 	}
 }
+
+const notifyMessage = isNodeJs
+	? '\x1B[2m设置环境变量 DISABLE_PRETTY_ERROR=yes 绕过格式化, 使用 PRETTY_ERROR_LOCATION 查看输出位置\x1B[0m'
+	: '设置全局变量 window.DISABLE_PRETTY_ERROR=true 绕过格式化';
 
 function red(s: string) {
 	return isNative ? `\x1B[38;5;9m${s}\x1B[0m` : s;
@@ -85,11 +87,12 @@ function unparsedLine(line: string) {
 }
 
 /**
- * Format a stack trace for display.
- * @param stackLines The stack lines to format.
+ * 格式化栈信息为可读的字符串数组
+ * @param stackLines 栈信息行数组，不能包含.stack的第一行
+ * @param boundary 边界函数，默认为 prettyFormatStack 本身
+ * @returns 格式化后的栈信息数组
  */
 export function prettyFormatStack(stackLines: readonly string[]): string[];
-/** @internal */
 export function prettyFormatStack(stackLines: readonly string[], boundary: CallableFunction | false): string[];
 export function prettyFormatStack(stackLines: readonly string[], boundary: CallableFunction | false = prettyFormatStack): string[] {
 	if (isPrettyDisabled()) {
@@ -101,7 +104,7 @@ export function prettyFormatStack(stackLines: readonly string[], boundary: Calla
 		structured.push({
 			special: true,
 			toString() {
-				return '== Above error was formatted at:';
+				return '== 以上错误格式化于:';
 			},
 		});
 
@@ -126,22 +129,23 @@ const regStartsNotEmpty = /^\S/;
 const regErrorClassName = /^(\S+):/;
 
 /**
- * Pretty formats an error object.
- * only meanfull in nodejs
- * @param e The error object to format.
- * @param withMessage Whether to include the error message.
+ * 格式化错误对象为可读的字符串，
+ *
+ * @param e 要格式化的错误对象
+ * @param withMessage 是否包含错误信息（即第一行），默认为 true
+ * @param boundary 可选的边界函数，用于确定哪些栈帧应该被包含在格式化结果中，默认为 prettyFormatError 本身
+ * @returns 格式化后的错误字符串
  */
 export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage?: boolean): string;
-/** @internal */
 export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage?: boolean, boundary?: CallableFunction | false): string;
 export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage = true, boundary: CallableFunction | false = prettyFormatError) {
 	if (!e || !e.stack) {
 		if (withMessage) {
-			const msg = e?.message || 'Unknown Error';
+			const msg = e?.message || '#未知异常';
 
-			return red(`${msg}\n  No stack trace`);
+			return red(`${msg}\n  **无法格式化错误对象，不包含 message 和 stack 属性**`);
 		}
-		return red('  No stack trace');
+		return red('  **无法格式化错误对象，不包含 message 和 stack 属性**');
 	}
 
 	if (isPrettyDisabled()) {
@@ -150,13 +154,14 @@ export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorTyp
 
 	const stackLines = e.stack.split(/\n/g);
 
-	let first = 'Unknown Error';
+	let first = '#未知错误';
 	if (regStartsNotEmpty.test(stackLines[0])) {
 		first = stackLines.shift() as string;
 	}
 
 	if (withMessage) {
 		if (e.code) {
+			// 给错误类名添加 code: "Error: xxx" -> "Error(code E_EXISTS): xxx"
 			first = first.replace(regErrorClassName, `$1(code ${e.code}):`);
 		}
 

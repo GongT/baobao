@@ -131,7 +131,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 		const startTime = Date.now();
 		registerGlobalLifecycle(
 			toDisposable(() => {
-				logger.debug(`process will exit with code ${process.exitCode} | ${humanDate.delta(startTime, Date.now())}`);
+				logger.debug(`进程即将退出，状态码=${process.exitCode} | ${humanDate.delta(startTime, Date.now())}`);
 			}),
 		);
 	}

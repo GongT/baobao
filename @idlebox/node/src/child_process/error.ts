@@ -19,11 +19,11 @@ interface IChildProcessStatus {
 const errorMessagePattern = /^Error: /;
 /** @throws */
 export function checkChildProcessResult(result: IChildProcessStatus): void {
-	const title = result.command ? `command [${result.command}] ` : 'child process ';
+	const title = result.command ? `子进程(${result.command})` : '子进程(未知命令行)';
 
 	if (result.error) {
 		const msg: string = result.error.message || (result.error as any);
-		const e = new Error(`${title}failed to start: ${msg.replace(errorMessagePattern, '')}`);
+		const e = new Error(`${title}未能正确启动，发生错误: ${msg.replace(errorMessagePattern, '')}`);
 		if (result.error.stack) {
 			const stack = result.error.stack.split('\n');
 			stack.splice(0, 1, e.message);
@@ -40,29 +40,26 @@ export function checkChildProcessResult(result: IChildProcessStatus): void {
 	let signal = result.signalCode || result.signal;
 
 	if (result.timedOut) {
-		throw new Error(`${title}timed out (killed)`);
+		throw new Error(`${title}超时终止`);
 	}
 	if (result.killed && !signal) {
-		throw new Error(`${title}killed by unknown reason`);
-	}
-	if (result.timedOut) {
-		throw new Error(`${title}execution timed out`);
+		throw new Error(`${title}被未知原因终止`);
 	}
 
 	if (signal) {
 		if (result.signalDescription) {
 			signal += `: ${result.signalDescription}`;
 		}
-		throw new Error(`${title}killed by signal ${signal}`);
+		throw new Error(`${title}被信号 ${signal} 终止`);
 	}
 
 	if (code !== undefined && code > 0) {
-		throw new Error(`${title}exit with code ${code}`);
+		throw new Error(`${title}以状态 ${code} 退出`);
 	}
 
 	if (result.failed) {
-		throw new Error(`${title}process failed to spawn`);
+		throw new Error(`${title}启动失败`);
 	}
 
-	throw new Error(`${title}status unknown`);
+	throw new Error(`${title}状态未知`);
 }
