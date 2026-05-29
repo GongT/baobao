@@ -1,7 +1,7 @@
 {
 	"name": "@mpis/esbuild",
 	"type": "module",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"keywords": [],
 	"bin": {
 		"mpis-esbuild": "./loader/bin.devel.js"
