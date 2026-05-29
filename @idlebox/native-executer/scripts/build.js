@@ -31,11 +31,14 @@ async function main() {
 			const exists = await promiseBoolean(access(outFile, constants.F_OK));
 			if (exists) {
 				if (process.env.__RELAUNCH__) {
-					log(`发现重新启动状态`);
+					log(`输出文件存在，重新启动状态跳过重生成`);
 					return;
 				}
-				log(`输出文件存在: ${outFile}`);
-				// return;
+				if (process.env.CI) {
+					log(`输出文件存在，CI 环境跳过重生成`);
+					return;
+				}
+				log(`输出文件存在: ${outFile} (开发模式强制重新生成)`);
 			}
 
 			await make();

@@ -25,10 +25,10 @@ if (Object.hasOwn(globalThis, Symbol.for('native-executer'))) {
 	// node无参数 -> 当前
 	const argv = process.argv.slice(1);
 
-	const amaro = import.meta.resolve('./really-register.js');
+	const entry = import.meta.resolve('./really-register.js');
 
 	if (process.execve) {
-		process.execve(process.execPath, ['--disable-warning=DEP0205', '--enable-source-maps', `--import=${amaro}`, ...argv], {
+		process.execve(process.execPath, ['--disable-warning=DEP0205', '--enable-source-maps', `--import=${entry}`, ...argv], {
 			...process.env,
 			__RELAUNCH__: magic,
 		});
@@ -39,7 +39,7 @@ if (Object.hasOwn(globalThis, Symbol.for('native-executer'))) {
 			env: {
 				__RELAUNCH__: magic,
 			},
-		})`${process.execPath} --disable-warning=DEP0205 --enable-source-maps --import=${amaro} ${argv}`;
+		})`${process.execPath} --disable-warning=DEP0205 --enable-source-maps --import=${entry} ${argv}`;
 		if (r.exitCode) {
 			process.exit(r.exitCode);
 		} else if (r.signal) {
