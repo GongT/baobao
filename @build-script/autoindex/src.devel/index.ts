@@ -5,7 +5,7 @@ import { dirname, relative } from 'node:path';
 
 console.log = console.error;
 const excludeFiles = /^autoindex\..*|.*\.(bin|test|devel)\..*$/;
-const excludeFolders = /^(test|tests|bin|bins)$/i;
+const excludeFolders = /^(test|tests|bin|bins|_.+|\..+)$/i;
 
 export async function generate(filename: string) {
 	console.error(`Generating index code for ${filename}`);

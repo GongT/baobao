@@ -18,7 +18,7 @@
 
 caught error type must be `unknown`, not `any` or `Error`. Type convert to `Error` by using `convertCaughtError()` function, or `instanceof` for handling, or rethrow it without type conversion. Deny use of force type conversion.
 
-the `convertCaughtError()` function is defined in `@idlebox/common`. check for dependency before use it, deny add `@idlebox/common` if not already exists.
+the `convertCaughtError()` function is defined in `@idlebox/common`. check for dependency before use it, you not allowed to add `@idlebox/common` if not already exists.
 
 For example:
 
@@ -44,7 +44,7 @@ try {} catch (e) {
 - prefer `resolve()` over `join()`. 
 - prefer strings over `URL`.
 - prefer `dirname(path)` over `resolve(path, '..')`, except multiple levels.
-- prefer `import.meta.dirname` and `import.meta.filename` over `import.meta.url` when possible. only use `url` when definitely in a browser environment.
+- prefer `import.meta.dirname` and `import.meta.filename` over `import.meta.url` when possible. only use `url` when definitely required.
 - deny using `__dirname` and `__filename`.
 
 ## organize
@@ -63,9 +63,15 @@ try {} catch (e) {
 
 ## logging
 
-Use loggers from `@idlebox/logger` instead of `console` if `@idlebox/logger` is available as a dependency. otherwise `debug`, if still not available, fallback to `console.error`.
+use loggers from `@idlebox/logger` if its is available as a dependency. otherwise `debug`. if no `debug` module, use `console` directly.
 
-check usage before use them.
+for `@idlebox/logger`:
+- template string is supported and preferred, like `` logger.debug`Hello ${name}` ``
+- complex variable in message should never be stringify (wrong: `` logger.debug`${JSON.stringify(some_object)} ``)
+- there are "commands" support, the command always english and no spaces around '<>', no "arguments" is supported, one and only one variable must be provided. for example:
+  - `` logger.warn`missing file: relative<${file}>` ``
+  - `` logger.error`错误list<${mapObj}>` `` 
+- supported commands is in `@idlebox/logger/src/functions/builtin-commands.ts`
 
 We follow the convention of using standard error for logging, and standard output for normal output, like most linux command line tools. `@idlebox/logger` and `debug` both write to standard error.
 

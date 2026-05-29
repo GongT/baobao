@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-transform-types --disable-warning=ExperimentalWarning
+#!/usr/bin/env -S node --disable-warning=DEP0205 --enable-source-maps --import=@idlebox/native-executer/register
 
 import '@idlebox/native-executer/register/respawn';
 import { basename } from 'node:path';

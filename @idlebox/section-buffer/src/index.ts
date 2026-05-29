@@ -1,4 +1,4 @@
-import { AsyncDisposable, MemorizedEmitter, toDisposable } from '@idlebox/common';
+import { AsyncDisposable, DuplicateCallError, ImpossibleError, InvalidStateError, MemorizedEmitter, toDisposable } from '@idlebox/common';
 import { open, rename } from 'node:fs/promises';
 import { basename, dirname } from 'node:path';
 import { pipeline } from 'node:stream/promises';
@@ -78,7 +78,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 
 	@AsyncLock.protect('starting')
 	async start(): Promise<boolean | undefined> {
-		if (this._timer || this._complete || this._rebuilding || this.disposed) throw new Error('already started');
+		if (this._timer || this._complete || this._rebuilding || this.disposed) throw new DuplicateCallError(this.start);
 
 		await this.file.openRead();
 		const isExists = this.file.isExists();
@@ -120,7 +120,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 	}
 
 	push(section: ISectionData) {
-		if (this._complete || this._rebuilding || this.disposed) throw new Error('invalid state');
+		if (this._complete || this._rebuilding || this.disposed) throw new InvalidStateError();
 		if (Buffer.isBuffer(section.buffer)) {
 			// console.log('new data recv %s at %s', humanSize(section.buffer.byteLength), hexNumber(section.start));
 			this.mem.push({
@@ -157,7 +157,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 		this._isManual = false;
 		// console.log('trigger: kind=%s, full=%s', TriggerKind[kind], this.mem.isFullfilled());
 
-		if (this._complete || this.disposed) throw new Error('invalid state');
+		if (this._complete || this.disposed) throw new InvalidStateError();
 
 		if (this.mem.isFullfilled()) {
 			await this.__rebuildFinalFile();
@@ -173,7 +173,7 @@ export class SectionBuffer<MetaType> extends AsyncDisposable {
 				await this.__flushCache(true);
 			}
 		} else {
-			throw new Error('invalid program state');
+			throw new ImpossibleError();
 		}
 	}
 

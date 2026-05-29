@@ -6,6 +6,7 @@ import { channelClient } from '@mpis/client';
 import { ProcessIPCClient } from '@mpis/server';
 import assert from 'node:assert/strict';
 import { rmSync } from 'node:fs';
+import { basename, dirname, sep } from 'node:path';
 import { inspect } from 'node:util';
 import { dumpConfig } from './commands/config.js';
 import { context, initializeLogger } from './common/args.js';
@@ -143,34 +144,41 @@ function executeClean() {
 	logger.success`Cleaned up ${config.clean.length} folders.`;
 }
 
+function colorfulName(path: string) {
+	const dir = dirname(path);
+	const base = basename(path);
+
+	return `\x1B[2m${dir || '???'}\x1B[0m${sep}\x1B[38;5;2m${base}\x1B[0m`;
+}
+
 function printFailedRunError(worker: ProcessIPCClient, message: string) {
 	terminal.resetIf(context().watchMode && !logger.debug.isEnabled);
 
 	let text = worker.outputStream.toString().trimEnd().replace(cls, '');
 
 	if (!text) {
-		text = `Worker "${worker._id}" does not have any output.`;
+		text = `工作进程 "${worker._id}" 没有任何输出`;
 		text = inspect(worker, { colors: true });
 	}
 
 	console.error(
 		'\n\x1B[48;5;1m%s\r\x1B[48;5;1m    \x1B[0;38;5;9;1m  %s  \x1B[0m',
 		' '.repeat(process.stderr.columns || 80),
-		`[@mpis/run] below is output of "${worker._id}"`,
+		`[@mpis/run] 以下是 "${worker._id}" 的输出`,
 	);
 
-	console.error('\x1B[48;5;1m \x1B[0m commandline: %s', worker.commandline.join(' '));
+	console.error('\x1B[48;5;1m \x1B[0m commandline: %s %s', colorfulName(worker.commandline[0] ?? ''), worker.commandline.slice(1).join(' '));
 	console.error('\x1B[48;5;1m \x1B[0m workdir: %s', worker.cwd);
 
 	let specialState = '';
 	if (worker.targetState.signal) {
-		specialState = `target was killed by signal ${worker.targetState.signal}`;
+		specialState = `目标被信号 ${worker.targetState.signal} 杀死`;
 	} else if (worker.targetState.exitCode) {
-		specialState = `target exited with code ${worker.targetState.exitCode}`;
+		specialState = `目标以代码 ${worker.targetState.exitCode} 退出`;
 	} else if (!worker.targetState.failedExecute) {
-		specialState = `target failed to spawn`;
+		specialState = `目标启动失败`;
 	} else if (!worker.targetState.started) {
-		specialState = `target failed to (or not) start`;
+		specialState = `目标无法启动`;
 	}
 	if (specialState) {
 		console.error('\x1B[48;5;1m \x1B[0;38;5;11m \u26A0 %s\x1b[0m', specialState);
@@ -182,7 +190,7 @@ function printFailedRunError(worker: ProcessIPCClient, message: string) {
 	console.error(
 		'\n\x1B[48;5;1m%s\r\x1B[48;5;1m    \x1B[0;38;5;9;1m  %s  \x1B[0m',
 		' '.repeat(process.stderr.columns || 80),
-		`[@mpis/run] ending output of "${worker._id}"`,
+		`[@mpis/run] 结束 "${worker._id}" 的输出`,
 	);
 
 	const graph = workersManager.finalize();

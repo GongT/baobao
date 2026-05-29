@@ -472,9 +472,24 @@ export enum NodeErrorCode {
 	/**
 	 * <p>Used when a feature that is not available
 	 * to the current platform which is running Node.js is used.</p>
-	 * <p><a id="ERR_FS_CP_DIR_TO_NON_DIR"></a></p>
+	 * <p><a id="ERR_FFI_CALL_FAILED"></a></p>
 	 */
 	ERR_FEATURE_UNAVAILABLE_ON_PLATFORM = 'ERR_FEATURE_UNAVAILABLE_ON_PLATFORM',
+	/**
+	 * <p>A low-level FFI call failed.</p>
+	 * <p><a id="ERR_FFI_INVALID_POINTER"></a></p>
+	 */
+	ERR_FFI_CALL_FAILED = 'ERR_FFI_CALL_FAILED',
+	/**
+	 * <p>An invalid pointer was passed to an FFI operation.</p>
+	 * <p><a id="ERR_FFI_LIBRARY_CLOSED"></a></p>
+	 */
+	ERR_FFI_INVALID_POINTER = 'ERR_FFI_INVALID_POINTER',
+	/**
+	 * <p>An operation was attempted on an FFI dynamic library after it was closed.</p>
+	 * <p><a id="ERR_FS_CP_DIR_TO_NON_DIR"></a></p>
+	 */
+	ERR_FFI_LIBRARY_CLOSED = 'ERR_FFI_LIBRARY_CLOSED',
 	/**
 	 * <p>An attempt was made to copy a directory to a non-directory (file, symlink,
 	 * etc.) using <a href="fs.html#fscpsrc-dest-options-callback"><code>fs.cp()</code></a>.</p>
@@ -1336,9 +1351,16 @@ export enum NodeErrorCode {
 	/**
 	 * <p>An attempt was made to use features that require <a href="intl.html#internationalization-support">ICU</a>, but Node.js was not
 	 * compiled with ICU support.</p>
-	 * <p><a id="ERR_NO_TYPESCRIPT"></a></p>
+	 * <p><a id="ERR_NO_TEMPORAL"></a></p>
 	 */
 	ERR_NO_ICU = 'ERR_NO_ICU',
+	/**
+	 * <p>An attempt was made to use features that require <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal"><code>Temporal</code></a>, but Node.js was not
+	 * compiled with <code>Temporal</code> support or it has been disabled in the current environment
+	 * (for example, when running with <code>--no-harmony-temporal</code>).</p>
+	 * <p><a id="ERR_NO_TYPESCRIPT"></a></p>
+	 */
+	ERR_NO_TEMPORAL = 'ERR_NO_TEMPORAL',
 	/**
 	 * <p>An attempt was made to use features that require <a href="typescript.html#type-stripping">Native TypeScript support</a>, but Node.js was not
 	 * compiled with TypeScript support.</p>
@@ -1375,9 +1397,9 @@ export enum NodeErrorCode {
 	 */
 	ERR_PACKAGE_PATH_NOT_EXPORTED = 'ERR_PACKAGE_PATH_NOT_EXPORTED',
 	/**
-	 * <p>When <code>strict</code> set to <code>true</code>, thrown by <a href="util.html#utilparseargsconfig"><code>util.parseArgs()</code></a> if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type"><code>&#x3C;boolean></code></a>
-	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type"><code>&#x3C;string></code></a>, or if a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type"><code>&#x3C;string></code></a>
-	 * value is provided for an option of type <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type"><code>&#x3C;boolean></code></a>.</p>
+	 * <p>When <code>strict</code> set to <code>true</code>, thrown by <a href="util.html#utilparseargsconfig"><code>util.parseArgs()</code></a> if a <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#boolean_type"><code>&#x3C;boolean></code></a>
+	 * value is provided for an option of type <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#string_type"><code>&#x3C;string></code></a>, or if a <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#string_type"><code>&#x3C;string></code></a>
+	 * value is provided for an option of type <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#boolean_type"><code>&#x3C;boolean></code></a>.</p>
 	 * <p><a id="ERR_PARSE_ARGS_UNEXPECTED_POSITIONAL"></a></p>
 	 */
 	ERR_PARSE_ARGS_INVALID_OPTION_VALUE = 'ERR_PARSE_ARGS_INVALID_OPTION_VALUE',
@@ -1438,9 +1460,21 @@ export enum NodeErrorCode {
 	ERR_QUIC_ENDPOINT_CLOSED = 'ERR_QUIC_ENDPOINT_CLOSED',
 	/**
 	 * <p>Opening a QUIC stream failed.</p>
-	 * <p><a id="ERR_QUIC_TRANSPORT_ERROR"></a></p>
+	 * <p><a id="ERR_QUIC_STREAM_ABORTED"></a></p>
 	 */
 	ERR_QUIC_OPEN_STREAM_FAILED = 'ERR_QUIC_OPEN_STREAM_FAILED',
+	/**
+	 * <p>The Node.js error code for a <a href="quic.html#class-quicerror"><code>QuicError</code></a> thrown to abort a QUIC stream
+	 * or session with an explicit application or transport error code.</p>
+	 * <p><a id="ERR_QUIC_STREAM_RESET"></a></p>
+	 */
+	ERR_QUIC_STREAM_ABORTED = 'ERR_QUIC_STREAM_ABORTED',
+	/**
+	 * <p>A QUIC stream was reset by the peer. The error includes the reset code
+	 * provided by the peer.</p>
+	 * <p><a id="ERR_QUIC_TRANSPORT_ERROR"></a></p>
+	 */
+	ERR_QUIC_STREAM_RESET = 'ERR_QUIC_STREAM_RESET',
 	/**
 	 * <p>A QUIC transport error occurred.</p>
 	 * <p><a id="ERR_QUIC_VERSION_NEGOTIATION_ERROR"></a></p>
@@ -1476,9 +1510,15 @@ export enum NodeErrorCode {
 	 * <p>This error has been deprecated since <code>require()</code> now supports loading synchronous
 	 * ES modules. When <code>require()</code> encounters an ES module that contains top-level
 	 * <code>await</code>, it will throw <a href="#err_require_async_module"><code>ERR_REQUIRE_ASYNC_MODULE</code></a> instead.</p>
-	 * <p><a id="ERR_SCRIPT_EXECUTION_INTERRUPTED"></a></p>
+	 * <p><a id="ERR_REQUIRE_ESM_RACE_CONDITION"></a></p>
 	 */
 	ERR_REQUIRE_ESM = 'ERR_REQUIRE_ESM',
+	/**
+	 * <p>An attempt was made to <code>require()</code> an <a href="esm.html">ES Module</a> while another <code>import()</code> call
+	 * was already in progress to load it asynchronously.</p>
+	 * <p><a id="ERR_SCRIPT_EXECUTION_INTERRUPTED"></a></p>
+	 */
+	ERR_REQUIRE_ESM_RACE_CONDITION = 'ERR_REQUIRE_ESM_RACE_CONDITION',
 	/**
 	 * <p>Script execution was interrupted by <code>SIGINT</code> (For
 	 * example, <kbd>Ctrl</kbd>+<kbd>C</kbd> was pressed.)</p>
@@ -1613,9 +1653,15 @@ export enum NodeErrorCode {
 	/**
 	 * <p>A stream method was called that cannot complete because the stream was
 	 * destroyed using <code>stream.destroy()</code>.</p>
-	 * <p><a id="ERR_STREAM_NULL_VALUES"></a></p>
+	 * <p><a id="ERR_STREAM_ITER_MISSING_FLAG"></a></p>
 	 */
 	ERR_STREAM_DESTROYED = 'ERR_STREAM_DESTROYED',
+	/**
+	 * <p>A stream/iter API was used without the <code>--experimental-stream-iter</code> CLI flag
+	 * enabled.</p>
+	 * <p><a id="ERR_STREAM_NULL_VALUES"></a></p>
+	 */
+	ERR_STREAM_ITER_MISSING_FLAG = 'ERR_STREAM_ITER_MISSING_FLAG',
 	/**
 	 * <p>An attempt was made to call <a href="stream.html#writablewritechunk-encoding-callback"><code>stream.write()</code></a> with a <code>null</code> chunk.</p>
 	 * <p><a id="ERR_STREAM_PREMATURE_CLOSE"></a></p>
@@ -1763,9 +1809,15 @@ export enum NodeErrorCode {
 	/**
 	 * <p>An attempt was made to renegotiate TLS on a socket instance with renegotiation
 	 * disabled.</p>
-	 * <p><a id="ERR_TLS_REQUIRED_SERVER_NAME"></a></p>
+	 * <p><a id="ERR_TLS_RENEGOTIATION_UNSUPPORTED"></a></p>
 	 */
 	ERR_TLS_RENEGOTIATION_DISABLED = 'ERR_TLS_RENEGOTIATION_DISABLED',
+	/**
+	 * <p>An attempt was made to renegotiate TLS, but the TLS implementation does not
+	 * support caller-initiated renegotiation.</p>
+	 * <p><a id="ERR_TLS_REQUIRED_SERVER_NAME"></a></p>
+	 */
+	ERR_TLS_RENEGOTIATION_UNSUPPORTED = 'ERR_TLS_RENEGOTIATION_UNSUPPORTED',
 	/**
 	 * <p>While using TLS, the <code>server.addContext()</code> method was called without providing
 	 * a host name in the first parameter.</p>

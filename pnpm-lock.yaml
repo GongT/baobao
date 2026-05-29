@@ -7,7 +7,12 @@ settings:
 overrides:
   ajv: ^8.17.1
 
-pnpmfileChecksum: sha256-TLFEk6GM0DsjxkNC9/RNWppxfAfxaWJjUuNkTDVQu1s=
+pnpmfileChecksum: sha256-p8NAXYde06wJKH6gZPJbG34Tf/n5iNz4c7ZJNfhbgj8=
+
+patchedDependencies:
+  amaro:
+    hash: f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3
+    path: patches/amaro.patch
 
 importers:
 
@@ -98,6 +103,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.8
         version: 2.4.8
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
 
   '@build-script/biomejs-step-by-step':
     dependencies:
@@ -221,6 +229,9 @@ importers:
         specifier: workspace:^
         version: link:../../@idlebox/node
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -249,6 +260,9 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -453,6 +467,9 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -490,6 +507,9 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -555,6 +575,9 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -605,6 +628,9 @@ importers:
         specifier: workspace:^
         version: link:../../standalone/cjke-strings
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -648,6 +674,9 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -698,6 +727,9 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -741,6 +773,9 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -775,6 +810,9 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -821,6 +859,9 @@ importers:
       '@idlebox/cli-static-generator':
         specifier: workspace:^
         version: link:../cli-static-generator
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -842,6 +883,9 @@ importers:
 
   '@idlebox/cli-help-builder':
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -943,6 +987,9 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -964,6 +1011,9 @@ importers:
 
   '@idlebox/deepmerge':
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1001,6 +1051,9 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
@@ -1047,6 +1100,9 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1068,6 +1124,9 @@ importers:
 
   '@idlebox/empty':
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-bare@^
         version: link:../itypes/subpackages/bare
@@ -1083,6 +1142,9 @@ importers:
 
   '@idlebox/ensure-symlink':
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../itypes/subpackages/node
@@ -1105,6 +1167,9 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1149,7 +1214,11 @@ importers:
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
 
-  '@idlebox/itypes': {}
+  '@idlebox/itypes':
+    devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
 
   '@idlebox/itypes/subpackages/bare':
     dependencies:
@@ -1157,6 +1226,9 @@ importers:
         specifier: workspace:latest
         version: link:../..
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../../native-executer
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-bare@^
         version: 'link:'
@@ -1176,6 +1248,9 @@ importers:
         specifier: workspace:latest
         version: link:../..
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../../native-executer
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-bare@^
         version: link:../bare
@@ -1195,6 +1270,9 @@ importers:
         specifier: workspace:latest
         version: link:../..
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../../native-executer
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-bare@^
         version: link:../bare
@@ -1217,6 +1295,9 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1238,6 +1319,9 @@ importers:
 
   '@idlebox/json-edit-biome':
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1266,6 +1350,9 @@ importers:
         specifier: ^0.11.8
         version: 0.11.8
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1297,6 +1384,9 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1349,6 +1439,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      amaro:
+        specifier: ^1.1.10
+        version: 1.1.10(patch_hash=f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3)
       esbuild:
         specifier: ^0.27.3
         version: 0.27.3
@@ -1371,6 +1464,9 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1392,6 +1488,9 @@ importers:
       '@build-script/codegen':
         specifier: workspace:^
         version: link:../../@build-script/codegen
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1417,6 +1516,9 @@ importers:
         specifier: workspace:^
         version: link:../common
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1451,6 +1553,9 @@ importers:
         specifier: ^0.5.21
         version: 0.5.21
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1473,6 +1578,9 @@ importers:
         specifier: workspace:^
         version: link:../common
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1494,6 +1602,9 @@ importers:
 
   '@idlebox/tsconfig-loader':
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1528,6 +1639,9 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../source-map-support
@@ -1562,6 +1676,9 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -2063,6 +2180,9 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -2081,6 +2201,9 @@ importers:
 
   '@mpis/shared':
     devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -2192,6 +2315,9 @@ importers:
       '@build-script/autoindex':
         specifier: workspace:^
         version: link:../../@build-script/autoindex
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../../@idlebox/native-executer
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../../@idlebox/source-map-support
@@ -3772,6 +3898,10 @@ packages:
 
   ajv@8.17.1:
     resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
+
+  amaro@1.1.10:
+    resolution: {integrity: sha512-ceFv+QA3SlhFsn0hu8Q8oyj36YZdIgoJFpyS2sGJGK2dyncwcMWuBlNzhXfc1oLWtbDWM2Ol2rrzOYa+HNyEjg==}
+    engines: {node: '>=22'}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -6918,6 +7048,8 @@ snapshots:
       fast-uri: 3.1.0
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
+
+  amaro@1.1.10(patch_hash=f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3): {}
 
   ansi-regex@5.0.1: {}
 

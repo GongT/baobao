@@ -103,7 +103,7 @@ function readPackage(packageJson, context) {
 		}
 		addNodejsShimTypes(packageJson);
 
-		if (packageJson.bin && packageJson.name !== '@idlebox/native-executer') {
+		if (packageJson.name !== '@idlebox/native-executer') {
 			packageJson.devDependencies['@idlebox/native-executer'] = 'workspace:^';
 		}
 

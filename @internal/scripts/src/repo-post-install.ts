@@ -10,7 +10,7 @@ import { listPnpm } from './common/monorepo.js';
 import { globalNodeModules, monorepoRoot } from './common/paths/root.js';
 import { ensureSymLinkSync } from './common/pre-post-inc.js';
 
-logger.log`modules dir: long<${globalNodeModules}>`;
+logger.log`全局模块目录: long<${globalNodeModules}>`;
 const tools: Record<string, string> = {
 	tsc: 'typescript/bin/tsc',
 	biome: '@biomejs/biome/bin/biome',
@@ -23,7 +23,7 @@ const tools: Record<string, string> = {
 
 const gitHooks = resolve(monorepoRoot, '.git', 'hooks');
 const preCommit = resolve(gitHooks, 'pre-commit');
-assert.ok(process.env.NODE?.endsWith('pnpm'), 'not running by pnpm');
+assert.ok(process.env.NODE?.endsWith('pnpm'), '不是由pnpm启动，需要重新运行则必须执行: pnpm run -w postinstall');
 const ch = writeFileIfChangeSync(
 	preCommit,
 	`#!/bin/sh
@@ -33,7 +33,7 @@ ${process.env.NODE} run hook:pre-commit
 );
 
 if (ch) {
-	console.log('pre-commit hook created');
+	console.log('git pre-commit 钩子已更新');
 	chmodSync(preCommit, 0o755);
 }
 
@@ -52,7 +52,7 @@ for (const { path } of await listPnpm()) {
 shutdown(0);
 
 function linkTools(projRoot: string) {
-	logger.log`link tools inside long<${projRoot}>`;
+	logger.log`链接工具到子项目 long<${projRoot}>`;
 	const localNodeModules = resolve(monorepoRoot, projRoot, 'node_modules');
 	const localBinDir = resolve(localNodeModules, '.bin');
 	for (const [tool, path] of Object.entries(tools)) {

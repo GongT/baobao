@@ -36,6 +36,7 @@
 		"import-meta-resolve": "^4.2.0"
 	},
 	"devDependencies": {
+		"amaro": "^1.1.10",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/esbuild": "workspace:^",
 		"@types/node": "^25.5.0",

@@ -264,7 +264,7 @@ export function reformatPackageJson(packageJson: any): typeof packageJson {
 	const existsKeys = Object.keys(packageJson);
 
 	const unknownKeys = arrayDiff(packageJsonSort, existsKeys).add;
-	if (process.stderr.isTTY && unknownKeys.length) console.error('Unknown keys in package.json: "%s"...', unknownKeys.join('", "'));
+	if (process.stderr.isTTY && unknownKeys.length) console.error('package.json包含未知字段: "%s"...', unknownKeys.join('", "'));
 
 	for (const key of packageJsonSort) {
 		if (!(key in packageJson)) continue;

@@ -11,48 +11,50 @@ packages:
   - '@internal/*'
   - standalone/*
 
+# patchedDependencies:
+# "@types/tar-stream": "patches/@types__tar-stream.patch"
+
+# npm config
+access: public
+alwaysAuth: false
+
 enablePrePostScripts: true
+fetchRetries: 1000
+gitChecks: false
+
+hoist: false
+hoistPattern:
+  - ""
 hoistWorkspacePackages: false
+ignoreWorkspaceCycles: true
 
 ignoredOptionalDependencies:
   - fsevents
+networkConcurrency: 3
+nodeOptions: ''
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - esbuild
   - '@swc/core'
 
-# autoInstallPeers: false
-strictPeerDependencies: true
-
-hoist: false
+overrides:
+  ajv: '^8.17.1'
+patchedDependencies:
+  amaro: patches/amaro.patch
 publicHoistPattern:
   - "@types/*"
   - "@biomejs/biome"
   - "source-map-support"
-hoistPattern:
-  - ""
-
-overrides:
-  ajv: '^8.17.1'
-
-saveWorkspaceProtocol: rolling
-savePrefix: '^'
-ignoreWorkspaceCycles: true
-nodeOptions: ''
-
-# patchedDependencies:
-  # "@types/tar-stream": "patches/@types__tar-stream.patch"
-
-# npm config
-access: public
-alwaysAuth: false
-fetchRetries: 1000
-networkConcurrency: 3
-gitChecks: false
-registry: https://registry.npmjs.org
 
 publishConfig:
-  preferOffline: false
-  preferFrozenLockfile: false
   gitChecks: false
+  preferFrozenLockfile: false
+  preferOffline: false
   registry: https://registry.npmjs.org/
+registry: https://registry.npmjs.org
+savePrefix: '^'
+
+saveWorkspaceProtocol: rolling
+
+# autoInstallPeers: false
+strictPeerDependencies: true

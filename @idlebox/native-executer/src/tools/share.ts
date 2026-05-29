@@ -2,6 +2,8 @@ import { existsSync } from 'node:fs';
 import { platform } from 'node:os';
 import { dirname, join } from 'node:path';
 
+export const magic = '1aeb9c8-1c3e-4a7d-9f0e-2b5d6f7a8c9e';
+
 export function isModuleNotFoundError(error: any): error is { code: 'ERR_MODULE_NOT_FOUND' } {
 	return error?.code === 'ERR_MODULE_NOT_FOUND';
 }

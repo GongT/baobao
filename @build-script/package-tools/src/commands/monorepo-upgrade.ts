@@ -22,20 +22,20 @@ export async function main() {
 	const packageManager = await createPackageManager(PackageManagerUsageKind.Read, workspace);
 	const projects = await workspace.listPackages();
 
-	logger.log('Collecting local project versions:');
+	logger.log('收集本地项目版本:');
 	const alldeps: Record<string, string> = {};
 	for (const project of projects) {
 		const myDeps = { ...project.packageJson.dependencies, ...project.packageJson.devDependencies };
 		Object.assign(alldeps, filterDependencyToUpgrade(myDeps));
 
 		const size = Object.keys(myDeps).length;
-		logger.log(`  * ${project.name} -  ${size} dep${size > 1 ? 's' : ''}`);
+		logger.log(`  * ${project.name} -  ${size} 个依赖`);
 	}
 
-	logger.log('Resolving npm registry:');
+	logger.log('解析 npm 注册表:');
 	const map = await resolveNpm(new Map(Object.entries(alldeps)));
 
-	logger.log('Write changed files:');
+	logger.log('写入更改的文件:');
 	let hasSomeChange = 0;
 	for (const project of projects) {
 		let packageJson: IPackageJson;
@@ -44,7 +44,7 @@ export async function main() {
 		try {
 			packageJson = await loadJsonFile(json_file_path);
 		} catch (e) {
-			logger.verbose`read relative<${json_file_path}> failed: ${e ? (e as any).code : e}`;
+			logger.verbose`读取文件relative<${json_file_path}>失败: ${e ? (e as any).code : e}`;
 			if (!isNotExistsError(e)) {
 				throw e;
 			}
@@ -52,7 +52,7 @@ export async function main() {
 			try {
 				packageJson = await loadYaml(resolve(project.absolute, 'package.yaml'));
 				jsonMode = false;
-				logger.debug`found and using package.yaml.`;
+				logger.debug`发现并使用 package.yaml 文件`;
 			} catch (ee) {
 				if (isNotExistsError(ee)) {
 					throw e;
@@ -66,32 +66,32 @@ export async function main() {
 		numChange += update(project, packageJson.devDependencies, map);
 
 		if (dryRun) {
-			logger.log(`  * ${project.name} -  ${numChange} change${numChange > 1 ? 's' : ''}`);
+			logger.log(`  * ${project.name} -  ${numChange} 个更改`);
 			continue;
 		}
 
 		const changed = jsonMode ? await writeJsonFileBack(packageJson) : await writeYaml(packageJson);
 
 		if (changed) {
-			logger.log(`  * ${project.name} -  ${numChange} change${numChange > 1 ? 's' : ''}`);
+			logger.log(`  * ${project.name} -  ${numChange} 个更改`);
 		}
 		hasSomeChange += numChange;
 	}
 
 	if (dryRun) {
-		logger.log('dry-run: quit now.');
+		logger.log('DRY RUN: 提前退出');
 		return;
 	}
 
 	if (hasSomeChange === 0) {
-		logger.log('OHHHH! No update!');
+		logger.log('OHHHH! 没有更新!');
 		return;
 	}
 
-	logger.log('Delete temp file(s):');
+	logger.log('删除临时文件:');
 
 	if (skipUpdate) {
-		logger.warn(`You should run "${packageManager.binary} update" now`);
+		logger.warn(`你现在应该运行 "${packageManager.binary} update"`);
 		return;
 	}
 
@@ -104,7 +104,7 @@ export async function main() {
  */
 function update(project: IPackageInfo, target: Record<string, string>, map: Map<string, string>) {
 	let changed = 0;
-	logger.log(`updating: ${project.name}`);
+	logger.log(`更新: ${project.name}`);
 	if (!target) return changed;
 	for (const [name, currVer] of Object.entries(target)) {
 		if (currVer.startsWith('workspace:')) continue;
@@ -125,7 +125,7 @@ function update(project: IPackageInfo, target: Record<string, string>, map: Map<
 		if (currVer === newVer) continue;
 
 		if (newVer) {
-			console.log('  - update package [%s] from [%s] to [%s]', name, currVer, newVer);
+			logger.log(`  - 更新包[%s]版本号从[%s]到[%s]`, name, currVer, newVer);
 			target[name] = newVer;
 		} else {
 			// console.log('  - no version [%s] current [%s]', item, target[item]);

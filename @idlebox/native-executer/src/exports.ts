@@ -1,6 +1,6 @@
 import assert from 'node:assert';
-import { symbol, theState } from './tools/global.ts';
-import { log } from './tools/types.ts';
+import { symbol, theState } from './tools/global.js';
+import { log } from './tools/types.js';
 
 export function getLoadedFiles(): IterableIterator<string> {
 	const sets = theState.loaded;

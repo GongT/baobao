@@ -21,6 +21,7 @@ class Session extends EnhancedAsyncDisposable {
 		logger: IMyLogger,
 	) {
 		const abortController = new AbortController();
+		const options = ['--import', import.meta.resolve('@idlebox/native-executer/register')];
 		const process = execaNode({
 			cwd: projectRoot,
 			stdin: 'ignore',
@@ -38,7 +39,7 @@ class Session extends EnhancedAsyncDisposable {
 				DEBUG_LEVEL: EnableLogLevel[verboseMode ? EnableLogLevel.verbose : debugMode ? EnableLogLevel.debug : EnableLogLevel.info],
 				FORCE_COLOR: colorMode ? '1' : '0',
 			},
-			nodeOptions: ['--experimental-transform-types', '--disable-warning=ExperimentalWarning', '--import', import.meta.resolve('@idlebox/native-executer/register')],
+			nodeOptions: options,
 		})`${executerFile} ${generaterFile}`;
 
 		super(`process:${process.pid}`);

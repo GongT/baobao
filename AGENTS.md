@@ -1,10 +1,12 @@
-# agent
+# "BAOBAO" Project
 
-Must read: [guidelines](./.agent/guidelines.md)
+This is a `pnpm` workspace for my function collection. it's mainly written in `typescript`.
 
-And read when needed:
+Must read [guidelines](./.agent/guidelines.md) before anything else.
 
-## When use or write a helper program
+Then read when needed:
+
+## When write a helper program
 
 [.agent/helper.md](.agent/helper.md)
 

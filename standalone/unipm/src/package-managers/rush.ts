@@ -47,10 +47,10 @@ export class Rush extends PackageManager {
 			this.subPackageManager = resolve(this.rushRoot, 'common/temp', `${pm}-local`, 'node_modules/.bin', pm);
 		} else {
 			if (sub) {
-				throw new Error('can not determine sub package manager of rush');
+				throw new Error('无法确定rush项目使用的包管理器');
 			}
 			this.subPackageManager = '';
-			console.warn('Warn: can not determine sub package manager of rush.');
+			console.warn('警告: 无法确定rush项目使用的包管理器。');
 		}
 
 		return true;

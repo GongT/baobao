@@ -1,18 +1,24 @@
+import { load as loadTransform } from 'amaro/transformer';
 import { registerHooks } from 'node:module';
-import { theState } from './tools/global.ts';
-import { loadFunction } from './tools/load.ts';
-import { resolveFunction } from './tools/resolve.ts';
-import { log } from './tools/types.ts';
+import { theState } from './tools/global.js';
+import { loadFunction } from './tools/load.js';
+import { resolveFunction } from './tools/resolve.js';
+import { log } from './tools/types.js';
 
-const registed = registerHooks({
+const registed2 = registerHooks({
+	load: loadTransform,
+});
+const registed1 = registerHooks({
 	resolve: resolveFunction,
 	load: loadFunction,
 });
-log.main('loader hooks installed');
+
+log.main('已注册module loader钩子');
 
 const original = theState.dispose;
 theState.dispose = () => {
-	log.main('loader hooks removed');
-	registed.deregister();
-	original();
+	log.main('已移除module loader钩子');
+	registed1.deregister();
+	registed2.deregister();
+	original?.();
 };

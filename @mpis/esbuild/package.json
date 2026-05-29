@@ -7,7 +7,10 @@
 		"mpis-esbuild": "./loader/bin.devel.js"
 	},
 	"exports": {
-		".": "./lib/index.js",
+		".": {
+			"source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"scripts": {

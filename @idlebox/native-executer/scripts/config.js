@@ -12,6 +12,10 @@ export function makeConfig() {
 			out: resolve(projectRoot, 'lib/register-if-not'),
 		},
 		{
+			in: resolve(projectRoot, 'src/really-register.ts'),
+			out: resolve(projectRoot, 'lib/really-register'),
+		},
+		{
 			in: resolve(projectRoot, 'src/register-or-respawn.ts'),
 			out: resolve(projectRoot, 'lib/register-or-respawn'),
 		},
@@ -33,7 +37,7 @@ export function makeConfig() {
 		entryPoints: entry,
 		bundle: true,
 		splitting: true,
-		chunkNames: '[name]',
+		chunkNames: '[name]-[hash]',
 		platform: 'node',
 		packages: 'external',
 		outdir: 'lib',

@@ -44,7 +44,7 @@ export async function executeProjectCheck() {
 		} else {
 			errorRegistry.with(resolve(currentProject, 'package.json')).emit(`意外错误: ${e.stack}`);
 			const eee = errorRegistry.getError();
-			Assertion.ok(eee, 'error missing after adding');
+			Assertion.ok(eee, '不可能发生: 添加错误后获取错误失败');
 			ee = eee;
 		}
 		logger.error(`项目检查出错: ${ee.message}`);
@@ -71,7 +71,7 @@ function checkVeryBasic(name: string) {
 async function executeInner(logger: IMyLogger) {
 	const notice: string[] = [];
 	const pkgPath = resolve(currentProject, 'package.json');
-	logger.debug`check project long<${pkgPath}>`;
+	logger.debug`检查项目: long<${pkgPath}>`;
 	const isVeryBasic = checkVeryBasic(packageJson.name);
 
 	const project = makeProj(logger);
@@ -80,13 +80,13 @@ async function executeInner(logger: IMyLogger) {
 
 	logger.debug(`rig: ${project.rigConfig.rigPackageName}, profile: ${project.rigConfig.rigProfile}`);
 	if (project.rigConfig.rigFound && project.rigConfig.rigPackageName === '@internal/local-rig') {
-		logger.log`rig setting is correct`;
+		logger.log`rig 设置正确`;
 
 		await checkTsConfig(project, logger);
 	} else if (isVeryBasic) {
 		// no need
 	} else {
-		errorRegistry.with(`${currentProject}/config/rig.json`).emit(`invalid rig setting`);
+		errorRegistry.with(`${currentProject}/config/rig.json`).emit(`rig 设置无效`);
 		return notice;
 	}
 
@@ -107,7 +107,7 @@ async function executeInner(logger: IMyLogger) {
 		}
 	}
 
-	logger.debug('check exports in package.json');
+	logger.debug('检查 package.json 中的 exports');
 
 	const denyFields = ['license', 'author', 'repository', 'typings', 'main', 'module'];
 	if (!packageJson.name.startsWith('@idlebox/itypes-')) {
@@ -149,13 +149,13 @@ async function executeInner(logger: IMyLogger) {
 		}
 	} else {
 		notice.push(`不使用 mpis-run`);
-		logger.debug('not using mpis-run');
+		logger.debug('不使用 mpis-run');
 	}
 
 	const autoindex = loadAutoIndex(project);
 	const exports = getExportsField();
 	if (autoindex) {
-		logger.debug`using autoindex: ${autoindex}`;
+		logger.debug`使用 autoindex: ${autoindex}`;
 		check_export_field(pkgChk, 'default', `./lib/${autoindex}.js`);
 		if (exports['.']?.['source']) {
 			check_export_field(pkgChk, 'source', `./src/${autoindex}.ts`);
@@ -170,7 +170,7 @@ async function executeInner(logger: IMyLogger) {
 
 	if (!isVeryBasic) {
 		if (!packageJson.exports && !packageJson.bin) {
-			error.emit(`exports and bin must exists at least one`);
+			error.emit(`exports 和 bin 至少需要存在一个`);
 		}
 		if (!packageJson.bin) {
 			pkgChk.exists(['exports', '.', 'default']);
@@ -208,7 +208,7 @@ async function checkTsConfig(project: ProjectConfig, logger: IMyLogger) {
 	const rigPath = project.rigConfig.getResolvedProfileFolder();
 
 	const tsconfigPath = resolve(currentProject, 'src/tsconfig.json');
-	logger.debug`using tsconfig file: long<${tsconfigPath}>`;
+	logger.debug`使用 tsconfig 文件: long<${tsconfigPath}>`;
 
 	const data = await readJsonOut(tsconfigPath);
 	if (!data) {
@@ -248,7 +248,7 @@ function loadCommentTemplate(path: string) {
 	const symbols = [Symbol.for('before')];
 	const options = json.compilerOptions;
 	if (!options) {
-		throw errorRegistry.with(path).emit(`template file no compilerOptions`);
+		throw errorRegistry.with(path).emit(`模板文件缺少 compilerOptions`);
 	}
 
 	for (const prop of Object.keys(options)) {
@@ -265,18 +265,18 @@ function loadCommentTemplate(path: string) {
 			try {
 				return parse(`{\n${comment.value.trim()}\n}`, undefined, true) as Record<string, any>;
 			} catch (e: any) {
-				throw errorRegistry.with(path).emit(`template file: ${e.message}`);
+				throw errorRegistry.with(path).emit(`模板文件解析错误: ${e.message}`);
 			}
 		}
 	}
-	throw errorRegistry.with(path).emit(`template file has no json block comment`);
+	throw errorRegistry.with(path).emit(`模板文件缺少 JSON 块注释`);
 }
 
 async function readJsonOut(file: string) {
 	try {
 		return await loadJsonFile(file, 'utf-8');
 	} catch (e: any) {
-		errorRegistry.with(file).emit(`failed read or parse json: ${e.message}`);
+		errorRegistry.with(file).emit(`读取或解析 JSON 失败: ${e.message}`);
 		return undefined;
 	}
 }

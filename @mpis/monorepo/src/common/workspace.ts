@@ -5,6 +5,7 @@ import { getEnvironment, workingDirectory } from '@idlebox/node';
 import { CSI } from '@idlebox/terminal-control/constants';
 import { CompileError, ModeKind, ProcessIPCClient, WorkerClientState, WorkersManager } from '@mpis/server';
 import { RigConfig, type IRigConfig } from '@rushstack/rig-package';
+import assert from 'node:assert';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
 import { currentCommand } from '../bin.js';
@@ -211,17 +212,18 @@ class PnpmMonoRepo extends EnhancedAsyncDisposable {
 				txt = txt.slice(Math.max(lWidth - 20), 20).replace(unclosedColorReg, '');
 				psize = 4 + 2 + txt.replace(colorReg, '').length + 2;
 			}
-			return `\n${CSI}${barC}m    ${CSI}0;${textC}m  ${txt}  ${CSI}0${barC}m${' '.repeat(lWidth - psize)}${CSI}0m\n`;
+			return `\n${CSI}${barC}m    ${CSI}0;${textC}m  ${txt}  ${CSI}0${barC}m${CSI}K${CSI}0m\n`;
 		}
 
 		for (const [project, text] of this.errorMessages.entries()) {
 			const block = text.replace(firstEmptyLine, '').trimEnd();
-			// biome-ignore lint/style/noNonNullAssertion: no error if no worker
-			const exec = this.packageToWorker.get(project)!;
-			output += buildLine(`[@mpis/monorepo] below is output in project ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m: ${exec.commandline.join(' ')}`);
+			const exec = this.packageToWorker.get(project);
+			assert.ok(exec);
+
+			output += buildLine(`[@mpis/monorepo] 以下是项目 ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m 中此命令的输出: ${exec.commandline.join(' ')}`);
 			output += workingDirectory.escapeVscodeCwd(project.absolute);
 			output += `\nwd: ${project.absolute}\n${block}\n`.replace('\x1bc', '').replace(/^/gm, `${CSI}${barC}m ${CSI}0m `);
-			output += buildLine(`[@mpis/monorepo] ending output in project ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m`);
+			output += buildLine(`[@mpis/monorepo] 结束项目 ${CSI}38;5;14m${project.packageJson.name}${CSI}0;${textC}m 的输出`);
 		}
 		if (output) {
 			output += workingDirectory.escapeVscodeCwd(process.cwd());

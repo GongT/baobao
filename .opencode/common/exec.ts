@@ -37,7 +37,7 @@ export async function globalNodejsPath() {
 
 export async function executeTool(command: string, args: string[] = [], cwd = process.cwd()) {
 	const entryFile = resolve(repoRoot, '@internal/scripts/loader/agent-tool.js');
-	const execArgs = ['--experimental-transform-types', '--disable-warning=ExperimentalWarning'];
+	const execArgs = ['--disable-warning=ExperimentalWarning'];
 
 	const node = await globalNodejsPath();
 	const p = await execa(node, [...execArgs, entryFile, command, ...args], {

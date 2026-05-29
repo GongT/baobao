@@ -1,13 +1,15 @@
 /// <reference types="node" />
 
+import debug from 'debug';
 import esbuild from 'esbuild';
 import { access, constants, mkdir, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { makeConfig } from './config.js';
 
+const log = debug('executer:early-load');
 const outDir = resolve(import.meta.dirname, '../lib');
 const outFile = resolve(outDir, 'exports.js');
-const lockFile = resolve(process.platform === 'linux' ? '/dev/shm' : outDir, '.lock');
+const lockFile = resolve(process.platform === 'linux' ? '/dev/shm' : outDir, '.native-executer-lock');
 
 if (process.platform !== 'linux') {
 	await mkdir(outDir, { recursive: true });
@@ -27,7 +29,14 @@ async function main() {
 
 		try {
 			const exists = await promiseBoolean(access(outFile, constants.F_OK));
-			if (exists) return;
+			if (exists) {
+				if (process.env.__RELAUNCH__) {
+					log(`发现重新启动状态`);
+					return;
+				}
+				log(`输出文件存在: ${outFile}`);
+				// return;
+			}
 
 			await make();
 		} finally {
@@ -39,8 +48,8 @@ async function main() {
 
 	// never acquired
 	console.error('[ERROR] Cannot acquire lock file @ %s', lockFile);
-	await make();
 	await rm(lockFile, { recursive: true, force: true });
+	process.exit(22);
 }
 
 function promiseBoolean(promise) {
@@ -51,6 +60,8 @@ function promiseBoolean(promise) {
 }
 
 async function make() {
+	const start = Date.now();
+	log('native-executer 构建自身');
 	const options = makeConfig();
 
 	let hasError = false;
@@ -86,6 +97,7 @@ async function make() {
 		throw error;
 	} finally {
 		await session.dispose();
+		log(`构建自身使用了 ${Date.now() - start}ms`);
 	}
 }
 

@@ -1,42 +1,55 @@
 import debug from 'debug';
+import { execaSync } from 'execa';
+import { magic } from './tools/share.js';
 
 const log = debug('executer');
+
 if (Object.hasOwn(globalThis, Symbol.for('native-executer'))) {
-	// nothing to do
-	log('resolver already installed before register-if-not.ts');
-} else if (!process.execArgv.includes('--experimental-transform-types') && !process.env.NODE_OPTIONS?.includes('--experimental-transform-types')) {
-	if (process.env._PREVENT_LOOP_) {
-		console.error(process.execArgv);
-		console.error(process.env.NODE_OPTIONS);
-		throw new Error('Loop detected in loader.ts');
+	if (process.env.__RELAUNCH__) {
+		// node无参数 -> 分支2 -> 当前
+		log('执行器已经正确注册过（重启后）');
+
+		delete process.env.__RELAUNCH__;
+
+		if (process.execArgv.includes('--inspect')) {
+			log('检测到默认调试参数，强制等待调试器连接');
+			const ins = await import('node:inspector');
+			ins.waitForDebugger();
+		}
+	} else {
+		// node有参数 -> 当前
+		log('执行器已经正确注册过');
 	}
+} else if (process.env.__RELAUNCH__ !== magic) {
+	log('未发现magic，准备带参数重启进程');
+	// node无参数 -> 当前
+	const argv = process.argv.slice(1);
 
-	console.error(`current argv = %s`, process.execArgv);
-	console.error(`current NODE_OPTIONS = %s`, process.env.NODE_OPTIONS);
+	const amaro = import.meta.resolve('./really-register.js');
 
-	const NODE_OPTIONS = `${process.env.NODE_OPTIONS || ''} --experimental-transform-types --disable-warning=ExperimentalWarning`;
 	if (process.execve) {
-		console.error('replacing process with NODE_OPTIONS: %s', NODE_OPTIONS);
-		process.execve(process.execPath, [process.argv[0], ...process.execArgv, ...process.argv.slice(1)], {
+		process.execve(process.execPath, ['--disable-warning=DEP0205', '--enable-source-maps', `--import=${amaro}`, ...argv], {
 			...process.env,
-			_PREVENT_LOOP_: '1',
-			NODE_OPTIONS,
+			__RELAUNCH__: magic,
 		});
 	} else {
-		console.error('relaunching process with NODE_OPTIONS: %s', NODE_OPTIONS);
-		const { execa } = await import('execa');
-		const r = await execa(process.execPath, [...process.execArgv, ...process.argv.slice(1)], {
-			stdio: 'inherit',
+		const r = execaSync({
+			reject: false,
+			stdio: 'inherit', // TODO: 其他管道会因此失效
 			env: {
-				...process.env,
-				_PREVENT_LOOP_: '1',
-				NODE_OPTIONS,
+				__RELAUNCH__: magic,
 			},
-		});
-		process.exit(r.exitCode ?? 100);
+		})`${process.execPath} --disable-warning=DEP0205 --enable-source-maps --import=${amaro} ${argv}`;
+		if (r.exitCode) {
+			process.exit(r.exitCode);
+		} else if (r.signal) {
+			process.kill(process.pid, r.signal);
+		} else {
+			process.exit(0);
+		}
 	}
-
-	throw new Error('Failed to relaunch process with experimental transform types');
+	// 跳到1分支
 } else {
-	await import('./register-if-not.ts');
+	// 异常
+	throw new Error('程序状态异常');
 }

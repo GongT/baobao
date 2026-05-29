@@ -49,7 +49,7 @@ function watchModeCmd(command: string | readonly string[], watch?: string | read
 		return cmdArr;
 	}
 	if (typeof watch === 'boolean') {
-		throw new Error(`Invalid watch value: ${watch}. Expected string or array.`);
+		throw new Error(`无效的 watch 值: ${watch}. 期望的是字符串或数组`);
 	}
 
 	if (!watch) watch = ['-w'];
@@ -61,7 +61,7 @@ function loadConfigFile(watchMode: boolean): IConfigFile {
 	const schemaFile = resolve(selfRoot, 'commands.schema.json');
 
 	const configFile = config.getJsonConfigInfo('commands');
-	logger.debug`using config file long<${configFile.effective}>`;
+	logger.debug`使用配置文件: long<${configFile.effective}>`;
 
 	const input: IConfigFileInput = config.loadBothJson('commands', schemaFile, {
 		array(left, right, keyPath) {
@@ -100,8 +100,8 @@ function loadConfigFile(watchMode: boolean): IConfigFile {
 				if (info.rig.exists) {
 					files.push(info.rig.path);
 				}
-				logger.info`config files list<${files}>`;
-				logger.error`command ${input.build.indexOf(item)} "${item}" not found in "commands" list<${Object.keys(input.commands)}>`;
+				logger.info`配置文件list<${files}>`;
+				logger.error`命令 ${input.build.indexOf(item)}"${item}" 不在"commands"中 list<${Object.keys(input.commands)}>`;
 				shutdown(ExitCode.USAGE);
 			}
 			item = found;
@@ -118,14 +118,14 @@ function loadConfigFile(watchMode: boolean): IConfigFile {
 					debug_title = item.command.package;
 				}
 			}
-			logger.log`command "${debug_title}" watch mode is disabled.`;
+			logger.log`命令"${debug_title}"被设置了watch=false，跳过执行`;
 			continue;
 		}
 
 		const cmd = resolveCommand(config, item, watchMode);
 
 		if (buildMap.has(cmd.title)) {
-			throw new Error(`duplicate command "${cmd.title}", rename it before continue`);
+			throw new Error(`命令"${cmd.title}"重复，请在继续之前重命名它`);
 		}
 		buildMap.set(cmd.title, cmd);
 		buildTitles.push(cmd.title);
@@ -145,7 +145,7 @@ function loadConfigFile(watchMode: boolean): IConfigFile {
 	if (config.rigConfig.rigFound) {
 		const nmPath = findUpUntilSync({ file: 'node_modules', from: config.rigConfig.getResolvedProfileFolder() });
 		if (!nmPath) {
-			throw new Error(`Failed to find "node_modules" folder in rig profile "${config.rigConfig.getResolvedProfileFolder()}".`);
+			throw new Error(`在 rig 配置 "${config.rigConfig.getResolvedProfileFolder()}" 中未找到 "node_modules" 文件夹`);
 		}
 		additionalPaths.push(resolve(nmPath, '.bin'));
 	}
@@ -154,7 +154,7 @@ function loadConfigFile(watchMode: boolean): IConfigFile {
 	for (const item of input.clean) {
 		const abs = resolve(projectRoot, item);
 		if (!abs.startsWith(projectRoot)) {
-			throw new Error(`invalid clean path "${item}", out of project "${projectRoot}"`);
+			throw new Error(`无效的清理路径"${item}"，超出项目范围 "${projectRoot}"`);
 		}
 		clean.push(abs);
 	}
@@ -183,7 +183,7 @@ function resolveCommand(config: ProjectConfig, input: ICommandInput, watchMode: 
 		const obj = parsePackagedBinary(config, input, watchMode);
 		return obj;
 	} else {
-		throw TypeError(`Invalid command type: ${typeof cmd}. Expected string or array or object.`);
+		throw TypeError(`无效的命令类型: ${typeof cmd}。期望的类型是字符串、数组或对象`);
 	}
 }
 
@@ -195,7 +195,7 @@ function guessTitle(command: string | readonly string[]): string {
 		return command[0];
 	}
 
-	throw new Error(`Invalid command: ${Array.isArray(command) ? command.join(' ') : command}.`);
+	throw new Error(`无效的命令: ${Array.isArray(command) ? command.join(' ') : command}`);
 }
 
 function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMode: boolean): ICommand {
@@ -216,9 +216,9 @@ function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMo
 	const typeStr = typeof pkg.bin === 'string';
 	const typeMap = !!cmd.binary;
 	if (typeStr && typeMap) {
-		throw new Error(`"${pkgJsonPath}" "bin" field is string, can not specify "binary" in "commands.json".`);
+		throw new Error(`"${pkgJsonPath}"中的"bin"字段是字符串，不能在"commands.json" 中指定"binary"`);
 	} else if (!typeStr && !typeMap) {
-		throw new Error(`"${pkgJsonPath}" "bin" field is not string, must specify "binary" in "commands.json".`);
+		throw new Error(`"${pkgJsonPath}"中的"bin"字段不是字符串，必须在"commands.json"中指定"binary"`);
 	}
 
 	let binPath: string;
@@ -230,10 +230,10 @@ function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMo
 		if (existsSync(path)) {
 			binPath = path;
 		} else {
-			throw new Error(`"${pkgJsonPath}" "bin" field has no key "${cmd.binary}"; and "${path}" not looks like a file.`);
+			throw new Error(`"${pkgJsonPath}"中的"bin"字段没有键"${cmd.binary}"；并且"${path}"看起来不像是一个文件`);
 		}
 	} else {
-		throw new Error(`"${pkgJsonPath}" "bin" field has no key "${cmd.binary}".`);
+		throw new Error(`"${pkgJsonPath}"中的"bin"字段没有"${cmd.binary}"键`);
 	}
 
 	return {
@@ -266,5 +266,5 @@ function resolveCommandIsFile(config: ProjectConfig, command: string[]) {
 export let config: IConfigFile;
 export function loadConfig() {
 	config = loadConfigFile(context().watchMode);
-	logger.verbose`loaded config file: ${config}`;
+	logger.verbose`成功加载配置文件: ${config}`;
 }

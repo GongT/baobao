@@ -33,7 +33,7 @@ class CliApplication implements IApp {
 	private _command = '';
 	get command() {
 		if (!this._command) {
-			throw new Error('application sub command is unknown or not exists');
+			throw new Error('子命令未知或不存在');
 		}
 		return this._command;
 	}
@@ -60,7 +60,7 @@ function autoload(): IAppBasic {
 	const pkgPath = findPackageJSON(mainUri);
 
 	if (!pkgPath) {
-		throw new Error(`can not determin package.json for ${mainUri}`);
+		throw new Error(`无法确定"${mainUri}"的 package.json`);
 	}
 	let { name, description } = JSON.parse(readFileSync(pkgPath, 'utf-8')) as IPackageJson;
 
@@ -121,7 +121,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 	logger.verbose`source-map-support is: ${hasInstalledSourceMapSupport()}`;
 
 	if (!binName || !description) {
-		throw new SoftwareDefectError(`missing application name or description`);
+		throw new SoftwareDefectError(`缺少应用程序名称或描述，请在 package.json 中正确设置 name 和 description 字段，或者在调用 makeApplication() 时手动传入`);
 	}
 
 	const coreLog = logger.extend('nodejs');
