@@ -4,7 +4,7 @@ import { log } from './tools/types.js';
 
 export function getLoadedFiles(): IterableIterator<string> {
 	const sets = theState.loaded;
-	if (!sets) throw new Error('feature not loaded');
+	if (!sets) throw new Error('尝试使用@idlebox/native-executer提供的可选功能，但没有启用');
 
 	return sets.values();
 }

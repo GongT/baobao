@@ -9,18 +9,24 @@ import type { IGenerateFunction } from '../../client/generate-context.js';
 import { isTypeOf, type IGenerateResult, type IMessage } from './messages.js';
 
 registerNodejsExitHandler();
-const cancelSignal = await getCancelSignal();
 
-cancelSignal.addEventListener('abort', () => {
-	shutdown(0);
-});
+createRootLogger('executer:child');
+
+try {
+	const cancelSignal = await getCancelSignal();
+
+	cancelSignal.addEventListener('abort', () => {
+		shutdown(0);
+	});
+} catch (e) {
+	logger.error`未能注册取消信号，父进程无法正常终止此任务: ${(e as Error).message}`;
+}
 
 const generatorFile = process.argv[2];
 if (!generatorFile) {
 	throw new SoftwareDefectError('no generator file specified');
 }
 
-createRootLogger('executer:child');
 logger.info`starting child process for generator ${generatorFile}`;
 
 Object.assign(globalThis, { logger });

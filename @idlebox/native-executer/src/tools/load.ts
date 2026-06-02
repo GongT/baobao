@@ -17,6 +17,8 @@ function myLoad(url: string, context: LoadHookContext, defaultLoad: NextLoad): L
 		if (theState.loaded) {
 			if (url.startsWith('file://')) {
 				theState.loaded.add(url);
+			} else if (url.startsWith('node:') || url.startsWith('data:')) {
+				// normal
 			} else {
 				console.error(`遇到了意外的非文件URL: ${url}`);
 			}

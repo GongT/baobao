@@ -21,7 +21,7 @@ if (Object.hasOwn(globalThis, Symbol.for('native-executer'))) {
 		log('执行器已经正确注册过');
 	}
 } else if (process.env.__RELAUNCH__ !== magic) {
-	log('未发现magic，准备带参数重启进程');
+	log(`未发现magic，准备带参数重启进程 (process.connected=${process.connected})`);
 	// node无参数 -> 当前
 	const argv = process.argv.slice(1);
 

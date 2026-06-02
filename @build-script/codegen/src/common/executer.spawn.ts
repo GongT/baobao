@@ -21,18 +21,19 @@ class Session extends EnhancedAsyncDisposable {
 		logger: IMyLogger,
 	) {
 		const abortController = new AbortController();
-		const options = ['--import', import.meta.resolve('@idlebox/native-executer/register')];
+		const options = ['--enable-source-maps', '--import', import.meta.resolve('@idlebox/native-executer/register')];
 		const process = execaNode({
 			cwd: projectRoot,
 			stdin: 'ignore',
 			stderr: 'pipe',
 			stdout: 'pipe',
+			all: true,
 			ipc: true,
+			// verbose: 'full',
 			verbose: verboseMode ? 'short' : undefined,
 			reject: false,
 			cancelSignal: abortController.signal,
 			gracefulCancel: true,
-			all: true,
 			encoding: 'utf8',
 			env: {
 				NATIVE_EXECUTER_COLLECTION: '1',
@@ -67,6 +68,8 @@ class Session extends EnhancedAsyncDisposable {
 	}
 
 	private async send(message: IMessage) {
+		if (this.disposing || this.disposed) return;
+
 		await this.process.sendMessage(message as any, { strict: true });
 	}
 
