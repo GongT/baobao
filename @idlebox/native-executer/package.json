@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/native-executer",
 	"description": "A simple script to execute typescript file during development.",
-	"version": "0.0.23",
+	"version": "0.0.24",
 	"type": "module",
 	"exports": {
 		".": "./lib/exports.js",
@@ -18,11 +18,7 @@
 	"imports": {
 		"#generate-prefix": "./lib/generate-prefix.js"
 	},
-	"keywords": [
-		"typescript",
-		"executer",
-		"runner"
-	],
+	"keywords": ["typescript", "executer", "runner"],
 	"scripts": {
 		"prepublishHook:update-exports": "./scripts/update-exports.js",
 		"prepublishHook": "internal-prepublish-hook",
@@ -49,10 +45,7 @@
 		"typescript": "^6.0.2"
 	},
 	"publishConfig": {
-		"packCommand": [
-			"publisher",
-			"pack"
-		]
+		"packCommand": ["publisher", "pack"]
 	},
 	"sideEffects": false
 }

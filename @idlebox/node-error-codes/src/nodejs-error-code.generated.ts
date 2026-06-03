@@ -1779,7 +1779,7 @@ export enum NodeErrorCode {
 	 */
 	ERR_TLS_INVALID_CONTEXT = 'ERR_TLS_INVALID_CONTEXT',
 	/**
-	 * <p>The specified  <code>secureProtocol</code> method is invalid. It is  either unknown, or
+	 * <p>The specified <code>secureProtocol</code> method is invalid. It is either unknown, or
 	 * disabled because it is insecure.</p>
 	 * <p><a id="ERR_TLS_INVALID_PROTOCOL_VERSION"></a></p>
 	 */
