@@ -6,6 +6,6 @@ interface MaybeNamed {
 /**
  * @internal
  */
-export function objectName<T = unknown>(func: NonNullable<T>) {
+export function _objectName<T = unknown>(func: NonNullable<T>) {
 	return (func as MaybeNamed).displayName || (func as MaybeNamed).name;
 }

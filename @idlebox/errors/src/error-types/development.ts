@@ -1,4 +1,4 @@
-import { objectName } from '../_tools/object-name.js';
+import { _objectName } from '../internals/object-name.js';
 import { ExitCode } from '../codes/wellknown-exit-codes.js';
 import { ErrorWithCode, TypeErrorWithCode } from '../common/base.js';
 import type { IErrorOptions } from '../common/type.js';
@@ -30,7 +30,7 @@ export class DuplicateCallError extends ProgramError {
 	constructor(fn: string | Function, opts?: IErrorOptions) {
 		let message;
 		if (typeof fn === 'function') {
-			const name = objectName(fn);
+			const name = _objectName(fn);
 			if (!name) throw new SoftwareDefectError('DuplicateCallError 如果传入函数，则必须是命名函数');
 			message = `重复调用 ${name}`;
 		} else {
