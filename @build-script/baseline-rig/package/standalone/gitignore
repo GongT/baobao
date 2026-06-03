@@ -58,6 +58,5 @@ yarn-error.log*
 *.generated.*
 c_cpp_properties.json
 vcpkg_installed
-_*.ts
 tsconfig.everything.json
 .nx

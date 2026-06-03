@@ -13,7 +13,6 @@ config/
 
 ### Hidden Files
 .*
-_*
 
 ### Temp Files
 package-deps.json

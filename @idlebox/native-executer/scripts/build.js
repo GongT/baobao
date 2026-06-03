@@ -2,64 +2,50 @@
 
 import debug from 'debug';
 import esbuild from 'esbuild';
-import { access, constants, mkdir, rm } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import lockfile from 'proper-lockfile';
 import { makeConfig } from './config.js';
 
 const log = debug('executer:early-load');
+const logCi = debug('ci:executer:early-load');
 const outDir = resolve(import.meta.dirname, '../lib');
 const outFile = resolve(outDir, 'exports.js');
-const lockFile = resolve(process.platform === 'linux' ? '/dev/shm' : outDir, '.native-executer-lock');
-
-if (process.platform !== 'linux') {
-	await mkdir(outDir, { recursive: true });
-}
 
 await main();
 
 async function main() {
-	let tries = 0;
-	while (tries < 25) {
-		const acquired = await promiseBoolean(mkdir(lockFile, {}));
-		if (!acquired) {
-			tries++;
-			await new Promise((resolve) => setTimeout(resolve, 200));
-			continue;
-		}
+	logCi(`需要通过native-executer构建并加载自身`);
+	await mkdir(outDir, { recursive: true });
 
-		try {
-			const exists = await promiseBoolean(access(outFile, constants.F_OK));
-			if (exists) {
-				if (process.env.__RELAUNCH__) {
-					log(`输出文件存在，重新启动状态跳过重生成`);
-					return;
-				}
-				if (process.env.CI) {
-					log(`输出文件存在，CI 环境跳过重生成`);
-					return;
-				}
+	const release = await lockfile.lock(outDir, {
+		retries: {
+			factor: 1,
+		},
+	});
+
+	logCi(`成功获取锁`);
+
+	try {
+		if (existsSync(outFile)) {
+			if (process.env.__RELAUNCH__) {
+				log(`输出文件存在，重新启动状态跳过重生成`);
+				return;
+			} else if (process.env.CI) {
+				log(`CI环境，跳过重生成`);
+				return;
+			} else {
 				log(`输出文件存在: ${outFile} (开发模式强制重新生成)`);
 			}
-
-			await make();
-		} finally {
-			await rm(lockFile, { recursive: true, force: true });
+		} else {
+			logCi(`输出文件不存在，需要构建`);
 		}
 
-		return;
+		await make();
+	} finally {
+		await release();
 	}
-
-	// never acquired
-	console.error('[ERROR] Cannot acquire lock file @ %s', lockFile);
-	await rm(lockFile, { recursive: true, force: true });
-	process.exit(22);
-}
-
-function promiseBoolean(promise) {
-	return promise.then(
-		() => true,
-		() => false,
-	);
 }
 
 async function make() {

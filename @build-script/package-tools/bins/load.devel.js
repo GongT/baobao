@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --disable-warning=DEP0205 --enable-source-maps --import=@idlebox/native-executer/register
+#!/usr/bin/env -S node --enable-source-maps --import=@idlebox/native-executer/register
 
 import '@idlebox/native-executer/register/respawn';
 import { execaNode } from 'execa';

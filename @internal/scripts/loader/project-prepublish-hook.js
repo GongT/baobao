@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --disable-warning=DEP0205 --enable-source-maps
+#!/usr/bin/env -S node --enable-source-maps
 
 import '@idlebox/native-executer/register/respawn';
 

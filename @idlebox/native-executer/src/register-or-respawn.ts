@@ -39,7 +39,7 @@ if (Object.hasOwn(globalThis, Symbol.for('native-executer'))) {
 			env: {
 				__RELAUNCH__: magic,
 			},
-		})`${process.execPath} --disable-warning=DEP0205 --enable-source-maps --import=${entry} ${argv}`;
+		})`${process.execPath} --enable-source-maps --import=${entry} ${argv}`;
 		if (r.exitCode) {
 			process.exit(r.exitCode);
 		} else if (r.signal) {

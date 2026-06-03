@@ -18,7 +18,11 @@
 	"imports": {
 		"#generate-prefix": "./lib/generate-prefix.js"
 	},
-	"keywords": ["typescript", "executer", "runner"],
+	"keywords": [
+		"typescript",
+		"executer",
+		"runner"
+	],
 	"scripts": {
 		"prepublishHook:update-exports": "./scripts/update-exports.js",
 		"prepublishHook": "internal-prepublish-hook",
@@ -36,15 +40,19 @@
 		"import-meta-resolve": "^4.2.0"
 	},
 	"devDependencies": {
-		"amaro": "^1.1.10",
 		"@internal/local-rig": "workspace:^",
 		"@mpis/esbuild": "workspace:^",
 		"@types/node": "^25.5.0",
+		"amaro": "^1.1.10",
 		"esbuild": "^0.27.3",
+		"proper-lockfile": "^4.1.2",
 		"typescript": "^6.0.2"
 	},
 	"publishConfig": {
-		"packCommand": ["publisher", "pack"]
+		"packCommand": [
+			"publisher",
+			"pack"
+		]
 	},
 	"sideEffects": false
 }
