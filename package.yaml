@@ -17,11 +17,11 @@ scripts:
   remote-publish: node @internal/scripts/loader/remote-publish.js
   agent-tool: node @internal/scripts/loader/agent-tool.js
 devDependencies:
-  '@biomejs/biome': ^2.4.8
+  '@biomejs/biome': ^2.4.16
   '@internal/scripts': workspace:^
-  '@types/node': ^25.5.0
-  browserslist: ^4.28.1
+  '@types/node': ^25.9.1
+  browserslist: ^4.28.2
   execa: ^9.6.1
-  knip: ^6.1.1
-  typescript: ^6.0.2
+  knip: ^6.15.0
+  typescript: ^6.0.3
 packageManager: pnpm@11.5.0

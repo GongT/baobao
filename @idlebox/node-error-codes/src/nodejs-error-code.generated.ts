@@ -802,9 +802,15 @@ export enum NodeErrorCode {
 	/**
 	 * <p>The limit of acceptable invalid HTTP/2 protocol frames sent by the peer,
 	 * as specified through the <code>maxSessionInvalidFrames</code> option, has been exceeded.</p>
-	 * <p><a id="ERR_HTTP2_TRAILERS_ALREADY_SENT"></a></p>
+	 * <p><a id="ERR_HTTP2_TOO_MANY_ORIGINS"></a></p>
 	 */
 	ERR_HTTP2_TOO_MANY_INVALID_FRAMES = 'ERR_HTTP2_TOO_MANY_INVALID_FRAMES',
+	/**
+	 * <p>The number of uniq origin sent by the server has exceeded the value defined in
+	 * <code>options.maxOriginSetSize</code>.</p>
+	 * <p><a id="ERR_HTTP2_TRAILERS_ALREADY_SENT"></a></p>
+	 */
+	ERR_HTTP2_TOO_MANY_ORIGINS = 'ERR_HTTP2_TOO_MANY_ORIGINS',
 	/**
 	 * <p>Trailing headers have already been sent on the <code>Http2Stream</code>.</p>
 	 * <p><a id="ERR_HTTP2_TRAILERS_NOT_READY"></a></p>
@@ -1386,9 +1392,57 @@ export enum NodeErrorCode {
 	/**
 	 * <p>The <code>package.json</code> <a href="packages.html#imports"><code>"imports"</code></a> field does not define the given internal
 	 * package specifier mapping.</p>
-	 * <p><a id="ERR_PACKAGE_PATH_NOT_EXPORTED"></a></p>
+	 * <p><a id="ERR_PACKAGE_MAP_EXTERNAL_FILE"></a></p>
 	 */
 	ERR_PACKAGE_IMPORT_NOT_DEFINED = 'ERR_PACKAGE_IMPORT_NOT_DEFINED',
+	/**
+	 * <p>A module attempted to resolve a bare specifier using the <a href="packages.html#package-maps">package map</a>, but
+	 * the importing file is not located within any package defined in the map.</p>
+	 * <pre><code class="language-console">$ node --experimental-package-map=./package-map.json /tmp/script.js
+	 * Error [ERR_PACKAGE_MAP_EXTERNAL_FILE]: Cannot resolve "dep-a" from "/tmp/script.js": file is not within any package defined in /path/to/package-map.json
+	 * </code></pre>
+	 * <p>To fix this error, ensure the importing file is inside one of the package
+	 * directories listed in the package map, or add a new package entry whose <code>url</code>
+	 * covers the importing file.</p>
+	 * <p><a id="ERR_PACKAGE_MAP_INVALID"></a></p>
+	 */
+	ERR_PACKAGE_MAP_EXTERNAL_FILE = 'ERR_PACKAGE_MAP_EXTERNAL_FILE',
+	/**
+	 * <p>The <a href="packages.html#package-maps">package map</a> configuration file is invalid. This can occur when:</p>
+	 * <ul>
+	 * <li>The file does not exist at the specified path.</li>
+	 * <li>The file contains invalid JSON.</li>
+	 * <li>The file is missing the required <code>packages</code> object.</li>
+	 * <li>A package entry is missing the required <code>url</code> field.</li>
+	 * <li>Two package entries have the same <code>url</code> value.</li>
+	 * </ul>
+	 * <pre><code class="language-console">$ node --experimental-package-map=./missing.json app.js
+	 * Error [ERR_PACKAGE_MAP_INVALID]: Invalid package map at "./missing.json": file not found
+	 * </code></pre>
+	 * <p><a id="ERR_PACKAGE_MAP_KEY_NOT_FOUND"></a></p>
+	 */
+	ERR_PACKAGE_MAP_INVALID = 'ERR_PACKAGE_MAP_INVALID',
+	/**
+	 * <p>A package's <code>dependencies</code> object in the <a href="packages.html#package-maps">package map</a> references a package
+	 * key that is not defined in the <code>packages</code> object.</p>
+	 * <pre><code class="language-json">{
+	 *   "packages": {
+	 *     "app": {
+	 *       "url": "./app",
+	 *       "dependencies": {
+	 *         "foo": "nonexistent"
+	 *       }
+	 *     }
+	 *   }
+	 * }
+	 * </code></pre>
+	 * <p>In this example, <code>"nonexistent"</code> is referenced as a dependency target but not
+	 * defined in <code>packages</code>, which will throw this error.</p>
+	 * <p>To fix this error, ensure all package keys referenced in <code>dependencies</code> values
+	 * are defined in the <code>packages</code> object.</p>
+	 * <p><a id="ERR_PACKAGE_PATH_NOT_EXPORTED"></a></p>
+	 */
+	ERR_PACKAGE_MAP_KEY_NOT_FOUND = 'ERR_PACKAGE_MAP_KEY_NOT_FOUND',
 	/**
 	 * <p>The <code>package.json</code> <a href="packages.html#exports"><code>"exports"</code></a> field does not export the requested subpath.
 	 * Because exports are encapsulated, private internal modules that are not exported
@@ -1488,9 +1542,22 @@ export enum NodeErrorCode {
 	/**
 	 * <p>When trying to <code>require()</code> a <a href="esm.html">ES Module</a>, the module turns out to be asynchronous.
 	 * That is, it contains top-level await.</p>
-	 * <p>To see where the top-level await is, use
-	 * <code>--experimental-print-required-tla</code> (this would execute the modules
-	 * before looking for the top-level awaits).</p>
+	 * <p>When uncaught, the flag <code>--experimental-print-required-tla</code> prints
+	 * the locations of the top-level awaits in the graph to stderr.</p>
+	 * <p>This error has the following additional non-enumerable properties:</p>
+	 * <ul>
+	 * <li><code>requireStack</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#string_type"><code>&#x3C;string></code></a>[] The chain of modules that led to the failing <code>require()</code>, starting with the module that required the asynchronous module.</li>
+	 * <li><code>topLevelAwaitLocations</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object"><code>&#x3C;Object></code></a>[] The locations of the top-level awaits in
+	 * the graph. Only populated when <code>--experimental-print-required-tla</code> is enabled.
+	 * Each entry has the following properties:
+	 * <ul>
+	 * <li><code>url</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#string_type"><code>&#x3C;string></code></a> The URL of the module containing the top-level await.</li>
+	 * <li><code>line</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#number_type"><code>&#x3C;number></code></a> The 1-based line number of the top-level await.</li>
+	 * <li><code>column</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#number_type"><code>&#x3C;number></code></a> The 1-based column number of the top-level await.</li>
+	 * <li><code>sourceLine</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Data_structures#string_type"><code>&#x3C;string></code></a> The source line containing the top-level await.</li>
+	 * </ul>
+	 * </li>
+	 * </ul>
 	 * <p><a id="ERR_REQUIRE_CYCLE_MODULE"></a></p>
 	 */
 	ERR_REQUIRE_ASYNC_MODULE = 'ERR_REQUIRE_ASYNC_MODULE',
@@ -1608,9 +1675,16 @@ export enum NodeErrorCode {
 	ERR_SOCKET_DGRAM_NOT_CONNECTED = 'ERR_SOCKET_DGRAM_NOT_CONNECTED',
 	/**
 	 * <p>A call was made and the UDP subsystem was not running.</p>
-	 * <p><a id="ERR_SOURCE_MAP_CORRUPT"></a></p>
+	 * <p><a id="ERR_SOCKET_HANDLE_ADOPTED"></a></p>
 	 */
 	ERR_SOCKET_DGRAM_NOT_RUNNING = 'ERR_SOCKET_DGRAM_NOT_RUNNING',
+	/**
+	 * <p>An operation was attempted on a <a href="net.html#class-netboundsocket"><code>BoundSocket</code></a> that had already been adopted
+	 * by a <a href="net.html#class-netserver"><code>net.Server</code></a> or <a href="net.html#class-netsocket"><code>net.Socket</code></a>. Once a bound socket is adopted, its
+	 * <code>address()</code> and <code>close()</code> methods can no longer be used.</p>
+	 * <p><a id="ERR_SOURCE_MAP_CORRUPT"></a></p>
+	 */
+	ERR_SOCKET_HANDLE_ADOPTED = 'ERR_SOCKET_HANDLE_ADOPTED',
 	/**
 	 * <p>The source map could not be parsed because it does not exist, or is corrupt.</p>
 	 * <p><a id="ERR_SOURCE_MAP_MISSING_SOURCE"></a></p>
