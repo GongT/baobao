@@ -3,7 +3,7 @@ import type { EnableLogLevel } from '../loglevels/loglevel.js';
 import { create } from './create.logger.js';
 import type { IInstrestedConsole, IMyLogger } from './types.js';
 
-const symbol = Symbol('@idlebox/logger');
+const symbol = Symbol.for('@idlebox/global-logger');
 
 /**
  * 作为logger导出，必须在程序入口调用过 createGlobalLogger() 才能使用
