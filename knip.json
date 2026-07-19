@@ -9,6 +9,7 @@
 	"workspaces": {
 		".": {
 			"entry": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}", "**/*.*"],
+			"ignore": ["**/*.test.*"],
 			"project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"]
 		}
 	}

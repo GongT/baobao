@@ -139,7 +139,7 @@ const regErrorClassName = /^(\S+):/;
 export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage?: boolean): string;
 export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage?: boolean, boundary?: CallableFunction | false): string;
 export function prettyFormatError<ErrorType extends IError = IError>(e: ErrorType, withMessage = true, boundary: CallableFunction | false = prettyFormatError) {
-	if (!e || !e.stack) {
+	if (!e?.stack) {
 		if (withMessage) {
 			const msg = e?.message || '#未知异常';
 
