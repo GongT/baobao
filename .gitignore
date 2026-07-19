@@ -9,6 +9,7 @@
 *.tsbuildinfo
 .rpt2_cache/
 node-compile-cache/
+.vite
 
 ### Temp Files
 *.lock

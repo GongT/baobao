@@ -1,7 +1,7 @@
 import type { Diagnostic } from '@biomejs/js-api/nodejs';
 import { startChokidar } from '@idlebox/chokidar';
 import { argv, logger, makeApplication } from '@idlebox/cli';
-import { mergeIterables, registerGlobalLifecycle } from '@idlebox/common';
+import { joinIterables, registerGlobalLifecycle } from '@idlebox/common';
 import { shutdown, workingDirectory } from '@idlebox/node';
 import { execa } from 'execa';
 import { resolve } from 'node:path';
@@ -43,7 +43,7 @@ async function main() {
 		autofix.detach();
 		console.log('\n文件发生变化，重新检查中...');
 
-		for (const file of mergeIterables(changed_files, issueFiles.values())) {
+		for (const file of joinIterables(changed_files, issueFiles.values())) {
 			const check_passed = await singleExecute(file);
 			if (check_passed) {
 				issueFiles.delete(file);

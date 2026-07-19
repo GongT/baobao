@@ -1,7 +1,7 @@
-import { _objectName } from '../internals/object-name.js';
 import { ExitCode } from '../codes/wellknown-exit-codes.js';
 import { ErrorWithCode, TypeErrorWithCode } from '../common/base.js';
 import type { IErrorOptions } from '../common/type.js';
+import { _objectName } from '../internals/object-name.js';
 
 /**
  * 由于程序出现bug导致的各类异常
@@ -37,6 +37,26 @@ export class DuplicateCallError extends ProgramError {
 			message = `重复调用 ${fn}`;
 		}
 		super(message, opts);
+	}
+}
+
+export class UseAfterDisposeError extends ProgramError {
+	constructor(object: any, opts?: IErrorOptions) {
+		const name = _objectName(object);
+		super(`对象 ${name} 已经被释放，不能再使用`, opts);
+	}
+
+	static createNoopMethod(thisValue?: any): () => never {
+		return function (this: any) {
+			throw new UseAfterDisposeError(thisValue ?? this);
+		};
+	}
+
+	static replaceMethods<T>(object: T, ...fields: (keyof T)[]): void {
+		const noop = UseAfterDisposeError.createNoopMethod(object);
+		for (const field of fields) {
+			object[field] = noop as any;
+		}
 	}
 }
 

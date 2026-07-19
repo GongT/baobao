@@ -1,15 +1,16 @@
 ## nodejs
 
-- deny importing builtin modules without 'node:' prefix.
-- always use promise instead of callback API. For example, use `node:fs/promises` instead of `node:fs`.
+- import builtin modules with 'node:' schema, eg: use `import {...} from 'node:fs'` instead of `import {...} from 'fs'`.
+- always use promise instead of callback API. eg: use `node:fs/promises` instead of `node:fs`.
 - perfer using `import process from 'node:process'` instead of using global `process`.
-- always use name `kind` for other language's `type`. for example, `FruitKind` instead of `FruitType`, `{ messageKind: SomeEnum }` instead of `{ messageType: SomeEnum }`.
+- always use name `kind` for other language's `type`. eg: `FruitKind` instead of `FruitType`, `{ messageKind: SomeEnum }` instead of `{ messageType: SomeEnum }`.
 - never use spawn methods from `node:process`, use `execa` instead.
 
 ## import
 
 - deny use of commonjs: `require()` and `module.exports`.
-- for local imports, `.js` extension is required, only allow relative paths or package private (imports).
+- for local imports, `.js` extension is required, and no `.ts` extension is allowed, only allow relative paths or package private (imports field in package.json).
+  - this is also applicable to test files.
 - deny default export, only named exports are allowed.
 
 ```typescript
@@ -46,6 +47,7 @@ try {} catch (e) {
 - prefer `dirname(path)` over `resolve(path, '..')`, except multiple levels.
 - prefer `import.meta.dirname` and `import.meta.filename` over `import.meta.url` when possible. only use `url` when definitely required.
 - deny using `__dirname` and `__filename`.
+- deny treating paths as a string, eg: `path.split('/')` or `path.replace(x, y)`, always use `path` module.
 
 ## organize
 
@@ -76,6 +78,11 @@ for `@idlebox/logger`:
 We follow the convention of using standard error for logging, and standard output for normal output, like most linux command line tools. `@idlebox/logger` and `debug` both write to standard error.
 
 Use `console.log` instead of `process.stdout.write` for normal output.
+
+## testing
+
+- We use `vitest` for testing.
+- test files should be named `*.test.ts` and placed in the same directory as the code file.
 
 ## online resources
 

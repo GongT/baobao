@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest';
 import { ObjectPath } from './objectPath.js';
 
 const objects = [
@@ -24,19 +25,32 @@ const objects = [
 	},
 ];
 
-const check1 = new ObjectPath(objects[1]);
-if (check1.get(['a', 'b', 'c', 'd']) !== 1) {
-	console.error('get fail');
-} else {
-	console.log('get ok');
-}
+test('深层获取', () => {
+	const check = new ObjectPath(objects[1]);
+	expect(check.get(['a', 'b', 'c', 'd'])).toBe(1);
+	expect(check.get(['a', 'b', 'c'])).toEqual({ d: 1 });
+});
 
-console.log(check1.get(['a', 'b', 'c']));
+test('存在性检查', () => {
+	const check = new ObjectPath(objects[1]);
+	expect(check.exists(['a', 'b', 'c', 'd'])).toBe(true);
+	expect(check.exists(['a', 'b', 'c'])).toBe(true);
+	expect(check.exists(['a', 'b', 'd'])).toBe(false);
+});
 
-const check2 = new ObjectPath(objects[0]);
+test('深层赋值与删除', () => {
+	const check = new ObjectPath(objects[0]);
 
-check2.set(['value', 'a'], 2);
-check2.set(['value', 'b', 'x'], undefined);
-check2.set(['value', 'c', 'x'], undefined);
+	check.set(['value', 'a'], 2);
+	check.set(['value', 'b', 'x'], undefined);
+	check.set(['value', 'c', 'x'], undefined);
 
-console.log(objects[0]);
+	expect(objects[0]).toEqual({
+		value: {
+			a: 2,
+			c: {
+				y: 2,
+			},
+		},
+	});
+});

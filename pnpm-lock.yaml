@@ -7,7 +7,7 @@ settings:
 overrides:
   ajv: ^8.17.1
 
-pnpmfileChecksum: sha256-p8NAXYde06wJKH6gZPJbG34Tf/n5iNz4c7ZJNfhbgj8=
+pnpmfileChecksum: sha256-cBpaEG6Xr52P9SnLa/RGS+soSnwiX2NdWphNlepMzm8=
 
 patchedDependencies:
   amaro: f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3
@@ -37,6 +37,9 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
+      vitest:
+        specifier: ^4.1.10
+        version: 4.1.10(@types/node@25.9.1)
 
   '@build-script/autoindex':
     dependencies:
@@ -95,6 +98,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@build-script/baseline-rig':
     devDependencies:
@@ -153,6 +159,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -217,6 +226,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -245,6 +257,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       esbuild:
         specifier: ^0.27.3
         version: 0.27.3
@@ -276,6 +291,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       domhandler:
         specifier: ^6.0.1
         version: 6.0.1
@@ -325,6 +343,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@build-script/package-tools':
     dependencies:
@@ -440,6 +461,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@build-script/rushstack-config-loader':
     dependencies:
@@ -492,6 +516,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@build-script/vite-plugin-chunk-tree':
     dependencies:
@@ -523,6 +550,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       rollup:
         specifier: ^4.59.0
         version: 4.59.0
@@ -560,6 +590,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@gongt/systemd-unit-generator':
     dependencies:
@@ -591,6 +624,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@gongt/trpc-lib':
     dependencies:
@@ -616,6 +652,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/args':
     dependencies:
@@ -656,6 +695,9 @@ importers:
       chai:
         specifier: ^6.2.2
         version: 6.2.2
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -693,6 +735,9 @@ importers:
       browserslist-useragent-regexp:
         specifier: ^4.1.3
         version: 4.1.4
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
     optionalDependencies:
       react:
         specifier: '*'
@@ -746,6 +791,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/web@^0.0.344
         version: '@types/web@0.0.344'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/browser-react':
     dependencies:
@@ -798,6 +846,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/web@^0.0.344
         version: '@types/web@0.0.344'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/chokidar':
     dependencies:
@@ -829,6 +880,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/cli':
     dependencies:
@@ -875,6 +929,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -902,6 +959,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -963,6 +1023,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -1006,6 +1069,9 @@ importers:
       '@typescript/lib-dom':
         specifier: workspace:@idlebox/empty@^
         version: link:../empty
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/deepmerge':
     devDependencies:
@@ -1030,6 +1096,9 @@ importers:
       chai:
         specifier: ^6.2.2
         version: 6.2.2
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -1085,6 +1154,9 @@ importers:
       chai-as-promised:
         specifier: ^8.0.2
         version: 8.0.2
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -1119,6 +1191,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/empty':
     devDependencies:
@@ -1137,6 +1212,9 @@ importers:
       '@typescript/lib-dom':
         specifier: workspace:@idlebox/empty@^
         version: 'link:'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/ensure-symlink':
     devDependencies:
@@ -1155,6 +1233,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/errors':
     dependencies:
@@ -1183,6 +1264,9 @@ importers:
       '@typescript/lib-dom':
         specifier: workspace:@idlebox/empty@^
         version: link:../empty
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/ignore-edit':
     dependencies:
@@ -1211,6 +1295,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/itypes':
     devDependencies:
@@ -1239,6 +1326,9 @@ importers:
       '@typescript/lib-dom':
         specifier: workspace:@idlebox/empty@^
         version: link:../../../empty
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/itypes/subpackages/dom':
     dependencies:
@@ -1261,6 +1351,9 @@ importers:
       '@typescript/lib-dom':
         specifier: workspace:@idlebox/empty@^
         version: link:../../../empty
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/itypes/subpackages/node':
     dependencies:
@@ -1283,6 +1376,9 @@ importers:
       '@typescript/lib-dom':
         specifier: workspace:@idlebox/empty@^
         version: link:../../../empty
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/json-edit':
     dependencies:
@@ -1311,6 +1407,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       vite-node:
         specifier: ^6.0.0
         version: 6.0.0(@types/node@25.5.0)
@@ -1335,6 +1434,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/json-extends-loader':
     dependencies:
@@ -1369,6 +1471,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/logger':
     dependencies:
@@ -1403,6 +1508,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -1440,6 +1548,9 @@ importers:
       amaro:
         specifier: ^1.1.10
         version: 1.1.10(patch_hash=f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3)
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       esbuild:
         specifier: ^0.27.3
         version: 0.27.3
@@ -1483,6 +1594,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/node-error-codes':
     devDependencies:
@@ -1507,6 +1621,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       execa:
         specifier: ^9.6.1
         version: 9.6.1
@@ -1538,6 +1655,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/source-map-support':
     dependencies:
@@ -1572,6 +1692,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/terminal-control':
     dependencies:
@@ -1597,6 +1720,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -1621,6 +1747,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -1664,6 +1793,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@idlebox/unshare':
     dependencies:
@@ -1695,6 +1827,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@internal/local-rig':
     devDependencies:
@@ -1969,6 +2104,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@mpis/esbuild':
     dependencies:
@@ -2000,6 +2138,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       esbuild:
         specifier: ^0.27.3
         version: 0.27.3
@@ -2055,6 +2196,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@mpis/publisher':
     dependencies:
@@ -2101,6 +2245,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@mpis/run':
     dependencies:
@@ -2153,6 +2300,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@mpis/server':
     dependencies:
@@ -2199,6 +2349,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@mpis/shared':
     devDependencies:
@@ -2220,6 +2373,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   '@mpis/typescript':
     dependencies:
@@ -2266,6 +2422,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   standalone/7zip-bin-wrapper:
     dependencies:
@@ -2300,6 +2459,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
   standalone/cjke-strings:
     dependencies:
@@ -2346,6 +2508,9 @@ importers:
       chai:
         specifier: ^6.2.2
         version: 6.2.2
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
       mocha:
         specifier: ^11.7.5
         version: 11.7.6
@@ -2395,6 +2560,9 @@ importers:
       '@typescript/lib-dom':
         specifier: npm:@types/node@^25.5.0
         version: '@types/node@25.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.1.1'
 
 packages:
 
@@ -3886,6 +4054,9 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
+  '@standard-schema/spec@1.1.0':
+    resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
   '@swc/core-darwin-arm64@1.15.21':
     resolution: {integrity: sha512-SA8SFg9dp0qKRH8goWsax6bptFE2EdmPf2YRAQW9WoHGf3XKM1bX0nd5UdwxmC5hXsBUZAYf7xSciCler6/oyA==}
     engines: {node: '>=10'}
@@ -4057,6 +4228,9 @@ packages:
   '@types/node@25.9.1':
     resolution: {integrity: sha512-xfrlY7UD5rMJk3ZVJP8BNzS28J36YJg+xp+LPXV1TdWxr8uMH5A860QNxYDGQe/ylDSgjxE52Q9VnO7p75tJxg==}
 
+  '@types/node@26.1.1':
+    resolution: {integrity: sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw==}
+
   '@types/npm-package-arg@6.1.4':
     resolution: {integrity: sha512-vDgdbMy2QXHnAruzlv68pUtXCjmqUk3WrBAsRboRovsOmxbfn/WiYCjmecyKjGztnMps5dWp4Uq2prp+Ilo17Q==}
 
@@ -4135,6 +4309,35 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
     deprecated: Potential CWE-502 - Update to 1.3.1 or higher
+
+  '@vitest/expect@4.1.10':
+    resolution: {integrity: sha512-YsCn+qAk1GWjQOWFEsEcL2gNQ0zmVmQu3T03qP6UyjhtmdtwtbuI+DASn/7iQB3HGTXkdBwGddzxPlmiql5vlA==}
+
+  '@vitest/mocker@4.1.10':
+    resolution: {integrity: sha512-v0xaezt+DKEmKfaxg133ldzADrwLGd7Ze1MfQQTYfvs8OqZIwbxyxaYURivwV7sWy5fqn3rH5uOrSp07bp44Ow==}
+    peerDependencies:
+      msw: '*'
+      vite: '*'
+    peerDependenciesMeta:
+      msw:
+        optional: true
+      vite:
+        optional: true
+
+  '@vitest/pretty-format@4.1.10':
+    resolution: {integrity: sha512-W1HsjSH4MXQ9YfmmhLAoIYf1HRfekQCGngeIgcei6MP5QQGWUe0gkopdZQaVCFO+JDJMrAJGwa5pRpNpvy4P8Q==}
+
+  '@vitest/runner@4.1.10':
+    resolution: {integrity: sha512-IKI6kpIH+LmpROplyLwBBaCfMgOZOMsygVa6BARD6ahA04VRuJSa6OaVG7kRvSEMD870Vd91rSSw0eegtWyLGg==}
+
+  '@vitest/snapshot@4.1.10':
+    resolution: {integrity: sha512-xRkfOT1qpTAi/Ti4Y1LtfRc3kEuqxGw59eN2jN9pRWMtS/XDevekhcFSqvQqjUNGksfjMJu3Y+oJ+4Ypn2OaJw==}
+
+  '@vitest/spy@4.1.10':
+    resolution: {integrity: sha512-PLf/Ugvoq5wO/b4rwYCR1h2PSIdXz7wnkQFMiUpLdtM7l6pqVFcQIBEHyT1+l+cj7mNwAfZHzqXqDyjvOuwbDw==}
+
+  '@vitest/utils@4.1.10':
+    resolution: {integrity: sha512-fy9am/HWxbaGt/Sawrp90vt6Y6jQwf1RX77cz3uwoJwJVMli/e1IEwRPnMNJ7vKfPTwo0diXifkpPvwH9v7nGA==}
 
   abbrev@3.0.1:
     resolution: {integrity: sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg==}
@@ -4377,6 +4580,9 @@ packages:
   compute-scroll-into-view@3.1.1:
     resolution: {integrity: sha512-VRhuHOLoKYOy4UbilLbUzbYg93XLjv2PncJC50EuTWPA3gaja1UjBsUP/D/9/juV3vQFr6XBEzn9KCAHdUvOHw==}
 
+  convert-source-map@2.0.0:
+    resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
+
   cookie@1.1.1:
     resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
     engines: {node: '>=18'}
@@ -4564,9 +4770,16 @@ packages:
   estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
 
+  estree-walker@3.0.3:
+    resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
+
   execa@9.6.1:
     resolution: {integrity: sha512-9Be3ZoN4LmYR90tUoVu2te2BsbzHfhJyfEiAVfz7N5/zv+jduIfLrV2xdQXOHbaD6KgpGdO9PRPM1Y4Q9QkPkA==}
     engines: {node: ^18.19.0 || >=20.5.0}
+
+  expect-type@1.4.0:
+    resolution: {integrity: sha512-KfYbmpRm0VbLjEvVa9yGwCi9GI34xvi7A/HXYWQO65CSD2u3MczUJSuwXKFIxlGsgBQizV9q5J9NHj4VG0n+pA==}
+    engines: {node: '>=12.0.0'}
 
   expect@29.7.0:
     resolution: {integrity: sha512-2Zks0hf1VLFYI1kbh0I5jP3KHHyCHpkfyHBzsSXRFgl/Bg9mWYfMW8oD+PdMPlEwy5HNsR9JutYy6pMeOh61nw==}
@@ -5621,6 +5834,9 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
+  siginfo@2.0.0:
+    resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
+
   signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
 
@@ -5700,6 +5916,12 @@ packages:
     resolution: {integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==}
     engines: {node: '>=10'}
 
+  stackback@0.0.2:
+    resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
+
+  std-env@4.2.0:
+    resolution: {integrity: sha512-oCUKSupKTHX53EyjDtuZQ64pjLJ6yYCtpmEw0goYxtjG9KpbRe8KAsl2tBUGU9DyMcJ0RwJ8GqJAFzMXcXW1Rw==}
+
   string-argv@0.3.2:
     resolution: {integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==}
     engines: {node: '>=0.6.19'}
@@ -5778,6 +6000,13 @@ packages:
   tiny-async-pool@2.1.0:
     resolution: {integrity: sha512-ltAHPh/9k0STRQqaoUX52NH4ZQYAJz24ZAEwf1Zm+HYg3l9OXTWeqWKyYsHu40wF/F0rxd2N2bk5sLvX2qlSvg==}
 
+  tinybench@2.9.0:
+    resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
+
+  tinyexec@1.2.4:
+    resolution: {integrity: sha512-SHf/r48b7vOrjve9PxJo3MN5v5yuyjHvdUcrQffT3WXMUfnGmHDVbC4k3sHJaJTgZCwpUplIaAo5ANtMyp3YHg==}
+    engines: {node: '>=18'}
+
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
@@ -5785,6 +6014,10 @@ packages:
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
+
+  tinyrainbow@3.1.0:
+    resolution: {integrity: sha512-Bf+ILmBgretUrdJxzXM0SgXLZ3XfiaUuOj/IKQHuTXip+05Xn+uyEYdVg0kYDipTBcLrCVyUzAPz7QmArb0mmw==}
+    engines: {node: '>=14.0.0'}
 
   to-buffer@1.2.1:
     resolution: {integrity: sha512-tB82LpAIWjhLYbqjx3X4zEeHN6M8CiuOEy2JY8SEQVdYRe3CCHOFaqrBW1doLDrfpWhplcW7BL+bO3/6S3pcDQ==}
@@ -5837,6 +6070,9 @@ packages:
 
   undici-types@7.24.6:
     resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
+
+  undici-types@8.3.0:
+    resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
   undici@7.24.5:
     resolution: {integrity: sha512-3IWdCpjgxp15CbJnsi/Y9TCDE7HWVN19j1hmzVhoAkY/+CJx449tVxT5wZc1Gwg8J+P0LWvzlBzxYRnHJ+1i7Q==}
@@ -5920,6 +6156,46 @@ packages:
       yaml:
         optional: true
 
+  vitest@4.1.10:
+    resolution: {integrity: sha512-R9jUTe5S4Qb0HCd4TNqpC7oGcrMssMRGXLW80ubjWsW9VH5GF8y1Y0SFLY9AbqSk6nt0PnOx4H4WNJYZ13GUPw==}
+    engines: {node: ^20.0.0 || ^22.0.0 || >=24.0.0}
+    hasBin: true
+    peerDependencies:
+      '@edge-runtime/vm': '*'
+      '@opentelemetry/api': '*'
+      '@types/node': '*'
+      '@vitest/browser-playwright': '*'
+      '@vitest/browser-preview': '*'
+      '@vitest/browser-webdriverio': '*'
+      '@vitest/coverage-istanbul': '*'
+      '@vitest/coverage-v8': '*'
+      '@vitest/ui': '*'
+      happy-dom: '*'
+      jsdom: '*'
+    peerDependenciesMeta:
+      '@edge-runtime/vm':
+        optional: true
+      '@opentelemetry/api':
+        optional: true
+      '@types/node':
+        optional: true
+      '@vitest/browser-playwright':
+        optional: true
+      '@vitest/browser-preview':
+        optional: true
+      '@vitest/browser-webdriverio':
+        optional: true
+      '@vitest/coverage-istanbul':
+        optional: true
+      '@vitest/coverage-v8':
+        optional: true
+      '@vitest/ui':
+        optional: true
+      happy-dom:
+        optional: true
+      jsdom:
+        optional: true
+
   walk-up-path@4.0.0:
     resolution: {integrity: sha512-3hu+tD8YzSLGuFYtPRb48vdhKMi0KQV5sn+uWr8+7dMEq/2G/dtLrdDinkLjqq5TIbIBjYJ4Ax/n3YiaW7QM8A==}
     engines: {node: 20 || >=22}
@@ -5957,6 +6233,11 @@ packages:
   which@6.0.1:
     resolution: {integrity: sha512-oGLe46MIrCRqX7ytPUf66EAYvdeMIZYn3WaocqqKZAxrBpkqHfL/qvTyJ/bTk5+AqHCjXmrv3CEWgy368zhRUg==}
     engines: {node: ^20.17.0 || >=22.9.0}
+    hasBin: true
+
+  why-is-node-running@2.3.0:
+    resolution: {integrity: sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w==}
+    engines: {node: '>=8'}
     hasBin: true
 
   workerpool@9.3.4:
@@ -7298,6 +7579,8 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
+  '@standard-schema/spec@1.1.0': {}
+
   '@swc/core-darwin-arm64@1.15.21':
     optional: true
 
@@ -7445,6 +7728,10 @@ snapshots:
     dependencies:
       undici-types: 7.24.6
 
+  '@types/node@26.1.1':
+    dependencies:
+      undici-types: 8.3.0
+
   '@types/npm-package-arg@6.1.4': {}
 
   '@types/npm-registry-fetch@8.0.9':
@@ -7535,6 +7822,47 @@ snapshots:
       '@types/yargs-parser': 21.0.3
 
   '@ungap/structured-clone@1.3.0': {}
+
+  '@vitest/expect@4.1.10':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      '@types/chai': 5.2.3
+      '@vitest/spy': 4.1.10
+      '@vitest/utils': 4.1.10
+      chai: 6.2.2
+      tinyrainbow: 3.1.0
+
+  '@vitest/mocker@4.1.10(vite@8.0.1(@types/node@25.9.1))':
+    dependencies:
+      '@vitest/spy': 4.1.10
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 8.0.1(@types/node@25.9.1)
+
+  '@vitest/pretty-format@4.1.10':
+    dependencies:
+      tinyrainbow: 3.1.0
+
+  '@vitest/runner@4.1.10':
+    dependencies:
+      '@vitest/utils': 4.1.10
+      pathe: 2.0.3
+
+  '@vitest/snapshot@4.1.10':
+    dependencies:
+      '@vitest/pretty-format': 4.1.10
+      '@vitest/utils': 4.1.10
+      magic-string: 0.30.21
+      pathe: 2.0.3
+
+  '@vitest/spy@4.1.10': {}
+
+  '@vitest/utils@4.1.10':
+    dependencies:
+      '@vitest/pretty-format': 4.1.10
+      convert-source-map: 2.0.0
+      tinyrainbow: 3.1.0
 
   abbrev@3.0.1: {}
 
@@ -7831,6 +8159,8 @@ snapshots:
 
   compute-scroll-into-view@3.1.1: {}
 
+  convert-source-map@2.0.0: {}
+
   cookie@1.1.1: {}
 
   core-util-is@1.0.3: {}
@@ -8014,6 +8344,10 @@ snapshots:
 
   estree-walker@2.0.2: {}
 
+  estree-walker@3.0.3:
+    dependencies:
+      '@types/estree': 1.0.8
+
   execa@9.6.1:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
@@ -8028,6 +8362,8 @@ snapshots:
       signal-exit: 4.1.0
       strip-final-newline: 4.0.0
       yoctocolors: 2.1.2
+
+  expect-type@1.4.0: {}
 
   expect@29.7.0:
     dependencies:
@@ -9188,6 +9524,8 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
+  siginfo@2.0.0: {}
+
   signal-exit@3.0.7: {}
 
   signal-exit@4.1.0: {}
@@ -9264,6 +9602,10 @@ snapshots:
   stack-utils@2.0.6:
     dependencies:
       escape-string-regexp: 2.0.0
+
+  stackback@0.0.2: {}
+
+  std-env@4.2.0: {}
 
   string-argv@0.3.2: {}
 
@@ -9346,6 +9688,10 @@ snapshots:
 
   tiny-async-pool@2.1.0: {}
 
+  tinybench@2.9.0: {}
+
+  tinyexec@1.2.4: {}
+
   tinyglobby@0.2.15:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
@@ -9355,6 +9701,8 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
+
+  tinyrainbow@3.1.0: {}
 
   to-buffer@1.2.1:
     dependencies:
@@ -9397,6 +9745,8 @@ snapshots:
   undici-types@7.18.2: {}
 
   undici-types@7.24.6: {}
+
+  undici-types@8.3.0: {}
 
   undici@7.24.5: {}
 
@@ -9457,6 +9807,54 @@ snapshots:
     optionalDependencies:
       '@types/node': 25.5.0
 
+  vite@8.0.1(@types/node@25.9.1):
+    dependencies:
+      lightningcss: 1.32.0
+      picomatch: 4.0.3
+      postcss: 8.5.8
+      rolldown: 1.0.0-rc.10
+      tinyglobby: 0.2.15
+    optionalDependencies:
+      '@types/node': 25.9.1
+
+  vitest@4.1.10(@types/node@25.9.1):
+    dependencies:
+      '@vitest/expect': 4.1.10
+      '@vitest/mocker': 4.1.10(vite@8.0.1(@types/node@25.9.1))
+      '@vitest/pretty-format': 4.1.10
+      '@vitest/runner': 4.1.10
+      '@vitest/snapshot': 4.1.10
+      '@vitest/spy': 4.1.10
+      '@vitest/utils': 4.1.10
+      es-module-lexer: 2.0.0
+      expect-type: 1.4.0
+      magic-string: 0.30.21
+      obug: 2.1.1
+      pathe: 2.0.3
+      picomatch: 4.0.4
+      std-env: 4.2.0
+      tinybench: 2.9.0
+      tinyexec: 1.2.4
+      tinyglobby: 0.2.17
+      tinyrainbow: 3.1.0
+      vite: 8.0.1(@types/node@25.9.1)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 25.9.1
+    transitivePeerDependencies:
+      - '@vitejs/devtools'
+      - esbuild
+      - jiti
+      - less
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - terser
+      - tsx
+      - yaml
+
   walk-up-path@4.0.0: {}
 
   watchpack@2.4.0:
@@ -9496,6 +9894,11 @@ snapshots:
   which@6.0.1:
     dependencies:
       isexe: 4.0.0
+
+  why-is-node-running@2.3.0:
+    dependencies:
+      siginfo: 2.0.0
+      stackback: 0.0.2
 
   workerpool@9.3.4: {}
 

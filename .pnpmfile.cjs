@@ -35,6 +35,7 @@ function init() {
 		stdio: ['ignore', 'pipe', 'inherit'],
 		env: {
 			PNPM_CALL_RECURSIVE: '1',
+			...process.env,
 		},
 	});
 	if (result.error) {
@@ -165,6 +166,9 @@ function addNodejsShimTypes(packageJson) {
 	// 实际只生效（期望）
 	packageJson.devDependencies['@types/platform'] = resolvedVersion;
 	packageJson.devDependencies['@types/itypes'] = itypesKind;
+
+	// 给test之类的环境提供node类型定义
+	packageJson.devDependencies['development_using_node'] = `npm:@types/node@latest`;
 
 	return packageJson;
 }

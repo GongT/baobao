@@ -19,6 +19,7 @@ const tools: Record<string, string> = {
 	'mpis-run': '@mpis/run/loader/bin.devel.js',
 	codegen: '@build-script/codegen/loader/bin.devel.js',
 	autoindex: '@build-script/autoindex/loader/bin.devel.js',
+	vitest: 'vitest/vitest.mjs',
 };
 
 const gitHooks = resolve(monorepoRoot, '.git', 'hooks');

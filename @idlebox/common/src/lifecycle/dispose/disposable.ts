@@ -11,8 +11,17 @@ import { _debug_dispose, dispose_name, forgetParent, rememberParent } from './de
 import { DuplicateDisposedError } from './disposedError.js';
 
 export enum DuplicateDisposeAction {
+	/**
+	 * 禁止重复dispose，抛出异常
+	 */
 	Disable = 0,
+	/**
+	 * 禁止重复dispose，但只打印警告
+	 */
 	Warning = 1,
+	/**
+	 * 允许重复dispose，重复调用什么也不做
+	 */
 	Allow = 2,
 }
 
@@ -143,12 +152,18 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	}
 
 	private __dispose_state: IDisposeState<Async> = { finished: false };
+
+	/**
+	 * 已经完全释放
+	 */
 	public get disposed() {
 		return this.__dispose_state.finished;
 	}
 
 	/**
 	 * 正在dispose中（已开始但未完成）
+	 *
+	 * * 使用 this.__dispose_state.trace 判断，因为它是dispose()中最先赋值的
 	 */
 	public get disposing() {
 		return !this.__dispose_state.finished && !!this.__dispose_state.trace;
@@ -194,7 +209,7 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			this._onDisposeError.dispose();
 		};
 
-		// 第一时间设置trace
+		// * 第一时间设置trace
 		this.__dispose_state.trace = createStackTraceHolder('disposed', this.dispose);
 
 		this._onBeforeDispose.fire();

@@ -14,7 +14,8 @@
 		"@biomejs/biome": "^2.4.8"
 	},
 	"exports": {
-		"./package.json": "./package.json"
+		"./package.json": "./package.json",
+		"./*": "./package/*"
 	},
 	"type": "module",
 	"sideEffects": false,
