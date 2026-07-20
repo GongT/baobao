@@ -10,7 +10,7 @@ import type { Signals } from './nodejs.js';
  */
 export class Exit extends ErrorWithCode {
 	constructor(code: number, opts?: IErrorOptions) {
-		super('programatic exit', code, opts);
+		super('程序按要求退出', code, opts);
 	}
 
 	static TRACE_CONSTRUCTION = false;
@@ -46,7 +46,7 @@ export class InterruptError extends ErrorWithCode {
 		public readonly signal: Signals,
 		opts?: IErrorOptions,
 	) {
-		super(`interrupt by signal ${signal}`, ExitCode.INTERRUPT, opts);
+		super(`收到中断信号: ${signal}`, ExitCode.INTERRUPT, opts);
 	}
 
 	override [humanReadable]() {

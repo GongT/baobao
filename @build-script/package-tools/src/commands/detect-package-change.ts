@@ -23,12 +23,13 @@ export class Command extends CommandDefine {
 export async function main() {
 	process.env.COREPACK_ENABLE_STRICT = '0';
 	const unshareFrom = argv.single(['--unshare']);
+	const quiet = argv.flag(['--quiet', '-q']) > 0;
 	const autoInc = argv.flag(['--bump']) > 0;
 	const jsonOutput = argv.flag(['--json']) > 0 || !process.stdout.isTTY;
 
 	if (autoInc) {
-		if (jsonOutput) throw new UsageError(`--json和--dump不能同时使用`);
-		if (unshareFrom) throw new UsageError(`--unshare和--dump不能同时使用`);
+		if (jsonOutput) throw new UsageError(`--json和--bump不能同时使用`);
+		if (unshareFrom) throw new UsageError(`--unshare和--bump不能同时使用`);
 	}
 
 	const workspace = await createWorkspaceOrPackage();
@@ -64,7 +65,7 @@ export async function main() {
 	}
 
 	const pkgJson = await pm.loadPackageJson();
-	const { changedFiles, hasChange, remoteVersion } = await executeChangeDetect(pm, {});
+	const { changedFiles, hasChange, remoteVersion, packageJsonDiff } = await executeChangeDetect(pm, {});
 
 	if (autoInc) {
 		if (changedFiles.length) {
@@ -72,21 +73,35 @@ export async function main() {
 			if (!remoteVersion) {
 				throw new Error('程序错误, remoteVersion 为空');
 			}
-			await increaseVersion(pkgJson, remoteVersion);
+			await increaseVersion(pkgJson, remoteVersion, packageJsonDiff.incompatible ? 'minor' : 'patch');
 		} else {
 			logger.log('没有检测到更改');
 		}
 	} else {
 		if (jsonOutput) {
-			console.log(JSON.stringify({ remoteVersion, changedFiles, changed: hasChange }));
+			const fmt = process.stdout.isTTY ? 2 : undefined;
+			console.log(
+				JSON.stringify(
+					{
+						remoteVersion,
+						changedFiles,
+						changed: hasChange,
+						packageJsonDiff,
+					},
+					null,
+					fmt,
+				),
+			);
 		} else {
 			if (changedFiles.length === 0) {
-				console.log('changes: no');
+				if (!quiet) console.log('没有更改');
+				process.exitCode = 1;
 			} else {
 				printLine();
 				logger.log`list<${changedFiles}>`;
 				printLine();
-				console.log('changes: yes');
+				if (!quiet) console.log('有更改');
+				process.exitCode = 0;
 			}
 		}
 	}

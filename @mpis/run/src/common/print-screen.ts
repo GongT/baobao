@@ -54,7 +54,9 @@ export function reprintWatchModeError(noClear?: boolean) {
 			terminal.resetIf(!logger.debug.isEnabled);
 		}
 
-		console.error('%s\n%s', graph.debugFormatList(), graph.debugFormatSummary());
+		if (!logger.debug.isEnabled) {
+			console.error('%s\n%s', graph.debugFormatList(), graph.debugFormatSummary());
+		}
 		printAllErrors();
 	}, 50);
 }
@@ -76,11 +78,11 @@ function printAllErrors() {
 	}
 }
 
-export function formatAllErrors() {
-	const lines: string[] = [];
-	const colorEnabled = logger.colorEnabled;
+export function formatAllErrors(noColor = false) {
+	const lines: string[] = [''];
+	const colorEnabled = !noColor && logger.colorEnabled;
 	let index = 0;
-	for (const [wId, error] of overallState.errors) {
+	for (const [workerId, error] of overallState.errors) {
 		if (error === null) continue;
 
 		index++;
@@ -90,17 +92,33 @@ export function formatAllErrors() {
 			tag = ` (${error.name})`;
 		}
 		const banner = colorEnabled ? `\x1B[48;5;9m ERROR ${index} \x1B[0m` : `ERROR ${index}`;
-		lines.push(`\n${banner}${tag} ${wId}`);
+		const bs1 = colorEnabled ? '' : '┏';
+		const bs2 = colorEnabled ? '' : '┗';
+
+		lines.push(`${bs1}${banner}${tag} ${workerId}`);
+
+		let body;
 		if (error instanceof CompileError) {
-			lines.push(error.toString());
+			body = error.toString();
 		} else if (error instanceof Error) {
-			lines.push(prettyFormatError(error));
+			body = prettyFormatError(error);
 		} else {
-			lines.push(`can not handle error: ${error}`);
+			body = `@mpis/run: 无法处理此错误信息: ${error}`;
 		}
-		lines.push(`\n${banner} ${wId}`);
+		lines.push(colorEnabled ? indentColor(body) : indentAnsi(body));
+
+		lines.push(`${bs2}${banner} ${workerId}`);
 	}
 	return lines.join('\n');
+}
+
+const eachLineStart = /^/gm;
+function indentColor(text: string) {
+	return text.trimEnd().replace(eachLineStart, '\x1B[48;5;9m \x1B[49m ');
+}
+
+function indentAnsi(text: string) {
+	return text.trimEnd().replace(eachLineStart, '┃ ');
 }
 
 registerGlobalLifecycle(

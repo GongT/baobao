@@ -46,7 +46,7 @@ class Collection {
 
 	add(gen: BaseExecuter) {
 		if (this.has(gen.sourceFile)) {
-			throw new Error(`Generator with id ${gen.sourceFile} already exists.`);
+			throw new Error(`生成器id ${gen.sourceFile} 已存在`);
 		}
 		gen.onBeforeDispose(() => {
 			this.generators.delete(gen);
@@ -62,7 +62,7 @@ class Collection {
 		const ps = [];
 		for (const gen of this.generators.values()) {
 			if (ids.has(gen.sourceFile)) continue;
-			this.logger.debug(`  - dispose: ${relative(process.cwd(), gen.sourceFile)}`);
+			this.logger.debug(`  - 销毁: ${relative(process.cwd(), gen.sourceFile)}`);
 			ps.push(gen.dispose());
 		}
 
@@ -123,7 +123,7 @@ export class GeneratorHolder {
 	async configureCodeGenerators() {
 		const files = new Set(await this.matchAll());
 
-		this.logger.debug(`(re)configure generators (${files.size}):`);
+		this.logger.debug`(重新)配置生成器 (${files.size}):`;
 
 		/**
 		 * 添加新的
@@ -135,14 +135,14 @@ export class GeneratorHolder {
 			const rel = relative(process.cwd(), abs);
 
 			if (this.generators.has(abs)) {
-				this.logger.debug(`  - exists: ${rel}`);
+				this.logger.debug`  - 已有: ${rel}`;
 				continue;
 			}
 
-			this.logger.debug(`  - new: ${rel}`);
+			this.logger.debug`  - 添加: ${rel}`;
 			const packagejson = findUpUntilSync({ file: ['package.json', 'package.yaml'], from: abs });
 			if (!packagejson) {
-				throw new Error(`failed find package.json|yaml for ${abs}`);
+				throw new Error(`从目录"${abs}"向上找不到任何package.json(yaml)`);
 			}
 			this.knownPackageJsonList.add(packagejson);
 
@@ -169,7 +169,7 @@ export class GeneratorHolder {
 		 */
 		await this.generators.shrink(files);
 
-		this.logger.debug(`${this.generators.size} generator registed`);
+		this.logger.debug`发现并注册了 ${this.generators.size} 个生成器`;
 	}
 
 	executeAll() {
@@ -196,18 +196,17 @@ export class GeneratorHolder {
 		};
 
 		if (!toBeExec.length) {
-			this.logger.debug(`should execute none of ${result.count} generators`);
-			channelClient.success(`no generators should execute`);
+			this.logger.debug`${result.count}个生成器，均无需执行`;
+			channelClient.success(`无需执行生成器`);
 			return result;
 		}
-		this.logger.log(`should execute ${result.schedule} of ${result.count} generators`);
-		this.logger.info(' Start Generate');
+		this.logger.log`将执行 ${result.schedule} / ${result.count} 个生成器`;
 
 		channelClient.start();
 
 		async function execute(generator: BaseExecuter) {
 			try {
-				generator.logger.verbose(`<pool> task started.`);
+				generator.logger.verbose`<执行池> 任务启动`;
 
 				await nextTick();
 				const gr = await generator.execute();
@@ -217,9 +216,9 @@ export class GeneratorHolder {
 					result.skip += gr.totalFiles - gr.changes;
 				}
 
-				generator.logger.verbose('<pool> task finished.');
+				generator.logger.verbose`<执行池> 任务正常完成`;
 			} catch (err) {
-				generator.logger.debug('<pool> task errored.');
+				generator.logger.debug`<执行池> 任务出错`;
 				result.errors.push({ error: convertCaughtError(err), source: generator.sourceFile });
 			}
 		}
@@ -228,12 +227,12 @@ export class GeneratorHolder {
 			// no op, just waiting for all tasks to finish
 		}
 
-		this.logger.log(`${result.success} files success, ${result.skip} files unchange/skip, ${result.errors.length} errors`);
+		this.logger.log`${result.success} 个, ${result.skip} 个未改变/跳过, ${result.errors.length} 个错误`;
 
 		if (result.errors.length) {
-			this.logger.error(`💥💥💥 generate fail: ${result.errors.length} errors`);
+			this.logger.error`💥💥💥 生成失败: ${result.errors.length} 个错误`;
 		} else {
-			this.logger.success(`✅✅✅ generate success.`);
+			this.logger.success`✅✅✅ 生成成功`;
 		}
 
 		const msg = formatResult(result);
@@ -242,9 +241,9 @@ export class GeneratorHolder {
 		this._onComplete.fire();
 
 		if (result.errors.length) {
-			channelClient.failed(`${result.errors.length} error occurred in ${toBeExec.length} generators`, msg);
+			channelClient.failed(`执行${toBeExec.length}个生成器时出现${result.errors.length}个错误`, msg);
 		} else {
-			channelClient.success(`no error in ${toBeExec.length} generators`);
+			channelClient.success(`执行${toBeExec.length}个生成器全部成功`);
 		}
 
 		return result;

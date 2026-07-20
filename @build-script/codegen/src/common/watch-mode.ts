@@ -18,7 +18,7 @@ export function startWatchMode(generatorHolder: GeneratorHolder) {
 	);
 	watcher.add(folders);
 	runOnce(generatorHolder).finally(() => {
-		logger.log(`👀 starting watch mode on ${folders.length} folders.`);
+		logger.log(`👀 启动监视模式, ${folders.length}个文件夹.`);
 	});
 
 	syncFilesToWatcher(generatorHolder, watcher);
@@ -29,20 +29,17 @@ async function runOnce(generatorHolder: GeneratorHolder, changes?: readonly stri
 		await generatorHolder.configureCodeGenerators();
 
 		if (changes) {
-			logger.info`changes detected: ${changes.length} files changed.`;
+			logger.info`发现文件变动: ${changes.length}`;
 			if (debugMode) {
-				logger.warn('file changes:');
-				for (const change of changes) {
-					logger.debug(change);
-				}
+				logger.log`文件列表list<${changes}>`;
 			}
 			await generatorHolder.executeRelated(new Set(changes));
 		} else {
-			logger.info`executing all code generators.`;
+			logger.info`开始执行所有生成器`;
 			await generatorHolder.executeAll();
 		}
 	} catch (e) {
-		prettyPrintError('监视模式中出现未预料异常', convertCaughtError(e));
+		prettyPrintError('codegen监视模式中出现未预料异常', convertCaughtError(e));
 		shutdown(66);
 	}
 }
@@ -60,7 +57,7 @@ let notifyTimer: NodeJS.Timeout | undefined;
 function notifyWatching(watcher: IWatchHelper) {
 	if (!debugMode) {
 		const watching = watcher.watches;
-		logger.log(`👀 watching ${watching.length} files for change.`);
+		logger.log(`👀 监视模式: ${watching.length}个文件.`);
 		return;
 	}
 
@@ -70,16 +67,15 @@ function notifyWatching(watcher: IWatchHelper) {
 
 		const watching = watcher.watches;
 		const notModuleCount = watching.filter((e) => !e.includes('/node_modules/')).length;
-		logger.log(`👀 watching ${watching.length} files for change (${notModuleCount} in project).`);
 
 		if (logger.verbose.isEnabled) {
 			const line = '='.repeat(process.stderr.columns || 80);
-			console.error('\x1B[2m%s\r== watching files ', line);
-			for (const item of watching) {
-				console.error(item);
-			}
+			console.error('\x1B[2m%s\r', line);
+			logger.verbose`监视的文件list<${watching}>`;
 			console.error('%s\x1B[0m', line);
 		}
+
+		logger.log(`👀 监视模式: ${watching.length}个文件 (${notModuleCount}个在当前项目内).`);
 	}, 1000);
 }
 
@@ -91,6 +87,7 @@ function createWatch(runPass: (changes: string[]) => Promise<void>) {
 	const watcher = startChokidar(runPass, {
 		ignoreInitial: true,
 		watchingEvents: ['add', 'change', 'unlink', 'addDir'],
+		debounceMs: 1000,
 		ignored: (path) => {
 			const r = watch_ignore.ignore(path);
 			if (r) {
@@ -103,28 +100,19 @@ function createWatch(runPass: (changes: string[]) => Promise<void>) {
 	});
 
 	process.on('SIGPIPE', () => {
-		logger.info('\nSIGPIPE received, print chokidar listener...');
+		logger.info('\n收到SIGPIPE, 打印 chokidar 监听器...');
 
-		logger.info('expect:');
+		logger.info('期望监听:');
 		for (const e of watcher.expectedWatches) {
 			if (e.includes('/node_modules/')) continue;
 			logger.log(`  - ${e}`);
 		}
-		logger.info('watches:');
+		logger.info('实际监听:');
 		for (const e of watcher.watches) {
 			if (e.includes('/node_modules/')) continue;
 			logger.log(`  - ${e}`);
 		}
 	});
-
-	// (watcher as any).watcher.on('raw', (event: any, path: any) => {
-	// 	console.log('=== raw event info:', event, path);
-	// });
-	// (watcher as any).watcher.on('all', (event: any, path: any) => {
-	// 	console.log('=== all:', event, path);
-	// });
-	// watcher.add(files);
-	// watcher.add(await glob('**/', globOptions));
 
 	registerGlobalLifecycle(watcher);
 

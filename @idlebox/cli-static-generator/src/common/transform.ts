@@ -14,7 +14,7 @@ function alertSideEffectCode(file: string, code: string, _node: any) {
 	if (alerted) return;
 	alerted = true;
 
-	plogger.warn(`警告: 除 Command类、 main函数 外有其他代码，这些代码在cli静态分析过程中会被跳过，这可能导致异常`);
+	plogger.warn(`警告: 除 Command类、 main函数 外有其他代码，这些代码在cli静态分析过程中会被跳过，这可能导致异常。正确做法是将它们放在其他文件中`);
 	plogger.info` - 文件: long<${file}>`;
 
 	const node: e.Node = _node;

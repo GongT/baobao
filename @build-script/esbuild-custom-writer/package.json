@@ -23,7 +23,7 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^25.5.0",
-		"esbuild": "^0.27.3"
+		"esbuild": "^0.28.1"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

@@ -17,7 +17,7 @@ import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 import { clearNpmMetaCache } from '../common/shared-jobs/clear-cache.js';
 import { cnpmSyncNames } from '../common/shared-jobs/cnpm-sync.js';
-import { executeChangeDetect } from '../common/shared-jobs/detect-change-job.js';
+import { executeChangeDetect, type IChangeDetectResult } from '../common/shared-jobs/detect-change-job.js';
 
 export class Command extends CommandDefine {
 	protected override readonly _usage = `${pArgS('--debug')} ${pArgS('--dry')}`;
@@ -104,8 +104,8 @@ class BuildPackageJob extends Job<void> {
 		}
 
 		try {
-			const { changedFiles, changed: hasChange, remoteVersion } = JSON.parse(result.stdout);
-			return { changedFiles, hasChange, remoteVersion };
+			const { changedFiles, changed: hasChange, remoteVersion, packageJsonDiff } = JSON.parse(result.stdout);
+			return { changedFiles, hasChange, remoteVersion, packageJsonDiff } satisfies IChangeDetectResult;
 		} catch (e: any) {
 			this.log(result.stdout);
 			throw new Error(`子程序输出不是json: ${e.message}`);
@@ -190,7 +190,8 @@ class BuildPackageJob extends Job<void> {
 				for (const file of changedFiles) {
 					this.log(`  * ${file}`);
 					if (file === 'package.json') {
-						this.log(`${packageJsonDiff}`);
+						this.log(`${packageJsonDiff.lines}`);
+						this.log(`(不兼容: ${packageJsonDiff.lines})`);
 					}
 				}
 				this.log(`::endgroup::`);

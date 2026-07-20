@@ -12,7 +12,7 @@ Then read when needed:
 
 ## When write commit message
 
-[commit message rules](./commit-message.md).
+[commit message rules](.agent/commit-message.md).
 
 ## When write documentation
 

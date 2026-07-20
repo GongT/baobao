@@ -1,6 +1,7 @@
-import { convertCaughtError, EnhancedDisposable, raceTimeout, TimeoutError } from '@idlebox/common';
+import { convertCaughtError, EnhancedDisposable, prettyPrintError, raceTimeout, TimeoutError } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
-import { ExecuteReason } from './shared.js';
+import { shutdown } from '@idlebox/node';
+import { ExecuteReason, makeQueuedLatest } from './shared.js';
 import type { IGenerateResult } from './spawn/messages.js';
 
 interface IOptions {
@@ -17,6 +18,8 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 		public readonly logger: IMyLogger,
 	) {
 		super(logger.tag);
+
+		this.execute = makeQueuedLatest(this.execute.bind(this));
 	}
 
 	get hasMemoResult() {
@@ -27,7 +30,7 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 
 	private built = false;
 	async build() {
-		this.logger.debug`need build`;
+		this.logger.debug`生成器需要重新编译`;
 
 		Object.assign(globalThis, { logger: this.logger });
 
@@ -37,14 +40,13 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 
 		Object.assign(globalThis, { logger: undefined });
 
-		this.logger.debug`build finished, watch ${this.systemWatchingFiles.length} files`;
+		this.logger.debug`编译完成, 监听 ${this.systemWatchingFiles.length} 个文件`;
 	}
 
 	async execute() {
 		this.result = undefined;
 
 		if (!this.built) {
-			this.logger.debug`execute without build, force build first`;
 			await this.build();
 		}
 
@@ -53,7 +55,7 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 		} catch (ee: any) {
 			const e = convertCaughtError(ee);
 			this.result = {
-				outputs: `${e.message}\n${e.stack || '<no stack trace available>'}`,
+				outputs: `${e.message}\n${e.stack || '<缺少栈信息>'}`,
 				userWatchFiles: [],
 				success: false,
 				changes: 0,
@@ -62,19 +64,19 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 			};
 			if (e instanceof TimeoutError) {
 			} else {
-				this.logger.warn(`_execute should not throw: ${e.stack || e.message}`);
-				throw e;
+				prettyPrintError('_execute方法不应抛出任何异常', e);
+				shutdown(66);
 			}
 		}
 
 		if (this.result.success) {
-			this.logger.success('generate success');
+			this.logger.verbose`${this.result}`;
+			this.logger.success`生成成功`;
+			return this.result;
 		} else {
-			this.logger.error('generate failed');
+			this.logger.error`生成失败`;
 			throw this.result.error; // catch by pool
 		}
-
-		return this.result;
 	}
 
 	watchingFiles(sourceOnly: boolean) {
@@ -87,22 +89,22 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 
 	shouldExecute(trigger: ReadonlySet<string>): ExecuteReason {
 		if (!this.result) {
-			this.logger.debug('should run because never executed');
+			this.logger.debug`应该运行，因为从未执行过`;
 			return ExecuteReason.NeedExecute;
 		}
 		if (!this.result.success) {
-			this.logger.debug('should run because last run has failed');
+			this.logger.debug`上一次执行失败，应该运行`;
 			return ExecuteReason.NeedExecute;
 		}
 		for (const watch of this.result.userWatchFiles) {
 			if (trigger.has(watch)) {
-				this.logger.debug(`should run because user watching file has changed: ${watch}`);
+				this.logger.debug`用户监听的文件已更改，应该运行: ${watch}`;
 				return ExecuteReason.NeedExecute;
 			}
 			if (watch.endsWith('/')) {
 				for (const file of trigger) {
 					if (file.startsWith(watch)) {
-						this.logger.debug(`should run because user watching folder has changed: ${file}`);
+						this.logger.debug`用户监听的文件夹已更改，应该运行: ${file}`;
 						return ExecuteReason.NeedCompile;
 					}
 				}
@@ -110,11 +112,11 @@ export abstract class BaseExecuter extends EnhancedDisposable {
 		}
 		for (const watch of this.systemWatchingFiles) {
 			if (trigger.has(watch)) {
-				this.logger.debug(`should rebuild because source has changed: ${watch}`);
+				this.logger.debug`源文件已更改，应该重新编译: ${watch}`;
 				return ExecuteReason.NeedCompile;
 			}
 		}
-		this.logger.debug('should not run');
+		this.logger.debug`不需要运行`;
 		return ExecuteReason.NoNeed;
 	}
 }

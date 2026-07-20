@@ -1,72 +1,38 @@
 import { CanceledError, TimeoutError } from '@idlebox/errors';
-import type { IDisposable } from '../lifecycle/dispose/disposable.js';
-import { scheduler } from '../schedule/scheduler.js';
+import { PromiseAttachAsyncNotify, type IPromiseWithProgress, type ProgressCallback } from './promise-with-notify.js';
 
 export type ValueCallback<T = any> = (value: T | Promise<T>) => void;
-export type ProgressCallback<T = any> = (value: T) => void;
-
-export interface IProgressHolder<T, PT> {
-	progress(fn: ProgressCallback<PT>): Promise<T> & IProgressHolder<T, PT>;
-}
 
 /**
  * a promise can resolve or reject later
  * @public
  */
 export class DeferredPromise<T, PT = any> {
-	readonly promise: Promise<T> & IProgressHolder<T, PT>;
+	public readonly promise: IPromiseWithProgress<T, PT>;
 	#completeCallback: ValueCallback<T>;
 	#errorCallback: (err: any) => void;
 	#success?: boolean;
-	#progressList: ProgressCallback<PT>[] = [];
+
+	public readonly progress;
+	protected readonly notify;
 
 	constructor() {
-		const { promise, resolve, reject } = Promise.withResolvers<T>();
+		const { promise, resolve, reject, notify } = PromiseAttachAsyncNotify.withResolvers<T, PT>(true);
 		this.#completeCallback = resolve;
 		this.#errorCallback = reject;
 
-		this.promise = Object.assign(promise, {
-			progress: (fn: ProgressCallback<PT>) => {
-				this.progress(fn);
-				return this.p;
-			},
-		});
+		this.promise = promise;
+		this.progress = (fn: ProgressCallback<PT>) => {
+			promise.progress(fn);
+			return this;
+		};
+		this.notify = notify;
+
+		Object.assign(promise, { progress: this.progress });
 	}
 
 	get p() {
 		return this.promise;
-	}
-
-	/**
-	 * notify progress to callbacks
-	 * @param progress argument
-	 * @returns
-	 */
-	notify(progress: PT): this {
-		if (this.#success !== undefined) throw new Error('no more event after settled');
-		for (const cb of this.#progressList) {
-			scheduler(cb.bind(undefined, progress));
-		}
-		return this;
-	}
-
-	/**
-	 * register a progress callback
-	 * @param fn progress callback function, will be called when notify is called
-	 */
-	protected progress(fn: ProgressCallback<PT>): IDisposable {
-		if (this.#success !== undefined) throw new Error('no more listener after settled');
-		this.#progressList.push(fn);
-
-		const dispose = () => {
-			const index = this.#progressList.indexOf(fn);
-			if (index >= 0) {
-				this.#progressList.splice(index, 1);
-			}
-		};
-		return {
-			dispose,
-		};
 	}
 
 	/**
@@ -104,7 +70,7 @@ export class DeferredPromise<T, PT = any> {
 	complete(value: T) {
 		if (this.settled) return;
 		this.#success = true;
-		this.#after_settled();
+		this.cancel_timeout();
 		this.#completeCallback(value);
 	}
 
@@ -114,7 +80,7 @@ export class DeferredPromise<T, PT = any> {
 	error(err: any) {
 		if (this.settled) return;
 		this.#success = false;
-		this.#after_settled();
+		this.cancel_timeout();
 		this.#errorCallback(err);
 	}
 
@@ -123,11 +89,6 @@ export class DeferredPromise<T, PT = any> {
 	 */
 	cancel() {
 		this.error(new CanceledError());
-	}
-
-	#after_settled() {
-		this.#progressList.length = 0;
-		this.#cancel_timeout();
 	}
 
 	get callback() {
@@ -143,12 +104,6 @@ export class DeferredPromise<T, PT = any> {
 	}
 
 	private timer?: ITimeoutType;
-	#cancel_timeout() {
-		if (this.timer) {
-			clearTimeout(this.timer);
-			this.timer = undefined;
-		}
-	}
 	timeout(ms: number) {
 		if (this.settled) throw new Error('no more timeout after settled');
 		this.timer = setTimeout(() => {
@@ -156,8 +111,14 @@ export class DeferredPromise<T, PT = any> {
 		}, ms);
 
 		return {
-			dispose: () => this.#cancel_timeout(),
+			dispose: () => this.cancel_timeout(),
 		};
+	}
+	private cancel_timeout() {
+		if (this.timer) {
+			clearTimeout(this.timer);
+			this.timer = undefined;
+		}
 	}
 
 	/**

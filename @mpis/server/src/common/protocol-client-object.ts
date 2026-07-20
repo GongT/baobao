@@ -92,6 +92,12 @@ export abstract class ProtocolClientObject {
 	protected emitFailure(e: string | Error, output?: string) {
 		if (this._onFailure.disposed) {
 			this.logger.warn`emitFailure called after stop, ignoring`;
+			if (e instanceof Error) {
+				this.logger.debug`error: ${e}`;
+				if (output) this.logger.debug`output: ${output}`;
+			} else {
+				this.logger.debug`output only: ${e}`;
+			}
 			return;
 		}
 

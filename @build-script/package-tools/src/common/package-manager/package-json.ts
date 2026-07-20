@@ -35,6 +35,7 @@ export async function makePackageJsonOrderConsistence(root: string) {
 	await writeFile(filepath, JSON.stringify(json, null, 2), 'utf-8');
 
 	delete pkgCache[filepath];
+	return json;
 }
 
 const pkgCache: Record<string, IPackageJson> = {};
@@ -49,15 +50,15 @@ export async function cachedPackageJson(path: string): Promise<IPackageJson> {
 	return data;
 }
 
-export async function increaseVersion(pkg: IPackageJson, current: string) {
-	const v = inc(current, 'patch');
+export async function increaseVersion(pkg: IPackageJson, current: string, type: 'major' | 'minor' | 'patch' = 'patch') {
+	const v = inc(current, type);
 	if (!v) {
 		throw new Error(`无法为"${pkg.name}"当前版本"${current}"增加版本号`);
 	}
 	pkg.version = v;
-	logger.debug('新版本: %s', pkg.version);
+	logger.debug`新版本: ${pkg.version}`;
 	const ch = await writeJsonFileBack(pkg);
-	logger.debug('package.json回写: %s', ch);
+	logger.debug`package.json回写: ${ch}`;
 	return v;
 }
 
@@ -68,7 +69,10 @@ function rewritePackageVersions(deps: Record<string, string>) {
 	for (const [k, v] of Object.entries(deps)) {
 		const m = caretVersion.exec(v);
 		if (m) {
-			deps[k] = `^${m[1]}.*`;
+			deps[k] = `^${m[1]}.0`;
+		} else {
+			if (v === 'latest') continue;
+			logger.warn`依赖 ${k} 的版本号 ${v} 不符合预期的 ^X.Y.Z 格式，无法重写为 ^X.Y.0`;
 		}
 	}
 }

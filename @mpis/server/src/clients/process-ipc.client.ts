@@ -140,6 +140,9 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	private onMessage(message: any) {
 		this.logger.debug`receive event: ${message?.event}`;
 		this.logger.verbose`${message}`;
+		if (this.logger.verbose.isEnabled && message.output) {
+			this.logger.verbose(message.output);
+		}
 
 		if (!is_message(message)) {
 			this.logger.verbose`unknown event.`;
@@ -236,7 +239,13 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			this.p_status.started = false;
 
 			if (this.disposed) {
-				this.logger.debug`(after dispose) process quit with code ${process.exitCode}`;
+				if (process.signal) {
+					this.logger.debug`(after dispose) process killed by signal ${process.signal}`;
+				} else if (typeof process.exitCode === 'number') {
+					this.logger.debug`(after dispose) process exited with code ${process.exitCode}`;
+				} else {
+					this.logger.debug`(after dispose) process exited with unknown status`;
+				}
 				return;
 			}
 
@@ -282,7 +291,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		process.kill(this.stopSignal);
 
 		try {
-			await Promise.race([process, timeout(5000, 'process did not exit')]);
+			await Promise.race([process, timeout(5000, `process ${process.pid} did not exit`)]);
 		} catch (e: any) {
 			if (TimeoutError.is(e)) {
 				this.logger.error`force killing process: ${e.message}`;

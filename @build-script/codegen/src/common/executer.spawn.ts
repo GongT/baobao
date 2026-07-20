@@ -1,7 +1,8 @@
 import { DuplicateDisposeAction, EnhancedAsyncDisposable, functionToDisposable, raceTimeout, SoftwareDefectError } from '@idlebox/common';
-import { EnableLogLevel, logger, type IMyLogger } from '@idlebox/logger';
+import { EnableLogLevel, type IMyLogger } from '@idlebox/logger';
 import { CollectingStream } from '@idlebox/node';
-import { execaNode, type ExecaError } from 'execa';
+import { ExecaError, execaNode } from 'execa';
+import assert from 'node:assert';
 import { fileURLToPath } from 'node:url';
 import { BaseExecuter } from './executer.base.js';
 import { colorMode, debugMode, verboseMode } from './shared.js';
@@ -18,7 +19,7 @@ class Session extends EnhancedAsyncDisposable {
 	constructor(
 		projectRoot: string,
 		public readonly generaterFile: string,
-		logger: IMyLogger,
+		private readonly logger: IMyLogger,
 	) {
 		const abortController = new AbortController();
 		const options = ['--enable-source-maps', '--import', import.meta.resolve('@idlebox/native-executer/register')];
@@ -53,7 +54,7 @@ class Session extends EnhancedAsyncDisposable {
 
 		this._register(
 			functionToDisposable(async function quitProcess() {
-				logger.debug`killing process ${process.pid}...`;
+				logger.debug`当前进程 pid=${process.pid}`;
 				try {
 					abortController.abort();
 				} catch {}
@@ -62,7 +63,7 @@ class Session extends EnhancedAsyncDisposable {
 		);
 
 		process.finally(() => {
-			logger.debug`process ${process.pid} exited with code ${process.exitCode}`;
+			logger.debug`进程 ${process.pid} 以 ${process.exitCode} 退出`;
 			this.dispose();
 		});
 	}
@@ -79,16 +80,28 @@ class Session extends EnhancedAsyncDisposable {
 			return data;
 		} catch (e: any) {
 			if (this.process.exitCode || this.process.signalCode || !this.process.connected) {
-				logger.error`process ${this.process.pid} died unexpectedly: ${this.process.exitCode}, signal: ${this.process.signalCode}, connected: ${this.process.connected}`;
+				let msg = '';
+				msg += `工作进程 ${this.process.pid} 意外退出: ${this.process.exitCode}, 信号: ${this.process.signalCode}, IPC连接: ${this.process.connected}\n`;
 				let e: ExecaError;
 				try {
 					e = (await this.process) as any;
 				} catch (ee: any) {
 					e = ee;
 				}
-				logger.error`   die message: long<${e.all ?? e.stderr ?? e.stdout ?? e.shortMessage ?? 'no message'}>`;
+				msg += '输出内容:\x1B[2m\n';
+				if (e.all) {
+					msg += (e.all ?? e.stderr ?? e.stdout ?? e.shortMessage ?? 'no message').toString().trimEnd();
+				}
+				msg += '\x1B[0m';
+				const newError = new Error(msg);
+				newError.stack = e.stack;
+				throw newError;
+			} else {
+				const heading = `工作进程 ${this.process.pid} IPC通信失败: `;
+				e.message = heading + e.message;
+				e.stack = heading + e.stack;
+				throw e;
 			}
-			throw e;
 		}
 	}
 
@@ -96,24 +109,27 @@ class Session extends EnhancedAsyncDisposable {
 		return this.outputCollection.getOutput();
 	}
 
-	private executing = false;
+	private executing?: Error;
 	async executeOnce() {
 		if (this.executing) {
-			throw new SoftwareDefectError('concurrent execution is not allowed');
+			throw new SoftwareDefectError('codgen: 上次执行还未完成，不能重复执行', { cause: this.executing });
 		}
-		this.executing = true;
-		this.outputCollection.clear();
-		this.send({ type: 'execute' });
-		const data = await this.recvOne('execute-result');
-		this.executing = false;
-		return data.result;
+		this.executing = new Error('上次执行:');
+		try {
+			this.outputCollection.clear();
+			this.send({ type: 'execute' });
+			const data = await this.recvOne('execute-result');
+			return data.result;
+		} finally {
+			this.executing = undefined;
+		}
 	}
 
 	async initialize() {
 		try {
-			return await raceTimeout(2000, this.recvOne('initialize'));
+			return await raceTimeout(5000, this.recvOne('initialize'));
 		} catch (e) {
-			logger.error`process ${this.process.pid} failed handshake`;
+			this.logger.error`生成器进程 ${this.process.pid} 握手失败`;
 			throw e;
 		}
 	}
@@ -125,17 +141,19 @@ export class SpawnExecuter extends BaseExecuter {
 	private declare session: Session;
 
 	protected override async _rebuild(): Promise<void> {
-		this.logger.warn`restarting generater process...`;
-		await this.session?.dispose();
+		if (this.session) {
+			this.logger.warn`(重启) 停止现有生成器进程...`;
+			await this.session.dispose();
+		}
 
-		logger.info`starting generater process`;
+		this.logger.info`启动生成器进程`;
 
 		const session = new Session(this.options.projectRoot, this.sourceFile, this.logger);
 		this.session = session;
 
 		const r = await session.initialize();
 
-		logger.info`  - generater process started`;
+		this.logger.info`  - 生成器进程已启动`;
 
 		this.systemWatchingFiles = r.files;
 
@@ -151,6 +169,15 @@ export class SpawnExecuter extends BaseExecuter {
 			await this._rebuild();
 		}
 
-		return await this.session.executeOnce();
+		return await this.session.executeOnce().catch((e) => {
+			if (e instanceof ExecaError) {
+				if (e.message.includes('Command was gracefully canceled with exit code 0')) {
+					this.logger.error`关注此错误: long<${e.stack}>`;
+					assert.ok(this.result);
+					return this.result;
+				}
+			}
+			throw e;
+		});
 	}
 }

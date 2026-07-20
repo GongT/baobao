@@ -16,7 +16,7 @@ export let globalLogger: IMyLogger;
 export function createGlobalLogger(console: IInstrestedConsole, tag: string, defaultLevel: EnableLogLevel): void {
 	globalLogger = globalObject[symbol];
 	if (globalLogger) {
-		globalLogger.error`global logger already created`;
+		globalLogger.error`全局日志对象已创建`;
 		return;
 	}
 
@@ -26,9 +26,9 @@ export function createGlobalLogger(console: IInstrestedConsole, tag: string, def
 	globalLogger.enable(defaultLevel);
 
 	if (globalLogger.verbose.isEnabled) {
-		globalLogger.verbose`verbose is enabled`;
+		globalLogger.verbose`verbose级别已启用`;
 	} else {
-		globalLogger.debug`debug is enabled`;
+		globalLogger.debug`debug级别已启用`;
 	}
 	return;
 }

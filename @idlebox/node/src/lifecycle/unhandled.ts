@@ -38,7 +38,7 @@ function dumpGlobalDispose() {
 
 		if (globalLifecycle) dumpDisposableStack(globalLifecycle as any);
 	} catch (e) {
-		prettyPrintError('Error while dumping global lifecycle', convertCaughtError(e));
+		prettyPrintError('导出全局生命周期对象时异常', convertCaughtError(e));
 	}
 }
 
@@ -59,7 +59,7 @@ function uniqueErrorHandler(caughtError: unknown) {
 		if (effectiveError && typeof effectiveError === 'object' && (effectiveError as any).message) {
 			e = effectiveError;
 		} else {
-			e = new Error(`error object is ${typeof effectiveError} ${effectiveError ? (effectiveError as any).constructor?.name : 'unknown'}`);
+			e = new Error(`错误对象类型不是Error: ${typeof effectiveError} ${effectiveError ? (effectiveError as any).constructor?.name : 'unknown'}`);
 		}
 		prettyPrintError(`${prefix}全局异常处理器捕获到非预期对象`, e);
 		throw shutdown_immediate(exitCode);
@@ -70,7 +70,7 @@ function uniqueErrorHandler(caughtError: unknown) {
 		 * Exit或者继承自Exit的错误被抛出
 		 * 说明是预期中的退出流程，直接退出，不进行任何处理
 		 */
-		if (!isProductionMode) logger.verbose?.(`  - skip exit object`);
+		if (!isProductionMode) logger.verbose?.(`  - 跳过处理Exit错误`);
 		if (!isShuttingDown()) _shutdown_graceful(effectiveError.code);
 		throw effectiveError;
 	}
@@ -78,30 +78,30 @@ function uniqueErrorHandler(caughtError: unknown) {
 	try {
 		const catcher = getHandlerOnError(effectiveError);
 		if (catcher) {
-			if (!isProductionMode) logger.verbose?.(`  - call catcher by type "${objectName(catcher) || 'anonymous function'}" for error "${effectiveError.message}"`);
+			if (!isProductionMode) logger.verbose?.(`  - 调用类型捕获函数 "${objectName(catcher) || '*匿名*'}" 处理错误 "${effectiveError.message}"`);
 			catcher(effectiveError);
 			return;
 		}
 		if (isNodeError(effectiveError)) {
 			const catcher = getCodehandler(effectiveError);
 			if (catcher) {
-				if (!isProductionMode) logger.verbose?.(`  - call catcher by code "${objectName(catcher) || 'anonymous function'}" for error code "${effectiveError.code}"`);
+				if (!isProductionMode) logger.verbose?.(`  - 调用错误码捕获函数 "${objectName(catcher) || '*匿名*'}" 处理错误代码 "${effectiveError.code}"`);
 				catcher(effectiveError);
 				return;
 			}
 		}
 		if (effectiveError instanceof UsageError) {
-			logger.log(`\n${prefix}UsageError: ${effectiveError.message}\n`);
+			logger.log(`\n${prefix}用法错误: ${effectiveError.message}\n`);
 			return;
 		}
 	} catch (ee: any) {
 		if (ee instanceof Exit) return;
-		prettyPrintError(`${prefix}error while handle error`, {
+		prettyPrintError(`${prefix}处理错误时发生异常`, {
 			message: ee.message,
 			stack: ee.stack,
 			cause: effectiveError,
 		});
-		logger.log(`${prefix}died.`);
+		logger.log(`${prefix}由于遇到无法处理的错误，程序寄了`);
 		shutdown_immediate(ExitCode.PROGRAM);
 	}
 
@@ -113,14 +113,14 @@ function uniqueErrorHandler(caughtError: unknown) {
 			process.stderr.write(shuttingDownCounter === 0 ? '\n' : '\r');
 		}
 		if (shuttingDownCounter > 4) {
-			logger.log(`${prefix}Received ${signal} more than 5 times. Exiting immediately.`);
+			logger.log(`${prefix}收到信号 ${signal} 超过5次! 立即退出`);
 			dumpGlobalDispose();
 			shutdown_immediate(ExitCode.INTERRUPT);
 		} else if (shuttingDownCounter > 0) {
-			logger.log(`${prefix}Received ${signal} ${shuttingDownCounter + 1} times.`);
+			logger.log(`${prefix}收到信号 ${signal} 第 ${shuttingDownCounter + 1} 次`);
 			dumpGlobalDispose();
 		} else {
-			logger.log(`${prefix}Received ${signal}. Exiting gracefully...`);
+			logger.log(`${prefix}收到信号 ${signal}. 正在优雅退出`);
 		}
 		shutdown(ExitCode.INTERRUPT);
 	}
@@ -129,17 +129,17 @@ function uniqueErrorHandler(caughtError: unknown) {
 
 	if (caughtError instanceof UnhandledRejection) {
 		if (!isProductionMode) logger.verbose?.(`  - UnhandledRejection`);
-		prettyPrintError(`Unhandled Rejection${addonTitle}`, effectiveError);
+		prettyPrintError(`未处理的Promise拒绝${addonTitle}`, effectiveError);
 		return;
 	}
 	if (caughtError instanceof UncaughtException) {
 		if (!isProductionMode) logger.verbose?.(`  - UncaughtException`);
-		prettyPrintError(`Unhandled Exception${addonTitle}`, effectiveError);
+		prettyPrintError(`未捕获的异常${addonTitle}`, effectiveError);
 		return;
 	}
 
-	if (!isProductionMode) logger.verbose?.(`  - common error`);
-	prettyPrintError(`Unhandled Exception${addonTitle}`, effectiveError);
+	if (!isProductionMode) logger.verbose?.(`  - 普通异常`);
+	prettyPrintError(`未处理的异常${addonTitle}`, effectiveError);
 	shutdown(ExitCode.PROGRAM);
 }
 
@@ -157,7 +157,7 @@ export function registerNodejsExitHandler(_logger: IDebugOutput = { log: console
 }
 
 function _real_register() {
-	if (!isProductionMode) logger.verbose?.(`register nodejs exit handler: production=${isProductionMode}`);
+	if (!isProductionMode) logger.verbose?.(`注册nodejs退出处理器: production=${isProductionMode}`);
 
 	process.on('SIGINT', () => signal_handler('SIGINT'));
 	process.on('SIGTERM', () => signal_handler('SIGTERM'));
@@ -172,26 +172,26 @@ function _real_register() {
 		if (!isProductionMode) logger.verbose?.(`process: beforeExit: ${code}`);
 		if (process.exitCode === undefined || process.exitCode === '') {
 			code = ExitCode.EXECUTION;
-			logger.log(`${prefix}beforeExit called, but process.exitCode has not been set, switch to ${code}`);
+			logger.log(`${prefix}收到beforeExit事件，但 process.exitCode 尚未设置，设为默认值"${code}""`);
 		}
 		_shutdown_graceful(code);
 	});
 
 	if (process.hasUncaughtExceptionCaptureCallback()) {
 		process.on('uncaughtException', uncaughtExceptionHandle);
-		throw new Error(`${prefix} [uncaught exception capture] callback already registered by other module`);
+		throw new Error(
+			`${prefix} [uncaught exception capture] 其他地方注册了全局异常捕获回调，这会导致本模块无法正常工作，请检查代码中是否有 process.setUncaughtExceptionCaptureCallback()`,
+		);
 	}
 	process.setUncaughtExceptionCaptureCallback(uncaughtExceptionHandle);
 
 	if (process.listenerCount('uncaughtException') > 0) {
-		logger.log(
-			`${prefix}Warning: there are already ${process.listenerCount('uncaughtException')} uncaughtException handlers registered, which may interfere with this module's ability to handle uncaught exceptions properly.`,
-		);
+		logger.log(`${prefix}警告: 已经注册了${process.listenerCount('uncaughtException')}个uncaughtException处理器，它们可能不会再被调用到`);
 	}
 	const originalOn = process.on;
 	process.on = (event: string, listener: any) => {
 		if (event === 'uncaughtException') {
-			logger.log(`${prefix}Warning: attempt to register another uncaughtException handler, which is not allowed and will be ignored.`);
+			logger.log(`${prefix}警告: 尝试注册一个uncaughtException处理器，全局处理器已被替换，此注册行为无效`);
 		}
 		return originalOn.call(process, event, listener);
 	};
@@ -215,17 +215,17 @@ function _real_register() {
 			uniqueErrorHandler(e);
 
 			if (e.cause instanceof ErrorWithCode) {
-				if (!isProductionMode) logger.verbose?.(`finalThrow: got code: ${e.cause.code}`);
+				if (!isProductionMode) logger.verbose?.(`全局异常处理: 收到错误码: ${e.cause.code}`);
 				_shutdown_graceful(e.cause.code);
 			} else {
-				if (!isProductionMode) logger.verbose?.(`finalThrow: not got code: ${e.cause} `);
+				if (!isProductionMode) logger.verbose?.(`全局异常处理: 无码错误: ${e.cause} `);
 				_shutdown_graceful(ExitCode.PROGRAM);
 			}
 		} catch (ee: any) {
 			if (ee instanceof Exit) {
 				return;
 			}
-			prettyPrintError('Exception while handling error', ee);
+			prettyPrintError('处理异常时发生异常', ee);
 			shutdown_immediate(ExitCode.PROGRAM);
 		}
 	}
@@ -236,6 +236,6 @@ function _real_register() {
  */
 export function die(message: string): never {
 	debugger;
-	console.error(`${prefix}DIE!`, message);
+	console.error(`${prefix}调试中主动寄了!`, message);
 	shutdown_immediate(1);
 }

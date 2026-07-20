@@ -34,16 +34,16 @@ function loadGenerate(url: string): LoadFnOutput {
 	theState.loaded?.add(url);
 
 	const protocolMagic = randomUUID();
-	const nodeVer = Number(process.versions.node.split('.')[0]);
 	const nodeArgs = ['--import', runPrefixFile];
-	if (nodeVer < 26) {
-		nodeArgs.unshift('');
-	}
-	const p = spawnSync(process.execPath, [...nodeArgs, fileURLToPath(url)], {
+	const cwd = process.cwd();
+
+	const cmdline = [...nodeArgs, fileURLToPath(url)];
+	const p = spawnSync(process.execPath, cmdline, {
 		stdio: ['ignore', 'pipe', 'pipe'],
 		maxBuffer: 10 * 1024 * 1024,
 		encoding: 'utf8',
 		shell: false,
+		cwd,
 		env: {
 			...process.env,
 			PROTOCOL_MAGIC: protocolMagic,
@@ -65,7 +65,7 @@ function loadGenerate(url: string): LoadFnOutput {
 		throw new Error(`无法启动进程(${url}): ${p.error.message}`);
 	}
 	if (p.status === 0 && !p.signal) {
-		const code = `/*${JSON.stringify([process.execPath, ...nodeArgs, fileURLToPath(url)])}*/\n\n${p.stdout}`;
+		const code = `/*${JSON.stringify([process.execPath, ...cmdline])}*/\n\n${p.stdout}`;
 		log.generate(`成功: ${typeof code}, ${code.length} 个字符`);
 		return {
 			format: 'module',
@@ -75,7 +75,9 @@ function loadGenerate(url: string): LoadFnOutput {
 	}
 
 	log.generate(`生成进程运行失败: 状态=${p.status}, 信号=${p.signal}, 标准错误输出=${p.stderr.slice(0, 200).replace(hiddenChars, ' ')}...`);
-	console.error(`生成进程(${url})运行失败:`);
+	console.error(`生成进程运行失败: 状态=${p.status}, 信号=${p.signal}`);
+	console.error(`命令行: ${process.execPath} "${cmdline.join('" "')}"`);
+	console.error(`工作目录: ${cwd}`);
 
 	if (p.stderr.includes(protocolMagic)) {
 		const jsonReg = new RegExp(`^${protocolMagic}\\|(.+)$`, 'gm');
@@ -108,10 +110,18 @@ function loadGenerate(url: string): LoadFnOutput {
 		log.generate('在标准错误输出中未找到协议魔术串');
 	}
 
-	const stderr = p.stderr.replace(eachLineStart, '\x1B[48;5;9m \x1B[0m ');
-	const ee = new Error(
-		`无法判断发生了什么，以下为stderr的内容:\n==========================\n${stderr}\n==========================\n无法判断发生了什么，以上为stderr的内容.`,
-	);
+	let stderr = p.stderr;
+
+	if (process.stderr.isTTY) {
+		stderr = stderr.replace(eachLineStart, '\x1B[48;5;9m \x1B[0m ');
+	} else {
+		stderr = stderr.replace(eachLineStart, '▌');
+	}
+	console.error('以下是子进程输出:');
+	console.error(stderr);
+	console.error('以上是子进程输出.');
+
+	const ee = new Error(`代码生成器进程运行异常，且无法判断发生了什么`);
 	ee.stack = ee.message;
 	throw ee;
 }

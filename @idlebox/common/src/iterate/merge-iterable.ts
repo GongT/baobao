@@ -1,3 +1,5 @@
+import type { AnyIterator } from './typings.internal.js';
+
 /**
  * 按顺序连接多个可迭代对象，返回一个新的可迭代对象。
  */
@@ -46,8 +48,6 @@ export function* interleaveIterables<T = unknown>(...iterables: Iterable<T>[]) {
 		}
 	}
 }
-
-type AnyIterator<T> = Iterator<T> | AsyncIterator<T>;
 
 /**
  * @see interleaveIterables

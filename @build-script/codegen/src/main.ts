@@ -1,5 +1,6 @@
 import { UsageError, prettyPrintError, registerGlobalLifecycle } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
+import { registerNodejsExitHandler } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { findPackageJSON } from 'node:module';
 import { resolve } from 'node:path';
@@ -29,6 +30,8 @@ export async function main() {
 		process.exit(1);
 	}
 
+	registerNodejsExitHandler();
+
 	const roots = new Set<string>();
 	for (const project of folders) {
 		const root = resolve(process.cwd(), project);
@@ -53,16 +56,12 @@ export async function main() {
 	registerGlobalLifecycle(generatorHolder);
 
 	if (watchMode) {
-		logger.debug('execute generators in watch mode.');
+		logger.info`监视模式运行`;
 
-		process.on('SIGINT', () => {
-			console.log('\nSIGINT received, exiting...');
-			shutdown(0);
-		});
-
+		process.exitCode = 0;
 		startWatchMode(generatorHolder);
 	} else {
-		logger.debug('execute generators in build mode.');
+		logger.info`非监视模式运行`;
 
 		await generatorHolder.configureCodeGenerators();
 		const result = await generatorHolder.executeAll();

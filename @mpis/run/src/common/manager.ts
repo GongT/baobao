@@ -69,6 +69,6 @@ function sendStatus() {
 		}
 	} else {
 		const arr = overallState.errors.keys().toArray();
-		channelClient.failed(`mpis-run: ${arr.join(', ')} (${overallState.errors.size} / ${workersManager.size()})`, formatAllErrors());
+		channelClient.failed(`mpis-run: ${arr.join(', ')} (${overallState.errors.size} / ${workersManager.size()})`, formatAllErrors(true));
 	}
 }

@@ -16,6 +16,16 @@ export class PassiveAsyncDataSource<T> extends EnhancedAsyncDisposable {
 		this.getNextData = onDataRequested;
 	}
 
+	static chunked<T>(onDataRequested: () => Promise<T[]>): PassiveAsyncDataSource<T> {
+		let buffer: T[] = [];
+		return new PassiveAsyncDataSource<T>(async () => {
+			if (buffer.length === 0) {
+				buffer = await onDataRequested();
+			}
+			return buffer.shift()!;
+		});
+	}
+
 	finish() {
 		this.finished = true;
 	}
