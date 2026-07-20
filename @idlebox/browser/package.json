@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/browser",
 	"type": "module",
-	"version": "0.0.63",
+	"version": "0.0.64",
 	"exports": {
 		".": "./lib/autoindex.generated.js",
 		"./react": "./re-exports/react.js",
