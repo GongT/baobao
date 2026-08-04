@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized, inspect as node_inspect } from 'node:util';
+import type { InspectContext, inspect as node_inspect } from 'node:util';
 import { ParamKind } from '../constants.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
 import { normalizeParameterDescription } from '../tools/param-desc.js';
@@ -68,7 +68,7 @@ export class CommandArguments<T extends string = string> implements ISubArgsRead
 		return new CommandArguments(this.parent, this.positional_base_index + base + 1, parameter);
 	}
 
-	[customInspectSymbol](depth: number, inspectOptions: InspectOptionsStylized, inspect: typeof node_inspect) {
+	[customInspectSymbol](depth: number, inspectOptions: InspectContext, inspect: typeof node_inspect) {
 		const name = inspectOptions.stylize(`[${this.constructor.name}]`, 'special');
 		const options = Object.assign({}, inspectOptions, {
 			depth: inspectOptions.depth ? inspectOptions.depth - 1 : null,

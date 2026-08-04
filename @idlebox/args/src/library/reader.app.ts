@@ -1,4 +1,4 @@
-import type { InspectOptions, InspectOptionsStylized, inspect as node_inspect } from 'node:util';
+import type { InspectOptions, InspectContext, inspect as node_inspect } from 'node:util';
 import { ParamKind, type TokenKind } from '../constants.js';
 import { customInspectSymbol, wrapStyle } from '../tools/color.js';
 import { normalizeParameterDescription, normalizeParameterDescriptionFlag, normalizeParameterDescriptionRange } from '../tools/param-desc.js';
@@ -226,7 +226,7 @@ export class ApplicationArguments implements IArgsReaderApi {
 	// }
 
 	private __inspecting = false;
-	[customInspectSymbol](depth: number, options: InspectOptionsStylized, inspect: typeof node_inspect) {
+	[customInspectSymbol](depth: number, options: InspectContext, inspect: typeof node_inspect) {
 		const name = options.stylize(`[${this.constructor.name}]`, 'special');
 		if (this.__inspecting || depth < 0) return name;
 		this.__inspecting = true;

@@ -6,7 +6,7 @@ import type { Options, ResultPromise } from 'execa';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { Writable } from 'node:stream';
-import type { InspectOptionsStylized } from 'node:util';
+import type { InspectContext } from 'node:util';
 import { split as splitCmd } from 'split-cmd';
 import { ProtocolClientObject } from '../common/protocol-client-object.js';
 
@@ -302,11 +302,11 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		}
 	}
 
-	// override _inspect(_d: number, options: InspectOptionsStylized) {
+	// override _inspect(_d: number, options: InspectContext) {
 	// 	return `${id} { ${options.stylize(this.last_event_message, 'string')} }`;
 	// }
 
-	override _inspectDesc(options: InspectOptionsStylized) {
+	override _inspectDesc(options: InspectContext) {
 		if (this.process?.pid) {
 			const pidStyle = this.process.exitCode === null ? 'number' : 'undefined';
 			const pid = `[pid=${options.stylize(this.process.pid.toString(), pidStyle)}]`;
