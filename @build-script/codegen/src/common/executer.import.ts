@@ -3,6 +3,7 @@ import { callGenerateFunction } from '../client/call-generate-function.js';
 import type { IGenerateFunction } from '../client/generate-context.js';
 import { BaseExecuter } from './executer.base.js';
 import type { IGenerateResult } from './spawn/messages.js';
+import { pathToFileURL } from 'node:url';
 
 // const generatorSuffix = /\.generator\.ts$/;
 
@@ -12,7 +13,7 @@ export class ImportExecuter extends BaseExecuter {
 
 	protected override async _rebuild() {
 		Assertion.ok(!this.generate_function, '只有非watch使用ImportExecuter，此时不可能重新编译');
-		const gen = await import(this.sourceFile);
+		const gen = await import(pathToFileURL(this.sourceFile).href);
 		if (typeof gen.generate !== 'function') {
 			throw new Error(`module ${this.sourceFile} must export "generate" function`);
 		}

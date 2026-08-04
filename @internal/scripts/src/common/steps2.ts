@@ -29,7 +29,8 @@ export async function executePrepublishHooks() {
 			}
 
 			logger.info`执行自定义 prepublishHook: 钩子 (${name} -> relative<${absoluteFile}>)`;
-			await import(absoluteFile);
+			const path = absoluteFile.startsWith('file:') ? absoluteFile : pathToFileURL(absoluteFile).href;
+			await import(path);
 		}
 	} else {
 		logger.log`没有自定义 prepublishHook: 钩子`;

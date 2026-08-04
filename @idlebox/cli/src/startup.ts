@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 import { glob } from 'node:fs/promises';
 import { findPackageJSON } from 'node:module';
 import { basename, extname, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { getCallSites } from 'node:util';
 import { mapSourceFile, type IApp } from './index.js';
 
@@ -297,7 +298,8 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 
 async function execMain(file: string, subcmd: ISubArgsReaderApi) {
 	logger.verbose`executing js file: ${mapSourceFile(file)}`;
-	const { main } = await import(file);
+	const path = file.startsWith('file:') ? file : pathToFileURL(file).href;
+	const { main } = await import(path);
 	if (typeof main !== 'function') {
 		throw new NotImplementedError(`missing main() function in file ${mapSourceFile(file)}`);
 	}
@@ -310,7 +312,8 @@ async function execMain(file: string, subcmd: ISubArgsReaderApi) {
 }
 
 async function importDefine(file: string): Promise<ICommandDefineWithCommand> {
-	const { Command } = await import(file);
+	const path = file.startsWith('file:') ? file : pathToFileURL(file).href;
+	const { Command } = await import(path);
 
 	assert.ok(Command, `file not export Command: ${file}`);
 

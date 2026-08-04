@@ -8,6 +8,7 @@ import { getLernaPackageManager } from '../drivers/lerna-nx.js';
 import { getRushPackageManager } from '../drivers/rush.js';
 import { MonorepoWorkspace, SimplePackage, type WorkspaceBase } from '../index.js';
 import { PackageManagerKind, WorkspaceKind } from './types.js';
+import { pathToFileURL } from 'node:url';
 
 export class NotMonorepo extends Error {}
 
@@ -29,7 +30,8 @@ export async function createSimpleProject(cwd = process.cwd()) {
 	}
 	const root = dirname(file);
 	let pm: PackageManagerKind = PackageManagerKind.Unknown;
-	const pkgJson: IPackageJson = await import(file, { with: { type: 'json' } });
+	const path = file.startsWith('file:') ? file : pathToFileURL(file).href;
+	const pkgJson: IPackageJson = await import(path, { with: { type: 'json' } });
 	if (typeof pkgJson.packageManager === 'string') {
 		const name = pkgJson.packageManager.split('@')[0];
 		if (name === 'pnpm') {

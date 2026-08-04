@@ -54,7 +54,10 @@ export class ProjectConfig {
 	}
 
 	async import<T = any>(packageName: string): Promise<T> {
-		const pkg: any = await import(this.resolve(packageName));
+		const resolved = this.resolve(packageName);
+		const path = resolved.startsWith('file:') ? resolved : pathToFileURL(resolved).href;
+
+		const pkg: any = await import(path);
 		if (pkg.default) {
 			return pkg.default;
 		}

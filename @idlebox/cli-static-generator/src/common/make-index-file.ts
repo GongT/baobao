@@ -8,6 +8,7 @@ import { findUpUntil } from '@idlebox/node';
 import { globSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { buildOutput } from './rollup-build.js';
+import { pathToFileURL } from 'node:url';
 
 function hasDep(pkg: IPackageJson, name: string) {
 	if (pkg.dependencies?.[name]) {
@@ -39,7 +40,7 @@ export async function makeIndexFile(root_dir: string, globs: readonly string[], 
 
 	const tempEntryFile = `${root_dir}/.generated.temp.cli.js`;
 	writeFileSync(tempEntryFile, built);
-	const output: IExports = await import(tempEntryFile);
+	const output: IExports = await import(pathToFileURL(tempEntryFile).href);
 
 	const obj = convertCommandsToJson(output);
 	const json = JSON.stringify(obj, null, '\t');

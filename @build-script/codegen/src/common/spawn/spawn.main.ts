@@ -3,7 +3,7 @@ import { createRootLogger, logger } from '@idlebox/logger';
 import { getLoadedFiles } from '@idlebox/native-executer';
 import { registerNodejsExitHandler, shutdown } from '@idlebox/node';
 import { getCancelSignal, getEachMessage, sendMessage } from 'execa';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { callGenerateFunction } from '../../client/call-generate-function.js';
 import type { IGenerateFunction } from '../../client/generate-context.js';
 import { isTypeOf, type IGenerateResult, type IMessage } from './messages.js';
@@ -33,7 +33,9 @@ Object.assign(globalThis, { logger });
 
 let generateFunction: IGenerateFunction;
 try {
-	const exports = await import(generatorFile);
+	const path = generatorFile.startsWith('file:') ? generatorFile : pathToFileURL(generatorFile).href;
+
+	const exports = await import(path);
 	generateFunction = exports.generate;
 	if (typeof generateFunction !== 'function') {
 		throw new Error('生成器文件必须导出一个名为 generate 的函数');
