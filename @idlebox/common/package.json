@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/common",
 	"type": "module",
-	"version": "1.5.30",
+	"version": "1.5.31",
 	"description": "Common utilities",
 	"keywords": ["utilities", "functions", "helpers", "library"],
 	"exports": {
