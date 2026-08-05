@@ -27,7 +27,6 @@
 		"@idlebox/ensure-symlink": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/terminal-control": "workspace:^",
 		"@idlebox/unshare": "workspace:^",
 		"cacache": "^20.0.4",

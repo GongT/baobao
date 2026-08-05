@@ -33,7 +33,6 @@
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/native-executer": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"execa": "^9.6.1",
 		"glob": "^13.0.6",

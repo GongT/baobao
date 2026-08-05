@@ -148,7 +148,7 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 			})) as any;
 			break;
 		} catch (e: any) {
-			if (!e || !e.message) {
+			if (!e?.message) {
 				console.dir(e);
 				throw new Error('npm fetch throw unexpected thing');
 			}

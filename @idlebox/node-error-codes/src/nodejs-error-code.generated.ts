@@ -2021,7 +2021,7 @@ export enum NodeErrorCode {
 	 */
 	ERR_UNSUPPORTED_ESM_URL_SCHEME = 'ERR_UNSUPPORTED_ESM_URL_SCHEME',
 	/**
-	 * <p>Type stripping is not supported for files descendent of a <code>node_modules</code> directory.</p>
+	 * <p>Type stripping is not supported for files descendant of a <code>node_modules</code> directory.</p>
 	 * <p><a id="ERR_UNSUPPORTED_RESOLVE_REQUEST"></a></p>
 	 */
 	ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING = 'ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING',
@@ -2134,9 +2134,23 @@ export enum NodeErrorCode {
 	/**
 	 * <p>The <code>Response</code> that has been passed to <code>WebAssembly.compileStreaming</code> or to
 	 * <code>WebAssembly.instantiateStreaming</code> is not a valid WebAssembly response.</p>
-	 * <p><a id="ERR_WORKER_INIT_FAILED"></a></p>
+	 * <p><a id="ERR_WORKER_HANDLE_NOT_TRANSFERABLE"></a></p>
 	 */
 	ERR_WEBASSEMBLY_RESPONSE = 'ERR_WEBASSEMBLY_RESPONSE',
+	/**
+	 * <p>An attempt was made to transfer a <code>net.Socket</code> or <code>net.Server</code> to another thread
+	 * via a <code>worker_threads</code> <code>postMessage()</code> call while it was not in a transferable
+	 * state, for example because it had already started reading or had buffered data.</p>
+	 * <p><a id="ERR_WORKER_HANDLE_TRANSFER_UNSUPPORTED"></a></p>
+	 */
+	ERR_WORKER_HANDLE_NOT_TRANSFERABLE = 'ERR_WORKER_HANDLE_NOT_TRANSFERABLE',
+	/**
+	 * <p>An attempt was made to transfer a <code>net.Socket</code> or <code>net.Server</code> to another thread
+	 * on a platform where moving the underlying handle between event loops is not
+	 * supported (currently Windows).</p>
+	 * <p><a id="ERR_WORKER_INIT_FAILED"></a></p>
+	 */
+	ERR_WORKER_HANDLE_TRANSFER_UNSUPPORTED = 'ERR_WORKER_HANDLE_TRANSFER_UNSUPPORTED',
 	/**
 	 * <p>The <code>Worker</code> initialization failed.</p>
 	 * <p><a id="ERR_WORKER_INVALID_EXEC_ARGV"></a></p>

@@ -1,18 +1,25 @@
 import { globalObject } from '@idlebox/common';
 import { hasInspector } from '@idlebox/node';
+import { getSourceMapsSupport } from 'node:module';
 import process from 'node:process';
+import { deprecate } from 'node:util';
 import { install as installHook, type Options } from 'source-map-support';
-import { hasNativeSourceMapSupport } from './check.js';
 export * from 'source-map-support';
 
 let installed = false;
+/**
+ * @deprecated
+ */
 export function hasInstalledSourceMapSupport() {
 	return installed;
 }
 
 /**
+ * @deprecated
  */
-export function install(options: Options = {}) {
+export const install = deprecate(_install, '@idlebox/source-map-support is deprecated, use --enable-source-maps instead');
+
+function _install(options: Options = {}) {
 	const hasOptions = Object.keys(options).length > 0;
 	if (!hasOptions) {
 		if (installed) {
@@ -27,7 +34,7 @@ export function install(options: Options = {}) {
 		if (process.env.DISABLE_SOURCE_MAP) {
 			return false;
 		}
-		if (hasNativeSourceMapSupport()) {
+		if (getSourceMapsSupport().enabled) {
 			return false;
 		}
 	}

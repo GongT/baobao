@@ -1,5 +1,3 @@
-import { mapSourcePosition } from '@idlebox/source-map-support';
-
 export { ArgumentError, createArgsReader, type IArgsReaderApi } from '@idlebox/args';
 
 export { argv } from '@idlebox/args/default';
@@ -27,7 +25,3 @@ export {
 } from '@idlebox/logger/node';
 
 export { terminal } from '@idlebox/terminal-control/default';
-
-export function mapSourceFile(file: string): string {
-	return mapSourcePosition({ source: file, column: 0, line: 1 }).source;
-}

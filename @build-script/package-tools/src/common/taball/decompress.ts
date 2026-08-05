@@ -18,7 +18,7 @@ export async function decompressPack(src: string, dest: string, logger: IMyLogge
 				dest,
 				tar: {
 					ignore(_, header) {
-						return !header || !header.name;
+						return !header?.name;
 					},
 					map(header) {
 						if (packageFolder.test(header.name)) {

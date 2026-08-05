@@ -23,7 +23,6 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"execa": "^9.6.1",
 		"json5": "^2.2.3",
 		"pacote": "^21.5.0"

@@ -31,7 +31,6 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
 		"@mpis/client": "workspace:^",
 		"comment-json": "^4.6.2",

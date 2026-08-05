@@ -61,9 +61,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       '@idlebox/typescript-surface-analyzer':
         specifier: workspace:^
         version: link:../../@idlebox/typescript-surface-analyzer
@@ -134,9 +131,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       execa:
         specifier: ^9.6.1
         version: 9.6.1
@@ -189,9 +183,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       '@mpis/client':
         specifier: workspace:^
         version: link:../../@mpis/client
@@ -315,9 +306,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       yaml:
         specifier: ^2.8.2
         version: 2.9.0
@@ -370,9 +358,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       '@idlebox/terminal-control':
         specifier: workspace:^
         version: link:../../@idlebox/terminal-control
@@ -448,7 +433,7 @@ importers:
         version: 2.48.13
       '@types/semver':
         specifier: ^7.7.1
-        version: 7.7.1
+        version: 7.8.0
       '@types/targz':
         specifier: ^1.0.5
         version: 1.0.5
@@ -629,10 +614,6 @@ importers:
         version: '@types/node@26.1.2'
 
   '@gongt/trpc-lib':
-    dependencies:
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
     devDependencies:
       '@idlebox/native-executer':
         specifier: workspace:^
@@ -668,9 +649,6 @@ importers:
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../native-executer
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -839,7 +817,7 @@ importers:
         version: 19.2.14
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3
+        version: 19.2.4
       '@types/react-router':
         specifier: ^5.1.20
         version: 5.1.20
@@ -901,9 +879,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       '@idlebox/terminal-control':
         specifier: workspace:^
         version: link:../terminal-control
@@ -941,9 +916,6 @@ importers:
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../native-executer
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -983,9 +955,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       '@rollup/plugin-commonjs':
         specifier: ^29.0.2
         version: 29.0.2(rollup@4.59.0)
@@ -1124,9 +1093,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -1273,9 +1239,6 @@ importers:
       '@idlebox/common':
         specifier: workspace:^
         version: link:../common
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
     devDependencies:
       '@idlebox/native-executer':
         specifier: workspace:^
@@ -1772,9 +1735,6 @@ importers:
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../native-executer
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../source-map-support
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -2073,9 +2033,6 @@ importers:
       '@idlebox/logger':
         specifier: workspace:^
         version: link:../../@idlebox/logger
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       '@mpis/shared':
         specifier: workspace:^
         version: link:../shared
@@ -2162,9 +2119,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       '@idlebox/terminal-control':
         specifier: workspace:^
         version: link:../../@idlebox/terminal-control
@@ -2214,9 +2168,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       execa:
         specifier: ^9.6.1
         version: 9.6.1
@@ -2266,9 +2217,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       '@idlebox/terminal-control':
         specifier: workspace:^
         version: link:../../@idlebox/terminal-control
@@ -2481,9 +2429,6 @@ importers:
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../../@idlebox/native-executer
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       '@internal/local-rig':
         specifier: workspace:^
         version: link:../../@internal/local-rig
@@ -2526,9 +2471,6 @@ importers:
       '@idlebox/node':
         specifier: workspace:^
         version: link:../../@idlebox/node
-      '@idlebox/source-map-support':
-        specifier: workspace:^
-        version: link:../../@idlebox/source-map-support
       execa:
         specifier: ^9.6.1
         version: 9.6.1
@@ -4246,8 +4188,8 @@ packages:
   '@types/pacote@11.1.8':
     resolution: {integrity: sha512-/XLR0VoTh2JEO0jJg1q/e6Rh9bxjBq9vorJuQmtT7rRrXSiWz7e7NsvXVYJQ0i8JxMlBMPPYDTnrRe7MZRFA8Q==}
 
-  '@types/react-dom@19.2.3':
-    resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
+  '@types/react-dom@19.2.4':
+    resolution: {integrity: sha512-Bsc+QHgp+P/F02XDzNCY9jnZNCUuLki36KT7VKrTXXLdHf+vHMNZnW1rVu5DNW/rCK+fya3DATySbLM4yhtKUw==}
 
   '@types/react-router@5.1.20':
     resolution: {integrity: sha512-jGjmu/ZqS7FjSH6owMcD5qpq19+1RS9DeVRqfl1FeBMxTDQAGwlMWOcs52NDoXaNKyG3d1cYQFMs9rCrb88o9Q==}
@@ -4261,8 +4203,8 @@ packages:
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
 
-  '@types/semver@7.7.1':
-    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
+  '@types/semver@7.8.0':
+    resolution: {integrity: sha512-1mAINjtQCXXeLkJ9ehXkwOcBpqtLxiVtKhpUf83DdRNdQKV0iXZpaHYqRr7nj+wvxuJzoAmAwXI+sCNMv1CzLQ==}
 
   '@types/source-map-support@0.5.10':
     resolution: {integrity: sha512-tgVP2H469x9zq34Z0m/fgPewGhg/MLClalNOiPIzQlXrSS2YrKu/xCdSCKnEDwkFha51VKEKB6A9wW26/ZNwzA==}
@@ -7755,7 +7697,7 @@ snapshots:
       '@types/npmlog': 7.0.0
       '@types/ssri': 7.1.5
 
-  '@types/react-dom@19.2.3': {}
+  '@types/react-dom@19.2.4': {}
 
   '@types/react-router@5.1.20':
     dependencies:
@@ -7775,7 +7717,7 @@ snapshots:
 
   '@types/resolve@1.20.2': {}
 
-  '@types/semver@7.7.1': {}
+  '@types/semver@7.8.0': {}
 
   '@types/source-map-support@0.5.10':
     dependencies:

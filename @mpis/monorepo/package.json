@@ -25,7 +25,6 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/terminal-control": "workspace:^",
 		"@mpis/server": "workspace:^",
 		"@rushstack/rig-package": "^0.6.0",

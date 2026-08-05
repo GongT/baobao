@@ -20,8 +20,7 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^"
+		"@idlebox/common": "workspace:^"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",

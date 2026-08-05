@@ -1,6 +1,6 @@
 import { makeApplication, type IArgDefineMap } from '@idlebox/cli';
 import { setExitCodeIfNot } from '@idlebox/node';
-import { basename } from 'node:path';
+import { basename, resolve } from 'node:path';
 import pkgJson from '../package.json' with { type: 'json' };
 import { cli_commands, cli_imports } from './commands.generated.js';
 
@@ -11,14 +11,17 @@ export const common_args: IArgDefineMap = {
 };
 
 setExitCodeIfNot(0);
-await makeApplication({
+const cli = makeApplication({
 	name: basename(pkgJson.name),
 	description: pkgJson.description,
 	logPrefix: process.env.LOGGER_PREFIX || '',
-})
-	.withCommon(common_args)
-	.static(cli_imports, cli_commands);
+});
+cli.withCommon(common_args);
 
-// await makeApplication()
-// 	.withCommon(common_args)
-// 	.dynamic(resolve(import.meta.dirname, 'commands'), '*.js');
+export async function main_static() {
+	await cli.static(cli_imports, cli_commands);
+}
+
+export async function main_dynamic() {
+	await cli.dynamic(resolve(import.meta.dirname, 'commands'), ['*.js', '*.ts']);
+}

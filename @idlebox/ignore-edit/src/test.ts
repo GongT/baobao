@@ -1,4 +1,3 @@
-import '@idlebox/source-map-support/register';
 import { type IIgnoreFile, parse, stringify, unscoped } from './api.js';
 
 let failed = 0;

@@ -30,7 +30,6 @@
 		"typescript": "^6.0.2"
 	},
 	"devDependencies": {
-		"@idlebox/source-map-support": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/minimatch": "^6.0.0",
 		"@types/node": "^25.5.0"

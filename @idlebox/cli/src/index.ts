@@ -1,7 +1,3 @@
-import { install } from '@idlebox/source-map-support';
-
-install();
-
 export interface IApp {
 	readonly debug: boolean;
 	readonly verbose: boolean;

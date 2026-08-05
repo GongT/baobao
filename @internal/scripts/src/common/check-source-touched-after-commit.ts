@@ -54,7 +54,7 @@ export async function checkSourceTouchedAfterCommit(sourceFilePath: string, over
 
 		// Find commit ID from <!-- commit:xxx -->
 		const commitMatch = docContent.match(commitIdRegex);
-		if (!commitMatch || !commitMatch[1]) {
+		if (!commitMatch?.[1]) {
 			logger.warn`文档文件中未找到 Commit ID: ${docFilePath}`;
 			return true;
 		}

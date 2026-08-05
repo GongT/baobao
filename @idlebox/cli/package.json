@@ -21,7 +21,7 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"test": "mocha --require @idlebox/source-map-support/register --bail lib/tests",
+		"test": "mocha --bail lib/tests",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
@@ -32,7 +32,6 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"@idlebox/terminal-control": "workspace:^"
 	},
 	"devDependencies": {

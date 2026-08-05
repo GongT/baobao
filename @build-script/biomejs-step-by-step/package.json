@@ -26,7 +26,6 @@
 		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"execa": "^9.6.1"
 	},
 	"devDependencies": {

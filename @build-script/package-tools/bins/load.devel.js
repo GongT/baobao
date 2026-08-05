@@ -12,4 +12,6 @@ try {
 	await execaNode({ stdio: 'inherit' })`${resolve(import.meta.dirname, '../../codegen/loader/bin.devel.js')} ${resolve(import.meta.dirname, '../src')}`;
 }
 
-await import('../src/main.ts');
+const { main_dynamic: main } = await import('../src/cli.ts');
+
+await main();

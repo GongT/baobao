@@ -29,7 +29,6 @@
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"yaml": "^2.8.2"
 	},
 	"devDependencies": {

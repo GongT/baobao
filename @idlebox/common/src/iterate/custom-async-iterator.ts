@@ -9,31 +9,29 @@ export class PassiveAsyncDataSource<T> extends EnhancedAsyncDisposable {
 	private error?: unknown;
 	private finished = false;
 	private busy = false;
-	private readonly getNextData;
+	private readonly getNextData: () => Promise<T | undefined>;
 
-	constructor(onDataRequested: () => Promise<T>) {
+	constructor(onDataRequested: () => Promise<T | undefined>) {
 		super(`PassiveAsyncDataSource`);
 		this.getNextData = onDataRequested;
 	}
 
 	static chunked<T>(onDataRequested: () => Promise<T[]>): PassiveAsyncDataSource<T> {
 		let buffer: T[] = [];
-		return new PassiveAsyncDataSource<T>(async () => {
+		const r = new PassiveAsyncDataSource<T>(async () => {
 			if (buffer.length === 0) {
 				buffer = await onDataRequested();
 			}
-			return buffer.shift()!;
-		});
-	}
 
-	finish() {
-		this.finished = true;
+			return buffer.shift();
+		});
+		return r;
 	}
 
 	protected override _dispose(disposables: readonly IAsyncDisposable[]): Promise<void> {
 		this.finished = true;
 
-		UseAfterDisposeError.replaceMethods(this, 'finish', '_next');
+		UseAfterDisposeError.replaceMethods(this, '_next');
 		return super._dispose(disposables);
 	}
 
@@ -49,6 +47,9 @@ export class PassiveAsyncDataSource<T> extends EnhancedAsyncDisposable {
 		this.busy = true;
 		try {
 			const data = await this.getNextData();
+			if (data === undefined) {
+				return { done: true, value: undefined };
+			}
 			return { done: false, value: data };
 		} catch (err) {
 			this.error = err;

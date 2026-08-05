@@ -4,7 +4,6 @@
 * [@idlebox/args](../args)
 * [@idlebox/cli-help-builder](../builder)
 * [@idlebox/logger](../logger)
-* [@idlebox/source-map-support](../support)
 
 ### Usage
 

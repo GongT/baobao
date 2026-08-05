@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
-import '@idlebox/source-map-support/register';
+import { setSourceMapsSupport } from 'node:module';
+setSourceMapsSupport(true, { generatedCode: true, nodeModules: true });
 
 process.title = `PkgTool`;
 
-await import('../lib/main.js');
+const { main_static: main } = await import('../lib/cli.js');
+
+await main();

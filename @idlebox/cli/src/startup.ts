@@ -2,6 +2,7 @@ import type { IArgsReaderApi, ISubArgsReaderApi } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import { CliApplicationHelp, type CommandDefine, type IArgDefineMap, type ICommandDefine, type ICommandDefineWithCommand } from '@idlebox/cli-help-builder';
 import {
+	DuplicateCallError,
 	ExitCode,
 	humanDate,
 	NotImplementedError,
@@ -13,15 +14,15 @@ import {
 } from '@idlebox/common';
 import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { registerNodejsExitHandler, shutdown } from '@idlebox/node';
-import { hasInstalledSourceMapSupport } from '@idlebox/source-map-support';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { glob } from 'node:fs/promises';
-import { findPackageJSON } from 'node:module';
+import { findPackageJSON, getSourceMapsSupport } from 'node:module';
 import { basename, extname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { getCallSites } from 'node:util';
-import { mapSourceFile, type IApp } from './index.js';
+import type { IApp } from './index.js';
+import { mapSourceFile } from './source-map.js';
 
 class CliApplication implements IApp {
 	public debug = false;
@@ -89,11 +90,11 @@ interface IApplicationEntry {
 }
 
 export function makeApplication({ name: binName, description, logPrefix }: IAppBasic = autoload()): IApplicationEntry {
-	assert.equal(typeof binName, 'string', 'name must be a string');
-	assert.equal(typeof description, 'string', 'description must be a string');
+	assert.equal(typeof binName, 'string', 'makeApplication: name参数必须是字符串');
+	assert.equal(typeof description, 'string', 'makeApplication: description参数必须是字符串');
 
 	if (info.initialized) {
-		throw new Error(`duplicate call to makeApplication`);
+		throw new DuplicateCallError(makeApplication);
 	}
 	info.initialized = true;
 
@@ -119,7 +120,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 	createRootLogger(logPrefix ?? binName, level);
 	info.color = logger.colorEnabled;
 
-	logger.verbose`source-map-support is: ${hasInstalledSourceMapSupport()}`;
+	logger.verbose`source map is: ${getSourceMapsSupport().enabled}`;
 
 	if (!binName || !description) {
 		throw new SoftwareDefectError(`缺少应用程序名称或描述，请在 package.json 中正确设置 name 和 description 字段，或者在调用 makeApplication() 时手动传入`);
@@ -138,7 +139,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 	}
 
 	if (info.debug && info.silent) {
-		throw new UsageError(`can not use --debug and --silent together`);
+		throw new UsageError(`不能同时使用 --debug 和 --silent`);
 	}
 
 	let commons: IArgDefineMap | undefined;
@@ -169,7 +170,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 
 			if (command) {
 				const cmd = commands.find((item) => item.command === command);
-				assert.ok(cmd, `invalid command: ${command}`);
+				assert.ok(cmd, `无效的命令: ${command}`);
 				help.registerCommand(command, cmd);
 			} else {
 				for (const cmd of commands) {
@@ -193,7 +194,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			};
 		},
 		withCommon(commonArgs: IArgDefineMap) {
-			if (commons) throw new Error(`duplicate register common arguments`);
+			if (commons) throw new Error(`重复注册通用参数`);
 			commons = commonArgs;
 			return this;
 		},
@@ -214,7 +215,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			const result = await main(argv);
 
 			if (result !== undefined) {
-				logger.warn`main function retrun type is not void`;
+				logger.warn`主函数返回值类型不是void`;
 			}
 		},
 		async static(imports: Record<string, string>, helps: readonly ICommandDefineWithCommand[]) {
@@ -229,12 +230,12 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 				shutdown(0);
 			}
 			if (!subcmd?.value) {
-				logger.error(`missing command, use --help/-h to see available commands`);
+				logger.error(`缺少命令，使用 --help/-h 查看可用命令`);
 				shutdown(ExitCode.USAGE);
 			}
 			const commandName = subcmd.value;
 
-			assert.ok(imports[commandName], `command "${commandName}" not found`);
+			assert.ok(imports[commandName], `命令"${commandName}"不存在`);
 
 			const callSites = getCallSites(2, { sourceMap: false });
 			const entryFile = new URL(imports[commandName], callSites[1].scriptName).toString();
@@ -249,7 +250,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			if (typeof globs === 'string') {
 				globs = [globs];
 			}
-			logger.verbose`dynamic command\n\troot: ${absRootDir}\n\tglobs: ${globs.join(', ')}`;
+			logger.verbose`动态命令模式\n\troot: ${absRootDir}\n\tglobs: ${globs.join(', ')}`;
 
 			const known_commands: string[] = [];
 			const importMap: Record<string, string> = {};
@@ -262,7 +263,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			}
 
 			if (known_commands.length === 0) {
-				logger.error`can not found any command file in relative<${absRootDir}> by globs "${globs.join('", "')}"`;
+				logger.error`在relative<${absRootDir}>下未找到任何命令文件，匹配模式: "${globs.join('", "')}"`;
 				shutdown(ExitCode.PROGRAM);
 			}
 
@@ -282,7 +283,7 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 			}
 
 			if (!subcmd?.value) {
-				logger.error(`missing command, use --help/-h to see available commands`);
+				logger.error(`缺少命令，使用 --help/-h 查看可用命令`);
 				shutdown(ExitCode.USAGE);
 			}
 			const commandName = subcmd.value;
@@ -297,17 +298,19 @@ export function makeApplication({ name: binName, description, logPrefix }: IAppB
 }
 
 async function execMain(file: string, subcmd: ISubArgsReaderApi) {
-	logger.verbose`executing js file: ${mapSourceFile(file)}`;
 	const path = file.startsWith('file:') ? file : pathToFileURL(file).href;
 	const { main } = await import(path);
+
+	logger.verbose`执行js文件: ${mapSourceFile(file)}`;
+
 	if (typeof main !== 'function') {
-		throw new NotImplementedError(`missing main() function in file ${mapSourceFile(file)}`);
+		throw new NotImplementedError(`文件${mapSourceFile(file)}中缺少main()函数`);
 	}
 
 	const result = await main(subcmd);
 
 	if (result !== undefined) {
-		logger.warn`main function retrun type is not void in file long<${mapSourceFile(file)}>`;
+		logger.warn`主函数返回值类型不是void，文件: long<${mapSourceFile(file)}>`;
 	}
 }
 

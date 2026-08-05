@@ -23,7 +23,6 @@ TypeScript代码和工具库
 * [deepmerge](@idlebox/deepmerge) 完全自定义的深拷贝
 * [dependency-graph](@idlebox/dependency-graph) 基于[dependency-graph](https://www.npmjs.com/package/dependency-graph)的执行依赖图
 * [dependency-injection](@idlebox/dependency-injection) 简单的依赖注入器，纯手工 无反射、装饰器，支持异步初始化
-* [source-map-support](@idlebox/source-map-support) 分情况加载 [source-map-support](https://www.npmjs.com/package/source-map-support)
 
 ----
 CLI程序辅助库

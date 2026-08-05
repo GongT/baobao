@@ -76,7 +76,7 @@ export class Pauser<Data, T extends Job<Data>> extends AsyncDisposable {
 	async resumeRelated<T extends Job<Data>>(node: T) {
 		for (const name of this.graph.dependantsOf(node.name, false)) {
 			const pause = this.pauseControl.get(name);
-			if (!pause || !pause.isPaused()) continue;
+			if (!pause?.isPaused()) continue;
 
 			if (await this._check_node_resume(name)) {
 				this.logger.verbose`will resume ${name}`;

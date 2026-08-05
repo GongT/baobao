@@ -12,7 +12,7 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"test": "SILENT=1 mocha --bail --parallel=false -r '@idlebox/source-map-support/register' 'lib/tests/**.test.js'",
+		"test": "SILENT=1 mocha --bail --parallel=false 'lib/tests/**.test.js'",
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
@@ -29,7 +29,6 @@
 	},
 	"devDependencies": {
 		"@idlebox/node": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/chai-as-promised": "^8.0.2",
 		"@types/execa": "npm:execa@^9.6.1",

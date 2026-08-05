@@ -41,6 +41,7 @@ cat >>"${GITHUB_STEP_SUMMARY}" <<-EOF
 EOF
 
 git add .
+git restore --staged .npmrc pnpm-workspace.yaml
 
 mapfile -t package_files < <(find .package-tools/publish -name '*.tgz')
 

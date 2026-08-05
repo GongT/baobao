@@ -98,7 +98,6 @@ export class AsyncLock {
 		};
 	}
 
-	// biome-ignore lint/suspicious/useAdjacentOverloadSignatures: bug
 	static require(title: string) {
 		return <T, A extends any[], R>(
 			original: AsyncFun<T, A, R | undefined>,

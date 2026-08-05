@@ -27,7 +27,6 @@
 		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
-		"@idlebox/source-map-support": "workspace:^",
 		"@mpis/shared": "workspace:^",
 		"execa": "^9.6.1",
 		"split2": "^4.2.0"
