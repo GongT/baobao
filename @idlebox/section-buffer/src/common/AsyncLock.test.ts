@@ -1,10 +1,9 @@
-/// <reference types="@types/heft-jest" />
-
 import { sleep } from '@idlebox/common';
+import { describe, expect, it, vi } from 'vitest';
 import { AsyncLock } from './AsyncLock.js';
 
 function sleepJob(title: string) {
-	return jest.fn(async (ms: number): Promise<number | undefined> => {
+	return vi.fn(async (ms: number): Promise<number | undefined> => {
 		console.log('[sleep] %s start', title);
 		await sleep(ms);
 		console.log('[sleep] %s stop', title);
@@ -12,31 +11,31 @@ function sleepJob(title: string) {
 	});
 }
 
-const A = sleepJob('A');
-const B = sleepJob('B');
-const C1 = sleepJob('C1');
-const C2 = sleepJob('C2');
-
 class Test {
 	public readonly test = 1;
 
+	public readonly A = sleepJob('A');
+	public readonly B = sleepJob('B');
+	public readonly C1 = sleepJob('C1');
+	public readonly C2 = sleepJob('C2');
+
 	@AsyncLock.protect('lA')
-	A(ms: number) {
-		return A(ms);
+	runA(ms: number) {
+		return this.A(ms);
 	}
 
 	@AsyncLock.protect('lB')
-	async B(ms: number) {
-		return B(ms);
+	async runB(ms: number) {
+		return this.B(ms);
 	}
 
 	@AsyncLock.protect('lC', true)
-	async C1(ms: number) {
-		return C1(ms);
+	async runC1(ms: number) {
+		return this.C1(ms);
 	}
 	@AsyncLock.protect('lC', true)
-	async C2(ms: number) {
-		return C2(ms);
+	async runC2(ms: number) {
+		return this.C2(ms);
 	}
 	@AsyncLock.protect('this')
 	async testThis(): Promise<this | undefined> {
@@ -45,38 +44,56 @@ class Test {
 }
 describe('AsyncLock', () => {
 	it('deny duplicate call', async () => {
+		const ps = [];
+		let p;
 		const test = new Test();
-		expect(test.A(10)).resolves.toBe(666);
+		p = expect(test.runA(10)).resolves.toBe(666);
+		ps.push(p);
 		await sleep(5);
 
-		expect(test.A(10)).rejects.toThrowError('[AsyncLock]');
+		p = expect(test.runA(10)).rejects.toThrow('[AsyncLock]');
+		ps.push(p);
 
 		await sleep(15);
 
-		expect(A).toBeCalledTimes(1);
+		expect(test.A).toHaveBeenCalledTimes(1);
+
+		await Promise.all(ps);
 	});
 	it('deny different call', async () => {
+		const ps = [];
+		let p;
 		const test = new Test();
-		expect(test.A(10)).resolves.toBe(666);
+		p = expect(test.runA(10)).resolves.toBe(666);
+		ps.push(p);
 		await sleep(5);
 
-		expect(test.B(10)).rejects.toThrowError('[AsyncLock]');
+		p = expect(test.runB(10)).rejects.toThrow('[AsyncLock]');
+		ps.push(p);
 
 		await sleep(15);
 
-		expect(A).toBeCalledTimes(1);
+		expect(test.A).toHaveBeenCalledTimes(1);
+
+		await Promise.all(ps);
 	});
 	it('allow weak call', async () => {
+		const ps = [];
+		let p;
 		const test = new Test();
-		expect(test.C1(10)).resolves.toBe(666);
+		p = expect(test.runC1(10)).resolves.toBe(666);
+		ps.push(p);
 		await sleep(5);
 
-		expect(test.C2(10)).resolves.toBe(undefined);
+		p = expect(test.runC2(10)).resolves.toBe(undefined);
+		ps.push(p);
 
 		await sleep(15);
 
-		expect(C1).toBeCalledTimes(1);
-		expect(C2).toBeCalledTimes(0);
+		expect(test.C1).toHaveBeenCalledTimes(1);
+		expect(test.C2).toHaveBeenCalledTimes(0);
+
+		await Promise.all(ps);
 	});
 	it('this should exists', async () => {
 		const test = new Test();

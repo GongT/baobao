@@ -27,12 +27,12 @@
 		"@idlebox/node": "workspace:^",
 		"@idlebox/terminal-control": "workspace:^",
 		"@mpis/shared": "workspace:^",
-		"execa": "^9.6.1",
+		"execa": "^10.0.1",
 		"split-cmd": "^1.1.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0"
+		"@types/node": "^26.1.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

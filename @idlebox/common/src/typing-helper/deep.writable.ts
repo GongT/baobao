@@ -23,4 +23,6 @@ export type Writeable<T> = T extends Primitive
 			? Map<K, V>
 			: T extends ReadonlySet<infer M>
 				? Set<M>
-				: { -readonly [K in keyof T]: T[K] };
+				: T extends URL
+					? T
+					: { -readonly [K in keyof T]: T[K] };

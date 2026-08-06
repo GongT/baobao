@@ -36,6 +36,11 @@ allowBuilds:
 
 overrides:
   ajv: '^8.17.1'
+packageExtensions:
+  "@rushstack/heft-typescript-plugin":
+    dependencies:
+      "typescript": "<7"
+
 patchedDependencies:
   amaro: patches/amaro.patch
 publicHoistPattern:
@@ -56,3 +61,6 @@ saveWorkspaceProtocol: rolling
 
 # autoInstallPeers: false
 strictPeerDependencies: true
+
+minimumReleaseAgeExclude:
+  - knip@6.32.0

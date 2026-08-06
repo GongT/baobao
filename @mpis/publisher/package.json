@@ -20,13 +20,13 @@
 		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.1",
-		"tar": "^7.5.11"
+		"execa": "^10.0.1",
+		"tar": "^7.5.22"
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0"
+		"@types/node": "^26.1.2"
 	},
 	"exports": {
 		"./package.json": "./package.json"

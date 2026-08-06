@@ -1,14 +1,15 @@
 {
-	"name": "@idlebox/ignore-edit",
+	"name": "@idlebox/named-pipe",
 	"type": "module",
-	"version": "0.0.38",
-	"description": "api for modify .*ignore files",
-	"keywords": ["gitignore", "ignorefile"],
+	"version": "1.4.38",
 	"exports": {
-		".": "./lib/api.js",
+		".": {
+			"types": "./src/index.ts",
+			"source": "./src/index.ts",
+			"default": "./lib/index.js"
+		},
 		"./package.json": "./package.json"
 	},
-	"bin": "bin.js",
 	"sideEffects": false,
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
@@ -20,7 +21,9 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^"
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"execa": "^10.0.1"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",

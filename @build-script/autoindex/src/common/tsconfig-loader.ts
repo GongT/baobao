@@ -1,7 +1,5 @@
 import type { IMyLogger } from '@idlebox/logger';
-import { isModuleResolutionError } from '@idlebox/common';
 import { parse, stringify } from 'comment-json';
-import { createRequire } from 'node:module';
 import { normalize, resolve } from 'node:path';
 import type TypeScriptApi from 'typescript';
 
@@ -99,15 +97,15 @@ function interop(v: any) {
 	return v.default ?? v;
 }
 
-export async function getTypescript(tsconfigFile: string, logger?: IMyLogger): Promise<typeof TypeScriptApi> {
-	const require = createRequire(tsconfigFile);
-	try {
-		return require('typescript');
-	} catch (e) {
-		if (isModuleResolutionError(e)) {
-			logger?.error('typescript not found in target project, using bundled one.');
-			return interop(await import('typescript'));
-		}
-		throw e;
-	}
+export async function getTypescript(_tsconfigFile: string, logger?: IMyLogger): Promise<typeof TypeScriptApi> {
+	// const require = createRequire(tsconfigFile);
+	// try {
+	// 	return require('typescript');
+	// } catch (e) {
+	// if (isModuleResolutionError(e)) {
+	logger?.error('typescript not found in target project, using bundled one.');
+	return interop(await import('typescript'));
+	// }
+	// 	throw e;
+	// }
 }

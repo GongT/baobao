@@ -1,8 +1,7 @@
-/// <reference types="@types/heft-jest" />
-
+import { sleep } from '@idlebox/common';
 import { readFileSync, rmSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { sleep } from '@idlebox/common';
+import { describe, expect, it, vi } from 'vitest';
 import { mb, md5, randomTestFile, tmpdir } from './helper.test.d/testlib.js';
 import { SectionBuffer } from './index.js';
 
@@ -28,7 +27,7 @@ function wrapFunction(instance: any, name: string) {
 			},
 		);
 	};
-	instance[name] = jest.fn(fn);
+	instance[name] = vi.fn(fn);
 	return instance[name];
 }
 
@@ -61,17 +60,17 @@ describe('SectionBuffer', () => {
 		await expect(instance.start()).resolves.toBe(false);
 		expect(getSyncTimer(instance)).toBeTruthy();
 
-		expect(trigger).toBeCalledTimes(0);
+		expect(trigger).toHaveBeenCalledTimes(0);
 		await sleep(120);
-		expect(trigger).toBeCalledTimes(2);
-		expect(flushCacheReal).toBeCalledTimes(1);
+		expect(trigger).toHaveBeenCalledTimes(2);
+		expect(flushCacheReal).toHaveBeenCalledTimes(1);
 
 		await instance.dispose();
 		expect(getSyncTimer(instance)).toBeFalsy();
 
-		expect(trigger).toBeCalledTimes(3);
-		expect(flushCacheReal).toBeCalledTimes(2);
-		expect(rebuildFinalFile).toBeCalledTimes(0);
+		expect(trigger).toHaveBeenCalledTimes(3);
+		expect(flushCacheReal).toHaveBeenCalledTimes(2);
+		expect(rebuildFinalFile).toHaveBeenCalledTimes(0);
 	});
 
 	it('should not sync during force flush', async () => {
@@ -93,15 +92,15 @@ describe('SectionBuffer', () => {
 		instance.push({ buffer: test100.subarray(0, 100), start: 100 });
 		instance.push({ buffer: test100.subarray(0, 100), start: 200 });
 
-		expect(trigger).toBeCalledTimes(0);
+		expect(trigger).toHaveBeenCalledTimes(0);
 
 		await sleep(0);
-		expect(trigger).toBeCalledTimes(1);
+		expect(trigger).toHaveBeenCalledTimes(1);
 
 		await sleep(100);
 
-		expect(trigger).toBeCalledTimes(1);
-		expect(flushCacheReal).toBeCalledTimes(1);
+		expect(trigger).toHaveBeenCalledTimes(1);
+		expect(flushCacheReal).toHaveBeenCalledTimes(1);
 
 		await instance.dispose();
 
@@ -136,8 +135,8 @@ describe('SectionBuffer', () => {
 
 		await instance.dispose();
 
-		expect(flushCacheReal).toBeCalledTimes(1);
-		expect(rebuildFinalFile).toBeCalledTimes(1);
+		expect(flushCacheReal).toHaveBeenCalledTimes(1);
+		expect(rebuildFinalFile).toHaveBeenCalledTimes(1);
 	}, 10000);
 
 	it('file shoud be same', () => {

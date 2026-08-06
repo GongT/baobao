@@ -20,18 +20,18 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@biomejs/js-api": "^4.0.0",
-		"@biomejs/wasm-nodejs": "^2.4.8",
+		"@biomejs/js-api": "^6.0.0",
+		"@biomejs/wasm-nodejs": "^2.5.7",
 		"@idlebox/chokidar": "workspace:^",
 		"@idlebox/cli": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.1"
+		"execa": "^10.0.1"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0",
-		"typescript": "^6.0.2"
+		"@types/node": "^26.1.2",
+		"typescript": "^7.0.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

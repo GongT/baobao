@@ -26,7 +26,7 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@types/debug": "^4.1.13",
-		"@types/node": "^25.5.0"
+		"@types/node": "^26.1.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

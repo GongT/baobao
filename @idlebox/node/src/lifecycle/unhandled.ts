@@ -10,7 +10,7 @@ import {
 	objectName,
 	prettyPrintError,
 } from '@idlebox/common';
-import { ErrorWithCode, Exit, ExitCode, InterruptError, isNodeError, ProxiedError, UncaughtException, UnhandledRejection, UsageError } from '@idlebox/errors';
+import { ErrorWithCode, Exit, ExitCode, InterruptError, isNodeError, ProxiedError, UncaughtException, UnhandledRejection, UsageError } from '@idlebox/common';
 import { syncBuiltinESMExports } from 'node:module';
 import { basename } from 'node:path';
 import process from 'node:process';
@@ -205,8 +205,12 @@ function _real_register() {
 
 	return true;
 
-	function uncaughtExceptionHandle(error: Error): void {
-		callHandler(new UncaughtException(error));
+	function uncaughtExceptionHandle(error: unknown): void {
+		if (error instanceof Error) {
+			callHandler(new UncaughtException(error));
+		} else {
+			uniqueErrorHandler(error);
+		}
 	}
 
 	function callHandler(e: UnhandledRejection | UncaughtException) {

@@ -31,11 +31,11 @@
 		"@idlebox/node": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/chai-as-promised": "^8.0.2",
-		"@types/execa": "npm:execa@^9.6.1",
-		"@types/node": "^25.5.0",
+		"@types/execa": "npm:execa@^10.0.1",
+		"@types/node": "^26.1.2",
 		"chai": "^6.2.2",
 		"chai-as-promised": "^8.0.2",
-		"mocha": "^11.7.5"
+		"mocha": "^11.8.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

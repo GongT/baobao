@@ -20,14 +20,15 @@
 	"dependencies": {
 		"@idlebox/common": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"execa": "^9.6.1"
+		"execa": "^10.0.1"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0",
-		"rollup": "^4.59.0",
-		"typescript": "^6.0.2",
-		"vite": "^8.0.1"
+		"@types/rolldown": "npm:rolldown@^1.2.3",
+		"@types/node": "^26.1.2",
+		"rollup": "^4.62.4",
+		"typescript": "^7.0.2",
+		"vite": "^8.2.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

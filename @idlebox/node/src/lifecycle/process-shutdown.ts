@@ -1,5 +1,5 @@
 import { ensureDisposeGlobal } from '@idlebox/common';
-import { Exit } from '@idlebox/errors';
+import { Exit } from '@idlebox/common';
 import process from 'node:process';
 
 /** @internal */

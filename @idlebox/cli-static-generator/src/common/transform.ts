@@ -1,6 +1,6 @@
 import type * as e from 'acorn';
 import MagicString from 'magic-string';
-import type { Plugin } from 'rollup';
+import type { Plugin, SourceDescription } from 'rollup';
 import { plogger } from './logger.js';
 
 interface IState {
@@ -26,7 +26,7 @@ export function transformPlugin(files: readonly string[]): Plugin {
 	return {
 		name: 'idlebox:cli-static-generator:transform',
 
-		transform(code, id) {
+		transform(code, id, _options) {
 			if (id.includes('node_modules')) return null;
 			if (!files.includes(id)) return null;
 
@@ -85,11 +85,16 @@ export function transformPlugin(files: readonly string[]): Plugin {
 				}
 
 				// console.log(s.toString());
+				const rawMap = s.generateMap({ hires: true, file: id });
+
 				return {
 					moduleSideEffects: false,
 					code: s.toString(),
-					map: s.generateMap({ hires: true, file: id }),
-				};
+					map: {
+						...rawMap,
+						sourcesContent: rawMap.sourcesContent?.filter(nonNullable),
+					},
+				} satisfies SourceDescription;
 			} catch (e: any) {
 				e.message += ` (while parsing ${id})`;
 				throw e;
@@ -103,4 +108,8 @@ function removeNode(s: MagicString, _node: any) {
 	s.remove(node.start, node.end);
 	// s.prependLeft(loc.start, `/* remove node ${node.type} `);
 	// s.appendRight(loc.end, '*/');
+}
+
+function nonNullable<T>(value: T | null | undefined): value is T {
+	return value !== null && value !== undefined;
 }

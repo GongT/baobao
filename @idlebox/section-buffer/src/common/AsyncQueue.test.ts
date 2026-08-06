@@ -1,10 +1,9 @@
-/// <reference types="@types/heft-jest" />
-
 import { sleep } from '@idlebox/common';
+import { describe, expect, it, vi } from 'vitest';
 import { LossyAsyncQueue } from './AsyncQueue.js';
 
 function Work(success: boolean) {
-	return jest.fn(() => {
+	return vi.fn(() => {
 		return new Promise<void>((resolve, reject) => {
 			// console.log(' ====== work ======');
 			if (success) {
@@ -20,7 +19,7 @@ describe('LossyAsyncQueue', () => {
 	it('normal lifecycle', async () => {
 		// console.log('== normal lifecycle ==');
 		const work = Work(true);
-		const cb = jest.fn();
+		const cb = vi.fn();
 
 		const q = new LossyAsyncQueue<number>(work);
 		q.onError(cb);
@@ -38,14 +37,14 @@ describe('LossyAsyncQueue', () => {
 
 		await sleep(30);
 
-		expect(work).toBeCalledTimes(1);
-		expect(work).toBeCalledWith(1);
+		expect(work).toHaveBeenCalledTimes(1);
+		expect(work).toHaveBeenCalledWith(1);
 
 		await q.dispose();
 
-		expect(work).toBeCalledTimes(1);
-		expect(cb).toBeCalledTimes(1);
-		expect(cb).toBeCalledWith(undefined);
+		expect(work).toHaveBeenCalledTimes(1);
+		expect(cb).toHaveBeenCalledTimes(1);
+		expect(cb).toHaveBeenCalledWith(undefined);
 	});
 	it('immediate dispose cancel run', async () => {
 		// console.log('== immediate dispose cancel run ==');
@@ -53,12 +52,12 @@ describe('LossyAsyncQueue', () => {
 		const q = new LossyAsyncQueue<number>(work);
 		q.pushQueue(1);
 		await q.dispose();
-		expect(work).toBeCalledTimes(0);
+		expect(work).toHaveBeenCalledTimes(0);
 	});
 	it('call error callback', async () => {
 		// console.log('== call error callback ==');
 		const work = Work(false);
-		const cb = jest.fn();
+		const cb = vi.fn();
 
 		const q = new LossyAsyncQueue<number>(work);
 		q.onError(cb);
@@ -69,14 +68,14 @@ describe('LossyAsyncQueue', () => {
 
 		await q.dispose();
 
-		expect(cb).toBeCalledTimes(1);
-		expect(cb).toBeCalledWith(expect.any(Error));
+		expect(cb).toHaveBeenCalledTimes(1);
+		expect(cb).toHaveBeenCalledWith(expect.any(Error));
 	});
 	it('call at right timing', async () => {
 		// console.log('== call at right timing ==');
 		let timeing = 0;
 		let got = -1;
-		const cb = jest.fn(async () => {
+		const cb = vi.fn(async () => {
 			got = timeing;
 		});
 
@@ -91,37 +90,37 @@ describe('LossyAsyncQueue', () => {
 		await q.dispose();
 		timeing = 4;
 
-		expect(cb).toBeCalledTimes(1);
+		expect(cb).toHaveBeenCalledTimes(1);
 		expect(got).toBe(2);
 	});
 
 	it('ensure last call', async () => {
 		// console.log('== ensure last call ==');
 		const work = Work(true);
-		const cb = jest.fn();
+		const cb = vi.fn();
 
 		const q = new LossyAsyncQueue<number>(work);
 		q.onComplete(cb);
 
 		q.pushQueue(11);
 		await sleep(0);
-		expect(work).toBeCalledTimes(1);
+		expect(work).toHaveBeenCalledTimes(1);
 
 		q.pushQueue(22);
 		await sleep(0);
-		expect(work).toBeCalledTimes(1);
+		expect(work).toHaveBeenCalledTimes(1);
 
 		await q.promise;
-		expect(work).toBeCalledTimes(1);
+		expect(work).toHaveBeenCalledTimes(1);
 
 		await sleep(30);
-		expect(work).toBeCalledTimes(2);
+		expect(work).toHaveBeenCalledTimes(2);
 
 		await q.dispose();
 
-		expect(work).toBeCalledWith(11);
-		expect(work).toBeCalledWith(22);
-		expect(cb).toBeCalledTimes(2);
+		expect(work).toHaveBeenCalledWith(11);
+		expect(work).toHaveBeenCalledWith(22);
+		expect(cb).toHaveBeenCalledTimes(2);
 	});
 
 	it('not call after dispose', async () => {
@@ -130,7 +129,7 @@ describe('LossyAsyncQueue', () => {
 		const q = new LossyAsyncQueue<number>(work);
 		await q.dispose();
 
-		expect(() => q.pushQueue(99)).toThrowError();
+		expect(() => q.pushQueue(99)).toThrow();
 
 		await q.dispose();
 	});

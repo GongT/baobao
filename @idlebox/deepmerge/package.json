@@ -23,9 +23,9 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0",
+		"@types/node": "^26.1.2",
 		"chai": "^6.2.2",
-		"mocha": "^11.7.5"
+		"mocha": "^11.8.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

@@ -1,4 +1,4 @@
-import { DuplicateDisposeAction, EnhancedAsyncDisposable, functionToDisposable, raceTimeout, SoftwareDefectError } from '@idlebox/common';
+import { DuplicateDisposeAction, EnhancedAsyncDisposable, functionToDisposable, impossible, raceTimeout, SoftwareDefectError } from '@idlebox/common';
 import { EnableLogLevel, type IMyLogger } from '@idlebox/logger';
 import { CollectingStream } from '@idlebox/node';
 import { ExecaError, execaNode } from 'execa';
@@ -62,10 +62,10 @@ class Session extends EnhancedAsyncDisposable {
 			}),
 		);
 
-		process.finally(() => {
-			logger.debug`进程 ${process.pid} 以 ${process.exitCode} 退出`;
+		process.then((result) => {
+			logger.debug`进程 ${process.pid} 以 ${result.exitCode} 退出`;
 			this.dispose();
-		});
+		}, impossible);
 	}
 
 	private async send(message: IMessage) {
@@ -79,9 +79,10 @@ class Session extends EnhancedAsyncDisposable {
 			const data: any = await this.process.getOneMessage({ filter: getTypeFilter(type) });
 			return data;
 		} catch (e: any) {
-			if (this.process.exitCode || this.process.signalCode || !this.process.connected) {
+			const ncp = this.process.nodeChildProcess;
+			if (ncp.exitCode || ncp.signalCode || !ncp.connected) {
 				let msg = '';
-				msg += `工作进程 ${this.process.pid} 意外退出: ${this.process.exitCode}, 信号: ${this.process.signalCode}, IPC连接: ${this.process.connected}\n`;
+				msg += `工作进程 ${ncp.pid} 意外退出: ${ncp.exitCode}, 信号: ${ncp.signalCode}, IPC连接: ${ncp.connected}\n`;
 				let e: ExecaError;
 				try {
 					e = (await this.process) as any;

@@ -1,8 +1,7 @@
-/// <reference types="@types/heft-jest" />
-
 import { resolve } from 'node:path';
+import { describe, expect, it } from 'vitest';
 import { kb, mb, randomTestFile, tmpdir } from '../helper.test.d/testlib.js';
-import { type IMemCachePart, MemoryCacheController } from './MemoryCacheController.js';
+import { MemoryCacheController, type IMemCachePart } from './MemoryCacheController.js';
 
 const exampleFile = resolve(tmpdir, 'index-example.bin');
 const test100 = randomTestFile(exampleFile, 100 * mb);

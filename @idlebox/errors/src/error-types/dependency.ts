@@ -24,7 +24,10 @@ interface IChildProcessErrorOptions extends IErrorOptions {
 	readonly spawnargs?: readonly string[];
 	readonly spawnfile?: string;
 
-	// execa
+	// execa 的process对象
+	readonly nodeChildProcess?: ChildProcess;
+
+	// execa await后的结果
 	readonly escapedCommand?: string; // exec.join
 	readonly cwd?: string; // workingDirectory
 	readonly timedOut?: boolean;
@@ -41,6 +44,15 @@ export class ChildProcessExitError extends DependencyError {
 	public process?: ChildProcess;
 
 	static describe(result: IChildProcessErrorOptions): string {
+		const getter = (key: keyof IChildProcessErrorOptions) => {
+			if (key in result) {
+				return result[key];
+			}
+			if (result.nodeChildProcess && key in result.nodeChildProcess) {
+				return result.nodeChildProcess[key as keyof ChildProcess];
+			}
+			return undefined;
+		};
 		let name = '子进程';
 		if (result.escapedCommand) {
 			name += `${result.escapedCommand}`;
@@ -50,8 +62,9 @@ export class ChildProcessExitError extends DependencyError {
 			name += `${result.spawnfile} ${result.spawnargs?.join(' ')}`;
 		}
 		let ex = '';
-		if (result.workingDirectory ?? result.cwd) {
-			ex += `CWD=${result.workingDirectory ?? result.cwd}`;
+		const gcwd = getter('cwd');
+		if (result.workingDirectory ?? gcwd) {
+			ex += `CWD=${result.workingDirectory ?? gcwd}`;
 		}
 		if (result.pid) {
 			if (ex) {
@@ -82,7 +95,7 @@ export class ChildProcessExitError extends DependencyError {
 		...opts
 	}: IChildProcessErrorOptions) {
 		let message = '';
-		message += pid ? `子进程 ${pid} ` : '未知ID子进程';
+		message += pid ? `子进程"${pid}"` : '未知ID子进程';
 		if (timedOut) {
 			message += '超时终止, ';
 		} else if (isCanceled) {
@@ -93,9 +106,9 @@ export class ChildProcessExitError extends DependencyError {
 			message += '非预期退出, ';
 		}
 		if (typeof (exitCode ?? status) === 'number') {
-			message += `返回 ${exitCode ?? status}`;
+			message += `返回"${exitCode ?? status}"`;
 		} else if (signal || signalCode) {
-			message += `信号 ${signal ?? signalCode}`;
+			message += `信号"${signal ?? signalCode}"`;
 		} else {
 			message += '未能启动';
 		}

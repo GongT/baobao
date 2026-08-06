@@ -1,4 +1,4 @@
-import { ChildProcessExitError, TimeoutError } from '@idlebox/errors';
+import { ChildProcessExitError, TimeoutError } from '@idlebox/common';
 
 interface IChildProcessStatus {
 	// child_process sync return

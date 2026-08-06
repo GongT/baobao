@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { isAbsolute, resolve } from 'node:path';
+import type { CodeSplittingGroup } from 'rolldown';
 import type { GetManualChunk, Plugin as RollupPlugin } from 'rollup';
 import type { Plugin as VitePlugin } from 'vite';
-import type { CodeSplittingGroup } from 'vite/types/internal/rollupTypeCompat.js';
 import { packageRoot } from './inc/constants.js';
 import { getNode, hasMultipleVersion } from './inc/flatten.js';
 import { pickupPackage } from './inc/helper.js';

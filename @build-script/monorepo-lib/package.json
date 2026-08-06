@@ -29,12 +29,12 @@
 		"@idlebox/json-edit": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"yaml": "^2.8.2"
+		"yaml": "^2.9.0"
 	},
 	"devDependencies": {
 		"@build-script/autoindex": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0"
+		"@types/node": "^26.1.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

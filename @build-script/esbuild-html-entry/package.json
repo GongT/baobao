@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0",
+		"@types/node": "^26.1.2",
 		"domhandler": "^6.0.1",
 		"esbuild": "^0.28.1"
 	},

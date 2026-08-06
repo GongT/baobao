@@ -1,10 +1,9 @@
-/// <reference types="@types/heft-jest" />
-
 import { mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { appendFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
+import { describe, expect, it } from 'vitest';
 import { md5buff } from '../helper.test.d/testlib.js';
 import { CacheFile, FileDataError, FileStructureError } from './CacheFile.js';
 

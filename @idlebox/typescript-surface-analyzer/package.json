@@ -26,13 +26,13 @@
 	"dependencies": {
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/tsconfig-loader": "workspace:^",
-		"minimatch": "^10.2.4",
-		"typescript": "^6.0.2"
+		"minimatch": "^10.2.6",
+		"typescript": "<7.0.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@types/minimatch": "^6.0.0",
-		"@types/node": "^25.5.0"
+		"@types/node": "^26.1.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

@@ -32,17 +32,17 @@
 	},
 	"dependencies": {
 		"debug": "^4.4.3",
-		"execa": "^9.6.1",
+		"execa": "^10.0.1",
 		"import-meta-resolve": "^4.2.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@mpis/esbuild": "workspace:^",
-		"@types/node": "^25.5.0",
-		"amaro": "^1.1.10",
+		"@types/node": "^26.1.2",
+		"amaro": "^1.1.11",
 		"esbuild": "^0.28.1",
 		"proper-lockfile": "^4.1.2",
-		"typescript": "^6.0.2"
+		"typescript": "^7.0.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

@@ -16,7 +16,7 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"devDependencies": {
-		"@types/node": "^25.5.0"
+		"@types/node": "^26.1.2"
 	},
 	"type": "module",
 	"publishConfig": {

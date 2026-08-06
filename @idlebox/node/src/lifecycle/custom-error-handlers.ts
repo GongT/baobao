@@ -1,5 +1,5 @@
 import type { LinuxErrorCode, MyCallback, NodeErrorCode, NodeException } from '@idlebox/common';
-import { Exit } from '@idlebox/errors';
+import { Exit } from '@idlebox/common';
 
 const accurate_handler = Symbol('uncaught/handler/accurate');
 const inherit_handler = Symbol('uncaught/handler/inherit');

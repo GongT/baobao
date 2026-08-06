@@ -12,14 +12,19 @@ import { ProtocolClientObject } from '../common/protocol-client-object.js';
 
 const vscodeDebugRegex = /\s*--require.+bootloader\.js\s*/;
 
-interface MyOptions extends Options {
+type fixedOptions = {
 	cwd: string;
-	stdio: ['ignore', 'pipe', 'pipe', 'ipc'];
+	stdin: 'ignore';
+	stdout: 'pipe';
+	stderr: 'pipe';
 	env: Record<string, string>;
 	reject: false;
 	ipc: true;
 	buffer: false;
-}
+	killDescendants: boolean;
+};
+type disallowedKeys = keyof fixedOptions | 'stdio';
+type MyOptions = Omit<Options, disallowedKeys> & fixedOptions;
 
 class OutputHandler extends Writable {
 	private _output = '';
@@ -115,7 +120,6 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			env.FORCE_COLOR = 'yes';
 		}
 
-		this.onMessage = this.onMessage.bind(this);
 		this.outputStream = new OutputHandler(this.logger);
 	}
 
@@ -135,6 +139,17 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 	static is(obj: any): obj is ProcessIPCClient {
 		return obj instanceof ProcessIPCClient;
+	}
+
+	private async handleMessages(sub_process: ResultPromise<MyOptions>) {
+		try {
+			const itr = sub_process.getEachMessage({ reference: false });
+			for await (const message of itr) {
+				this.onMessage(message);
+			}
+		} catch (e) {
+			this.logger.error`处理IPC消息错误: ${(e as any)?.message || '*no message*'}`;
+		}
 	}
 
 	private onMessage(message: any) {
@@ -191,18 +206,21 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		this.logger.verbose`environment variable: ${this.env}`;
 		this.logger.verbose`NODE_OPTIONS: ${env.NODE_OPTIONS}`;
 
-		const doExec = execa({
+		const doExec = execa<MyOptions>({
 			cwd: this.cwd,
-			stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
+			stdin: 'ignore',
+			stdout: 'pipe',
+			stderr: 'pipe',
 			ipc: true,
 			env: env,
 			reject: false,
 			buffer: false,
 			detached: process.pid === 1,
-		} satisfies MyOptions);
+			killDescendants: false,
+		});
 
-		let sub_process;
-		if (process.pid === 1 || !isLinux || process.env.CI) {
+		let sub_process: ResultPromise<MyOptions>;
+		if (process.pid === 1 || !isLinux || process.env.CI || process.env.MPIS_SERVER_SKIP_UNSHARE) {
 			this.logger.debug`running as PID 1 or CI or not on Linux, will not use unshare.`;
 			sub_process = doExec`${this.commandline}`;
 		} else {
@@ -231,7 +249,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			sub_process.stderr.pipe(this.outputStream, { end: false });
 		}
 
-		sub_process.on('message', this.onMessage);
+		this.handleMessages(sub_process);
 
 		try {
 			await Promise.all([streamPromise(sub_process.stdout), streamPromise(sub_process.stderr)]);
@@ -308,7 +326,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 	override _inspectDesc(options: InspectContext) {
 		if (this.process?.pid) {
-			const pidStyle = this.process.exitCode === null ? 'number' : 'undefined';
+			const pidStyle = this.process.nodeChildProcess.exitCode === null ? 'number' : 'undefined';
 			const pid = `[pid=${options.stylize(this.process.pid.toString(), pidStyle)}]`;
 			return `${this._id} ${pid}`;
 		} else {

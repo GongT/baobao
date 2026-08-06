@@ -1,6 +1,5 @@
 import { createDynamicReader, loadInheritedJson } from '@idlebox/json-extends-loader';
-import { type IFilledOptions, loadTsConfigJsonFile } from '@idlebox/tsconfig-loader';
-import type { ITypeScriptConfigurationJson } from '@rushstack/heft-typescript-plugin';
+import { loadTsConfigJsonFile, type IFilledOptions } from '@idlebox/tsconfig-loader';
 import { resolve } from 'node:path';
 import type { ProjectConfig } from '../common/config.js';
 
@@ -14,6 +13,10 @@ function defaultTypeScript(config: ProjectConfig) {
 	config.logger.error('internal resolver failed.');
 	return undefined;
 }
+
+type ITypeScriptConfigurationJson = {
+	readonly project?: string;
+};
 
 /**
  * 读取 heft/typescript.json 配置文件内容

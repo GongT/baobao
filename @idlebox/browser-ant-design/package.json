@@ -17,19 +17,19 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@ant-design/icons": "^6.1.0",
-		"@griffel/react": "^1.6.1",
+		"@ant-design/icons": "^6.3.2",
+		"@griffel/react": "^1.7.7",
 		"@idlebox/browser": "workspace:^",
 		"@idlebox/browser-react": "workspace:^",
 		"@idlebox/common": "workspace:^",
-		"antd": "^6.3.4",
-		"react-dropzone": "^15.0.0"
+		"antd": "^6.5.3",
+		"react-dropzone": "^20.0.0"
 	},
 	"devDependencies": {
 		"@build-script/codegen": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"@types/react": "^19.2.14",
-		"@types/web": "^0.0.344"
+		"@types/react": "^19.2.18",
+		"@types/web": "^0.0.354"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

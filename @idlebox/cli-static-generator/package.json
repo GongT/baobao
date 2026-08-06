@@ -30,17 +30,17 @@
 		"@idlebox/common": "workspace:^",
 		"@idlebox/logger": "workspace:^",
 		"@idlebox/node": "workspace:^",
-		"@rollup/plugin-commonjs": "^29.0.2",
+		"@rollup/plugin-commonjs": "^29.0.3",
 		"@rollup/plugin-node-resolve": "^16.0.3",
-		"@rollup/plugin-swc": "^0.4.0",
-		"magic-string": "^0.30.21",
-		"rollup": "^4.59.0"
+		"@rollup/plugin-swc": "^0.4.1",
+		"magic-string": "^1.1.0",
+		"rollup": "^4.62.4"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/acorn": "npm:acorn@^8.16.0",
-		"@types/node": "^25.5.0",
-		"mocha": "^11.7.5"
+		"@types/acorn": "npm:acorn@^8.18.0",
+		"@types/node": "^26.1.2",
+		"mocha": "^11.8.0"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

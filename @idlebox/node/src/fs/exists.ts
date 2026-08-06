@@ -1,6 +1,6 @@
 import type { ObjectEncodingOptions } from 'node:fs';
 import { access, readFile } from 'node:fs/promises';
-import { isNotExistsError } from '@idlebox/errors';
+import { isNotExistsError } from '@idlebox/common';
 export { existsSync } from 'node:fs';
 
 export async function exists(path: string) {

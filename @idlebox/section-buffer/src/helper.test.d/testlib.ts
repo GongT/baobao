@@ -1,7 +1,7 @@
+import { isLinux } from '@idlebox/common';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, statSync, symlinkSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { isLinux } from '@idlebox/common';
+import { dirname, resolve } from 'node:path';
 
 export const kb = 1024;
 export const mb = 1024 * kb;
@@ -23,7 +23,10 @@ const mytestDir = resolve(process.cwd(), 'temp/my-test');
 export const tmpdir = isLinux ? '/dev/shm/big-test' : mytestDir;
 mkdirSync(tmpdir, { recursive: true });
 if (isLinux) {
-	if (!existsSync(mytestDir)) symlinkSync(tmpdir, mytestDir);
+	if (!existsSync(mytestDir)) {
+		mkdirSync(dirname(mytestDir), { recursive: true });
+		symlinkSync(tmpdir, mytestDir);
+	}
 }
 
 export function statSyncTry(file: string) {

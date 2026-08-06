@@ -105,7 +105,7 @@ async function messageLoop(repo: IPnpmMonoRepo, controller: UserControl, rl: Int
 }
 
 function helpText() {
-	return '*** 帮助信息';
+	return `* 可用命令: ${Object.keys(commands).join(', ')}`;
 }
 
 type CommandFunction = (repo: IPnpmMonoRepo, controller: UserControl, args: string[]) => void;

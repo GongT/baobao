@@ -23,11 +23,8 @@
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0",
-		"typescript": "^6.0.2"
-	},
-	"peerDependencies": {
-		"typescript": "^6.0.2"
+		"@types/node": "^26.1.2",
+		"typescript": "<7.0.0"
 	},
 	"decoupledDependencies": "dev",
 	"publishConfig": {

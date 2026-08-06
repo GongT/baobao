@@ -33,13 +33,13 @@
 		"@idlebox/node": "workspace:^",
 		"@idlebox/typescript-surface-analyzer": "workspace:^",
 		"@mpis/client": "workspace:^",
-		"comment-json": "^4.6.2",
+		"comment-json": "^5.0.0",
 		"glob": "^13.0.6",
-		"typescript": "^6.0.2"
+		"typescript": "<7.0.0"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^25.5.0"
+		"@types/node": "^26.1.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

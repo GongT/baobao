@@ -593,7 +593,7 @@ export enum NodeErrorCode {
 	 */
 	ERR_HTTP2_GOAWAY_SESSION = 'ERR_HTTP2_GOAWAY_SESSION',
 	/**
-	 * <p>An additional headers was specified after an HTTP/2 response was initiated.</p>
+	 * <p>Additional headers were specified after an HTTP/2 response was initiated.</p>
 	 * <p><a id="ERR_HTTP2_HEADERS_SENT"></a></p>
 	 */
 	ERR_HTTP2_HEADERS_AFTER_RESPOND = 'ERR_HTTP2_HEADERS_AFTER_RESPOND',
@@ -1540,7 +1540,7 @@ export enum NodeErrorCode {
 	 */
 	ERR_QUIC_VERSION_NEGOTIATION_ERROR = 'ERR_QUIC_VERSION_NEGOTIATION_ERROR',
 	/**
-	 * <p>When trying to <code>require()</code> a <a href="esm.html">ES Module</a>, the module turns out to be asynchronous.
+	 * <p>When trying to <code>require()</code> an <a href="esm.html">ES Module</a>, the module turns out to be asynchronous.
 	 * That is, it contains top-level await.</p>
 	 * <p>When uncaught, the flag <code>--experimental-print-required-tla</code> prints
 	 * the locations of the top-level awaits in the graph to stderr.</p>
@@ -1562,7 +1562,7 @@ export enum NodeErrorCode {
 	 */
 	ERR_REQUIRE_ASYNC_MODULE = 'ERR_REQUIRE_ASYNC_MODULE',
 	/**
-	 * <p>When trying to <code>require()</code> a <a href="esm.html">ES Module</a>, a CommonJS to ESM or ESM to CommonJS edge
+	 * <p>When trying to <code>require()</code> an <a href="esm.html">ES Module</a>, a CommonJS to ESM or ESM to CommonJS edge
 	 * participates in an immediate cycle.
 	 * This is not allowed because ES Modules cannot be evaluated while they are
 	 * already being evaluated.</p>
@@ -2141,16 +2141,9 @@ export enum NodeErrorCode {
 	 * <p>An attempt was made to transfer a <code>net.Socket</code> or <code>net.Server</code> to another thread
 	 * via a <code>worker_threads</code> <code>postMessage()</code> call while it was not in a transferable
 	 * state, for example because it had already started reading or had buffered data.</p>
-	 * <p><a id="ERR_WORKER_HANDLE_TRANSFER_UNSUPPORTED"></a></p>
-	 */
-	ERR_WORKER_HANDLE_NOT_TRANSFERABLE = 'ERR_WORKER_HANDLE_NOT_TRANSFERABLE',
-	/**
-	 * <p>An attempt was made to transfer a <code>net.Socket</code> or <code>net.Server</code> to another thread
-	 * on a platform where moving the underlying handle between event loops is not
-	 * supported (currently Windows).</p>
 	 * <p><a id="ERR_WORKER_INIT_FAILED"></a></p>
 	 */
-	ERR_WORKER_HANDLE_TRANSFER_UNSUPPORTED = 'ERR_WORKER_HANDLE_TRANSFER_UNSUPPORTED',
+	ERR_WORKER_HANDLE_NOT_TRANSFERABLE = 'ERR_WORKER_HANDLE_NOT_TRANSFERABLE',
 	/**
 	 * <p>The <code>Worker</code> initialization failed.</p>
 	 * <p><a id="ERR_WORKER_INVALID_EXEC_ARGV"></a></p>
