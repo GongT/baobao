@@ -2,3 +2,4 @@
 /// <reference types="@idlebox/itypes" />
 
 export type * from '@idlebox/itypes';
+export * from '@idlebox/errors';

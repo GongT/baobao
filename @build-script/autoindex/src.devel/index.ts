@@ -21,7 +21,7 @@ export async function generate(filename: string) {
 
 		result.push(`export * from './${rel}';`);
 	}
-	result.push('\n\n// Auto-generated, you should never see this file on disk');
+	result.push('\n\n// Auto-generated, you should never see this file on disk\n');
 
 	process.stdout.write(result.join('\n'));
 }

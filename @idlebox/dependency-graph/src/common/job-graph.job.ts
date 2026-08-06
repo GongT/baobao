@@ -37,6 +37,10 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 		return this._state === JobState.Running;
 	}
 
+	get stateName(): string {
+		return this._state;
+	}
+
 	getLastError() {
 		if (this.isFailling()) {
 			return this._last_attach as Error;

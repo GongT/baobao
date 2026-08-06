@@ -16,7 +16,7 @@ x sudo git config --system user.email "$(git log -n 1 --pretty=format:%ae)"
 
 summ -e "# 检测修改\n"
 
-node @build-script/package-tools/bins/load.devel.js monorepo-publish --dry
+x node @build-script/package-tools/bins/load.devel.js monorepo-publish --dry
 
 if [[ -z "$(git status --porcelain)" ]]; then
 	summ "* 没有修改"
@@ -40,8 +40,8 @@ cat >>"${GITHUB_STEP_SUMMARY}" <<-EOF
 	### 修改的包
 EOF
 
-git add .
-git restore --staged .npmrc pnpm-workspace.yaml
+x git add .
+x git restore --staged .npmrc pnpm-workspace.yaml
 
 mapfile -t package_files < <(find .package-tools/publish -name '*.tgz')
 
@@ -57,6 +57,6 @@ for file in "${package_files[@]}"; do
 	printf "[%s] v%s\n" "${PKG_NAME}" "${PKG_VERSION}" >>"$CMFILE"
 done
 
-git commit -F "$CMFILE"
-git push
+x git commit -F "$CMFILE"
+x git push
 echo "pushed!"

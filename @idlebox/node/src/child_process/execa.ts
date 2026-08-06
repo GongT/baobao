@@ -1,4 +1,4 @@
-import { isWindows, sepList, type IAsyncDisposable, type IDisposableEvents } from '@idlebox/common';
+import { ChildProcessExitError, isWindows, sepList, type IAsyncDisposable, type IDisposableEvents } from '@idlebox/common';
 import type { Options as AsyncOptions, Result as AsyncResult, Result, ResultPromise, SyncOptions, SyncResult } from 'execa';
 import { execa, execaSync } from 'execa';
 import { checkChildProcessResult } from './error.js';
@@ -27,12 +27,13 @@ function sanitizeEnv(env?: ProcessEnv, addonPath?: string[]) {
 	return env;
 }
 
-function handleError<T extends SyncResult<SyncOptions> | AsyncResult<AsyncOptions>>(result: T): T {
-	if (result.exitCode !== 0) {
-		throw new Error(`程序以状态 ${result.exitCode} 退出`);
-	}
-	if (result.signal) {
-		throw new Error(`程序被信号 ${result.signal} 终止`);
+function handleError<T extends SyncResult<SyncOptions> | AsyncResult<AsyncOptions>>(result: T, exec?: readonly string[]): T {
+	if (result.exitCode !== 0 || result.signal) {
+		if (exec) {
+			throw new ChildProcessExitError({ ...result, commandline: exec });
+		} else {
+			throw new ChildProcessExitError(result);
+		}
 	}
 	return result;
 }
@@ -61,7 +62,7 @@ export async function spawnWithoutOutput({ exec, cwd, env, addonPath }: ICommand
 	};
 
 	const e = await execa(cmd, args, opts);
-	handleError(e);
+	handleError(e, exec);
 }
 
 /** @deprecated */
@@ -76,7 +77,7 @@ export function spawnGetOutputSync({ exec, cwd, env, addonPath }: ICommand) {
 		env: sanitizeEnv(env, addonPath),
 	};
 
-	const result = handleError(execaSync(cmd, args, opts));
+	const result = handleError(execaSync(cmd, args, opts), exec);
 	return result.stdout as string;
 }
 
@@ -93,7 +94,7 @@ export async function spawnGetOutput({ exec, cwd, env, addonPath }: ICommand) {
 	};
 
 	const e = await execa(cmd, args, opts);
-	const result = handleError(e);
+	const result = handleError(e, exec);
 	return result.stdout as string;
 }
 
@@ -115,7 +116,7 @@ export async function spawnGetEverything({ exec, cwd, env, addonPath }: ICommand
 		all: true,
 		env: sanitizeEnv(env, addonPath),
 	});
-	handleError(result);
+	handleError(result, exec);
 	return {
 		all: result.all,
 		stdout: result.stdout,

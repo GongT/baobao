@@ -14,10 +14,6 @@ packages:
 # patchedDependencies:
 # "@types/tar-stream": "patches/@types__tar-stream.patch"
 
-# npm config
-access: public
-alwaysAuth: false
-
 enablePrePostScripts: true
 fetchRetries: 1000
 gitChecks: false

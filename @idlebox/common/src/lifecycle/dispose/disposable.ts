@@ -3,12 +3,14 @@ import type { MaybeNamed } from '../../debugging/object-with-name.js';
 import { convertCaughtError } from '../../error/convert-unknown.js';
 import { prettyPrintError } from '../../error/pretty.nodejs.js';
 import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
+import { isBuildMode } from '../../platform/compile.js';
 import { isPromiseLike } from '../../promise/is-promise.js';
+import { mustNonNull } from '../../typing-helper/must-non-null.js';
 import { Emitter } from '../event/event.js';
 import type { EventRegister } from '../event/type.js';
 import { fromNativeDisposable } from './bridges/native.js';
 import { _debug_dispose, dispose_name, forgetParent, rememberParent } from './debug.js';
-import { DuplicateDisposedError } from './disposedError.js';
+import { DisposedError, DuplicateDisposedError } from './disposedError.js';
 
 export enum DuplicateDisposeAction {
 	/**
@@ -65,6 +67,12 @@ interface IDisposeState<Async extends boolean> {
 	error?: Error;
 }
 
+export enum CallAction {
+	Noop = 0,
+	Throw,
+	Reject,
+}
+
 /**
  * 增强型Disposable
  */
@@ -108,6 +116,36 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 		this.onBeforeDispose = this._onBeforeDispose.register;
 		this._onPostDispose = new Emitter<void>(`${this.displayName}:postEvent`, Emitter.EAction.PrintIgnore);
 		this.onPostDispose = this._onPostDispose.register;
+	}
+
+	protected _destroyMethods(action: CallAction, ...names: (keyof this)[]) {
+		if (isBuildMode) return;
+
+		const destroy = (name: string) => {
+			const trace = mustNonNull(this.__dispose_state.trace);
+			if (action === CallAction.Throw) {
+				return () => {
+					throw new DisposedError(`调用了方法${name}()`, trace);
+				};
+			} else if (action === CallAction.Reject) {
+				return () => {
+					return Promise.reject(new DisposedError(`调用了方法${name}()`, trace));
+				};
+			} else {
+				return () => {
+					// noop
+					console.error(`调用了方法${name}()，但对象已被释放`);
+				};
+			}
+		};
+		this._register({
+			dispose: () => {
+				for (const name of names) {
+					if (Object.hasOwn(this, name)) delete this[name];
+					this[name] = destroy(name as string) as any;
+				}
+			},
+		});
 	}
 
 	/**

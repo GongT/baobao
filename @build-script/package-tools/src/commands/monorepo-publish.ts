@@ -315,6 +315,11 @@ export async function main() {
 				const e = job.getLastError();
 				if (e) {
 					prettyPrintError(`发布操作失败，项目:${project.name}`, e);
+					logger.warn`当前活动任务:`;
+					for (const name of builder.nodeNames) {
+						const n = builder.getNode(name);
+						logger.warn`  * ${n.name} (${n.stateName})`;
+					}
 				}
 			}
 

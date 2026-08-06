@@ -35,6 +35,10 @@ export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposa
 		return this._state;
 	}
 
+	get stateName(): string {
+		return this._state as any;
+	}
+
 	get dependencies(): ReadonlySet<string> {
 		return this._dependencies;
 	}
@@ -68,10 +72,6 @@ export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposa
 			this._onStateChange.fire(this._state);
 		});
 	}
-
-	// get state() {
-	// 	return this._state;
-	// }
 
 	public translateState?(): string;
 	protected debugPrefix() {

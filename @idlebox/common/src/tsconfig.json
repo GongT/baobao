@@ -7,5 +7,6 @@
 		"stripInternal": true,
 		"noEmitOnError": false,
 	},
-	"exclude": ["**/*.generator.ts", "**/*.test.ts"],
+	"exclude": ["**/*.generator.ts", "./generate.devel.ts", "**/*.test.ts"],
+	"include": ["./**/*.ts"]
 }
