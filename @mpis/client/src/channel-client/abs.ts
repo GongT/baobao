@@ -165,6 +165,12 @@ export class VoidClient extends AbstractChannelClient {
 	protected override async _disconnect(): Promise<void> {}
 	protected override async _connect(): Promise<void> {}
 	protected override _send(message: IMessageObject): void {
-		this.logger.warn`VoidClient: sending: \x1B[1;38;5;11m${message.event}\x1B[39m message=[${message.message}] output=${message.output}.`;
+		if (message.event === BuildEvent.Start) {
+			this.logger.log`VoidClient: sending: \x1B[1;38;5;14m${message.event}\x1B[39m message=[${message.message}] output=${message.output}`;
+		} else if (message.event === BuildEvent.Success) {
+			this.logger.success`VoidClient: sending: \x1B[1;38;5;14m${message.event}\x1B[39m message=[${message.message}] output=${message.output}`;
+		} else if (message.event === BuildEvent.Failed) {
+			this.logger.warn`VoidClient: sending: \x1B[1;38;5;9m${message.event}\x1B[39m message=[${message.message}] output=${message.output}`;
+		}
 	}
 }

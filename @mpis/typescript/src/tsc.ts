@@ -1,7 +1,8 @@
 import { createArgsReader } from '@idlebox/args';
 import { createRootLogger, logger } from '@idlebox/logger';
 import { findUpUntilSync } from '@idlebox/node';
-import { channelClient, hookCurrentProcessOutput, listenOnStream } from '@mpis/client';
+import { channelClient, listenOnStream } from '@mpis/client';
+import { execaNode } from 'execa';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -26,16 +27,16 @@ const matchEndingLine = /Found (\d+) errors?/m;
 const matchStartLine = /(File change detected|Starting compilation in watch mode)/m;
 
 const tscPath = resolve(tsPkgJsonPath, '..', binPath);
-const args = process.argv.splice(1, Infinity, tscPath).slice(1);
 const wd = process.cwd();
 
-const argv = createArgsReader(args);
+const argv = createArgsReader(process.argv.slice(2));
 const buildArg = argv.single(['--build', '-b']);
 const projectArg = argv.single(['--project', '-p']);
 
 if (buildArg && projectArg) {
-	await import(tscPath); // 实际不会返回
-	throw new Error('Cannot specify both --build and --project. Please choose one.');
+	await import(tscPath);
+	process.exit(process.exitCode ?? 0);
+	// throw new Error('Cannot specify both --build and --project. Please choose one.');
 }
 
 let project = buildArg || projectArg;
@@ -57,9 +58,6 @@ if (!packageFile) throw new Error(`Could not find package.json in the project di
 
 if (!config) config = await loadConfig(wd, logger);
 
-// console.error('Using TypeScript compiler:', tscPath);
-// console.error('packageFile=', packageFile);
-
 const packageJson = await loadFile(packageFile);
 const title = packageJson.name?.replace('@', '').replace('/', ':') ?? 'no name package';
 
@@ -67,31 +65,7 @@ channelClient.start();
 const tscBluePrint = /^(\s*)\x1B\[96m/;
 const lookLikePath = /^(.+\.tsx?)(:\d+:\d+)/i;
 
-hookCurrentProcessOutput({
-	injection(kind) {
-		if (kind === 'stderr') {
-			return undefined;
-		}
-
-		const splitStream = split2((line) => {
-			const nline = replaceLine(line);
-			// biome-ignore lint/style/useTemplate: nl
-			return nline + '\n';
-		});
-
-		listenOnStream(splitStream, {
-			title: `tsc:${title}`,
-			start: matchStartLine,
-			stop: matchEndingLine,
-			isFailed(stop_line) {
-				return !stop_line.includes('Found 0 errors');
-			},
-		});
-
-		return splitStream;
-	},
-});
-
+// TODO: 似乎没起作用
 function replaceLine(line: string) {
 	if (!line) return line;
 
@@ -128,26 +102,62 @@ function replaceMonoLine(line: string) {
 }
 
 // console.log('output hooked');
-argv.flag(['--preserveWatchOutput']);
-argv.flag(['--debug', '-d']);
+const explicitPreserve = argv.flag(['--preserveWatchOutput']) > 0;
+const verboseLevel = argv.flag(['--debug', '-d']);
 
-const rebuild = argv.unused();
+const tscArgs = argv.unused();
 if (buildArg) {
-	rebuild.unshift('--build', buildArg);
+	tscArgs.unshift('--build', buildArg);
 } else if (projectArg) {
-	rebuild.unshift('--project', projectArg);
+	tscArgs.unshift('--project', projectArg);
 } else if (project) {
 	const borp = config?.build ? '--build' : '--project';
-	rebuild.unshift(borp, project);
+	tscArgs.unshift(borp, project);
 }
-
-process.argv.push(...rebuild);
 
 if (!process.stderr.isTTY) {
 	logger.debug`输出不是TTY，启用 --preserveWatchOutput 以保持输出完整性`;
-	process.argv.push('--preserveWatchOutput');
+	tscArgs.push('--preserveWatchOutput');
+} else if (explicitPreserve) {
+	logger.debug`命令行启用 --preserveWatchOutput`;
+	tscArgs.push('--preserveWatchOutput');
+} else if (verboseLevel > 0) {
+	logger.debug`调试模式，启用 --preserveWatchOutput`;
+	tscArgs.push('--preserveWatchOutput');
 }
 
-logger.verbose`commandline<${process.argv}>`;
+logger.verbose`加载真正的tsc: long<${tscPath}> commandline<${tscArgs}>`;
 
-await import(tscPath);
+const cp = execaNode({
+	stdin: 'ignore',
+	stdout: 'pipe',
+	stderr: 'inherit',
+	all: false,
+	encoding: 'utf8',
+	reject: false,
+	buffer: false,
+})`${tscPath} ${tscArgs}`;
+
+const splitStream = split2((line) => {
+	const nline = replaceLine(line);
+	// biome-ignore lint/style/useTemplate: nl
+	return nline + '\n';
+});
+
+cp.stdout.pipe(splitStream, { end: true });
+if (logger.verbose.isEnabled) {
+	splitStream.on('data', (line) => {
+		logger.verbose`tsc: ${line.trim()}`;
+	});
+}
+
+listenOnStream(splitStream, {
+	title: `tsc:${title}`,
+	start: matchStartLine,
+	stop: matchEndingLine,
+	isFailed(stop_line) {
+		return !stop_line.includes('Found 0 errors');
+	},
+});
+
+await cp;
