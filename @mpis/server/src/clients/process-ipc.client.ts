@@ -1,4 +1,4 @@
-import { isLinux, isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
+import { humanDate, isLinux, isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -326,9 +326,18 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 	override _inspectDesc(options: InspectContext) {
 		if (this.process?.pid) {
-			const pidStyle = this.process.nodeChildProcess.exitCode === null ? 'number' : 'undefined';
+			const stillRunning = this.process.nodeChildProcess.exitCode === null;
+			const pidStyle = stillRunning ? 'number' : 'undefined';
 			const pid = `[pid=${options.stylize(this.process.pid.toString(), pidStyle)}]`;
-			return `${this._id} ${pid}`;
+			let time = '';
+			if (!stillRunning && this.timings.executeStart) {
+				if (this.timings.executeEnd) {
+					time = ` [${humanDate.delta(this.timings.executeEnd - this.timings.executeStart)}]`;
+				} else {
+					time = ` [~${humanDate.delta(Date.now() - this.timings.executeStart)}]`;
+				}
+			}
+			return `${this._id} ${pid}${time}`;
 		} else {
 			const ns = options.stylize('not started', 'undefined');
 			return `${this._id} ${ns}`;

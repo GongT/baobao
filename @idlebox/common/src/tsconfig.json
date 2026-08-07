@@ -8,5 +8,5 @@
 		"noEmitOnError": false,
 	},
 	"exclude": ["**/*.generator.ts", "./generate.devel.ts", "**/*.test.ts"],
-	"include": ["./**/*.ts"]
+	"include": ["./**/*.ts"],
 }

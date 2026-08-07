@@ -36,8 +36,10 @@ export abstract class ProtocolClientObject {
 	protected readonly logger: IMyLogger;
 	private _state = WorkerClientState.NOT_EXECUTE;
 	private _backend_running = false;
-	private readonly timings: Timings = {};
+	private readonly _times: Timings = {};
 	protected last_event_message = '';
+
+	protected readonly timings: Readonly<Timings> = this._times;
 
 	/**
 	 * 编译开始时反复触发
@@ -81,7 +83,7 @@ export abstract class ProtocolClientObject {
 		}
 		this.last_event_message = message;
 		this.logger.success`built: ${message}\n`;
-		this.timings.lastCompile = Date.now();
+		this._times.lastCompile = Date.now();
 		this._state = WorkerClientState.COMPILE_SUCCEED;
 		this._onSuccess.fireNoError({ message, output });
 		// this._onFinally.fireNoError();
@@ -114,7 +116,7 @@ export abstract class ProtocolClientObject {
 		}
 		this.logger.error`failed: [${e.name}] long<${e.message}>`;
 		this.last_event_message = e.message;
-		this.timings.lastCompile = Date.now();
+		this._times.lastCompile = Date.now();
 		this._state = WorkerClientState.COMPILE_FAILED;
 		this._onFailure.fireNoError(e);
 		// this._onFinally.fireNoError();
@@ -127,7 +129,7 @@ export abstract class ProtocolClientObject {
 		}
 
 		if (this._state === WorkerClientState.EXECUTING) {
-			this.timings.firstStart = Date.now();
+			this._times.firstStart = Date.now();
 		}
 		this.logger.debug`emit event: start building...`;
 		this.last_event_message = '';
@@ -136,7 +138,7 @@ export abstract class ProtocolClientObject {
 	}
 
 	public get time(): Readonly<Timings> {
-		return this.timings;
+		return this._times;
 	}
 
 	get state() {
@@ -161,7 +163,7 @@ export abstract class ProtocolClientObject {
 			return;
 		}
 
-		this.timings.executeStart = Date.now();
+		this._times.executeStart = Date.now();
 		this.logger.debug` ~ worker _execute()`;
 		this._backend_running = true;
 		this._state = WorkerClientState.EXECUTING;
@@ -173,7 +175,7 @@ export abstract class ProtocolClientObject {
 			this.logger.debug` ~ worker _execute() error: ${e.message}`;
 			this.emitFailure(e);
 		} finally {
-			this.timings.executeEnd = Date.now();
+			this._times.executeEnd = Date.now();
 			this._backend_running = false;
 
 			if (this.state !== WorkerClientState.COMPILE_FAILED && this.state !== WorkerClientState.COMPILE_SUCCEED) {

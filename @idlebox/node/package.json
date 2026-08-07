@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/node",
 	"type": "module",
-	"version": "1.4.38",
+	"version": "1.5.0",
 	"exports": {
 		".": {
 			"early-loader": "./src/generate.devel.ts",

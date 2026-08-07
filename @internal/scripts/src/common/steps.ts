@@ -253,7 +253,7 @@ export async function executePreBuild(details = true) {
 		failed++;
 	} else {
 		logger.log`执行 biome check`;
-		const r2 = await execa(biomePath, ['check'], {
+		const r2 = await execa(biomePath, ['check', '--diagnostic-level=warn'], {
 			stdio: details ? 'inherit' : 'ignore',
 			cwd: realProject,
 			reject: false,

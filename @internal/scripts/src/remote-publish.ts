@@ -74,4 +74,5 @@ while (tryCnt-- > 0) {
 }
 
 console.log('没有运行中的任务，可能是启动失败了，请检查！');
+console.log('https://github.com/GongT/baobao/actions');
 shutdown(1);
