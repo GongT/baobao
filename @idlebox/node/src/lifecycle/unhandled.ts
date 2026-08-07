@@ -5,12 +5,20 @@ import {
 	createSymbol,
 	dumpDisposableStack,
 	ensureGlobalObject,
+	ErrorWithCode,
+	Exit,
+	ExitCode,
 	globalSingletonStrong,
+	InterruptError,
+	isNodeError,
 	isProductionMode,
 	objectName,
 	prettyPrintError,
+	ProxiedError,
+	UncaughtException,
+	UnhandledRejection,
+	UsageError,
 } from '@idlebox/common';
-import { ErrorWithCode, Exit, ExitCode, InterruptError, isNodeError, ProxiedError, UncaughtException, UnhandledRejection, UsageError } from '@idlebox/common';
 import { syncBuiltinESMExports } from 'node:module';
 import { basename } from 'node:path';
 import process from 'node:process';
@@ -33,8 +41,10 @@ function hasCode(e: unknown): e is ErrorWithCode {
 
 function dumpGlobalDispose() {
 	try {
-		const global_life_cycle = createSymbol('lifecycle', 'application');
-		const globalLifecycle = globalSingletonStrong(global_life_cycle);
+		// globalLifecycleSymbol: @idlebox/common/src/lifecycle/global/global-lifecycle.ts
+		const globalLifecycleSymbol = createSymbol('lifecycle', 'application');
+
+		const globalLifecycle = globalSingletonStrong(globalLifecycleSymbol);
 
 		if (globalLifecycle) dumpDisposableStack(globalLifecycle as any);
 	} catch (e) {

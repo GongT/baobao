@@ -19,4 +19,7 @@ export default defineConfig({
 			presets: [decoratorPreset({ version: '2023-11' })],
 		}),
 	],
+	test: {
+		execArgv: ['--expose-gc'],
+	},
 });

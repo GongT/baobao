@@ -2,15 +2,14 @@ import { defineInspectMethod } from '../../debugging/inspect.js';
 import type { MaybeNamed } from '../../debugging/object-with-name.js';
 import { convertCaughtError } from '../../error/convert-unknown.js';
 import { prettyPrintError } from '../../error/pretty.nodejs.js';
-import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
 import { isBuildMode } from '../../platform/compile.js';
 import { isPromiseLike } from '../../promise/is-promise.js';
 import { mustNonNull } from '../../typing-helper/must-non-null.js';
 import { Emitter } from '../event/event.js';
 import type { EventRegister } from '../event/type.js';
 import { fromNativeDisposable } from './bridges/native.js';
-import { _debug_dispose, dispose_name, forgetParent, rememberParent } from './debug.js';
-import { DisposedError, DuplicateDisposedError } from './disposedError.js';
+import { _debug_dispose, dispose_name, rememberParent } from './debug.js';
+import { DisposedError, DuplicateDisposeError } from './disposedError.js';
 
 export enum DuplicateDisposeAction {
 	/**
@@ -55,7 +54,7 @@ interface IDisposeState<Async extends boolean> {
 	/**
 	 * 存在stack说明dispose已经开始（可能已经完成）
 	 */
-	trace?: StackTraceHolder;
+	trace?: DisposedError;
 	finished: boolean;
 	/**
 	 * 同步的是undefined，异步的是Promise
@@ -84,7 +83,8 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	protected readonly _onPostDispose;
 	public readonly onPostDispose;
 
-	/** settings */
+	// 设置字段
+	/** 是否允许重复dispose，注意实际dispose逻辑永远只运行一次，后续dispose等待第一个异步dispose完成*/
 	protected readonly duplicateDispose: DuplicateDisposeAction = DuplicateDisposeAction.Warning;
 
 	/**
@@ -149,23 +149,25 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	}
 
 	/**
-	 * @throws if already disposed
+	 * 确保对象未被释放
+	 * @throws DuplicateDisposeError
 	 */
 	public assertNotDisposed() {
 		if (this.__dispose_state.trace) {
-			throw new DuplicateDisposedError(this, this.__dispose_state.trace);
+			throw new DuplicateDisposeError(this, this.__dispose_state.trace);
 		}
 	}
 
 	/**
-	 * register a disposable object
+	 * 注册一个资源到本对象的生命周期中，当本对象被释放时，该资源也会被释放。
+	 * 先注册的后释放
 	 */
 	public _register<T extends _Type<Async>>(d: T): T;
 	public _register<T extends _Type<Async> & IBackReferenceDisposableEvent>(d: T, autoDereference?: boolean): T;
 	public _register(d: any, autoDereference?: boolean): any {
-		if (this._logger.enabled) this._logger(`register ${dispose_name(d)}`);
+		if (this._logger.enabled) this._logger(`资源注册 ${dispose_name(d)}`);
 		this.assertNotDisposed();
-		if (this._disposables.indexOf(d) !== -1) throw new Error(`disposable object ${dispose_name(d)} has already registed into "${dispose_name(this)}"`);
+		if (this._disposables.indexOf(d) !== -1) throw new Error(`资源对象 ${dispose_name(d)} 已经被注册到 "${dispose_name(this)}"`);
 		this._disposables.unshift(fromNativeDisposable(d));
 		if (autoDereference) {
 			(d as IBackReferenceDisposableEvent).onBeforeDispose(() => {
@@ -174,17 +176,25 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			});
 		}
 
-		rememberParent(d, this);
+		if ((d as any).duplicateDispose === DuplicateDisposeAction.Allow) {
+			// 允许重复释放的对象不记录父对象引用，因为它们不会抛出异常
+		} else {
+			rememberParent(d, this, autoDereference === true);
+		}
 
 		return d;
 	}
 
+	/**
+	 * 移除资源 (_register的逆操作)
+	 * **不会释放资源**
+	 *
+	 * @returns 是否成功移除（注册过）
+	 */
 	public _unregister(d: _Type<Async>) {
-		if (this._logger.enabled) this._logger(`unregister ${dispose_name(d)}`);
+		if (this._logger.enabled) this._logger(`资源移除 ${dispose_name(d)}`);
 		this.assertNotDisposed();
 		const rmOk = this._disposables.splice(this._disposables.indexOf(d), 1).length > 0;
-
-		if (rmOk) forgetParent(d, this);
 
 		return rmOk;
 	}
@@ -200,15 +210,14 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 
 	/**
 	 * 正在dispose中（已开始但未完成）
-	 *
-	 * * 使用 this.__dispose_state.trace 判断，因为它是dispose()中最先赋值的
 	 */
 	public get disposing() {
+		// 使用 this.__dispose_state.trace 判断，因为它是dispose()中最先赋值的
 		return !this.__dispose_state.finished && !!this.__dispose_state.trace;
 	}
 
 	/**
-	 * 释放相关资源
+	 * 释放自身与相关资源
 	 */
 	public dispose(): _RType<Async> {
 		if (this.__dispose_state.trace) {
@@ -218,16 +227,13 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 					throw this.__dispose_state.error;
 				} else {
 					/**
-					 * biome-ignore lint/style/noNonNullAssertion: 完全无需考虑
-					 *
-					 * 异步dispose的同步部分，重复调用dispose，会返回undefined而非Promise
-					 * 但这正好是希望的，否则死锁了
+					 * biome-ignore lint/style/noNonNullAssertion: 由于dispose本身同步，有trace必然有result
 					 */
 					return this.__dispose_state.result!;
 				}
 			}
 
-			const dupErr = new DuplicateDisposedError(this, this.__dispose_state.trace);
+			const dupErr = new DuplicateDisposeError(this, this.__dispose_state.trace);
 			dupErr.consoleWarning();
 			if (this.duplicateDispose === DuplicateDisposeAction.Disable) {
 				throw dupErr;
@@ -248,7 +254,7 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 		};
 
 		// * 第一时间设置trace
-		this.__dispose_state.trace = createStackTraceHolder('disposed', this.dispose);
+		this.__dispose_state.trace = new DisposedError();
 
 		this._onBeforeDispose.fire();
 		this._onBeforeDispose.dispose();
@@ -261,22 +267,24 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 			this.__dispose_state.error = err;
 			this._onDisposeError.fire(err);
 			if (this._onDisposeError.listenerCount() === 0) {
-				prettyPrintError('unhandled sync dispose error', err);
+				prettyPrintError('同步释放错误', err);
 			}
 			cleanup();
 			throw this.__dispose_state.error;
 		}
 
-		const r = this.__dispose_state.result;
+		let r = this.__dispose_state.result;
 		if (isPromiseLike(r)) {
 			// 异步错误处理
 			r.catch((e) => {
 				e = convertCaughtError(e);
 				this._onDisposeError.fire(e);
 				if (this._onDisposeError.listenerCount() === 0) {
-					prettyPrintError('unhandled async dispose error', e);
+					prettyPrintError('异步释放错误', e);
 				}
-			}).finally(cleanup);
+			});
+			r = r.finally(cleanup) as any;
+			this.__dispose_state.result = r;
 		} else {
 			cleanup();
 		}
@@ -285,7 +293,7 @@ export abstract class AbstractEnhancedDisposable<Async extends boolean> implemen
 	}
 
 	get [Symbol.toStringTag](): string {
-		return this.displayName || 'unknown disposable';
+		return this.displayName || '未知可释放对象';
 	}
 
 	protected abstract _dispose(disposables: readonly _Type<Async>[]): _RType<Async>;
@@ -302,7 +310,7 @@ defineInspectMethod(AbstractEnhancedDisposable.prototype, function (this: any, _
 });
 
 export function dumpDisposableStack(disposable: AbstractEnhancedDisposable<any>) {
-	console.error(`== Dumping disposable stack for ${disposable.constructor.name}`);
+	console.error(`== 转储可释放对象栈: ${disposable.constructor.name}`);
 	// biome-ignore lint/performance/useTopLevelRegex: never call
 	const lSpace = / {3}$/;
 
@@ -322,19 +330,19 @@ export function dumpDisposableStack(disposable: AbstractEnhancedDisposable<any>)
 		let _r = `${pad.replace(lSpace, ' - ')}. ${dispose_name(disposable)} | `;
 
 		if (_privateStacks) {
-			_r += `disposing: ${disposable.disposing}, disposed: ${disposable.disposed}, ${_privateStacks.length} registered:`;
+			_r += `释放中: ${disposable.disposing}, 已释放: ${disposable.disposed}, 注册数量: ${_privateStacks.length}`;
 
 			console.error(`\x1B[${color}m%s\x1B[0m`, _r);
 			for (const d of _privateStacks) {
 				inner(d, level + 1);
 			}
 		} else {
-			_r += `not enhanced disposable`;
+			_r += `非增强资源对象`;
 			if (disposable.disposing !== undefined) {
-				_r += `, disposing: ${disposable.disposing}`;
+				_r += `, 释放中: ${disposable.disposing}`;
 			}
 			if (disposable.disposed !== undefined) {
-				_r += `, disposed: ${disposable.disposed}`;
+				_r += `, 已释放: ${disposable.disposed}`;
 			}
 			console.error(`\x1B[${color}m%s\x1B[0m`, _r);
 		}

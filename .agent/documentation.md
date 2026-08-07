@@ -131,7 +131,7 @@ h5 and below are free to use.
 
 **function signature**
 
-````markdown
+`````markdown
 #### calculateAdd
 
 这个函数计算两个数字之和。
@@ -155,7 +155,7 @@ function calculateAdd(a: number, b: number): number;
 calculateAdd(1, 2); // 返回 3
 ```
 
-````
+`````
 
 **class**
 

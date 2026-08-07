@@ -32,6 +32,12 @@ export function isExistsError(e: unknown): e is NodeException<LinuxErrorCode.EEX
 	return isNodeError(e) && e.code === LinuxErrorCode.EEXIST;
 }
 
+export function isLinuxError<T extends LinuxErrorCode>(e: unknown, code: T): e is NodeException<T>;
+export function isLinuxError<T extends LinuxErrorCode>(e: unknown, ...codes: T[]): e is NodeException<T>;
+export function isLinuxError(e: unknown, ...codes: LinuxErrorCode[]): e is NodeException<LinuxErrorCode> {
+	return isNodeError(e) && codes.includes(e.code as LinuxErrorCode);
+}
+
 /** @description use isFileTypeError */
 export const isTypeError = isFileTypeError;
 

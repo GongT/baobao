@@ -46,6 +46,7 @@ CLI程序辅助库
 * [json-extends-loader](@idlebox/json-extends-loader) 加载带有`extends`的`jsonc`文件（比如tsconfig）
 * [node-error-codes](@idlebox/node-error-codes) 从nodejs api文档中自动提取的错误代码
 * [typescript-surface-analyzer](@idlebox/typescript-surface-analyzer) TypeScript界面分析工具
+* [named-pipe](@idlebox/named-pipe) 命名管道工具
 
 ----
 网络和数据处理

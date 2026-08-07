@@ -33,6 +33,10 @@ export class DuplicateCallError extends ProgramError {
 			const name = _objectName(fn);
 			if (!name) throw new SoftwareDefectError('DuplicateCallError 如果传入函数，则必须是命名函数');
 			message = `重复调用 ${name}`;
+			if (!opts?.boundary) {
+				if (!opts) opts = {};
+				opts.boundary = fn;
+			}
 		} else {
 			message = `重复调用 ${fn}`;
 		}

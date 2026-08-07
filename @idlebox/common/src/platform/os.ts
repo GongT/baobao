@@ -6,9 +6,11 @@ declare const global: any;
 /**
  * buy detect process.pid, is there any bundler mock this?
  */
-export const hasProcess = typeof process !== 'undefined' && typeof process?.pid === 'number';
+export const hasProcess = typeof process !== 'undefined' && typeof process.pid === 'number';
 export const hasWindow = typeof window !== 'undefined' && globalThis === window;
 export const hasGlobal = typeof global !== 'undefined' && globalThis === global;
+
+export let isTauri = false;
 
 export let isElectron = false,
 	isElectronSandbox = false,
@@ -28,6 +30,10 @@ if (hasProcess) {
 		isElectron = true;
 		isElectronRenderer = true;
 		isElectronSandbox = true;
+	}
+
+	if (window.__TAURI__ || window.TAURI_INTERNALS) {
+		isTauri = true;
 	}
 }
 
@@ -59,7 +65,11 @@ if (hasWindow && !hasProcess) {
 	}
 }
 
-export const isV8 = (isNative && typeof process.versions?.v8 === 'string') || (() => new Error('test').stack?.includes(' at '))() || false;
+export const isV8 = (isNative && typeof process.versions?.v8 === 'string') || errorStackCheck();
 
 export const sepList = isWindows ? ';' : ':';
 export const is32Bit = !is64Bit;
+
+function errorStackCheck(): boolean {
+	return new Error('test').stack?.includes(' at ') ?? false;
+}

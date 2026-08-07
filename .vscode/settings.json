@@ -32,7 +32,7 @@
 	"biome.lsp.bin": "./node_modules/.bin/biome",
 	"biome.requireConfiguration": true,
 	"js/ts.preferences.organizeImports": { "typeOrder": "last", "unicodeCollation": "ordinal" },
-	"js/ts.tsdk.path": "./node_modules/typescript/lib",
+	// "js/ts.tsdk.path": "./node_modules/typescript/lib",
 	"js/ts.preferences.preferTypeOnlyAutoImports": true,
 	"js/ts.preferences.importModuleSpecifierEnding": "js",
 	"files.readonlyInclude": {

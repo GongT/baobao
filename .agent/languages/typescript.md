@@ -13,20 +13,19 @@
   - this is also applicable to test files.
 - deny default export, only named exports are allowed.
 
-```typescript
-
 ## error handling
 
 caught error type must be `unknown`, not `any` or `Error`. Type convert to `Error` by using `convertCaughtError()` function, or `instanceof` for handling, or rethrow it without type conversion. Deny use of force type conversion.
 
 the `convertCaughtError()` function is defined in `@idlebox/common`. check for dependency before use it, you not allowed to add `@idlebox/common` if not already exists.
 
+this apply to both try-catch and promise catch.
+
 For example:
 
 ```typescript
-try {} catch (e) {
-	// bad: force type conversion, may cause runtime error if e is not an Error
-	const error = e as Error;
+try {} catch (e: any) { // bad: catch type is any
+	const error = e as Error; // bad: force type conversion, may cause runtime error if e is not an Error
 	console.error(error.message);
 }
 try {} catch (e) {
@@ -38,6 +37,21 @@ try {} catch (e) {
 	if (e instanceof TypeError) doSomething(); // good: instanceof
 	else throw e; // good: rethrow without know it's type
 }
+```
+
+## grammar
+
+#### prefer `Map.get()` over `Map.has()` + `Map.get()`
+```typescript
+// bad
+if (map.has(key)) return map.get(key);
+
+// good
+const value = map.get(key);
+if (value !== undefined) return value;
+
+// good - not using value
+if (map.has(key)) doSomething();
 ```
 
 ## path

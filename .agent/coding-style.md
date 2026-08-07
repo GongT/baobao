@@ -36,26 +36,22 @@ specific language > this file > config files
 - return early if possible. For example:
 
 ```python
+# good
 def my_function(x):
 	if x < 0:
 		return "negative"
-	elif x > 0:
-		return "positive"
-	return "zero"
+	
+	do_something()
+	return "ok"
+
+# bad
+def my_function(x):
+	if x >= 0:
+		do_something()
+		return "ok"
+	else:
+		return "negative"
 ```
-
-- get and check for containers, if the value will be used. For example:
-
-```typescript
-// bad
-if (map.has(key)) return map.get(key);
-// good
-const value = map.get(key);
-if (value !== undefined) return value;
-// good - not using value
-if (map.has(key)) doSomething();
-```
-
 
 ## logging
 

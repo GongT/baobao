@@ -6,17 +6,15 @@ const singletonRegistry = ensureGlobalObject('@@idlebox/global-singleton', () =>
 });
 
 /**
- * Get an singleton instance from window/global space
- * if symbol did not exists, create it and assign to window/global
+ * 获取一个全局单例对象，如果不存在则创建它并赋值到globalThis上。
  * @public
  */
 export function globalSingletonStrong<T>(symbol: symbol | string, constructor: () => T): T;
 /**
- * Get an singleton instance from window/global space
+ * 获取一个全局单例对象，如果不存在则返回undefined。
  * @public
  */
 export function globalSingletonStrong<T>(symbol: symbol | string): T | undefined;
-
 export function globalSingletonStrong<T>(symbol: symbol | string, constructor?: () => T): T | undefined {
 	let object = singletonRegistry.get(symbol);
 	if (object instanceof WeakRef) {
@@ -39,24 +37,19 @@ export function globalSingletonStrong<T>(symbol: symbol | string, constructor?: 
 }
 
 /**
- * Delete a key from window/global space
- * use with care
+ * 删除一个全局单例对象
  * @public
  */
 export function globalSingletonDelete(symbol: symbol | string) {
 	singletonRegistry.delete(symbol);
 }
 
-/**
- * Same with globalSingletonStrong, but save instance in a WeakMap, so it maybe delete by gc if no reference
- * @public
- */
 export function globalSingleton<T>(symbol: symbol | string, constructor: () => T): T;
+export function globalSingleton<T>(symbol: symbol | string): T | undefined;
 /**
- * Same with globalSingletonStrong, but save instance in a WeakMap, so it maybe delete by gc if no reference
+ * 与globalSingletonStrong相同，但将实例保存在弱引用中，如果没有强引用，它有可能会被垃圾回收删除。
  * @public
  */
-export function globalSingleton<T>(symbol: symbol | string): T | undefined;
 export function globalSingleton<T>(symbol: symbol | string, constructor?: () => T): T | undefined {
 	if (singletonRegistry.has(symbol)) {
 		let object = singletonRegistry.get(symbol);

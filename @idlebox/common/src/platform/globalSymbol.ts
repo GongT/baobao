@@ -5,9 +5,11 @@ const symbolRegistry = ensureGlobalObject('@@idlebox/global-symbol', () => {
 });
 
 /**
- * Get a symbol singleton, if not exists, create it
+ * 创建一个全局符号，非常像 Symbol.for
+ * 每次相同的调用都会返回同一个符号
  *
- * this is very like Symbol.for, but not real global symbol
+ * 但实际上是存在globalThis上的unique symbol
+ *
  * @public
  */
 export function createSymbol(category: string, name: string): symbol {
@@ -24,7 +26,8 @@ export function createSymbol(category: string, name: string): symbol {
 }
 
 /**
- * Delete a symbol from window/global object
+ * 删除由 createSymbol 创建的符号
+ * 如果仍有引用，再次调用 createSymbol 会与之前不等的新符号
  * @public
  */
 export function deleteSymbol(category: string, name: string) {

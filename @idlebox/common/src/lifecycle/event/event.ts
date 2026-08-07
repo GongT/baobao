@@ -1,11 +1,11 @@
+import { InvalidStateError } from '@idlebox/errors';
 import { defineInspectMethod, inspectSymbol } from '../../debugging/inspect.js';
 import { nameObject, objectName } from '../../debugging/object-with-name.js';
 import { convertCaughtError } from '../../error/convert-unknown.js';
 import { prettyPrintError } from '../../error/pretty.nodejs.js';
-import { createStackTraceHolder } from '../../error/stack-trace.js';
 import { functionToDisposable } from '../dispose/bridges/function.js';
 import type { IDisposable } from '../dispose/disposable.js';
-import { DisposedError } from '../dispose/disposedError.js';
+import { DisposedError, UsageAfterDisposeError } from '../dispose/disposedError.js';
 import type { EventHandler, EventRegister, IEventEmitter } from './type.js';
 
 const anonymousName = 'AnonymousEmitter';
@@ -80,7 +80,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 				callback?.(data);
 			} catch (e) {
 				const ee = convertCaughtError(e);
-				prettyPrintError('error while handling event', ee);
+				prettyPrintError('忽略事件回调中的错误', ee);
 			}
 		}
 	}
@@ -89,7 +89,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	 * @param data
 	 * @param error {Emitter.EAction} 如何处理错误
 	 *  - Throw: 默认行为，遇到错误立即抛出，后续监听器不再被调用
-	 *  - Delay: 等所有监听器都调用完后，如果有错误则抛出AggregateError，包含所有错误
+	 *  - Delay: 等所有监听器都调用完后，如果有错误则抛出AggregateError，包含所有错误（即使只有一个）
 	 *  - Ignore: 忽略所有错误，继续调用全部监听器
 	 *  - PrintIgnore: 忽略所有错误，但打印错误信息
 	 * @returns
@@ -105,7 +105,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 			} else if (error === FireErrorAction.Delay) {
 				const errors = this.__fireDelay(data);
 				if (errors.length) {
-					throw new AggregateError(errors, 'multiple errors while handling event');
+					throw new AggregateError(errors, `事件回调中发生了${errors.length}个错误`);
 				}
 			} else if (error === FireErrorAction.Ignore) {
 				this.__fireIgnore(data);
@@ -192,9 +192,9 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 		}
 	}
 
-	private _disposed = false;
+	private _disposed?: DisposedError;
 	public get disposed() {
-		return this._disposed;
+		return !!this._disposed;
 	}
 
 	/**
@@ -203,27 +203,25 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 	 */
 	dispose() {
 		if (this._disposed) return;
-		this._disposed = true;
+		this._disposed = new DisposedError();
 
 		this._callbacks.length = 0;
 		Object.assign(this, { _callbacks: null });
 
 		if (this._waittings) {
 			for (const rej of this._waittings) {
-				rej(new Error('disposed'));
+				rej(this._disposed);
 			}
 		}
 
 		this._waittings = undefined;
 
-		const trace = createStackTraceHolder('disposed', this.dispose);
-
 		const makeUnCallable = (name: string) => {
-			Object.assign(this, {
-				[name]() {
-					throw new DisposedError(`can not call ${this.displayName}#${name}() after event emitter disposed`, trace);
-				},
-			});
+			const method = () => {
+				// biome-ignore lint/style/noNonNullAssertion: as expected
+				throw new UsageAfterDisposeError(`使用的事件发射器已被释放`, this._disposed!, method);
+			};
+			Object.assign(this, { [name]: method });
 		};
 
 		makeUnCallable('fire');
@@ -247,7 +245,7 @@ export class Emitter<T = unknown> implements IEventEmitter<T> {
 
 	private requireNotExecuting() {
 		if (this.executing) {
-			throw new Error('conflict state, emitter is firing');
+			throw new InvalidStateError('冲突状态，事件发射器正在触发');
 		}
 	}
 }

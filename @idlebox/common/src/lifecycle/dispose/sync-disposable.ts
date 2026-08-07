@@ -1,25 +1,24 @@
 import { convertCaughtError } from '../../error/convert-unknown.js';
-import { createStackTraceHolder, type StackTraceHolder } from '../../error/stack-trace.js';
 import { dispose_name } from './debug.js';
 import { AbstractEnhancedDisposable, type IDisposable } from './disposable.js';
-import { DuplicateDisposedError } from './disposedError.js';
+import { DisposedError, DuplicateDisposeError } from './disposedError.js';
 
 /**
  * 简单版手动disposable
  */
 export abstract class DisposableOnce implements IDisposable {
-	private _disposed?: StackTraceHolder;
+	private _disposed?: DisposedError;
 
 	public get disposed() {
 		return !!this._disposed;
 	}
 	public dispose(): void {
 		if (this._disposed) {
-			const w = new DuplicateDisposedError(this, this._disposed);
+			const w = new DuplicateDisposeError(this, this._disposed);
 			w.consoleWarning();
 			return;
 		}
-		this._disposed = createStackTraceHolder('disposed', this.dispose);
+		this._disposed = new DisposedError();
 		this._dispose();
 	}
 	[Symbol.dispose]() {
@@ -45,7 +44,7 @@ export class EnhancedDisposable extends AbstractEnhancedDisposable<false> implem
 		let lastError = null;
 		for (const item of disposables.values()) {
 			try {
-				if (this._logger.enabled) this._logger(`dispose ${dispose_name(item)}`);
+				if (this._logger.enabled) this._logger(`资源释放 ${dispose_name(item)}`);
 				item.dispose();
 			} catch (e) {
 				if (hasListener) {
