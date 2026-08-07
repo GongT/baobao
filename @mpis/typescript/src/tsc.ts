@@ -160,4 +160,10 @@ listenOnStream(splitStream, {
 	},
 });
 
-await cp;
+const result = await cp;
+
+if (result.exitCode === 0) {
+	process.exit(0);
+} else {
+	process.exit(result.exitCode ?? 1);
+}

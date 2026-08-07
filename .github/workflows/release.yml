@@ -30,7 +30,7 @@ jobs:
         with:
           standalone: true
           cache: true
-          package_json_file: package.yaml
+          package_json_file: package.json
 
       - name: 安装依赖
         run: |
@@ -53,7 +53,7 @@ jobs:
         with:
           standalone: true
           cache: true
-          package_json_file: package.yaml
+          package_json_file: package.json
 
       - name: 安装依赖
         run: |
