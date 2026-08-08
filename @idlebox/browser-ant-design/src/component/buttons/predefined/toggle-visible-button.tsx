@@ -27,7 +27,7 @@ export function ToggleVisibleButton({ onChange, ...props }: IToggleVisibleButton
 			type="default"
 			variant="outlined"
 			{...props}
-			icon={[<EyeInvisibleOutlined />, <EyeOutlined />]}
+			icon={[<EyeInvisibleOutlined key="1" />, <EyeOutlined key="2" />]}
 			onChange={onChange}
 			title={['隐藏', '显示']}
 		/>

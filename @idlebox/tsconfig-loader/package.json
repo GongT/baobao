@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/tsconfig-loader",
 	"type": "module",
-	"version": "1.0.31",
+	"version": "1.0.32",
 	"description": "Load tsconfig.json with Typescript API",
 	"keywords": [],
 	"exports": {

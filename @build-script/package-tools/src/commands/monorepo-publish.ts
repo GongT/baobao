@@ -10,6 +10,7 @@ import { execaNode } from 'execa';
 import { existsSync } from 'node:fs';
 import { copyFile } from 'node:fs/promises';
 import { dirname, relative, resolve } from 'node:path';
+import { defaultConcurrency } from '../common/defaults.js';
 import { pArgS } from '../common/functions/cli.js';
 import { PackageManagerUsageKind, type PackageManager } from '../common/package-manager/driver.abstract.js';
 import { PNPM } from '../common/package-manager/driver.pnpm.js';
@@ -27,7 +28,7 @@ export class Command extends CommandDefine {
 		'--debug': { flag: true, description: '详细输出模式' },
 		'--dry': { flag: true, description: '仅检查修改，不发布（仍会修改version字段）' },
 		'--private': { flag: true, description: '即使private=true也执行' },
-		'--concurrency': { flag: false, description: '并发数（默认5）' },
+		'--concurrency': { flag: false, description: `并发数（默认${defaultConcurrency}）` },
 		// '--no-unshare': { flag: true, description: '不执行unshare逻辑（在linux上默认执行）' },
 	};
 }
@@ -279,7 +280,7 @@ export async function main() {
 			concurrency = 1;
 			logger.warn`由于设置了--debug参数，运行模式默认为单线程，设置 --concurrency 参数可改变此设置`;
 		} else {
-			concurrency = process.env.CI ? 10 : 3;
+			concurrency = defaultConcurrency;
 			logger.info`使用默认并发数 ${concurrency}`;
 		}
 	}
