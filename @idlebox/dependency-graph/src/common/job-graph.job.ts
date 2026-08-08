@@ -37,7 +37,7 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 		return this._state === JobState.Running;
 	}
 
-	override get stateName(): string {
+	override get stateName() {
 		return this._state;
 	}
 

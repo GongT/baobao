@@ -313,17 +313,35 @@ export async function main() {
 				process.stderr.write(`\n${CSI}K📦 [${indexDisplay.toFixed(0).padStart(width)}/${shouldPublishProjects.length}] ${project.name}\n${output}\n`);
 
 				const e = job.getLastError();
-				if (e) {
+				if (process.env.CI && e) {
 					prettyPrintError(`发布操作失败，项目:${project.name}`, e);
-					logger.warn`当前活动任务:`;
+					logger.info`当前活动任务:`;
 					for (const name of builder.nodeNames) {
 						const n = builder.getNode(name);
-						logger.warn`  * ${n.name} (${n.stateName})`;
+						const log = (() => {
+							switch (n.stateName) {
+								case JobState.NotStarted:
+									return logger.log;
+								case JobState.Running:
+									return logger.info;
+								case JobState.Error:
+								case JobState.ErrorExited:
+									return logger.warn;
+								case JobState.Success:
+								case JobState.SuccessExited:
+									return logger.success;
+								default:
+									return logger.error;
+							}
+						})();
+						log`  * ${n.name} (${n.stateName})`;
 					}
 				}
 			}
 
-			if (!process.env.CI) debugSummary();
+			if (!process.env.CI) {
+				debugSummary();
+			}
 		});
 		builder.addNode(job);
 

@@ -4,7 +4,10 @@
 	"version": "0.0.25",
 	"type": "module",
 	"exports": {
-		".": "./lib/exports.js",
+		".": {
+			"types": "./src/exports.ts",
+			"default": "./lib.devel/exports.js"
+		},
 		"./register": {
 			"types": "./src/register-if-not.ts",
 			"default": "./lib.devel/register-if-not.js"
@@ -16,7 +19,10 @@
 		"./package.json": "./package.json"
 	},
 	"imports": {
-		"#generate-prefix": "./lib/generate-prefix.js"
+		"#generate-prefix": {
+			"types": "./src/generate-prefix.ts",
+			"default": "./lib.devel/generate-prefix.js"
+		}
 	},
 	"keywords": ["typescript", "executer", "runner"],
 	"scripts": {
@@ -41,7 +47,6 @@
 		"@types/node": "^26.1.2",
 		"amaro": "^1.1.11",
 		"esbuild": "^0.28.1",
-		"proper-lockfile": "^4.1.2",
 		"typescript": "^7.0.2"
 	},
 	"publishConfig": {

@@ -1,4 +1,4 @@
-import { humanDate, isLinux, isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
+import { ChildProcessExitError, humanDate, isLinux, isWindows, lcfirst, PathArray, timeout, TimeoutError } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntilSync, getEnvironment, streamPromise } from '@idlebox/node';
 import { BuildEvent, is_message } from '@mpis/shared';
@@ -104,7 +104,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			// TODO: rig package
 			const pathVar = getEnvironment(pathVarName).value;
 			if (!pathVar) {
-				throw new Error('PATH environment variable is not set');
+				throw new Error('环境变量中没有PATH');
 			}
 			this.pathvar = new PathArray(pathVar);
 			this.pathvar.add(dirname(process.execPath), true, true);
@@ -112,7 +112,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			if (nmPath) {
 				this.pathvar.add(resolve(nmPath, '.bin'), true, true);
 			} else {
-				this.logger.warn`running command without any package.`;
+				this.logger.warn`运行目录long<${cwd}>附近找不到node_modules`;
 			}
 		}
 
@@ -153,8 +153,15 @@ export class ProcessIPCClient extends ProtocolClientObject {
 	}
 
 	private onMessage(message: any) {
-		this.logger.debug`receive event: ${message?.event}`;
+		if (message.event === BuildEvent.Start) {
+			this.logger.log`Server: receive: \x1B[1;38;5;14m${message.event}\x1B[39m message=[${message.message}] output=${message.output}`;
+		} else if (message.event === BuildEvent.Success) {
+			this.logger.success`Server: receive: \x1B[1;38;5;14m${message.event}\x1B[39m message=[${message.message}] output=${message.output}`;
+		} else if (message.event === BuildEvent.Failed) {
+			this.logger.warn`Server: receive: \x1B[1;38;5;9m${message.event}\x1B[39m message=[${message.message}] output=${message.output}`;
+		}
 		this.logger.verbose`${message}`;
+
 		if (this.logger.verbose.isEnabled && message.output) {
 			this.logger.verbose(message.output);
 		}
@@ -200,11 +207,21 @@ export class ProcessIPCClient extends ProtocolClientObject {
 
 		env.NODE_OPTIONS = env.NODE_OPTIONS.replace(vscodeDebugRegex, ' ');
 
-		this.logger.log`spawning | commandline<${this.commandline}>`;
-		this.logger.debug`working directory: long<${this.cwd}>`;
-		this.logger.verbose`path variable: long<${this.pathvar.toString()}>`;
-		this.logger.verbose`environment variable: ${this.env}`;
-		this.logger.verbose`NODE_OPTIONS: ${env.NODE_OPTIONS}`;
+		this.logger.log`[exec] spawning | commandline<${this.commandline}>`;
+		this.logger.debug`[exec] working directory: long<${this.cwd}>`;
+		this.logger.verbose`[exec] path variable: long<${this.pathvar.toString()}>`;
+		this.logger.verbose`[exec] environment variable: ${this.env}`;
+		this.logger.verbose`[exec] NODE_OPTIONS: ${env.NODE_OPTIONS}`;
+
+		let killDescendants;
+		if (process.pid === 1 || !isLinux || process.env.CI || process.env.MPIS_SERVER_SKIP_GROUP) {
+			this.logger.debug`[exec] 不使用进程组，因为pid=1或非linux或CI环境或MPIS_SERVER_SKIP_GROUP`;
+			killDescendants = false;
+		} else {
+			this.logger.debug`[exec] 使用进程组，因为pid!=1且linux且非CI环境且MPIS_SERVER_SKIP_GROUP未设置`;
+			process.env.MPIS_SERVER_SKIP_GROUP = 'yes';
+			killDescendants = true;
+		}
 
 		const doExec = execa<MyOptions>({
 			cwd: this.cwd,
@@ -216,17 +233,10 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			reject: false,
 			buffer: false,
 			detached: process.pid === 1,
-			killDescendants: false,
+			killDescendants: killDescendants,
 		});
 
-		let sub_process: ResultPromise<MyOptions>;
-		if (process.pid === 1 || !isLinux || process.env.CI || process.env.MPIS_SERVER_SKIP_UNSHARE) {
-			this.logger.debug`running as PID 1 or CI or not on Linux, will not use unshare.`;
-			sub_process = doExec`${this.commandline}`;
-		} else {
-			this.logger.debug`running as PID ${process.pid}, will use unshare to create a new PID namespace.`;
-			sub_process = doExec`unshare --map-current-user --pid --mount-proc --fork ${this.commandline}`;
-		}
+		const sub_process = doExec`${this.commandline}`;
 
 		this.process = sub_process;
 		this.p_status.pid = sub_process.pid;
@@ -239,7 +249,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 					if (logger.verbose.isEnabled) {
 						const debugTxt = chunk.toString('utf-8').trimEnd().replaceAll('\n', '\\n').replaceAll('\r', '\\r').replaceAll('\x1B', '\\e');
 
-						logger.verbose`<${stream}> ${debugTxt}`;
+						logger.verbose`[exec] <${stream}> ${debugTxt}`;
 					}
 					this.outputStream.write(chunk);
 				});
@@ -257,42 +267,40 @@ export class ProcessIPCClient extends ProtocolClientObject {
 			this.p_status.started = false;
 
 			if (this.disposed) {
-				if (process.signal) {
-					this.logger.debug`(after dispose) process killed by signal ${process.signal}`;
-				} else if (typeof process.exitCode === 'number') {
-					this.logger.debug`(after dispose) process exited with code ${process.exitCode}`;
-				} else {
-					this.logger.debug`(after dispose) process exited with unknown status`;
-				}
+				this.logger.debug`[exec] (after dispose) ${ChildProcessExitError.status(process)}`;
 				return;
 			}
 
 			this.p_status.exitCode = process.exitCode;
 			this.p_status.signal = process.signal;
 
-			if (process.exitCode || process.signal) {
-				const output = this.outputStream.toString();
-				this.logger.debug`process exit, exitCode: ${process.exitCode}, signal: ${process.signal}`;
-				this.logger.verbose`${process}`;
+			if (this.isFail) {
+				this.logger.verbose`[exec] 进程退出，已处于错误状态，无需重复通知`;
+			} else {
+				if (process.exitCode || process.signal) {
+					const output = this.outputStream.toString();
+					this.logger.debug`[exec] 进程退出: exitCode=${process.exitCode}, signal=${process.signal}`;
+					this.logger.verbose`[exec] ${process}`;
 
-				const m = process.exitCode ? `process "${this._id}" quited with code ${process.exitCode}` : `process "${this._id}" killed by signal ${process.signal}`;
-				return this.emitFailure(m, output);
+					const m = ChildProcessExitError.status(process);
+					return this.emitFailure(m, output);
+				}
+
+				if (process.failed) {
+					// 由于reject=false，只有spawn失败才会到这里
+					this.p_status.failedExecute = true;
+					this.logger.warn`[exec] process can not start: ${process.message}`;
+					this.logger.verbose`${process}`;
+					return this.emitFailure(`进程"${this._id}"无法启动: ${lcfirst(process.message || '*no message*')}`, this.outputStream.toString());
+				}
 			}
 
-			if (process.failed) {
-				// 由于reject=false，只有spawn失败才会到这里
-				this.p_status.failedExecute = true;
-				this.logger.warn`process can not start: ${process.message}`;
-				this.logger.verbose`${process}`;
-				return this.emitFailure(`process "${this._id}" can not start: ${lcfirst(process.message || '*no message*')}`, this.outputStream.toString());
-			}
-
-			this.logger.debug`process quited with code ${process.exitCode}`;
+			this.logger.debug('[exec] %s', ChildProcessExitError.status(process));
 		} catch (e) {
 			// 和进程无关的错误
 			this.p_status.failedExecute = true;
 			this.p_status.started = false;
-			return this.emitFailure(`process "${this._id}" failed: ${(e as any)?.message || '*no message*'}`, this.outputStream.toString());
+			return this.emitFailure(`[exec] 进程"${this._id}"运行出错: ${(e as any)?.message || '*no message*'}`, this.outputStream.toString());
 		}
 	}
 

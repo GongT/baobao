@@ -40,6 +40,24 @@ export function updateMiscState() {
 	}
 }
 
+export function printErrorImmediately(clear: boolean = false) {
+	if (printTmr) {
+		clearTimeout(printTmr);
+		printTmr = undefined;
+	}
+
+	const graph = workersManager.finalize();
+
+	if (context().watchMode && clear) {
+		terminal.resetIf(!logger.debug.isEnabled);
+	}
+
+	if (!logger.debug.isEnabled) {
+		console.error('%s\n%s', graph.debugFormatList(), graph.debugFormatSummary());
+	}
+	printAllErrors();
+}
+
 export function reprintWatchModeError(noClear?: boolean) {
 	if (printTmr) clearTimeout(printTmr);
 
@@ -47,17 +65,7 @@ export function reprintWatchModeError(noClear?: boolean) {
 
 	printTmr = setTimeout(() => {
 		printTmr = undefined;
-
-		const graph = workersManager.finalize();
-
-		if (context().watchMode && !noClear) {
-			terminal.resetIf(!logger.debug.isEnabled);
-		}
-
-		if (!logger.debug.isEnabled) {
-			console.error('%s\n%s', graph.debugFormatList(), graph.debugFormatSummary());
-		}
-		printAllErrors();
+		printErrorImmediately(!noClear);
 	}, 50);
 }
 

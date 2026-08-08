@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: no need */
-import type { IExportMap } from '@idlebox/common';
+import { parseExportsField, type IExportMap } from '@idlebox/common';
 import { loadJsonFile } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { relativePath, setExitCodeIfNot } from '@idlebox/node';
@@ -100,13 +100,24 @@ export async function rewriteTsconfig() {
  * 如果source和types相同，则移除 types 字段
  * 此types是为了在未编译当前项目时编译依赖时使用，发布后直接使用默认类型即可
  */
-export function removeExportsTypes() {
+export function removeTypesFromExportsAndImports() {
 	const exports = getExportsField();
 	for (const [key, def] of Object.entries(exports)) {
 		if (def.source && def.source === def.types) {
 			logger.log`删除exports.${key}.types`;
 			delete def.types;
 		}
+	}
+
+	if (packageJson.imports) {
+		const imports = parseExportsField(packageJson.imports);
+		for (const [key, def] of Object.entries(imports)) {
+			if (def.source && def.source === def.types) {
+				logger.log`删除imports.${key}.types`;
+				delete def.types;
+			}
+		}
+		packageJson.imports = imports;
 	}
 }
 
@@ -144,7 +155,7 @@ export function mirrorExportsAndMain() {
 /**
  * 删除exports、imports和bin里关于loader的内容
  */
-export function removeLoaderFromExportsAndBin() {
+export function removeLoaderFromExportsAndBinAndImports() {
 	const exports = getExportsField();
 	for (const [pubPath, pathRef] of Object.entries(exports)) {
 		if (pathRef.import) pathRef.import = modifyLoaderInString(pathRef.import, `exports.${pubPath}.import`);
@@ -159,12 +170,10 @@ export function removeLoaderFromExportsAndBin() {
 	}
 
 	if (packageJson.imports) {
-		for (const [key, value] of Object.entries(packageJson.imports)) {
-			if (typeof value !== 'string') {
-				continue;
-			}
-
-			packageJson.imports[key] = modifyLoaderInString(value, `imports.${key}`);
+		const imports = parseExportsField(packageJson.imports);
+		for (const [pubPath, pathRef] of Object.entries(imports)) {
+			if (pathRef.import) pathRef.import = modifyLoaderInString(pathRef.import, `imports.${pubPath}.import`);
+			if (pathRef.default) pathRef.default = modifyLoaderInString(pathRef.default, `imports.${pubPath}.default`);
 		}
 	}
 }

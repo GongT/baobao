@@ -14,7 +14,7 @@ import { config, loadConfig } from './common/config-file.js';
 import { addBreakModeDebugCommands } from './common/interactive.js';
 import { initializeWorkers, workersManager } from './common/manager.js';
 import { projectRoot } from './common/paths.js';
-import { initializeScreen, printOutput, reprintWatchModeError } from './common/print-screen.js';
+import { initializeScreen, printErrorImmediately, printOutput, reprintWatchModeError } from './common/print-screen.js';
 import { initializeStdin, registerCommand } from './common/stdin.js';
 
 const cls = /\x1Bc/g;
@@ -47,11 +47,13 @@ logger.info`Running command "${context().command}" in ${projectRoot}`;
 
 switch (context().command) {
 	case 'clean':
+		process.exitCode = 0;
 		executeClean();
 		break;
 	case 'build':
 		if (context().dumpConfig) {
 			dumpConfig(config);
+			process.exitCode = 0;
 			break;
 		}
 		{
@@ -72,6 +74,7 @@ switch (context().command) {
 	case 'watch':
 		if (context().dumpConfig) {
 			dumpConfig(config);
+			process.exitCode = 0;
 			break;
 		}
 		terminal.progress.indeterminate();
@@ -133,7 +136,7 @@ async function executeBuild() {
 		}),
 	);
 
-	reprintWatchModeError();
+	printErrorImmediately();
 }
 
 function executeClean() {
@@ -151,8 +154,14 @@ function colorfulName(path: string) {
 	return `\x1B[2m${dir || '???'}\x1B[0m${sep}\x1B[38;5;2m${base}\x1B[0m`;
 }
 
+/**
+ * 异常路径输出方法，正常路径（不论编译成功与否）是 printErrorImmediately
+ *
+ * FIXME: 目前有个问题，没能正确区分编译失败和运行失败
+ * 所以只要失败就大概率输出两遍，需要重新理清整个流程找到具体原因
+ */
 function printFailedRunError(worker: ProcessIPCClient, message: string) {
-	terminal.resetIf(context().watchMode && !logger.debug.isEnabled);
+	// terminal.resetIf(context().watchMode && !logger.debug.isEnabled);
 
 	let text = worker.outputStream.toString().trimEnd().replace(cls, '');
 

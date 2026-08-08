@@ -95,10 +95,10 @@ export type ISummary = {
 
 export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends AsyncDisposable {
 	private readonly graph = new DepGraph<T>({});
-	public readonly overallOrder: readonly string[];
+	private readonly _overallOrder: readonly string[];
 	protected readonly nodes: readonly T[];
 
-	protected readonly _anyStateChange = new Emitter<T>();
+	protected readonly _anyStateChange = new Emitter<T>(`${this.constructor.name}.onAnyStateChange`, Emitter.EAction.Ignore);
 	public readonly onAnyStateChange = this._anyStateChange.register;
 	constructor(
 		nodesIt: Iterable<T>,
@@ -126,18 +126,22 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 		}
 
 		// 如果有环这个方法会抛出异常
-		this.overallOrder = this.graph.overallOrder();
+		this._overallOrder = this.graph.overallOrder();
 		this.overallOrderSorter = this.overallOrderSorter.bind(this);
 
 		for (const node of this.nodes) {
 			node.onStateChange(() => {
-				this._anyStateChange.fireNoError(node);
+				this._anyStateChange.fire(node);
 			});
 		}
 	}
 
 	get size() {
 		return this.nodes.length;
+	}
+
+	get overallOrder() {
+		return this._overallOrder.slice();
 	}
 
 	/**
@@ -172,8 +176,8 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 	 * 根据整体顺序排序，数组使用此顺序排好后，顺序将会类似于overallOrder
 	 */
 	protected overallOrderSorter(a: string, b: string) {
-		const indexA = this.overallOrder.indexOf(a);
-		const indexB = this.overallOrder.indexOf(b);
+		const indexA = this._overallOrder.indexOf(a);
+		const indexB = this._overallOrder.indexOf(b);
 		if (indexA === -1 || indexB === -1) {
 			throw new Error(`sort error: node not found in overallOrder: ${indexA === -1 ? a : b}`);
 		}
@@ -317,7 +321,7 @@ export abstract class AbstractGraphBuilder<T extends AbstractBaseNode, GT extend
 	}
 
 	get nodeNames() {
-		return [...this.nodes].map((node) => node.name);
+		return this.finalized?.overallOrder ?? [];
 	}
 
 	getNode(name: T | string) {

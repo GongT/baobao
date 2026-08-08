@@ -11,8 +11,8 @@ import {
 	executePreBuild,
 	makeInformationalFields,
 	mirrorExportsAndMain,
-	removeExportsTypes,
-	removeLoaderFromExportsAndBin,
+	removeTypesFromExportsAndImports,
+	removeLoaderFromExportsAndBinAndImports,
 	removeLowlevels,
 	rewriteTsconfig,
 	writeNpmFiles,
@@ -45,8 +45,8 @@ await readPackageJson();
 await executePreBuild();
 
 makeInformationalFields();
-removeExportsTypes();
-removeLoaderFromExportsAndBin();
+removeTypesFromExportsAndImports();
+removeLoaderFromExportsAndBinAndImports();
 removeLowlevels();
 
 mirrorExportsAndMain();

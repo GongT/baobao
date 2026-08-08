@@ -3,7 +3,7 @@ export class CompileError extends Error {
 		message: string,
 		public readonly output?: string,
 	) {
-		super(message || 'missing message');
+		super(message || '缺失错误信息！');
 		this.name = 'CompileError';
 	}
 
@@ -11,7 +11,7 @@ export class CompileError extends Error {
 		if (this.output) {
 			return `${this.output}\n\n${this.message}`;
 		} else {
-			return `${this.message} / ** no output **`;
+			return `${this.message} / ** 构建输出为空 **`;
 		}
 	}
 }

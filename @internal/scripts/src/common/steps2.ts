@@ -75,6 +75,7 @@ export async function checkDocumentExists() {
 	}
 
 	logger.info`检查 llms.md 文档是否存在 [http_proxy=${process.env.http_proxy}]...`;
+	logger.info`  GET ${docUrl}`;
 	const response = await raceTimeoutWithRetry(5000, 3, () => fetch(docUrl, { method: 'HEAD' }));
 	if (response.status === 404) {
 		logger.info`llms.md 文档不存在`;

@@ -149,9 +149,11 @@ if (logger.verbose.isEnabled) {
 	splitStream.on('data', (line) => {
 		logger.verbose`tsc: ${line.trim()}`;
 	});
+} else if (process.stdout.isTTY) {
+	cp.stdout.pipe(process.stdout, { end: false });
 }
 
-listenOnStream(splitStream, {
+const protocolEnd = listenOnStream(splitStream, {
 	title: `tsc:${title}`,
 	start: matchStartLine,
 	stop: matchEndingLine,
@@ -162,8 +164,13 @@ listenOnStream(splitStream, {
 
 const result = await cp;
 
+const summary = await protocolEnd;
+
 if (result.exitCode === 0) {
-	process.exit(0);
+	logger.debug`tsc 以代码 0 退出`;
+	await channelClient.success('tsc以代码0退出', summary.memory);
 } else {
-	process.exit(result.exitCode ?? 1);
+	logger.warn`tsc 以代码 ${result.exitCode ?? 0} 退出`;
+	await channelClient.failed(`tsc以代码${result.exitCode ?? result.signal ?? '?'}退出`, summary.memory);
 }
+process.exit(result.exitCode ?? 1);

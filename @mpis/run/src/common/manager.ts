@@ -39,7 +39,9 @@ export function initializeWorkers() {
 			overallState.busyWorkers.delete(worker._id);
 			overallState.errors.set(worker._id, e);
 			overallState.startedWorkers.add(worker._id);
-			reprintWatchModeError(nodeFirstTime);
+			if (context().watchMode) {
+				reprintWatchModeError(nodeFirstTime);
+			}
 			nodeFirstTime = false;
 			sendStatus();
 		});
@@ -50,7 +52,7 @@ export function initializeWorkers() {
 			overallState.startedWorkers.add(worker._id);
 			if (nodeFirstTime) {
 				nodeFirstTime = false;
-			} else {
+			} else if (context().watchMode) {
 				reprintWatchModeError();
 			}
 			sendStatus();

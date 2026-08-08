@@ -37,10 +37,10 @@ export async function execLazyError(cmd: string, args: string[], { cwd, env, ver
 		if (process.stderr.isTTY) {
 			console.error('');
 			printLine();
-			console.error('\x1B[38;5;9m命令运行错误: %s', e.message);
-			console.error('\x1B[2m$ "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
-			console.error('\x1B[2mcwd: %s\x1B[0m', cwd ?? process.cwd());
 		}
+		console.error('\x1B[38;5;9m命令运行错误: %s', e.message);
+		console.error('\x1B[2m$ "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
+		console.error('\x1B[2mcwd: %s\x1B[0m', cwd ?? process.cwd());
 		console.error('\x1B[2m<vvvvv 命令输出 vvvvv>\x1B[0m');
 		console.error(outputToString(ret.all));
 		console.error('\x1B[2m<^^^^^ 命令输出 ^^^^^>\x1B[0m');

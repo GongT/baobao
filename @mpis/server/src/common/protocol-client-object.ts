@@ -5,6 +5,8 @@ import { inspect, type InspectContext } from 'node:util';
 import { CompileError } from './error.js';
 
 export enum WorkerClientState {
+	// 其他
+	INVALID = -1,
 	// 没有启动
 	NOT_EXECUTE,
 	// 启动了，但第一个start还没有发生
@@ -69,16 +71,16 @@ export abstract class ProtocolClientObject {
 		public readonly _id: string,
 		logger?: IMyLogger,
 	) {
-		this.logger = logger ?? createLogger(`mpis:protocol:${_id}`);
+		this.logger = logger ?? createLogger(`mpis:protocol:server:${_id}`);
 
 		if (_id.includes(' ')) {
-			this.logger.warn(`title contains space`);
+			this.logger.warn(`标题包含空格`);
 		}
 	}
 
 	protected emitSuccess(message: string, output?: string) {
 		if (this._onSuccess.disposed) {
-			this.logger.debug`emitSuccess called after stop, ignoring`;
+			this.logger.debug`emitSuccess在stop之后被调用，忽略`;
 			return;
 		}
 		this.last_event_message = message;
@@ -93,12 +95,12 @@ export abstract class ProtocolClientObject {
 	protected emitFailure(message: string, output?: string): void;
 	protected emitFailure(e: string | Error, output?: string) {
 		if (this._onFailure.disposed) {
-			this.logger.warn`emitFailure called after stop, ignoring`;
+			this.logger.warn`emitFailure在stop之后被调用，忽略`;
 			if (e instanceof Error) {
-				this.logger.debug`error: ${e}`;
-				if (output) this.logger.debug`output: ${output}`;
+				this.logger.debug`错误对象: ${e}`;
+				if (output) this.logger.debug`文本输出: ${output}`;
 			} else {
-				this.logger.debug`output only: ${e}`;
+				this.logger.debug`文本输出: ${e}`;
 			}
 			return;
 		}
@@ -114,7 +116,7 @@ export abstract class ProtocolClientObject {
 		} else {
 			e = new CompileError(e.toString(), output);
 		}
-		this.logger.error`failed: [${e.name}] long<${e.message}>`;
+		this.logger.error`<触发>错误: [${e.name}] long<${e.message}>`;
 		this.last_event_message = e.message;
 		this._times.lastCompile = Date.now();
 		this._state = WorkerClientState.COMPILE_FAILED;
@@ -124,14 +126,14 @@ export abstract class ProtocolClientObject {
 
 	protected emitStart() {
 		if (this._onStart.disposed) {
-			this.logger.warn`emitStart called after stop, ignoring`;
+			this.logger.warn`emitStart在stop之后被调用，忽略`;
 			return;
 		}
 
 		if (this._state === WorkerClientState.EXECUTING) {
 			this._times.firstStart = Date.now();
 		}
-		this.logger.debug`emit event: start building...`;
+		this.logger.debug`<触发>启动`;
 		this.last_event_message = '';
 		this._state = WorkerClientState.COMPILE_STARTED;
 		this._onStart.fireNoError();
@@ -153,39 +155,43 @@ export abstract class ProtocolClientObject {
 		return this._state === WorkerClientState.COMPILE_FAILED;
 	}
 
+	get isInvalid() {
+		return this._state === WorkerClientState.INVALID;
+	}
+
 	/**
 	 * 执行逻辑
 	 * 不会抛出异常
 	 */
 	public async execute() {
 		if (this._state !== WorkerClientState.NOT_EXECUTE) {
-			this.logger.fatal` ! worker already started`;
+			this.logger.fatal` ! 工作线程重复启动`;
 			return;
 		}
 
 		this._times.executeStart = Date.now();
-		this.logger.debug` ~ worker _execute()`;
+		this.logger.debug`[exec] 开始`;
 		this._backend_running = true;
 		this._state = WorkerClientState.EXECUTING;
 
 		try {
 			await this._execute();
-			this.logger.debug` ~ worker _execute() returned`;
+			this.logger.debug`[exec] _execute()正常返回`;
 		} catch (e: any) {
-			this.logger.debug` ~ worker _execute() error: ${e.message}`;
+			this.logger.error`[exec] _execute()抛出异常: ${e.message}`;
 			this.emitFailure(e);
 		} finally {
 			this._times.executeEnd = Date.now();
 			this._backend_running = false;
 
 			if (this.state !== WorkerClientState.COMPILE_FAILED && this.state !== WorkerClientState.COMPILE_SUCCEED) {
-				this.logger.verbose` ~ unknown state, emitting success`;
-				this.emitSuccess('build exited without error');
+				this.logger.verbose`[exec] 结束时状态异常，触发成功事件`;
+				this.emitSuccess('构建结束，没有产生错误');
 			}
 
 			this._onTerminate.fireNoError();
 			this._onTerminate.dispose();
-			this.logger.debug` ~ worker _execute() ending`;
+			this.logger.debug`[exec] 返回`;
 		}
 	}
 

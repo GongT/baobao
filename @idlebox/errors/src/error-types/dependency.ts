@@ -4,7 +4,9 @@ import { ProgramError } from './development.js';
 
 export class DependencyError extends ProgramError {}
 
-interface IChildProcessErrorOptions extends IErrorOptions {
+type IChildProcessErrorOptions = IResult & IErrorOptions;
+
+interface IResult {
 	// 自定义
 	readonly commandline?: readonly string[];
 	readonly pid?: number;
@@ -43,84 +45,32 @@ export class ChildProcessExitError extends DependencyError {
 	public signal?: SignalsType | string;
 	public process?: ChildProcess;
 
-	static describe(result: IChildProcessErrorOptions): string {
-		const getter = (key: keyof IChildProcessErrorOptions) => {
-			if (key in result) {
-				return result[key];
-			}
-			if (result.nodeChildProcess && key in result.nodeChildProcess) {
-				return result.nodeChildProcess[key as keyof ChildProcess];
-			}
-			return undefined;
-		};
-		let name = '子进程';
-		if (result.escapedCommand) {
-			name += `${result.escapedCommand}`;
-		} else if (result.commandline) {
-			name += `${result.commandline.join(' ')}`;
-		} else if (result.spawnfile) {
-			name += `${result.spawnfile} ${result.spawnargs?.join(' ')}`;
-		}
-		let ex = '';
-		const gcwd = getter('cwd');
-		if (result.workingDirectory ?? gcwd) {
-			ex += `CWD=${result.workingDirectory ?? gcwd}`;
-		}
-		if (result.pid) {
-			if (ex) {
-				ex += ', ';
-			}
-			ex += `PID=${result.pid}`;
-		}
-		if (ex) {
-			name += ` (${ex})`;
-		}
-		return name;
-	}
+	/**
+	 * 描述一个子进程的信息（非结果）
+	 */
+	static describe = describe;
 
-	constructor({
-		pid,
-		commandline,
-		escapedCommand,
-		workingDirectory,
-		cwd,
-		exitCode,
-		status,
-		signal,
-		signalCode,
-		process,
-		timedOut,
-		isMaxBuffer,
-		isCanceled,
-		...opts
-	}: IChildProcessErrorOptions) {
-		let message = '';
-		message += pid ? `子进程"${pid}"` : '未知ID子进程';
-		if (timedOut) {
-			message += '超时终止, ';
-		} else if (isCanceled) {
-			message += '被取消, ';
-		} else if (isMaxBuffer) {
-			message += '输出缓冲区溢出, ';
-		} else {
-			message += '非预期退出, ';
+	/**
+	 * 描述一个结果
+	 */
+	static status = status;
+
+	constructor(input: IChildProcessErrorOptions) {
+		const { boundary, cause, stack, ..._info } = input;
+		const opts: IErrorOptions = { boundary, cause, stack };
+		const info: IResult = _info;
+
+		let message = fTitle(info);
+
+		const cmd = fCmd(info);
+		if (cmd) {
+			message += `(${cmd})`;
 		}
-		if (typeof (exitCode ?? status) === 'number') {
-			message += `返回"${exitCode ?? status}"`;
-		} else if (signal || signalCode) {
-			message += `信号"${signal ?? signalCode}"`;
-		} else {
-			message += '未能启动';
-		}
-		if (commandline) {
-			message += `\n  命令行: ${commandline.join(' ')}`;
-		} else if (escapedCommand) {
-			message += `\n  命令行: ${escapedCommand}`;
-		} else if (opts.spawnfile) {
-			message += `\n  命令行: ${opts.spawnfile} ${opts.spawnargs?.join(' ')}`;
-		}
-		if (workingDirectory ?? cwd) {
-			message += `\n  工作目录: ${workingDirectory ?? cwd}`;
+
+		message += ` ${fStatus(info) ?? '非预期退出'}`;
+		const gcwd = getter(input, 'cwd');
+		if (info.workingDirectory ?? gcwd) {
+			message += `\n  工作目录: ${info.workingDirectory ?? gcwd}`;
 		}
 
 		const result = opts as any;
@@ -136,11 +86,90 @@ export class ChildProcessExitError extends DependencyError {
 
 		super(message, opts);
 
-		this.pid = pid ?? undefined;
-		this.commandline = commandline ?? (escapedCommand ? [escapedCommand] : undefined);
-		this.workingDirectory = workingDirectory ?? cwd ?? undefined;
-		this.exitCode = exitCode ?? status ?? undefined;
-		this.signal = signal ?? signalCode ?? undefined;
-		this.process = process ?? undefined;
+		this.pid = info.pid ?? undefined;
+		this.commandline = info.commandline ?? (info.escapedCommand ? [info.escapedCommand] : undefined);
+		this.workingDirectory = info.workingDirectory ?? getter(input, 'cwd') ?? undefined;
+		this.exitCode = info.exitCode ?? info.status ?? undefined;
+		this.signal = info.signal ?? info.signalCode ?? undefined;
+		this.process = info.nodeChildProcess ?? info.process ?? undefined;
 	}
+}
+
+function fTitle(info: IChildProcessErrorOptions): string {
+	const pid = getter(info, 'pid');
+	if (pid) {
+		return `进程${pid}`;
+	} else {
+		return '未知ID进程';
+	}
+}
+
+function fStatus(info: IChildProcessErrorOptions) {
+	if (info.timedOut) {
+		return '超时终止';
+	} else if (info.isCanceled) {
+		return '被取消';
+	} else if (info.isMaxBuffer) {
+		return '输出缓冲区溢出';
+	} else if (typeof (info.exitCode ?? info.status) === 'number') {
+		return `返回"${info.exitCode ?? info.status}"`;
+	} else if (info.signal || info.signalCode) {
+		return `收到信号"${info.signal ?? info.signalCode}"`;
+	} else {
+		return undefined;
+	}
+}
+
+function fCmd(info: IChildProcessErrorOptions) {
+	if (info.commandline) {
+		return info.commandline.join(' ');
+	} else if (info.escapedCommand) {
+		return info.escapedCommand;
+	} else if (info.spawnfile) {
+		return `${info.spawnfile} ${info.spawnargs?.join(' ')}`;
+	} else {
+		return undefined;
+	}
+}
+
+function getter(result: IChildProcessErrorOptions, key: keyof IChildProcessErrorOptions): any {
+	if (key in result) {
+		return result[key];
+	}
+	if (result.nodeChildProcess && key in result.nodeChildProcess) {
+		return result.nodeChildProcess[key as keyof ChildProcess];
+	}
+	return undefined;
+}
+
+function describe(result: IChildProcessErrorOptions): string {
+	let name = '子进程';
+	if (result.escapedCommand) {
+		name += result.escapedCommand;
+	} else if (result.commandline) {
+		name += result.commandline.join(' ');
+	} else if (result.spawnfile) {
+		name += `${result.spawnfile} ${result.spawnargs?.join(' ')}`;
+	}
+
+	let ex = '';
+	const gcwd = getter(result, 'cwd');
+	if (result.workingDirectory ?? gcwd) {
+		ex += `CWD=${result.workingDirectory ?? gcwd}`;
+	}
+	if (result.pid) {
+		if (ex) {
+			ex += ', ';
+		}
+		ex += `PID=${result.pid}`;
+	}
+
+	if (ex) {
+		name += ` (${ex})`;
+	}
+	return name;
+}
+
+function status(result: IChildProcessErrorOptions): string {
+	return fTitle(result) + fStatus(result);
 }

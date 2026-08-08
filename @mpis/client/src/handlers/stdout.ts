@@ -10,21 +10,35 @@ interface IOptions {
 	isFailed(stop_line: string, full_output: string): boolean;
 }
 
+interface IListenSummary {
+	lastState: 'success' | 'failed' | 'start' | 'unknown';
+	memory: string;
+}
+
 export function listenOnStream(stream: NodeJS.ReadableStream, options: IOptions) {
+	const { promise, resolve } = Promise.withResolvers<IListenSummary>();
+
 	if (options.title) channelClient.friendlyTitle = options.title;
 
+	let everEmit = false;
 	function emit_failed() {
-		channelClient.failed('matching failed output', memory);
+		channelClient.logger.verbose`emit_failed()`;
+		channelClient.failed('匹配到生成失败标志', memory);
 		memory = '';
+		everEmit = true;
 	}
 	function emit_success() {
-		channelClient.success('matching success output', memory);
+		channelClient.logger.verbose`emit_success()`;
+		channelClient.success('匹配到生成成功标志', memory);
 		memory = '';
+		everEmit = true;
 	}
 
 	function emit_start() {
+		channelClient.logger.verbose`emit_start()`;
 		channelClient.start();
 		memory = '';
+		everEmit = true;
 	}
 
 	const reading_stream = split2();
@@ -33,19 +47,44 @@ export function listenOnStream(stream: NodeJS.ReadableStream, options: IOptions)
 	let started = false;
 	let lastFailed = false;
 
-	reading_stream.on('end', () => {
-		if (started || lastFailed) {
-			emit_failed();
+	function done() {
+		let state: IListenSummary['lastState'] = 'unknown';
+		if (started) {
+			state = 'start';
+		} else if (lastFailed) {
+			state = 'failed';
+		} else if (everEmit) {
+			state = 'success';
+		}
+		resolve({
+			memory,
+			lastState: state,
+		});
+	}
+
+	reading_stream.on('close', () => {
+		channelClient.logger.debug`监视流结束，title: ${options.title} started: ${started}`;
+		if (started) {
+			// 上次输出没有结束，说明是异常退出
+			channelClient.failed('生成开始后，监视的流异常结束', memory).finally(done);
 			process.exitCode = 1;
+		} else {
+			done();
 		}
 	});
 
 	reading_stream.on('data', (line: string) => {
 		if (started) {
+			// 当前正在生成
 			memory += line;
 			memory += '\n';
-			if (!options.stop.test(line)) return;
 
+			if (!options.stop.test(line)) {
+				// 没有匹配到结束标志，继续等
+				return;
+			}
+
+			// 匹配到结束标志，说明生成结束
 			started = false;
 
 			lastFailed = options.isFailed(line, memory);
@@ -55,23 +94,27 @@ export function listenOnStream(stream: NodeJS.ReadableStream, options: IOptions)
 				emit_success();
 			}
 			return;
-		} else if (options.start) {
-			// 如果有开始signal，尝试匹配，失败继续等
-			// 成功的话设置started，然后返回以确保丢弃当前行
-			started = options.start.test(line);
-			if (!started) return;
-			emit_start();
 		} else {
-			// 没有开始signal - 只要有输出就说明开始
-			started = true;
-			emit_start();
+			if (options.start) {
+				// 设置有开始signal，尝试匹配，失败继续等，且不记录输出
+				started = options.start.test(line);
+			} else {
+				// 没有开始signal - 只要有输出就说明开始
+				started = true;
+			}
+			if (started) emit_start();
+			// 继续运行以记录输出，如果随后start匹配成功，则这些输出都会丢弃
+			// 但如果遇到问题（异常退出），这些输出会被保留并显示在失败信息中
 		}
 
 		memory += line;
 		memory += '\n';
 	});
 
+	channelClient.logger.debug`开始监视流，title: ${options.title}`;
 	stream.pipe(reading_stream, { end: true });
+
+	return promise;
 }
 
 export function joinMultipleTextStream(streams: NodeJS.ReadableStream[]) {

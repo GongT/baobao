@@ -3,7 +3,7 @@ import { ExitCode } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { findUpUntilSync, shutdown } from '@idlebox/node';
 import { existsSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { split as splitCmd } from 'split-cmd';
 import { context } from './args.js';
@@ -236,12 +236,47 @@ function parsePackagedBinary(config: ProjectConfig, item: ICommandInput, watchMo
 		throw new Error(`"${pkgJsonPath}"中的"bin"字段没有"${cmd.binary}"键`);
 	}
 
+	const prefix = expandJsShebang(binPath);
+
 	return {
 		title: title,
-		command: watchModeCmd([process.execPath, binPath, ...(cmd.arguments ?? [])], item.watch, watchMode),
+		command: watchModeCmd([...prefix, ...(cmd.arguments ?? [])], item.watch, watchMode),
 		cwd: resolve(projectRoot, item.cwd || '.'),
 		env: item.env ?? {},
 	};
+}
+
+function expandJsShebang(js_file: string) {
+	const peek = readFileSync(js_file, 'utf-8').slice(0, 2);
+	if (peek !== '#!') {
+		logger.warn`js文件没有shebang: ${js_file}`;
+		return [process.execPath, js_file];
+	}
+	const firstLine = readFileSync(js_file, 'utf-8').split('\n')[0].trim();
+	const cmds = splitCmd(firstLine.slice(2).trim());
+	if (!cmds.length) {
+		throw new Error(`无效的js文件shebang: ${js_file}`);
+	}
+
+	let first = basename(cmds[0]);
+	if (first === 'env') {
+		cmds.shift();
+		let last = '';
+		while (cmds[0].startsWith('-')) {
+			// biome-ignore lint/style/noNonNullAssertion: o
+			last = cmds.shift()!;
+		}
+		+last;
+		first = basename(cmds[0]);
+	}
+
+	if (first === 'node') {
+		return [process.execPath, ...cmds.slice(1), js_file];
+	} else {
+		logger.warn`js文件shebang不是node: ${js_file} => ${firstLine}`;
+	}
+
+	return [process.execPath, js_file];
 }
 
 /**

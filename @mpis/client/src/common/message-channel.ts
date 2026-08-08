@@ -9,6 +9,8 @@ function creation() {
 		channelClient = new VoidClient();
 		if (!process.stderr.isTTY) {
 			channelClient.logger.warn`BUILD_PROTOCOL_SERVER environment variable is not set, sending messages to void.`;
+		} else {
+			channelClient.logger.debug`BUILD_PROTOCOL_SERVER environment variable is not set, sending messages to void.`;
 		}
 	} else if (server === 'ipc:nodejs') {
 		channelClient = new NodejsIpcClient();

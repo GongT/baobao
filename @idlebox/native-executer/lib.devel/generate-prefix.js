@@ -1,2 +1,2 @@
 const { resolveOutput } = await import('../scripts/build.js');
-await import(resolveOutput('register-if-not.js'));
+await import(resolveOutput('generate-prefix.js'));
