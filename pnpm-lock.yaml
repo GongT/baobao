@@ -9,7 +9,7 @@ overrides:
 
 packageExtensionsChecksum: sha256-MlvDQgueZLF6/Z3ug6FttUSmInvTpGo2VFubPwAq1tU=
 
-pnpmfileChecksum: sha256-cBpaEG6Xr52P9SnLa/RGS+soSnwiX2NdWphNlepMzm8=
+pnpmfileChecksum: sha256-/kALnsxZygzmdx7p6NxJbITWLrLlWmrB83bR+pJUVLc=
 
 patchedDependencies:
   amaro: f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3

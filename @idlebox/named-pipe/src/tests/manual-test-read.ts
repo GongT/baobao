@@ -1,7 +1,10 @@
+import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import why from 'why-is-node-running';
 import { NamedPipe } from '../index.js';
 
-const pipe = new NamedPipe('/tmp/test-pipe');
+createRootLogger('', EnableLogLevel.verbose);
+
+const pipe = new NamedPipe('/tmp/test-pipe', { logger: logger });
 
 const stream = await pipe.read();
 

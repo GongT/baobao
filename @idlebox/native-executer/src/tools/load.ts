@@ -1,5 +1,7 @@
+import assert from 'node:assert';
 import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
+import { existsSync } from 'node:fs';
 import type { LoadFnOutput, LoadHookContext, LoadHookSync } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { theState } from './global.js';
@@ -32,6 +34,8 @@ function loadGenerate(url: string): LoadFnOutput {
 	url = url.slice(0, -9);
 
 	theState.loaded?.add(url);
+
+	assert.ok(existsSync(runPrefixFile), `生成器前缀文件不存在: ${runPrefixFile}`);
 
 	const protocolMagic = randomUUID();
 	const nodeArgs = ['--import', runPrefixFile];

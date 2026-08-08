@@ -1,8 +1,9 @@
 import { EnhancedAsyncDisposable, Mutex, registerGlobalLifecycle } from '@idlebox/common';
 import { createLogger, type IMyLogger } from '@idlebox/logger';
-import assert from 'node:assert';
 import { basename } from 'node:path';
 import type { Readable, Writable } from 'node:stream';
+import { promisify } from 'node:util';
+import { ClosedBy } from './type.js';
 
 export interface IOptions {
 	/**
@@ -13,6 +14,10 @@ export interface IOptions {
 	 * 调试输出
 	 */
 	readonly logger?: IMyLogger;
+}
+
+interface ExWritable extends Writable {
+	aWrite(chunk: any, encoding?: BufferEncoding): Promise<void>;
 }
 
 export interface INamedPipe {
@@ -33,7 +38,7 @@ export interface INamedPipe {
 	/**
 	 * 只写打开
 	 */
-	write(): Promise<Writable>;
+	write(): Promise<ExWritable>;
 	/**
 	 * 关闭，可重新打开
 	 * 返回false表示管道未打开
@@ -55,6 +60,7 @@ export abstract class NamedPipeBase extends EnhancedAsyncDisposable implements I
 	private readonly mu;
 	protected readonly logger: IMyLogger;
 	private innerLifecycle?: AsyncDisposableStack;
+	private closedBy = ClosedBy.Self;
 
 	constructor(path: string, options: IOptions) {
 		super(`NamedPipe:${path}`);
@@ -83,15 +89,14 @@ export abstract class NamedPipeBase extends EnhancedAsyncDisposable implements I
 		this.innerLifecycle.adopt(object, dispose);
 	}
 
-	private created = false;
 	protected abstract _create(): Promise<void>;
 	public async create() {
 		if (this._opened_as_read) throw new Error('命名管道已用于写入，无法再次打开');
 		if (this._opened_as_write) throw new Error('命名管道已用于读取，无法再次打开');
 		if (this.disposed || this.disposing) throw new Error('命名管道已被释放，无法使用');
 
-		if (this.created) return;
-		this.created = true;
+		if (this.closedBy === ClosedBy.NotClosed) return;
+		this.closedBy = ClosedBy.NotClosed;
 
 		this.innerLifecycle = new AsyncDisposableStack();
 
@@ -100,7 +105,7 @@ export abstract class NamedPipeBase extends EnhancedAsyncDisposable implements I
 	}
 
 	get isCreated() {
-		return this.created;
+		return this.closedBy === ClosedBy.NotClosed;
 	}
 
 	private _opened_as_read = false;
@@ -113,23 +118,6 @@ export abstract class NamedPipeBase extends EnhancedAsyncDisposable implements I
 		this.logger.debug`以读取方式打开`;
 
 		const stream = await this._read();
-
-		stream.on('close', () => {
-			if (this.closing) {
-				this.logger.debug`读取流关闭成功！`;
-			} else {
-				this.logger.debug`读取方主动关闭`;
-				this.close().then(
-					(closed) => {
-						assert.ok(closed, '流关闭时，管道应该已经打开');
-					},
-					(e) => {
-						this.logger.error`关闭命名管道失败: ${e}`;
-					},
-				);
-			}
-			this._opened_as_read = false;
-		});
 
 		return stream;
 	}
@@ -145,49 +133,19 @@ export abstract class NamedPipeBase extends EnhancedAsyncDisposable implements I
 
 		const stream = await this._write();
 
-		stream.on('close', () => {
-			if (this.closing) {
-				this.logger.debug`写入流关闭成功！`;
-			} else {
-				this.logger.debug`写入方主动关闭`;
-				this.close().then(
-					(closed) => {
-						assert.ok(closed, '流关闭时，管道应该已经打开');
-					},
-					(e) => {
-						this.logger.error`关闭命名管道失败: ${e}`;
-					},
-				);
-			}
-			this._opened_as_write = false;
+		Object.defineProperty(stream, 'aWrite', {
+			value: promisify(stream.write).bind(stream),
 		});
 
-		return stream;
+		return stream as ExWritable;
 	}
 
-	protected closing = false;
-	protected abstract _close(graceful: boolean): Promise<void>;
 	public async close() {
-		if (!this._opened_as_read && !this._opened_as_write) return false;
+		if (this.closedBy !== ClosedBy.NotClosed) return false;
 		using _ = await this.mu.lock();
 		this.logger.debug`外部控制主动关闭`;
 		await this._criticalClose(true);
 		return true;
-	}
-
-	private async _criticalClose(graceful: boolean) {
-		try {
-			this.closing = true;
-			const stack = this.innerLifecycle;
-			if (stack) {
-				await stack.disposeAsync();
-			}
-			this.logger.debug`关闭管道: graceful=${graceful}`;
-			await this._close(graceful);
-			this.created = false;
-		} finally {
-			this.closing = false;
-		}
 	}
 
 	public override async dispose() {
@@ -199,7 +157,25 @@ export abstract class NamedPipeBase extends EnhancedAsyncDisposable implements I
 		await super.dispose();
 	}
 
+	private async _criticalClose(graceful: boolean) {
+		if (this.triggerClose(ClosedBy.Self)) return;
+
+		const stack = this.innerLifecycle;
+		if (stack) {
+			await stack.disposeAsync();
+		}
+
+		this.logger.debug`关闭管道: graceful=${graceful}`;
+		this.closedBy = ClosedBy.Self;
+	}
+
 	protected async unlocked() {
 		await this.mu.waitUnLocked();
+	}
+
+	protected triggerClose(by: ClosedBy) {
+		const firstClose = !this.closedBy;
+		this.closedBy |= by;
+		return firstClose;
 	}
 }

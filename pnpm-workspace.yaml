@@ -21,6 +21,11 @@ gitChecks: false
 hoist: false
 hoistPattern:
   - ""
+publicHoistPattern:
+  - "@types/*"
+  - "@biomejs/biome"
+  - "source-map-support"
+  - "@idlebox/native-executer"
 hoistWorkspacePackages: false
 ignoreWorkspaceCycles: true
 
@@ -43,10 +48,6 @@ packageExtensions:
 
 patchedDependencies:
   amaro: patches/amaro.patch
-publicHoistPattern:
-  - "@types/*"
-  - "@biomejs/biome"
-  - "source-map-support"
 
 publishConfig:
   gitChecks: false

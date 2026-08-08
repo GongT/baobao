@@ -1,10 +1,4 @@
-if (process.env.CI) {
-	const fs = await import('node:fs');
-	const path = await import('node:path');
-	if (!fs.existsSync(path.resolve(import.meta.dirname, '../lib/register-or-respawn.js'))) {
-		await import('../scripts/build.js');
-	}
-} else {
+if (!process.env.CI || process.env.npm_lifecycle_event === 'postinstall') {
 	await import('../scripts/build.js');
 }
 

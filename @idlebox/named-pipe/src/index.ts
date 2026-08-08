@@ -11,6 +11,7 @@ if (isWindows) {
 } else {
 	NamedPipe = NamedPipePosix;
 }
+
 export { NamedPipe, type INamedPipe };
 
 /**

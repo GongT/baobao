@@ -40,9 +40,7 @@ export class RawCollectingStream extends Writable {
 	promise(): Promise<Buffer> {
 		if (!this._promise) {
 			this._promise = streamPromise(this).then(() => {
-				const buffer = this.buffer;
-				this.buffer = Buffer.allocUnsafe(0);
-				return buffer;
+				return this.buffer;
 			});
 		}
 		return this._promise;
@@ -82,9 +80,7 @@ export class CollectingStream extends Writable {
 	promise(): Promise<string> {
 		if (!this._promise) {
 			this._promise = streamPromise(this).then(() => {
-				const buffer = this.buffer;
-				this.buffer = '';
-				return buffer;
+				return this.buffer;
 			});
 		}
 		return this._promise;

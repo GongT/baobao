@@ -1,6 +1,9 @@
+import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { NamedPipe } from '../index.js';
 
-const pipe = new NamedPipe('/tmp/test-pipe');
+createRootLogger('', EnableLogLevel.verbose);
+
+const pipe = new NamedPipe('/tmp/test-pipe', { logger: logger });
 
 const stream = await pipe.write();
 
@@ -36,7 +39,9 @@ const timer = setInterval(() => {
 			console.error('[测试] Send error:', e);
 			clearInterval(timer);
 		} else {
-			console.log('[测试] Data sent! (%s bytes)', buff.length);
+			// console.log('[测试] Data sent! (%s bytes)', buff.length);
 		}
 	});
 }, 1000);
+
+process.stdin.pipe(stream, { end: true });

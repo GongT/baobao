@@ -36,6 +36,7 @@ export class FileDescriptor {
 		private readonly path: string,
 		private readonly flags: number,
 		private readonly logger: IMyLogger,
+		private readonly reopenOnEof: boolean = true,
 	) {
 		// nodejs中对FIFO使用阻塞API将彻底卡死进程 且完全无法捕获、恢复，必须小心
 		assert.ok(flags & constants.O_NONBLOCK, 'flags必须包含O_NONBLOCK');
@@ -114,13 +115,16 @@ export class FileDescriptor {
 			this.logger.verbose`EOF! (isOpen: ${this.isOpen})`;
 
 			if (!this.isOpen) return;
-			this._open(); // EOF时重新打开
+			if (this.reopenOnEof) {
+				this._open(); // EOF时重新打开
+			} else {
+				this.close();
+			}
 		});
 		this.socket.once('error', (e) => {
 			this.logger.verbose`读取文件错误 ${e.message}`;
 
 			this.close();
-			this.open();
 		});
 		this._onOpen.fire(this.socket);
 	}

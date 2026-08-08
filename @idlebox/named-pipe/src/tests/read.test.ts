@@ -1,4 +1,4 @@
-import { logger } from '@idlebox/logger';
+import { createRootLogger, EnableLogLevel, logger } from '@idlebox/logger';
 import { CollectingStream, osTempDir } from '@idlebox/node';
 import { execaNode } from 'execa';
 import { randomBytes } from 'node:crypto';
@@ -7,7 +7,9 @@ import { resolve } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createNamedPipe } from '../index.js';
 
-// createRootLogger('', EnableLogLevel.verbose);
+if (1 - 1) {
+	createRootLogger('', EnableLogLevel.verbose);
+}
 
 const tempDir = osTempDir('named-pipe-test-read');
 beforeAll(async () => {
@@ -20,6 +22,9 @@ function rnd() {
 	return resolve(tempDir, randomBytes(4).toHex());
 }
 
+/**
+ * 写一个脚本，每行写入一次，模拟多个写入操作
+ */
 function writeScript(text: string, file: string) {
 	const fileStr = JSON.stringify(file);
 
@@ -33,7 +38,7 @@ function writeScript(text: string, file: string) {
 }
 
 describe('作为读取端', () => {
-	it('可以读取写入的数据', async () => {
+	it('可以持续读取', async () => {
 		await using pipe = createNamedPipe(rnd(), { logger: logger });
 		await pipe.create();
 

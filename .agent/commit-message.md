@@ -1,17 +1,10 @@
 # Commit messages
 
-Commit message must follow the format below:
-
-```
-[package name 1] single line information about changes in this package
-[package name 2] single line information about changes in this package
-
-information about changes that don't belong to any package, if applicable
-```
+Commit message must follow the format described in "# template" section below.
 
 1. `package` is a subproject in this monorepo, which is located in a directory and contains a `package.json` file. You can find "package name" in the `package.json` file, package must have a `name` and `version` field, and must have no `private` field.
 
-1. Each package's changes should be described in one line, with no more than 200 Chinese characters (or 400 characters).
+1. Each package's changes should be described single line, with no more than 200 Chinese characters (or 400 characters).
 
 1. Deny repeating the same package in multiple lines, for example, if you have two changes in the same package, please describe them in one line together.
 
@@ -23,13 +16,20 @@ information about changes that don't belong to any package, if applicable
 
 # Package change description rule
 
-1. Don't menthion file names, function names, variable names, or any specific code symbols in the package change description.
+1. Don't mention file names, function names, variable names, or any specific code symbols in the package change description.
 
 # additional notice
 
 Write the commit message to `.git/COMMIT_EDITMSG` file if user did not specify what to do, eg. request you do a commit, or ask you print them out.
 
-# A good commit message example
+# template
+
+	[package name 1] single line information about changes in this package
+	[package name 2] single line information about changes in this package
+
+	information about changes that don't belong to any package, if applicable
+
+# good commit message example
 
 
 	[@idlebox/node] 修复 README 中的一个拼写错误

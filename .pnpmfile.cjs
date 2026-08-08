@@ -94,7 +94,7 @@ function readPackage(packageJson, context) {
 		packageJson.dependencies['@types/rushstack__terminal'] = `npm:@rushstack/terminal@*`;
 	}
 
-	if (myProjects.has(packageJson.name) || packageJson._example) {
+	if (myProjects.has(packageJson.name)) {
 		for (const name of Object.keys(packageJson.dependencies || {})) {
 			if (name === '@types/source-map-support') continue;
 

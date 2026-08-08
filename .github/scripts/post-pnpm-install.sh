@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 shopt -s inherit_errexit extglob nullglob globstar lastpipe shift_verbose
 
-pnpm env use --global latest
+pnpm --global runtime set node latest
 pnpm --global install npm@latest
 
 if ! [[ $CI ]]; then

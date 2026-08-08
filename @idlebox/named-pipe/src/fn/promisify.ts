@@ -23,3 +23,7 @@ export function asyncEnd(s: Endable): Promise<void> {
 		});
 	});
 }
+
+export async function asyncEndAll(s: readonly Endable[]): Promise<void> {
+	await Promise.all(s.map(asyncEnd));
+}

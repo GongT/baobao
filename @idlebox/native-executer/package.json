@@ -22,7 +22,7 @@
 	"scripts": {
 		"prepublishHook:update-exports": "./scripts/update-exports.js",
 		"prepublishHook": "internal-prepublish-hook",
-		"prepack": "mpis-run build --clean",
+		"prepack": "mpis-run build",
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
