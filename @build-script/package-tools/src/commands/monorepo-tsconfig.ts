@@ -5,6 +5,7 @@ import { loadJsonFile, writeJsonFile, writeJsonFileBack } from '@idlebox/json-ed
 import { relativePath } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { path_element_id } from '../common/defaults.js';
 
 export class Command extends CommandDefine {
 	protected override readonly _usage = '';
@@ -24,7 +25,6 @@ export class Command extends CommandDefine {
 	};
 }
 
-const path_element_id = 'package-tools/monorepo-tsconfig';
 interface IReference {
 	$id?: string;
 	path: string;

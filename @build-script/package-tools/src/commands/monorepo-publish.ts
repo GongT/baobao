@@ -1,9 +1,9 @@
 import { applyPublishWorkspace, createWorkspace, normalizePackageName, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { app, argv, CommandDefine, createLogger, logger, NodejsOutput, type IMyLogger } from '@idlebox/cli';
-import { prettyPrintError } from '@idlebox/common';
+import { prettyPrintError, sleep } from '@idlebox/common';
 import { Job, JobGraphBuilder, JobState } from '@idlebox/dependency-graph';
 import { loadJsonFile, writeJsonFileBack } from '@idlebox/json-edit';
-import { CollectingStream, commandInPath, emptyDir, setExitCodeIfNot, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
+import { CollectingStream, emptyDir, setExitCodeIfNot, shutdown, workingDirectory, writeFileIfChange } from '@idlebox/node';
 import { CSI } from '@idlebox/terminal-control/constants';
 import { FsNodeType, spawnReadonlyFileSystemWithCommand } from '@idlebox/unshare';
 import { execaNode } from 'execa';
@@ -17,7 +17,7 @@ import { PNPM } from '../common/package-manager/driver.pnpm.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
 import { clearNpmMetaCache } from '../common/shared-jobs/clear-cache.js';
-import { cnpmSyncNames } from '../common/shared-jobs/cnpm-sync.js';
+import { cnpmSync } from '../common/shared-jobs/cnpm-sync.js';
 import { executeChangeDetect, type IChangeDetectResult } from '../common/shared-jobs/detect-change-job.js';
 
 export class Command extends CommandDefine {
@@ -35,6 +35,7 @@ export class Command extends CommandDefine {
 
 class BuildPackageJob extends Job<void> {
 	private shouldPublish = '';
+	public localVersion?: string;
 	public initialVersion = true;
 	public override readonly logger: IMyLogger;
 	private readonly collector;
@@ -223,6 +224,7 @@ class BuildPackageJob extends Job<void> {
 				this.initialVersion = true;
 				this.log(`    🎈 即将发布初始版本 "${localVersion}"\n`);
 			}
+			this.localVersion = localVersion;
 
 			this.setState(JobState.SuccessExited);
 		} catch (e: any) {
@@ -364,7 +366,14 @@ export async function main() {
 
 		const pack = node.getPackagePath();
 		if (!pack) continue;
-		packageToPublish.push({ name: node.name, pack, initial: node.initialVersion });
+		if (!node.localVersion) {
+			logger.warn`包 ${node.name} 没有localVersion`;
+		}
+		packageToPublish.push({
+			name: node.name,
+			pack,
+			initial: node.initialVersion,
+		});
 	}
 	console.log(`✅ 打包阶段结束，有 ${packageToPublish.length} 个包需要发布`);
 
@@ -397,6 +406,7 @@ export async function main() {
 	const w = packageToPublish.length.toFixed(0).length;
 	const published: string[] = [];
 
+	const cpnSyncPromises: Promise<any>[] = [];
 	try {
 		index = 1;
 		for (const { name, pack } of packageToPublish) {
@@ -409,17 +419,25 @@ export async function main() {
 			}
 			published.push(name);
 
+			console.log(`    🔃 异步cnpm同步`);
+			cpnSyncPromises.push(
+				cnpmSync(name, {
+					version: r.version,
+					tip: `发布了新版本（${process.env.CI ? 'CI环境' : '本地环境'}）`,
+				}),
+			);
+
 			index++;
 		}
 
-		console.log(`🎉 所有任务完成，共发布了 ${published.length} 个包`);
+		console.log(`🎉 所有任务完成，共发布了 ${Object.keys(published).length} 个包`);
+
+		await Promise.race([sleep(10_000), Promise.allSettled(cpnSyncPromises)]);
 	} catch (e: any) {
 		prettyPrintError(`发布过程中发生错误`, e);
 		setExitCodeIfNot(1);
 	} finally {
-		if (published.length > 0 && !process.env.CI && (await commandInPath('cnpm'))) {
-			await cnpmSyncNames(published, true);
-
+		if (published.length > 0 && !process.env.CI) {
 			const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
 			await clearNpmMetaCache(pm, published);
 		}

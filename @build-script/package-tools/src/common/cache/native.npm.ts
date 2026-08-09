@@ -9,7 +9,7 @@ import { DEFAULT_NPM_REGISTRY } from '../package-manager/constant.js';
 import type { IPackageManager } from '../package-manager/package-manager.js';
 import { getProxyValue } from '../package-manager/proxy.js';
 import { FileDownloader } from '../taball/file-download.js';
-import { self_package_name, self_package_repository, self_package_version } from '../version.generated.js';
+import { userAgent } from '../version.generated.js';
 import { escapePackageNameToFilename } from './escape-package-path.js';
 
 export interface IRegistryMetadata {
@@ -144,7 +144,7 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 				preferOffline: options.mode === CacheMode.Normal,
 				proxy: proxy,
 				timeout: 5000,
-				userAgent: `${self_package_name}(${self_package_version}) GongT(${self_package_repository})`,
+				userAgent: userAgent,
 			})) as any;
 			break;
 		} catch (e: any) {

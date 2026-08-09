@@ -1,6 +1,8 @@
+import type { IPackageJson } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
-import { execLazyError, findUpUntil, normalizePath } from '@idlebox/node';
+import { execLazyError, exists, findUpUntil, normalizePath } from '@idlebox/node';
 import { dirname, resolve } from 'node:path';
+import { importPackageJson, loadPackageYaml } from '../common/import-package-json.js';
 import { decoupleDependencies } from './common/deduplicate-dependency.js';
 import { PackageManagerKind, WorkspaceKind, type IPackageInfo, type IPackageInfoRW } from './common/types.js';
 import { lernaListProjects, nxListProjects } from './drivers/lerna-nx.js';
@@ -78,7 +80,7 @@ export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
 	 * @returns
 	 */
 	public async getNearestPackage(from: string) {
-		const pkgJsonFile = await findUpUntil({ from, top: this.root, file: ['package.json', 'package.yaml', 'package.yml'] });
+		const pkgJsonFile = await findUpUntil({ from, top: this.root, file: ['package.json', 'package.yaml'] });
 		if (!pkgJsonFile) {
 			throw new Error(`缺少package.json文件: ${from}`);
 		}
@@ -133,6 +135,31 @@ export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
 
 export class SimplePackage extends WorkspaceBase {
 	override readonly isMonorepo: false = false;
+
+	private pkgInfo?: IPackageInfoRW;
+
+	public async listPackages(): Promise<IPackageInfo[]> {
+		if (this.pkgInfo) return [this.pkgInfo];
+
+		let pkgJson: IPackageJson;
+		const yamlPath = resolve(this.root, 'package.yaml');
+		if (await exists(yamlPath)) {
+			pkgJson = await loadPackageYaml(yamlPath);
+		} else {
+			const jsonPath = resolve(this.root, 'package.json');
+			pkgJson = await importPackageJson(jsonPath);
+		}
+		this.pkgInfo = {
+			name: pkgJson.name,
+			absolute: this.root,
+			relative: '.',
+			dependencies: [],
+			devDependencies: [],
+			packageJson: pkgJson,
+		};
+
+		return [this.pkgInfo];
+	}
 }
 
 export type IDecoupleMethod = (projects: readonly IPackageInfoRW[]) => Promise<void>;

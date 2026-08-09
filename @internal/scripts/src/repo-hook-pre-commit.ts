@@ -49,5 +49,5 @@ logger.success`可以提交`;
 shutdown(0);
 
 function isPackageJson(file: string) {
-	return file.endsWith('package.json') || file.endsWith('package.yaml') || file.endsWith('package.yml');
+	return file.endsWith('package.json') || file.endsWith('package.yaml');
 }

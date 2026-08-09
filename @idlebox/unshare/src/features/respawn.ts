@@ -1,11 +1,12 @@
 import { commandInPathSync } from '@idlebox/node';
 import { execa, type Options } from 'execa';
-import { isAbsolute, normalize, resolve } from 'node:path';
+import { isAbsolute, normalize } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { IReadonlyFilesystemPassingOptions } from '../children/readonly-fs.js';
-import { CHILDREN_DIR, CONTAINER_ENV_VAR_NAME } from '../common/constants.js';
+import { CONTAINER_ENV_VAR_NAME } from '../common/constants.js';
 import { inside } from '../common/path-calc.js';
-import type { FsNodeType } from './types.js';
 import { execveOrSpawn } from './execve.js';
+import type { FsNodeType } from './types.js';
 
 export interface IFilesystemNode {
 	readonly path: string;
@@ -76,14 +77,14 @@ function makeOptions(options: IReadonlyOptions) {
 
 /**
  * 在只读文件系统中重新运行当前进程（或者指定程序）
- * 在namespace中重新运行时，或不支持unshare时，该函数会返回
+ * 本调用已经在namespace中，或不支持unshare时，该函数会返回
  *
- * 设置env.DONT_UNSHARE也会直接返回
+ * 设置env.NEVER_UNSHARE也会直接返回
  *
  * @param singleton_signal 唯一但不随机字符串
  */
 export function unshareReadonlyFileSystem(singleton_signal: string, options: IReadonlyOptions) {
-	if (process.env.DONT_UNSHARE || process.env[singleton_signal]) {
+	if (process.env.NEVER_UNSHARE || process.env[singleton_signal]) {
 		return;
 	}
 
@@ -121,7 +122,8 @@ export function unshareReadonlyFileSystemWithCommand(exec: ICommandOptions) {
 		argv: exec.command.argv,
 	};
 
-	const commandline = [getUnshareBin(true), ...unshareArgs, process.execPath, ...process.execArgv, resolve(CHILDREN_DIR, 'readonly-fs.js')];
+	const roLeader = fileURLToPath(import.meta.resolve('#readonly-fs'));
+	const commandline = [getUnshareBin(true), ...unshareArgs, process.execPath, ...process.execArgv, roLeader];
 	execveOrSpawn({
 		commands: commandline,
 		extraEnv: {
@@ -150,5 +152,6 @@ export function spawnReadonlyFileSystemWithCommand<T extends Options>(exec: Omit
 		},
 	};
 
-	return execa('unshare', [...unshareArgs, process.execPath, ...process.execArgv, resolve(CHILDREN_DIR, 'readonly-fs.js')], mapped);
+	const roLeader = fileURLToPath(import.meta.resolve('#readonly-fs'));
+	return execa('unshare', [...unshareArgs, process.execPath, ...process.execArgv, roLeader], mapped);
 }

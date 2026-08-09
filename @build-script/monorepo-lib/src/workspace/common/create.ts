@@ -3,16 +3,16 @@ import { logger, type IMyLogger } from '@idlebox/logger';
 import { exists, findUpUntil } from '@idlebox/node';
 import { existsSync } from 'node:fs';
 import { basename, dirname, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { findMonorepoRoot } from '../../common/find-root.js';
 import { getLernaPackageManager } from '../drivers/lerna-nx.js';
 import { getRushPackageManager } from '../drivers/rush.js';
-import { MonorepoWorkspace, SimplePackage, type WorkspaceBase } from '../index.js';
+import { MonorepoWorkspace, SimplePackage } from '../index.js';
 import { PackageManagerKind, WorkspaceKind } from './types.js';
-import { pathToFileURL } from 'node:url';
 
 export class NotMonorepo extends Error {}
 
-export async function createWorkspaceOrPackage(cwd = process.cwd()): Promise<WorkspaceBase> {
+export async function createWorkspaceOrPackage(cwd = process.cwd()) {
 	try {
 		return await createWorkspace(cwd);
 	} catch (e) {

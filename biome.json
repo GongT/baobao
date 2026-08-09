@@ -33,6 +33,7 @@
 		"rules": {
 			"preset": "recommended",
 			"suspicious": {
+				"noAssignInExpressions": "off",
 				"noExplicitAny": "off",
 				"noControlCharactersInRegex": "off",
 				"noImplicitAnyLet": "off",

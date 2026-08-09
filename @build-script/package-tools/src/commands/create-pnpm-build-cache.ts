@@ -1,5 +1,6 @@
 import { createWorkspace, PackageManagerKind } from '@build-script/monorepo-lib';
 import { argv, CommandDefine, logger } from '@idlebox/cli';
+import { NotImplementedError } from '@idlebox/common';
 import { relativePath } from '@idlebox/node';
 import { execa } from 'execa';
 import { existsSync } from 'node:fs';
@@ -14,8 +15,9 @@ export class Command extends CommandDefine {
 	protected override readonly _arguments = {
 		'--print': { usage: true, flag: true, description: '输出相关文件的路径' },
 		'--dist': { usage: true, flag: false, description: '将相关文件复制到指定目录' },
-		'--tarball': { usage: true, flag: true, description: '打包为tar, --dist改为指定此文件的路径' },
+		'--tarball': { usage: true, flag: true, description: '打包为tar, --dist为此文件的路径' },
 		'--force': { usage: true, flag: true, description: '强制覆盖目标文件、目录' },
+		'--pnpmfile': { usage: true, flag: false, description: '如何对待pnpmfile: ignore|copy (默认copy)' },
 	};
 }
 
@@ -24,6 +26,7 @@ export async function main() {
 	const isPrint = argv.flag(['--print']) > 0 || !distPath;
 	const isTarball = argv.flag(['--tarball']) > 0;
 	const isForce = argv.flag(['--force']) > 0;
+	const pnpmfileMode = argv.single(['--pnpmfile']) ?? 'copy';
 	if (isTarball && !distPath) {
 		throw new Error(`--tarball 时必须指定 --dist`);
 	}
@@ -31,7 +34,7 @@ export async function main() {
 	const workspace = await createWorkspace();
 
 	if (workspace.packageManagerKind !== PackageManagerKind.PNPM) {
-		logger.warn`当前目录似乎不是pnpm工作区，结果可能不准确`;
+		logger.warn`当前工作区似乎不是pnpm类型，结果可能不准确`;
 	}
 
 	const packages = await workspace.listPackages();
@@ -39,9 +42,17 @@ export async function main() {
 	const files = new FileCollection(workspace.root);
 	const placeholders = new FileCollection(workspace.root);
 
-	for (const item of ['.pnpmfile.mjs', '.pnpmfile.cjs', '.pnpmfile.js']) {
-		const added = files.add(item);
-		if (added) break;
+	if (pnpmfileMode === 'ignore') {
+		// do nothing
+	} else {
+		for (const item of ['.pnpmfile.mjs', '.pnpmfile.cjs', '.pnpmfile.js']) {
+			if (pnpmfileMode === 'copy') {
+				const added = files.add(item);
+				if (added) break;
+			} else {
+				throw new NotImplementedError(`pnpmfileMode=${pnpmfileMode} 未实现`);
+			}
+		}
 	}
 
 	for (const item of ['pnpm-lock.yaml', 'pnpm-workspace.yaml']) {
@@ -69,7 +80,7 @@ export async function main() {
 				}
 
 				if (pkg.packageJson?.scripts?.postinstall) {
-					logger.warn`包 ${pkg.relative} 中存在 postinstall 脚本，可能会在安装时报错`;
+					logger.warn`包 ${pkg.relative} 中存在 postinstall 脚本，可能会在安装时报错，注意使用 --ignore-scripts`;
 				}
 
 				break;

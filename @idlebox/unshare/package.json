@@ -12,6 +12,10 @@
 		},
 		"./package.json": "./package.json"
 	},
+	"imports": {
+		"#readonly-fs": "./lib/children/readonly-fs.js",
+		"#leader": "./lib/children/leader.js"
+	},
 	"sideEffects": false,
 	"scripts": {
 		"test": "node -r source-map-support/register",

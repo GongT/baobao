@@ -16,13 +16,15 @@ export class Command extends CommandDefine {
 	protected override readonly _arguments = {
 		'--bump': { usage: true, flag: true, description: '当发现更改时更新package.json，增加版本号0.0.1' },
 		'--json': { usage: true, flag: true, description: '输出JSON格式（不支持bump）' },
-		'--unshare': { flag: false, description: '[linux] 在虚拟环境中运行（不支持bump），传入参数为overlay根目录' },
+		'--unshare': { flag: false, description: '[linux] 在虚拟环境中运行（不支持bump），传入一个目录，此目录自动overlay' },
 	};
 }
 
 export async function main() {
 	process.env.COREPACK_ENABLE_STRICT = '0';
-	const unshareFrom = argv.single(['--unshare']);
+
+	const unshareEnvKey = '10e25435-eae0-4c24-a3fd-ce5dee64b442';
+	let unshareFrom = argv.single(['--unshare']);
 	const quiet = argv.flag(['--quiet', '-q']) > 0;
 	const autoInc = argv.flag(['--bump']) > 0;
 	const jsonOutput = argv.flag(['--json']) > 0 || !process.stdout.isTTY;
@@ -35,7 +37,16 @@ export async function main() {
 	const workspace = await createWorkspaceOrPackage();
 	const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
 
-	if (unshareFrom && !process.env.DETECT_PKG_CHANGE_HAS_BEEN_UNSHARED) {
+	if (unshareFrom) {
+		if (process.env[unshareEnvKey]) {
+			unshareFrom = '';
+			logger.debug`命名空间创建成功，已在虚拟环境中运行`;
+		} else if (process.env.NEVER_UNSHARE) {
+			logger.info`由于设置了NEVER_UNSHARE环境变量，--unshare选项被忽略`;
+			unshareFrom = '';
+		}
+	}
+	if (unshareFrom) {
 		if (!isLinux) {
 			throw new UsageError(`--unshare 仅在Linux环境下支持`);
 		}
@@ -47,12 +58,11 @@ export async function main() {
 
 		logger.debug`unshare overlay long<${root}>`;
 
-		process.env.DETECT_PKG_CHANGE_HAS_BEEN_UNSHARED = '1';
-		process.env.NODE_OPTIONS = '1';
+		// process.env.NODE_OPTIONS = '--enable-source-maps';
 
 		const cache = await pm.createCacheHandler();
 
-		unshareReadonlyFileSystem('10e25435-eae0-4c24-a3fd-ce5dee64b442', {
+		unshareReadonlyFileSystem(unshareEnvKey, {
 			volumes: [
 				{ path: root, type: FsNodeType.volatile },
 				{ path: cache.path, type: FsNodeType.passthru },

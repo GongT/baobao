@@ -17,10 +17,11 @@ Usage:
     --help, -h             显示帮助信息
 
 全部命令:
+ * cnpm-sync                请求cnpm仓库拉取monorepo中的最新版本
+ * create-pnpm-build-cache  创建pnpm monorepo的构建缓存，用于在docker中加速构建
  * detect-package-change    本地运行npm pack并与npm上的最新版本对比差异
+ * invalid-cache            从npm缓存中删除关于本monorepo的数据，以便安装最新版本
  * monorepo-bump-version    在monorepo中按照依赖顺序分别运行detect-package-change
- * monorepo-cnpm-sync       调用cnpm sync命令
- * monorepo-invalid         从npm缓存中删除关于本monorepo的数据，以便安装最新版本
  * monorepo-link-binaries   将monorepo中每个项目的bins连接到当前项目的 ./node_modules/.bin
  * monorepo-list            列出所有项目目录
  * monorepo-publish         在monorepo中按照依赖顺序发布修改过的包
@@ -102,7 +103,7 @@ Eg: njspkg run-if-version-mismatch --flush -- pnpm publish --no-git-checks
 1. `njspkg run-if-version-mismatch -- pnpm run publish`
 
 然后在工程中运行一次：
-2. `njspkg monorepo-cnpm-sync`
-3. `njspkg monorepo-invalid`
+2. `njspkg cnpm-sync`
+3. `njspkg invalid-cache`
 
 </details>

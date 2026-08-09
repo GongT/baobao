@@ -77,6 +77,7 @@ export class PNPM extends PackageManager {
 				throw new RegistryError(out.error);
 			} else {
 				result = out;
+				logger.verbose`pnpm publish result: ${out}`;
 				if (!result.name || !result.version) {
 					logger.fatal`npm registry return invalid response:\n long<${stdout}>`;
 				}
