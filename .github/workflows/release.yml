@@ -16,6 +16,10 @@ on:
 # env:
 #   DEBUG: "executer:early-load ci:* executer"
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   cache:
     runs-on: ubuntu-latest

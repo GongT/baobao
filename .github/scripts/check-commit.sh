@@ -43,10 +43,16 @@ EOF
 x git add .
 x git restore --staged .npmrc pnpm-workspace.yaml
 
+if git diff --quiet --cached; then
+	summ '**未发现代码修改**'
+	echo "没有东西需要提交，未修改任何包"
+	exit 0
+fi
+
 mapfile -t package_files < <(find .package-tools/publish -name '*.tgz')
 
 CMFILE="${RUNNER_TEMP:-/tmp}/commit-message.txt"
-echo "chore: 🤖 update ${#package_files[@]} packages version. [skip ci]" >"$CMFILE"
+echo "chore: 🤖 自动更新了 ${#package_files[@]} 个包的版本号 [skip ci]" >"$CMFILE"
 echo "" >>"$CMFILE"
 
 for file in "${package_files[@]}"; do
