@@ -22,6 +22,7 @@ tmp/
 *.generator.js
 .package-tools/
 .publisher/
+.npmignore
 
 ### Build Result
 dist/

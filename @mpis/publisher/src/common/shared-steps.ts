@@ -2,6 +2,7 @@ import { logger } from '@idlebox/cli';
 import type { IPackageJson } from '@idlebox/common';
 import { commandInPath } from '@idlebox/node';
 import { mkdirSync, readFileSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
+import { open } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { projectPath, tempDir } from './constants.js';
 import { execMute, execPnpmMute, execPnpmUser } from './exec.js';
@@ -39,10 +40,16 @@ export async function buildPackageTarball() {
 	const sourceTgz = resolve(tempDir, 'pnpm-packed-simple.tgz');
 
 	logger.log`使用pnpm构建并打包……`;
+	await touchFile(resolve(projectPath, '.npmignore'));
 	await execPnpmMute(projectPath, ['pack', '--out', sourceTgz]);
 
 	logger.debug`已打包为 relative<${sourceTgz}>`;
 	return sourceTgz;
+}
+
+async function touchFile(file: string) {
+	const h = await open(file, 'a');
+	await h.close();
 }
 
 export async function extractPackage(output: string, sourceTgz = resolve(tempDir, 'pnpm-packed-simple.tgz')) {
