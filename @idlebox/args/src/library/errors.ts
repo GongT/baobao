@@ -26,7 +26,12 @@ abstract class AbstractParameterError extends ProgramError {
 		public readonly parameter: Parameter,
 		skip = 1,
 	) {
-		super('--you should not see this--');
+		// 此错误的message和stack都被重写，所以传给父Error的消息不可能通过正常手段输出出去。但调试器可以查到是正常的。
+		super('--you should not see this-- (except inside debugger)', { stack: false });
+
+		// 删除这两个是为了保证getter会被调用（Error构造函数似乎会写入这两个属性）
+		delete (this as any).message;
+		// delete (this as any).stack;
 
 		this._stackObject = new StackTrace(undefined, 1 + skip);
 	}
@@ -62,9 +67,6 @@ abstract class AbstractArgumentError extends UsageError {
 		super('--you should not see this--');
 
 		this._stackObject = new StackTrace(undefined, 1 + skip);
-
-		delete (this as any).message;
-		delete (this as any).stack;
 	}
 
 	/**

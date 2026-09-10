@@ -37,7 +37,7 @@ jobs:
           bash .github/scripts/post-pnpm-install.sh
 
           pnpm install --frozen-lockfile --ignore-scripts
-          pnpm store prune --force
+          pnpm store prune
 
   build:
     runs-on: ubuntu-latest

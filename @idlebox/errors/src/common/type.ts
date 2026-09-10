@@ -1,6 +1,6 @@
 export interface IErrorOptions {
 	/**
-	 * stack属性的边界函数
+	 * 覆盖stack属性的边界函数
 	 * @see {Error.captureStackTrace}
 	 */
 	boundary?: CallableFunction;
@@ -13,6 +13,9 @@ export interface IErrorOptions {
 
 	/**
 	 * 替换stack
+	 * 设为false时Error.stack属性为原始状态
+	 *
+	 * 设为任意值后，boundary在stack处理过程中不起作用
 	 */
-	stack?: string;
+	stack?: string | false;
 }

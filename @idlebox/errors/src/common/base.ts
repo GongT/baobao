@@ -33,7 +33,7 @@ export class ErrorWithCode extends Error implements IHumanReadable {
 					}
 				},
 			});
-		} else {
+		} else if (opts?.stack !== false) {
 			captureStackTrace(this, opts?.boundary ?? this.constructor);
 		}
 	}

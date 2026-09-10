@@ -24,6 +24,7 @@ args.multi('--two'); // -> ['2']
 
 ```typescript
 // flag是计数器
+// 可以用 --no-flag 减小
 const args = createArgsReader(['-x', '-xxy=value', '--long', '--no-long', '--no-long']);
 
 args.flag('-x'); // -> 3

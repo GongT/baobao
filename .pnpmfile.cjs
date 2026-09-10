@@ -24,10 +24,7 @@ function init() {
 	inited = true;
 
 	const cmds = [];
-	cmds.push(process.execPath);
-	if (!process.execPath.includes('/@pnpm/')) {
-		cmds.push(require.main.filename);
-	}
+	cmds.push('pnpm');
 	cmds.push('multi', 'ls', '--json', '--depth=-1');
 	console.error(`\x1B[2m+ ${cmds.join(' ')}\x1B[0m`);
 	const result = spawnSync(cmds[0], cmds.slice(1), {

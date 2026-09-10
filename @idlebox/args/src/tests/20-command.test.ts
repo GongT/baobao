@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { describe, expect } from 'vitest';
 import { suite_simple } from './lib.js';
 
 describe('sub command', () => {

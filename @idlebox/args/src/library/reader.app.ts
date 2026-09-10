@@ -82,9 +82,6 @@ export class ApplicationArguments implements IArgsReaderApi {
 		const desc = normalizeParameterDescriptionFlag(name);
 		const parameter = this.parameters.singleton(desc);
 		const matched = matchFlagByFlags(this.arguments, desc);
-		if (!matched.length) {
-			return 0;
-		}
 
 		const valid_flags = [];
 		for (const m of matched) {

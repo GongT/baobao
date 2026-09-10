@@ -1,4 +1,5 @@
 import { inspect } from 'node:util';
+import { it } from 'vitest';
 import { ApplicationArguments } from '../library/reader.app.js';
 import type { IArgsReaderApi } from '../types.js';
 

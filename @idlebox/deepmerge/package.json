@@ -19,13 +19,11 @@
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny",
-		"test": "mocha lib/tests"
+		"test": "vitest src/tests"
 	},
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
-		"chai": "^6.2.2",
-		"mocha": "^11.8.0"
+		"@types/node": "^26.1.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

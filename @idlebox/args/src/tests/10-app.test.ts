@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { afterAll, describe, expect } from 'vitest';
 import { suite_simple, suite_steps } from './lib.js';
 
-const arg_test = ['--argument', 'value', '--flag', '-abc=xyz', '--neg', 'arg1', '--no-neg', 'arg2', 'arg3'];
+const arg_test = ['--argument', 'value', '--flag', '-abc=xyz', '--no-something', '--neg', 'arg1', '--no-neg', 'arg2', 'arg3'];
 
 const arg_dbl_dash = ['--', 'arg4', '--flag', 'arg5'];
 
@@ -23,14 +23,21 @@ describe('basic usage', () => {
 		});
 
 		it('#flag support negative', (reader) => {
+			expect(reader.flag('--something')).to.eql(-1);
+		});
+
+		it('#flag counter negative', (reader) => {
 			expect(reader.flag('--neg')).to.eql(0);
 		});
 
 		it('#range works', (reader) => {
 			expect(reader.range(0)).to.eql(['arg1', 'arg2', 'arg3']);
 		});
-		it('all consumed', (reader) => {
-			expect(reader.unused()).to.eql([]);
+
+		afterAll(() => {
+			it('all consumed', (reader) => {
+				expect(reader.unused()).to.eql([]);
+			});
 		});
 	});
 
@@ -53,6 +60,7 @@ describe('basic usage', () => {
 		expect(reader.flag('--flag')).to.equal(1);
 		expect(reader.flag('--missing2')).to.equal(0);
 
+		expect(reader.flag('--no-something')).to.eql(1);
 		expect(reader.flag('--neg')).to.eql(0);
 
 		expect(reader.range(0)).to.eql(['arg4', '--flag', 'arg5']);

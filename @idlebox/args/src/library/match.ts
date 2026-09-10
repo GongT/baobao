@@ -6,19 +6,42 @@ import type { BothToken, DoubleDashToken, FlagToken, TToken, ValueToken } from '
 type MatchedFlagWithValue = { flag: BothToken | FlagToken; value: TToken<TokenKind.Value | TokenKind.Both> };
 type MatchedFlagWithoutValue = FlagToken;
 
+/**
+ * 判断实参是否等于 “--”
+ */
 export function isDoubleDash(token: TToken): token is DoubleDashToken {
 	return token && token.kind === TokenKind.DoubleDash;
 }
+
+/**
+ * 判断实参是否没有flag
+ */
 export function isValue(token: TToken): token is ValueToken {
 	return token && token.kind === TokenKind.Value;
 }
+
+/**
+ * 判断实参是否含有value
+ *  -x=y
+ *  y
+ */
 export function hasValue(token: TToken): token is ValueToken | BothToken {
 	return token && (token.kind === TokenKind.Value || token.kind === TokenKind.Both);
 }
 
+/**
+ * 判断实参是否是flag
+ *  -x
+ */
 export function isFlag(token: TToken): token is FlagToken | BothToken {
 	return token && token.kind === TokenKind.Flag;
 }
+
+/**
+ * 判断实参是否含有flag
+ *  -x
+ *  -x=y
+ */
 export function hasFlag(token: TToken): token is FlagToken | BothToken {
 	return token && (token.kind === TokenKind.Flag || token.kind === TokenKind.Both);
 }
@@ -28,7 +51,7 @@ export function matchOptionByFlags(tokens: readonly TToken[], flag: IParamDescFl
 	for (const token of tokens) {
 		if (isDoubleDash(token)) break;
 
-		if (!hasFlag(token)) continue;
+		if (!hasFlag(token)) continue; // for typehint
 		if (!isMatchFlag(token, flag)) continue;
 
 		if (hasValue(token)) {
@@ -53,7 +76,7 @@ export function matchFlagByFlags(tokens: readonly TToken[], flag: IParamDescFlag
 	for (const token of tokens) {
 		if (isDoubleDash(token)) break;
 
-		if (!hasFlag(token)) continue;
+		// if (!hasFlag(token)) continue;
 		if (!isMatchFlag(token, flag)) continue;
 
 		if (hasValue(token)) {
@@ -75,3 +98,16 @@ export function isMatchFlag(token: TToken, flag: IParamDescFlag) {
 	}
 	return false;
 }
+
+// const prefixReplace = /^-{1,2}(?!no-)/;
+// function isMatchingNegativeFlag(token: TToken, flag: IParamDescFlag) {
+// 	if (!hasFlag(token)) return false;
+//
+// 	for (const f of flag.flags) {
+// 		const neg = f.replace(prefixReplace, '--no-');
+// 		if (token.flag() === neg) {
+// 			return true;
+// 		}
+// 	}
+// 	return false;
+// }

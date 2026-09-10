@@ -54,7 +54,9 @@ export class Parameter implements IParameter {
 			if (!bound) continue;
 
 			if (bound !== this) {
-				throw new Conflict(bound, this);
+				// 同一个实参可绑到多个形参时会触发此错误
+				const e = new Conflict(bound, this);
+				throw e;
 			}
 		}
 

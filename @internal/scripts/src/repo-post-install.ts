@@ -24,12 +24,13 @@ const tools: Record<string, string> = {
 
 const gitHooks = resolve(monorepoRoot, '.git', 'hooks');
 const preCommit = resolve(gitHooks, 'pre-commit');
-assert.ok(process.env.NODE?.endsWith('pnpm'), '不是由pnpm启动，需要重新运行则必须执行: pnpm run -w postinstall');
+assert.ok(process.env.npm_lifecycle_event === 'postinstall', '必须在postinstall钩子中运行，需要重新运行则必须执行: pnpm run -w postinstall');
+assert.ok(process.env.npm_execpath?.endsWith('pnpm'), '不是由pnpm启动，需要重新运行则必须执行: pnpm run -w postinstall');
 const ch = writeFileIfChangeSync(
 	preCommit,
 	`#!/bin/sh
 
-${process.env.NODE} run hook:pre-commit
+${process.env.npm_execpath} run hook:pre-commit
 `,
 );
 

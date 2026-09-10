@@ -3,7 +3,7 @@
 	"tags": ["-lintignore"],
 	"entry": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}", "**/*.*"],
 	"project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
-	"ignoreDependencies": [".*-rig", "@types/.*", "@mpis/esbuild", "esbuild", "why-is-node-running"],
+	"ignoreDependencies": [".*-rig", "@types/.*", "@mpis/esbuild", "esbuild", "why-is-node-running", "vitest"],
 	"ignoreBinaries": [".*"],
 	"exclude": ["duplicates", "unresolved"],
 	"workspaces": {

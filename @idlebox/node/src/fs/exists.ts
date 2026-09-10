@@ -1,6 +1,6 @@
+import { isNotExistsError } from '@idlebox/common';
 import type { ObjectEncodingOptions } from 'node:fs';
 import { access, readFile } from 'node:fs/promises';
-import { isNotExistsError } from '@idlebox/common';
 export { existsSync } from 'node:fs';
 
 export async function exists(path: string) {
@@ -17,7 +17,7 @@ export const readFileIfExists: typeof readFile = _readFileIfExists as any;
 
 async function _readFileIfExists(file: string, encoding?: NodeJS.BufferEncoding | ObjectEncodingOptions) {
 	try {
-		return await readFile(file, encoding);
+		return await readFile(file, encoding ?? null);
 	} catch (e: any) {
 		if (isNotExistsError(e)) {
 			if (typeof encoding === 'string' || typeof encoding?.encoding === 'string') {

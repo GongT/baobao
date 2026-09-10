@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { before, describe } from 'mocha';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { TokenKind } from '../constants.js';
 import type { TToken } from '../library/token.js';
 import { tokenize } from '../tools/tokenize.js';
@@ -22,7 +21,7 @@ describe('tokenize', () => {
 	let tokens: TToken[];
 	const total = 8;
 
-	before(() => {
+	beforeEach(() => {
 		const fakeParser = {
 			arguments: [],
 		};

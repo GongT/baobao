@@ -1,13 +1,20 @@
-import assert from 'node:assert';
 export const symbol = Symbol.for('native-executer');
 
 // 确保这个文件只加载一次
-assert.ok(!Object.hasOwn(globalThis, symbol), 'Loader hooks have already been installed');
+if (Object.hasOwn(globalThis, symbol)) {
+	console.error('native-executer: 加载器重复导入');
+	if (process.env.DEBUG_DUPLICATE_INSTANCE !== undefined) {
+		console.error((globalThis as any)[symbol].stack ?? '缺少stack，未知版本');
+	} else {
+		console.error('设置 DEBUG_DUPLICATE_INSTANCE=1 添加一个stack trace');
+	}
+}
 
 export interface ILoaderState {
 	dispose(): void;
 	loaded?: Set<string>;
 	overrides?: Map<string, string>;
+	stack?: Error;
 }
 
 const object: ILoaderState = {
@@ -29,6 +36,9 @@ Object.defineProperty(globalThis, symbol, {
 
 if (process.env.NATIVE_EXECUTER_COLLECTION !== undefined) {
 	object.loaded = new Set();
+}
+if (process.env.DEBUG_DUPLICATE_INSTANCE !== undefined) {
+	object.stack = new Error('首次初始化');
 }
 
 export const theState = object;

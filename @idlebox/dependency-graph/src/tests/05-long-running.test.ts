@@ -1,6 +1,6 @@
 import { oneDay, sleep } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { describe } from 'mocha';
+import { describe, it } from 'vitest';
 import { JobGraphBuilder } from '../common/job-graph.build.js';
 import { Job } from '../common/job-graph.job.js';
 import { JobState } from '../common/job-graph.lib.js';
@@ -67,5 +67,5 @@ describe('debug', async () => {
 		await jobs.startup();
 
 		await jobs.joinAll();
-	}).timeout(80000);
+	}, 80000);
 });

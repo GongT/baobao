@@ -1,5 +1,5 @@
 import { logger } from '@idlebox/logger';
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import { SimpleDependencyBuilder, SimpleNode } from '../common/simple-graph.js';
 import './test-lib.js';
 

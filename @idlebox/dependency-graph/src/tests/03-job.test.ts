@@ -1,7 +1,6 @@
 import { sleep } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
-import { expect } from 'chai';
-import { describe } from 'mocha';
+import { describe, expect, it } from 'vitest';
 import { JobGraphBuilder } from '../common/job-graph.build.js';
 import { Job } from '../common/job-graph.job.js';
 import { JobState, UnrecoverableJobError } from '../common/job-graph.lib.js';
@@ -35,30 +34,38 @@ class SimpleJob extends Job<void> {
 }
 
 describe('job-graph', () => {
-	it('works', async () => {
-		const build = new JobGraphBuilder(2, logger.extend('job:works'));
-		build.addNode(new SimpleJob('A', []));
-		build.addNode(new SimpleJob('B', ['A']));
-		build.addNode(new SimpleJob('C', ['A']));
-		build.addNode(new SimpleJob('D', ['B', 'C']));
+	it(
+		'works',
+		async () => {
+			const build = new JobGraphBuilder(2, logger.extend('job:works'));
+			build.addNode(new SimpleJob('A', []));
+			build.addNode(new SimpleJob('B', ['A']));
+			build.addNode(new SimpleJob('C', ['A']));
+			build.addNode(new SimpleJob('D', ['B', 'C']));
 
-		const jobs = build.finalize();
-		await jobs.startup();
-	}).timeout(slowMode ? Infinity : 3000);
+			const jobs = build.finalize();
+			await jobs.startup();
+		},
+		slowMode ? Infinity : 3000,
+	);
 
-	it('error when job fail', async () => {
-		const build = new JobGraphBuilder(2, logger.extend('job:error'));
-		const na = build.addNode(new SimpleJob('A', []));
-		const nb = build.addNode(new SimpleJob('B', ['A'], false));
-		const nc = build.addNode(new SimpleJob('C', ['A']));
-		const nd = build.addNode(new SimpleJob('D', ['B', 'C']));
+	it(
+		'error when job fail',
+		async () => {
+			const build = new JobGraphBuilder(2, logger.extend('job:error'));
+			const na = build.addNode(new SimpleJob('A', []));
+			const nb = build.addNode(new SimpleJob('B', ['A'], false));
+			const nc = build.addNode(new SimpleJob('C', ['A']));
+			const nd = build.addNode(new SimpleJob('D', ['B', 'C']));
 
-		const jobs = build.finalize();
-		await expect(jobs.startup()).to.eventually.rejectedWith('test error');
+			const jobs = build.finalize();
+			await expect(jobs.startup()).to.rejects.with('test error');
 
-		expect(na.isSuccess()).to.equals(true);
-		expect(nb.isFailling()).to.equals(true);
-		expect(nc.isSuccess()).to.equals(true);
-		expect(nd.isStarted()).to.equals(false);
-	}).timeout(slowMode ? Infinity : 3000);
+			expect(na.isSuccess()).to.equals(true);
+			expect(nb.isFailling()).to.equals(true);
+			expect(nc.isSuccess()).to.equals(true);
+			expect(nd.isStarted()).to.equals(false);
+		},
+		slowMode ? Infinity : 3000,
+	);
 });

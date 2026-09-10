@@ -49,12 +49,6 @@ packageExtensions:
 patchedDependencies:
   amaro: patches/amaro.patch
 
-publishConfig:
-  gitChecks: false
-  preferFrozenLockfile: false
-  preferOffline: false
-  registry: https://registry.npmjs.org/
-
 registry: https://registry.npmmirror.com
 savePrefix: '^'
 

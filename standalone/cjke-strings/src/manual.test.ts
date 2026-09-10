@@ -1,14 +1,13 @@
-import 'mocha';
-import { expect } from 'chai';
-import { type CodePointInfo, readFirstCompleteChar } from './firstCompleteChar.js';
-import { unicodeEscape } from './escapeUnicode.js';
-import { stringWidth } from './stringWidth.js';
-import { limitWidth } from './limitWidth.js';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { everything, nothing } from './base.js';
+import { unicodeEscape } from './escapeUnicode.js';
+import { readFirstCompleteChar, type CodePointInfo } from './firstCompleteChar.js';
+import { limitWidth } from './limitWidth.js';
+import { stringWidth } from './stringWidth.js';
 
 function create(char: string, width: number, winCmd = false) {
 	let r: CodePointInfo;
-	before(() => {
+	beforeAll(() => {
 		r = readFirstCompleteChar(`${char}👌~ working ${char}[${unicodeEscape(char)}]`, winCmd ? nothing : everything);
 	});
 	it(`should catch output of ${JSON.stringify(char)}`, () => {
@@ -26,7 +25,7 @@ function create(char: string, width: number, winCmd = false) {
 describe('Basic', () => {
 	describe('Empty string', () => {
 		let r: CodePointInfo;
-		before(() => {
+		beforeAll(() => {
 			r = readFirstCompleteChar('');
 		});
 		it('should return empty', () => {

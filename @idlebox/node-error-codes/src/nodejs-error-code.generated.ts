@@ -2198,9 +2198,54 @@ export enum NodeErrorCode {
 	ERR_WORKER_UNSERIALIZABLE_ERROR = 'ERR_WORKER_UNSERIALIZABLE_ERROR',
 	/**
 	 * <p>The requested functionality is not supported in worker threads.</p>
-	 * <p><a id="ERR_ZLIB_INITIALIZATION_FAILED"></a></p>
+	 * <p><a id="ERR_ZIP_ARCHIVE_TOO_LARGE"></a></p>
 	 */
 	ERR_WORKER_UNSUPPORTED_OPERATION = 'ERR_WORKER_UNSUPPORTED_OPERATION',
+	/**
+	 * <p>An archive-level structure exceeds a limit: the archive comment exceeds the
+	 * 65,535-byte encoded length that the ZIP format allows, or the archive's
+	 * central directory is too large to buffer in memory.</p>
+	 * <p><a id="ERR_ZIP_ENTRY_CORRUPT"></a></p>
+	 */
+	ERR_ZIP_ARCHIVE_TOO_LARGE = 'ERR_ZIP_ARCHIVE_TOO_LARGE',
+	/**
+	 * <p>A ZIP archive entry failed CRC-32 verification, or produced more or fewer
+	 * bytes than its declared uncompressed size, while being read.</p>
+	 * <p><a id="ERR_ZIP_ENTRY_NOT_FOUND"></a></p>
+	 */
+	ERR_ZIP_ENTRY_CORRUPT = 'ERR_ZIP_ENTRY_CORRUPT',
+	/**
+	 * <p>A named entry was requested from a <a href="zlib.html#class-zlibzipfile"><code>ZipFile</code></a> or <a href="zlib.html#class-zlibzipbuffer"><code>ZipBuffer</code></a> that does
+	 * not contain an entry with that name.</p>
+	 * <p><a id="ERR_ZIP_ENTRY_TOO_LARGE"></a></p>
+	 */
+	ERR_ZIP_ENTRY_NOT_FOUND = 'ERR_ZIP_ENTRY_NOT_FOUND',
+	/**
+	 * <p>A ZIP archive entry's declared size exceeds the configured limit, or a
+	 * provided entry name or comment exceeds the 65,535-byte encoded length that
+	 * the ZIP format allows.</p>
+	 * <p><a id="ERR_ZIP_INVALID_ARCHIVE"></a></p>
+	 */
+	ERR_ZIP_ENTRY_TOO_LARGE = 'ERR_ZIP_ENTRY_TOO_LARGE',
+	/**
+	 * <p>Data that was expected to be a ZIP archive, or a structure within one, is
+	 * missing, out of bounds, or otherwise inconsistent with the ZIP format.</p>
+	 * <p><a id="ERR_ZIP_NOT_WRITABLE"></a></p>
+	 */
+	ERR_ZIP_INVALID_ARCHIVE = 'ERR_ZIP_INVALID_ARCHIVE',
+	/**
+	 * <p>A mutating method (such as <code>zipFile.addEntry()</code> or <code>zipFile.delete()</code>) was
+	 * called on a <a href="zlib.html#class-zlibzipfile"><code>ZipFile</code></a> that was not opened with <code>{ writable: true }</code>.</p>
+	 * <p><a id="ERR_ZIP_UNSUPPORTED_FEATURE"></a></p>
+	 */
+	ERR_ZIP_NOT_WRITABLE = 'ERR_ZIP_NOT_WRITABLE',
+	/**
+	 * <p>A ZIP archive uses a feature outside of what this implementation supports,
+	 * such as entry encryption, an unsupported compression method, or a multi-disk
+	 * archive.</p>
+	 * <p><a id="ERR_ZLIB_INITIALIZATION_FAILED"></a></p>
+	 */
+	ERR_ZIP_UNSUPPORTED_FEATURE = 'ERR_ZIP_UNSUPPORTED_FEATURE',
 	/**
 	 * <p>Creation of a <a href="zlib.html"><code>zlib</code></a> object failed due to incorrect configuration.</p>
 	 * <p><a id="ERR_ZSTD_INVALID_PARAM"></a></p>

@@ -3,7 +3,7 @@ set -Eeuo pipefail
 shopt -s inherit_errexit extglob nullglob globstar lastpipe shift_verbose
 
 pnpm --global runtime set node latest
-pnpm --global install npm@latest
+pnpm --global add npm@latest
 
 if ! [[ $CI ]]; then
 	echo "This script is intended to be run in CI environment only." >&2

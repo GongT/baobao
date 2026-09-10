@@ -33,9 +33,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^26.1.2"
 	},
-	"peerDependencies": {
-		"typescript": "^6.0.2"
-	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

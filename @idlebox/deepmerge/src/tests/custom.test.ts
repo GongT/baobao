@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, expect, it } from 'vitest';
 import { deepmerge, type MergeStrategy } from '../index.js';
 import { invalid_function, test1a, test1b } from './data.test.js';
 

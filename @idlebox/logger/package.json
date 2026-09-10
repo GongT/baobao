@@ -27,7 +27,7 @@
 		"build": "mpis-run build",
 		"watch": "mpis-run watch",
 		"clean": "mpis-run clean",
-		"test": "mocha --bail lib/test",
+		"test": "vitest src/tests",
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
@@ -40,8 +40,7 @@
 	"devDependencies": {
 		"@internal/local-rig": "workspace:^",
 		"@types/debug": "^4.1.13",
-		"@types/node": "^26.1.2",
-		"mocha": "^11.8.0"
+		"@types/node": "^26.1.2"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
