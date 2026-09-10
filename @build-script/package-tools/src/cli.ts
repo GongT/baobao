@@ -1,5 +1,5 @@
 import { makeApplication, type IArgDefineMap } from '@idlebox/cli';
-import { setExitCodeIfNot } from '@idlebox/node';
+import { setExitCodeIfNot, shutdown } from '@idlebox/node';
 import { basename, resolve } from 'node:path';
 import pkgJson from '../package.json' with { type: 'json' };
 import { cli_commands, cli_imports } from './commands.generated.js';
@@ -20,8 +20,10 @@ cli.withCommon(common_args);
 
 export async function main_static() {
 	await cli.static(cli_imports, cli_commands);
+	shutdown(0);
 }
 
 export async function main_dynamic() {
 	await cli.dynamic(resolve(import.meta.dirname, 'commands'), ['*.js', '*.ts']);
+	shutdown(0);
 }
