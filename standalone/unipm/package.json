@@ -1,7 +1,7 @@
 {
 	"name": "unipm",
 	"type": "module",
-	"version": "1.1.70",
+	"version": "1.1.72",
 	"exports": {
 		"./package.json": "./package.json"
 	},
