@@ -1,0 +1,30 @@
+{
+	"name": "@idlebox/shebang-parse",
+	"description": "A parser for shebang line in script files",
+	"type": "module",
+	"version": "0.0.1",
+	"exports": {
+		".": "./lib/index.js",
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"prepublishHook": "internal-prepublish-hook",
+		"prepack": "mpis-run build --clean",
+		"build": "mpis-run build",
+		"watch": "mpis-run watch",
+		"clean": "mpis-run clean",
+		"lint": "internal-lint",
+		"test": "vitest src",
+		"prepublishOnly": "internal-prepublish-deny"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@internal/local-rig": "workspace:^",
+		"@types/node": "^26.1.2",
+		"vitest": "^4.1.10"
+	},
+	"publishConfig": {
+		"packCommand": ["publisher", "pack"]
+	}
+}

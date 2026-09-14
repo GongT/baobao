@@ -1,5 +1,6 @@
 import { argv, CommandDefine, logger, type IArgDefineMap } from '@idlebox/cli';
 import { shutdown } from '@idlebox/node';
+import { resolve } from 'node:path';
 import { recreateTempFolder } from '../common/constants.js';
 import { execPnpmMute, registerLogError } from '../common/exec.js';
 import { normalizeName } from '../common/path.js';
@@ -44,7 +45,7 @@ export async function main() {
 	reconfigurePackageJson(extractDir);
 
 	// 重新运行pnpm pack
-	const tgzFile = out.replace('%s', normalizeName(pkgJson.name)).replace('%v', pkgJson.version);
+	const tgzFile = resolve(process.cwd(), out.replace('%s', normalizeName(pkgJson.name)).replace('%v', pkgJson.version));
 	await execPnpmMute(extractDir, ['pack', '--out', tgzFile]);
 	logger.debug`已重新打包为 relative<${tgzFile}>`;
 

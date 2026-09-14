@@ -212,7 +212,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@build-script/baseline-rig':
     devDependencies:
@@ -270,7 +270,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -334,7 +334,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -365,7 +365,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       esbuild:
         specifier: ^0.28.1
         version: 0.28.1
@@ -399,7 +399,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       domhandler:
         specifier: ^6.0.1
         version: 6.0.1
@@ -448,7 +448,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@build-script/package-tools':
     dependencies:
@@ -563,7 +563,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@build-script/rushstack-config-loader':
     dependencies:
@@ -615,7 +615,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@build-script/vite-plugin-chunk-tree':
     dependencies:
@@ -652,7 +652,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       rollup:
         specifier: ^4.62.4
         version: 4.62.4
@@ -692,7 +692,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@gongt/systemd-unit-generator':
     dependencies:
@@ -726,7 +726,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@gongt/trpc-lib':
     devDependencies:
@@ -750,7 +750,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/args':
     dependencies:
@@ -781,7 +781,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/browser':
     dependencies:
@@ -818,7 +818,7 @@ importers:
         version: 4.1.4
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
     optionalDependencies:
       react:
         specifier: '*'
@@ -874,7 +874,7 @@ importers:
         version: '@types/web@0.0.354'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -932,7 +932,7 @@ importers:
         version: '@types/web@0.0.354'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/chokidar':
     dependencies:
@@ -966,7 +966,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/cli':
     dependencies:
@@ -1012,7 +1012,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/cli-help-builder':
     devDependencies:
@@ -1036,7 +1036,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/cli-static-generator':
     dependencies:
@@ -1094,7 +1094,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/common':
     dependencies:
@@ -1137,7 +1137,7 @@ importers:
         version: link:../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/deepmerge':
     devDependencies:
@@ -1161,7 +1161,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/dependency-graph':
     dependencies:
@@ -1204,7 +1204,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/dependency-injection':
     dependencies:
@@ -1238,7 +1238,34 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
+
+  '@idlebox/dockerfile-split':
+    devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
+      '@types/node':
+        specifier: npm:@types/node@^26.1.2
+        version: 26.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^26.1.2
+        version: '@types/node@26.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^26.1.2
+        version: '@types/node@26.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.5.1'
+      vitest:
+        specifier: ^4.1.10
+        version: 4.1.10(@types/node@26.5.0)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@idlebox/empty':
     devDependencies:
@@ -1259,7 +1286,7 @@ importers:
         version: 'link:'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/ensure-symlink':
     devDependencies:
@@ -1280,7 +1307,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/errors':
     dependencies:
@@ -1311,7 +1338,7 @@ importers:
         version: link:../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/ignore-edit':
     dependencies:
@@ -1339,7 +1366,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/itypes':
     devDependencies:
@@ -1370,7 +1397,7 @@ importers:
         version: link:../../../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/itypes/subpackages/dom':
     dependencies:
@@ -1395,7 +1422,7 @@ importers:
         version: link:../../../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/itypes/subpackages/node':
     dependencies:
@@ -1420,7 +1447,7 @@ importers:
         version: link:../../../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/json-edit':
     dependencies:
@@ -1451,7 +1478,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       vite-node:
         specifier: ^6.0.0
         version: 6.0.0(@types/node@26.5.0)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
@@ -1478,7 +1505,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/json-extends-loader':
     dependencies:
@@ -1515,7 +1542,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/logger':
     dependencies:
@@ -1552,7 +1579,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/named-pipe':
     dependencies:
@@ -1589,7 +1616,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/native-executer':
     dependencies:
@@ -1626,7 +1653,7 @@ importers:
         version: 1.1.11(patch_hash=f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3)
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       esbuild:
         specifier: ^0.28.1
         version: 0.28.1
@@ -1666,7 +1693,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/node-error-codes':
     devDependencies:
@@ -1693,7 +1720,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       execa:
         specifier: ^10.0.1
         version: 10.0.1
@@ -1724,7 +1751,34 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
+      vitest:
+        specifier: ^4.1.10
+        version: 4.1.10(@types/node@26.5.0)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+
+  '@idlebox/shebang-parse':
+    devDependencies:
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
+      '@types/node':
+        specifier: npm:@types/node@^26.1.2
+        version: 26.5.0
+      '@types/platform':
+        specifier: npm:@types/node@^26.1.2
+        version: '@types/node@26.5.0'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^26.1.2
+        version: '@types/node@26.5.0'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.5.1'
       vitest:
         specifier: ^4.1.10
         version: 4.1.10(@types/node@26.5.0)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
@@ -1764,7 +1818,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/terminal-control':
     dependencies:
@@ -1792,7 +1846,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -1819,7 +1873,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       typescript:
         specifier: <7.0.0
         version: 6.0.3
@@ -1862,7 +1916,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@idlebox/unshare':
     dependencies:
@@ -1896,7 +1950,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@internal/local-rig':
     devDependencies:
@@ -1978,6 +2032,9 @@ importers:
       '@idlebox/dependency-injection':
         specifier: workspace:^
         version: link:../../@idlebox/dependency-injection
+      '@idlebox/dockerfile-split':
+        specifier: workspace:^
+        version: link:../../@idlebox/dockerfile-split
       '@idlebox/empty':
         specifier: workspace:^
         version: link:../../@idlebox/empty
@@ -2029,6 +2086,9 @@ importers:
       '@idlebox/section-buffer':
         specifier: workspace:^
         version: link:../../@idlebox/section-buffer
+      '@idlebox/shebang-parse':
+        specifier: workspace:^
+        version: link:../../@idlebox/shebang-parse
       '@idlebox/source-map-support':
         specifier: workspace:^
         version: link:../../@idlebox/source-map-support
@@ -2173,7 +2233,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@mpis/esbuild':
     dependencies:
@@ -2207,7 +2267,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
       esbuild:
         specifier: ^0.28.1
         version: 0.28.1
@@ -2262,7 +2322,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@mpis/publisher':
     dependencies:
@@ -2308,7 +2368,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@mpis/run':
     dependencies:
@@ -2360,7 +2420,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@mpis/server':
     dependencies:
@@ -2409,7 +2469,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@mpis/shared':
     devDependencies:
@@ -2433,7 +2493,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   '@mpis/typescript':
     dependencies:
@@ -2485,7 +2545,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   standalone/7zip-bin-wrapper:
     dependencies:
@@ -2522,7 +2582,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   standalone/cjke-strings:
     dependencies:
@@ -2559,7 +2619,7 @@ importers:
         version: link:../../@idlebox/empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
   standalone/unipm:
     dependencies:
@@ -2605,7 +2665,7 @@ importers:
         version: '@types/node@26.5.0'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@22.20.1'
+        version: '@types/node@26.5.1'
 
 packages:
 
@@ -4276,14 +4336,14 @@ packages:
   '@types/node-fetch@2.6.13':
     resolution: {integrity: sha512-QGpRVpzSaUs30JBSGPjOg4Uveu384erbHBoT1zeONvyCfwQxIkUshLAOqN/k9EjGviPRmWTTe6aH2qySWKTVSw==}
 
-  '@types/node@22.20.1':
-    resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
-
   '@types/node@26.1.2':
     resolution: {integrity: sha512-Vu4a5UFA9rIIFJ7rB/Vaafh9lrCQszopTCx6KjFboXTGQbPNasehVR5TEiithSDGyd1DEiUByggTZsg8jukeIg==}
 
   '@types/node@26.5.0':
     resolution: {integrity: sha512-dVSGpriSoCgz8WnDNTuSSuSv1PC/ALXihO4ulRZt7Md8k9mlbdin3lGOcDE8SnWOgf513ByWlXd7BK4azmyg/A==}
+
+  '@types/node@26.5.1':
+    resolution: {integrity: sha512-CzNm2FezW4VR/LjG6yUdiEgLE/rAQ9Slj5gCu/C2VrdcW7I0ahNZ8DRbHT7zOZ6r3ONgd/bsQIeSaoDGrd1C6g==}
 
   '@types/npm-package-arg@6.1.4':
     resolution: {integrity: sha512-vDgdbMy2QXHnAruzlv68pUtXCjmqUk3WrBAsRboRovsOmxbfn/WiYCjmecyKjGztnMps5dWp4Uq2prp+Ilo17Q==}
@@ -5964,9 +6024,6 @@ packages:
     resolution: {integrity: sha512-YGBMSVG/WrA2vgaZbXVvxrGgoMcWZecyyS4foGt8clbtY7s1nIKNmt7Z9LR74XE6FkYTSqDmKk2lIOhOjIvmrw==}
     engines: {node: '>=14'}
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
@@ -7611,15 +7668,15 @@ snapshots:
       '@types/node': 26.1.2
       form-data: 4.0.4
 
-  '@types/node@22.20.1':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@26.1.2':
     dependencies:
       undici-types: 8.3.0
 
   '@types/node@26.5.0':
+    dependencies:
+      undici-types: 8.9.0
+
+  '@types/node@26.5.1':
     dependencies:
       undici-types: 8.9.0
 
@@ -9333,8 +9390,6 @@ snapshots:
   ua-regexes-lite@1.2.1: {}
 
   unbash@4.0.6: {}
-
-  undici-types@6.21.0: {}
 
   undici-types@8.3.0: {}
 
