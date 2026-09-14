@@ -1,5 +1,5 @@
 {
 	"$schema": "../../../@mpis/run/commands.schema.json",
-	"build": ["typescript"],
+	"build": ["codegen", "typescript"],
 	"clean": [],
 }
