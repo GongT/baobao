@@ -1,0 +1,8 @@
+#!/usr/bin/env -S node --enable-source-maps --import=@idlebox/native-executer/register
+
+import '@idlebox/native-executer/register/respawn';
+
+process.title = `BsCodegen`;
+
+Object.assign(globalThis, { CODEGEN_CLI: 'development' });
+await import('../src/loader.js');
