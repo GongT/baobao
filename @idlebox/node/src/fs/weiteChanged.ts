@@ -1,22 +1,26 @@
-import { readFile as readFileAsync, readFileSync, writeFile as writeFileAsync, writeFileSync } from 'node:fs';
-import { promisify } from 'node:util';
-import { exists, existsSync } from './exists.js';
-
-const readFile = promisify(readFileAsync);
-const writeFile = promisify(writeFileAsync);
+import { isNotExistsError } from '@idlebox/common';
+import { lstatSync, readFileSync, statSync, writeFileSync, type Stats } from 'node:fs';
+import { lstat, readFile, stat, writeFile } from 'node:fs/promises';
 
 export function writeFileIfChangeSync(file: string, data: string | Buffer) {
-	if (existsSync(file)) {
-		if (typeof data === 'string') {
-			if (readFileSync(file, 'utf-8') === data) {
-				return false;
-			}
-		} else {
-			if (Buffer.compare(data, readFileSync(file)) === 0) {
-				return false;
-			}
+	if (typeof data === 'string') data = Buffer.from(data, 'utf-8');
+
+	try {
+		let ss: Stats | undefined;
+		try {
+			ss = statSync(file);
+		} catch (e) {
+			if (!isNotExistsError(e)) throw e;
+			ss = lstatSync(file);
 		}
+
+		if (sizeCompare(ss, data) && Buffer.compare(data, readFileSync(file)) === 0) {
+			return false;
+		}
+	} catch (e) {
+		if (!isNotExistsError(e)) throw e;
 	}
+
 	if (typeof data === 'string') {
 		writeFileSync(file, data, 'utf-8');
 	} else {
@@ -26,15 +30,20 @@ export function writeFileIfChangeSync(file: string, data: string | Buffer) {
 }
 
 export async function writeFileIfChange(file: string, data: string | Buffer) {
-	if (await exists(file)) {
-		if (typeof data === 'string') {
-			if ((await readFile(file, 'utf-8')) === data) {
-				return false;
-			}
-		} else {
-			if (Buffer.compare(data, await readFile(file)) === 0) {
-				return false;
-			}
+	if (typeof data === 'string') data = Buffer.from(data, 'utf-8');
+
+	const ss = await stat(file)
+		.catch((e) => {
+			if (!isNotExistsError(e)) throw e;
+			return lstat(file);
+		})
+		.catch((e) => {
+			if (!isNotExistsError(e)) throw e;
+			return null;
+		});
+	if (ss) {
+		if (sizeCompare(ss, data) && Buffer.compare(data, await readFile(file)) === 0) {
+			return false;
 		}
 	}
 	if (typeof data === 'string') {
@@ -43,4 +52,8 @@ export async function writeFileIfChange(file: string, data: string | Buffer) {
 		await writeFile(file, data);
 	}
 	return true;
+}
+
+function sizeCompare(ss: Stats, data: Buffer) {
+	return ss.size === data.byteLength;
 }

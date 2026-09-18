@@ -1,19 +1,26 @@
 import { isWindows } from '../platform/os.js';
-import { ucfirst } from '../string/case-cast.js';
 import { normalizePath } from './normalizePath.js';
 
-const isAbsolute = /^[a-z]:[/\\]/i;
+/**
+ * PATH_SEPARATOR 是环境变量中表达数组时使用的分隔符。通常用于路径（尤其是Path）
+ * 在 Windows 平台是 ';'，在其他平台是 ':'
+ */
+export const PATH_SEPARATOR = isWindows ? ';' : ':';
 
 /**
- * Work on "PATH"-like values, but always use / instead-of \
+ * 处理类似"PATH"的值
+ *
+ * * 路径分隔符始终是 / 而非 \
+ * * 可选项目分隔符（默认根据平台是 : 或 ;）
  */
 abstract class PathArrayAbstract {
 	private readonly array: string[] = [];
 
 	constructor(
 		init: string | string[] = [],
-		private readonly sep: ':' | ';' = isWindows ? ';' : ':',
+		private readonly sep: string = PATH_SEPARATOR,
 	) {
+		if (sep.length !== 1) throw new Error(`路径分隔符必须是单个字符，不能是 "${sep}"`);
 		if (init.length) {
 			if (Array.isArray(init)) {
 				for (const item of init) {
@@ -36,9 +43,9 @@ abstract class PathArrayAbstract {
 
 	/**
 	 * 添加value到数组
-	 * @param value 路径，允许传入是字符串表达的数组（/a:/b:/c）
+	 * @param value 路径，允许传入单个路径或是字符串表达的数组（/a:/b:/c）
 	 * @param first 是否将路径添加到数组的开头
-	 * @param force 是否强制添加路径，即使它已经存在
+	 * @param force 是否强制添加路径，即使它已经存在（将会移动到开头或末尾）
 	 */
 	add(value: string, first: boolean = false, force: boolean = false) {
 		for (const part of this.split(value)) {
@@ -59,6 +66,9 @@ abstract class PathArrayAbstract {
 		return true;
 	}
 
+	/**
+	 * 从对象中删除给定的路径，支持传入单个路径或是字符串表达的数组（/a:/b:/c）
+	 */
 	delete(value: string) {
 		let anyRet = false;
 		for (const part of this.split(value)) {
@@ -67,45 +77,79 @@ abstract class PathArrayAbstract {
 		return anyRet;
 	}
 
+	/**
+	 * 从对象中删除给定的标准化路径
+	 *
+	 * 如果有重复项，会删除全部
+	 * @returns 是否成功删除了至少一个路径
+	 */
 	protected _delete(normalizedPath: string) {
-		const index = this.array.indexOf(normalizedPath);
-		if (index !== -1) {
-			this.array.splice(index, 1);
-			return true;
+		let found = false;
+		while (true) {
+			const index = this.array.indexOf(normalizedPath);
+			if (index !== -1) {
+				this.array.splice(index, 1);
+				found = true;
+			} else {
+				break;
+			}
 		}
-		return false;
+		return found;
 	}
 
+	/**
+	 * 将给定的字符串按照路径分隔符拆分成数组，并对每个路径进行标准化
+	 *
+	 * 不修改当前对象
+	 */
 	split(value: string): string[] {
 		return value.split(this.sep).map((p) => this.normalize(p));
 	}
 
+	/**
+	 * 检查当前对象中是否包含给定的路径
+	 */
 	has(value: string) {
 		return this.array.includes(this.normalize(value));
 	}
 
 	/**
-	 * Normalize the given path. it maybe relative or absolute.
+	 * 将给定的路径标准化，可以是相对路径或绝对路径
 	 */
 	abstract normalize(path: string): string;
 
+	/**
+	 * 转换成环境变量形式的字符串
+	 */
 	toString(): string {
 		return this.array.join(this.sep);
 	}
+
+	/**
+	 * 获取当前对象的路径数组副本
+	 */
 	toArray(): string[] {
 		return this.array.slice();
 	}
 
+	/**
+	 * 递归遍历当前对象的路径数组
+	 */
 	[Symbol.iterator]() {
 		return this.array.values();
 	}
 
+	/**
+	 * 获取当前对象的路径数组的迭代器
+	 */
 	values() {
 		return this.array.values();
 	}
 
 	/**
-	 * @returns an array with `part` append to every element
+	 * 将给定的路径部分拼接到当前对象的**每个**路径上
+	 *
+	 * 返回拼接结果，不修改当前对象
 	 */
 	joinpath(part: string) {
 		return this.array.map((p) => `${p}/${part}`);
@@ -117,17 +161,16 @@ abstract class PathArrayAbstract {
 }
 
 /**
- * handle PATH like values, but always use / instead of \
+ * 处理类似"PATH"的值，Windows模式
+ *
+ * * 不区分大小写
+ * * 分隔符是 ;
  */
 export class PathArrayWindows extends PathArrayAbstract {
 	private readonly caseMap = new Map<string, string>();
 
 	override normalize(path: string) {
-		path = normalizePath(path);
-		if (isAbsolute.test(path)) {
-			path = ucfirst(path);
-		}
-		return path;
+		return normalizePath(path);
 	}
 
 	override clear(): void {
@@ -137,6 +180,9 @@ export class PathArrayWindows extends PathArrayAbstract {
 
 	override _add(normalizedPath: string) {
 		const lcase = normalizedPath.toLowerCase();
+		if (this.caseMap.has(lcase)) {
+			return false;
+		}
 		this.caseMap.set(lcase, normalizedPath);
 		return super._add(lcase);
 	}
@@ -152,6 +198,11 @@ export class PathArrayWindows extends PathArrayAbstract {
 	}
 }
 
+/**
+ * 处理类似"PATH"的值，Posix模式
+ *
+ * * 分隔符是 :
+ */
 export class PathArrayPosix extends PathArrayAbstract {
 	override normalize(path: string) {
 		return normalizePath(path);
@@ -160,4 +211,7 @@ export class PathArrayPosix extends PathArrayAbstract {
 
 const TypePathArrayAbstract = isWindows ? PathArrayWindows : PathArrayPosix;
 
+/**
+ * 根据当前平台选择合适的 PathArray 实现，Windows 平台使用 PathArrayWindows，其他平台使用 PathArrayPosix
+ */
 export class PathArray extends TypePathArrayAbstract {}

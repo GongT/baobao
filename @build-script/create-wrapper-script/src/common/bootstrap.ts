@@ -1,5 +1,5 @@
 import { commandInPath } from '@idlebox/node';
-import { chmod } from 'node:fs/promises';
+import { chmod, stat } from 'node:fs/promises';
 import { basename, dirname } from 'node:path';
 import { safeGuardComment, safeGuardCommentBat } from './safe.js';
 import type { IExtOpt } from './types.js';
@@ -34,6 +34,12 @@ exit 1
 	const sh = `${dirname(file)}/${basename(file, '.ps1')}`;
 	const r = await opts.writeFile(sh, content);
 	if (r !== false) {
-		await chmod(sh, 0o755);
+		await addExecBit(sh);
 	}
+}
+
+// chmod a+x file
+export async function addExecBit(file: string) {
+	const { mode } = await stat(file);
+	await chmod(file, mode | 0o111);
 }

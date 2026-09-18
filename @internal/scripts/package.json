@@ -26,6 +26,7 @@
 	"devDependencies": {
 		"@build-script/rushstack-config-loader": "workspace:^",
 		"@build-script/baseline-rig": "workspace:^",
+		"@build-script/create-wrapper-script": "workspace:^",
 		"@idlebox/native-executer": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",

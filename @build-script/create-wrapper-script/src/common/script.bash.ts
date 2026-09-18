@@ -10,11 +10,24 @@ ${safeGuardComment}
 set -Eeuo pipefail
 
 basedir=$(dirname "$(echo "$0" | sed -e 's|\\\\|/|g')")
+exe=""
 
 case "$(uname)" in
 	*CYGWIN*|*MINGW*|*MSYS*)
 		if command -v cygpath > /dev/null 2>&1; then
 			basedir=$(cygpath -w "$basedir")
+		fi
+		exe=".exe"
+	;;
+	
+	*WSL2*)
+		if command -v wslpath > /dev/null 2>&1; then
+			basedir_win="$(wslpath -w "$basedir" 2> /dev/null)"
+			if [ $? -ne 0 ] || [ -z "$basedir_win" ]; then
+				basedir_win="$basedir"
+			else
+				exe=".exe"
+			fi
 		fi
 	;;
 esac

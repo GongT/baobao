@@ -29,6 +29,7 @@
 		"@idlebox/node": "workspace:^",
 		"@idlebox/terminal-control": "workspace:^",
 		"@idlebox/unshare": "workspace:^",
+		"@build-script/create-wrapper-script": "workspace:^",
 		"cacache": "^21.0.1",
 		"execa": "^10.0.1",
 		"make-fetch-happen": "^16.0.1",

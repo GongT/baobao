@@ -218,7 +218,7 @@ export enum NodeErrorCode {
 	 */
 	ERR_CRYPTO_HASH_FINALIZED = 'ERR_CRYPTO_HASH_FINALIZED',
 	/**
-	 * <p><a href="crypto.html#hashupdatedata-inputencoding"><code>hash.update()</code></a> failed for any reason. This should rarely, if ever, happen.</p>
+	 * <p><a href="crypto.html#hashupdatedata-inputencoding"><code>hash.update()</code></a> failed for an unspecified reason.</p>
 	 * <p><a id="ERR_CRYPTO_INCOMPATIBLE_KEY"></a></p>
 	 */
 	ERR_CRYPTO_HASH_UPDATE_FAILED = 'ERR_CRYPTO_HASH_UPDATE_FAILED',
@@ -284,9 +284,14 @@ export enum NodeErrorCode {
 	ERR_CRYPTO_INVALID_KEYTYPE = 'ERR_CRYPTO_INVALID_KEYTYPE',
 	/**
 	 * <p>The given crypto key object's type is invalid for the attempted operation.</p>
-	 * <p><a id="ERR_CRYPTO_INVALID_MESSAGELEN"></a></p>
+	 * <p><a id="ERR_CRYPTO_INVALID_MAC"></a></p>
 	 */
 	ERR_CRYPTO_INVALID_KEY_OBJECT_TYPE = 'ERR_CRYPTO_INVALID_KEY_OBJECT_TYPE',
+	/**
+	 * <p>An invalid MAC algorithm was specified.</p>
+	 * <p><a id="ERR_CRYPTO_INVALID_MESSAGELEN"></a></p>
+	 */
+	ERR_CRYPTO_INVALID_MAC = 'ERR_CRYPTO_INVALID_MAC',
 	/**
 	 * <p>An invalid message length was provided.</p>
 	 * <p><a id="ERR_CRYPTO_INVALID_SCRYPT_PARAMS"></a></p>
@@ -329,9 +334,25 @@ export enum NodeErrorCode {
 	/**
 	 * <p>Attempted to use KEM operations while Node.js was not compiled with
 	 * OpenSSL with KEM support.</p>
-	 * <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
+	 * <p><a id="ERR_CRYPTO_MAC_FINALIZED"></a></p>
 	 */
 	ERR_CRYPTO_KEM_NOT_SUPPORTED = 'ERR_CRYPTO_KEM_NOT_SUPPORTED',
+	/**
+	 * <p>An operation was attempted on a <code>Mac</code> object after finalization was attempted
+	 * or an underlying MAC update failed.</p>
+	 * <p><a id="ERR_CRYPTO_MAC_NOT_SUPPORTED"></a></p>
+	 */
+	ERR_CRYPTO_MAC_FINALIZED = 'ERR_CRYPTO_MAC_FINALIZED',
+	/**
+	 * <p>Node.js was built without support for the OpenSSL <code>EVP_MAC</code> API.</p>
+	 * <p><a id="ERR_CRYPTO_MAC_UPDATE_FAILED"></a></p>
+	 */
+	ERR_CRYPTO_MAC_NOT_SUPPORTED = 'ERR_CRYPTO_MAC_NOT_SUPPORTED',
+	/**
+	 * <p><a href="crypto.html#macupdatedata-inputencoding"><code>mac.update()</code></a> failed for an unspecified reason.</p>
+	 * <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
+	 */
+	ERR_CRYPTO_MAC_UPDATE_FAILED = 'ERR_CRYPTO_MAC_UPDATE_FAILED',
 	/**
 	 * <p>A crypto operation failed for an otherwise unspecified reason.</p>
 	 * <p><a id="ERR_CRYPTO_PBKDF2_ERROR"></a></p>

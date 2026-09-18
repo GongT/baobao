@@ -14,7 +14,7 @@ export async function tryReadShebang(file: string) {
 		// 0x21 = '!'
 		if (firstByte[0] === 0x23 && firstByte[1] === 0x21) {
 			for await (const line of fh.readLines()) {
-				return line;
+				return `#!${line}`;
 			}
 		}
 	}

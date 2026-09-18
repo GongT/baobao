@@ -1,8 +1,7 @@
+import { createWrapperScript } from '@build-script/create-wrapper-script';
 import { createWorkspace, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { argv, CommandDefine, logger } from '@idlebox/cli';
 import type { DeepReadonly, IPackageJson } from '@idlebox/common';
-import { ensureLinkTargetSync } from '@idlebox/ensure-symlink';
-import { relativePath } from '@idlebox/node';
 import { readFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 
@@ -123,18 +122,16 @@ async function execute(ctx: IJobContext) {
 	const dry = argv.flag(['--dry']) > 0;
 	const bindir = resolve(ctx.packageRoot, 'node_modules/.bin');
 	for (const [name, target] of final) {
-		const link = `${bindir}/${name}`;
-		const rel = relativePath(bindir, target);
 		if (dry) {
-			logger.success(`Would link ${link} -> ${rel}`);
-		} else {
-			const ch = ensureLinkTargetSync(rel, link);
-			if (ch) {
-				logger.success`symlink: ${name} -> ${rel}`;
-			} else {
-				logger.debug`unchanged: ${name} -> ${rel}`;
-			}
+			logger.log`would link: ${name} -> ${target}`;
+			continue;
 		}
+		const link = `${bindir}/${name}`;
+		await createWrapperScript({
+			wrapperFile: link,
+			targetFile: target,
+		});
+		logger.success`wrapper: relative<${link}> -> relative<${target}>`;
 	}
 }
 

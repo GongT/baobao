@@ -1,11 +1,13 @@
 import { createArgsReader } from '@idlebox/args';
 import { existsSync, mkdirSync, statSync } from 'node:fs';
 import { basename, extname, resolve } from 'node:path';
+import { defaultWriteFile, writeInteractive } from './common/safe.js';
 import { createWrapperScript } from './create-wrap-script.js';
 
 const args = createArgsReader(process.argv.slice(2));
 
 const targetIsFile = args.flag(['-T']) > 0;
+const forceOverride = args.flag(['--force']) > 0;
 
 const workspace = args.single(['--workspace']);
 let targetFile = args.at(0);
@@ -43,6 +45,7 @@ await createWrapperScript({
 	targetFile,
 	wrapperFile,
 	workspace,
+	writeFile: forceOverride ? defaultWriteFile : writeInteractive,
 });
 
 function usage(message: string): never {

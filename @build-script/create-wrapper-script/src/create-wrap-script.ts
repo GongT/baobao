@@ -1,12 +1,13 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
 import { isWindows } from '@idlebox/common';
-import { commandInPath, isStandardPath, normalizePath, relativePath, writeFileIfChange } from '@idlebox/node';
+import { commandInPath, isStandardPath, normalizePath, PathEnvironment, relativePath } from '@idlebox/node';
 import { tryReadShebang } from '@idlebox/shebang-parse';
-import { chmod, mkdir } from 'node:fs/promises';
+import { mkdir } from 'node:fs/promises';
 import { dirname, isAbsolute, resolve } from 'node:path';
 import { split } from 'split-cmd';
-import { makeBatBootStrap, makeShBootStrap } from './common/bootstrap.js';
+import { addExecBit, makeBatBootStrap, makeShBootStrap } from './common/bootstrap.js';
 import { identifyScriptType } from './common/file-type.js';
+import { defaultWriteFile } from './common/safe.js';
 import { bashScript } from './common/script.bash.js';
 import { pwshScript } from './common/script.pwsh.js';
 import { shebangParse } from './common/shebang.js';
@@ -33,7 +34,7 @@ export async function createWrapperScript(options: IOptions) {
 		targetFile: normalizePath(options.targetFile),
 		wrapperFile: isPwsh ? `${options.wrapperFile}.ps1` : options.wrapperFile,
 		root,
-		writeFile: options.writeFile ?? writeFileIfChange,
+		writeFile: options.writeFile ?? defaultWriteFile,
 	};
 
 	let content = '';
@@ -51,7 +52,7 @@ export async function createWrapperScript(options: IOptions) {
 	await mkdir(dirname(opt.wrapperFile), { recursive: true });
 	const r = await opt.writeFile(opt.wrapperFile, content);
 	if (r !== false && !isWindows) {
-		await chmod(opt.wrapperFile, 0o755);
+		await addExecBit(opt.wrapperFile);
 	}
 
 	if (isPwsh) {
@@ -70,7 +71,7 @@ async function resolvePaths(options: IOptions): Promise<IPaths> {
 	let shebangInterpreter = shebangCommand ? shebangParse(shebangCommand) : undefined;
 	if (shebangInterpreter) {
 		// 有 shebang，使用 shebang 指定的解释器
-		shebangInterpreter = await findInterpreter(shebangInterpreter);
+		shebangInterpreter = await findInterpreter(shebangInterpreter, options.targetFile);
 
 		if (isAbsolute(shebangInterpreter)) {
 			const base = dirname(shebangInterpreter);
@@ -82,7 +83,7 @@ async function resolvePaths(options: IOptions): Promise<IPaths> {
 
 	const extensionInterpreter = identifyScriptType(options.targetFile);
 	if (extensionInterpreter) {
-		const full_cmd = await findInterpreter(extensionInterpreter[0]);
+		const full_cmd = await findInterpreter(extensionInterpreter[0], options.targetFile);
 		if (isAbsolute(full_cmd)) {
 			const base = dirname(full_cmd);
 			if (!isStandardPath(base)) {
@@ -125,15 +126,21 @@ async function resolvePaths(options: IOptions): Promise<IPaths> {
 	};
 }
 
-async function findInterpreter(interpreter: string) {
+async function findInterpreter(interpreter: string, targetFile: string) {
 	interpreter = split(interpreter)[0];
 	if (interpreter && !isAbsolute(interpreter)) {
-		const abs = await commandInPath(interpreter, isWindows ? ['.exe', '.cmd', '.bat', '.com'] : []);
+		const pv = new PathEnvironment();
+		const tdir = dirname(targetFile);
+		pv.add(tdir);
+
+		const abs = await commandInPath(interpreter);
 		if (abs) {
 			interpreter = abs;
 		} else {
 			console.warn(`无法找到解释器"${interpreter}"的绝对路径`);
 		}
+
+		pv.delete(tdir);
 	} // else -> 已经是绝对路径
 	return interpreter;
 }

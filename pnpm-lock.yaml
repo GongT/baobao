@@ -2214,6 +2214,9 @@ importers:
       '@build-script/baseline-rig':
         specifier: workspace:^
         version: link:../../@build-script/baseline-rig
+      '@build-script/create-wrapper-script':
+        specifier: workspace:^
+        version: link:../../@build-script/create-wrapper-script
       '@build-script/rushstack-config-loader':
         specifier: workspace:^
         version: link:../../@build-script/rushstack-config-loader

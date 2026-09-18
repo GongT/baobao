@@ -34,8 +34,14 @@ export async function generate(_ctx: GenerateContext) {
 		}
 	}
 
-	return `
-export const envFlagArgs = ${JSON.stringify(flags, null, 4)};
+	return `/**
+ * /usr/bin/env 的flag参数
+ */
+export const envFlagArgs =${JSON.stringify(flags, null, 4)};
+
+/**
+ * /usr/bin/env 的有值参数
+ */
 export const envValueArgs = ${JSON.stringify(values, null, 4)};
 	`;
 }

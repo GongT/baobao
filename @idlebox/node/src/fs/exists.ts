@@ -1,4 +1,4 @@
-import { isNotExistsError } from '@idlebox/common';
+import { isLinuxError, isNotExistsError, LinuxErrorCode } from '@idlebox/common';
 import type { ObjectEncodingOptions } from 'node:fs';
 import { access, readFile } from 'node:fs/promises';
 export { existsSync } from 'node:fs';
@@ -8,7 +8,7 @@ export async function exists(path: string) {
 		await access(path);
 		return true;
 	} catch (e: any) {
-		if (isNotExistsError(e)) return false;
+		if (isLinuxError(e, LinuxErrorCode.ENOENT, LinuxErrorCode.ENOTDIR)) return false;
 		throw e;
 	}
 }

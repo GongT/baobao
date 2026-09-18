@@ -45,6 +45,8 @@ export abstract class WorkspaceBase {
 		const name = publish ? '.npmrc-publish' : '.npmrc';
 		return resolve(this.root, name);
 	}
+
+	public abstract getNearestPackage(from: string): Promise<IPackageInfo>;
 }
 
 export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
@@ -79,7 +81,7 @@ export class MonorepoWorkspace extends WorkspaceBase implements IAnalyzeResult {
 	 * @param from 搜索起始目录
 	 * @returns
 	 */
-	public async getNearestPackage(from: string) {
+	public override async getNearestPackage(from: string) {
 		const pkgJsonFile = await findUpUntil({ from, top: this.root, file: ['package.json', 'package.yaml'] });
 		if (!pkgJsonFile) {
 			throw new Error(`缺少package.json文件: ${from}`);
@@ -159,6 +161,14 @@ export class SimplePackage extends WorkspaceBase {
 		};
 
 		return [this.pkgInfo];
+	}
+
+	public override async getNearestPackage(from: string) {
+		const pkg = (await this.listPackages())[0];
+		if (from.startsWith(pkg.absolute)) {
+			return pkg;
+		}
+		throw new Error(`无法在独立包中找到此项目: ${from}`);
 	}
 }
 

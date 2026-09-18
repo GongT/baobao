@@ -31,7 +31,7 @@ export class ShebangLine {
 	constructor(line: string) {
 		const trimmed = line.trimEnd();
 		if (!trimmed.startsWith('#!')) {
-			throw new Error('not a shebang line');
+			throw new Error(`not a shebang line: "${line}"`);
 		}
 
 		// Remove "#!" and trim leading whitespace after it.
@@ -40,7 +40,7 @@ export class ShebangLine {
 		// Split on the first whitespace boundary only.
 		const match = body.match(shebangLine);
 		if (!match) {
-			throw new Error('invalid shebang line');
+			throw new Error(`invalid shebang line: "${line}"`);
 		}
 
 		this.command = match[1];
@@ -119,13 +119,31 @@ export class ShebangLine {
 
 type ISplitResult =
 	| {
+			/**
+			 * 是否拆分了 env 的参数
+			 */
 			spliting: false;
+			/**
+			 * env 的参数列表
+			 */
 			opts: string[];
+			/**
+			 * 实际要执行的命令
+			 */
 			command: string;
 	  }
 	| {
+			/**
+			 * 是否拆分了 env 的参数
+			 */
 			spliting: true;
+			/**
+			 * env 的参数列表
+			 */
 			opts: string[];
+			/**
+			 * 实际要执行的命令
+			 */
 			command: string[];
 	  };
 
