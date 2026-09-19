@@ -63,6 +63,7 @@ jobs:
         run: |
           bash .github/scripts/post-pnpm-install.sh
           pnpm install --frozen-lockfile
+          echo "DEPENDENCIES_INSTALLED=1" >> "$GITHUB_ENV"
 
       - name: 执行构建
         run: |

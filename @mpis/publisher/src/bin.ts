@@ -1,10 +1,14 @@
-import { logger, makeApplication } from '@idlebox/cli';
+import { EnableLogLevel, logger, makeApplication } from '@idlebox/cli';
 import { cli_commands, cli_imports } from './commands.generated.js';
 import { projectPath } from './common/constants.js';
 
 await makeApplication({ name: 'publisher', description: '一个用于发布npm包的工具', logPrefix: 'mpis:publish' })
 	.initialize((_, cmd) => {
-		logger.log(`running "${cmd?.value}" in project "${projectPath}"`);
+		logger.log`running "${cmd?.value}" in project "${projectPath}"`;
+		if (process.env.CI && !logger.debug.isEnabled) {
+			logger.debug`switching to debug mode in CI environment.`;
+			logger.enable(EnableLogLevel.debug);
+		}
 		process.env.npm_lifecycle_event = cmd?.value;
 		process.env.lifecycle_event = cmd?.value;
 	})

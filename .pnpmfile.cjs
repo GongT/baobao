@@ -18,6 +18,16 @@ if (process.env.PNPM_CALL_RECURSIVE) {
 	module.exports.hooks = {};
 }
 
+if (process.env.DEPENDENCIES_INSTALLED) {
+	module.exports.hooks.readPackage = () => {
+		const r = new Error(
+			`\n部署进程已执行过安装阶段，此时不应发生安装事件，应检查依赖状态异常情况。\nDEPENDENCIES_INSTALLED=${process.env.DEPENDENCIES_INSTALLED}\n`,
+		);
+		r.stack = r.message;
+		throw r;
+	};
+}
+
 let inited = false;
 function init() {
 	if (inited) return;

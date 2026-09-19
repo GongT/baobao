@@ -2,7 +2,7 @@ import { logger } from '@idlebox/cli';
 import { convertCaughtError } from '@idlebox/common';
 import { registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
 import { execa, ExecaError } from 'execa';
-import { projectPath } from './constants.js';
+import { constants } from 'node:os';
 
 const env = {
 	DEBUG_LEVEL: logger.verbose.isEnabled ? 'verbose' : logger.debug.isEnabled ? 'debug' : undefined,
@@ -10,33 +10,36 @@ const env = {
 
 export function registerLogError() {
 	registerNodejsGlobalTypedErrorHandler(ExecaError, (err) => {
-		logger.error`执行命令失败: commandline<${err.command}>\n    wd: long<${err.cwd}>`;
+		logger.error`捕获到全局异常，执行命令失败: commandline<${err.command}>\n    工作目录: long<${err.cwd}>`;
 		shutdown(1);
 	});
 }
 
-export function execPnpm(args: string[] = []) {
-	logger.debug`执行命令: pnpm commandline<${args}>`;
-	return execa('pnpm', args, {
-		stdio: ['ignore', 'pipe', 'pipe'],
-		all: true,
-		encoding: 'utf8',
-		cwd: projectPath,
-		env,
-	});
-}
-
-export function execPnpmUser(cwd: string, args: string[] = []) {
-	logger.debug`执行命令: pnpm commandline<${args}>`;
-	return execa('pnpm', args, {
-		stdio: 'inherit',
-		cwd,
-		buffer: false,
-		env,
-	});
+/**
+ * 执行pnpm命令，可能产生交互，所有io直接继承，不反悔任何东西
+ *
+ * 无法确定或非0退出码的情况会抛出错误
+ */
+export async function execPnpmUser(cwd: string, args: string[] = []) {
+	try {
+		logger.debug`执行命令: pnpm commandline<${args}>`;
+		await execa('pnpm', args, {
+			stdio: 'inherit',
+			cwd,
+			buffer: false,
+			env,
+		});
+	} catch (e) {
+		throw debugFailedCommand(e, ['pnpm', ...args], cwd);
+	}
 }
 const colorReg = /\x1B\[[0-9;]+?m|\x1Bc/g;
 
+/**
+ * 静默执行pnpm命令
+ * * 如果成功则不显示或返回任何东西
+ * * 如果命令失败，则会输出stdout/err并reject
+ */
 export function execPnpmMute(cwd: string, args: string[] = []) {
 	if (process.stderr.isTTY) {
 		args.unshift('--color=always');
@@ -45,11 +48,16 @@ export function execPnpmMute(cwd: string, args: string[] = []) {
 	return execMute(cwd, ['pnpm', ...args]);
 }
 
+/**
+ * 静默执行命令
+ * * 如果成功则不显示或返回任何东西
+ * * 如果命令失败，则会输出stdout/err并reject
+ */
 export async function execMute(cwd: string, cmds: string[] = []) {
 	try {
 		logger.debug`执行命令: commandline<${cmds}>`;
 		const r = await execa(cmds[0], cmds.slice(1), {
-			stdio: ['inherit', 'pipe', 'pipe'],
+			stdio: ['ignore', 'pipe', 'pipe'],
 			cwd,
 			all: true,
 			env,
@@ -57,12 +65,18 @@ export async function execMute(cwd: string, cmds: string[] = []) {
 		if (logger.verbose.isEnabled) {
 			logger.verbose(r.all.replace(colorReg, ''));
 		}
+		logger.debug`命令成功: commandline<${cmds}>`;
 	} catch (e) {
-		debugFailedCommand(e);
-		throw convertCaughtError(e);
+		throw debugFailedCommand(e, cmds, cwd);
 	}
 }
 
+/**
+ * 执行命令，不关心成功与否
+ * 始终返回stdout字符串和exit code
+ *
+ * 只在无法启动程序时会抛出错误，启动成功后命令失败，也不会输出错误信息
+ */
 export async function execOutput(cwd: string, cmds: string[] = []) {
 	try {
 		logger.debug`执行命令: commandline<${cmds}> (cwd: long<${cwd}>)`;
@@ -72,24 +86,35 @@ export async function execOutput(cwd: string, cmds: string[] = []) {
 			env,
 			reject: false,
 			verbose: 'full',
+			encoding: 'utf8',
 		});
 
 		if (logger.verbose.isEnabled) {
 			logger.verbose(r.stderr.replace(colorReg, ''));
 		}
 
+		let eCode = r.exitCode;
+		if (eCode === undefined) {
+			// can not start or terminated by signal
+			if (r.signal) {
+				eCode = 128 + (constants.signals[r.signal] ?? 0);
+			} else {
+				throw debugFailedCommand(r, cmds, cwd);
+			}
+		}
+
+		logger.debug`命令返回(${eCode}): commandline<${cmds}>`;
 		return {
 			output: r.stdout,
-			status: r.exitCode,
+			stderrText: r.stderr,
+			status: eCode,
 		};
 	} catch (e) {
-		debugFailedCommand(e);
-		throw convertCaughtError(e);
+		throw debugFailedCommand(e, cmds, cwd);
 	}
 }
 
-export function convertExecError(err: unknown) {
-	const e = convertCaughtError(err);
+function convertExecError(e: unknown) {
 	if (e instanceof ExecaError) {
 		const message = e.originalMessage || e.shortMessage;
 		const ne = new Error(message, { cause: e });
@@ -97,15 +122,21 @@ export function convertExecError(err: unknown) {
 		ne.stack = e.stack.replace(e.message, message);
 		return ne;
 	} else {
-		return e;
+		return convertCaughtError(e);
 	}
 }
 
-export function debugFailedCommand(e: unknown) {
+function debugFailedCommand(e: unknown, cmds: string[], cwd: string): Error {
 	if (e instanceof ExecaError) {
-		logger.error`failed execute command\n  command: long<${e.escapedCommand}>\n  working directory: long<${e.cwd}>`;
+		logger.error`运行命令失败:\n  命令行: commandline<${cmds}>\n  工作目录: long<${cwd}>`;
 		console.error('');
-		console.error((e.all || e.stdout || e.stderr || '').replace(/^/gm, `\x1B[48;5;11m \x1B[0m `));
+		console.error((e.all || e.stderr || e.stdout || '').replace(/^/gm, `\x1B[48;5;11m \x1B[0m `));
+		console.error('----- 运行命令失败 -----');
 		console.error('');
+		return e;
+	} else {
+		const err = convertExecError(e);
+		logger.error`运行命令异常:\n  命令行: commandline<${cmds}>\n  工作目录: long<${cwd}>\n  错误信息: long<${err.stack}>`;
+		return err;
 	}
 }

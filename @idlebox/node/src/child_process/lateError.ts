@@ -61,13 +61,19 @@ function outputToString(output: Result['stderr']): string {
 	if (!output) {
 		return `\x1B[38;5;11m<缺少输出>\x1B[0m`;
 	} else if (typeof output === 'string' || ArrayBuffer.isView(output)) {
-		return output.toString().trim() || `\x1B[38;5;11m<输出为空>\x1B[0m`;
+		return dim(output.toString().trim()) || `\x1B[38;5;11m<输出为空>\x1B[0m`;
 	} else if (Array.isArray(output)) {
 		if (output.length === 0) {
 			return `\x1B[38;5;11m<输出为空>\x1B[0m`;
 		}
-		return output.join('\n').trim();
+		return dim(output.join('\n').trim());
 	} else {
 		return `\x1B[38;5;11m<无法识别的输出格式>\x1B[0m`;
 	}
+}
+
+const eachLineStart = /^/gm;
+function dim(str: string): string {
+	// biome-ignore lint/style/useTemplate: 11
+	return str.replaceAll(eachLineStart, '\x1B[2m') + '\x1B[0m';
 }
