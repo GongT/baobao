@@ -73,7 +73,7 @@ interface IProcessState {
  */
 export class ProcessIPCClient extends ProtocolClientObject {
 	private declare process: ResultPromise<MyOptions>;
-	public stopSignal: NodeJS.Signals = 'SIGINT';
+	public stopSignal: NodeJS.Signals = 'SIGTERM';
 	private readonly p_status: IProcessState = { started: false, failedExecute: false };
 	public readonly outputStream;
 	public readonly pathvar;
@@ -264,6 +264,7 @@ export class ProcessIPCClient extends ProtocolClientObject {
 		try {
 			await Promise.all([streamPromise(sub_process.stdout), streamPromise(sub_process.stderr)]);
 			const process = await sub_process;
+			Object.assign(process, { nodeChildProcess: sub_process.nodeChildProcess });
 			this.p_status.started = false;
 
 			if (this.disposed) {

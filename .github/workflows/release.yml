@@ -39,7 +39,7 @@ jobs:
       - name: 安装依赖
         run: |
           bash .github/scripts/post-pnpm-install.sh
-
+          npm config --location=user set cache="${RUNNER_TEMP}/npm"
           pnpm install --frozen-lockfile --ignore-scripts
           pnpm store prune
 
@@ -62,16 +62,18 @@ jobs:
       - name: 安装依赖
         run: |
           bash .github/scripts/post-pnpm-install.sh
+          npm config --location=user set cache="${RUNNER_TEMP}/npm"
           pnpm install --frozen-lockfile
+          echo "DEPENDENCIES_INSTALLED=1" >> "$GITHUB_ENV"
 
       - name: 执行构建
         run: |
-          npm config --location=user set cache="${RUNNER_TEMP}/npm"
           pnpm run build
 
       - name: 检测修改并提交
         # if: "!inputs.skip_check"
-        run: source .github/scripts/check-commit.sh
+        run: |
+          source .github/scripts/check-commit.sh
 
       # - name: 跳过检测打包
       #   if: "inputs.skip_check"

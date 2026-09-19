@@ -54,7 +54,7 @@ export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposa
 	protected setState(state: State) {
 		if (this._state === state) return;
 
-		this.logger.verbose`change state: ${this._state} => ${state}`;
+		this.logger.verbose`状态变化: ${this._state} => ${state}`;
 		this._state = state;
 
 		this.publishStateEvent();
@@ -68,7 +68,7 @@ export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposa
 		this.imm = setImmediate(() => {
 			this.imm = undefined;
 
-			this.logger.verbose`publish current state: ${this._state}`;
+			this.logger.verbose`通知当前状态: ${this._state}`;
 			this._onStateChange.fire(this._state);
 		});
 	}
@@ -79,7 +79,7 @@ export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposa
 	}
 
 	[inspect.custom](_d: number, _options: InspectContext, _ins: typeof inspect) {
-		const ss = this.translateState?.() ?? this._state;
+		const ss = this.translateState?.() ?? `*State<${this._state}>*`;
 		return `${this.debugPrefix()} [${this.displayName}] ${ss}`;
 	}
 
@@ -109,7 +109,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 		this.nodes = Array.from(nodesIt);
 		for (const node of this.nodes) {
 			if (this.graph.hasNode(node.name)) {
-				throw new Error(`duplicate node: ${node.name}`);
+				throw new Error(`节点名称重复: ${node.name}`);
 			}
 
 			this.graph.addNode(node.name, node);
@@ -179,7 +179,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 		const indexA = this._overallOrder.indexOf(a);
 		const indexB = this._overallOrder.indexOf(b);
 		if (indexA === -1 || indexB === -1) {
-			throw new Error(`sort error: node not found in overallOrder: ${indexA === -1 ? a : b}`);
+			throw new Error(`排序错误: 节点不在 overallOrder 中: ${indexA === -1 ? a : b}`);
 		}
 		return indexA - indexB;
 	}
@@ -248,7 +248,7 @@ export abstract class AbstractBaseGraph<T extends AbstractBaseNode> extends Asyn
 	protected inspectSummary(): ISummary {
 		const map: Record<string, number> = {};
 		for (const node of this.nodes) {
-			const stateStr = node.translateState?.() ?? 'unknown';
+			const stateStr = node.translateState?.() ?? '*任务状态未知*';
 			if (map[stateStr]) {
 				map[stateStr]++;
 			} else {

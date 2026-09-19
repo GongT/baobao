@@ -34,6 +34,9 @@ ignoredOptionalDependencies:
 networkConcurrency: 3
 nodeOptions: "${NODE_OPTIONS:- } --enable-source-maps"
 
+unsafePerm: true
+verifyDepsBeforeRun: error
+
 allowBuilds:
   '@biomejs/biome': true
   esbuild: true
@@ -54,8 +57,9 @@ savePrefix: '^'
 
 saveWorkspaceProtocol: rolling
 
-# autoInstallPeers: false
-strictPeerDependencies: true
+autoInstallPeers: false
+resolvePeersFromWorkspaceRoot: true
+strictPeerDependencies: false
 
 minimumReleaseAgeExclude:
   - knip@6.32.0

@@ -1,4 +1,5 @@
 import { execa, type Result } from 'execa';
+import { basename } from 'node:path';
 import { printLine } from '../cli-io/output.js';
 import { checkChildProcessResult } from './error.js';
 
@@ -6,6 +7,22 @@ interface IExecOptions {
 	readonly cwd?: string;
 	readonly env?: Record<string, string>;
 	readonly verbose?: boolean;
+}
+
+/**
+ * 获取当前进程的标题
+ * 1. process.title 如果不是 'node'
+ * 2. process.argv[1] 的文件名部分
+ * 3. '*unknown*'
+ */
+export function getProcessTitle(): string {
+	if (process.title && process.title !== 'node') {
+		return process.title;
+	}
+	if (process.argv[1]) {
+		return basename(process.argv[1]);
+	}
+	return '*unknown*';
 }
 
 /**
@@ -38,7 +55,7 @@ export async function execLazyError(cmd: string, args: string[], { cwd, env, ver
 			console.error('');
 			printLine();
 		}
-		console.error('\x1B[38;5;9m命令运行错误: %s', e.message);
+		console.error('\x1B[38;5;9m[%s/%d] 命令运行错误: %s', getProcessTitle(), process.pid, e.message);
 		console.error('\x1B[2m$ "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
 		console.error('\x1B[2mcwd: %s\x1B[0m', cwd ?? process.cwd());
 		console.error('\x1B[2m<vvvvv 命令输出 vvvvv>\x1B[0m');
@@ -61,13 +78,27 @@ function outputToString(output: Result['stderr']): string {
 	if (!output) {
 		return `\x1B[38;5;11m<缺少输出>\x1B[0m`;
 	} else if (typeof output === 'string' || ArrayBuffer.isView(output)) {
-		return output.toString().trim() || `\x1B[38;5;11m<输出为空>\x1B[0m`;
+		return dim(output.toString().trim().split('\n')) || `\x1B[38;5;11m<输出为空>\x1B[0m`;
 	} else if (Array.isArray(output)) {
 		if (output.length === 0) {
 			return `\x1B[38;5;11m<输出为空>\x1B[0m`;
 		}
-		return output.join('\n').trim();
+		return dim(output as string[]);
 	} else {
 		return `\x1B[38;5;11m<无法识别的输出格式>\x1B[0m`;
 	}
+}
+
+function dim(lines: string[]): string {
+	let r = '';
+	for (const line of lines) {
+		if (line) {
+			r += `\x1B[2m${line}\n`;
+		} else {
+			r += '\n';
+		}
+	}
+	r = r.trim();
+	r += '\x1B[0m';
+	return r;
 }

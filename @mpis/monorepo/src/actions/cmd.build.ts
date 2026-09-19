@@ -1,5 +1,5 @@
 import { argv } from '@idlebox/args/default';
-import { convertCaughtError, functionToDisposable, Interval, prettyPrintError, registerGlobalLifecycle, RequiredMap } from '@idlebox/common';
+import { convertCaughtError, functionToDisposable, Interval, prettyPrintError, registerGlobalLifecycle, RequiredMap, type IDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
 import { CollectingStream, isShuttingDown, shutdown } from '@idlebox/node';
 import { terminal } from '@idlebox/terminal-control/default';
@@ -7,6 +7,7 @@ import { CompileError } from '@mpis/server';
 import { url } from 'node:inspector';
 import { debugMode } from '../common/args.js';
 import { createMonorepoObject } from '../common/workspace.js';
+import { createBuildStatePrinter } from '../user-interactive/state-printer.js';
 
 const ciState = new RequiredMap<string, ReturnType<typeof createProjectState>>();
 function createProjectState(displayTitle: string) {
@@ -51,15 +52,9 @@ export async function runBuild() {
 	const activeOutput = !debugMode && !hasCi && !url();
 	const repo = await createMonorepoObject();
 
+	let bsd: undefined | IDisposable;
 	if (activeOutput) {
-		repo.onStateChange(() => {
-			if (isShuttingDown()) return;
-			if (process.stderr.isTTY) {
-				terminal.erase.all(true);
-				terminal.progress.update(repo.getProgress());
-			}
-			repo.printScreen();
-		});
+		bsd = createBuildStatePrinter(repo);
 	}
 
 	let cid;
@@ -92,19 +87,15 @@ export async function runBuild() {
 		});
 	}
 
-	registerGlobalLifecycle(
-		functionToDisposable(() => {
-			terminal.progress.clear();
-		}),
-	);
-
 	try {
 		await repo.startup();
+		bsd?.dispose();
 		cid?.dispose();
 
 		logger.success('Monorepo started successfully');
 		// completed = true;
 	} catch (error: any) {
+		bsd?.dispose();
 		cid?.dispose();
 
 		const e = convertCaughtError(error);

@@ -168,6 +168,6 @@ export function processQuitPromise(cp: ChildProcess): Promise<void> {
 			clearTimeout(to);
 			resolve();
 		});
-		cp.kill('SIGINT');
+		cp.kill('SIGTERM');
 	});
 }

@@ -1,9 +1,12 @@
 import { timeout } from '@idlebox/common';
 import type { ResultPromise } from 'execa';
+import { setInterval } from 'node:timers/promises';
 import { Job } from './job-graph.job.js';
 import { JobState } from './job-graph.lib.js';
 
 export abstract class ChildProcessExecuter<T> extends Job<T> {
+	private killing = '';
+
 	private declare process: ResultPromise;
 
 	protected abstract _spawn(): ResultPromise;
@@ -38,23 +41,53 @@ export abstract class ChildProcessExecuter<T> extends Job<T> {
 		await this.process;
 	}
 
-	override async stop(): Promise<void> {
-		this.process.kill('SIGTERM');
-		await Promise.race([this.process, timeout(5000)]).catch(() => {
-			this.logger.warn`stop process timeout, sending SIGKILL`;
-			this.process.kill('SIGKILL');
-			return Promise.race([this.process, timeout(2000, 'critical kernel call fail: not able to kill process')]);
-		});
-		if (!this.isStopped()) {
-			this.setState(JobState.ErrorExited, new Error('stop by parent'));
+	private send_singal(sig: NodeJS.Signals) {
+		this.killing = sig;
+		this.logger.debug`发送信号 ${sig}`;
+		this.process.kill(sig);
+	}
+
+	private async _kill() {
+		this.send_singal('SIGKILL');
+		await Promise.race([this.process, timeout(2000, '操作系统异常，无法使用SIGKILL杀死进程')]);
+	}
+
+	override async stop(kill = false): Promise<void> {
+		if (kill) {
+			await this._kill();
+		} else {
+			this.send_singal('SIGTERM');
+			try {
+				await Promise.race([this.process, timeout(5000)]);
+			} catch {
+				this.logger.warn`使用 SIGTERM 超时，改为使用 SIGKILL`;
+				await this._kill();
+			}
 		}
+
+		let wait = 0;
+		for await (const _ of setInterval(200)) {
+			if (this.isStopped()) {
+				this.killing = '';
+				return;
+			}
+			wait += 1;
+			if (wait >= 5) break; // 等待 1 秒后仍未停止，强制设置错误状态
+		}
+
+		this.killing = '';
+		this.setState(JobState.ErrorExited, new Error(`上级停止了该进程，本级${this.constructor.name}未及时更新状态`));
 	}
 
 	//////////////////////////////
 	public override translateState(): string {
-		if (!this.process) return 'not-spawn';
-		// const pause = this._is_paused ? ' /paused/ ' : ' ';
+		if (!this.process) return '未启动';
+		// const pause = this._is_paused ? ' |已暂停| ' : ' ';
 		const pause = ' ';
-		return `[pid=${this.process.pid}]${pause}${this._state}`;
+		let ss: string = this._state;
+		if (this.killing) {
+			ss += `(${this.killing}...)`;
+		}
+		return `[pid=${this.process.pid}]${pause}${ss}`;
 	}
 }

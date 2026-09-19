@@ -92,18 +92,18 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 				this.publishStateEvent();
 			}
 		} catch (e: any) {
-			this.logger.error`job _execute() throw error:\nlong<${prettyFormatStack(e.stack.split('\n')).join('\n')}>`;
+			this.logger.error`任务执行 _execute() 时抛出错误:\nlong<${prettyFormatStack(e.stack.split('\n')).join('\n')}>`;
 			this.setState(JobState.ErrorExited, e);
 		}
 	}
 
 	async join() {
 		if (!this.isStarted() || this.isStopped()) {
-			this.logger.verbose`join: not start`;
+			this.logger.verbose`join: 尚未启动，无需等待`;
 			return;
 		}
 		await new Promise<void>((resolve) => {
-			this.logger.verbose`join: watting...`;
+			this.logger.verbose`join: 等待中...`;
 			this.onStateChange(() => {
 				this.logger.verbose`join: ${this._state} = ${this.isStopped()}...`;
 				if (this.isStopped()) {
@@ -117,7 +117,7 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 		if (!this.isStarted()) return;
 		if (this.isStopped()) return;
 
-		this.logger.verbose`this job no stop()`;
+		this.logger.verbose`该任务无法停止(没有重写 stop 方法)`;
 	}
 
 	override async dispose(): Promise<void> {
@@ -131,18 +131,19 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 	public override translateState(): string {
 		switch (this._state) {
 			case JobState.NotStarted:
-				return 'not-started';
+				return '未启动';
 			case JobState.Running:
-				return 'running';
+				return '正常运行';
 			case JobState.Error:
+				return '暂时错误';
 			case JobState.Success:
-				return '';
+				return '暂时成功';
 			case JobState.ErrorExited:
-				return 'error-exited';
+				return '错误退出';
 			case JobState.SuccessExited:
-				return 'success-exited';
+				return '成功退出';
 			default:
-				return 'unknown';
+				return '*未知状态*';
 		}
 	}
 	protected override debugPrefix() {
@@ -187,7 +188,7 @@ export class EmptyJob extends Job<any> {
 	}
 
 	override _execute(): Promise<any> {
-		throw new Error('can not start empty job');
+		throw new Error('试图启动空任务对象');
 	}
 
 	override [inspect.custom]() {

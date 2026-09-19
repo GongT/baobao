@@ -1,10 +1,12 @@
+import { registerGlobalLifecycle, type IDisposable } from '@idlebox/common';
 import { logger } from '@idlebox/logger';
+import { isShuttingDown } from '@idlebox/node';
 import { terminal } from '@idlebox/terminal-control/default';
 import { debugMode } from '../common/args.js';
 import type { IPnpmMonoRepo } from '../common/workspace.js';
 import { setTitle, type IUserControl } from './terminal-interface.js';
 
-export function createStatePrinter(repo: IPnpmMonoRepo, controller: IUserControl) {
+export function createWatchStatePrinter(repo: IPnpmMonoRepo, controller: IUserControl) {
 	if (debugMode) return undefined;
 	const term = process.stderr.isTTY && !debugMode;
 
@@ -30,4 +32,28 @@ export function createStatePrinter(repo: IPnpmMonoRepo, controller: IUserControl
 		logger.info`State changed, printing current state...`;
 		repo.printScreen(true);
 	});
+}
+
+export function createBuildStatePrinter(repo: IPnpmMonoRepo) {
+	const d = repo.onStateChange(() => {
+		if (isShuttingDown()) return;
+		if (process.stderr.isTTY) {
+			terminal.erase.all(true);
+			terminal.progress.update(repo.getProgress());
+		}
+		repo.printScreen();
+	});
+
+	let dis = false;
+	const r: IDisposable = {
+		dispose() {
+			if (!dis) {
+				dis = true;
+				d.dispose();
+				terminal.progress.clear();
+			}
+		},
+	};
+	registerGlobalLifecycle(r);
+	return r;
 }

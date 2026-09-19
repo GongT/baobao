@@ -305,6 +305,7 @@ export async function main() {
 
 	let index = 0;
 	let indexDisplay = 0;
+	let firstError = true;
 	const width = shouldPublishProjects.length.toFixed(0).length;
 	for (const project of shouldPublishProjects) {
 		const job = new BuildPackageJob(project.name, project.devDependencies, project, workspace, false);
@@ -316,15 +317,15 @@ export async function main() {
 				process.stderr.write(`\n${CSI}K📦 [${indexDisplay.toFixed(0).padStart(width)}/${shouldPublishProjects.length}] ${project.name}\n${output}\n`);
 
 				const e = job.getLastError();
-				if (process.env.CI && e) {
-					prettyPrintError(`发布操作失败，项目:${project.name}`, e);
+				if (process.env.CI && e && firstError) {
+					prettyPrintError(`package-tools| 发布操作失败，项目:${project.name}`, e);
 					logger.info`当前活动任务:`;
 					for (const name of builder.nodeNames) {
 						const n = builder.getNode(name);
 						const log = (() => {
 							switch (n.stateName) {
 								case JobState.NotStarted:
-									return logger.log;
+									return logger.debug;
 								case JobState.Running:
 									return logger.info;
 								case JobState.Error:
@@ -339,6 +340,7 @@ export async function main() {
 						})();
 						log`  * ${n.name} (${n.stateName})`;
 					}
+					firstError = false;
 				}
 			}
 

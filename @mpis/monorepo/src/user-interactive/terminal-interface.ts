@@ -5,7 +5,7 @@ import { terminal, type ITitleControl } from '@idlebox/terminal-control/default'
 import { createInterface, type Interface } from 'node:readline/promises';
 import { inspect } from 'node:util';
 import type { IPnpmMonoRepo } from '../common/workspace.js';
-import { createStatePrinter } from './state-printer.js';
+import { createWatchStatePrinter } from './state-printer.js';
 
 const logger = createLogger('mpis:user', { colors: true });
 logger.enable(EnableLogLevel.verbose);
@@ -47,7 +47,7 @@ export function setTitle(title: string) {
 export function startUi(repo: IPnpmMonoRepo) {
 	const controller = new UserControl();
 
-	const statePrinterDisposable = createStatePrinter(repo, controller);
+	const statePrinterDisposable = createWatchStatePrinter(repo, controller);
 
 	registerNodejsGlobalTypedErrorHandlerWithInheritance(InterruptError, () => {
 		console.error(' -- Interrupted.');
