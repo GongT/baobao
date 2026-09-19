@@ -55,11 +55,12 @@ function getFormat(url: string): string | undefined {
 	return undefined;
 }
 
-function myResolve(specifier: string, context: ResolveHookContext, defaultResolve: NextResolve): ResolveOutput {
+function myResolve(specifier: string, context: ResolveHookContext, next: NextResolve): ResolveOutput {
 	let originalResult: ResolveFnOutput | undefined;
 	let originalError: Error | undefined;
 	try {
-		originalResult = defaultResolve(specifier, context);
+		// 首先尝试默认解析，不论是否成功
+		originalResult = next(specifier, context);
 	} catch (e: any) {
 		originalError = e;
 	}
@@ -76,15 +77,10 @@ function myResolve(specifier: string, context: ResolveHookContext, defaultResolv
 	if (specifier.startsWith('data:')) return originalReturn('数据 URL');
 	if (!context.conditions.includes('import')) return originalReturn('CommonJS');
 
-	if (specifier.startsWith('#')) {
-		// 私有路径，目前不知道怎么加扩展名
-		return originalReturn('私有映射');
-	}
-
 	if (specifier[0] === '.' || specifier.startsWith('file://') || specifier.startsWith('/') || isAbsolute(specifier)) {
 		// 相对路径、绝对文件路径，只进行直接解析，用多种扩展名，肯定用不到 source 条件
 		if (log.resolve.enabled) log.resolve(`[EL]       尝试使用扩展名解析文件`);
-		const r = throwIt(resolveWithFileTypes(specifier, context.parentURL, context.conditions, defaultResolve));
+		const r = throwIt(resolveWithFileTypes(specifier, context.parentURL, context.conditions, next));
 		if (hasNodeModules.test(r.url)) {
 			return originalReturn('在 node_modules 中');
 		}
@@ -130,7 +126,7 @@ function myResolve(specifier: string, context: ResolveHookContext, defaultResolv
 
 	if (log.resolve.enabled) log.resolve(`[EL]       fallback module resolve`);
 	// 然后尝试过时的文件扩展名方式
-	const r = throwIt(resolveWithFileTypes(specifier, context.parentURL, conditions, defaultResolve));
+	const r = throwIt(resolveWithFileTypes(specifier, context.parentURL, conditions, next));
 	if (hasNodeModules.test(r.url)) {
 		return originalReturn('在 node_modules 中');
 	}
@@ -152,7 +148,7 @@ function resolveWithFileTypes(specifier: string, parentUrl: string, conditions: 
 	return firstError;
 }
 
-function wrapResolveWithLogging(original: ResolveHookSyncEx): ResolveHookSync {
+function wrapResolveWithLogging(myResolve: ResolveHookSyncEx): ResolveHookSync {
 	// function addLog(specifier: string, context: ResolveHookContext, r: ResolveFnOutput) {
 	// 	verboseLines.push(`[RESOLVE] ${specifier}`);
 	// 	verboseLines.push(` → ${r.url}`);
@@ -167,14 +163,14 @@ function wrapResolveWithLogging(original: ResolveHookSyncEx): ResolveHookSync {
 
 		if (specifier.startsWith('node:') || specifier.startsWith('data:') || isBuiltin(specifier)) {
 			// 内置模块和data URL不记录日志，太多了
-			return original(specifier, context, defaultResolve);
+			return myResolve(specifier, context, defaultResolve);
 		}
 
 		try {
 			const t = context.importAttributes?.type;
 			log.resolve('[EL] \x1b[38;5;14;1m尝试找到\x1B[0m "%s" 从 "%s"', specifier, context?.parentURL ?? '<unknown>');
 			log.resolve('[EL] - 条件 [%s], 类型 [%s]', context.conditions?.join(', ') ?? 'no conditions', t);
-			const r = original(specifier, context, loggedDefaultResolve);
+			const r = myResolve(specifier, context, loggedDefaultResolve);
 
 			log.resolve(
 				'[EL] \x1b[38;5;14;1m✓\x1B[0m 解析为 类型[%s], 格式[%s], \x1B[38;5;11;1m%s\x1B[0m, 短路=[%s]',
@@ -192,7 +188,7 @@ function wrapResolveWithLogging(original: ResolveHookSyncEx): ResolveHookSync {
 		function loggedDefaultResolve(specifier: string, context?: Partial<ResolveHookContext>): ResolveFnOutput {
 			// 这是默认的resolve函数（defaultResolve）
 			try {
-				log.resolve('[EL]   ○ 尝试解析 "%s" / [%s]', specifier, context?.conditions?.join(', ') ?? 'no conditions');
+				log.resolve('[EL]   ○ 尝试默认解析 "%s" / [%s]', specifier, context?.conditions?.join(', ') ?? 'no conditions');
 				const r = defaultResolve(specifier, context);
 				log.resolve('[EL]     → 成功 %s', r.url);
 				return r;
@@ -206,7 +202,7 @@ function wrapResolveWithLogging(original: ResolveHookSyncEx): ResolveHookSync {
 
 function wrapResolveInner(original: typeof maybeResolve1): typeof maybeResolve1 {
 	return (specifier, parent, conditions) => {
-		log.resolve('[EL]   ○ 尝试解析 "%s" / [%s]', specifier, Array.from(conditions).join(', '));
+		log.resolve('[EL]   ◑ 尝试自定义解析 "%s" / [%s]', specifier, Array.from(conditions).join(', '));
 		const r = original(specifier, parent, conditions);
 		log.resolve('[EL]     → 自定义结果 %s', r);
 		return r;

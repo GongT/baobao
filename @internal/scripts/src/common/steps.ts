@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: no need */
-import { parseExportsField, type IExportMap } from '@idlebox/common';
+import { parseImportsField, type IExportMap } from '@idlebox/common';
 import { loadJsonFile } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { relativePath, setExitCodeIfNot } from '@idlebox/node';
@@ -110,7 +110,7 @@ export function removeTypesFromExportsAndImports() {
 	}
 
 	if (packageJson.imports) {
-		const imports = parseExportsField(packageJson.imports);
+		const imports = parseImportsField(packageJson.imports);
 		for (const [key, def] of Object.entries(imports)) {
 			if (def.source && def.source === def.types) {
 				logger.log`删除imports.${key}.types`;
@@ -160,6 +160,11 @@ export function removeLoaderFromExportsAndBinAndImports() {
 	for (const [pubPath, pathRef] of Object.entries(exports)) {
 		if (pathRef.import) pathRef.import = modifyLoaderInString(pathRef.import, `exports.${pubPath}.import`);
 		if (pathRef.default) pathRef.default = modifyLoaderInString(pathRef.default, `exports.${pubPath}.default`);
+
+		if (pathRef['early-loader']) {
+			logger.log`删除exports.${pubPath}.early-loader`;
+			delete pathRef['early-loader'];
+		}
 	}
 	if (typeof packageJson.bin === 'object') {
 		for (const key of Object.keys(packageJson.bin)) {
@@ -170,11 +175,17 @@ export function removeLoaderFromExportsAndBinAndImports() {
 	}
 
 	if (packageJson.imports) {
-		const imports = parseExportsField(packageJson.imports);
+		const imports = parseImportsField(packageJson.imports);
 		for (const [pubPath, pathRef] of Object.entries(imports)) {
 			if (pathRef.import) pathRef.import = modifyLoaderInString(pathRef.import, `imports.${pubPath}.import`);
 			if (pathRef.default) pathRef.default = modifyLoaderInString(pathRef.default, `imports.${pubPath}.default`);
+
+			if (pathRef['early-loader']) {
+				logger.log`删除imports.${pubPath}.early-loader`;
+				delete pathRef['early-loader'];
+			}
 		}
+		packageJson.imports = imports;
 	}
 }
 function modifyLoaderInString(str: string, debug_title: string): string {

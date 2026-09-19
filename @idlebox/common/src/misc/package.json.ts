@@ -1,3 +1,5 @@
+import { ObjecT } from '../object/objectTyped.js';
+
 type StructString<Object> = string | Object;
 type StringOr<Object> = string | Object;
 type Person = StructString<{
@@ -29,9 +31,14 @@ export interface IExportMap {
 export interface IFullExportsField {
 	[exportPath: string]: IExportCondition;
 }
+export interface IImportMap {
+	[importPath: `#${string}`]: string | IExportCondition;
+}
+export interface IFullImportMap {
+	[importPath: `#${string}`]: IExportCondition;
+}
 
 export type IExportsField = string | IExportCondition | IExportMap;
-export type IImportsField = IExportCondition | IExportMap;
 
 function isPathMap(exportsField: IExportCondition | IExportMap): exportsField is IExportMap {
 	return Object.keys(exportsField).some((e) => e.startsWith('.'));
@@ -47,6 +54,18 @@ export function parseExportsField(exports: IExportsField): IFullExportsField {
 	}
 	const ret: IFullExportsField = {};
 	for (const [path, def] of Object.entries(exports)) {
+		if (typeof def === 'string') {
+			ret[path] = { default: def };
+		} else {
+			ret[path] = def;
+		}
+	}
+	return ret;
+}
+
+export function parseImportsField(imports: IImportMap): IFullImportMap {
+	const ret: IFullImportMap = {};
+	for (const [path, def] of ObjecT.entries(imports)) {
 		if (typeof def === 'string') {
 			ret[path] = { default: def };
 		} else {
@@ -114,7 +133,7 @@ export interface IPackageJson {
 	publishConfig: Record<string, any>;
 	workspaces: string[];
 	exports: IExportsField;
-	imports: IImportsField;
+	imports: IImportMap;
 	dependencies: Record<string, string>;
 	devDependencies: Record<string, string>;
 	optionalDependencies: Record<string, string>;

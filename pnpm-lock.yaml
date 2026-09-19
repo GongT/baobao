@@ -1814,9 +1814,6 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
-      '@build-script/codegen':
-        specifier: workspace:^
-        version: link:../../@build-script/codegen
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../native-executer

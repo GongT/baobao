@@ -40,7 +40,7 @@ export async function writeBackPackageJson() {
 	return ch;
 }
 
-export function getExportsField() {
+export function getExportsField(): IFullExportsField {
 	return exports;
 }
 

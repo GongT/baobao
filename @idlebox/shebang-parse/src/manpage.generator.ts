@@ -1,11 +1,11 @@
-import type { GenerateContext } from '@build-script/codegen';
+// import type { GenerateContext } from '@build-script/codegen';
 import { execa } from 'execa';
 
 const p = '/^DESCRIPTION/,/^[A-Z]/p';
 const argReg = /^\s*-{1,2}\S+.+/m;
 const argSingle = /(?:^|\s+)(-{1,2}[^\s[=,]+)/g;
 
-export async function generate(_ctx: GenerateContext) {
+export async function generate() {
 	const manRaw = await execa`man env`.pipe(execa`col -bx`).pipe(execa`sed -n ${p}`);
 
 	const flags = [];
@@ -37,7 +37,7 @@ export async function generate(_ctx: GenerateContext) {
 	return `/**
  * /usr/bin/env 的flag参数
  */
-export const envFlagArgs =${JSON.stringify(flags, null, 4)};
+export const envFlagArgs = ${JSON.stringify(flags, null, 4)};
 
 /**
  * /usr/bin/env 的有值参数

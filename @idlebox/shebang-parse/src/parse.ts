@@ -1,5 +1,5 @@
 import { split } from 'split-cmd';
-import { envFlagArgs, envValueArgs } from './manpage.generated.js';
+import { envFlagArgs, envValueArgs } from '#manpage';
 
 const shebangLine = /^(\S+)(?:\s+([\s\S]*))?$/;
 const splitArgument = /^(-S|--split-string=)($|\s)/;
