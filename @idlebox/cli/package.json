@@ -39,6 +39,14 @@
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^26.1.2"
 	},
+	"peerDependencies": {
+		"@idlebox/cli-static-generator": "workspace:^"
+	},
+	"peerDependenciesMeta": {
+		"@idlebox/cli-static-generator": {
+			"optional": true
+		}
+	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}
