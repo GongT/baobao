@@ -203,16 +203,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@build-script/baseline-rig':
     devDependencies:
@@ -258,16 +258,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -319,19 +319,19 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@types/source-map':
         specifier: npm:source-map@^0.8.0
         version: source-map@0.8.0
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -371,16 +371,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -402,16 +402,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       esbuild:
         specifier: ^0.28.1
         version: 0.28.1
@@ -436,16 +436,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       domhandler:
         specifier: ^6.0.1
         version: 6.0.1
@@ -485,16 +485,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@build-script/package-tools':
     dependencies:
@@ -534,6 +534,9 @@ importers:
       execa:
         specifier: ^10.0.1
         version: 10.0.1
+      gunzip-maybe:
+        specifier: ^1.4.2
+        version: 1.4.2
       make-fetch-happen:
         specifier: ^16.0.1
         version: 16.0.1(supports-color@8.1.1)
@@ -552,9 +555,9 @@ importers:
       split-cmd:
         specifier: ^1.1.0
         version: 1.1.0
-      targz:
-        specifier: ^1.0.1
-        version: 1.0.1
+      tar-fs:
+        specifier: ^3.1.3
+        version: 3.1.3
       tiny-async-pool:
         specifier: ^2.1.0
         version: 2.1.0
@@ -580,27 +583,30 @@ importers:
       '@types/global-agent':
         specifier: ^3.0.0
         version: 3.0.0
+      '@types/gunzip-maybe':
+        specifier: ^1.4.3
+        version: 1.4.3
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/npm-registry-fetch':
         specifier: ^8.0.9
         version: 8.0.9
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@types/request':
         specifier: ^2.48.13
         version: 2.48.13
       '@types/semver':
         specifier: ^7.8.0
         version: 7.8.0
-      '@types/targz':
-        specifier: ^1.0.5
-        version: 1.0.5
+      '@types/tar-fs':
+        specifier: ^2.0.4
+        version: 2.0.4
       '@types/tiny-async-pool':
         specifier: ^2.0.3
         version: 2.0.3
@@ -609,10 +615,10 @@ importers:
         version: 1.4.6
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@build-script/rushstack-config-loader':
     dependencies:
@@ -646,25 +652,25 @@ importers:
         version: link:../../@internal/local-rig
       '@microsoft/api-extractor':
         specifier: ^7.58.12
-        version: 7.58.12(@types/node@26.6.1)
+        version: 7.58.12(@types/node@26.6.2)
       '@rushstack/heft':
         specifier: ^1.2.22
-        version: 1.2.22(@types/node@26.6.1)
+        version: 1.2.22(@types/node@26.6.2)
       '@types/itypes':
         specifier: workspace:@idlebox/itypes-node@^
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@build-script/vite-plugin-chunk-tree':
     dependencies:
@@ -689,19 +695,19 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@types/rolldown':
         specifier: npm:rolldown@^1.2.3
         version: rolldown@1.2.3
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       rollup:
         specifier: ^4.62.4
         version: 4.62.4
@@ -710,7 +716,7 @@ importers:
         version: 7.0.2
       vite:
         specifier: ^8.2.0
-        version: 8.2.0(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+        version: 8.2.0(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@gongt/pnpm-instead-npm':
     dependencies:
@@ -732,16 +738,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@gongt/systemd-unit-generator':
     dependencies:
@@ -766,16 +772,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@gongt/trpc-lib':
     devDependencies:
@@ -790,16 +796,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/args':
     dependencies:
@@ -821,16 +827,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/browser':
     dependencies:
@@ -867,7 +873,7 @@ importers:
         version: 4.1.4
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
     optionalDependencies:
       react:
         specifier: '*'
@@ -923,7 +929,7 @@ importers:
         version: '@types/web@0.0.354'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -981,7 +987,7 @@ importers:
         version: '@types/web@0.0.354'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/chokidar':
     dependencies:
@@ -1006,16 +1012,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/cli':
     dependencies:
@@ -1052,16 +1058,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/cli-help-builder':
     devDependencies:
@@ -1076,16 +1082,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/cli-static-generator':
     dependencies:
@@ -1134,16 +1140,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/common':
     dependencies:
@@ -1186,7 +1192,7 @@ importers:
         version: link:../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/deepmerge':
     devDependencies:
@@ -1201,16 +1207,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/dependency-graph':
     dependencies:
@@ -1244,16 +1250,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/dependency-injection':
     dependencies:
@@ -1278,16 +1284,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/dockerfile-split':
     devDependencies:
@@ -1302,19 +1308,19 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+        version: 4.1.10(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@idlebox/empty':
     devDependencies:
@@ -1335,7 +1341,7 @@ importers:
         version: 'link:'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/ensure-symlink':
     devDependencies:
@@ -1347,16 +1353,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/errors':
     dependencies:
@@ -1387,7 +1393,7 @@ importers:
         version: link:../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/ignore-edit':
     dependencies:
@@ -1406,16 +1412,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/itypes':
     devDependencies:
@@ -1446,7 +1452,7 @@ importers:
         version: link:../../../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/itypes/subpackages/dom':
     dependencies:
@@ -1471,7 +1477,7 @@ importers:
         version: link:../../../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/itypes/subpackages/node':
     dependencies:
@@ -1496,17 +1502,38 @@ importers:
         version: link:../../../empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/json-edit':
     dependencies:
+      '@idlebox/json-extends-loader':
+        specifier: workspace:^
+        version: link:../json-extends-loader
+      '@idlebox/node':
+        specifier: workspace:^
+        version: link:../node
+      '@idlebox/package-bin':
+        specifier: workspace:^
+        version: link:../package-bin
       comment-json:
         specifier: ^5.0.0
         version: 5.0.0
+      execa:
+        specifier: ^10.0.1
+        version: 10.0.1
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
     devDependencies:
+      '@biomejs/biome':
+        specifier: '*'
+        version: 2.5.7
+      '@biomejs/js-api':
+        specifier: '*'
+        version: 6.0.0(@biomejs/wasm-nodejs@2.5.14)
+      '@biomejs/wasm-nodejs':
+        specifier: '*'
+        version: 2.5.14
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../native-executer
@@ -1518,19 +1545,19 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       vite-node:
         specifier: ^6.0.0
-        version: 6.0.0(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+        version: 6.0.0(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@idlebox/json-edit-biome':
     devDependencies:
@@ -1545,16 +1572,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/json-extends-loader':
     dependencies:
@@ -1579,19 +1606,19 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/object-path':
         specifier: ^0.11.4
         version: 0.11.4
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/logger':
     dependencies:
@@ -1619,16 +1646,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/named-pipe':
     dependencies:
@@ -1656,16 +1683,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/native-executer':
     dependencies:
@@ -1690,19 +1717,19 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       amaro:
         specifier: ^1.1.11
         version: 1.1.11(patch_hash=f920ffe112dcee7750cff2ebd6042ccc8c88802e468cd038226e958293328fa3)
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       esbuild:
         specifier: ^0.28.1
         version: 0.28.1
@@ -1733,16 +1760,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/node-error-codes':
     devDependencies:
@@ -1760,19 +1787,46 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       execa:
         specifier: ^10.0.1
         version: 10.0.1
+
+  '@idlebox/package-bin':
+    devDependencies:
+      '@idlebox/common':
+        specifier: workspace:^
+        version: link:../common
+      '@idlebox/native-executer':
+        specifier: workspace:^
+        version: link:../native-executer
+      '@internal/local-rig':
+        specifier: workspace:^
+        version: link:../../@internal/local-rig
+      '@types/itypes':
+        specifier: workspace:@idlebox/itypes-node@^
+        version: link:../itypes/subpackages/node
+      '@types/node':
+        specifier: npm:@types/node@^26.1.2
+        version: 26.6.2
+      '@types/platform':
+        specifier: npm:@types/node@^26.1.2
+        version: '@types/node@26.6.2'
+      '@typescript/lib-dom':
+        specifier: npm:@types/node@^26.1.2
+        version: '@types/node@26.6.2'
+      development_using_node:
+        specifier: npm:@types/node@latest
+        version: '@types/node@26.6.2'
 
   '@idlebox/section-buffer':
     dependencies:
@@ -1791,19 +1845,19 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+        version: 4.1.10(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@idlebox/shebang-parse':
     dependencies:
@@ -1822,22 +1876,22 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       execa:
         specifier: ^10.0.1
         version: 10.0.1
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+        version: 4.1.10(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@idlebox/source-map-support':
     dependencies:
@@ -1865,16 +1919,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/terminal-control':
     dependencies:
@@ -1893,16 +1947,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -1920,16 +1974,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       typescript:
         specifier: <7.0.0
         version: 6.0.3
@@ -1963,16 +2017,16 @@ importers:
         version: 6.0.0
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@idlebox/unshare':
     dependencies:
@@ -1997,16 +2051,16 @@ importers:
         version: link:../itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@internal/local-rig':
     devDependencies:
@@ -2142,6 +2196,9 @@ importers:
       '@idlebox/node-error-codes':
         specifier: workspace:^
         version: link:../../@idlebox/node-error-codes
+      '@idlebox/package-bin':
+        specifier: workspace:^
+        version: link:../../@idlebox/package-bin
       '@idlebox/section-buffer':
         specifier: workspace:^
         version: link:../../@idlebox/section-buffer
@@ -2205,6 +2262,12 @@ importers:
 
   '@internal/scripts':
     devDependencies:
+      '@biomejs/js-api':
+        specifier: ^6.0.0
+        version: 6.0.0(@biomejs/wasm-nodejs@2.5.14)
+      '@biomejs/wasm-nodejs':
+        specifier: ^2.5.14
+        version: 2.5.14
       '@build-script/baseline-rig':
         specifier: workspace:^
         version: link:../../@build-script/baseline-rig
@@ -2286,16 +2349,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@mpis/esbuild':
     dependencies:
@@ -2320,16 +2383,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       esbuild:
         specifier: ^0.28.1
         version: 0.28.1
@@ -2375,16 +2438,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@mpis/publisher':
     dependencies:
@@ -2421,16 +2484,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@mpis/run':
     dependencies:
@@ -2473,16 +2536,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@mpis/server':
     dependencies:
@@ -2522,16 +2585,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@mpis/shared':
     devDependencies:
@@ -2546,16 +2609,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   '@mpis/typescript':
     dependencies:
@@ -2598,16 +2661,16 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   standalone/7zip-bin-wrapper:
     dependencies:
@@ -2632,19 +2695,19 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@types/split2':
         specifier: ^4.2.3
         version: 4.2.3
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   standalone/cjke-strings:
     dependencies:
@@ -2681,7 +2744,7 @@ importers:
         version: link:../../@idlebox/empty
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
   standalone/unipm:
     dependencies:
@@ -2715,19 +2778,19 @@ importers:
         version: link:../../@idlebox/itypes/subpackages/node
       '@types/node':
         specifier: npm:@types/node@^26.1.2
-        version: 26.6.1
+        version: 26.6.2
       '@types/pacote':
         specifier: ^11.1.8
         version: 11.1.8
       '@types/platform':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       '@typescript/lib-dom':
         specifier: npm:@types/node@^26.1.2
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
       development_using_node:
         specifier: npm:@types/node@latest
-        version: '@types/node@26.6.1'
+        version: '@types/node@26.6.2'
 
 packages:
 
@@ -2960,6 +3023,9 @@ packages:
         optional: true
       '@biomejs/wasm-web':
         optional: true
+
+  '@biomejs/wasm-nodejs@2.5.14':
+    resolution: {integrity: sha512-Iq/p5C8C/vl/cglAWYeSb3HZX9pKJAYQE8hgj3WJd25Ez3AFEiAHZtJMUJ5uKsZzRM9xnQllcOoHMjrPEHxYZg==}
 
   '@biomejs/wasm-nodejs@2.5.7':
     resolution: {integrity: sha512-I77X/HRpo/91PauJlLn3WB4yOA/lQJCXPWKoObX594dciMGZSxA7g8hYDSBNkAZrxT52kc6ha035JE2M6T5zww==}
@@ -4364,6 +4430,9 @@ packages:
   '@types/global-agent@3.0.0':
     resolution: {integrity: sha512-OmvaPJtTaY/wd1hxelLJmf8oKQpmKZdrlfQ+MWL59eKSEHJDDEifIo69248bdJ0yLIN+iMNQ6sKMtnwU6AxajA==}
 
+  '@types/gunzip-maybe@1.4.3':
+    resolution: {integrity: sha512-X5KKtC4cSRsRWr6AfNYU5TvlUrLAv0flmtdjJDV7/P6MKZSiIqwiO0GuOKBYAREsxa38vSsDSwPYpNgNWkXK5A==}
+
   '@types/history@4.7.11':
     resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
 
@@ -4385,6 +4454,9 @@ packages:
 
   '@types/node@26.6.1':
     resolution: {integrity: sha512-VqGJBMCtdhqkBUCcBLvywI0NJ+KLuVzgNnlBUNFOQjqVxzo2lxLUNg1DSey8+u2u6ktswSAxg+s68QLzWHNOuA==}
+
+  '@types/node@26.6.2':
+    resolution: {integrity: sha512-X1P21scMv4zGKLYqjdGjaKa7COa0RKVYYZZN/NfvLQ1JegxFhdhpZG/Lyn8AXx6CDUavKAd11v6BvfpkDByK8g==}
 
   '@types/npm-package-arg@6.1.4':
     resolution: {integrity: sha512-vDgdbMy2QXHnAruzlv68pUtXCjmqUk3WrBAsRboRovsOmxbfn/WiYCjmecyKjGztnMps5dWp4Uq2prp+Ilo17Q==}
@@ -4436,9 +4508,6 @@ packages:
 
   '@types/tar-stream@3.1.4':
     resolution: {integrity: sha512-921gW0+g29mCJX0fRvqeHzBlE/XclDaAG0Ousy1LCghsOhvaKacDeRGEVzQP9IPfKn8Vysy7FEXAIxycpc/CMg==}
-
-  '@types/targz@1.0.5':
-    resolution: {integrity: sha512-ynClZIqAKyu9vVDlgCHoyxFy5w7lcyfCkrCdyZvYj6TbST/H/zKgIgmWirhUZyhF6mZEq5CzV+RpKyjlxosMuA==}
 
   '@types/tiny-async-pool@2.0.3':
     resolution: {integrity: sha512-n3l1s538tKo9RBoHs4I3DG/VmD3VYhF5mHcgu1sU4Lq7JCNBtxnpBy3OkWSbZsp5r5QOuplh2UkXXXwufoAuNQ==}
@@ -4660,21 +4729,59 @@ packages:
     resolution: {integrity: sha512-0bDNnY/u6pPwHDMoF0FieU354oBi0a8rD9FcsLwzcGWbc8KS8KPIi7y+s13OlVY+gMWc/9xEMUgNE6Qm8ZllYQ==}
     engines: {node: '>=4'}
 
-  available-typed-arrays@1.0.7:
-    resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
-    engines: {node: '>= 0.4'}
+  b4a@1.9.0:
+    resolution: {integrity: sha512-dpfcF9fDNR6++cthXR67iyhgqWy9CBouAvIWhIntzBG6cvK/cnIPiZQjBwi/ZqjjBEDGfoNDtmB0kTjroOJ3pQ==}
+    peerDependencies:
+      react-native-b4a: '*'
+    peerDependenciesMeta:
+      react-native-b4a:
+        optional: true
 
   balanced-match@4.0.4:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
 
+  bare-events@2.9.2:
+    resolution: {integrity: sha512-AIPKioV7/Y/8KfZ3AAhjPJxLLbY49S64Ym5DakZlUg75qQiTgUq9hEJoEwa4eUezPUlXRy/i5NpsKvo9jgKmoA==}
+    peerDependencies:
+      bare-abort-controller: '*'
+    peerDependenciesMeta:
+      bare-abort-controller:
+        optional: true
+
+  bare-fs@4.8.1:
+    resolution: {integrity: sha512-N1nnXdHZAOSstz0XiHikGS4HGMH4CnSwhqWdGQQMqqdvp4Jybm9sE3R1WVnpWVd4SFkc8ryPDBLViNLwiEqECg==}
+    engines: {bare: '>=1.28.0'}
+    peerDependencies:
+      bare-buffer: '*'
+    peerDependenciesMeta:
+      bare-buffer:
+        optional: true
+
+  bare-path@3.1.2:
+    resolution: {integrity: sha512-ZyKbsuuqK6Ag0K8pX6V5Txq6XeJRvY+wXucnFGRjiyVYP9YWDpIQugk/b+enRYrEYBJaqLzghRQpXPMR7341Nw==}
+
+  bare-stream@2.13.4:
+    resolution: {integrity: sha512-PcrQ8lVLbiJscNm1Kez+Yp4Gy4AHGcN1lzwjvf5NybWen7VvEgUfyfnXYJ2zNqWnzOfCb1Abq6lH8ti0syQszA==}
+    peerDependencies:
+      bare-abort-controller: '*'
+      bare-buffer: '*'
+      bare-events: '*'
+    peerDependenciesMeta:
+      bare-abort-controller:
+        optional: true
+      bare-buffer:
+        optional: true
+      bare-events:
+        optional: true
+
+  bare-url@2.5.4:
+    resolution: {integrity: sha512-Gxa7UVWBr0/edU1b+TJhn/AZvMQUj9OGspvYsaTYQrAbZA4BOTZGL3LiZxvD+CeMlDH4juwD84+eTAp/bLYW5g==}
+
   baseline-browser-mapping@2.11.12:
     resolution: {integrity: sha512-r7WnVImvVCeFpf2DOXfy41aPWzeNg3H/A2X4dKmy1QL0MSyyk/e7z8ihJ3N6Nn2PsdhkVlqnEfnUE4a05P2aTA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
-
-  bl@1.2.3:
-    resolution: {integrity: sha512-pvcNpa0UU69UT341rO6AYy4FVAIkUHuZXRIWbq+zHnsVcRzDDjIAhGuuYoi0d//cwIwtt4pkpKycWEfjdV+vww==}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -4691,6 +4798,9 @@ packages:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
 
+  browserify-zlib@0.1.4:
+    resolution: {integrity: sha512-19OEpq7vWgsH6WkvkBJQDFvJS1uPcbFOQ4v9CU839dO+ZZXUZO6XpE6hNCqvlIIj+4fZvRiJ6DsAQ382GwiyTQ==}
+
   browserslist-useragent-regexp@4.1.4:
     resolution: {integrity: sha512-DgA+gTG1GCU0HGk/KUgYVpGhKZSt2vpirIGeKHla/zd9ALtM+nA8WAUGXhwp63D8gnA7g5fP7FGjNZOQO3fk7w==}
     engines: {node: '>=14.0.0'}
@@ -4700,15 +4810,6 @@ packages:
     resolution: {integrity: sha512-JxV13hNrFxqjOc8alRbq9dK1MM79NEXYpma2B2J4wAtpWS5zIEIKqWPGCl7N4o7Uc7B7itylh7SuDujATRyyTw==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
-
-  buffer-alloc-unsafe@1.1.0:
-    resolution: {integrity: sha512-TEM2iMIEQdJ2yjPJoSIsldnleVaAk1oW3DBVUykyOLsEsFmEc9kn+SFFPz+gl54KQNxlDnAwCXosOS9Okx2xAg==}
-
-  buffer-alloc@1.2.0:
-    resolution: {integrity: sha512-CFsHQgjtW1UChdXgbyJGtnm+O/uLQeZdtbDo8mfUgYXCHSM1wgrVxXm6bSyrUuErEb+4sYVGCzASBRot7zyrow==}
-
-  buffer-fill@1.0.0:
-    resolution: {integrity: sha512-T7zexNBwiiaCOGDg9xNX9PBmjrubblRkENuptryuI64URkXDFum9il/JGL8Lm8wYfAXpredVXXZz7eMHilimiQ==}
 
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
@@ -4723,14 +4824,6 @@ packages:
 
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
-    engines: {node: '>= 0.4'}
-
-  call-bind@1.0.8:
-    resolution: {integrity: sha512-oKlSFMcMwpUg2ednkhQ454wfWiU/ul3CkJe/PEHcTKuiX6RpbehUiFMXu13HalGZxfUwCQzZG747YXBn1im9ww==}
-    engines: {node: '>= 0.4'}
-
-  call-bound@1.0.4:
-    resolution: {integrity: sha512-+ys997U96po4Kx/ABpBCqhA9EuxJaQWDQg7295H4hBphv3IZg0boBKuwYpt4YXp6MZ5AmZQnU/tyMTlRpaSejg==}
     engines: {node: '>= 0.4'}
 
   caniuse-lite@1.0.30001806:
@@ -4750,9 +4843,6 @@ packages:
   chokidar@5.0.0:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
     engines: {node: '>= 20.19.0'}
-
-  chownr@1.1.4:
-    resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
 
   chownr@3.0.0:
     resolution: {integrity: sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g==}
@@ -4818,10 +4908,6 @@ packages:
   defaults@1.0.4:
     resolution: {integrity: sha512-eFuaLoy/Rxalv2kr+lqMlUnrDWV+3j4pljOIJgLIhI058IQfWJ7vXhyEIHu+HtC738klGALYxOKDO0bQP3tg8A==}
 
-  define-data-property@1.1.4:
-    resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
-    engines: {node: '>= 0.4'}
-
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
@@ -4862,6 +4948,9 @@ packages:
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
+
+  duplexify@3.7.1:
+    resolution: {integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==}
 
   easy-table@1.2.0:
     resolution: {integrity: sha512-OFzVOv03YpvtcWGe5AayU5G2hgybsg3iqA6drU8UaoZyB9jLGMTrz9+asnLp/E+6qPh88yEI1gvyZFZ41dmgww==}
@@ -4940,6 +5029,9 @@ packages:
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
 
+  events-universal@1.0.1:
+    resolution: {integrity: sha512-LUd5euvbMLpwOF8m6ivPCbhQeSiYVNb8Vs0fQ8QjXo0JTkEHpz8pxdQf0gStltaPpw0Cca8b39KxvK9cfKRiAw==}
+
   execa@10.0.1:
     resolution: {integrity: sha512-ge98qjkRK4IB7tL7Ju/6qmm5LHoH1eEMt5FNZrz3f4UIYhF28lggX20z3FaX1sgc67msLEn0N0BscOs29iuwyw==}
     engines: {node: '>=22'}
@@ -4953,6 +5045,9 @@ packages:
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+
+  fast-fifo@1.3.2:
+    resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -4992,10 +5087,6 @@ packages:
     resolution: {integrity: sha512-kWyh8ADvHBFz6ua5xYOPnUroZTT/bwWfrCeL0Wj1dzG4/YOmOcfJ99W8dOVyyynJN35rZ9aCOtHChqQovV7yog==}
     engines: {node: '>=6'}
 
-  for-each@0.3.5:
-    resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
-    engines: {node: '>= 0.4'}
-
   form-data@2.5.5:
     resolution: {integrity: sha512-jqdObeR2rxZZbPSGL+3VckHMYtu+f9//KXBsVny6JSX/pa38Fy+bGjuG8eW/H6USNQWhLi8Num++cU2yOCNz4A==}
     engines: {node: '>= 0.12'}
@@ -5008,9 +5099,6 @@ packages:
     resolution: {integrity: sha512-9XNj/o4wrRFyhSMJOvsuyMwy8aUfBaZ1VrqHVfohyXf0Sw0e+yfKG+xZaY3arGCOMdwFsqObtzVOc1gU9KiT9w==}
     engines: {node: '>=18.3.0'}
     hasBin: true
-
-  fs-constants@1.0.0:
-    resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
 
   fs-extra@11.3.5:
     resolution: {integrity: sha512-eKpRKAovdpZtR1WopLHxlBWvAgPny3c4gX1G5Jhwmmw4XJj0ifSD5qB5TOo8hmA0wlRKDAOAhEE1yVPgs6Fgcg==}
@@ -5068,12 +5156,13 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
+  gunzip-maybe@1.4.2:
+    resolution: {integrity: sha512-4haO1M4mLO91PW57BMsDFf75UmwoRX0GkdD+Faw+Lr+r/OZrOCS0pIBwOL1xCKQqnQzbNFGgK2V2CpBUPeFNTw==}
+    hasBin: true
+
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
-
-  has-property-descriptors@1.0.2:
-    resolution: {integrity: sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==}
 
   has-symbols@1.1.0:
     resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
@@ -5151,10 +5240,6 @@ packages:
     resolution: {integrity: sha512-oSK96Grm3aP6OrS263xVxbNDGVL7rzBtYdpGqlDG8iQdoenDoTs/nkki+DflYbAEE8Xl6o5YxhxlrKvI3nqKXQ==}
     engines: {node: '>= 12'}
 
-  is-callable@1.2.7:
-    resolution: {integrity: sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==}
-    engines: {node: '>= 0.4'}
-
   is-core-module@2.16.1:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
     engines: {node: '>= 0.4'}
@@ -5162,6 +5247,9 @@ packages:
   is-core-module@2.16.2:
     resolution: {integrity: sha512-evOr8xfXKxE6qSR0hSXL2r3sd7ALj8+7jQEUvPYcm5sgZFdJ+AYzT6yNmJenvIYQBgIGwfwz08sL8zoL7yq2BA==}
     engines: {node: '>= 0.4'}
+
+  is-deflate@1.0.0:
+    resolution: {integrity: sha512-YDoFpuZWu1VRXlsnlYMzKyVRITXj7Ej/V9gXQ2/pAe7X1J7M/RNOqaIYi6qUn+B7nGyB9pDXrv02dsB58d2ZAQ==}
 
   is-extglob@2.1.1:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
@@ -5173,6 +5261,10 @@ packages:
 
   is-glob@4.0.3:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
+    engines: {node: '>=0.10.0'}
+
+  is-gzip@1.0.0:
+    resolution: {integrity: sha512-rcfALRIb1YewtnksfRIHGcIY93QnK8BIQ/2c9yDYcG/Y6+vRoJuTWBmmSEbyLLYtXm7q35pHOHbZFQBaLrhlWQ==}
     engines: {node: '>=0.10.0'}
 
   is-mobile@5.0.0:
@@ -5196,19 +5288,12 @@ packages:
     resolution: {integrity: sha512-Dnz92NInDqYckGEUJv689RbRiTSEHCQ7wOVeALbkOz999YpqT46yMRIGtSNl2iCL1waAZSx40+h59NV/EwzV/A==}
     engines: {node: '>=18'}
 
-  is-typed-array@1.1.15:
-    resolution: {integrity: sha512-p3EcsicXjit7SaskXHs1hA91QxgTw46Fv6EFKKGS5DRFLD8yKnohjF3hxoju94b/OcMZoQukzpPpBE9uLVKzgQ==}
-    engines: {node: '>= 0.4'}
-
   is-unicode-supported@2.1.0:
     resolution: {integrity: sha512-mE00Gnza5EEB3Ds0HfMyllZzbBrmLOX3vfWoj9A9PEnTfratQ/BcaJOuMhnkhjXvb2+FkY3VuHqtAGpTPmglFQ==}
     engines: {node: '>=18'}
 
   isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
-
-  isarray@2.0.5:
-    resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
 
   isexe@4.0.0:
     resolution: {integrity: sha512-FFUtZMpoZ8RqHS3XeXEmHWLA4thH+ZxCv2lOiPIn1Xc7CxrqhWzNSDzD+/chS/zbYezmiwWLdQC09JdQKmthOw==}
@@ -5463,9 +5548,6 @@ packages:
     resolution: {integrity: sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==}
     engines: {node: 18 || 20 || >=22}
 
-  minimist@1.2.8:
-    resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-
   minipass-collect@2.0.1:
     resolution: {integrity: sha512-D7V8PO9oaz7PWGLbCACuI1qEOsq7UKfLotx/C0Aet43fCUB/wfQ7DYeq2oR/svFJGYDHPr38SHATeaj/ZoKHKw==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -5501,10 +5583,6 @@ packages:
   minizlib@3.1.0:
     resolution: {integrity: sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw==}
     engines: {node: '>= 18'}
-
-  mkdirp@0.5.6:
-    resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
-    hasBin: true
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
@@ -5672,6 +5750,9 @@ packages:
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
 
+  pako@0.2.9:
+    resolution: {integrity: sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==}
+
   parse-ms@4.0.0:
     resolution: {integrity: sha512-TXfryirbmq34y8QBwgqCVLi+8oA3oWx2eAnSn62ITyEhEYaWRlVZ2DvMM9eZbMs/RfxPu/PK/aBLyGj4IrqMHw==}
     engines: {node: '>=18'}
@@ -5699,6 +5780,9 @@ packages:
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
+  peek-stream@1.1.3:
+    resolution: {integrity: sha512-FhJ+YbOSBb9/rIl2ZeE/QHEsWn7PqNYt8ARAY3kIgNGOk13g9FGyIY6JIl/xB/3TFRVoTv5as0l11weORrTekA==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -5713,10 +5797,6 @@ packages:
   picomatch@4.0.5:
     resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
-
-  possible-typed-array-names@1.1.0:
-    resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
-    engines: {node: '>= 0.4'}
 
   postcss@8.5.25:
     resolution: {integrity: sha512-DTPx3RWSSnWyzLxQnlH0rJP+EW5ekl16ZU4/psbIhA0e53kJfdgaN5vKM+xP7yJtXVu+nfdVFmlgFDEKAe4Pyw==}
@@ -5751,8 +5831,14 @@ packages:
       kerberos:
         optional: true
 
-  pump@1.0.3:
-    resolution: {integrity: sha512-8k0JupWme55+9tCVE+FS5ULT3K6AbgqrGa58lTT49RpyfwwcGedHqaC5LlQNdEAumn/wFsu6aPwkuPMioy8kqw==}
+  pump@2.0.1:
+    resolution: {integrity: sha512-ruPMNRkN3MHP1cWJc9OWr+T/xDP0jhXYCLfJcBuX54hhfIBnaQmAUMfDcG4DM5UMWByBbJY69QSphm3jtDKIkA==}
+
+  pump@3.0.4:
+    resolution: {integrity: sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==}
+
+  pumpify@1.5.1:
+    resolution: {integrity: sha512-oClZI37HvuUJJxSKKrC17bZ9Cu0ZYhEAGPsPUy9KlMUmv9dKX2o77RUmq7f3XjIxbwyGwYzbzQ1L2Ks8sIradQ==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -5875,10 +5961,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  set-function-length@1.2.2:
-    resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
-    engines: {node: '>= 0.4'}
-
   siginfo@2.0.0:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
 
@@ -5954,6 +6036,12 @@ packages:
   std-env@4.2.0:
     resolution: {integrity: sha512-oCUKSupKTHX53EyjDtuZQ64pjLJ6yYCtpmEw0goYxtjG9KpbRe8KAsl2tBUGU9DyMcJ0RwJ8GqJAFzMXcXW1Rw==}
 
+  stream-shift@1.0.3:
+    resolution: {integrity: sha512-76ORR0DO1o1hlKwTbi/DM3EXWGf3ZJYO8cXX5RJwnul2DEg2oyoZyjLNoQM8WsvZiFKCRfC1O0J7iCvie3RZmQ==}
+
+  streamx@2.28.1:
+    resolution: {integrity: sha512-zEzXb0s5Cds7tqMH6rhZ05lcJydCWiQPEwiNngVqzsxCc962vLY4Uw+mW7od8kDH258k2Uz/JrOkdIAAhSh9VA==}
+
   string-argv@0.3.2:
     resolution: {integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==}
     engines: {node: '>=0.6.19'}
@@ -5987,12 +6075,11 @@ packages:
     resolution: {integrity: sha512-4WK/bYZmj8xLr+HUCODHGF1ZFzsYffasLUgEiMBY4fgtltdO6B4WJtlSbPaDTLpYTcGVwM2qLnFTICEcNxs3kA==}
     engines: {node: '>=6'}
 
-  tar-fs@1.16.5:
-    resolution: {integrity: sha512-1ergVCCysmwHQNrOS+Pjm4DQ4nrGp43+Xnu4MRGjCnQu/m3hEgLNS78d5z+B8OJ1hN5EejJdCSFZE1oM6AQXAQ==}
+  tar-fs@3.1.3:
+    resolution: {integrity: sha512-/hU4AXnIdZu+Gvl1pk0oI5f5HxWsCJRtY2aFaJdk9VvyL48DWU6iU5WAIPG+wIi1YvWA6eTJvIviP/tMAZZNwQ==}
 
-  tar-stream@1.6.2:
-    resolution: {integrity: sha512-rzS0heiNf8Xn7/mpdSVVSMAWAoy9bfb1WOTYC78Z0UQKeKa/CWS8FOq0lKGNa8DWKAn9gxjCvMLYc5PGXYlK2A==}
-    engines: {node: '>= 0.8.0'}
+  tar-stream@3.2.1:
+    resolution: {integrity: sha512-nqsEO8zLZJvrOMdEwkA0QdCLFbetHMn95Zqu4fKwX+hkaTWJPZZOrxx/PwtxoK0MMGQmBQNRW3CPs8IFYQz4cQ==}
 
   tar@7.5.11:
     resolution: {integrity: sha512-ChjMH33/KetonMTAtpYdgUFr0tbz69Fp2v7zWxQfYZX4g5ZN2nOBXm1R2xyA+lMIKrLKIoKAwFj93jE/avX9cQ==}
@@ -6002,12 +6089,18 @@ packages:
     resolution: {integrity: sha512-MFO/QzvtAOmJbkhOaCTvbGcFN9L9b+JunIsDwaKljSOdcLMea3NJ1k9Usz/rjdfSXTq4dfzfeS7W4p4YOAAHeA==}
     engines: {node: '>=18'}
 
-  targz@1.0.1:
-    resolution: {integrity: sha512-6q4tP9U55mZnRuMTBqnqc3nwYQY3kv+QthCFZuMk+Tn1qYUnMPmL/JZ/mzgXINzFpSqfU+242IFmFU9VPvqaQw==}
+  teex@1.0.1:
+    resolution: {integrity: sha512-eYE6iEI62Ni1H8oIa7KlDU6uQBtqr4Eajni3wX7rpfXD8ysFx8z0+dri+KWEPWpBsxXfxu58x/0jvTVT1ekOSg==}
+
+  text-decoder@1.2.7:
+    resolution: {integrity: sha512-vlLytXkeP4xvEq2otHeJfSQIRyWxo/oZGEbXrtEEF9Hnmrdly59sUbzZ/QgyWuLYHctCHxFF4tRQZNQ9k60ExQ==}
 
   throttle-debounce@5.0.2:
     resolution: {integrity: sha512-B71/4oyj61iNH0KeCamLuE2rmKuTO5byTOSVwECM5FA7TiAiAW+UqTKZ9ERueC4qvgSttUhdmq1mXC3kJqGX7A==}
     engines: {node: '>=12.22'}
+
+  through2@2.0.5:
+    resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
 
   tiny-async-pool@2.1.0:
     resolution: {integrity: sha512-ltAHPh/9k0STRQqaoUX52NH4ZQYAJz24ZAEwf1Zm+HYg3l9OXTWeqWKyYsHu40wF/F0rxd2N2bk5sLvX2qlSvg==}
@@ -6027,10 +6120,6 @@ packages:
     resolution: {integrity: sha512-Bf+ILmBgretUrdJxzXM0SgXLZ3XfiaUuOj/IKQHuTXip+05Xn+uyEYdVg0kYDipTBcLrCVyUzAPz7QmArb0mmw==}
     engines: {node: '>=14.0.0'}
 
-  to-buffer@1.2.1:
-    resolution: {integrity: sha512-tB82LpAIWjhLYbqjx3X4zEeHN6M8CiuOEy2JY8SEQVdYRe3CCHOFaqrBW1doLDrfpWhplcW7BL+bO3/6S3pcDQ==}
-    engines: {node: '>= 0.4'}
-
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
@@ -6041,10 +6130,6 @@ packages:
   tuf-js@6.0.0:
     resolution: {integrity: sha512-zlJVOIO68hmgo1//X4ENEcTGfuOTAtDPi8PsTsG+FyxD85E/ww1ZnwBbWo/yCEExGpI+Kilg7Z3qCdHX2BoJTQ==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
-
-  typed-array-buffer@1.0.3:
-    resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
-    engines: {node: '>= 0.4'}
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
@@ -6261,10 +6346,6 @@ packages:
     resolution: {integrity: sha512-XZyoF5/5hZtXitIwzrU4NKK+Wtbb9aB9CezUEw2Q0wlYK8NUYQxC1rRXgNueYLtBAJwXIb+/tFVk4dozciNJMA==}
     engines: {node: '>=22'}
     hasBin: true
-
-  which-typed-array@1.1.19:
-    resolution: {integrity: sha512-rEvr90Bck4WZt9HHFC4DJMsjvu7x+r6bImz0/BrbWb7A2djJ8hnZMrWnHo9F8ssv0OMErasDhftrfROTyqSDrw==}
-    engines: {node: '>= 0.4'}
 
   which@7.0.0:
     resolution: {integrity: sha512-RancgH2dmbLdHl6LRhEqvklWMgl/Hdnun0Y90KhBOLkMefg8Qa7/Zel8Sm+8HEcP6DEjzsWzpkuBQEZok58isA==}
@@ -6557,9 +6638,15 @@ snapshots:
   '@biomejs/cli-win32-x64@2.5.7':
     optional: true
 
+  '@biomejs/js-api@6.0.0(@biomejs/wasm-nodejs@2.5.14)':
+    optionalDependencies:
+      '@biomejs/wasm-nodejs': 2.5.14
+
   '@biomejs/js-api@6.0.0(@biomejs/wasm-nodejs@2.5.7)':
     optionalDependencies:
       '@biomejs/wasm-nodejs': 2.5.7
+
+  '@biomejs/wasm-nodejs@2.5.14': {}
 
   '@biomejs/wasm-nodejs@2.5.7': {}
 
@@ -6712,23 +6799,23 @@ snapshots:
 
   '@jsep-plugin/regex@1.0.4': {}
 
-  '@microsoft/api-extractor-model@7.33.10(@types/node@26.6.1)':
+  '@microsoft/api-extractor-model@7.33.10(@types/node@26.6.2)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.1
-      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.2)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.58.12(@types/node@26.6.1)':
+  '@microsoft/api-extractor@7.58.12(@types/node@26.6.2)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.33.10(@types/node@26.6.1)
+      '@microsoft/api-extractor-model': 7.33.10(@types/node@26.6.2)
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.1
-      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.2)
       '@rushstack/rig-package': 0.7.3
-      '@rushstack/terminal': 0.24.2(@types/node@26.6.1)
-      '@rushstack/ts-command-line': 5.3.12(@types/node@26.6.1)
+      '@rushstack/terminal': 0.24.2(@types/node@26.6.2)
+      '@rushstack/ts-command-line': 5.3.12(@types/node@26.6.2)
       diff: 8.0.3
       minimatch: 10.2.3
       resolve: 1.22.12
@@ -7512,23 +7599,23 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.62.4':
     optional: true
 
-  '@rushstack/heft-config-file@0.20.12(@types/node@26.6.1)':
+  '@rushstack/heft-config-file@0.20.12(@types/node@26.6.2)':
     dependencies:
-      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.2)
       '@rushstack/rig-package': 0.7.3
-      '@rushstack/terminal': 0.24.2(@types/node@26.6.1)
+      '@rushstack/terminal': 0.24.2(@types/node@26.6.2)
       jsonpath-plus: 10.3.0
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/heft@1.2.22(@types/node@26.6.1)':
+  '@rushstack/heft@1.2.22(@types/node@26.6.2)':
     dependencies:
-      '@rushstack/heft-config-file': 0.20.12(@types/node@26.6.1)
-      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.1)
-      '@rushstack/operation-graph': 0.6.11(@types/node@26.6.1)
+      '@rushstack/heft-config-file': 0.20.12(@types/node@26.6.2)
+      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.2)
+      '@rushstack/operation-graph': 0.6.11(@types/node@26.6.2)
       '@rushstack/rig-package': 0.7.3
-      '@rushstack/terminal': 0.24.2(@types/node@26.6.1)
-      '@rushstack/ts-command-line': 5.3.12(@types/node@26.6.1)
+      '@rushstack/terminal': 0.24.2(@types/node@26.6.2)
+      '@rushstack/ts-command-line': 5.3.12(@types/node@26.6.2)
       '@types/tapable': 1.0.6
       fast-glob: 3.3.3
       git-repo-info: 2.1.1
@@ -7538,7 +7625,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/node-core-library@5.23.3(@types/node@26.6.1)':
+  '@rushstack/node-core-library@5.23.3(@types/node@26.6.2)':
     dependencies:
       ajv: 8.17.1
       ajv-draft-04: 1.0.0(ajv@8.17.1)
@@ -7549,35 +7636,35 @@ snapshots:
       resolve: 1.22.12
       semver: 7.7.4
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
-  '@rushstack/operation-graph@0.6.11(@types/node@26.6.1)':
+  '@rushstack/operation-graph@0.6.11(@types/node@26.6.2)':
     dependencies:
-      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.1)
-      '@rushstack/terminal': 0.24.2(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.2)
+      '@rushstack/terminal': 0.24.2(@types/node@26.6.2)
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
-  '@rushstack/problem-matcher@0.2.1(@types/node@26.6.1)':
+  '@rushstack/problem-matcher@0.2.1(@types/node@26.6.2)':
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
   '@rushstack/rig-package@0.7.3':
     dependencies:
       jju: 1.4.0
       resolve: 1.22.12
 
-  '@rushstack/terminal@0.24.2(@types/node@26.6.1)':
+  '@rushstack/terminal@0.24.2(@types/node@26.6.2)':
     dependencies:
-      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.1)
-      '@rushstack/problem-matcher': 0.2.1(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@26.6.2)
+      '@rushstack/problem-matcher': 0.2.1(@types/node@26.6.2)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
-  '@rushstack/ts-command-line@5.3.12(@types/node@26.6.1)':
+  '@rushstack/ts-command-line@5.3.12(@types/node@26.6.2)':
     dependencies:
-      '@rushstack/terminal': 0.24.2(@types/node@26.6.1)
+      '@rushstack/terminal': 0.24.2(@types/node@26.6.2)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -7721,6 +7808,10 @@ snapshots:
 
   '@types/global-agent@3.0.0': {}
 
+  '@types/gunzip-maybe@1.4.3':
+    dependencies:
+      '@types/node': 26.6.1
+
   '@types/history@4.7.11': {}
 
   '@types/jsesc@2.5.1': {}
@@ -7741,6 +7832,10 @@ snapshots:
       undici-types: 8.3.0
 
   '@types/node@26.6.1':
+    dependencies:
+      undici-types: 8.9.0
+
+  '@types/node@26.6.2':
     dependencies:
       undici-types: 8.9.0
 
@@ -7805,17 +7900,12 @@ snapshots:
 
   '@types/tar-fs@2.0.4':
     dependencies:
-      '@types/node': 26.1.2
+      '@types/node': 26.6.1
       '@types/tar-stream': 3.1.4
 
   '@types/tar-stream@3.1.4':
     dependencies:
-      '@types/node': 26.1.2
-
-  '@types/targz@1.0.5':
-    dependencies:
-      '@types/node': 26.1.2
-      '@types/tar-fs': 2.0.4
+      '@types/node': 26.6.1
 
   '@types/tiny-async-pool@2.0.3': {}
 
@@ -8019,18 +8109,40 @@ snapshots:
 
   attr-accept@2.2.5: {}
 
-  available-typed-arrays@1.0.7:
-    dependencies:
-      possible-typed-array-names: 1.1.0
+  b4a@1.9.0: {}
 
   balanced-match@4.0.4: {}
 
-  baseline-browser-mapping@2.11.12: {}
+  bare-events@2.9.2: {}
 
-  bl@1.2.3:
+  bare-fs@4.8.1:
     dependencies:
-      readable-stream: 2.3.8
-      safe-buffer: 5.2.1
+      bare-events: 2.9.2
+      bare-path: 3.1.2
+      bare-stream: 2.13.4(bare-events@2.9.2)
+      bare-url: 2.5.4
+      fast-fifo: 1.3.2
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - react-native-b4a
+
+  bare-path@3.1.2: {}
+
+  bare-stream@2.13.4(bare-events@2.9.2):
+    dependencies:
+      b4a: 1.9.0
+      streamx: 2.28.1
+      teex: 1.0.1
+    optionalDependencies:
+      bare-events: 2.9.2
+    transitivePeerDependencies:
+      - react-native-b4a
+
+  bare-url@2.5.4:
+    dependencies:
+      bare-path: 3.1.2
+
+  baseline-browser-mapping@2.11.12: {}
 
   boolbase@1.0.0: {}
 
@@ -8045,6 +8157,10 @@ snapshots:
   braces@3.0.3:
     dependencies:
       fill-range: 7.1.1
+
+  browserify-zlib@0.1.4:
+    dependencies:
+      pako: 0.2.9
 
   browserslist-useragent-regexp@4.1.4:
     dependencies:
@@ -8061,15 +8177,6 @@ snapshots:
       electron-to-chromium: 1.5.401
       node-releases: 2.0.52
       update-browserslist-db: 1.2.3
-
-  buffer-alloc-unsafe@1.1.0: {}
-
-  buffer-alloc@1.2.0:
-    dependencies:
-      buffer-alloc-unsafe: 1.1.0
-      buffer-fill: 1.0.0
-
-  buffer-fill@1.0.0: {}
 
   buffer-from@1.1.2: {}
 
@@ -8092,18 +8199,6 @@ snapshots:
     dependencies:
       es-errors: 1.3.0
       function-bind: 1.1.2
-
-  call-bind@1.0.8:
-    dependencies:
-      call-bind-apply-helpers: 1.0.2
-      es-define-property: 1.0.1
-      get-intrinsic: 1.3.0
-      set-function-length: 1.2.2
-
-  call-bound@1.0.4:
-    dependencies:
-      call-bind-apply-helpers: 1.0.2
-      get-intrinsic: 1.3.0
 
   caniuse-lite@1.0.30001806: {}
 
@@ -8135,8 +8230,6 @@ snapshots:
   chokidar@5.0.0:
     dependencies:
       readdirp: 5.0.0
-
-  chownr@1.1.4: {}
 
   chownr@3.0.0: {}
 
@@ -8191,12 +8284,6 @@ snapshots:
       clone: 1.0.4
     optional: true
 
-  define-data-property@1.1.4:
-    dependencies:
-      es-define-property: 1.0.1
-      es-errors: 1.3.0
-      gopd: 1.2.0
-
   delayed-stream@1.0.0: {}
 
   dependency-graph@1.0.0: {}
@@ -8234,6 +8321,13 @@ snapshots:
       call-bind-apply-helpers: 1.0.2
       es-errors: 1.3.0
       gopd: 1.2.0
+
+  duplexify@3.7.1:
+    dependencies:
+      end-of-stream: 1.4.5
+      inherits: 2.0.4
+      readable-stream: 2.3.8
+      stream-shift: 1.0.3
 
   easy-table@1.2.0:
     dependencies:
@@ -8322,6 +8416,12 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.9
 
+  events-universal@1.0.1:
+    dependencies:
+      bare-events: 2.9.2
+    transitivePeerDependencies:
+      - bare-abort-controller
+
   execa@10.0.1:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
@@ -8342,6 +8442,8 @@ snapshots:
   exponential-backoff@3.1.2: {}
 
   fast-deep-equal@3.1.3: {}
+
+  fast-fifo@1.3.2: {}
 
   fast-glob@3.3.3:
     dependencies:
@@ -8381,10 +8483,6 @@ snapshots:
 
   flru@1.0.2: {}
 
-  for-each@0.3.5:
-    dependencies:
-      is-callable: 1.2.7
-
   form-data@2.5.5:
     dependencies:
       asynckit: 0.4.0
@@ -8405,8 +8503,6 @@ snapshots:
   formatly@0.3.0:
     dependencies:
       fd-package-json: 2.0.0
-
-  fs-constants@1.0.0: {}
 
   fs-extra@11.3.5:
     dependencies:
@@ -8469,11 +8565,16 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  has-flag@4.0.0: {}
-
-  has-property-descriptors@1.0.2:
+  gunzip-maybe@1.4.2:
     dependencies:
-      es-define-property: 1.0.1
+      browserify-zlib: 0.1.4
+      is-deflate: 1.0.0
+      is-gzip: 1.0.0
+      peek-stream: 1.1.3
+      pumpify: 1.5.1
+      through2: 2.0.5
+
+  has-flag@4.0.0: {}
 
   has-symbols@1.1.0: {}
 
@@ -8551,8 +8652,6 @@ snapshots:
 
   ip-address@10.4.0: {}
 
-  is-callable@1.2.7: {}
-
   is-core-module@2.16.1:
     dependencies:
       hasown: 2.0.2
@@ -8560,6 +8659,8 @@ snapshots:
   is-core-module@2.16.2:
     dependencies:
       hasown: 2.0.4
+
+  is-deflate@1.0.0: {}
 
   is-extglob@2.1.1: {}
 
@@ -8570,6 +8671,8 @@ snapshots:
   is-glob@4.0.3:
     dependencies:
       is-extglob: 2.1.1
+
+  is-gzip@1.0.0: {}
 
   is-mobile@5.0.0: {}
 
@@ -8585,15 +8688,9 @@ snapshots:
 
   is-stream@4.0.1: {}
 
-  is-typed-array@1.1.15:
-    dependencies:
-      which-typed-array: 1.1.19
-
   is-unicode-supported@2.1.0: {}
 
   isarray@1.0.0: {}
-
-  isarray@2.0.5: {}
 
   isexe@4.0.0: {}
 
@@ -8802,8 +8899,6 @@ snapshots:
     dependencies:
       brace-expansion: 5.0.9
 
-  minimist@1.2.8: {}
-
   minipass-collect@2.0.1:
     dependencies:
       minipass: 7.1.3
@@ -8839,10 +8934,6 @@ snapshots:
   minizlib@3.1.0:
     dependencies:
       minipass: 7.1.3
-
-  mkdirp@0.5.6:
-    dependencies:
-      minimist: 1.2.8
 
   ms@2.1.3: {}
 
@@ -9006,6 +9097,8 @@ snapshots:
       - kerberos
       - supports-color
 
+  pako@0.2.9: {}
+
   parse-ms@4.0.0: {}
 
   parse5-htmlparser2-tree-adapter@7.1.0:
@@ -9032,6 +9125,12 @@ snapshots:
 
   pathe@2.0.3: {}
 
+  peek-stream@1.1.3:
+    dependencies:
+      buffer-from: 1.1.2
+      duplexify: 3.7.1
+      through2: 2.0.5
+
   picocolors@1.1.1: {}
 
   picomatch@2.3.2: {}
@@ -9039,8 +9138,6 @@ snapshots:
   picomatch@4.0.4: {}
 
   picomatch@4.0.5: {}
-
-  possible-typed-array-names@1.1.0: {}
 
   postcss@8.5.25:
     dependencies:
@@ -9066,10 +9163,21 @@ snapshots:
 
   proxy-agent-negotiate@1.1.0: {}
 
-  pump@1.0.3:
+  pump@2.0.1:
     dependencies:
       end-of-stream: 1.4.5
       once: 1.4.0
+
+  pump@3.0.4:
+    dependencies:
+      end-of-stream: 1.4.5
+      once: 1.4.0
+
+  pumpify@1.5.1:
+    dependencies:
+      duplexify: 3.7.1
+      inherits: 2.0.4
+      pump: 2.0.1
 
   queue-microtask@1.2.3: {}
 
@@ -9248,15 +9356,6 @@ snapshots:
 
   semver@7.8.5: {}
 
-  set-function-length@1.2.2:
-    dependencies:
-      define-data-property: 1.1.4
-      es-errors: 1.3.0
-      function-bind: 1.1.2
-      get-intrinsic: 1.3.0
-      gopd: 1.2.0
-      has-property-descriptors: 1.0.2
-
   siginfo@2.0.0: {}
 
   signal-exit@4.1.0: {}
@@ -9326,6 +9425,17 @@ snapshots:
 
   std-env@4.2.0: {}
 
+  stream-shift@1.0.3: {}
+
+  streamx@2.28.1:
+    dependencies:
+      events-universal: 1.0.1
+      fast-fifo: 1.3.2
+      text-decoder: 1.2.7
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - react-native-b4a
+
   string-argv@0.3.2: {}
 
   string-convert@0.2.1: {}
@@ -9348,22 +9458,28 @@ snapshots:
 
   tapable@1.1.3: {}
 
-  tar-fs@1.16.5:
+  tar-fs@3.1.3:
     dependencies:
-      chownr: 1.1.4
-      mkdirp: 0.5.6
-      pump: 1.0.3
-      tar-stream: 1.6.2
+      pump: 3.0.4
+      tar-stream: 3.2.1
+    optionalDependencies:
+      bare-fs: 4.8.1
+      bare-path: 3.1.2
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - bare-buffer
+      - react-native-b4a
 
-  tar-stream@1.6.2:
+  tar-stream@3.2.1:
     dependencies:
-      bl: 1.2.3
-      buffer-alloc: 1.2.0
-      end-of-stream: 1.4.5
-      fs-constants: 1.0.0
-      readable-stream: 2.3.8
-      to-buffer: 1.2.1
-      xtend: 4.0.2
+      b4a: 1.9.0
+      bare-fs: 4.8.1
+      fast-fifo: 1.3.2
+      streamx: 2.28.1
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - bare-buffer
+      - react-native-b4a
 
   tar@7.5.11:
     dependencies:
@@ -9381,11 +9497,25 @@ snapshots:
       minizlib: 3.1.0
       yallist: 5.0.0
 
-  targz@1.0.1:
+  teex@1.0.1:
     dependencies:
-      tar-fs: 1.16.5
+      streamx: 2.28.1
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - react-native-b4a
+
+  text-decoder@1.2.7:
+    dependencies:
+      b4a: 1.9.0
+    transitivePeerDependencies:
+      - react-native-b4a
 
   throttle-debounce@5.0.2: {}
+
+  through2@2.0.5:
+    dependencies:
+      readable-stream: 2.3.8
+      xtend: 4.0.2
 
   tiny-async-pool@2.1.0: {}
 
@@ -9400,12 +9530,6 @@ snapshots:
 
   tinyrainbow@3.1.0: {}
 
-  to-buffer@1.2.1:
-    dependencies:
-      isarray: 2.0.5
-      safe-buffer: 5.2.1
-      typed-array-buffer: 1.0.3
-
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
@@ -9419,12 +9543,6 @@ snapshots:
       debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
-
-  typed-array-buffer@1.0.3:
-    dependencies:
-      call-bound: 1.0.4
-      es-errors: 1.3.0
-      is-typed-array: 1.1.15
 
   typescript@5.9.3: {}
 
@@ -9501,13 +9619,13 @@ snapshots:
       - tsx
       - yaml
 
-  vite-node@6.0.0(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
+  vite-node@6.0.0(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
     dependencies:
       cac: 7.0.0
       es-module-lexer: 2.0.0
       obug: 2.1.1
       pathe: 2.0.3
-      vite: 8.0.1(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.0.1(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
     transitivePeerDependencies:
       - '@types/node'
       - '@vitejs/devtools'
@@ -9535,7 +9653,7 @@ snapshots:
       jiti: 2.7.0
       yaml: 2.9.0
 
-  vite@8.0.1(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
+  vite@8.0.1(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.5
@@ -9543,7 +9661,7 @@ snapshots:
       rolldown: 1.0.0-rc.10
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
       esbuild: 0.28.1
       jiti: 2.7.0
       yaml: 2.9.0
@@ -9561,7 +9679,7 @@ snapshots:
       jiti: 2.7.0
       yaml: 2.9.0
 
-  vite@8.2.0(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
+  vite@8.2.0(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.5
@@ -9569,7 +9687,7 @@ snapshots:
       rolldown: 1.2.2
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
       esbuild: 0.28.1
       jiti: 2.7.0
       yaml: 2.9.0
@@ -9612,7 +9730,7 @@ snapshots:
       - tsx
       - yaml
 
-  vitest@4.1.10(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
+  vitest@4.1.10(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0):
     dependencies:
       '@vitest/expect': 4.1.10
       '@vitest/mocker': 4.1.10(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
@@ -9632,10 +9750,10 @@ snapshots:
       tinyexec: 1.2.4
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vite: 8.2.0(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.0(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
     transitivePeerDependencies:
       - '@vitejs/devtools'
       - esbuild
@@ -9669,16 +9787,6 @@ snapshots:
   whatwg-mimetype@4.0.0: {}
 
   which-command@0.1.0: {}
-
-  which-typed-array@1.1.19:
-    dependencies:
-      available-typed-arrays: 1.0.7
-      call-bind: 1.0.8
-      call-bound: 1.0.4
-      for-each: 0.3.5
-      get-proto: 1.0.1
-      gopd: 1.2.0
-      has-tostringtag: 1.0.2
 
   which@7.0.0:
     dependencies:

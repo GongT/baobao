@@ -11,6 +11,9 @@ import { open } from 'node:inspector/promises';
  * @param port 调试器监听的端口，默认为 9229
  */
 export function forceDebuggerBreak(port = 9229) {
+	// if (process.env.CI) {
+	// 	throw new Error('试图在 CI 环境中触发调试器断点');
+	// }
 	if (inspector.url()) {
 		// biome-ignore lint/suspicious/noDebugger: expect
 		debugger;

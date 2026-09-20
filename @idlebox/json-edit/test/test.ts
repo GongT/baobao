@@ -1,8 +1,19 @@
 import { existsSync, mkdirSync, unlink } from 'node:fs';
 import { resolve } from 'node:path';
-import { insertKeyAlphabet, loadJsonFile, parseJsonText, reformatJson, writeJsonFile, writeJsonFileBack, writeJsonFileBackForce } from '../src/index.js';
+import {
+	BiomeApiFormat,
+	insertKeyAlphabet,
+	loadJsonFile,
+	parseJsonText,
+	reformatJson,
+	setDefaultFormatter,
+	writeJsonFile,
+	writeJsonFileBack,
+} from '../src/index.js';
 
 console.log('\x1Bc==== 运行测试程序 ====');
+
+setDefaultFormatter(BiomeApiFormat);
 
 process.chdir(import.meta.dirname);
 console.log('cwd: %s', process.cwd());
@@ -18,6 +29,9 @@ function resultFs(f: string) {
 	return testFs('results', f);
 }
 
+const test = parseJsonText(`{\n//aaa\n"a":1}`);
+await writeJsonFile(resultFs('test-initial.json'), test);
+
 const data = await loadJsonFile(testFs('tsconfig.json'));
 await reformatJson(data, { lastNewLine: false });
 await writeJsonFile(resultFs('test-no-newline.json'), data); // no last line
@@ -28,14 +42,14 @@ await writeJsonFile(resultFs('test-reformat.json'), data2); // arrays will wrap
 
 const data3 = parseJsonText(`{
 		"a":1,
-		/* comment of c */
+				/* comment of c */
 		"c":1
 	}`);
 insertKeyAlphabet(data3, 'b', 2);
-await writeJsonFile(resultFs('test-insert.json'), data3); // will be {a:1,b:2,c:1}
+await writeJsonFile(resultFs('test-insert.jsonc'), data3); // will be {a:1,b:2,c:1}
 
 const data4 = parseJsonText('{"i":1}');
-await writeJsonFile(resultFs('test-back.json'), data4); // will be {i: 2}
+await writeJsonFile(resultFs('test-back.json'), data4); // will be {i: 1}
 
 const data4t = await loadJsonFile(resultFs('test-back.json'));
 data4t.i += 1;
@@ -50,4 +64,6 @@ await new Promise<void>((resolve, reject) => {
 await writeJsonFileBack(data5); // targe file will not exists
 
 const myPackage = await loadJsonFile(testFs('../package.json'));
-await writeJsonFileBackForce(myPackage);
+await writeJsonFile(resultFs('package.json'), myPackage);
+
+console.log('==== 测试程序结束 ====');

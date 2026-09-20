@@ -1,9 +1,8 @@
 import { logger } from '@idlebox/cli';
-import { execLazyError, exists } from '@idlebox/node';
+import { exists } from '@idlebox/node';
 import { CSI } from '@idlebox/terminal-control/constants';
 import { resolve } from 'node:path';
-import { isVerbose } from '../functions/cli.js';
-import { PackageManager, type IUploadResult } from './driver.abstract.js';
+import { PackageManager, type IPackManExec, type IUploadResult } from './driver.abstract.js';
 
 interface IPnpmPublishResult {
 	id: string;
@@ -48,12 +47,8 @@ const duplicatePublishOnUnpublishRegex = /Cannot publish over previously publish
 export class PNPM extends PackageManager {
 	override binary = 'pnpm';
 
-	override async _pack(saveAs: string) {
-		const chProcess = await execLazyError(this.binary, ['pack', '--out', saveAs], {
-			cwd: this.projectPath,
-			verbose: isVerbose,
-			env: { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' },
-		});
+	override async _pack(saveAs: string, options: IPackManExec) {
+		const chProcess = await this._exec({ cwd: this.projectPath, cmds: ['pack', '--out', saveAs], options });
 		const lastLine = chProcess.stdout.trim().split('\n').pop();
 		if (!lastLine) {
 			throw new Error('impossible: string split empty?');
@@ -67,10 +62,10 @@ export class PNPM extends PackageManager {
 		throw new Error(`pnpm pack失败: ${output} 不存在`);
 	}
 
-	override async _uploadTarball(pack: string, cwd: string): Promise<IUploadResult> {
+	override async _uploadTarball(pack: string, cwd: string, options: IPackManExec): Promise<IUploadResult> {
 		let result: IPnpmPublishResult;
 		const cmds = ['publish', pack, '--json', '--no-git-checks'];
-		const { stdout, all } = await this._execGetOut(cwd, cmds, false);
+		const { stdout, all } = await this._execGetOut({ cwd, cmds, reject: false, options });
 		try {
 			const out = JSON.parse(stdout);
 			if (out.error) {

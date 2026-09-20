@@ -3,7 +3,15 @@
 	"type": "module",
 	"version": "1.0.3",
 	"description": "An empty package as a placeholder for types",
+	"exports": {
+		".": {
+			"types": "./index.d.ts",
+			"default": "./index.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"scripts": {
+		"prepack": "",
 		"build": "",
 		"clean": "",
 		"test": "",
@@ -11,13 +19,6 @@
 		"prepublishHook": "internal-prepublish-hook",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
-	},
-	"exports": {
-		".": {
-			"types": "./index.d.ts",
-			"default": "./index.js"
-		},
-		"./package.json": "./package.json"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

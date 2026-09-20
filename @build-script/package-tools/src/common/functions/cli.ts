@@ -16,9 +16,9 @@ export const isHelp = app.showHelp;
 export const distTagInput = argv.single(['--dist-tag']) || 'latest';
 export const registryInput = argv.single(['--registry']) || 'detect';
 
-/** @deprecated */
+/** @deprecated use {app.debug} instead */
 export const isDebugMode = app.debug;
-/** @deprecated */
+/** @deprecated use {app.verbose} instead */
 export const isVerbose = app.verbose;
 
 export function pArgS(s: string) {

@@ -3,7 +3,7 @@ import { loadJsonFile } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { execaNode } from 'execa';
 import { resolve } from 'node:path';
-import { writeAsPlainJson } from './format.js';
+import { formatFile, writeAsPlainJson } from './format.js';
 import { currentProject } from './paths/current.js';
 
 export let packageJson: IPackageJson;
@@ -24,18 +24,24 @@ export async function writeBackPackageJson() {
 
 	simplifyExportsField(exports);
 
-	const ch = await writeAsPlainJson(resolve(currentProject, 'package.json'), packageJson);
+	const pkgJson = resolve(currentProject, 'package.json');
+	const ch = await writeAsPlainJson(pkgJson, packageJson);
 	packageJson = null as any;
 
 	logger.success`写入 package.json | ${ch ? '有改动' : '没有改动'}`;
 
-	const unpmBin = await findUnpmBin();
-	logger.debug`Found unipm bin at ${unpmBin}`;
-	await execaNode({
-		stdio: 'inherit',
-		nodeOptions: process.execArgv,
-		cwd: currentProject,
-	})`${unpmBin} format-package -i`;
+	if (ch) {
+		const unpmBin = await findUnpmBin();
+		await execaNode({
+			stderr: 'inherit',
+			stdin: Buffer.from(''),
+			stdout: 'pipe',
+			encoding: 'utf8',
+			nodeOptions: process.execArgv,
+			cwd: currentProject,
+		})`${unpmBin} format-package`;
+		await formatFile(pkgJson);
+	}
 
 	return ch;
 }
@@ -44,11 +50,15 @@ export function getExportsField(): IFullExportsField {
 	return exports;
 }
 
+let unpmBin: string | null = null;
 async function findUnpmBin() {
+	if (unpmBin) return unpmBin;
 	const pkgJsonPath = import.meta.resolve('unipm/package.json').slice(7); // remove 'file://'
 	const pkgJson = await loadJsonFile(pkgJsonPath);
 	const binRel = pkgJson.bin.unipm;
-	return resolve(pkgJsonPath, '..', binRel);
+	unpmBin = resolve(pkgJsonPath, '..', binRel);
+	logger.debug`Found unipm bin at ${unpmBin}`;
+	return unpmBin;
 }
 function simplifyExportsField(exports: IFullExportsField) {
 	for (const key in exports) {

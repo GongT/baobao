@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 此脚本在安装完成 pnpm 后、执行 pnpm install 之前运行
+
 set -Eeuo pipefail
 shopt -s inherit_errexit extglob nullglob globstar lastpipe shift_verbose
 
@@ -11,7 +13,7 @@ if ! [[ $CI ]]; then
 fi
 
 sed -i 's#registry.npmmirror.com#registry.npmjs.org#g' .npmrc
-sed -i 's#registry.npmmirror.com#registry.npmjs.org#g' pnpm-workspace.yaml
+sed -i 's#registry.npmmirror.com#registry.npmjs.org#g; s#verifyDepsBeforeRun: .+#verifyDepsBeforeRun: false#g' pnpm-workspace.yaml
 
 {
 	echo "-------------------------"

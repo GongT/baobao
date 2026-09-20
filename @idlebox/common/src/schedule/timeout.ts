@@ -42,6 +42,7 @@ export function raceTimeout<T>(ms: number, message: string, p: PromiseLike<T>): 
  * @param ms timeout in milliseconds
  * @param message error.message when timeout
  * @param p the promise
+ * @throws TimeoutError when the timeout is reached
  * @returns
  */
 export function raceTimeout<T>(ms: number, message_or_p: string | PromiseLike<T>, p?: PromiseLike<T>): Promise<T> {

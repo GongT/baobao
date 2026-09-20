@@ -1,13 +1,18 @@
 {
 	"name": "@gongt/pnpm-instead-npm",
+	"type": "module",
 	"version": "1.0.22",
 	"description": "symlink npm to pnpm, always install with pnpm",
 	"keywords": ["package manager", "pnpm", "npm"],
+	"exports": {
+		"./package.json": "./package.json"
+	},
 	"bin": {
 		"npm": "bin/npm.mjs",
 		"npx": "bin/npx.mjs"
 	},
 	"scripts": {
+		"prepack": "",
 		"build": "",
 		"clean": "",
 		"test": "",
@@ -16,7 +21,6 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"preferGlobal": true,
 	"dependencies": {
 		"execa": "^10.0.1",
 		"npm": "^12.0.2",
@@ -25,12 +29,9 @@
 	"devDependencies": {
 		"@types/node": "^26.1.2"
 	},
-	"exports": {
-		"./package.json": "./package.json"
-	},
-	"type": "module",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},
+	"preferGlobal": true,
 	"sideEffects": false
 }

@@ -1,21 +1,22 @@
-import { PROJECT_ROOT } from '../include/paths.js';
-import { resolve, dirname } from 'node:path';
 import { execaNode } from 'execa';
-import { mkdirSync, rmSync, symlinkSync, existsSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, symlinkSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { afterAll, beforeAll, describe, it } from 'vitest';
+import { PROJECT_ROOT } from '../include/paths.js';
 
 const __dirname = dirname(import.meta.url).replace(/^file:\/\//, '');
 
 describe('The module', () => {
 	const tmp_node_modules = resolve(__dirname, 'node_modules');
 
-	before('create test environment', () => {
+	beforeAll(() => {
 		if (existsSync(tmp_node_modules)) {
 			rmSync(tmp_node_modules, { force: true, recursive: true });
 		}
 		mkdirSync(resolve(tmp_node_modules, '@idlebox'), { recursive: true });
 		symlinkSync(PROJECT_ROOT, resolve(tmp_node_modules, '@idlebox/node'));
 	});
-	after('delete test environment', () => {
+	afterAll(() => {
 		if (existsSync(tmp_node_modules)) {
 			rmSync(tmp_node_modules, { force: true, recursive: true });
 		}

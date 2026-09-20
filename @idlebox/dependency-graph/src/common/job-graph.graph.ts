@@ -66,7 +66,7 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 			this.logger.verbose`startup failed, wait nodes to finish before resolve or reject...`;
 			await this.joinAll();
 			this.logger.verbose`startup failed, reject now...`;
-			throw e;
+			throw new Error(`启动失败`, { cause: e });
 		}
 	}
 

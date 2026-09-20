@@ -39,7 +39,7 @@ export class PassiveAsyncDataSource<T> extends EnhancedAsyncDisposable {
 		if (this.finished) {
 			return { done: true, value: undefined };
 		} else if (this.error) {
-			throw this.error;
+			throw new Error(`PassiveAsyncDataSource: 数据源已出现异常`, { cause: this.error });
 		} else if (this.busy) {
 			throw new Error(`PassiveAsyncDataSource: 上一个next()调用尚未完成`);
 		}

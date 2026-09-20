@@ -51,6 +51,13 @@ export class ErrorWithCode extends Error implements IHumanReadable {
 		}
 		return `${msg}\n  - 但是你不应该看到此信息，开发者忘记处理此种情况`;
 	}
+
+	static getCodeFrom(error: any): number | undefined {
+		if (typeof error?.code === 'number') {
+			return error.code;
+		}
+		return undefined;
+	}
 }
 
 /**

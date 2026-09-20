@@ -1,5 +1,6 @@
 import { stringify } from 'comment-json';
 import { getAttachedFile, getAttachedFormatter } from '../tools/attachData.js';
+import { createFormatterInstance } from '../tools/formatter.js';
 import { manipulateJsonResult, UnorderdFieldsPlacement } from './manipulate.js';
 import type { JsonEditObject } from './types.js';
 
@@ -16,13 +17,18 @@ function orderedStringify(data: any, others: UnorderdFieldsPlacement = UnorderdF
 	return stringify(manipulateJsonResult(data, others), null, 2);
 }
 
-export function stringifyJsonText(data: any) {
-	const { formatter } = getAttachedFormatter(data);
+export async function stringifyJsonText(data: any) {
+	let { formatter } = getAttachedFormatter(data);
+
 	const str = orderedStringify(data);
 
 	const file = getAttachedFile(data);
 
-	return formatter?.format(str, file?.originalPath) ?? str;
+	if (!formatter) {
+		formatter = await createFormatterInstance(str, file?.originalPath);
+	}
+
+	return await formatter.format(str, file?.originalPath);
 }
 
 export function getFormatInfo<K>(data: JsonEditObject<any, K>): K;

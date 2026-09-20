@@ -1,6 +1,6 @@
 import { createWorkspace, type IPackageInfo, type MonorepoWorkspace } from '@build-script/monorepo-lib';
 import { argv, CommandDefine, logger } from '@idlebox/cli';
-import { humanDate } from '@idlebox/common';
+import { humanDate, type CancellationToken } from '@idlebox/common';
 import { Job, JobGraphBuilder } from '@idlebox/dependency-graph';
 import { CSI } from '@idlebox/terminal-control/constants';
 import { makeRe } from 'minimatch';
@@ -40,7 +40,7 @@ class BumpVersionJob extends Job<void> {
 		super(name, deps);
 	}
 
-	protected override async _execute() {
+	protected override async _execute(cancel: CancellationToken) {
 		const { index, length, options, changedPackages } = this.payload;
 		const w = length.toFixed(0).length;
 		console.log(`📦 [${(index + 1).toFixed(0).padStart(w)}/${length}] ${this.project.name}`);
@@ -61,7 +61,7 @@ class BumpVersionJob extends Job<void> {
 			console.log(`  🔍 ${CSI}38;5;14m检查包${CSI}0m`);
 
 			const pm = await createPackageManager(PackageManagerUsageKind.Write, this.workspace, this.project.absolute);
-			const { hasChange, remoteVersion } = await executeChangeDetect(pm, { forcePrivate: options.allowPrivate });
+			const { hasChange, remoteVersion } = await executeChangeDetect(pm, { forcePrivate: options.allowPrivate, cancel });
 
 			if (!remoteVersion) {
 				console.log('    ✨ 远程版本不存在');
@@ -79,6 +79,8 @@ class BumpVersionJob extends Job<void> {
 			}
 		}
 	}
+
+	protected override async _stop(): Promise<void> {}
 }
 
 function options() {
@@ -120,6 +122,8 @@ function options() {
 }
 
 export async function main() {
+	process.env.pnpm_config_verify_deps_before_run = '';
+
 	const workspace = await createWorkspace();
 	await workspace.decoupleDependencies();
 	const projects = await workspace.listPackages();

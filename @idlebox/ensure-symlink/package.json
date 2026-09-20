@@ -1,5 +1,6 @@
 {
 	"name": "@idlebox/ensure-symlink",
+	"type": "module",
 	"version": "1.0.43",
 	"description": "ensure symbol link exists, and content (target) is what you want.",
 	"exports": {
@@ -7,6 +8,7 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
+		"prepack": "",
 		"build": "",
 		"clean": "",
 		"test": "",
@@ -18,7 +20,6 @@
 	"devDependencies": {
 		"@types/node": "^26.1.2"
 	},
-	"type": "module",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},

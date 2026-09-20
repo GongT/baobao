@@ -1,12 +1,13 @@
-import { execa, type Result } from 'execa';
+import { CanceledError, createStackTraceHolder } from '@idlebox/common';
+import { execa, ExecaError, type Result } from 'execa';
 import { basename } from 'node:path';
 import { printLine } from '../cli-io/output.js';
-import { checkChildProcessResult } from './error.js';
 
 interface IExecOptions {
 	readonly cwd?: string;
 	readonly env?: Record<string, string>;
 	readonly verbose?: boolean;
+	readonly cancelSignal?: AbortSignal;
 }
 
 /**
@@ -28,8 +29,10 @@ export function getProcessTitle(): string {
 /**
  * 运行命令，如果出错，则输出缓冲的stderr（如果stdout是inherit，也同时输出stdout）
  * 如果程序正常结束，则程序向stderr输出的内容直接丢弃（如果stdout是inherit，也同时丢弃）
+ *
+ * @deprecated 似乎确实没什么用
  */
-export async function execLazyError(cmd: string, args: string[], { cwd, env, verbose }: IExecOptions = {}) {
+export async function execLazyError(cmd: string, args: string[], { cwd, env, verbose, cancelSignal }: IExecOptions = {}) {
 	if (verbose) {
 		if (process.stderr.isTTY) {
 			process.stderr.write(`\x1B[2m + ${cmd} ${args.join(' ')}\x1B[0m\n`);
@@ -38,40 +41,42 @@ export async function execLazyError(cmd: string, args: string[], { cwd, env, ver
 		}
 	}
 
-	const ret = await execa(cmd, args, {
-		verbose: 'none',
-		lines: false,
-		stdio: ['ignore', 'pipe', 'pipe'],
-		all: true,
-		encoding: 'utf8',
-		reject: false,
-		cwd,
-		env,
-	});
 	try {
-		checkChildProcessResult(ret);
+		return await execa(cmd, args, {
+			verbose: 'none',
+			lines: false,
+			stdio: ['ignore', 'pipe', 'pipe'],
+			all: true,
+			encoding: 'utf8',
+			cwd,
+			env,
+			cancelSignal,
+		});
 	} catch (e: any) {
 		if (process.stderr.isTTY) {
 			console.error('');
 			printLine();
 		}
-		console.error('\x1B[38;5;9m[%s/%d] 命令运行错误: %s', getProcessTitle(), process.pid, e.message);
-		console.error('\x1B[2m$ "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
-		console.error('\x1B[2mcwd: %s\x1B[0m', cwd ?? process.cwd());
-		console.error('\x1B[2m<vvvvv 命令输出 vvvvv>\x1B[0m');
-		console.error(outputToString(ret.all));
-		console.error('\x1B[2m<^^^^^ 命令输出 ^^^^^>\x1B[0m');
+		const message = extractMessage(e);
+		console.error('\x1B[38;5;9m[lazyErr][%s/%d] 命令运行错误: %s\x1B[0m', getProcessTitle(), process.pid, message);
+		console.error('\x1B[2m[lazyErr] 命令行参数: "%s" %s\x1B[0m', cmd, args.map((v) => JSON.stringify(v)).join(' '));
+		console.error('\x1B[2m[lazyErr] 工作目录: %s\x1B[0m', cwd ?? process.cwd());
+		const ee = e.cause ?? e;
+		if (ee instanceof ExecaError) {
+			console.error('\x1B[2m[lazyErr] <vvvvv 命令输出 vvvvv>\x1B[0m');
+			console.error(outputToString(ee.all));
+			console.error('\x1B[2m[lazyErr] <^^^^^ 命令输出 ^^^^^>\x1B[0m');
+			console.error('\x1B[2m[lazyErr] 以上问题来自:\n%s\x1B[0m', createStackTraceHolder('').stackOnly);
+		} else if (ee instanceof CanceledError || ee.name === 'AbortError') {
+			console.error('\x1B[2m[lazyErr] 命令被取消\x1B[0m');
+		} else {
+			console.error('\x1B[2m[lazyErr] 非ExecaError错误: %s\x1B[0m', ee.stack ?? ee.message ?? ee);
+		}
 		if (process.stderr.isTTY) {
 			printLine();
 		}
-		Object.defineProperties(e, {
-			stderr: { enumerable: false, value: ret.stderr },
-			stdout: { enumerable: false, value: ret.stdout },
-			all: { enumerable: false, value: ret.all },
-		});
 		throw e;
 	}
-	return ret;
 }
 
 function outputToString(output: Result['stderr']): string {
@@ -101,4 +106,16 @@ function dim(lines: string[]): string {
 	r = r.trim();
 	r += '\x1B[0m';
 	return r;
+}
+
+const nl = /[\n\r]+/g;
+function extractMessage(e: any): string {
+	if (e instanceof ExecaError) {
+		return e.shortMessage.trim();
+	} else if (e?.originalMessage) {
+		return e.originalMessage.trim().replaceAll(nl, '\n');
+	} else if (e?.message) {
+		return e.message.trim().replaceAll(nl, '\n');
+	}
+	return String(e).replaceAll(nl, '\n');
 }

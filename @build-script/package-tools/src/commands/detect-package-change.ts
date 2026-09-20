@@ -21,6 +21,7 @@ export class Command extends CommandDefine {
 }
 
 export async function main() {
+	process.env.pnpm_config_verify_deps_before_run = '';
 	process.env.COREPACK_ENABLE_STRICT = '0';
 
 	const unshareEnvKey = '10e25435-eae0-4c24-a3fd-ce5dee64b442';

@@ -8,7 +8,7 @@ export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposa
 	protected abstract readonly _dependencies: Set<string>;
 
 	protected declare _state: State;
-	private readonly _onStateChange = new Emitter<State>();
+	private readonly _onStateChange = new Emitter<State>(`${this.displayName}.onStateChange`, Emitter.EAction.Ignore);
 	public readonly onStateChange = this._onStateChange.register;
 
 	constructor(

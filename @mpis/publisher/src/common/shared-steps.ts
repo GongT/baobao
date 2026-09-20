@@ -66,8 +66,13 @@ export async function extractPackage(output: string, sourceTgz = resolve(tempDir
 	symlinkSync(nm, target_nm);
 
 	logger.log`执行prepublishHook……`;
-	await execPnpmUser(tempPackagePath, ['run', '--if-present', 'prepublishHook']);
-	logger.success`prepublishHook成功完成`;
+	try {
+		await execPnpmUser(tempPackagePath, ['run', '--if-present', 'prepublishHook']);
+		logger.success`prepublishHook成功完成`;
+	} catch (e) {
+		logger.error`prepublishHook执行失败`;
+		throw e;
+	}
 
 	unlinkSync(target_nm);
 

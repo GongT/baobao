@@ -6,7 +6,6 @@ import { parse } from 'comment-json';
 import { readFileSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CheckFail, ErrorCollector } from './error-collecter.js';
-import { formatFile } from './format.js';
 import { ObjectChecker } from './object-checker.js';
 import { getExportsField, packageJson, readPackageJson, writeBackPackageJson } from './package-json.js';
 import { currentProject } from './paths/current.js';
@@ -134,22 +133,26 @@ async function executeInner(logger: IMyLogger) {
 	}
 
 	const usingMpis = usingMpisRun();
+	const scripts = {
+		prepublishOnly: 'internal-prepublish-deny',
+		prepack: 'mpis-run build --clean',
+		build: 'mpis-run build',
+		watch: 'mpis-run watch',
+		clean: 'mpis-run clean',
+	};
 	if (usingMpis) {
 		logger.debug('using mpis-run');
 
-		const scripts = {
-			prepublishOnly: 'internal-prepublish-deny',
-			prepack: 'mpis-run build --clean',
-			build: 'mpis-run build',
-			watch: 'mpis-run watch',
-			clean: 'mpis-run clean',
-		};
 		for (const [key, value] of Object.entries(scripts)) {
 			pkgChk.equals(['scripts', key], value);
 		}
 	} else {
 		notice.push(`不使用 mpis-run`);
 		logger.debug('不使用 mpis-run');
+
+		for (const key of Object.keys(scripts)) {
+			pkgChk.hasField(['scripts', key]);
+		}
 	}
 
 	const autoindex = loadAutoIndex(project);
@@ -237,7 +240,6 @@ async function checkTsConfig(project: ProjectConfig, logger: IMyLogger) {
 	}
 
 	const ch = await writeJsonFileBack(data);
-	await formatFile(tsconfigPath);
 
 	logger.success`写入 tsconfig.json | ${ch ? '有改动' : '没有改动'}`;
 }

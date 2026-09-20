@@ -1,6 +1,7 @@
-import { prettyFormatStack } from '@idlebox/common';
+import { CancellationTokenSource, convertCaughtError, objectName, prettyFormatStack, raceTimeout, type CancellationToken } from '@idlebox/common';
 import type { IMyLogger } from '@idlebox/logger';
 import { CSI } from '@idlebox/terminal-control/constants';
+import strict from 'node:assert/strict';
 import { inspect } from 'node:util';
 import { AbstractBaseNode } from './base-graph.js';
 import { JobState, UnrecoverableJobError } from './job-graph.lib.js';
@@ -9,10 +10,26 @@ import { getPauseControl } from './pause-interface.js';
 export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 	protected override _dependencies: Set<string>;
 	private _last_attach?: AttachT | Error;
+	private _process?: Promise<any>;
+	private readonly cancelSource = new CancellationTokenSource();
 
 	constructor(name: string, dependencies: readonly string[], logger?: IMyLogger) {
 		super(name, JobState.NotStarted, logger);
 		this._dependencies = new Set(dependencies);
+		if (this.stop !== Job.prototype.stop) {
+			throw new Error(`stop method must not be overridden`);
+		}
+	}
+
+	protected get processPromise() {
+		return this._process;
+	}
+
+	protected get abortSignal(): AbortSignal {
+		return this.cancelSource.token.abort;
+	}
+	protected get cancelToken(): CancellationToken {
+		return this.cancelSource.token;
 	}
 
 	isStopped(): boolean {
@@ -76,14 +93,19 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 		super.setState(state);
 	}
 
-	protected abstract _execute(): Promise<AttachT | undefined | void>;
+	protected abstract _execute(cancel: CancellationToken): Promise<AttachT | undefined | void>;
 
 	async execute() {
+		this.cancelSource.token.throwIfCanceled();
+
 		if (this._state !== JobState.NotStarted) throw new Error(`Job ${this.name} already (state=${this._state})`);
 		this.setState(JobState.Running);
 
 		try {
-			const r = await this._execute();
+			this._process = Promise.try(() => {
+				return this._execute(this.cancelSource.token);
+			});
+			const r = await this._process;
 
 			// @ts-expect-error: TS2367 _execute() may modify _state
 			if (this._state === JobState.Running) {
@@ -91,8 +113,13 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 			} else {
 				this.publishStateEvent();
 			}
-		} catch (e: any) {
-			this.logger.error`任务执行 _execute() 时抛出错误:\nlong<${prettyFormatStack(e.stack.split('\n')).join('\n')}>`;
+		} catch (ee: unknown) {
+			const e = convertCaughtError(ee);
+			if (e.stack) {
+				this.logger.error`任务执行 _execute() 时抛出错误:\nlong<${prettyFormatStack(e.stack.split('\n')).join('\n')}>`;
+			} else {
+				this.logger.error`任务执行 _execute() 时抛出错误(无栈信息): long<${e.message}>`;
+			}
 			this.setState(JobState.ErrorExited, e);
 		}
 	}
@@ -113,11 +140,25 @@ export abstract class Job<AttachT> extends AbstractBaseNode<JobState> {
 		});
 	}
 
+	/**
+	 * 停止作业的抽象方法，由子类实现具体的停止逻辑
+	 * 在cancelSource被取消前触发
+	 */
+	protected abstract _stop(): Promise<void>;
+
 	async stop(): Promise<void> {
 		if (!this.isStarted()) return;
 		if (this.isStopped()) return;
+		strict.ok(this.processPromise, 'isStarted()==true 时 processPromise 应该存在');
 
-		this.logger.verbose`该任务无法停止(没有重写 stop 方法)`;
+		const stopCall = this._stop();
+		this.cancelSource.cancel();
+
+		try {
+			await raceTimeout(5000, Promise.allSettled([this.processPromise, stopCall]));
+		} catch {
+			throw new Error(`无法在 5000 毫秒内停止作业: ${objectName(this)}`);
+		}
 	}
 
 	override async dispose(): Promise<void> {
@@ -187,8 +228,12 @@ export class EmptyJob extends Job<any> {
 		return true;
 	}
 
-	override _execute(): Promise<any> {
-		throw new Error('试图启动空任务对象');
+	protected override _execute(): Promise<any> {
+		return Promise.reject(new Error('试图启动空任务对象'));
+	}
+
+	protected override _stop(): Promise<void> {
+		return Promise.resolve();
 	}
 
 	override [inspect.custom]() {

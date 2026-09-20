@@ -1,25 +1,25 @@
-import { isWindows } from '@idlebox/common';
-import { dirname, join, resolve } from 'node:path';
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
 import { exists, existsSync } from '../fs/exists.js';
+import { mpath } from './mpath/mpath.js';
 
 export interface IFindOptions {
 	/** 从哪开始找，必须是绝对路径 */
 	from: string;
 	/** 要找的文件 */
 	file: string | string[];
-	/** 最外层目录，超出或偏离都会停止搜索 */
+	/** 最外层目录，超出或偏离都会停止搜索，必须是绝对路径 */
 	top?: string;
-	/** 如果为false，则不使用resolve() */
-	resolveSymlink?: boolean;
 }
 
-const isRoot = isWindows ? /^[A-Z]:[/\\]$/i : /^\/$/;
-
 export async function findUpUntil(opts: IFindOptions): Promise<string | null> {
-	const resolvePath = opts.resolveSymlink === false ? join : resolve;
 	const files = Array.isArray(opts.file) ? opts.file : [opts.file];
-	const top = opts.top ? resolvePath(opts.top) : undefined;
-	let cursor = resolvePath(opts.from);
+	assert.ok(files.length > 0, '参数"file"不能为空');
+	assert.ok(mpath.isAbsolute(opts.from), '参数"from"必须是绝对路径');
+	if (opts.top) assert.ok(mpath.isAbsolute(opts.top), '参数"top"必须是绝对路径');
+
+	let cursor = mpath.normalizeSlash(opts.from);
+	const top = opts.top ? mpath.normalizeSlash(opts.top) : mpath.rootOf(opts.from);
 
 	while (true) {
 		if (top && !cursor.startsWith(top)) {
@@ -29,15 +29,15 @@ export async function findUpUntil(opts: IFindOptions): Promise<string | null> {
 		if (found) {
 			return found;
 		}
-		if (isRoot.test(cursor)) {
+		if (mpath.isRoot(cursor)) {
 			return null;
 		}
-		cursor = dirname(cursor);
+		cursor = mpath.dirname(cursor);
 	}
 
 	async function findInDir(dir: string): Promise<string | null> {
 		for (const file of files) {
-			const target = resolvePath(dir, file);
+			const target = resolve(dir, file);
 			if (await exists(target)) {
 				return target;
 			}
@@ -47,10 +47,9 @@ export async function findUpUntil(opts: IFindOptions): Promise<string | null> {
 }
 
 export async function* findUp(opts: IFindOptions): AsyncIterableIterator<string> {
-	const resolvePath = opts.resolveSymlink === false ? join : resolve;
 	const files = Array.isArray(opts.file) ? opts.file : [opts.file];
-	const top = opts.top ? resolvePath(opts.top) : undefined;
-	let cursor = resolvePath(opts.from);
+	let cursor = mpath.normalizeSlash(opts.from);
+	const top = opts.top ? mpath.normalizeSlash(opts.top) : undefined;
 
 	while (true) {
 		if (top && !cursor.startsWith(top)) {
@@ -61,16 +60,16 @@ export async function* findUp(opts: IFindOptions): AsyncIterableIterator<string>
 			yield file;
 		}
 
-		if (isRoot.test(cursor)) {
+		if (mpath.isRoot(cursor)) {
 			break;
 		}
-		cursor = dirname(cursor);
+		cursor = mpath.dirname(cursor);
 	}
 
 	async function findInDir(dir: string) {
 		const items = await Promise.all(
 			files.map(async (file) => {
-				const target = resolvePath(dir, file);
+				const target = resolve(dir, file);
 
 				if (await exists(target)) {
 					return target;
@@ -84,10 +83,9 @@ export async function* findUp(opts: IFindOptions): AsyncIterableIterator<string>
 }
 
 export function findUpUntilSync(opts: IFindOptions): string | null {
-	const resolvePath = opts.resolveSymlink === false ? join : resolve;
 	const files = Array.isArray(opts.file) ? opts.file : [opts.file];
-	const top = opts.top ? resolvePath(opts.top) : undefined;
-	let cursor = resolvePath(opts.from);
+	let cursor = mpath.normalizeSlash(opts.from);
+	const top = opts.top ? mpath.normalizeSlash(opts.top) : undefined;
 
 	while (true) {
 		if (top && !cursor.startsWith(top)) {
@@ -97,15 +95,15 @@ export function findUpUntilSync(opts: IFindOptions): string | null {
 		if (found) {
 			return found;
 		}
-		if (isRoot.test(cursor)) {
+		if (mpath.isRoot(cursor)) {
 			return null;
 		}
-		cursor = dirname(cursor);
+		cursor = mpath.dirname(cursor);
 	}
 
 	function findInDir(dir: string): string | null {
 		for (const file of files) {
-			const target = resolvePath(dir, file);
+			const target = resolve(dir, file);
 			if (existsSync(target)) {
 				return target;
 			}
@@ -115,10 +113,9 @@ export function findUpUntilSync(opts: IFindOptions): string | null {
 }
 
 export function findUpSync(opts: IFindOptions): string[] {
-	const resolvePath = opts.resolveSymlink === false ? join : resolve;
 	const files = Array.isArray(opts.file) ? opts.file : [opts.file];
-	const top = opts.top ? resolvePath(opts.top) : undefined;
-	let cursor = resolvePath(opts.from);
+	let cursor = mpath.normalizeSlash(opts.from);
+	const top = opts.top ? mpath.normalizeSlash(opts.top) : undefined;
 	const results: string[] = [];
 
 	while (true) {
@@ -126,17 +123,17 @@ export function findUpSync(opts: IFindOptions): string[] {
 			break;
 		}
 		findInDir(cursor);
-		if (isRoot.test(cursor)) {
+		if (mpath.isRoot(cursor)) {
 			break;
 		}
-		cursor = dirname(cursor);
+		cursor = mpath.dirname(cursor);
 	}
 
 	return results;
 
 	function findInDir(dir: string) {
 		for (const file of files) {
-			const target = resolvePath(dir, file);
+			const target = resolve(dir, file);
 			if (existsSync(target)) {
 				results.push(target);
 			}

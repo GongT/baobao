@@ -1,7 +1,8 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
-import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
+import { app, logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
+import type { CancellationToken } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
-import { execLazyError, exists, writeFileIfChange } from '@idlebox/node';
+import { exists, patchExecaResult, writeFileIfChange } from '@idlebox/node';
 import { execa } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
@@ -22,6 +23,18 @@ export enum PackageManagerUsageKind {
 	Write = 1,
 }
 
+export interface IPackManExec {
+	readonly cancel?: CancellationToken;
+}
+
+type IExecGetOutOpt = {
+	cwd: string;
+	cmds: string[];
+	reject?: boolean;
+	binary?: string;
+	options: IPackManExec;
+};
+
 export abstract class PackageManager {
 	abstract readonly binary: string;
 	public readonly projectPath: string;
@@ -40,11 +53,11 @@ export abstract class PackageManager {
 		}
 	}
 
-	public install() {
-		return execa(this.binary, ['install'], { cwd: this.projectPath, stdio: 'inherit' });
+	public install(options: IPackManExec = {}) {
+		return execa(this.binary, ['install'], { cwd: this.projectPath, stdio: 'inherit', cancelSignal: options.cancel?.abort });
 	}
 
-	public async pack(saveAs: string) {
+	public async pack(saveAs: string, options: IPackManExec = {}) {
 		const pkg = await this.loadPackageJson();
 		this.logger.log`打包项目 (${pkg.publishConfig?.['packCommand'] ? 'custom' : 'default'}): relative<${this.projectPath}> -> relative<${saveAs}>`;
 		if (pkg.publishConfig?.['packCommand']) {
@@ -57,16 +70,14 @@ export abstract class PackageManager {
 			this.logger.verbose` - 自定义打包命令: ${Array.from(cmds)}`;
 
 			const [cmd, ...args] = cmds;
-			await execLazyError(cmd, [...args, '--out', saveAs], {
-				cwd: this.projectPath,
-			});
+			await this._exec({ cwd: this.projectPath, cmds: [cmd, ...args, '--out', saveAs], options });
 			return saveAs;
 		} else {
-			return this._pack(saveAs);
+			return this._pack(saveAs, options);
 		}
 	}
 
-	protected abstract _pack(saveAs: string): Promise<string>;
+	protected abstract _pack(saveAs: string, options: IPackManExec): Promise<string>;
 
 	async loadPackageJson() {
 		return cachedPackageJson(resolve(this.projectPath, 'package.json'));
@@ -87,10 +98,10 @@ export abstract class PackageManager {
 		}
 	}
 
-	async getConfig(key: string): Promise<any> {
+	async getConfig(key: string, options: IPackManExec = {}): Promise<any> {
 		const pkgPublishConfig = this.workspace.getNpmRCPath(true);
 		if (this.usageKind === PackageManagerUsageKind.Read || !(await exists(pkgPublishConfig))) {
-			return this._get_config(dirname(this.workspace.getNpmRCPath(false)), key);
+			return this._get_config(dirname(this.workspace.getNpmRCPath(false)), key, options);
 		}
 
 		if (!this.configTemp.exists) {
@@ -99,10 +110,10 @@ export abstract class PackageManager {
 			await writeFileIfChange(`${this.configTemp.path}/package.json`, '{}');
 		}
 
-		return this._get_config(this.configTemp.path, key);
+		return this._get_config(this.configTemp.path, key, options);
 	}
 
-	private async _get_config(cwd: string, key: string) {
+	private async _get_config(cwd: string, key: string, options: IPackManExec) {
 		let binary = this.binary;
 		if (key === 'cache') {
 			binary = 'npm';
@@ -110,22 +121,22 @@ export abstract class PackageManager {
 
 		const scope = await this.getScope();
 		if (scope) {
-			const { stdout } = await this._execGetOut(cwd, ['config', 'get', `${scope}:${key}`], true, binary);
+			const { stdout } = await this._execGetOut({ cwd, cmds: ['config', 'get', `${scope}:${key}`], reject: true, binary, options });
 			this.logger.debug('$ %s config get %s:%s -> %s (cwd: %s)', binary, scope, key, stdout, cwd);
 			if (`${stdout}` !== 'undefined') {
 				return stdout;
 			}
 		}
-		const { stdout } = await this._execGetOut(cwd, ['config', 'get', key], true, binary);
+		const { stdout } = await this._execGetOut({ cwd, cmds: ['config', 'get', key], reject: true, binary, options });
 		this.logger.debug('$ %s config get %s -> %s (cwd: %s)', binary, key, stdout, cwd);
 		return stdout === 'undefined' ? undefined : stdout;
 	}
 
-	protected abstract _uploadTarball(pack: string, cwd: string): Promise<IUploadResult>;
-	public async uploadTarball(pack: string, cwd: string = this.projectPath) {
+	protected abstract _uploadTarball(pack: string, cwd: string, options: IPackManExec): Promise<IUploadResult>;
+	public async uploadTarball(pack: string, cwd: string = this.projectPath, options: IPackManExec = {}) {
 		this.logger.debug(`上传压缩包: ${pack}`);
 		try {
-			const r = await this._uploadTarball(pack, cwd);
+			const r = await this._uploadTarball(pack, cwd, options);
 			this.logger.debug`    发布成功: ${r.name} @ ${r.version} [${r.published}]`;
 			return r;
 		} catch (e: any) {
@@ -134,15 +145,24 @@ export abstract class PackageManager {
 		}
 	}
 
-	protected async _execGetOut(cwd: string, cmds: string[], reject = true, binary = this.binary) {
-		const result = await execa(binary, cmds, {
-			stdio: ['ignore', 'pipe', 'pipe'],
-			cwd: cwd,
-			reject: reject,
-			stripFinalNewline: true,
-			encoding: 'utf8',
-			all: true,
-		});
+	protected _exec({ cwd, cmds, reject, binary, options }: IExecGetOutOpt) {
+		return patchExecaResult(
+			execa(binary || this.binary, cmds, {
+				stdio: ['ignore', 'pipe', 'pipe'],
+				cwd: cwd,
+				reject: reject ?? true,
+				stripFinalNewline: true,
+				encoding: 'utf8',
+				all: true,
+				cancelSignal: options.cancel?.abort,
+				verbose: app.verbose ? 'short' : 'none',
+				env: { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' },
+			}),
+		);
+	}
+
+	protected async _execGetOut(options: IExecGetOutOpt) {
+		const result = await this._exec(options);
 
 		return {
 			get stdout() {
@@ -158,12 +178,12 @@ export abstract class PackageManager {
 	}
 
 	private _cachedReg?: string;
-	public async getNpmRegistry() {
+	public async getNpmRegistry(options: IPackManExec = {}) {
 		if (!this._cachedReg) {
 			switch (registryInput) {
 				case 'detect':
 					this.logger.debug(`检测registry地址: ${registryInput}`);
-					this._cachedReg = await this.getConfig('registry');
+					this._cachedReg = await this.getConfig('registry', options);
 					break;
 				default:
 					if (!registryInput.startsWith('https://')) {
@@ -177,11 +197,11 @@ export abstract class PackageManager {
 	}
 
 	private _cache_handler?: NpmCacheHandler;
-	async createCacheHandler() {
+	async createCacheHandler(options: IPackManExec = {}) {
 		if (!this._cache_handler) {
-			const registry = await this.getNpmRegistry();
+			const registry = await this.getNpmRegistry(options);
 
-			const path = await this.getConfig('cache');
+			const path = await this.getConfig('cache', options);
 			if (!path) throw new Error('npm config get cache返回为空');
 
 			this._cache_handler = new NpmCacheHandler(this, registry, path, this.logger);

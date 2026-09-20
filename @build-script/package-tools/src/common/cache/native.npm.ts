@@ -1,5 +1,5 @@
 import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
-import { sleep, type IPackageJson } from '@idlebox/common';
+import { background, sleep, type CancellationToken, type IPackageJson } from '@idlebox/common';
 import { get as cacheGet, rm as cacheRm } from 'cacache';
 import { rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';
@@ -53,13 +53,13 @@ export class NpmCacheHandler {
 		return deleteNpmCache(this.cache_path, name, this.registry, this.logger);
 	}
 
-	async fetchMetadata(name: string, cacheMode = CacheMode.Normal) {
+	async fetchMetadata(name: string, cacheMode = CacheMode.Normal, abort?: CancellationToken) {
 		const registry = await this.pm.getNpmRegistry();
-		return fetchNpmWithCache(this.cache_path, name, registry, { mode: cacheMode, logger: this.logger });
+		return fetchNpmWithCache(this.cache_path, name, registry, { mode: cacheMode, logger: this.logger, abort });
 	}
 
-	async fetchVersion(name: string, distTag = 'latest', cacheMode = CacheMode.Normal) {
-		const json = await this.fetchMetadata(name, cacheMode);
+	async fetchVersion(name: string, distTag = 'latest', cacheMode = CacheMode.Normal, abort?: CancellationToken) {
+		const json = await this.fetchMetadata(name, cacheMode, abort);
 		if (!json) {
 			return;
 		}
@@ -76,12 +76,18 @@ export class NpmCacheHandler {
 		return resolve(this.path, `package-tools/${es}-${tag}.tgz`);
 	}
 
-	public async downloadTarball(name: string, distTag: string) {
-		const r = await this.fetchVersion(name, distTag);
+	public async downloadTarball(name: string, distTag: string, abort?: CancellationToken) {
+		const r = await this.fetchVersion(name, distTag, CacheMode.Normal, abort);
 		if (!r) {
 			throw new Error(`无此版本: ${name} = ${distTag}`);
 		}
-		return await new FileDownloader(this.logger).download(r.dist.tarball, this.getTarballFile(name, distTag));
+		const d = new FileDownloader(this.logger);
+
+		const p = d.download(r.dist.tarball, this.getTarballFile(name, distTag));
+
+		// 下载过程是无法中途取消的
+
+		return await background(p, abort);
 	}
 
 	public deleteTarball(name: string, distTag: string) {
@@ -112,15 +118,25 @@ interface IMyOpts {
 	mode?: CacheMode;
 	maxRetry?: number;
 	logger?: IMyLogger;
+	abort?: CancellationToken;
 }
-const defOpt: Required<IMyOpts> = {
+const defOpt: Omit<Required<IMyOpts>, 'abort'> = {
 	mode: CacheMode.Normal,
 	maxRetry: 3,
 	logger: defaultLogger,
 };
 
-export async function fetchNpmWithCache(path: string, name: string, registry: string, _options?: IMyOpts) {
-	const { logger, ...options }: Required<IMyOpts> = Object.assign({}, defOpt, _options);
+export function fetchNpmWithCache(path: string, name: string, registry: string, options?: IMyOpts) {
+	if (options?.abort) {
+		const result = _fetchNpmWithCache(path, name, registry, options);
+		return Promise.race([result, options?.abort?.promise]);
+	} else {
+		return _fetchNpmWithCache(path, name, registry, options);
+	}
+}
+
+async function _fetchNpmWithCache(path: string, name: string, registry: string, _options?: IMyOpts) {
+	const { logger, abort, ...options } = Object.assign({}, defOpt, _options);
 
 	logger.debug(`   * npm-registry-fetch: ${registry} :: ${name}`);
 
@@ -148,27 +164,29 @@ export async function fetchNpmWithCache(path: string, name: string, registry: st
 			})) as any;
 			break;
 		} catch (e: any) {
+			abort?.throwIfCanceled(e);
+
 			if (!e?.message) {
 				console.dir(e);
-				throw new Error('npm fetch throw unexpected thing');
+				throw new Error('npm-registry-fetch抛出无法识别的异常类型');
 			}
 			if (e.statusCode === 404) {
-				logger.verbose('registry say 404, return empty.');
+				logger.verbose('npm registry返回 404, 返回 undefined.');
 				return undefined;
 			}
 			if (e.code === 'ECONNRESET') retry++;
 
 			if (retry <= 0) throw e;
 
-			retry_timeout = (retry_timeout / 1000) * 1.2;
+			retry_timeout = retry_timeout * 1.2;
 			if (retry_timeout > 15000) retry_timeout = 15000;
-			logger.error(`failed fetch npm registry: ${e.message}, retry in ${(retry_timeout / 1000).toFixed(1)} seconds...`);
+			logger.error(`无法请求npm registry: ${e.message}, 等待 ${(retry_timeout / 1000).toFixed(1)} 秒后重试...`);
 			await sleep(retry_timeout);
 		}
 	}
 
 	if (!json) {
-		logger.error('[!!] NPM cache structure changed!');
+		logger.error('[!!] NPM 缓存结构发生变化!');
 		process.exit(1);
 	}
 
@@ -187,7 +205,7 @@ async function deleteNpmCache(path: string, name: string, registry?: string, log
 	}
 
 	let deleted = false;
-	logger.debug(`  - delete cache: ${name}`);
+	logger.debug(`  - 删除缓存: ${name}`);
 	let i = registries.size;
 	for (const registry of registries.values()) {
 		logger.debug(`     │ ${registry}${name}`);
@@ -197,16 +215,16 @@ async function deleteNpmCache(path: string, name: string, registry?: string, log
 		const tc = i > 0 ? '├' : '└';
 
 		const info = await cacheGet.info(path, cid);
-		logger.verbose`cache info: ${info}`;
+		logger.verbose(`缓存信息: ${info}`);
 		await cacheRm.content(path, cid);
 		await cacheRm.entry(path, cid);
 		// @types/cacache 最后一个参数丢失
 		await (cacheRm.entry as any)(path, cid, { removeFully: true });
 		if (info) {
-			logger.debug(`     ${tc}      deleted! ${cid}`);
+			logger.debug(`     ${tc}      删除! ${cid}`);
 			deleted = true;
 		} else {
-			logger.debug(`     ${tc}      not exists: ${cid}`);
+			logger.debug(`     ${tc}      不存在: ${cid}`);
 		}
 	}
 

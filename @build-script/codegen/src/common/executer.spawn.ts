@@ -159,7 +159,7 @@ export class SpawnExecuter extends BaseExecuter {
 		this.systemWatchingFiles = r.files;
 
 		if (r.error) {
-			const e = new Error(r.error.message);
+			const e = new Error(`生成器进程初始化错误: ${r.error.message}`);
 			e.stack = r.error.stack;
 			throw e;
 		}

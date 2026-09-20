@@ -54,8 +54,8 @@ class EventTranslate extends Job<string> {
 		return getPauseControl(this.worker);
 	}
 
-	override async stop() {
-		return this.worker.dispose();
+	override async _stop() {
+		await this.worker.dispose();
 	}
 
 	override [inspect.custom](_d: number, options: InspectContext, ins: typeof inspect) {

@@ -38,12 +38,13 @@ interface IResult {
 }
 
 export class ChildProcessExitError extends DependencyError {
-	public pid?: number;
-	public commandline?: readonly string[];
-	public workingDirectory?: string;
-	public exitCode?: number;
-	public signal?: SignalsType | string;
-	public process?: ChildProcess;
+	public readonly pid?: number;
+	public readonly commandline?: readonly string[];
+	public readonly workingDirectory?: string;
+	public readonly exitCode?: number;
+	public readonly signal?: SignalsType | string;
+	public readonly process?: ChildProcess;
+	public readonly originalMessage?: string;
 
 	/**
 	 * 描述一个子进程的信息（非结果）
@@ -68,30 +69,35 @@ export class ChildProcessExitError extends DependencyError {
 		}
 
 		message += ` ${fStatus(info) ?? '非预期退出'}`;
-		const gcwd = getter(input, 'cwd');
-		if (info.workingDirectory ?? gcwd) {
-			message += `\n  工作目录: ${info.workingDirectory ?? gcwd}`;
+		const originalMessage = message;
+
+		const wd = getter(input, 'cwd');
+		if (info.workingDirectory ?? wd) {
+			message += `\n  工作目录: ${info.workingDirectory ?? wd}`;
 		}
 
-		const result = opts as any;
+		const result = input as any;
 		if (!opts.cause) {
 			if (result.error) {
 				opts.cause = result.error;
-			} else if (result instanceof Error) {
-				opts.cause = result;
 			} else if (result.message) {
-				opts.cause = new Error(result.message);
+				opts.cause = result;
 			}
 		}
 
 		super(message, opts);
 
+		this.originalMessage = originalMessage;
 		this.pid = info.pid ?? undefined;
 		this.commandline = info.commandline ?? (info.escapedCommand ? [info.escapedCommand] : undefined);
 		this.workingDirectory = info.workingDirectory ?? getter(input, 'cwd') ?? undefined;
 		this.exitCode = info.exitCode ?? info.status ?? undefined;
 		this.signal = info.signal ?? info.signalCode ?? undefined;
 		this.process = info.nodeChildProcess ?? info.process ?? undefined;
+	}
+
+	get nodeChildProcess(): ChildProcess | undefined {
+		return this.process ?? undefined;
 	}
 }
 
@@ -100,6 +106,7 @@ function fTitle(info: IChildProcessErrorOptions): string {
 	if (pid) {
 		return `进程${pid}`;
 	} else {
+		console.error('Unknown process ID', info, new Error('this stack'));
 		return '未知ID进程';
 	}
 }

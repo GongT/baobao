@@ -15,10 +15,11 @@ export class GitWorkingTree {
 	constructor(
 		public readonly path: string,
 		public readonly logger: IMyLogger = defaultLogger,
+		private readonly abortSignal?: AbortSignal,
 	) {}
 
 	protected _exec(cmds: string[]) {
-		return execLazyError('git', cmds, { cwd: this.path, verbose: isVerbose });
+		return execLazyError('git', cmds, { cwd: this.path, verbose: isVerbose, cancelSignal: this.abortSignal });
 	}
 
 	async init() {

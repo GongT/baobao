@@ -22,10 +22,18 @@ export function manipulateJsonResult(data: any, oType: UnorderdFieldsPlacement =
 		}
 	}
 
+	let r: any;
 	if (oType === UnorderdFieldsPlacement.APPEND) {
-		return Object.assign(ret, others);
+		r = Object.assign(ret, others);
+	} else {
+		r = Object.assign(others, ret);
 	}
-	return Object.assign(others, ret);
+
+	for (const symbol of Object.getOwnPropertySymbols(data)) {
+		r[symbol] = data[symbol];
+	}
+
+	return r;
 }
 
 export function insertKeyAlphabet(data: any, key: any, value: any): typeof data {

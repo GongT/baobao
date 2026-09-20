@@ -4,15 +4,6 @@
 	"version": "1.0.24",
 	"description": "some global variables copied from @types/node or dom",
 	"keywords": ["Typescript", "console", "type", "typings"],
-	"scripts": {
-		"build": "",
-		"clean": "",
-		"test": "",
-		"watch": "",
-		"prepublishHook": "internal-prepublish-hook",
-		"lint": "internal-lint",
-		"prepublishOnly": "internal-prepublish-deny"
-	},
 	"exports": {
 		".": {
 			"types": "./lib.es.d.ts"
@@ -27,6 +18,16 @@
 			"types": "./lib.bare.d.ts"
 		},
 		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"prepack": "",
+		"build": "",
+		"clean": "",
+		"test": "",
+		"watch": "",
+		"prepublishHook": "internal-prepublish-hook",
+		"lint": "internal-lint",
+		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

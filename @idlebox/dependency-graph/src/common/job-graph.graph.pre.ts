@@ -70,7 +70,12 @@ export class Starter<Data, T extends Job<Data>> extends Disposable {
 		}
 
 		if (node.isFatalError()) {
-			const e = node.getLastError() || new Error(`node ${node.name} failed with no error attached`);
+			let e = node.getLastError();
+			if (e) {
+				e = new Error(`节点 ${node.name} 失败: ${e.message}`, { cause: e });
+			} else {
+				e = new Error(`节点 ${node.name} 失败但无错误信息`);
+			}
 			this.logger.error`node ${node.name} fatal error: ${e.message}`;
 			this.deferred.reject(e);
 		}

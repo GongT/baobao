@@ -1,6 +1,8 @@
+import { loadJsonFile, stringifyJsonText, writeJsonFile } from '@idlebox/json-edit';
 import { findUpUntil, registerNodejsExitHandler, shutdown } from '@idlebox/node';
+import { text } from 'node:stream/consumers';
 import { getPackageManager } from './common/getPackageManager.js';
-import { formatPackageJson } from './local/formatPackageJson.js';
+import { formatPackageJsonObject } from './local/formatPackageJson.js';
 
 process.exitCode = 1;
 registerNodejsExitHandler();
@@ -47,7 +49,7 @@ export async function main() {
 		console.error('  * run                                  - run npm script or node_modules/.bin');
 		console.error('  * init                                 - run init script');
 		console.error('  * show, view                           - get and show package info from registry');
-		console.error('  * format-package                       - format package.json (-i write back)');
+		console.error('  * format-package                       - format package.json (-i write back, - for stdin)');
 		console.error('other command: direct pass to package manager.');
 		process.exit(1);
 	}
@@ -68,8 +70,21 @@ export async function main() {
 		// TODO: publish config files
 		await pm.invokeCli(cmd, ...args);
 	} else if (cmd === 'format-package') {
-		const packageJson = requirePackage();
-		await formatPackageJson(packageJson, args);
+		if (args[0] === '-') {
+			const content = await text(process.stdin);
+			const formatted = await formatPackageJsonObject(JSON.parse(content));
+			console.log(await stringifyJsonText(formatted));
+		} else {
+			const writeBack = args.includes('-i');
+			const packageJson = requirePackage();
+			const pkgData = await loadJsonFile(packageJson);
+			const formatted = await formatPackageJsonObject(pkgData);
+			if (writeBack) {
+				await writeJsonFile(packageJson, formatted);
+			} else {
+				console.log(await stringifyJsonText(formatted));
+			}
+		}
 	} else {
 		requirePackage();
 		await pm.invokeCli(cmd, ...args);

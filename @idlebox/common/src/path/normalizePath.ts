@@ -1,17 +1,18 @@
 // network full url: schema://xxxxx
 const schema = /^[a-z]{2,}:\/\//i;
 // unc: \?\UNC\
-const unc = /^[/\\]{1,2}\?[/\\]UNC[/\\]/i;
-// win32 special: \?\c:\
-const winSp = /^[/\\]{1,2}\?[/\\]([a-z]:[/\\])/i;
+const unc = /^[/\\]{2,}[?.][/\\]UNC[/\\]/i;
+// win32 special: \?\c:\  or \?\Volume{...}
+const winSp = /^[/\\]{2,}[?.][/\\]([a-z]:[/\\]|Volume{[^}]+}\/?)/i;
 // basic win: d:\path
 const winLetter = /^[a-z]:[/\\]/i;
 // samba: \\xxx\yyy
-const doubleSlash = /^[/\\]{2}[^/\\]/i;
+const doubleSlash = /^[/\\]{2,}[^/\\]/i;
 
 const anySlash = /[/\\]/;
 const startingSlashes = /^[/\\]+/;
 
+/** @deprecated */
 export enum PathKind {
 	url = 0,
 	unc = 1,
@@ -20,13 +21,19 @@ export enum PathKind {
 	unix = 4,
 	relative = 5,
 }
+
+/** @deprecated */
 export interface IPathInfo {
 	kind: PathKind;
+	/**
+	 * 根目录部分
+	 */
 	prefix?: string;
 	path: string;
 	url?: URL;
 }
 
+/** @deprecated */
 export function analyzePath(p: string) {
 	const inp = p;
 	let r: IPathInfo;
@@ -48,12 +55,19 @@ export function analyzePath(p: string) {
 			prefix: `//?/UNC/${p.slice(0, i)}`,
 			path: p.slice(i + 1),
 		};
-	} else if (winSp.test(p) || winLetter.test(p)) {
+	} else if (winSp.test(p)) {
+		const m = winSp.exec(p);
+		if (!m) throw new Error(`invalid win special path: ${inp}`);
 		p = p.replace(winSp, '$1');
-
 		r = {
 			kind: PathKind.win,
-			prefix: p.slice(0, 2),
+			prefix: p.slice(0, m[0].length),
+			path: p.slice(m[0].length),
+		};
+	} else if (winLetter.test(p)) {
+		r = {
+			kind: PathKind.win,
+			prefix: p.slice(0, 3),
 			path: p.slice(3),
 		};
 	} else if (doubleSlash.test(p)) {
@@ -100,6 +114,7 @@ export function analyzePath(p: string) {
  * replace // to /
  * replace \ to /
  * remove ending /
+ * @deprecated
  */
 export function normalizePath(p: string) {
 	const r = analyzePath(p);
@@ -110,6 +125,7 @@ export function normalizePath(p: string) {
 	return `${r.prefix}/${r.path}`;
 }
 
+/** @deprecated */
 export function relativePath(from: string, to: string) {
 	const r1 = analyzePath(from);
 	const r2 = analyzePath(to);

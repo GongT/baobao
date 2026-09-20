@@ -125,6 +125,9 @@ const packageJsonSort: readonly string[] = [
 	'release',
 	'jscpd',
 
+	// my custom fields
+	'packCommand',
+
 	// pnpm overrides
 	'pnpm',
 ];

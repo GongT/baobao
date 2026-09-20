@@ -10,7 +10,7 @@ import { readFile } from 'node:fs/promises';
 import { isAbsolute, resolve } from 'node:path';
 import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormatter } from '../tools/attachData.js';
 import { checkChange, loadFile, pathExists, saveFile } from '../tools/filesystem.js';
-import { createDefaultFormatter } from '../tools/formatter.js';
+import { createFormatterInstance } from '../tools/formatter.js';
 import { stringifyJsonText } from './format.js';
 import type { IFormatter, JsonEditObject } from './types.js';
 
@@ -33,12 +33,12 @@ export async function createJsonFile<T = any, K = any>(
 	charset: BufferEncoding = DEFAULT_ENCODING,
 	formatter?: IFormatter<K>,
 ): Promise<JsonEditObject<T, K>> {
-	const newData = Object.assign({}, data);
+	const newData = clone(data);
 	setAttachedFile(newData, { originalPath: saveAs, encoding: charset, exists: false });
 	if (formatter) {
 		setAttachedFormatter(newData, formatter);
 	} else {
-		const format = await createDefaultFormatter(undefined, saveAs);
+		const format = await createFormatterInstance(undefined, saveAs);
 		setAttachedFormatter(newData, format);
 	}
 	return newData as JsonEditObject<T, K>;
@@ -71,7 +71,7 @@ export async function writeJsonFileBack(data: any): Promise<boolean> {
  */
 export async function writeJsonFile(file: string | URL, data: any, charset: BufferEncoding = DEFAULT_ENCODING): Promise<boolean> {
 	file = abs(file);
-	const newData = Object.assign({}, data);
+	const newData = clone(data);
 	cloneAttachedFieldsInto(data, newData);
 	if (await pathExists(file)) {
 		const targetFile = await loadFile(file, charset);
@@ -99,12 +99,12 @@ export async function loadJsonFileIfExists<T = any, K = any>(
 	if (await pathExists(file)) {
 		return loadJsonFile(file, charset);
 	}
-	const newData = Object.assign({}, defaultValue);
+	const newData = clone(defaultValue);
 	setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
 	if (formatter) {
 		setAttachedFormatter(newData, formatter);
 	} else {
-		const format = await createDefaultFormatter(undefined, file);
+		const format = await createFormatterInstance(undefined, file);
 		setAttachedFormatter(newData, format);
 	}
 	return newData as JsonEditObject<T, K>;
@@ -117,19 +117,19 @@ export async function loadJsonFile<T = any, K = any>(
 ): Promise<JsonEditObject<T, K>> {
 	file = abs(file);
 	const targetFile = await loadFile(file, charset);
-	const data: any = parse(targetFile.originalContent);
+	const data: any = parse(targetFile.originalContent, null, false);
 	setAttachedFile(data, targetFile);
 	if (formatter) {
 		setAttachedFormatter(data, formatter);
 	} else {
-		const format = await createDefaultFormatter(targetFile.originalContent, file);
+		const format = await createFormatterInstance(targetFile.originalContent, file);
 		setAttachedFormatter(data, format);
 	}
 	return data as JsonEditObject<T, K>;
 }
 
 export function parseJsonText(text: string): any {
-	return parse(text);
+	return parse(text, null, false);
 }
 
 function abs(p: string | URL): string {
@@ -154,4 +154,15 @@ export function readCommentJsonFileSync(file: string | URL, charset: BufferEncod
 	file = abs(file);
 	const data = readFileSync(file, charset);
 	return parse(data, undefined, true);
+}
+
+/**
+ * Creates a shallow clone of the given object, preserving its property descriptors and prototype.
+ * @param object The object to clone.
+ * @returns A new object with the same properties and prototype as the original.
+ */
+function clone(object: any) {
+	const descriptors = Object.getOwnPropertyDescriptors(object);
+	const newObject = Object.create(Object.getPrototypeOf(object), descriptors);
+	return newObject;
 }

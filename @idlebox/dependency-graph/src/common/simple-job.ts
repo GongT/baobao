@@ -1,6 +1,7 @@
+import type { CancellationToken } from '@idlebox/common';
 import { Job } from './job-graph.job.js';
 
-type JobFn<T> = (this: SimpleJob<T>) => Promise<void>;
+type JobFn<T> = (this: SimpleJob<T>, token: CancellationToken) => Promise<void>;
 
 export class SimpleJob<T> extends Job<T> {
 	constructor(
@@ -11,8 +12,10 @@ export class SimpleJob<T> extends Job<T> {
 		super(name, deps);
 	}
 
-	protected override async _execute() {
-		await this.job();
+	protected override async _execute(token: CancellationToken) {
+		await this.job(token);
 		return undefined;
 	}
+
+	protected override async _stop(): Promise<void> {}
 }

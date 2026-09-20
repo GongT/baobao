@@ -2,10 +2,13 @@ import type { IArgsReaderApi, ISubArgsReaderApi } from '@idlebox/args';
 import { argv } from '@idlebox/args/default';
 import { CliApplicationHelp, type CommandDefine, type IArgDefineMap, type ICommandDefine, type ICommandDefineWithCommand } from '@idlebox/cli-help-builder';
 import {
+	convertCaughtError,
 	DuplicateCallError,
+	ErrorWithCode,
 	ExitCode,
 	humanDate,
 	NotImplementedError,
+	prettyPrintError,
 	registerGlobalLifecycle,
 	SoftwareDefectError,
 	toDisposable,
@@ -307,10 +310,20 @@ async function execMain(file: string, subcmd: ISubArgsReaderApi) {
 		throw new NotImplementedError(`文件${mapSourceFile(file)}中缺少main()函数`);
 	}
 
-	const result = await main(subcmd);
+	try {
+		const result = await main(subcmd);
 
-	if (result !== undefined) {
-		logger.warn`主函数返回值类型不是void，文件: long<${mapSourceFile(file)}>`;
+		if (result !== undefined) {
+			logger.warn`主函数返回值类型不是void，文件: long<${mapSourceFile(file)}>`;
+		}
+	} catch (e: unknown) {
+		const code = ErrorWithCode.getCodeFrom(e);
+		prettyPrintError('主函数抛出错误', convertCaughtError(e));
+		if (code !== undefined) {
+			shutdown(code);
+		} else {
+			shutdown(ExitCode.UNKNOWN);
+		}
 	}
 }
 

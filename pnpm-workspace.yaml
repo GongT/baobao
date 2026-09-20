@@ -35,7 +35,10 @@ networkConcurrency: 3
 nodeOptions: "${NODE_OPTIONS:- } --enable-source-maps"
 
 unsafePerm: true
-verifyDepsBeforeRun: error
+# 一般状况下，pnpm run xxxx 会检查是否有依赖修改，需要的话自动运行 pnpm install
+# 但由于检查修改过程中本来就会改动package.json文件，所以此项在workflow中被替换为“false”
+# 用于sed修改
+verifyDepsBeforeRun: false
 
 allowBuilds:
   '@biomejs/biome': true
@@ -52,6 +55,7 @@ packageExtensions:
 patchedDependencies:
   amaro: patches/amaro.patch
 
+# 使用国内镜像源以加快依赖下载速度，workflow中会根据需要替换为官方源
 registry: https://registry.npmmirror.com
 savePrefix: '^'
 

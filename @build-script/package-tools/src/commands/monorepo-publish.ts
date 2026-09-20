@@ -58,6 +58,7 @@ class BuildPackageJob extends Job<void> {
 		this.collector = collector;
 		this.logger = createLogger('pub', { colors: false, console: stream });
 
+		this.logger.info`使用unshare: ${unshareExecuter}`;
 		this.detect = unshareExecuter ? this.unsharedDetect : this.sharedDetect;
 		this.pack = unshareExecuter ? this.unsharedPack : this.sharedPack;
 	}
@@ -90,6 +91,7 @@ class BuildPackageJob extends Job<void> {
 			stdio: ['ignore', 'pipe', 'pipe'],
 			cwd: this.project.absolute,
 			encoding: 'utf8',
+			cancelSignal: this.abortSignal,
 			env: {
 				LOGGER_PREFIX: `package-change:${normalizePackageName(this.project.name, ':')}`,
 				// FORCE_COLOR: logger.colorEnabled ? '1' : '',
@@ -115,7 +117,7 @@ class BuildPackageJob extends Job<void> {
 	}
 
 	private async sharedDetect(pm: PackageManager) {
-		return await executeChangeDetect(pm, {});
+		return await executeChangeDetect(pm, { cancel: this.cancelToken });
 	}
 
 	private readonly pack: typeof this.sharedPack;
@@ -150,6 +152,7 @@ class BuildPackageJob extends Job<void> {
 				cwd: this.project.absolute,
 				encoding: 'utf8',
 				all: true,
+				cancelSignal: this.abortSignal,
 				env: {
 					LOGGER_PREFIX: `unshare-pack:${normalizePackageName(this.project.name, ':')}`,
 				},
@@ -174,7 +177,7 @@ class BuildPackageJob extends Job<void> {
 	}
 
 	private async sharedPack(pm: PackageManager, tempFile: string) {
-		return await pm.pack(tempFile);
+		return await pm.pack(tempFile, { cancel: this.cancelToken });
 	}
 
 	protected override async _execute() {
@@ -193,7 +196,7 @@ class BuildPackageJob extends Job<void> {
 					this.log(`  * ${file}`);
 					if (file === 'package.json') {
 						this.log(`${packageJsonDiff.lines}`);
-						this.log(`(不兼容: ${packageJsonDiff.lines})`);
+						this.log(`(不兼容: ${packageJsonDiff.incompatible})`);
 					}
 				}
 				this.log(`::endgroup::`);
@@ -231,6 +234,8 @@ class BuildPackageJob extends Job<void> {
 			this.setState(JobState.ErrorExited, e);
 		}
 	}
+
+	protected override async _stop() {}
 }
 
 function options() {
@@ -264,6 +269,8 @@ async function prepareTempFolder(temp: string, pm: PackageManager) {
 }
 
 export async function main() {
+	process.env.pnpm_config_verify_deps_before_run = '';
+
 	const workspace = await createWorkspace();
 	workingDirectory.chdir(workspace.root);
 	const zipDir = resolve(workspace.temp, 'publish');
@@ -318,7 +325,7 @@ export async function main() {
 
 				const e = job.getLastError();
 				if (process.env.CI && e && firstError) {
-					prettyPrintError(`package-tools| 发布操作失败，项目:${project.name}`, e);
+					prettyPrintError(`package-tools » ${project.name} » 发布操作失败`, e);
 					logger.info`当前活动任务:`;
 					for (const name of builder.nodeNames) {
 						const n = builder.getNode(name);

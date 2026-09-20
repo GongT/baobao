@@ -24,21 +24,23 @@
 	},
 	"private": true,
 	"devDependencies": {
-		"@build-script/rushstack-config-loader": "workspace:^",
 		"@build-script/baseline-rig": "workspace:^",
 		"@build-script/create-wrapper-script": "workspace:^",
-		"@idlebox/native-executer": "workspace:^",
+		"@build-script/rushstack-config-loader": "workspace:^",
+		"@idlebox/args": "workspace:^",
 		"@idlebox/common": "workspace:^",
 		"@idlebox/json-edit": "workspace:^",
-		"@idlebox/args": "workspace:^",
 		"@idlebox/logger": "workspace:^",
+		"@idlebox/native-executer": "workspace:^",
 		"@idlebox/node": "workspace:^",
 		"@internal/local-rig": "workspace:^",
-		"unipm": "workspace:^",
 		"@types/node": "^26.1.2",
 		"comment-json": "^5.0.0",
 		"execa": "^10.0.1",
 		"typescript": "^7.0.2",
-		"vite-node": "^6.0.0"
+		"unipm": "workspace:^",
+		"vite-node": "^6.0.0",
+		"@biomejs/js-api": "^6.0.0",
+		"@biomejs/wasm-nodejs": "^2.5.14"
 	}
 }

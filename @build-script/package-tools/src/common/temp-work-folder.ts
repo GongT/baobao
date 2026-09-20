@@ -1,5 +1,5 @@
 import type { WorkspaceBase } from '@build-script/monorepo-lib';
-import { logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
+import { app, logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import { registerGlobalLifecycle } from '@idlebox/common';
 import { writeJsonFile } from '@idlebox/json-edit';
 import { emptyDir } from '@idlebox/node';
@@ -7,7 +7,6 @@ import { randomBytes } from 'node:crypto';
 import { rmSync } from 'node:fs';
 import { mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { isDebugMode } from './functions/cli.js';
 import { decompressPack } from './taball/decompress.js';
 
 export class TempWorkingFolder {
@@ -67,11 +66,15 @@ export class TempWorkingFolder {
 	}
 
 	unpack(tarball: string, dest = '.') {
-		return decompressPack(tarball, resolve(this.path, dest), this.logger);
+		return decompressPack({
+			source: tarball,
+			destination: resolve(this.path, dest),
+			logger: this.logger,
+		});
 	}
 
 	dispose() {
-		if (!isDebugMode) {
+		if (!app.debug) {
 			this.logger.debug`  * 删除临时目录: long<${this.path}>`;
 			rmSync(this.path, { force: true, recursive: true });
 		} else {
