@@ -1506,34 +1506,16 @@ importers:
 
   '@idlebox/json-edit':
     dependencies:
-      '@idlebox/json-extends-loader':
-        specifier: workspace:^
-        version: link:../json-extends-loader
-      '@idlebox/node':
-        specifier: workspace:^
-        version: link:../node
-      '@idlebox/package-bin':
-        specifier: workspace:^
-        version: link:../package-bin
       comment-json:
         specifier: ^5.0.0
         version: 5.0.0
-      execa:
-        specifier: ^10.0.1
-        version: 10.0.1
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
     devDependencies:
-      '@biomejs/biome':
-        specifier: '*'
-        version: 2.5.7
-      '@biomejs/js-api':
-        specifier: '*'
-        version: 6.0.0(@biomejs/wasm-nodejs@2.5.14)
-      '@biomejs/wasm-nodejs':
-        specifier: '*'
-        version: 2.5.14
+      '@idlebox/json-edit-biome':
+        specifier: workspace:^
+        version: link:../json-edit-biome
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../native-executer
@@ -1560,7 +1542,35 @@ importers:
         version: 6.0.0(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@idlebox/json-edit-biome':
+    dependencies:
+      '@idlebox/common':
+        specifier: workspace:^
+        version: link:../common
+      '@idlebox/json-extends-loader':
+        specifier: workspace:^
+        version: link:../json-extends-loader
+      '@idlebox/node':
+        specifier: workspace:^
+        version: link:../node
+      '@idlebox/package-bin':
+        specifier: workspace:^
+        version: link:../package-bin
+      execa:
+        specifier: ^10.0.1
+        version: 10.0.1
     devDependencies:
+      '@biomejs/biome':
+        specifier: '*'
+        version: 2.5.7
+      '@biomejs/js-api':
+        specifier: '*'
+        version: 6.0.0(@biomejs/wasm-nodejs@2.5.14)
+      '@biomejs/wasm-nodejs':
+        specifier: '*'
+        version: 2.5.14
+      '@idlebox/json-edit':
+        specifier: workspace:^
+        version: link:../json-edit
       '@idlebox/native-executer':
         specifier: workspace:^
         version: link:../native-executer

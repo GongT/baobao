@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/json-edit",
 	"type": "module",
-	"version": "0.0.17",
+	"version": "0.1.0",
 	"description": "Edit json file with comments (jsonc), reformat or preserve it's original format.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"exports": {
@@ -24,34 +24,20 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/package-bin": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@idlebox/json-extends-loader": "workspace:^",
 		"comment-json": "^5.0.0",
-		"execa": "^10.0.1",
 		"prettier": "^3.9.6"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "*",
-		"@biomejs/js-api": "*",
-		"@biomejs/wasm-nodejs": "*",
+		"@idlebox/json-edit-biome": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^26.1.2",
 		"vite-node": "^6.0.0"
 	},
 	"peerDependencies": {
-		"@biomejs/js-api": "*",
-		"@biomejs/wasm-nodejs": "*",
-		"@biomejs/biome": "*"
+		"@idlebox/json-edit-biome": "*"
 	},
 	"peerDependenciesMeta": {
-		"@biomejs/biome": {
-			"optional": true
-		},
-		"@biomejs/js-api": {
-			"optional": true
-		},
-		"@biomejs/wasm-nodejs": {
+		"@idlebox/json-edit-biome": {
 			"optional": true
 		}
 	},

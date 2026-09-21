@@ -10,7 +10,7 @@ import { readFile } from 'node:fs/promises';
 import { isAbsolute, resolve } from 'node:path';
 import { cloneAttachedFieldsInto, getAttachedFile, setAttachedFile, setAttachedFormatter } from '../tools/attachData.js';
 import { checkChange, loadFile, pathExists, saveFile } from '../tools/filesystem.js';
-import { createFormatterInstance } from '../tools/formatter.js';
+import { defaultFormatFactory } from '../tools/formatter.js';
 import { stringifyJsonText } from './format.js';
 import type { IFormatter, JsonEditObject } from './types.js';
 
@@ -37,8 +37,8 @@ export async function createJsonFile<T = any, K = any>(
 	setAttachedFile(newData, { originalPath: saveAs, encoding: charset, exists: false });
 	if (formatter) {
 		setAttachedFormatter(newData, formatter);
-	} else {
-		const format = await createFormatterInstance(undefined, saveAs);
+	} else if (defaultFormatFactory) {
+		const format = await defaultFormatFactory();
 		setAttachedFormatter(newData, format);
 	}
 	return newData as JsonEditObject<T, K>;
@@ -103,8 +103,8 @@ export async function loadJsonFileIfExists<T = any, K = any>(
 	setAttachedFile(newData, { originalPath: file, encoding: 'utf-8', exists: false });
 	if (formatter) {
 		setAttachedFormatter(newData, formatter);
-	} else {
-		const format = await createFormatterInstance(undefined, file);
+	} else if (defaultFormatFactory) {
+		const format = await defaultFormatFactory();
 		setAttachedFormatter(newData, format);
 	}
 	return newData as JsonEditObject<T, K>;
@@ -121,8 +121,8 @@ export async function loadJsonFile<T = any, K = any>(
 	setAttachedFile(data, targetFile);
 	if (formatter) {
 		setAttachedFormatter(data, formatter);
-	} else {
-		const format = await createFormatterInstance(targetFile.originalContent, file);
+	} else if (defaultFormatFactory) {
+		const format = await defaultFormatFactory();
 		setAttachedFormatter(data, format);
 	}
 	return data as JsonEditObject<T, K>;

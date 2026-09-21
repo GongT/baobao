@@ -1,8 +1,7 @@
 {
 	"name": "@idlebox/json-edit-biome",
-	"private": true,
 	"type": "module",
-	"version": "0.0.16",
+	"version": "0.1.0",
 	"description": "biomejs formatter for @idlebox/json-edit.",
 	"keywords": ["comment", "edit", "json", "jsonc"],
 	"exports": {
@@ -23,9 +22,37 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
+	"dependencies": {
+		"@idlebox/package-bin": "workspace:^",
+		"@idlebox/common": "workspace:^",
+		"@idlebox/node": "workspace:^",
+		"@idlebox/json-extends-loader": "workspace:^",
+		"execa": "^10.0.1"
+	},
 	"devDependencies": {
+		"@biomejs/biome": "*",
+		"@biomejs/js-api": "*",
+		"@biomejs/wasm-nodejs": "*",
 		"@internal/local-rig": "workspace:^",
+		"@idlebox/json-edit": "workspace:^",
 		"@types/node": "^26.1.2"
+	},
+	"decoupledDependencies": ["@idlebox/json-edit"],
+	"peerDependencies": {
+		"@biomejs/js-api": "*",
+		"@biomejs/wasm-nodejs": "*",
+		"@biomejs/biome": "*"
+	},
+	"peerDependenciesMeta": {
+		"@biomejs/biome": {
+			"optional": true
+		},
+		"@biomejs/js-api": {
+			"optional": true
+		},
+		"@biomejs/wasm-nodejs": {
+			"optional": true
+		}
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

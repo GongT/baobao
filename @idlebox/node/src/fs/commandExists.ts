@@ -28,10 +28,10 @@ function exts(alterExt?: string[]) {
  * 通过文件系统操作遍历 PATH 环境变量，查找可执行命令
  * @param cmd 要查找的命令名称
  * @param alterExt 可选的文件扩展名列表，在windows上默认为PATHEXT指定（例如 .EXE, .CMD 其中通常没有 .ps1）
- * @returns 找到的可执行命令的完整路径，如果未找到则返回 undefined
+ * @returns 找到的可执行命令的完整路径，如果未找到则返回 null
  * @throws 不会reject
  */
-export async function commandInPath(cmd: string, alterExt?: string[]): Promise<string | undefined> {
+export async function commandInPath(cmd: string, alterExt?: string[]): Promise<string | null> {
 	const pathVar = new PathEnvironment();
 	for (const item of pathVar.joinpath(cmd)) {
 		for (const ext of exts(alterExt)) {
@@ -44,13 +44,13 @@ export async function commandInPath(cmd: string, alterExt?: string[]): Promise<s
 			if (found) return item + ext;
 		}
 	}
-	return undefined;
+	return null;
 }
 
 /**
  * 同步版本的 commandInPath
  */
-export function commandInPathSync(cmd: string, alterExt?: string[]): string | undefined {
+export function commandInPathSync(cmd: string, alterExt?: string[]): string | null {
 	const pathVar = new PathEnvironment();
 	for (const item of pathVar.joinpath(cmd)) {
 		for (const ext of exts(alterExt)) {
@@ -60,5 +60,5 @@ export function commandInPathSync(cmd: string, alterExt?: string[]): string | un
 			} catch {}
 		}
 	}
-	return undefined;
+	return null;
 }

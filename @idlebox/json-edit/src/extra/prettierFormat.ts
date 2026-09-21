@@ -38,16 +38,6 @@ const indentDetectionRegexp = /^\s+/m;
 export class PrettierFormat implements IFormatter<ICfg> {
 	constructor(private current: IInternalFormat = { ...defaultFormat }) {}
 
-	static async createInstance(text?: string, file?: string) {
-		const instance = new PrettierFormat();
-		if (file) {
-			await instance.learnFromFile(file, text);
-		} else if (text) {
-			instance.learnFromString(text);
-		}
-		return instance;
-	}
-
 	clone() {
 		const copy = new PrettierFormat({ ...this.current });
 		return copy;
@@ -72,18 +62,18 @@ export class PrettierFormat implements IFormatter<ICfg> {
 		return this.current;
 	}
 
-	async learnFromFile(file: string, content?: string) {
+	async learnFile(file: string, content?: string) {
 		const f = await resolveConfig(file, { editorconfig: true });
 		if (f) {
 			this.setOptions({ ...f, lastNewLine: true });
 		} else if (await pathExists(file)) {
 			this.current.filepath = file;
 			if (!content) content = await readFile(file, 'utf-8');
-			this.learnFromString(content);
+			this.learnText(content);
 		}
 	}
 
-	private learnFromString(text: string) {
+	async learnText(text: string) {
 		const someLineHasIndent = indentDetectionRegexp.exec(text)?.[0];
 
 		const config = this.current;

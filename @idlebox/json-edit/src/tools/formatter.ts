@@ -1,22 +1,10 @@
-import type { IFormatter, IFormatterConstructor } from '../api/types.js';
-import { BiomeBinaryFormat } from '../extra/biomeFormat.js';
-import { PrettierFormat } from '../extra/prettierFormat.js';
+import type { IFormatterConstructor } from '../api/types.js';
 
-let DefaultFormatterClass: IFormatterConstructor<any>;
+export let defaultFormatFactory: null | IFormatterConstructor<any>;
+
 export function setDefaultFormatter(formatter: IFormatterConstructor<any>, force: boolean = true) {
-	if (DefaultFormatterClass && !force) {
+	if (defaultFormatFactory && !force) {
 		return;
 	}
-	DefaultFormatterClass = formatter;
-}
-
-export async function createFormatterInstance(text?: string, file?: string): Promise<IFormatter<any>> {
-	if (!DefaultFormatterClass) {
-		if (await BiomeBinaryFormat.detectBinary()) {
-			DefaultFormatterClass = BiomeBinaryFormat;
-		} else {
-			DefaultFormatterClass = PrettierFormat;
-		}
-	}
-	return DefaultFormatterClass.createInstance(text, file);
+	defaultFormatFactory = formatter;
 }

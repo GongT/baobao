@@ -1,6 +1,7 @@
+import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { platform } from 'node:os';
-import { findBinary } from '../environment/findBinary.js';
+import { commandInPathSync } from '../fs/commandExists.js';
 import { spawnGetOutputSync } from './execa.js';
 
 const unshareArgs = ['--pid', '--cgroup', '--fork', '--mount-proc', '--propagation=slave'];
@@ -57,14 +58,16 @@ export function respawnInScope(mainFunc: CallableFunction): unknown | never {
 	execLinux(process.argv);
 }
 
-let unshare: string;
+let unshare: string | undefined | null;
 
 function insideScope() {
 	return process.pid === 1;
 }
 function supportScope() {
 	if (platform() === 'linux') {
-		unshare = findBinary('unshare');
+		if (unshare === undefined) {
+			unshare = commandInPathSync('unshare');
+		}
 		if (!unshare) {
 			return false;
 		}
@@ -104,6 +107,8 @@ function spawnSimulate(cmd: string, args: string[]): never {
 }
 
 function execLinux(cmds: string[]): never {
+	assert.ok(unshare);
+
 	const args = [...unshareArgs, `--wd=${process.cwd()}`, ...cmds];
 
 	try {

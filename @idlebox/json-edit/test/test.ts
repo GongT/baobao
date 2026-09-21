@@ -1,19 +1,11 @@
+import { createBiomeFormatter } from '@idlebox/json-edit-biome';
 import { existsSync, mkdirSync, unlink } from 'node:fs';
 import { resolve } from 'node:path';
-import {
-	BiomeApiFormat,
-	insertKeyAlphabet,
-	loadJsonFile,
-	parseJsonText,
-	reformatJson,
-	setDefaultFormatter,
-	writeJsonFile,
-	writeJsonFileBack,
-} from '../src/index.js';
+import { insertKeyAlphabet, loadJsonFile, parseJsonText, reformatJson, setDefaultFormatter, writeJsonFile, writeJsonFileBack } from '../src/index.js';
 
 console.log('\x1Bc==== 运行测试程序 ====');
 
-setDefaultFormatter(BiomeApiFormat);
+setDefaultFormatter(createBiomeFormatter);
 
 process.chdir(import.meta.dirname);
 console.log('cwd: %s', process.cwd());

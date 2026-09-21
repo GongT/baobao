@@ -1,9 +1,8 @@
 import { logger } from '@idlebox/logger';
 import { execa } from 'execa';
-import { readFile, unlink, writeFile } from 'node:fs/promises';
-import { basename, dirname } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
 
-export async function formatFile(file: string) {
+async function _formatFile11(file: string) {
 	logger.debug`格式化文件 ${file}`;
 	const r = await execa({ stdio: 'pipe', reject: false })`biome format --no-errors-on-unmatched --write ${file}`;
 
@@ -12,14 +11,12 @@ export async function formatFile(file: string) {
 	}
 }
 
-export async function writeAsPlainJson(file: string, data: any) {
+async function _writeAsPlainJson11(file: string, data: any) {
 	const oldContent = await readFile(file, 'utf-8');
 
-	const tempFile = `${dirname(file)}/.new.${basename(file)}`;
-	await writeFile(tempFile, JSON.stringify(data, null, 2), 'utf-8');
-	await formatFile(tempFile);
-	const newContent = await readFile(tempFile, 'utf-8');
-	await unlink(tempFile);
+	await writeFile(file, JSON.stringify(data, null, 2), 'utf-8');
+	await formatFile(file);
+	const newContent = await readFile(file, 'utf-8');
 
 	if (oldContent.trim() === newContent.trim()) {
 		return false;

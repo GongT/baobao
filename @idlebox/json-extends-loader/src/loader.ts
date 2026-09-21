@@ -11,6 +11,9 @@ export function createDynamicReader(processor: IProcess) {
 	};
 }
 
+/**
+ * 读取一个带注释的 JSON 文件
+ */
 export function readJsonFile(filePath: string): any {
 	return parse(readFileSync(filePath, 'utf-8'), null, true);
 }

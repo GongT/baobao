@@ -4,7 +4,7 @@ import type { IInternalFile } from './filesystem.js';
 const configSymbol = Symbol('@gongt/json-edit');
 
 declare interface IAttachedData {
-	formatter?: IFormatter<any>;
+	formatter?: IFormatter<any> | null;
 	formatterOptions?: any;
 	fileInfo?: IInternalFile;
 	keysSort: string[];
@@ -17,12 +17,12 @@ function _attach(data: any): IAttachedData {
 	return data[configSymbol];
 }
 
-export function setAttachedFormatter(data: any, format: IFormatter<any>) {
+export function setAttachedFormatter(data: any, format: null | IFormatter<any>) {
 	_attach(data).formatter = format;
 }
 
 type IFRet = {
-	formatter?: IFormatter<any>;
+	formatter: IFormatter<any> | undefined | null;
 	formatterOptions: any;
 };
 

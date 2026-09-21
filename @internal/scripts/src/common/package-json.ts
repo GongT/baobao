@@ -1,9 +1,9 @@
 import { parseExportsField, type IExportMap, type IFullExportsField, type IPackageJson } from '@idlebox/common';
-import { loadJsonFile } from '@idlebox/json-edit';
+import { getFormatInfo, loadJsonFile, reformatJson } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { execaNode } from 'execa';
 import { resolve } from 'node:path';
-import { formatFile, writeAsPlainJson } from './format.js';
+import { formatFile } from './format.js';
 import { currentProject } from './paths/current.js';
 
 export let packageJson: IPackageJson;
@@ -25,21 +25,26 @@ export async function writeBackPackageJson() {
 	simplifyExportsField(exports);
 
 	const pkgJson = resolve(currentProject, 'package.json');
-	const ch = await writeAsPlainJson(pkgJson, packageJson);
+	const oldData = await loadJsonFile(pkgJson);
+	const fmt = getFormatInfo(oldData);
+	const _newData = reformatJson(packageJson as any, fmt);
+
+	// 重排序
+	const unpmBin = await findUnpmBin();
+	await execaNode({
+		stderr: 'inherit',
+		stdin: Buffer.from(''),
+		stdout: 'pipe',
+		encoding: 'utf8',
+		nodeOptions: process.execArgv,
+		cwd: currentProject,
+	})`${unpmBin} format-package`;
+
 	packageJson = null as any;
 
 	logger.success`写入 package.json | ${ch ? '有改动' : '没有改动'}`;
 
 	if (ch) {
-		const unpmBin = await findUnpmBin();
-		await execaNode({
-			stderr: 'inherit',
-			stdin: Buffer.from(''),
-			stdout: 'pipe',
-			encoding: 'utf8',
-			nodeOptions: process.execArgv,
-			cwd: currentProject,
-		})`${unpmBin} format-package`;
 		await formatFile(pkgJson);
 	}
 
