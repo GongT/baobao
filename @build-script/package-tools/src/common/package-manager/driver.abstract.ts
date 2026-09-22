@@ -3,7 +3,7 @@ import { app, logger as defaultLogger, type IMyLogger } from '@idlebox/cli';
 import type { CancellationToken } from '@idlebox/common';
 import { ensureLinkTarget } from '@idlebox/ensure-symlink';
 import { exists, patchExecaResult, writeFileIfChange } from '@idlebox/node';
-import { execa } from 'execa';
+import { execa, type ResultPromise } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
 import { NpmCacheHandler } from '../cache/native.npm.js';
@@ -145,20 +145,22 @@ export abstract class PackageManager {
 		}
 	}
 
-	protected _exec({ cwd, cmds, reject, binary, options }: IExecGetOutOpt) {
-		return patchExecaResult(
-			execa(binary || this.binary, cmds, {
-				stdio: ['ignore', 'pipe', 'pipe'],
-				cwd: cwd,
-				reject: reject ?? true,
-				stripFinalNewline: true,
-				encoding: 'utf8',
-				all: true,
-				cancelSignal: options.cancel?.abort,
-				verbose: app.verbose ? 'short' : 'none',
-				env: { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' },
-			}),
-		);
+	private buildOption({ cwd, reject, options }: IExecGetOutOpt) {
+		return {
+			stdio: ['ignore', 'pipe', 'pipe'],
+			cwd: cwd,
+			reject: reject ?? true,
+			stripFinalNewline: true,
+			encoding: 'utf8',
+			all: true,
+			cancelSignal: options.cancel?.abort,
+			verbose: app.verbose ? 'short' : 'none',
+			env: { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' },
+		} as const;
+	}
+
+	protected _exec(options: IExecGetOutOpt): ResultPromise<ReturnType<typeof this.buildOption>> {
+		return patchExecaResult(execa(options.binary || this.binary, options.cmds, this.buildOption(options)));
 	}
 
 	protected async _execGetOut(options: IExecGetOutOpt) {

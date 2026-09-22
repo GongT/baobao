@@ -3,6 +3,7 @@ import { Biome, BiomeApiFormat } from './fmt/api.js';
 import { BiomeBinaryFormat, detectBinary } from './fmt/exec.js';
 import type { IBiomeFormatOptions } from './fmt/options.js';
 
+export type { IBiomeFormatOptions };
 export let BiomeFormat: typeof BiomeApiFormat | typeof BiomeBinaryFormat | null;
 
 export async function createBiomeFormatter(): Promise<IFormatter<IBiomeFormatOptions> | null> {

@@ -1513,6 +1513,9 @@ importers:
         specifier: ^3.9.6
         version: 3.9.6
     devDependencies:
+      '@idlebox/errors':
+        specifier: workspace:^
+        version: link:../errors
       '@idlebox/json-edit-biome':
         specifier: workspace:^
         version: link:../json-edit-biome

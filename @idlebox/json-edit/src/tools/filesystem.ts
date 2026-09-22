@@ -1,3 +1,4 @@
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
@@ -27,6 +28,15 @@ export async function loadFile(file: string, encoding: BufferEncoding): Promise<
 	};
 }
 
+export function loadFileSync(file: string, encoding: BufferEncoding): IInternalFileFull {
+	return {
+		originalPath: file,
+		originalContent: readFileSync(file, encoding),
+		encoding: encoding,
+		exists: true,
+	};
+}
+
 export function checkChange(file: IInternalFile, newContent: string) {
 	return file.originalContent !== newContent;
 }
@@ -39,6 +49,18 @@ export async function saveFile(file: IInternalFile, newContent: string) {
 		await mkdir(dirname(file.originalPath), { recursive: true });
 	}
 	await writeFile(file.originalPath, newContent, file.encoding);
+	file.originalContent = newContent;
+	file.exists = true;
+}
+
+export function saveFileSync(file: IInternalFile, newContent: string) {
+	if (!file.originalPath) {
+		throw new Error('no where to write');
+	}
+	if (!file.exists) {
+		mkdirSync(dirname(file.originalPath), { recursive: true });
+	}
+	writeFileSync(file.originalPath, newContent, file.encoding);
 	file.originalContent = newContent;
 	file.exists = true;
 }

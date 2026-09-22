@@ -34,6 +34,10 @@ const defaultFormat: IInternalFormat = {
 	__embeddedInHtml: false,
 };
 
+export function createPrettierFormat(options?: IInternalFormat): PrettierFormat {
+	return new PrettierFormat(options);
+}
+
 const indentDetectionRegexp = /^\s+/m;
 export class PrettierFormat implements IFormatter<ICfg> {
 	constructor(private current: IInternalFormat = { ...defaultFormat }) {}

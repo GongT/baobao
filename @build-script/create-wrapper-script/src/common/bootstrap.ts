@@ -4,7 +4,7 @@ import { basename, dirname } from 'node:path';
 import { safeGuardComment, safeGuardCommentBat } from './safe.js';
 import type { IExtOpt } from './types.js';
 
-let pwsh: Promise<string | undefined> | undefined;
+let pwsh: Promise<string | null> | undefined;
 // 在 Windows 上创建调用ps1的bat脚本，用于非pwsh运行
 export async function makeBatBootStrap(file: string, opts: IExtOpt) {
 	if (!pwsh) {

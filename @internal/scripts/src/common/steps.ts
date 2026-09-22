@@ -1,13 +1,12 @@
 /** biome-ignore-all lint/performance/useTopLevelRegex: no need */
 import { parseImportsField, type IExportMap } from '@idlebox/common';
-import { loadJsonFile } from '@idlebox/json-edit';
+import { loadJsonFile, writeJsonFile } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { relativePath, setExitCodeIfNot } from '@idlebox/node';
 import { execa } from 'execa';
 import { appendFileSync, cpSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { writeAsPlainJson } from './format.js';
 import { getExportsField, packageJson } from './package-json.js';
 import { currentProject, realProject } from './paths/current.js';
 import { monorepoRoot } from './paths/root.js';
@@ -93,7 +92,7 @@ export async function rewriteTsconfig() {
 	data.extends = '@build-script/baseline-rig/package/tsconfig.json';
 	logger.log`修改tsconfig.json (.extends)`;
 
-	await writeAsPlainJson(tsconfigPath, data);
+	await writeJsonFile(tsconfigPath, data);
 }
 
 /**
