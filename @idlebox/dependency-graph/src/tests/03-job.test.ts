@@ -28,6 +28,8 @@ class SimpleJob extends Job<void> {
 		}
 	}
 
+	protected override async _stop() {}
+
 	// override [inspect.custom]() {
 	// 	return `[SimpleJob ${this.name} (${this.success})]`;
 	// }

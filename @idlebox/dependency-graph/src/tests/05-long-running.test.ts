@@ -17,10 +17,8 @@ class TestJob extends Job<void> {
 	}
 
 	private _quit = false;
-
-	override stop() {
+	protected override async _stop() {
 		this._quit = true;
-		return super.stop();
 	}
 
 	protected override async _execute(): Promise<void> {

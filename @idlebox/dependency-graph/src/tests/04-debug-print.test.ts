@@ -14,6 +14,8 @@ class TestJob extends Job<void> {
 		super(name, deps);
 	}
 
+	protected override async _stop() {}
+
 	protected override async _execute(): Promise<void> {
 		if (this.success) {
 			this.setState(JobState.SuccessExited);

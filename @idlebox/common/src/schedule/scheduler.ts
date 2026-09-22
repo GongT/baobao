@@ -86,7 +86,7 @@ class NodejsScheduler extends BaseScheduler {
 	public override schedule(timeoutMs: number, callback: ITask): ICommonTimer {
 		if (timeoutMs < 0) throw new Error('NodejsScheduler: timeoutMs 不能小于零');
 
-		return setTimeout(callback, timeoutMs) as ICommonTimer;
+		return setTimeout(callback, timeoutMs) as unknown as ICommonTimer;
 	}
 }
 

@@ -40,6 +40,7 @@ class Session extends EnhancedAsyncDisposable {
 				NATIVE_EXECUTER_COLLECTION: '1',
 				DEBUG_LEVEL: EnableLogLevel[verboseMode ? EnableLogLevel.verbose : debugMode ? EnableLogLevel.debug : EnableLogLevel.info],
 				FORCE_COLOR: colorMode ? '1' : '0',
+				NODE_OPTIONS: '',
 			},
 			nodeOptions: options,
 		})`${executerFile} ${generaterFile}`;

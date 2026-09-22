@@ -1,7 +1,7 @@
 import { NotFoundError, ProjectConfig } from '@build-script/rushstack-config-loader';
 import type { IMyLogger } from '@idlebox/logger';
 import { findUpUntil } from '@idlebox/node';
-import { readFile } from 'node:fs/promises';
+import { readFile, realpath } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { parse } from 'yaml';
 import { packageJsonValidNames } from './types.js';
@@ -12,11 +12,15 @@ interface IConfigFile {
 }
 
 export async function loadConfig(hintLocation: string, logger: IMyLogger): Promise<IConfigFile | undefined> {
-	const pkgJsonFile = await findUpUntil({ file: [...packageJsonValidNames], from: hintLocation, resolveSymlink: true });
+	let pkgJsonFile = await findUpUntil({ file: [...packageJsonValidNames], from: hintLocation });
 	if (!pkgJsonFile) {
 		logger.debug`通过 long<${hintLocation}> 未找到package.json，无法加载配置`;
 		return;
 	}
+
+	try {
+		pkgJsonFile = await realpath(pkgJsonFile);
+	} catch {}
 
 	try {
 		logger.debug`项目package: ${pkgJsonFile}`;

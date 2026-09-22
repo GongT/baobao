@@ -1,20 +1,38 @@
+import { setSourceMapsEnabled } from 'node:process';
+
 export const symbol = Symbol.for('native-executer');
 
+if (process.env.DEBUG_DUPLICATE_INSTANCE !== undefined) setSourceMapsEnabled(false);
+
 // 确保这个文件只加载一次
-if (Object.hasOwn(globalThis, symbol)) {
+const ss: ILoaderState = (globalThis as any)[symbol];
+if (ss) {
 	console.error('native-executer: 加载器重复导入');
+	console.error('  * argv:', process.argv);
+	console.error('  * cwd:', process.cwd());
+	console.error('  * execArgv:', process.execArgv);
+
 	if (process.env.DEBUG_DUPLICATE_INSTANCE !== undefined) {
-		console.error((globalThis as any)[symbol].stack ?? '缺少stack，未知版本');
+		const stack = ss.stackHold?.stack;
+		console.error('\x1B[38;5;9m[首次初始化]\x1B[0m');
+		console.error(s(stack) || '缺少首次初始化stack，未知版本');
+
+		console.error('\x1B[38;5;9m[本次栈信息]\x1B[0m');
+		console.error(s(new Error('本次初始化').stack) || '无法获取本次栈信息');
 	} else {
 		console.error('设置 DEBUG_DUPLICATE_INSTANCE=1 添加一个stack trace');
 	}
+}
+
+function s(stack?: string) {
+	return stack?.split('\n').slice(1).join('\n');
 }
 
 export interface ILoaderState {
 	dispose(): void;
 	loaded?: Set<string>;
 	overrides?: Map<string, string>;
-	stack?: Error;
+	stackHold?: Error;
 }
 
 const object: ILoaderState = {
@@ -38,7 +56,7 @@ if (process.env.NATIVE_EXECUTER_COLLECTION !== undefined) {
 	object.loaded = new Set();
 }
 if (process.env.DEBUG_DUPLICATE_INSTANCE !== undefined) {
-	object.stack = new Error('首次初始化');
+	object.stackHold = new Error('首次初始化');
 }
 
 export const theState = object;

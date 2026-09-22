@@ -124,6 +124,8 @@ class WatchProgram extends Job<string> {
 		}
 	}
 
+	protected override async _stop() {}
+
 	private _auto = false;
 	auto(): void {
 		if (!this._auto) this._auto = true;

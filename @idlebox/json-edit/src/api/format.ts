@@ -4,7 +4,7 @@ import { defaultFormatFactory } from '../tools/formatter.js';
 import { manipulateJsonResult, UnorderdFieldsPlacement } from './manipulate.js';
 import type { JsonEditObject } from './types.js';
 
-export function reformatJson<T, K>(data: JsonEditObject<T, K>, override: Partial<K>): JsonEditObject<T, K> {
+export function reformatJson<T, K>(data: JsonEditObject<T, K>, override: K | Partial<K>): JsonEditObject<T, K> {
 	const config = getAttachedFormatter(data);
 	config.formatterOptions = override;
 	config.formatter?.setOptions(override);
