@@ -1701,8 +1701,9 @@ export enum NodeErrorCode {
 	ERR_SOCKET_DGRAM_NOT_RUNNING = 'ERR_SOCKET_DGRAM_NOT_RUNNING',
 	/**
 	 * <p>An operation was attempted on a <a href="net.html#class-netboundsocket"><code>BoundSocket</code></a> that had already been adopted
-	 * by a <a href="net.html#class-netserver"><code>net.Server</code></a> or <a href="net.html#class-netsocket"><code>net.Socket</code></a>. Once a bound socket is adopted, its
-	 * <code>address()</code> and <code>close()</code> methods can no longer be used.</p>
+	 * by a <a href="net.html#class-netserver"><code>net.Server</code></a> or <a href="net.html#class-netsocket"><code>net.Socket</code></a>, or transferred to another thread.
+	 * Once a bound socket is adopted or transferred, its <code>address()</code> and <code>close()</code>
+	 * methods can no longer be used.</p>
 	 * <p><a id="ERR_SOURCE_MAP_CORRUPT"></a></p>
 	 */
 	ERR_SOCKET_HANDLE_ADOPTED = 'ERR_SOCKET_HANDLE_ADOPTED',
@@ -1825,9 +1826,15 @@ export enum NodeErrorCode {
 	 * <p>This error represents a failed test. Additional information about the failure
 	 * is available via the <code>cause</code> property. The <code>failureType</code> property specifies
 	 * what the test was doing when the failure occurred.</p>
-	 * <p><a id="ERR_TLS_ALPN_CALLBACK_INVALID_RESULT"></a></p>
+	 * <p><a id="ERR_THROTTLED"></a></p>
 	 */
 	ERR_TEST_FAILURE = 'ERR_TEST_FAILURE',
+	/**
+	 * <p>A call was dropped because a throttled function could not invoke it immediately
+	 * or its pending queue was full.</p>
+	 * <p><a id="ERR_TLS_ALPN_CALLBACK_INVALID_RESULT"></a></p>
+	 */
+	ERR_THROTTLED = 'ERR_THROTTLED',
 	/**
 	 * <p>This error is thrown when an <code>ALPNCallback</code> returns a value that is not in the
 	 * list of ALPN protocols offered by the client.</p>
@@ -1939,7 +1946,8 @@ export enum NodeErrorCode {
 	ERR_TRACE_EVENTS_CATEGORY_REQUIRED = 'ERR_TRACE_EVENTS_CATEGORY_REQUIRED',
 	/**
 	 * <p>The <code>node:trace_events</code> module could not be loaded because Node.js was compiled
-	 * with the <code>--without-v8-platform</code> flag.</p>
+	 * with the <code>--without-v8-platform</code> flag, or because the process was initialized by
+	 * an embedder that provides its own V8 platform.</p>
 	 * <p><a id="ERR_TRAILING_JUNK_AFTER_STREAM_END"></a></p>
 	 */
 	ERR_TRACE_EVENTS_UNAVAILABLE = 'ERR_TRACE_EVENTS_UNAVAILABLE',
@@ -2079,9 +2087,15 @@ export enum NodeErrorCode {
 	/**
 	 * <p>While using the Performance Timing API (<code>perf_hooks</code>), no valid performance
 	 * entry types are found.</p>
-	 * <p><a id="ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING"></a></p>
+	 * <p><a id="ERR_VFS_INVALID_TARGET"></a></p>
 	 */
 	ERR_VALID_PERFORMANCE_ENTRY_TYPE = 'ERR_VALID_PERFORMANCE_ENTRY_TYPE',
+	/**
+	 * <p>A <code>--vfs-mount</code> source does not exist, is neither a regular file nor a
+	 * directory, or is a source no provider claims.</p>
+	 * <p><a id="ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING"></a></p>
+	 */
+	ERR_VFS_INVALID_TARGET = 'ERR_VFS_INVALID_TARGET',
 	/**
 	 * <p>A dynamic import callback was not specified.</p>
 	 * <p><a id="ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING_FLAG"></a></p>
@@ -2159,9 +2173,10 @@ export enum NodeErrorCode {
 	 */
 	ERR_WEBASSEMBLY_RESPONSE = 'ERR_WEBASSEMBLY_RESPONSE',
 	/**
-	 * <p>An attempt was made to transfer a <code>net.Socket</code> or <code>net.Server</code> to another thread
-	 * via a <code>worker_threads</code> <code>postMessage()</code> call while it was not in a transferable
-	 * state, for example because it had already started reading or had buffered data.</p>
+	 * <p>An attempt was made to transfer a <code>net.Socket</code>, <code>net.Server</code> or
+	 * <code>net.BoundSocket</code> to another thread via a <code>worker_threads</code> <code>postMessage()</code> call
+	 * while it was not in a transferable state, for example because it had already
+	 * started reading, had buffered data, or had already been adopted.</p>
 	 * <p><a id="ERR_WORKER_INIT_FAILED"></a></p>
 	 */
 	ERR_WORKER_HANDLE_NOT_TRANSFERABLE = 'ERR_WORKER_HANDLE_NOT_TRANSFERABLE',

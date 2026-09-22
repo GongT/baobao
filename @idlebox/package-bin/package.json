@@ -25,7 +25,6 @@
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^26.1.2"
 	},
-	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	}
