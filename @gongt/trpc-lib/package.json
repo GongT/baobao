@@ -1,9 +1,9 @@
 {
 	"name": "@gongt/trpc-lib",
+	"type": "module",
 	"version": "1.0.12",
 	"description": "A tRPC library",
 	"keywords": ["trpc", "socket.io", "api-extractor"],
-	"sideEffects": false,
 	"exports": {
 		"./server": "./lib/server/index.js",
 		"./client": "./lib/client/index.js",
@@ -29,5 +29,5 @@
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},
-	"type": "module"
+	"sideEffects": false
 }

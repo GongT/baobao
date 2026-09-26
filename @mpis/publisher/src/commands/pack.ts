@@ -2,6 +2,7 @@ import { argv, CommandDefine, logger, type IArgDefineMap } from '@idlebox/cli';
 import { shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { recreateTempFolder } from '../common/constants.js';
+import { setCurrentWorking } from '../common/errors.js';
 import { execPnpmMute, registerLogError } from '../common/exec.js';
 import { normalizeName } from '../common/path.js';
 import { buildPackageTarball, extractPackage, getCurrentProject, reconfigurePackageJson } from '../common/shared-steps.js';
@@ -29,11 +30,12 @@ export async function main() {
 		throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
 	}
 
-	registerLogError();
-
 	// prepare
-	await recreateTempFolder();
 	const pkgJson = getCurrentProject();
+	registerLogError();
+	setCurrentWorking(`打包项目${pkgJson.name}@${pkgJson.version}`);
+
+	await recreateTempFolder();
 
 	// 运行build、打包
 	await buildPackageTarball();

@@ -3,7 +3,7 @@ import { call_debug_command, debug_commands, nodeFormat } from '../functions/bui
 import { Cdim, Crst, CSI, NCdim } from './ansi.js';
 import { LogLevel, logLevelPaddingStr, logTagColor } from './colors.js';
 import { current_error_action, escapeRegExp } from './helpers.js';
-import type { ILineWriter, IMyDebug, IMyDebugWithControl, InspectContext } from './types.js';
+import type { ILineWriter, IMyDebugWithControl, InspectContext } from './types.js';
 
 interface IDebugOptions {
 	tag: string;
@@ -13,6 +13,8 @@ interface IDebugOptions {
 	writer: ILineWriter;
 	enabled?: boolean;
 }
+
+export type IFormatter = (messages: TemplateStringsArray | string, ...args: unknown[]) => string;
 
 /**
  * 创建一个debug函数
@@ -27,16 +29,16 @@ export function createDebug({ tag, level, colorEnabled, colorWholeLine = false, 
 		level,
 	};
 
-	let write_line: IMyDebug;
+	let format_line: IFormatter;
 	if (!colorEnabled) {
-		write_line = write_line_monolithic({
+		format_line = format_line_monolithic({
 			...lineOpt,
 			tag: tag ? tag : `$$`,
 		});
 	} else if (colorWholeLine) {
-		write_line = write_line_colored_line(lineOpt);
+		format_line = format_line_colored_line(lineOpt);
 	} else {
-		write_line = write_line_colored_tag(lineOpt);
+		format_line = format_line_colored_tag(lineOpt);
 	}
 
 	// assert.equal(typeof writer, 'function', 'writer must be a function');
@@ -44,7 +46,7 @@ export function createDebug({ tag, level, colorEnabled, colorWholeLine = false, 
 	const r = Object.defineProperties(
 		(m: any, ...args: unknown[]) => {
 			if (!enabled) return;
-			write_line(m, ...args);
+			writer(format_line(m, ...args));
 		},
 		{
 			displayName: {
@@ -79,6 +81,12 @@ export function createDebug({ tag, level, colorEnabled, colorWholeLine = false, 
 				configurable: false,
 				writable: false,
 			},
+			format: {
+				value: format_line,
+				enumerable: false,
+				configurable: false,
+				writable: false,
+			},
 		},
 	) as IMyDebugWithControl;
 
@@ -89,7 +97,6 @@ export function createDebug({ tag, level, colorEnabled, colorWholeLine = false, 
 
 interface IWriteLineOptions {
 	tag: string;
-	writer: ILineWriter;
 	color: string;
 	level: LogLevel;
 }
@@ -149,7 +156,7 @@ function format_template(messages: TemplateStringsArray, args: unknown[], color:
 /**
  * TAG带颜色
  */
-function write_line_colored_tag({ tag, writer, color }: IWriteLineOptions) {
+function format_line_colored_tag({ tag, color }: IWriteLineOptions): IFormatter {
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
 		const head = `[${CSI}${color}m${tag}${Crst}]`;
 		let body: string;
@@ -159,14 +166,14 @@ function write_line_colored_tag({ tag, writer, color }: IWriteLineOptions) {
 			body = format_template(messages, args, true);
 		}
 
-		write(writer, head, body);
+		return join_title_msg(head, body);
 	};
 }
 
 /**
  * 整行带颜色
  */
-function write_line_colored_line({ tag, writer, color }: IWriteLineOptions) {
+function format_line_colored_line({ tag, color }: IWriteLineOptions): IFormatter {
 	return (messages: TemplateStringsArray | string, ...args: unknown[]) => {
 		const head = `${CSI}${color}m[${tag}]`;
 		let body: string;
@@ -177,14 +184,14 @@ function write_line_colored_line({ tag, writer, color }: IWriteLineOptions) {
 		}
 		body += Crst;
 
-		write(writer, head, body);
+		return join_title_msg(head, body);
 	};
 }
 
 /**
  * 不带颜色
  */
-function write_line_monolithic({ tag, level, writer }: IWriteLineOptions) {
+function format_line_monolithic({ tag, level }: IWriteLineOptions): IFormatter {
 	const lvlStr = logLevelPaddingStr[level];
 	const head = `[${tag}/${lvlStr}]`;
 
@@ -197,14 +204,14 @@ function write_line_monolithic({ tag, level, writer }: IWriteLineOptions) {
 			body = format_template(messages, args, false);
 		}
 
-		write(writer, head, body);
+		return join_title_msg(head, body);
 	};
 }
 
-function write(writer: ILineWriter, head: string, body: string) {
+function join_title_msg(head: string, body: string) {
 	if (body[0] === '[') {
-		writer(`${head}${body}`);
+		return `${head}${body}`;
 	} else {
-		writer(`${head} ${body}`);
+		return `${head} ${body}`;
 	}
 }

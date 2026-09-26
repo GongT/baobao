@@ -2,6 +2,7 @@ import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { emptyDir, shutdown, workingDirectory } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { recreateTempFolder, repoRoot, tempDir } from '../common/constants.js';
+import { setCurrentWorking } from '../common/errors.js';
 import { execPnpmMute, registerLogError } from '../common/exec.js';
 import { buildPackageTarball, extractPackage, getCurrentProject, reconfigurePackageJson } from '../common/shared-steps.js';
 import { decompressTarGz } from '../common/tar.js';
@@ -29,11 +30,12 @@ export const main = async () => {
 		throw new Error(`Unknown arguments: ${argv.unused().join(', ')}`);
 	}
 
-	registerLogError();
-
 	// prepare
-	await recreateTempFolder();
 	const pkgJson = getCurrentProject();
+	registerLogError();
+	setCurrentWorking(`打包并立即解压项目${pkgJson.name}@${pkgJson.version}`);
+
+	await recreateTempFolder();
 
 	// 运行build、打包
 	await buildPackageTarball();

@@ -1,6 +1,7 @@
 // biome-ignore-all lint/suspicious/noTsIgnore: 兼容浏览器环境
 
 import type { EnableLogLevel } from '../loglevels/loglevel.js';
+import type { IFormatter } from './create.function.js';
 
 /** @ts-ignore */
 export type NodeJSReadableStream = NodeJS.ReadableStream;
@@ -15,6 +16,7 @@ export interface IMyDebugWithControl extends IMyDebug {
 	disable(): void;
 	readonly isEnabled: boolean;
 	readonly writeLine: ILineWriter;
+	readonly format: IFormatter;
 }
 
 export interface IMyLoggerMethods {

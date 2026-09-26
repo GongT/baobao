@@ -1,13 +1,12 @@
 {
 	"name": "@idlebox/dockerfile-split",
-	"description": "Split a Dockerfile into array of individual instructions and comments",
 	"type": "module",
 	"version": "0.0.1",
+	"description": "Split a Dockerfile into array of individual instructions and comments",
 	"exports": {
 		".": "./lib/index.js",
 		"./package.json": "./package.json"
 	},
-	"sideEffects": false,
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -26,5 +25,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

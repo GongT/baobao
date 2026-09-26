@@ -3,6 +3,7 @@ import { convertCaughtError, createStackTraceHolder } from '@idlebox/common';
 import { registerNodejsGlobalTypedErrorHandler, shutdown } from '@idlebox/node';
 import { execa, ExecaError } from 'execa';
 import { constants } from 'node:os';
+import { printSummaryError } from './errors.js';
 
 const env = {
 	DEBUG_LEVEL: logger.verbose.isEnabled ? 'verbose' : logger.debug.isEnabled ? 'debug' : undefined,
@@ -159,11 +160,34 @@ function debugFailedCommand(e: unknown, cmds: string[], cwd: string, outputPrint
 		} else {
 			logger.warn`  没有输出内容\nlong<${createStackTraceHolder('').stackOnly}>`;
 		}
+
+		printSummaryError((printer) => {
+			printer(`运行命令失败:`);
+			printer(`  命令行: ${cmds.join(' ')}`);
+			printer(`  工作目录: ${cwd}`);
+			if (txt) {
+				const lines = txt.split('\n');
+				for (const line of lines) {
+					printer(line);
+				}
+			} else if (outputPrinted) {
+				printer(`  输出已打印`);
+			} else {
+				printer(`  没有输出内容\nlong<${createStackTraceHolder('').stackOnly}>`);
+			}
+		});
 	} else {
 		const err = convertExecError(e);
 		logger.error`运行命令异常:`;
 		logger.error`  命令行: commandline<${cmds}>`;
 		logger.error`  工作目录: long<${cwd}>`;
 		logger.error`  错误信息: long<${err.stack}>`;
+
+		printSummaryError((printer) => {
+			printer(`运行命令异常:`);
+			printer(`  命令行: ${cmds.join(' ')}`);
+			printer(`  工作目录: ${cwd}`);
+			printer(`  错误信息: ${err.stack}`);
+		});
 	}
 }

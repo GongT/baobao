@@ -3,8 +3,9 @@ import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { commandInPathSync, shutdown } from '@idlebox/node';
 import { resolve } from 'node:path';
 import { recreateTempFolder, repoRoot, tempDir } from '../common/constants.js';
+import { setCurrentWorking } from '../common/errors.js';
 import { execMute, execPnpmUser, registerLogError } from '../common/exec.js';
-import { buildPackageTarball, commitChanges, extractPackage, reconfigurePackageJson } from '../common/shared-steps.js';
+import { buildPackageTarball, commitChanges, extractPackage, getCurrentProject, reconfigurePackageJson } from '../common/shared-steps.js';
 
 export class Command extends CommandDefine {
 	protected override _usage: string = '';
@@ -81,7 +82,9 @@ export async function main() {
 		}
 	}
 
+	const _pPkg = getCurrentProject();
 	registerLogError();
+	setCurrentWorking(`打包并发布项目${_pPkg.name}@${_pPkg.version}`);
 
 	// prepare
 	await recreateTempFolder();

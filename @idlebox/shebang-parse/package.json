@@ -1,8 +1,8 @@
 {
 	"name": "@idlebox/shebang-parse",
-	"description": "A parser for shebang line in script files",
 	"type": "module",
 	"version": "0.0.1",
+	"description": "A parser for shebang line in script files",
 	"exports": {
 		".": {
 			"source": "./src/node.ts",
@@ -20,7 +20,6 @@
 			"default": "./lib/manpage.generated.js"
 		}
 	},
-	"sideEffects": false,
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -42,5 +41,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

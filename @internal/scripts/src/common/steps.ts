@@ -7,6 +7,7 @@ import { execa } from 'execa';
 import { appendFileSync, cpSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { printDetails, printError } from './error.js';
 import { getExportsField, packageJson } from './package-json.js';
 import { currentProject, realProject } from './paths/current.js';
 import { monorepoRoot } from './paths/root.js';
@@ -233,7 +234,7 @@ export function writeNpmFiles() {
 	}
 }
 
-export async function executePreBuild(details = true) {
+export async function executePreBuild() {
 	let failed = 0;
 	const rigFile = resolve(currentProject, 'config/rig.json');
 	if (existsSync(rigFile)) {
@@ -242,15 +243,17 @@ export async function executePreBuild(details = true) {
 
 		args.push('knip', '--no-gitignore', '--no-config-hints', '--no-progress', '--config', resolve(monorepoRoot, 'knip.json'), '--directory', currentProject);
 
-		logger.debug`commandline<${args}>`;
 		const r = await execa({
-			stdio: details ? 'inherit' : 'ignore',
+			stdio: 'pipe',
+			all: true,
+			encoding: 'utf8',
 			cwd: currentProject,
 			reject: false,
 		})`${args}`;
 
 		if (r.failed) {
-			logger.error`knip发现问题，应修复后再发布: commandline<${args}>`;
+			printError`knip发现问题，应修复后再发布: commandline<${args}>`;
+			printDetails(r.all);
 			setExitCodeIfNot(1);
 			failed++;
 		}
@@ -262,23 +265,29 @@ export async function executePreBuild(details = true) {
 
 	logger.log`执行 biome format --write`;
 	const r1 = await execa(biomePath, ['format', '--write'], {
-		stdio: details ? 'inherit' : 'ignore',
+		stdio: 'pipe',
+		all: true,
+		encoding: 'utf8',
 		cwd: realProject,
 		reject: false,
 	});
 	if (r1.failed) {
-		logger.error`biome format发现问题，应修复后再发布`;
+		printError`biome format发现问题，应修复后再发布`;
+		printDetails(r1.all);
 		setExitCodeIfNot(1);
 		failed++;
 	} else {
 		logger.log`执行 biome check`;
 		const r2 = await execa(biomePath, ['check', '--diagnostic-level=warn'], {
-			stdio: details ? 'inherit' : 'ignore',
+			stdio: 'pipe',
+			all: true,
+			encoding: 'utf8',
 			cwd: realProject,
 			reject: false,
 		});
 		if (r2.failed) {
-			logger.error`biome check发现问题，应修复后再发布`;
+			printError`biome check发现问题，应修复后再发布`;
+			printDetails(r2.all);
 			setExitCodeIfNot(1);
 			failed++;
 		}

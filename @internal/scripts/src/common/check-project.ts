@@ -25,7 +25,7 @@ export async function executeProjectCheck() {
 	try {
 		const notices = await executeInner(logger);
 
-		const failed = await executePreBuild(false);
+		const failed = await executePreBuild();
 		if (failed) {
 			errorRegistry.with(resolve(currentProject, 'package.json')).emit('check failed');
 		}
