@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/dockerfile-split",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Split a Dockerfile into array of individual instructions and comments",
 	"exports": {
 		".": "./lib/index.js",

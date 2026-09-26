@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/create-wrapper-script",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"bin": {
 		"create-wrapper-script": "./loader/bin.devel.js"
 	},

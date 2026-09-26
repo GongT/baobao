@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/deepmerge",
 	"type": "module",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"description": "Deep merge utility for JSON files with custom merge strategies.",
 	"exports": {
 		".": {
