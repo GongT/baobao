@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { execa } from 'execa';
 import { appendFileSync, globSync, readFileSync } from 'node:fs';
 import { copyFile, mkdir, mkdtemp, rm } from 'node:fs/promises';
@@ -7,7 +9,7 @@ import { chdir } from 'node:process';
 import { Writable } from 'node:stream';
 
 const summaryPath = process.env.GITHUB_STEP_SUMMARY;
-const logFileMatcher = /A complete log of this run can be found in:(.+)$/gm;
+const logFileMatcher = /A complete log of this run can be found in:\s*(.+)$/gm;
 const cnpmSyncWaitList: Promise<any>[] = [];
 const SP = {
 	Publish: 0,
@@ -140,21 +142,19 @@ async function runOnce(file: string, isFirstAttempt: boolean) {
 	})`npm publish --access public --tag latest`;
 
 	p.all.pipe(process.stderr, { end: false });
-	const output = p.all.pipe(new CollectingStream(), { end: true });
 
 	const res = await p;
+	console.log('npm publish 命令退出，返回 %d', res.exitCode);
 
 	await rm(tmpDir, { force: true, recursive: true }).catch((e) => {
 		console.error('删除临时目录失败', e.message);
 	});
 
-	console.log('程序退出，返回 %d', res.exitCode);
-
 	if (res.exitCode === 0) {
 		cnpmSyncWaitList.push(syncCnpm(pkgJson.name));
 
 		summary(SP.Publish, `* ✅ 成功: ${pkgJson.name} @ v${pkgJson.version}`);
-		return { success: true, debugInfo: '', output: output.getOutput() };
+		return { success: true, debugInfo: '', output: res.all };
 	}
 
 	if (isFirstAttempt) {
@@ -166,7 +166,7 @@ async function runOnce(file: string, isFirstAttempt: boolean) {
 	debugInfo += pkgTxt.trim();
 	debugInfo += '\n';
 
-	return { success: false, debugInfo, output: output.getOutput() };
+	return { success: false, debugInfo, output: res.all };
 }
 
 async function publishItem(item: string) {
@@ -188,6 +188,9 @@ async function publishItem(item: string) {
 
 		if (r.output.includes('"repository.url" is')) {
 			// provenance
+			break;
+		} else if (r.output.includes('npm error code ENEEDAUTH')) {
+			// 首个版本无法通过CI发布
 			break;
 		}
 		// TODO: 重复版本号错误
