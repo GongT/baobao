@@ -23,11 +23,11 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
+		"@idlebox/errors": "workspace:^",
 		"comment-json": "^5.0.0",
 		"prettier": "^3.9.6"
 	},
 	"devDependencies": {
-		"@idlebox/errors": "workspace:^",
 		"@idlebox/json-edit-biome": "workspace:^",
 		"@internal/local-rig": "workspace:^",
 		"@types/node": "^26.1.2",
