@@ -67,6 +67,10 @@ abstract class AbstractArgumentError extends UsageError {
 		super('--you should not see this--');
 
 		this._stackObject = new StackTrace(undefined, 1 + skip);
+
+		// 由于Error的构造函数会写入stack和message属性，所以这里删除它们以确保getter会被调用
+		delete (this as any).stack;
+		delete (this as any).message;
 	}
 
 	/**

@@ -67,10 +67,13 @@ export abstract class PackageManager {
 				this.logger.fatal`publishConfig.packCommand必须是字符串或字符串数组, 但实际是: ${typeof pkg.publishConfig['packCommand']}`;
 			}
 
-			this.logger.verbose` - 自定义打包命令: ${Array.from(cmds)}`;
+			this.logger.debug` - 自定义打包命令: commandline<${cmds}>`;
 
 			const [cmd, ...args] = cmds;
-			await this._exec({ cwd: this.projectPath, cmds: [cmd, ...args, '--out', saveAs], options });
+			const ret = await this._exec({ cwd: this.projectPath, cmds: [cmd, ...args, '--out', saveAs], options });
+
+			this.logger.debug` - 打包命令返回值: ${ret.exitCode}`;
+
 			return saveAs;
 		} else {
 			return this._pack(saveAs, options);

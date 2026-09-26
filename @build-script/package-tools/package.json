@@ -30,6 +30,7 @@
 		"@idlebox/node": "workspace:^",
 		"@idlebox/terminal-control": "workspace:^",
 		"@idlebox/unshare": "workspace:^",
+		"cjke-strings": "workspace:^",
 		"cacache": "^21.0.1",
 		"execa": "^10.0.1",
 		"gunzip-maybe": "^1.4.2",

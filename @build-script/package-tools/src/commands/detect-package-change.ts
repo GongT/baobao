@@ -4,6 +4,7 @@ import { isLinux, isPathContains, UsageError } from '@idlebox/common';
 import { printLine } from '@idlebox/node';
 import { FsNodeType, unshareReadonlyFileSystem } from '@idlebox/unshare';
 import { resolve } from 'node:path';
+import type { FileDiffOp } from '../common/git/diff.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { increaseVersion } from '../common/package-manager/package-json.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';
@@ -16,6 +17,7 @@ export class Command extends CommandDefine {
 	protected override readonly _arguments = {
 		'--bump': { usage: true, flag: true, description: '当发现更改时更新package.json，增加版本号0.0.1' },
 		'--json': { usage: true, flag: true, description: '输出JSON格式（不支持bump）' },
+		'--diff': { usage: true, flag: true, description: '输出文件差异对比' },
 		'--unshare': { flag: false, description: '[linux] 在虚拟环境中运行（不支持bump），传入一个目录，此目录自动overlay' },
 	};
 }
@@ -28,11 +30,13 @@ export async function main() {
 	let unshareFrom = argv.single(['--unshare']);
 	const quiet = argv.flag(['--quiet', '-q']) > 0;
 	const autoInc = argv.flag(['--bump']) > 0;
+	const showDiff = argv.flag(['--diff']) > 0;
 	const jsonOutput = argv.flag(['--json']) > 0 || !process.stdout.isTTY;
 
 	if (autoInc) {
 		if (jsonOutput) throw new UsageError(`--json和--bump不能同时使用`);
 		if (unshareFrom) throw new UsageError(`--unshare和--bump不能同时使用`);
+		if (showDiff) throw new UsageError(`--diff和--bump不能同时使用`);
 	}
 
 	const workspace = await createWorkspaceOrPackage();
@@ -76,7 +80,20 @@ export async function main() {
 	}
 
 	const pkgJson = await pm.loadPackageJson();
-	const { changedFiles, hasChange, remoteVersion, packageJsonDiff } = await executeChangeDetect(pm, {});
+	const { changedFiles, hasChange, remoteVersion, packageJsonDiff, gitrepo } = await executeChangeDetect(pm, {});
+
+	const diffFiles: Record<string, FileDiffOp> = {};
+	if (showDiff && gitrepo) {
+		for (const diff of await gitrepo.allDiff()) {
+			const current = diff.parseHeader().git?.command?.path;
+			if (current) {
+				diffFiles[current] = diff;
+			} else {
+				logger.warn`无法解析 diff 的文件路径: long<${diff.raw}>`;
+			}
+		}
+		logger.debug`计算了所有文件的 diff 信息，共 ${Object.keys(diffFiles).length} 个文件`;
+	}
 
 	if (autoInc) {
 		if (changedFiles.length) {
@@ -98,6 +115,7 @@ export async function main() {
 						changedFiles,
 						changed: hasChange,
 						packageJsonDiff,
+						diffFiles,
 					},
 					null,
 					fmt,
@@ -108,9 +126,21 @@ export async function main() {
 				if (!quiet) console.log('没有更改');
 				process.exitCode = 1;
 			} else {
-				printLine();
-				logger.log`list<${changedFiles}>`;
-				printLine();
+				if (diffFiles) {
+					for (const [file, diff] of Object.entries(diffFiles)) {
+						logger.info`文件差异: long<${file}>`;
+						const str = diff.sideBySide({ heading: ['发布版本', '当前版本'], lineLimit: 5, context: false });
+						if (logger.colorEnabled) {
+							console.error(`\x1b[2m${str}\x1b[0m`);
+						} else {
+							console.error(str);
+						}
+					}
+				} else {
+					printLine();
+					logger.log`list<${changedFiles}>`;
+					printLine();
+				}
 				if (!quiet) console.log('有更改');
 				process.exitCode = 0;
 			}

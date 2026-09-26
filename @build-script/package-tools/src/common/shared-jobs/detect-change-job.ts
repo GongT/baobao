@@ -19,19 +19,27 @@ export interface IChangeDetectResult {
 	hasChange: boolean;
 	remoteVersion?: string;
 	packageJsonDiff: IPackageJsonChange;
+	gitrepo?: GitWorkingTree;
 }
 
 interface IDetectOptions {
 	forcePrivate?: boolean;
 	readonly cancel?: CancellationToken;
 	readonly logger?: IMyLogger;
+	/**
+	 * 是否启用短路检测，默认为 true。
+	 * 包版本大于远程版本时，直接返回结果
+	 *
+	 * 跳过时返回没有gitrepo
+	 */
+	readonly shortCircuit?: boolean;
 }
 
 function never(): Promise<void> {
 	return new Promise(() => {});
 }
 
-export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions = {}): Promise<IChangeDetectResult> {
+export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions = { shortCircuit: true }): Promise<IChangeDetectResult> {
 	const logger = options.logger ?? pm.logger.extend('change-detect');
 	try {
 		return await _executeChangeDetect(pm, options, logger, options.cancel?.promise ?? never());
@@ -86,7 +94,7 @@ async function _executeChangeDetect(pm: IPackageManager, options: IDetectOptions
 	logger.debug(' -> npm 远程版本 = %s', remotePackage?.version);
 	logger.debug(' -> package.json 本地版本 = %s', packageJson.version);
 
-	if (!remotePackage || gt(packageJson.version, remotePackage.version)) {
+	if (!remotePackage || (options.shortCircuit && gt(packageJson.version, remotePackage.version))) {
 		logger.debug('本地版本 (%s) 已经大于远程版本 (%s)，无需进一步检测', packageJson.version, remotePackage?.version);
 		return {
 			changedFiles: ['package.json'],
@@ -137,7 +145,9 @@ async function _executeChangeDetect(pm: IPackageManager, options: IDetectOptions
 		logger.debug(`    - package.json 文件未修改`);
 	}
 
-	return { changedFiles, hasChange: changedFiles.length > 0, remoteVersion: remotePackage.version, packageJsonDiff };
+	const result: IChangeDetectResult = { changedFiles, hasChange: changedFiles.length > 0, remoteVersion: remotePackage.version, packageJsonDiff, gitrepo };
+
+	return result;
 }
 
 /**

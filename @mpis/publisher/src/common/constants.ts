@@ -29,19 +29,18 @@ export async function recreateTempFolder() {
 	await emptyDir(tempFolder);
 
 	if (debugMode) {
-		logger.verbose`temporary folder created at ${tempFolder}`;
+		logger.verbose`创建临时文件夹: long<${tempFolder}> | 由于调试模式，临时文件夹不会被自动清理`;
 	} else {
 		registerGlobalLifecycle(
 			toDisposable(() => {
 				if (!process.exitCode) {
-					logger.verbose`Cleaning up temporary folder.`;
 					try {
 						rmSync(tempFolder, { recursive: true, force: true });
 					} catch (e: any) {
 						prettyPrintError('failed cleanup temporary folder', e);
 					}
 				} else {
-					logger.warn`Temporary folder not cleaned up due to non-zero exit code.`;
+					logger.warn`因为退出码非零，临时文件夹未清理`;
 				}
 			}),
 		);

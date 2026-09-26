@@ -41,12 +41,12 @@ export function makeInformationalFields() {
 }
 
 export function deleteDevelopmentFields() {
+	// 删除开发相关脚本
 	if (packageJson.scripts?.test || packageJson.scripts?.lint) {
 		logger.debug`删除test&lint脚本`;
 		delete packageJson.scripts.test;
 		delete packageJson.scripts.lint;
 	}
-
 	for (const [key, value] of Object.entries(packageJson.scripts || {})) {
 		if (!value.trim()) {
 			logger.debug`删除空脚本 ${key}`;
@@ -54,27 +54,35 @@ export function deleteDevelopmentFields() {
 		}
 	}
 
+	// 删除 decoupled 相关字段
 	if (packageJson.decoupledDependencies) {
 		logger.debug`删除 decoupledDependencies`;
 		delete (packageJson as any).decoupledDependencies;
 	}
-
 	if (packageJson.decoupledDependents) {
 		logger.debug`删除 decoupledDependents`;
 		delete (packageJson as any).decoupledDependents;
 	}
 
-	if (packageJson.publishConfig?.packCommand) {
-		logger.debug`删除 publishConfig.packCommand`;
-		delete packageJson.publishConfig.packCommand;
+	// publishConfig
+	if (packageJson.publishConfig) {
+		if (packageJson.publishConfig.packCommand) {
+			logger.debug`删除 publishConfig.packCommand`;
+			delete packageJson.publishConfig.packCommand;
+		}
+		if (Object.keys(packageJson.publishConfig).length === 0) {
+			logger.debug`删除空的 publishConfig`;
+			delete (packageJson as any).publishConfig;
+		}
 	}
 
-	function removeDevDependency(name: string) {
+	// 转换特定的开发依赖
+	const removeDevDependency = (name: string) => {
 		if (packageJson.devDependencies?.[name]) {
 			logger.debug`删除 devDependencies.${name}`;
 			delete packageJson.devDependencies[name];
 		}
-	}
+	};
 	if (packageJson.devDependencies) {
 		if (packageJson.devDependencies['@internal/local-rig']) {
 			packageJson.devDependencies['@build-script/baseline-rig'] = 'latest';

@@ -1,10 +1,10 @@
-import { parseExportsField, type IExportMap, type IFullExportsField, type IPackageJson } from '@idlebox/common';
+import { parseExportsField, type IFullExportsField, type IPackageJson } from '@idlebox/common';
 import { loadJsonFile, parseJsonText, writeJsonFile } from '@idlebox/json-edit';
 import { logger } from '@idlebox/logger';
 import { execaNode } from 'execa';
-import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { currentProject } from './paths/current.js';
+import { monorepoRoot } from './paths/root.js';
 
 export let packageJson: IPackageJson;
 let exports: IFullExportsField;
@@ -20,8 +20,6 @@ export async function readPackageJson() {
 }
 
 export async function writeBackPackageJson() {
-	(packageJson.exports as IExportMap)['./package.json'] = './package.json';
-
 	simplifyExportsField(exports);
 
 	const pkgJson = resolve(currentProject, 'package.json');
@@ -30,18 +28,21 @@ export async function writeBackPackageJson() {
 	const unpmBin = await findUnpmBin();
 	const { stdout } = await execaNode({
 		stderr: 'inherit',
-		stdin: await readFile(pkgJson),
+		stdin: Buffer.from(JSON.stringify(packageJson)),
 		stdout: 'pipe',
 		encoding: 'utf8',
 		nodeOptions: process.execArgv,
-		cwd: currentProject,
+		cwd: monorepoRoot,
 	})`${unpmBin} format-package -`;
+
+	// 解析格式化后的 package.json 内容
 	const pkgData = parseJsonText(stdout);
 	const ch = await writeJsonFile(pkgJson, pkgData);
 
+	// 清空缓存的 packageJson 对象，防止误操作
 	packageJson = null as any;
 
-	logger.success`写入 package.json | ${ch ? '有改动' : '没有改动'}`;
+	logger.success`写入 long<${pkgJson}> | ${ch ? '有改动' : '没有改动'}`;
 
 	return ch;
 }

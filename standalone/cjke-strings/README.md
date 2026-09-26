@@ -1,96 +1,122 @@
-[string-width](https://www.npmjs.com/package/string-width) is active maintenance again! Use that package instead.  
-This package will mark as deprecated soon.
+# CJKE 字符串模块
 
-# CJKE strings module
+用于处理东亚文字（**C**hinese **J**apanese **K**orean）和 **E**moji 字符串的工具。
 
-Tools for **C**hinese **J**apanese **K**orean **E**moji string
+代码来源如下:
 
-The code is come from:
+-   我自行编写的代码
+-   从 sindresorhus/string-width 复制的代码库
+-   从 tonytonyjan/string-width 学习的 Emoji 处理方式
+-   从多个 Wiki 页面复制的 Unicode 表
 
--   Write by myself
--   Codebase is copied from sindresorhus/string-width
--   Learn about emojis from tonytonyjan/string-width
--   Unicode tables copied from many wiki pages
+通常还需要名为 `stringz` 的模块。
 
-Mostly you also need a module called `stringz`
+## API
 
-```typescript
-describe('typescript', () => {
-	it('is really great', () => {
-		should(cleverMan).to.be('using it');
-	});
-});
-```
+大部分函数不可以输入带有换行符的字符串。
 
-## APIs
+### readFirstCompleteChar(str: string): CodePointInfo
 
--   isCombiningCharacters - detect a character is in Combining Characters table
--   readFirstCompleteChar - get first complete character at beginning of given string, prevent ￿ or ?
--   unicodeEscape - escape string as "\uxxxx\uxxxx\uxxxx" form
--   limitWidth - cut a limited display width of a string
--   stringWidth - calculate display width of a string
+获取给定字符串开头的第一个完整字符或转义序列
 
-### readFirstCompleteChar(str: string, windowsConsole = false): CodePointInfo
+| 变量 | 描述       |
+| ---- | ---------- |
+| str  | 任意字符串 |
 
-| var            | desc                               |
-| -------------- | ---------------------------------- |
-| str            | any string                         |
-| windowsConsole | is used for windows console or not |
+返回值: **CodePointInfo**
 
-**CodePointInfo**
+| 变量    | 类型    | 描述                     |
+| ------- | ------- | ------------------------ |
+| data    | string  | 第一个完整字符或转义序列 |
+| width   | number  | 该字符的显示宽度         |
+| length  | number  | 该字符的字符串长度       |
+| visible | boolean | 该字符是否可见           |
 
-| var     | type    | desc                       |
-| ------- | ------- | -------------------------- |
-| data    | string  | first complete char        |
-| width   | number  | display width of that char |
-| length  | number  | string length of that char |
-| visible | boolean | should the char visible?   |
+### function limitWidth(str: string, limit: number): LimitResult
 
-### function limitWidth(str: string, limit: number, windowsConsole = false): LimitResult
+截取指定显示宽度的字符串，实际返回的字符串可能比目标宽度短。
 
-| var            | desc                               |
-| -------------- | ---------------------------------- |
-| str            | any string                         |
-| limit          | target display width to cut        |
-| windowsConsole | is used for windows console or not |
+| 变量  | 描述                 |
+| ----- | -------------------- |
+| str   | 任意字符串           |
+| limit | 要截取的目标显示宽度 |
 
-**LimitResult**
+返回值: **LimitResult**
 
-| var    | type   | desc                         |
-| ------ | ------ | ---------------------------- |
-| result | string | cut result                   |
-| width  | number | real display width of result |
+| 变量      | 类型   | 描述               |
+| --------- | ------ | ------------------ |
+| result    | string | 截取结果           |
+| width     | number | 结果的实际显示宽度 |
+| remaining | string | 剩余的字符串       |
 
-### function stringWidth(str: string, windowsConsole = false): number
+### function fixedWidth(str: string, width: number): string
 
-| var            | desc                               |
-| -------------- | ---------------------------------- |
-| str            | any string                         |
-| windowsConsole | is used for windows console or not |
-| {return}       | the display width of str           |
+与 `limitWidth` 类似，但返回固定宽度的字符串，必要时会在字符串末尾填充空格。
+
+| 变量  | 描述         |
+| ----- | ------------ |
+| str   | 任意字符串   |
+| width | 目标显示宽度 |
+
+返回值: **LimitResult** 和 `limitWidth` 相同，且其中的 `width` 始终等于输入的 `width`
+
+
+### function stringWidth(str: string): number
+
+计算字符串的显示宽度
+
+| 变量 | 描述       |
+| ---- | ---------- |
+| str  | 任意字符串 |
+
+返回: **number**，表示字符串的显示宽度
 
 ### function isCombiningCharacters(code: number): boolean
 
-| var      | desc                                    |
-| -------- | --------------------------------------- |
-| code     | return value of `'string'.charCodeAt()` |
-| {return} | is in combine char list                 |
+| 变量 | 描述                             |
+| ---- | -------------------------------- |
+| code | `'string'.charCodeAt()` 的返回值 |
+
+返回: **boolean**，表示字符是否位于组合字符列表中
 
 ### function unicodeEscape(str: string): string
 
-| var      | desc           |
-| -------- | -------------- |
-| str      | any string     |
-| {return} | escaped string |
+| 变量 | 描述       |
+| ---- | ---------- |
+| str  | 任意字符串 |
 
-## Windows console
+返回: **string**，表示转义后的字符串
 
-Windows Console (the black window) is not fully support unicode, so there is some workaround. Default is `false`.
+### function chunkText(str: string, width: number): string[]
 
-| char | default | when true |
-| :--: | ------: | --------: |
-|  À   |       1 |         2 |
-|  😂̀  |       2 |         3 |
-|  À̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀̀   |       1 |        25 |
-|  啊  |       2 |         2 |
-|  👍🏽  |       2 |  4(👍+🏽) |
+按指定显示宽度分割字符串，部分块可能比目标宽度短。
+
+### function boxText(str: string, width: number): string[]
+
+同 `chunkText`，但可以输入多行文本。
+
+### function maxWidthMultiline(str: string): number
+
+计算多行文本的最大显示宽度。
+
+### function fixedWidthMultiline(str: string, width: number = Infinity): IFixedMultiline
+
+同 `fixedWidth`，但针对多行文本，所有行均会被填充至最长行的宽度。
+
+返回值: **IFixedMultiline**
+
+| 变量     | 类型     | 描述                   |
+| -------- | -------- | ---------------------- |
+| maxWidth | number   | 多行文本的最大显示宽度 |
+| result   | string[] | 每一行的固定宽度文本   |
+
+## SupportInfo
+
+**绝大多数现代系统中无需设置**
+
+| 属性          | 描述                          |
+| ------------- | ----------------------------- |
+| emojiSequence | 是否支持 Emoji 序列 `👩🏻‍❤️‍💋‍👨🏻`      |
+| combining     | 是否支持组合字符 `À̀̀`          |
+| surrogates    | 是否支持代理对 `\uD83D\uDE00` |
+| tabSize       | number                        | 制表符的显示宽度，默认 8 |
