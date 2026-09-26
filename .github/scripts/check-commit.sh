@@ -63,6 +63,6 @@ for file in "${package_files[@]}"; do
 	printf "[%s] v%s\n" "${PKG_NAME}" "${PKG_VERSION}" >>"$CMFILE"
 done
 
-x git commit -F "$CMFILE"
+x git commit --no-verify -F "$CMFILE"
 x git push
 echo "pushed!"
