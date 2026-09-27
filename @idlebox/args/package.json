@@ -27,12 +27,12 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/errors": "workspace:^",
-		"cjke-strings": "workspace:^"
+		"@idlebox/errors": "workspace:~",
+		"cjke-strings": "workspace:~"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2"
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

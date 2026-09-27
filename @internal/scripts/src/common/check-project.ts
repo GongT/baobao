@@ -90,9 +90,9 @@ async function executeInner(logger: IMyLogger) {
 	}
 
 	if (project.rigConfig.rigPackageName === packageJson.name) {
-		pkgChk.equals(['devDependencies', assetPkgName], 'workspace:^');
+		pkgChk.equals(['devDependencies', assetPkgName], 'workspace:~');
 	} else if (!isVeryBasic) {
-		pkgChk.equals(['devDependencies', project.rigConfig.rigPackageName], 'workspace:^');
+		pkgChk.equals(['devDependencies', project.rigConfig.rigPackageName], 'workspace:~');
 		pkgChk.not_exists(['devDependencies', assetPkgName]);
 	}
 

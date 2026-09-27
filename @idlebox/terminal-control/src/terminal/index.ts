@@ -27,19 +27,19 @@ export * as title from './functions/title.js';
 export class Terminal extends EnhancedDisposable {
 	protected readonly std_stream: WriteStream;
 
-	public declare readonly characters: Readonly<typeof characters>;
+	declare public readonly characters: Readonly<typeof characters>;
 	public static readonly characters: Readonly<typeof characters> = characters;
-	public declare readonly sequence: Readonly<typeof sequence>;
+	declare public readonly sequence: Readonly<typeof sequence>;
 	public static readonly sequence: Readonly<typeof sequence> = sequence;
-	public declare readonly regexp: Readonly<typeof regexp>;
+	declare public readonly regexp: Readonly<typeof regexp>;
 	public static readonly regexp: Readonly<typeof regexp> = regexp;
 
-	public declare readonly geometry: Geometry;
-	public declare readonly alternativeScreen: AlternativeScreen;
-	public declare readonly cursor: Cursor;
-	public declare readonly erase: Erase;
-	public declare readonly progress: Progress;
-	public declare readonly title: Title;
+	declare public readonly geometry: Geometry;
+	declare public readonly alternativeScreen: AlternativeScreen;
+	declare public readonly cursor: Cursor;
+	declare public readonly erase: Erase;
+	declare public readonly progress: Progress;
+	declare public readonly title: Title;
 
 	static {
 		Object.assign(Terminal.prototype, { characters, sequence, regexp });

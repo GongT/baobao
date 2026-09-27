@@ -180,7 +180,7 @@ export class Conflict extends AbstractParameterError {
 }
 
 export class StackTrace {
-	private declare readonly stack: string;
+	declare private readonly stack: string;
 
 	constructor(
 		private readonly attchMessage?: string,

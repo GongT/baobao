@@ -7,7 +7,7 @@ export { make_message, type IMessageObject } from '@mpis/shared';
  * TCP连接的客户端实现
  */
 export class TcpClient extends AbstractChannelClient {
-	private declare socket: Socket;
+	declare private socket: Socket;
 
 	constructor(private readonly remote: string) {
 		super();

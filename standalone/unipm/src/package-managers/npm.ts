@@ -9,7 +9,6 @@ export class Npm extends PackageManager {
 	readonly installCommand: string = 'install';
 	readonly packageName: string = 'npm';
 	readonly uninstallCommand: string = 'uninstall';
-	readonly installDevFlag: string = '--save-dev';
 	readonly syncCommand: string = 'i';
 
 	_detect(): Promise<boolean> {

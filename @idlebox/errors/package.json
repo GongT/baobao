@@ -23,11 +23,11 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/node-error-codes": "workspace:^"
+		"@idlebox/node-error-codes": "workspace:~"
 	},
 	"devDependencies": {
-		"@build-script/autoindex": "workspace:^",
-		"@internal/local-rig": "workspace:^"
+		"@build-script/autoindex": "workspace:~",
+		"@internal/local-rig": "workspace:~"
 	},
 	"decoupledDependencies": "dev",
 	"publishConfig": {

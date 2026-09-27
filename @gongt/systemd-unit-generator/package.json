@@ -21,13 +21,13 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:~",
 		"execa": "^10.0.1"
 	},
 	"devDependencies": {
-		"@build-script/codegen": "workspace:^",
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2"
+		"@build-script/codegen": "workspace:~",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

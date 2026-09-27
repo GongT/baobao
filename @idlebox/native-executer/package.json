@@ -34,18 +34,18 @@
 		"clean": "mpis-run clean",
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny",
-		"test": "DEBUG=executer* node --enable-source-maps test/index.js"
+		"test": "DEBUG=executer* node --enable-source-maps --import=./lib.devel/register-if-not.js test/index.ts"
 	},
 	"dependencies": {
+		"@swc/nodejs-support-wasm": "~1.16.2",
 		"debug": "^4.4.3",
 		"execa": "^10.0.1",
 		"import-meta-resolve": "^4.2.0"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@mpis/esbuild": "workspace:^",
-		"@types/node": "^26.1.2",
-		"amaro": "^1.1.11",
+		"@internal/local-rig": "workspace:~",
+		"@mpis/esbuild": "workspace:~",
+		"@types/node": "^26.6.3",
 		"esbuild": "^0.28.1",
 		"typescript": "^7.0.2"
 	},

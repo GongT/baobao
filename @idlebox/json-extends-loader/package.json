@@ -24,13 +24,13 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/deepmerge": "workspace:^",
+		"@idlebox/deepmerge": "workspace:~",
 		"comment-json": "^5.0.0",
 		"object-path": "^0.11.8"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3",
 		"@types/object-path": "^0.11.4"
 	},
 	"decoupledDependencies": "dev",

@@ -22,16 +22,16 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"@idlebox/logger": "workspace:^",
+		"@idlebox/common": "workspace:~",
+		"@idlebox/logger": "workspace:~",
 		"@idlebox/terminal-control": "workspace:latest",
 		"dependency-graph": "^1.0.0"
 	},
 	"devDependencies": {
-		"@idlebox/node": "workspace:^",
-		"@internal/local-rig": "workspace:^",
+		"@idlebox/node": "workspace:~",
+		"@internal/local-rig": "workspace:~",
 		"@types/execa": "npm:execa@^10.0.1",
-		"@types/node": "^26.1.2"
+		"@types/node": "^26.6.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

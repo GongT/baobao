@@ -23,25 +23,25 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/package-bin": "workspace:^",
-		"@idlebox/common": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@idlebox/json-extends-loader": "workspace:^",
+		"@idlebox/common": "workspace:~",
+		"@idlebox/json-extends-loader": "workspace:~",
+		"@idlebox/node": "workspace:~",
+		"@idlebox/package-bin": "workspace:~",
 		"execa": "^10.0.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "*",
 		"@biomejs/js-api": "*",
 		"@biomejs/wasm-nodejs": "*",
-		"@internal/local-rig": "workspace:^",
-		"@idlebox/json-edit": "workspace:^",
-		"@types/node": "^26.1.2"
+		"@idlebox/json-edit": "workspace:~",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3"
 	},
 	"decoupledDependencies": ["@idlebox/json-edit"],
 	"peerDependencies": {
+		"@biomejs/biome": "*",
 		"@biomejs/js-api": "*",
-		"@biomejs/wasm-nodejs": "*",
-		"@biomejs/biome": "*"
+		"@biomejs/wasm-nodejs": "*"
 	},
 	"peerDependenciesMeta": {
 		"@biomejs/biome": {

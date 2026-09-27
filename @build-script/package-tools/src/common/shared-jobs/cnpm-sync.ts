@@ -250,7 +250,7 @@ class SyncResult {
 		throw new CanceledError();
 	}
 
-	private declare log: string;
+	declare private log: string;
 	async _wait(signal?: AbortSignal): Promise<SyncFullResult> {
 		const resp = await this.__wait(signal);
 		logger.debug`等到同步结果: ${resp}`;

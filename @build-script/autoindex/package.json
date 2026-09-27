@@ -25,21 +25,21 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@build-script/rushstack-config-loader": "workspace:^",
-		"@idlebox/args": "workspace:^",
-		"@idlebox/chokidar": "workspace:^",
-		"@idlebox/common": "workspace:^",
-		"@idlebox/logger": "workspace:^",
-		"@idlebox/node": "workspace:^",
-		"@idlebox/typescript-surface-analyzer": "workspace:^",
-		"@mpis/client": "workspace:^",
+		"@build-script/rushstack-config-loader": "workspace:~",
+		"@idlebox/args": "workspace:~",
+		"@idlebox/chokidar": "workspace:~",
+		"@idlebox/common": "workspace:~",
+		"@idlebox/logger": "workspace:~",
+		"@idlebox/node": "workspace:~",
+		"@idlebox/typescript-surface-analyzer": "workspace:~",
+		"@mpis/client": "workspace:~",
 		"comment-json": "^5.0.0",
 		"glob": "^13.0.6",
 		"typescript": "<7.0.0"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2"
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

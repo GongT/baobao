@@ -23,14 +23,14 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/errors": "workspace:^",
+		"@idlebox/errors": "workspace:~",
 		"comment-json": "^5.0.0",
 		"prettier": "^3.9.6"
 	},
 	"devDependencies": {
-		"@idlebox/json-edit-biome": "workspace:^",
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
+		"@idlebox/json-edit-biome": "workspace:~",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3",
 		"vite-node": "^6.0.0"
 	},
 	"peerDependencies": {

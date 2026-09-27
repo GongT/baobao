@@ -23,13 +23,13 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/args": "workspace:^",
-		"@idlebox/common": "workspace:^",
-		"@mpis/client": "workspace:^"
+		"@idlebox/args": "workspace:~",
+		"@idlebox/common": "workspace:~",
+		"@mpis/client": "workspace:~"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3",
 		"esbuild": "^0.28.1"
 	},
 	"peerDependencies": {

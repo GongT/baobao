@@ -13,7 +13,7 @@ export class JobGraph<Data, T extends Job<Data>> extends AbstractBaseGraph<T> {
 	private readonly bootstrap;
 
 	/** @internal */
-	public declare nodes;
+	declare public nodes;
 
 	private readonly onchangeDisposables: IDisposable[] = [];
 

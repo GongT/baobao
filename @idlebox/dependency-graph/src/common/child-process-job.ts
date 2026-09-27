@@ -7,7 +7,7 @@ import { JobState } from './job-graph.lib.js';
 export abstract class ChildProcessExecuter<T> extends Job<T> {
 	private killing = '';
 
-	private declare process: ResultPromise;
+	declare private process: ResultPromise;
 
 	protected abstract _spawn(): ResultPromise;
 

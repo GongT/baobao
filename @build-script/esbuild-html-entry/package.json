@@ -18,12 +18,12 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/node": "workspace:^",
+		"@idlebox/node": "workspace:~",
 		"cheerio": "^1.2.0"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3",
 		"domhandler": "^6.0.1",
 		"esbuild": "^0.28.1"
 	},

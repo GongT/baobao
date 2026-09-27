@@ -11,14 +11,11 @@ packages:
   - '@internal/*'
   - standalone/*
 
-# patchedDependencies:
-# "@types/tar-stream": "patches/@types__tar-stream.patch"
-
 enablePrePostScripts: true
 fetchRetries: 1000
 gitChecks: false
 
-hoist: false
+hoist: true
 hoistPattern:
   - ""
 publicHoistPattern:
@@ -52,12 +49,9 @@ packageExtensions:
     dependencies:
       "typescript": "<7"
 
-patchedDependencies:
-  amaro: patches/amaro.patch
-
 # 使用国内镜像源以加快依赖下载速度，workflow中会根据需要替换为官方源
 registry: https://registry.npmmirror.com
-savePrefix: '^'
+savePrefix: '~'
 
 saveWorkspaceProtocol: rolling
 

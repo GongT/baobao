@@ -8,7 +8,6 @@ export class Yarn extends PackageManager {
 	readonly installCommand: string = 'add';
 	readonly packageName: string = 'yarn';
 	readonly uninstallCommand: string = 'remove';
-	readonly installDevFlag: string = '--dev';
 	readonly syncCommand: string = 'install';
 	override readonly showCommand: string = 'view';
 

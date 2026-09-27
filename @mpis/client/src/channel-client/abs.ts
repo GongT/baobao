@@ -42,7 +42,7 @@ export abstract class AbstractChannelClient extends EnhancedAsyncDisposable impl
 	private cstate = ConnectionState.Disconnected;
 	protected connecting?: Promise<any>;
 	private queuedMessage?: IUserMessageObject;
-	public declare logger: IMyLogger;
+	declare public logger: IMyLogger;
 
 	protected readonly _onFailure = new Emitter<Error>();
 	public readonly onFailure = this._onFailure.register;
@@ -56,7 +56,7 @@ export abstract class AbstractChannelClient extends EnhancedAsyncDisposable impl
 		this.friendlyTitle = getDefaultTitle();
 	}
 
-	private declare _title: string;
+	declare private _title: string;
 	get friendlyTitle() {
 		return this._title;
 	}

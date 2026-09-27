@@ -80,7 +80,7 @@ function init() {
 function addEverythingToDependency(rigPkg) {
 	for (const name of myProjects.values()) {
 		if (name === rigPkg.name) continue;
-		rigPkg.devDependencies[name] = 'workspace:^';
+		rigPkg.devDependencies[name] = 'workspace:~';
 	}
 }
 
@@ -112,7 +112,7 @@ function readPackage(packageJson, context) {
 		addNodejsShimTypes(packageJson);
 
 		if (packageJson.name !== '@idlebox/native-executer') {
-			packageJson.devDependencies['@idlebox/native-executer'] = 'workspace:^';
+			packageJson.devDependencies['@idlebox/native-executer'] = 'workspace:~';
 		}
 
 		return packageJson;

@@ -22,13 +22,13 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
+		"@idlebox/common": "workspace:~",
 		"debug": "^4.4.3"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
+		"@internal/local-rig": "workspace:~",
 		"@types/debug": "^4.1.13",
-		"@types/node": "^26.1.2"
+		"@types/node": "^26.6.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

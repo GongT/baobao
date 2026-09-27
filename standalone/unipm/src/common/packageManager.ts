@@ -19,7 +19,6 @@ export abstract class PackageManager {
 	protected abstract readonly cliName: string;
 	protected abstract readonly packageName: string;
 	protected abstract readonly installCommand: string;
-	protected abstract readonly installDevFlag: string;
 	protected abstract readonly uninstallCommand: string;
 	protected readonly runCommand: string = 'run';
 	protected readonly initCommand: string = 'run';
@@ -107,17 +106,38 @@ export abstract class PackageManager {
 	 *    * if "-D" or "--dev" in `packages`, add them to devDependencies
 	 **/
 	public install(...packages: string[]) {
-		const i1 = packages.indexOf('-D');
-		if (i1 !== -1) {
-			packages.splice(i1, 1);
-			packages.unshift(this.installDevFlag);
+		const saveDev = popFlags(packages, '-D', '--save-dev').length > 0;
+		popFlags(packages, '-P', '--save', '--save-prod');
+		const saveOpt = popFlags(packages, '-O', '--save-optional').length > 0;
+		const savePeer = popFlags(packages, '-E', '--save-peer').length > 0;
+
+		const versionExact = popFlags(packages, '-E', '--save-exact').length > 0;
+		const versionPrefix = popValue(packages, '--save-prefix');
+
+		let mode: InstallMode;
+		if (saveDev) {
+			mode = InstallMode.Development;
+		} else if (saveOpt) {
+			mode = InstallMode.Optional;
+		} else if (savePeer) {
+			mode = InstallMode.Peer;
+		} else {
+			mode = InstallMode.Production;
 		}
-		const i2 = packages.indexOf('--dev');
-		if (i2 !== -1) {
-			packages.splice(i2, 1);
-			packages.unshift(this.installDevFlag);
+
+		return this._install({ mode, exact: versionExact, prefix: (versionPrefix ?? '') as any, argv: packages });
+	}
+
+	protected async _install(options: IInstallOptions) {
+		const exArgs: string[] = [defaultSaveArg(options.mode)];
+
+		if (options.prefix) exArgs.push(`--save-prefix=${options.prefix}`);
+		if (options.exact) exArgs.push('--save-exact');
+
+		if (options.prefix) {
+			exArgs.push(`--save-prefix=${options.prefix}`);
 		}
-		return this.invokeCli(this.installCommand, ...packages);
+		this.invokeCli(this.installCommand, ...exArgs, ...options.argv);
 	}
 
 	public uninstall(...packages: string[]) {
@@ -142,5 +162,65 @@ export abstract class PackageManager {
 	/** show package info from NPM registry */
 	public show(...args: string[]) {
 		return this.invokeCli(this.showCommand, ...args);
+	}
+}
+
+// function indexOf<T>(arr: T[], ...items: T[]): number {
+// 	for (let i = 0; i < arr.length; i++) {
+// 		if (items.includes(arr[i])) {
+// 			return i;
+// 		}
+// 	}
+// 	return -1;
+// }
+
+function popValue(arr: string[], ...items: string[]): string | undefined {
+	for (const [i, value] of arr.entries()) {
+		for (const name of items) {
+			if (value.startsWith(`${name}=`)) {
+				const p = arr.splice(i, 1)[0];
+				return p.slice(name.length + 1);
+			} else if (value === name) {
+				return arr.splice(i, 2)[1];
+			}
+		}
+	}
+	return undefined;
+}
+
+function popFlags<T>(arr: T[], ...items: T[]): T[] {
+	const popped: T[] = [];
+	for (let i = arr.length - 1; i >= 0; i--) {
+		if (items.includes(arr[i])) {
+			popped.unshift(arr.splice(i, 1)[0]);
+		}
+	}
+	return popped;
+}
+
+export enum InstallMode {
+	Production,
+	Development,
+	Optional,
+	Peer,
+}
+
+export interface IInstallOptions {
+	readonly argv: string[];
+	readonly mode: InstallMode;
+	readonly prefix: '^' | '~' | '=' | '';
+	readonly exact: boolean;
+}
+
+export function defaultSaveArg(mode: InstallMode) {
+	switch (mode) {
+		case InstallMode.Development:
+			return '--save-dev';
+		case InstallMode.Optional:
+			return '--save-optional';
+		case InstallMode.Peer:
+			return '--save-peer';
+		default:
+			return '--save-prod';
 	}
 }

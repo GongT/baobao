@@ -24,8 +24,8 @@
 		"split2": "^4.2.0"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3",
 		"@types/split2": "^4.2.3"
 	},
 	"publishConfig": {

@@ -7,7 +7,7 @@ import { makeReverse } from './reverse.js';
 export abstract class AbstractBaseNode<State = any> extends EnhancedAsyncDisposable {
 	protected abstract readonly _dependencies: Set<string>;
 
-	protected declare _state: State;
+	declare protected _state: State;
 	private readonly _onStateChange = new Emitter<State>(`${this.displayName}.onStateChange`, Emitter.EAction.Ignore);
 	public readonly onStateChange = this._onStateChange.register;
 

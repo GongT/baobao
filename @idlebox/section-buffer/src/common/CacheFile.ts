@@ -165,7 +165,7 @@ export class CacheFile extends AsyncDisposable {
 		return ss.size;
 	}
 
-	private declare _writer?: ICacheFileWriter;
+	declare private _writer?: ICacheFileWriter;
 
 	@AsyncLock.start('write')
 	async prepareCreate(metaJson: any) {

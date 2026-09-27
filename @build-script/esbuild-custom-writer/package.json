@@ -18,11 +18,11 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/node": "workspace:^"
+		"@idlebox/node": "workspace:~"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3",
 		"esbuild": "^0.28.1"
 	},
 	"publishConfig": {

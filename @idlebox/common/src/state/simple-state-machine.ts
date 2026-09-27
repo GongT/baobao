@@ -11,7 +11,7 @@ export interface IStateChangeEvent<StateType, EventType> {
 }
 
 export class SimpleStateMachine<StateType, EventType> {
-	protected declare currentState: StateType;
+	declare protected currentState: StateType;
 	protected readonly rules: ISsmRuleMap<StateType, EventType>;
 
 	private readonly _onStateChange = new Emitter<IStateChangeEvent<StateType, EventType>>();

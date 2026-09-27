@@ -20,16 +20,16 @@
 	},
 	"preferGlobal": true,
 	"dependencies": {
-		"@idlebox/common": "workspace:^",
-		"@idlebox/json-edit": "workspace:^",
-		"@idlebox/node": "workspace:^",
+		"@idlebox/common": "workspace:~",
+		"@idlebox/json-edit": "workspace:~",
+		"@idlebox/node": "workspace:~",
 		"execa": "^10.0.1",
 		"json5": "^2.2.3",
 		"pacote": "^22.0.0"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
-		"@types/node": "^26.1.2",
+		"@internal/local-rig": "workspace:~",
+		"@types/node": "^26.6.3",
 		"@types/pacote": "^11.1.8"
 	},
 	"publishConfig": {

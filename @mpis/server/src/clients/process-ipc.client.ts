@@ -72,7 +72,7 @@ interface IProcessState {
  * 创建一个node进程，它会发送事件过来
  */
 export class ProcessIPCClient extends ProtocolClientObject {
-	private declare process: ResultPromise<MyOptions>;
+	declare private process: ResultPromise<MyOptions>;
 	public stopSignal: NodeJS.Signals = 'SIGTERM';
 	private readonly p_status: IProcessState = { started: false, failedExecute: false };
 	public readonly outputStream;

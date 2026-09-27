@@ -140,7 +140,7 @@ class Session extends EnhancedAsyncDisposable {
 export class SpawnExecuter extends BaseExecuter {
 	protected override systemWatchingFiles: string[] = [];
 
-	private declare session: Session;
+	declare private session: Session;
 
 	protected override async _rebuild(): Promise<void> {
 		if (this.session) {

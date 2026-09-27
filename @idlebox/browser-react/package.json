@@ -17,16 +17,16 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/browser": "workspace:^",
-		"@idlebox/common": "workspace:^",
-		"@idlebox/logger": "workspace:^",
+		"@idlebox/browser": "workspace:~",
+		"@idlebox/common": "workspace:~",
+		"@idlebox/logger": "workspace:~",
 		"react": "^19.2.8",
 		"react-dom": "^19.2.8",
 		"react-router": "^8.3.0"
 	},
 	"devDependencies": {
-		"@build-script/codegen": "workspace:^",
-		"@internal/local-rig": "workspace:^",
+		"@build-script/codegen": "workspace:~",
+		"@internal/local-rig": "workspace:~",
 		"@types/react": "^19.2.18",
 		"@types/react-dom": "^19.2.4",
 		"@types/react-router": "^5.1.20",

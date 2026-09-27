@@ -8,7 +8,6 @@ export class Pnpm extends PackageManager {
 	readonly installCommand: string = 'add';
 	readonly packageName: string = 'pnpm';
 	readonly uninstallCommand: string = 'remove';
-	readonly installDevFlag: string = '-D';
 	readonly syncCommand: string = 'i';
 
 	_detect(): Promise<boolean> {

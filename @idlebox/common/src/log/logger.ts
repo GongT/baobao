@@ -14,27 +14,27 @@ export interface WrappedConsoleOptions {
 }
 
 export abstract class WrappedConsole {
-	public declare info: Console['info'];
-	public declare log: Console['log'];
-	public declare success: Console['log'];
-	public declare debug: Console['debug'];
-	public declare error: Console['error'];
-	public declare trace: Console['trace'];
-	public declare warn: Console['warn'];
-	public declare assert: Console['assert'];
+	declare public info: Console['info'];
+	declare public log: Console['log'];
+	declare public success: Console['log'];
+	declare public debug: Console['debug'];
+	declare public error: Console['error'];
+	declare public trace: Console['trace'];
+	declare public warn: Console['warn'];
+	declare public assert: Console['assert'];
 
-	public declare time: Console['time'];
-	public declare timeEnd: Console['timeEnd'];
-	public declare timeLog: Console['timeLog'];
-	public declare count: Console['count'];
-	public declare countReset: Console['countReset'];
-	public declare group: Console['group'];
-	public declare groupCollapsed: Console['groupCollapsed'];
-	public declare groupEnd: Console['groupEnd'];
+	declare public time: Console['time'];
+	declare public timeEnd: Console['timeEnd'];
+	declare public timeLog: Console['timeLog'];
+	declare public count: Console['count'];
+	declare public countReset: Console['countReset'];
+	declare public group: Console['group'];
+	declare public groupCollapsed: Console['groupCollapsed'];
+	declare public groupEnd: Console['groupEnd'];
 
-	public declare table: Console['table'];
-	public declare dir: Console['dir'];
-	public declare clear: Console['clear'];
+	declare public table: Console['table'];
+	declare public dir: Console['dir'];
+	declare public clear: Console['clear'];
 
 	protected readonly title: string;
 	protected readonly parent: Console;

@@ -1,12 +1,12 @@
-import { load as loadTransform } from 'amaro/transformer';
 import { registerHooks } from 'node:module';
+import { load } from './amaro/transform-loader.js';
 import { theState } from './tools/global.js';
 import { loadFunction } from './tools/load.js';
 import { resolveFunction } from './tools/resolve.js';
 import { log } from './tools/types.js';
 
 const registed2 = registerHooks({
-	load: loadTransform,
+	load: load,
 });
 const registed1 = registerHooks({
 	resolve: resolveFunction,

@@ -21,19 +21,19 @@
 		"prepublishOnly": "internal-prepublish-deny"
 	},
 	"dependencies": {
-		"@idlebox/deepmerge": "workspace:^",
-		"@idlebox/errors": "workspace:^",
-		"@idlebox/json-extends-loader": "workspace:^",
-		"@idlebox/tsconfig-loader": "workspace:^",
+		"@idlebox/deepmerge": "workspace:~",
+		"@idlebox/errors": "workspace:~",
+		"@idlebox/json-extends-loader": "workspace:~",
+		"@idlebox/tsconfig-loader": "workspace:~",
 		"@rushstack/rig-package": "^0.7.3",
 		"ajv": "^8.20.0",
 		"import-meta-resolve": "^4.2.0"
 	},
 	"devDependencies": {
-		"@internal/local-rig": "workspace:^",
+		"@internal/local-rig": "workspace:~",
 		"@microsoft/api-extractor": "^7.58.12",
 		"@rushstack/heft": "^1.2.22",
-		"@types/node": "^26.1.2"
+		"@types/node": "^26.6.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]

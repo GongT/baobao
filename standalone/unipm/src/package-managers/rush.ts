@@ -18,12 +18,11 @@ export class Rush extends PackageManager {
 	readonly installCommand: string = 'add';
 	readonly packageName: string = '@microsoft/rush';
 	readonly uninstallCommand: string = '!!';
-	readonly installDevFlag: string = '--dev';
 	readonly syncCommand: string = 'update';
 	override showCommand = '';
 
-	private declare rushRoot: string;
-	private declare subPackageManager: string;
+	declare private rushRoot: string;
+	declare private subPackageManager: string;
 
 	async _detect(sub = false): Promise<boolean> {
 		const found = await findUpUntil({ from: this.cwd, file: 'rush.json' });
