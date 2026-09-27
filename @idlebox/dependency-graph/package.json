@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/dependency-graph",
 	"type": "module",
-	"version": "0.0.31",
+	"version": "0.0.32",
 	"keywords": [],
 	"exports": {
 		".": {
