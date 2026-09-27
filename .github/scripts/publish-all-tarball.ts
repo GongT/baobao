@@ -13,7 +13,6 @@ const logFileMatcher = /A complete log of this run can be found in:\s*(.+)$/gm;
 const cnpmSyncWaitList: Promise<any>[] = [];
 const SP = {
 	Publish: 0,
-	Result: 1,
 	CNpm: 2,
 } as const;
 const postSummary: string[][] = [];
@@ -52,11 +51,14 @@ async function main() {
 	const files = globSync('**/*.tgz');
 
 	summary(SP.Publish, `## 发布 ${files.length} 个包`);
-	summary(SP.Result, `## 发布结果`);
 
 	let notOk = 0;
 	for (const item of files) {
-		const ok = await publishItem(item);
+		const ok = await publishItem(item).catch((e) => {
+			console.error('发布包失败: %s', e);
+			summary(SP.Publish, `* ❌ 运行异常: ${item} - ${e?.message}`);
+			return false;
+		});
 		if (!ok) {
 			await copyFile(item, join(failedDir, item)).catch((e) => {
 				console.error('复制文件失败: %s', e);
@@ -65,7 +67,7 @@ async function main() {
 		}
 	}
 
-	summary(SP.Result, `\n失败数量: ${notOk}`);
+	summary(SP.Publish, `\n运行结束，失败数量: ${notOk}`);
 	if (notOk === 0) {
 		console.log('所有包发布成功 🎉');
 	} else {
@@ -116,7 +118,7 @@ export class CollectingStream extends Writable {
 	}
 }
 
-async function runOnce(file: string, isFirstAttempt: boolean) {
+async function runOnce(file: string) {
 	const tmpDir = await mkdtemp(join(tmpdir(), 'publish-tmp-'));
 	console.log('解压文件 %s 到临时目录 %s', file, tmpDir);
 
@@ -153,53 +155,52 @@ async function runOnce(file: string, isFirstAttempt: boolean) {
 	if (res.exitCode === 0) {
 		cnpmSyncWaitList.push(syncCnpm(pkgJson.name));
 
-		summary(SP.Publish, `* ✅ 成功: ${pkgJson.name} @ v${pkgJson.version}`);
-		return { success: true, debugInfo: '', output: res.all };
+		return { success: true, pkgJson, debugInfo: '', output: res.all };
 	}
 
-	if (isFirstAttempt) {
-		summary(SP.Publish, `* ❌ 失败: ${pkgJson.name} @ v${pkgJson.version}`);
-	}
 	console.log('::error title=%s @ v%s 发布失败::%s\n', pkgJson.name, pkgJson.version, `npm publish 返回 ${res.exitCode}`);
 
 	let debugInfo = '---------- package.json:';
 	debugInfo += pkgTxt.trim();
 	debugInfo += '\n';
 
-	return { success: false, debugInfo, output: res.all };
+	return { success: false, pkgJson, debugInfo, output: res.all };
 }
 
 async function publishItem(item: string) {
 	let success = false;
 	let output = '';
 	let debugInfo = '';
+	let pkgJson: any = null;
 	for (let i = 0; i < 5; i++) {
 		const isretry = i > 0 ? `[第${i}次重试]` : '';
 		console.log('::group::%s发布文件 %s ...', isretry, item);
-		const r = await runOnce(item, i === 0);
+		const r = await runOnce(item);
 		console.log('::endgroup::');
 
 		success = r.success;
 		output = r.output;
 		debugInfo = r.debugInfo;
+		pkgJson = r.pkgJson;
 		if (success) {
+			if (i > 0) {
+				summary(SP.Publish, `* ✅ 成功 (重试了${i}次): ${pkgJson.name} @ v${pkgJson.version}`);
+			} else {
+				summary(SP.Publish, `* ✅ 成功: ${pkgJson.name} @ v${pkgJson.version}`);
+			}
 			return true;
 		}
 
 		if (r.output.includes('"repository.url" is')) {
-			// provenance
-			break;
-		} else if (r.output.includes('npm error code ENEEDAUTH')) {
-			// 首个版本无法通过CI发布
+			// provenance: 可能是脚本错误导致 repository 字段没有正确注入到 package.json 中
 			break;
 		}
-		// TODO: 重复版本号错误
 	}
 
-	summary(SP.Result, `* ${item}`);
+	summary(SP.Publish, `* ❌ 失败: ${pkgJson.name} @ v${pkgJson.version}`);
 
 	const match = logFileMatcher.exec(output);
-	console.log('::group::     详细信息');
+	console.log('::group:: ❌ 发布失败 | 详细信息');
 
 	console.log(debugInfo);
 
