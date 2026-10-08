@@ -64,6 +64,7 @@ export async function main() {
 	}
 
 	for (const pkg of packages) {
+		logger.debug`处理包: ${pkg.name} - ${pkg.relative}`;
 		for (const item of ['.npmrc']) {
 			files.add(`${pkg.relative}/${item}`);
 		}

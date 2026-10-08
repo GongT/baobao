@@ -36,7 +36,7 @@ export async function pnpmListProjects(projectRoot: string) {
 		}
 		ret.push({
 			absolute: normalizePath(path),
-			relative: relativePath(projectRoot, path),
+			relative: relativePath(projectRoot, path) || '.',
 			name: name,
 			dependencies: filter(allNames, pkg.dependencies),
 			devDependencies: filter(allNames, allDep),
