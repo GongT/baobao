@@ -225,9 +225,7 @@ class SyncResult {
 
 		try {
 			const body: putJobResp = JSON.parse(text);
-			if (body.state === TaskState.waiting) {
-				return undefined;
-			}
+			logger.verbose`[check:result] GET ${body}`;
 			return body;
 		} catch (e) {
 			throw new CNpmSyncError(`无法解析json: (${res.status}) ${text}`, this.syncId, this.packageName, e, ErrorKind.HTTP);
@@ -238,14 +236,20 @@ class SyncResult {
 		let r;
 		for (const to of [1000, 2000, 3500]) {
 			await setTimeout(to, null, { signal });
-			if ((r ??= await this.check(signal))) {
-				return r;
+			r = await this.check(signal);
+			if (r.state === TaskState.waiting || r.state === TaskState.processing) {
+				logger.debug`继续等待... 当前状态: ${r.state}`;
+				continue;
 			}
+			return r;
 		}
 		for await (const _ of setInterval(5000, null, { signal })) {
-			if ((r ??= await this.check(signal))) {
-				return r;
+			r = await this.check(signal);
+			if (r.state === TaskState.waiting || r.state === TaskState.processing) {
+				logger.debug`继续等待... 当前状态: ${r.state}`;
+				continue;
 			}
+			return r;
 		}
 		throw new CanceledError();
 	}
