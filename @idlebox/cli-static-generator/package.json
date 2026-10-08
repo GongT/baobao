@@ -2,9 +2,6 @@
 	"name": "@idlebox/cli-static-generator",
 	"type": "module",
 	"version": "0.1.0",
-	"bin": {
-		"make-cli": "./loader/bin.js"
-	},
 	"exports": {
 		".": {
 			"types": "./src/api.ts",
@@ -13,7 +10,9 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"sideEffects": false,
+	"bin": {
+		"make-cli": "./loader/bin.js"
+	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
@@ -43,5 +42,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

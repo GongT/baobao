@@ -1,9 +1,9 @@
 {
 	"name": "@idlebox/unshare",
-	"description": "use unshare",
-	"keywords": ["unshare", "container", "spawn", "linux"],
 	"type": "module",
 	"version": "0.1.0",
+	"description": "use unshare",
+	"keywords": ["unshare", "container", "spawn", "linux"],
 	"exports": {
 		".": {
 			"types": "./src/autoindex.generated.ts",
@@ -16,7 +16,6 @@
 		"#readonly-fs": "./lib/children/readonly-fs.js",
 		"#leader": "./lib/children/leader.js"
 	},
-	"sideEffects": false,
 	"scripts": {
 		"test": "node -r source-map-support/register",
 		"prepublishHook": "internal-prepublish-hook",
@@ -38,5 +37,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

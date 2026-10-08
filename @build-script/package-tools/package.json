@@ -3,12 +3,12 @@
 	"type": "module",
 	"version": "0.1.0",
 	"description": "A Node.js package managing tool",
+	"exports": {
+		"./package.json": "./package.json"
+	},
 	"bin": {
 		"package-tools": "./bins/load.devel.js",
 		"njspkg": "./bins/load.devel.js"
-	},
-	"exports": {
-		"./package.json": "./package.json"
 	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",

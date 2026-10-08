@@ -2,9 +2,6 @@
 	"name": "@build-script/create-wrapper-script",
 	"type": "module",
 	"version": "0.1.0",
-	"bin": {
-		"create-wrapper-script": "./loader/bin.devel.js"
-	},
 	"exports": {
 		".": {
 			"types": "./src/create-wrap-script.ts",
@@ -12,6 +9,9 @@
 			"default": "./lib/create-wrap-script.js"
 		},
 		"./package.json": "./package.json"
+	},
+	"bin": {
+		"create-wrapper-script": "./loader/bin.devel.js"
 	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",

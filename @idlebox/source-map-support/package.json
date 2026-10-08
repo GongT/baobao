@@ -16,7 +16,6 @@
 		"./register.js": "./lib/register.js",
 		"./package.json": "./package.json"
 	},
-	"sideEffects": ["./lib/register.js"],
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -38,5 +37,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": ["./lib/register.js"]
 }

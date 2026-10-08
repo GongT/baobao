@@ -12,7 +12,6 @@
 		"./test": "./ne.ts",
 		"./package.json": "./package.json"
 	},
-	"sideEffects": false,
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -31,8 +30,9 @@
 		"@internal/local-rig": "workspace:~",
 		"@types/node": "^26.6.3"
 	},
-	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false,
+	"decoupledDependencies": "dev"
 }

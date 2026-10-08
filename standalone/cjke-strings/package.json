@@ -31,9 +31,9 @@
 		"@build-script/autoindex": "workspace:~",
 		"@internal/local-rig": "workspace:~"
 	},
-	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},
-	"sideEffects": false
+	"sideEffects": false,
+	"decoupledDependencies": "dev"
 }

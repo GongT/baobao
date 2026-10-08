@@ -9,7 +9,6 @@
 		"./package.json": "./package.json"
 	},
 	"bin": "bin.js",
-	"sideEffects": false,
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -28,5 +27,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

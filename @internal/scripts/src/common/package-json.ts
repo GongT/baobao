@@ -4,7 +4,7 @@ import { logger } from '@idlebox/logger';
 import { execaNode } from 'execa';
 import { resolve } from 'node:path';
 import { currentProject } from './paths/current.js';
-import { monorepoRoot } from './paths/root.js';
+import { internalScriptsRoot } from './paths/root.js';
 
 export let packageJson: IPackageJson;
 let exports: IFullExportsField;
@@ -32,7 +32,7 @@ export async function writeBackPackageJson() {
 		stdout: 'pipe',
 		encoding: 'utf8',
 		nodeOptions: process.execArgv,
-		cwd: monorepoRoot,
+		cwd: internalScriptsRoot,
 	})`${unpmBin} format-package -`;
 
 	// 解析格式化后的 package.json 内容

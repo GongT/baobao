@@ -18,7 +18,6 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"preferGlobal": true,
 	"dependencies": {
 		"@idlebox/common": "workspace:~",
 		"@idlebox/json-edit": "workspace:~",
@@ -35,5 +34,6 @@
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
 	},
+	"preferGlobal": true,
 	"sideEffects": false
 }

@@ -6,7 +6,7 @@
 	"exports": {
 		".": {
 			"source": "./src/node.ts",
-			"types": "./lib/node.d.ts",
+			"types": "./src/node.ts",
 			"node": "./lib/node.js",
 			"default": "./lib/index.js"
 		},

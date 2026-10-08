@@ -3,11 +3,11 @@
 	"type": "module",
 	"version": "1.0.6",
 	"keywords": [],
-	"bin": {
-		"mpis-tsc": "./loader/bin.devel.js"
-	},
 	"exports": {
 		"./package.json": "./package.json"
+	},
+	"bin": {
+		"mpis-tsc": "./loader/bin.devel.js"
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",

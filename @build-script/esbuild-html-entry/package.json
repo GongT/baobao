@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/esbuild-html-entry",
-	"version": "0.1.29",
 	"type": "module",
+	"version": "0.1.29",
 	"keywords": ["esbuild", "html"],
 	"exports": {
 		".": "./lib/main.js",

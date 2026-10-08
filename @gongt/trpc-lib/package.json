@@ -21,12 +21,12 @@
 		"lint": "internal-lint",
 		"prepublishOnly": "internal-prepublish-deny"
 	},
-	"sideEffects": false,
 	"devDependencies": {
 		"@internal/local-rig": "workspace:~",
 		"@types/node": "^26.6.3"
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

@@ -3,15 +3,16 @@
 	"type": "module",
 	"version": "1.0.2",
 	"keywords": [],
-	"bin": {
-		"mpis-esbuild": "./loader/bin.devel.js"
-	},
 	"exports": {
 		".": {
 			"source": "./src/index.ts",
-			"default": "./lib/index.js"
+			"default": "./lib/index.js",
+			"types": "./src/index.ts"
 		},
 		"./package.json": "./package.json"
+	},
+	"bin": {
+		"mpis-esbuild": "./loader/bin.devel.js"
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",

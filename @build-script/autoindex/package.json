@@ -2,9 +2,6 @@
 	"name": "@build-script/autoindex",
 	"type": "module",
 	"version": "0.1.0",
-	"bin": {
-		"autoindex": "./loader/bin.devel.js"
-	},
 	"exports": {
 		".": {
 			"types": "./src/plugin.ts",
@@ -14,7 +11,9 @@
 		"./development": "./src.devel/index.ts",
 		"./package.json": "./package.json"
 	},
-	"sideEffects": false,
+	"bin": {
+		"autoindex": "./loader/bin.devel.js"
+	},
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -43,5 +42,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }

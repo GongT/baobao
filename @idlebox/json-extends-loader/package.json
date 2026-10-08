@@ -12,7 +12,6 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"sideEffects": false,
 	"scripts": {
 		"prepack": "mpis-run build --clean",
 		"build": "mpis-run build",
@@ -33,8 +32,9 @@
 		"@types/node": "^26.6.3",
 		"@types/object-path": "^0.11.4"
 	},
-	"decoupledDependencies": "dev",
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false,
+	"decoupledDependencies": "dev"
 }

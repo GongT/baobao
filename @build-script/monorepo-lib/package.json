@@ -2,10 +2,6 @@
 	"name": "@build-script/monorepo-lib",
 	"type": "module",
 	"version": "0.1.5",
-	"bin": {
-		"find-monorepo-root": "./loader/find-monorepo-root.devel.js",
-		"list-monorepo-projects": "./loader/list-monorepo-projects.devel.js"
-	},
 	"exports": {
 		".": {
 			"early-loader": "./src/generate.devel.ts",
@@ -14,6 +10,10 @@
 			"default": "./lib/autoindex.generated.js"
 		},
 		"./package.json": "./package.json"
+	},
+	"bin": {
+		"find-monorepo-root": "./loader/find-monorepo-root.devel.js",
+		"list-monorepo-projects": "./loader/list-monorepo-projects.devel.js"
 	},
 	"scripts": {
 		"prepack": "mpis-run build --clean",

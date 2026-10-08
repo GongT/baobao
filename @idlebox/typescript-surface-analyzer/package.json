@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/typescript-surface-analyzer",
-	"version": "0.1.0",
 	"type": "module",
+	"version": "0.1.0",
 	"description": "Api and CLI tool for collect export information in typescript project",
 	"keywords": [],
 	"exports": {
@@ -12,7 +12,6 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"sideEffects": false,
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
 		"prepack": "mpis-run build --clean",
@@ -36,5 +35,6 @@
 	},
 	"publishConfig": {
 		"packCommand": ["publisher", "pack"]
-	}
+	},
+	"sideEffects": false
 }
