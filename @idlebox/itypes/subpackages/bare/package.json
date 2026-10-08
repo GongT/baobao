@@ -1,7 +1,7 @@
 {
 	"name": "@idlebox/itypes-bare",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.1.0",
 	"description": "bare export of @idlebox/itypes",
 	"types": "./node_modules/@idlebox/itypes/lib.bare.d.ts",
 	"exports": {

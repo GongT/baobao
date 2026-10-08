@@ -21,7 +21,7 @@ export class PnpmCacheHandler implements ICacheHandler {
 			stdin: 'ignore',
 			encoding: 'utf8',
 			reject: false,
-			signal: abort?.abort,
+			cancelSignal: abort?.abort,
 		});
 
 		const r = await p;

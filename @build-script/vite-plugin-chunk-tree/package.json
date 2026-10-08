@@ -2,7 +2,7 @@
 	"name": "@build-script/vite-plugin-chunk-tree",
 	"private": true,
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "A vite/rollup plugin to split dependency tree into chunks.",
 	"scripts": {
 		"prepublishHook": "internal-prepublish-hook",
