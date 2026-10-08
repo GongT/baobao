@@ -1,7 +1,7 @@
 {
 	"name": "@build-script/create-wrapper-script",
 	"type": "module",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"exports": {
 		".": {
 			"types": "./src/create-wrap-script.ts",
