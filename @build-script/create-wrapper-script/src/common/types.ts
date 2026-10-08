@@ -15,9 +15,11 @@ export interface IOptions {
 	// 脚本类型，如果未指定，将根据当前平台自动选择。
 	readonly type?: ScriptKind;
 	/**
-	 * 关联的工作区，用于计算相对路径
+	 * 关联的工作区（可以是monorepo或一个包）的路径，用于计算相对路径
 	 *
-	 * 如果不设置，脚本中将使用绝对路径
+	 * 如果不设置
+	 *   - 脚本中将使用绝对路径
+	 *   - 不会自动添加一部分 node_modules/.bin 到路径中，极大概率会导致脚本无法找到依赖的可执行文件。
 	 */
 	readonly workspace?: WorkspaceBase | string;
 

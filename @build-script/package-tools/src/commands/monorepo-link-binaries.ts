@@ -1,5 +1,5 @@
 import { createWrapperScript } from '@build-script/create-wrapper-script';
-import { createWorkspace, type MonorepoWorkspace } from '@build-script/monorepo-lib';
+import { createWorkspace, type MonorepoWorkspace, type WorkspaceBase } from '@build-script/monorepo-lib';
 import { argv, CommandDefine, logger } from '@idlebox/cli';
 import type { DeepReadonly, IPackageJson } from '@idlebox/common';
 import { readFileSync } from 'node:fs';
@@ -48,6 +48,8 @@ interface IJobContext {
 	 * workspace中其他项目依赖
 	 */
 	readonly monorepo: readonly BinaryDefine[];
+
+	readonly workspace: WorkspaceBase;
 }
 
 export async function main() {
@@ -92,6 +94,7 @@ export async function main() {
 				manual: globals,
 				monorepo: locals,
 				packageRoot: pkg.absolute,
+				workspace,
 			});
 		}
 	} else {
@@ -102,6 +105,7 @@ export async function main() {
 			manual: globals,
 			monorepo: locals,
 			packageRoot: pkg.absolute,
+			workspace,
 		});
 	}
 }
@@ -130,6 +134,7 @@ async function execute(ctx: IJobContext) {
 		await createWrapperScript({
 			wrapperFile: link,
 			targetFile: target,
+			workspace: ctx.workspace,
 		});
 		logger.success`wrapper: relative<${link}> -> relative<${target}>`;
 	}

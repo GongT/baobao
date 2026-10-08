@@ -98,10 +98,21 @@ async function resolvePaths(options: IOptions): Promise<IPaths> {
 
 		if (typeof options.workspace === 'string' || !options.workspace) {
 		} else {
-			const p = await options.workspace.getNearestPackage(options.targetFile);
+			if (options.targetFile.includes('/node_modules/')) {
+				const containDevPack = options.targetFile.split('/node_modules/')[0];
+				if (r !== containDevPack) {
+					paths.add(resolve(containDevPack, 'node_modules/.bin'));
+				}
 
-			if (r !== p.absolute) {
-				paths.add(resolve(p.absolute, 'node_modules/.bin'));
+				// 这里逻辑不对，应根据targetFile找到package.json然后添加对应的node_modules/.bin路径
+				// 只是当前应用场景下targetFile一定就是在node_modules/.bin里
+				paths.add(dirname(options.targetFile));
+			} else {
+				const p = await options.workspace.getNearestPackage(dirname(options.targetFile));
+
+				if (r !== p.absolute) {
+					paths.add(resolve(p.absolute, 'node_modules/.bin'));
+				}
 			}
 		}
 	}
