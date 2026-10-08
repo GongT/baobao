@@ -2,6 +2,7 @@ import { logger } from '@idlebox/cli';
 import { exists } from '@idlebox/node';
 import { CSI } from '@idlebox/terminal-control/constants';
 import { resolve } from 'node:path';
+import { PnpmCacheHandler } from '../cache/command.pnpm.js';
 import { PackageManager, type IPackManExec, type IUploadResult } from './driver.abstract.js';
 
 interface IPnpmPublishResult {
@@ -120,5 +121,16 @@ export class PNPM extends PackageManager {
 			name: result.name,
 			version: result.version,
 		};
+	}
+
+	private _cache_handler?: PnpmCacheHandler;
+	override async createCacheHandler(options: IPackManExec = {}) {
+		if (!this._cache_handler) {
+			const path = await this.getConfig('cache', options);
+			if (!path) throw new Error('npm config get cache返回为空');
+
+			this._cache_handler = new PnpmCacheHandler(this, path, this.logger);
+		}
+		return this._cache_handler;
 	}
 }

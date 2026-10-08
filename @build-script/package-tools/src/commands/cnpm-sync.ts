@@ -41,9 +41,10 @@ export async function main() {
 			nameVersion[pkg.packageJson.name] = pkg.packageJson.version;
 		}
 	} else {
+		logger.info`同步当前包: ${pm.projectPath}`;
 		const pkgJson = await pm.loadPackageJson();
 		if (pkgJson.private) {
-			logger.error`当前包是私有的`;
+			logger.error`当前包 ${pkgJson.name} 是私有的`;
 			throw shutdown(1);
 		}
 		if (!pkgJson.name || !pkgJson.version) {
@@ -51,6 +52,7 @@ export async function main() {
 			throw shutdown(1);
 		}
 
+		logger.log`包${pkgJson.name}@${pkgJson.version}将被同步`;
 		nameVersion[pkgJson.name] = pkgJson.version;
 	}
 

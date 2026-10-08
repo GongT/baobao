@@ -11,6 +11,7 @@ import { getProxyValue } from '../package-manager/proxy.js';
 import { FileDownloader } from '../taball/file-download.js';
 import { userAgent } from '../version.generated.js';
 import { escapePackageNameToFilename } from './escape-package-path.js';
+import { CacheMode, type ICacheHandler } from './types.js';
 
 export interface IRegistryMetadata {
 	_attachments: any;
@@ -37,7 +38,7 @@ export interface IRegistryMetadata {
 	_source_registry_name: string;
 }
 
-export class NpmCacheHandler {
+export class NpmCacheHandler implements ICacheHandler {
 	private readonly cache_path;
 
 	constructor(
@@ -51,6 +52,17 @@ export class NpmCacheHandler {
 
 	deleteMetadata(name: string) {
 		return deleteNpmCache(this.cache_path, name, this.registry, this.logger);
+	}
+
+	async deleteAllMetadata(names: readonly string[]): Promise<number> {
+		let count = 0;
+		for (const name of names) {
+			const result = await this.deleteMetadata(name);
+			if (result) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	async fetchMetadata(name: string, cacheMode = CacheMode.Normal, abort?: CancellationToken) {
@@ -108,12 +120,6 @@ function getVersion(json: any, distTag: string): IPackageJson | undefined {
 
 // type NpmLog = Exclude<FetchOptions['log'], undefined>;
 
-export enum CacheMode {
-	Normal = 'normal',
-	ForceNew = 'force-renew',
-	Offline = 'offline',
-}
-
 interface IMyOpts {
 	mode?: CacheMode;
 	maxRetry?: number;
@@ -126,10 +132,11 @@ const defOpt: Omit<Required<IMyOpts>, 'abort'> = {
 	logger: defaultLogger,
 };
 
-export function fetchNpmWithCache(path: string, name: string, registry: string, options?: IMyOpts) {
+export async function fetchNpmWithCache(path: string, name: string, registry: string, options?: IMyOpts) {
 	if (options?.abort) {
 		const result = _fetchNpmWithCache(path, name, registry, options);
-		return Promise.race([result, options?.abort?.promise]);
+		const r = await Promise.race([result, options?.abort?.promise]);
+		return r ?? undefined;
 	} else {
 		return _fetchNpmWithCache(path, name, registry, options);
 	}
@@ -205,26 +212,26 @@ async function deleteNpmCache(path: string, name: string, registry?: string, log
 	}
 
 	let deleted = false;
-	logger.debug(`  - 删除缓存: ${name}`);
+	logger.debug(`  - 删除cacache缓存: ${name}`);
 	let i = registries.size;
 	for (const registry of registries.values()) {
-		logger.debug(`     │ ${registry}${name}`);
+		logger.debug(`   │ ${registry}${name}`);
 		const cid = cacheKey({ url: `${registry}${name}` });
 
 		i--;
 		const tc = i > 0 ? '├' : '└';
 
 		const info = await cacheGet.info(path, cid);
-		logger.verbose(`缓存信息: ${info}`);
+		logger.verbose(`   │ 缓存信息: ${info}`);
 		await cacheRm.content(path, cid);
 		await cacheRm.entry(path, cid);
 		// @types/cacache 最后一个参数丢失
 		await (cacheRm.entry as any)(path, cid, { removeFully: true });
 		if (info) {
-			logger.debug(`     ${tc}      删除! ${cid}`);
+			logger.debug(`   ${tc}      删除! ${cid}`);
 			deleted = true;
 		} else {
-			logger.debug(`     ${tc}      不存在: ${cid}`);
+			logger.debug(`   ${tc}      不存在: ${cid}`);
 		}
 	}
 

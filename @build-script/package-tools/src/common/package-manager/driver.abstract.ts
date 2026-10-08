@@ -6,7 +6,7 @@ import { exists, patchExecaResult, writeFileIfChange } from '@idlebox/node';
 import { execa, type ResultPromise } from 'execa';
 import { dirname, resolve } from 'node:path';
 import { split as splitCmd } from 'split-cmd';
-import { NpmCacheHandler } from '../cache/native.npm.js';
+import type { ICacheHandler } from '../cache/types.js';
 import { registryInput } from '../functions/cli.js';
 import { TempWorkingFolder } from '../temp-work-folder.js';
 import { DEFAULT_NPM_REGISTRY } from './constant.js';
@@ -201,16 +201,5 @@ export abstract class PackageManager {
 		return this._cachedReg || DEFAULT_NPM_REGISTRY;
 	}
 
-	private _cache_handler?: NpmCacheHandler;
-	async createCacheHandler(options: IPackManExec = {}) {
-		if (!this._cache_handler) {
-			const registry = await this.getNpmRegistry(options);
-
-			const path = await this.getConfig('cache', options);
-			if (!path) throw new Error('npm config get cache返回为空');
-
-			this._cache_handler = new NpmCacheHandler(this, registry, path, this.logger);
-		}
-		return this._cache_handler;
-	}
+	public abstract createCacheHandler(_options?: IPackManExec): Promise<ICacheHandler>;
 }

@@ -1,7 +1,8 @@
 import { createWorkspaceOrPackage } from '@build-script/monorepo-lib';
 import { CommandDefine, logger } from '@idlebox/cli';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
-import { createPackageManager } from '../common/package-manager/package-manager.js';
+import { NPM } from '../common/package-manager/driver.npm.js';
+import { PNPM } from '../common/package-manager/driver.pnpm.js';
 
 export class Command extends CommandDefine {
 	protected override readonly _usage = '';
@@ -11,13 +12,14 @@ export class Command extends CommandDefine {
 
 export async function main() {
 	const workspace = await createWorkspaceOrPackage();
-	const pm = await createPackageManager(PackageManagerUsageKind.Read, workspace);
-	const cache = await pm.createCacheHandler();
+	const cache1 = await new NPM(PackageManagerUsageKind.Read, workspace).createCacheHandler();
+	const cache2 = await new PNPM(PackageManagerUsageKind.Read, workspace).createCacheHandler();
 
 	const list = await workspace.listPackages();
 
-	logger.log('删除%d个项目在 %s 的npm缓存', list.length, cache.path);
-	for (const data of list) {
-		await cache.deleteMetadata(data.packageJson.name);
-	}
+	const names = list.map((data) => data.packageJson.name);
+	logger.log('删除%d个项目在 %s 的npm缓存', list.length, cache1.path);
+	await cache1.deleteAllMetadata(names);
+	logger.log('删除%d个项目在 %s 的pnpm缓存', list.length, cache2.path);
+	await cache2.deleteAllMetadata(names);
 }

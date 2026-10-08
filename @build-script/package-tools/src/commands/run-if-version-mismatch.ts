@@ -4,7 +4,7 @@ import { CommandDefine, logger } from '@idlebox/cli';
 import { checkChildProcessResult } from '@idlebox/node';
 import { execa } from 'execa';
 import { lt } from 'semver';
-import { CacheMode } from '../common/cache/native.npm.js';
+import { CacheMode } from '../common/cache/types.js';
 import { distTagInput } from '../common/functions/cli.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
 import { createPackageManager } from '../common/package-manager/package-manager.js';

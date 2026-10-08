@@ -2,7 +2,7 @@ import { createWorkspaceOrPackage } from '@build-script/monorepo-lib';
 import { argv, CommandDefine, logger } from '@idlebox/cli';
 import { isLinux, isPathContains, UsageError } from '@idlebox/common';
 import { printLine } from '@idlebox/node';
-import { FsNodeType, unshareReadonlyFileSystem } from '@idlebox/unshare';
+import { FsNodeType, unshareReadonlyFileSystem, type IFilesystemNode } from '@idlebox/unshare';
 import { resolve } from 'node:path';
 import type { FileDiffOp } from '../common/git/diff.js';
 import { PackageManagerUsageKind } from '../common/package-manager/driver.abstract.js';
@@ -67,11 +67,10 @@ export async function main() {
 
 		const cache = await pm.createCacheHandler();
 
+		const volumes: IFilesystemNode[] = [{ path: root, type: FsNodeType.volatile }];
+		if (cache.path) volumes.push({ path: cache.path, type: FsNodeType.passthru });
 		unshareReadonlyFileSystem(unshareEnvKey, {
-			volumes: [
-				{ path: root, type: FsNodeType.volatile },
-				{ path: cache.path, type: FsNodeType.passthru },
-			],
+			volumes: volumes,
 			verbose: logger.verbose.isEnabled,
 			// pid: true,
 		});
