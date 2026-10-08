@@ -62,7 +62,7 @@ export class PnpmCacheHandler implements ICacheHandler {
 	}
 
 	async fetchMetadata(name: string, _cacheMode?: CacheMode, abort?: CancellationToken) {
-		const v = await this.exec([this.pm.binary, 'view', name], true, abort);
+		const v = await this.exec([this.pm.binary, 'view', '--json', name], true, abort);
 		return JSON.parse(v);
 	}
 	async fetchVersion(name: string, distTag?: string, cacheMode?: CacheMode, abort?: CancellationToken) {
