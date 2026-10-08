@@ -6,16 +6,16 @@ interface TrimmedDebugger {
 	enabled: boolean;
 }
 
-/** @internal */
+/** @private */
 export interface ILowLogger {
 	(message: TemplateStringsArray | string, ...args: readonly any[]): void;
 	readonly isEnabled: boolean;
 }
 
-/** @internal */
+/** @private */
 export type IAcceptLogger = TrimmedDebugger | ILowLogger;
 
-/** @internal */
+/** @private */
 export function convertLog(log: IAcceptLogger): ILowLogger {
 	if ('isEnabled' in log) return log;
 
@@ -36,7 +36,7 @@ export function convertLog(log: IAcceptLogger): ILowLogger {
 	return shim as ILowLogger;
 }
 
-/** @internal */
+/** @private */
 export function debugLogger(namespace: string): ILowLogger {
 	return convertLog(debug(namespace));
 }
