@@ -1,18 +1,20 @@
-import { logger as defaultLogger } from '@idlebox/cli';
-import type { CancellationToken } from '@idlebox/common';
+import type { IMyLogger } from '@idlebox/cli';
+import type { CancellationToken, IPackageJson } from '@idlebox/common';
 import { execa } from 'execa';
 import { basename } from 'node:path';
 import { PackageManagerUsageKind } from '../package-manager/driver.abstract.js';
 import { NPM } from '../package-manager/driver.npm.js';
 import type { IPackageManager } from '../package-manager/package-manager.js';
-import type { CacheMode, ICacheHandler } from './types.js';
+import { CacheHandlerBase, type CacheMode, type ICacheHandler } from './types.js';
 
-export class PnpmCacheHandler implements ICacheHandler {
+export class PnpmCacheHandler extends CacheHandlerBase implements ICacheHandler {
 	constructor(
 		private readonly pm: IPackageManager,
 		public readonly path: string,
-		public readonly logger = defaultLogger,
-	) {}
+		logger?: IMyLogger,
+	) {
+		super(logger);
+	}
 
 	private async exec(commands: readonly string[], check = true, abort?: CancellationToken): Promise<string> {
 		const p = execa(commands[0], commands.slice(1), {
@@ -61,13 +63,13 @@ export class PnpmCacheHandler implements ICacheHandler {
 		return list.length;
 	}
 
-	async fetchMetadata(name: string, _cacheMode?: CacheMode, abort?: CancellationToken) {
-		const v = await this.exec([this.pm.binary, 'view', '--json', name], true, abort);
+	async fetchVersion(name: string, distTag?: string, _cacheMode?: CacheMode, abort?: CancellationToken): Promise<IPackageJson | undefined> {
+		let nameTag = name;
+		if (distTag) {
+			nameTag += `@${distTag}`;
+		}
+		const v = await this.exec([this.pm.binary, 'view', '--json', nameTag], true, abort);
 		return JSON.parse(v);
-	}
-	async fetchVersion(name: string, distTag?: string, cacheMode?: CacheMode, abort?: CancellationToken) {
-		const metadata = await this.fetchMetadata(name, cacheMode, abort);
-		return distTag ? metadata['dist-tags']?.[distTag] : metadata['dist-tags']?.['latest'];
 	}
 
 	async downloadTarball(name: string, distTag: string, abort?: CancellationToken): Promise<string> {

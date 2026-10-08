@@ -39,8 +39,9 @@ function never(): Promise<void> {
 	return new Promise(() => {});
 }
 
-export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions = { shortCircuit: true }): Promise<IChangeDetectResult> {
+export async function executeChangeDetect(pm: IPackageManager, options: IDetectOptions = {}): Promise<IChangeDetectResult> {
 	const logger = options.logger ?? pm.logger.extend('change-detect');
+	if (options.shortCircuit === undefined) Object.assign(options, { shortCircuit: true });
 	try {
 		return await _executeChangeDetect(pm, options, logger, options.cancel?.promise ?? never());
 	} catch (error) {
@@ -106,7 +107,7 @@ async function _executeChangeDetect(pm: IPackageManager, options: IDetectOptions
 			},
 		};
 	}
-	logger.debug('本地版本 (%s) 小于或等于远程版本 (%s)，尝试检测更改...', packageJson.version, remotePackage.version);
+	logger.debug`本地版本 (${packageJson.version}) 小于或等于远程版本 (${remotePackage.version})，尝试检测更改...`;
 
 	const tarball = await cache.downloadTarball(packageJson.name, distTagInput, options.cancel);
 

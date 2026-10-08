@@ -11,9 +11,9 @@ import { getProxyValue } from '../package-manager/proxy.js';
 import { FileDownloader } from '../taball/file-download.js';
 import { userAgent } from '../version.generated.js';
 import { escapePackageNameToFilename } from './escape-package-path.js';
-import { CacheMode, type ICacheHandler } from './types.js';
+import { CacheHandlerBase, CacheMode, type ICacheHandler } from './types.js';
 
-export interface IRegistryMetadata {
+interface IRegistryMetadata {
 	_attachments: any;
 	_id: string;
 	_rev: string;
@@ -38,15 +38,27 @@ export interface IRegistryMetadata {
 	_source_registry_name: string;
 }
 
-export class NpmCacheHandler implements ICacheHandler {
+function getVersion(json: IRegistryMetadata, distTag: string): IPackageJson | undefined {
+	if (!json.versions) {
+		return undefined;
+	}
+	const v = json?.['dist-tags']?.[distTag];
+	if (!v) {
+		return json.versions[distTag];
+	}
+	return json.versions[v];
+}
+
+export class NpmCacheHandler extends CacheHandlerBase implements ICacheHandler {
 	private readonly cache_path;
 
 	constructor(
 		private readonly pm: IPackageManager,
 		private readonly registry: string,
 		public readonly path: string,
-		public readonly logger = defaultLogger,
+		logger?: IMyLogger,
 	) {
+		super(logger);
 		this.cache_path = resolve(path, '_cacache');
 	}
 
@@ -65,7 +77,7 @@ export class NpmCacheHandler implements ICacheHandler {
 		return count;
 	}
 
-	async fetchMetadata(name: string, cacheMode = CacheMode.Normal, abort?: CancellationToken) {
+	protected async fetchMetadata(name: string, cacheMode = CacheMode.Normal, abort?: CancellationToken) {
 		const registry = await this.pm.getNpmRegistry();
 		return fetchNpmWithCache(this.cache_path, name, registry, { mode: cacheMode, logger: this.logger, abort });
 	}
@@ -77,7 +89,8 @@ export class NpmCacheHandler implements ICacheHandler {
 		}
 		const version = getVersion(json, distTag);
 		if (!version) {
-			this.logger.warn(` ! 找不到版本信息(${name}@${distTag})`);
+			this.logger.debug`${json}`;
+			this.logger.warn` ! 找不到版本信息(${name}@${distTag})`;
 			return;
 		}
 		return version;
@@ -105,17 +118,6 @@ export class NpmCacheHandler implements ICacheHandler {
 	public deleteTarball(name: string, distTag: string) {
 		return rm(this.getTarballFile(name, distTag), { force: true });
 	}
-}
-
-function getVersion(json: any, distTag: string): IPackageJson | undefined {
-	if (!json.versions) {
-		return undefined;
-	}
-	const v = json?.['dist-tags']?.[distTag];
-	if (!v) {
-		return json.versions[distTag];
-	}
-	return json.versions[v];
 }
 
 // type NpmLog = Exclude<FetchOptions['log'], undefined>;

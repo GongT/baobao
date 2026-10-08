@@ -171,6 +171,7 @@ export interface IPackageJson {
 	/* My Addons End */
 }
 
+/** @deprecated 失误导出私有定义，会在未来版本中移除 */
 export interface IPackageJsonNpmDist {
 	integrity: string;
 	shasum: string;
