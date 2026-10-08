@@ -2091,7 +2091,7 @@ export enum NodeErrorCode {
 	 */
 	ERR_VALID_PERFORMANCE_ENTRY_TYPE = 'ERR_VALID_PERFORMANCE_ENTRY_TYPE',
 	/**
-	 * <p>A <code>--vfs-mount</code> source does not exist, is neither a regular file nor a
+	 * <p>A <code>--vfs-load</code> source does not exist, is neither a regular file nor a
 	 * directory, or is a source no provider claims.</p>
 	 * <p><a id="ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING"></a></p>
 	 */
