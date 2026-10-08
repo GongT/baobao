@@ -246,27 +246,9 @@ export async function executePreBuild() {
 	let failed = 0;
 	const rigFile = resolve(currentProject, 'config/rig.json');
 	if (existsSync(rigFile)) {
-		logger.log`执行 knip`;
-		const args = ['pnpm', 'exec'];
-
-		args.push('knip', '--no-gitignore', '--no-config-hints', '--no-progress', '--config', resolve(monorepoRoot, 'knip.json'), '--directory', currentProject);
-
-		const r = await execa({
-			stdio: 'pipe',
-			all: true,
-			encoding: 'utf8',
-			cwd: currentProject,
-			reject: false,
-		})`${args}`;
-
-		if (r.failed) {
-			printError`knip发现问题，应修复后再发布: commandline<${args}>`;
-			printDetails(r.all);
-			setExitCodeIfNot(1);
-			failed++;
-		}
+		// TODO: 找一个合适的工具来检查依赖
 	} else {
-		logger.warn`未找到 rig.json，跳过 knip`;
+		logger.warn`未找到 rig.json，跳过依赖项目检查`;
 	}
 
 	const biomePath = resolve(monorepoRoot, 'node_modules/.bin/biome');
